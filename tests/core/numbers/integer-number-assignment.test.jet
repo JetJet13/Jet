@@ -1,0 +1,13 @@
+var one = 1;
+var twenty = 20;
+var hundred = 100;
+var negOne = -1;
+var negTwenty = -20;
+var negHundred = -100;
+
+const two = 2;
+const thirty = 30;
+const twoHundred = 200;
+const negTwo = -2;
+const negThirty = -30;
+const negTwoHundred = -200;
