@@ -13,5 +13,7 @@ add_executable(jetlang src/main.cpp src/main.h
         src/shared/types/exit-status.enum.h
         src/shared/utils/logger/logger.cpp
         src/shared/utils/logger/logger.h
+        src/shared/utils/file-io/file-io.cpp
+        src/shared/utils/file-io/file-io.h
 )
 target_link_libraries(jetlang LLVMSupport)
