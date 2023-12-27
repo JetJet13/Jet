@@ -3,9 +3,9 @@
 //
 
 #include <fstream>
-#include "file-io.h"
-#include "shared/utils/logger/logger.h"
-#include "shared/types/exit-status.enum.h"
+#include "../logger/logger.h"
+#include "../../types/exit-status.enum.h"
+
 
 namespace FileIO {
     char* readFile(const char* path) {
