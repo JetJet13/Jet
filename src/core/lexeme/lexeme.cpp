@@ -6,63 +6,58 @@
 #include "lexeme.h"
 #include "../../shared/utils/to-string/to-string.h"
 
-template <typename TValue>
-Lexeme<TValue>::Lexeme(std::string name, Symbol* symbol, TValue value) {
+template <typename T>
+Lexeme<T>::Lexeme(std::string name, Token<T>* token) {
     _name = std::move(name);
-    _symbol = symbol;
-    _value = value;
+    _token = token;
 }
 
-template <typename TValue>
-Lexeme<TValue> Lexeme<TValue>::setName(std::string name) {
+template <typename T>
+Lexeme<T> Lexeme<T>::setName(std::string name) {
     _name = std::move(name);
     return this;
 }
 
-template <typename TValue>
-Lexeme<TValue> Lexeme<TValue>::setSymbol(Symbol* symbol) {
-    _symbol = symbol;
+template <typename T>
+Lexeme<T> Lexeme<T>::setToken(Token<T>* token) {
+    _token = token;
     return this;
 }
 
-template <typename TValue>
-Lexeme<TValue> Lexeme<TValue>::setValue(TValue value) {
-    _value = value;
+template <typename T>
+Lexeme<T> Lexeme<T>::setValue(T value) {
+    _token->setValue(value);
     return this;
 }
 
-template <typename TValue>
-std::string Lexeme<TValue>::getName() {
+template <typename T>
+std::string Lexeme<T>::getName() {
     return _name;
 }
 
-template <typename TValue>
-Symbol* Lexeme<TValue>::getSymbol() {
-    return _symbol;
+template <typename T>
+Token<T>* Lexeme<T>::getToken() {
+    return _token;
 }
 
-template <typename TValue>
-TValue Lexeme<TValue>::getValue() {
-    return _value;
+template <typename T>
+T Lexeme<T>::getValue() {
+    return _token->getValue();
 }
 
-template <typename TValue>
-std::string Lexeme<TValue>::toString() {
+template <typename T>
+std::string Lexeme<T>::toString() {
     std::string lexemeString;
-    lexemeString.append("symbol: ");
-    lexemeString.append(_symbol->toString());
+    lexemeString.append(_token->toString());
     lexemeString.append(" | ");
     lexemeString.append("name: ");
     lexemeString.append(_name);
-    lexemeString.append(" | ");
-    lexemeString.append("value: ");
-    lexemeString.append(ToStringUtil::toString(_value));
     return lexemeString;
 }
 
 // template definitions
-template Lexeme<int>::Lexeme(std::string name, Symbol* symbol, int value);
+template Lexeme<int>::Lexeme(std::string name, Token<int>* token);
 template std::string Lexeme<int>::getName();
-template Symbol* Lexeme<int>::getSymbol();
+template Token<int>* Lexeme<int>::getToken();
 template int Lexeme<int>::getValue();
 template std::string Lexeme<int>::toString();

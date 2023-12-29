@@ -12,5 +12,8 @@ add_library(jet-shared
 
         ./utils/to-string/to-string.h
         ./utils/to-string/to-string.cpp
+        types/null-type.h
+        types/new-line.h
+
 
 )

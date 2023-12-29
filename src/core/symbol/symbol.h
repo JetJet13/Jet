@@ -6,12 +6,15 @@
 #define JETLANG_SYMBOL_H
 
 #include <string>
+#include "types/symbol-type.h"
 
 class Symbol {
 protected:
-    std::string _value;
+    SymbolType _type;
+    std::string _toStringValue;
 public:
-    virtual std::string toString() = 0;
+    Symbol(SymbolType type, std::string toStringValue);
+    std::string toString();
 };
 
 #endif //JETLANG_SYMBOL_H

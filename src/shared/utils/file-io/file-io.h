@@ -5,7 +5,7 @@
 #ifndef JETLANG_FILE_IO_H
 #define JETLANG_FILE_IO_H
 namespace FileIO {
-    char* readFile(const char* path);
+    std::ifstream readFile(std::string &path);
 }
 
 

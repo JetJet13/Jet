@@ -5,8 +5,19 @@ add_library(jet-core
         ./symbol/symbol.h
         ./symbol/symbol.cpp
 
-        ./symbol/symbol-types/int-symbol.h
-        ./symbol/symbol-types/int-symbol.cpp
+        symbol/symbol-factory.cpp
+        symbol/symbol-factory.h
+        token/token.cpp
+        token/token.h
+        token/token-factory.cpp
+        token/token-factory.h
+        symbol/symbol-table.cpp
+        symbol/symbol-table.h
+        symbol/types/symbol-type.h
+        file-reader/file-reader.cpp
+        file-reader/file-reader.h
+        reserved-keywords/reserved-keywords.cpp
+        reserved-keywords/reserved-keywords.h
 
 )
 

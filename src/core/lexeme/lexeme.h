@@ -7,21 +7,21 @@
 
 #include <string>
 #include "../symbol/symbol.h"
+#include "../token/token.h"
 
-template <typename TValue>
+template <typename T>
 class Lexeme {
 private:
     std::string _name;
-    Symbol* _symbol;
-    TValue _value;
+    Token<T>* _token;
 public:
-    Lexeme(std::string name, Symbol* symbol, TValue value);
-    Lexeme<TValue> setName(std::string name);
-    Lexeme<TValue> setSymbol(Symbol* symbol);
-    Lexeme<TValue> setValue(TValue value);
+    Lexeme(std::string name, Token<T>* token);
+    Lexeme<T> setName(std::string name);
+    Lexeme<T> setToken(Token<T>* token);
+    Lexeme<T> setValue(T value);
     std::string getName();
-    Symbol* getSymbol();
-    TValue getValue();
+    Token<T>* getToken();
+    T getValue();
     std::string toString();
 };
 

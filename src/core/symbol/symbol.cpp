@@ -3,3 +3,14 @@
 //
 
 #include "symbol.h"
+#include "types/symbol-type.h"
+#include <utility>
+
+Symbol::Symbol(SymbolType type, std::string toStringValue) {
+    _type = type;
+    _toStringValue = std::move(toStringValue);
+}
+
+std::string Symbol::toString() {
+    return _toStringValue;
+}
