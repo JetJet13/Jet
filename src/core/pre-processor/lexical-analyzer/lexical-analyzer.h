@@ -15,10 +15,10 @@ private:
     FileReader _fileReader;
     ReservedKeywords _reservedKeywords;
     bool _hasMore;
-    Token* buildNextToken();
+    std::optional<Token*> buildNextToken();
     int getNextLine();
     int getNextPosition();
-    void skipWhitespace();
+    void skipWhitespaceAndNewLine();
     void stopIfNecessary();
 public:
     LexicalAnalyzer();

@@ -33,7 +33,7 @@ std::optional<Lexeme> LexicalAnalyzer::next() {
         return {};
     }
 
-    this->skipWhitespace();
+    this->skipWhitespaceAndNewLine();
     if (!_hasMore) {
         return {};
     }
@@ -42,48 +42,52 @@ std::optional<Lexeme> LexicalAnalyzer::next() {
     auto position = _fileReader.getPeekPosition();
     auto nextToken = this->buildNextToken();
     this->stopIfNecessary();
-    return Lexeme(nextToken, line, position);
+    if (nextToken) {
+        return Lexeme(nextToken.value(), line, position);
+    }
+    return {};
 }
 
 bool LexicalAnalyzer::hasMore() const {
     return _hasMore;
 }
 
-Token* LexicalAnalyzer::buildNextToken() {
-    Logger::log("buildNextToken ----------");
-    std::string term;
+std::optional<Token*> LexicalAnalyzer::buildNextToken() {
     auto character = _fileReader.advance();
-    auto line = _fileReader.getCurrentLine();
-    auto position = _fileReader.getCurrentPosition();
-    while (character) {
-        auto c = character.value();
-//        Logger::log("c:", c);
-
-        auto isCharReservedKeyword = _reservedKeywords.match(c);
-        if (isCharReservedKeyword) {
-            if (term.empty()) {
-                term += c;
-            }
-
-            auto tokenSymbol = _reservedKeywords.match(term)
-                    .value_or(SymbolFactory::createIdentifierSymbol());
-
-            return new Token(tokenSymbol);
-        }
-
-        if (c == WHITE_SPACE || c == NEW_LINE) {
-            auto tokenSymbol = _reservedKeywords.match(term)
-                    .value_or(SymbolFactory::createIdentifierSymbol());
-            return new Token(tokenSymbol);
-        }
-        term += c;
-        character = _fileReader.advance();
+    if (!character) {
+        return {};
     }
-    Logger::log("failed to build token for term:", term);
-    throw std::runtime_error("failed to build token. Exiting...");
+
+    auto isCharacterReservedKeyword = _reservedKeywords.match(character.value());
+    if (isCharacterReservedKeyword) {
+        return new Token(isCharacterReservedKeyword.value());
+    }
+
+    std::string term;
+    term += character.value();
+    auto nextChar = _fileReader.peek();
+    while (nextChar) {
+        if (nextChar && (
+                nextChar.value() == WHITE_SPACE ||
+                nextChar.value() == NEW_LINE ||
+                _reservedKeywords.match(nextChar.value())
+        )
+                ) {
+            return new Token(SymbolFactory::createIdentifierSymbol());
+        }
+        auto c = _fileReader.advance().value();
+        term += c;
+        auto isTermReservedKeyword = _reservedKeywords.match(term);
+        if (isTermReservedKeyword) {
+            return new Token(isTermReservedKeyword.value());
+        }
+        nextChar = _fileReader.peek();
+    }
+
+    return {};
 }
 
-void LexicalAnalyzer::skipWhitespace() {
+void LexicalAnalyzer::skipWhitespaceAndNewLine() {
     auto c = _fileReader.peek();
     if (!c) {
         return;
