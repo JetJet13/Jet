@@ -9,8 +9,7 @@
 #include "../../shared/types/null-type.h"
 
 namespace TokenFactory {
-    Token<int>* createIntToken(int value);
-    Token<NullType>* createEqualToken();
+
 }
 
 

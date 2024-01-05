@@ -12,6 +12,7 @@ namespace ToStringUtil {
     std::string toString(T value) {
         return "???";
     }
+    std::string toString(uint8_t value);
     std::string toString(int value);
     std::string toString(bool value);
 }

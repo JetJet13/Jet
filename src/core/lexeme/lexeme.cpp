@@ -6,58 +6,32 @@
 #include "lexeme.h"
 #include "../../shared/utils/to-string/to-string.h"
 
-template <typename T>
-Lexeme<T>::Lexeme(std::string name, Token<T>* token) {
-    _name = std::move(name);
+Lexeme::Lexeme(Token* token, uint8_t line, uint8_t startPosition) {
     _token = token;
+    _line = line;
+    _start_position = startPosition;
 }
 
-template <typename T>
-Lexeme<T> Lexeme<T>::setName(std::string name) {
-    _name = std::move(name);
-    return this;
-}
-
-template <typename T>
-Lexeme<T> Lexeme<T>::setToken(Token<T>* token) {
-    _token = token;
-    return this;
-}
-
-template <typename T>
-Lexeme<T> Lexeme<T>::setValue(T value) {
-    _token->setValue(value);
-    return this;
-}
-
-template <typename T>
-std::string Lexeme<T>::getName() {
-    return _name;
-}
-
-template <typename T>
-Token<T>* Lexeme<T>::getToken() {
+Token* Lexeme::getToken() {
     return _token;
 }
 
-template <typename T>
-T Lexeme<T>::getValue() {
-    return _token->getValue();
+uint8_t Lexeme::getLine() const {
+    return _line;
 }
 
-template <typename T>
-std::string Lexeme<T>::toString() {
+uint8_t Lexeme::getPosition() const {
+    return _start_position;
+}
+
+std::string Lexeme::toString() {
     std::string lexemeString;
     lexemeString.append(_token->toString());
     lexemeString.append(" | ");
-    lexemeString.append("name: ");
-    lexemeString.append(_name);
+    lexemeString.append("line: ");
+    lexemeString.append(ToStringUtil::toString(_line));
+    lexemeString.append(" | ");
+    lexemeString.append("position: ");
+    lexemeString.append(ToStringUtil::toString(_start_position));
     return lexemeString;
 }
-
-// template definitions
-template Lexeme<int>::Lexeme(std::string name, Token<int>* token);
-template std::string Lexeme<int>::getName();
-template Token<int>* Lexeme<int>::getToken();
-template int Lexeme<int>::getValue();
-template std::string Lexeme<int>::toString();

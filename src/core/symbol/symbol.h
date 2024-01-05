@@ -14,6 +14,7 @@ protected:
     std::string _toStringValue;
 public:
     Symbol(SymbolType type, std::string toStringValue);
+    bool isSemicolon();
     std::string toString();
 };
 

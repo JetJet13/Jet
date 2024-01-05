@@ -11,6 +11,10 @@ Symbol::Symbol(SymbolType type, std::string toStringValue) {
     _toStringValue = std::move(toStringValue);
 }
 
+bool Symbol::isSemicolon() {
+    return _type == SYM_SEMICOLON;
+}
+
 std::string Symbol::toString() {
     return _toStringValue;
 }

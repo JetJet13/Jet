@@ -28,7 +28,7 @@ namespace SymbolFactory {
     }
 
     Symbol* createVarSymbol() {
-        return new Symbol(SYM_VAR, "var");
+        return new Symbol(SYM_VAR, "let");
     }
 
 

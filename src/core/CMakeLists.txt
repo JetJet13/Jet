@@ -18,6 +18,8 @@ add_library(jet-core
         file-reader/file-reader.h
         reserved-keywords/reserved-keywords.cpp
         reserved-keywords/reserved-keywords.h
+        pre-processor/lexical-analyzer/lexical-analyzer.cpp
+        pre-processor/lexical-analyzer/lexical-analyzer.h
 
 )
 

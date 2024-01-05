@@ -1,9 +1,9 @@
-var one = 1;
-var twenty = 20;
-var hundred = 100;
-var negOne = -1;
-var negTwenty = -20;
-var negHundred = -100;
+let one = 1;
+let twenty = 20;
+let hundred = 100;
+let negOne = -1;
+let negTwenty = -20;
+let negHundred = -100;
 
 const two = 2;
 const thirty = 30;

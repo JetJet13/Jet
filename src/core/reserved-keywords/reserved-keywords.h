@@ -17,6 +17,7 @@ private:
 public:
     ReservedKeywords();
     std::optional<Symbol*> match(const std::string& matchTerm);
+    std::optional<Symbol*> match(char matchChar);
 
 };
 #endif //JETLANG_RESERVED_KEYWORDS_H

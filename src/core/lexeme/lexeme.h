@@ -9,19 +9,16 @@
 #include "../symbol/symbol.h"
 #include "../token/token.h"
 
-template <typename T>
 class Lexeme {
 private:
-    std::string _name;
-    Token<T>* _token;
+    Token* _token;
+    uint8_t _line;
+    uint8_t _start_position;
 public:
-    Lexeme(std::string name, Token<T>* token);
-    Lexeme<T> setName(std::string name);
-    Lexeme<T> setToken(Token<T>* token);
-    Lexeme<T> setValue(T value);
-    std::string getName();
-    Token<T>* getToken();
-    T getValue();
+    Lexeme(Token* token, uint8_t line, uint8_t startPosition);
+    Token* getToken();
+    uint8_t getLine() const;
+    uint8_t getPosition() const;
     std::string toString();
 };
 

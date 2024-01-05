@@ -19,6 +19,12 @@ std::optional<Symbol*> ReservedKeywords::match(const std::string& matchTerm) {
     }
 }
 
+std::optional<Symbol*> ReservedKeywords::match(char matchChar) {
+    std::string matchTerm;
+    matchTerm += matchChar;
+    return this->match(matchTerm);
+}
+
 void ReservedKeywords::init() {
     this->add("int", SymbolFactory::createIntSymbol());
     this->add("=", SymbolFactory::createEqualSymbol());

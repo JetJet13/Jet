@@ -9,8 +9,8 @@
 #include <optional>
 
 struct Cursor {
-    uint8_t line;
-    uint8_t position;
+    int line;
+    int position;
 };
 
 class FileReader {
@@ -18,13 +18,18 @@ private:
     std::string _filePath;
     std::ifstream _fileStream;
     Cursor _cursor;
+    bool _handleNewLine;
+    bool _isOpen;
 public:
     void open(std::string &filePath);
     void close();
     std::optional<char> peek();
     std::optional<char> advance();
-    uint8_t getCurrentLine() const;
-    uint8_t getCurrentPosition() const;
+    int getPeekLine();
+    int getPeekPosition();
+    int getCurrentLine() const;
+    int getCurrentPosition() const;
+    bool isOpen() const;
 };
 
 #endif //JETLANG_FILE_READER_H

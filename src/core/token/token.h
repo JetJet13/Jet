@@ -5,18 +5,18 @@
 #ifndef JETLANG_TOKEN_H
 #define JETLANG_TOKEN_H
 
+#include <optional>
 #include "../symbol/symbol.h"
+#include "../../shared/types/null-type.h"
 
-template <typename T = void>
 class Token {
 private:
     Symbol* _symbol;
-    T _value;
+    std::optional<int> _valueId;
 public:
-    Token(Symbol* symbol, T value);
     explicit Token(Symbol* symbol);
-    void setValue(T value);
-    T getValue();
+    void setValueId(int valueId);
+    std::optional<int> getValueId();
     std::string toString();
 };
 

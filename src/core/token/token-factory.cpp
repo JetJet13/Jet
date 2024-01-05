@@ -8,18 +8,6 @@
 
 namespace TokenFactory {
 
-    Token<int>* createIntToken(int value) {
-        return new Token<int>(
-                SymbolFactory::createIntSymbol(),
-                value
-        );
-    }
-
-    Token<NullType>* createEqualToken() {
-        return new Token<NullType>(
-                SymbolFactory::createEqualSymbol()
-        );
-    }
 }
 
 
