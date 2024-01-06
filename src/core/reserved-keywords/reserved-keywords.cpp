@@ -19,9 +19,12 @@ std::optional<Symbol*> ReservedKeywords::match(const std::string& matchTerm) {
     }
 }
 
-std::optional<Symbol*> ReservedKeywords::match(char matchChar) {
+std::optional<Symbol*> ReservedKeywords::match(std::optional<char> matchChar) {
+    if (!matchChar) {
+        return {};
+    }
     std::string matchTerm;
-    matchTerm += matchChar;
+    matchTerm += matchChar.value();
     return this->match(matchTerm);
 }
 

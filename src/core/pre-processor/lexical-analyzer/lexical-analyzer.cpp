@@ -58,9 +58,35 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
         return {};
     }
 
-    auto isCharacterReservedKeyword = _reservedKeywords.match(character.value());
+    auto isCharacterReservedKeyword = _reservedKeywords.match(character);
     if (isCharacterReservedKeyword) {
-        return new Token(isCharacterReservedKeyword.value());
+        auto reservedKeyword = isCharacterReservedKeyword.value();
+        auto nextChar = _fileReader.peek();
+        if (nextChar && reservedKeyword->isBang()) {
+                std::string term;
+                term += character.value();
+                term += nextChar.value();
+                auto isBangEqual = _reservedKeywords.match(term);
+                if (isBangEqual) {
+                    _fileReader.advance();
+                    return new Token(isBangEqual.value());
+                }
+                return new Token(isCharacterReservedKeyword.value());
+
+        } else if (nextChar && reservedKeyword->isEqual()) {
+            std::string term;
+            term += character.value();
+            term += nextChar.value();
+            auto isEqualEqual = _reservedKeywords.match(term);
+            if (isEqualEqual) {
+                _fileReader.advance();
+                return new Token(isEqualEqual.value());
+            }
+            return new Token(isCharacterReservedKeyword.value());
+
+        } else {
+            return new Token(isCharacterReservedKeyword.value());
+        }
     }
 
     std::string term;
@@ -70,7 +96,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
         if (nextChar && (
                 nextChar.value() == WHITE_SPACE ||
                 nextChar.value() == NEW_LINE ||
-                _reservedKeywords.match(nextChar.value())
+                _reservedKeywords.match(nextChar)
         )
                 ) {
             return new Token(SymbolFactory::createIdentifierSymbol());

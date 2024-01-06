@@ -15,6 +15,14 @@ bool Symbol::isSemicolon() {
     return _type == SYM_SEMICOLON;
 }
 
+bool Symbol::isBang() {
+    return _type == SYM_BANG;
+}
+
+bool Symbol::isEqual() {
+    return _type == SYM_EQUAL;
+}
+
 std::string Symbol::toString() {
     return _toStringValue;
 }

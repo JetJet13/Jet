@@ -15,6 +15,8 @@ protected:
 public:
     Symbol(SymbolType type, std::string toStringValue);
     bool isSemicolon();
+    bool isBang();
+    bool isEqual();
     std::string toString();
 };
 
