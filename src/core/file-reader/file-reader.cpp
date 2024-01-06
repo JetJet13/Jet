@@ -43,7 +43,7 @@ std::optional<char> FileReader::advance() {
     if (_handleNewLine) {
         _cursor.line++;
         _cursor.position = 0;
-        _handleNewLine = false;
+        _handleNewLine = nextCharacter == NEW_LINE;
     } else if (nextCharacter == NEW_LINE) {
         _handleNewLine = true;
         _cursor.position++;

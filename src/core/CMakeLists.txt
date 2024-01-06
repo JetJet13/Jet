@@ -11,8 +11,6 @@ add_library(jet-core
         token/token.h
         token/token-factory.cpp
         token/token-factory.h
-        symbol/symbol-table.cpp
-        symbol/symbol-table.h
         symbol/types/symbol-type.h
         file-reader/file-reader.cpp
         file-reader/file-reader.h

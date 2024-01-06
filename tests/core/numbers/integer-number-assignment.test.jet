@@ -11,3 +11,31 @@ const twoHundred = 200;
 const negTwo = -2;
 const negThirty = -30;
 const negTwoHundred = -200;
+
+
+
+let foo = true;
+let bar = false;
+let fun = foo && bar;
+let nor = foo || bar;
+let bang = !foo;
+let bangEqual = foo != bar;
+let equalEqual = foo == bar;
+
+const yes = 2 < 20;
+const no = 10 > 100;
+
+const add = 1 + 2;
+const subtract = 2 - 1;
+const multiply = 5 * 5;
+const divide = 10 / 2;
+
+const obj = {
+ foo: true,
+ bar: 100
+};
+
+let arr = [1, 2, 3];
+
+const answer = (10 + 1);
+

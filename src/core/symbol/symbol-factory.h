@@ -15,6 +15,28 @@ namespace SymbolFactory {
     Symbol* createVarSymbol();
     Symbol* createConstSymbol();
     Symbol* createSemicolonSymbol();
+    Symbol* createPlusSymbol();
+    Symbol* createMinusSymbol();
+    Symbol* createStarSymbol();
+    Symbol* createSlashSymbol();
+    Symbol* createLessThenSymbol();
+    Symbol* createGreaterThenSymbol();
+    Symbol* createTrueSymbol();
+    Symbol* createFalseSymbol();
+    Symbol* createAndSymbol();
+    Symbol* createOrSymbol();
+    Symbol* createLeftParenSymbol();
+    Symbol* createRightParenSymbol();
+    Symbol* createLeftBraceSymbol();
+    Symbol* createRightBraceSymbol();
+    Symbol* createLeftBracketSymbol();
+    Symbol* createRightBracketSymbol();
+    Symbol* createColonSymbol();
+    Symbol* createCommaSymbol();
+    Symbol* createPeriodSymbol();
+    Symbol* createBangSymbol();
+    Symbol* createBangEqualSymbol();
+    Symbol* createEqualEqualSymbol();
 }
 
 

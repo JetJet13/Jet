@@ -20,7 +20,7 @@ std::optional<int> Token::getValueId() {
 
 std::string Token::toString() {
     std::string tokenString;
-    tokenString.append("token: (");
+    tokenString.append("token: ( ");
     tokenString.append(_symbol->toString());
     tokenString.append(" | ");
     tokenString.append(" valueId ");

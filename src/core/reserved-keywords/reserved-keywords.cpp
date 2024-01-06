@@ -31,6 +31,28 @@ void ReservedKeywords::init() {
     this->add("let", SymbolFactory::createVarSymbol());
     this->add("const", SymbolFactory::createConstSymbol());
     this->add(";", SymbolFactory::createSemicolonSymbol());
+    this->add("+", SymbolFactory::createPlusSymbol());
+    this->add("-", SymbolFactory::createMinusSymbol());
+    this->add("*", SymbolFactory::createStarSymbol());
+    this->add("/", SymbolFactory::createSlashSymbol());
+    this->add("<", SymbolFactory::createLessThenSymbol());
+    this->add(">", SymbolFactory::createGreaterThenSymbol());
+    this->add("true", SymbolFactory::createTrueSymbol());
+    this->add("false", SymbolFactory::createFalseSymbol());
+    this->add("&&", SymbolFactory::createAndSymbol());
+    this->add("||", SymbolFactory::createOrSymbol());
+    this->add("(", SymbolFactory::createLeftParenSymbol());
+    this->add(")", SymbolFactory::createRightParenSymbol());
+    this->add("{", SymbolFactory::createLeftBraceSymbol());
+    this->add("}", SymbolFactory::createRightBraceSymbol());
+    this->add("[", SymbolFactory::createLeftBracketSymbol());
+    this->add("]", SymbolFactory::createRightBracketSymbol());
+    this->add(":", SymbolFactory::createColonSymbol());
+    this->add(",", SymbolFactory::createCommaSymbol());
+    this->add(".", SymbolFactory::createPeriodSymbol());
+    this->add("!", SymbolFactory::createBangSymbol());
+    this->add("!=", SymbolFactory::createBangEqualSymbol());
+    this->add("==", SymbolFactory::createEqualEqualSymbol());
 }
 
 void ReservedKeywords::add(const std::string& keyword, Symbol* symbol) {
