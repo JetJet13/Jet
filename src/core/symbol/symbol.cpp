@@ -23,6 +23,10 @@ bool Symbol::isEqual() {
     return _type == SYM_EQUAL;
 }
 
+SymbolType Symbol::getType() {
+    return _type;
+}
+
 std::string Symbol::toString() {
     return _toStringValue;
 }

@@ -10,6 +10,10 @@ Token::Token(Symbol *symbol) {
     _symbol = symbol;
 }
 
+SymbolType Token::getSymbolType() {
+    return _symbol->getType();
+}
+
 void Token::setValueId(int valueId) {
     _valueId = valueId;
 }

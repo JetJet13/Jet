@@ -15,6 +15,7 @@ private:
     std::optional<int> _valueId;
 public:
     explicit Token(Symbol* symbol);
+    SymbolType getSymbolType();
     void setValueId(int valueId);
     std::optional<int> getValueId();
     std::string toString();

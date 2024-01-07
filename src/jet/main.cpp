@@ -19,8 +19,10 @@ int main (int argc, const char* argv[]) {
         Logger::log("executing file:", filePath);
         auto lexicalAnalyzer = LexicalAnalyzer();
         lexicalAnalyzer.start(filePath);
-        while (lexicalAnalyzer.hasMore()) {
-            Logger::log(lexicalAnalyzer.next()->toString());
+        auto lexeme = lexicalAnalyzer.next();
+        while (lexeme) {
+            Logger::log(lexeme->toString());
+            lexeme = lexicalAnalyzer.next();
         }
 
     } else {

@@ -25,7 +25,6 @@ public:
     void start(std::string &filePath);
     void stop();
     std::optional<Lexeme> next();
-    bool hasMore() const;
 };
 
 #endif //JETLANG_LEXICAL_ANALYZER_H

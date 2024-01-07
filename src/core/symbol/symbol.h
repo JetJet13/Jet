@@ -17,6 +17,7 @@ public:
     bool isSemicolon();
     bool isBang();
     bool isEqual();
+    SymbolType getType();
     std::string toString();
 };
 

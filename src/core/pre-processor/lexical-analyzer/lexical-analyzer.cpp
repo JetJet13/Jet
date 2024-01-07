@@ -14,10 +14,15 @@ LexicalAnalyzer::LexicalAnalyzer() {
 }
 
 void LexicalAnalyzer::start(std::string &filePath) {
-    _fileReader.open(filePath);
-    if (_fileReader.peek()) {
-        _hasMore = true;
+    try {
+        _fileReader.open(filePath);
+        if (_fileReader.peek()) {
+            _hasMore = true;
+        }
+    } catch (std::exception &error) {
+        throw error;
     }
+
 }
 
 void LexicalAnalyzer::stop() {
@@ -29,27 +34,22 @@ void LexicalAnalyzer::stop() {
 
 
 std::optional<Lexeme> LexicalAnalyzer::next() {
-    if (!_fileReader.isOpen()) {
+    if (!_fileReader.isOpen() || !_hasMore) {
         return {};
     }
 
     this->skipWhitespaceAndNewLine();
+    this->stopIfNecessary();
     if (!_hasMore) {
         return {};
     }
-
     auto line = _fileReader.getPeekLine();
     auto position = _fileReader.getPeekPosition();
     auto nextToken = this->buildNextToken();
-    this->stopIfNecessary();
     if (nextToken) {
         return Lexeme(nextToken.value(), line, position);
     }
     return {};
-}
-
-bool LexicalAnalyzer::hasMore() const {
-    return _hasMore;
 }
 
 std::optional<Token*> LexicalAnalyzer::buildNextToken() {
@@ -122,7 +122,6 @@ void LexicalAnalyzer::skipWhitespaceAndNewLine() {
         _fileReader.advance();
         c = _fileReader.peek();
     }
-    this->stopIfNecessary();
 }
 
 void LexicalAnalyzer::stopIfNecessary() {
