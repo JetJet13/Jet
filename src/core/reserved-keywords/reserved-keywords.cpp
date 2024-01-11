@@ -34,6 +34,7 @@ void ReservedKeywords::init() {
     this->add("let", SymbolFactory::createVarSymbol());
     this->add("const", SymbolFactory::createConstSymbol());
     this->add(";", SymbolFactory::createSemicolonSymbol());
+    this->add("mod", SymbolFactory::createModuloSymbol());
     this->add("+", SymbolFactory::createPlusSymbol());
     this->add("-", SymbolFactory::createMinusSymbol());
     this->add("*", SymbolFactory::createStarSymbol());

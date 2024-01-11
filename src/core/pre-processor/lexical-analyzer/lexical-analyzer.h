@@ -9,19 +9,23 @@
 #include "../../file-reader/file-reader.h"
 #include "../../lexeme/lexeme.h"
 #include "../../reserved-keywords/reserved-keywords.h"
+#include "../../token/token-table.h"
+#include "../../char-table/char-table.h"
 
 class LexicalAnalyzer {
 private:
     FileReader _fileReader;
     ReservedKeywords _reservedKeywords;
+    CharTable _charTable;
+    TokenTable* _tokenTable;
+    int _tokenValueIdCursor;
     bool _hasMore;
     std::optional<Token*> buildNextToken();
-    int getNextLine();
-    int getNextPosition();
     void skipWhitespaceAndNewLine();
     void stopIfNecessary();
+    int generateTokenValueId();
 public:
-    LexicalAnalyzer();
+    LexicalAnalyzer(TokenTable* tokenTable);
     void start(std::string &filePath);
     void stop();
     std::optional<Lexeme> next();

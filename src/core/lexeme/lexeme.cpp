@@ -16,11 +16,11 @@ Token* Lexeme::getToken() {
     return _token;
 }
 
-uint8_t Lexeme::getLine() const {
+int Lexeme::getLine() const {
     return _line;
 }
 
-uint8_t Lexeme::getPosition() const {
+int Lexeme::getPosition() const {
     return _start_position;
 }
 

@@ -14,8 +14,11 @@ typedef enum {
     SYM_OR,
     SYM_TRUE,
     SYM_FALSE,
+    SYM_CHAR,
     SYM_STRING,
     SYM_INT,
+    SYM_FLOAT,
+    SYM_MODULO,
     SYM_PLUS,
     SYM_MINUS,
     SYM_STAR,
@@ -34,6 +37,7 @@ typedef enum {
     SYM_SEMICOLON,
     SYM_COLON,
     SYM_COMMA,
-    SYM_PERIOD
+    SYM_PERIOD,
+    SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H

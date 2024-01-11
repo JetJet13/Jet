@@ -23,12 +23,20 @@ namespace SymbolFactory {
         return new Symbol(SYM_INT, "int");
     }
 
+    Symbol* createFloatSymbol() {
+        return new Symbol(SYM_FLOAT, "float");
+    }
+
     Symbol* createSemicolonSymbol() {
         return new Symbol(SYM_SEMICOLON, ";");
     }
 
     Symbol* createVarSymbol() {
         return new Symbol(SYM_LET, "let");
+    }
+
+    Symbol* createModuloSymbol() {
+        return new Symbol(SYM_MODULO, "mod");
     }
 
     Symbol* createPlusSymbol() {
@@ -117,5 +125,17 @@ namespace SymbolFactory {
 
     Symbol* createEqualEqualSymbol() {
         return new Symbol(SYM_EQUAL_EQUAL, "==");
+    }
+
+    Symbol* createCharSymbol() {
+        return new Symbol(SYM_CHAR, "char");
+    }
+
+    Symbol* createStringSymbol() {
+        return new Symbol(SYM_STRING, "string");
+    }
+
+    Symbol* createMalformedSymbol() {
+        return new Symbol(SYM_MALFORMED, "[MALFORMED]");
     }
 }

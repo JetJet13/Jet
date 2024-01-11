@@ -15,8 +15,13 @@ protected:
 public:
     Symbol(SymbolType type, std::string toStringValue);
     bool isSemicolon();
+    bool isMalformed();
     bool isBang();
     bool isEqual();
+    bool isInt();
+    bool isFloat();
+    bool isChar();
+    bool isString();
     SymbolType getType();
     std::string toString();
 };

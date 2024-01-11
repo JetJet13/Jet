@@ -8,6 +8,7 @@
 #include <optional>
 #include "../symbol/symbol.h"
 #include "../../shared/types/null-type.h"
+#include "token-table.h"
 
 class Token {
 private:
@@ -15,9 +16,11 @@ private:
     std::optional<int> _valueId;
 public:
     explicit Token(Symbol* symbol);
+    Token(Symbol* symbol, int valueId);
+    Symbol* getSymbol();
     SymbolType getSymbolType();
-    void setValueId(int valueId);
     std::optional<int> getValueId();
+    Token* setValueId(int valueId);
     std::string toString();
 };
 

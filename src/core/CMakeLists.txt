@@ -18,6 +18,10 @@ add_library(jet-core
         reserved-keywords/reserved-keywords.h
         pre-processor/lexical-analyzer/lexical-analyzer.cpp
         pre-processor/lexical-analyzer/lexical-analyzer.h
+        token/token-table.cpp
+        token/token-table.h
+        char-table/char-table.cpp
+        char-table/char-table.h
 
 )
 

@@ -12,13 +12,13 @@
 class Lexeme {
 private:
     Token* _token;
-    uint8_t _line;
-    uint8_t _start_position;
+    int _line;
+    int _start_position;
 public:
     Lexeme(Token* token, uint8_t line, uint8_t startPosition);
     Token* getToken();
-    uint8_t getLine() const;
-    uint8_t getPosition() const;
+    int getLine() const;
+    int getPosition() const;
     std::string toString();
 };
 

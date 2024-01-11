@@ -11,10 +11,12 @@
 namespace SymbolFactory {
     Symbol* createIdentifierSymbol();
     Symbol* createIntSymbol();
+    Symbol* createFloatSymbol();
     Symbol* createEqualSymbol();
     Symbol* createVarSymbol();
     Symbol* createConstSymbol();
     Symbol* createSemicolonSymbol();
+    Symbol* createModuloSymbol();
     Symbol* createPlusSymbol();
     Symbol* createMinusSymbol();
     Symbol* createStarSymbol();
@@ -37,6 +39,9 @@ namespace SymbolFactory {
     Symbol* createBangSymbol();
     Symbol* createBangEqualSymbol();
     Symbol* createEqualEqualSymbol();
+    Symbol* createCharSymbol();
+    Symbol* createStringSymbol();
+    Symbol* createMalformedSymbol();
 }
 
 

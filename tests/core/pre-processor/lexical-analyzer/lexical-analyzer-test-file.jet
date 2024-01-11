@@ -38,3 +38,12 @@ const obj = {
 let arr = [1, 2, 3];
 
 const answer = (10 + 1);
+
+let moose = "hello world";
+let miro = 'c';
+let beaver = '\n';
+
+const bid = 10.12;
+const ante = 13;
+
+let modulo = 5 mod 10;

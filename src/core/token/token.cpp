@@ -10,25 +10,38 @@ Token::Token(Symbol *symbol) {
     _symbol = symbol;
 }
 
-SymbolType Token::getSymbolType() {
-    return _symbol->getType();
+Token::Token(Symbol* symbol, int valueId) {
+    _symbol = symbol;
+    _valueId = valueId;
 }
 
-void Token::setValueId(int valueId) {
-    _valueId = valueId;
+Symbol* Token::getSymbol() {
+    return _symbol;
+}
+
+SymbolType Token::getSymbolType() {
+    return _symbol->getType();
 }
 
 std::optional<int> Token::getValueId() {
     return _valueId;
 }
 
+Token* Token::setValueId(int valueId) {
+    _valueId = valueId;
+    return this;
+}
+
 std::string Token::toString() {
     std::string tokenString;
     tokenString.append("token: ( ");
     tokenString.append(_symbol->toString());
-    tokenString.append(" | ");
-    tokenString.append(" valueId ");
-    tokenString.append(ToStringUtil::toString(_valueId));
-    tokenString.append(")");
+    if (_valueId) {
+        tokenString.append(" | ");
+        tokenString.append(" valueId ");
+        tokenString.append(ToStringUtil::toString(_valueId.value()));
+    }
+    tokenString.append(" )");
     return tokenString;
 }
+
