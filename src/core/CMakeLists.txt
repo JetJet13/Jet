@@ -22,6 +22,34 @@ add_library(jet-core
         token/token-table.h
         char-table/char-table.cpp
         char-table/char-table.h
+        pre-processor/syntax-analyzer/syntax-analyzer.cpp
+        pre-processor/syntax-analyzer/syntax-analyzer.h
+        ast/ast.cpp
+        ast/ast.h
+        ast/ast-nodes/ast-node.cpp
+        ast/ast-nodes/ast-node.h
+        ast/ast-nodes/ast-assignment-node.cpp
+        ast/ast-nodes/ast-assignment-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-expression-node.h
+        ast/ast-nodes/ast-identifier-node.cpp
+        ast/ast-nodes/ast-identifier-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-int-literal-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-int-literal-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-float-literal-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-float-literal-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-char-literal-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-char-literal-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-boolean-literal-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-boolean-literal-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-string-literal-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-string-literal-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h
 
 )
 

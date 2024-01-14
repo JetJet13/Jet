@@ -1,0 +1,13 @@
+//
+// Created by Johny Georges on 2024-01-12.
+//
+
+#include "ast-expression-node.h"
+
+ASTExpressionNode::ASTExpressionNode() {
+    _childNodes = {};
+}
+
+void ASTExpressionNode::addChildNode(ASTNode* astNode) {
+    _childNodes.push_back(astNode);
+}
