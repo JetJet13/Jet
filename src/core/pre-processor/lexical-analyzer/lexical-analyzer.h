@@ -21,14 +21,17 @@ private:
     int _tokenValueIdCursor;
     bool _hasMore;
     std::optional<Token*> buildNextToken();
+    std::optional<Token*> peekNextToken();
     void skipWhitespaceAndNewLine();
     void stopIfNecessary();
     int generateTokenValueId();
+    void resetAfterPeek(Cursor cursor, int numAdvances);
 public:
     LexicalAnalyzer(TokenTable* tokenTable);
     void start(std::string &filePath);
     void stop();
     std::optional<Lexeme> next();
+    std::optional<Lexeme> peek();
 };
 
 #endif //JETLANG_LEXICAL_ANALYZER_H

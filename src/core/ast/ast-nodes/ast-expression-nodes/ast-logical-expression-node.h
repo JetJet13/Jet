@@ -7,7 +7,7 @@
 
 #include "ast-expression-node.h"
 
-class ASTLogicalExpressionNode : public ASTExpressionNode {
+class ASTLogicalExpressionNode : public ASTNode {
 private:
     ASTExpressionNode* _leftNode;
     ASTExpressionNode* _rightNode;
@@ -16,6 +16,7 @@ public:
     ASTLogicalExpressionNode(Lexeme* logicalOperator);
     void setLeftNode(ASTExpressionNode* astExpressionNode);
     void setRightNode(ASTExpressionNode* astExpressionNode);
+    ASTNodeType getNodeType() override;
 };
 
 

@@ -6,11 +6,14 @@
 #define JETLANG_AST_NODE_H
 
 #include "../../lexeme/lexeme.h"
+#include "../types/ast-node-type.h"
 
 class ASTNode {
 protected:
     std::optional<ASTNode*> _parentNode;
+    ASTNodeType _nodeType;
 public:
     void setParentNode(ASTNode* parentNode);
+    virtual ASTNodeType getNodeType() = 0;
 };
 #endif //JETLANG_AST_NODE_H

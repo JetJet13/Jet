@@ -5,14 +5,15 @@
 #ifndef JETLANG_AST_BOOLEAN_LITERAL_NODE_H
 #define JETLANG_AST_BOOLEAN_LITERAL_NODE_H
 
-#include "../ast-expression-node.h"
-#include "../../../../lexeme/lexeme.h"
+#include "../ast-expression-nodes/ast-expression-node.h"
+#include "../../../lexeme/lexeme.h"
 
-class ASTBooleanLiteralNode : public ASTExpressionNode {
+class ASTBooleanLiteralNode : public ASTNode {
 private:
     Lexeme* _booleanLiteral;
 public:
     ASTBooleanLiteralNode(Lexeme* booleanLiteral);
+    ASTNodeType getNodeType() override;
 };
 
 #endif //JETLANG_AST_BOOLEAN_LITERAL_NODE_H

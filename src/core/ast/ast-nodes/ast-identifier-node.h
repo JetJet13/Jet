@@ -6,12 +6,14 @@
 #define JETLANG_AST_IDENTIFIER_NODE_H
 
 #include "../../lexeme/lexeme.h"
+#include "ast-node.h"
 
-class ASTIdentifierNode {
+class ASTIdentifierNode : public ASTNode {
 private:
     Lexeme* _identifier;
 public:
     ASTIdentifierNode(Lexeme* lexeme);
+    ASTNodeType getNodeType() override;
 };
 
 #endif //JETLANG_AST_IDENTIFIER_NODE_H

@@ -7,12 +7,18 @@
 
 #include "../../token/token-table.h"
 #include "../../lexeme/lexeme.h"
+#include "../../ast/ast.h"
+#include "../../ast/ast-nodes/ast-file-node.h"
 
 class SyntaxAnalyzer {
 private:
     TokenTable* _tokenTable;
+    AST* _ast;
+    ASTFileNode _currentFileNode;
+    std::optional<ASTNode*> _currentNode;
+    void initCurrentNode(Lexeme* lexeme);
 public:
-    explicit SyntaxAnalyzer(TokenTable* tokenTable);
+    SyntaxAnalyzer(TokenTable* tokenTable, AST* ast);
     void analyze(Lexeme* lexeme);
 };
 

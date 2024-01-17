@@ -18,6 +18,7 @@ void FileReader::open(std::string &filePath) {
     };
     _handleNewLine = false;
     _isOpen = true;
+    _numAdvances = 0;
 }
 
 void FileReader::close() {
@@ -35,8 +36,13 @@ std::optional<char> FileReader::peek() {
 }
 
 std::optional<char> FileReader::advance() {
+    if (!_isOpen) {
+        return {};
+    }
+
     auto nextCharacter = _fileStream.get();
-    if (!_isOpen && nextCharacter == EOF) {
+    _numAdvances++;
+    if (nextCharacter == EOF) {
         return {};
     }
 
@@ -51,6 +57,21 @@ std::optional<char> FileReader::advance() {
         _cursor.position++;
     }
     return std::char_traits<char>::to_char_type(nextCharacter);
+}
+
+void FileReader::retreat() {
+    if (_isOpen) {
+        _fileStream.unget();
+        _numAdvances--;
+    }
+}
+
+Cursor FileReader::getCursor() {
+    return _cursor;
+}
+
+void FileReader::setCursor(Cursor cursor) {
+    _cursor = cursor;
 }
 
 int FileReader::getPeekLine() {
@@ -77,13 +98,8 @@ int FileReader::getPeekPosition() {
     return _cursor.position;
 }
 
-
-int FileReader::getCurrentLine() const {
-    return _cursor.line;
-}
-
-int FileReader::getCurrentPosition() const {
-    return _cursor.position;
+int FileReader::getNumAdvances() const {
+    return _numAdvances;
 }
 
 bool FileReader::isOpen() const {

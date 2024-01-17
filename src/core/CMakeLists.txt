@@ -28,8 +28,8 @@ add_library(jet-core
         ast/ast.h
         ast/ast-nodes/ast-node.cpp
         ast/ast-nodes/ast-node.h
-        ast/ast-nodes/ast-assignment-node.cpp
-        ast/ast-nodes/ast-assignment-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h
         ast/ast-nodes/ast-expression-nodes/ast-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-expression-node.h
         ast/ast-nodes/ast-identifier-node.cpp
@@ -38,18 +38,21 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h
         ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-int-literal-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-int-literal-node.h
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-float-literal-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-float-literal-node.h
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-char-literal-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-char-literal-node.h
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-boolean-literal-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-boolean-literal-node.h
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-string-literal-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-nodes/ast-string-literal-node.h
+        ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.cpp
+        ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.h
+        ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.cpp
+        ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h
+        ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.cpp
+        ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h
+        ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.cpp
+        ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h
+        ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.cpp
+        ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h
         ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h
+        ast/ast-nodes/ast-file-node.cpp
+        ast/ast-nodes/ast-file-node.h
+        ast/types/ast-node-type.h
 
 )
 

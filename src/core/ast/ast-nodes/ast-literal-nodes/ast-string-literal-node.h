@@ -5,13 +5,14 @@
 #ifndef JETLANG_AST_STRING_LITERAL_NODE_H
 #define JETLANG_AST_STRING_LITERAL_NODE_H
 
-#include "../ast-expression-node.h"
+#include "../ast-expression-nodes/ast-expression-node.h"
 
-class ASTStringLiteralNode : public ASTExpressionNode {
+class ASTStringLiteralNode : public ASTNode {
 private:
     Lexeme* _stringLiteral;
 public:
     ASTStringLiteralNode(Lexeme* stringLiteral);
+    ASTNodeType getNodeType() override;
 };
 
 #endif //JETLANG_AST_STRING_LITERAL_NODE_H

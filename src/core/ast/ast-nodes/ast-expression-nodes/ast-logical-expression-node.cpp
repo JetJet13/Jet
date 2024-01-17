@@ -15,3 +15,7 @@ void ASTLogicalExpressionNode::setLeftNode(ASTExpressionNode* astExpressionNode)
 void ASTLogicalExpressionNode::setRightNode(ASTExpressionNode* astExpressionNode) {
     _rightNode = astExpressionNode;
 }
+
+ASTNodeType ASTLogicalExpressionNode::getNodeType() {
+    return AST_LOGICAL_EXPRESSION_NODE;
+}

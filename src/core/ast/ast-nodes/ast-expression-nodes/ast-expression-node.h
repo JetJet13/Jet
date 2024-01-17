@@ -15,6 +15,7 @@ private:
 public:
     explicit ASTExpressionNode();
     void addChildNode(ASTNode* astNode);
+    ASTNodeType getNodeType() override;
 };
 
 #endif //JETLANG_AST_EXPRESSION_NODE_H

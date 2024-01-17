@@ -5,13 +5,14 @@
 #ifndef JETLANG_AST_FLOAT_LITERAL_NODE_H
 #define JETLANG_AST_FLOAT_LITERAL_NODE_H
 
-#include "../ast-expression-node.h"
+#include "../ast-expression-nodes/ast-expression-node.h"
 
-class ASTFloatLiteralNode : public ASTExpressionNode {
+class ASTFloatLiteralNode : public ASTNode {
 private:
     Lexeme* _floatLiteral;
 public:
     ASTFloatLiteralNode(Lexeme* floatLiteral);
+    ASTNodeType getNodeType() override;
 };
 
 #endif //JETLANG_AST_FLOAT_LITERAL_NODE_H

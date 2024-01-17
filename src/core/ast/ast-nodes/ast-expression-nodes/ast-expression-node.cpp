@@ -11,3 +11,7 @@ ASTExpressionNode::ASTExpressionNode() {
 void ASTExpressionNode::addChildNode(ASTNode* astNode) {
     _childNodes.push_back(astNode);
 }
+
+ASTNodeType ASTExpressionNode::getNodeType() {
+    return AST_EXPRESSION_NODE;
+}

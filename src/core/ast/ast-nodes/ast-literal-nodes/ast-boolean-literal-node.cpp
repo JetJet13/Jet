@@ -7,3 +7,7 @@
 ASTBooleanLiteralNode::ASTBooleanLiteralNode(Lexeme* booleanLiteral) {
     _booleanLiteral = booleanLiteral;
 }
+
+ASTNodeType ASTBooleanLiteralNode::getNodeType() {
+    return AST_BOOLEAN_LITERAL_NODE;
+}

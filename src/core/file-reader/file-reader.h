@@ -20,15 +20,18 @@ private:
     Cursor _cursor;
     bool _handleNewLine;
     bool _isOpen;
+    int _numAdvances;
 public:
     void open(std::string &filePath);
     void close();
     std::optional<char> peek();
     std::optional<char> advance();
+    void retreat();
+    Cursor getCursor();
+    void setCursor(Cursor cursor);
     int getPeekLine();
     int getPeekPosition();
-    int getCurrentLine() const;
-    int getCurrentPosition() const;
+    int getNumAdvances() const;
     bool isOpen() const;
 };
 

@@ -16,3 +16,7 @@ void ASTBinaryExpressionNode::setLeftNode(ASTExpressionNode* astExpressionNode) 
 void ASTBinaryExpressionNode::setRightNode(ASTExpressionNode* astExpressionNode) {
     _rightNode = astExpressionNode;
 }
+
+ASTNodeType ASTBinaryExpressionNode::getNodeType() {
+    return AST_BINARY_EXPRESSION_NODE;
+}

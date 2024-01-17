@@ -7,3 +7,7 @@
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
 }
+
+ASTNodeType ASTIdentifierNode::getNodeType() {
+    return AST_IDENTIFIER_NODE;
+}

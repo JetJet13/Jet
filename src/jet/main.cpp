@@ -39,6 +39,13 @@ int main (int argc, const char* argv[]) {
             if (lexeme.value().getToken()->getSymbol()->isString()) {
                 Logger::log("lexeme value", tokenTable->getString(lexeme->getToken()->getValueId().value()).value());
             }
+
+            Logger::log("peeking next lexeme...");
+            auto peekNextLexeme = lexicalAnalyzer.peek();
+            if (peekNextLexeme) {
+                Logger::log(peekNextLexeme->toString());
+            }
+            Logger::log("---------------");
             lexeme = lexicalAnalyzer.next();
         }
 

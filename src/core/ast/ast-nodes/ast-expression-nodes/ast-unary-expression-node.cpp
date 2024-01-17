@@ -12,3 +12,7 @@ ASTUnaryExpressionNode::ASTUnaryExpressionNode(Lexeme* unaryOperator) {
 void ASTUnaryExpressionNode::setArgument(ASTExpressionNode *astExpressionNode) {
     _argument = astExpressionNode;
 }
+
+ASTNodeType ASTUnaryExpressionNode::getNodeType() {
+    return AST_UNARY_EXPRESSION_NODE;
+}

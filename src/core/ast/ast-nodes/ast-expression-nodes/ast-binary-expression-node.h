@@ -16,6 +16,7 @@ public:
     ASTBinaryExpressionNode(Lexeme* binaryOperator);
     void setLeftNode(ASTExpressionNode* astExpressionNode);
     void setRightNode(ASTExpressionNode* astExpressionNode);
+    ASTNodeType getNodeType() override;
 };
 
 #endif //JETLANG_AST_BINARY_EXPRESSION_NODE_H

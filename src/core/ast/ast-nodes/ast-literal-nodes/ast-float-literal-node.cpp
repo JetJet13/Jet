@@ -7,3 +7,7 @@
 ASTFloatLiteralNode::ASTFloatLiteralNode(Lexeme* floatLiteral) {
     _floatLiteral = floatLiteral;
 }
+
+ASTNodeType ASTFloatLiteralNode::getNodeType() {
+    return AST_FLOAT_LITERAL_NODE;
+}
