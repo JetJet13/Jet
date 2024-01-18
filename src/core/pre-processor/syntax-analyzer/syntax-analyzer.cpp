@@ -14,21 +14,36 @@
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
 
 
-SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, AST* ast) {
+SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, AST* ast, LexicalAnalyzer* lexicalAnalyzer) {
     _tokenTable = tokenTable;
     _ast = ast;
+    _stack = std::stack<Lexeme>();
+    _lexicalAnalyzer = lexicalAnalyzer;
     _currentFileNode = ASTFileNode();
     _currentNode = {};
 }
 
-void SyntaxAnalyzer::analyze(Lexeme* lexeme) {
-    if (!_currentNode) {
-        initCurrentNode(lexeme);
-        return;
+void SyntaxAnalyzer::analyze() {
+    if (_stack.empty()) {
+        this->shift();
     }
-    return;
 }
 
-void SyntaxAnalyzer::initCurrentNode(Lexeme* lexeme) {
+void SyntaxAnalyzer::shift() {
+    auto nextLexeme = _lexicalAnalyzer->next();
+    if (nextLexeme) {
+        _stack.push(nextLexeme.value());
+    }
+}
+
+void SyntaxAnalyzer::reduce() {
+
+}
+
+void SyntaxAnalyzer::accept() {
+
+}
+
+void SyntaxAnalyzer::error() {
 
 }

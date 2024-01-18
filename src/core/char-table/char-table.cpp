@@ -120,6 +120,16 @@ void CharTable::init() {
     this->add("|", '|');
     this->add("}", '}');
     this->add("~", '~');
+    this->add("0", '0');
+    this->add("1", '1');
+    this->add("2", '2');
+    this->add("3", '3');
+    this->add("4", '4');
+    this->add("5", '5');
+    this->add("6", '6');
+    this->add("7", '7');
+    this->add("8", '8');
+    this->add("9", '9');
 }
 
 void CharTable::add(const std::string& strChar, char character) {

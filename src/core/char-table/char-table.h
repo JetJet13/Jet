@@ -10,7 +10,6 @@
 
 class CharTable {
 private:
-private:
     std::unordered_map<std::string, char> _charMap;
     void init();
     void add(const std::string& keyword, char symbol);

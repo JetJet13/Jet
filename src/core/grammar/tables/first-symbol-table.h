@@ -1,0 +1,8 @@
+//
+// Created by Johny Georges on 2024-01-17.
+//
+
+#ifndef JETLANG_FIRST_SYMBOL_TABLE_H
+#define JETLANG_FIRST_SYMBOL_TABLE_H
+
+#endif //JETLANG_FIRST_SYMBOL_TABLE_H

@@ -40,7 +40,7 @@ int main (int argc, const char* argv[]) {
                 Logger::log("lexeme value", tokenTable->getString(lexeme->getToken()->getValueId().value()).value());
             }
 
-            Logger::log("peeking next lexeme...");
+            Logger::log("---------------peeking next lexeme---------------");
             auto peekNextLexeme = lexicalAnalyzer.peek();
             if (peekNextLexeme) {
                 Logger::log(peekNextLexeme->toString());
