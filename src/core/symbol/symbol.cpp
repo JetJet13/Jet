@@ -39,8 +39,20 @@ bool Symbol::isChar() {
     return _type == SYM_CHAR;
 }
 
+bool Symbol::isLet() {
+    return _type == SYM_LET;
+}
+
+bool Symbol::isConst() {
+    return _type == SYM_CONST;
+}
+
 bool Symbol::isString() {
     return _type == SYM_STRING;
+}
+
+bool Symbol::isIdentifier() {
+    return _type == SYM_IDENTIFIER;
 }
 
 SymbolType Symbol::getType() {

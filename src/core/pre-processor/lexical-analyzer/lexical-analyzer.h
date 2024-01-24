@@ -15,7 +15,7 @@
 class LexicalAnalyzer {
 private:
     FileReader _fileReader;
-    ReservedKeywords _reservedKeywords;
+    ReservedKeywords* _reservedKeywords;
     CharTable _charTable;
     TokenTable* _tokenTable;
     int _tokenValueIdCursor;
@@ -27,11 +27,12 @@ private:
     int generateTokenValueId();
     void resetAfterPeek(Cursor cursor, int numAdvances);
 public:
-    LexicalAnalyzer(TokenTable* tokenTable);
+    LexicalAnalyzer(TokenTable* tokenTable, ReservedKeywords* reservedKeywords);
     void start(std::string &filePath);
     void stop();
     std::optional<Lexeme> next();
     std::optional<Lexeme> peek();
+    bool hasMore();
 };
 
 #endif //JETLANG_LEXICAL_ANALYZER_H

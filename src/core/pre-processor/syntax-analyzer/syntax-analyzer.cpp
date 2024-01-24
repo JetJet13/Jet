@@ -3,41 +3,74 @@
 //
 
 #include "syntax-analyzer.h"
-#include "../../ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
-#include "../../ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
-#include "../../ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
-#include "../../ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
-#include "../../ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h"
-#include "../../ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
-#include "../../ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.h"
-#include "../../ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h"
-#include "../../ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
+#include "../../ast/ast-nodes/ast-symbol-node.h"
+#include "../../ast/ast-nodes/ast-identifier-node.h"
 
-
-SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, AST* ast, LexicalAnalyzer* lexicalAnalyzer) {
+SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, ReservedKeywords* reservedKeywords, LexicalAnalyzer* lexicalAnalyzer) {
     _tokenTable = tokenTable;
-    _ast = ast;
-    _stack = std::stack<Lexeme>();
+    _reservedKeywords = reservedKeywords;
+    _handle = std::vector<Lexeme>();
     _lexicalAnalyzer = lexicalAnalyzer;
-    _currentFileNode = ASTFileNode();
-    _currentNode = {};
+    _nodes = std::vector<ASTNode*>();
 }
 
 void SyntaxAnalyzer::analyze() {
-    if (_stack.empty()) {
-        this->shift();
+
+    while (true) {
+        if (this->recognizeNodes()) {
+            this->reduceNodes();
+        } else if (this->recognizeHandle()) {
+            this->reduceHandle();
+        } else {
+            this->shift();
+        }
+
+        if (!_lexicalAnalyzer->hasMore()) {
+            _handle.empty() ? this->accept() : this->error();
+            break;
+        }
     }
+}
+
+bool SyntaxAnalyzer::recognizeHandle() {
+    if (_handle.empty()) {
+        return false;
+    } else if (_handle.size() == 1) {
+        auto lexeme = _handle[0];
+        if (lexeme.getToken()->getSymbol()->isIdentifier() ||
+            _reservedKeywords->isKeywordSymbol(lexeme.getToken()->getSymbol())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool SyntaxAnalyzer::recognizeNodes() {
+    if (_nodes.empty()) {
+        return false;
+    }
+    return true;
 }
 
 void SyntaxAnalyzer::shift() {
     auto nextLexeme = _lexicalAnalyzer->next();
     if (nextLexeme) {
-        _stack.push(nextLexeme.value());
+        _handle.push_back(nextLexeme.value());
     }
 }
 
-void SyntaxAnalyzer::reduce() {
-
+void SyntaxAnalyzer::reduceHandle() {
+    if (_handle.size() == 1) {
+        auto lexeme = _handle[0];
+        if (lexeme.getToken()->getSymbol()->isIdentifier()) {
+            _nodes.push_back(new ASTIdentifierNode(&lexeme));
+        } else {
+            _nodes.push_back(new ASTSymbolNode(lexeme.getToken()->getSymbol()));
+        }
+    }
+    _handle.clear();
 }
 
 void SyntaxAnalyzer::accept() {
@@ -46,4 +79,10 @@ void SyntaxAnalyzer::accept() {
 
 void SyntaxAnalyzer::error() {
 
+}
+
+void SyntaxAnalyzer::reduceNodes() {
+    if (_nodes.empty()) {
+        return;
+    }
 }

@@ -21,7 +21,10 @@ public:
     bool isInt();
     bool isFloat();
     bool isChar();
+    bool isLet();
+    bool isConst();
     bool isString();
+    bool isIdentifier();
     SymbolType getType();
     std::string toString();
 };

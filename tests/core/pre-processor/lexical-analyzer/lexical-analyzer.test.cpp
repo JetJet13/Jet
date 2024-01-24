@@ -266,7 +266,7 @@ std::vector<Lexeme*> expectedLexemes = {
 
 TEST_CASE( "should create 217 lexemes with the correct token symbol type" ) {
     std::string filePath = "./lexical-analyzer-test-file.jet";
-    auto lexicalAnalyzer = LexicalAnalyzer();
+    auto lexicalAnalyzer = LexicalAnalyzer(new TokenTable(), new ReservedKeywords());
     lexicalAnalyzer.start(filePath);
     auto tokenCounter = 0;
     auto lexeme = lexicalAnalyzer.next();

@@ -7,6 +7,7 @@
 
 ReservedKeywords::ReservedKeywords() {
     _keywordMap = std::unordered_map<std::string, Symbol*>();
+    _keywordSymbols = std::vector<Symbol*>();
     this->init();
 }
 
@@ -26,6 +27,12 @@ std::optional<Symbol*> ReservedKeywords::match(std::optional<char> matchChar) {
     std::string matchTerm;
     matchTerm += matchChar.value();
     return this->match(matchTerm);
+}
+
+bool ReservedKeywords::isKeywordSymbol(Symbol* symbol) {
+    return std::find(_keywordSymbols.begin(),
+                     _keywordSymbols.end(),
+                     symbol) != _keywordSymbols.end();
 }
 
 void ReservedKeywords::init() {
@@ -57,6 +64,14 @@ void ReservedKeywords::init() {
     this->add("!", SymbolFactory::createBangSymbol());
     this->add("!=", SymbolFactory::createBangEqualSymbol());
     this->add("==", SymbolFactory::createEqualEqualSymbol());
+
+    this->initKeywordSymbolList();
+}
+
+void ReservedKeywords::initKeywordSymbolList() {
+    for (const auto& keyword : _keywordMap) {
+        _keywordSymbols.push_back(keyword.second);
+    }
 }
 
 void ReservedKeywords::add(const std::string& keyword, Symbol* symbol) {

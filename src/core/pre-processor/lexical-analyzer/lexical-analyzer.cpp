@@ -7,9 +7,9 @@
 #include "../../symbol/symbol-factory.h"
 #include "../../../shared/utils/logger/logger.h"
 
-LexicalAnalyzer::LexicalAnalyzer(TokenTable* tokenTable) {
+LexicalAnalyzer::LexicalAnalyzer(TokenTable* tokenTable, ReservedKeywords* reservedKeywords) {
     _fileReader = FileReader();
-    _reservedKeywords = ReservedKeywords();
+    _reservedKeywords = reservedKeywords;
     _charTable = CharTable();
     _tokenTable = tokenTable;
     _hasMore = false;
@@ -76,6 +76,10 @@ std::optional<Lexeme> LexicalAnalyzer::peek() {
         return Lexeme(nextToken.value(), line, position);
     }
     return {};
+}
+
+bool LexicalAnalyzer::hasMore() {
+    return _hasMore;
 }
 
 std::optional<Token*> LexicalAnalyzer::buildNextToken() {
@@ -149,7 +153,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
         return new Token(SymbolFactory::createMalformedSymbol());
     }
 
-    auto isCharacterReservedKeyword = _reservedKeywords.match(character);
+    auto isCharacterReservedKeyword = _reservedKeywords->match(character);
     if (isCharacterReservedKeyword) {
         auto reservedKeyword = isCharacterReservedKeyword.value();
         auto nextChar = _fileReader.peek();
@@ -157,7 +161,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 std::string term;
                 term += character.value();
                 term += nextChar.value();
-                auto isBangEqual = _reservedKeywords.match(term);
+                auto isBangEqual = _reservedKeywords->match(term);
                 if (isBangEqual) {
                     _fileReader.advance();
                     return new Token(isBangEqual.value());
@@ -168,7 +172,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             std::string term;
             term += character.value();
             term += nextChar.value();
-            auto isEqualEqual = _reservedKeywords.match(term);
+            auto isEqualEqual = _reservedKeywords->match(term);
             if (isEqualEqual) {
                 _fileReader.advance();
                 return new Token(isEqualEqual.value());
@@ -184,9 +188,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
     term += character.value();
     auto nextChar = _fileReader.peek();
     while (nextChar) {
-        if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords.match(nextChar)) {
+        if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
             return new Token(
-                    _reservedKeywords.match(term)
+                    _reservedKeywords->match(term)
                     .value_or(SymbolFactory::createIdentifierSymbol())
                     );
         }
@@ -262,7 +266,7 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
         return new Token(SymbolFactory::createMalformedSymbol());
     }
 
-    auto isCharacterReservedKeyword = _reservedKeywords.match(character);
+    auto isCharacterReservedKeyword = _reservedKeywords->match(character);
     if (isCharacterReservedKeyword) {
         auto reservedKeyword = isCharacterReservedKeyword.value();
         auto nextChar = _fileReader.peek();
@@ -270,7 +274,7 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             std::string term;
             term += character.value();
             term += nextChar.value();
-            auto isBangEqual = _reservedKeywords.match(term);
+            auto isBangEqual = _reservedKeywords->match(term);
             if (isBangEqual) {
                 _fileReader.advance();
                 return new Token(isBangEqual.value());
@@ -281,7 +285,7 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             std::string term;
             term += character.value();
             term += nextChar.value();
-            auto isEqualEqual = _reservedKeywords.match(term);
+            auto isEqualEqual = _reservedKeywords->match(term);
             if (isEqualEqual) {
                 _fileReader.advance();
                 return new Token(isEqualEqual.value());
@@ -297,9 +301,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
     term += character.value();
     auto nextChar = _fileReader.peek();
     while (nextChar) {
-        if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords.match(nextChar)) {
+        if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
             return new Token(
-                    _reservedKeywords.match(term)
+                    _reservedKeywords->match(term)
                             .value_or(SymbolFactory::createIdentifierSymbol())
             );
         }

@@ -53,10 +53,10 @@ add_library(jet-core
         ast/ast-nodes/ast-file-node.cpp
         ast/ast-nodes/ast-file-node.h
         ast/types/ast-node-type.h
-        grammar/tables/first-symbol-table.cpp
-        grammar/tables/first-symbol-table.h
         grammar/tables/follow-symbol-table.cpp
         grammar/tables/follow-symbol-table.h
+        ast/ast-nodes/ast-symbol-node.cpp
+        ast/ast-nodes/ast-symbol-node.h
 
 )
 
