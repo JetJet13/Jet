@@ -1,0 +1,18 @@
+//
+// Created by Johny Georges on 2024-02-07.
+//
+
+#ifndef JETLANG_AST_BINARY_OPERATOR_NODE_H
+#define JETLANG_AST_BINARY_OPERATOR_NODE_H
+
+#include "../ast-node.h"
+
+class ASTBinaryOperatorNode : public ASTNode {
+private:
+    Lexeme* _binaryOperator;
+public:
+    ASTBinaryOperatorNode(Lexeme* binaryOperatorLiteral);
+    ASTNodeType getNodeType() override;
+};
+
+#endif //JETLANG_AST_BINARY_OPERATOR_NODE_H

@@ -43,6 +43,10 @@ bool Symbol::isLet() {
     return _type == SYM_LET;
 }
 
+bool Symbol::isVarTypeQualifier() {
+    return this->isLet() || this->isConst();
+}
+
 bool Symbol::isConst() {
     return _type == SYM_CONST;
 }
@@ -53,6 +57,30 @@ bool Symbol::isString() {
 
 bool Symbol::isIdentifier() {
     return _type == SYM_IDENTIFIER;
+}
+
+bool Symbol::isBoolean() {
+    return _type == SYM_TRUE || _type == SYM_FALSE;
+}
+
+bool Symbol::isPlus() {
+    return _type == SYM_PLUS;
+}
+
+bool Symbol::isArithmeticOperator() {
+    return this->isPlus() ||
+    _type == SYM_MINUS ||
+    _type == SYM_STAR ||
+    _type == SYM_SLASH ||
+    _type == SYM_MODULO
+}
+
+bool Symbol::isEqualityOperator() {
+    return _type == SYM_BANG_EQUAL || _type == SYM_EQUAL_EQUAL;
+}
+
+bool Symbol::isLogicalOperator() {
+    return _type == SYM_AND || _type == SYM_OR;
 }
 
 SymbolType Symbol::getType() {

@@ -9,7 +9,7 @@
                         | "," | ";" | ":" | "-" | "!" | "@" | "#" | "$" | "%" | "^" | "&" | "*" | "+"
                         | "?" | "~" | "`" | " " | "_" | "\a" | "\b" | "\f" | "\n" | "\r" | "\t" | "\v"
                         | "\\"
-
+<assignment> ::= "="
 <delimeter> ::= ","
 <terminator> ::= ";"
 
@@ -40,6 +40,8 @@
 <logicalExpression>    ::= (<id> | <literal>) <logicalOperator> (<id> | <literal>)
 
 <groupingExpression>   ::= "(" {
+<id>                   |
+<literal>              |
 <binaryExpression>     |
 <unaryExpression>      |
 <logicalExpression>    |
@@ -51,7 +53,7 @@
 
 <vartypeQualifier> ::= "let" | "const"
 
-<var-declaration> ::= <vartypeQualifier> <id> "=" (<literal> | <expression>) <terminator>
+<var-declaration> ::= <vartypeQualifier> <id> <assignment> (<literal> | <expression>) <terminator>
 
 
 

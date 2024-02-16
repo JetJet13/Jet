@@ -5,12 +5,19 @@
 #ifndef JETLANG_SYNTAX_ANALYZER_H
 #define JETLANG_SYNTAX_ANALYZER_H
 
-#include <vector>
+#include <deque>
+#include <stack>
 #include "../../token/token-table.h"
 #include "../../lexeme/lexeme.h"
 #include "../../ast/ast.h"
 #include "../../ast/ast-nodes/ast-file-node.h"
 #include "../lexical-analyzer/lexical-analyzer.h"
+#include "recognizer/recognizer.h"
+#include "reducer/reducer.h"
+#include "reduce-node/reduce-node.h"
+#include "handle/handle.h"
+#include "syntax-dfa/syntax-dfa.h"
+#include "../../../shared/utils/logger/logger.h"
 
 /* This SyntaxAnalyzer is a LALR(1) parser that performs bottom-up parsing
  * Instructions:
@@ -24,19 +31,19 @@
 class SyntaxAnalyzer {
 private:
     TokenTable* _tokenTable;
-    ReservedKeywords* _reservedKeywords;
+    SyntaxDfa* _syntaxDfa;
+    Reducer _reducer;
     LexicalAnalyzer* _lexicalAnalyzer;
-    std::vector<Lexeme> _handle;
-    std::vector<ASTNode*> _nodes;
-    bool recognizeHandle();
-    bool recognizeNodes();
+    Handle _handle;
+    std::stack<ASTNode*> _stack;
+    std::optional<ReduceNode*> recognizeHandle();
     void shift();
-    void reduceHandle();
-    void reduceNodes();
+    void reduceHandle(ReduceNode* reduceNode);
     void accept();
     void error();
+    ASTNode* convertLexemeToAstNode(Lexeme lexeme);
 public:
-    SyntaxAnalyzer(TokenTable* tokenTable, ReservedKeywords* reservedKeywords, LexicalAnalyzer* lexicalAnalyzer);
+    SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     void analyze();
 };
 

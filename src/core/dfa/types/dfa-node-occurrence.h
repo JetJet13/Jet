@@ -1,0 +1,12 @@
+//
+// Created by Johny Georges on 2024-02-15.
+//
+
+#ifndef JETLANG_DFA_NODE_OCCURRENCE_H
+#define JETLANG_DFA_NODE_OCCURRENCE_H
+typedef enum {
+    DFA_OCCURRENCE_ONCE,
+    DFA_OCCURRENCE_ONCE_OR_MORE,
+    DFA_OCCURRENCE_NIL_OR_MORE,
+} DFANodeOccurrence;
+#endif //JETLANG_DFA_NODE_OCCURRENCE_H

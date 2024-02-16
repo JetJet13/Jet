@@ -25,6 +25,12 @@ public:
     bool isConst();
     bool isString();
     bool isIdentifier();
+    bool isBoolean();
+    bool isPlus();
+    bool isArithmeticOperator();
+    bool isEqualityOperator();
+    bool isLogicalOperator();
+    bool isVarTypeQualifier();
     SymbolType getType();
     std::string toString();
 };

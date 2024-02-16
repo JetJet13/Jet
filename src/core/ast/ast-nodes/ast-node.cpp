@@ -8,3 +8,4 @@
 void ASTNode::setParentNode(ASTNode* parentNode) {
     _parentNode = parentNode;
 }
+

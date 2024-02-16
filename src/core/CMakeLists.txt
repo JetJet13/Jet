@@ -57,6 +57,42 @@ add_library(jet-core
         grammar/tables/follow-symbol-table.h
         ast/ast-nodes/ast-symbol-node.cpp
         ast/ast-nodes/ast-symbol-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operator-node.h
+        pre-processor/syntax-analyzer/recognizer/recognizer.cpp
+        pre-processor/syntax-analyzer/recognizer/recognizer.h
+        pre-processor/syntax-analyzer/reducer/reducer.cpp
+        pre-processor/syntax-analyzer/reducer/reducer.h
+        ast/ast-nodes/ast-operator-nodes/ast-logical-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-logical-operator-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-variable-type-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-variable-type-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.h
+        pre-processor/syntax-analyzer/reduce-node/reduce-node.cpp
+        pre-processor/syntax-analyzer/reduce-node/reduce-node.h
+        ast/ast-nodes/ast-terminator-node.cpp
+        ast/ast-nodes/ast-terminator-node.h
+        grammar/tables/follow-ast-node-table.cpp
+        grammar/tables/follow-ast-node-table.h
+        ast/ast-nodes/ast-node-utils/ast-node-utils.h
+        pre-processor/syntax-analyzer/handle/handle.cpp
+        pre-processor/syntax-analyzer/handle/handle.h
+        dfa/dfa.cpp
+        dfa/dfa.h
+        dfa/dfa-node.cpp
+        dfa/dfa-node.h
+        dfa/dfa-transition.cpp
+        dfa/dfa-transition.h
+        pre-processor/syntax-analyzer/syntax-dfa/syntax-dfa.cpp
+        pre-processor/syntax-analyzer/syntax-dfa/syntax-dfa.h
+        dfa/types/dfa-node-occurrence.h
+        dfa/dfa-node-factory.cpp
+        dfa/dfa-node-factory.h
+        dfa/dfa-transition-factory.cpp
+        dfa/dfa-transition-factory.h
 
 )
 

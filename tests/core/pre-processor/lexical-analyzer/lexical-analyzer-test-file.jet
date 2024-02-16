@@ -47,3 +47,8 @@ const bid = 10.12;
 const ante = 13;
 
 let modulo = 5 mod 10;
+
+foo::bar::baz;
+"hello" :: "world";
+
+foo = foo::bar;

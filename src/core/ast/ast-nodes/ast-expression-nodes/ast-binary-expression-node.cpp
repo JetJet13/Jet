@@ -5,7 +5,7 @@
 #include "ast-binary-expression-node.h"
 
 
-ASTBinaryExpressionNode::ASTBinaryExpressionNode(Lexeme* binaryOperator) {
+ASTBinaryExpressionNode::ASTBinaryExpressionNode(ASTBinaryOperatorNode* binaryOperator) {
     _binaryOperator = binaryOperator;
 }
 
