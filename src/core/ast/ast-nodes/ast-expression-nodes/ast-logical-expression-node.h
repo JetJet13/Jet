@@ -6,16 +6,15 @@
 #define JETLANG_AST_LOGICAL_EXPRESSION_NODE_H
 
 #include "ast-expression-node.h"
+#include "../ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.h"
 
-class ASTLogicalExpressionNode : public ASTNode {
+class ASTLogicalExpressionNode : public ASTExpressionNode {
 private:
     ASTExpressionNode* _leftNode;
     ASTExpressionNode* _rightNode;
-    Lexeme* _logicalOperator;
+    ASTLogicalOperatorNode* _logicalOperator;
 public:
-    ASTLogicalExpressionNode(Lexeme* logicalOperator);
-    void setLeftNode(ASTExpressionNode* astExpressionNode);
-    void setRightNode(ASTExpressionNode* astExpressionNode);
+    ASTLogicalExpressionNode(ASTExpressionNode* leftNode, ASTLogicalOperatorNode* logicalOperator, ASTExpressionNode* rightNode);
     ASTNodeType getNodeType() override;
 };
 

@@ -168,17 +168,20 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 }
                 return new Token(isCharacterReservedKeyword.value());
 
-        } else if (nextChar && reservedKeyword->isEqual()) {
+        } else if (nextChar &&
+                    (reservedKeyword->isEqual() ||
+                     reservedKeyword->isGreaterThan() ||
+                     reservedKeyword->isLessThan())
+                     ) {
             std::string term;
             term += character.value();
             term += nextChar.value();
-            auto isEqualEqual = _reservedKeywords->match(term);
-            if (isEqualEqual) {
+            auto isEqualityOperator = _reservedKeywords->match(term);
+            if (isEqualityOperator) {
                 _fileReader.advance();
-                return new Token(isEqualEqual.value());
+                return new Token(isEqualityOperator.value());
             }
             return new Token(isCharacterReservedKeyword.value());
-
         } else {
             return new Token(isCharacterReservedKeyword.value());
         }

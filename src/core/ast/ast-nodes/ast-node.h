@@ -15,5 +15,6 @@ protected:
 public:
     void setParentNode(ASTNode* parentNode);
     virtual ASTNodeType getNodeType() = 0;
+    bool is(ASTNodeType astNodeType);
 };
 #endif //JETLANG_AST_NODE_H

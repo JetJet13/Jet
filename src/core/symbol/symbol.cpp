@@ -67,20 +67,52 @@ bool Symbol::isPlus() {
     return _type == SYM_PLUS;
 }
 
+bool Symbol::isMinus() {
+    return _type == SYM_MINUS;
+}
+
+bool Symbol::isStar() {
+    return _type ==
+}
+bool Symbol::isSlash() {
+    return _type ==
+}
+bool Symbol::isModulo() {
+    return _type ==
+}
+bool Symbol::isGreaterThan() {
+    return _type ==
+}
+bool Symbol::isLessThan() {
+    return _type ==
+}
+bool Symbol::isGreaterThanOrEqual() {
+    return _type ==
+}
+bool Symbol::isLessThanOrEqual() {
+    return _type == SYM_LESS_THAN
+}
+
 bool Symbol::isArithmeticOperator() {
-    return this->isPlus() ||
-    _type == SYM_MINUS ||
-    _type == SYM_STAR ||
+    return _type == SYM_STAR ||
     _type == SYM_SLASH ||
-    _type == SYM_MODULO
+    _type == SYM_MODULO;
 }
 
 bool Symbol::isEqualityOperator() {
-    return _type == SYM_BANG_EQUAL || _type == SYM_EQUAL_EQUAL;
+    return _type == SYM_EQUAL_EQUAL;
+}
+
+bool Symbol::isInequalityOperator() {
+    return _type == SYM_BANG_EQUAL;
 }
 
 bool Symbol::isLogicalOperator() {
     return _type == SYM_AND || _type == SYM_OR;
+}
+
+bool Symbol::isUnaryOperator() {
+    return _type == SYM_BANG;
 }
 
 SymbolType Symbol::getType() {

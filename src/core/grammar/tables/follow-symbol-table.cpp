@@ -111,39 +111,39 @@ void FollowSymbolTable::init() {
     });
 
     this->add(SYM_INT, new std::vector<SymbolType> {
-        SYM_PLUS,
-        SYM_MINUS,
-        SYM_STAR,
-        SYM_SLASH,
-        SYM_MODULO,
-        SYM_LESS_THEN,
-        SYM_GREATER_THEN,
-        SYM_RIGHT_PAREN,
-        SYM_RIGHT_BRACKET,
-        SYM_COMMA,
-        SYM_AND,
-        SYM_OR,
-        SYM_BANG_EQUAL,
-        SYM_EQUAL_EQUAL,
-        SYM_SEMICOLON
+            SYM_PLUS,
+            SYM_MINUS,
+            SYM_STAR,
+            SYM_SLASH,
+            SYM_MODULO,
+            SYM_LESS_THAN,
+            SYM_GREATER_THAN,
+            SYM_RIGHT_PAREN,
+            SYM_RIGHT_BRACKET,
+            SYM_COMMA,
+            SYM_AND,
+            SYM_OR,
+            SYM_BANG_EQUAL,
+            SYM_EQUAL_EQUAL,
+            SYM_SEMICOLON
     });
 
     this->add(SYM_FLOAT, new std::vector<SymbolType> {
-        SYM_PLUS,
-        SYM_MINUS,
-        SYM_STAR,
-        SYM_SLASH,
-        SYM_MODULO,
-        SYM_LESS_THEN,
-        SYM_GREATER_THEN,
-        SYM_RIGHT_PAREN,
-        SYM_RIGHT_BRACKET,
-        SYM_COMMA,
-        SYM_AND,
-        SYM_OR,
-        SYM_BANG_EQUAL,
-        SYM_EQUAL_EQUAL,
-        SYM_SEMICOLON
+            SYM_PLUS,
+            SYM_MINUS,
+            SYM_STAR,
+            SYM_SLASH,
+            SYM_MODULO,
+            SYM_LESS_THAN,
+            SYM_GREATER_THAN,
+            SYM_RIGHT_PAREN,
+            SYM_RIGHT_BRACKET,
+            SYM_COMMA,
+            SYM_AND,
+            SYM_OR,
+            SYM_BANG_EQUAL,
+            SYM_EQUAL_EQUAL,
+            SYM_SEMICOLON
     });
 
     this->add(SYM_PLUS, new std::vector<SymbolType> {
@@ -177,13 +177,13 @@ void FollowSymbolTable::init() {
         SYM_IDENTIFIER
     });
 
-    this->add(SYM_LESS_THEN, new std::vector<SymbolType> {
+    this->add(SYM_LESS_THAN, new std::vector<SymbolType> {
         SYM_INT,
         SYM_FLOAT,
         SYM_IDENTIFIER
     });
 
-    this->add(SYM_GREATER_THEN, new std::vector<SymbolType> {
+    this->add(SYM_GREATER_THAN, new std::vector<SymbolType> {
         SYM_INT,
         SYM_FLOAT,
         SYM_IDENTIFIER

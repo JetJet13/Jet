@@ -57,14 +57,14 @@ add_library(jet-core
         grammar/tables/follow-symbol-table.h
         ast/ast-nodes/ast-symbol-node.cpp
         ast/ast-nodes/ast-symbol-node.h
-        ast/ast-nodes/ast-operator-nodes/ast-binary-operator-node.cpp
-        ast/ast-nodes/ast-operator-nodes/ast-binary-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h
         pre-processor/syntax-analyzer/recognizer/recognizer.cpp
         pre-processor/syntax-analyzer/recognizer/recognizer.h
         pre-processor/syntax-analyzer/reducer/reducer.cpp
         pre-processor/syntax-analyzer/reducer/reducer.h
-        ast/ast-nodes/ast-operator-nodes/ast-logical-operator-node.cpp
-        ast/ast-nodes/ast-operator-nodes/ast-logical-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-variable-type-node.cpp
@@ -93,6 +93,64 @@ add_library(jet-core
         dfa/dfa-node-factory.h
         dfa/dfa-transition-factory.cpp
         dfa/dfa-transition-factory.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy/variable-init-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy/variable-init-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-type-reducer-strategy/variable-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-type-reducer-strategy/variable-type-reducer-strategy.h
+        pre-processor/syntax-analyzer/lexeme-transformer/lexeme-transformer.cpp
+        pre-processor/syntax-analyzer/lexeme-transformer/lexeme-transformer.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h
+        ast/ast-nodes/ast-literal-nodes/ast-literal-node.cpp
+        ast/ast-nodes/ast-literal-nodes/ast-literal-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/unary-expression-reducer-strategy/unary-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/unary-expression-reducer-strategy/unary-expression-reducer-strategy.h
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-bang-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-bang-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-plus-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-plus-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-minus-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-minus-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-expression-reducer-strategy/binary-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-expression-reducer-strategy/binary-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.h
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-equality-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-equality-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-inequality-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-inequality-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-star-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-star-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-slash-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-slash-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-modulo-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-modulo-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-plus-operator.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-plus-operator.h
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-minus-operator.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-minus-operator.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-greater-than-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-greater-than-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-greater-than-or-equal-operator.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-greater-than-or-equal-operator.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-or-equal-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-or-equal-operator-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.h
 
 )
 

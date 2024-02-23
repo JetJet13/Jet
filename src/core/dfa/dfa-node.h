@@ -15,16 +15,18 @@ class DFANode {
 private:
     bool _start;
     bool _end;
+    std::optional<ASTNodeType> _targetAstNodeType;
     DFANodeOccurrence _occurrence;
     ASTNodeType _astNodeType;
     std::vector<DFATransition> _transitions;
 public:
-    DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrence occurrence);
+    DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrence occurrence, std::optional<ASTNodeType> _targetAstNodeType = {});
     DFANode* addTransition(DFATransition transition);
     std::optional<DFANode*> transition(ASTNodeType astNodeType);
     bool isStart();
     bool isEnd();
     ASTNodeType getNodeType();
+    std::optional<ASTNodeType> getTargetAstNodeType();
 };
 
 #endif //JETLANG_DFA_NODE_H

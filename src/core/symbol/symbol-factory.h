@@ -21,8 +21,10 @@ namespace SymbolFactory {
     Symbol* createMinusSymbol();
     Symbol* createStarSymbol();
     Symbol* createSlashSymbol();
-    Symbol* createLessThenSymbol();
-    Symbol* createGreaterThenSymbol();
+    Symbol* createLessThanSymbol();
+    Symbol* createLessThanOrEqualSymbol();
+    Symbol* createGreaterThanSymbol();
+    Symbol* createGreaterThanOrEqualSymbol();
     Symbol* createTrueSymbol();
     Symbol* createFalseSymbol();
     Symbol* createAndSymbol();

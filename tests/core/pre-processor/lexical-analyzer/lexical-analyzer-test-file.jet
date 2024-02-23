@@ -18,6 +18,7 @@ let foo = true;
 let bar = false;
 let fun = foo && bar;
 let nor = foo || bar;
+let fig = foo && !bar;
 let bang = !foo;
 let bangEqual = foo != bar;
 let equalEqual = foo == bar;

@@ -4,16 +4,10 @@
 
 #include "ast-logical-expression-node.h"
 
-ASTLogicalExpressionNode::ASTLogicalExpressionNode(Lexeme* logicalOperator) {
+ASTLogicalExpressionNode::ASTLogicalExpressionNode(ASTExpressionNode* leftNode, ASTLogicalOperatorNode* logicalOperator, ASTExpressionNode* rightNode) {
+    _leftNode = leftNode;
     _logicalOperator = logicalOperator;
-}
-
-void ASTLogicalExpressionNode::setLeftNode(ASTExpressionNode* astExpressionNode) {
-    _leftNode = astExpressionNode;
-}
-
-void ASTLogicalExpressionNode::setRightNode(ASTExpressionNode* astExpressionNode) {
-    _rightNode = astExpressionNode;
+    _rightNode = rightNode;
 }
 
 ASTNodeType ASTLogicalExpressionNode::getNodeType() {

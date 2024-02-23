@@ -7,8 +7,9 @@
 
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "ast-literal-node.h"
 
-class ASTCharLiteralNode : public ASTNode {
+class ASTCharLiteralNode : public ASTLiteralNode {
 private:
     Lexeme* _charLiteral;
 public:

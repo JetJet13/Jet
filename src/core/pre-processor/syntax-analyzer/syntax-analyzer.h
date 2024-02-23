@@ -16,8 +16,10 @@
 #include "reducer/reducer.h"
 #include "reduce-node/reduce-node.h"
 #include "handle/handle.h"
+#include "lexeme-transformer/lexeme-transformer.h"
 #include "syntax-dfa/syntax-dfa.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "lexeme-transformer/lexeme-transformer.h"
 
 /* This SyntaxAnalyzer is a LALR(1) parser that performs bottom-up parsing
  * Instructions:
@@ -35,16 +37,102 @@ private:
     Reducer _reducer;
     LexicalAnalyzer* _lexicalAnalyzer;
     Handle _handle;
+    LexemeTransformer _lexemeTransformer;
     std::stack<ASTNode*> _stack;
     std::optional<ReduceNode*> recognizeHandle();
     void shift();
     void reduceHandle(ReduceNode* reduceNode);
     void accept();
     void error();
-    ASTNode* convertLexemeToAstNode(Lexeme lexeme);
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     void analyze();
 };
 
 #endif //JETLANG_SYNTAX_ANALYZER_H
+
+
+/*
+ *  const mim = true;
+ *  const moo = 'c';
+ *  const bar = "hello";
+ *  let foo = 10;
+ *  ---------------------------------
+ *  stack = [] _handle = []
+ *  stack = [] _handle = [<var-type>] // shift
+ *  stack = [] _handle = [<var-type> <id>] // shift
+ *  stack = [] _handle = [<var-type> <id> <assign-op>] // shift
+ *  stack = [<var-init>] _handle = [] // reduce
+ *  stack = [<var-init>] _handle = [<int>] // shift
+ *  stack = [<var-init>] _handle = [<int> ;] // shift
+ *  stack = [<int> <var-init>] _handle = [ ; ] // reduce
+ *  stack = [] _handle = [<int> <var-init> ; ] // recycle
+ *  stack = [<int>] _handle = [<var-init> ; ] // reduce
+ *  stack = [<var-init> <int>] _handle = [ ; ] // reduce
+ *  stack = [] _handle = [<var-init> <int> ; ] // recycle
+ *  stack = [<var-dec>] _handle = [ ; ] // reduce
+ *  stack = [] _handle = [] // done
+ *
+ *
+ *  let foo = 10 + 2;
+ *  ---------------------------------
+ *  stack = [] _handle = []
+ *  stack = [] _handle = [<var-type>] // shift
+ *  stack = [] _handle = [<var-type> <id>] // shift
+ *  stack = [] _handle = [<var-type> <id> <assign-op>] // shift
+ *  stack = [<var-init>] _handle = [<int>] // reduce
+ *  stack = [<var-init>] _handle = [<int> <binary-op>] // shift
+ *  stack = [<var-init>] _handle = [<int> <binary-op> <int>] // shift
+ *  stack = [<var-init>] _handle = [<int> <binary-op> <int> ;] // shift
+ *  stack = [<binary-exp> <var-init>] _handle = [ ; ] // reduce
+ *  stack = [] _handle = [<binary-exp> <var-init> ; ] // recycle
+ *  stack = [<binary-exp>] _handle = [<var-init> ; ] // reduce
+ *  stack = [<var-init> <binary-exp>] _handle = [ ; ] // reduce
+ *  stack = [] _handle = [<var-init> <binary-exp> ; ] // recycle
+ *  stack = [<var-dec>] _handle = [ ; ] // reduce
+ *  stack = [] _handle = [] // done
+ *
+ *
+ *
+ *
+ *
+ *
+ * let zio = ((((foo && bar)))) && (moo && mim);
+ * ---------------------------------
+ * stack = [] _handle = []
+ * stack = [] _handle = [<var-type>]
+ * stack = [] _handle = [<var-type> <id>]
+ * stack = [] _handle = [<var-type> <id> <assign-op>]
+ * stack = [<var-init>] _handle = [ ( ]
+ * stack = [<logical-exp> <var-init>] _handle = [ ( ]
+ * stack = [<group-start> <group-start> <var-init>] _handle = [ ( ]
+ * stack = [<group-start> <group-start> <group-start> <var-init>] _handle = [ ( ]
+ * stack = [<group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ <id> ]
+ * stack = [<group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ <id> && ]
+ * stack = [<group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ <id> && <id> ]
+ * stack = [<logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ ) ]
+ * stack = [<group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ ) ]
+ * stack = [<group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ ) ]
+ * stack = [<group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ ) ]
+ * stack = [<group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ && ]
+ * stack = [<logical-op> <group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ ( ]
+ * stack = [<group-start> <logical-op> <group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ <id> && <id> ]
+ * stack = [<logical-exp> <group-start> <logical-op> <group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ ) ]
+ * stack = [<group-end> <logical-exp> <group-start> <logical-op> <group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init>] _handle = [ ; ]
+ * stack = [] _handle = [<group-end> <logical-exp> <group-start> <logical-op> <group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init> ; ]
+ * stack = [<group-exp>] _handle = [<logical-op> <group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init> ; ]
+ * stack = [<logical-op> <group-exp>] _handle = [<group-end> <group-end> <group-end> <group-end> <logical-exp> <group-start> <group-start> <group-start> <group-start> <var-init> ; ]
+ * stack = [<group-exp> <logical-op> <group-exp>] _handle = [ <var-init> ; ]
+ * stack = [<var-init> <group-exp> <logical-op> <group-exp>] _handle = [ ; ]
+ * stack = [] _handle = [<var-init> <group-exp> <logical-op> <group-exp> ; ]
+ * stack = [<var-init>] _handle = [<group-exp> <logical-op> <group-exp> ; ]
+ * stack = [<logical-exp> <var-init>] _handle = [ ; ]
+ * stack = [] _handle = [<logical-exp> <var-init> ; ]
+ * stack = [<logical-exp>] _handle = [<var-init> ; ]
+ * stack = [<var-init> <logical-exp>] _handle = [ ; ]
+ * stack = [] _handle = [<var-init> <logical-exp> ; ]
+ * stack = [<var-dec>] _handle = [ ; ]
+ * stack = [] _handle = []
+ *
+ *
+ * */

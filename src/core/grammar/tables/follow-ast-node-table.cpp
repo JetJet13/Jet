@@ -106,7 +106,7 @@ void FollowASTNodeTable::init() {
             AST_TERMINATOR_NODE
     });
 
-    this->add(AST_UNARY_OPERATOR_NODE, new std::vector<ASTNodeType> {
+    this->add(AST_BANG_OPERATOR_NODE, new std::vector<ASTNodeType> {
             AST_IDENTIFIER_NODE,
             AST_EXPRESSION_NODE,
             AST_BOOLEAN_LITERAL_NODE,

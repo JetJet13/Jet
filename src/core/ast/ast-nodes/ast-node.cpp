@@ -9,3 +9,6 @@ void ASTNode::setParentNode(ASTNode* parentNode) {
     _parentNode = parentNode;
 }
 
+bool ASTNode::is(ASTNodeType astNodeType) {
+    return this->_nodeType == astNodeType;
+}

@@ -142,7 +142,7 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol()), 25, 3),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol()), 25, 8),
         new Lexeme(new Token(SymbolFactory::createIntSymbol()), 25, 10),
-        new Lexeme(new Token(SymbolFactory::createLessThenSymbol()), 25, 10),
+        new Lexeme(new Token(SymbolFactory::createLessThanSymbol()), 25, 10),
         new Lexeme(new Token(SymbolFactory::createIntSymbol()), 25, 10),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol()), 25, 10),
 
@@ -150,7 +150,7 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol()), 26, 3),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol()), 26, 8),
         new Lexeme(new Token(SymbolFactory::createIntSymbol()), 26, 10),
-        new Lexeme(new Token(SymbolFactory::createGreaterThenSymbol()), 26, 10),
+        new Lexeme(new Token(SymbolFactory::createGreaterThanSymbol()), 26, 10),
         new Lexeme(new Token(SymbolFactory::createIntSymbol()), 26, 10),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol()), 26, 10),
 

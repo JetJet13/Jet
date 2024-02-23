@@ -5,11 +5,8 @@
 #include "ast-unary-expression-node.h"
 
 
-ASTUnaryExpressionNode::ASTUnaryExpressionNode(Lexeme* unaryOperator) {
+ASTUnaryExpressionNode::ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode) {
     _unaryOperator = unaryOperator;
-}
-
-void ASTUnaryExpressionNode::setArgument(ASTExpressionNode *astExpressionNode) {
     _argument = astExpressionNode;
 }
 

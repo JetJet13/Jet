@@ -7,8 +7,9 @@
 
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "ast-literal-node.h"
 
-class ASTBooleanLiteralNode : public ASTNode {
+class ASTBooleanLiteralNode : public ASTLiteralNode {
 private:
     Lexeme* _booleanLiteral;
 public:

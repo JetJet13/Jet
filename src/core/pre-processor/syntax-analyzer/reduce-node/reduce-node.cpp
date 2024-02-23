@@ -4,8 +4,13 @@
 
 #include "reduce-node.h"
 
-ReduceNode::ReduceNode(int numReducedNodes) {
+ReduceNode::ReduceNode(int numReducedNodes, ASTNodeType targetAstNodeType) {
+    _targetAstNodeType = targetAstNodeType;
     _numReducedNodes = numReducedNodes;
+}
+
+ASTNodeType ReduceNode::getTargetAstNodeType() {
+    return _targetAstNodeType;
 }
 
 int ReduceNode::getNumReducedNodes() {

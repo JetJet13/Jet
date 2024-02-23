@@ -7,7 +7,7 @@
 
 #include "ast-expression-node.h"
 #include "../ast-symbol-node.h"
-#include "../ast-operator-nodes/ast-binary-operator-node.h"
+#include "../ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
 
 class ASTBinaryExpressionNode : public ASTExpressionNode {
 private:
@@ -15,9 +15,7 @@ private:
     ASTExpressionNode* _rightNode;
     ASTBinaryOperatorNode* _binaryOperator;
 public:
-    ASTBinaryExpressionNode(ASTBinaryOperatorNode* binaryOperator);
-    void setLeftNode(ASTExpressionNode* astExpressionNode);
-    void setRightNode(ASTExpressionNode* astExpressionNode);
+    ASTBinaryExpressionNode(ASTExpressionNode* leftNode, ASTBinaryOperatorNode* binaryOperator, ASTExpressionNode* rightNode);
     ASTNodeType getNodeType() override;
 };
 

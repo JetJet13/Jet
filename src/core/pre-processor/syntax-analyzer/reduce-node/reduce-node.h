@@ -9,9 +9,11 @@
 
 class ReduceNode {
 private:
+    ASTNodeType _targetAstNodeType;
     int _numReducedNodes;
 public:
-    ReduceNode(int numReducedNodes);
+    ReduceNode(int numReducedNodes, ASTNodeType targetAstNodeType);
+    ASTNodeType getTargetAstNodeType();
     int getNumReducedNodes();
 };
 

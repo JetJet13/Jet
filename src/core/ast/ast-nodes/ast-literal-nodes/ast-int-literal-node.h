@@ -6,8 +6,9 @@
 #define JETLANG_AST_INT_LITERAL_NODE_H
 
 #include "../ast-expression-nodes/ast-expression-node.h"
+#include "ast-literal-node.h"
 
-class ASTIntLiteralNode : public ASTNode {
+class ASTIntLiteralNode : public ASTLiteralNode {
 private:
     Lexeme* _intLiteral;
 public:

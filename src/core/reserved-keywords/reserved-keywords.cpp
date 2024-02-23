@@ -46,8 +46,10 @@ void ReservedKeywords::init() {
     this->add("-", SymbolFactory::createMinusSymbol());
     this->add("*", SymbolFactory::createStarSymbol());
     this->add("/", SymbolFactory::createSlashSymbol());
-    this->add("<", SymbolFactory::createLessThenSymbol());
-    this->add(">", SymbolFactory::createGreaterThenSymbol());
+    this->add("<", SymbolFactory::createLessThanSymbol());
+    this->add("<=", SymbolFactory::createLessThanOrEqualSymbol());
+    this->add(">", SymbolFactory::createGreaterThanSymbol());
+    this->add(">=", SymbolFactory::createGreaterThanOrEqualSymbol());
     this->add("true", SymbolFactory::createTrueSymbol());
     this->add("false", SymbolFactory::createFalseSymbol());
     this->add("&&", SymbolFactory::createAndSymbol());

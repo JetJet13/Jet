@@ -3,7 +3,33 @@
 //
 
 #include "reducer.h"
-#include "../../../ast/ast-nodes/ast-symbol-node.h"
+#include "reducer-strategies/variable-init-reducer-strategy/variable-init-reducer-strategy.h"
+#include "reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.h"
+#include "reducer-strategies/unary-expression-reducer-strategy/unary-expression-reducer-strategy.h"
+#include "reducer-strategies/binary-expression-reducer-strategy/binary-expression-reducer-strategy.h"
+#include "reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.h"
+#include "reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.h"
+#include "reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.h"
+
+Reducer::Reducer() {
+    _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
+    this->initStrategies();
+}
+
+void Reducer::initStrategies() {
+    this->addStrategy(AST_VARIABLE_INIT_NODE, new VariableInitReducerStrategy());
+    this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationReducerStrategy());
+    this->addStrategy(AST_UNARY_EXPRESSION_NODE, new UnaryExpressionReducerStrategy());
+    this->addStrategy(AST_BINARY_EXPRESSION_NODE, new BinaryExpressionReducerStrategy());
+    this->addStrategy(AST_LOGICAL_EXPRESSION_NODE, new LogicalExpressionReducerStrategy());
+    this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionReducerStrategy());
+    this->addStrategy(AST_LITERAL_EXPRESSION_NODE, new LiteralExpressionReducerStrategy());
+}
+
+void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {
+    _strategies.insert(std::pair<ASTNodeType, ReducerStrategy*>(astNodeType, reducerStrategy));
+}
+
 
 ASTNode* Reducer::reduce(Handle handle, ReduceNode* reduceNode) {
     if (handle.isEmpty()) {
@@ -16,16 +42,13 @@ ASTNode* Reducer::reduce(Handle handle, ReduceNode* reduceNode) {
 
     auto nodesToReduce = handle.getFirstNodes(reduceNode->getNumReducedNodes());
 
-    return this->generateASTNode(
-            this->determineReducedAstNodeType(nodesToReduce),
-            nodesToReduce
-    );
+    return this->generateASTNode(reduceNode->getTargetAstNodeType(), nodesToReduce);
 }
 
-ASTNodeType Reducer::determineReducedAstNodeType(std::vector<ASTNode*> nodes) {
-    return AST_EXPRESSION_NODE;
-}
-
-ASTNode* Reducer::generateASTNode(ASTNodeType astNodeType, std::vector<ASTNode*> nodes) {
-    return nodes[0];
+ASTNode* Reducer::generateASTNode(ASTNodeType targetAstNodeType, std::vector<ASTNode*> nodes) {
+    auto reducerStrategy = _strategies.find(targetAstNodeType);
+    if (reducerStrategy == _strategies.end()) {
+        throw std::invalid_argument("unable to determine reduced AST Node Type for given list of nodes");
+    }
+    return reducerStrategy->second->execute(nodes);
 }

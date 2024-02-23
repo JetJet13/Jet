@@ -3,19 +3,12 @@
 //
 
 #include "ast-variable-declaration-node.h"
+#include "ast-variable-init-node.h"
 
 
-ASTVariableDeclarationNode::ASTVariableDeclarationNode(Lexeme* lexeme) {
-    _assignmentTypeQualifier = lexeme;
-}
-
-void ASTVariableDeclarationNode::setIdentifier(ASTIdentifierNode* astIdentifierNode) {
-    _identifier = astIdentifierNode;
-}
-
-
-void ASTVariableDeclarationNode::setExpression(ASTExpressionNode* astExpressionNode) {
-    _initializer = astExpressionNode;
+ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer) {
+    _varInit = varInit;
+    _initializer = initializer;
 }
 
 ASTNodeType ASTVariableDeclarationNode::getNodeType() {

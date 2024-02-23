@@ -5,16 +5,10 @@
 #include "ast-binary-expression-node.h"
 
 
-ASTBinaryExpressionNode::ASTBinaryExpressionNode(ASTBinaryOperatorNode* binaryOperator) {
+ASTBinaryExpressionNode::ASTBinaryExpressionNode(ASTExpressionNode* leftNode, ASTBinaryOperatorNode* binaryOperator, ASTExpressionNode* rightNode) {
+    _leftNode = leftNode;
     _binaryOperator = binaryOperator;
-}
-
-void ASTBinaryExpressionNode::setLeftNode(ASTExpressionNode* astExpressionNode) {
-    _leftNode = astExpressionNode;
-}
-
-void ASTBinaryExpressionNode::setRightNode(ASTExpressionNode* astExpressionNode) {
-    _rightNode = astExpressionNode;
+    _rightNode = rightNode;
 }
 
 ASTNodeType ASTBinaryExpressionNode::getNodeType() {

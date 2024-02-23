@@ -4,10 +4,11 @@
 
 #include "dfa-node.h"
 
-DFANode::DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrence occurrence) {
+DFANode::DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType) {
     _astNodeType = astNodeType;
     _start = start;
     _end = end;
+    _targetAstNodeType = targetAstNodeType;
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
 }
@@ -47,4 +48,8 @@ bool DFANode::isEnd() {
 
 ASTNodeType DFANode::getNodeType() {
     return this->_astNodeType;
+}
+
+std::optional<ASTNodeType> DFANode::getTargetAstNodeType() {
+    return this->_targetAstNodeType;
 }

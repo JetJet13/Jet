@@ -8,15 +8,14 @@
 #include "../ast-node.h"
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-identifier-node.h"
+#include "ast-variable-type-node.h"
+#include "ast-variable-init-node.h"
 
 class ASTVariableDeclarationNode : public ASTNode {
-    Lexeme* _assignmentTypeQualifier;
-    ASTIdentifierNode* _identifier;
+    ASTVariableInitNode* _varInit;
     ASTExpressionNode* _initializer;
 public:
-    explicit ASTVariableDeclarationNode(Lexeme* lexeme);
-    void setIdentifier(ASTIdentifierNode* astIdentifierNode);
-    void setExpression(ASTExpressionNode* astExpressionNode);
+    explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer);
     ASTNodeType getNodeType() override;
 };
 

@@ -10,14 +10,18 @@
 #include "../../../ast/ast-nodes/ast-node.h"
 #include "../handle/handle.h"
 #include "../reduce-node/reduce-node.h"
+#include "reducer-strategies/reducer-strategy.h"
 
 // This class will be responsible
 // for reducing handles (i.e. determine what to reduce the handle to)
 class Reducer {
 private:
-    ASTNodeType determineReducedAstNodeType(std::vector<ASTNode*> nodes);
-    ASTNode* generateASTNode(ASTNodeType astNodeType, std::vector<ASTNode*> nodes);
+    std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>> _strategies;
+    void initStrategies();
+    void addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy);
+    ASTNode* generateASTNode(ASTNodeType targetAstNodeType, std::vector<ASTNode*> nodes);
 public:
+    Reducer();
     ASTNode* reduce(Handle handle, ReduceNode* reduceNode);
 };
 #endif //JETLANG_REDUCER_H

@@ -55,12 +55,20 @@ namespace SymbolFactory {
         return new Symbol(SYM_SLASH, "/");
     }
 
-    Symbol* createLessThenSymbol() {
-        return new Symbol(SYM_LESS_THEN, "<");
+    Symbol* createLessThanSymbol() {
+        return new Symbol(SYM_LESS_THAN, "<");
     }
 
-    Symbol* createGreaterThenSymbol() {
-        return new Symbol(SYM_GREATER_THEN, ">");
+    Symbol* createLessThanOrEqualSymbol() {
+        return new Symbol(SYM_LESS_THAN_OR_EQUAL, "<=");
+    }
+
+    Symbol* createGreaterThanSymbol() {
+        return new Symbol(SYM_GREATER_THAN, ">");
+    }
+
+    Symbol* createGreaterThanOrEqualSymbol() {
+        return new Symbol(SYM_GREATER_THAN_OR_EQUAL, ">=");
     }
 
     Symbol* createTrueSymbol() {
