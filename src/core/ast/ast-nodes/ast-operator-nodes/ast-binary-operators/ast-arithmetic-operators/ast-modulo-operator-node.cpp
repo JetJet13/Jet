@@ -11,3 +11,7 @@ ASTModuloOperatorNode::ASTModuloOperatorNode(Lexeme* moduloOperator) {
 ASTNodeType ASTModuloOperatorNode::getNodeType() {
     return AST_MODULO_OPERATOR_NODE;
 }
+
+std::string ASTModuloOperatorNode::toString() {
+    return "MODULO_OPERATOR";
+}

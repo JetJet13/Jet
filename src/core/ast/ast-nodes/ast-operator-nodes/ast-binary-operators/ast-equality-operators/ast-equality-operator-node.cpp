@@ -11,3 +11,7 @@ ASTEqualityOperatorNode::ASTEqualityOperatorNode(Lexeme *lexeme) {
 ASTNodeType ASTEqualityOperatorNode::getNodeType() {
     return AST_EQUALITY_OPERATOR_NODE;
 }
+
+std::string ASTEqualityOperatorNode::toString() {
+    return "EQUALITY_OPERATOR";
+}

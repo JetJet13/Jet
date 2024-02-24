@@ -13,3 +13,7 @@ ASTUnaryExpressionNode::ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperat
 ASTNodeType ASTUnaryExpressionNode::getNodeType() {
     return AST_UNARY_EXPRESSION_NODE;
 }
+
+std::string ASTUnaryExpressionNode::toString() {
+    return "UNARY_EXPRESSION";
+}

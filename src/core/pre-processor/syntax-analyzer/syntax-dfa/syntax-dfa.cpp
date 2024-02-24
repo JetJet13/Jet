@@ -15,6 +15,7 @@ std::optional<ReduceNode*> SyntaxDfa::recognize(Handle handle) {
     if (handle.isEmpty()) {
         return {};
     }
+    handle.print();
     for (int i = 0; i < handle.size(); i++) {
         auto nodeType = handle.at(i).value()->getNodeType();
         if (i == 0) {
@@ -24,12 +25,14 @@ std::optional<ReduceNode*> SyntaxDfa::recognize(Handle handle) {
         }
 
         auto currentDfaState = _dfa->getCurrentState();
-        if (currentDfaState && currentDfaState.value()->isEnd()) {
-            return new ReduceNode(i + 1);
+        if (currentDfaState && currentDfaState.value()->isEnd() && currentDfaState.value()->getTargetAstNodeType()) {
+            auto numNodesToReduce = currentDfaState.value()->isTerminatorNode() ? i : i + 1;
+            return new ReduceNode(numNodesToReduce, currentDfaState.value()->getTargetAstNodeType().value());
         } else if (!currentDfaState) {
             return {};
         }
     }
+    return {};
 }
 
 DFA* SyntaxDfa::getDFA() {
@@ -337,6 +340,11 @@ void SyntaxDfa::init() {
     ->insertStartNode(varInitDFANode->getNodeType(), varInitDFANode)
     ->insertStartNode(groupEndDFANode->getNodeType(), groupEndDFANode)
     ->insertStartNode(startIdentifierDFANode->getNodeType(), startIdentifierDFANode)
+    ->insertStartNode(intLiteralDFANode->getNodeType(), intLiteralDFANode)
+    ->insertStartNode(floatLiteralDFANode->getNodeType(), floatLiteralDFANode)
+    ->insertStartNode(stringLiteralDFANode->getNodeType(), stringLiteralDFANode)
+    ->insertStartNode(charLiteralDFANode->getNodeType(), charLiteralDFANode)
+    ->insertStartNode(booleanLiteralDFANode->getNodeType(), booleanLiteralDFANode)
     ->insertStartNode(bangOperatorDFANode->getNodeType(), bangOperatorDFANode)
     ->insertStartNode(groupStartDFANode->getNodeType(), groupStartDFANode)
     ->insertStartNode(startExpressionDFANode->getNodeType(), startExpressionDFANode)

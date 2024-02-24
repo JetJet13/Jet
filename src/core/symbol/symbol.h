@@ -35,7 +35,6 @@ public:
     bool isLessThan();
     bool isGreaterThanOrEqual();
     bool isLessThanOrEqual();
-    bool isArithmeticOperator();
     bool isEqualityOperator();
     bool isInequalityOperator();
     bool isLogicalOperator();

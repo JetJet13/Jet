@@ -14,6 +14,7 @@ private:
 public:
     ASTUnaryMinusOperatorNode(Lexeme* minusOperator);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_UNARY_MINUS_OPERATOR_H

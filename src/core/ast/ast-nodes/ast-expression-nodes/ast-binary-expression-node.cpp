@@ -14,3 +14,7 @@ ASTBinaryExpressionNode::ASTBinaryExpressionNode(ASTExpressionNode* leftNode, AS
 ASTNodeType ASTBinaryExpressionNode::getNodeType() {
     return AST_BINARY_EXPRESSION_NODE;
 }
+
+std::string ASTBinaryExpressionNode::toString() {
+    return "BINARY_EXPRESSION";
+}

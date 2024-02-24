@@ -16,3 +16,7 @@ void ASTVariableInitNode::setIdentifier(ASTIdentifierNode* astIdentifierNode) {
 ASTNodeType ASTVariableInitNode::getNodeType() {
     return AST_VARIABLE_INIT_NODE;
 }
+
+std::string ASTVariableInitNode::toString() {
+    return "VARIABLE_INIT";
+}

@@ -14,6 +14,7 @@ private:
 public:
     ASTIdentifierNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_IDENTIFIER_NODE_H

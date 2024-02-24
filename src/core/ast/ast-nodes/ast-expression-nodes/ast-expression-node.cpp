@@ -15,3 +15,7 @@ void ASTExpressionNode::addChildNode(ASTNode* astNode) {
 ASTNodeType ASTExpressionNode::getNodeType() {
     return AST_EXPRESSION_NODE;
 }
+
+std::string ASTExpressionNode::toString() {
+    return "EXPRESSION";
+}

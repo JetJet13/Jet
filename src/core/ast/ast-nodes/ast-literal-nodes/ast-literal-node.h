@@ -11,6 +11,7 @@
 class ASTLiteralNode : public ASTNode {
 public:
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_LITERAL_NODE_H

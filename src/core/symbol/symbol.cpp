@@ -72,32 +72,28 @@ bool Symbol::isMinus() {
 }
 
 bool Symbol::isStar() {
-    return _type ==
+    return _type == SYM_STAR;
 }
 bool Symbol::isSlash() {
-    return _type ==
+    return _type == SYM_SLASH;
 }
 bool Symbol::isModulo() {
-    return _type ==
+    return _type == SYM_MODULO;
 }
 bool Symbol::isGreaterThan() {
-    return _type ==
+    return _type == SYM_GREATER_THAN;
 }
 bool Symbol::isLessThan() {
-    return _type ==
+    return _type == SYM_LESS_THAN;
 }
 bool Symbol::isGreaterThanOrEqual() {
-    return _type ==
+    return _type == SYM_GREATER_THAN_OR_EQUAL;
 }
 bool Symbol::isLessThanOrEqual() {
-    return _type == SYM_LESS_THAN
+    return _type == SYM_LESS_THAN_OR_EQUAL;
 }
 
-bool Symbol::isArithmeticOperator() {
-    return _type == SYM_STAR ||
-    _type == SYM_SLASH ||
-    _type == SYM_MODULO;
-}
+
 
 bool Symbol::isEqualityOperator() {
     return _type == SYM_EQUAL_EQUAL;

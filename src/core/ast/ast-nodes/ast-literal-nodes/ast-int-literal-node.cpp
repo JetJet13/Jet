@@ -11,3 +11,7 @@ ASTIntLiteralNode::ASTIntLiteralNode(Lexeme* intLiteral) {
 ASTNodeType ASTIntLiteralNode::getNodeType() {
     return AST_INT_LITERAL_NODE;
 }
+
+std::string ASTIntLiteralNode::toString() {
+    return "INT_LITERAL";
+}

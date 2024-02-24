@@ -16,6 +16,7 @@ private:
 public:
     ASTLogicalExpressionNode(ASTExpressionNode* leftNode, ASTLogicalOperatorNode* logicalOperator, ASTExpressionNode* rightNode);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 

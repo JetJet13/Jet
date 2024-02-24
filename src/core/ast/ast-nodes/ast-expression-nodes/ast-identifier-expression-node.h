@@ -14,6 +14,7 @@ private:
 public:
     ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_IDENTIFIER_EXPRESSION_NODE_H

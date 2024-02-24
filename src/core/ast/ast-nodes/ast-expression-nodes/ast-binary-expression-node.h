@@ -6,7 +6,6 @@
 #define JETLANG_AST_BINARY_EXPRESSION_NODE_H
 
 #include "ast-expression-node.h"
-#include "../ast-symbol-node.h"
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
 
 class ASTBinaryExpressionNode : public ASTExpressionNode {
@@ -17,6 +16,7 @@ private:
 public:
     ASTBinaryExpressionNode(ASTExpressionNode* leftNode, ASTBinaryOperatorNode* binaryOperator, ASTExpressionNode* rightNode);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_BINARY_EXPRESSION_NODE_H

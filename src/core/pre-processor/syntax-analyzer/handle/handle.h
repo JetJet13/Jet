@@ -21,7 +21,9 @@ public:
     int size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);
     void removeFirstNodes(int numNodesToRemove);
-    void push(ASTNode* node);
+    void append(ASTNode* node);
+    void prepend(ASTNode* node);
+    void print();
 };
 
 #endif //JETLANG_HANDLE_H

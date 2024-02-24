@@ -14,6 +14,7 @@ private:
 public:
     ASTLiteralExpressionNode(ASTLiteralNode* literalNode);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_LITERAL_EXPRESSION_NODE_H

@@ -11,3 +11,7 @@ ASTBooleanLiteralNode::ASTBooleanLiteralNode(Lexeme* booleanLiteral) {
 ASTNodeType ASTBooleanLiteralNode::getNodeType() {
     return AST_BOOLEAN_LITERAL_NODE;
 }
+
+std::string ASTBooleanLiteralNode::toString() {
+    return "BOOLEAN_LITERAL";
+}

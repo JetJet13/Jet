@@ -14,6 +14,7 @@ private:
 public:
     ASTLessThanOrEqualOperatorNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_LESS_THAN_OR_EQUAL_OPERATOR_NODE_H

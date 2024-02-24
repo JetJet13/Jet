@@ -7,3 +7,7 @@
 ASTNodeType ASTUnaryOperatorNode::getNodeType() {
     return AST_UNARY_OPERATOR_NODE;
 }
+
+std::string ASTUnaryOperatorNode::toString() {
+    return "UNARY_OPERATOR";
+}

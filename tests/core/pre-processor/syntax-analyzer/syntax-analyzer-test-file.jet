@@ -1,0 +1,11 @@
+let integer = 1;
+let float = 2.0;
+let str = "hello";
+let char = 'b';
+let flag = true;
+
+const integer = 1;
+const float = 2.0;
+const str = "hello";
+const char = 'b';
+const flag = true;

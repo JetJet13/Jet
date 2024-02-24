@@ -50,6 +50,10 @@ ASTNodeType DFANode::getNodeType() {
     return this->_astNodeType;
 }
 
+bool DFANode::isTerminatorNode() {
+    return this->_astNodeType == AST_TERMINATOR_NODE;
+}
+
 std::optional<ASTNodeType> DFANode::getTargetAstNodeType() {
     return this->_targetAstNodeType;
 }

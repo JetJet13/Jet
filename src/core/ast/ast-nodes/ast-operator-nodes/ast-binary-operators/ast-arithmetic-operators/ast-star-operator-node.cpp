@@ -11,3 +11,7 @@ ASTStarOperatorNode::ASTStarOperatorNode(Lexeme* starOperator) {
 ASTNodeType ASTStarOperatorNode::getNodeType() {
     return AST_STAR_OPERATOR_NODE;
 }
+
+std::string ASTStarOperatorNode::toString() {
+    return "STAR_OPERATOR";
+}

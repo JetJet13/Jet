@@ -18,7 +18,8 @@ int main (int argc, const char* argv[]) {
         std::string filePath = argv[1];
         Logger::log("executing file:", filePath);
         auto tokenTable = new TokenTable();
-        auto lexicalAnalyzer = LexicalAnalyzer(tokenTable);
+        auto reservedKeywords = new ReservedKeywords();
+        auto lexicalAnalyzer = LexicalAnalyzer(tokenTable, reservedKeywords);
         lexicalAnalyzer.start(filePath);
         auto lexeme = lexicalAnalyzer.next();
         while (lexeme) {

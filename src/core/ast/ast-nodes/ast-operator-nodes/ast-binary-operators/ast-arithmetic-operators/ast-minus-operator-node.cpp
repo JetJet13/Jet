@@ -11,3 +11,7 @@ ASTMinusOperatorNode::ASTMinusOperatorNode(Lexeme* minusOperator) {
 ASTNodeType ASTMinusOperatorNode::getNodeType() {
     return AST_MINUS_OPERATOR_NODE;
 }
+
+std::string ASTMinusOperatorNode::toString() {
+    return "MINUS_OPERATOR";
+}

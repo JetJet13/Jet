@@ -14,7 +14,8 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
     _lexicalAnalyzer = lexicalAnalyzer;
 }
 
-void SyntaxAnalyzer::analyze() {
+void SyntaxAnalyzer::analyze(std::string &filePath) {
+    _lexicalAnalyzer->start(filePath);
     while (true) {
         auto reduceNode = this->recognizeHandle();
         if (reduceNode) {
@@ -39,13 +40,13 @@ std::optional<ReduceNode*> SyntaxAnalyzer::recognizeHandle() {
             _handle.clear();
             return {};
         } else if (_stack.size() == 1) {
-            _handle.push(_stack.top());
+            _handle.append(_stack.top());
             auto reduceNode = new ReduceNode(1, _stack.top()->getNodeType());
             _stack.pop();
             return reduceNode;
         } else {
             while (!_stack.empty()) {
-                _handle.push(_stack.top());
+                _handle.prepend(_stack.top());
                 _stack.pop();
             }
             return _syntaxDfa->recognize(_handle);
@@ -57,13 +58,18 @@ std::optional<ReduceNode*> SyntaxAnalyzer::recognizeHandle() {
 void SyntaxAnalyzer::shift() {
     auto nextLexeme = _lexicalAnalyzer->next();
     if (nextLexeme) {
-        _handle.push(this->_lexemeTransformer.transform(nextLexeme.value()));
+        _handle.append(this->_lexemeTransformer.transform(nextLexeme.value()));
     }
 }
 
 void SyntaxAnalyzer::reduceHandle(ReduceNode* reduceNode) {
-    _stack.push(_reducer.reduce(_handle, reduceNode));
+    Logger::log("reduceNode", reduceNode->getNumReducedNodes(), reduceNode->getTargetAstNodeType());
+    auto reducedNode = _reducer.reduce(_handle, reduceNode);
+    Logger::log("pushing node to stack:", reducedNode->toString());
+    _stack.push(reducedNode);
     _handle.removeFirstNodes(reduceNode->getNumReducedNodes());
+    _handle.print();
+
 }
 
 void SyntaxAnalyzer::accept() {

@@ -15,6 +15,7 @@ private:
 public:
     ASTCharLiteralNode(Lexeme* charLiteral);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 

@@ -13,6 +13,7 @@ private:
 public:
     ASTLogicalOperatorNode(Lexeme* logicalOperatorLiteral);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_LOGICAL_OPERATOR_NODE_H

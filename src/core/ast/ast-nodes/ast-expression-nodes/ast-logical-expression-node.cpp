@@ -13,3 +13,7 @@ ASTLogicalExpressionNode::ASTLogicalExpressionNode(ASTExpressionNode* leftNode, 
 ASTNodeType ASTLogicalExpressionNode::getNodeType() {
     return AST_LOGICAL_EXPRESSION_NODE;
 }
+
+std::string ASTLogicalExpressionNode::toString() {
+    return "LOGICAL_EXPRESSION";
+}

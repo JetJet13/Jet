@@ -36,7 +36,7 @@ ASTNode* Reducer::reduce(Handle handle, ReduceNode* reduceNode) {
         throw std::invalid_argument("handle cannot be empty");
     }
 
-    if (reduceNode->getNumReducedNodes() == 1) {
+    if (reduceNode->getNumReducedNodes() == 1 && handle.isNodeTypeAt(0, reduceNode->getTargetAstNodeType())) {
         return handle.at(0).value();
     }
 

@@ -11,3 +11,7 @@ ASTUnaryPlusOperatorNode::ASTUnaryPlusOperatorNode(Lexeme* plusOperator) {
 ASTNodeType ASTUnaryPlusOperatorNode::getNodeType() {
     return AST_UNARY_PLUS_OPERATOR_NODE;
 }
+
+std::string ASTUnaryPlusOperatorNode::toString() {
+    return "UNARY_PLUS_OPERATOR";
+}

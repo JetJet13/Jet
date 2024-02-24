@@ -55,12 +55,8 @@ add_library(jet-core
         ast/types/ast-node-type.h
         grammar/tables/follow-symbol-table.cpp
         grammar/tables/follow-symbol-table.h
-        ast/ast-nodes/ast-symbol-node.cpp
-        ast/ast-nodes/ast-symbol-node.h
         ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.cpp
         ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h
-        pre-processor/syntax-analyzer/recognizer/recognizer.cpp
-        pre-processor/syntax-analyzer/recognizer/recognizer.h
         pre-processor/syntax-analyzer/reducer/reducer.cpp
         pre-processor/syntax-analyzer/reducer/reducer.h
         ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.cpp
@@ -84,8 +80,6 @@ add_library(jet-core
         dfa/dfa.h
         dfa/dfa-node.cpp
         dfa/dfa-node.h
-        dfa/dfa-transition.cpp
-        dfa/dfa-transition.h
         pre-processor/syntax-analyzer/syntax-dfa/syntax-dfa.cpp
         pre-processor/syntax-analyzer/syntax-dfa/syntax-dfa.h
         dfa/types/dfa-node-occurrence.h
@@ -93,14 +87,10 @@ add_library(jet-core
         dfa/dfa-node-factory.h
         dfa/dfa-transition-factory.cpp
         dfa/dfa-transition-factory.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy/variable-init-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy/variable-init-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-type-reducer-strategy/variable-type-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-type-reducer-strategy/variable-type-reducer-strategy.h
         pre-processor/syntax-analyzer/lexeme-transformer/lexeme-transformer.cpp
         pre-processor/syntax-analyzer/lexeme-transformer/lexeme-transformer.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.cpp

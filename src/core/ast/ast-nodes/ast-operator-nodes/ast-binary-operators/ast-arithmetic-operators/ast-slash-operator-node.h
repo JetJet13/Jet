@@ -14,6 +14,7 @@ private:
 public:
     ASTSlashOperatorNode(Lexeme* slashOperator);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_SLASH_OPERATOR_NODE_H

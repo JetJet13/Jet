@@ -12,7 +12,6 @@
 #include "../../ast/ast.h"
 #include "../../ast/ast-nodes/ast-file-node.h"
 #include "../lexical-analyzer/lexical-analyzer.h"
-#include "recognizer/recognizer.h"
 #include "reducer/reducer.h"
 #include "reduce-node/reduce-node.h"
 #include "handle/handle.h"
@@ -27,7 +26,7 @@
  * 2. Push each token onto the handle stack
  * 2. create a handle composed of one or more tokens living on the stack
  * 3. check to see if the handle can be 'reduced' into an AST Node
- * 4. if it can, create the AST Node and push it to the state stack
+ * 4. if it can, create the AST Node and append it to the state stack
  */
 
 class SyntaxAnalyzer {
@@ -46,7 +45,7 @@ private:
     void error();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
-    void analyze();
+    void analyze(std::string &filePath);
 };
 
 #endif //JETLANG_SYNTAX_ANALYZER_H

@@ -11,3 +11,7 @@ ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* iden
 ASTNodeType ASTIdentifierExpressionNode::getNodeType() {
     return AST_IDENTIFIER_EXPRESSION_NODE;
 }
+
+std::string ASTIdentifierExpressionNode::toString() {
+    return "IDENTIFIER_EXPRESSION";
+}

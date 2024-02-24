@@ -16,6 +16,7 @@ private:
 public:
     ASTBangOperatorNode(Lexeme* bangOperator);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 

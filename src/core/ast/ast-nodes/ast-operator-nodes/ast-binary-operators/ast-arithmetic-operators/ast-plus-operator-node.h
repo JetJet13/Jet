@@ -15,6 +15,7 @@ private:
 public:
     ASTPlusOperatorNode(Lexeme* plusOperator);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 

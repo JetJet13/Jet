@@ -12,3 +12,7 @@ ASTStringLiteralNode::ASTStringLiteralNode(Lexeme* stringLiteral) {
 ASTNodeType ASTStringLiteralNode::getNodeType() {
     return AST_STRING_LITERAL_NODE;
 }
+
+std::string ASTStringLiteralNode::toString() {
+    return "STRING_LITERAL";
+}

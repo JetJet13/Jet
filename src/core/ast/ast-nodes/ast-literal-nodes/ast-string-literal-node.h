@@ -14,6 +14,7 @@ private:
 public:
     ASTStringLiteralNode(Lexeme* stringLiteral);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_STRING_LITERAL_NODE_H

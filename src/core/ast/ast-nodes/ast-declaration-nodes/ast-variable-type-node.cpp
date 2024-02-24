@@ -11,3 +11,7 @@ ASTVariableTypeNode::ASTVariableTypeNode(Lexeme* varTypeQualifier) {
 ASTNodeType ASTVariableTypeNode::getNodeType() {
     return AST_VARIABLE_TYPE_NODE;
 }
+
+std::string ASTVariableTypeNode::toString() {
+    return "VARIABLE_TYPE";
+}

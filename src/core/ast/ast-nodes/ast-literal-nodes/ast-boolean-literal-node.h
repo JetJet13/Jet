@@ -15,6 +15,7 @@ private:
 public:
     ASTBooleanLiteralNode(Lexeme* booleanLiteral);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_BOOLEAN_LITERAL_NODE_H

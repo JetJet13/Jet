@@ -7,3 +7,7 @@
 ASTNodeType ASTLiteralNode::getNodeType() {
     return AST_LITERAL_NODE;
 }
+
+std::string ASTLiteralNode::toString() {
+    return "LITERAL";
+}

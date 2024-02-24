@@ -14,3 +14,7 @@ ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varI
 ASTNodeType ASTVariableDeclarationNode::getNodeType() {
     return AST_VARIABLE_DECLARATION_NODE;
 }
+
+std::string ASTVariableDeclarationNode::toString() {
+    return "VARIABLE_DECLARATION";
+}

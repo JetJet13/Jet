@@ -8,7 +8,6 @@
 #include "../ast-node.h"
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-identifier-node.h"
-#include "../ast-symbol-node.h"
 
 class ASTVariableTypeNode : public ASTNode {
 private:
@@ -16,6 +15,7 @@ private:
 public:
     ASTVariableTypeNode(Lexeme* varTypeQualifier);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_VARIABLE_TYPE_NODE_H

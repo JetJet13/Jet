@@ -16,6 +16,7 @@ private:
 public:
     ASTMinusOperatorNode(Lexeme* minusOperator);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 

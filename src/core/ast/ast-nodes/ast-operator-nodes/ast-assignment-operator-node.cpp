@@ -11,3 +11,7 @@ ASTAssignmentOperatorNode::ASTAssignmentOperatorNode(Lexeme *lexeme) {
 ASTNodeType ASTAssignmentOperatorNode::getNodeType() {
     return AST_ASSIGNMENT_OPERATOR_NODE;
 }
+
+std::string ASTAssignmentOperatorNode::toString() {
+    return "ASSIGNMENT_OPERATOR";
+}

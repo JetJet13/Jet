@@ -19,3 +19,7 @@ void ASTFileNode::prepend(ASTNode *node) {
 ASTNodeType ASTFileNode::getNodeType() {
     return AST_FILE_NODE;
 }
+
+std::string ASTFileNode::toString() {
+    return "FILE";
+}

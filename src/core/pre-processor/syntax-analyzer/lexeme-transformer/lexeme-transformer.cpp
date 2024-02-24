@@ -73,6 +73,6 @@ ASTNode* LexemeTransformer::transform(Lexeme lexeme) {
     } else if (symbol->isSemicolon()) {
         return new ASTTerminatorNode(&lexeme);
     } else {
-        return new ASTSymbolNode(symbol);
+        return new ASTLiteralNode();
     }
 }

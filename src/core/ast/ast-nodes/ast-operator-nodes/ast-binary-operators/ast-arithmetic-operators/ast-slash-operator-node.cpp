@@ -11,3 +11,7 @@ ASTSlashOperatorNode::ASTSlashOperatorNode(Lexeme* slashOperator) {
 ASTNodeType ASTSlashOperatorNode::getNodeType() {
     return AST_SLASH_OPERATOR_NODE;
 }
+
+std::string ASTSlashOperatorNode::toString() {
+    return "SLASH_OPERATOR";
+}

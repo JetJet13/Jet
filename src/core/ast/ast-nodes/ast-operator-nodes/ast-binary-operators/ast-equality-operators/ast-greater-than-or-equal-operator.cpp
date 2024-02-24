@@ -11,3 +11,7 @@ ASTGreaterThanOrEqualOperatorNode::ASTGreaterThanOrEqualOperatorNode(Lexeme *lex
 ASTNodeType ASTGreaterThanOrEqualOperatorNode::getNodeType() {
     return AST_GREATER_THAN_OR_EQUAL_OPERATOR_NODE;
 }
+
+std::string ASTGreaterThanOrEqualOperatorNode::toString() {
+    return "GREATER_THAN_OR_EQUAL";
+}

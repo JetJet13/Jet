@@ -11,3 +11,7 @@ ASTBangOperatorNode::ASTBangOperatorNode(Lexeme* bangOperator) {
 ASTNodeType ASTBangOperatorNode::getNodeType() {
     return AST_BANG_OPERATOR_NODE;
 }
+
+std::string ASTBangOperatorNode::toString() {
+    return "BANG_OPERATOR";
+}

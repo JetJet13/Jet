@@ -7,3 +7,7 @@
 ASTNodeType ASTBinaryOperatorNode::getNodeType() {
     return AST_BINARY_OPERATOR_NODE;
 }
+
+std::string ASTBinaryOperatorNode::toString() {
+    return "BINARY_OPERATOR";
+}

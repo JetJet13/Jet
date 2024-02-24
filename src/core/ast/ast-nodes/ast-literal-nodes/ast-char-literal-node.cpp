@@ -11,3 +11,7 @@ ASTCharLiteralNode::ASTCharLiteralNode(Lexeme* charLiteral) {
 ASTNodeType ASTCharLiteralNode::getNodeType() {
     return AST_CHAR_LITERAL_NODE;
 }
+
+std::string ASTCharLiteralNode::toString() {
+    return "CHAR_LITERAL";
+}

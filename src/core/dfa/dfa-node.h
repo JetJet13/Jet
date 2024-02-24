@@ -8,8 +8,9 @@
 #include <vector>
 #include <optional>
 #include "../ast/types/ast-node-type.h"
-#include "dfa-transition.h"
 #include "types/dfa-node-occurrence.h"
+
+struct DFATransition;
 
 class DFANode {
 private:
@@ -26,7 +27,13 @@ public:
     bool isStart();
     bool isEnd();
     ASTNodeType getNodeType();
+    bool isTerminatorNode();
     std::optional<ASTNodeType> getTargetAstNodeType();
+};
+
+struct DFATransition {
+    ASTNodeType astNodeType;
+    DFANode* destination;
 };
 
 #endif //JETLANG_DFA_NODE_H

@@ -16,6 +16,7 @@ public:
     void append(ASTNode* node);
     void prepend(ASTNode* node);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_FILE_NODE_H

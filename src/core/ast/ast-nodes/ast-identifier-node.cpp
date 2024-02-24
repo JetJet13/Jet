@@ -11,3 +11,7 @@ ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
 ASTNodeType ASTIdentifierNode::getNodeType() {
     return AST_IDENTIFIER_NODE;
 }
+
+std::string ASTIdentifierNode::toString() {
+    return "IDENTIFIER";
+}

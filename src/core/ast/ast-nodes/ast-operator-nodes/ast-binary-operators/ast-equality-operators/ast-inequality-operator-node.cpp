@@ -11,3 +11,7 @@ ASTInequalityOperatorNode::ASTInequalityOperatorNode(Lexeme *lexeme) {
 ASTNodeType ASTInequalityOperatorNode::getNodeType() {
     return AST_INEQUALITY_OPERATOR_NODE;
 }
+
+std::string ASTInequalityOperatorNode::toString() {
+    return "INEQUALITY_OPERATOR";
+}

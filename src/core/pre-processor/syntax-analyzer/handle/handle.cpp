@@ -4,6 +4,7 @@
 
 #include "handle.h"
 #include "../../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 Handle::Handle() {
     _handle = std::deque<ASTNode*>();
@@ -57,6 +58,18 @@ void Handle::removeFirstNodes(int numNodesToRemove) {
     _handle.erase(_handle.begin(), _handle.begin() + numNodesToRemove);
 }
 
-void Handle::push(ASTNode* node) {
+void Handle::append(ASTNode* node) {
+    _handle.push_back(node);
+}
+
+void Handle::prepend(ASTNode* node) {
     _handle.push_front(node);
+}
+
+void Handle::print() {
+    Logger::log("Handle --------");
+    for (auto node : _handle) {
+        Logger::log(node->toString());
+    }
+    Logger::log("--------");
 }

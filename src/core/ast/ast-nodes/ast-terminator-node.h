@@ -13,6 +13,8 @@ private:
 public:
     ASTTerminatorNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
+
 };
 
 #endif //JETLANG_AST_TERMINATOR_NODE_H

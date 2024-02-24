@@ -11,3 +11,7 @@ ASTLiteralExpressionNode::ASTLiteralExpressionNode(ASTLiteralNode* literalNode) 
 ASTNodeType ASTLiteralExpressionNode::getNodeType() {
     return AST_LITERAL_EXPRESSION_NODE;
 }
+
+std::string ASTLiteralExpressionNode::toString() {
+    return "LITERAL_EXPRESSION";
+}

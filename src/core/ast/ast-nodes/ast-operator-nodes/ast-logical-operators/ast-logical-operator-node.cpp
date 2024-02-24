@@ -11,3 +11,7 @@ ASTLogicalOperatorNode::ASTLogicalOperatorNode(Lexeme* logicalOperator) {
 ASTNodeType ASTLogicalOperatorNode::getNodeType() {
     return AST_LOGICAL_OPERATOR_NODE;
 }
+
+std::string ASTLogicalOperatorNode::toString() {
+    return "LOGICAL_OPERATOR";
+}

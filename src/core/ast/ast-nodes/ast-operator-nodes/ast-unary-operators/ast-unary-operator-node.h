@@ -10,6 +10,7 @@
 class ASTUnaryOperatorNode : public ASTNode {
 public:
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_UNARY_OPERATOR_NODE_H

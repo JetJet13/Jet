@@ -14,6 +14,8 @@ private:
 public:
     ASTUnaryPlusOperatorNode(Lexeme* plusOperator);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
+
 };
 
 #endif //JETLANG_AST_UNARY_PLUS_OPERATOR_H

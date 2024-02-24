@@ -7,6 +7,7 @@
 
 #include <unordered_map>
 #include "../ast/ast-nodes/ast-node.h"
+#include "dfa.h"
 #include "dfa-node.h"
 
 class DFA {

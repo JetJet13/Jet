@@ -11,3 +11,7 @@ ASTFloatLiteralNode::ASTFloatLiteralNode(Lexeme* floatLiteral) {
 ASTNodeType ASTFloatLiteralNode::getNodeType() {
     return AST_FLOAT_LITERAL_NODE;
 }
+
+std::string ASTFloatLiteralNode::toString() {
+    return "FLOAT_LITERAL";
+}

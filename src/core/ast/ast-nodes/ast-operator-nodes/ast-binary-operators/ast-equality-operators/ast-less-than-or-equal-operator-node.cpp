@@ -11,3 +11,7 @@ ASTLessThanOrEqualOperatorNode::ASTLessThanOrEqualOperatorNode(Lexeme *lexeme) {
 ASTNodeType ASTLessThanOrEqualOperatorNode::getNodeType() {
     return AST_LESS_THAN_OR_EQUAL_OPERATOR_NODE;
 }
+
+std::string ASTLessThanOrEqualOperatorNode::toString() {
+    return "LESS_THAN_OR_EQUAL";
+}

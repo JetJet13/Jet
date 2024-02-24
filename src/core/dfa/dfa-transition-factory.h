@@ -5,7 +5,7 @@
 #ifndef JETLANG_DFA_TRANSITION_FACTORY_H
 #define JETLANG_DFA_TRANSITION_FACTORY_H
 
-#include "dfa-transition.h"
+#include "dfa-node.h"
 
 namespace DFATransitionFactory {
     DFATransition create(DFANode* dfaNode);

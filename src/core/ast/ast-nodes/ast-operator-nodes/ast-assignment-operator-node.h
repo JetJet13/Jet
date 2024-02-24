@@ -15,6 +15,7 @@ private:
 public:
     ASTAssignmentOperatorNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
+    std::string toString() override;
 };
 
 #endif //JETLANG_AST_ASSIGNMENT_NODE_H
