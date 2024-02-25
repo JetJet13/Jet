@@ -12,7 +12,7 @@ DFA::DFA() {
 }
 
 void DFA::init(ASTNodeType astNodeType) {
-    Logger::log("DFA::init - ast node type", astNodeType);
+//    Logger::log("DFA::init - ast node type", astNodeType);
     auto startNode = _startNodes.find(astNodeType);
     if (startNode == _startNodes.end()) {
         throw std::invalid_argument( "no start DFA Node found for ASTNodeType");

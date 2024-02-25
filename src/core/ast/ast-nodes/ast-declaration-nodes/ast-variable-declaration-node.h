@@ -18,6 +18,7 @@ public:
     explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_VARIABLE_DECLARATION_NODE_H

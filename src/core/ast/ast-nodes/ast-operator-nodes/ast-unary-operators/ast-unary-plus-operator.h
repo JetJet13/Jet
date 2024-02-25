@@ -15,6 +15,7 @@ public:
     ASTUnaryPlusOperatorNode(Lexeme* plusOperator);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isEqual(ASTNode* other) override;
 
 };
 

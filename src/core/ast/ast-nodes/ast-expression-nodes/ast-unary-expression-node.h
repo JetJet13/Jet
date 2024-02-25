@@ -16,6 +16,7 @@ public:
     ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_UNARY_EXPRESSION_NODE_H

@@ -40,12 +40,12 @@ private:
     std::stack<ASTNode*> _stack;
     std::optional<ReduceNode*> recognizeHandle();
     void shift();
-    void reduceHandle(ReduceNode* reduceNode);
+    void reduceHandle(ASTFileNode* fileNode, ReduceNode* reduceNode);
     void accept();
     void error();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
-    void analyze(std::string &filePath);
+    ASTFileNode* analyze(std::string &filePath);
 };
 
 #endif //JETLANG_SYNTAX_ANALYZER_H
@@ -64,7 +64,7 @@ public:
  *  stack = [<var-init>] _handle = [] // reduce
  *  stack = [<var-init>] _handle = [<int>] // shift
  *  stack = [<var-init>] _handle = [<int> ;] // shift
- *  stack = [<int> <var-init>] _handle = [ ; ] // reduce
+ *  stack = [<var-init> <int-exp>] _handle = [ ; ] // reduce
  *  stack = [] _handle = [<int> <var-init> ; ] // recycle
  *  stack = [<int>] _handle = [<var-init> ; ] // reduce
  *  stack = [<var-init> <int>] _handle = [ ; ] // reduce

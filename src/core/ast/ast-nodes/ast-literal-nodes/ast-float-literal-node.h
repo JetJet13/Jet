@@ -15,6 +15,7 @@ public:
     ASTFloatLiteralNode(Lexeme* floatLiteral);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_FLOAT_LITERAL_NODE_H

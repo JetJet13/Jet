@@ -16,6 +16,7 @@ public:
     ASTModuloOperatorNode(Lexeme* moduloOperator);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_MODULO_OPERATOR_NODE_H

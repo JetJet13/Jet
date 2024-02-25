@@ -16,6 +16,7 @@ public:
     ASTVariableTypeNode(Lexeme* varTypeQualifier);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_VARIABLE_TYPE_NODE_H

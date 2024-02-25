@@ -16,6 +16,7 @@ public:
     ASTEqualityOperatorNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_EQUALITY_OPERATOR_NODE_H

@@ -16,6 +16,10 @@ void ASTFileNode::prepend(ASTNode *node) {
     _body.insert(_body.begin(), node);
 }
 
+std::vector<ASTNode*> ASTFileNode::getBody() {
+    return _body;
+}
+
 ASTNodeType ASTFileNode::getNodeType() {
     return AST_FILE_NODE;
 }

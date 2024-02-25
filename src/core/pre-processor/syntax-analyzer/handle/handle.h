@@ -15,6 +15,7 @@ private:
 public:
     Handle();
     std::optional<ASTNode*> at(int index);
+    std::optional<ASTNode*> last();
     bool isNodeTypeAt(int index, ASTNodeType astNodeType);
     bool isEmpty();
     void clear();

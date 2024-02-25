@@ -3,7 +3,6 @@
 //
 
 #include "handle.h"
-#include "../../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../../shared/utils/logger/logger.h"
 
 Handle::Handle() {
@@ -15,6 +14,14 @@ std::optional<ASTNode*> Handle::at(int index) {
         return {};
     }
     return _handle[index];
+}
+
+std::optional<ASTNode*> Handle::last() {
+    if (this->isEmpty()) {
+        return {};
+    }
+
+    return _handle[_handle.size() - 1];
 }
 
 bool Handle::isNodeTypeAt(int index, ASTNodeType astNodeType) {
@@ -67,9 +74,15 @@ void Handle::prepend(ASTNode* node) {
 }
 
 void Handle::print() {
-    Logger::log("Handle --------");
+    if (this->isEmpty()) {
+        Logger::log("-------- Handle --------");
+        Logger::log("EMPTY");
+        Logger::log("------------------------");
+        return;
+    }
+    Logger::log("-------- Handle --------");
     for (auto node : _handle) {
         Logger::log(node->toString());
     }
-    Logger::log("--------");
+    Logger::log("------------------------");
 }

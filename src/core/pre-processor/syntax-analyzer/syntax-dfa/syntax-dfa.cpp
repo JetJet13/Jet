@@ -5,6 +5,7 @@
 #include "syntax-dfa.h"
 #include "../../../dfa/dfa-node-factory.h"
 #include "../../../dfa/dfa-transition-factory.h"
+#include "../reduce-node/reduce-node-factory.h"
 
 SyntaxDfa::SyntaxDfa() {
     _dfa = new DFA();
@@ -15,7 +16,7 @@ std::optional<ReduceNode*> SyntaxDfa::recognize(Handle handle) {
     if (handle.isEmpty()) {
         return {};
     }
-    handle.print();
+//    handle.print();
     for (int i = 0; i < handle.size(); i++) {
         auto nodeType = handle.at(i).value()->getNodeType();
         if (i == 0) {
@@ -26,8 +27,7 @@ std::optional<ReduceNode*> SyntaxDfa::recognize(Handle handle) {
 
         auto currentDfaState = _dfa->getCurrentState();
         if (currentDfaState && currentDfaState.value()->isEnd() && currentDfaState.value()->getTargetAstNodeType()) {
-            auto numNodesToReduce = currentDfaState.value()->isTerminatorNode() ? i : i + 1;
-            return new ReduceNode(numNodesToReduce, currentDfaState.value()->getTargetAstNodeType().value());
+            return ReduceNodeFactory::create(handle, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
         } else if (!currentDfaState) {
             return {};
         }
@@ -82,6 +82,9 @@ void SyntaxDfa::init() {
     auto unaryExpressionDFANode = DFANodeFactory::createUnaryExpressionDFANode();
 
     // setup transitions
+    varDeclarationDFANode
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE)));
+
     varTypeDFANode
     ->addTransition(DFATransitionFactory::create(varIdentifierDFANode));
 

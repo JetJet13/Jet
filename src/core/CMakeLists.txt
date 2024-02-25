@@ -141,6 +141,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reduce-node/reduce-node-factory.cpp
+        pre-processor/syntax-analyzer/reduce-node/reduce-node-factory.h
 
 )
 
