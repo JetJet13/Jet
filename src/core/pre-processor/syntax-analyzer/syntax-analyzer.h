@@ -41,8 +41,11 @@ private:
     std::optional<ReduceNode*> recognizeHandle();
     void shift();
     void reduceHandle(ASTFileNode* fileNode, ReduceNode* reduceNode);
+    void popFromStack();
     void accept();
     void error();
+    bool isTerminatorMode();
+    void prepHandleForRecognizer();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     ASTFileNode* analyze(std::string &filePath);
@@ -79,15 +82,35 @@ public:
  *  stack = [] _handle = [<var-type>] // shift
  *  stack = [] _handle = [<var-type> <id>] // shift
  *  stack = [] _handle = [<var-type> <id> <assign-op>] // shift
- *  stack = [<var-init>] _handle = [<int>] // reduce
+ *  stack = [<var-init>] _handle = [] // reduce
+ *  stack = [<var-init>] _handle = [<int>] // shift
  *  stack = [<var-init>] _handle = [<int> <binary-op>] // shift
- *  stack = [<var-init>] _handle = [<int> <binary-op> <int>] // shift
- *  stack = [<var-init>] _handle = [<int> <binary-op> <int> ;] // shift
- *  stack = [<binary-exp> <var-init>] _handle = [ ; ] // reduce
- *  stack = [] _handle = [<binary-exp> <var-init> ; ] // recycle
- *  stack = [<binary-exp>] _handle = [<var-init> ; ] // reduce
- *  stack = [<var-init> <binary-exp>] _handle = [ ; ] // reduce
- *  stack = [] _handle = [<var-init> <binary-exp> ; ] // recycle
+ *  stack = [<var-init>] _handle = [<int> <binary-op> <int>] // reduce
+ *  stack = [<binary-exp> <var-init>] _handle = [ ; ] // shift
+ *  stack = [<var-init>] _handle = [<binary-exp> ; ] // recycle
+ *  stack = [] _handle = [ <var-init> <binary-exp> ; ] // recycle
+ *  stack = [<var-dec>] _handle = [ ; ] // reduce
+ *  stack = [] _handle = [] // done
+ *
+ *
+ *
+ *  let foo = 10 + 2 + 3;
+ *  ---------------------------------
+ *  stack = [] _handle = []
+ *  stack = [] _handle = [<var-type>] // shift
+ *  stack = [] _handle = [<var-type> <id>] // shift
+ *  stack = [] _handle = [<var-type> <id> <assign-op>] // shift
+ *  stack = [<var-init>] _handle = [] // reduce
+ *  stack = [<var-init>] _handle = [<int>] // shift
+ *  stack = [<var-init>] _handle = [<int> <binary-op>] // shift
+ *  stack = [<var-init>] _handle = [<int> <binary-op> <int>] // reduce
+ *  stack = [<binary-exp> <var-init>] _handle = [ <binary-op> ] // shift
+ *  stack = [<binary-exp> <var-init>] _handle = [ <binary-op> <int> ] // shift
+ *  stack = [<binary-exp> <var-init>] _handle = [ <binary-op> <int> ; ] // shift
+ *  stack = [<var-init>] _handle = [<binary-exp> <binary-op> <int> ; ] // recycle
+ *  stack = [<var-dec> <binary-exp>] _handle = [ ; ] // reduce
+ *  stack = [<var-dec> <binary-exp>] _handle = [ ; ] // recycle
+ *  stack = [] _handle = [ <var-dec> <binary-exp> ; ] // reduce
  *  stack = [<var-dec>] _handle = [ ; ] // reduce
  *  stack = [] _handle = [] // done
  *

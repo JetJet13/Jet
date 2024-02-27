@@ -4,9 +4,6 @@
 
 #include "ast-unary-minus-operator.h"
 
-ASTUnaryMinusOperatorNode::ASTUnaryMinusOperatorNode(Lexeme* minusOperator) {
-    _minusOperator = minusOperator;
-}
 
 ASTNodeType ASTUnaryMinusOperatorNode::getNodeType() {
     return AST_UNARY_MINUS_OPERATOR_NODE;

@@ -10,13 +10,10 @@
 #include "../ast-binary-operator-node.h"
 
 class ASTInequalityOperatorNode : public ASTBinaryOperatorNode {
-private:
-    Lexeme* _inequality;
+    using ASTBinaryOperatorNode::ASTBinaryOperatorNode;
 public:
-    ASTInequalityOperatorNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_INEQUALITY_OPERATOR_NODE_H

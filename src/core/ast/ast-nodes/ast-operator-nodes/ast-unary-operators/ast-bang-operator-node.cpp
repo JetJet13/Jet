@@ -4,10 +4,6 @@
 
 #include "ast-bang-operator-node.h"
 
-ASTBangOperatorNode::ASTBangOperatorNode(Lexeme* bangOperator) {
-    _bangOperator = bangOperator;
-}
-
 ASTNodeType ASTBangOperatorNode::getNodeType() {
     return AST_BANG_OPERATOR_NODE;
 }

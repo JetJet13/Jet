@@ -10,13 +10,10 @@
 #include "ast-literal-node.h"
 
 class ASTCharLiteralNode : public ASTLiteralNode {
-private:
-    Lexeme* _charLiteral;
+    using ASTLiteralNode::ASTLiteralNode;
 public:
-    ASTCharLiteralNode(Lexeme* charLiteral);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
 
 

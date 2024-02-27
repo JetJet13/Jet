@@ -12,9 +12,12 @@
 class Handle {
 private:
     std::deque<ASTNode*> _handle;
+    std::optional<ASTNode*> _lastReducedNode;
+    std::optional<ASTNode*> _peekNode;
 public:
     Handle();
     std::optional<ASTNode*> at(int index);
+    std::optional<ASTNode*> first();
     std::optional<ASTNode*> last();
     bool isNodeTypeAt(int index, ASTNodeType astNodeType);
     bool isEmpty();
@@ -24,6 +27,12 @@ public:
     void removeFirstNodes(int numNodesToRemove);
     void append(ASTNode* node);
     void prepend(ASTNode* node);
+    std::optional<ASTNode*> getLastReducedNode();
+    void setLastReducedNode(std::optional<ASTNode*> peekNode);
+    void clearLastReducedNode();
+    std::optional<ASTNode*> getPeekNode();
+    void setPeekNode(std::optional<ASTNode*> peekNode);
+    void clearPeekNode();
     void print();
 };
 

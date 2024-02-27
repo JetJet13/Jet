@@ -4,10 +4,6 @@
 
 #include "ast-plus-operator-node.h"
 
-ASTPlusOperatorNode::ASTPlusOperatorNode(Lexeme* plusOperator) {
-    _plusOperator = plusOperator;
-}
-
 ASTNodeType ASTPlusOperatorNode::getNodeType() {
     return AST_PLUS_OPERATOR_NODE;
 }

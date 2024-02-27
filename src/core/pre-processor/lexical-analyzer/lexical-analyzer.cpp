@@ -36,7 +36,7 @@ void LexicalAnalyzer::stop() {
 }
 
 
-std::optional<Lexeme> LexicalAnalyzer::next() {
+std::optional<Lexeme*> LexicalAnalyzer::next() {
     if (!_fileReader.isOpen() || !_hasMore) {
         return {};
     }
@@ -50,12 +50,12 @@ std::optional<Lexeme> LexicalAnalyzer::next() {
     auto position = _fileReader.getPeekPosition();
     auto nextToken = this->buildNextToken();
     if (nextToken) {
-        return Lexeme(nextToken.value(), line, position);
+        return new Lexeme(nextToken.value(), line, position);
     }
     return {};
 }
 
-std::optional<Lexeme> LexicalAnalyzer::peek() {
+std::optional<Lexeme*> LexicalAnalyzer::peek() {
     if (!_fileReader.isOpen() || !_hasMore) {
         return {};
     }
@@ -73,7 +73,7 @@ std::optional<Lexeme> LexicalAnalyzer::peek() {
     auto nextToken = this->peekNextToken();
     this->resetAfterPeek(cursorSnapshot, numAdvancesSnapshot);
     if (nextToken) {
-        return Lexeme(nextToken.value(), line, position);
+        return new Lexeme(nextToken.value(), line, position);
     }
     return {};
 }

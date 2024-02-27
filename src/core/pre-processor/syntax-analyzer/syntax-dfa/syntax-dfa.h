@@ -14,6 +14,8 @@ class SyntaxDfa {
 private:
     DFA* _dfa;
     void init();
+    bool includePrefix(Handle handle);
+//    void initDfaTraversal(Handle handle);
 public:
     SyntaxDfa();
     std::optional<ReduceNode*> recognize(Handle handle);

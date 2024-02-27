@@ -11,13 +11,10 @@
 #include "../ast-binary-operator-node.h"
 
 class ASTMinusOperatorNode : public ASTBinaryOperatorNode {
-private:
-    Lexeme* _minusOperator;
+    using ASTBinaryOperatorNode::ASTBinaryOperatorNode;
 public:
-    ASTMinusOperatorNode(Lexeme* minusOperator);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
 
 

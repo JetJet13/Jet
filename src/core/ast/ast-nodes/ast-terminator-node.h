@@ -12,6 +12,7 @@ private:
     Lexeme* _terminator;
 public:
     ASTTerminatorNode(Lexeme* lexeme);
+    Lexeme* getTerminator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

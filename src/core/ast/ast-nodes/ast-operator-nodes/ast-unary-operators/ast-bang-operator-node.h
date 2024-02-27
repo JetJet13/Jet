@@ -11,14 +11,10 @@
 #include "ast-unary-operator-node.h"
 
 class ASTBangOperatorNode : public ASTUnaryOperatorNode {
-private:
-    Lexeme* _bangOperator;
+    using ASTUnaryOperatorNode::ASTUnaryOperatorNode;
 public:
-    ASTBangOperatorNode(Lexeme* bangOperator);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
-
 
 #endif //JETLANG_AST_BANG_OPERATOR_NODE_H

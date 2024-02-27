@@ -8,9 +8,15 @@ DFANode::DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrenc
     _astNodeType = astNodeType;
     _start = start;
     _end = end;
+    _prefixes = std::vector<ASTNodeType>();
     _targetAstNodeType = targetAstNodeType;
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
+}
+
+DFANode* DFANode::addPrefix(ASTNodeType astNodeType) {
+    _prefixes.push_back(astNodeType);
+    return this;
 }
 
 DFANode* DFANode::addTransition(DFATransition transition) {
@@ -18,24 +24,30 @@ DFANode* DFANode::addTransition(DFATransition transition) {
     return this;
 }
 
-std::optional<DFANode*> DFANode::transition(ASTNodeType astNodeType) {
-    if (this->isEnd()) {
-        return {};
-    } else if (_astNodeType == astNodeType &&
+std::optional<DFANode*> DFANode::transition(ASTNodeType astNodeType, ASTNodeType prefix) {
+    if (_astNodeType == astNodeType &&
               (_occurrence == DFA_OCCURRENCE_ONCE_OR_MORE ||
                _occurrence == DFA_OCCURRENCE_NIL_OR_MORE)
     ) {
         return this;
-    } else if (_astNodeType == astNodeType) {
+    } else if (this->isEnd() || _astNodeType == astNodeType) {
         return {};
     }
 
     for (auto transition : _transitions) {
-        if (transition.astNodeType == astNodeType) {
+        if (transition.astNodeType == astNodeType && transition.prefix == prefix) {
             return transition.destination;
         }
     }
     return {};
+}
+
+bool DFANode::canTransition(ASTNodeType astNodeType) {
+    auto transitionResult = this->transition(astNodeType);
+    if (transitionResult) {
+        return true;
+    }
+    return false;
 }
 
 bool DFANode::isStart() {
@@ -44,6 +56,10 @@ bool DFANode::isStart() {
 
 bool DFANode::isEnd() {
     return this->_end;
+}
+
+bool DFANode::isPrefix(ASTNodeType astNodeType) {
+    return std::find(_prefixes.begin(), _prefixes.end(), astNodeType) != _prefixes.end();
 }
 
 ASTNodeType DFANode::getNodeType() {

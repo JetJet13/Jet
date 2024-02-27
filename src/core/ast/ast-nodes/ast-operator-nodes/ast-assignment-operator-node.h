@@ -14,6 +14,7 @@ private:
     Lexeme* _assignment;
 public:
     ASTAssignmentOperatorNode(Lexeme* lexeme);
+    Lexeme* getAssignmentOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

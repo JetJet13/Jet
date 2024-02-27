@@ -10,8 +10,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-lc++")
 add_executable(jet-test
         core/pre-processor/lexical-analyzer/lexical-analyzer.test.cpp
         core/pre-processor/syntax-analyzer/syntax-analyzer.test.cpp
-        core/ast/ast-mock-node.cpp
-        core/ast/ast-mock-node.h
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core/pre-processor/lexical-analyzer/lexical-analyzer-test-file.jet

@@ -10,13 +10,10 @@
 #include "ast-literal-node.h"
 
 class ASTBooleanLiteralNode : public ASTLiteralNode {
-private:
-    Lexeme* _booleanLiteral;
+    using ASTLiteralNode::ASTLiteralNode;
 public:
-    ASTBooleanLiteralNode(Lexeme* booleanLiteral);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_BOOLEAN_LITERAL_NODE_H

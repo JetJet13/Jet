@@ -19,3 +19,7 @@ ASTNodeType ASTExpressionNode::getNodeType() {
 std::string ASTExpressionNode::toString() {
     return "EXPRESSION";
 }
+
+bool ASTExpressionNode::isEqual(ASTNode *other) {
+    return other->is(this->getNodeType());
+}

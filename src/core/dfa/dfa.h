@@ -13,13 +13,17 @@
 class DFA {
 private:
     std::unordered_map<ASTNodeType, DFANode*, std::hash<int>> _startNodes;
+    std::optional<DFANode*> _start;
     std::optional<DFANode*> _current;
 public:
     DFA();
     void init(ASTNodeType astNodeType);
     DFA* insertStartNode(ASTNodeType astNodeType, DFANode*);
     void reset();
-    void determine(ASTNodeType astNodeType);
+    void determine(ASTNodeType astNodeType, ASTNodeType prefix = AST_NULL_NODE);
+    std::optional<DFANode*> getStartState();
     std::optional<DFANode*> getCurrentState();
+    bool isValidInitNode(ASTNodeType astNodeType);
+    bool isValidInitNodeAndTransition(ASTNodeType initNode, ASTNodeType transitionNode);
 };
 #endif //JETLANG_DFA_H

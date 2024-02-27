@@ -4,10 +4,6 @@
 
 #include "ast-equality-operator-node.h"
 
-ASTEqualityOperatorNode::ASTEqualityOperatorNode(Lexeme *lexeme) {
-    _equality = lexeme;
-}
-
 ASTNodeType ASTEqualityOperatorNode::getNodeType() {
     return AST_EQUALITY_OPERATOR_NODE;
 }

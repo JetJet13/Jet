@@ -15,7 +15,8 @@ class ASTVariableInitNode : public ASTNode {
     ASTIdentifierNode* _identifier;
 public:
     explicit ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode);
-    void setIdentifier(ASTIdentifierNode* astIdentifierNode);
+    ASTVariableTypeNode* getVarTypeNode();
+    ASTIdentifierNode* getIdentifierNode();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

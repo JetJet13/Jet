@@ -9,14 +9,10 @@
 #include "ast-unary-operator-node.h"
 
 class ASTUnaryPlusOperatorNode : public ASTUnaryOperatorNode {
-private:
-    Lexeme* _plusOperator;
+    using ASTUnaryOperatorNode::ASTUnaryOperatorNode;
 public:
-    ASTUnaryPlusOperatorNode(Lexeme* plusOperator);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
-
 };
 
 #endif //JETLANG_AST_UNARY_PLUS_OPERATOR_H

@@ -3,7 +3,6 @@
 //
 
 #include "syntax-analyzer.h"
-#include "reduce-node/reduce-node-factory.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 
 SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalAnalyzer) {
@@ -23,11 +22,13 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         auto reduceNode = this->recognizeHandle();
         if (reduceNode) {
             this->reduceHandle(fileNode, reduceNode.value());
+        } else if (this->isTerminatorMode()) {
+            this->popFromStack();
         } else {
             this->shift();
         }
 
-        if (!_lexicalAnalyzer->hasMore()) {
+        if (!this->isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
             _handle.isEmpty() ? this->accept() : this->error();
             break;
         }
@@ -36,31 +37,18 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
 }
 
 std::optional<ReduceNode*> SyntaxAnalyzer::recognizeHandle() {
+    Logger::log("recognize");
     _handle.print();
-    if (_handle.isEmpty()) {
+    if (_handle.isEmpty() ||
+        (_handle.size() == 1 && this->isTerminatorMode())) {
         return {};
     }
-//    if (_handle.size() == 1 && _handle.isNodeTypeAt(0, AST_TERMINATOR_NODE)) {
-//        if (_stack.empty()) {
-//            _handle.clear();
-//            return {};
-//        } else if (_stack.size() == 1) {
-//            _handle.append(_stack.top());
-//            auto reduceNode = ReduceNodeFactory::create(_handle, _handle.size(), _stack.top()->getNodeType());
-//            _stack.pop();
-//            return reduceNode;
-//        } else {
-//            while (!_stack.empty()) {
-//                _handle.prepend(_stack.top());
-//                _stack.pop();
-//            }
-//            return _syntaxDfa->recognize(_handle);
-//        }
-//    }
+    this->prepHandleForRecognizer();
     return _syntaxDfa->recognize(_handle);
 }
 
 void SyntaxAnalyzer::shift() {
+    Logger::log("shift");
     auto nextLexeme = _lexicalAnalyzer->next();
     if (nextLexeme) {
         _handle.append(this->_lexemeTransformer.transform(nextLexeme.value()));
@@ -68,7 +56,11 @@ void SyntaxAnalyzer::shift() {
 }
 
 void SyntaxAnalyzer::reduceHandle(ASTFileNode* fileNode, ReduceNode* reduceNode) {
-    Logger::log("handle size", _handle.size(), "| num nodes to reduce:", reduceNode->getNumReducedNodes(), " | target ast node type: ", reduceNode->getTargetAstNodeType());
+    Logger::log("reduce");
+    Logger::log("handle size", _handle.size(), "| num nodes to reduce:", reduceNode->getNumReducedNodes(), " | target ast node type: ", reduceNode->getTargetAstNodeType(), " | include prefix: ", reduceNode->includePrefix());
+    if (reduceNode->includePrefix()) {
+        this->popFromStack();
+    }
     auto reducedNode = _reducer.reduce(_handle, reduceNode);
     auto isReducedNodeDeclarationNode = ASTNodeUtils::isDeclarationNode(reducedNode);
     if (isReducedNodeDeclarationNode) {
@@ -78,15 +70,16 @@ void SyntaxAnalyzer::reduceHandle(ASTFileNode* fileNode, ReduceNode* reduceNode)
         Logger::log("pushing node to stack:", reducedNode->toString());
         _stack.push(reducedNode);
     }
-    auto lastNode = _handle.last().value();
     _handle.removeFirstNodes(reduceNode->getNumReducedNodes());
-    if (_handle.isEmpty() && !isReducedNodeDeclarationNode && lastNode->is(AST_TERMINATOR_NODE)) {
-        Logger::log("recycling stack nodes...");
-        while (!_stack.empty()) {
-                _handle.prepend(_stack.top());
-                _stack.pop();
-        }
+}
+
+void SyntaxAnalyzer::popFromStack() {
+    if (_stack.empty()) {
+        throw std::logic_error("stack is empty. Nothing to pop.");
     }
+    Logger::log("popping from stack...");
+    _handle.prepend(_stack.top());
+    _stack.pop();
 }
 
 void SyntaxAnalyzer::accept() {
@@ -95,4 +88,23 @@ void SyntaxAnalyzer::accept() {
 
 void SyntaxAnalyzer::error() {
     Logger::log("file errored");
+}
+
+bool SyntaxAnalyzer::isTerminatorMode() {
+    return !_handle.isEmpty() && _handle.last().value()->is(AST_TERMINATOR_NODE);
+}
+
+void SyntaxAnalyzer::prepHandleForRecognizer() {
+    if (!_stack.empty()) {
+        _handle.setLastReducedNode(_stack.top());
+    } else {
+        _handle.clearLastReducedNode();
+    }
+
+    auto peekNode = _lexemeTransformer.transform(_lexicalAnalyzer->peek());
+    if (peekNode) {
+        _handle.setPeekNode(peekNode);
+    } else {
+        _handle.clearPeekNode();
+    }
 }

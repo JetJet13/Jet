@@ -8,7 +8,11 @@
 #include "../../ast-node.h"
 
 class ASTUnaryOperatorNode : public ASTNode {
+protected:
+    Lexeme* _lexemeOperator;
 public:
+    ASTUnaryOperatorNode(Lexeme* lexemeOperator);
+    Lexeme* getOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

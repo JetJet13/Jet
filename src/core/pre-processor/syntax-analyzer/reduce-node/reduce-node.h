@@ -11,10 +11,12 @@ class ReduceNode {
 private:
     ASTNodeType _targetAstNodeType;
     int _numReducedNodes;
+    bool _includePrefix;
 public:
-    ReduceNode(int numReducedNodes, ASTNodeType targetAstNodeType);
+    ReduceNode(int numReducedNodes, ASTNodeType targetAstNodeType, bool includePrefix);
     ASTNodeType getTargetAstNodeType();
     int getNumReducedNodes();
+    bool includePrefix();
 };
 
 #endif //JETLANG_REDUCE_NODE_H

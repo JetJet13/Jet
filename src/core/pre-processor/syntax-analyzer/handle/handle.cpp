@@ -7,6 +7,8 @@
 
 Handle::Handle() {
     _handle = std::deque<ASTNode*>();
+    _lastReducedNode = {};
+    _peekNode = {};
 }
 
 std::optional<ASTNode*> Handle::at(int index) {
@@ -15,6 +17,15 @@ std::optional<ASTNode*> Handle::at(int index) {
     }
     return _handle[index];
 }
+
+std::optional<ASTNode*> Handle::first() {
+    if (this->isEmpty()) {
+        return {};
+    }
+
+    return _handle[0];
+}
+
 
 std::optional<ASTNode*> Handle::last() {
     if (this->isEmpty()) {
@@ -71,6 +82,30 @@ void Handle::append(ASTNode* node) {
 
 void Handle::prepend(ASTNode* node) {
     _handle.push_front(node);
+}
+
+std::optional<ASTNode*> Handle::getLastReducedNode() {
+    return _lastReducedNode;
+}
+
+void Handle::setLastReducedNode(std::optional<ASTNode*> lastReducedNode) {
+    _lastReducedNode = lastReducedNode;
+}
+
+void Handle::clearLastReducedNode() {
+    _lastReducedNode = {};
+}
+
+std::optional<ASTNode*> Handle::getPeekNode() {
+    return _peekNode;
+}
+
+void Handle::setPeekNode(std::optional<ASTNode*> peekNode) {
+    _peekNode = peekNode;
+}
+
+void Handle::clearPeekNode() {
+    _peekNode = {};
 }
 
 void Handle::print() {

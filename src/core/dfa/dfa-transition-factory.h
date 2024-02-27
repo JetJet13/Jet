@@ -8,6 +8,6 @@
 #include "dfa-node.h"
 
 namespace DFATransitionFactory {
-    DFATransition create(DFANode* dfaNode);
+    DFATransition create(DFANode* dfaNode, ASTNodeType prefix = AST_NULL_NODE);
 }
 #endif //JETLANG_DFA_TRANSITION_FACTORY_H

@@ -5,6 +5,7 @@
 #include <string>
 #include "lexeme.h"
 #include "../../shared/utils/to-string/to-string.h"
+#include "../../shared/utils/logger/logger.h"
 
 Lexeme::Lexeme(Token* token, uint8_t line, uint8_t startPosition) {
     _token = token;
@@ -34,4 +35,13 @@ std::string Lexeme::toString() {
     lexemeString.append("position: ");
     lexemeString.append(ToStringUtil::toString(_start_position));
     return lexemeString;
+}
+
+bool Lexeme::isEqual(Lexeme* other) {
+//    return this->getLine() == other->getLine() &&
+//    this->getPosition() == other->getPosition() &&
+//    this->getToken()->getSymbolType() == other->getToken()->getSymbolType();
+    auto result = this->getToken()->getSymbolType() == other->getToken()->getSymbolType();
+    Logger::log("Lexeme::isEqual (", this->getToken()->getSymbol()->toString(), "|", other->getToken()->getSymbol()->toString(),")");
+    return result;
 }

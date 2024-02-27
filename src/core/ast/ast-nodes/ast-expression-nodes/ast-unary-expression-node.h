@@ -10,10 +10,12 @@
 
 class ASTUnaryExpressionNode : public ASTExpressionNode {
 private:
-    ASTExpressionNode* _argument;
+    ASTExpressionNode* _expression;
     ASTUnaryOperatorNode* _unaryOperator;
 public:
     ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode);
+    ASTExpressionNode* getExpressionNode();
+    ASTUnaryOperatorNode* getUnaryOperatorNode();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

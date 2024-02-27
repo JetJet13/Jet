@@ -273,8 +273,8 @@ TEST_CASE( "should create 217 lexemes with the correct token symbol type" ) {
     while (lexeme) {
         auto expectedLexeme = expectedLexemes[tokenCounter];
 
-        REQUIRE(lexeme->getToken()->getSymbolType() == expectedLexeme->getToken()->getSymbolType());
-        REQUIRE(lexeme->getLine() == expectedLexeme->getLine());
+        REQUIRE(lexeme.value()->getToken()->getSymbolType() == expectedLexeme->getToken()->getSymbolType());
+        REQUIRE(lexeme.value()->getLine() == expectedLexeme->getLine());
 //        REQUIRE(lexeme->getPosition() == expectedLexeme->getPosition());
         tokenCounter++;
         lexeme = lexicalAnalyzer.next();

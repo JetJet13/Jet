@@ -9,13 +9,10 @@
 #include "../ast-binary-operator-node.h"
 
 class ASTSlashOperatorNode : public ASTBinaryOperatorNode {
-private:
-    Lexeme* _slashOperator;
+    using ASTBinaryOperatorNode::ASTBinaryOperatorNode;
 public:
-    ASTSlashOperatorNode(Lexeme* slashOperator);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_SLASH_OPERATOR_NODE_H

@@ -15,12 +15,15 @@
 #include "../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-plus-operator-node.h"
 
 Lexeme* createLexeme(Symbol* symbol) {
     return new Lexeme(new Token(symbol), 1, 0);
 }
 
 std::vector<ASTNode*> expectedNodes = {
+        //        LET VARIABLE DECLARATION
         new ASTVariableDeclarationNode(
                 new ASTVariableInitNode(
                         new ASTVariableTypeNode(createLexeme(SymbolFactory::createVarSymbol())),
@@ -65,6 +68,106 @@ std::vector<ASTNode*> expectedNodes = {
                 new ASTLiteralExpressionNode(
                         new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
                 )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createVarSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())                                )
+                ),
+                new ASTLiteralExpressionNode(
+                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                )
+        ),
+//        CONST VARIABLE DECLARATION
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())                                )
+                ),
+                new ASTLiteralExpressionNode(
+                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())                                )
+                ),
+                new ASTLiteralExpressionNode(
+                        new ASTFloatLiteralNode(createLexeme(SymbolFactory::createFloatSymbol()))
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())                                )
+                ),
+                new ASTLiteralExpressionNode(
+                        new ASTStringLiteralNode(createLexeme(SymbolFactory::createStringSymbol()))
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())                                )
+                ),
+                new ASTLiteralExpressionNode(
+                        new ASTCharLiteralNode(createLexeme(SymbolFactory::createCharSymbol()))
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())                                )
+                ),
+                new ASTLiteralExpressionNode(
+                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())                                )
+                ),
+                new ASTLiteralExpressionNode(
+                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        ),
+                        new ASTPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTBinaryExpressionNode(
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                ),
+                                new ASTPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
         )
 
 };
@@ -76,12 +179,14 @@ auto reservedKeywords = new ReservedKeywords();
 auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
-
-REQUIRE(fileNodeResult->getBody().size() == 10);
-    for (int i = 0; i < 10; i++) {
+Logger::log("===== TEST LOGS =====");
+REQUIRE(fileNodeResult->getBody().size() == 16);
+    for (int i = 0; i < 14; i++) {
+        Logger::log("=====",fileNodeResult->getBody()[i]->toString(),"=====");
         REQUIRE(fileNodeResult->getBody()[i]->isEqual(expectedNodes[i]));
+        Logger::log("====================================");
 
-        // TODO IMPLEMENT isEqual overrides!
+        // TODO IMPLEMENT isEqual overrides! (DONE)
     }
 
 }

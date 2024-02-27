@@ -13,6 +13,7 @@ private:
     ASTIdentifierNode* _identifierNode;
 public:
     ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode);
+    ASTIdentifierNode* getIdentifierNode();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

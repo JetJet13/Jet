@@ -4,10 +4,6 @@
 
 #include "ast-int-literal-node.h"
 
-ASTIntLiteralNode::ASTIntLiteralNode(Lexeme* intLiteral) {
-    _intLiteral = intLiteral;
-}
-
 ASTNodeType ASTIntLiteralNode::getNodeType() {
     return AST_INT_LITERAL_NODE;
 }

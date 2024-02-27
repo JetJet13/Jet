@@ -30,8 +30,8 @@ public:
     LexicalAnalyzer(TokenTable* tokenTable, ReservedKeywords* reservedKeywords);
     void start(std::string &filePath);
     void stop();
-    std::optional<Lexeme> next();
-    std::optional<Lexeme> peek();
+    std::optional<Lexeme*> next();
+    std::optional<Lexeme*> peek();
     bool hasMore();
 };
 

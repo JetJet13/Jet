@@ -9,13 +9,10 @@
 #include "../../../../../lexeme/lexeme.h"
 
 class ASTGreaterThanOrEqualOperatorNode : public ASTBinaryOperatorNode {
-private:
-    Lexeme* _greaterThanOrEqual;
+    using ASTBinaryOperatorNode::ASTBinaryOperatorNode;
 public:
-    ASTGreaterThanOrEqualOperatorNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_GREATER_THAN_OR_EQUAL_OPERATOR_H

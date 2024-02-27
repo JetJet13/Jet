@@ -8,6 +8,7 @@
 #include "../shared/utils/logger/logger.h"
 #include "../shared/types/exit-status.enum.h"
 #include "../core/pre-processor/lexical-analyzer/lexical-analyzer.h"
+#include "../core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 
 
 int main (int argc, const char* argv[]) {
@@ -19,36 +20,9 @@ int main (int argc, const char* argv[]) {
         Logger::log("executing file:", filePath);
         auto tokenTable = new TokenTable();
         auto reservedKeywords = new ReservedKeywords();
-        auto lexicalAnalyzer = LexicalAnalyzer(tokenTable, reservedKeywords);
-        lexicalAnalyzer.start(filePath);
-        auto lexeme = lexicalAnalyzer.next();
-        while (lexeme) {
-
-            Logger::log(lexeme->toString());
-            if (lexeme->getToken()->getSymbol()->isInt()) {
-                Logger::log("lexeme value", tokenTable->getInt(lexeme->getToken()->getValueId().value()).value());
-            }
-
-            if (lexeme.value().getToken()->getSymbol()->isFloat()) {
-                Logger::log("lexeme value", tokenTable->getFloat(lexeme->getToken()->getValueId().value()).value());
-            }
-
-            if (lexeme.value().getToken()->getSymbol()->isChar()) {
-                Logger::log("lexeme value", tokenTable->getChar(lexeme->getToken()->getValueId().value()).value());
-            }
-
-            if (lexeme.value().getToken()->getSymbol()->isString()) {
-                Logger::log("lexeme value", tokenTable->getString(lexeme->getToken()->getValueId().value()).value());
-            }
-
-            Logger::log("---------------peeking next lexeme---------------");
-            auto peekNextLexeme = lexicalAnalyzer.peek();
-            if (peekNextLexeme) {
-                Logger::log(peekNextLexeme->toString());
-            }
-            Logger::log("---------------");
-            lexeme = lexicalAnalyzer.next();
-        }
+        auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
+        auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
+        syntaxAnalyzer.analyze(filePath);
 
     } else {
         Logger::log("too many arguments..exiting");

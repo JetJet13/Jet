@@ -9,13 +9,10 @@
 #include "ast-literal-node.h"
 
 class ASTFloatLiteralNode : public ASTLiteralNode {
-private:
-    Lexeme* _floatLiteral;
+    using ASTLiteralNode::ASTLiteralNode;
 public:
-    ASTFloatLiteralNode(Lexeme* floatLiteral);
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_FLOAT_LITERAL_NODE_H

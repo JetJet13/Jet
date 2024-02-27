@@ -4,10 +4,6 @@
 
 #include "ast-unary-plus-operator.h"
 
-ASTUnaryPlusOperatorNode::ASTUnaryPlusOperatorNode(Lexeme* plusOperator) {
-    _plusOperator = plusOperator;
-}
-
 ASTNodeType ASTUnaryPlusOperatorNode::getNodeType() {
     return AST_UNARY_PLUS_OPERATOR_NODE;
 }

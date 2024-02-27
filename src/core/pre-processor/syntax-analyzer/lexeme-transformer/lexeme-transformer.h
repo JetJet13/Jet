@@ -12,7 +12,8 @@
 
 class LexemeTransformer {
 public:
-    ASTNode* transform(Lexeme lexeme);
+    std::optional<ASTNode*> transform(std::optional<Lexeme*> lexeme);
+    ASTNode* transform(Lexeme* lexeme);
 };
 
 #endif //JETLANG_LEXEME_TRANSFORMER_H

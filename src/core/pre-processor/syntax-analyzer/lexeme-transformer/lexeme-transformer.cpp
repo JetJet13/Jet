@@ -26,53 +26,60 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-or-equal-operator-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-operator-node.h"
 
-ASTNode* LexemeTransformer::transform(Lexeme lexeme) {
-    auto symbol = lexeme.getToken()->getSymbol();
+std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
+    if (lexeme) {
+        return LexemeTransformer::transform(lexeme.value());
+    }
+    return {};
+}
+
+ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
+    auto symbol = lexeme->getToken()->getSymbol();
     if (symbol->isVarTypeQualifier()) {
-        return new ASTVariableTypeNode(&lexeme);
+        return new ASTVariableTypeNode(lexeme);
     } else if (symbol->isIdentifier()) {
-        return new ASTIdentifierNode(&lexeme);
+        return new ASTIdentifierNode(lexeme);
     } else if (symbol->isEqual()) {
-        return new ASTAssignmentOperatorNode(&lexeme);
+        return new ASTAssignmentOperatorNode(lexeme);
     } else if (symbol->isInt()) {
-        return new ASTIntLiteralNode(&lexeme);
+        return new ASTIntLiteralNode(lexeme);
     } else if (symbol->isFloat()) {
-        return new ASTFloatLiteralNode(&lexeme);
+        return new ASTFloatLiteralNode(lexeme);
     } else if (symbol->isChar()) {
-        return new ASTCharLiteralNode(&lexeme);
+        return new ASTCharLiteralNode(lexeme);
     } else if (symbol->isString()) {
-        return new ASTStringLiteralNode(&lexeme);
+        return new ASTStringLiteralNode(lexeme);
     } else if (symbol->isBoolean()) {
-        return new ASTBooleanLiteralNode(&lexeme);
+        return new ASTBooleanLiteralNode(lexeme);
     } else if (symbol->isPlus()) {
-        return new ASTPlusOperatorNode(&lexeme);
+        return new ASTPlusOperatorNode(lexeme);
     } else if (symbol->isMinus()) {
-        return new ASTMinusOperatorNode(&lexeme);
+        return new ASTMinusOperatorNode(lexeme);
     } else if (symbol->isEqualityOperator()) {
-        return new ASTEqualityOperatorNode(&lexeme);
+        return new ASTEqualityOperatorNode(lexeme);
     } else if (symbol->isInequalityOperator()) {
-        return new ASTInequalityOperatorNode(&lexeme);
+        return new ASTInequalityOperatorNode(lexeme);
     } else if (symbol->isStar()) {
-        return new ASTStarOperatorNode(&lexeme);
+        return new ASTStarOperatorNode(lexeme);
     } else if (symbol->isSlash()) {
-        return new ASTSlashOperatorNode(&lexeme);
+        return new ASTSlashOperatorNode(lexeme);
     } else if (symbol->isModulo()) {
-        return new ASTModuloOperatorNode(&lexeme);
+        return new ASTModuloOperatorNode(lexeme);
     } else if (symbol->isGreaterThan()) {
-        return new ASTGreaterThanOperatorNode(&lexeme);
+        return new ASTGreaterThanOperatorNode(lexeme);
     } else if (symbol->isGreaterThanOrEqual()) {
-        return new ASTGreaterThanOrEqualOperatorNode(&lexeme);
+        return new ASTGreaterThanOrEqualOperatorNode(lexeme);
     } else if (symbol->isLessThan()) {
-        return new ASTLessThanOperatorNode(&lexeme);
+        return new ASTLessThanOperatorNode(lexeme);
     } else if (symbol->isLessThanOrEqual()) {
-        return new ASTLessThanOrEqualOperatorNode(&lexeme);
+        return new ASTLessThanOrEqualOperatorNode(lexeme);
     } else if (symbol->isLogicalOperator()) {
-        return new ASTLogicalOperatorNode(&lexeme);
+        return new ASTLogicalOperatorNode(lexeme);
     }  else if (symbol->isUnaryOperator()) {
-        return new ASTBangOperatorNode(&lexeme);
+        return new ASTBangOperatorNode(lexeme);
     } else if (symbol->isSemicolon()) {
-        return new ASTTerminatorNode(&lexeme);
+        return new ASTTerminatorNode(lexeme);
     } else {
-        return new ASTLiteralNode();
+        return new ASTLiteralNode(lexeme);
     }
 }

@@ -16,6 +16,8 @@ class ASTVariableDeclarationNode : public ASTNode {
     ASTExpressionNode* _initializer;
 public:
     explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer);
+    ASTVariableInitNode* getVarInitNode();
+    ASTExpressionNode* getInitializerNode();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

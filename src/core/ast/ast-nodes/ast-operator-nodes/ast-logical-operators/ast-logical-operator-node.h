@@ -12,6 +12,7 @@ private:
     Lexeme* _logicalOperator;
 public:
     ASTLogicalOperatorNode(Lexeme* logicalOperatorLiteral);
+    Lexeme* getOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

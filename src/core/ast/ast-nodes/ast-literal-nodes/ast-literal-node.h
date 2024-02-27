@@ -9,7 +9,11 @@
 #include "../ast-node.h"
 
 class ASTLiteralNode : public ASTNode {
+protected:
+    Lexeme* _lexemeLiteral;
 public:
+    ASTLiteralNode(Lexeme* lexemeLiteral);
+    Lexeme* getLiteral();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

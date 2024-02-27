@@ -6,15 +6,8 @@
 #include "../../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 
 
-ReduceNode* ReduceNodeFactory::create(Handle handle, int numNodesToReduce, ASTNodeType targetAstNodeType) {
+ReduceNode* ReduceNodeFactory::create(Handle handle, int numNodesToReduce, ASTNodeType targetAstNodeType, bool includePrefix) {
     auto lastNode = handle.at(numNodesToReduce - 1).value();
-//    if (lastNode->getNodeType() == AST_TERMINATOR_NODE) {
-//        auto firstNode = handle.at(0).value();
-//        if (numNodesToReduce == 2 && ASTNodeUtils::isDeclarationNode(firstNode)) {
-//            return new ReduceNode(numNodesToReduce, targetAstNodeType);
-//        }
-//        return new ReduceNode(numNodesToReduce - 1, targetAstNodeType);
-//    }
 
-    return new ReduceNode(numNodesToReduce, targetAstNodeType);
+    return new ReduceNode(numNodesToReduce, targetAstNodeType, includePrefix);
 }

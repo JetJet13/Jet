@@ -4,10 +4,6 @@
 
 #include "ast-char-literal-node.h"
 
-ASTCharLiteralNode::ASTCharLiteralNode(Lexeme* charLiteral) {
-    _charLiteral = charLiteral;
-}
-
 ASTNodeType ASTCharLiteralNode::getNodeType() {
     return AST_CHAR_LITERAL_NODE;
 }

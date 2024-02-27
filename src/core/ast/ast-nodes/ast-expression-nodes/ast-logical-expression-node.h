@@ -15,6 +15,9 @@ private:
     ASTLogicalOperatorNode* _logicalOperator;
 public:
     ASTLogicalExpressionNode(ASTExpressionNode* leftNode, ASTLogicalOperatorNode* logicalOperator, ASTExpressionNode* rightNode);
+    ASTExpressionNode* getLeftNode();
+    ASTExpressionNode* getRightNode();
+    ASTLogicalOperatorNode* getLogicalOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

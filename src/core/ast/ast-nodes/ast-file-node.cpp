@@ -27,3 +27,16 @@ ASTNodeType ASTFileNode::getNodeType() {
 std::string ASTFileNode::toString() {
     return "FILE";
 }
+
+bool ASTFileNode::isEqual(ASTNode *other) {
+    if (!other->is(this->getNodeType())) {
+        return false;
+    }
+    auto otherNode = (ASTFileNode*)other;
+    for (int i = 0; i < _body.size(); ++i) {
+        if (!_body[i]->isEqual(otherNode->getBody()[i])) {
+            return false;
+        }
+    }
+    return true;
+}

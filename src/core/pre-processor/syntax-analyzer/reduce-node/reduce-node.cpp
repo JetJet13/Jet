@@ -4,9 +4,10 @@
 
 #include "reduce-node.h"
 
-ReduceNode::ReduceNode(int numReducedNodes, ASTNodeType targetAstNodeType) {
+ReduceNode::ReduceNode(int numReducedNodes, ASTNodeType targetAstNodeType, bool includePrefix) {
     _targetAstNodeType = targetAstNodeType;
-    _numReducedNodes = numReducedNodes;
+    _numReducedNodes = includePrefix ? numReducedNodes + 1 : numReducedNodes;
+    _includePrefix = includePrefix;
 }
 
 ASTNodeType ReduceNode::getTargetAstNodeType() {
@@ -15,4 +16,8 @@ ASTNodeType ReduceNode::getTargetAstNodeType() {
 
 int ReduceNode::getNumReducedNodes() {
     return _numReducedNodes;
+}
+
+bool ReduceNode::includePrefix() {
+    return _includePrefix;
 }

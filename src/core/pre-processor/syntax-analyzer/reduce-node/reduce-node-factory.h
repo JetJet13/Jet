@@ -10,7 +10,7 @@
 
 class ReduceNodeFactory {
 public:
-    static ReduceNode* create(Handle handle, int numNodesToReduce, ASTNodeType targetAstNodeType);
+    static ReduceNode* create(Handle handle, int numNodesToReduce, ASTNodeType targetAstNodeType, bool includePrefix);
 };
 
 #endif //JETLANG_REDUCE_NODE_FACTORY_H

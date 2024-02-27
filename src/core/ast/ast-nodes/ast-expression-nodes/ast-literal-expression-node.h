@@ -13,6 +13,7 @@ private:
     ASTLiteralNode* _literalNode;
 public:
     ASTLiteralExpressionNode(ASTLiteralNode* literalNode);
+    ASTLiteralNode* getLiteralNode();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isEqual(ASTNode* other) override;

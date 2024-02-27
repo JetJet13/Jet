@@ -3,14 +3,19 @@
 //
 
 #include "ast-variable-init-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode) {
     _assignmentTypeQualifier = assignmentTypeQualifier;
     _identifier = astIdentifierNode;
 }
 
-void ASTVariableInitNode::setIdentifier(ASTIdentifierNode* astIdentifierNode) {
-    _identifier = astIdentifierNode;
+ASTVariableTypeNode* ASTVariableInitNode::getVarTypeNode() {
+    return _assignmentTypeQualifier;
+}
+
+ASTIdentifierNode* ASTVariableInitNode::getIdentifierNode() {
+    return _identifier;
 }
 
 ASTNodeType ASTVariableInitNode::getNodeType() {
@@ -19,4 +24,14 @@ ASTNodeType ASTVariableInitNode::getNodeType() {
 
 std::string ASTVariableInitNode::toString() {
     return "VARIABLE_INIT";
+}
+
+bool ASTVariableInitNode::isEqual(ASTNode* other) {
+    if (!other->is(this->getNodeType())) {
+        return false;
+    }
+    Logger::log("ASTVariableInitNode", "other node is same type");
+    auto otherNode = (ASTVariableInitNode*)other;
+    return this->getVarTypeNode()->isEqual(otherNode->getVarTypeNode()) &&
+    this->getIdentifierNode()->isEqual(otherNode->getIdentifierNode());
 }
