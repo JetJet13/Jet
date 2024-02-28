@@ -13,7 +13,7 @@
 #include "../../ast/ast-nodes/ast-file-node.h"
 #include "../lexical-analyzer/lexical-analyzer.h"
 #include "reducer/reducer.h"
-#include "reduce-node/reduce-node.h"
+#include "recognizer-result/recognizer-result.h"
 #include "handle/handle.h"
 #include "lexeme-transformer/lexeme-transformer.h"
 #include "syntax-dfa/syntax-dfa.h"
@@ -38,14 +38,15 @@ private:
     Handle _handle;
     LexemeTransformer _lexemeTransformer;
     std::stack<ASTNode*> _stack;
-    std::optional<ReduceNode*> recognizeHandle();
+    RecognizerResult* recognizeHandle();
     void shift();
-    void reduceHandle(ASTFileNode* fileNode, ReduceNode* reduceNode);
+    void reduceHandle(ASTFileNode* fileNode, RecognizerResult* recognizerResult);
     void popFromStack();
     void accept();
     void error();
     bool isTerminatorMode();
     void prepHandleForRecognizer();
+    void disableTerminatorNodeIfNecessary();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     ASTFileNode* analyze(std::string &filePath);

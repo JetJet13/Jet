@@ -7,7 +7,7 @@
 namespace DFANodeFactory {
 
     DFANode* createVarDeclarationDFANode() {
-        return new DFANode(AST_VARIABLE_DECLARATION_NODE, true, false, DFA_OCCURRENCE_ONCE);
+        return new DFANode(AST_VARIABLE_DECLARATION_NODE, true, false, DFA_OCCURRENCE_ONCE, AST_VARIABLE_DECLARATION_NODE);
     }
     DFANode* createVarInitDFANode() {
         return new DFANode(AST_VARIABLE_INIT_NODE, true, false, DFA_OCCURRENCE_ONCE);

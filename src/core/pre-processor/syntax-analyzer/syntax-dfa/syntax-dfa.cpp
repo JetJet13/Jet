@@ -5,54 +5,37 @@
 #include "syntax-dfa.h"
 #include "../../../dfa/dfa-node-factory.h"
 #include "../../../dfa/dfa-transition-factory.h"
-#include "../reduce-node/reduce-node-factory.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 SyntaxDfa::SyntaxDfa() {
     _dfa = new DFA();
     this->init();
 }
 
-std::optional<ReduceNode*> SyntaxDfa::recognize(Handle handle) {
+RecognizerResult* SyntaxDfa::recognize(Handle handle) {
     if (handle.isEmpty()) {
-        return {};
+        return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
     }
     auto prefix = handle.getLastReducedNode();
+    if (prefix && _dfa->isValidPrefixForNode(handle.first().value()->getNodeType(), prefix.value()->getNodeType())) {
+        return new RecognizerResult(RECOGNIZER_ACTION_POP);
+    }
     for (int i = 0; i < handle.size(); i++) {
         auto nodeType = handle.at(i).value()->getNodeType();
         if (i == 0) {
             _dfa->init(nodeType);
-
-        } else if (this->includePrefix(handle)){
-            _dfa->determine(nodeType, prefix.value()->getNodeType());
         } else {
             _dfa->determine(nodeType);
         }
 
         auto currentDfaState = _dfa->getCurrentState();
         if (currentDfaState && currentDfaState.value()->isEnd() && currentDfaState.value()->getTargetAstNodeType()) {
-            return ReduceNodeFactory::create(handle, i + 1, currentDfaState.value()->getTargetAstNodeType().value(), this->includePrefix(handle));
+            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
         } else if (!currentDfaState) {
-            return {};
+            return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
         }
     }
 
-    auto peekNode = handle.getPeekNode();
-    if (peekNode && peekNode.value()->is(AST_TERMINATOR_NODE)) {
-        Logger::log("peekNode", peekNode.value()->toString());
-        _dfa->determine(peekNode.value()->getNodeType());
-        auto currentDfaState = _dfa->getCurrentState();
-        if (currentDfaState && currentDfaState.value()->isEnd() && currentDfaState.value()->getTargetAstNodeType()) {
-            return ReduceNodeFactory::create(handle, handle.size(), currentDfaState.value()->getTargetAstNodeType().value(), this->includePrefix(handle));
-        }
-    }
-
-    return {};
-}
-
-bool SyntaxDfa::includePrefix(Handle handle) {
-    auto prefix = handle.getLastReducedNode();
-    return prefix && _dfa->getStartState().value()->isPrefix(prefix.value()->getNodeType());
+    return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
 }
 
 DFA* SyntaxDfa::getDFA() {
@@ -102,9 +85,6 @@ void SyntaxDfa::init() {
     auto unaryExpressionDFANode = DFANodeFactory::createUnaryExpressionDFANode();
 
     // setup transitions
-    varDeclarationDFANode
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE)));
-
     varTypeDFANode
     ->addTransition(DFATransitionFactory::create(varIdentifierDFANode));
 
@@ -112,36 +92,17 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndAssignmentOperatorDFANode(AST_VARIABLE_INIT_NODE)));
 
     varInitDFANode
-    ->addTransition(
-            DFATransitionFactory::create(
-                DFANodeFactory::createExpressionDFANode()
-                ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE))))
-    )
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::createIdentifierExpressionDFANode()
-                            ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE))))
-    )
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::createLiteralExpressionDFANode()
-                            ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE))))
-    )
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::createBinaryExpressionDFANode()
-                            ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE))))
-    )
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::createLogicalExpressionDFANode()
-                            ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE))))
-    )
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::createUnaryExpressionDFANode()
-                            ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_VARIABLE_DECLARATION_NODE))))
-    );
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBinaryExpressionDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLogicalExpressionDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndUnaryExpressionDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIntLiteralDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndFloatLiteralDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndStringLiteralDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndCharLiteralDFANode(AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBooleanLiteralDFANode(AST_VARIABLE_DECLARATION_NODE)));
 
     startIdentifierDFANode
     ->addTransition(DFATransitionFactory::create(logicalOperatorDFANode))
@@ -155,8 +116,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(lessThanOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(lessThanOrEqualOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(equalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_IDENTIFIER_EXPRESSION_NODE)));
+    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode));
 
     intLiteralDFANode
     ->addTransition(DFATransitionFactory::create(logicalOperatorDFANode))
@@ -170,8 +130,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(lessThanOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(lessThanOrEqualOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(equalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_LITERAL_EXPRESSION_NODE)));
+    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode));
 
     floatLiteralDFANode
     ->addTransition(DFATransitionFactory::create(logicalOperatorDFANode))
@@ -185,27 +144,23 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(lessThanOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(lessThanOrEqualOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(equalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_LITERAL_EXPRESSION_NODE)));
+    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode));
 
     charLiteralDFANode
     ->addTransition(DFATransitionFactory::create(logicalOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(equalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_LITERAL_EXPRESSION_NODE)));
+    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode));
 
     stringLiteralDFANode
     ->addTransition(DFATransitionFactory::create(plusOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(logicalOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(equalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_LITERAL_EXPRESSION_NODE)));
+    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode));
 
     booleanLiteralDFANode
     ->addTransition(DFATransitionFactory::create(logicalOperatorDFANode))
     ->addTransition(DFATransitionFactory::create(equalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createTerminatorDFANode(AST_LITERAL_EXPRESSION_NODE)));
+    ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode));
 
     startBinaryExpressionDFANode
     ->addTransition(DFATransitionFactory::create(plusOperatorDFANode));
@@ -370,13 +325,6 @@ void SyntaxDfa::init() {
 
     startPlusOperatorDFANode
     ->addPrefix(AST_BINARY_EXPRESSION_NODE)
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_BINARY_EXPRESSION_NODE), AST_BINARY_EXPRESSION_NODE))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_BINARY_EXPRESSION_NODE), AST_BINARY_EXPRESSION_NODE))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_BINARY_EXPRESSION_NODE), AST_BINARY_EXPRESSION_NODE))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierDFANode(AST_BINARY_EXPRESSION_NODE), AST_BINARY_EXPRESSION_NODE))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIntLiteralDFANode(AST_BINARY_EXPRESSION_NODE), AST_BINARY_EXPRESSION_NODE))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndFloatLiteralDFANode(AST_BINARY_EXPRESSION_NODE), AST_BINARY_EXPRESSION_NODE))
-
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
@@ -385,6 +333,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndFloatLiteralDFANode(AST_UNARY_EXPRESSION_NODE)));
 
     startMinusOperatorDFANode
+    ->addPrefix(AST_BINARY_EXPRESSION_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))

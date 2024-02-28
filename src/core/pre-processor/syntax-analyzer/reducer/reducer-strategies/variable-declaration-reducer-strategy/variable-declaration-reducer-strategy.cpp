@@ -8,6 +8,6 @@
 ASTNode* VariableDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     return new ASTVariableDeclarationNode(
             (ASTVariableInitNode*)nodes[0],
-            (ASTExpressionNode*)nodes[1]
+            this->createExpressionNode(nodes[1])
     );
 }

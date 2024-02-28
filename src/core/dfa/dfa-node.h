@@ -29,9 +29,8 @@ public:
     bool canTransition(ASTNodeType astNodeType);
     bool isStart();
     bool isEnd();
-    bool isPrefix(ASTNodeType astNodeType);
+    bool hasPrefix(ASTNodeType astNodeType);
     ASTNodeType getNodeType();
-    bool isTerminatorNode();
     std::optional<ASTNodeType> getTargetAstNodeType();
 };
 

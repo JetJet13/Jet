@@ -12,8 +12,6 @@
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
 
 class BinaryExpressionReducerStrategy : public ReducerStrategy {
-private:
-    ASTExpressionNode* createExpressionNode(ASTNode* node);
 public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;
 };

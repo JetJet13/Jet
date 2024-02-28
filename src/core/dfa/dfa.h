@@ -23,7 +23,6 @@ public:
     void determine(ASTNodeType astNodeType, ASTNodeType prefix = AST_NULL_NODE);
     std::optional<DFANode*> getStartState();
     std::optional<DFANode*> getCurrentState();
-    bool isValidInitNode(ASTNodeType astNodeType);
-    bool isValidInitNodeAndTransition(ASTNodeType initNode, ASTNodeType transitionNode);
+    bool isValidPrefixForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType);
 };
 #endif //JETLANG_DFA_H

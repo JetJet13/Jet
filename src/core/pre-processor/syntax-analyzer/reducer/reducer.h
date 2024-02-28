@@ -9,7 +9,7 @@
 #include "../../../lexeme/lexeme.h"
 #include "../../../ast/ast-nodes/ast-node.h"
 #include "../handle/handle.h"
-#include "../reduce-node/reduce-node.h"
+#include "../recognizer-result/recognizer-result.h"
 #include "reducer-strategies/reducer-strategy.h"
 
 // This class will be responsible
@@ -22,6 +22,6 @@ private:
     ASTNode* generateASTNode(ASTNodeType targetAstNodeType, std::vector<ASTNode*> nodes);
 public:
     Reducer();
-    ASTNode* reduce(Handle handle, ReduceNode* reduceNode);
+    ASTNode* reduce(Handle handle, RecognizerResult* recognizerResult);
 };
 #endif //JETLANG_REDUCER_H

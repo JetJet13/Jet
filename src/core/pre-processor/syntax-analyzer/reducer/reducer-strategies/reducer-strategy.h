@@ -8,11 +8,13 @@
 #include <optional>
 #include <vector>
 #include "../../../../ast/ast-nodes/ast-node.h"
+#include "../../../../ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
 
 class ReducerStrategy {
 protected:
     bool startsWith(std::vector<ASTNode*> nodes, ASTNodeType astNodeType);
     bool endsWith(std::vector<ASTNode*> nodes, ASTNodeType astNodeType);
+    ASTExpressionNode* createExpressionNode(ASTNode* node);
 public:
     virtual ASTNode* execute(std::vector<ASTNode*> nodes) = 0;
 };

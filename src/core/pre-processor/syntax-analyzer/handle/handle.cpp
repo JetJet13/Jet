@@ -47,6 +47,10 @@ bool Handle::isEmpty() {
     return _handle.empty();
 }
 
+bool Handle::isTerminatorOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_TERMINATOR_NODE);
+}
+
 void Handle::clear() {
     _handle.clear();
 }

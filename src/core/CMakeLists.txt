@@ -67,8 +67,8 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-variable-type-node.h
         ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.cpp
         ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.h
-        pre-processor/syntax-analyzer/reduce-node/reduce-node.cpp
-        pre-processor/syntax-analyzer/reduce-node/reduce-node.h
+        pre-processor/syntax-analyzer/recognizer-result/recognizer-result.cpp
+        pre-processor/syntax-analyzer/recognizer-result/recognizer-result.h
         ast/ast-nodes/ast-terminator-node.cpp
         ast/ast-nodes/ast-terminator-node.h
         grammar/tables/follow-ast-node-table.cpp
@@ -141,8 +141,7 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.h
-        pre-processor/syntax-analyzer/reduce-node/reduce-node-factory.cpp
-        pre-processor/syntax-analyzer/reduce-node/reduce-node-factory.h
+        pre-processor/syntax-analyzer/recognizer-result/types/recognizer-action.h
 
 )
 

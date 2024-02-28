@@ -31,18 +31,18 @@ void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrat
 }
 
 
-ASTNode* Reducer::reduce(Handle handle, ReduceNode* reduceNode) {
+ASTNode* Reducer::reduce(Handle handle, RecognizerResult* recognizerResult) {
     if (handle.isEmpty()) {
         throw std::invalid_argument("handle cannot be empty");
     }
 
-    if (reduceNode->getNumReducedNodes() == 1 && handle.isNodeTypeAt(0, reduceNode->getTargetAstNodeType())) {
+    if (recognizerResult->getNumReducedNodes() == 1 && handle.isNodeTypeAt(0, recognizerResult->getTargetAstNodeType())) {
         return handle.at(0).value();
     }
 
-    auto nodesToReduce = handle.getFirstNodes(reduceNode->getNumReducedNodes());
+    auto nodesToReduce = handle.getFirstNodes(recognizerResult->getNumReducedNodes());
 
-    return this->generateASTNode(reduceNode->getTargetAstNodeType(), nodesToReduce);
+    return this->generateASTNode(recognizerResult->getTargetAstNodeType(), nodesToReduce);
 }
 
 ASTNode* Reducer::generateASTNode(ASTNodeType targetAstNodeType, std::vector<ASTNode*> nodes) {

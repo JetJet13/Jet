@@ -1,0 +1,14 @@
+//
+// Created by Johny Georges on 2024-02-28.
+//
+
+#ifndef JETLANG_RECOGNIZER_ACTION_H
+#define JETLANG_RECOGNIZER_ACTION_H
+
+typedef enum {
+    RECOGNIZER_ACTION_REDUCE,
+    RECOGNIZER_ACTION_SHIFT,
+    RECOGNIZER_ACTION_POP,
+} RecognizerAction;
+
+#endif //JETLANG_RECOGNIZER_ACTION_H

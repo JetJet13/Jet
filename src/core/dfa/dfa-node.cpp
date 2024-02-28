@@ -58,16 +58,12 @@ bool DFANode::isEnd() {
     return this->_end;
 }
 
-bool DFANode::isPrefix(ASTNodeType astNodeType) {
+bool DFANode::hasPrefix(ASTNodeType astNodeType) {
     return std::find(_prefixes.begin(), _prefixes.end(), astNodeType) != _prefixes.end();
 }
 
 ASTNodeType DFANode::getNodeType() {
     return this->_astNodeType;
-}
-
-bool DFANode::isTerminatorNode() {
-    return this->_astNodeType == AST_TERMINATOR_NODE;
 }
 
 std::optional<ASTNodeType> DFANode::getTargetAstNodeType() {

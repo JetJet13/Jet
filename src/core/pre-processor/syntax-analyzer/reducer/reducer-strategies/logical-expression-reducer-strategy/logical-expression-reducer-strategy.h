@@ -9,11 +9,8 @@
 #include <optional>
 #include "../reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-node.h"
-#include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
 
 class LogicalExpressionReducerStrategy : public ReducerStrategy {
-private:
-    ASTExpressionNode* createExpressionNode(ASTNode* node);
 public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;
 };

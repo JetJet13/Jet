@@ -21,6 +21,7 @@ public:
     std::optional<ASTNode*> last();
     bool isNodeTypeAt(int index, ASTNodeType astNodeType);
     bool isEmpty();
+    bool isTerminatorOnlyNode();
     void clear();
     int size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);

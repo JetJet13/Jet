@@ -19,14 +19,16 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     auto fileNode = new ASTFileNode();
     _lexicalAnalyzer->start(filePath);
     while (true) {
-        auto reduceNode = this->recognizeHandle();
-        if (reduceNode) {
-            this->reduceHandle(fileNode, reduceNode.value());
-        } else if (this->isTerminatorMode()) {
+        auto recognizerResult = this->recognizeHandle();
+        if (recognizerResult->reduce()) {
+            this->reduceHandle(fileNode, recognizerResult);
+        } else if (recognizerResult->pop() || this->isTerminatorMode()) {
             this->popFromStack();
-        } else {
+        } else if (recognizerResult->shift()){
             this->shift();
         }
+
+        this->disableTerminatorNodeIfNecessary();
 
         if (!this->isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
             _handle.isEmpty() ? this->accept() : this->error();
@@ -36,12 +38,13 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     return fileNode;
 }
 
-std::optional<ReduceNode*> SyntaxAnalyzer::recognizeHandle() {
+RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
     _handle.print();
-    if (_handle.isEmpty() ||
-        (_handle.size() == 1 && this->isTerminatorMode())) {
-        return {};
+    if (_handle.size() == 1 && this->isTerminatorMode()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_POP);
+    } else if (_handle.isEmpty()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
     }
     this->prepHandleForRecognizer();
     return _syntaxDfa->recognize(_handle);
@@ -55,22 +58,18 @@ void SyntaxAnalyzer::shift() {
     }
 }
 
-void SyntaxAnalyzer::reduceHandle(ASTFileNode* fileNode, ReduceNode* reduceNode) {
+void SyntaxAnalyzer::reduceHandle(ASTFileNode* fileNode, RecognizerResult* recognizerResult) {
     Logger::log("reduce");
-    Logger::log("handle size", _handle.size(), "| num nodes to reduce:", reduceNode->getNumReducedNodes(), " | target ast node type: ", reduceNode->getTargetAstNodeType(), " | include prefix: ", reduceNode->includePrefix());
-    if (reduceNode->includePrefix()) {
-        this->popFromStack();
-    }
-    auto reducedNode = _reducer.reduce(_handle, reduceNode);
-    auto isReducedNodeDeclarationNode = ASTNodeUtils::isDeclarationNode(reducedNode);
-    if (isReducedNodeDeclarationNode) {
+    Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
+    auto reducedNode = _reducer.reduce(_handle, recognizerResult);
+    if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
         Logger::log("pushing node to file node:", reducedNode->toString());
         fileNode->append(reducedNode);
     } else {
         Logger::log("pushing node to stack:", reducedNode->toString());
         _stack.push(reducedNode);
     }
-    _handle.removeFirstNodes(reduceNode->getNumReducedNodes());
+    _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
 }
 
 void SyntaxAnalyzer::popFromStack() {
@@ -106,5 +105,12 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         _handle.setPeekNode(peekNode);
     } else {
         _handle.clearPeekNode();
+    }
+}
+
+void SyntaxAnalyzer::disableTerminatorNodeIfNecessary() {
+    if (this->isTerminatorMode() && _stack.empty() && _handle.isTerminatorOnlyNode()) {
+        Logger::log("disabling terminator mode");
+        _handle.clear();
     }
 }

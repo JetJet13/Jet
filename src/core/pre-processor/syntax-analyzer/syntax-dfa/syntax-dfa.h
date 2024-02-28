@@ -8,17 +8,15 @@
 #include <vector>
 #include "../handle/handle.h"
 #include "../../../dfa/dfa.h"
-#include "../reduce-node/reduce-node.h"
+#include "../recognizer-result/recognizer-result.h"
 
 class SyntaxDfa {
 private:
     DFA* _dfa;
     void init();
-    bool includePrefix(Handle handle);
-//    void initDfaTraversal(Handle handle);
 public:
     SyntaxDfa();
-    std::optional<ReduceNode*> recognize(Handle handle);
+    RecognizerResult* recognize(Handle handle);
     DFA* getDFA();
 };
 

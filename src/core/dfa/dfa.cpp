@@ -48,13 +48,10 @@ std::optional<DFANode*> DFA::getCurrentState() {
     return _current;
 }
 
-bool DFA::isValidInitNode(ASTNodeType astNodeType) {
-    return _startNodes.find(astNodeType) != _startNodes.end();
-}
-
-bool DFA::isValidInitNodeAndTransition(ASTNodeType initNode, ASTNodeType transitionNode) {
-    if (this->isValidInitNode(initNode)) {
-        return _startNodes.find(initNode)->second->canTransition(transitionNode);
+bool DFA::isValidPrefixForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType) {
+    auto prefixNode = _startNodes.find(nodeType);
+    if (prefixNode == _startNodes.end()) {
+        return false;
     }
-     return false;
+    return prefixNode->second->hasPrefix(prefixNodeType);
 }
