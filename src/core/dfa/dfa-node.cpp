@@ -9,6 +9,7 @@ DFANode::DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrenc
     _start = start;
     _end = end;
     _prefixes = std::vector<ASTNodeType>();
+    _suffixes = std::vector<ASTNodeType>();
     _targetAstNodeType = targetAstNodeType;
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
@@ -16,6 +17,11 @@ DFANode::DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrenc
 
 DFANode* DFANode::addPrefix(ASTNodeType astNodeType) {
     _prefixes.push_back(astNodeType);
+    return this;
+}
+
+DFANode* DFANode::addSuffix(ASTNodeType astNodeType) {
+    _suffixes.push_back(astNodeType);
     return this;
 }
 
@@ -60,6 +66,10 @@ bool DFANode::isEnd() {
 
 bool DFANode::hasPrefix(ASTNodeType astNodeType) {
     return std::find(_prefixes.begin(), _prefixes.end(), astNodeType) != _prefixes.end();
+}
+
+bool DFANode::hasSuffix(ASTNodeType astNodeType) {
+    return std::find(_suffixes.begin(), _suffixes.end(), astNodeType) != _suffixes.end();
 }
 
 ASTNodeType DFANode::getNodeType() {

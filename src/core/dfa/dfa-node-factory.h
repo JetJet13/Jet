@@ -31,7 +31,6 @@ namespace DFANodeFactory {
     DFANode* createStartBooleanLiteralDFANode();
     DFANode* createBooleanLiteralDFANode();
     DFANode* createEndBooleanLiteralDFANode(ASTNodeType targetAstNodeType);
-    DFANode* createTerminatorDFANode(ASTNodeType targetAstNodeType);
     DFANode* createStarOperatorDFANode();
     DFANode* createSlashOperatorDFANode();
     DFANode* createModuloOperatorDFANode();

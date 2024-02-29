@@ -75,9 +75,6 @@ namespace DFANodeFactory {
     DFANode* createEndBooleanLiteralDFANode(ASTNodeType targetAstNodeType) {
         return new DFANode(AST_BOOLEAN_LITERAL_NODE, false, true, DFA_OCCURRENCE_ONCE, targetAstNodeType);
     }
-    DFANode* createTerminatorDFANode(ASTNodeType targetAstNodeType) {
-        return new DFANode(AST_TERMINATOR_NODE, false, true, DFA_OCCURRENCE_ONCE, targetAstNodeType);
-    }
     DFANode* createStarOperatorDFANode() {
         return new DFANode(AST_STAR_OPERATOR_NODE, false, false, DFA_OCCURRENCE_ONCE);
     }

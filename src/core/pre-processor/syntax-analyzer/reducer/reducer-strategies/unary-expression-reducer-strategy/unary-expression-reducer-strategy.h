@@ -9,8 +9,11 @@
 #include <optional>
 #include "../reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-node.h"
+#include "../../../../../ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
 
 class UnaryExpressionReducerStrategy : public ReducerStrategy {
+private:
+    ASTUnaryOperatorNode* createOperatorNode(ASTNode* node);
 public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;
 };

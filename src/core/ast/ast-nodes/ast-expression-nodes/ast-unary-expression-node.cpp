@@ -3,6 +3,7 @@
 //
 
 #include "ast-unary-expression-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 
 ASTUnaryExpressionNode::ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode) {
@@ -30,6 +31,7 @@ bool ASTUnaryExpressionNode::isEqual(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
+    Logger::log("ASTUnaryExpressionNode", "other node is same type");
     auto otherNode = (ASTUnaryExpressionNode*)other;
     return this->getUnaryOperatorNode()->isEqual(otherNode->getUnaryOperatorNode()) &&
     this->getExpressionNode()->isEqual(otherNode->getExpressionNode());

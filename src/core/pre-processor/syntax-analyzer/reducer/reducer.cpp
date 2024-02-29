@@ -24,6 +24,11 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LOGICAL_EXPRESSION_NODE, new LogicalExpressionReducerStrategy());
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionReducerStrategy());
     this->addStrategy(AST_LITERAL_EXPRESSION_NODE, new LiteralExpressionReducerStrategy());
+//    this->addStrategy(AST_PLUS_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
+//    this->addStrategy(AST_MINUS_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
+//    this->addStrategy(AST_STAR_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
+//    this->addStrategy(AST_SLASH_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
+//    this->addStrategy(AST_MODULO_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

@@ -3,6 +3,7 @@
 //
 
 #include "./ast-unary-operator-node.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 ASTUnaryOperatorNode::ASTUnaryOperatorNode(Lexeme* lexemeOperator) {
     _lexemeOperator = lexemeOperator;
@@ -24,6 +25,7 @@ bool ASTUnaryOperatorNode::isEqual(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
+    Logger::log("ASTUnaryOperatorNode", "other node is same type");
     auto otherNode = (ASTUnaryOperatorNode*)other;
     return this->getOperator()->isEqual(otherNode->getOperator());
 }

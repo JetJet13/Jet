@@ -44,9 +44,8 @@ private:
     void popFromStack();
     void accept();
     void error();
-    bool isTerminatorMode();
     void prepHandleForRecognizer();
-    void disableTerminatorNodeIfNecessary();
+    void disableTerminatorModeIfNecessary();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     ASTFileNode* analyze(std::string &filePath);

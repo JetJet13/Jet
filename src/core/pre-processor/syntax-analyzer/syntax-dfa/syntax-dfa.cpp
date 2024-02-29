@@ -12,13 +12,22 @@ SyntaxDfa::SyntaxDfa() {
 }
 
 RecognizerResult* SyntaxDfa::recognize(Handle handle) {
-    if (handle.isEmpty()) {
+    if (handle.isTerminatorOnlyNode()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_POP);
+    } else if (handle.isEmpty()) {
         return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
     }
+
+    auto suffix = handle.getPeekNode();
+    if (suffix && _dfa->isValidSuffixForNode(handle.first().value()->getNodeType(), suffix.value()->getNodeType())) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
+    }
+
     auto prefix = handle.getLastReducedNode();
     if (prefix && _dfa->isValidPrefixForNode(handle.first().value()->getNodeType(), prefix.value()->getNodeType())) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     }
+
     for (int i = 0; i < handle.size(); i++) {
         auto nodeType = handle.at(i).value()->getNodeType();
         if (i == 0) {
@@ -30,6 +39,8 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
         auto currentDfaState = _dfa->getCurrentState();
         if (currentDfaState && currentDfaState.value()->isEnd() && currentDfaState.value()->getTargetAstNodeType()) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
+        } else if (handle.isTerminatorMode() && !currentDfaState) {
+            return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (!currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
         }
@@ -163,7 +174,19 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(inequalityOperatorDFANode));
 
     startBinaryExpressionDFANode
-    ->addTransition(DFATransitionFactory::create(plusOperatorDFANode));
+    ->addTransition(DFATransitionFactory::create(plusOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(minusOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(starOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(slashOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(moduloOperatorDFANode));
+
+    startUnaryExpressionDFANode
+    ->addTransition(DFATransitionFactory::create(plusOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(minusOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(starOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(slashOperatorDFANode))
+    ->addTransition(DFATransitionFactory::create(moduloOperatorDFANode));
+
 
     logicalOperatorDFANode
     ->addTransition(DFATransitionFactory::create(bangOperatorDFANode))
@@ -248,6 +271,8 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndFloatLiteralDFANode(AST_BINARY_EXPRESSION_NODE)));
 
     plusOperatorDFANode
+    ->addSuffix(AST_PLUS_OPERATOR_NODE)
+    ->addSuffix(AST_MINUS_OPERATOR_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBinaryExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
@@ -258,6 +283,8 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndStringLiteralDFANode(AST_BINARY_EXPRESSION_NODE)));
 
     minusOperatorDFANode
+    ->addSuffix(AST_PLUS_OPERATOR_NODE)
+    ->addSuffix(AST_MINUS_OPERATOR_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBinaryExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
@@ -268,6 +295,10 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndStringLiteralDFANode(AST_BINARY_EXPRESSION_NODE)));
 
     starOperatorDFANode
+    ->addPrefix(AST_BINARY_EXPRESSION_NODE)
+    ->addPrefix(AST_UNARY_EXPRESSION_NODE)
+    ->addSuffix(AST_PLUS_OPERATOR_NODE)
+    ->addSuffix(AST_MINUS_OPERATOR_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBinaryExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
@@ -278,6 +309,10 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndStringLiteralDFANode(AST_BINARY_EXPRESSION_NODE)));
 
     slashOperatorDFANode
+    ->addPrefix(AST_BINARY_EXPRESSION_NODE)
+    ->addPrefix(AST_UNARY_EXPRESSION_NODE)
+    ->addSuffix(AST_PLUS_OPERATOR_NODE)
+    ->addSuffix(AST_MINUS_OPERATOR_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBinaryExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
@@ -288,6 +323,10 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndStringLiteralDFANode(AST_BINARY_EXPRESSION_NODE)));
 
     moduloOperatorDFANode
+    ->addPrefix(AST_BINARY_EXPRESSION_NODE)
+    ->addPrefix(AST_UNARY_EXPRESSION_NODE)
+    ->addSuffix(AST_PLUS_OPERATOR_NODE)
+    ->addSuffix(AST_MINUS_OPERATOR_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBinaryExpressionDFANode(AST_BINARY_EXPRESSION_NODE)))
@@ -297,20 +336,9 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndFloatLiteralDFANode(AST_BINARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndStringLiteralDFANode(AST_BINARY_EXPRESSION_NODE)));
 
-    bangOperatorDFANode
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBinaryExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLogicalExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndUnaryExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIntLiteralDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndFloatLiteralDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndStringLiteralDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndCharLiteralDFANode(AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndBooleanLiteralDFANode(AST_UNARY_EXPRESSION_NODE)));
-
     startBangOperatorDFANode
+    ->addPrefix(AST_BINARY_EXPRESSION_NODE)
+    ->addPrefix(AST_UNARY_EXPRESSION_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
@@ -325,6 +353,7 @@ void SyntaxDfa::init() {
 
     startPlusOperatorDFANode
     ->addPrefix(AST_BINARY_EXPRESSION_NODE)
+    ->addPrefix(AST_UNARY_EXPRESSION_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
@@ -334,6 +363,7 @@ void SyntaxDfa::init() {
 
     startMinusOperatorDFANode
     ->addPrefix(AST_BINARY_EXPRESSION_NODE)
+    ->addPrefix(AST_UNARY_EXPRESSION_NODE)
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndLiteralExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createEndIdentifierExpressionDFANode(AST_UNARY_EXPRESSION_NODE)))
@@ -361,6 +391,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(startUnaryExpressionDFANode->getNodeType(), startUnaryExpressionDFANode)
     ->insertStartNode(startBangOperatorDFANode->getNodeType(), startBangOperatorDFANode)
     ->insertStartNode(startPlusOperatorDFANode->getNodeType(), startPlusOperatorDFANode)
-    ->insertStartNode(startMinusOperatorDFANode->getNodeType(), startMinusOperatorDFANode);
-
+    ->insertStartNode(startMinusOperatorDFANode->getNodeType(), startMinusOperatorDFANode)
+    ->insertStartNode(starOperatorDFANode->getNodeType(), starOperatorDFANode)
+    ->insertStartNode(slashOperatorDFANode->getNodeType(), slashOperatorDFANode)
+    ->insertStartNode(moduloOperatorDFANode->getNodeType(), moduloOperatorDFANode);
 }

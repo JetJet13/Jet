@@ -24,5 +24,6 @@ public:
     std::optional<DFANode*> getStartState();
     std::optional<DFANode*> getCurrentState();
     bool isValidPrefixForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType);
+    bool isValidSuffixForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType);
 };
 #endif //JETLANG_DFA_H

@@ -17,6 +17,14 @@
 #include "../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-plus-operator-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-star-operator-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-minus-operator-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-slash-operator-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-modulo-operator-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-plus-operator.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-minus-operator.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
 
 Lexeme* createLexeme(Symbol* symbol) {
     return new Lexeme(new Token(symbol), 1, 0);
@@ -168,8 +176,304 @@ std::vector<ASTNode*> expectedNodes = {
                                 new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
                         )
                 )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        ),
+                        new ASTMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        ),
+                        new ASTStarOperatorNode(createLexeme(SymbolFactory::createStarSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        ),
+                        new ASTSlashOperatorNode(createLexeme(SymbolFactory::createSlashSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        ),
+                        new ASTModuloOperatorNode(createLexeme(SymbolFactory::createModuloSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTStringLiteralNode(createLexeme(SymbolFactory::createStringSymbol()))
+                        ),
+                        new ASTPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTStringLiteralNode(createLexeme(SymbolFactory::createStringSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTUnaryExpressionNode(
+                        new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTStarOperatorNode(createLexeme(SymbolFactory::createStarSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTSlashOperatorNode(createLexeme(SymbolFactory::createSlashSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTSlashOperatorNode(createLexeme(SymbolFactory::createSlashSymbol())),
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTUnaryExpressionNode(
+                        new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTStarOperatorNode(createLexeme(SymbolFactory::createStarSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTSlashOperatorNode(createLexeme(SymbolFactory::createSlashSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTBinaryExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        ),
+                        new ASTSlashOperatorNode(createLexeme(SymbolFactory::createSlashSymbol())),
+                        new ASTUnaryExpressionNode(
+                                new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+                                )
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTUnaryExpressionNode(
+                        new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol())),
+                        new ASTIdentifierExpressionNode(
+                                new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                        )
+                )
         )
-
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -180,13 +484,10 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 16);
-    for (int i = 0; i < 14; i++) {
+REQUIRE(fileNodeResult->getBody().size() == 32);
+    for (int i = 0; i < 32; i++) {
         Logger::log("=====",fileNodeResult->getBody()[i]->toString(),"=====");
         REQUIRE(fileNodeResult->getBody()[i]->isEqual(expectedNodes[i]));
         Logger::log("====================================");
-
-        // TODO IMPLEMENT isEqual overrides! (DONE)
     }
-
 }

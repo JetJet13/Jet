@@ -22,15 +22,15 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         auto recognizerResult = this->recognizeHandle();
         if (recognizerResult->reduce()) {
             this->reduceHandle(fileNode, recognizerResult);
-        } else if (recognizerResult->pop() || this->isTerminatorMode()) {
+        } else if (recognizerResult->pop()) {
             this->popFromStack();
         } else if (recognizerResult->shift()){
             this->shift();
         }
 
-        this->disableTerminatorNodeIfNecessary();
+        this->disableTerminatorModeIfNecessary();
 
-        if (!this->isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
+        if (!_handle.isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
             _handle.isEmpty() ? this->accept() : this->error();
             break;
         }
@@ -41,11 +41,6 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
     _handle.print();
-    if (_handle.size() == 1 && this->isTerminatorMode()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_POP);
-    } else if (_handle.isEmpty()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
-    }
     this->prepHandleForRecognizer();
     return _syntaxDfa->recognize(_handle);
 }
@@ -89,10 +84,6 @@ void SyntaxAnalyzer::error() {
     Logger::log("file errored");
 }
 
-bool SyntaxAnalyzer::isTerminatorMode() {
-    return !_handle.isEmpty() && _handle.last().value()->is(AST_TERMINATOR_NODE);
-}
-
 void SyntaxAnalyzer::prepHandleForRecognizer() {
     if (!_stack.empty()) {
         _handle.setLastReducedNode(_stack.top());
@@ -108,8 +99,8 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
     }
 }
 
-void SyntaxAnalyzer::disableTerminatorNodeIfNecessary() {
-    if (this->isTerminatorMode() && _stack.empty() && _handle.isTerminatorOnlyNode()) {
+void SyntaxAnalyzer::disableTerminatorModeIfNecessary() {
+    if (_handle.isTerminatorMode() && _stack.empty() && _handle.isTerminatorOnlyNode()) {
         Logger::log("disabling terminator mode");
         _handle.clear();
     }

@@ -13,7 +13,6 @@ DFA::DFA() {
 }
 
 void DFA::init(ASTNodeType astNodeType) {
-    Logger::log("DFA::init - ast node type", astNodeType);
     auto startNode = _startNodes.find(astNodeType);
     if (startNode == _startNodes.end()) {
         throw std::invalid_argument( "no start DFA Node found for ASTNodeType");
@@ -54,4 +53,12 @@ bool DFA::isValidPrefixForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType)
         return false;
     }
     return prefixNode->second->hasPrefix(prefixNodeType);
+}
+
+bool DFA::isValidSuffixForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType) {
+    auto suffixNode = _startNodes.find(nodeType);
+    if (suffixNode == _startNodes.end()) {
+        return false;
+    }
+    return suffixNode->second->hasSuffix(suffixNodeType);
 }
