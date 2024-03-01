@@ -3,6 +3,7 @@
 //
 
 #include "ast-logical-expression-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTLogicalExpressionNode::ASTLogicalExpressionNode(ASTExpressionNode* leftNode, ASTLogicalOperatorNode* logicalOperator, ASTExpressionNode* rightNode) {
     _leftNode = leftNode;
@@ -34,6 +35,7 @@ bool ASTLogicalExpressionNode::isEqual(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
+    Logger::log("ASTLogicalExpressionNode", "other node is same type");
     auto otherNode = (ASTLogicalExpressionNode*)other;
     return this->getLogicalOperator()->isEqual(otherNode->getLogicalOperator()) &&
            this->getLeftNode()->isEqual(otherNode->getLeftNode()) &&

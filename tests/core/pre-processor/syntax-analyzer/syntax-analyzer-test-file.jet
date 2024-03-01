@@ -30,3 +30,15 @@ const plusOneMultiply = +1 * 2;
 const plusOneDivide = +1 / 2;
 const plusOneDivideNegTwo = +1 / -2;
 const negIntId = -integer;
+const bangTrue = !true;
+const bangFalse = !false;
+const bangIdentifier = !iflag;
+const andLogic = true && false;
+const orLogic = true || false;
+const andLogicBangId = !flag && true;
+const andLogicBang = !false && true;
+const orLogicBangId = !flag || true;
+const orLogicBang = !false || true;
+const andLogicOr = true && false || true;
+const andLogicOrBang = !true && false || true;
+

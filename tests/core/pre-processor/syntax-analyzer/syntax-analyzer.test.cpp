@@ -25,6 +25,8 @@
 #include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-plus-operator.h"
 #include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-minus-operator.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-bang-operator-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 
 Lexeme* createLexeme(Symbol* symbol) {
     return new Lexeme(new Token(symbol), 1, 0);
@@ -473,7 +475,190 @@ std::vector<ASTNode*> expectedNodes = {
                                 new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
                         )
                 )
-        )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTUnaryExpressionNode(
+                        new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTUnaryExpressionNode(
+                        new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTUnaryExpressionNode(
+                        new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                        new ASTIdentifierExpressionNode(
+                                new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                                new ASTIdentifierExpressionNode(
+                                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                                )
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                                )
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                                new ASTIdentifierExpressionNode(
+                                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                                )
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTUnaryExpressionNode(
+                                new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                                )
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTLogicalExpressionNode(
+                                new ASTLiteralExpressionNode(
+                                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                                ),
+                                new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                                )
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        )
+                )
+        ),
+        new ASTVariableDeclarationNode(
+                new ASTVariableInitNode(
+                        new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                ),
+                new ASTLogicalExpressionNode(
+                        new ASTLogicalExpressionNode(
+                                new ASTUnaryExpressionNode(
+                                        new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol())),
+                                        new ASTLiteralExpressionNode(
+                                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                                        )
+                                ),
+                                new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol())),
+                                new ASTLiteralExpressionNode(
+                                        new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+                                )
+                        ),
+                        new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol())),
+                        new ASTLiteralExpressionNode(
+                                new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+                        )
+                )
+        ),
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -484,8 +669,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 32);
-    for (int i = 0; i < 32; i++) {
+REQUIRE(fileNodeResult->getBody().size() == 43);
+    for (int i = 0; i < 43; i++) {
         Logger::log("=====",fileNodeResult->getBody()[i]->toString(),"=====");
         REQUIRE(fileNodeResult->getBody()[i]->isEqual(expectedNodes[i]));
         Logger::log("====================================");
