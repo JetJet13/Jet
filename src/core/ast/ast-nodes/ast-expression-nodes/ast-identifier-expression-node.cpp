@@ -3,6 +3,7 @@
 //
 
 #include "ast-identifier-expression-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode) {
     _identifierNode = identifierNode;
@@ -20,10 +21,14 @@ std::string ASTIdentifierExpressionNode::toString() {
     return "IDENTIFIER_EXPRESSION";
 }
 
-bool ASTIdentifierExpressionNode::isEqual(ASTNode *other) {
+bool ASTIdentifierExpressionNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
     auto otherNode = (ASTIdentifierExpressionNode*)other;
-    return this->getIdentifierNode()->isEqual(otherNode->getIdentifierNode());
+    return this->getIdentifierNode()->isSameAs(otherNode->getIdentifierNode());
+}
+
+void ASTIdentifierExpressionNode::print() {
+    Logger::log(this->toString(), "-", _identifierNode->toString());
 }

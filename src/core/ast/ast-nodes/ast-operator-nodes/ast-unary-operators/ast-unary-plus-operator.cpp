@@ -9,5 +9,5 @@ ASTNodeType ASTUnaryPlusOperatorNode::getNodeType() {
 }
 
 std::string ASTUnaryPlusOperatorNode::toString() {
-    return "UNARY_PLUS_OPERATOR";
+    return "UNARY_PLUS_OPERATOR (" + _lexemeOperator->toString() + ")";
 }

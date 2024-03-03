@@ -9,5 +9,5 @@ ASTNodeType ASTStringLiteralNode::getNodeType() {
 }
 
 std::string ASTStringLiteralNode::toString() {
-    return "STRING_LITERAL";
+    return "STRING_LITERAL - " + _lexemeLiteral->toString();
 }

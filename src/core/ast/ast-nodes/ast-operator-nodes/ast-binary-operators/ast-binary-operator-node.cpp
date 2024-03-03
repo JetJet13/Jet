@@ -18,14 +18,13 @@ ASTNodeType ASTBinaryOperatorNode::getNodeType() {
 }
 
 std::string ASTBinaryOperatorNode::toString() {
-    return "BINARY_OPERATOR";
+    return "BINARY_OPERATOR (" + _lexemeOperator->toString() + ")";
 }
 
-bool ASTBinaryOperatorNode::isEqual(ASTNode *other) {
+bool ASTBinaryOperatorNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTBinaryOperatorNode", "other node is same type");
     auto otherNode = (ASTBinaryOperatorNode*)other;
-    return this->getOperator()->isEqual(otherNode->getOperator());
+    return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
 }

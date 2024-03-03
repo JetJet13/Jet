@@ -37,11 +37,7 @@ std::string Lexeme::toString() {
     return lexemeString;
 }
 
-bool Lexeme::isEqual(Lexeme* other) {
-//    return this->getLine() == other->getLine() &&
-//    this->getPosition() == other->getPosition() &&
-//    this->getToken()->getSymbolType() == other->getToken()->getSymbolType();
+bool Lexeme::hasSameSymbolTypeAs(Lexeme* other) {
     auto result = this->getToken()->getSymbolType() == other->getToken()->getSymbolType();
-    Logger::log("Lexeme::isEqual (", this->getToken()->getSymbol()->toString(), "|", other->getToken()->getSymbol()->toString(),")");
     return result;
 }

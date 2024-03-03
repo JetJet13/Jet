@@ -3,6 +3,7 @@
 //
 
 #include "ast-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
 
 void ASTNode::setParentNode(ASTNode* parentNode) {
@@ -11,5 +12,9 @@ void ASTNode::setParentNode(ASTNode* parentNode) {
 
 bool ASTNode::is(ASTNodeType astNodeType) {
     return this->getNodeType() == astNodeType;
+}
+
+void ASTNode::print() {
+    Logger::log(this->toString());
 }
 

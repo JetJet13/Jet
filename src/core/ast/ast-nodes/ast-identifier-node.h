@@ -16,7 +16,8 @@ public:
     Lexeme* getIdentifier();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
 };
 
 #endif //JETLANG_AST_IDENTIFIER_NODE_H

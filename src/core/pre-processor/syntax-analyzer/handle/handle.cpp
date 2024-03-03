@@ -125,7 +125,7 @@ void Handle::print() {
     }
     Logger::log("-------- Handle --------");
     for (auto node : _handle) {
-        Logger::log(node->toString());
+        node->print();
     }
     Logger::log("------------------------");
 }

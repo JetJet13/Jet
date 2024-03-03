@@ -32,13 +32,20 @@ std::string ASTBinaryExpressionNode::toString() {
     return "BINARY_EXPRESSION";
 }
 
-bool ASTBinaryExpressionNode::isEqual(ASTNode *other) {
+bool ASTBinaryExpressionNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTBinaryExpressionNode", "other node is same type");
     auto otherNode = (ASTBinaryExpressionNode*)other;
-    return this->getBinaryOperator()->isEqual(otherNode->getBinaryOperator()) &&
-           this->getLeftNode()->isEqual(otherNode->getLeftNode()) &&
-           this->getRightNode()->isEqual(otherNode->getRightNode());
+    return this->getBinaryOperator()->isSameAs(otherNode->getBinaryOperator()) &&
+           this->getLeftNode()->isSameAs(otherNode->getLeftNode()) &&
+           this->getRightNode()->isSameAs(otherNode->getRightNode());
+}
+
+void ASTBinaryExpressionNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    _leftNode->print();
+    _binaryOperator->print();
+    _rightNode->print();
+    Logger::log("----------");
 }

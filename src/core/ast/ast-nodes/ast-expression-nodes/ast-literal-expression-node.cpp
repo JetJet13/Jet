@@ -21,11 +21,14 @@ std::string ASTLiteralExpressionNode::toString() {
     return "LITERAL_EXPRESSION";
 }
 
-bool ASTLiteralExpressionNode::isEqual(ASTNode *other) {
+bool ASTLiteralExpressionNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTLiteralExpressionNode", "other node is same type");
     auto otherNode = (ASTLiteralExpressionNode*)other;
-    return this->getLiteralNode()->isEqual(otherNode->getLiteralNode());
+    return this->getLiteralNode()->isSameAs(otherNode->getLiteralNode());
+}
+
+void ASTLiteralExpressionNode::print() {
+    Logger::log(this->toString(), "-", _literalNode->toString());
 }

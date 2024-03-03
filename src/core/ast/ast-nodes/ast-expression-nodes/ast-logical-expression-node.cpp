@@ -31,13 +31,20 @@ std::string ASTLogicalExpressionNode::toString() {
     return "LOGICAL_EXPRESSION";
 }
 
-bool ASTLogicalExpressionNode::isEqual(ASTNode *other) {
+bool ASTLogicalExpressionNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTLogicalExpressionNode", "other node is same type");
     auto otherNode = (ASTLogicalExpressionNode*)other;
-    return this->getLogicalOperator()->isEqual(otherNode->getLogicalOperator()) &&
-           this->getLeftNode()->isEqual(otherNode->getLeftNode()) &&
-           this->getRightNode()->isEqual(otherNode->getRightNode());
+    return this->getLogicalOperator()->isSameAs(otherNode->getLogicalOperator()) &&
+           this->getLeftNode()->isSameAs(otherNode->getLeftNode()) &&
+           this->getRightNode()->isSameAs(otherNode->getRightNode());
+}
+
+void ASTLogicalExpressionNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    _leftNode->print();
+    _logicalOperator->print();
+    _rightNode->print();
+    Logger::log("----------");
 }

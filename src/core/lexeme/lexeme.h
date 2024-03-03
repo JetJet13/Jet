@@ -20,7 +20,7 @@ public:
     int getLine() const;
     int getPosition() const;
     std::string toString();
-    bool isEqual(Lexeme* other);
+    bool hasSameSymbolTypeAs(Lexeme* other);
 };
 
 #endif //JETLANG_LEXEME_H

@@ -26,12 +26,18 @@ std::string ASTVariableInitNode::toString() {
     return "VARIABLE_INIT";
 }
 
-bool ASTVariableInitNode::isEqual(ASTNode* other) {
+bool ASTVariableInitNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTVariableInitNode", "other node is same type");
     auto otherNode = (ASTVariableInitNode*)other;
-    return this->getVarTypeNode()->isEqual(otherNode->getVarTypeNode()) &&
-    this->getIdentifierNode()->isEqual(otherNode->getIdentifierNode());
+    return this->getVarTypeNode()->isSameAs(otherNode->getVarTypeNode()) &&
+           this->getIdentifierNode()->isSameAs(otherNode->getIdentifierNode());
+}
+
+void ASTVariableInitNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    _assignmentTypeQualifier->print();
+    _identifier->print();
+    Logger::log("----------");
 }

@@ -9,5 +9,5 @@ ASTNodeType ASTCharLiteralNode::getNodeType() {
 }
 
 std::string ASTCharLiteralNode::toString() {
-    return "CHAR_LITERAL";
+    return "CHAR_LITERAL - " + _lexemeLiteral->toString();
 }

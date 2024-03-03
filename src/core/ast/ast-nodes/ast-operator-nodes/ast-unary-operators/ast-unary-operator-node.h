@@ -15,7 +15,7 @@ public:
     Lexeme* getOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
+    bool isSameAs(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_UNARY_OPERATOR_NODE_H

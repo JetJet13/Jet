@@ -9,5 +9,5 @@ ASTNodeType ASTBangOperatorNode::getNodeType() {
 }
 
 std::string ASTBangOperatorNode::toString() {
-    return "BANG_OPERATOR";
+    return "BANG_OPERATOR (" + _lexemeOperator->toString() + ")";
 }

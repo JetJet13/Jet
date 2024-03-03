@@ -18,7 +18,7 @@ public:
     std::vector<ASTNode*> getBody();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
+    bool isSameAs(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_FILE_NODE_H

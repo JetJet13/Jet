@@ -3,6 +3,7 @@
 //
 
 #include "ast-terminator-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
 ASTTerminatorNode::ASTTerminatorNode(Lexeme *lexeme) {
     _terminator = lexeme;
@@ -20,10 +21,14 @@ std::string ASTTerminatorNode::toString() {
     return "TERMINATOR";
 }
 
-bool ASTTerminatorNode::isEqual(ASTNode *other) {
+bool ASTTerminatorNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
     auto otherNode = (ASTTerminatorNode*)other;
-    return this->getTerminator()->isEqual(otherNode->getTerminator());
+    return this->getTerminator()->hasSameSymbolTypeAs(otherNode->getTerminator());
+}
+
+void ASTTerminatorNode::print() {
+    Logger::log(this->toString(), "-", _terminator->toString());
 }

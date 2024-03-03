@@ -27,12 +27,18 @@ std::string ASTUnaryExpressionNode::toString() {
     return "UNARY_EXPRESSION";
 }
 
-bool ASTUnaryExpressionNode::isEqual(ASTNode *other) {
+bool ASTUnaryExpressionNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTUnaryExpressionNode", "other node is same type");
     auto otherNode = (ASTUnaryExpressionNode*)other;
-    return this->getUnaryOperatorNode()->isEqual(otherNode->getUnaryOperatorNode()) &&
-    this->getExpressionNode()->isEqual(otherNode->getExpressionNode());
+    return this->getUnaryOperatorNode()->isSameAs(otherNode->getUnaryOperatorNode()) &&
+           this->getExpressionNode()->isSameAs(otherNode->getExpressionNode());
+}
+
+void ASTUnaryExpressionNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    _unaryOperator->print();
+    _expression->print();
+    Logger::log("----------");
 }

@@ -17,13 +17,13 @@ ASTNodeType ASTLogicalOperatorNode::getNodeType() {
 }
 
 std::string ASTLogicalOperatorNode::toString() {
-    return "LOGICAL_OPERATOR";
+    return "LOGICAL_OPERATOR (" + _logicalOperator->toString() + ")";
 }
 
-bool ASTLogicalOperatorNode::isEqual(ASTNode *other) {
+bool ASTLogicalOperatorNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
     auto otherNode = (ASTLogicalOperatorNode*)other;
-    return this->getOperator()->isEqual(otherNode->getOperator());
+    return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
 }

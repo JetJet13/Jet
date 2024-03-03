@@ -9,5 +9,5 @@ ASTNodeType ASTBooleanLiteralNode::getNodeType() {
 }
 
 std::string ASTBooleanLiteralNode::toString() {
-    return "BOOLEAN_LITERAL";
+    return "BOOLEAN_LITERAL - " + _lexemeLiteral->toString();
 }

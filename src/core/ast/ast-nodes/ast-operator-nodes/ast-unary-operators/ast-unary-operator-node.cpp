@@ -18,14 +18,13 @@ ASTNodeType ASTUnaryOperatorNode::getNodeType() {
 }
 
 std::string ASTUnaryOperatorNode::toString() {
-    return "UNARY_OPERATOR";
+    return "UNARY_OPERATOR" ;
 }
 
-bool ASTUnaryOperatorNode::isEqual(ASTNode *other) {
+bool ASTUnaryOperatorNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTUnaryOperatorNode", "other node is same type");
     auto otherNode = (ASTUnaryOperatorNode*)other;
-    return this->getOperator()->isEqual(otherNode->getOperator());
+    return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
 }

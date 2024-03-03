@@ -21,11 +21,14 @@ std::string ASTVariableTypeNode::toString() {
     return "VARIABLE_TYPE";
 }
 
-bool ASTVariableTypeNode::isEqual(ASTNode *other) {
+bool ASTVariableTypeNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    Logger::log("ASTVariableTypeNode", "other node is same type");
     auto otherNode = (ASTVariableTypeNode*)other;
-    return this->getVarType()->isEqual(otherNode->getVarType());
+    return this->getVarType()->hasSameSymbolTypeAs(otherNode->getVarType());
+}
+
+void ASTVariableTypeNode::print() {
+    Logger::log(this->toString(), "-", _varTypeQualifier->toString());
 }

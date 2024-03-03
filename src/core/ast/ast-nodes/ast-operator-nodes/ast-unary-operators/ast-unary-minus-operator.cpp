@@ -10,5 +10,5 @@ ASTNodeType ASTUnaryMinusOperatorNode::getNodeType() {
 }
 
 std::string ASTUnaryMinusOperatorNode::toString() {
-    return "UNARY_MINUS_OPERATOR";
+    return "UNARY_MINUS_OPERATOR (" + _lexemeOperator->toString() + ")";
 }

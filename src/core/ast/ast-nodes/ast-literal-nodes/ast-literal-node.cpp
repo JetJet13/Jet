@@ -20,10 +20,10 @@ std::string ASTLiteralNode::toString() {
     return "LITERAL";
 }
 
-bool ASTLiteralNode::isEqual(ASTNode *other) {
+bool ASTLiteralNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
     auto otherNode = (ASTLiteralNode*)other;
-    return this->getLiteral()->isEqual(otherNode->getLiteral());
+    return this->getLiteral()->hasSameSymbolTypeAs(otherNode->getLiteral());
 }

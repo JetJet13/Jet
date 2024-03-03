@@ -16,7 +16,8 @@ public:
     void setParentNode(ASTNode* parentNode);
     virtual ASTNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
-    virtual bool isEqual(ASTNode* other) = 0;
+    virtual bool isSameAs(ASTNode* other) = 0;
+    virtual void print();
     bool is(ASTNodeType astNodeType);
 };
 #endif //JETLANG_AST_NODE_H

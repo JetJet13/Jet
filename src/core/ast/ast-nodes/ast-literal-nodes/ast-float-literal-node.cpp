@@ -9,5 +9,5 @@ ASTNodeType ASTFloatLiteralNode::getNodeType() {
 }
 
 std::string ASTFloatLiteralNode::toString() {
-    return "FLOAT_LITERAL";
+    return "FLOAT_LITERAL - " + _lexemeLiteral->toString();
 }

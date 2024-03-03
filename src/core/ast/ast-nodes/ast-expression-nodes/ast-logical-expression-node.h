@@ -20,7 +20,8 @@ public:
     ASTLogicalOperatorNode* getLogicalOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isEqual(ASTNode* other) override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
 };
 
 

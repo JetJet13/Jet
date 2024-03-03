@@ -3,6 +3,7 @@
 //
 
 #include "ast-assignment-operator-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTAssignmentOperatorNode::ASTAssignmentOperatorNode(Lexeme *lexeme) {
     _assignment = lexeme;
@@ -20,10 +21,14 @@ std::string ASTAssignmentOperatorNode::toString() {
     return "ASSIGNMENT_OPERATOR";
 }
 
-bool ASTAssignmentOperatorNode::isEqual(ASTNode *other) {
+bool ASTAssignmentOperatorNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
     auto otherNode = (ASTAssignmentOperatorNode*)other;
-    return this->getAssignmentOperator()->isEqual(otherNode->getAssignmentOperator());
+    return this->getAssignmentOperator()->hasSameSymbolTypeAs(otherNode->getAssignmentOperator());
+}
+
+void ASTAssignmentOperatorNode::print() {
+    Logger::log(this->toString(), "-", _assignment->toString());
 }

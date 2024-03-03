@@ -3,6 +3,7 @@
 //
 
 #include "ast-identifier-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -20,10 +21,14 @@ std::string ASTIdentifierNode::toString() {
     return "IDENTIFIER";
 }
 
-bool ASTIdentifierNode::isEqual(ASTNode* other) {
+bool ASTIdentifierNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
     auto otherNode = (ASTIdentifierNode*)other;
-    return this->getIdentifier()->isEqual(otherNode->getIdentifier());
+    return this->getIdentifier()->hasSameSymbolTypeAs(otherNode->getIdentifier());
+}
+
+void ASTIdentifierNode::print() {
+    Logger::log(this->toString(), "-", _identifier->toString());
 }
