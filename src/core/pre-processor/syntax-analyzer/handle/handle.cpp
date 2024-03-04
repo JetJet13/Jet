@@ -92,6 +92,13 @@ void Handle::prepend(ASTNode* node) {
     _handle.push_front(node);
 }
 
+void Handle::replace(int index, ASTNode* newNode) {
+    if (_handle.size() < (index + 1) || index < 0) {
+        throw std::invalid_argument("invalid index value for replace operation");
+    }
+    _handle[index] = newNode;
+}
+
 std::optional<ASTNode*> Handle::getLastReducedNode() {
     return _lastReducedNode;
 }
@@ -114,6 +121,21 @@ void Handle::setPeekNode(std::optional<ASTNode*> peekNode) {
 
 void Handle::clearPeekNode() {
     _peekNode = {};
+}
+
+std::optional<ASTNode*> Handle::getPrevNodeFor(int index) {
+    if (index == 0) {
+        return this->getLastReducedNode();
+    }
+
+    return this->at(index - 1);
+}
+
+std::optional<ASTNode*> Handle::getNextNodeFor(int index) {
+    if (index == _handle.size() - 1) {
+        return this->getPeekNode();
+    }
+    return this->at(index + 1);
 }
 
 void Handle::print() {

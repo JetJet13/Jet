@@ -4,24 +4,26 @@
 
 #include "dfa-node.h"
 
-DFANode::DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType) {
+#include <utility>
+#include "../../shared/utils/logger/logger.h"
+
+DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType) {
     _astNodeType = astNodeType;
-    _start = start;
-    _end = end;
-    _prefixes = std::vector<ASTNodeType>();
-    _suffixes = std::vector<ASTNodeType>();
+    _predecessorsToBacktrackTo = std::vector<ASTNodeType>();
+    _successorsToReduceSelfFor = std::vector<ASTNodeType>();
     _targetAstNodeType = targetAstNodeType;
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
+    _alwaysReduceSelf = false;
 }
 
-DFANode* DFANode::addPrefix(ASTNodeType astNodeType) {
-    _prefixes.push_back(astNodeType);
+DFANode* DFANode::backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors) {
+    _predecessorsToBacktrackTo = std::move(predecessors);
     return this;
 }
 
-DFANode* DFANode::addSuffix(ASTNodeType astNodeType) {
-    _suffixes.push_back(astNodeType);
+DFANode* DFANode::reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors) {
+    _successorsToReduceSelfFor = std::move(successors);
     return this;
 }
 
@@ -30,52 +32,49 @@ DFANode* DFANode::addTransition(DFATransition transition) {
     return this;
 }
 
-std::optional<DFANode*> DFANode::transition(ASTNodeType astNodeType, ASTNodeType prefix) {
+DFANode* DFANode::markAlwaysReduceSelf() {
+    _alwaysReduceSelf = true;
+    return this;
+}
+
+std::optional<DFANode*> DFANode::transition(ASTNodeType astNodeType) {
     if (_astNodeType == astNodeType &&
               (_occurrence == DFA_OCCURRENCE_ONCE_OR_MORE ||
                _occurrence == DFA_OCCURRENCE_NIL_OR_MORE)
     ) {
         return this;
-    } else if (this->isEnd() || _astNodeType == astNodeType) {
+    } else if (this->hasTargetAstNodeType() || _astNodeType == astNodeType) {
         return {};
     }
 
     for (auto transition : _transitions) {
-        if (transition.astNodeType == astNodeType && transition.prefix == prefix) {
+        if (transition.astNodeType == astNodeType) {
             return transition.destination;
         }
     }
     return {};
 }
 
-bool DFANode::canTransition(ASTNodeType astNodeType) {
-    auto transitionResult = this->transition(astNodeType);
-    if (transitionResult) {
-        return true;
-    }
-    return false;
+bool DFANode::shouldBacktrackTo(ASTNodeType astNodeType) {
+    return std::find(_predecessorsToBacktrackTo.begin(), _predecessorsToBacktrackTo.end(), astNodeType) != _predecessorsToBacktrackTo.end();
 }
 
-bool DFANode::isStart() {
-    return this->_start;
+bool DFANode::shouldReduceSelfFor(ASTNodeType astNodeType) {
+    return std::find(_successorsToReduceSelfFor.begin(), _successorsToReduceSelfFor.end(), astNodeType) != _successorsToReduceSelfFor.end();
 }
 
-bool DFANode::isEnd() {
-    return this->_end;
-}
-
-bool DFANode::hasPrefix(ASTNodeType astNodeType) {
-    return std::find(_prefixes.begin(), _prefixes.end(), astNodeType) != _prefixes.end();
-}
-
-bool DFANode::hasSuffix(ASTNodeType astNodeType) {
-    return std::find(_suffixes.begin(), _suffixes.end(), astNodeType) != _suffixes.end();
+bool DFANode::alwaysReduceSelf() {
+    return _alwaysReduceSelf;
 }
 
 ASTNodeType DFANode::getNodeType() {
-    return this->_astNodeType;
+    return _astNodeType;
 }
 
 std::optional<ASTNodeType> DFANode::getTargetAstNodeType() {
-    return this->_targetAstNodeType;
+    return _targetAstNodeType.value();
+}
+
+bool DFANode::hasTargetAstNodeType() {
+    return _targetAstNodeType.has_value();
 }

@@ -18,12 +18,14 @@ private:
 public:
     DFA();
     void init(ASTNodeType astNodeType);
-    DFA* insertStartNode(ASTNodeType astNodeType, DFANode*);
+    DFA* insertStartNode(ASTNodeType astNodeType, DFANode* dfaNode);
+    DFA* insertStartNode(DFANode* dfaNode);
     void reset();
-    void determine(ASTNodeType astNodeType, ASTNodeType prefix = AST_NULL_NODE);
+    void determine(ASTNodeType astNodeType);
     std::optional<DFANode*> getStartState();
     std::optional<DFANode*> getCurrentState();
-    bool isValidPrefixForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType);
-    bool isValidSuffixForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType);
+    std::optional<DFANode*> findStartNode(ASTNodeType nodeType);
+    bool isValidPredecessorForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType);
+    bool isValidSuccessorForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType);
 };
 #endif //JETLANG_DFA_H

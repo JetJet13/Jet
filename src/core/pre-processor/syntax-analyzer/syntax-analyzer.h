@@ -42,6 +42,7 @@ private:
     void shift();
     void reduceHandle(ASTFileNode* fileNode, RecognizerResult* recognizerResult);
     void popFromStack();
+    void transform(RecognizerResult* recognizerResult);
     void accept();
     void error();
     void prepHandleForRecognizer();

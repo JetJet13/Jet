@@ -41,4 +41,9 @@ const orLogicBangId = !flag || true;
 const orLogicBang = !false || true;
 const andLogicOr = true && false || true;
 const andLogicOrBang = !true && false || true;
+const intLogicAnd = 1 && 2;
+const intLogicOr = 1 || 2;
+const intLogicAnd = !1 && 2;
+const intLogicOr = 1 || !2;
+const doubleBang = !1 && !2;
 

@@ -17,6 +17,7 @@ void DFA::init(ASTNodeType astNodeType) {
     if (startNode == _startNodes.end()) {
         throw std::invalid_argument( "no start DFA Node found for ASTNodeType");
     }
+
     _start = startNode->second;
     _current = startNode->second;
 }
@@ -26,17 +27,24 @@ DFA* DFA::insertStartNode(ASTNodeType astNodeType, DFANode* dfaNode) {
     return this;
 }
 
+DFA* DFA::insertStartNode(DFANode* dfaNode) {
+    _startNodes.insert(std::pair<ASTNodeType, DFANode*>(dfaNode->getNodeType(), dfaNode));
+    return this;
+}
+
+
+
+
 void DFA::reset() {
     _start = {};
     _current = {};
 }
 
-void DFA::determine(ASTNodeType astNodeType, ASTNodeType prefix) {
+void DFA::determine(ASTNodeType astNodeType) {
     if (!_current) {
         return;
     }
-
-    _current = _current.value()->transition(astNodeType, prefix);
+    _current = _current.value()->transition(astNodeType);
 }
 
 std::optional<DFANode*> DFA::getStartState() {
@@ -47,18 +55,26 @@ std::optional<DFANode*> DFA::getCurrentState() {
     return _current;
 }
 
-bool DFA::isValidPrefixForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType) {
+std::optional<DFANode*> DFA::findStartNode(ASTNodeType nodeType) {
+    auto prefixNode = _startNodes.find(nodeType);
+    if (prefixNode == _startNodes.end()) {
+        return {};
+    }
+    return prefixNode->second;
+}
+
+bool DFA::isValidPredecessorForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType) {
     auto prefixNode = _startNodes.find(nodeType);
     if (prefixNode == _startNodes.end()) {
         return false;
     }
-    return prefixNode->second->hasPrefix(prefixNodeType);
+    return prefixNode->second->shouldBacktrackTo(prefixNodeType);
 }
 
-bool DFA::isValidSuffixForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType) {
+bool DFA::isValidSuccessorForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType) {
     auto suffixNode = _startNodes.find(nodeType);
     if (suffixNode == _startNodes.end()) {
         return false;
     }
-    return suffixNode->second->hasSuffix(suffixNodeType);
+    return suffixNode->second->shouldReduceSelfFor(suffixNodeType);
 }

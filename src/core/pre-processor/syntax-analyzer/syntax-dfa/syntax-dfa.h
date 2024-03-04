@@ -14,6 +14,13 @@ class SyntaxDfa {
 private:
     DFA* _dfa;
     void init();
+    DFANode* getPlusOperatorNode();
+    DFANode* getMinusOperatorNode();
+    DFANode* getStarOperatorNode();
+    DFANode* getSlashOperatorNode();
+    DFANode* getModuloOperatorNode();
+    void initVarType(DFANode* varTypeNode);
+    void initVarInit(DFANode* varInitNode);
 public:
     SyntaxDfa();
     RecognizerResult* recognize(Handle handle);

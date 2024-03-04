@@ -13,18 +13,9 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.h"
 #include "../../../ast/ast-nodes/ast-terminator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-bang-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-plus-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-minus-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-equality-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-inequality-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-star-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-slash-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-modulo-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-greater-than-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-greater-than-or-equal-operator.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-or-equal-operator-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-equality-operators/ast-less-than-operator-node.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-plus-base-node.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-minus-base-node.h"
+#include "../../../ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -52,31 +43,31 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     } else if (symbol->isBoolean()) {
         return new ASTBooleanLiteralNode(lexeme);
     } else if (symbol->isPlus()) {
-        return new ASTPlusOperatorNode(lexeme);
+        return new ASTPlusBaseNode(lexeme);
     } else if (symbol->isMinus()) {
-        return new ASTMinusOperatorNode(lexeme);
+        return new ASTMinusBaseNode(lexeme);
     } else if (symbol->isEqualityOperator()) {
-        return new ASTEqualityOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isInequalityOperator()) {
-        return new ASTInequalityOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isStar()) {
-        return new ASTStarOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isSlash()) {
-        return new ASTSlashOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isModulo()) {
-        return new ASTModuloOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isGreaterThan()) {
-        return new ASTGreaterThanOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isGreaterThanOrEqual()) {
-        return new ASTGreaterThanOrEqualOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isLessThan()) {
-        return new ASTLessThanOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isLessThanOrEqual()) {
-        return new ASTLessThanOrEqualOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme);
     } else if (symbol->isLogicalOperator()) {
         return new ASTLogicalOperatorNode(lexeme);
     }  else if (symbol->isUnaryOperator()) {
-        return new ASTBangOperatorNode(lexeme);
+        return new ASTUnaryOperatorNode(lexeme);
     } else if (symbol->isSemicolon()) {
         return new ASTTerminatorNode(lexeme);
     } else {

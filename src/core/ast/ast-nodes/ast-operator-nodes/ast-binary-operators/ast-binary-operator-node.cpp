@@ -18,7 +18,7 @@ ASTNodeType ASTBinaryOperatorNode::getNodeType() {
 }
 
 std::string ASTBinaryOperatorNode::toString() {
-    return "BINARY_OPERATOR (" + _lexemeOperator->toString() + ")";
+    return "BINARY_OPERATOR - " + _lexemeOperator->toString();
 }
 
 bool ASTBinaryOperatorNode::isSameAs(ASTNode *other) {

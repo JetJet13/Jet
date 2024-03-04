@@ -18,7 +18,7 @@ ASTNodeType ASTUnaryOperatorNode::getNodeType() {
 }
 
 std::string ASTUnaryOperatorNode::toString() {
-    return "UNARY_OPERATOR" ;
+    return "UNARY_OPERATOR - " + _lexemeOperator->toString();
 }
 
 bool ASTUnaryOperatorNode::isSameAs(ASTNode *other) {

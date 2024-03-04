@@ -20,6 +20,7 @@ public:
     bool reduce();
     bool shift();
     bool pop();
+    bool transform();
 };
 
 #endif //JETLANG_RECOGNIZER_RESULT_H

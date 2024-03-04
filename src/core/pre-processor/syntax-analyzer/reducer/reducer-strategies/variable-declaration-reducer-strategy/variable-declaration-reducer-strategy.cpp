@@ -6,6 +6,9 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 
 ASTNode* VariableDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+    if (nodes.size() != 2) {
+        throw std::invalid_argument("unable to reduce to var declaration since nodes list is not 2");
+    }
     return new ASTVariableDeclarationNode(
             (ASTVariableInitNode*)nodes[0],
             this->createExpressionNode(nodes[1])

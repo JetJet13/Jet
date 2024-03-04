@@ -14,31 +14,29 @@ struct DFATransition;
 
 class DFANode {
 private:
-    bool _start;
-    bool _end;
-    std::vector<ASTNodeType> _prefixes;
-    std::vector<ASTNodeType> _suffixes;
+    std::vector<ASTNodeType> _predecessorsToBacktrackTo;
+    std::vector<ASTNodeType> _successorsToReduceSelfFor;
     std::optional<ASTNodeType> _targetAstNodeType;
     DFANodeOccurrence _occurrence;
     ASTNodeType _astNodeType;
     std::vector<DFATransition> _transitions;
+    bool _alwaysReduceSelf;
 public:
-    DFANode(ASTNodeType astNodeType, bool start, bool end, DFANodeOccurrence occurrence, std::optional<ASTNodeType> _targetAstNodeType = {});
-    DFANode* addPrefix(ASTNodeType astNodeType);
-    DFANode* addSuffix(ASTNodeType astNodeType);
+    DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType = {});
+    DFANode* backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors);
+    DFANode* reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors);
     DFANode* addTransition(DFATransition transition);
-    std::optional<DFANode*> transition(ASTNodeType astNodeType, ASTNodeType prefix = AST_NULL_NODE);
-    bool canTransition(ASTNodeType astNodeType);
-    bool isStart();
-    bool isEnd();
-    bool hasPrefix(ASTNodeType astNodeType);
-    bool hasSuffix(ASTNodeType astNodeType);
+    DFANode* markAlwaysReduceSelf();
+    std::optional<DFANode*> transition(ASTNodeType astNodeType);
+    bool shouldBacktrackTo(ASTNodeType astNodeType);
+    bool shouldReduceSelfFor(ASTNodeType astNodeType);
+    bool alwaysReduceSelf();
     ASTNodeType getNodeType();
     std::optional<ASTNodeType> getTargetAstNodeType();
+    bool hasTargetAstNodeType();
 };
 
 struct DFATransition {
-    ASTNodeType prefix;
     ASTNodeType astNodeType;
     DFANode* destination;
 };

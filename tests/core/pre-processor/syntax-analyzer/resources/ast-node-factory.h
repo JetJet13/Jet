@@ -14,16 +14,9 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-plus-operator-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-minus-operator-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-slash-operator-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-star-operator-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-arithmetic-operators/ast-modulo-operator-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-minus-operator.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-plus-operator.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-bang-operator-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -59,14 +52,14 @@ namespace ASTNodeFactory {
     static ASTLiteralExpressionNode* falseExpression = new ASTLiteralExpressionNode(
             new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
     );
-    static ASTPlusOperatorNode* plus = new ASTPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
-    static ASTMinusOperatorNode* minus = new ASTMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
-    static ASTStarOperatorNode* star = new ASTStarOperatorNode(createLexeme(SymbolFactory::createStarSymbol()));
-    static ASTSlashOperatorNode* slash = new ASTSlashOperatorNode(createLexeme(SymbolFactory::createSlashSymbol()));
-    static ASTModuloOperatorNode* modulo = new ASTModuloOperatorNode(createLexeme(SymbolFactory::createModuloSymbol()));
-    static ASTUnaryMinusOperatorNode* unaryMinus = new ASTUnaryMinusOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
-    static ASTUnaryPlusOperatorNode* unaryPlus = new ASTUnaryPlusOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
-    static ASTBangOperatorNode* bang = new ASTBangOperatorNode(createLexeme(SymbolFactory::createBangSymbol()));
+    static ASTBinaryOperatorNode* plus = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
+    static ASTBinaryOperatorNode* minus = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
+    static ASTBinaryOperatorNode* star = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createStarSymbol()));
+    static ASTBinaryOperatorNode* slash = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createSlashSymbol()));
+    static ASTBinaryOperatorNode* modulo = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createModuloSymbol()));
+    static ASTUnaryOperatorNode* unaryMinus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
+    static ASTUnaryOperatorNode* unaryPlus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
+    static ASTUnaryOperatorNode* bang = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createBangSymbol()));
     static ASTLogicalOperatorNode* andOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol()));
     static ASTLogicalOperatorNode* orOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol()));
     static ASTUnaryExpressionNode* bangTrue = new ASTUnaryExpressionNode(
@@ -80,6 +73,10 @@ namespace ASTNodeFactory {
     static ASTUnaryExpressionNode* bangId = new ASTUnaryExpressionNode(
             ASTNodeFactory::bang,
             ASTNodeFactory::idExpression
+    );
+    static ASTUnaryExpressionNode* bangInt = new ASTUnaryExpressionNode(
+            ASTNodeFactory::bang,
+            ASTNodeFactory::intExpression
     );
     static ASTUnaryExpressionNode* negativeInt = new ASTUnaryExpressionNode(
             ASTNodeFactory::unaryMinus,

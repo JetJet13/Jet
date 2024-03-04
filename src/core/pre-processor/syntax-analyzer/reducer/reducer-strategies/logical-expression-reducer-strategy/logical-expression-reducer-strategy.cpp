@@ -6,6 +6,10 @@
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 
 ASTNode* LogicalExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+    if (nodes.size() != 3) {
+        throw std::invalid_argument("unable to reduce to logical expression since nodes list is too short");
+    }
+
     return new ASTLogicalExpressionNode(
             this->createExpressionNode(nodes[0]),
             (ASTLogicalOperatorNode*)nodes[1],

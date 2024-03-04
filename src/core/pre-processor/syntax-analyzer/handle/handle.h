@@ -29,12 +29,15 @@ public:
     void removeFirstNodes(int numNodesToRemove);
     void append(ASTNode* node);
     void prepend(ASTNode* node);
+    void replace(int index, ASTNode* newNode);
     std::optional<ASTNode*> getLastReducedNode();
     void setLastReducedNode(std::optional<ASTNode*> peekNode);
     void clearLastReducedNode();
     std::optional<ASTNode*> getPeekNode();
     void setPeekNode(std::optional<ASTNode*> peekNode);
     void clearPeekNode();
+    std::optional<ASTNode*> getPrevNodeFor(int index);
+    std::optional<ASTNode*> getNextNodeFor(int index);
     void print();
 };
 

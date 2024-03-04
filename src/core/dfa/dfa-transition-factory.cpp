@@ -5,11 +5,10 @@
 #include "dfa-transition-factory.h"
 
 namespace DFATransitionFactory {
-    DFATransition create(DFANode* dfaNode, ASTNodeType prefix) {
+    DFATransition create(DFANode* dfaNode) {
         return {
-            prefix,
-            dfaNode->getNodeType(),
-            dfaNode
+                dfaNode->getNodeType(),
+                dfaNode,
         };
     }
 }

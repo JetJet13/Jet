@@ -18,7 +18,11 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
 ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     auto fileNode = new ASTFileNode();
     _lexicalAnalyzer->start(filePath);
+    auto numLoops = 0;
     while (true) {
+        if (numLoops == 1000) {
+            throw std::logic_error("too many loops!");
+        }
         auto recognizerResult = this->recognizeHandle();
         if (recognizerResult->reduce()) {
             this->reduceHandle(fileNode, recognizerResult);
@@ -34,6 +38,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             _handle.isEmpty() ? this->accept() : this->error();
             break;
         }
+        numLoops++;
     }
     return fileNode;
 }
@@ -96,6 +101,13 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         _handle.setPeekNode(peekNode);
     } else {
         _handle.clearPeekNode();
+    }
+
+    for (int i = 0; i < _handle.size(); i++) {
+            _handle.replace(i,
+                            _handle.at(i).value()->transformIfNecessary(
+                                    _handle.getPrevNodeFor(i),
+                                    _handle.getNextNodeFor(i)));
     }
 }
 
