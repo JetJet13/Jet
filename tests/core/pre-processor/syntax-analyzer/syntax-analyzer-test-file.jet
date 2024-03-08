@@ -46,4 +46,18 @@ const intLogicOr = 1 || 2;
 const intLogicAnd = !1 && 2;
 const intLogicOr = 1 || !2;
 const doubleBang = !1 && !2;
+const tripleBang = !'a' && !'b' || !'c';
+const gt = 1 > 2;
+const gte = 1 >= 2;
+const lt = 1 < 2;
+const lte = 1 <= 2;
+const bracket = (1 + 2);
+const doubleBracket = ((1 + 2));
+const tripleBracket = (((1 + 2)));
+const sumBracket = (1 + 2) + (2 + 3);
+const encloseSumBracket = ((1 + 2) + (2 + 3));
+const encloseOrBracket = ((1 + 2) || (2 + 3));
+const encloseUnary = (!true);
+const encloseUnary = !(!true);
+const encloseUnary = !(!true) && !(!false);
 

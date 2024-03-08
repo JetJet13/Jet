@@ -20,7 +20,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
     while (true) {
-        if (numLoops == 1000) {
+        if (numLoops == 2000) {
             throw std::logic_error("too many loops!");
         }
         auto recognizerResult = this->recognizeHandle();
@@ -33,6 +33,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         }
 
         this->disableTerminatorModeIfNecessary();
+        this->disableGroupingModeIfNecessary();
 
         if (!_handle.isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
             _handle.isEmpty() ? this->accept() : this->error();
@@ -109,11 +110,24 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
                                     _handle.getPrevNodeFor(i),
                                     _handle.getNextNodeFor(i)));
     }
+
+    if (_handle.isGroupEnclosed()) {
+        Logger::log("group enclosed..removing brackets");
+        _handle.removeFirstNode();
+        _handle.removeLastNode();
+    }
 }
 
 void SyntaxAnalyzer::disableTerminatorModeIfNecessary() {
     if (_handle.isTerminatorMode() && _stack.empty() && _handle.isTerminatorOnlyNode()) {
         Logger::log("disabling terminator mode");
+        _handle.clear();
+    }
+}
+
+void SyntaxAnalyzer::disableGroupingModeIfNecessary() {
+    if (_handle.isGroupingMode() && _stack.empty()) {
+        Logger::log("disabling grouping mode");
         _handle.clear();
     }
 }

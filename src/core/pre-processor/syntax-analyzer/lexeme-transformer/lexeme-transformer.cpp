@@ -16,6 +16,8 @@
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-plus-base-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-minus-base-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
+#include "../../../ast/ast-nodes/ast-group-nodes/ast-group-left-node.h"
+#include "../../../ast/ast-nodes/ast-group-nodes/ast-group-end-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -68,6 +70,10 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTLogicalOperatorNode(lexeme);
     }  else if (symbol->isUnaryOperator()) {
         return new ASTUnaryOperatorNode(lexeme);
+    } else if (symbol->isLeftParentheses()) {
+        return new ASTGroupStartNode(lexeme);
+    } else if (symbol->isRightParentheses()) {
+        return new ASTGroupEndNode(lexeme);
     } else if (symbol->isSemicolon()) {
         return new ASTTerminatorNode(lexeme);
     } else {

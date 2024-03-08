@@ -117,6 +117,10 @@ add_library(jet-core
         ast/ast-nodes/ast-base-nodes/ast-plus-base-node.h
         ast/ast-nodes/ast-base-nodes/ast-minus-base-node.cpp
         ast/ast-nodes/ast-base-nodes/ast-minus-base-node.h
+        ast/ast-nodes/ast-group-nodes/ast-group-left-node.cpp
+        ast/ast-nodes/ast-group-nodes/ast-group-left-node.h
+        ast/ast-nodes/ast-group-nodes/ast-group-end-node.cpp
+        ast/ast-nodes/ast-group-nodes/ast-group-end-node.h
 
 )
 

@@ -13,11 +13,11 @@ SyntaxDfa::SyntaxDfa() {
 }
 
 RecognizerResult* SyntaxDfa::recognize(Handle handle) {
-    if (handle.isTerminatorOnlyNode()) {
+    if (handle.isTerminatorOnlyNode() || handle.isGroupingOnlyNode()) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle.isEmpty()) {
         return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
-    } else if (!handle.isTerminatorMode()) {
+    } else if (!handle.isTerminatorMode() && !handle.isGroupingMode()) {
         auto startNode = _dfa->findStartNode(handle.first().value()->getNodeType());
         if (startNode && startNode.value()->alwaysReduceSelf()) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
@@ -44,7 +44,7 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
         auto currentDfaState = _dfa->getCurrentState();
         if (currentDfaState && currentDfaState.value()->hasTargetAstNodeType()) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
-        } else if (handle.isTerminatorMode() && !currentDfaState) {
+        } else if ((handle.isTerminatorMode() || handle.isGroupingMode()) && !currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (!currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
@@ -99,6 +99,9 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_BINARY_EXPRESSION_NODE)));
 
     unaryOperator
+    ->reduceSelfWhenNextNodeIsOneOf({
+            AST_GROUP_START_NODE
+    })
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
@@ -112,21 +115,26 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_UNARY_EXPRESSION_NODE)));
 
     identifierExpression
-            ->addTransition(DFATransitionFactory::create(logicalOperator))
-            ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(logicalOperator))
+    ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     literalExpression
-            ->addTransition(DFATransitionFactory::create(logicalOperator))
-            ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(logicalOperator))
+    ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     binaryExpression
+    ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     logicalExpression
+    ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator));
 
     unaryExpression
+    ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
@@ -145,6 +153,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(binaryExpression)
     ->insertStartNode(logicalExpression)
     ->insertStartNode(unaryExpression)
+    ->insertStartNode(DFANodeFactory::Once::create(AST_GROUP_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(unaryOperator)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()

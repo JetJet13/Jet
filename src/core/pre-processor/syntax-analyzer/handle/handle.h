@@ -23,10 +23,15 @@ public:
     bool isEmpty();
     bool isTerminatorMode();
     bool isTerminatorOnlyNode();
+    bool isGroupEnclosed();
+    bool isGroupingMode();
+    bool isGroupingOnlyNode();
     void clear();
-    int size();
+    unsigned long size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);
     void removeFirstNodes(int numNodesToRemove);
+    void removeFirstNode();
+    void removeLastNode();
     void append(ASTNode* node);
     void prepend(ASTNode* node);
     void replace(int index, ASTNode* newNode);

@@ -47,6 +47,7 @@ private:
     void error();
     void prepHandleForRecognizer();
     void disableTerminatorModeIfNecessary();
+    void disableGroupingModeIfNecessary();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     ASTFileNode* analyze(std::string &filePath);

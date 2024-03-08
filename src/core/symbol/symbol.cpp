@@ -15,6 +15,14 @@ bool Symbol::isSemicolon() {
     return _type == SYM_SEMICOLON;
 }
 
+bool Symbol::isLeftParentheses() {
+    return _type == SYM_LEFT_PAREN;
+}
+
+bool Symbol::isRightParentheses() {
+    return _type == SYM_RIGHT_PAREN;
+}
+
 bool Symbol::isMalformed() {
     return _type == SYM_MALFORMED;
 }

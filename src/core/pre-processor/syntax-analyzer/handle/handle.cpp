@@ -55,11 +55,26 @@ bool Handle::isTerminatorOnlyNode() {
     return _handle.size() == 1 && this->isNodeTypeAt(0, AST_TERMINATOR_NODE);
 }
 
+bool Handle::isGroupEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_GROUP_START_NODE) && this->last().value()->is(AST_GROUP_END_NODE);
+}
+
+bool Handle::isGroupingMode() {
+    return !this->isEmpty() && this->last().value()->is(AST_GROUP_END_NODE);
+}
+
+bool Handle::isGroupingOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_GROUP_END_NODE);
+}
+
 void Handle::clear() {
     _handle.clear();
 }
 
-int Handle::size() {
+unsigned long Handle::size() {
     return _handle.size();
 }
 
@@ -82,6 +97,14 @@ std::vector<ASTNode*> Handle::getFirstNodes(int numNodesToGet) {
 
 void Handle::removeFirstNodes(int numNodesToRemove) {
     _handle.erase(_handle.begin(), _handle.begin() + numNodesToRemove);
+}
+
+void Handle::removeFirstNode() {
+    _handle.pop_front();
+}
+
+void Handle::removeLastNode() {
+    _handle.pop_back();
 }
 
 void Handle::append(ASTNode* node) {
