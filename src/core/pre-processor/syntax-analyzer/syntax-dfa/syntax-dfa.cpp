@@ -115,25 +115,40 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_UNARY_EXPRESSION_NODE)));
 
     identifierExpression
+    ->backtrackWhenLastReducedNodeIsOneOf({
+          AST_UNARY_OPERATOR_NODE
+    })
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     literalExpression
+    ->backtrackWhenLastReducedNodeIsOneOf({
+         AST_UNARY_OPERATOR_NODE
+    })
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     binaryExpression
+    ->backtrackWhenLastReducedNodeIsOneOf({
+        AST_UNARY_OPERATOR_NODE
+    })
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     logicalExpression
+    ->backtrackWhenLastReducedNodeIsOneOf({
+       AST_UNARY_OPERATOR_NODE
+    })
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator));
 
     unaryExpression
+    ->backtrackWhenLastReducedNodeIsOneOf({
+       AST_UNARY_OPERATOR_NODE
+    })
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
