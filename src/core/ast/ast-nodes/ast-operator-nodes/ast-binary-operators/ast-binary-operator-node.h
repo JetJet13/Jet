@@ -11,7 +11,8 @@ class ASTBinaryOperatorNode : public ASTNode {
 protected:
     Lexeme* _lexemeOperator;
 public:
-    ASTBinaryOperatorNode(Lexeme* lexemeOperator);
+    explicit ASTBinaryOperatorNode(Lexeme* lexemeOperator);
+    ASTBinaryOperatorNode(Lexeme* lexemeOperator, int priority);
     Lexeme* getOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;

@@ -27,6 +27,7 @@ public:
     DFANode* reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors);
     DFANode* addTransition(DFATransition transition);
     DFANode* markAlwaysReduceSelf();
+    DFANode* backtrackWhenLastReducedNodeIsHigherPriorityThenNextNode();
     std::optional<DFANode*> transition(ASTNodeType astNodeType);
     bool shouldBacktrackTo(ASTNodeType astNodeType);
     bool shouldReduceSelfFor(ASTNodeType astNodeType);

@@ -58,6 +58,14 @@ const sumBracket = (1 + 2) + (2 + 3);
 const encloseSumBracket = ((1 + 2) + (2 + 3));
 const encloseOrBracket = ((1 + 2) || (2 + 3));
 const encloseUnary = (!true);
-const encloseUnary = !(!true);
+const encloseDoubleUnary = !(!true);
 const encloseUnary = !(!true) && !(!false);
+const encloseBinary = (1 + ((2 + 3) + 4));
+const encloseLogical = (true && ((true || true) && true));
+const encloseTripleUnary = !(true && !(!(true || true) && true));
+const bedmasEasy = 1 + 2 * 3;
+const bedmasHard = 1 * 2 + 3;
+const bedmasWithBrackets = 1 * (2 + 3);
+const bedmasSlash = 1 * 2 / 3;
+
 

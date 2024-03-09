@@ -507,7 +507,112 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 )
                         )
                         )
-        )}
+        )},
+        {63, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::plus,
+                        new ASTBinaryExpressionNode(
+                                new ASTBinaryExpressionNode(
+                                        ASTNodeFactory::intExpression,
+                                        ASTNodeFactory::plus,
+                                        ASTNodeFactory::intExpression
+                                        ),
+                                        ASTNodeFactory::plus,
+                                        ASTNodeFactory::intExpression
+                                )
+                )
+        )},
+        {64, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLogicalExpressionNode(
+                        ASTNodeFactory::trueExpression,
+                        ASTNodeFactory::andOperator,
+                        new ASTLogicalExpressionNode(
+                                new ASTLogicalExpressionNode(
+                                        ASTNodeFactory::trueExpression,
+                                        ASTNodeFactory::orOperator,
+                                        ASTNodeFactory::trueExpression
+                                ),
+                                ASTNodeFactory::andOperator,
+                                ASTNodeFactory::trueExpression
+                        )
+                )
+        )},
+        {65, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTUnaryExpressionNode(
+                        ASTNodeFactory::bang,
+                        new ASTLogicalExpressionNode(
+                                ASTNodeFactory::trueExpression,
+                                ASTNodeFactory::andOperator,
+                            new ASTUnaryExpressionNode(
+                                        ASTNodeFactory::bang,
+                                new ASTLogicalExpressionNode(
+                                        new ASTUnaryExpressionNode(
+                                            ASTNodeFactory::bang,
+                                            new ASTLogicalExpressionNode(
+                                                    ASTNodeFactory::trueExpression,
+                                                    ASTNodeFactory::orOperator,
+                                                    ASTNodeFactory::trueExpression
+                                            )
+                                        ),
+                                        ASTNodeFactory::andOperator,
+                                        ASTNodeFactory::trueExpression
+                                )
+                            )
+                        )
+                )
+        )},
+        {66, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::plus,
+                        new ASTBinaryExpressionNode(
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::star,
+                                ASTNodeFactory::intExpression
+                        )
+                )
+        )},
+        {67, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        new ASTBinaryExpressionNode(
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::star,
+                        ASTNodeFactory::intExpression
+                        ),
+                        ASTNodeFactory::plus,
+                        ASTNodeFactory::intExpression
+                )
+        )},
+        {68, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::star,
+                        new ASTBinaryExpressionNode(
+                            ASTNodeFactory::intExpression,
+                            ASTNodeFactory::plus,
+                            ASTNodeFactory::intExpression
+                        )
+                )
+        )},
+        {69, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::star,
+                        new ASTBinaryExpressionNode(
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::slash,
+                                ASTNodeFactory::intExpression
+                        )
+                )
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -518,8 +623,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 62);
-    for (int i = 0; i < 62; i++) {
+REQUIRE(fileNodeResult->getBody().size() == 69);
+    for (int i = 0; i < 69; i++) {
         auto declaration = fileNodeResult->getBody()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

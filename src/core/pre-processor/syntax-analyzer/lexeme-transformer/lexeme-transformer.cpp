@@ -49,23 +49,23 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     } else if (symbol->isMinus()) {
         return new ASTMinusBaseNode(lexeme);
     } else if (symbol->isEqualityOperator()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 10);
     } else if (symbol->isInequalityOperator()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 10);
     } else if (symbol->isStar()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 2);
     } else if (symbol->isSlash()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 1);
     } else if (symbol->isModulo()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 9);
     } else if (symbol->isGreaterThan()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 10);
     } else if (symbol->isGreaterThanOrEqual()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 10);
     } else if (symbol->isLessThan()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 10);
     } else if (symbol->isLessThanOrEqual()) {
-        return new ASTBinaryOperatorNode(lexeme);
+        return new ASTBinaryOperatorNode(lexeme, 10);
     } else if (symbol->isLogicalOperator()) {
         return new ASTLogicalOperatorNode(lexeme);
     }  else if (symbol->isUnaryOperator()) {

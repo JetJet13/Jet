@@ -24,7 +24,7 @@ ASTNode* ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode,
     };
     if (prevNode && prevNode.value()->isOneOf(plusOperatorPrevNodes)) {
         Logger::log("transforming PLUS_BASE to BINARY_OPERATOR because prevNode is", prevNode.value()->toString());
-        return new ASTBinaryOperatorNode(_lexeme);
+        return new ASTBinaryOperatorNode(_lexeme, 3);
     }
 
     std::vector<ASTNodeType> unaryPlusOperatorPrevNodes = {

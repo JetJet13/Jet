@@ -9,6 +9,11 @@ ASTBinaryOperatorNode::ASTBinaryOperatorNode(Lexeme* lexemeOperator) {
     _lexemeOperator = lexemeOperator;
 }
 
+ASTBinaryOperatorNode::ASTBinaryOperatorNode(Lexeme* lexemeOperator, int priority) {
+    _lexemeOperator = lexemeOperator;
+    _priority = priority;
+}
+
 Lexeme* ASTBinaryOperatorNode::getOperator() {
     return _lexemeOperator;
 }

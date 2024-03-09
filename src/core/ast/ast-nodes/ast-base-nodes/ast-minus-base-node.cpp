@@ -22,7 +22,7 @@ ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode
             AST_IDENTIFIER_EXPRESSION_NODE,
     };
     if (prevNode && prevNode.value()->isOneOf(minusOperatorPrevNodes)) {
-        return new ASTBinaryOperatorNode(_lexeme);
+        return new ASTBinaryOperatorNode(_lexeme, 3);
     }
 
     std::vector<ASTNodeType> unaryMinusOperatorPrevNodes = {

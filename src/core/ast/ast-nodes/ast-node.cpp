@@ -21,8 +21,24 @@ bool ASTNode::isOneOf(std::vector<ASTNodeType> astNodeTypes) {
             this->getNodeType()) != astNodeTypes.end();
 }
 
+bool ASTNode::isSameNodeTypeAs(ASTNode* other) {
+    return this->getNodeType() == other->getNodeType();
+}
+
 void ASTNode::print() {
     Logger::log(this->toString());
+}
+
+int ASTNode::getPriority() {
+    return _priority;
+}
+
+bool ASTNode::isHigherPriorityThan(ASTNode* other) {
+    return this->getPriority() < other->getPriority();
+}
+
+bool ASTNode::isLowerPriorityThan(ASTNode* other) {
+    return this->getPriority() > other->getPriority();
 }
 
 bool ASTNode::isSameAs(ASTNode* other) {

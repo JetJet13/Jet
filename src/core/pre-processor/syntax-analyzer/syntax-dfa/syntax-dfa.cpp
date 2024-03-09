@@ -27,6 +27,13 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
         if (successor && _dfa->isValidSuccessorForNode(handle.first().value()->getNodeType(), successor.value()->getNodeType())) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
         }
+    } else if (handle.isTerminatorMode() || handle.isGroupingMode()) {
+        auto predecessor = handle.getPrevNodeFor(0);
+        auto successor = handle.getNextNodeFor(0);
+        if (predecessor && successor && predecessor.value()->isSameNodeTypeAs(successor.value()) && predecessor.value()->isHigherPriorityThan(successor.value())) {
+            Logger::log("predecessor is higher priority then successor");
+            return new RecognizerResult(RECOGNIZER_ACTION_POP);
+        }
     }
 
     auto predecessor = handle.getPrevNodeFor(0);

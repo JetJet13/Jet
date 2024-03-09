@@ -13,6 +13,7 @@ class ASTNode {
 protected:
     std::optional<ASTNode*> _parentNode;
     ASTNodeType _nodeType;
+    int _priority = 1;
 public:
     void setParentNode(ASTNode* parentNode);
     virtual ASTNodeType getNodeType() = 0;
@@ -22,5 +23,9 @@ public:
     virtual ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode);
     bool is(ASTNodeType astNodeType);
     bool isOneOf(std::vector<ASTNodeType> astNodeTypes);
+    bool isSameNodeTypeAs(ASTNode* other);
+    int getPriority();
+    bool isHigherPriorityThan(ASTNode* other);
+    bool isLowerPriorityThan(ASTNode* other);
 };
 #endif //JETLANG_AST_NODE_H
