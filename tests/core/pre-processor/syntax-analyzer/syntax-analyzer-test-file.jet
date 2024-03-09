@@ -67,5 +67,17 @@ const bedmasEasy = 1 + 2 * 3;
 const bedmasHard = 1 * 2 + 3;
 const bedmasWithBrackets = 1 * (2 + 3);
 const bedmasSlash = 1 * 2 / 3;
+const bedmasQuad = 1 * 2 - 3 + 4;
+const bedmasQuint = 1 * 2 - 3 + 4 / 24;
+const bedmasIdQuintWithBrackets = 1 * 2 - (3 + 4) / 24;
+const bedmasIdEasy = one + two * three;
+const bedmasIdHard = one * two + three;
+const bedmasIdWithBrackets = one * (two + three);
+const bedmasIdSlash = one * two / three;
+const bedmasIdQuad = one * two - three + four;
+const bedmasIdQuint = one * two - three + four / twentyFour;
+const bedmasIdQuintWithBrackets = one * two - (three + four) / twentyFour;
+const bedmasUnary = +1 * 2 / -3;
+const bedmasUnaryQuad = +1 * 2 - -3 + 4;
 
 

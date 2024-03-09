@@ -613,6 +613,206 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
+        {70, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        new ASTBinaryExpressionNode(
+                            new ASTBinaryExpressionNode(
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::star,
+                                ASTNodeFactory::intExpression
+                            ),
+                            ASTNodeFactory::minus,
+                            ASTNodeFactory::intExpression
+                        ),
+                        ASTNodeFactory::plus,
+                        ASTNodeFactory::intExpression
+                )
+        )},
+        {71, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        new ASTBinaryExpressionNode(
+                                new ASTBinaryExpressionNode(
+                                        ASTNodeFactory::intExpression,
+                                        ASTNodeFactory::star,
+                                        ASTNodeFactory::intExpression
+                                ),
+                                ASTNodeFactory::minus,
+                                ASTNodeFactory::intExpression
+                        ),
+                        ASTNodeFactory::plus,
+                        new ASTBinaryExpressionNode(
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::slash,
+                                ASTNodeFactory::intExpression
+                        )
+                )
+        )},
+        {72, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        new ASTBinaryExpressionNode(
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::star,
+                                ASTNodeFactory::intExpression
+                        ),
+                        ASTNodeFactory::minus,
+                        new ASTBinaryExpressionNode(
+                                new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::intExpression,
+                                    ASTNodeFactory::plus,
+                                    ASTNodeFactory::intExpression
+                                ),
+                                ASTNodeFactory::slash,
+                                ASTNodeFactory::intExpression
+                        )
+                )
+        )},
+        {73, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            ASTNodeFactory::idExpression,
+                            ASTNodeFactory::plus,
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::star,
+                                    ASTNodeFactory::idExpression
+                            )
+                    )
+            )},
+        {74, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::star,
+                                    ASTNodeFactory::idExpression
+                            ),
+                            ASTNodeFactory::plus,
+                            ASTNodeFactory::idExpression
+                    )
+            )},
+        {75, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            ASTNodeFactory::idExpression,
+                            ASTNodeFactory::star,
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::plus,
+                                    ASTNodeFactory::idExpression
+                            )
+                    )
+            )},
+        {76, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            ASTNodeFactory::idExpression,
+                            ASTNodeFactory::star,
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::slash,
+                                    ASTNodeFactory::idExpression
+                            )
+                    )
+            )},
+        {77, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            new ASTBinaryExpressionNode(
+                                    new ASTBinaryExpressionNode(
+                                            ASTNodeFactory::idExpression,
+                                            ASTNodeFactory::star,
+                                            ASTNodeFactory::idExpression
+                                    ),
+                                    ASTNodeFactory::minus,
+                                    ASTNodeFactory::idExpression
+                            ),
+                            ASTNodeFactory::plus,
+                            ASTNodeFactory::idExpression
+                    )
+            )},
+        {78, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            new ASTBinaryExpressionNode(
+                                    new ASTBinaryExpressionNode(
+                                            ASTNodeFactory::idExpression,
+                                            ASTNodeFactory::star,
+                                            ASTNodeFactory::idExpression
+                                    ),
+                                    ASTNodeFactory::minus,
+                                    ASTNodeFactory::idExpression
+                            ),
+                            ASTNodeFactory::plus,
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::slash,
+                                    ASTNodeFactory::idExpression
+                            )
+                    )
+            )},
+        {79, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::star,
+                                    ASTNodeFactory::idExpression
+                            ),
+                            ASTNodeFactory::minus,
+                            new ASTBinaryExpressionNode(
+                                    new ASTBinaryExpressionNode(
+                                            ASTNodeFactory::idExpression,
+                                            ASTNodeFactory::plus,
+                                            ASTNodeFactory::idExpression
+                                    ),
+                                    ASTNodeFactory::slash,
+                                    ASTNodeFactory::idExpression
+                            )
+                    )
+            )},
+            {80, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            new ASTUnaryExpressionNode(
+                                ASTNodeFactory::unaryPlus,
+                                ASTNodeFactory::intExpression
+                            ),
+                            ASTNodeFactory::star,
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::intExpression,
+                                    ASTNodeFactory::slash,
+                                    new ASTUnaryExpressionNode(
+                                            ASTNodeFactory::unaryMinus,
+                                            ASTNodeFactory::intExpression
+                                    )
+                            )
+                    )
+            )},
+            {81, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTBinaryExpressionNode(
+                            new ASTBinaryExpressionNode(
+                                    new ASTBinaryExpressionNode(
+                                            new ASTUnaryExpressionNode(
+                                                    ASTNodeFactory::unaryPlus,
+                                                    ASTNodeFactory::intExpression
+                                            ),
+                                            ASTNodeFactory::star,
+                                            ASTNodeFactory::intExpression
+                                    ),
+                                    ASTNodeFactory::minus,
+                                    new ASTUnaryExpressionNode(
+                                            ASTNodeFactory::unaryMinus,
+                                            ASTNodeFactory::intExpression
+                                    )
+                            ),
+                            ASTNodeFactory::plus,
+                            ASTNodeFactory::intExpression
+                    )
+            )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -623,8 +823,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 69);
-    for (int i = 0; i < 69; i++) {
+REQUIRE(fileNodeResult->getBody().size() == 81);
+    for (int i = 0; i < 81; i++) {
         auto declaration = fileNodeResult->getBody()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
