@@ -18,6 +18,9 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
 #include "../../../ast/ast-nodes/ast-group-nodes/ast-group-left-node.h"
 #include "../../../ast/ast-nodes/ast-group-nodes/ast-group-end-node.h"
+#include "../../../ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.h"
+#include "../../../ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.h"
+#include "../../../ast/ast-nodes/ast-comma-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -76,6 +79,12 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTGroupEndNode(lexeme);
     } else if (symbol->isSemicolon()) {
         return new ASTTerminatorNode(lexeme);
+    } else if (symbol->isLeftBracket()) {
+        return new ASTLeftBracketNode(lexeme);
+    } else if (symbol->isRightBracket()) {
+        return new ASTRightBracketNode(lexeme);
+    } else if (symbol->isComma()) {
+        return new ASTCommaNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

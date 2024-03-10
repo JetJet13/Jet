@@ -70,6 +70,25 @@ bool Handle::isGroupingOnlyNode() {
     return _handle.size() == 1 && this->isNodeTypeAt(0, AST_GROUP_END_NODE);
 }
 
+bool Handle::isArrayEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_LEFT_BRACKET_NODE) && this->last().value()->is(AST_RIGHT_BRACKET_NODE);
+}
+
+bool Handle::isArrayMode() {
+    return !this->isEmpty() && this->last().value()->is(AST_RIGHT_BRACKET_NODE);
+}
+
+bool Handle::isArrayOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_RIGHT_BRACKET_NODE);
+}
+
+bool Handle::isInSpecialMode() {
+    return this->isTerminatorMode() || this->isGroupingMode() || this->isArrayMode();
+}
+
 void Handle::clear() {
     _handle.clear();
 }

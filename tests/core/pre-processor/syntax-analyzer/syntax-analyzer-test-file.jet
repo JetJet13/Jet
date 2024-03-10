@@ -79,5 +79,4 @@ const bedmasIdQuint = one * two - three + four / twentyFour;
 const bedmasIdQuintWithBrackets = one * two - (three + four) / twentyFour;
 const bedmasUnary = +1 * 2 / -3;
 const bedmasUnaryQuad = +1 * 2 - -3 + 4;
-
-
+const arr = [1, 2, 3];

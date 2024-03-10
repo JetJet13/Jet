@@ -26,6 +26,10 @@ public:
     bool isGroupEnclosed();
     bool isGroupingMode();
     bool isGroupingOnlyNode();
+    bool isArrayEnclosed();
+    bool isArrayMode();
+    bool isArrayOnlyNode();
+    bool isInSpecialMode();
     void clear();
     unsigned long size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);

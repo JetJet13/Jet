@@ -34,6 +34,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
 
         this->disableTerminatorModeIfNecessary();
         this->disableGroupingModeIfNecessary();
+        this->disableArrayModeIfNecessary();
 
         if (!_handle.isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
             _handle.isEmpty() ? this->accept() : this->error();
@@ -128,6 +129,13 @@ void SyntaxAnalyzer::disableTerminatorModeIfNecessary() {
 void SyntaxAnalyzer::disableGroupingModeIfNecessary() {
     if (_handle.isGroupingMode() && _stack.empty()) {
         Logger::log("disabling grouping mode");
+        _handle.clear();
+    }
+}
+
+void SyntaxAnalyzer::disableArrayModeIfNecessary() {
+    if (_handle.isArrayMode() && _stack.empty()) {
+        Logger::log("disabling array mode");
         _handle.clear();
     }
 }

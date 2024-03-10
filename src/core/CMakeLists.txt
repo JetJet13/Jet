@@ -121,6 +121,18 @@ add_library(jet-core
         ast/ast-nodes/ast-group-nodes/ast-group-left-node.h
         ast/ast-nodes/ast-group-nodes/ast-group-end-node.cpp
         ast/ast-nodes/ast-group-nodes/ast-group-end-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h
+        ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.cpp
+        ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.h
+        ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.cpp
+        ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.h
+        ast/ast-nodes/ast-base-nodes/ast-base-node-transformer.cpp
+        ast/ast-nodes/ast-base-nodes/ast-base-node-transformer.h
+        ast/ast-nodes/ast-comma-node.cpp
+        ast/ast-nodes/ast-comma-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.h
 
 )
 

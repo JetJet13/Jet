@@ -12,15 +12,14 @@ class RecognizerResult {
 private:
     RecognizerAction _recognizerAction;
     ASTNodeType _targetAstNodeType;
-    int _numReducedNodes;
+    unsigned long _numReducedNodes;
 public:
-    RecognizerResult(RecognizerAction recognizerAction, int numReducedNodes = 0, ASTNodeType targetAstNodeType = AST_NULL_NODE);
+    RecognizerResult(RecognizerAction recognizerAction, unsigned long numReducedNodes = 0, ASTNodeType targetAstNodeType = AST_NULL_NODE);
     ASTNodeType getTargetAstNodeType();
     int getNumReducedNodes();
     bool reduce();
     bool shift();
     bool pop();
-    bool transform();
 };
 
 #endif //JETLANG_RECOGNIZER_RESULT_H

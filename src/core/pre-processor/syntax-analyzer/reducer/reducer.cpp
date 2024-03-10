@@ -10,6 +10,7 @@
 #include "reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.h"
 #include "reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.h"
 #include "reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.h"
+#include "reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -24,11 +25,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LOGICAL_EXPRESSION_NODE, new LogicalExpressionReducerStrategy());
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionReducerStrategy());
     this->addStrategy(AST_LITERAL_EXPRESSION_NODE, new LiteralExpressionReducerStrategy());
-//    this->addStrategy(AST_PLUS_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
-//    this->addStrategy(AST_MINUS_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
-//    this->addStrategy(AST_STAR_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
-//    this->addStrategy(AST_SLASH_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
-//    this->addStrategy(AST_MODULO_OPERATOR_NODE, new BinaryOperatorReducerStrategy());
+    this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {
