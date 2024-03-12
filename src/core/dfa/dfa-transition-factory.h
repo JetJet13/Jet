@@ -9,8 +9,5 @@
 
 namespace DFATransitionFactory {
     DFATransition create(DFANode* dfaNode);
-    DFATransition create(ASTNodeType prefix, DFANode* dfaNode);
-    DFATransition create(DFANode* dfaNode, ASTNodeType suffix);
-    DFATransition create(ASTNodeType prefix, DFANode* dfaNode, ASTNodeType suffix);
 }
 #endif //JETLANG_DFA_TRANSITION_FACTORY_H

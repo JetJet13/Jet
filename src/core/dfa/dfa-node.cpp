@@ -11,6 +11,7 @@ DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::opt
     _astNodeType = astNodeType;
     _predecessorsToBacktrackTo = std::vector<ASTNodeType>();
     _successorsToReduceSelfFor = std::vector<ASTNodeType>();
+    _reduceToTargetMaps = std::vector<ReduceToTargetMap*>();
     _targetAstNodeType = targetAstNodeType;
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
@@ -19,6 +20,11 @@ DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::opt
 
 DFANode* DFANode::backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors) {
     _predecessorsToBacktrackTo = std::move(predecessors);
+    return this;
+}
+
+DFANode* DFANode::addReduceToTargetMap(ReduceToTargetMap* reduceToTargetMap) {
+    _reduceToTargetMaps.push_back(reduceToTargetMap);
     return this;
 }
 
@@ -61,6 +67,24 @@ bool DFANode::shouldBacktrackTo(ASTNodeType astNodeType) {
 
 bool DFANode::shouldReduceSelfFor(ASTNodeType astNodeType) {
     return std::find(_successorsToReduceSelfFor.begin(), _successorsToReduceSelfFor.end(), astNodeType) != _successorsToReduceSelfFor.end();
+}
+
+bool DFANode::shouldReduceToTargetFor(ASTNodeType astNodeType) {
+    for (auto reduceToTargetMap: _reduceToTargetMaps) {
+        if (reduceToTargetMap->isNodeTypeInMap(astNodeType)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::optional<ASTNodeType> DFANode::getReduceTargetFor(ASTNodeType astNodeType) {
+    for (auto reduceToTargetMap: _reduceToTargetMaps) {
+        if (reduceToTargetMap->isNodeTypeInMap(astNodeType)) {
+            return reduceToTargetMap->getTarget();
+        }
+    }
+    return {};
 }
 
 bool DFANode::alwaysReduceSelf() {

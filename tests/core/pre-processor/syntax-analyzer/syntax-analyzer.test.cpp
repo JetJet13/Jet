@@ -11,6 +11,8 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h"
+#include "../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -821,7 +823,70 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                        ASTNodeFactory::intExpression,
                        ASTNodeFactory::intExpression
                     })
-            )}
+            )},
+            {83, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTArrayAccessExpressionNode(
+                           ASTNodeFactory::idExpression,
+                           new ASTArrayAccessNode(
+                                ASTNodeFactory::intExpression
+                           )
+                   )
+            )},
+            {84, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTArrayAccessExpressionNode(
+                            new ASTArrayExpressionNode({
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::intExpression
+                            }),
+                            new ASTArrayAccessNode(
+                                ASTNodeFactory::intExpression
+                            )
+                    )
+            )},
+            {85, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTArrayExpressionNode({
+                           new ASTArrayExpressionNode({ ASTNodeFactory::intExpression }),
+                           new ASTArrayExpressionNode({ ASTNodeFactory::intExpression }),
+                           new ASTArrayExpressionNode({ ASTNodeFactory::intExpression })
+                    })
+            )},
+            {86, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTArrayExpressionNode({
+                           new ASTArrayExpressionNode({
+                               new ASTBinaryExpressionNode(
+                                       ASTNodeFactory::intExpression,
+                                       ASTNodeFactory::plus,
+                                       ASTNodeFactory::intExpression
+                                       )
+                           }),
+                           new ASTArrayExpressionNode({
+                                  new ASTBinaryExpressionNode(
+                                          ASTNodeFactory::intExpression,
+                                          ASTNodeFactory::plus,
+                                          ASTNodeFactory::intExpression
+                                  )
+                          }),
+                           new ASTArrayExpressionNode({
+                                  new ASTBinaryExpressionNode(
+                                          ASTNodeFactory::intExpression,
+                                          ASTNodeFactory::plus,
+                                          ASTNodeFactory::intExpression
+                                  )
+                          }),
+                   })
+            )},
+            {87, new ASTVariableDeclarationNode(
+                    ASTNodeFactory::constInit,
+                    new ASTArrayExpressionNode({
+                           ASTNodeFactory::idExpression,
+                           ASTNodeFactory::idExpression,
+                           ASTNodeFactory::idExpression
+                    })
+            )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -832,8 +897,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 82);
-    for (int i = 0; i < 82; i++) {
+REQUIRE(fileNodeResult->getBody().size() == 87);
+    for (int i = 0; i < 87; i++) {
         auto declaration = fileNodeResult->getBody()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

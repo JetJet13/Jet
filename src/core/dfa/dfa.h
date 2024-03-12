@@ -25,7 +25,5 @@ public:
     std::optional<DFANode*> getStartState();
     std::optional<DFANode*> getCurrentState();
     std::optional<DFANode*> findStartNode(ASTNodeType nodeType);
-    bool isValidPredecessorForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType);
-    bool isValidSuccessorForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType);
 };
 #endif //JETLANG_DFA_H

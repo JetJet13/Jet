@@ -127,10 +127,22 @@ add_library(jet-core
         ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.h
         ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.cpp
         ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.h
-        ast/ast-nodes/ast-base-nodes/ast-base-node-transformer.cpp
-        ast/ast-nodes/ast-base-nodes/ast-base-node-transformer.h
         ast/ast-nodes/ast-comma-node.cpp
         ast/ast-nodes/ast-comma-node.h
+        ast/ast-nodes/ast-base-nodes/ast-array-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-array-base-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-base-node-reducer-strategy/array-base-node-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-base-node-reducer-strategy/array-base-node-reducer-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-expression-reducer-strategy/array-access-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-expression-reducer-strategy/array-access-expression-reducer-strategy.h
+        ast/ast-nodes/ast-array-nodes/ast-array-access-node.cpp
+        ast/ast-nodes/ast-array-nodes/ast-array-access-node.h
+        dfa/types/reduce-to-target-map.cpp
+        dfa/types/reduce-to-target-map.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-reducer-strategy/array-access-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-reducer-strategy/array-access-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.h
 

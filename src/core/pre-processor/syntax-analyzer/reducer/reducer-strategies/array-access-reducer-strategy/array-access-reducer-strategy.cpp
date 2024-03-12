@@ -1,0 +1,18 @@
+//
+// Created by Johny Georges on 2024-03-12.
+//
+
+#include "array-access-reducer-strategy.h"
+#include "../../../../../ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
+#include "../../../../../ast/ast-nodes/ast-base-nodes/ast-array-base-node.h"
+
+ASTNode* ArrayAccessReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+    if (nodes.size() != 1 || !nodes[0]->is(AST_ARRAY_BASE_NODE)) {
+        throw std::invalid_argument("unable to reduce to array access node since node list != 1 or nodes[0] is not an instance of array base node");
+    }
+    auto arrayBaseNode = (ASTArrayBaseNode*)nodes[0];
+    if (!arrayBaseNode->getFirstElement()) {
+        throw std::invalid_argument("unable to reduce to array access node since array base node has no elements");
+    }
+    return new ASTArrayAccessNode(this->createExpressionNode(arrayBaseNode->getFirstElement().value()));
+}

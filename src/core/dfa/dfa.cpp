@@ -62,19 +62,3 @@ std::optional<DFANode*> DFA::findStartNode(ASTNodeType nodeType) {
     }
     return prefixNode->second;
 }
-
-bool DFA::isValidPredecessorForNode(ASTNodeType nodeType, ASTNodeType prefixNodeType) {
-    auto prefixNode = _startNodes.find(nodeType);
-    if (prefixNode == _startNodes.end()) {
-        return false;
-    }
-    return prefixNode->second->shouldBacktrackTo(prefixNodeType);
-}
-
-bool DFA::isValidSuccessorForNode(ASTNodeType nodeType, ASTNodeType suffixNodeType) {
-    auto suffixNode = _startNodes.find(nodeType);
-    if (suffixNode == _startNodes.end()) {
-        return false;
-    }
-    return suffixNode->second->shouldReduceSelfFor(suffixNodeType);
-}

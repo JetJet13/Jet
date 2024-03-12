@@ -16,6 +16,10 @@ ASTArrayExpressionNode::ASTArrayExpressionNode(std::vector<ASTExpressionNode*> e
     }
 }
 
+ASTArrayExpressionNode::ASTArrayExpressionNode(std::vector<ASTExpressionNode*>* elements) {
+    _elements = elements;
+}
+
 std::vector<ASTExpressionNode*>* ASTArrayExpressionNode::getElements() {
     return _elements;
 }

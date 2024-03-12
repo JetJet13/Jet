@@ -16,6 +16,7 @@ private:
 public:
     explicit ASTArrayExpressionNode();
     explicit ASTArrayExpressionNode(std::vector<ASTExpressionNode*> elements);
+    explicit ASTArrayExpressionNode(std::vector<ASTExpressionNode*>* elements);
     std::vector<ASTExpressionNode*>* getElements();
     ASTArrayExpressionNode* addElement(ASTExpressionNode* element);
     unsigned long size();

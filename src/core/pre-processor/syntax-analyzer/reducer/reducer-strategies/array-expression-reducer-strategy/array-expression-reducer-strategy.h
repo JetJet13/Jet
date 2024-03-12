@@ -1,5 +1,5 @@
 //
-// Created by Johny Georges on 2024-03-09.
+// Created by Johny Georges on 2024-03-12.
 //
 
 #ifndef JETLANG_ARRAY_EXPRESSION_REDUCER_STRATEGY_H
