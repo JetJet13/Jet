@@ -3,11 +3,11 @@
 //
 
 #include "array-base-node-reducer-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-base-nodes/ast-array-base-node.h"
+#include "../../../../../ast/ast-nodes/ast-array-nodes/ast-array-node.h"
 
 
 ASTNode* ArrayBaseNodeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    auto arrayBaseNode = new ASTArrayBaseNode();
+    auto arrayBaseNode = new ASTArrayNode();
     for (int i = 1; i < nodes.size() - 1; i++) {
         if (!nodes[i]->is(AST_COMMA_NODE)) {
             arrayBaseNode->addElement((ASTExpressionNode*)nodes[i]);

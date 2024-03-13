@@ -129,8 +129,8 @@ add_library(jet-core
         ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.h
         ast/ast-nodes/ast-comma-node.cpp
         ast/ast-nodes/ast-comma-node.h
-        ast/ast-nodes/ast-base-nodes/ast-array-base-node.cpp
-        ast/ast-nodes/ast-base-nodes/ast-array-base-node.h
+        ast/ast-nodes/ast-array-nodes/ast-array-node.cpp
+        ast/ast-nodes/ast-array-nodes/ast-array-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-base-node-reducer-strategy/array-base-node-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-base-node-reducer-strategy/array-base-node-reducer-strategy.h
         ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.cpp

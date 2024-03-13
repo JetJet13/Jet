@@ -28,7 +28,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LOGICAL_EXPRESSION_NODE, new LogicalExpressionReducerStrategy());
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionReducerStrategy());
     this->addStrategy(AST_LITERAL_EXPRESSION_NODE, new LiteralExpressionReducerStrategy());
-    this->addStrategy(AST_ARRAY_BASE_NODE, new ArrayBaseNodeReducerStrategy());
+    this->addStrategy(AST_ARRAY_NODE, new ArrayBaseNodeReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_EXPRESSION_NODE, new ArrayAccessExpressionReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_NODE, new ArrayAccessReducerStrategy());
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());

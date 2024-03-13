@@ -28,7 +28,7 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
         }
     } else if (handle.isArrayEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_ARRAY_BASE_NODE);
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_ARRAY_NODE);
     } else if (handle.isInSpecialMode()) {
         auto predecessor = handle.getPrevNodeFor(0);
         auto successor = handle.getNextNodeFor(0);
@@ -87,7 +87,7 @@ void SyntaxDfa::init() {
     DFANode* binaryOperator = DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE);
     DFANode* logicalOperator = DFANodeFactory::Once::create(AST_LOGICAL_OPERATOR_NODE);
     DFANode* unaryOperator = DFANodeFactory::Once::create(AST_UNARY_OPERATOR_NODE);
-    DFANode* arrayBase = DFANodeFactory::Once::create(AST_ARRAY_BASE_NODE);
+    DFANode* arrayBase = DFANodeFactory::Once::create(AST_ARRAY_NODE);
     DFANode* arrayAccess = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_NODE);
 
     this->initVarType(varType);
@@ -184,7 +184,7 @@ void SyntaxDfa::init() {
 
     arrayBase
     ->addReduceToTargetMap(new ReduceToTargetMap(AST_ARRAY_EXPRESSION_NODE, { AST_VARIABLE_INIT_NODE, AST_COMMA_NODE, AST_LEFT_BRACKET_NODE }))
-    ->addReduceToTargetMap(new ReduceToTargetMap(AST_ARRAY_ACCESS_NODE, { AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE }));
+    ->addReduceToTargetMap(new ReduceToTargetMap(AST_ARRAY_ACCESS_NODE, { AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE }));
 
     arrayAccess
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE });

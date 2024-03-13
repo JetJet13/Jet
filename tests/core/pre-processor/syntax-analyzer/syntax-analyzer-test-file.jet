@@ -85,3 +85,5 @@ const rawArrAccess = [1,2][0];
 const nestedArr = [ [1], [2], [3] ];
 const nestedArrWithExpressions = [ [1 + 1], [2 + 2], [3 + 3] ];
 const arrWithIds = [one, two, three];
+const nestedArrAccess = [[1,2,3], [4,5,6]][0][0];
+const tripleNestedArrAccess = [[[1],[2],[3]], [[4],[5],[6]]][0][0][0];
