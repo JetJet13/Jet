@@ -18,6 +18,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -106,6 +107,12 @@ namespace ASTNodeFactory {
     static ASTUnaryExpressionNode* positiveFloat = new ASTUnaryExpressionNode(
             ASTNodeFactory::unaryPlus,
             ASTNodeFactory::floatExpression
+    );
+    static ASTArrayAccessNode* arrayAccessInt =  new ASTArrayAccessNode(
+            ASTNodeFactory::intExpression
+    );
+    static ASTArrayAccessNode* arrayAccessId =  new ASTArrayAccessNode(
+            ASTNodeFactory::idExpression
     );
 
 };

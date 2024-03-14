@@ -11,7 +11,6 @@ namespace ASTNodeUtils {
     static bool isDeclarationNode(ASTNode* node) {
         switch (node->getNodeType()) {
             case AST_VARIABLE_DECLARATION_NODE:
-            case AST_BLOCK_NODE:
                 return true;
             default:
                 return false;

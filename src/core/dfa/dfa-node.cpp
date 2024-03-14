@@ -16,6 +16,7 @@ DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::opt
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
     _alwaysReduceSelf = false;
+    _reduceToTargetWhenOnlyNode = std::optional<ASTNodeType>();
 }
 
 DFANode* DFANode::backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors) {
@@ -40,6 +41,13 @@ DFANode* DFANode::addTransition(DFATransition transition) {
 
 DFANode* DFANode::markAlwaysReduceSelf() {
     _alwaysReduceSelf = true;
+    return this;
+}
+
+
+
+DFANode* DFANode::setReduceToTargetWhenOnlyNode(ASTNodeType astNodeType) {
+    _reduceToTargetWhenOnlyNode = astNodeType;
     return this;
 }
 
@@ -87,6 +95,10 @@ std::optional<ASTNodeType> DFANode::getReduceTargetFor(ASTNodeType astNodeType) 
     return {};
 }
 
+bool DFANode::shouldReduceToTargetWhenOnlyNode() {
+    return _reduceToTargetWhenOnlyNode.has_value();
+}
+
 bool DFANode::alwaysReduceSelf() {
     return _alwaysReduceSelf;
 }
@@ -97,6 +109,10 @@ ASTNodeType DFANode::getNodeType() {
 
 std::optional<ASTNodeType> DFANode::getTargetAstNodeType() {
     return _targetAstNodeType.value();
+}
+
+std::optional<ASTNodeType> DFANode::getReduceTargetWhenOnlyNode() {
+    return _reduceToTargetWhenOnlyNode;
 }
 
 bool DFANode::hasTargetAstNodeType() {

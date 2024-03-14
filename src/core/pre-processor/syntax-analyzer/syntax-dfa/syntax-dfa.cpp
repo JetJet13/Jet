@@ -13,6 +13,8 @@ SyntaxDfa::SyntaxDfa() {
 }
 
 RecognizerResult* SyntaxDfa::recognize(Handle handle) {
+    auto predecessor = handle.getPrevNodeFor(0);
+    auto successor = handle.getNextNodeFor(0);
     if (handle.isTerminatorOnlyNode() || handle.isGroupingOnlyNode() || handle.isArrayOnlyNode() || handle.isBraceOnlyNode()) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle.isEmpty()) {
@@ -23,7 +25,10 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
         }
 
-        auto successor = handle.getNextNodeFor(0);
+        if (!successor.has_value() && !predecessor.has_value() && startNode && startNode.value()->shouldReduceToTargetWhenOnlyNode()) {
+            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetWhenOnlyNode().value());
+        }
+
         if (startNode && successor && startNode.value()->shouldReduceSelfFor(successor.value()->getNodeType())) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
         }
@@ -32,8 +37,6 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
     } else if (handle.isBraceEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_BLOCK_NODE);
     } else if (handle.isInSpecialMode()) {
-        auto predecessor = handle.getPrevNodeFor(0);
-        auto successor = handle.getNextNodeFor(0);
         if (predecessor && successor && predecessor.value()->isSameNodeTypeAs(successor.value()) && predecessor.value()->isHigherPriorityThan(successor.value())) {
             Logger::log("predecessor is higher priority then successor");
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
@@ -45,7 +48,6 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
     }
 
     auto startNode = _dfa->findStartNode(handle.first().value()->getNodeType());
-    auto predecessor = handle.getPrevNodeFor(0);
     if (startNode && predecessor && startNode.value()->shouldBacktrackTo(predecessor.value()->getNodeType())) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     }
@@ -190,14 +192,15 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     arrayBase
-    ->addReduceToTargetMap(new ReduceToTargetMap(AST_ARRAY_EXPRESSION_NODE, { AST_VARIABLE_INIT_NODE, AST_COMMA_NODE, AST_LEFT_BRACKET_NODE }))
+    ->addReduceToTargetMap(new ReduceToTargetMap(AST_ARRAY_EXPRESSION_NODE, { AST_VARIABLE_INIT_NODE, AST_COLON_NODE, AST_COMMA_NODE, AST_LEFT_BRACKET_NODE }))
     ->addReduceToTargetMap(new ReduceToTargetMap(AST_ARRAY_ACCESS_NODE, { AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE }));
 
     arrayAccess
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE });
 
     block
-    ->markAlwaysReduceSelf()
+    ->setReduceToTargetWhenOnlyNode(AST_BLOCK_DECLARATION_NODE)
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_VARIABLE_INIT_NODE })
     ->addReduceToTargetMap(new ReduceToTargetMap(AST_STRUCT_EXPRESSION_NODE, { AST_VARIABLE_INIT_NODE, AST_COLON_NODE  }));
 
     colon
@@ -286,6 +289,9 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode) {
     ->addTransition(
             DFATransitionFactory::create(
                     DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(
+            DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
     ->addTransition(
             DFATransitionFactory::create(
                     DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))

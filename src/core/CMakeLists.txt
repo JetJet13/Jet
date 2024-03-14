@@ -163,6 +163,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.h
         ast/ast-nodes/ast-colon-node.cpp
         ast/ast-nodes/ast-colon-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/block-declaration-reducer-strategy/block-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/block-declaration-reducer-strategy/block-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-declaration-nodes/ast-block-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-block-declaration-node.h
 
 )
 
