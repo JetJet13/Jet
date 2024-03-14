@@ -19,12 +19,24 @@ bool Symbol::isComma() {
     return _type == SYM_COMMA;
 }
 
+bool Symbol::isColon() {
+    return _type == SYM_COLON;
+}
+
 bool Symbol::isLeftBracket() {
     return _type == SYM_LEFT_BRACKET;
 }
 
 bool Symbol::isRightBracket() {
     return _type == SYM_RIGHT_BRACKET;
+}
+
+bool Symbol::isLeftBrace() {
+    return _type == SYM_LEFT_BRACE;
+}
+
+bool Symbol::isRightBrace() {
+    return _type == SYM_RIGHT_BRACE;
 }
 
 bool Symbol::isLeftParentheses() {

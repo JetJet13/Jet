@@ -17,7 +17,6 @@ public:
     explicit ASTArrayNode();
     explicit ASTArrayNode(std::vector<ASTExpressionNode*> elements);
     ASTArrayNode* addElement(ASTExpressionNode* element);
-    unsigned long getSize();
     std::optional<ASTExpressionNode*> getFirstElement();
     std::vector<ASTExpressionNode*>* getElements();
     ASTNodeType getNodeType() override;

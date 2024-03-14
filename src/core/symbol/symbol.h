@@ -16,8 +16,11 @@ public:
     Symbol(SymbolType type, std::string toStringValue);
     bool isSemicolon();
     bool isComma();
+    bool isColon();
     bool isLeftBracket();
     bool isRightBracket();
+    bool isLeftBrace();
+    bool isRightBrace();
     bool isLeftParentheses();
     bool isRightParentheses();
     bool isMalformed();

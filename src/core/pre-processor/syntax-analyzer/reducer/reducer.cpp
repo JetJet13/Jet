@@ -10,10 +10,13 @@
 #include "reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.h"
 #include "reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.h"
 #include "reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.h"
-#include "reducer-strategies/array-base-node-reducer-strategy/array-base-node-reducer-strategy.h"
 #include "reducer-strategies/array-access-expression-reducer-strategy/array-access-expression-reducer-strategy.h"
 #include "reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.h"
 #include "reducer-strategies/array-access-reducer-strategy/array-access-reducer-strategy.h"
+#include "reducer-strategies/array-node-reducer-strategy/array-node-reducer-strategy.h"
+#include "reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.h"
+#include "reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.h"
+#include "reducer-strategies/block-reducer-strategy/block-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -28,10 +31,13 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LOGICAL_EXPRESSION_NODE, new LogicalExpressionReducerStrategy());
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionReducerStrategy());
     this->addStrategy(AST_LITERAL_EXPRESSION_NODE, new LiteralExpressionReducerStrategy());
-    this->addStrategy(AST_ARRAY_NODE, new ArrayBaseNodeReducerStrategy());
+    this->addStrategy(AST_ARRAY_NODE, new ArrayNodeReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_EXPRESSION_NODE, new ArrayAccessExpressionReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_NODE, new ArrayAccessReducerStrategy());
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());
+    this->addStrategy(AST_BLOCK_NODE, new BlockReducerStrategy());
+    this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
+    this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

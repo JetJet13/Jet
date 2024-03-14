@@ -85,8 +85,26 @@ bool Handle::isArrayOnlyNode() {
     return _handle.size() == 1 && this->isNodeTypeAt(0, AST_RIGHT_BRACKET_NODE);
 }
 
+bool Handle::isBraceEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_BLOCK_START_NODE) && this->last().value()->is(AST_BLOCK_END_NODE);
+}
+
+bool Handle::isBraceMode() {
+    return !this->isEmpty() && this->last().value()->is(AST_BLOCK_END_NODE);
+}
+
+bool Handle::isBraceOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_BLOCK_END_NODE);
+}
+
 bool Handle::isInSpecialMode() {
-    return this->isTerminatorMode() || this->isGroupingMode() || this->isArrayMode();
+    return this->isTerminatorMode() ||
+    this->isGroupingMode() ||
+    this->isArrayMode() ||
+    this->isBraceMode();
 }
 
 void Handle::clear() {

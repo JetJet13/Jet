@@ -22,10 +22,6 @@ ASTArrayNode* ASTArrayNode::addElement(ASTExpressionNode* element) {
     return this;
 }
 
-unsigned long ASTArrayNode::getSize() {
-
-}
-
 std::optional<ASTExpressionNode*> ASTArrayNode::getFirstElement() {
     if (_elements->at(0)) {
         return _elements->at(0);
@@ -42,5 +38,5 @@ ASTNodeType ASTArrayNode::getNodeType() {
 }
 
 std::string ASTArrayNode::toString() {
-    return "ARRAY_BASE";
+    return "ARRAY";
 }

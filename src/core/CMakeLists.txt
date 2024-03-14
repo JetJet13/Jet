@@ -131,8 +131,8 @@ add_library(jet-core
         ast/ast-nodes/ast-comma-node.h
         ast/ast-nodes/ast-array-nodes/ast-array-node.cpp
         ast/ast-nodes/ast-array-nodes/ast-array-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-base-node-reducer-strategy/array-base-node-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-base-node-reducer-strategy/array-base-node-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-node-reducer-strategy/array-node-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-node-reducer-strategy/array-node-reducer-strategy.h
         ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.cpp
         ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-expression-reducer-strategy/array-access-expression-reducer-strategy.cpp
@@ -145,6 +145,24 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-reducer-strategy/array-access-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h
+        ast/ast-nodes/ast-struct-nodes/ast-struct-key-value-node.cpp
+        ast/ast-nodes/ast-struct-nodes/ast-struct-key-value-node.h
+        ast/ast-nodes/ast-block-nodes/ast-block-start-node.cpp
+        ast/ast-nodes/ast-block-nodes/ast-block-start-node.h
+        ast/ast-nodes/ast-block-nodes/ast-block-end-node.cpp
+        ast/ast-nodes/ast-block-nodes/ast-block-end-node.h
+        ast/ast-nodes/ast-block-nodes/ast-block-node.cpp
+        ast/ast-nodes/ast-block-nodes/ast-block-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/block-reducer-strategy/block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/block-reducer-strategy/block-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.h
+        ast/ast-nodes/ast-colon-node.cpp
+        ast/ast-nodes/ast-colon-node.h
 
 )
 

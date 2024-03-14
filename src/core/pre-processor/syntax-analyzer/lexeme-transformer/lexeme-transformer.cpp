@@ -21,6 +21,9 @@
 #include "../../../ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.h"
 #include "../../../ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.h"
 #include "../../../ast/ast-nodes/ast-comma-node.h"
+#include "../../../ast/ast-nodes/ast-colon-node.h"
+#include "../../../ast/ast-nodes/ast-block-nodes/ast-block-end-node.h"
+#include "../../../ast/ast-nodes/ast-block-nodes/ast-block-start-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -83,8 +86,14 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTLeftBracketNode(lexeme);
     } else if (symbol->isRightBracket()) {
         return new ASTRightBracketNode(lexeme);
+    } else if (symbol->isLeftBrace()) {
+        return new ASTBlockStartNode(lexeme);
+    } else if (symbol->isRightBrace()) {
+        return new ASTBlockEndNode(lexeme);
     } else if (symbol->isComma()) {
         return new ASTCommaNode(lexeme);
+    } else if (symbol->isColon()) {
+        return new ASTColonNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

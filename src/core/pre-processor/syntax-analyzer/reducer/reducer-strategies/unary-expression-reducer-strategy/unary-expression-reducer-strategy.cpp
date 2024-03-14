@@ -12,34 +12,8 @@ ASTNode* UnaryExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         throw std::invalid_argument("unable to reduce to unary expression since nodes list is not 2");
     }
 
-    if (this->endsWith(nodes, AST_INT_LITERAL_NODE) ||
-        this->endsWith(nodes, AST_FLOAT_LITERAL_NODE) ||
-        this->endsWith(nodes, AST_STRING_LITERAL_NODE) ||
-        this->endsWith(nodes, AST_CHAR_LITERAL_NODE) ||
-        this->endsWith(nodes, AST_BOOLEAN_LITERAL_NODE)
-        ) {
-        return new ASTUnaryExpressionNode(
-                this->createOperatorNode(nodes[0]),
-                new ASTLiteralExpressionNode((ASTLiteralNode*)nodes[1])
-        );
-    }
-
-
-    if (this->endsWith(nodes, AST_IDENTIFIER_NODE)) {
-        return new ASTUnaryExpressionNode(
-                this->createOperatorNode(nodes[0]),
-                new ASTIdentifierExpressionNode((ASTIdentifierNode*)nodes[1])
-        );
-    }
-
     return new ASTUnaryExpressionNode(
-            this->createOperatorNode(nodes[0]),
-            (ASTExpressionNode*)nodes[1]
+            (ASTUnaryOperatorNode*)nodes[0],
+            this->createExpressionNode(nodes[1])
     );
-
-
-}
-
-ASTUnaryOperatorNode* UnaryExpressionReducerStrategy::createOperatorNode(ASTNode* node) {
-    return (ASTUnaryOperatorNode*)node;
 }

@@ -49,6 +49,7 @@ private:
     void disableTerminatorModeIfNecessary();
     void disableGroupingModeIfNecessary();
     void disableArrayModeIfNecessary();
+    void disableBraceModeIfNecessary();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     ASTFileNode* analyze(std::string &filePath);

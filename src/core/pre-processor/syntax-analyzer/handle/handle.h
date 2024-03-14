@@ -29,6 +29,9 @@ public:
     bool isArrayEnclosed();
     bool isArrayMode();
     bool isArrayOnlyNode();
+    bool isBraceEnclosed();
+    bool isBraceMode();
+    bool isBraceOnlyNode();
     bool isInSpecialMode();
     void clear();
     unsigned long size();
