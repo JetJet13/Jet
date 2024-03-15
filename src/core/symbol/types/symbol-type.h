@@ -41,6 +41,7 @@ typedef enum {
     SYM_COLON,
     SYM_COMMA,
     SYM_PERIOD,
+    SYM_FUNCTION,
     SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H

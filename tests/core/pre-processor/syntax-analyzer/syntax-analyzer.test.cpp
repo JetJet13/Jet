@@ -14,6 +14,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h"
 #include "../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -946,53 +947,93 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {90, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTStructExpressionNode({
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              ASTNodeFactory::intExpression),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              ASTNodeFactory::floatExpression),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              ASTNodeFactory::trueExpression),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              ASTNodeFactory::charExpression),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              ASTNodeFactory::stringExpression),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              new ASTArrayExpressionNode({
-                                                                                                                 ASTNodeFactory::intExpression,
-                                                                                                                 ASTNodeFactory::intExpression,
-                                                                                                                 ASTNodeFactory::intExpression
-                                                                                                         })),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              new ASTArrayAccessExpressionNode(
-                                                                                      ASTNodeFactory::idExpression,
-                                                                                      ASTNodeFactory::arrayAccessInt
-                                                                              )),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              new ASTStructExpressionNode({
-                                                                                                                  new ASTStructKeyValueNode(
-                                                                                                                          ASTNodeFactory::idExpression,
-                                                                                                                          ASTNodeFactory::intExpression),
-                                                                                                          })
-                                                    ),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              new ASTBinaryExpressionNode(
-                                                                                      ASTNodeFactory::intExpression,
-                                                                                      ASTNodeFactory::plus,
-                                                                                      ASTNodeFactory::intExpression
-                                                                              )),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              new ASTLogicalExpressionNode(
-                                                                                      ASTNodeFactory::trueExpression,
-                                                                                      ASTNodeFactory::andOperator,
-                                                                                      ASTNodeFactory::falseExpression
-                                                                              )),
-                                                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                                                              new ASTUnaryExpressionNode(
-                                                                                      ASTNodeFactory::bang,
-                                                                                      ASTNodeFactory::idExpression
-                                                                              ))
-                                            }))
-         }
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::intExpression),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::floatExpression),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::trueExpression),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::charExpression),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::stringExpression),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              new ASTArrayExpressionNode({
+                                                     ASTNodeFactory::intExpression,
+                                                     ASTNodeFactory::intExpression,
+                                                     ASTNodeFactory::intExpression
+                                             })),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              new ASTArrayAccessExpressionNode(
+                                                      ASTNodeFactory::idExpression,
+                                                      ASTNodeFactory::arrayAccessInt
+                                              )),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              new ASTStructExpressionNode({
+                                                  new ASTStructKeyValueNode(
+                                                      ASTNodeFactory::idExpression,
+                                                      ASTNodeFactory::intExpression
+                                                  ),
+                                                  new ASTStructKeyValueNode(
+                                                          ASTNodeFactory::idExpression,
+                                                          new ASTStructExpressionNode({
+                                                              new ASTStructKeyValueNode(
+                                                                      ASTNodeFactory::idExpression,
+                                                                      ASTNodeFactory::trueExpression
+                                                              )
+                                                          })
+                                                  ),
+                                              })
+                    ),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              new ASTBinaryExpressionNode(
+                                                      ASTNodeFactory::intExpression,
+                                                      ASTNodeFactory::plus,
+                                                      ASTNodeFactory::intExpression
+                                              )),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              new ASTLogicalExpressionNode(
+                                                      ASTNodeFactory::trueExpression,
+                                                      ASTNodeFactory::andOperator,
+                                                      ASTNodeFactory::falseExpression
+                                              )),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              new ASTUnaryExpressionNode(
+                                                      ASTNodeFactory::bang,
+                                                      ASTNodeFactory::idExpression
+                                              ))
+            }))
+         },
+        {91, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTStructAccessExpressionNode({
+                       ASTNodeFactory::idExpression,
+                       ASTNodeFactory::idExpression,
+               })
+        )},
+        {92, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTStructAccessExpressionNode({
+                      new ASTStructAccessExpressionNode({
+                            ASTNodeFactory::idExpression,
+                            ASTNodeFactory::idExpression,
+                      }),
+                      ASTNodeFactory::idExpression,
+                })
+        )},
+        {93, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTStructAccessExpressionNode({
+                      new ASTStructAccessExpressionNode({
+                            new ASTStructAccessExpressionNode({
+                                  ASTNodeFactory::idExpression,
+                                  ASTNodeFactory::idExpression,
+                            }),
+                            ASTNodeFactory::idExpression,
+                      }),
+                      ASTNodeFactory::idExpression
+                })
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1003,8 +1044,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 90);
-    for (int i = 0; i < 90; i++) {
+REQUIRE(fileNodeResult->getBody().size() == 93);
+    for (int i = 0; i < 93; i++) {
         auto declaration = fileNodeResult->getBody()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

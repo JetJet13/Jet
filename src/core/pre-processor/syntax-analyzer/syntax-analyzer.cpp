@@ -20,7 +20,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
     while (true) {
-        if (numLoops == 5000) {
+        if (numLoops == 20000) {
             throw std::logic_error("too many loops!");
         }
         auto recognizerResult = this->recognizeHandle();

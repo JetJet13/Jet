@@ -23,7 +23,7 @@ ASTNodeType ASTArrayAccessExpressionNode::getNodeType() {
 }
 
 std::string ASTArrayAccessExpressionNode::toString() {
-    return "AST_ARRAY_ACCESS_EXPRESSION";
+    return "ARRAY_ACCESS_EXPRESSION";
 }
 
 bool ASTArrayAccessExpressionNode::isSameAs(ASTNode *other) {

@@ -24,6 +24,7 @@
 #include "../../../ast/ast-nodes/ast-colon-node.h"
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-end-node.h"
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-start-node.h"
+#include "../../../ast/ast-nodes/ast-period-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -94,6 +95,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTCommaNode(lexeme);
     } else if (symbol->isColon()) {
         return new ASTColonNode(lexeme);
+    } else if (symbol->isPeriod()) {
+        return new ASTPeriodNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

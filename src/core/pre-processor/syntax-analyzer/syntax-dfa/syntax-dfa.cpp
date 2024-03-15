@@ -25,10 +25,6 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
         }
 
-        if (!successor.has_value() && !predecessor.has_value() && startNode && startNode.value()->shouldReduceToTargetWhenOnlyNode()) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetWhenOnlyNode().value());
-        }
-
         if (startNode && successor && startNode.value()->shouldReduceSelfFor(successor.value()->getNodeType())) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
         }
@@ -86,6 +82,7 @@ void SyntaxDfa::init() {
     DFANode* arrayAccessExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_EXPRESSION_NODE);
     DFANode* arrayExpression = DFANodeFactory::Once::create(AST_ARRAY_EXPRESSION_NODE);
     DFANode* structExpression = DFANodeFactory::Once::create(AST_STRUCT_EXPRESSION_NODE);
+    DFANode* structAccessExpression = DFANodeFactory::Once::create(AST_STRUCT_ACCESS_EXPRESSION_NODE);
     DFANode* binaryExpression = DFANodeFactory::Once::create(AST_BINARY_EXPRESSION_NODE);
     DFANode* logicalExpression = DFANodeFactory::Once::create(AST_LOGICAL_EXPRESSION_NODE);
     DFANode* unaryExpression = DFANodeFactory::Once::create(AST_UNARY_EXPRESSION_NODE);
@@ -97,6 +94,7 @@ void SyntaxDfa::init() {
     DFANode* structKeyValue = DFANodeFactory::Once::create(AST_STRUCT_KEY_VALUE_NODE);
     DFANode* block = DFANodeFactory::Once::create(AST_BLOCK_NODE);
     DFANode* colon = DFANodeFactory::Once::create(AST_COLON_NODE);
+    DFANode* period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
 
 
 
@@ -144,10 +142,10 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
           AST_UNARY_OPERATOR_NODE
     })
-    ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(colon))
+    ->addTransition(DFATransitionFactory::create(period))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)));
     
 
@@ -155,7 +153,6 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
          AST_UNARY_OPERATOR_NODE
     })
-    ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
@@ -165,6 +162,8 @@ void SyntaxDfa::init() {
     arrayAccessExpression
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)));
 
+    structAccessExpression
+    ->addTransition(DFATransitionFactory::create(period));
 
     binaryExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
@@ -199,7 +198,6 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE });
 
     block
-    ->setReduceToTargetWhenOnlyNode(AST_BLOCK_DECLARATION_NODE)
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_VARIABLE_INIT_NODE })
     ->addReduceToTargetMap(new ReduceToTargetMap(AST_STRUCT_EXPRESSION_NODE, { AST_VARIABLE_INIT_NODE, AST_COLON_NODE  }));
 
@@ -212,6 +210,10 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)));
+
+    period
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_STRUCT_ACCESS_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_STRUCT_ACCESS_EXPRESSION_NODE)));
 
     _dfa
     ->insertStartNode(varDeclaration)
@@ -226,6 +228,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(identifierExpression)
     ->insertStartNode(literalExpression)
     ->insertStartNode(structExpression)
+    ->insertStartNode(structAccessExpression)
     ->insertStartNode(arrayExpression)
     ->insertStartNode(arrayAccessExpression)
     ->insertStartNode(binaryExpression)
@@ -236,6 +239,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COLON_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_PERIOD_NODE)->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE }))
     ->insertStartNode(unaryOperator)
     ->insertStartNode(arrayBase)
     ->insertStartNode(arrayAccess)
@@ -292,6 +296,9 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode) {
     ->addTransition(
             DFATransitionFactory::create(
                     DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+    ->addTransition(
+            DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_STRUCT_ACCESS_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
     ->addTransition(
             DFATransitionFactory::create(
                     DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))

@@ -18,7 +18,6 @@ private:
     std::vector<ASTNodeType> _predecessorsToBacktrackTo;
     std::vector<ASTNodeType> _successorsToReduceSelfFor;
     std::optional<ASTNodeType> _targetAstNodeType;
-    std::optional<ASTNodeType> _reduceToTargetWhenOnlyNode;
     std::vector<ReduceToTargetMap*> _reduceToTargetMaps;
     DFANodeOccurrence _occurrence;
     ASTNodeType _astNodeType;
@@ -31,12 +30,10 @@ public:
     DFANode* reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors);
     DFANode* addTransition(DFATransition transition);
     DFANode* markAlwaysReduceSelf();
-    DFANode* setReduceToTargetWhenOnlyNode(ASTNodeType astNodeType);
     std::optional<DFANode*> transition(ASTNodeType astNodeType);
     bool shouldBacktrackTo(ASTNodeType astNodeType);
     bool shouldReduceSelfFor(ASTNodeType astNodeType);
     bool shouldReduceToTargetFor(ASTNodeType astNodeType);
-    bool shouldReduceToTargetWhenOnlyNode();
     bool alwaysReduceSelf();
     ASTNodeType getNodeType();
     std::optional<ASTNodeType> getReduceTargetFor(ASTNodeType astNodeType);

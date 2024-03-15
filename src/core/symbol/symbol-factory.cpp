@@ -146,4 +146,8 @@ namespace SymbolFactory {
     Symbol* createMalformedSymbol() {
         return new Symbol(SYM_MALFORMED, "[MALFORMED]");
     }
+
+    Symbol* createFunctionSymbol() {
+        return new Symbol(SYM_FUNCTION, "function");
+    }
 }

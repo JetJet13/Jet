@@ -44,6 +44,7 @@ namespace SymbolFactory {
     Symbol* createCharSymbol();
     Symbol* createStringSymbol();
     Symbol* createMalformedSymbol();
+    Symbol* createFunctionSymbol();
 }
 
 

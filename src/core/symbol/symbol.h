@@ -17,6 +17,7 @@ public:
     bool isSemicolon();
     bool isComma();
     bool isColon();
+    bool isPeriod();
     bool isLeftBracket();
     bool isRightBracket();
     bool isLeftBrace();

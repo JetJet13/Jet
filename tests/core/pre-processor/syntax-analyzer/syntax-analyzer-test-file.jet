@@ -96,9 +96,15 @@ const structObj = {
  arr: [1,2,3],
  arrAccess: arr[0],
  obj: {
-    test: 100
+    test: 100,
+    nest: {
+        value: true
+    }
  },
  binary: 1 + 2,
  logical: true && false,
  unary: !flag
 };
+const structObjAccess = structObj.world;
+const structObjNestedAccess = structObj.obj.test;
+const structObjTripleNestedAccess = structObj.obj.nest.value;

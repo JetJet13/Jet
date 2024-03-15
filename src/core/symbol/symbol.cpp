@@ -23,6 +23,10 @@ bool Symbol::isColon() {
     return _type == SYM_COLON;
 }
 
+bool Symbol::isPeriod() {
+    return _type == SYM_PERIOD;
+}
+
 bool Symbol::isLeftBracket() {
     return _type == SYM_LEFT_BRACKET;
 }
