@@ -108,3 +108,11 @@ const structObj = {
 const structObjAccess = structObj.world;
 const structObjNestedAccess = structObj.obj.test;
 const structObjTripleNestedAccess = structObj.obj.nest.value;
+const arrStructs = [
+ { hello: "world", test: 1 }
+];
+const arrStructsAccess = arrStructs[0].hello;
+const structArr = {
+ arr: [ { hello: "world", test: 1 } ]
+};
+const structArrAccess = structArr.arr[0].hello;
