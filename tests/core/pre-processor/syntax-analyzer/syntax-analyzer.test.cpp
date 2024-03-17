@@ -1034,7 +1034,99 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                       ASTNodeFactory::idExpression
                 })
         )},
-        // TODO: add missing nodes (94-97)
+        {94, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTArrayExpressionNode({
+                    new ASTStructExpressionNode({
+                        new ASTStructKeyValueNode(
+                                ASTNodeFactory::idExpression,
+                                ASTNodeFactory::stringExpression
+                        ),
+                        new ASTStructKeyValueNode(
+                                ASTNodeFactory::idExpression,
+                                ASTNodeFactory::intExpression
+                        ),
+                    })
+               })
+        )},
+        {95, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTStructAccessExpressionNode({
+                  new ASTArrayAccessExpressionNode({
+                      ASTNodeFactory::idExpression,
+                      ASTNodeFactory::arrayAccessInt
+                  }),
+                  ASTNodeFactory::idExpression
+                })
+        )},
+        {96, new ASTVariableDeclarationNode(
+            ASTNodeFactory::constInit,
+            new ASTStructExpressionNode({
+                new ASTStructKeyValueNode(
+                    ASTNodeFactory::idExpression,
+                    new ASTArrayExpressionNode({
+                           new ASTStructExpressionNode({
+                               new ASTStructKeyValueNode(
+                                       ASTNodeFactory::idExpression,
+                                       ASTNodeFactory::stringExpression
+                               ),
+                               new ASTStructKeyValueNode(
+                                       ASTNodeFactory::idExpression,
+                                       ASTNodeFactory::intExpression
+                               ),
+                           })
+                   })
+                ),
+                new ASTStructKeyValueNode(
+                        ASTNodeFactory::idExpression,
+                        new ASTArrayExpressionNode({
+                           new ASTArrayExpressionNode({
+                              new ASTStructExpressionNode({
+                                  new ASTStructKeyValueNode(
+                                          ASTNodeFactory::idExpression,
+                                          ASTNodeFactory::stringExpression
+                                  ),
+                                  new ASTStructKeyValueNode(
+                                          ASTNodeFactory::idExpression,
+                                          ASTNodeFactory::intExpression
+                                  ),
+                              })
+                           })
+                       })
+                )
+            })
+        )},
+        {97, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                 new ASTStructAccessExpressionNode(
+                        new ASTArrayAccessExpressionNode(
+                                new ASTStructAccessExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::idExpression
+                                ),
+                                ASTNodeFactory::arrayAccessInt
+                        ),
+                        ASTNodeFactory::idExpression
+                )
+            )
+        },
+        {98, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTStructAccessExpressionNode(
+                    new ASTArrayAccessExpressionNode(
+                                new ASTArrayAccessExpressionNode(
+                                        new ASTStructAccessExpressionNode(
+                                            ASTNodeFactory::idExpression,
+                                            ASTNodeFactory::idExpression
+                                    ),
+                                    ASTNodeFactory::arrayAccessInt
+                        ),
+                        ASTNodeFactory::arrayAccessInt
+                    ),
+                    ASTNodeFactory::idExpression
+                    )
+        )}
+        // TODO: add missing nodes (94-98)
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1045,8 +1137,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 93);
-    for (int i = 0; i < 93; i++) {
+REQUIRE(fileNodeResult->getBody().size() == 98);
+    for (int i = 0; i < 98; i++) {
         auto declaration = fileNodeResult->getBody()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
