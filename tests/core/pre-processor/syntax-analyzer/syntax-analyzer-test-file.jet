@@ -1,5 +1,5 @@
-let integer = 1;
-let float = 2.0;
+let integer = 1; // hello world
+let float = 2.0; // ain't that something
 let str = "hello";
 let char = 'b';
 let flag = true;
@@ -109,7 +109,7 @@ const structObjAccess = structObj.world;
 const structObjNestedAccess = structObj.obj.test;
 const structObjTripleNestedAccess = structObj.obj.nest.value;
 const arrStructs = [
- { hello: "world", test: 1 }
+ { hello: "world", test: 1 } // another 1!
 ];
 const arrStructsAccess = arrStructs[0].hello;
 const structArr = {

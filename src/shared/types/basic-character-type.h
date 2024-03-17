@@ -9,5 +9,6 @@ const char WHITE_SPACE = ' ';
 const char SINGLE_QUOTE = '\'';
 const char DOUBLE_QUOTE = '"';
 const char PERIOD = '.';
+const char SLASH = '/';
 const char ESCAPE_CHAR = '\\';
 #endif //JETLANG_BASIC_CHARACTER_TYPE_H

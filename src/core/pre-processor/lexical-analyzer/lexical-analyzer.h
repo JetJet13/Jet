@@ -23,6 +23,7 @@ private:
     std::optional<Token*> buildNextToken();
     std::optional<Token*> peekNextToken();
     void skipWhitespaceAndNewLine();
+    void skipComments();
     void stopIfNecessary();
     int generateTokenValueId();
     void resetAfterPeek(Cursor cursor, int numAdvances);
