@@ -9,6 +9,13 @@ typedef enum {
     SYM_LET,
     SYM_EQUAL,
     SYM_IDENTIFIER,
+    SYM_INT_TYPE,
+    SYM_FLOAT_TYPE,
+    SYM_STRING_TYPE,
+    SYM_CHAR_TYPE,
+    SYM_BOOLEAN_TYPE,
+    SYM_ARRAY_TYPE,
+    SYM_VOID_TYPE,
     SYM_THIS,
     SYM_AND,
     SYM_OR,
@@ -42,6 +49,7 @@ typedef enum {
     SYM_COMMA,
     SYM_PERIOD,
     SYM_FUNCTION,
+    SYM_RETURN,
     SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H

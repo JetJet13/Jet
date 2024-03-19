@@ -2,8 +2,8 @@
 // Created by Johny Georges on 2024-03-07.
 //
 
-#ifndef JETLANG_AST_GROUP_LEFT_NODE_H
-#define JETLANG_AST_GROUP_LEFT_NODE_H
+#ifndef JETLANG_AST_GROUP_START_NODE_H
+#define JETLANG_AST_GROUP_START_NODE_H
 
 #include <string>
 #include "../ast-node.h"
@@ -15,10 +15,11 @@ private:
 public:
     ASTGroupStartNode(Lexeme* lexeme);
     Lexeme* getLexeme();
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
 };
 
-#endif //JETLANG_AST_GROUP_LEFT_NODE_H
+#endif //JETLANG_AST_GROUP_START_NODE_H

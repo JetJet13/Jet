@@ -113,8 +113,17 @@ const arrStructs = [
 ];
 const arrStructsAccess = arrStructs[0].hello;
 const structArr = {
- arr: [ { hello: "world", test: 1 } ]
+ arr: [ { hello: "world", test: 1 } ],
  arrNested: [  [{ hello: "world", test: 1 }] ]
 };
 const structArrAccess = structArr.arr[0].hello;
 const structArrNestedAccess = structArr.arr[0][0].hello;
+
+function foo() void {
+ const boo = "boo";
+}
+
+function sum(x: int, y: int) int {
+ return x + y;
+}
+

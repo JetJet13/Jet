@@ -117,8 +117,8 @@ add_library(jet-core
         ast/ast-nodes/ast-base-nodes/ast-plus-base-node.h
         ast/ast-nodes/ast-base-nodes/ast-minus-base-node.cpp
         ast/ast-nodes/ast-base-nodes/ast-minus-base-node.h
-        ast/ast-nodes/ast-group-nodes/ast-group-left-node.cpp
-        ast/ast-nodes/ast-group-nodes/ast-group-left-node.h
+        ast/ast-nodes/ast-group-nodes/ast-group-start-node.cpp
+        ast/ast-nodes/ast-group-nodes/ast-group-start-node.h
         ast/ast-nodes/ast-group-nodes/ast-group-end-node.cpp
         ast/ast-nodes/ast-group-nodes/ast-group-end-node.h
         ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.cpp
@@ -173,6 +173,24 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.h
         ast/ast-nodes/ast-period-node.cpp
         ast/ast-nodes/ast-period-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-declaration-reducer-strategy/function-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-declaration-reducer-strategy/function-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-parameter-list-reducer-strategy/function-parameter-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-parameter-list-reducer-strategy/function-parameter-list-reducer-strategy.h
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-start-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-start-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-end-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-end-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-return-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-return-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-node.h
+        ast/ast-nodes/ast-type-node.cpp
+        ast/ast-nodes/ast-type-node.h
 
 )
 

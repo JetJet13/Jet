@@ -48,6 +48,9 @@ public:
     bool isInequalityOperator();
     bool isLogicalOperator();
     bool isUnaryOperator();
+    bool isFunction();
+    bool isReturn();
+    bool isType();
     bool isVarTypeQualifier();
     SymbolType getType();
     std::string toString();

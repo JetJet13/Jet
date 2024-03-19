@@ -2,8 +2,9 @@
 // Created by Johny Georges on 2024-03-07.
 //
 
-#include "ast-group-left-node.h"
+#include "ast-group-start-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ast-function-nodes/ast-function-parameter-list-start-node.h"
 
 ASTGroupStartNode::ASTGroupStartNode(Lexeme *lexeme) {
 _lexeme = lexeme;
@@ -11,6 +12,13 @@ _lexeme = lexeme;
 
 Lexeme* ASTGroupStartNode::getLexeme() {
     return _lexeme;
+}
+
+ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+    if (prevNode && prevNode.value()->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
+        return new ASTFunctionParameterListStartNode(this->getLexeme());
+    }
+    return this;
 }
 
 ASTNodeType ASTGroupStartNode::getNodeType() {

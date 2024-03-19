@@ -16,7 +16,7 @@
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-plus-base-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-minus-base-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
-#include "../../../ast/ast-nodes/ast-group-nodes/ast-group-left-node.h"
+#include "../../../ast/ast-nodes/ast-group-nodes/ast-group-start-node.h"
 #include "../../../ast/ast-nodes/ast-group-nodes/ast-group-end-node.h"
 #include "../../../ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.h"
 #include "../../../ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.h"
@@ -25,6 +25,9 @@
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-end-node.h"
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-start-node.h"
 #include "../../../ast/ast-nodes/ast-period-node.h"
+#include "../../../ast/ast-nodes/ast-function-nodes/ast-function-return-node.h"
+#include "../../../ast/ast-nodes/ast-function-nodes/ast-function-node.h"
+#include "../../../ast/ast-nodes/ast-type-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -97,6 +100,12 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTColonNode(lexeme);
     } else if (symbol->isPeriod()) {
         return new ASTPeriodNode(lexeme);
+    }  else if (symbol->isFunction()) {
+        return new ASTFunctionNode(lexeme);
+    }  else if (symbol->isReturn()) {
+        return new ASTFunctionReturnNode(lexeme);
+    } else if (symbol->isType()) {
+        return new ASTTypeNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

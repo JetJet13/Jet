@@ -129,8 +129,6 @@ bool Symbol::isLessThanOrEqual() {
     return _type == SYM_LESS_THAN_OR_EQUAL;
 }
 
-
-
 bool Symbol::isEqualityOperator() {
     return _type == SYM_EQUAL_EQUAL;
 }
@@ -145,6 +143,24 @@ bool Symbol::isLogicalOperator() {
 
 bool Symbol::isUnaryOperator() {
     return _type == SYM_BANG;
+}
+
+bool Symbol::isFunction() {
+    return _type == SYM_FUNCTION;
+}
+
+bool Symbol::isReturn() {
+    return _type == SYM_RETURN;
+}
+
+bool Symbol::isType() {
+    return _type == SYM_INT_TYPE ||
+            _type == SYM_FLOAT_TYPE ||
+            _type == SYM_STRING_TYPE ||
+            _type == SYM_CHAR_TYPE ||
+            _type == SYM_BOOLEAN_TYPE ||
+            _type == SYM_ARRAY_TYPE ||
+            _type == SYM_VOID_TYPE;
 }
 
 SymbolType Symbol::getType() {

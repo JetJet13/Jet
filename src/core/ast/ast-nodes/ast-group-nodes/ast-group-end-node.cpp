@@ -4,6 +4,7 @@
 
 #include "ast-group-end-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ast-function-nodes/ast-function-parameter-list-end-node.h"
 
 ASTGroupEndNode::ASTGroupEndNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -11,6 +12,13 @@ ASTGroupEndNode::ASTGroupEndNode(Lexeme *lexeme) {
 
 Lexeme* ASTGroupEndNode::getLexeme() {
     return _lexeme;
+}
+
+ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+    if (nextNode && nextNode.value()->isOneOf({ AST_TYPE_NODE, AST_IDENTIFIER_NODE })) {
+        return new ASTFunctionParameterListEndNode(this->getLexeme());
+    }
+    return this;
 }
 
 ASTNodeType ASTGroupEndNode::getNodeType() {
