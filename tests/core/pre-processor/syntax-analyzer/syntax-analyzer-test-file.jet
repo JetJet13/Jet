@@ -1,13 +1,13 @@
 let integer = 1; // hello world
-let float = 2.0; // ain't that something
+let decimal = 2.0; // ain't that something
 let str = "hello";
-let char = 'b';
+let character = 'b';
 let flag = true;
 let iflag = false;
 const integer = 1;
-const float = 2.0;
+const decimal = 2.0;
 const str = "hello";
-const char = 'b';
+const character = 'b';
 const flag = true;
 const iflag = false;
 const sumInt = 1 + 2;
@@ -93,6 +93,7 @@ const structObj = {
  world: true,
  character: 'c',
  str: "Hello World",
+ identifier: foo,
  arr: [1,2,3],
  arrAccess: arr[0],
  obj: {
@@ -119,11 +120,6 @@ const structArr = {
 const structArrAccess = structArr.arr[0].hello;
 const structArrNestedAccess = structArr.arr[0][0].hello;
 
-function foo() void {
- const boo = "boo";
-}
-
 function sum(x: int, y: int) int {
  return x + y;
 }
-

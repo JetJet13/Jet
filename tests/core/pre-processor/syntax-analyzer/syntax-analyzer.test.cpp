@@ -958,6 +958,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
                                               ASTNodeFactory::stringExpression),
                     new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::idExpression),
+                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
                                               new ASTArrayExpressionNode({
                                                      ASTNodeFactory::intExpression,
                                                      ASTNodeFactory::intExpression,
@@ -1147,3 +1149,4 @@ REQUIRE(fileNodeResult->getBody().size() == 98);
         Logger::log("====================================");
     }
 }
+// TODO: Include Handle 'Mode' in 'transformIfNecessary' method in ASTNodes

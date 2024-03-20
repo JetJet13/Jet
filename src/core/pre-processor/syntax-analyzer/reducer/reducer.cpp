@@ -20,6 +20,8 @@
 #include "reducer-strategies/struct-access-expression-reducer-strategy/struct-access-expression-reducer-strategy.h"
 #include "reducer-strategies/function-declaration-reducer-strategy/function-declaration-reducer-strategy.h"
 #include "reducer-strategies/function-parameter-list-reducer-strategy/function-parameter-list-reducer-strategy.h"
+#include "reducer-strategies/function-return-expression-reducer-strategy/function-return-expression-reducer-strategy.h"
+#include "reducer-strategies/function-parameter-reducer-strategy/function-parameter-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -44,6 +46,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_STRUCT_ACCESS_EXPRESSION_NODE, new StructAccessExpressionReducerStrategy());
     this->addStrategy(AST_FUNCTION_DECLARATION_NODE, new FunctionDeclarationReducerStrategy());
     this->addStrategy(AST_FUNCTION_PARAMETER_LIST_NODE, new FunctionParameterListReducerStrategy());
+    this->addStrategy(AST_FUNCTION_PARAMETER_NODE, new FunctionParameterReducerStrategy());
+    this->addStrategy(AST_FUNCTION_RETURN_EXPRESSION_NODE, new FunctionReturnExpressionReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

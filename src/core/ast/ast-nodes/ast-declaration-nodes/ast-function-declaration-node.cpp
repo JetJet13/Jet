@@ -5,9 +5,10 @@
 #include "ast-function-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTIdentifierExpressionNode* name, ASTFunctionParameterListNode* parameters, ASTBlockNode* content) {
+ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTBlockNode* content) {
     _name = name;
     _content = content;
+    _returnType = returnType;
     _parameters = parameters;
 }
 
@@ -15,8 +16,12 @@ ASTFunctionParameterListNode* ASTFunctionDeclarationNode::getParameters() {
     return _parameters;
 }
 
-ASTIdentifierExpressionNode* ASTFunctionDeclarationNode::getName() {
+ASTFunctionNameNode* ASTFunctionDeclarationNode::getName() {
     return _name;
+}
+
+ASTTypeNode* ASTFunctionDeclarationNode::getReturnType() {
+    return _returnType;
 }
 
 ASTBlockNode* ASTFunctionDeclarationNode::getContent() {
@@ -43,6 +48,7 @@ bool ASTFunctionDeclarationNode::isSameAs(ASTNode *other) {
 
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getParameters()->isSameAs(otherNode->getParameters()) &&
+            this->getReturnType()->isSameAs(otherNode->getReturnType()) &&
             this->getContent()->isSameAs(otherNode->getContent());
 }
 
@@ -50,6 +56,7 @@ void ASTFunctionDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _name->print();
     _parameters->print();
+    _returnType->print();
     _content->print();
     Logger::log("----------");
 }

@@ -6,17 +6,17 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 ASTFunctionParameterListNode::ASTFunctionParameterListNode() {
-    _parameters = std::vector<ASTIdentifierExpressionNode*>();
+    _parameters = std::vector<ASTFunctionParameterNode*>();
 }
 
-ASTFunctionParameterListNode::ASTFunctionParameterListNode(std::vector<ASTIdentifierExpressionNode*> parameters) {
-    _parameters = std::vector<ASTIdentifierExpressionNode*>();
+ASTFunctionParameterListNode::ASTFunctionParameterListNode(std::vector<ASTFunctionParameterNode*> parameters) {
+    _parameters = std::vector<ASTFunctionParameterNode*>();
     for (auto parameter: parameters) {
         _parameters.push_back(parameter);
     }
 }
 
-std::vector<ASTIdentifierExpressionNode*> ASTFunctionParameterListNode::getParameters() {
+std::vector<ASTFunctionParameterNode*> ASTFunctionParameterListNode::getParameters() {
     return _parameters;
 }
 
@@ -24,7 +24,7 @@ unsigned long ASTFunctionParameterListNode::numParameters() {
     return _parameters.size();
 }
 
-ASTFunctionParameterListNode* ASTFunctionParameterListNode::addParameter(ASTIdentifierExpressionNode* parameter) {
+ASTFunctionParameterListNode* ASTFunctionParameterListNode::addParameter(ASTFunctionParameterNode* parameter) {
     _parameters.push_back(parameter);
     return this;
 }

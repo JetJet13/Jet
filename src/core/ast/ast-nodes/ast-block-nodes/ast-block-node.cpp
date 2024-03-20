@@ -3,6 +3,7 @@
 //
 
 #include "ast-block-node.h"
+#include "../ast-function-nodes/ast-function-block-node.h"
 
 ASTBlockNode::ASTBlockNode() {
     _contents = std::vector<ASTNode*>();
@@ -22,6 +23,13 @@ ASTBlockNode* ASTBlockNode::addContent(ASTNode* content) {
 
 std::vector<ASTNode*> ASTBlockNode::getContents() {
     return _contents;
+}
+
+ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+    if (prevNode && prevNode.value()->is(AST_TYPE_NODE)) {
+        return new ASTFunctionBlockNode(this->getContents());
+    }
+    return this;
 }
 
 ASTNodeType ASTBlockNode::getNodeType() {

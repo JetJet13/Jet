@@ -16,6 +16,7 @@ public:
     explicit ASTBlockNode(std::vector<ASTNode*> contents);
     ASTBlockNode* addContent(ASTNode* content);
     std::vector<ASTNode*> getContents();
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

@@ -35,7 +35,8 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         this->disableTerminatorModeIfNecessary();
         this->disableGroupingModeIfNecessary();
         this->disableArrayModeIfNecessary();
-        this->disableBraceModeIfNecessary();
+        this->disableBlockModeIfNecessary();
+        this->disableStructModeIfNecessary();
 
         if (!_handle.isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
             _handle.isEmpty() ? this->accept() : this->error();
@@ -141,9 +142,16 @@ void SyntaxAnalyzer::disableArrayModeIfNecessary() {
     }
 }
 
-void SyntaxAnalyzer::disableBraceModeIfNecessary() {
-    if (_handle.isBraceMode() && _stack.empty()) {
+void SyntaxAnalyzer::disableBlockModeIfNecessary() {
+    if (_handle.isBlockMode() && _stack.empty()) {
         Logger::log("disabling brace mode");
+        _handle.clear();
+    }
+}
+
+void SyntaxAnalyzer::disableStructModeIfNecessary() {
+    if (_handle.isStructMode() && _stack.empty()) {
+        Logger::log("disabling struct mode");
         _handle.clear();
     }
 }

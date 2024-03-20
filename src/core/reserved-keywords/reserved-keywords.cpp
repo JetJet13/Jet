@@ -36,7 +36,13 @@ bool ReservedKeywords::isKeywordSymbol(Symbol* symbol) {
 }
 
 void ReservedKeywords::init() {
-    this->add("int", SymbolFactory::createIntSymbol());
+    this->add("int", SymbolFactory::createIntTypeSymbol());
+    this->add("float", SymbolFactory::createFloatTypeSymbol());
+    this->add("string", SymbolFactory::createStringTypeSymbol());
+    this->add("char", SymbolFactory::createCharTypeSymbol());
+    this->add("boolean", SymbolFactory::createBooleanTypeSymbol());
+    this->add("array", SymbolFactory::createArrayTypeSymbol());
+    this->add("void", SymbolFactory::createVoidTypeSymbol());
     this->add("=", SymbolFactory::createEqualSymbol());
     this->add("let", SymbolFactory::createVarSymbol());
     this->add("const", SymbolFactory::createConstSymbol());

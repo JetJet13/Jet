@@ -8,8 +8,8 @@
 ASTNode* FunctionParameterListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto functionParameterListNode = new ASTFunctionParameterListNode();
     for (auto node : nodes) {
-        if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
-            functionParameterListNode->addParameter((ASTIdentifierExpressionNode*)node);
+        if (node->is(AST_FUNCTION_PARAMETER_NODE)) {
+            functionParameterListNode->addParameter((ASTFunctionParameterNode*)node);
         }
     }
     return functionParameterListNode;

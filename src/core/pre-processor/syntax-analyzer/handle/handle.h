@@ -29,9 +29,12 @@ public:
     bool isArrayEnclosed();
     bool isArrayMode();
     bool isArrayOnlyNode();
-    bool isBraceEnclosed();
-    bool isBraceMode();
-    bool isBraceOnlyNode();
+    bool isBlockEnclosed();
+    bool isBlockMode();
+    bool isBlockEndOnlyNode();
+    bool isStructEnclosed();
+    bool isStructMode();
+    bool isStructEndOnlyNode();
     bool isInSpecialMode();
     void clear();
     unsigned long size();

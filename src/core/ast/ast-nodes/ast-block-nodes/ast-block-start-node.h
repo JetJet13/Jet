@@ -14,6 +14,7 @@ private:
     Lexeme* _lexeme;
 public:
     explicit ASTBlockStartNode(Lexeme* lexeme);
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

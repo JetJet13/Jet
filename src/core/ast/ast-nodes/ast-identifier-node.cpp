@@ -4,6 +4,7 @@
 
 #include "ast-identifier-node.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "ast-function-nodes/ast-function-name-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -11,6 +12,13 @@ ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
 
 Lexeme* ASTIdentifierNode::getIdentifier() {
     return _identifier;
+}
+
+ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE })) {
+        return new ASTFunctionNameNode(this->getIdentifier());
+    }
+    return this;
 }
 
 ASTNodeType ASTIdentifierNode::getNodeType() {

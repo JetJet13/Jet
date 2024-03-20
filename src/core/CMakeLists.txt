@@ -191,6 +191,22 @@ add_library(jet-core
         ast/ast-nodes/ast-function-nodes/ast-function-node.h
         ast/ast-nodes/ast-type-node.cpp
         ast/ast-nodes/ast-type-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-block-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-block-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-function-return-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-function-return-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-return-expression-reducer-strategy/function-return-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-return-expression-reducer-strategy/function-return-expression-reducer-strategy.h
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-parameter-reducer-strategy/function-parameter-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-parameter-reducer-strategy/function-parameter-reducer-strategy.h
+        ast/ast-nodes/ast-function-nodes/ast-function-name-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-name-node.h
+        ast/ast-nodes/ast-struct-nodes/ast-struct-start-node.cpp
+        ast/ast-nodes/ast-struct-nodes/ast-struct-start-node.h
+        ast/ast-nodes/ast-struct-nodes/ast-struct-end-node.cpp
+        ast/ast-nodes/ast-struct-nodes/ast-struct-end-node.h
 
 )
 

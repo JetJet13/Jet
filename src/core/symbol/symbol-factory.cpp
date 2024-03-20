@@ -150,4 +150,32 @@ namespace SymbolFactory {
     Symbol* createFunctionSymbol() {
         return new Symbol(SYM_FUNCTION, "function");
     }
+
+    Symbol* createVoidTypeSymbol() {
+        return new Symbol(SYM_VOID_TYPE, "void_type");
+    }
+
+    Symbol* createIntTypeSymbol() {
+        return new Symbol(SYM_INT_TYPE, "int_type");
+    }
+
+    Symbol* createFloatTypeSymbol() {
+        return new Symbol(SYM_FLOAT_TYPE, "float_type");
+    }
+
+    Symbol* createStringTypeSymbol() {
+        return new Symbol(SYM_STRING_TYPE, "string_type");
+    }
+
+    Symbol* createCharTypeSymbol() {
+        return new Symbol(SYM_CHAR_TYPE, "char_type");
+    }
+
+    Symbol* createBooleanTypeSymbol() {
+        return new Symbol(SYM_BOOLEAN_TYPE, "boolean_type");
+    }
+
+    Symbol* createArrayTypeSymbol() {
+        return new Symbol(SYM_ARRAY_TYPE, "array_type");
+    }
 }

@@ -7,17 +7,17 @@
 
 #include <string>
 #include "../ast-node.h"
-#include "../ast-expression-nodes/ast-identifier-expression-node.h"
+#include "ast-function-parameter-node.h"
 
 class ASTFunctionParameterListNode : public ASTNode {
 private:
-    std::vector<ASTIdentifierExpressionNode*> _parameters;
+    std::vector<ASTFunctionParameterNode*> _parameters;
 public:
     ASTFunctionParameterListNode();
-    ASTFunctionParameterListNode(std::vector<ASTIdentifierExpressionNode*> parameters);
-    std::vector<ASTIdentifierExpressionNode*> getParameters();
+    ASTFunctionParameterListNode(std::vector<ASTFunctionParameterNode*> parameters);
+    std::vector<ASTFunctionParameterNode*> getParameters();
     unsigned long numParameters();
-    ASTFunctionParameterListNode* addParameter(ASTIdentifierExpressionNode* parameter);
+    ASTFunctionParameterListNode* addParameter(ASTFunctionParameterNode* parameter);
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
