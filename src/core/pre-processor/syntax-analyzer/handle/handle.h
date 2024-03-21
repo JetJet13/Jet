@@ -8,17 +8,21 @@
 #include <deque>
 #include <vector>
 #include "../../../ast/ast-nodes/ast-node.h"
+#include "types/handle-mode.h"
 
 class Handle {
 private:
     std::deque<ASTNode*> _handle;
     std::optional<ASTNode*> _lastReducedNode;
     std::optional<ASTNode*> _peekNode;
+    HandleMode _mode;
+    void determineMode();
 public:
     Handle();
     std::optional<ASTNode*> at(int index);
     std::optional<ASTNode*> first();
     std::optional<ASTNode*> last();
+    HandleMode getMode();
     bool isNodeTypeAt(int index, ASTNodeType astNodeType);
     bool isEmpty();
     bool isTerminatorMode();
@@ -35,7 +39,11 @@ public:
     bool isStructEnclosed();
     bool isStructMode();
     bool isStructEndOnlyNode();
-    bool isInSpecialMode();
+    bool isFunctionParameterListEnclosed();
+    bool isFunctionParameterListMode();
+    bool isFunctionParameterListEndOnlyNode();
+    bool isNormalMode();
+    bool isNotNormalMode();
     void clear();
     unsigned long size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);

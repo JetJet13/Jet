@@ -9,7 +9,7 @@ ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+ASTNode* ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
     if (nextNode && nextNode.value()->isOneOf({ AST_TERMINATOR_NODE, AST_COMMA_NODE, AST_RIGHT_BRACKET_NODE, AST_BLOCK_END_NODE, AST_STRUCT_END_NODE })) {
         return new ASTStructEndNode(_lexeme);
     }

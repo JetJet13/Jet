@@ -207,6 +207,7 @@ add_library(jet-core
         ast/ast-nodes/ast-struct-nodes/ast-struct-start-node.h
         ast/ast-nodes/ast-struct-nodes/ast-struct-end-node.cpp
         ast/ast-nodes/ast-struct-nodes/ast-struct-end-node.h
+        pre-processor/syntax-analyzer/handle/types/handle-mode.h
 
 )
 

@@ -14,7 +14,7 @@ Lexeme* ASTGroupStartNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
     if (prevNode && prevNode.value()->is(AST_FUNCTION_NAME_NODE)) {
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }

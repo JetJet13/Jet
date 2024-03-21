@@ -45,6 +45,6 @@ bool ASTNode::isSameAs(ASTNode* other) {
     return this->getNodeType() == other->getNodeType();
 }
 
-ASTNode* ASTNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+ASTNode* ASTNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
     return this;
 }

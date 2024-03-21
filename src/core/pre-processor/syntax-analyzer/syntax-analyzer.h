@@ -51,6 +51,7 @@ private:
     void disableArrayModeIfNecessary();
     void disableBlockModeIfNecessary();
     void disableStructModeIfNecessary();
+    void disableFunctionParameterListModeIfNecessary();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     ASTFileNode* analyze(std::string &filePath);

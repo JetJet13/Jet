@@ -16,11 +16,11 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
     auto predecessor = handle.getPrevNodeFor(0);
     auto successor = handle.getNextNodeFor(0);
     if (handle.isTerminatorOnlyNode() || handle.isGroupingOnlyNode() || handle.isArrayOnlyNode() ||
-            handle.isBlockEndOnlyNode() || handle.isStructEndOnlyNode()) {
+            handle.isBlockEndOnlyNode() || handle.isStructEndOnlyNode() || handle.isFunctionParameterListEndOnlyNode()) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle.isEmpty()) {
         return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
-    } else if (!handle.isInSpecialMode()) {
+    } else if (handle.isNormalMode()) {
         auto startNode = _dfa->findStartNode(handle.first().value()->getNodeType());
         if (startNode && startNode.value()->alwaysReduceSelf()) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
@@ -35,7 +35,9 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_BLOCK_NODE);
     } else if (handle.isStructEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_STRUCT_EXPRESSION_NODE);
-    } else if (handle.isInSpecialMode()) {
+    } else if (handle.isFunctionParameterListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_FUNCTION_PARAMETER_LIST_NODE);
+    } else if (handle.isNotNormalMode()) {
         if (predecessor && successor && predecessor.value()->isSameNodeTypeAs(successor.value()) && predecessor.value()->isHigherPriorityThan(successor.value())) {
             Logger::log("predecessor is higher priority then successor");
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
@@ -68,7 +70,7 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
         auto currentDfaState = _dfa->getCurrentState();
         if (currentDfaState && currentDfaState.value()->hasTargetAstNodeType()) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
-        } else if (handle.isInSpecialMode() && !currentDfaState) {
+        } else if (handle.isNotNormalMode() && !currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (!currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
@@ -107,9 +109,11 @@ void SyntaxDfa::init() {
     DFANode* period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
     DFANode* functionDeclaration = DFANodeFactory::Once::createWithTarget(AST_FUNCTION_DECLARATION_NODE, AST_FUNCTION_DECLARATION_NODE);
     DFANode* functionKeyword = DFANodeFactory::Once::create(AST_FUNCTION_NODE);
+    DFANode* functionName = DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE);
     DFANode* functionParameter = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_NODE);
     DFANode* functionParameterList = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE);
     DFANode* functionReturn = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_NODE);
+    DFANode* functionReturnExpression = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_EXPRESSION_NODE);
     DFANode* functionBlock = DFANodeFactory::Once::create(AST_FUNCTION_BLOCK_NODE);
     DFANode* type = DFANodeFactory::Once::create(AST_TYPE_NODE);
 
@@ -240,6 +244,9 @@ void SyntaxDfa::init() {
     functionKeyword
     ->markAlwaysReduceSelf();
 
+    functionName
+    ->markAlwaysReduceSelf();
+
     functionParameter
     ->markAlwaysReduceSelf();
 
@@ -256,6 +263,9 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)));
+
+    functionReturnExpression
+    ->markAlwaysReduceSelf();
 
     functionBlock
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_TYPE_NODE });
@@ -286,6 +296,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_LEFT_BRACKET_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_STRUCT_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COLON_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_PERIOD_NODE)->markAlwaysReduceSelf())
@@ -296,9 +307,11 @@ void SyntaxDfa::init() {
     ->insertStartNode(block)
     ->insertStartNode(functionDeclaration)
     ->insertStartNode(functionKeyword)
+    ->insertStartNode(functionName)
     ->insertStartNode(functionParameter)
     ->insertStartNode(functionParameterList)
     ->insertStartNode(functionReturn)
+    ->insertStartNode(functionReturnExpression)
     ->insertStartNode(functionBlock)
     ->insertStartNode(type)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)

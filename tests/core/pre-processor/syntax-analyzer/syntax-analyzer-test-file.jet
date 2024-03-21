@@ -121,5 +121,6 @@ const structArrAccess = structArr.arr[0].hello;
 const structArrNestedAccess = structArr.arr[0][0].hello;
 
 function sum(x: int, y: int) int {
- return x + y;
+ const total = x + y;
+ return total;
 }

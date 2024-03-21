@@ -14,8 +14,8 @@ Lexeme* ASTGroupEndNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
-    if (nextNode && nextNode.value()->isOneOf({ AST_TYPE_NODE, AST_IDENTIFIER_NODE })) {
+ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
+    if (nextNode && nextNode.value()->isOneOf({ AST_TYPE_NODE, AST_IDENTIFIER_NODE, AST_BLOCK_START_NODE })) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
     return this;

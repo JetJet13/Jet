@@ -25,7 +25,7 @@ std::vector<ASTNode*> ASTBlockNode::getContents() {
     return _contents;
 }
 
-ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
     if (prevNode && prevNode.value()->is(AST_TYPE_NODE)) {
         return new ASTFunctionBlockNode(this->getContents());
     }

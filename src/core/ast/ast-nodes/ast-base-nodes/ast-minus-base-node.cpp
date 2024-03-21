@@ -10,7 +10,7 @@ ASTMinusBaseNode::ASTMinusBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
     if (!prevNode && !nextNode) {
         return this;
     }

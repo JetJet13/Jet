@@ -9,6 +9,7 @@ Handle::Handle() {
     _handle = std::deque<ASTNode*>();
     _lastReducedNode = {};
     _peekNode = {};
+    _mode = HANDLE_NORMAL_MODE;
 }
 
 std::optional<ASTNode*> Handle::at(int index) {
@@ -35,6 +36,10 @@ std::optional<ASTNode*> Handle::last() {
     return _handle[_handle.size() - 1];
 }
 
+HandleMode Handle::getMode() {
+    return _mode;
+}
+
 bool Handle::isNodeTypeAt(int index, ASTNodeType astNodeType) {
     auto node = this->at(index);
     if (node) {
@@ -48,7 +53,7 @@ bool Handle::isEmpty() {
 }
 
 bool Handle::isTerminatorMode() {
-    return !this->isEmpty() && this->last().value()->is(AST_TERMINATOR_NODE);
+    return _mode == HANDLE_TERMINATOR_MODE;
 }
 
 bool Handle::isTerminatorOnlyNode() {
@@ -63,7 +68,7 @@ bool Handle::isGroupEnclosed() {
 }
 
 bool Handle::isGroupingMode() {
-    return !this->isEmpty() && this->last().value()->is(AST_GROUP_END_NODE);
+    return _mode == HANDLE_GROUP_MODE;
 }
 
 bool Handle::isGroupingOnlyNode() {
@@ -78,7 +83,7 @@ bool Handle::isArrayEnclosed() {
 }
 
 bool Handle::isArrayMode() {
-    return !this->isEmpty() && this->last().value()->is(AST_RIGHT_BRACKET_NODE);
+    return _mode == HANDLE_ARRAY_MODE;
 }
 
 bool Handle::isArrayOnlyNode() {
@@ -93,7 +98,7 @@ bool Handle::isBlockEnclosed() {
 }
 
 bool Handle::isBlockMode() {
-    return !this->isEmpty() && this->last().value()->is(AST_BLOCK_END_NODE);
+    return _mode == HANDLE_BLOCK_MODE;
 }
 
 bool Handle::isBlockEndOnlyNode() {
@@ -108,23 +113,39 @@ bool Handle::isStructEnclosed() {
 }
 
 bool Handle::isStructMode() {
-    return !this->isEmpty() && this->last().value()->is(AST_STRUCT_END_NODE);
+    return _mode == HANDLE_STRUCT_MODE;
 }
 
 bool Handle::isStructEndOnlyNode() {
     return _handle.size() == 1 && this->isNodeTypeAt(0, AST_STRUCT_END_NODE);
 }
 
-bool Handle::isInSpecialMode() {
-    return this->isTerminatorMode() ||
-    this->isGroupingMode() ||
-    this->isArrayMode() ||
-    this->isBlockMode() ||
-    this->isStructMode();
+bool Handle::isFunctionParameterListEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_FUNCTION_PARAMETER_LIST_START_NODE) && this->last().value()->is(AST_FUNCTION_PARAMETER_LIST_END_NODE);
+}
+
+bool Handle::isFunctionParameterListMode() {
+    return _mode == HANDLE_FUNCTION_PARAMETER_LIST_MODE;
+}
+
+bool Handle::isFunctionParameterListEndOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_FUNCTION_PARAMETER_LIST_END_NODE);
+}
+
+bool Handle::isNormalMode() {
+    return _mode == HANDLE_NORMAL_MODE;
+}
+
+bool Handle::isNotNormalMode() {
+    return !this->isNormalMode();
 }
 
 void Handle::clear() {
     _handle.clear();
+    this->determineMode();
 }
 
 unsigned long Handle::size() {
@@ -150,22 +171,27 @@ std::vector<ASTNode*> Handle::getFirstNodes(int numNodesToGet) {
 
 void Handle::removeFirstNodes(int numNodesToRemove) {
     _handle.erase(_handle.begin(), _handle.begin() + numNodesToRemove);
+    this->determineMode();
 }
 
 void Handle::removeFirstNode() {
     _handle.pop_front();
+    this->determineMode();
 }
 
 void Handle::removeLastNode() {
     _handle.pop_back();
+    this->determineMode();
 }
 
 void Handle::append(ASTNode* node) {
     _handle.push_back(node);
+    this->determineMode();
 }
 
 void Handle::prepend(ASTNode* node) {
     _handle.push_front(node);
+    this->determineMode();
 }
 
 void Handle::replace(int index, ASTNode* newNode) {
@@ -173,6 +199,7 @@ void Handle::replace(int index, ASTNode* newNode) {
         throw std::invalid_argument("invalid index value for replace operation");
     }
     _handle[index] = newNode;
+    this->determineMode();
 }
 
 std::optional<ASTNode*> Handle::getLastReducedNode() {
@@ -226,4 +253,22 @@ void Handle::print() {
         node->print();
     }
     Logger::log("------------------------");
+}
+
+void Handle::determineMode() {
+    if (!this->isEmpty() && this->last().value()->is(AST_TERMINATOR_NODE)) {
+        _mode = HANDLE_TERMINATOR_MODE;
+    } else if (!this->isEmpty() && this->last().value()->is(AST_RIGHT_BRACKET_NODE)) {
+        _mode = HANDLE_ARRAY_MODE;
+    } else if (!this->isEmpty() && this->last().value()->is(AST_GROUP_END_NODE)) {
+        _mode = HANDLE_GROUP_MODE;
+    } else if (!this->isEmpty() && this->last().value()->is(AST_BLOCK_END_NODE)) {
+        _mode = HANDLE_BLOCK_MODE;
+    } else if (!this->isEmpty() && this->last().value()->is(AST_STRUCT_END_NODE)) {
+        _mode = HANDLE_STRUCT_MODE;
+    } else if (!this->isEmpty() && this->last().value()->is(AST_FUNCTION_PARAMETER_LIST_END_NODE)) {
+        _mode = HANDLE_FUNCTION_PARAMETER_LIST_MODE;
+    } else {
+        _mode = HANDLE_NORMAL_MODE;
+    }
 }

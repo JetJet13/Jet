@@ -37,6 +37,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         this->disableArrayModeIfNecessary();
         this->disableBlockModeIfNecessary();
         this->disableStructModeIfNecessary();
+        this->disableFunctionParameterListModeIfNecessary();
 
         if (!_handle.isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
             _handle.isEmpty() ? this->accept() : this->error();
@@ -111,7 +112,8 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
             _handle.replace(i,
                             _handle.at(i).value()->transformIfNecessary(
                                     _handle.getPrevNodeFor(i),
-                                    _handle.getNextNodeFor(i)));
+                                    _handle.getNextNodeFor(i),
+                                    _handle.getMode()));
     }
 
     if (_handle.isGroupEnclosed()) {
@@ -152,6 +154,13 @@ void SyntaxAnalyzer::disableBlockModeIfNecessary() {
 void SyntaxAnalyzer::disableStructModeIfNecessary() {
     if (_handle.isStructMode() && _stack.empty()) {
         Logger::log("disabling struct mode");
+        _handle.clear();
+    }
+}
+
+void SyntaxAnalyzer::disableFunctionParameterListModeIfNecessary() {
+    if (_handle.isFunctionParameterListMode() && _stack.empty()) {
+        Logger::log("disabling function parameter list mode");
         _handle.clear();
     }
 }

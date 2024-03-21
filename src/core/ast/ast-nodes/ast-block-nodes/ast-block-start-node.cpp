@@ -9,7 +9,7 @@ ASTBlockStartNode::ASTBlockStartNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode) {
+ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_COLON_NODE, AST_LEFT_BRACKET_NODE })) {
         return new ASTStructStartNode(_lexeme);
     }

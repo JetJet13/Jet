@@ -45,6 +45,7 @@ namespace SymbolFactory {
     Symbol* createStringSymbol();
     Symbol* createMalformedSymbol();
     Symbol* createFunctionSymbol();
+    Symbol* createReturnSymbol();
     Symbol* createVoidTypeSymbol();
     Symbol* createIntTypeSymbol();
     Symbol* createFloatTypeSymbol();
