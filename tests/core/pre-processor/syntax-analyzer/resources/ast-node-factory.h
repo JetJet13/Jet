@@ -19,6 +19,8 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -114,6 +116,45 @@ namespace ASTNodeFactory {
     static ASTArrayAccessNode* arrayAccessId =  new ASTArrayAccessNode(
             ASTNodeFactory::idExpression
     );
+    static ASTTypeNode* intType = new ASTTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
+    static ASTTypeNode* floatType = new ASTTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
+    static ASTTypeNode* stringType = new ASTTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
+    static ASTTypeNode* charType = new ASTTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
+    static ASTTypeNode* booleanType = new ASTTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
+    static ASTTypeNode* arrayType = new ASTTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
+    static ASTTypeNode* idType = new ASTTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTFunctionParameterNode* intFunctionParameter =  new ASTFunctionParameterNode(
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::intType
+    );
+    static ASTFunctionParameterNode* floatFunctionParameter =  new ASTFunctionParameterNode(
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::floatType
+    );
+    static ASTFunctionParameterNode* stringFunctionParameter =  new ASTFunctionParameterNode(
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::stringType
+    );
+    static ASTFunctionParameterNode* charFunctionParameter =  new ASTFunctionParameterNode(
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::charType
+    );
+    static ASTFunctionParameterNode* booleanFunctionParameter =  new ASTFunctionParameterNode(
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::booleanType
+    );
+    static ASTFunctionParameterNode* arrayFunctionParameter =  new ASTFunctionParameterNode(
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::arrayType
+    );
+    static ASTFunctionParameterNode* idFunctionParameter =  new ASTFunctionParameterNode(
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::idType
+    );
+
 
 };
 

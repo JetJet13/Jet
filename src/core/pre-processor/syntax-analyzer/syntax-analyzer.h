@@ -19,6 +19,7 @@
 #include "syntax-dfa/syntax-dfa.h"
 #include "../../../shared/utils/logger/logger.h"
 #include "lexeme-transformer/lexeme-transformer.h"
+#include "../../ast/ast-nodes/ast-block-nodes/ast-block-node.h"
 
 /* This SyntaxAnalyzer is a LALR(1) parser that performs bottom-up parsing
  * Instructions:
@@ -37,10 +38,11 @@ private:
     LexicalAnalyzer* _lexicalAnalyzer;
     Handle _handle;
     LexemeTransformer _lexemeTransformer;
+    std::stack<ASTBlockNode*> _scopeStack;
     std::stack<ASTNode*> _stack;
     RecognizerResult* recognizeHandle();
     void shift();
-    void reduceHandle(ASTFileNode* fileNode, RecognizerResult* recognizerResult);
+    void reduceHandle(RecognizerResult* recognizerResult);
     void popFromStack();
     void transform(RecognizerResult* recognizerResult);
     void accept();
@@ -49,9 +51,9 @@ private:
     void disableTerminatorModeIfNecessary();
     void disableGroupingModeIfNecessary();
     void disableArrayModeIfNecessary();
-    void disableBlockModeIfNecessary();
     void disableStructModeIfNecessary();
     void disableFunctionParameterListModeIfNecessary();
+    ASTFileNode* buildFileNode();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
     ASTFileNode* analyze(std::string &filePath);

@@ -7,15 +7,15 @@
 
 #include <vector>
 #include "ast-node.h"
+#include "ast-block-nodes/ast-block-node.h"
 
 class ASTFileNode : public ASTNode {
 private:
-    std::vector<ASTNode*> _body;
+    ASTBlockNode* _body;
 public:
-    ASTFileNode();
+    ASTFileNode(ASTBlockNode* body);
     void append(ASTNode* node);
-    void prepend(ASTNode* node);
-    std::vector<ASTNode*> getBody();
+    ASTBlockNode* getBody();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

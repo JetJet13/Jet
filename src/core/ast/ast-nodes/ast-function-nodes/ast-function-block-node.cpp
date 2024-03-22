@@ -3,6 +3,7 @@
 //
 
 #include "ast-function-block-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTFunctionBlockNode::ASTFunctionBlockNode(std::vector<ASTNode*> contents) {
     _contents = std::vector<ASTNode*>();
@@ -21,4 +22,12 @@ ASTNodeType ASTFunctionBlockNode::getNodeType() {
 
 std::string ASTFunctionBlockNode::toString() {
     return "FUNCTION_BLOCK";
+}
+
+void ASTFunctionBlockNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    for (auto content : _contents) {
+        content->print();
+    }
+    Logger::log("----------");
 }

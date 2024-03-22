@@ -10,22 +10,29 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
     _reducer = Reducer();
     _handle = Handle();
     _lexemeTransformer = LexemeTransformer();
+    _scopeStack = std::stack<ASTBlockNode*>();
     _stack = std::stack<ASTNode*>();
     _syntaxDfa = new SyntaxDfa();
     _lexicalAnalyzer = lexicalAnalyzer;
 }
 
 ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
-    auto fileNode = new ASTFileNode();
+    _scopeStack.push(new ASTBlockNode());
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
+    auto lastAttemptToReduce = false;
     while (true) {
-        if (numLoops == 20000) {
+        if (numLoops == 10000) {
             throw std::logic_error("too many loops!");
         }
         auto recognizerResult = this->recognizeHandle();
+        if (lastAttemptToReduce && !recognizerResult->reduce()) {
+            this->error();
+            break;
+        }
+
         if (recognizerResult->reduce()) {
-            this->reduceHandle(fileNode, recognizerResult);
+            this->reduceHandle(recognizerResult);
         } else if (recognizerResult->pop()) {
             this->popFromStack();
         } else if (recognizerResult->shift()){
@@ -35,17 +42,21 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         this->disableTerminatorModeIfNecessary();
         this->disableGroupingModeIfNecessary();
         this->disableArrayModeIfNecessary();
-        this->disableBlockModeIfNecessary();
         this->disableStructModeIfNecessary();
         this->disableFunctionParameterListModeIfNecessary();
 
-        if (!_handle.isTerminatorMode() && !_lexicalAnalyzer->hasMore()) {
-            _handle.isEmpty() ? this->accept() : this->error();
-            break;
+        if (_stack.empty() && !_lexicalAnalyzer->hasMore()) {
+            if (_handle.isEmpty()) {
+                this->accept();
+                break;
+            } else {
+                lastAttemptToReduce = true;
+            }
         }
+
         numLoops++;
     }
-    return fileNode;
+    return this->buildFileNode();
 }
 
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
@@ -63,18 +74,28 @@ void SyntaxAnalyzer::shift() {
     }
 }
 
-void SyntaxAnalyzer::reduceHandle(ASTFileNode* fileNode, RecognizerResult* recognizerResult) {
+void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     Logger::log("reduce");
     Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
-    if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
-        Logger::log("pushing node to file node:", reducedNode->toString());
-        fileNode->append(reducedNode);
+    if (reducedNode->is(AST_BLOCK_START_NODE)) {
+        _scopeStack.push(new ASTBlockNode());
+    } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
+        auto blockNode = _scopeStack.top();
+        _scopeStack.pop();
+        _handle.append(blockNode);
+    } else if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
+        Logger::log("pushing node to latest scope node:", reducedNode->toString());
+        _scopeStack.top()->addContent(reducedNode);
     } else {
         Logger::log("pushing node to stack:", reducedNode->toString());
         _stack.push(reducedNode);
     }
+
     _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
+    if (ASTNodeUtils::isDeclarationNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
+        _handle.clear();
+    }
 }
 
 void SyntaxAnalyzer::popFromStack() {
@@ -144,13 +165,6 @@ void SyntaxAnalyzer::disableArrayModeIfNecessary() {
     }
 }
 
-void SyntaxAnalyzer::disableBlockModeIfNecessary() {
-    if (_handle.isBlockMode() && _stack.empty()) {
-        Logger::log("disabling brace mode");
-        _handle.clear();
-    }
-}
-
 void SyntaxAnalyzer::disableStructModeIfNecessary() {
     if (_handle.isStructMode() && _stack.empty()) {
         Logger::log("disabling struct mode");
@@ -163,4 +177,10 @@ void SyntaxAnalyzer::disableFunctionParameterListModeIfNecessary() {
         Logger::log("disabling function parameter list mode");
         _handle.clear();
     }
+}
+
+ASTFileNode* SyntaxAnalyzer::buildFileNode() {
+    auto fileNode = new ASTFileNode(_scopeStack.top());
+    _scopeStack.pop();
+    return fileNode;
 }

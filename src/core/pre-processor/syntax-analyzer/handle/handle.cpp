@@ -90,19 +90,8 @@ bool Handle::isArrayOnlyNode() {
     return _handle.size() == 1 && this->isNodeTypeAt(0, AST_RIGHT_BRACKET_NODE);
 }
 
-bool Handle::isBlockEnclosed() {
-    if (_handle.size() < 2) {
-        return false;
-    }
-    return this->first().value()->is(AST_BLOCK_START_NODE) && this->last().value()->is(AST_BLOCK_END_NODE);
-}
-
-bool Handle::isBlockMode() {
-    return _mode == HANDLE_BLOCK_MODE;
-}
-
-bool Handle::isBlockEndOnlyNode() {
-    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_BLOCK_END_NODE);
+bool Handle::isFunctionBlockOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_FUNCTION_BLOCK_NODE);
 }
 
 bool Handle::isStructEnclosed() {
@@ -262,10 +251,10 @@ void Handle::determineMode() {
         _mode = HANDLE_ARRAY_MODE;
     } else if (!this->isEmpty() && this->last().value()->is(AST_GROUP_END_NODE)) {
         _mode = HANDLE_GROUP_MODE;
-    } else if (!this->isEmpty() && this->last().value()->is(AST_BLOCK_END_NODE)) {
-        _mode = HANDLE_BLOCK_MODE;
     } else if (!this->isEmpty() && this->last().value()->is(AST_STRUCT_END_NODE)) {
         _mode = HANDLE_STRUCT_MODE;
+    }  else if (!this->isEmpty() && this->last().value()->is(AST_FUNCTION_BLOCK_NODE)) {
+        _mode = HANDLE_FUNCTION_BLOCK_MODE;
     } else if (!this->isEmpty() && this->last().value()->is(AST_FUNCTION_PARAMETER_LIST_END_NODE)) {
         _mode = HANDLE_FUNCTION_PARAMETER_LIST_MODE;
     } else {

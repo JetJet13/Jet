@@ -16,6 +16,7 @@ private:
     void init();
     void initVarType(DFANode* varTypeNode);
     void initVarInit(DFANode* varInitNode);
+    void initFunction(DFANode* functionNode);
 public:
     SyntaxDfa();
     RecognizerResult* recognize(Handle handle);

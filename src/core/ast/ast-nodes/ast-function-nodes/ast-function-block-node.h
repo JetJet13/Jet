@@ -17,6 +17,7 @@ public:
     std::vector<ASTNode*> getContents();
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    void print() override;
 };
 
 #endif //JETLANG_AST_FUNCTION_BLOCK_NODE_H

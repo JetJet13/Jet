@@ -4,19 +4,15 @@
 
 #include "ast-file-node.h"
 
-ASTFileNode::ASTFileNode() {
-    _body = {};
+ASTFileNode::ASTFileNode(ASTBlockNode* body) {
+    _body = body;
 }
 
 void ASTFileNode::append(ASTNode *node) {
-    _body.push_back(node);
+    _body->addContent(node);
 }
 
-void ASTFileNode::prepend(ASTNode *node) {
-    _body.insert(_body.begin(), node);
-}
-
-std::vector<ASTNode*> ASTFileNode::getBody() {
+ASTBlockNode* ASTFileNode::getBody() {
     return _body;
 }
 
@@ -33,10 +29,5 @@ bool ASTFileNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTFileNode*)other;
-    for (int i = 0; i < _body.size(); ++i) {
-        if (!_body[i]->isSameAs(otherNode->getBody()[i])) {
-            return false;
-        }
-    }
-    return true;
+    return _body->isSameAs(otherNode->getBody());
 }

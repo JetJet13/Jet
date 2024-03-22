@@ -5,7 +5,7 @@
 #include "ast-function-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTBlockNode* content) {
+ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTFunctionBlockNode* content) {
     _name = name;
     _content = content;
     _returnType = returnType;
@@ -24,7 +24,7 @@ ASTTypeNode* ASTFunctionDeclarationNode::getReturnType() {
     return _returnType;
 }
 
-ASTBlockNode* ASTFunctionDeclarationNode::getContent() {
+ASTFunctionBlockNode* ASTFunctionDeclarationNode::getContent() {
     return _content;
 }
 

@@ -33,9 +33,7 @@ public:
     bool isArrayEnclosed();
     bool isArrayMode();
     bool isArrayOnlyNode();
-    bool isBlockEnclosed();
-    bool isBlockMode();
-    bool isBlockEndOnlyNode();
+    bool isFunctionBlockOnlyNode();
     bool isStructEnclosed();
     bool isStructMode();
     bool isStructEndOnlyNode();

@@ -15,6 +15,8 @@
 #include "../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -1127,9 +1129,45 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                     ASTNodeFactory::idExpression
                     )
-        )}
-        // TODO: add missing nodes (94-98)
+        )},
+        {99, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode({
+                     ASTNodeFactory::intFunctionParameter,
+                     ASTNodeFactory::intFunctionParameter,
+                }),
+                ASTNodeFactory::intType,
+                new ASTFunctionBlockNode({
+                    new ASTVariableDeclarationNode(
+                            ASTNodeFactory::constInit,
+                            new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::plus,
+                                    ASTNodeFactory::idExpression
+                                    )
+                    ),
+                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::idExpression)
+                })
+        )},
+        {100, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode(),
+                ASTNodeFactory::intType,
+                new ASTFunctionBlockNode({
+                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::intExpression)
+                 })
+        )},
+        {101, new ASTBlockNode({
+                   new ASTVariableDeclarationNode(
+                           ASTNodeFactory::constInit,
+                           ASTNodeFactory::stringExpression
+                   )
+        })}
 };
+/* TODO: Add support for mutable variables, a.k.a variable re-assignment
+ *    let foo = "hello";
+ *    foo = "no thanks!";
+ */
 
 TEST_CASE( "should print the expected reduced nodes" ) {
 std::string filePath = "./syntax-analyzer-test-file.jet";
@@ -1139,9 +1177,9 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody().size() == 98);
-    for (int i = 0; i < 98; i++) {
-        auto declaration = fileNodeResult->getBody()[i];
+REQUIRE(fileNodeResult->getBody()->size() == 101);
+    for (int i = 0; i < 101; i++) {
+        auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
         Logger::log("RESULT =", declaration->isSameAs(expectedNodes[i + 1]));
@@ -1149,4 +1187,3 @@ REQUIRE(fileNodeResult->getBody().size() == 98);
         Logger::log("====================================");
     }
 }
-// TODO: Include Handle 'Mode' in 'transformIfNecessary' method in ASTNodes
