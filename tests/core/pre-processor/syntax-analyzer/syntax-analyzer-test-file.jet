@@ -137,3 +137,16 @@ function returnFour() int {
         hello = "magic!";
     }
 }
+
+procedure anotherOne(num: int) {
+    let myNum = 2;
+    myNum = myNum + 1;
+}
+
+procedure anotherOne() {
+    let moo = 4;
+}
+
+procedure emptyProcedure() {
+
+}

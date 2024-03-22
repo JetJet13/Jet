@@ -24,6 +24,7 @@
 #include "reducer-strategies/function-parameter-reducer-strategy/function-parameter-reducer-strategy.h"
 #include "reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/variable-assignment-reducer-strategy/variable-assignment-reducer-strategy.h"
+#include "reducer-strategies/procedure-declaration-reducer-strategy/procedure-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -50,6 +51,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_FUNCTION_PARAMETER_LIST_NODE, new FunctionParameterListReducerStrategy());
     this->addStrategy(AST_FUNCTION_PARAMETER_NODE, new FunctionParameterReducerStrategy());
     this->addStrategy(AST_FUNCTION_RETURN_EXPRESSION_NODE, new FunctionReturnExpressionReducerStrategy());
+    this->addStrategy(AST_PROCEDURE_DECLARATION_NODE, new ProcedureDeclarationReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_NODE, new VariableAssignmentReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, new VariableAssignmentStatementReducerStrategy());
 }

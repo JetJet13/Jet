@@ -153,6 +153,10 @@ bool Symbol::isReturn() {
     return _type == SYM_RETURN;
 }
 
+bool Symbol::isProcedure() {
+    return _type == SYM_PROCEDURE;
+}
+
 bool Symbol::isType() {
     return _type == SYM_INT_TYPE ||
             _type == SYM_FLOAT_TYPE ||

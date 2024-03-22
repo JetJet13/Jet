@@ -112,16 +112,18 @@ void SyntaxDfa::init() {
     DFANode* functionParameterList = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE);
     DFANode* functionReturn = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_NODE);
     DFANode* functionReturnExpression = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_EXPRESSION_NODE);
+    DFANode* procedureDeclaration = DFANodeFactory::Once::createWithTarget(AST_PROCEDURE_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE);
+    DFANode* procedureKeyword = DFANodeFactory::Once::create(AST_PROCEDURE_NODE);
     DFANode* type = DFANodeFactory::Once::create(AST_TYPE_NODE);
     DFANode* varAssignment = DFANodeFactory::Once::create(AST_VARIABLE_ASSIGNMENT_NODE);
     DFANode* assignmentOperator = DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE);
     DFANode* varAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE);
 
 
-
     this->initVarType(varType);
     this->initVarInit(varInit);
     this->initFunction(functionKeyword);
+    this->initProcedure(procedureKeyword);
 
     logicalOperator
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_LOGICAL_EXPRESSION_NODE)))
@@ -267,6 +269,9 @@ void SyntaxDfa::init() {
     functionReturnExpression
     ->markAlwaysReduceSelf();
 
+    procedureKeyword
+    ->markAlwaysReduceSelf();
+
     type
     ->markAlwaysReduceSelf();
 
@@ -326,6 +331,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(functionParameterList)
     ->insertStartNode(functionReturn)
     ->insertStartNode(functionReturnExpression)
+    ->insertStartNode(procedureDeclaration)
+    ->insertStartNode(procedureKeyword)
     ->insertStartNode(type)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
@@ -425,6 +432,23 @@ void SyntaxDfa::initFunction(DFANode* functionNode) {
                                                                         ))
                                                         ))
                                                     ))
+                    )
+            );
+}
+
+void SyntaxDfa::initProcedure(DFANode* procedureNode) {
+    procedureNode
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE)
+                                    ->addTransition(
+                                            DFATransitionFactory::create(
+                                                    DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE)
+                                                    ->addTransition(
+                                                            DFATransitionFactory::create(
+                                                                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_PROCEDURE_DECLARATION_NODE)
+                                                            ))
+                                            ))
                     )
             );
 }

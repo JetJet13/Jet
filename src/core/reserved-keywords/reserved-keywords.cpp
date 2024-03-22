@@ -74,6 +74,7 @@ void ReservedKeywords::init() {
     this->add("==", SymbolFactory::createEqualEqualSymbol());
     this->add("function", SymbolFactory::createFunctionSymbol());
     this->add("return", SymbolFactory::createReturnSymbol());
+    this->add("procedure", SymbolFactory::createProcedureSymbol());
 
     this->initKeywordSymbolList();
 }

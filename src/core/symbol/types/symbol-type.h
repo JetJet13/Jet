@@ -50,6 +50,7 @@ typedef enum {
     SYM_PERIOD,
     SYM_FUNCTION,
     SYM_RETURN,
+    SYM_PROCEDURE,
     SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H

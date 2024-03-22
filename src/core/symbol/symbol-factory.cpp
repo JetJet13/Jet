@@ -155,6 +155,10 @@ namespace SymbolFactory {
         return new Symbol(SYM_RETURN, "return");
     }
 
+    Symbol* createProcedureSymbol() {
+        return new Symbol(SYM_PROCEDURE, "procedure");
+    }
+
     Symbol* createVoidTypeSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");
     }

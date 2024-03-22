@@ -28,6 +28,7 @@
 #include "../../../ast/ast-nodes/ast-function-nodes/ast-function-return-node.h"
 #include "../../../ast/ast-nodes/ast-function-nodes/ast-function-node.h"
 #include "../../../ast/ast-nodes/ast-type-node.h"
+#include "../../../ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -104,6 +105,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTFunctionNode(lexeme);
     }  else if (symbol->isReturn()) {
         return new ASTFunctionReturnNode(lexeme);
+    } else if (symbol->isProcedure()) {
+        return new ASTProcedureNode(lexeme);
     } else if (symbol->isType()) {
         return new ASTTypeNode(lexeme);
     } else {

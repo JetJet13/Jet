@@ -52,6 +52,7 @@ public:
     bool isReturn();
     bool isType();
     bool isVarTypeQualifier();
+    bool isProcedure();
     SymbolType getType();
     std::string toString();
 };

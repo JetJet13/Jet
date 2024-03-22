@@ -18,6 +18,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -1177,7 +1178,42 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ASTNodeFactory::stringExpression
                         ),
                    })
-        })}
+        })},
+        {102, new ASTProcedureDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode({
+                     ASTNodeFactory::intFunctionParameter
+                }),
+                new ASTFunctionBlockNode({
+                     new ASTVariableDeclarationNode(
+                             ASTNodeFactory::letInit,
+                             ASTNodeFactory::intExpression
+                     ),
+                     new ASTVariableAssignmentStatementNode(
+                             ASTNodeFactory::varAssignment,
+                             new ASTBinaryExpressionNode(
+                                     ASTNodeFactory::idExpression,
+                                     ASTNodeFactory::plus,
+                                     ASTNodeFactory::intExpression
+                             )
+                     ),
+                })
+        )},
+        {103, new ASTProcedureDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode(),
+                new ASTFunctionBlockNode({
+                     new ASTVariableDeclarationNode(
+                             ASTNodeFactory::letInit,
+                             ASTNodeFactory::intExpression
+                     ),
+                })
+        )},
+        {104, new ASTProcedureDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode(),
+                new ASTFunctionBlockNode({})
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1188,8 +1224,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 101);
-    for (int i = 0; i < 101; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 104);
+    for (int i = 0; i < 104; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

@@ -217,6 +217,12 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.h
         pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h
+        ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.cpp
+        ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-declaration-reducer-strategy/procedure-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-declaration-reducer-strategy/procedure-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h
 
 )
 
