@@ -132,4 +132,8 @@ function returnFour() int {
 {
     let hello = "world";
     hello = "no!";
+    {
+        const nestedBlock = "nested block!";
+        hello = "magic!";
+    }
 }

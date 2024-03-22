@@ -7,6 +7,7 @@
 
 #include "../ast-node.h"
 #include "../ast-expression-nodes/ast-expression-node.h"
+#include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 
 class ASTBlockNode : public ASTNode {
 private:
@@ -17,7 +18,7 @@ public:
     ASTBlockNode* addContent(ASTNode* content);
     unsigned long size();
     std::vector<ASTNode*> getContents();
-    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

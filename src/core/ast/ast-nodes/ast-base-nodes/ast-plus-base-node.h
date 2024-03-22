@@ -8,13 +8,14 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../types/ast-node-type.h"
+#include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 
 class ASTPlusBaseNode : public ASTNode {
 private:
     Lexeme* _lexeme;
 public:
     explicit ASTPlusBaseNode(Lexeme* lexeme);
-    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

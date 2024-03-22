@@ -14,8 +14,8 @@ ASTIdentifierNode* ASTIdentifierExpressionNode::getIdentifierNode() {
     return _identifierNode;
 }
 
-ASTNode* ASTIdentifierExpressionNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
-    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == HANDLE_FUNCTION_PARAMETER_LIST_MODE) {
+ASTNode* ASTIdentifierExpressionNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return new ASTTypeNode(this->getIdentifierNode()->getIdentifier());
     }
     return this;

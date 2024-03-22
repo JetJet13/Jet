@@ -10,6 +10,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
     _reducer = Reducer();
     _handle = Handle();
     _lexemeTransformer = LexemeTransformer();
+    _modeStack = std::stack<SyntaxAnalyzerMode>();
     _scopeStack = std::stack<ASTBlockNode*>();
     _stack = std::stack<ASTNode*>();
     _syntaxDfa = new SyntaxDfa();
@@ -18,6 +19,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
 
 ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     _scopeStack.push(new ASTBlockNode());
+    _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
     auto lastAttemptToReduce = false;
@@ -32,6 +34,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         }
 
         if (recognizerResult->reduce()) {
+            this->updateModeIfNecessary(recognizerResult->getTargetAstNodeType());
             this->reduceHandle(recognizerResult);
         } else if (recognizerResult->pop()) {
             this->popFromStack();
@@ -86,7 +89,12 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
         _handle.append(blockNode);
     } else if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
         Logger::log("pushing node to latest scope node:", reducedNode->toString());
-        _scopeStack.top()->addContent(reducedNode);
+        if (_scopeStack.size() >= 1) {
+            _scopeStack.top()->addContent(reducedNode);
+        } else {
+            throw std::logic_error("scope stack missing block!");
+        }
+
     } else {
         Logger::log("pushing node to stack:", reducedNode->toString());
         _stack.push(reducedNode);
@@ -134,7 +142,7 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
                             _handle.at(i).value()->transformIfNecessary(
                                     _handle.getPrevNodeFor(i),
                                     _handle.getNextNodeFor(i),
-                                    _handle.getMode()));
+                                    _modeStack.top()));
     }
 
     if (_handle.isGroupEnclosed()) {
@@ -183,4 +191,29 @@ ASTFileNode* SyntaxAnalyzer::buildFileNode() {
     auto fileNode = new ASTFileNode(_scopeStack.top());
     _scopeStack.pop();
     return fileNode;
+}
+
+void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
+    switch (astNodeType) {
+        case AST_BLOCK_START_NODE:
+            Logger::log("pushing mode: BLOCK_MODE");
+            _modeStack.push(SA_BLOCK_MODE);
+            break;
+        case AST_STRUCT_START_NODE:
+            Logger::log("pushing mode: STRUCT_MODE");
+            _modeStack.push(SA_STRUCT_MODE);
+            break;
+        case AST_FUNCTION_PARAMETER_LIST_START_NODE:
+            Logger::log("pushing mode: FUNCTION_PARAMETER_LIST_MODE");
+            _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
+            break;
+        case AST_BLOCK_NODE:
+        case AST_STRUCT_EXPRESSION_NODE:
+        case AST_FUNCTION_PARAMETER_LIST_NODE:
+            Logger::log("popping mode:", _modeStack.top());
+            _modeStack.pop();
+            break;
+        default:
+            break;
+    }
 }

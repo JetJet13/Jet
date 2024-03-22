@@ -1166,10 +1166,19 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                    new ASTVariableAssignmentStatementNode(
                            ASTNodeFactory::varAssignment,
                            ASTNodeFactory::stringExpression
-                   )
+                   ),
+                   new ASTBlockNode({
+                        new ASTVariableDeclarationNode(
+                                ASTNodeFactory::constInit,
+                                ASTNodeFactory::stringExpression
+                        ),
+                        new ASTVariableAssignmentStatementNode(
+                                ASTNodeFactory::varAssignment,
+                                ASTNodeFactory::stringExpression
+                        ),
+                   })
         })}
 };
-
 
 TEST_CASE( "should print the expected reduced nodes" ) {
 std::string filePath = "./syntax-analyzer-test-file.jet";

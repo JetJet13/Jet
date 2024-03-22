@@ -1,0 +1,13 @@
+//
+// Created by Johny Georges on 2024-03-22.
+//
+
+#ifndef JETLANG_SYNTAX_ANALYZER_MODE_H
+#define JETLANG_SYNTAX_ANALYZER_MODE_H
+typedef enum {
+    SA_NORMAL_MODE,
+    SA_STRUCT_MODE,
+    SA_FUNCTION_PARAMETER_LIST_MODE,
+    SA_BLOCK_MODE
+} SyntaxAnalyzerMode;
+#endif //JETLANG_SYNTAX_ANALYZER_MODE_H

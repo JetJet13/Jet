@@ -8,6 +8,7 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 
 class ASTGroupStartNode : public ASTNode {
 private:
@@ -15,7 +16,7 @@ private:
 public:
     ASTGroupStartNode(Lexeme* lexeme);
     Lexeme* getLexeme();
-    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

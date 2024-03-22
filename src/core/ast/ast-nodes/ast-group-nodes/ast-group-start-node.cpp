@@ -5,6 +5,7 @@
 #include "ast-group-start-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-function-nodes/ast-function-parameter-list-start-node.h"
+#include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 
 ASTGroupStartNode::ASTGroupStartNode(Lexeme *lexeme) {
 _lexeme = lexeme;
@@ -14,7 +15,7 @@ Lexeme* ASTGroupStartNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) {
+ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_FUNCTION_NAME_NODE)) {
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }

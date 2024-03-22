@@ -216,6 +216,7 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-reducer-strategy/variable-assignment-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.h
+        pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h
 
 )
 
