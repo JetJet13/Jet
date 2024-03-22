@@ -3,7 +3,7 @@
 //
 
 #include "lexeme-transformer.h"
-#include "../../../ast/ast-nodes/ast-declaration-nodes/ast-variable-type-node.h"
+#include "../../../ast/ast-nodes/ast-variable-nodes/ast-variable-type-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.h"
 #include "../../../ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.h"
 #include "../../../ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h"

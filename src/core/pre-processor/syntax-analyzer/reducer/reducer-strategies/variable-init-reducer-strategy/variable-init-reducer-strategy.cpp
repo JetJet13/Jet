@@ -3,7 +3,7 @@
 //
 
 #include "variable-init-reducer-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.h"
+#include "../../../../../ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.h"
 
 ASTNode* VariableInitReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 3) {

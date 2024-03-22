@@ -61,10 +61,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer.h
         ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.cpp
         ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.h
-        ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.cpp
-        ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.h
-        ast/ast-nodes/ast-declaration-nodes/ast-variable-type-node.cpp
-        ast/ast-nodes/ast-declaration-nodes/ast-variable-type-node.h
+        ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.cpp
+        ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.h
+        ast/ast-nodes/ast-variable-nodes/ast-variable-type-node.cpp
+        ast/ast-nodes/ast-variable-nodes/ast-variable-type-node.h
         ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.cpp
         ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.h
         pre-processor/syntax-analyzer/recognizer-result/recognizer-result.cpp
@@ -208,6 +208,14 @@ add_library(jet-core
         ast/ast-nodes/ast-struct-nodes/ast-struct-end-node.cpp
         ast/ast-nodes/ast-struct-nodes/ast-struct-end-node.h
         pre-processor/syntax-analyzer/handle/types/handle-mode.h
+        ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h
+        ast/ast-nodes/ast-variable-nodes/ast-variable-assignment-node.cpp
+        ast/ast-nodes/ast-variable-nodes/ast-variable-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-reducer-strategy/variable-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-reducer-strategy/variable-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.h
 
 )
 

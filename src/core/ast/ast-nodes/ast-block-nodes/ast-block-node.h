@@ -19,6 +19,7 @@ public:
     std::vector<ASTNode*> getContents();
     ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, HandleMode mode) override;
     ASTNodeType getNodeType() override;
+    bool isSameAs(ASTNode* other) override;
     std::string toString() override;
     void print() override;
 };

@@ -131,4 +131,5 @@ function returnFour() int {
 
 {
     let hello = "world";
+    hello = "no!";
 }

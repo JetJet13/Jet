@@ -45,6 +45,20 @@ std::string ASTBlockNode::toString() {
     return "BLOCK";
 }
 
+bool ASTBlockNode::isSameAs(ASTNode* other) {
+    if (!other->is(this->getNodeType())) {
+        return false;
+    }
+    auto otherNode = (ASTBlockNode*)other;
+    for (int i = 0; i < _contents.size(); ++i) {
+        if (!_contents[i]->isSameAs(otherNode->getContents()[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 void ASTBlockNode::print() {
     Logger::log("----------", this->toString(), "----------");
     for (auto content : _contents) {

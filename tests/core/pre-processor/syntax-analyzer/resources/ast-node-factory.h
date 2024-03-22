@@ -7,7 +7,7 @@
 
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../../../../../src/core/symbol/symbol-factory.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-variable-init-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h"
@@ -21,6 +21,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-variable-nodes/ast-variable-assignment-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -153,6 +154,9 @@ namespace ASTNodeFactory {
     static ASTFunctionParameterNode* idFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::idType
+    );
+    static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
+            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
 
 

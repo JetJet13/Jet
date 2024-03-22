@@ -16,6 +16,7 @@ public:
     explicit ASTFunctionBlockNode(std::vector<ASTNode*> contents);
     std::vector<ASTNode*> getContents();
     ASTNodeType getNodeType() override;
+    bool isSameAs(ASTNode* other) override;
     std::string toString() override;
     void print() override;
 };

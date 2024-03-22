@@ -8,8 +8,8 @@
 #include "../ast-node.h"
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-identifier-node.h"
-#include "ast-variable-type-node.h"
-#include "ast-variable-init-node.h"
+#include "../ast-variable-nodes/ast-variable-type-node.h"
+#include "../ast-variable-nodes/ast-variable-init-node.h"
 
 class ASTVariableDeclarationNode : public ASTNode {
     ASTVariableInitNode* _varInit;

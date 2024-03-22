@@ -24,6 +24,19 @@ std::string ASTFunctionBlockNode::toString() {
     return "FUNCTION_BLOCK";
 }
 
+bool ASTFunctionBlockNode::isSameAs(ASTNode* other) {
+    if (!other->is(this->getNodeType())) {
+        return false;
+    }
+    auto otherNode = (ASTFunctionBlockNode*)other;
+    for (int i = 0; i < _contents.size(); ++i) {
+        if (!_contents[i]->isSameAs(otherNode->getContents()[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void ASTFunctionBlockNode::print() {
     Logger::log("----------", this->toString(), "----------");
     for (auto content : _contents) {

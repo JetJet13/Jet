@@ -17,6 +17,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -1159,15 +1160,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {101, new ASTBlockNode({
                    new ASTVariableDeclarationNode(
-                           ASTNodeFactory::constInit,
+                           ASTNodeFactory::letInit,
+                           ASTNodeFactory::stringExpression
+                   ),
+                   new ASTVariableAssignmentStatementNode(
+                           ASTNodeFactory::varAssignment,
                            ASTNodeFactory::stringExpression
                    )
         })}
 };
-/* TODO: Add support for mutable variables, a.k.a variable re-assignment
- *    let foo = "hello";
- *    foo = "no thanks!";
- */
+
 
 TEST_CASE( "should print the expected reduced nodes" ) {
 std::string filePath = "./syntax-analyzer-test-file.jet";
