@@ -75,6 +75,7 @@ void ReservedKeywords::init() {
     this->add("function", SymbolFactory::createFunctionSymbol());
     this->add("return", SymbolFactory::createReturnSymbol());
     this->add("procedure", SymbolFactory::createProcedureSymbol());
+    this->add("enum", SymbolFactory::createEnumSymbol());
 
     this->initKeywordSymbolList();
 }

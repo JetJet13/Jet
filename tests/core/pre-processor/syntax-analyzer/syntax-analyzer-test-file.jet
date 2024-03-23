@@ -150,3 +150,9 @@ procedure anotherOne() {
 procedure emptyProcedure() {
 
 }
+
+enum Color {
+    Red = "red",
+    Blue = "blue",
+    Green = "green",
+}

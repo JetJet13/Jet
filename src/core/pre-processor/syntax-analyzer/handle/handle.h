@@ -40,6 +40,10 @@ public:
     bool isFunctionParameterListEnclosed();
     bool isFunctionParameterListMode();
     bool isFunctionParameterListEndOnlyNode();
+    bool isEnumKeyValueListOnlyNode();
+    bool isEnumKeyValueListEndOnlyNode();
+    bool isEnumKeyValueListEndMode();
+    bool isEnumKeyValueListEnclosed();
     bool isNormalMode();
     bool isNotNormalMode();
     void clear();

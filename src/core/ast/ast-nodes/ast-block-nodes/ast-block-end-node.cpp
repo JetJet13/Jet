@@ -4,6 +4,7 @@
 
 #include "ast-block-end-node.h"
 #include "../ast-struct-nodes/ast-struct-end-node.h"
+#include "../ast-enum-nodes/ast-enum-key-value-list-end-node.h"
 
 ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -12,6 +13,10 @@ ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
 ASTNode* ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_STRUCT_MODE) {
         return new ASTStructEndNode(_lexeme);
+    }
+
+    if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {
+        return new ASTEnumKeyValueListEndNode(_lexeme);
     }
     return this;
 }

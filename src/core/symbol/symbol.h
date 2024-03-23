@@ -53,6 +53,7 @@ public:
     bool isType();
     bool isVarTypeQualifier();
     bool isProcedure();
+    bool isEnum();
     SymbolType getType();
     std::string toString();
 };

@@ -25,6 +25,10 @@
 #include "reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/variable-assignment-reducer-strategy/variable-assignment-reducer-strategy.h"
 #include "reducer-strategies/procedure-declaration-reducer-strategy/procedure-declaration-reducer-strategy.h"
+#include "reducer-strategies/enum-key-reducer-strategy/enum-key-reducer-strategy.h"
+#include "reducer-strategies/enum-key-value-reducer-strategy/enum-key-value-reducer-strategy.h"
+#include "reducer-strategies/enum-key-value-list-reducer-strategy/enum-key-value-list-reducer-strategy.h"
+#include "reducer-strategies/enum-declaration-reducer-strategy/enum-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -54,6 +58,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_PROCEDURE_DECLARATION_NODE, new ProcedureDeclarationReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_NODE, new VariableAssignmentReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, new VariableAssignmentStatementReducerStrategy());
+    this->addStrategy(AST_ENUM_KEY_NODE, new EnumKeyReducerStrategy());
+    this->addStrategy(AST_ENUM_KEY_VALUE_NODE, new EnumKeyValueReducerStrategy());
+    this->addStrategy(AST_ENUM_KEY_VALUE_LIST_NODE, new EnumKeyValueListReducerStrategy());
+    this->addStrategy(AST_ENUM_DECLARATION_NODE, new EnumDeclarationReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

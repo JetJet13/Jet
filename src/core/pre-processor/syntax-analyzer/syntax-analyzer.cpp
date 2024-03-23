@@ -89,12 +89,11 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
         _handle.append(blockNode);
     } else if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
         Logger::log("pushing node to latest scope node:", reducedNode->toString());
-        if (_scopeStack.size() >= 1) {
+        if (!_scopeStack.empty()) {
             _scopeStack.top()->addContent(reducedNode);
         } else {
             throw std::logic_error("scope stack missing block!");
         }
-
     } else {
         Logger::log("pushing node to stack:", reducedNode->toString());
         _stack.push(reducedNode);
@@ -124,6 +123,13 @@ void SyntaxAnalyzer::error() {
 }
 
 void SyntaxAnalyzer::prepHandleForRecognizer() {
+    if (_handle.isEmpty() &&
+        !_stack.empty() &&
+        _stack.top()->isOneOf({ AST_FUNCTION_BLOCK_NODE, AST_ENUM_KEY_VALUE_LIST_NODE })) {
+        _handle.append(_stack.top());
+        _stack.pop();
+    }
+
     if (!_stack.empty()) {
         _handle.setLastReducedNode(_stack.top());
     } else {
@@ -207,9 +213,14 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: FUNCTION_PARAMETER_LIST_MODE");
             _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
             break;
+        case AST_ENUM_KEY_VALUE_LIST_START_NODE:
+            Logger::log("pushing mode: ENUM_KEY_VALUE_LIST_MODE");
+            _modeStack.push(SA_ENUM_KEY_VALUE_LIST_MODE);
+            break;
         case AST_BLOCK_NODE:
         case AST_STRUCT_EXPRESSION_NODE:
         case AST_FUNCTION_PARAMETER_LIST_NODE:
+        case AST_ENUM_KEY_VALUE_LIST_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();
             break;

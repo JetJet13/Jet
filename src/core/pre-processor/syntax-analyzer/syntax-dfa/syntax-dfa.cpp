@@ -16,7 +16,7 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
     auto predecessor = handle.getPrevNodeFor(0);
     auto successor = handle.getNextNodeFor(0);
     if (handle.isTerminatorOnlyNode() || handle.isGroupingOnlyNode() || handle.isArrayOnlyNode() ||
-            handle.isFunctionBlockOnlyNode() || handle.isStructEndOnlyNode() || handle.isFunctionParameterListEndOnlyNode()) {
+            handle.isEnumKeyValueListOnlyNode() || handle.isEnumKeyValueListEndOnlyNode() || handle.isFunctionBlockOnlyNode() || handle.isStructEndOnlyNode() || handle.isFunctionParameterListEndOnlyNode()) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle.isEmpty()) {
         return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
@@ -35,6 +35,8 @@ RecognizerResult* SyntaxDfa::recognize(Handle handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_STRUCT_EXPRESSION_NODE);
     } else if (handle.isFunctionParameterListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_FUNCTION_PARAMETER_LIST_NODE);
+    } else if (handle.isEnumKeyValueListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_ENUM_KEY_VALUE_LIST_NODE);
     } else if (handle.isNotNormalMode()) {
         if (predecessor && successor && predecessor.value()->isSameNodeTypeAs(successor.value()) && predecessor.value()->isHigherPriorityThan(successor.value())) {
             Logger::log("predecessor is higher priority then successor");
@@ -118,12 +120,19 @@ void SyntaxDfa::init() {
     DFANode* varAssignment = DFANodeFactory::Once::create(AST_VARIABLE_ASSIGNMENT_NODE);
     DFANode* assignmentOperator = DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE);
     DFANode* varAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE);
+    DFANode* enumDeclaration = DFANodeFactory::Once::createWithTarget(AST_ENUM_DECLARATION_NODE, AST_ENUM_DECLARATION_NODE);
+    DFANode* enumKeyword = DFANodeFactory::Once::create(AST_ENUM_NODE);
+    DFANode* enumName = DFANodeFactory::Once::create(AST_ENUM_NAME_NODE);
+    DFANode* enumKey = DFANodeFactory::Once::create(AST_ENUM_KEY_NODE);
+    DFANode* enumKeyValue = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_NODE);
+    DFANode* enumKeyValueList = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_NODE);
 
 
     this->initVarType(varType);
     this->initVarInit(varInit);
     this->initFunction(functionKeyword);
     this->initProcedure(procedureKeyword);
+    this->initEnum(enumKeyword);
 
     logicalOperator
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_LOGICAL_EXPRESSION_NODE)))
@@ -272,6 +281,29 @@ void SyntaxDfa::init() {
     procedureKeyword
     ->markAlwaysReduceSelf();
 
+    enumKeyword
+    ->markAlwaysReduceSelf();
+
+    enumName
+    ->markAlwaysReduceSelf();
+
+    enumKey
+    ->addTransition(DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE)
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_ENUM_KEY_VALUE_NODE)))
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_ENUM_KEY_VALUE_NODE)))
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, AST_ENUM_KEY_VALUE_NODE)))
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, AST_ENUM_KEY_VALUE_NODE)))
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_ENUM_KEY_VALUE_NODE)))
+    ));
+
+
+    enumKeyValue
+    ->markAlwaysReduceSelf();
+
+    enumKeyValueList
+    ->markAlwaysReduceSelf();
+
     type
     ->markAlwaysReduceSelf();
 
@@ -316,6 +348,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_LEFT_BRACKET_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_STRUCT_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COLON_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_PERIOD_NODE)->markAlwaysReduceSelf())
@@ -333,6 +366,12 @@ void SyntaxDfa::init() {
     ->insertStartNode(functionReturnExpression)
     ->insertStartNode(procedureDeclaration)
     ->insertStartNode(procedureKeyword)
+    ->insertStartNode(enumDeclaration)
+    ->insertStartNode(enumKeyword)
+    ->insertStartNode(enumName)
+    ->insertStartNode(enumKey)
+    ->insertStartNode(enumKeyValue)
+    ->insertStartNode(enumKeyValueList)
     ->insertStartNode(type)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
@@ -448,6 +487,19 @@ void SyntaxDfa::initProcedure(DFANode* procedureNode) {
                                                             DFATransitionFactory::create(
                                                                     DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_PROCEDURE_DECLARATION_NODE)
                                                             ))
+                                            ))
+                    )
+            );
+}
+
+void SyntaxDfa::initEnum(DFANode* enumNode) {
+    enumNode
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::create(AST_ENUM_NAME_NODE)
+                                    ->addTransition(
+                                            DFATransitionFactory::create(
+                                                    DFANodeFactory::Once::createWithTarget(AST_ENUM_KEY_VALUE_LIST_NODE, AST_ENUM_DECLARATION_NODE)
                                             ))
                     )
             );

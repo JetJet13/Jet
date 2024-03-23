@@ -15,6 +15,7 @@ namespace ASTNodeUtils {
             case AST_FUNCTION_DECLARATION_NODE:
             case AST_PROCEDURE_DECLARATION_NODE:
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
+            case AST_ENUM_DECLARATION_NODE:
             case AST_BLOCK_NODE:
                 return true;
             default:

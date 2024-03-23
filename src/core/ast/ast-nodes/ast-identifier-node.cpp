@@ -5,6 +5,8 @@
 #include "ast-identifier-node.h"
 #include "../../../shared/utils/logger/logger.h"
 #include "ast-function-nodes/ast-function-name-node.h"
+#include "ast-enum-nodes/ast-enum-name-node.h"
+#include "ast-enum-nodes/ast-enum-key-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -18,6 +20,15 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNod
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
         return new ASTFunctionNameNode(this->getIdentifier());
     }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {
+        return new ASTEnumNameNode(this->getIdentifier());
+    }
+
+    if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {
+        return new ASTEnumKeyNode(this->getIdentifier());
+    }
+
     return this;
 }
 

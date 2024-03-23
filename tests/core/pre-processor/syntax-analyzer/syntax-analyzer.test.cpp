@@ -10,15 +10,13 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h"
-#include "../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -1214,6 +1212,23 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTFunctionParameterListNode(),
                 new ASTFunctionBlockNode({})
         )},
+        {105, new ASTEnumDeclarationNode(
+                ASTNodeFactory::enumName,
+                new ASTEnumKeyValueListNode({
+                    new ASTEnumKeyValueNode(
+                            ASTNodeFactory::enumKey,
+                            ASTNodeFactory::stringLiteral
+                    ),
+                    new ASTEnumKeyValueNode(
+                            ASTNodeFactory::enumKey,
+                            ASTNodeFactory::stringLiteral
+                    ),
+                    new ASTEnumKeyValueNode(
+                            ASTNodeFactory::enumKey,
+                            ASTNodeFactory::stringLiteral
+                    )
+                })
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1224,8 +1239,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 104);
-    for (int i = 0; i < 104; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 105);
+    for (int i = 0; i < 105; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

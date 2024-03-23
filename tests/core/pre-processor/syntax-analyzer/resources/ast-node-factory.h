@@ -22,6 +22,8 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-variable-nodes/ast-variable-assignment-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -39,6 +41,14 @@ namespace ASTNodeFactory {
             new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
             new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
+
+    static ASTIntLiteralNode* intLiteral = new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()));
+    static ASTFloatLiteralNode* floatLiteral = new ASTFloatLiteralNode(createLexeme(SymbolFactory::createFloatSymbol()));
+    static ASTStringLiteralNode* stringLiteral = new ASTStringLiteralNode(createLexeme(SymbolFactory::createStringSymbol()));
+    static ASTCharLiteralNode* charLiteral = new ASTCharLiteralNode(createLexeme(SymbolFactory::createCharSymbol()));
+    static ASTBooleanLiteralNode* trueLiteral = new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()));
+    static ASTBooleanLiteralNode* falseLiteral = new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()));
+
     static ASTLiteralExpressionNode* intExpression = new ASTLiteralExpressionNode(
             new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
     );
@@ -157,6 +167,12 @@ namespace ASTNodeFactory {
     );
     static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
             new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+    );
+    static ASTEnumNameNode* enumName =  new ASTEnumNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTEnumKeyNode* enumKey =  new ASTEnumKeyNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
     );
 
 

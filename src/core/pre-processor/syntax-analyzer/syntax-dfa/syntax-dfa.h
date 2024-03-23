@@ -18,6 +18,7 @@ private:
     void initVarInit(DFANode* varInitNode);
     void initFunction(DFANode* functionNode);
     void initProcedure(DFANode* procedureNode);
+    void initEnum(DFANode* enumNode);
 public:
     SyntaxDfa();
     RecognizerResult* recognize(Handle handle);

@@ -124,6 +124,25 @@ bool Handle::isFunctionParameterListEndOnlyNode() {
     return _handle.size() == 1 && this->isNodeTypeAt(0, AST_FUNCTION_PARAMETER_LIST_END_NODE);
 }
 
+bool Handle::isEnumKeyValueListOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_ENUM_KEY_VALUE_LIST_NODE);
+}
+
+bool Handle::isEnumKeyValueListEndOnlyNode() {
+    return _handle.size() == 1 && this->isNodeTypeAt(0, AST_ENUM_KEY_VALUE_LIST_END_NODE);
+}
+
+bool Handle::isEnumKeyValueListEndMode(){
+    return _mode == HANDLE_ENUM_KEY_VALUE_LIST_MODE;
+}
+
+bool Handle::isEnumKeyValueListEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_ENUM_KEY_VALUE_LIST_START_NODE) && this->last().value()->is(AST_ENUM_KEY_VALUE_LIST_END_NODE);
+}
+
 bool Handle::isNormalMode() {
     return _mode == HANDLE_NORMAL_MODE;
 }
@@ -257,6 +276,8 @@ void Handle::determineMode() {
         _mode = HANDLE_FUNCTION_BLOCK_MODE;
     } else if (!this->isEmpty() && this->last().value()->is(AST_FUNCTION_PARAMETER_LIST_END_NODE)) {
         _mode = HANDLE_FUNCTION_PARAMETER_LIST_MODE;
+    } else if (!this->isEmpty() && this->last().value()->isOneOf({ AST_ENUM_KEY_VALUE_LIST_NODE, AST_ENUM_KEY_VALUE_LIST_END_NODE })) {
+        _mode = HANDLE_ENUM_KEY_VALUE_LIST_MODE;
     } else {
         _mode = HANDLE_NORMAL_MODE;
     }

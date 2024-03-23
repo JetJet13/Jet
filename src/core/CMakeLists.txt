@@ -223,6 +223,30 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-declaration-reducer-strategy/procedure-declaration-reducer-strategy.h
         ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h
+        ast/ast-nodes/ast-enum-nodes/ast-enum-node.cpp
+        ast/ast-nodes/ast-enum-nodes/ast-enum-node.h
+        ast/ast-nodes/ast-enum-nodes/ast-enum-name-node.cpp
+        ast/ast-nodes/ast-enum-nodes/ast-enum-name-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.cpp
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.h
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.cpp
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.h
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-node.cpp
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-node.h
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-start-node.cpp
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-start-node.h
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-end-node.cpp
+        ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-end-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-reducer-strategy/enum-key-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-reducer-strategy/enum-key-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-value-reducer-strategy/enum-key-value-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-value-reducer-strategy/enum-key-value-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-value-list-reducer-strategy/enum-key-value-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-value-list-reducer-strategy/enum-key-value-list-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-declaration-reducer-strategy/enum-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-declaration-reducer-strategy/enum-declaration-reducer-strategy.h
 
 )
 
