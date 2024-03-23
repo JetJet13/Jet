@@ -247,6 +247,9 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-value-list-reducer-strategy/enum-key-value-list-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-declaration-reducer-strategy/enum-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-declaration-reducer-strategy/enum-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/recognizer/recognizer.cpp
+        pre-processor/syntax-analyzer/recognizer/recognizer.h
+        pre-processor/syntax-analyzer/recognizer/types/recognizer-mode.h
 
 )
 

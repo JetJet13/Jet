@@ -21,8 +21,8 @@ private:
     void initEnum(DFANode* enumNode);
 public:
     SyntaxDfa();
-    RecognizerResult* recognize(Handle handle);
     DFA* getDFA();
+    std::optional<DFANode*> findStartNode(std::optional<ASTNode*> astNode);
 };
 
 #endif //JETLANG_SYNTAX_DFA_H

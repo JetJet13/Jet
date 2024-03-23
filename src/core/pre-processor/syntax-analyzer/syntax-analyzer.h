@@ -21,6 +21,7 @@
 #include "lexeme-transformer/lexeme-transformer.h"
 #include "../../ast/ast-nodes/ast-block-nodes/ast-block-node.h"
 #include "types/syntax-analyzer-mode.h"
+#include "recognizer/recognizer.h"
 
 /* This SyntaxAnalyzer is a LALR(1) parser that performs bottom-up parsing
  * Instructions:
@@ -34,7 +35,7 @@
 class SyntaxAnalyzer {
 private:
     TokenTable* _tokenTable;
-    SyntaxDfa* _syntaxDfa;
+    Recognizer* _recognizer;
     Reducer _reducer;
     LexicalAnalyzer* _lexicalAnalyzer;
     Handle _handle;

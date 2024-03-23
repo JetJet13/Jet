@@ -5,83 +5,21 @@
 #include "syntax-dfa.h"
 #include "../../../dfa/dfa-node-factory.h"
 #include "../../../dfa/dfa-transition-factory.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 SyntaxDfa::SyntaxDfa() {
     _dfa = new DFA();
     this->init();
 }
 
-RecognizerResult* SyntaxDfa::recognize(Handle handle) {
-    auto predecessor = handle.getPrevNodeFor(0);
-    auto successor = handle.getNextNodeFor(0);
-    if (handle.isTerminatorOnlyNode() || handle.isGroupingOnlyNode() || handle.isArrayOnlyNode() ||
-            handle.isEnumKeyValueListOnlyNode() || handle.isEnumKeyValueListEndOnlyNode() || handle.isFunctionBlockOnlyNode() || handle.isStructEndOnlyNode() || handle.isFunctionParameterListEndOnlyNode()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_POP);
-    } else if (handle.isEmpty()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
-    } else if (handle.isNormalMode()) {
-        auto startNode = _dfa->findStartNode(handle.first().value()->getNodeType());
-        if (startNode && startNode.value()->alwaysReduceSelf()) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
-        }
-
-        if (startNode && successor && startNode.value()->shouldReduceSelfFor(successor.value()->getNodeType())) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, handle.first().value()->getNodeType());
-        }
-    } else if (handle.isArrayEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_ARRAY_NODE);
-    } else if (handle.isStructEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_STRUCT_EXPRESSION_NODE);
-    } else if (handle.isFunctionParameterListEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_FUNCTION_PARAMETER_LIST_NODE);
-    } else if (handle.isEnumKeyValueListEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle.size(), AST_ENUM_KEY_VALUE_LIST_NODE);
-    } else if (handle.isNotNormalMode()) {
-        if (predecessor && successor && predecessor.value()->isSameNodeTypeAs(successor.value()) && predecessor.value()->isHigherPriorityThan(successor.value())) {
-            Logger::log("predecessor is higher priority then successor");
-            return new RecognizerResult(RECOGNIZER_ACTION_POP);
-        }
-        auto startNode = _dfa->findStartNode(handle.first().value()->getNodeType());
-        if (startNode && predecessor &&
-             startNode.value()->shouldReduceToTargetWhenPrevNodeIs(predecessor.value()->getNodeType())) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForPrevNode(
-                    predecessor.value()->getNodeType()).value());
-        }
-        if (startNode && successor &&
-            startNode.value()->shouldReduceToTargetWhenNextNodeIs(successor.value()->getNodeType())) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForNextNode(
-                    successor.value()->getNodeType()).value());
-        }
-    }
-
-    auto startNode = _dfa->findStartNode(handle.first().value()->getNodeType());
-    if (startNode && predecessor && startNode.value()->shouldBacktrackTo(predecessor.value()->getNodeType())) {
-        return new RecognizerResult(RECOGNIZER_ACTION_POP);
-    }
-    for (int i = 0; i < handle.size(); i++) {
-        auto nodeType = handle.at(i).value()->getNodeType();
-        if (i == 0) {
-            _dfa->init(nodeType);
-        } else {
-            _dfa->determine(nodeType);
-        }
-
-        auto currentDfaState = _dfa->getCurrentState();
-        if (currentDfaState && currentDfaState.value()->hasTargetAstNodeType()) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
-        } else if (handle.isNotNormalMode() && !currentDfaState) {
-            return new RecognizerResult(RECOGNIZER_ACTION_POP);
-        } else if (!currentDfaState) {
-            return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
-        }
-    }
-
-    return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
-}
-
 DFA* SyntaxDfa::getDFA() {
     return _dfa;
+}
+
+std::optional<DFANode*> SyntaxDfa::findStartNode(std::optional<ASTNode*> astNode) {
+    if (astNode.has_value()) {
+        return _dfa->findStartNode(astNode.value()->getNodeType());
+    }
+    return {};
 }
 
 void SyntaxDfa::init() {

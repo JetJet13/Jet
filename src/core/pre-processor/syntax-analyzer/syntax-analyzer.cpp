@@ -13,7 +13,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
     _modeStack = std::stack<SyntaxAnalyzerMode>();
     _scopeStack = std::stack<ASTBlockNode*>();
     _stack = std::stack<ASTNode*>();
-    _syntaxDfa = new SyntaxDfa();
+    _recognizer = new Recognizer();
     _lexicalAnalyzer = lexicalAnalyzer;
 }
 
@@ -56,7 +56,6 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
                 lastAttemptToReduce = true;
             }
         }
-
         numLoops++;
     }
     return this->buildFileNode();
@@ -66,7 +65,7 @@ RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
     _handle.print();
     this->prepHandleForRecognizer();
-    return _syntaxDfa->recognize(_handle);
+    return _recognizer->recognize(&_handle);
 }
 
 void SyntaxAnalyzer::shift() {
@@ -86,7 +85,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
         auto blockNode = _scopeStack.top();
         _scopeStack.pop();
-        _handle.append(blockNode);
+        _stack.push(blockNode);
     } else if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
         Logger::log("pushing node to latest scope node:", reducedNode->toString());
         if (!_scopeStack.empty()) {
@@ -123,13 +122,6 @@ void SyntaxAnalyzer::error() {
 }
 
 void SyntaxAnalyzer::prepHandleForRecognizer() {
-    if (_handle.isEmpty() &&
-        !_stack.empty() &&
-        _stack.top()->isOneOf({ AST_FUNCTION_BLOCK_NODE, AST_ENUM_KEY_VALUE_LIST_NODE })) {
-        _handle.append(_stack.top());
-        _stack.pop();
-    }
-
     if (!_stack.empty()) {
         _handle.setLastReducedNode(_stack.top());
     } else {
