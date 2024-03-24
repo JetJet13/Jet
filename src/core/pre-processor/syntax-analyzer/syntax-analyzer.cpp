@@ -42,12 +42,6 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             this->shift();
         }
 
-        this->disableTerminatorModeIfNecessary();
-        this->disableGroupingModeIfNecessary();
-        this->disableArrayModeIfNecessary();
-        this->disableStructModeIfNecessary();
-        this->disableFunctionParameterListModeIfNecessary();
-
         if (_stack.empty() && !_lexicalAnalyzer->hasMore()) {
             if (_handle.isEmpty()) {
                 this->accept();
@@ -147,41 +141,6 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         Logger::log("group enclosed..removing brackets");
         _handle.removeFirstNode();
         _handle.removeLastNode();
-    }
-}
-
-void SyntaxAnalyzer::disableTerminatorModeIfNecessary() {
-    if (_handle.isTerminatorMode() && _stack.empty() && _handle.isTerminatorOnlyNode()) {
-        Logger::log("disabling terminator mode");
-        _handle.clear();
-    }
-}
-
-void SyntaxAnalyzer::disableGroupingModeIfNecessary() {
-    if (_handle.isGroupingMode() && _stack.empty()) {
-        Logger::log("disabling grouping mode");
-        _handle.clear();
-    }
-}
-
-void SyntaxAnalyzer::disableArrayModeIfNecessary() {
-    if (_handle.isArrayMode() && _stack.empty()) {
-        Logger::log("disabling array mode");
-        _handle.clear();
-    }
-}
-
-void SyntaxAnalyzer::disableStructModeIfNecessary() {
-    if (_handle.isStructMode() && _stack.empty()) {
-        Logger::log("disabling struct mode");
-        _handle.clear();
-    }
-}
-
-void SyntaxAnalyzer::disableFunctionParameterListModeIfNecessary() {
-    if (_handle.isFunctionParameterListMode() && _stack.empty()) {
-        Logger::log("disabling function parameter list mode");
-        _handle.clear();
     }
 }
 

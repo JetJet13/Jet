@@ -15,7 +15,7 @@ class ASTNode {
 protected:
     std::optional<ASTNode*> _parentNode;
     ASTNodeType _nodeType;
-    int _priority = 1;
+    unsigned int _priority = 1;
 public:
     void setParentNode(ASTNode* parentNode);
     virtual ASTNodeType getNodeType() = 0;
@@ -26,7 +26,7 @@ public:
     bool is(ASTNodeType astNodeType);
     bool isOneOf(std::vector<ASTNodeType> astNodeTypes);
     bool isSameNodeTypeAs(ASTNode* other);
-    int getPriority();
+    unsigned int getPriority();
     bool isHigherPriorityThan(ASTNode* other);
     bool isLowerPriorityThan(ASTNode* other);
 };

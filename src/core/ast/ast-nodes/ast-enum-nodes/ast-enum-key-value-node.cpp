@@ -5,16 +5,21 @@
 #include "ast-enum-key-value-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
+ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key) {
+    _key = key;
+    _value = std::optional<ASTLiteralNode*>();
+}
+
 ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTLiteralNode* value) {
     _key = key;
-    _value = value;
+    _value = std::optional<ASTLiteralNode*>(value);
 }
 
 ASTEnumKeyNode* ASTEnumKeyValueNode::getKey() {
     return _key;
 }
 
-ASTLiteralNode* ASTEnumKeyValueNode::getValue() {
+std::optional<ASTLiteralNode*> ASTEnumKeyValueNode::getValue() {
     return _value;
 }
 
@@ -31,12 +36,20 @@ bool ASTEnumKeyValueNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTEnumKeyValueNode*)other;
-    return _key->isSameAs(otherNode->getKey()) && _value->isSameAs(otherNode->getValue());
+    auto isKeySame = _key->isSameAs(otherNode->getKey());
+    if (!isKeySame) {
+        return false;
+    }
+
+    if (_value.has_value() && otherNode->getValue().has_value()) {
+        return _value.value()->isSameAs(otherNode->getValue().value());
+    }
+    return !_value.has_value() && !otherNode->getValue().has_value();
 }
 
 void ASTEnumKeyValueNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _key->print();
-    _value->print();
+    _value.has_value() ? _value.value()->print() : Logger::log("(NO VALUE)");
     Logger::log("----------");
 }

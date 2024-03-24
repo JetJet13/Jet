@@ -1229,6 +1229,31 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 })
         )},
+        {106, new ASTEnumDeclarationNode(
+                ASTNodeFactory::enumName,
+                new ASTEnumKeyValueListNode({
+                        new ASTEnumKeyValueNode(
+                                ASTNodeFactory::enumKey,
+                                ASTNodeFactory::charLiteral
+                        ),
+                        new ASTEnumKeyValueNode(
+                                ASTNodeFactory::enumKey,
+                                ASTNodeFactory::charLiteral
+                        ),
+                        new ASTEnumKeyValueNode(
+                                ASTNodeFactory::enumKey,
+                                ASTNodeFactory::charLiteral
+                        )
+                })
+        )},
+        {107, new ASTEnumDeclarationNode(
+                ASTNodeFactory::enumName,
+                new ASTEnumKeyValueListNode({
+                        ASTNodeFactory::enumKeyOnly,
+                        ASTNodeFactory::enumKeyOnly,
+                        ASTNodeFactory::enumKeyOnly
+                })
+        )}
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1239,8 +1264,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 105);
-    for (int i = 0; i < 105; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 107);
+    for (int i = 0; i < 107; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

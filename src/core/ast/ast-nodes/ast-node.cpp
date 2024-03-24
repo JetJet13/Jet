@@ -29,7 +29,7 @@ void ASTNode::print() {
     Logger::log(this->toString());
 }
 
-int ASTNode::getPriority() {
+unsigned int ASTNode::getPriority() {
     return _priority;
 }
 

@@ -31,10 +31,6 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (predecessor && successor && predecessor.value()->isSameNodeTypeAs(successor.value()) && predecessor.value()->isHigherPriorityThan(successor.value())) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
-        } else if (startNode && predecessor && startNode.value()->shouldReduceToTargetWhenPrevNodeIs(predecessor.value()->getNodeType())) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForPrevNode(predecessor.value()->getNodeType()).value());
-        } else if (startNode && successor && startNode.value()->shouldReduceToTargetWhenNextNodeIs(successor.value()->getNodeType())) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForNextNode(successor.value()->getNodeType()).value());
         }
     }
 
@@ -48,7 +44,11 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         }
     }
 
-    if (startNode && predecessor && startNode.value()->shouldBacktrackTo(predecessor.value()->getNodeType())) {
+    if (startNode && predecessor && startNode.value()->shouldReduceToTargetWhenPrevNodeIs(predecessor.value()->getNodeType())) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForPrevNode(predecessor.value()->getNodeType()).value());
+    } else if (startNode && successor && startNode.value()->shouldReduceToTargetWhenNextNodeIs(successor.value()->getNodeType())) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForNextNode(successor.value()->getNodeType()).value());
+    } else if (startNode && predecessor && startNode.value()->shouldBacktrackTo(predecessor.value()->getNodeType())) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     }
     auto dfa = _syntaxDfa->getDFA();

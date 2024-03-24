@@ -226,6 +226,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     enumKey
+    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_ENUM_KEY_VALUE_NODE, { AST_COMMA_NODE, AST_ENUM_KEY_VALUE_LIST_END_NODE }))
     ->addTransition(DFATransitionFactory::create(
             DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE)
             ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_ENUM_KEY_VALUE_NODE)))

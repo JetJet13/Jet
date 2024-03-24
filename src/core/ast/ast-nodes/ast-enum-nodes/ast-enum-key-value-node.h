@@ -6,6 +6,7 @@
 #define JETLANG_AST_ENUM_KEY_VALUE_NODE_H
 
 #include <string>
+#include <optional>
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-literal-nodes/ast-literal-node.h"
@@ -14,11 +15,12 @@
 class ASTEnumKeyValueNode : public ASTNode {
 private:
     ASTEnumKeyNode* _key;
-    ASTLiteralNode* _value;
+    std::optional<ASTLiteralNode*> _value;
 public:
+    ASTEnumKeyValueNode(ASTEnumKeyNode* key);
     ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTLiteralNode* value);
     ASTEnumKeyNode* getKey();
-    ASTLiteralNode* getValue();
+    std::optional<ASTLiteralNode*> getValue();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

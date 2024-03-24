@@ -8,44 +8,26 @@
 #include <deque>
 #include <vector>
 #include "../../../ast/ast-nodes/ast-node.h"
-#include "types/handle-mode.h"
 
 class Handle {
 private:
     std::deque<ASTNode*> _handle;
     std::optional<ASTNode*> _lastReducedNode;
     std::optional<ASTNode*> _peekNode;
-    HandleMode _mode;
-    void determineMode();
 public:
     Handle();
     std::optional<ASTNode*> at(int index);
     std::optional<ASTNode*> first();
     std::optional<ASTNode*> last();
-    HandleMode getMode();
     bool isNodeTypeAt(int index, ASTNodeType astNodeType);
     bool isEmpty();
-    bool isTerminatorMode();
     bool isTerminatorOnlyNode();
     bool isGroupEnclosed();
-    bool isGroupingMode();
-    bool isGroupingOnlyNode();
     bool isArrayEnclosed();
-    bool isArrayMode();
-    bool isArrayOnlyNode();
-    bool isFunctionBlockOnlyNode();
     bool isStructEnclosed();
-    bool isStructMode();
-    bool isStructEndOnlyNode();
     bool isFunctionParameterListEnclosed();
     bool isFunctionParameterListMode();
-    bool isFunctionParameterListEndOnlyNode();
-    bool isEnumKeyValueListOnlyNode();
-    bool isEnumKeyValueListEndOnlyNode();
-    bool isEnumKeyValueListEndMode();
     bool isEnumKeyValueListEnclosed();
-    bool isNormalMode();
-    bool isNotNormalMode();
     void clear();
     unsigned long size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);

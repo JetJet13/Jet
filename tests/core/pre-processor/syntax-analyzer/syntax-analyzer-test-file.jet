@@ -156,3 +156,16 @@ enum Color {
     Blue = "blue",
     Green = "green",
 }
+
+enum RGB {
+    Red = 'r',
+    Blue = 'b',
+    Green = 'g',
+}
+
+enum NoValEnum {
+    Zero,
+    One,
+    Two
+}
+

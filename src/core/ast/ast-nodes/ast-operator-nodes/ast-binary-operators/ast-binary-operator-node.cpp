@@ -7,11 +7,7 @@
 
 ASTBinaryOperatorNode::ASTBinaryOperatorNode(Lexeme* lexemeOperator) {
     _lexemeOperator = lexemeOperator;
-}
-
-ASTBinaryOperatorNode::ASTBinaryOperatorNode(Lexeme* lexemeOperator, int priority) {
-    _lexemeOperator = lexemeOperator;
-    _priority = priority;
+    _priority = this->determinePriority(lexemeOperator);
 }
 
 Lexeme* ASTBinaryOperatorNode::getOperator() {
@@ -32,4 +28,21 @@ bool ASTBinaryOperatorNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTBinaryOperatorNode*)other;
     return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
+}
+
+unsigned int ASTBinaryOperatorNode::determinePriority(Lexeme* lexeme) {
+    auto symbol = lexeme->getToken()->getSymbol();
+    if (symbol->isSlash()) {
+        return 1;
+    } else if (symbol->isStar()) {
+        return 2;
+    } else if (symbol->isMinus()) {
+        return 3;
+    } else if (symbol->isPlus()) {
+        return 4;
+    } else if (symbol->isModulo()) {
+        return 9;
+    } else {
+        return 10;
+    }
 }

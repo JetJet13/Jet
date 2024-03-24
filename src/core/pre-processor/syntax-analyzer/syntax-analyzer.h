@@ -51,11 +51,11 @@ private:
     void accept();
     void error();
     void prepHandleForRecognizer();
-    void disableTerminatorModeIfNecessary();
-    void disableGroupingModeIfNecessary();
-    void disableArrayModeIfNecessary();
-    void disableStructModeIfNecessary();
-    void disableFunctionParameterListModeIfNecessary();
+//    void disableTerminatorModeIfNecessary();
+//    void disableGroupingModeIfNecessary();
+//    void disableArrayModeIfNecessary();
+//    void disableStructModeIfNecessary();
+//    void disableFunctionParameterListModeIfNecessary();
     ASTFileNode* buildFileNode();
     void updateModeIfNecessary(ASTNodeType astNodeType);
 public:

@@ -6,12 +6,15 @@
 #include "../../../../../ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.h"
 
 ASTNode* EnumKeyValueReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() != 3) {
-        throw std::invalid_argument("unable to reduce to enum key value since nodes list is not of size 3");
+    if (nodes.size() == 3) {
+        return new ASTEnumKeyValueNode(
+                (ASTEnumKeyNode*)nodes[0],
+                (ASTLiteralNode*)nodes[2]
+        );
+
+    } else if (nodes.size() == 1) {
+        return new ASTEnumKeyValueNode((ASTEnumKeyNode*)nodes[0]);
     }
 
-    return new ASTEnumKeyValueNode(
-            (ASTEnumKeyNode*)nodes[0],
-            (ASTLiteralNode*)nodes[2]
-    );
+    throw std::invalid_argument("unable to reduce to enum key value since nodes list is not of size 3 or 1");
 }

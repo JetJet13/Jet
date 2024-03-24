@@ -8,8 +8,9 @@
 #include "../../ast-node.h"
 
 class ASTBinaryOperatorNode : public ASTNode {
-protected:
+private:
     Lexeme* _lexemeOperator;
+    unsigned int determinePriority(Lexeme* lexeme);
 public:
     explicit ASTBinaryOperatorNode(Lexeme* lexemeOperator);
     ASTBinaryOperatorNode(Lexeme* lexemeOperator, int priority);

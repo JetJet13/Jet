@@ -24,6 +24,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-variable-nodes/ast-variable-assignment-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -174,8 +175,9 @@ namespace ASTNodeFactory {
     static ASTEnumKeyNode* enumKey =  new ASTEnumKeyNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-
-
+    static ASTEnumKeyValueNode* enumKeyOnly =  new ASTEnumKeyValueNode(
+            ASTNodeFactory::enumKey
+    );
 };
 
 #endif //JETLANG_AST_NODE_FACTORY_H
