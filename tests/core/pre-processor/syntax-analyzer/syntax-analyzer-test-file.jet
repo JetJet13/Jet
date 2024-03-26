@@ -169,3 +169,12 @@ enum NoValEnum {
     Two
 }
 
+const isEnum = 0 == NoValEnum.Zero;
+const isNum = struct.one.three && RGB.Red;
+myFunction();
+myFunction() && anotherFunction();
+myFunction().hello;
+!myFunction();
+myFunction()[0];
+myFunction(myFunction());
+myFunction(myFunction(myFunction()));

@@ -7,6 +7,7 @@
 #include "ast-function-nodes/ast-function-name-node.h"
 #include "ast-enum-nodes/ast-enum-name-node.h"
 #include "ast-enum-nodes/ast-enum-key-node.h"
+#include "ast-function-nodes/ast-function-call-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -19,6 +20,10 @@ Lexeme* ASTIdentifierNode::getIdentifier() {
 ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
         return new ASTFunctionNameNode(this->getIdentifier());
+    }
+
+    if (nextNode && nextNode.value()->isOneOf({ AST_GROUP_START_NODE, AST_FUNCTION_ARGUMENT_LIST_START_NODE })) {
+        return new ASTFunctionCallNode(this->getIdentifier());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {

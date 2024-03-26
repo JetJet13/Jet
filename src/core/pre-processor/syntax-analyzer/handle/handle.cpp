@@ -79,6 +79,13 @@ bool Handle::isFunctionParameterListEnclosed() {
     return this->first().value()->is(AST_FUNCTION_PARAMETER_LIST_START_NODE) && this->last().value()->is(AST_FUNCTION_PARAMETER_LIST_END_NODE);
 }
 
+bool Handle::isFunctionArgumentListEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_FUNCTION_ARGUMENT_LIST_START_NODE) && this->last().value()->is(AST_FUNCTION_ARGUMENT_LIST_END_NODE);
+}
+
 
 bool Handle::isEnumKeyValueListEnclosed() {
     if (_handle.size() < 2) {

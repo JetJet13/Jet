@@ -26,7 +26,7 @@ public:
     bool isArrayEnclosed();
     bool isStructEnclosed();
     bool isFunctionParameterListEnclosed();
-    bool isFunctionParameterListMode();
+    bool isFunctionArgumentListEnclosed();
     bool isEnumKeyValueListEnclosed();
     void clear();
     unsigned long size();

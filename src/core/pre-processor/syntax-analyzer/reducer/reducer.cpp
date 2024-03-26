@@ -17,7 +17,7 @@
 #include "reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.h"
 #include "reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.h"
 #include "reducer-strategies/block-reducer-strategy/block-reducer-strategy.h"
-#include "reducer-strategies/struct-access-expression-reducer-strategy/struct-access-expression-reducer-strategy.h"
+#include "reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.h"
 #include "reducer-strategies/function-declaration-reducer-strategy/function-declaration-reducer-strategy.h"
 #include "reducer-strategies/function-parameter-list-reducer-strategy/function-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/function-return-expression-reducer-strategy/function-return-expression-reducer-strategy.h"
@@ -29,6 +29,9 @@
 #include "reducer-strategies/enum-key-value-reducer-strategy/enum-key-value-reducer-strategy.h"
 #include "reducer-strategies/enum-key-value-list-reducer-strategy/enum-key-value-list-reducer-strategy.h"
 #include "reducer-strategies/enum-declaration-reducer-strategy/enum-declaration-reducer-strategy.h"
+#include "reducer-strategies/function-invocation-expression-reducer-strategy/function-invocation-expression-reducer-strategy.h"
+#include "reducer-strategies/function-argument-list-reducer-strategy/function-argument-list-reducer-strategy.h"
+#include "reducer-strategies/expression-statement-reducer-strategy/expression-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -50,18 +53,21 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_BLOCK_NODE, new BlockReducerStrategy());
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
-    this->addStrategy(AST_STRUCT_ACCESS_EXPRESSION_NODE, new StructAccessExpressionReducerStrategy());
+    this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, new ObjectAccessExpressionReducerStrategy());
     this->addStrategy(AST_FUNCTION_DECLARATION_NODE, new FunctionDeclarationReducerStrategy());
     this->addStrategy(AST_FUNCTION_PARAMETER_LIST_NODE, new FunctionParameterListReducerStrategy());
     this->addStrategy(AST_FUNCTION_PARAMETER_NODE, new FunctionParameterReducerStrategy());
     this->addStrategy(AST_FUNCTION_RETURN_EXPRESSION_NODE, new FunctionReturnExpressionReducerStrategy());
     this->addStrategy(AST_PROCEDURE_DECLARATION_NODE, new ProcedureDeclarationReducerStrategy());
+    this->addStrategy(AST_FUNCTION_ARGUMENT_LIST_NODE, new FunctionArgumentListReducerStrategy());
+    this->addStrategy(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, new FunctionInvocationExpressionReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_NODE, new VariableAssignmentReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, new VariableAssignmentStatementReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_NODE, new EnumKeyReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_VALUE_NODE, new EnumKeyValueReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_VALUE_LIST_NODE, new EnumKeyValueListReducerStrategy());
     this->addStrategy(AST_ENUM_DECLARATION_NODE, new EnumDeclarationReducerStrategy());
+    this->addStrategy(AST_EXPRESSION_STATEMENT_NODE, new ExpressionStatementReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

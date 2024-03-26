@@ -6,6 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-function-nodes/ast-function-parameter-list-end-node.h"
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
+#include "../ast-function-nodes/ast-function-argument-list-end-node.h"
 
 ASTGroupEndNode::ASTGroupEndNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -18,6 +19,10 @@ Lexeme* ASTGroupEndNode::getLexeme() {
 ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
+    }
+
+    if (mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
+        return new ASTFunctionArgumentListEndNode(this->getLexeme());
     }
     return this;
 }

@@ -22,17 +22,11 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
-    auto lastAttemptToReduce = false;
     while (true) {
         if (numLoops == 10000) {
             throw std::logic_error("too many loops!");
         }
         auto recognizerResult = this->recognizeHandle();
-        if (lastAttemptToReduce && !recognizerResult->reduce()) {
-            this->error();
-            break;
-        }
-
         if (recognizerResult->reduce()) {
             this->updateModeIfNecessary(recognizerResult->getTargetAstNodeType());
             this->reduceHandle(recognizerResult);
@@ -46,8 +40,6 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             if (_handle.isEmpty()) {
                 this->accept();
                 break;
-            } else {
-                lastAttemptToReduce = true;
             }
         }
         numLoops++;
@@ -164,6 +156,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: FUNCTION_PARAMETER_LIST_MODE");
             _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
             break;
+        case AST_FUNCTION_ARGUMENT_LIST_START_NODE:
+            Logger::log("pushing mode: FUNCTION_ARGUMENT_LIST_MODE");
+            _modeStack.push(SA_FUNCTION_ARGUMENT_LIST_MODE);
+            break;
         case AST_ENUM_KEY_VALUE_LIST_START_NODE:
             Logger::log("pushing mode: ENUM_KEY_VALUE_LIST_MODE");
             _modeStack.push(SA_ENUM_KEY_VALUE_LIST_MODE);
@@ -171,6 +167,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_BLOCK_NODE:
         case AST_STRUCT_EXPRESSION_NODE:
         case AST_FUNCTION_PARAMETER_LIST_NODE:
+        case AST_FUNCTION_ARGUMENT_LIST_NODE:
         case AST_ENUM_KEY_VALUE_LIST_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();

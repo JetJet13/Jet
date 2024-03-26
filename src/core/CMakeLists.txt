@@ -167,10 +167,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/block-declaration-reducer-strategy/block-declaration-reducer-strategy.h
         ast/ast-nodes/ast-declaration-nodes/ast-block-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-block-declaration-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-access-expression-reducer-strategy/struct-access-expression-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-access-expression-reducer-strategy/struct-access-expression-reducer-strategy.h
-        ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h
         ast/ast-nodes/ast-period-node.cpp
         ast/ast-nodes/ast-period-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.cpp
@@ -250,6 +250,26 @@ add_library(jet-core
         pre-processor/syntax-analyzer/recognizer/recognizer.cpp
         pre-processor/syntax-analyzer/recognizer/recognizer.h
         pre-processor/syntax-analyzer/recognizer/types/recognizer-mode.h
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-list-start-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-list-start-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-list-end-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-list-end-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-argument-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-argument-list-reducer-strategy/function-argument-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-argument-list-reducer-strategy/function-argument-list-reducer-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-invocation-expression-reducer-strategy/function-invocation-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-invocation-expression-reducer-strategy/function-invocation-expression-reducer-strategy.h
+        ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/expression-statement-reducer-strategy/expression-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/expression-statement-reducer-strategy/expression-statement-reducer-strategy.h
+        ast/ast-nodes/ast-function-nodes/ast-function-call-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-call-node.h
 
 )
 

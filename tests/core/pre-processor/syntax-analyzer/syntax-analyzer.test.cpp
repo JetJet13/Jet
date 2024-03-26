@@ -12,11 +12,13 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-access-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -1010,15 +1012,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
          },
         {91, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTStructAccessExpressionNode({
+                new ASTObjectAccessExpressionNode({
                        ASTNodeFactory::idExpression,
                        ASTNodeFactory::idExpression,
                })
         )},
         {92, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTStructAccessExpressionNode({
-                      new ASTStructAccessExpressionNode({
+                new ASTObjectAccessExpressionNode({
+                      new ASTObjectAccessExpressionNode({
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::idExpression,
                       }),
@@ -1027,9 +1029,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {93, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTStructAccessExpressionNode({
-                      new ASTStructAccessExpressionNode({
-                            new ASTStructAccessExpressionNode({
+                new ASTObjectAccessExpressionNode({
+                      new ASTObjectAccessExpressionNode({
+                            new ASTObjectAccessExpressionNode({
                                   ASTNodeFactory::idExpression,
                                   ASTNodeFactory::idExpression,
                             }),
@@ -1055,7 +1057,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {95, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTStructAccessExpressionNode({
+                new ASTObjectAccessExpressionNode({
                   new ASTArrayAccessExpressionNode({
                       ASTNodeFactory::idExpression,
                       ASTNodeFactory::arrayAccessInt
@@ -1102,9 +1104,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {97, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                 new ASTStructAccessExpressionNode(
+                 new ASTObjectAccessExpressionNode(
                         new ASTArrayAccessExpressionNode(
-                                new ASTStructAccessExpressionNode(
+                                new ASTObjectAccessExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::idExpression
                                 ),
@@ -1116,10 +1118,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         },
         {98, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTStructAccessExpressionNode(
+                new ASTObjectAccessExpressionNode(
                     new ASTArrayAccessExpressionNode(
                                 new ASTArrayAccessExpressionNode(
-                                        new ASTStructAccessExpressionNode(
+                                        new ASTObjectAccessExpressionNode(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::idExpression
                                     ),
@@ -1253,7 +1255,114 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::enumKeyOnly,
                         ASTNodeFactory::enumKeyOnly
                 })
-        )}
+        )},
+        {108, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTBinaryExpressionNode(
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::equality,
+                        new ASTObjectAccessExpressionNode(
+                                ASTNodeFactory::idExpression,
+                                ASTNodeFactory::idExpression
+                        )
+                )
+        )},
+        {109, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLogicalExpressionNode(
+                        new ASTObjectAccessExpressionNode(
+                                new ASTObjectAccessExpressionNode(
+                                        ASTNodeFactory::idExpression,
+                                        ASTNodeFactory::idExpression
+                                ),
+                                ASTNodeFactory::idExpression
+                        ),
+                        ASTNodeFactory::andOperator,
+                        new ASTObjectAccessExpressionNode(
+                                ASTNodeFactory::idExpression,
+                                ASTNodeFactory::idExpression
+                        )
+                )
+        )},
+        {110, new ASTExpressionStatementNode(
+                new ASTFunctionInvocationExpressionNode(
+                        ASTNodeFactory::functionCall,
+                        new ASTFunctionArgumentListNode()
+                )
+        )},
+        {111, new ASTExpressionStatementNode(
+                new ASTLogicalExpressionNode(
+                        new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode()
+                        ),
+                        ASTNodeFactory::andOperator,
+                        new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode()
+                        )
+                )
+        )},
+        {112, new ASTExpressionStatementNode(
+                new ASTObjectAccessExpressionNode(
+                        new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode()
+                        ),
+                        ASTNodeFactory::idExpression
+                )
+        )},
+        {113, new ASTExpressionStatementNode(
+                new ASTUnaryExpressionNode(
+                        ASTNodeFactory::bang,
+                        new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode()
+                        )
+                )
+        )},
+        {114, new ASTExpressionStatementNode(
+                new ASTArrayAccessExpressionNode(
+                        new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode()
+                        ),
+                        ASTNodeFactory::arrayAccessInt
+                )
+        )},
+        {115, new ASTExpressionStatementNode(
+                new ASTFunctionInvocationExpressionNode(
+                        ASTNodeFactory::functionCall,
+                        new ASTFunctionArgumentListNode({
+                            new ASTFunctionArgumentNode(
+                                new ASTFunctionInvocationExpressionNode(
+                                        ASTNodeFactory::functionCall,
+                                        new ASTFunctionArgumentListNode()
+                                )
+                            )
+                        })
+                )
+        )},
+        {116, new ASTExpressionStatementNode(
+                new ASTFunctionInvocationExpressionNode(
+                        ASTNodeFactory::functionCall,
+                        new ASTFunctionArgumentListNode({
+                                new ASTFunctionArgumentNode(
+                                        new ASTFunctionInvocationExpressionNode(
+                                                ASTNodeFactory::functionCall,
+                                                new ASTFunctionArgumentListNode({
+                                                        new ASTFunctionArgumentNode(
+                                                                new ASTFunctionInvocationExpressionNode(
+                                                                        ASTNodeFactory::functionCall,
+                                                                        new ASTFunctionArgumentListNode()
+                                                                )
+                                                        )
+                                                })
+                                        )
+                                )
+                        })
+                )
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1264,8 +1373,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 107);
-    for (int i = 0; i < 107; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 116);
+    for (int i = 0; i < 116; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

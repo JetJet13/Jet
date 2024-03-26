@@ -3,6 +3,7 @@
 //
 
 #include "recognizer.h"
+#include "../../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 
 Recognizer::Recognizer() {
     _syntaxDfa = new SyntaxDfa();
@@ -22,6 +23,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_STRUCT_EXPRESSION_NODE);
     } else if (handle->isFunctionParameterListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_FUNCTION_PARAMETER_LIST_NODE);
+    } else if (handle->isFunctionArgumentListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_FUNCTION_ARGUMENT_LIST_NODE);
     } else if (handle->isEnumKeyValueListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ENUM_KEY_VALUE_LIST_NODE);
     }
@@ -31,6 +34,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (predecessor && successor && predecessor.value()->isSameNodeTypeAs(successor.value()) && predecessor.value()->isHigherPriorityThan(successor.value())) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
+        } else if (handle->first().has_value() && ASTNodeUtils::isExpressionNode(handle->first().value()) && !predecessor && successor && successor.value()->is(AST_TERMINATOR_NODE)) {
+            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, AST_EXPRESSION_STATEMENT_NODE);
         }
     }
 
@@ -88,6 +93,7 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
         AST_STRUCT_END_NODE,
         AST_FUNCTION_BLOCK_NODE,
         AST_FUNCTION_PARAMETER_LIST_END_NODE,
+        AST_FUNCTION_ARGUMENT_LIST_END_NODE,
         AST_ENUM_KEY_VALUE_LIST_NODE,
         AST_ENUM_KEY_VALUE_LIST_END_NODE
     });

@@ -25,6 +25,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-call-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -77,6 +78,7 @@ namespace ASTNodeFactory {
     static ASTBinaryOperatorNode* star = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createStarSymbol()));
     static ASTBinaryOperatorNode* slash = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createSlashSymbol()));
     static ASTBinaryOperatorNode* modulo = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createModuloSymbol()));
+    static ASTBinaryOperatorNode* equality = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createEqualEqualSymbol()));
     static ASTUnaryOperatorNode* unaryMinus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
     static ASTUnaryOperatorNode* unaryPlus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
     static ASTUnaryOperatorNode* bang = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createBangSymbol()));
@@ -136,6 +138,9 @@ namespace ASTNodeFactory {
     static ASTTypeNode* arrayType = new ASTTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
     static ASTTypeNode* idType = new ASTTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTFunctionCallNode* functionCall =  new ASTFunctionCallNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
     static ASTFunctionParameterNode* intFunctionParameter =  new ASTFunctionParameterNode(
