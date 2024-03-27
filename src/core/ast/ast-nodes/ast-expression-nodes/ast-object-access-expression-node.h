@@ -8,15 +8,17 @@
 #include <string>
 #include "ast-expression-node.h"
 #include "ast-identifier-expression-node.h"
+#include "../ast-object-nodes/ast-object-access-source-node.h"
+#include "../ast-object-nodes/ast-object-access-target-node.h"
 
 class ASTObjectAccessExpressionNode : public ASTExpressionNode {
 private:
-    ASTExpressionNode* _source;
-    ASTIdentifierExpressionNode* _property;
+    ASTObjectAccessSourceNode* _source;
+    ASTObjectAccessTargetNode* _target;
 public:
-    ASTObjectAccessExpressionNode(ASTExpressionNode* source, ASTIdentifierExpressionNode* property);
-    ASTExpressionNode* getSource();
-    ASTIdentifierExpressionNode* getProperty();
+    ASTObjectAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTObjectAccessTargetNode* property);
+    ASTObjectAccessSourceNode* getSource();
+    ASTObjectAccessTargetNode* getTarget();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

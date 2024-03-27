@@ -11,7 +11,7 @@ ASTNode* ObjectAccessExpressionReducerStrategy::execute(std::vector<ASTNode*> no
     }
 
     return new ASTObjectAccessExpressionNode(
-            this->createExpressionNode(nodes[0]),
-            (ASTIdentifierExpressionNode*)this->createExpressionNode(nodes[2])
+            (ASTObjectAccessSourceNode*)nodes[0],
+            (ASTObjectAccessTargetNode*)nodes[2]
     );
 }

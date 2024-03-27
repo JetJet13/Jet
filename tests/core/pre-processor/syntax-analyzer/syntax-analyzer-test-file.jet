@@ -178,3 +178,9 @@ myFunction().hello;
 myFunction()[0];
 myFunction(myFunction());
 myFunction(myFunction(myFunction()));
+
+const myTuple = tuple { "hello", 1, 2 };
+myTuple.0;
+myTuple.1 + myTuple.2;
+myFunction(myTuple.0);
+!myTuple.0;

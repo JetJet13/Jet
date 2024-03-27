@@ -30,6 +30,7 @@
 #include "../../../ast/ast-nodes/ast-type-node.h"
 #include "../../../ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.h"
 #include "../../../ast/ast-nodes/ast-enum-nodes/ast-enum-node.h"
+#include "../../../ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -102,6 +103,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTProcedureNode(lexeme);
     } else if (symbol->isEnum()) {
         return new ASTEnumNode(lexeme);
+    } else if (symbol->isTuple()) {
+        return new ASTTupleNode(lexeme);
     } else if (symbol->isType()) {
         return new ASTTypeNode(lexeme);
     } else {

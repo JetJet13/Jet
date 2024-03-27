@@ -28,6 +28,7 @@ public:
     bool isFunctionParameterListEnclosed();
     bool isFunctionArgumentListEnclosed();
     bool isEnumKeyValueListEnclosed();
+    bool isTupleListEnclosed();
     void clear();
     unsigned long size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);

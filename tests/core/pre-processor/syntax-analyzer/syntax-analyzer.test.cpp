@@ -19,6 +19,8 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -1013,31 +1015,34 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {91, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTObjectAccessExpressionNode({
-                       ASTNodeFactory::idExpression,
-                       ASTNodeFactory::idExpression,
+                       ASTNodeFactory::objectAccessSourceId,
+                       ASTNodeFactory::objectAccessTargetId,
                })
         )},
         {92, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTObjectAccessExpressionNode({
+                    new ASTObjectAccessSourceNode(
                       new ASTObjectAccessExpressionNode({
-                            ASTNodeFactory::idExpression,
-                            ASTNodeFactory::idExpression,
-                      }),
-                      ASTNodeFactory::idExpression,
+                            ASTNodeFactory::objectAccessSourceId,
+                            ASTNodeFactory::objectAccessTargetId,
+                      })),
+                      ASTNodeFactory::objectAccessTargetId,
                 })
         )},
         {93, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTObjectAccessExpressionNode({
+                  new ASTObjectAccessSourceNode(
                       new ASTObjectAccessExpressionNode({
+                          new ASTObjectAccessSourceNode(
                             new ASTObjectAccessExpressionNode({
-                                  ASTNodeFactory::idExpression,
-                                  ASTNodeFactory::idExpression,
-                            }),
-                            ASTNodeFactory::idExpression,
-                      }),
-                      ASTNodeFactory::idExpression
+                                  ASTNodeFactory::objectAccessSourceId,
+                                  ASTNodeFactory::objectAccessTargetId,
+                            })),
+                            ASTNodeFactory::objectAccessTargetId,
+                      })),
+                      ASTNodeFactory::objectAccessTargetId
                 })
         )},
         {94, new ASTVariableDeclarationNode(
@@ -1057,13 +1062,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {95, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTObjectAccessExpressionNode({
-                  new ASTArrayAccessExpressionNode({
-                      ASTNodeFactory::idExpression,
-                      ASTNodeFactory::arrayAccessInt
-                  }),
-                  ASTNodeFactory::idExpression
-                })
+                new ASTObjectAccessExpressionNode(
+                        new ASTObjectAccessSourceNode(
+                            new ASTArrayAccessExpressionNode({
+                                   ASTNodeFactory::idExpression,
+                                   ASTNodeFactory::arrayAccessInt
+                            })),
+                        ASTNodeFactory::objectAccessTargetId
+                )
         )},
         {96, new ASTVariableDeclarationNode(
             ASTNodeFactory::constInit,
@@ -1105,31 +1111,33 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {97, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                  new ASTObjectAccessExpressionNode(
-                        new ASTArrayAccessExpressionNode(
+                         new ASTObjectAccessSourceNode(
+                             new ASTArrayAccessExpressionNode(
                                 new ASTObjectAccessExpressionNode(
-                                    ASTNodeFactory::idExpression,
-                                    ASTNodeFactory::idExpression
+                                    new ASTObjectAccessSourceNode(ASTNodeFactory::idExpression),
+                                    ASTNodeFactory::objectAccessTargetId
                                 ),
                                 ASTNodeFactory::arrayAccessInt
-                        ),
-                        ASTNodeFactory::idExpression
+                        )),
+                        ASTNodeFactory::objectAccessTargetId
                 )
             )
         },
         {98, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTObjectAccessExpressionNode(
-                    new ASTArrayAccessExpressionNode(
-                                new ASTArrayAccessExpressionNode(
-                                        new ASTObjectAccessExpressionNode(
-                                            ASTNodeFactory::idExpression,
-                                            ASTNodeFactory::idExpression
-                                    ),
-                                    ASTNodeFactory::arrayAccessInt
-                        ),
-                        ASTNodeFactory::arrayAccessInt
-                    ),
-                    ASTNodeFactory::idExpression
+                    new ASTObjectAccessSourceNode(
+                        new ASTArrayAccessExpressionNode(
+                                    new ASTArrayAccessExpressionNode(
+                                            new ASTObjectAccessExpressionNode(
+                                                ASTNodeFactory::objectAccessSourceId,
+                                                ASTNodeFactory::objectAccessTargetId
+                                        ),
+                                        ASTNodeFactory::arrayAccessInt
+                            ),
+                            ASTNodeFactory::arrayAccessInt
+                    )),
+                    ASTNodeFactory::objectAccessTargetId
                     )
         )},
         {99, new ASTFunctionDeclarationNode(
@@ -1262,8 +1270,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::equality,
                         new ASTObjectAccessExpressionNode(
-                                ASTNodeFactory::idExpression,
-                                ASTNodeFactory::idExpression
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::objectAccessTargetId
                         )
                 )
         )},
@@ -1271,16 +1279,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::constInit,
                 new ASTLogicalExpressionNode(
                         new ASTObjectAccessExpressionNode(
+                            new ASTObjectAccessSourceNode(
                                 new ASTObjectAccessExpressionNode(
-                                        ASTNodeFactory::idExpression,
-                                        ASTNodeFactory::idExpression
-                                ),
-                                ASTNodeFactory::idExpression
+                                        ASTNodeFactory::objectAccessSourceId,
+                                        ASTNodeFactory::objectAccessTargetId
+                                )),
+                                ASTNodeFactory::objectAccessTargetId
                         ),
                         ASTNodeFactory::andOperator,
                         new ASTObjectAccessExpressionNode(
-                                ASTNodeFactory::idExpression,
-                                ASTNodeFactory::idExpression
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::objectAccessTargetId
                         )
                 )
         )},
@@ -1305,11 +1314,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {112, new ASTExpressionStatementNode(
                 new ASTObjectAccessExpressionNode(
+                    new ASTObjectAccessSourceNode(
                         new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
                                 new ASTFunctionArgumentListNode()
-                        ),
-                        ASTNodeFactory::idExpression
+                        )),
+                        ASTNodeFactory::objectAccessTargetId
                 )
         )},
         {113, new ASTExpressionStatementNode(
@@ -1363,6 +1373,57 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
+        {117, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTTupleExpressionNode(
+                        new ASTTupleListNode({
+                             new ASTTupleItemNode(ASTNodeFactory::stringExpression),
+                             new ASTTupleItemNode(ASTNodeFactory::intExpression),
+                             new ASTTupleItemNode(ASTNodeFactory::intExpression)
+                        })
+                )
+        )},
+        {118, new ASTExpressionStatementNode(
+                new ASTTupleAccessExpressionNode(
+                        ASTNodeFactory::objectAccessSourceId,
+                        ASTNodeFactory::tupleAccess
+                )
+        )},
+        {119, new ASTExpressionStatementNode(
+                new ASTBinaryExpressionNode(
+                        new ASTTupleAccessExpressionNode(
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::tupleAccess
+                        ),
+                        ASTNodeFactory::plus,
+                        new ASTTupleAccessExpressionNode(
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::tupleAccess
+                        )
+                )
+        )},
+        {120, new ASTExpressionStatementNode(
+                new ASTFunctionInvocationExpressionNode(
+                        ASTNodeFactory::functionCall,
+                        new ASTFunctionArgumentListNode({
+                            new ASTFunctionArgumentNode(
+                                new ASTTupleAccessExpressionNode(
+                                    ASTNodeFactory::objectAccessSourceId,
+                                    ASTNodeFactory::tupleAccess
+                                )
+                            )
+                        })
+                )
+        )},
+        {121, new ASTExpressionStatementNode(
+                new ASTUnaryExpressionNode(
+                    ASTNodeFactory::bang,
+                    new ASTTupleAccessExpressionNode(
+                            ASTNodeFactory::objectAccessSourceId,
+                            ASTNodeFactory::tupleAccess
+                    )
+                )
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1373,8 +1434,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 116);
-    for (int i = 0; i < 116; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 121);
+    for (int i = 0; i < 121; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

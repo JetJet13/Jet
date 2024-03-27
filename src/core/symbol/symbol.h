@@ -54,6 +54,7 @@ public:
     bool isVarTypeQualifier();
     bool isProcedure();
     bool isEnum();
+    bool isTuple();
     SymbolType getType();
     std::string toString();
 };

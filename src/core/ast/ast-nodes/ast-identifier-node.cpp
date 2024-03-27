@@ -8,6 +8,7 @@
 #include "ast-enum-nodes/ast-enum-name-node.h"
 #include "ast-enum-nodes/ast-enum-key-node.h"
 #include "ast-function-nodes/ast-function-call-node.h"
+#include "ast-object-nodes/ast-object-access-source-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;

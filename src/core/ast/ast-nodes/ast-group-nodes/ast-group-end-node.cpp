@@ -7,6 +7,7 @@
 #include "../ast-function-nodes/ast-function-parameter-list-end-node.h"
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 #include "../ast-function-nodes/ast-function-argument-list-end-node.h"
+#include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
 
 ASTGroupEndNode::ASTGroupEndNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -24,6 +25,7 @@ ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode,
     if (mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
         return new ASTFunctionArgumentListEndNode(this->getLexeme());
     }
+
     return this;
 }
 

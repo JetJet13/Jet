@@ -4,6 +4,8 @@
 
 #include "ast-expression-node.h"
 #include "../ast-function-nodes/ast-function-argument-node.h"
+#include "../ast-tuple-nodes/ast-tuple-item-node.h"
+#include "../ast-object-nodes/ast-object-access-source-node.h"
 
 ASTExpressionNode::ASTExpressionNode() {
     _childNodes = {};
@@ -17,6 +19,10 @@ ASTNode* ASTExpressionNode::transformIfNecessary(std::optional<ASTNode*> prevNod
 
     if (mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
         return new ASTFunctionArgumentNode(this);
+    }
+
+    if (mode == SA_TUPLE_LIST_MODE) {
+        return new ASTTupleItemNode(this);
     }
 
     return this;

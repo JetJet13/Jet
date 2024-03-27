@@ -270,6 +270,36 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/expression-statement-reducer-strategy/expression-statement-reducer-strategy.h
         ast/ast-nodes/ast-function-nodes/ast-function-call-node.cpp
         ast/ast-nodes/ast-function-nodes/ast-function-call-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-start-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-start-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-end-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-end-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-item-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-item-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-list-reducer-strategy/tuple-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-list-reducer-strategy/tuple-list-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-expression-reducer-strategy/tuple-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-expression-reducer-strategy/tuple-expression-reducer-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-expression-reducer-strategy/tuple-access-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-expression-reducer-strategy/tuple-access-expression-reducer-strategy.h
+        ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.cpp
+        ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-source-reducer-strategy/object-access-source-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-source-reducer-strategy/object-access-source-reducer-strategy.h
+        ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.cpp
+        ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-target-reducer-strategy/object-access-target-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-target-reducer-strategy/object-access-target-reducer-strategy.h
 
 )
 

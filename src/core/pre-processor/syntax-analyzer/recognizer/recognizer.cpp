@@ -27,6 +27,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_FUNCTION_ARGUMENT_LIST_NODE);
     } else if (handle->isEnumKeyValueListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ENUM_KEY_VALUE_LIST_NODE);
+    } else if (handle->isTupleListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     }
 
     if (mode == RM_BACKTRACK) {
@@ -95,7 +97,8 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
         AST_FUNCTION_PARAMETER_LIST_END_NODE,
         AST_FUNCTION_ARGUMENT_LIST_END_NODE,
         AST_ENUM_KEY_VALUE_LIST_NODE,
-        AST_ENUM_KEY_VALUE_LIST_END_NODE
+        AST_ENUM_KEY_VALUE_LIST_END_NODE,
+        AST_TUPLE_LIST_END_NODE
     });
 }
 

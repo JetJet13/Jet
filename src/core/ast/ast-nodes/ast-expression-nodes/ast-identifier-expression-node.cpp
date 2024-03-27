@@ -5,6 +5,7 @@
 #include "ast-identifier-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-type-node.h"
+#include "../ast-object-nodes/ast-object-access-source-node.h"
 
 ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode) {
     _identifierNode = identifierNode;
@@ -18,6 +19,7 @@ ASTNode* ASTIdentifierExpressionNode::transformIfNecessary(std::optional<ASTNode
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return new ASTTypeNode(this->getIdentifierNode()->getIdentifier());
     }
+
     return this;
 }
 

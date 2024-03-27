@@ -20,7 +20,9 @@ ASTNode* ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode,
             AST_UNARY_EXPRESSION_NODE,
             AST_BINARY_EXPRESSION_NODE,
             AST_LITERAL_EXPRESSION_NODE,
-            AST_IDENTIFIER_EXPRESSION_NODE
+            AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_TUPLE_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_NODE
     };
     if (prevNode && prevNode.value()->isOneOf(plusOperatorPrevNodes)) {
         Logger::log("transforming PLUS_BASE to BINARY_OPERATOR because prevNode is", prevNode.value()->toString());
@@ -35,6 +37,7 @@ ASTNode* ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode,
             AST_BINARY_EXPRESSION_NODE,
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_TUPLE_EXPRESSION_NODE,
     };
     if ((prevNode && prevNode.value()->isOneOf(unaryPlusOperatorPrevNodes)) ||
         (nextNode && nextNode.value()->isOneOf(unaryPlusOperatorNextNodes))) {

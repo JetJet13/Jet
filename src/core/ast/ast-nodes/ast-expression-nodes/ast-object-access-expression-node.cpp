@@ -5,17 +5,17 @@
 #include "ast-object-access-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(ASTExpressionNode* source, ASTIdentifierExpressionNode* property) {
+ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTObjectAccessTargetNode* property) {
     _source = source;
-    _property = property;
+    _target = property;
 }
 
-ASTExpressionNode* ASTObjectAccessExpressionNode::getSource() {
+ASTObjectAccessSourceNode* ASTObjectAccessExpressionNode::getSource() {
     return _source;
 }
 
-ASTIdentifierExpressionNode* ASTObjectAccessExpressionNode::getProperty() {
-    return _property;
+ASTObjectAccessTargetNode* ASTObjectAccessExpressionNode::getTarget() {
+    return _target;
 }
 
 ASTNodeType ASTObjectAccessExpressionNode::getNodeType() {
@@ -32,12 +32,12 @@ bool ASTObjectAccessExpressionNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTObjectAccessExpressionNode*)other;
     return this->getSource()->isSameAs(otherNode->getSource()) &&
-           this->getProperty()->isSameAs(otherNode->getProperty());
+            this->getTarget()->isSameAs(otherNode->getTarget());
 }
 
 void ASTObjectAccessExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _source->print();
-    _property->print();
+    _target->print();
     Logger::log("----------");
 }

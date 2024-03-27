@@ -26,6 +26,9 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-call-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -182,6 +185,15 @@ namespace ASTNodeFactory {
     );
     static ASTEnumKeyValueNode* enumKeyOnly =  new ASTEnumKeyValueNode(
             ASTNodeFactory::enumKey
+    );
+    static ASTTupleAccessNode* tupleAccess =  new ASTTupleAccessNode(
+            createLexeme(SymbolFactory::createIntSymbol())
+    );
+    static ASTObjectAccessSourceNode* objectAccessSourceId = new ASTObjectAccessSourceNode(
+            ASTNodeFactory::idExpression
+    );
+    static ASTObjectAccessTargetNode* objectAccessTargetId = new ASTObjectAccessTargetNode(
+            ASTNodeFactory::idExpression
     );
 };
 

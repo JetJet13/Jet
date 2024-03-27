@@ -37,6 +37,8 @@ namespace ASTNodeUtils {
             case AST_ARRAY_ACCESS_EXPRESSION_NODE:
             case AST_ARRAY_EXPRESSION_NODE:
             case AST_STRUCT_EXPRESSION_NODE:
+            case AST_TUPLE_ACCESS_EXPRESSION_NODE:
+            case AST_TUPLE_EXPRESSION_NODE:
                 return true;
             default:
                 return false;

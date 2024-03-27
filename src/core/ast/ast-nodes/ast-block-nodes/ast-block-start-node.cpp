@@ -5,6 +5,7 @@
 #include "ast-block-start-node.h"
 #include "../ast-struct-nodes/ast-struct-start-node.h"
 #include "../ast-enum-nodes/ast-enum-key-value-list-start-node.h"
+#include "../ast-tuple-nodes/ast-tuple-list-start-node.h"
 
 ASTBlockStartNode::ASTBlockStartNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -18,6 +19,11 @@ ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NAME_NODE })) {
         return new ASTEnumKeyValueListStartNode(_lexeme);
     }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_TUPLE_NODE })) {
+        return new ASTTupleListStartNode(_lexeme);
+    }
+
     return this;
 }
 

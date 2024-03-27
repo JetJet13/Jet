@@ -163,6 +163,10 @@ namespace SymbolFactory {
         return new Symbol(SYM_ENUM, "enum");
     }
 
+    Symbol* createTupleSymbol() {
+        return new Symbol(SYM_TUPLE, "tuple");
+    }
+
     Symbol* createVoidTypeSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");
     }
