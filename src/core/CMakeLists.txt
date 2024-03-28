@@ -300,6 +300,36 @@ add_library(jet-core
         ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-target-reducer-strategy/object-access-target-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-target-reducer-strategy/object-access-target-reducer-strategy.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-if-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-if-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-if-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-if-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-condition-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-condition-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-condition-reducer-strategy/control-flow-condition-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-condition-reducer-strategy/control-flow-condition-reducer-strategy.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-block-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-block-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-if-block-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-if-block-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-if-block-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-if-block-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-block-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-else-block-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/if-block-reducer-strategy/if-block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/if-block-reducer-strategy/if-block-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/else-block-reducer-strategy/else-block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/else-block-reducer-strategy/else-block-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-reducer-strategy/else-if-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-reducer-strategy/else-if-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.h
+        ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.h
 
 )
 

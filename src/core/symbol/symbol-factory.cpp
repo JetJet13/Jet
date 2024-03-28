@@ -167,6 +167,27 @@ namespace SymbolFactory {
         return new Symbol(SYM_TUPLE, "tuple");
     }
 
+    Symbol* createIfSymbol() {
+        return new Symbol(SYM_IF, "if");
+    }
+
+    Symbol* createElseSymbol() {
+        return new Symbol(SYM_ELSE, "else");
+    }
+
+    Symbol* createForSymbol() {
+        return new Symbol(SYM_FOR, "for");
+    }
+
+    Symbol* createInSymbol() {
+        return new Symbol(SYM_IN, "in");
+    }
+
+    Symbol* createWhileSymbol() {
+        return new Symbol(SYM_WHILE, "while");
+    }
+
+
     Symbol* createVoidTypeSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");
     }

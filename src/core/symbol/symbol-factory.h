@@ -49,6 +49,11 @@ namespace SymbolFactory {
     Symbol* createProcedureSymbol();
     Symbol* createEnumSymbol();
     Symbol* createTupleSymbol();
+    Symbol* createIfSymbol();
+    Symbol* createElseSymbol();
+    Symbol* createForSymbol();
+    Symbol* createInSymbol();
+    Symbol* createWhileSymbol();
     Symbol* createVoidTypeSymbol();
     Symbol* createIntTypeSymbol();
     Symbol* createFloatTypeSymbol();

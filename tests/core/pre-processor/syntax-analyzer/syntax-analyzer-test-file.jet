@@ -192,3 +192,7 @@ myTuple.0.0.0;
 struct.arr[0].0.one[1].1;
 myFunction().one.two.0.1;
 !myFunction().one.two.0.1;
+
+if true {
+    let myNum = 2;
+}

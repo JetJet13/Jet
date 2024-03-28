@@ -77,6 +77,11 @@ void ReservedKeywords::init() {
     this->add("procedure", SymbolFactory::createProcedureSymbol());
     this->add("enum", SymbolFactory::createEnumSymbol());
     this->add("tuple", SymbolFactory::createTupleSymbol());
+    this->add("if", SymbolFactory::createIfSymbol());
+    this->add("else", SymbolFactory::createElseSymbol());
+    this->add("for", SymbolFactory::createForSymbol());
+    this->add("in", SymbolFactory::createInSymbol());
+    this->add("while", SymbolFactory::createWhileSymbol());
 
     this->initKeywordSymbolList();
 }

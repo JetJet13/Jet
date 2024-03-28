@@ -5,6 +5,7 @@
 #include "ast-block-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ast-control-flow-nodes/ast-control-flow-block-node.h"
 
 ASTBlockNode::ASTBlockNode() {
     _contents = std::vector<ASTNode*>();
@@ -33,6 +34,10 @@ std::vector<ASTNode*> ASTBlockNode::getContents() {
 ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE })) {
         return new ASTFunctionBlockNode(_contents);
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_CONTROL_FLOW_CONDITION_NODE, AST_ELSE_NODE })) {
+        return new ASTControlFlowBlockNode(_contents);
     }
     return this;
 }

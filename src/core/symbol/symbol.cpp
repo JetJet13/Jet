@@ -165,6 +165,27 @@ bool Symbol::isTuple() {
     return _type == SYM_TUPLE;
 }
 
+bool Symbol::isIf() {
+    return _type == SYM_IF;
+}
+
+bool Symbol::isElse() {
+    return _type == SYM_ELSE;
+}
+
+bool Symbol::isFor() {
+    return _type == SYM_FOR;
+}
+
+bool Symbol::isIn() {
+    return _type == SYM_IN;
+}
+
+bool Symbol::isWhile() {
+    return _type == SYM_WHILE;
+}
+
+
 bool Symbol::isType() {
     return _type == SYM_INT_TYPE ||
             _type == SYM_FLOAT_TYPE ||

@@ -37,6 +37,12 @@
 #include "reducer-strategies/tuple-access-expression-reducer-strategy/tuple-access-expression-reducer-strategy.h"
 #include "reducer-strategies/object-access-source-reducer-strategy/object-access-source-reducer-strategy.h"
 #include "reducer-strategies/object-access-target-reducer-strategy/object-access-target-reducer-strategy.h"
+#include "reducer-strategies/control-flow-condition-reducer-strategy/control-flow-condition-reducer-strategy.h"
+#include "reducer-strategies/if-block-reducer-strategy/if-block-reducer-strategy.h"
+#include "reducer-strategies/else-block-reducer-strategy/else-block-reducer-strategy.h"
+#include "reducer-strategies/else-if-reducer-strategy/else-if-reducer-strategy.h"
+#include "reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.h"
+#include "reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -78,6 +84,12 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TUPLE_ACCESS_EXPRESSION_NODE, new TupleAccessExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_SOURCE_NODE, new ObjectAccessSourceReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_TARGET_NODE, new ObjectAccessTargetReducerStrategy());
+    this->addStrategy(AST_CONTROL_FLOW_CONDITION_NODE, new ControlFlowConditionReducerStrategy());
+    this->addStrategy(AST_IF_BLOCK_NODE, new IfBlockReducerStrategy());
+    this->addStrategy(AST_ELSE_IF_BLOCK_NODE, new ElseIfBlockReducerStrategy());
+    this->addStrategy(AST_ELSE_BLOCK_NODE, new ElseBlockReducerStrategy());
+    this->addStrategy(AST_ELSE_IF_NODE, new ElseIfReducerStrategy());
+    this->addStrategy(AST_CONTROL_FLOW_STATEMENT_NODE, new ControlFlowStatementReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

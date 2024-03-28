@@ -55,6 +55,11 @@ public:
     bool isProcedure();
     bool isEnum();
     bool isTuple();
+    bool isIf();
+    bool isElse();
+    bool isFor();
+    bool isIn();
+    bool isWhile();
     SymbolType getType();
     std::string toString();
 };

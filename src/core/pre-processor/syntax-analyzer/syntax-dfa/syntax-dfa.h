@@ -19,6 +19,9 @@ private:
     void initFunction(DFANode* functionNode);
     void initProcedure(DFANode* procedureNode);
     void initEnum(DFANode* enumNode);
+    void initIf(DFANode* ifNode);
+    void initElse(DFANode* elseNode);
+    void initElseIf(DFANode* elseIfNode);
 public:
     SyntaxDfa();
     DFA* getDFA();

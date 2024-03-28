@@ -98,7 +98,8 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
         AST_FUNCTION_ARGUMENT_LIST_END_NODE,
         AST_ENUM_KEY_VALUE_LIST_NODE,
         AST_ENUM_KEY_VALUE_LIST_END_NODE,
-        AST_TUPLE_LIST_END_NODE
+        AST_TUPLE_LIST_END_NODE,
+        AST_CONTROL_FLOW_BLOCK_NODE,
     });
 }
 
