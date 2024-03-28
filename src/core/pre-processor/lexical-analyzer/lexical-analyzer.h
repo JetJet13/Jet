@@ -20,6 +20,7 @@ private:
     TokenTable* _tokenTable;
     int _tokenValueIdCursor;
     bool _hasMore;
+    std::optional<Token*> _prevToken;
     std::optional<Token*> buildNextToken();
     std::optional<Token*> peekNextToken();
     void skipWhitespaceAndNewLine();

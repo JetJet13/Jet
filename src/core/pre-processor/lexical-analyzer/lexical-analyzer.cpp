@@ -14,6 +14,7 @@ LexicalAnalyzer::LexicalAnalyzer(TokenTable* tokenTable, ReservedKeywords* reser
     _tokenTable = tokenTable;
     _hasMore = false;
     _tokenValueIdCursor = INT_MIN;
+    _prevToken = std::optional<Token*>();
 }
 
 void LexicalAnalyzer::start(std::string &filePath) {
@@ -21,6 +22,7 @@ void LexicalAnalyzer::start(std::string &filePath) {
         _fileReader.open(filePath);
         if (_fileReader.peek()) {
             _hasMore = true;
+            _prevToken.reset();
         }
     } catch (std::exception &error) {
         throw error;
@@ -31,6 +33,7 @@ void LexicalAnalyzer::start(std::string &filePath) {
 void LexicalAnalyzer::stop() {
     if (_fileReader.isOpen()) {
         _hasMore = false;
+        _prevToken.reset();
         _fileReader.close();
     }
 }
@@ -50,6 +53,7 @@ std::optional<Lexeme*> LexicalAnalyzer::next() {
     auto line = _fileReader.getPeekLine();
     auto position = _fileReader.getPeekPosition();
     auto nextToken = this->buildNextToken();
+    _prevToken = nextToken;
     if (nextToken) {
         return new Lexeme(nextToken.value(), line, position);
     }
@@ -93,12 +97,13 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
     if (isdigit(character.value())) {
         std::string term;
         term += character.value();
+        auto isPrevTokenNotPeriod = !(_prevToken && _prevToken.value()->getSymbol()->isPeriod());
         auto isFloat = false;
         auto peekNextChar = _fileReader.peek();
         while (peekNextChar) {
             if (peekNextChar.value() == PERIOD && isFloat) {
                 return new Token(SymbolFactory::createMalformedSymbol());
-            } else if (peekNextChar.value() == PERIOD) {
+            } else if (peekNextChar.value() == PERIOD && isPrevTokenNotPeriod) {
                 isFloat = true;
             } else if (!isdigit(peekNextChar.value())) {
                 break;
@@ -107,6 +112,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             _fileReader.advance();
             peekNextChar = _fileReader.peek();
         }
+
 
         auto valueId = this->generateTokenValueId();
         if (isFloat) {
@@ -229,6 +235,10 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             term += peekNextChar.value();
             _fileReader.advance();
             peekNextChar = _fileReader.peek();
+        }
+
+        if (_prevToken && _prevToken.value()->getSymbol()->isPeriod()) {
+            isFloat = false;
         }
 
         if (isFloat) {
