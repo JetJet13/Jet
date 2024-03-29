@@ -85,6 +85,8 @@ void SyntaxDfa::init() {
     DFANode* controlFlowCondition = DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE);
     DFANode* controlFlowStatement = DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_STATEMENT_NODE, AST_CONTROL_FLOW_STATEMENT_NODE);
     DFANode* controlFlowStart = DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_STATEMENT_NODE, AST_CONTROL_FLOW_STATEMENT_NODE);
+    DFANode* whileKeyword = DFANodeFactory::Once::create(AST_WHILE_NODE);
+    DFANode* whileStatement = DFANodeFactory::Once::createWithTarget(AST_WHILE_STATEMENT_NODE, AST_WHILE_STATEMENT_NODE);
 
     this->initVarType(varType);
     this->initVarInit(varInit);
@@ -94,6 +96,7 @@ void SyntaxDfa::init() {
     this->initIf(ifKeyword);
     this->initElse(elseKeyword);
     this->initElseIf(elseIfKeyword);
+    this->initWhile(whileKeyword);
 
     logicalOperator
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_LOGICAL_EXPRESSION_NODE)))
@@ -149,7 +152,7 @@ void SyntaxDfa::init() {
     })
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
     ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_TARGET_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(colon))
@@ -161,17 +164,17 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
          AST_UNARY_OPERATOR_NODE
     })
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     arrayExpression
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)));
 
     arrayAccessExpression
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(period));
 
@@ -181,7 +184,7 @@ void SyntaxDfa::init() {
         AST_PERIOD_NODE
     })
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
@@ -192,7 +195,7 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE
     })
     ->markAlwaysReduceSelf()
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
@@ -202,7 +205,7 @@ void SyntaxDfa::init() {
        AST_UNARY_OPERATOR_NODE
     })
     ->markAlwaysReduceSelf()
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator));
 
 
@@ -211,7 +214,7 @@ void SyntaxDfa::init() {
        AST_UNARY_OPERATOR_NODE
     })
     ->markAlwaysReduceSelf()
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
 
@@ -287,7 +290,7 @@ void SyntaxDfa::init() {
     })
     ->markAlwaysReduceSelf()
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(period))
@@ -340,7 +343,7 @@ void SyntaxDfa::init() {
           AST_UNARY_OPERATOR_NODE
     })
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(period));
@@ -400,7 +403,10 @@ void SyntaxDfa::init() {
 
     controlFlowCondition
     ->markAlwaysReduceSelf()
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IF_BLOCK_NODE, AST_ELSE_IF_BLOCK_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IF_BLOCK_NODE, AST_ELSE_IF_BLOCK_NODE, AST_WHILE_NODE });
+
+    whileKeyword
+    ->markAlwaysReduceSelf();
 
     _dfa
     ->insertStartNode(varDeclaration)
@@ -478,6 +484,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(elseBlock)
     ->insertStartNode(controlFlowCondition)
     ->insertStartNode(controlFlowStatement)
+    ->insertStartNode(whileKeyword)
+    ->insertStartNode(whileStatement)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
@@ -639,4 +647,14 @@ void SyntaxDfa::initElseIf(DFANode* elseIfNode) {
                     DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_BLOCK_NODE, AST_ELSE_IF_BLOCK_NODE)
                 ))
         ));
+}
+
+void SyntaxDfa::initWhile(DFANode* whileNode) {
+    whileNode
+            ->addTransition(DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE)
+                            ->addTransition(DFATransitionFactory::create(
+                                    DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_BLOCK_NODE, AST_WHILE_STATEMENT_NODE)
+                            ))
+            ));
 }

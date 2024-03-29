@@ -16,6 +16,7 @@ namespace ASTNodeUtils {
             case AST_PROCEDURE_DECLARATION_NODE:
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
             case AST_CONTROL_FLOW_STATEMENT_NODE:
+            case AST_WHILE_STATEMENT_NODE:
             case AST_EXPRESSION_STATEMENT_NODE:
             case AST_ENUM_DECLARATION_NODE:
             case AST_BLOCK_NODE:

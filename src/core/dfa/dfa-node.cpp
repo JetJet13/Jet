@@ -173,7 +173,6 @@ bool DFANode::isOnce() {
     return _occurrence == DFA_OCCURRENCE_ONCE;
 }
 
-
 ASTNodeType DFANode::getNodeType() {
     return _astNodeType;
 }

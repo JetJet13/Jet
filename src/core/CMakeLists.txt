@@ -336,6 +336,12 @@ add_library(jet-core
         dfa/types/reduce-to-target-dual-map.h
         ast/ast-nodes/ast-null-node.cpp
         ast/ast-nodes/ast-null-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-while-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-while-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.h
 
 )
 

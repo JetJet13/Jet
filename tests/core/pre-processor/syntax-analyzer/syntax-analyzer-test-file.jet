@@ -229,3 +229,7 @@ if true {
 if myStruct.one.two + myTuple.0 - myFunction() > 0 {
     let myNum = 2;
 }
+
+while id < 20 {
+    let myNum = 2;
+}

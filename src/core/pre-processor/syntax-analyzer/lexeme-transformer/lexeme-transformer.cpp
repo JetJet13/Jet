@@ -33,6 +33,7 @@
 #include "../../../ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-if-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-else-node.h"
+#include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-while-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -115,8 +116,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
 //        return new ASTTupleNode(lexeme);
 //    } else if (symbol->isIn()) {
 //        return new ASTTupleNode(lexeme);
-//    } else if (symbol->isWhile()) {
-//        return new ASTTupleNode(lexeme);
+    } else if (symbol->isWhile()) {
+        return new ASTWhileNode(lexeme);
     } else if (symbol->isType()) {
         return new ASTTypeNode(lexeme);
     } else {

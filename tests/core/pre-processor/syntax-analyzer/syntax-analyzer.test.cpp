@@ -22,6 +22,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -1748,6 +1749,21 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 {}
         )},
+        {135, new ASTWhileStatementNode(
+                new ASTControlFlowConditionNode(
+                        new ASTBinaryExpressionNode(
+                                ASTNodeFactory::idExpression,
+                                ASTNodeFactory::lessThan,
+                                ASTNodeFactory::intExpression
+                        )
+                ),
+                new ASTControlFlowBlockNode({
+                    new ASTVariableDeclarationNode(
+                        ASTNodeFactory::letInit,
+                        ASTNodeFactory::intExpression
+                    )
+                })
+        )}
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1758,8 +1774,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 134);
-    for (int i = 0; i < 134; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 135);
+    for (int i = 0; i < 135; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

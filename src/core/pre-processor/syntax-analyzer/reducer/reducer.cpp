@@ -43,6 +43,7 @@
 #include "reducer-strategies/else-if-reducer-strategy/else-if-reducer-strategy.h"
 #include "reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.h"
 #include "reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.h"
+#include "reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -90,6 +91,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ELSE_BLOCK_NODE, new ElseBlockReducerStrategy());
     this->addStrategy(AST_ELSE_IF_NODE, new ElseIfReducerStrategy());
     this->addStrategy(AST_CONTROL_FLOW_STATEMENT_NODE, new ControlFlowStatementReducerStrategy());
+    this->addStrategy(AST_WHILE_STATEMENT_NODE, new WhileStatementReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

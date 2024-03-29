@@ -170,6 +170,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             break;
         case AST_IF_NODE:
         case AST_ELSE_IF_NODE:
+        case AST_WHILE_NODE:
             Logger::log("pushing mode: CONTROL_FLOW_MODE");
             _modeStack.push(SA_CONTROL_FLOW_MODE);
             break;
