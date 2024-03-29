@@ -171,6 +171,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_IF_NODE:
         case AST_ELSE_IF_NODE:
         case AST_WHILE_NODE:
+        case AST_FOR_IN_NODE:
             Logger::log("pushing mode: CONTROL_FLOW_MODE");
             _modeStack.push(SA_CONTROL_FLOW_MODE);
             break;
@@ -181,6 +182,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_ENUM_KEY_VALUE_LIST_NODE:
         case AST_TUPLE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
+        case AST_FOR_SOURCE_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();
             break;

@@ -17,6 +17,7 @@ namespace ASTNodeUtils {
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
             case AST_IF_STATEMENT_NODE:
             case AST_WHILE_STATEMENT_NODE:
+            case AST_FOR_STATEMENT_NODE:
             case AST_EXPRESSION_STATEMENT_NODE:
             case AST_ENUM_DECLARATION_NODE:
             case AST_BLOCK_NODE:

@@ -233,3 +233,11 @@ if myStruct.one.two + myTuple.0 - myFunction() > 0 {
 while id < 20 {
     let myNum = 2;
 }
+
+for item in list {
+    let num = 2;
+}
+
+for i in range(0,10) {
+    let num = 2;
+}

@@ -36,7 +36,7 @@ ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, st
         return new ASTFunctionBlockNode(_contents);
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_CONTROL_FLOW_CONDITION_NODE, AST_ELSE_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_CONTROL_FLOW_CONDITION_NODE, AST_ELSE_NODE, AST_FOR_SOURCE_NODE })) {
         return new ASTControlFlowBlockNode(_contents);
     }
     return this;

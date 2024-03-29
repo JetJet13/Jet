@@ -342,6 +342,22 @@ add_library(jet-core
         ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-in-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-in-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-variable-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-variable-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-variable-reducer-strategy/for-variable-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-variable-reducer-strategy/for-variable-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-source-reducer-strategy/for-source-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-source-reducer-strategy/for-source-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.h
 
 )
 

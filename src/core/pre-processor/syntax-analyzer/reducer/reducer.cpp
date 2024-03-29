@@ -44,6 +44,9 @@
 #include "reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.h"
 #include "reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.h"
 #include "reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.h"
+#include "reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.h"
+#include "reducer-strategies/for-variable-reducer-strategy/for-variable-reducer-strategy.h"
+#include "reducer-strategies/for-source-reducer-strategy/for-source-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -92,6 +95,9 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ELSE_IF_NODE, new ElseIfReducerStrategy());
     this->addStrategy(AST_IF_STATEMENT_NODE, new ControlFlowStatementReducerStrategy());
     this->addStrategy(AST_WHILE_STATEMENT_NODE, new WhileStatementReducerStrategy());
+    this->addStrategy(AST_FOR_VARIABLE_NODE, new ForVariableReducerStrategy());
+    this->addStrategy(AST_FOR_SOURCE_NODE, new ForSourceReducerStrategy());
+    this->addStrategy(AST_FOR_STATEMENT_NODE, new ForStatementReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

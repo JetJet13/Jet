@@ -23,6 +23,7 @@ private:
     void initElse(DFANode* elseNode);
     void initElseIf(DFANode* elseIfNode);
     void initWhile(DFANode* whileNode);
+    void initFor(DFANode* forNode);
 public:
     SyntaxDfa();
     DFA* getDFA();
