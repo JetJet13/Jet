@@ -29,6 +29,8 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-variable-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -193,6 +195,12 @@ namespace ASTNodeFactory {
             ASTNodeFactory::idExpression
     );
     static ASTObjectAccessTargetNode* objectAccessTargetId = new ASTObjectAccessTargetNode(
+            ASTNodeFactory::idExpression
+    );
+    static ASTForVariableNode* forVariable = new ASTForVariableNode(
+            ASTNodeFactory::idExpression
+    );
+    static ASTForSourceNode* forSourceId = new ASTForSourceNode(
             ASTNodeFactory::idExpression
     );
 };

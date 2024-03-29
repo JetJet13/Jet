@@ -23,6 +23,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -1763,6 +1764,38 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::intExpression
                     )
                 })
+        )},
+        {136, new ASTForStatementNode(
+                ASTNodeFactory::forVariable,
+                ASTNodeFactory::forSourceId,
+                new ASTControlFlowBlockNode({
+                    new ASTVariableDeclarationNode(
+                            ASTNodeFactory::letInit,
+                            ASTNodeFactory::intExpression
+                    )
+                })
+        )},
+        {137, new ASTForStatementNode(
+                ASTNodeFactory::forVariable,
+                new ASTForSourceNode(
+                    new ASTFunctionInvocationExpressionNode(
+                        ASTNodeFactory::functionCall,
+                        new ASTFunctionArgumentListNode({
+                            new ASTFunctionArgumentNode(ASTNodeFactory::intExpression),
+                            new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                        })
+                    )
+                ),
+                new ASTControlFlowBlockNode({
+                    new ASTExpressionStatementNode(
+                        new ASTFunctionInvocationExpressionNode(
+                            ASTNodeFactory::functionCall,
+                            new ASTFunctionArgumentListNode({
+                                new ASTFunctionArgumentNode(ASTNodeFactory::idExpression),
+                            })
+                        )
+                    )
+                })
         )}
 };
 
@@ -1774,8 +1807,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 135);
-    for (int i = 0; i < 135; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 137);
+    for (int i = 0; i < 137; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

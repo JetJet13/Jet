@@ -12,13 +12,14 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
     _lexemeTransformer = LexemeTransformer();
     _modeStack = std::stack<SyntaxAnalyzerMode>();
     _scopeStack = std::stack<ASTBlockNode*>();
-    _stack = std::stack<ASTNode*>();
+    _recognizeStack = std::stack<std::stack<ASTNode*>*>();
     _recognizer = new Recognizer();
     _lexicalAnalyzer = lexicalAnalyzer;
 }
 
 ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
     _scopeStack.push(new ASTBlockNode());
+    _recognizeStack.push(new std::stack<ASTNode*>());
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
@@ -36,7 +37,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             this->shift();
         }
 
-        if (_stack.empty() && !_lexicalAnalyzer->hasMore()) {
+        if (_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
             if (_handle.isEmpty()) {
                 this->accept();
                 break;
@@ -68,10 +69,12 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
         _scopeStack.push(new ASTBlockNode());
+        _recognizeStack.push(new std::stack<ASTNode*>());
     } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
         auto blockNode = _scopeStack.top();
         _scopeStack.pop();
-        _stack.push(blockNode);
+        _recognizeStack.pop();
+        _recognizeStack.top()->push(blockNode);
     } else if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
         Logger::log("pushing node to latest scope node:", reducedNode->toString());
         if (!_scopeStack.empty()) {
@@ -81,7 +84,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
         }
     } else {
         Logger::log("pushing node to stack:", reducedNode->toString());
-        _stack.push(reducedNode);
+        _recognizeStack.top()->push(reducedNode);
     }
 
     _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
@@ -91,12 +94,12 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
 }
 
 void SyntaxAnalyzer::popFromStack() {
-    if (_stack.empty()) {
+    if (_recognizeStack.top()->empty()) {
         throw std::logic_error("stack is empty. Nothing to pop.");
     }
     Logger::log("popping from stack...");
-    _handle.prepend(_stack.top());
-    _stack.pop();
+    _handle.prepend(_recognizeStack.top()->top());
+    _recognizeStack.top()->pop();
 }
 
 void SyntaxAnalyzer::accept() {
@@ -108,8 +111,8 @@ void SyntaxAnalyzer::error() {
 }
 
 void SyntaxAnalyzer::prepHandleForRecognizer() {
-    if (!_stack.empty()) {
-        _handle.setLastReducedNode(_stack.top());
+    if (!_recognizeStack.top()->empty()) {
+        _handle.setLastReducedNode(_recognizeStack.top()->top());
     } else {
         _handle.clearLastReducedNode();
     }

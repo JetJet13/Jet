@@ -239,5 +239,5 @@ for item in list {
 }
 
 for i in range(0,10) {
-    let num = 2;
+    print(i);
 }
