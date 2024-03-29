@@ -90,7 +90,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ELSE_IF_BLOCK_NODE, new ElseIfBlockReducerStrategy());
     this->addStrategy(AST_ELSE_BLOCK_NODE, new ElseBlockReducerStrategy());
     this->addStrategy(AST_ELSE_IF_NODE, new ElseIfReducerStrategy());
-    this->addStrategy(AST_CONTROL_FLOW_STATEMENT_NODE, new ControlFlowStatementReducerStrategy());
+    this->addStrategy(AST_IF_STATEMENT_NODE, new ControlFlowStatementReducerStrategy());
     this->addStrategy(AST_WHILE_STATEMENT_NODE, new WhileStatementReducerStrategy());
 }
 

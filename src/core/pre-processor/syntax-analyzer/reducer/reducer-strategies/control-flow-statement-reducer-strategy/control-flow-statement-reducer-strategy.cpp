@@ -3,7 +3,7 @@
 //
 
 #include "control-flow-statement-reducer-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.h"
+#include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 
 ASTNode* ControlFlowStatementReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
@@ -17,7 +17,7 @@ ASTNode* ControlFlowStatementReducerStrategy::execute(std::vector<ASTNode*> node
         }
     }
 
-    return new ASTControlFlowStatementNode(
+    return new ASTIfStatementNode(
             (ASTIfBlockNode*)nodes[0],
             elseIfBlocks,
             elseBlock

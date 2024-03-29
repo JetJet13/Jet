@@ -83,8 +83,8 @@ void SyntaxDfa::init() {
     DFANode* elseIfBlock = DFANodeFactory::Once::create(AST_ELSE_IF_BLOCK_NODE);
     DFANode* elseBlock = DFANodeFactory::Once::create(AST_ELSE_BLOCK_NODE);
     DFANode* controlFlowCondition = DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE);
-    DFANode* controlFlowStatement = DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_STATEMENT_NODE, AST_CONTROL_FLOW_STATEMENT_NODE);
-    DFANode* controlFlowStart = DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_STATEMENT_NODE, AST_CONTROL_FLOW_STATEMENT_NODE);
+    DFANode* controlFlowStatement = DFANodeFactory::Once::createWithTarget(AST_IF_STATEMENT_NODE, AST_IF_STATEMENT_NODE);
+    DFANode* controlFlowStart = DFANodeFactory::Once::createWithTarget(AST_IF_STATEMENT_NODE, AST_IF_STATEMENT_NODE);
     DFANode* whileKeyword = DFANodeFactory::Once::create(AST_WHILE_NODE);
     DFANode* whileStatement = DFANodeFactory::Once::createWithTarget(AST_WHILE_STATEMENT_NODE, AST_WHILE_STATEMENT_NODE);
 
@@ -389,10 +389,10 @@ void SyntaxDfa::init() {
 
     ifBlock
     ->reduceSelfWhenNextNodeIsOneOf({ AST_ELSE_NODE })
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ELSE_BLOCK_NODE, AST_CONTROL_FLOW_STATEMENT_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ELSE_BLOCK_NODE, AST_IF_STATEMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(
             DFANodeFactory::NilOrMore::create(AST_ELSE_IF_BLOCK_NODE)
-            ->addTransition(DFATransitionFactory::create(DFANodeFactory::NilOrOnce::createWithTarget(AST_ELSE_BLOCK_NODE, AST_CONTROL_FLOW_STATEMENT_NODE)))
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::NilOrOnce::createWithTarget(AST_ELSE_BLOCK_NODE, AST_IF_STATEMENT_NODE)))
     ));
 
     elseIfBlock

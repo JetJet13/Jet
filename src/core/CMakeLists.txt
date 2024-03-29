@@ -326,8 +326,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-reducer-strategy/else-if-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.h
-        ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.cpp
-        ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.h
         ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-start-node.cpp

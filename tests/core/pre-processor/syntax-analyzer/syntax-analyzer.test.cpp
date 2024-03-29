@@ -21,7 +21,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
-#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -1576,7 +1576,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {130, new ASTControlFlowStatementNode(
+        {130, new ASTIfStatementNode(
                 new ASTIfBlockNode(
                     new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
                     new ASTControlFlowBlockNode({
@@ -1624,7 +1624,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
-        {131, new ASTControlFlowStatementNode(
+        {131, new ASTIfStatementNode(
                 new ASTIfBlockNode(
                         new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
                         new ASTControlFlowBlockNode({
@@ -1636,7 +1636,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 {}
         )},
-        {132, new ASTControlFlowStatementNode(
+        {132, new ASTIfStatementNode(
                 new ASTIfBlockNode(
                         new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
                         new ASTControlFlowBlockNode({
@@ -1660,7 +1660,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
-        {133, new ASTControlFlowStatementNode(
+        {133, new ASTIfStatementNode(
                 new ASTIfBlockNode(
                     new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
                     new ASTControlFlowBlockNode({
@@ -1711,7 +1711,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
-        {134, new ASTControlFlowStatementNode(
+        {134, new ASTIfStatementNode(
                 new ASTIfBlockNode(
                         new ASTControlFlowConditionNode(
                             new ASTBinaryExpressionNode(

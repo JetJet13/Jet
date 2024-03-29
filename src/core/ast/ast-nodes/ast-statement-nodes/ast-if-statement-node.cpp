@@ -2,16 +2,16 @@
 // Created by Johny Georges on 2024-03-28.
 //
 
-#include "ast-control-flow-statement-node.h"
+#include "ast-if-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTControlFlowStatementNode::ASTControlFlowStatementNode(ASTIfBlockNode* ifBlock) {
+ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock) {
     _ifBlock = ifBlock;
     _elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
     _elseBlock = {};
 }
 
-ASTControlFlowStatementNode::ASTControlFlowStatementNode(ASTIfBlockNode* ifBlock, std::vector<ASTElseIfBlockNode*> elseIfBlocks, std::optional<ASTElseBlockNode*> elseBlock) {
+ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock, std::vector<ASTElseIfBlockNode*> elseIfBlocks, std::optional<ASTElseBlockNode*> elseBlock) {
     _ifBlock = ifBlock;
     _elseBlock = elseBlock;
     _elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
@@ -20,36 +20,36 @@ ASTControlFlowStatementNode::ASTControlFlowStatementNode(ASTIfBlockNode* ifBlock
     }
 }
 
-ASTControlFlowStatementNode* ASTControlFlowStatementNode::addElseIfBlock(ASTElseIfBlockNode* elseIfBlock) {
+ASTIfStatementNode* ASTIfStatementNode::addElseIfBlock(ASTElseIfBlockNode* elseIfBlock) {
     _elseIfBlocks.push_back(elseIfBlock);
     return this;
 }
 
-ASTIfBlockNode* ASTControlFlowStatementNode::getIfBlock() {
+ASTIfBlockNode* ASTIfStatementNode::getIfBlock() {
     return _ifBlock;
 }
 
-std::vector<ASTElseIfBlockNode*>* ASTControlFlowStatementNode::getElseIfBlocks() {
+std::vector<ASTElseIfBlockNode*>* ASTIfStatementNode::getElseIfBlocks() {
     return &_elseIfBlocks;
 }
 
-std::optional<ASTElseBlockNode*> ASTControlFlowStatementNode::getElseBlock() {
+std::optional<ASTElseBlockNode*> ASTIfStatementNode::getElseBlock() {
     return _elseBlock;
 }
 
-ASTNodeType ASTControlFlowStatementNode::getNodeType() {
-    return AST_CONTROL_FLOW_STATEMENT_NODE;
+ASTNodeType ASTIfStatementNode::getNodeType() {
+    return AST_IF_STATEMENT_NODE;
 }
 
-std::string ASTControlFlowStatementNode::toString() {
-    return "CONTROL_FLOW_STATEMENT";
+std::string ASTIfStatementNode::toString() {
+    return "IF_STATEMENT";
 }
 
-bool ASTControlFlowStatementNode::isSameAs(ASTNode* other) {
+bool ASTIfStatementNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTControlFlowStatementNode*)other;
+    auto otherNode = (ASTIfStatementNode*)other;
     if (!this->getIfBlock()->isSameAs(otherNode->getIfBlock())) {
         return false;
     }
@@ -73,7 +73,7 @@ bool ASTControlFlowStatementNode::isSameAs(ASTNode* other) {
 }
 
 
-void ASTControlFlowStatementNode::print() {
+void ASTIfStatementNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _ifBlock->print();
     for (auto elseIfBlock : _elseIfBlocks) {
