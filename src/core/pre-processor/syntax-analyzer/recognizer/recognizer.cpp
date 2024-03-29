@@ -4,6 +4,8 @@
 
 #include "recognizer.h"
 #include "../../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "../../../ast/ast-nodes/ast-null-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 Recognizer::Recognizer() {
     _syntaxDfa = new SyntaxDfa();
@@ -15,7 +17,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
     auto successor = handle->getNextNodeFor(0);
     auto startNode = _syntaxDfa->findStartNode(handle->first());
 
-    if (handle->isEmpty() && this->isEndNode(handle->getLastReducedNode())) {
+    if (handle->isEmpty() && this->isEndNode(handle->getLastReducedNode(), handle->getPeekNode())) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle->isArrayEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ARRAY_NODE);
@@ -51,7 +53,9 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         }
     }
 
-    if (startNode && predecessor && startNode.value()->shouldReduceToTargetWhenPrevNodeIs(predecessor.value()->getNodeType())) {
+    if (startNode && predecessor && successor && startNode.value()->shouldReduceToTargetWhenPrevNodeAndNextNodeIs(predecessor.value()->getNodeType(), successor.value()->getNodeType())) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForPrevNodeAndNextNode(predecessor.value()->getNodeType(), successor.value()->getNodeType()).value());
+    } else if (startNode && predecessor && startNode.value()->shouldReduceToTargetWhenPrevNodeIs(predecessor.value()->getNodeType())) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForPrevNode(predecessor.value()->getNodeType()).value());
     } else if (startNode && successor && startNode.value()->shouldReduceToTargetWhenNextNodeIs(successor.value()->getNodeType())) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForNextNode(successor.value()->getNodeType()).value());
@@ -59,12 +63,14 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     }
     auto dfa = _syntaxDfa->getDFA();
+    dfa->reset();
     for (int i = 0; i < handle->size(); i++) {
         auto nodeType = handle->at(i).value()->getNodeType();
+        auto nextNodeType = handle->at(i+1).value_or(new ASTNullNode())->getNodeType();
         if (i == 0) {
             dfa->init(nodeType);
         } else {
-            dfa->determine(nodeType);
+            dfa->determine(nodeType, nextNodeType);
         }
 
         auto currentDfaState = dfa->getCurrentState();
@@ -74,6 +80,21 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (mode == RM_NORMAL && !currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
+        }
+    }
+
+    if (dfa->getCurrentState()) {
+        auto nilTransition = dfa->getStartState().value()->findNilTransition();
+        while (nilTransition.has_value()) {
+            auto nextTransition = nilTransition.value()->findNilTransition();
+            if (!nextTransition) {
+                break;
+            }
+            nilTransition = nextTransition;
+        }
+
+        if (nilTransition && nilTransition.value()->hasTargetAstNodeType()) {
+            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), nilTransition.value()->getTargetAstNodeType().value());
         }
     }
 
@@ -100,9 +121,23 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
         AST_ENUM_KEY_VALUE_LIST_END_NODE,
         AST_TUPLE_LIST_END_NODE,
         AST_CONTROL_FLOW_BLOCK_NODE,
+        AST_CONTROL_FLOW_START_NODE
     });
 }
 
-bool Recognizer::isEndNode(std::optional<ASTNode*> astNode) {
-    return astNode.has_value() && astNode.value()->isOneOf({ AST_BLOCK_NODE, AST_ENUM_KEY_VALUE_LIST_NODE });
+bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optional<ASTNode*> peekNode) {
+    if (lastReducedNode &&
+        lastReducedNode.value()->isOneOf({
+            AST_BLOCK_NODE,
+            AST_ENUM_KEY_VALUE_LIST_NODE,
+            AST_ELSE_BLOCK_NODE
+        })) {
+        return true;
+    } else if (lastReducedNode &&
+        lastReducedNode.value()->isOneOf({ AST_IF_BLOCK_NODE, AST_ELSE_IF_BLOCK_NODE }) &&
+        (!peekNode || !peekNode.value()->is(AST_ELSE_NODE))) {
+        return true;
+    }
+
+    return false;
 }

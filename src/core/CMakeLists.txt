@@ -330,6 +330,12 @@ add_library(jet-core
         ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-start-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-start-node.h
+        dfa/types/reduce-to-target-dual-map.cpp
+        dfa/types/reduce-to-target-dual-map.h
+        ast/ast-nodes/ast-null-node.cpp
+        ast/ast-nodes/ast-null-node.h
 
 )
 

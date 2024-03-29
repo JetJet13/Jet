@@ -15,7 +15,7 @@ private:
     SyntaxDfa* _syntaxDfa;
     RecognizerMode determineMode(Handle* handle);
     bool isBacktrackNode(std::optional<ASTNode*> astNode);
-    bool isEndNode(std::optional<ASTNode*> astNode);
+    bool isEndNode(std::optional<ASTNode*> lastReducedNode, std::optional<ASTNode*> peekNode);
 public:
     Recognizer();
     RecognizerResult* recognize(Handle* handle);

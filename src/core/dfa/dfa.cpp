@@ -2,9 +2,7 @@
 // Created by Johny Georges on 2024-02-13.
 //
 
-#include <MacTypes.h>
 #include "dfa.h"
-#include "../../shared/utils/logger/logger.h"
 
 DFA::DFA() {
     _startNodes = std::unordered_map<ASTNodeType, DFANode*, std::hash<int>>();
@@ -32,19 +30,16 @@ DFA* DFA::insertStartNode(DFANode* dfaNode) {
     return this;
 }
 
-
-
-
 void DFA::reset() {
     _start = {};
     _current = {};
 }
 
-void DFA::determine(ASTNodeType astNodeType) {
+void DFA::determine(ASTNodeType astNodeType, ASTNodeType nextAstNodeType) {
     if (!_current) {
         return;
     }
-    _current = _current.value()->transition(astNodeType);
+    _current = _current.value()->transition(astNodeType, nextAstNodeType);
 }
 
 std::optional<DFANode*> DFA::getStartState() {

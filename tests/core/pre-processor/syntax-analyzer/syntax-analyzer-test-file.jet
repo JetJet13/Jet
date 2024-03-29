@@ -194,5 +194,38 @@ myFunction().one.two.0.1;
 !myFunction().one.two.0.1;
 
 if true {
+  let myNum = 2;
+} else if 1 < 2 {
+  let myNum = 2;
+  myNum = 3;
+} else {
+  let myNum = 2;
+  myNum = 3;
+  myNum = 4;
+}
+
+if false {
+  let myNum = 2;
+}
+
+if false {
+  let myNum = 2;
+} else {
+  let myNum = 2;
+  myNum = 3;
+}
+
+
+if true {
+  let myNum = 2;
+} else if 1 > 2 {
+  let myNum = 2;
+} else if 3 + 4 {
+  let myNum = 2;
+} else {
+  let myNum = 2;
+}
+
+if myStruct.one.two + myTuple.0 - myFunction() > 0 {
     let myNum = 2;
 }

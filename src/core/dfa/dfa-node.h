@@ -10,6 +10,7 @@
 #include "../ast/types/ast-node-type.h"
 #include "types/dfa-node-occurrence.h"
 #include "types/reduce-to-target-map.h"
+#include "types/reduce-to-target-dual-map.h"
 
 struct DFATransition;
 
@@ -20,6 +21,7 @@ private:
     std::optional<ASTNodeType> _targetAstNodeType;
     std::vector<ReduceToTargetMap*> _reduceToTargetMapsForPrevNode;
     std::vector<ReduceToTargetMap*> _reduceToTargetMapsForNextNode;
+    std::vector<ReduceToTargetDualMap*> _reduceToTargetMapsForPrevNodeAndNextNode;
     DFANodeOccurrence _occurrence;
     ASTNodeType _astNodeType;
     std::vector<DFATransition> _transitions;
@@ -29,18 +31,26 @@ public:
     DFANode* backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors);
     DFANode* addReduceToTargetMapForPrevNode(ReduceToTargetMap* reduceToTargetMap);
     DFANode* addReduceToTargetMapForNextNode(ReduceToTargetMap* reduceToTargetMap);
+    DFANode* addReduceToTargetMapForPrevNodeAndNextNode(ReduceToTargetDualMap* reduceToTargetDualMap);
     DFANode* reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors);
     DFANode* addTransition(DFATransition transition);
     DFANode* markAlwaysReduceSelf();
-    std::optional<DFANode*> transition(ASTNodeType astNodeType);
+    std::optional<DFANode*> transition(ASTNodeType currentAstNodeType, ASTNodeType nextAstNodeType);
+    std::optional<DFANode*> findNilTransition();
     bool shouldBacktrackTo(ASTNodeType astNodeType);
     bool shouldReduceSelfFor(ASTNodeType astNodeType);
     bool shouldReduceToTargetWhenPrevNodeIs(ASTNodeType astNodeType);
     bool shouldReduceToTargetWhenNextNodeIs(ASTNodeType astNodeType);
+    bool shouldReduceToTargetWhenPrevNodeAndNextNodeIs(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType);
     bool alwaysReduceSelf();
+    bool isNilOrMore();
+    bool isNilOrOnce();
+    bool isOnceOrMore();
+    bool isOnce();
     ASTNodeType getNodeType();
     std::optional<ASTNodeType> getReduceTargetForPrevNode(ASTNodeType astNodeType);
     std::optional<ASTNodeType> getReduceTargetForNextNode(ASTNodeType astNodeType);
+    std::optional<ASTNodeType> getReduceTargetForPrevNodeAndNextNode(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType);
     std::optional<ASTNodeType> getTargetAstNodeType();
 
     bool hasTargetAstNodeType();

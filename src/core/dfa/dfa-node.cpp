@@ -13,6 +13,7 @@ DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::opt
     _successorsToReduceSelfFor = std::vector<ASTNodeType>();
     _reduceToTargetMapsForPrevNode = std::vector<ReduceToTargetMap*>();
     _reduceToTargetMapsForNextNode = std::vector<ReduceToTargetMap*>();
+    _reduceToTargetMapsForPrevNodeAndNextNode = std::vector<ReduceToTargetDualMap*>();
     _targetAstNodeType = targetAstNodeType;
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
@@ -34,6 +35,12 @@ DFANode* DFANode::addReduceToTargetMapForNextNode(ReduceToTargetMap* reduceToTar
     return this;
 }
 
+DFANode* DFANode::addReduceToTargetMapForPrevNodeAndNextNode(ReduceToTargetDualMap* reduceToTargetDualMap) {
+    _reduceToTargetMapsForPrevNodeAndNextNode.push_back(reduceToTargetDualMap);
+    return this;
+}
+
+
 DFANode* DFANode::reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors) {
     _successorsToReduceSelfFor = std::move(successors);
     return this;
@@ -49,18 +56,34 @@ DFANode* DFANode::markAlwaysReduceSelf() {
     return this;
 }
 
-std::optional<DFANode*> DFANode::transition(ASTNodeType astNodeType) {
-    if (_astNodeType == astNodeType &&
-              (_occurrence == DFA_OCCURRENCE_ONCE_OR_MORE ||
+std::optional<DFANode*> DFANode::transition(ASTNodeType currentAstNodeType, ASTNodeType nextAstNodeType) {
+    if (_astNodeType == currentAstNodeType &&
+        (_occurrence == DFA_OCCURRENCE_ONCE_OR_MORE ||
                _occurrence == DFA_OCCURRENCE_NIL_OR_MORE)
     ) {
         return this;
-    } else if (this->hasTargetAstNodeType() || _astNodeType == astNodeType) {
+    } else if (_astNodeType == currentAstNodeType && _occurrence == DFA_OCCURRENCE_ONCE ||
+               _astNodeType == currentAstNodeType && _astNodeType == nextAstNodeType && _occurrence == DFA_OCCURRENCE_NIL_OR_ONCE) {
         return {};
+    } else if (_astNodeType != currentAstNodeType && (_occurrence == DFA_OCCURRENCE_NIL_OR_MORE || _occurrence == DFA_OCCURRENCE_NIL_OR_ONCE)) {
+        for (auto transition : _transitions) {
+            if (transition.astNodeType == nextAstNodeType) {
+                return transition.destination;
+            }
+        }
     }
 
     for (auto transition : _transitions) {
-        if (transition.astNodeType == astNodeType) {
+        if (transition.astNodeType == currentAstNodeType) {
+            return transition.destination;
+        }
+    }
+    return {};
+}
+
+std::optional<DFANode*> DFANode::findNilTransition() {
+    for (auto transition : _transitions) {
+        if (transition.destination->isNilOrMore() || transition.destination->isNilOrOnce()) {
             return transition.destination;
         }
     }
@@ -93,6 +116,15 @@ bool DFANode::shouldReduceToTargetWhenNextNodeIs(ASTNodeType astNodeType) {
     return false;
 }
 
+bool DFANode::shouldReduceToTargetWhenPrevNodeAndNextNodeIs(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType) {
+    for (auto reduceToTargetMap: _reduceToTargetMapsForPrevNodeAndNextNode) {
+        if (reduceToTargetMap->isNodeTypeInMap(prevAstNodeType, nextAstNodeType)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::optional<ASTNodeType> DFANode::getReduceTargetForPrevNode(ASTNodeType astNodeType) {
     for (auto reduceToTargetMap: _reduceToTargetMapsForPrevNode) {
         if (reduceToTargetMap->isNodeTypeInMap(astNodeType)) {
@@ -112,9 +144,35 @@ std::optional<ASTNodeType> DFANode::getReduceTargetForNextNode(ASTNodeType astNo
     return {};
 }
 
+std::optional<ASTNodeType> DFANode::getReduceTargetForPrevNodeAndNextNode(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType) {
+    for (auto reduceToTargetDualMap: _reduceToTargetMapsForPrevNodeAndNextNode) {
+        if (reduceToTargetDualMap->isNodeTypeInMap(prevAstNodeType, nextAstNodeType)) {
+            return reduceToTargetDualMap->getTarget();
+        }
+    }
+    return {};
+}
+
 bool DFANode::alwaysReduceSelf() {
     return _alwaysReduceSelf;
 }
+
+bool DFANode::isNilOrMore() {
+    return _occurrence == DFA_OCCURRENCE_NIL_OR_MORE;
+}
+
+bool DFANode::isNilOrOnce() {
+    return _occurrence == DFA_OCCURRENCE_NIL_OR_ONCE;
+}
+
+bool DFANode::isOnceOrMore() {
+    return _occurrence == DFA_OCCURRENCE_ONCE_OR_MORE;
+}
+
+bool DFANode::isOnce() {
+    return _occurrence == DFA_OCCURRENCE_ONCE;
+}
+
 
 ASTNodeType DFANode::getNodeType() {
     return _astNodeType;

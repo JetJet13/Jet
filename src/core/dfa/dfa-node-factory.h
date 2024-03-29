@@ -64,6 +64,14 @@ namespace DFANodeFactory {
             return new DFANode(astNodeType, DFA_OCCURRENCE_NIL_OR_MORE, targetAstNodeType);
         }
     }
+    namespace NilOrOnce {
+        static DFANode* create(ASTNodeType astNodeType) {
+            return new DFANode(astNodeType, DFA_OCCURRENCE_NIL_OR_ONCE);
+        }
+        static DFANode* createWithTarget(ASTNodeType astNodeType, ASTNodeType targetAstNodeType) {
+            return new DFANode(astNodeType, DFA_OCCURRENCE_NIL_OR_ONCE, targetAstNodeType);
+        }
+    }
 }
 
 #endif //JETLANG_DFA_NODE_FACTORY_H

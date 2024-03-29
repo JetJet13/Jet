@@ -21,7 +21,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
-
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-control-flow-statement-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -1575,6 +1575,179 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
+        {130, new ASTControlFlowStatementNode(
+                new ASTIfBlockNode(
+                    new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
+                    new ASTControlFlowBlockNode({
+                        new ASTVariableDeclarationNode(
+                            ASTNodeFactory::letInit,
+                            ASTNodeFactory::intExpression
+                        )
+                    })
+                ),
+                {
+                    new ASTElseIfBlockNode(
+                            new ASTControlFlowConditionNode(
+                                new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::intExpression,
+                                    ASTNodeFactory::lessThan,
+                                    ASTNodeFactory::intExpression
+                                )
+                            ),
+                            new ASTControlFlowBlockNode({
+                                new ASTVariableDeclarationNode(
+                                    ASTNodeFactory::letInit,
+                                    ASTNodeFactory::intExpression
+                                ),
+                                new ASTVariableAssignmentStatementNode(
+                                    ASTNodeFactory::varAssignment,
+                                    ASTNodeFactory::intExpression
+                                )
+                            })
+                    ),
+                },
+                new ASTElseBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTVariableDeclarationNode(
+                            ASTNodeFactory::letInit,
+                            ASTNodeFactory::intExpression
+                        ),
+                        new ASTVariableAssignmentStatementNode(
+                            ASTNodeFactory::varAssignment,
+                            ASTNodeFactory::intExpression
+                        ),
+                        new ASTVariableAssignmentStatementNode(
+                            ASTNodeFactory::varAssignment,
+                            ASTNodeFactory::intExpression
+                        )
+                    })
+                )
+        )},
+        {131, new ASTControlFlowStatementNode(
+                new ASTIfBlockNode(
+                        new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
+                        new ASTControlFlowBlockNode({
+                            new ASTVariableDeclarationNode(
+                                    ASTNodeFactory::letInit,
+                                    ASTNodeFactory::intExpression
+                            )
+                        })
+                ),
+                {}
+        )},
+        {132, new ASTControlFlowStatementNode(
+                new ASTIfBlockNode(
+                        new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
+                        new ASTControlFlowBlockNode({
+                            new ASTVariableDeclarationNode(
+                                ASTNodeFactory::letInit,
+                                ASTNodeFactory::intExpression
+                            )
+                        })
+                ),
+                {},
+                new ASTElseBlockNode(
+                        new ASTControlFlowBlockNode({
+                            new ASTVariableDeclarationNode(
+                                    ASTNodeFactory::letInit,
+                                    ASTNodeFactory::intExpression
+                            ),
+                            new ASTVariableAssignmentStatementNode(
+                                    ASTNodeFactory::varAssignment,
+                                    ASTNodeFactory::intExpression
+                            )
+                        })
+                )
+        )},
+        {133, new ASTControlFlowStatementNode(
+                new ASTIfBlockNode(
+                    new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
+                    new ASTControlFlowBlockNode({
+                        new ASTVariableDeclarationNode(
+                            ASTNodeFactory::letInit,
+                            ASTNodeFactory::intExpression
+                        )
+                    })
+                ),
+                {
+                    new ASTElseIfBlockNode(
+                        new ASTControlFlowConditionNode(
+                            new ASTBinaryExpressionNode(
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::greaterThan,
+                                ASTNodeFactory::intExpression
+                            )
+                        ),
+                        new ASTControlFlowBlockNode({
+                            new ASTVariableDeclarationNode(
+                                ASTNodeFactory::letInit,
+                                ASTNodeFactory::intExpression
+                            )
+                        })
+                    ),
+                    new ASTElseIfBlockNode(
+                            new ASTControlFlowConditionNode(
+                                new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::intExpression,
+                                    ASTNodeFactory::plus,
+                                    ASTNodeFactory::intExpression
+                                )
+                            ),
+                            new ASTControlFlowBlockNode({
+                                new ASTVariableDeclarationNode(
+                                    ASTNodeFactory::letInit,
+                                    ASTNodeFactory::intExpression
+                                )
+                            })
+                    ),
+                },
+                new ASTElseBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTVariableDeclarationNode(
+                            ASTNodeFactory::letInit,
+                            ASTNodeFactory::intExpression
+                        ),
+                    })
+                )
+        )},
+        {134, new ASTControlFlowStatementNode(
+                new ASTIfBlockNode(
+                        new ASTControlFlowConditionNode(
+                            new ASTBinaryExpressionNode(
+                                    new ASTBinaryExpressionNode(
+                                        new ASTObjectAccessExpressionNode({
+                                              new ASTObjectAccessSourceNode(
+                                                      new ASTObjectAccessExpressionNode({
+                                                            ASTNodeFactory::objectAccessSourceId,
+                                                            ASTNodeFactory::objectAccessTargetId,
+                                              })),
+                                              ASTNodeFactory::objectAccessTargetId,
+                                        }),
+                                        ASTNodeFactory::plus,
+                                        new ASTBinaryExpressionNode(
+                                            new ASTTupleAccessExpressionNode(
+                                                ASTNodeFactory::objectAccessSourceId,
+                                                ASTNodeFactory::tupleAccess
+                                            ),
+                                            ASTNodeFactory::minus,
+                                            new ASTFunctionInvocationExpressionNode(
+                                                    ASTNodeFactory::functionCall,
+                                                    new ASTFunctionArgumentListNode()
+                                            )
+                                        )),
+                                    ASTNodeFactory::greaterThan,
+                                    ASTNodeFactory::intExpression
+                                    )
+                        ),
+                        new ASTControlFlowBlockNode({
+                                new ASTVariableDeclarationNode(
+                                        ASTNodeFactory::letInit,
+                                        ASTNodeFactory::intExpression
+                                )
+                        })
+                ),
+                {}
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1585,8 +1758,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 129);
-    for (int i = 0; i < 129; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 134);
+    for (int i = 0; i < 134; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

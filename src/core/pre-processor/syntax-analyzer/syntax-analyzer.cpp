@@ -168,12 +168,18 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: TUPLE_LIST_MODE");
             _modeStack.push(SA_TUPLE_LIST_MODE);
             break;
+        case AST_IF_NODE:
+        case AST_ELSE_IF_NODE:
+            Logger::log("pushing mode: CONTROL_FLOW_MODE");
+            _modeStack.push(SA_CONTROL_FLOW_MODE);
+            break;
         case AST_BLOCK_NODE:
         case AST_STRUCT_EXPRESSION_NODE:
         case AST_FUNCTION_PARAMETER_LIST_NODE:
         case AST_FUNCTION_ARGUMENT_LIST_NODE:
         case AST_ENUM_KEY_VALUE_LIST_NODE:
         case AST_TUPLE_LIST_NODE:
+        case AST_CONTROL_FLOW_CONDITION_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();
             break;
