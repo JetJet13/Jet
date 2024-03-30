@@ -50,8 +50,8 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
 
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
-    _handle.print();
     this->prepHandleForRecognizer();
+    _handle.print();
     return _recognizer->recognize(&_handle);
 }
 
@@ -115,6 +115,10 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         _handle.setLastReducedNode(_recognizeStack.top()->top());
     } else {
         _handle.clearLastReducedNode();
+    }
+
+    if (_recognizeStack.top()->empty() && _handle.isTerminatorOnlyNode()) {
+        _handle.clear();
     }
 
     auto peekNode = _lexemeTransformer.transform(_lexicalAnalyzer->peek());

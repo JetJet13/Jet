@@ -31,6 +31,8 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-variable-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -202,6 +204,12 @@ namespace ASTNodeFactory {
     );
     static ASTForSourceNode* forSourceId = new ASTForSourceNode(
             ASTNodeFactory::idExpression
+    );
+    static ASTBreakNode* breakStatement = new ASTBreakNode(
+            createLexeme(SymbolFactory::createBreakSymbol())
+    );
+    static ASTSkipNode* skipStatement = new ASTSkipNode(
+            createLexeme(SymbolFactory::createSkipSymbol())
     );
 };
 

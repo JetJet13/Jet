@@ -358,6 +358,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/for-source-reducer-strategy/for-source-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-break-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h
 
 )
 

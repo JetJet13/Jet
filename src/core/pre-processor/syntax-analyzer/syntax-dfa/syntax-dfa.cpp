@@ -92,6 +92,8 @@ void SyntaxDfa::init() {
     DFANode* forSource = DFANodeFactory::Once::create(AST_FOR_SOURCE_NODE);
     DFANode* forVariable = DFANodeFactory::Once::create(AST_FOR_VARIABLE_NODE);
     DFANode* forStatement = DFANodeFactory::Once::createWithTarget(AST_FOR_STATEMENT_NODE, AST_FOR_STATEMENT_NODE);
+    DFANode* breakKeyword = DFANodeFactory::Once::createWithTarget(AST_BREAK_NODE, AST_BREAK_NODE);
+    DFANode* skipKeyword = DFANodeFactory::Once::createWithTarget(AST_SKIP_NODE, AST_SKIP_NODE);
 
     this->initVarType(varType);
     this->initVarInit(varInit);
@@ -515,6 +517,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(forVariable)
     ->insertStartNode(forSource)
     ->insertStartNode(forStatement)
+    ->insertStartNode(breakKeyword)
+    ->insertStartNode(skipKeyword)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({

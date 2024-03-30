@@ -1794,7 +1794,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTFunctionArgumentNode(ASTNodeFactory::idExpression),
                             })
                         )
-                    )
+                    ),
+                    ASTNodeFactory::breakStatement,
+                    ASTNodeFactory::skipStatement,
                 })
         )}
 };

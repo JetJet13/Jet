@@ -38,12 +38,14 @@ bool ASTForStatementNode::isSameAs(ASTNode *other) {
     auto otherNode = (ASTForStatementNode*)other;
 
     return  this->getVariable()->isSameAs(otherNode->getVariable()) &&
-            this->getSource()->isSameAs(otherNode->getSource());
+            this->getSource()->isSameAs(otherNode->getSource()) &&
+            this->getBlock()->isSameAs(otherNode->getBlock());
 }
 
 void ASTForStatementNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _variable->print();
     _source->print();
+    _block->print();
     Logger::log("----------");
 }

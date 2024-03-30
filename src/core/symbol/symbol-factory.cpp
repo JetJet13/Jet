@@ -187,6 +187,14 @@ namespace SymbolFactory {
         return new Symbol(SYM_WHILE, "while");
     }
 
+    Symbol* createBreakSymbol() {
+        return new Symbol(SYM_BREAK, "break");
+    }
+
+    Symbol* createSkipSymbol() {
+        return new Symbol(SYM_SKIP, "skip");
+    }
+
 
     Symbol* createVoidTypeSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");

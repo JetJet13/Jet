@@ -54,6 +54,8 @@ namespace SymbolFactory {
     Symbol* createForSymbol();
     Symbol* createInSymbol();
     Symbol* createWhileSymbol();
+    Symbol* createBreakSymbol();
+    Symbol* createSkipSymbol();
     Symbol* createVoidTypeSymbol();
     Symbol* createIntTypeSymbol();
     Symbol* createFloatTypeSymbol();

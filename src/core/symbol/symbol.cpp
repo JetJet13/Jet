@@ -185,6 +185,13 @@ bool Symbol::isWhile() {
     return _type == SYM_WHILE;
 }
 
+bool Symbol::isBreak() {
+    return _type == SYM_BREAK;
+}
+
+bool Symbol::isSkip() {
+    return _type == SYM_SKIP;
+}
 
 bool Symbol::isType() {
     return _type == SYM_INT_TYPE ||

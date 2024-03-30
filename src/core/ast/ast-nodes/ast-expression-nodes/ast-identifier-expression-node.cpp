@@ -6,6 +6,8 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-type-node.h"
 #include "../ast-object-nodes/ast-object-access-source-node.h"
+#include "../ast-function-nodes/ast-function-argument-node.h"
+#include "../ast-tuple-nodes/ast-tuple-item-node.h"
 
 ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode) {
     _identifierNode = identifierNode;
@@ -20,7 +22,7 @@ ASTNode* ASTIdentifierExpressionNode::transformIfNecessary(std::optional<ASTNode
         return new ASTTypeNode(this->getIdentifierNode()->getIdentifier());
     }
 
-    return this;
+    return this->baseTransformIfNecessary(prevNode, nextNode, mode);
 }
 
 ASTNodeType ASTIdentifierExpressionNode::getNodeType() {

@@ -36,6 +36,8 @@
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-while-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-for-in-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-for-node.h"
+#include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h"
+#include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -120,6 +122,10 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTForInNode(lexeme);
     } else if (symbol->isWhile()) {
         return new ASTWhileNode(lexeme);
+    } else if (symbol->isBreak()) {
+        return new ASTBreakNode(lexeme);
+    } else if (symbol->isSkip()) {
+        return new ASTSkipNode(lexeme);
     } else if (symbol->isType()) {
         return new ASTTypeNode(lexeme);
     } else {

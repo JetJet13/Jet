@@ -60,6 +60,8 @@ public:
     bool isFor();
     bool isIn();
     bool isWhile();
+    bool isBreak();
+    bool isSkip();
     SymbolType getType();
     std::string toString();
 };

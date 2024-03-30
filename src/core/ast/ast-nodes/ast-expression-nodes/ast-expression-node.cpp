@@ -16,16 +16,7 @@ void ASTExpressionNode::addChildNode(ASTNode* astNode) {
 }
 
 ASTNode* ASTExpressionNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-
-    if (mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
-        return new ASTFunctionArgumentNode(this);
-    }
-
-    if (mode == SA_TUPLE_LIST_MODE) {
-        return new ASTTupleItemNode(this);
-    }
-
-    return this;
+    return this->baseTransformIfNecessary(prevNode, nextNode, mode);
 }
 
 ASTNodeType ASTExpressionNode::getNodeType() {
@@ -38,4 +29,20 @@ std::string ASTExpressionNode::toString() {
 
 bool ASTExpressionNode::isSameAs(ASTNode *other) {
     return other->is(this->getNodeType());
+}
+
+ASTNode* ASTExpressionNode::baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+    if (prevNode && prevNode.value()->isOneOf({AST_COMMA_NODE, AST_FUNCTION_ARGUMENT_LIST_START_NODE }) &&
+        nextNode && nextNode.value()->isOneOf({AST_COMMA_NODE, AST_FUNCTION_ARGUMENT_LIST_END_NODE }) &&
+        mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
+        return new ASTFunctionArgumentNode(this);
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({AST_COMMA_NODE, AST_TUPLE_LIST_START_NODE }) &&
+        nextNode && nextNode.value()->isOneOf({AST_COMMA_NODE, AST_TUPLE_LIST_END_NODE }) &&
+        mode == SA_TUPLE_LIST_MODE) {
+        return new ASTTupleItemNode(this);
+    }
+
+    return this;
 }
