@@ -243,3 +243,12 @@ for i in range(0,10) {
     break;
     skip;
 }
+
+if root {
+    if nested {
+        break;
+    }
+    otherFunction();
+} else {
+    myFunction();
+}

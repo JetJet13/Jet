@@ -1798,6 +1798,38 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::breakStatement,
                     ASTNodeFactory::skipStatement,
                 })
+        )},
+        {138, new ASTIfStatementNode(
+                new ASTIfBlockNode(
+                    new ASTControlFlowConditionNode(ASTNodeFactory::idExpression),
+                    new ASTControlFlowBlockNode({
+                        new ASTIfStatementNode(
+                            new ASTIfBlockNode(
+                                new ASTControlFlowConditionNode(ASTNodeFactory::idExpression),
+                                new ASTControlFlowBlockNode({
+                                    ASTNodeFactory::breakStatement
+                                })
+                            )
+                        ),
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode()
+                            )
+                        )
+                    })
+                ),
+                {},
+                new ASTElseBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode()
+                            )
+                        )
+                    })
+                )
         )}
 };
 
@@ -1809,8 +1841,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 137);
-    for (int i = 0; i < 137; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 138);
+    for (int i = 0; i < 138; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
