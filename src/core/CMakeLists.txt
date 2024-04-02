@@ -328,8 +328,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.h
         ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.cpp
         ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-statement-reducer-strategy/control-flow-statement-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/if-statement-reducer-strategy/if-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/if-statement-reducer-strategy/if-statement-reducer-strategy.h
         ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-start-node.cpp
         ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-start-node.h
         dfa/types/reduce-to-target-dual-map.cpp
@@ -362,6 +362,30 @@ add_library(jet-core
         ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h
         ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.cpp
         ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-node.h
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-node.h
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-node.h
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-block-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-block-node.h
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-block-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-block-node.h
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-block-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-block-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/try-block-reducer-strategy/try-block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/try-block-reducer-strategy/try-block-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/finally-block-reducer-strategy/finally-block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/finally-block-reducer-strategy/finally-block-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/catch-block-reducer-strategy/catch-block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/catch-block-reducer-strategy/catch-block-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.h
 
 )
 

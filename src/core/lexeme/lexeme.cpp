@@ -7,7 +7,7 @@
 #include "../../shared/utils/to-string/to-string.h"
 #include "../../shared/utils/logger/logger.h"
 
-Lexeme::Lexeme(Token* token, uint8_t line, uint8_t startPosition) {
+Lexeme::Lexeme(Token* token, int line, int startPosition) {
     _token = token;
     _line = line;
     _start_position = startPosition;

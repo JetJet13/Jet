@@ -252,3 +252,31 @@ if root {
 } else {
     myFunction();
 }
+
+try {
+    print("hello");
+} catch err {
+    print(err);
+}
+
+try {
+    print("hello");
+} catch {
+    print("error!");
+}
+
+try {
+    print("hello");
+} catch err {
+    print(err);
+} finally {
+    print("done");
+}
+
+try {
+    print("hello");
+} catch {
+    print("error!");
+} finally {
+    print("done");
+}

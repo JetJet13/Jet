@@ -23,6 +23,7 @@ namespace ASTNodeUtils {
             case AST_BLOCK_NODE:
             case AST_BREAK_NODE:
             case AST_SKIP_NODE:
+            case AST_TRY_STATEMENT_NODE:
                 return true;
             default:
                 return false;

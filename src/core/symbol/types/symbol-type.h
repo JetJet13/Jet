@@ -60,6 +60,9 @@ typedef enum {
     SYM_WHILE,
     SYM_BREAK,
     SYM_SKIP,
+    SYM_TRY,
+    SYM_CATCH,
+    SYM_FINALLY,
     SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H

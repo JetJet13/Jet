@@ -193,6 +193,18 @@ bool Symbol::isSkip() {
     return _type == SYM_SKIP;
 }
 
+bool Symbol::isTry() {
+    return _type == SYM_TRY;
+}
+
+bool Symbol::isCatch() {
+    return _type == SYM_CATCH;
+}
+
+bool Symbol::isFinally() {
+    return _type == SYM_FINALLY;
+}
+
 bool Symbol::isType() {
     return _type == SYM_INT_TYPE ||
             _type == SYM_FLOAT_TYPE ||

@@ -195,6 +195,17 @@ namespace SymbolFactory {
         return new Symbol(SYM_SKIP, "skip");
     }
 
+    Symbol* createTrySymbol() {
+        return new Symbol(SYM_TRY, "try");
+    }
+
+    Symbol* createCatchSymbol() {
+        return new Symbol(SYM_CATCH, "catch");
+    }
+
+    Symbol* createFinallySymbol() {
+        return new Symbol(SYM_FINALLY, "finally");
+    }
 
     Symbol* createVoidTypeSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");

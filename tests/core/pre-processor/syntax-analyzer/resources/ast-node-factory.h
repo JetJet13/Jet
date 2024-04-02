@@ -38,6 +38,7 @@ namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
         return new Lexeme(new Token(symbol), 1, 0);
     }
+    static ASTIdentifierNode* id = new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTIdentifierExpressionNode* idExpression = new ASTIdentifierExpressionNode(
         new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );

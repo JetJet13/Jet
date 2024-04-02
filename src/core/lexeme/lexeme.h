@@ -15,7 +15,7 @@ private:
     int _line;
     int _start_position;
 public:
-    Lexeme(Token* token, uint8_t line, uint8_t startPosition);
+    Lexeme(Token* token, int line, int startPosition);
     Token* getToken();
     int getLine() const;
     int getPosition() const;

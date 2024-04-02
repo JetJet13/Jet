@@ -94,6 +94,14 @@ void SyntaxDfa::init() {
     DFANode* forStatement = DFANodeFactory::Once::createWithTarget(AST_FOR_STATEMENT_NODE, AST_FOR_STATEMENT_NODE);
     DFANode* breakKeyword = DFANodeFactory::Once::createWithTarget(AST_BREAK_NODE, AST_BREAK_NODE);
     DFANode* skipKeyword = DFANodeFactory::Once::createWithTarget(AST_SKIP_NODE, AST_SKIP_NODE);
+    DFANode* tryStatement = DFANodeFactory::Once::createWithTarget(AST_TRY_STATEMENT_NODE, AST_TRY_STATEMENT_NODE);
+    DFANode* tryKeyword = DFANodeFactory::Once::create(AST_TRY_NODE);
+    DFANode* catchKeyword = DFANodeFactory::Once::create(AST_CATCH_NODE);
+    DFANode* finallyKeyword = DFANodeFactory::Once::create(AST_FINALLY_NODE);
+    DFANode* catchErrorVariable = DFANodeFactory::Once::create(AST_CATCH_ERROR_VARIABLE_NODE);
+    DFANode* tryBlock = DFANodeFactory::Once::create(AST_TRY_BLOCK_NODE);
+    DFANode* catchBlock = DFANodeFactory::Once::create(AST_CATCH_BLOCK_NODE);
+    DFANode* finallyBlock = DFANodeFactory::Once::create(AST_FINALLY_BLOCK_NODE);
 
     this->initVarType(varType);
     this->initVarInit(varInit);
@@ -434,6 +442,53 @@ void SyntaxDfa::init() {
     forSource
     ->markAlwaysReduceSelf();
 
+    tryKeyword
+    ->reduceSelfWhenNextNodeIsOneOf({
+        AST_BLOCK_START_NODE
+    })
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_BLOCK_NODE, AST_TRY_BLOCK_NODE)));
+
+    catchKeyword
+    ->reduceSelfWhenNextNodeIsOneOf({
+        AST_CATCH_ERROR_VARIABLE_NODE,
+        AST_BLOCK_START_NODE
+    })
+    ->addTransition(DFATransitionFactory::create(
+        DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_BLOCK_NODE, AST_CATCH_BLOCK_NODE)
+    ))
+    ->addTransition(DFATransitionFactory::create(
+        DFANodeFactory::Once::create(AST_CATCH_ERROR_VARIABLE_NODE)
+            ->addTransition(DFATransitionFactory::create(
+                DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_BLOCK_NODE, AST_CATCH_BLOCK_NODE)
+            ))
+    ));
+
+    finallyKeyword
+    ->reduceSelfWhenNextNodeIsOneOf({
+        AST_BLOCK_START_NODE
+    })
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_BLOCK_NODE, AST_FINALLY_BLOCK_NODE)));
+
+    catchErrorVariable
+    ->markAlwaysReduceSelf()
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_CATCH_NODE });
+
+    tryBlock
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_CATCH_NODE })
+    ->addTransition(DFATransitionFactory::create(
+        DFANodeFactory::Once::create(AST_CATCH_BLOCK_NODE)
+            ->addTransition(DFATransitionFactory::create(
+                DFANodeFactory::NilOrOnce::createWithTarget(AST_FINALLY_BLOCK_NODE, AST_TRY_STATEMENT_NODE)
+            ))
+    ));
+
+    catchBlock
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_FINALLY_NODE })
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_TRY_BLOCK_NODE });
+
+    finallyBlock
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_CATCH_BLOCK_NODE });
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -519,6 +574,14 @@ void SyntaxDfa::init() {
     ->insertStartNode(forStatement)
     ->insertStartNode(breakKeyword)
     ->insertStartNode(skipKeyword)
+    ->insertStartNode(tryStatement)
+    ->insertStartNode(tryKeyword)
+    ->insertStartNode(catchKeyword)
+    ->insertStartNode(finallyKeyword)
+    ->insertStartNode(catchErrorVariable)
+    ->insertStartNode(tryBlock)
+    ->insertStartNode(catchBlock)
+    ->insertStartNode(finallyBlock)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({

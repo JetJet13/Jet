@@ -5,7 +5,6 @@
 #ifndef JETLANG_AST_IF_BLOCK_NODE_H
 #define JETLANG_AST_IF_BLOCK_NODE_H
 
-#include <vector>
 #include "../ast-node.h"
 #include "../ast-type-node.h"
 #include "ast-control-flow-condition-node.h"

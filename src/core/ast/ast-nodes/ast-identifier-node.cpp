@@ -9,6 +9,7 @@
 #include "ast-enum-nodes/ast-enum-key-node.h"
 #include "ast-function-nodes/ast-function-call-node.h"
 #include "ast-object-nodes/ast-object-access-source-node.h"
+#include "ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -33,6 +34,10 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNod
 
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {
         return new ASTEnumKeyNode(this->getIdentifier());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_CATCH_NODE })) {
+        return new ASTCatchErrorVariableNode(this);
     }
 
     return this;

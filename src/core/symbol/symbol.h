@@ -62,6 +62,9 @@ public:
     bool isWhile();
     bool isBreak();
     bool isSkip();
+    bool isTry();
+    bool isCatch();
+    bool isFinally();
     SymbolType getType();
     std::string toString();
 };

@@ -38,6 +38,9 @@
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-for-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h"
+#include "../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-node.h"
+#include "../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-node.h"
+#include "../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -128,6 +131,12 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTSkipNode(lexeme);
     } else if (symbol->isType()) {
         return new ASTTypeNode(lexeme);
+    } else if (symbol->isTry()) {
+        return new ASTTryNode(lexeme);
+    } else if (symbol->isCatch()) {
+        return new ASTCatchNode(lexeme);
+    } else if (symbol->isFinally()) {
+        return new ASTFinallyNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

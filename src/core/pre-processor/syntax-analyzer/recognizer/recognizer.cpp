@@ -84,7 +84,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
     }
 
     if (dfa->getCurrentState()) {
-        auto nilTransition = dfa->getStartState().value()->findNilTransition();
+        auto nilTransition = dfa->getCurrentState().value()->findNilTransition();
         while (nilTransition.has_value()) {
             auto nextTransition = nilTransition.value()->findNilTransition();
             if (!nextTransition) {
@@ -130,12 +130,17 @@ bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optiona
         lastReducedNode.value()->isOneOf({
             AST_BLOCK_NODE,
             AST_ENUM_KEY_VALUE_LIST_NODE,
-            AST_ELSE_BLOCK_NODE
+            AST_ELSE_BLOCK_NODE,
+            AST_FINALLY_BLOCK_NODE
         })) {
         return true;
     } else if (lastReducedNode &&
         lastReducedNode.value()->isOneOf({ AST_IF_BLOCK_NODE, AST_ELSE_IF_BLOCK_NODE }) &&
         (!peekNode || !peekNode.value()->is(AST_ELSE_NODE))) {
+        return true;
+    } else if (lastReducedNode &&
+                lastReducedNode.value()->isOneOf({ AST_CATCH_BLOCK_NODE }) &&
+                (!peekNode || !peekNode.value()->is(AST_FINALLY_NODE))) {
         return true;
     }
 

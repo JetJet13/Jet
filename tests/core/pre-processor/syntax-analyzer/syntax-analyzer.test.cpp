@@ -24,6 +24,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -1830,7 +1831,138 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                     })
                 )
+        )},
+        {139, new ASTTryStatementNode(
+                new ASTTryBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                ),
+                new ASTCatchBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                })
+                            )
+                        )
+                    }),
+                    new ASTCatchErrorVariableNode(ASTNodeFactory::id)
+                )
+        )},
+        {140, new ASTTryStatementNode(
+                new ASTTryBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                ),
+                new ASTCatchBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                )
+        )},
+        {141, new ASTTryStatementNode(
+                new ASTTryBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                ),
+                new ASTCatchBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                })
+                            )
+                        )
+                    }),
+                    new ASTCatchErrorVariableNode(ASTNodeFactory::id)
+                ),
+                new ASTFinallyBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                )
+        )},
+        {142, new ASTTryStatementNode(
+                new ASTTryBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                ),
+                new ASTCatchBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                ),
+                new ASTFinallyBlockNode(
+                    new ASTControlFlowBlockNode({
+                        new ASTExpressionStatementNode(
+                            new ASTFunctionInvocationExpressionNode(
+                                ASTNodeFactory::functionCall,
+                                new ASTFunctionArgumentListNode({
+                                    new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                                })
+                            )
+                        )
+                    })
+                )
         )}
+
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -1841,8 +1973,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 138);
-    for (int i = 0; i < 138; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 142);
+    for (int i = 0; i < 142; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
