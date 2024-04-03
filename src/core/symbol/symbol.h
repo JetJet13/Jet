@@ -65,6 +65,7 @@ public:
     bool isTry();
     bool isCatch();
     bool isFinally();
+    bool isFatArrow();
     SymbolType getType();
     std::string toString();
 };

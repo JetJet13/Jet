@@ -280,3 +280,15 @@ try {
 } finally {
     print("done");
 }
+
+function returnFour() CustomType {
+ return "hello";
+}
+
+const lambda = (x: IdType, y: IdType) => x.val + y.val;
+const lambda = (x: int, y: int) => x > y;
+const lambda = (x: int) int { return x + 10 };
+
+function useLambda(x: int, lambda: (int) => bool) bool {
+    return lambda(x);
+}

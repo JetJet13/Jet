@@ -207,6 +207,10 @@ namespace SymbolFactory {
         return new Symbol(SYM_FINALLY, "finally");
     }
 
+    Symbol* createFatArrowSymbol() {
+        return new Symbol(SYM_FAT_ARROW, "=>");
+    }
+
     Symbol* createVoidTypeSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");
     }

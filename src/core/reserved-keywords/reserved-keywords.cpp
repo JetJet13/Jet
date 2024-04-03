@@ -87,6 +87,7 @@ void ReservedKeywords::init() {
     this->add("try", SymbolFactory::createTrySymbol());
     this->add("catch", SymbolFactory::createCatchSymbol());
     this->add("finally", SymbolFactory::createFinallySymbol());
+    this->add("=>", SymbolFactory::createFatArrowSymbol());
 
     this->initKeywordSymbolList();
 }

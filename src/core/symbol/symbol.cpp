@@ -205,6 +205,10 @@ bool Symbol::isFinally() {
     return _type == SYM_FINALLY;
 }
 
+bool Symbol::isFatArrow() {
+    return _type == SYM_FAT_ARROW;
+}
+
 bool Symbol::isType() {
     return _type == SYM_INT_TYPE ||
             _type == SYM_FLOAT_TYPE ||

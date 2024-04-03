@@ -10,6 +10,7 @@
 #include "ast-function-nodes/ast-function-call-node.h"
 #include "ast-object-nodes/ast-object-access-source-node.h"
 #include "ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h"
+#include "ast-type-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -30,6 +31,14 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNod
 
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {
         return new ASTEnumNameNode(this->getIdentifier());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
+        return new ASTTypeNode(this->getIdentifier());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE })) {
+        return new ASTTypeNode(this->getIdentifier());
     }
 
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {

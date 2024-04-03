@@ -59,6 +59,7 @@ namespace SymbolFactory {
     Symbol* createTrySymbol();
     Symbol* createCatchSymbol();
     Symbol* createFinallySymbol();
+    Symbol* createFatArrowSymbol();
     Symbol* createVoidTypeSymbol();
     Symbol* createIntTypeSymbol();
     Symbol* createFloatTypeSymbol();

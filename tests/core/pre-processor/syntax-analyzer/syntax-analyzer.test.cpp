@@ -1961,7 +1961,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                     })
                 )
-        )}
+        )},
+        {143, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode(),
+                ASTNodeFactory::idType,
+                new ASTFunctionBlockNode({
+                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::stringExpression)
+                })
+        )},
 
 };
 
@@ -1973,8 +1981,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 142);
-    for (int i = 0; i < 142; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 143);
+    for (int i = 0; i < 143; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

@@ -137,9 +137,10 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
     }
 
     if (_handle.isGroupEnclosed()) {
-        Logger::log("group enclosed..removing brackets");
+        Logger::log("group enclosed..removing brackets and popping group mode");
         _handle.removeFirstNode();
         _handle.removeLastNode();
+        _modeStack.pop();
     }
 }
 
@@ -154,6 +155,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_BLOCK_START_NODE:
             Logger::log("pushing mode: BLOCK_MODE");
             _modeStack.push(SA_BLOCK_MODE);
+            break;
+        case AST_GROUP_START_NODE:
+            Logger::log("pushing mode: GROUP_MODE");
+            _modeStack.push(SA_GROUP_MODE);
             break;
         case AST_STRUCT_START_NODE:
             Logger::log("pushing mode: STRUCT_MODE");
@@ -195,5 +200,11 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             break;
         default:
             break;
+    }
+
+    if (astNodeType == AST_COLON_NODE && _modeStack.top() == SA_GROUP_MODE) {
+        Logger::log("replacing GROUP_MODE with FUNCTION_PARAMETER_LIST_MODE");
+        _modeStack.pop();
+        _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
     }
 }

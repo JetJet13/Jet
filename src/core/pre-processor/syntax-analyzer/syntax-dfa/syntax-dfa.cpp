@@ -102,6 +102,20 @@ void SyntaxDfa::init() {
     DFANode* tryBlock = DFANodeFactory::Once::create(AST_TRY_BLOCK_NODE);
     DFANode* catchBlock = DFANodeFactory::Once::create(AST_CATCH_BLOCK_NODE);
     DFANode* finallyBlock = DFANodeFactory::Once::create(AST_FINALLY_BLOCK_NODE);
+    DFANode* fatArrow = DFANodeFactory::Once::create(AST_FAT_ARROW_NODE);
+    DFANode* lambdaExpression = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_NODE);
+
+    // todo: implement lambda expression ast-node + reducer strategy;
+    // example syntax:
+    // const lambda = (x: IdType, y: IdType) => x.val + y.val;
+    // const lambda = (x: int, y: int) => x > y;
+    // const lambda = (x: int) int { return x + 10 };
+    // todo: implement function type
+    // example syntax:
+    // (int) => bool
+    // (int, int) => CustomType
+    // (int) => (int) => bool
+    // (int) => (int) => (int) => Money
 
     this->initVarType(varType);
     this->initVarInit(varInit);
@@ -280,7 +294,15 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     functionParameterList
-    ->markAlwaysReduceSelf();
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NAME_NODE })
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_RETURN_EXPRESSION_NODE, AST_LAMBDA_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_TYPE_NODE)
+            ->addTransition(DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_RETURN_EXPRESSION_NODE, AST_LAMBDA_EXPRESSION_NODE)))
+            ->addTransition(DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_LAMBDA_EXPRESSION_NODE)))
+    ));
 
     functionArgument
     ->markAlwaysReduceSelf();
@@ -292,6 +314,8 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LAMBDA_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
@@ -376,6 +400,8 @@ void SyntaxDfa::init() {
     varAssignment
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LAMBDA_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)))
@@ -489,6 +515,24 @@ void SyntaxDfa::init() {
     finallyBlock
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_CATCH_BLOCK_NODE });
 
+    fatArrow
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LAMBDA_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)));
+
+    lambdaExpression
+    ->markAlwaysReduceSelf();
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -514,6 +558,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(functionInvocationExpression)
     ->insertStartNode(tupleExpression)
     ->insertStartNode(tupleAccessExpression)
+    ->insertStartNode(lambdaExpression)
     ->insertStartNode(DFANodeFactory::Once::create(AST_GROUP_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_END_NODE)->markAlwaysReduceSelf())
@@ -582,6 +627,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(tryBlock)
     ->insertStartNode(catchBlock)
     ->insertStartNode(finallyBlock)
+    ->insertStartNode(fatArrow)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
