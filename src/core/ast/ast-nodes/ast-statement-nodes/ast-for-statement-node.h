@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "../ast-node.h"
-#include "../ast-type-node.h"
+#include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-control-flow-nodes/ast-for-variable-node.h"
 #include "../ast-control-flow-nodes/ast-for-source-node.h"
 #include "../ast-control-flow-nodes/ast-control-flow-block-node.h"

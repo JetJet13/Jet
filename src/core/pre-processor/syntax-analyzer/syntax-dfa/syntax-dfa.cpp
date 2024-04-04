@@ -106,12 +106,9 @@ void SyntaxDfa::init() {
     DFANode* lambdaReturnExpression = DFANodeFactory::Once::create(AST_LAMBDA_RETURN_EXPRESSION_NODE);
     DFANode* lambdaExpression = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_NODE);
 
-    // todo: implement lambda expression ast-node + reducer strategy;
-    // example syntax:
-    // const lambda = (x: IdType, y: IdType) => x.val + y.val;
-    // const lambda = (x: int, y: int) => x > y;
-    // const lambda = (x: int) int { return x + 10 };
     // todo: implement function type
+    // implement ASTLambdaTypeNode, ASTLambdaTypeParameterListNode and ASTLambdaTypeReturnType
+    // refactor ASTTypeNode usages (now broken up into Primitive Type and Custom Type)
     // example syntax:
     // (int) => bool
     // (int, int) => CustomType

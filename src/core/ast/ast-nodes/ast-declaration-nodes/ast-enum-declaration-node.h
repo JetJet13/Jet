@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "../ast-node.h"
-#include "../ast-type-node.h"
+#include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-enum-nodes/ast-enum-name-node.h"
 #include "../ast-enum-nodes/ast-enum-key-value-list-node.h"
 

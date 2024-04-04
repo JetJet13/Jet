@@ -10,7 +10,7 @@
 #include "../ast-node.h"
 #include "../../types/ast-node-type.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
-#include "../ast-type-node.h"
+#include "../ast-type-nodes/ast-type-node.h"
 
 class ASTTupleItemNode : public ASTNode {
 private:

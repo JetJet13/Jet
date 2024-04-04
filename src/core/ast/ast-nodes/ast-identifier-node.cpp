@@ -10,7 +10,7 @@
 #include "ast-function-nodes/ast-function-call-node.h"
 #include "ast-object-nodes/ast-object-access-source-node.h"
 #include "ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h"
-#include "ast-type-node.h"
+#include "ast-type-nodes/ast-type-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;

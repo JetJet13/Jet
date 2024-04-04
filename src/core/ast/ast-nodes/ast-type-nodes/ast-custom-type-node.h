@@ -1,0 +1,23 @@
+//
+// Created by Johny Georges on 2024-04-04.
+//
+
+#ifndef JETLANG_AST_CUSTOM_TYPE_NODE_H
+#define JETLANG_AST_CUSTOM_TYPE_NODE_H
+
+#include "ast-type-node.h"
+#include "../ast-identifier-node.h"
+
+class ASTCustomTypeNode : public ASTTypeNode {
+private:
+    ASTIdentifierNode* _identifier;
+public:
+    ASTCustomTypeNode(ASTIdentifierNode* identifierNode);
+    ASTIdentifierNode* getIdentifier();
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+};
+
+#endif //JETLANG_AST_CUSTOM_TYPE_NODE_H

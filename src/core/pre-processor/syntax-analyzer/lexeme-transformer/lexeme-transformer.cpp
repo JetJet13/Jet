@@ -27,7 +27,7 @@
 #include "../../../ast/ast-nodes/ast-period-node.h"
 #include "../../../ast/ast-nodes/ast-function-nodes/ast-function-return-node.h"
 #include "../../../ast/ast-nodes/ast-function-nodes/ast-function-node.h"
-#include "../../../ast/ast-nodes/ast-type-node.h"
+#include "../../../ast/ast-nodes/ast-type-nodes/ast-type-node.h"
 #include "../../../ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.h"
 #include "../../../ast/ast-nodes/ast-enum-nodes/ast-enum-node.h"
 #include "../../../ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.h"

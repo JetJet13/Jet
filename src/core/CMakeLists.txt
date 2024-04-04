@@ -189,8 +189,8 @@ add_library(jet-core
         ast/ast-nodes/ast-function-nodes/ast-function-return-node.h
         ast/ast-nodes/ast-function-nodes/ast-function-node.cpp
         ast/ast-nodes/ast-function-nodes/ast-function-node.h
-        ast/ast-nodes/ast-type-node.cpp
-        ast/ast-nodes/ast-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-node.h
         ast/ast-nodes/ast-function-nodes/ast-function-block-node.cpp
         ast/ast-nodes/ast-function-nodes/ast-function-block-node.h
         ast/ast-nodes/ast-expression-nodes/ast-function-return-expression-node.cpp
@@ -396,6 +396,12 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-primitive-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-primitive-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-custom-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-custom-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-node.h
 
 )
 

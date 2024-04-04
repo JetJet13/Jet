@@ -6,15 +6,11 @@
 #define JETLANG_AST_TYPE_NODE_H
 
 #include <string>
-#include "ast-node.h"
-#include "../../lexeme/lexeme.h"
+#include "../ast-node.h"
+#include "../../../lexeme/lexeme.h"
 
 class ASTTypeNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
 public:
-    ASTTypeNode(Lexeme* lexeme);
-    Lexeme* getTerminator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
