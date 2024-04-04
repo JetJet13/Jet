@@ -45,6 +45,7 @@ namespace ASTNodeUtils {
             case AST_STRUCT_EXPRESSION_NODE:
             case AST_TUPLE_ACCESS_EXPRESSION_NODE:
             case AST_TUPLE_EXPRESSION_NODE:
+            case AST_LAMBDA_EXPRESSION_NODE:
                 return true;
             default:
                 return false;

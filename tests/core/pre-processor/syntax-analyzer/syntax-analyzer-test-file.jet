@@ -290,3 +290,5 @@ const lambda = (x: int, y: int) boolean => x > y;
 const lambda = (x: int) int { return x + 10; };
 const lambda = (x: int) { return x + 10; };
 const lambda = (x: int) => (y: int) => (z: int) => x + y + z;
+
+(x: int) => x + 10;
