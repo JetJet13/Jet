@@ -285,10 +285,8 @@ function returnFour() CustomType {
  return "hello";
 }
 
-const lambda = (x: IdType, y: IdType) => x.val + y.val;
-const lambda = (x: int, y: int) => x > y;
-const lambda = (x: int) int { return x + 10 };
-
-function useLambda(x: int, lambda: (int) => bool) bool {
-    return lambda(x);
-}
+const lambda = (x: IdType, y: IdType) => x + y;
+const lambda = (x: int, y: int) boolean => x > y;
+const lambda = (x: int) int { return x + 10; };
+const lambda = (x: int) { return x + 10; };
+const lambda = (x: int) => (y: int) => (z: int) => x + y + z;

@@ -51,6 +51,8 @@
 #include "reducer-strategies/finally-block-reducer-strategy/finally-block-reducer-strategy.h"
 #include "reducer-strategies/catch-block-reducer-strategy/catch-block-reducer-strategy.h"
 #include "reducer-strategies/try-block-reducer-strategy/try-block-reducer-strategy.h"
+#include "reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.h"
+#include "reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -106,6 +108,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TRY_BLOCK_NODE, new TryBlockReducerStrategy());
     this->addStrategy(AST_CATCH_BLOCK_NODE, new CatchBlockReducerStrategy());
     this->addStrategy(AST_FINALLY_BLOCK_NODE, new FinallyBlockReducerStrategy());
+    this->addStrategy(AST_LAMBDA_EXPRESSION_NODE, new LambdaExpressionReducerStrategy());
+    this->addStrategy(AST_LAMBDA_RETURN_EXPRESSION_NODE, new LambdaReturnExpressionReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

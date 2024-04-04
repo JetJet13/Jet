@@ -18,6 +18,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
     auto startNode = _syntaxDfa->findStartNode(handle->first());
 
     if (handle->isEmpty() && this->isEndNode(handle->getLastReducedNode(), handle->getPeekNode())) {
+        Logger::log("found end node...popping");
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle->isArrayEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ARRAY_NODE);
@@ -131,7 +132,8 @@ bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optiona
             AST_BLOCK_NODE,
             AST_ENUM_KEY_VALUE_LIST_NODE,
             AST_ELSE_BLOCK_NODE,
-            AST_FINALLY_BLOCK_NODE
+            AST_FINALLY_BLOCK_NODE,
+            AST_LAMBDA_RETURN_EXPRESSION_NODE
         })) {
         return true;
     } else if (lastReducedNode &&

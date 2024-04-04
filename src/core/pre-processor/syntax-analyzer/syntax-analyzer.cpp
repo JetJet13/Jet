@@ -37,6 +37,10 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             this->shift();
         }
 
+//        if (!_recognizeStack.top()->empty()) {
+//            Logger::log("stack not empty:");
+//            _recognizeStack.top()->top()->print();
+//        }
         if (_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
             if (_handle.isEmpty()) {
                 this->accept();

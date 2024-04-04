@@ -388,6 +388,14 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.h
         ast/ast-nodes/ast-lambda-nodes/ast-fat-arrow-node.cpp
         ast/ast-nodes/ast-lambda-nodes/ast-fat-arrow-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.h
 
 )
 

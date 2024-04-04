@@ -25,6 +25,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -1970,6 +1971,117 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::stringExpression)
                 })
         )},
+        {144, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLambdaExpressionNode(
+                        new ASTFunctionParameterListNode({
+                            new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::idType),
+                            new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::idType)
+                        }),
+                        new ASTFunctionBlockNode({
+                            new ASTFunctionReturnExpressionNode(
+                                new ASTBinaryExpressionNode(
+                                        ASTNodeFactory::idExpression,
+                                        ASTNodeFactory::plus,
+                                        ASTNodeFactory::idExpression
+                                )
+                            )
+                        })
+                )
+        )},
+        {145, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLambdaExpressionNode(
+                    new ASTFunctionParameterListNode({
+                         new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                         new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
+                    }),
+                    new ASTFunctionBlockNode({
+                     new ASTFunctionReturnExpressionNode(
+                         new ASTBinaryExpressionNode(
+                             ASTNodeFactory::idExpression,
+                             ASTNodeFactory::greaterThan,
+                             ASTNodeFactory::idExpression
+                         )
+                     )
+                    }),
+                    ASTNodeFactory::booleanType
+                )
+        )},
+        {146, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLambdaExpressionNode(
+                    new ASTFunctionParameterListNode({
+                        new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                    }),
+                    new ASTFunctionBlockNode({
+                         new ASTFunctionReturnExpressionNode(
+                             new ASTBinaryExpressionNode(
+                                 ASTNodeFactory::idExpression,
+                                 ASTNodeFactory::plus,
+                                 ASTNodeFactory::intExpression
+                             )
+                         )
+                    }),
+                    ASTNodeFactory::intType
+                )
+        )},
+        {147, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLambdaExpressionNode(
+                    new ASTFunctionParameterListNode({
+                        new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                    }),
+                    new ASTFunctionBlockNode({
+                         new ASTFunctionReturnExpressionNode(
+                             new ASTBinaryExpressionNode(
+                                 ASTNodeFactory::idExpression,
+                                 ASTNodeFactory::plus,
+                                 ASTNodeFactory::intExpression
+                             )
+                         )
+                    })
+                )
+        )},
+        {148, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLambdaExpressionNode(
+                    new ASTFunctionParameterListNode({
+                        new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                    }),
+                    new ASTFunctionBlockNode({
+                        new ASTFunctionReturnExpressionNode(
+                            new ASTLambdaExpressionNode(
+                                new ASTFunctionParameterListNode({
+                                    new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                                }),
+                                new ASTFunctionBlockNode({
+                                    new ASTFunctionReturnExpressionNode(
+                                        new ASTLambdaExpressionNode(
+                                            new ASTFunctionParameterListNode({
+                                                     new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                                            }),
+                                            new ASTFunctionBlockNode({
+                                                new ASTFunctionReturnExpressionNode(
+                                                    new ASTBinaryExpressionNode(
+                                                        ASTNodeFactory::idExpression,
+                                                        ASTNodeFactory::plus,
+                                                        new ASTBinaryExpressionNode(
+                                                            ASTNodeFactory::idExpression,
+                                                            ASTNodeFactory::plus,
+                                                            ASTNodeFactory::idExpression
+                                                        )
+                                                    )
+                                                )
+                                            })
+                                        )
+                                    )
+                                })
+                            )
+                        )
+                    })
+                )
+        )}
 
 };
 
@@ -1981,8 +2093,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 143);
-    for (int i = 0; i < 143; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 148);
+    for (int i = 0; i < 148; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
