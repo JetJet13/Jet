@@ -37,10 +37,6 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             this->shift();
         }
 
-//        if (!_recognizeStack.top()->empty()) {
-//            Logger::log("stack not empty:");
-//            _recognizeStack.top()->top()->print();
-//        }
         if (_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
             if (_handle.isEmpty()) {
                 this->accept();
@@ -172,6 +168,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: FUNCTION_PARAMETER_LIST_MODE");
             _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
             break;
+        case AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE:
+            Logger::log("pushing mode: LAMBDA_TYPE_PARAMETER_LIST_MODE");
+            _modeStack.push(SA_LAMBDA_TYPE_PARAMETER_LIST_MODE);
+            break;
         case AST_FUNCTION_ARGUMENT_LIST_START_NODE:
             Logger::log("pushing mode: FUNCTION_ARGUMENT_LIST_MODE");
             _modeStack.push(SA_FUNCTION_ARGUMENT_LIST_MODE);
@@ -196,6 +196,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_FUNCTION_PARAMETER_LIST_NODE:
         case AST_FUNCTION_ARGUMENT_LIST_NODE:
         case AST_ENUM_KEY_VALUE_LIST_NODE:
+        case AST_LAMBDA_TYPE_PARAMETER_LIST_NODE:
         case AST_TUPLE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_SOURCE_NODE:

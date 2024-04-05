@@ -296,3 +296,11 @@ const lambda = (x: int) => (y: int) => (z: int) => x + y + z;
 function useLambda(x: int, lambda: (int) => boolean) boolean {
     return lambda(x);
 }
+
+function useLambda(lambda: (int) => (int) => boolean) boolean {
+    return lambda(x);
+}
+
+function useLambda(lambda: (int) => ((string) => boolean) => boolean) boolean {
+    return lambda(x);
+}

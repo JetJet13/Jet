@@ -5,6 +5,13 @@
 #include "ast-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
+ASTTypeNode::ASTTypeNode(ASTTypeBaseNode* type) {
+    _type = type;
+}
+
+ASTTypeBaseNode* ASTTypeNode::getType() {
+    return _type;
+}
 
 ASTNodeType ASTTypeNode::getNodeType() {
     return AST_TYPE_NODE;
@@ -15,9 +22,15 @@ std::string ASTTypeNode::toString() {
 }
 
 bool ASTTypeNode::isSameAs(ASTNode *other) {
-    return other->is(this->getNodeType());
+    if (!other->is(this->getNodeType())){
+        return false;
+    }
+    auto otherNode = (ASTTypeNode*)other;
+    return this->getType()->isSameAs(otherNode->getType());
 }
 
 void ASTTypeNode::print() {
-    Logger::log(this->toString());
+    Logger::log("----------", this->toString(), "----------");
+    _type->print();
+    Logger::log("----------");
 }

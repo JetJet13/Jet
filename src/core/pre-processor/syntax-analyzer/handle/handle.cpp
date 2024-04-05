@@ -101,6 +101,13 @@ bool Handle::isTupleListEnclosed() {
     return this->first().value()->is(AST_TUPLE_LIST_START_NODE) && this->last().value()->is(AST_TUPLE_LIST_END_NODE);
 }
 
+bool Handle::isLambdaTypeParameterListEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE) && this->last().value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE);
+}
+
 void Handle::clear() {
     _handle.clear();
 }

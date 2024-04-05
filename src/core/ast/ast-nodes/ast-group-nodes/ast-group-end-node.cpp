@@ -8,6 +8,7 @@
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 #include "../ast-function-nodes/ast-function-argument-list-end-node.h"
 #include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
+#include "../ast-lambda-nodes/ast-lambda-type-parameter-list-end-node.h"
 
 ASTGroupEndNode::ASTGroupEndNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -22,7 +23,11 @@ ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode,
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 
-    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_NODE })) {
+    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
+        return new ASTLambdaTypeParameterListEndNode(this->getLexeme());
+    }
+
+    if (nextNode && nextNode.value()->isOneOf({AST_FAT_ARROW_BASE_NODE })) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 

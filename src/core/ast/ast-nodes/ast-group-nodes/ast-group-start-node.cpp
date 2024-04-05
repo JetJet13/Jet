@@ -7,6 +7,7 @@
 #include "../ast-function-nodes/ast-function-parameter-list-start-node.h"
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 #include "../ast-function-nodes/ast-function-argument-list-start-node.h"
+#include "../ast-lambda-nodes/ast-lambda-type-parameter-list-start-node.h"
 
 ASTGroupStartNode::ASTGroupStartNode(Lexeme *lexeme) {
 _lexeme = lexeme;
@@ -17,7 +18,19 @@ Lexeme* ASTGroupStartNode::getLexeme() {
 }
 
 ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-    if ((prevNode && prevNode.value()->is(AST_FUNCTION_NAME_NODE)) || mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
+
+    if (mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
+        if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE, AST_LAMBDA_TYPE_FAT_ARROW_NODE })) {
+            return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
+        }
+        return new ASTFunctionParameterListStartNode(this->getLexeme());
+    }
+
+    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
+        return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
+    }
+
+    if ((prevNode && prevNode.value()->is(AST_FUNCTION_NAME_NODE))) {
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }
 

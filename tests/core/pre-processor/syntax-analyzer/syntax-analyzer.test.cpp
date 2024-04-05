@@ -2097,7 +2097,98 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                     })
                 )
+        )},
+        {150, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode({
+                    new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                    new ASTFunctionParameterNode(
+                        ASTNodeFactory::idExpression,
+                        ASTTypeNodeFactory::createLambdaTypeNode(
+                        new ASTLambdaTypeNode(
+                            new ASTLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
+                            ASTNodeFactory::booleanType
+                    )))
+                }),
+                ASTNodeFactory::booleanType,
+                new ASTFunctionBlockNode({
+                    new ASTFunctionReturnExpressionNode(
+                        new ASTFunctionInvocationExpressionNode(
+                            ASTNodeFactory::functionCall,
+                            new ASTFunctionArgumentListNode({
+                                new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                            })
+                        )
+                    )
+                })
+        )},
+        {151, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode({
+                     new ASTFunctionParameterNode(
+                         ASTNodeFactory::idExpression,
+                         ASTTypeNodeFactory::createLambdaTypeNode(
+                            new ASTLambdaTypeNode(
+                                 new ASTLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
+                                 ASTTypeNodeFactory::createLambdaTypeNode(
+                                     new ASTLambdaTypeNode(
+                                         new ASTLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
+                                         ASTNodeFactory::booleanType
+                                    )
+                                )
+                            )
+                         )
+                     )
+                }),
+                ASTNodeFactory::booleanType,
+                new ASTFunctionBlockNode({
+                     new ASTFunctionReturnExpressionNode(
+                         new ASTFunctionInvocationExpressionNode(
+                             ASTNodeFactory::functionCall,
+                             new ASTFunctionArgumentListNode({
+                                 new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                             })
+                         )
+                     )
+                })
+        )},
+        {152, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode({
+                     new ASTFunctionParameterNode(
+                         ASTNodeFactory::idExpression,
+                         ASTTypeNodeFactory::createLambdaTypeNode(
+                             new ASTLambdaTypeNode(
+                                 new ASTLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
+                                 ASTTypeNodeFactory::createLambdaTypeNode(
+                                     new ASTLambdaTypeNode(
+                                         new ASTLambdaTypeParameterListNode({
+                                            ASTTypeNodeFactory::createLambdaTypeNode(
+                                                new ASTLambdaTypeNode(
+                                                    new ASTLambdaTypeParameterListNode({ ASTNodeFactory::stringType }),
+                                                    ASTNodeFactory::booleanType
+                                                ))
+                                         }),
+                                         ASTNodeFactory::booleanType
+                                     )
+                                 )
+                             )
+                         )
+                     )
+                }),
+                ASTNodeFactory::booleanType,
+                new ASTFunctionBlockNode({
+                     new ASTFunctionReturnExpressionNode(
+                         new ASTFunctionInvocationExpressionNode(
+                             ASTNodeFactory::functionCall,
+                             new ASTFunctionArgumentListNode({
+                                     new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                             })
+                         )
+                     )
+                })
         )}
+
 
 };
 
@@ -2109,8 +2200,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 149);
-    for (int i = 0; i < 149; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 152);
+    for (int i = 0; i < 152; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

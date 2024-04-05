@@ -8,9 +8,14 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "ast-type-base-node.h"
 
 class ASTTypeNode : public ASTNode {
+private:
+    ASTTypeBaseNode* _type;
 public:
+    ASTTypeNode(ASTTypeBaseNode* type);
+    ASTTypeBaseNode* getType();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

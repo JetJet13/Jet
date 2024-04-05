@@ -8,7 +8,7 @@
 #include "ast-type-node.h"
 #include "../ast-identifier-node.h"
 
-class ASTCustomTypeNode : public ASTTypeNode {
+class ASTCustomTypeNode : public ASTTypeBaseNode {
 private:
     ASTIdentifierNode* _identifier;
 public:

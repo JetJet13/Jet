@@ -11,6 +11,7 @@
 #include "ast-object-nodes/ast-object-access-source-node.h"
 #include "ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h"
 #include "ast-type-nodes/ast-type-node.h"
+#include "ast-type-nodes/ast-type-node-factory.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -34,15 +35,19 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNod
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
-        return new ASTTypeNode(this->getIdentifier());
+        return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE })) {
-        return new ASTTypeNode(this->getIdentifier());
+        return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
 
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {
         return new ASTEnumKeyNode(this->getIdentifier());
+    }
+
+    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
+        return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CATCH_NODE })) {

@@ -33,6 +33,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -138,13 +139,13 @@ namespace ASTNodeFactory {
     static ASTArrayAccessNode* arrayAccessId =  new ASTArrayAccessNode(
             ASTNodeFactory::idExpression
     );
-    static ASTTypeNode* intType = new ASTTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
-    static ASTTypeNode* floatType = new ASTTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
-    static ASTTypeNode* stringType = new ASTTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
-    static ASTTypeNode* charType = new ASTTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
-    static ASTTypeNode* booleanType = new ASTTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
-    static ASTTypeNode* arrayType = new ASTTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
-    static ASTTypeNode* idType = new ASTTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static ASTTypeNode* intType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
+    static ASTTypeNode* floatType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
+    static ASTTypeNode* stringType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
+    static ASTTypeNode* charType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
+    static ASTTypeNode* booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
+    static ASTTypeNode* arrayType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
+    static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(ASTNodeFactory::id);
     static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );

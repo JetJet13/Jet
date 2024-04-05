@@ -32,6 +32,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ENUM_KEY_VALUE_LIST_NODE);
     } else if (handle->isTupleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
+    } else if (handle->isLambdaTypeParameterListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
     }
 
     if (mode == RM_BACKTRACK) {
@@ -121,6 +123,7 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
         AST_ENUM_KEY_VALUE_LIST_NODE,
         AST_ENUM_KEY_VALUE_LIST_END_NODE,
         AST_TUPLE_LIST_END_NODE,
+        AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE,
         AST_CONTROL_FLOW_BLOCK_NODE,
         AST_CONTROL_FLOW_START_NODE
     });

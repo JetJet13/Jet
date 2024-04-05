@@ -10,7 +10,7 @@
 #include "../../../lexeme/lexeme.h"
 #include "ast-type-node.h"
 
-class ASTPrimitiveTypeNode : public ASTTypeNode {
+class ASTPrimitiveTypeNode : public ASTTypeBaseNode {
 private:
     Lexeme* _lexeme;
 public:

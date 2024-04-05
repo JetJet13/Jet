@@ -2,20 +2,21 @@
 // Created by Johny Georges on 2024-04-02.
 //
 
-#ifndef JETLANG_AST_FAT_ARROW_NODE_H
-#define JETLANG_AST_FAT_ARROW_NODE_H
+#ifndef JETLANG_AST_FAT_ARROW_BASE_NODE_H
+#define JETLANG_AST_FAT_ARROW_BASE_NODE_H
 
 #include <string>
 #include "../../../lexeme/lexeme.h"
 #include "../ast-node.h"
 #include "../../types/ast-node-type.h"
 
-class ASTFatArrowNode : public ASTNode {
+class ASTFatArrowBaseNode : public ASTNode {
 private:
     Lexeme* _lexeme;
 public:
-    ASTFatArrowNode(Lexeme* lexeme);
+    ASTFatArrowBaseNode(Lexeme* lexeme);
     Lexeme* getLexeme();
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
@@ -23,4 +24,4 @@ public:
 };
 
 
-#endif //JETLANG_AST_FAT_ARROW_NODE_H
+#endif //JETLANG_AST_FAT_ARROW_BASE_NODE_H
