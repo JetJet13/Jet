@@ -15,16 +15,13 @@ Lexeme* ASTFatArrowBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTFatArrowBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-    if (prevNode && prevNode.value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE)) {
+ASTNode * ASTFatArrowBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode,
+                                                    std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+    if (prevNode && prevNode.value()->is(AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE)) {
         return new ASTLambdaTypeFatArrowNode(this->getLexeme());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE, AST_TYPE_NODE })) {
-        return new ASTLambdaExpressionFatArrowNode(this->getLexeme());
-    }
-
-    return this;
+    return new ASTLambdaExpressionFatArrowNode(this->getLexeme());
 }
 
 ASTNodeType ASTFatArrowBaseNode::getNodeType() {

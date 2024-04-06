@@ -420,6 +420,20 @@ add_library(jet-core
         ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h
         ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-fat-arrow-node.cpp
         ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-fat-arrow-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-currying-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-currying-expression-node.h
+        ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.h
+        ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.h
+        ast/ast-nodes/ast-lambda-nodes/ast-function-lambda-type-parameter-list-node.cpp
+        ast/ast-nodes/ast-lambda-nodes/ast-function-lambda-type-parameter-list-node.h
+        ast/ast-nodes/ast-lambda-nodes/ast-procedure-lambda-type-parameter-list-node.cpp
+        ast/ast-nodes/ast-lambda-nodes/ast-procedure-lambda-type-parameter-list-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.h
 
 )
 

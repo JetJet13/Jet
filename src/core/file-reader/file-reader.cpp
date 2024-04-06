@@ -29,7 +29,15 @@ void FileReader::close() {
 
 std::optional<char> FileReader::peek() {
     auto peekCharacter = _fileStream.peek();
+    if (_fileStream.fail()) {
+        Logger::log("fileStream failed");
+        _fileStream.clear();
+        peekCharacter = _fileStream.peek();
+    }
     if (!_isOpen || peekCharacter == EOF) {
+        if (peekCharacter == EOF) {
+            Logger::log("peekCharacter is EOF");
+        }
         return {};
     }
     return std::char_traits<char>::to_char_type(peekCharacter);

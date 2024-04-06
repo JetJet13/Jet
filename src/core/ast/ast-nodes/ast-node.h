@@ -22,7 +22,8 @@ public:
     virtual std::string toString() = 0;
     virtual bool isSameAs(ASTNode* other);
     virtual void print();
-    virtual ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
+    virtual ASTNode *
+    transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode);
     bool is(ASTNodeType astNodeType);
     bool isOneOf(std::vector<ASTNodeType> astNodeTypes);
     bool isSameNodeTypeAs(ASTNode* other);

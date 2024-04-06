@@ -111,6 +111,10 @@ void SyntaxAnalyzer::error() {
 }
 
 void SyntaxAnalyzer::prepHandleForRecognizer() {
+    if (_modeStack.empty()) {
+        throw std::invalid_argument("modeStack is empty!");
+    }
+
     if (!_recognizeStack.top()->empty()) {
         _handle.setLastReducedNode(_recognizeStack.top()->top());
     } else {
@@ -196,7 +200,8 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_FUNCTION_PARAMETER_LIST_NODE:
         case AST_FUNCTION_ARGUMENT_LIST_NODE:
         case AST_ENUM_KEY_VALUE_LIST_NODE:
-        case AST_LAMBDA_TYPE_PARAMETER_LIST_NODE:
+        case AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE:
+        case AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE:
         case AST_TUPLE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_SOURCE_NODE:

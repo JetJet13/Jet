@@ -10,7 +10,8 @@ ASTMinusBaseNode::ASTMinusBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                                 SyntaxAnalyzerMode mode) {
     if (!prevNode && !nextNode) {
         return this;
     }
@@ -20,6 +21,7 @@ ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode
             AST_BINARY_EXPRESSION_NODE,
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_NODE
     };
@@ -36,6 +38,7 @@ ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_TUPLE_EXPRESSION_NODE,
+            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
     };
     if ((prevNode && prevNode.value()->isOneOf(unaryMinusOperatorPrevNodes)) ||
         (nextNode && nextNode.value()->isOneOf(unaryMinusOperatorNextNodes))) {

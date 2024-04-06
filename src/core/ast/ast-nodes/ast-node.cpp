@@ -45,6 +45,7 @@ bool ASTNode::isSameAs(ASTNode* other) {
     return this->getNodeType() == other->getNodeType();
 }
 
-ASTNode* ASTNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                        SyntaxAnalyzerMode mode) {
     return this;
 }

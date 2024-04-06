@@ -21,7 +21,8 @@ Lexeme* ASTIdentifierNode::getIdentifier() {
     return _identifier;
 }
 
-ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                                  SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
         return new ASTFunctionNameNode(this->getIdentifier());
     }

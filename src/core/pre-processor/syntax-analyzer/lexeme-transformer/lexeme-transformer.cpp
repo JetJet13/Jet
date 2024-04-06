@@ -43,6 +43,8 @@
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-fat-arrow-base-node.h"
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -75,9 +77,7 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTMinusBaseNode(lexeme);
     } else if (symbol->isEqualityOperator() ||
                symbol->isInequalityOperator() ||
-               symbol->isGreaterThan() ||
                symbol->isGreaterThanOrEqual() ||
-               symbol->isLessThan() ||
                symbol->isLessThanOrEqual() ||
                symbol->isStar() ||
                symbol->isSlash() ||
@@ -141,6 +141,10 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTFinallyNode(lexeme);
     } else if (symbol->isFatArrow()) {
         return new ASTFatArrowBaseNode(lexeme);
+    } else if (symbol->isLessThan()) {
+        return new ASTLessThanBaseNode(lexeme);
+    } else if (symbol->isGreaterThan()) {
+        return new ASTGreaterThanBaseNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

@@ -72,9 +72,9 @@ void ReservedKeywords::init() {
     this->add("!", SymbolFactory::createBangSymbol());
     this->add("!=", SymbolFactory::createBangEqualSymbol());
     this->add("==", SymbolFactory::createEqualEqualSymbol());
-    this->add("function", SymbolFactory::createFunctionSymbol());
+    this->add("func", SymbolFactory::createFunctionSymbol());
     this->add("return", SymbolFactory::createReturnSymbol());
-    this->add("procedure", SymbolFactory::createProcedureSymbol());
+    this->add("proc", SymbolFactory::createProcedureSymbol());
     this->add("enum", SymbolFactory::createEnumSymbol());
     this->add("tuple", SymbolFactory::createTupleSymbol());
     this->add("if", SymbolFactory::createIfSymbol());

@@ -17,24 +17,24 @@ Lexeme* ASTGroupStartNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                                  SyntaxAnalyzerMode mode) {
 
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
-        if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE, AST_LAMBDA_TYPE_FAT_ARROW_NODE })) {
-            return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
-        }
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }
 
-    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
-        return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
-    }
-
-    if ((prevNode && prevNode.value()->is(AST_FUNCTION_NAME_NODE))) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NAME_NODE })) {
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_CALL_NODE })) {
+    if ((!prevNode ||
+        prevNode && prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_FUNCTION_RETURN_NODE, AST_LAMBDA_EXPRESSION_FAT_ARROW_NODE })) &&
+        nextNode && nextNode.value()->is(AST_GROUP_END_NODE)) {
+        return new ASTFunctionParameterListStartNode(this->getLexeme());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_CALL_NODE, AST_FUNCTION_ARGUMENT_LIST_NODE })) {
         return new ASTFunctionArgumentListStartNode(this->getLexeme());
     }
 

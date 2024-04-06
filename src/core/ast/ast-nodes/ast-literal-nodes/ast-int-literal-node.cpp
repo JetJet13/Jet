@@ -5,7 +5,8 @@
 #include "ast-int-literal-node.h"
 #include "../ast-tuple-nodes/ast-tuple-access-node.h"
 
-ASTNode* ASTIntLiteralNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTIntLiteralNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                                  SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_PERIOD_NODE)) {
         return new ASTTupleAccessNode(_lexemeLiteral);
     }

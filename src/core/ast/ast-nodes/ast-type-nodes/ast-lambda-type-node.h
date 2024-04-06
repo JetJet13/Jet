@@ -11,11 +11,11 @@
 class ASTLambdaTypeNode : public ASTTypeBaseNode {
 private:
     ASTLambdaTypeParameterListNode* _parameterList;
-    ASTTypeNode* _returnType;
+    std::optional<ASTTypeNode*> _returnType;
 public:
-    ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, ASTTypeNode* returnType);
+    ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType = {});
     ASTLambdaTypeParameterListNode* getParameterList();
-    ASTTypeNode* getReturnType();
+    std::optional<ASTTypeNode*> getReturnType();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

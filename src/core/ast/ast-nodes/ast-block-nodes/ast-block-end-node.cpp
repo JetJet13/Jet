@@ -11,7 +11,8 @@ ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                                SyntaxAnalyzerMode mode) {
     if (mode == SA_STRUCT_MODE) {
         return new ASTStructEndNode(_lexeme);
     }

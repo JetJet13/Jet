@@ -364,6 +364,7 @@ void LexicalAnalyzer::skipComments() {
 
 void LexicalAnalyzer::stopIfNecessary() {
     if (!_fileReader.peek()) {
+        Logger::log("peek return NOTHING...stopping");
         stop();
     }
 }

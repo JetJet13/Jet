@@ -14,7 +14,8 @@ Lexeme* ASTControlFlowStartNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTControlFlowStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTControlFlowStartNode::transformIfNecessary(std::optional<ASTNode *> prevNode,
+                                                        std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     if (mode != SA_CONTROL_FLOW_MODE) {
         return new ASTBlockStartNode(_lexeme);
     }

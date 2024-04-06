@@ -5,7 +5,7 @@
 #include "ast-lambda-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTLambdaTypeNode::ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, ASTTypeNode* returnType) {
+ASTLambdaTypeNode::ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType) {
     _parameterList = parameterList;
     _returnType = returnType;
 }
@@ -14,7 +14,7 @@ ASTLambdaTypeParameterListNode* ASTLambdaTypeNode::getParameterList() {
     return _parameterList;
 }
 
-ASTTypeNode* ASTLambdaTypeNode::getReturnType() {
+std::optional<ASTTypeNode*> ASTLambdaTypeNode::getReturnType() {
     return _returnType;
 }
 
@@ -31,13 +31,25 @@ bool ASTLambdaTypeNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTLambdaTypeNode*)other;
-    return this->getParameterList()->isSameAs(otherNode->getParameterList()) &&
-           this->getReturnType()->isSameAs(otherNode->getReturnType());
+
+    if (!_returnType.has_value() && otherNode->getReturnType().has_value() ||
+        _returnType.has_value() && !otherNode->getReturnType().has_value()) {
+        return false;
+    }
+
+    if (_returnType.has_value() && otherNode->getReturnType().has_value() &&
+        !_returnType.value()->isSameAs(otherNode->getReturnType().value())) {
+        return false;
+    }
+
+    return this->getParameterList()->isSameAs(otherNode->getParameterList());
 }
 
 void ASTLambdaTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameterList->print();
-    _returnType->print();
+    if (_returnType) {
+        _returnType.value()->print();
+    }
     Logger::log("----------");
 }

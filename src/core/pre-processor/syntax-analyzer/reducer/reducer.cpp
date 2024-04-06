@@ -55,6 +55,8 @@
 #include "reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.h"
+#include "reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.h"
+#include "reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -113,6 +115,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LAMBDA_EXPRESSION_NODE, new LambdaExpressionReducerStrategy());
     this->addStrategy(AST_LAMBDA_RETURN_EXPRESSION_NODE, new LambdaReturnExpressionReducerStrategy());
     this->addStrategy(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaTypeParameterListReducerStrategy());
+    this->addStrategy(AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaFunctionTypeParameterListReducerStrategy());
+    this->addStrategy(AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaProcedureTypeParameterListReducerStrategy());
     this->addStrategy(AST_LAMBDA_TYPE_NODE, new LambdaTypeReducerStrategy());
 }
 

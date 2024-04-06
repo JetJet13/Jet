@@ -148,7 +148,7 @@ namespace SymbolFactory {
     }
 
     Symbol* createFunctionSymbol() {
-        return new Symbol(SYM_FUNCTION, "function");
+        return new Symbol(SYM_FUNCTION, "func");
     }
 
     Symbol* createReturnSymbol() {
@@ -156,7 +156,7 @@ namespace SymbolFactory {
     }
 
     Symbol* createProcedureSymbol() {
-        return new Symbol(SYM_PROCEDURE, "procedure");
+        return new Symbol(SYM_PROCEDURE, "proc");
     }
 
     Symbol* createEnumSymbol() {

@@ -18,16 +18,13 @@ Lexeme* ASTGroupEndNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode * ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                                SyntaxAnalyzerMode mode) {
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 
-    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
-        return new ASTLambdaTypeParameterListEndNode(this->getLexeme());
-    }
-
-    if (nextNode && nextNode.value()->isOneOf({AST_FAT_ARROW_BASE_NODE })) {
+    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE })) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 

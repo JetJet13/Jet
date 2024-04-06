@@ -120,12 +120,12 @@ const structArr = {
 const structArrAccess = structArr.arr[0].hello;
 const structArrNestedAccess = structArr.arr[0][0].hello;
 
-function sum(x: int, y: int) int {
+func sum(x: int, y: int) int {
  const total = x + y;
  return total;
 }
 
-function returnFour() int {
+func returnFour() int {
  return 4;
 }
 
@@ -138,18 +138,16 @@ function returnFour() int {
     }
 }
 
-procedure anotherOne(num: int) {
+proc anotherOne(num: int) {
     let myNum = 2;
     myNum = myNum + 1;
 }
 
-procedure anotherOne() {
+proc anotherOne() {
     let moo = 4;
 }
 
-procedure emptyProcedure() {
-
-}
+proc emptyProcedure() {}
 
 enum Color {
     Red = "red",
@@ -214,7 +212,6 @@ if false {
   let myNum = 2;
   myNum = 3;
 }
-
 
 if true {
   let myNum = 2;
@@ -281,7 +278,7 @@ try {
     print("done");
 }
 
-function returnFour() CustomType {
+func returnFour() CustomType {
  return "hello";
 }
 
@@ -290,17 +287,48 @@ const lambda = (x: int, y: int) boolean => x > y;
 const lambda = (x: int) int { return x + 10; };
 const lambda = (x: int) { return x + 10; };
 const lambda = (x: int) => (y: int) => (z: int) => x + y + z;
+const lambda = () => 10;
+const lambda = () { x + 10; };
+const lambda = () {};
 
 (x: int) => x + 10;
-
-function useLambda(x: int, lambda: (int) => boolean) boolean {
+() => 10;
+func useLambda(x: int, lambda: func<int> => boolean) boolean {
     return lambda(x);
 }
 
-function useLambda(lambda: (int) => (int) => boolean) boolean {
+func useLambda(lambda: func<int,int> => func<int> => boolean) boolean {
     return lambda(x);
 }
 
-function useLambda(lambda: (int) => ((string) => boolean) => boolean) boolean {
+func useLambda(lambda: func<> => func<func<string> => boolean> => boolean) boolean {
     return lambda(x);
 }
+
+func useLambda(x: int, lambda: func<> => boolean) boolean {
+    return lambda();
+}
+
+func useLambda() func<> => int {
+    return () => 9;
+}
+
+func useLambda() func<int> => int {
+    return (x: int) => 9;
+}
+
+func useLambda() boolean {
+    return (true && true);
+}
+
+func useLambda(x: func<int> => boolean) boolean {
+    return (true && true);
+}
+
+func useLambda(x: proc<>, y: proc<>) boolean {
+    return (true && true);
+}
+
+() func<> => func<> => int { return () => () => 9; };
+() func<> => func<> => int => () => () => 9;
+() func<> => proc<> => () => () { 9; };

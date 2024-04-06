@@ -31,8 +31,9 @@ std::vector<ASTNode*> ASTBlockNode::getContents() {
     return _contents;
 }
 
-ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE })) {
+ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+                                             SyntaxAnalyzerMode mode) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_LAMBDA_TYPE_PARAMETER_LIST_NODE })) {
         return new ASTFunctionBlockNode(_contents);
     }
 

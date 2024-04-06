@@ -108,6 +108,8 @@ void SyntaxDfa::init() {
     DFANode* lambdaReturnExpression = DFANodeFactory::Once::create(AST_LAMBDA_RETURN_EXPRESSION_NODE);
     DFANode* lambdaExpression = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_NODE);
     DFANode* lambdaTypeParameterList = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
+    DFANode* functionLambdaTypeParameterList = DFANodeFactory::Once::create(AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE);
+    DFANode* procedureLambdaTypeParameterList = DFANodeFactory::Once::createWithTarget(AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE, AST_LAMBDA_TYPE_NODE);
 
     // todo: implement currying
     // example
@@ -276,7 +278,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_TARGET_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE)));
 
     functionKeyword
-    ->markAlwaysReduceSelf();
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_FUNCTION_NAME_NODE, AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE });
 
     functionName
     ->markAlwaysReduceSelf();
@@ -340,7 +342,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)));
 
     procedureKeyword
-    ->markAlwaysReduceSelf();
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_FUNCTION_NAME_NODE, AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE });
 
     enumKeyword
     ->markAlwaysReduceSelf();
@@ -523,10 +525,13 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     lambdaTypeParameterList
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE });
+
+    functionLambdaTypeParameterList
     ->addTransition(DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_LAMBDA_TYPE_FAT_ARROW_NODE)
-                    ->addTransition(DFATransitionFactory::create(
-                            DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_LAMBDA_TYPE_NODE)))
+        DFANodeFactory::Once::create(AST_LAMBDA_TYPE_FAT_ARROW_NODE)
+                ->addTransition(DFATransitionFactory::create(
+                        DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_LAMBDA_TYPE_NODE)))
     ));
 
     lambdaTypeFatArrow
@@ -647,6 +652,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(lambdaTypeParameterList)
     ->insertStartNode(lambdaTypeFatArrow)
     ->insertStartNode(lambdaExpressionFatArrow)
+    ->insertStartNode(functionLambdaTypeParameterList)
+    ->insertStartNode(procedureLambdaTypeParameterList)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
@@ -739,6 +746,9 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode) {
 
 void SyntaxDfa::initFunction(DFANode* functionNode) {
     functionNode
+            ->addTransition(DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE, AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE)
+            ))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE)
@@ -760,6 +770,10 @@ void SyntaxDfa::initFunction(DFANode* functionNode) {
 
 void SyntaxDfa::initProcedure(DFANode* procedureNode) {
     procedureNode
+            ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::Once::createWithTarget(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE, AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE)
+            ))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE)
