@@ -7,15 +7,15 @@
 
 #include <vector>
 #include "../ast-node.h"
-#include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-function-nodes/ast-function-name-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-function-nodes/ast-function-argument-list-node.h"
 #include "../ast-function-nodes/ast-function-call-node.h"
+#include "ast-callable-expression-node.h"
 
-class ASTFunctionInvocationExpressionNode : public ASTExpressionNode {
+class ASTFunctionInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
     ASTFunctionCallNode* _function;
     ASTFunctionArgumentListNode* _arguments;

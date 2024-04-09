@@ -287,12 +287,9 @@ const lambda = (x: int, y: int) boolean => x > y;
 const lambda = (x: int) int { return x + 10; };
 const lambda = (x: int) { return x + 10; };
 const lambda = (x: int) => (y: int) => (z: int) => x + y + z;
-const lambda = () => 10;
-const lambda = () { x + 10; };
-const lambda = () {};
 
 (x: int) => x + 10;
-() => 10;
+
 func useLambda(x: int, lambda: func<int> => boolean) boolean {
     return lambda(x);
 }
@@ -325,10 +322,20 @@ func useLambda(x: func<int> => boolean) boolean {
     return (true && true);
 }
 
-func useLambda(x: proc<>, y: proc<>) boolean {
-    return (true && true);
+func useLambda(x: proc<>, y: proc<CustomType>) boolean {
+    return true;
 }
 
 () func<> => func<> => int { return () => () => 9; };
 () func<> => func<> => int => () => () => 9;
-() func<> => proc<> => () => () { 9; };
+() func<> => proc<> => () => () { 1 + 9; };
+
+const funcLambda = () => 10;
+const procLambda = () { x + 10; };
+const procLambda = () {};
+
+() => 10;
+
+useLambda(x)(y);
+useLambda(x)(y)(z);
+useLambda(x)(y)(z)(a);
