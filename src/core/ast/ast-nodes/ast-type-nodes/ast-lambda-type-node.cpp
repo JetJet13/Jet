@@ -5,12 +5,12 @@
 #include "ast-lambda-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTLambdaTypeNode::ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType) {
+ASTLambdaTypeNode::ASTLambdaTypeNode(ASTTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType) {
     _parameterList = parameterList;
     _returnType = returnType;
 }
 
-ASTLambdaTypeParameterListNode* ASTLambdaTypeNode::getParameterList() {
+ASTTypeParameterListNode* ASTLambdaTypeNode::getParameterList() {
     return _parameterList;
 }
 

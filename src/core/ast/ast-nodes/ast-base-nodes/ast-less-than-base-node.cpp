@@ -4,7 +4,7 @@
 
 #include "ast-less-than-base-node.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../ast-lambda-nodes/ast-lambda-type-parameter-list-start-node.h"
+#include "../ast-type-nodes/ast-type-parameter-list-start-node.h"
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
 
 ASTLessThanBaseNode::ASTLessThanBaseNode(Lexeme *lexeme) {
@@ -18,8 +18,8 @@ Lexeme* ASTLessThanBaseNode::getLexeme() {
 ASTNode * ASTLessThanBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode,
                                                     std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
-        return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE })) {
+        return new ASTTypeParameterListStartNode(this->getLexeme());
     }
 
     return new ASTBinaryOperatorNode(_lexeme);

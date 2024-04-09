@@ -16,4 +16,8 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode) {
         return new ASTTypeNode(lambdaTypeNode);
     }
+
+    ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode) {
+        return new ASTTypeNode(tupleTypeNode);
+    }
 }

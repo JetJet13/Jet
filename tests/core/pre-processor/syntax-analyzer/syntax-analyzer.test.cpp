@@ -2526,6 +2526,29 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
+        {169, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionName,
+                new ASTFunctionParameterListNode({
+                     new ASTFunctionParameterNode(
+                         ASTNodeFactory::idExpression,
+                         ASTTypeNodeFactory::createTupleTypeNode(
+                             new ASTTupleTypeNode(
+                                new ASTTypeParameterListNode({
+                                    ASTNodeFactory::intType,
+                                    ASTNodeFactory::stringType,
+                                    ASTNodeFactory::booleanType,
+                                    ASTNodeFactory::idType
+                                })
+                             )
+                         )
+                     ),
+                }),
+                ASTNodeFactory::booleanType,
+                new ASTFunctionBlockNode({
+                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::trueExpression)
+                })
+        )},
+
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -2536,8 +2559,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 168);
-    for (int i = 0; i < 168; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 169);
+    for (int i = 0; i < 169; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

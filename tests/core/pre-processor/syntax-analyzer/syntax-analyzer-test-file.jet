@@ -339,3 +339,7 @@ const procLambda = () {};
 useLambda(x)(y);
 useLambda(x)(y)(z);
 useLambda(x)(y)(z)(a);
+
+func useTuple(x: tuple<int, string, boolean, CustomType>) boolean {
+    return true;
+}

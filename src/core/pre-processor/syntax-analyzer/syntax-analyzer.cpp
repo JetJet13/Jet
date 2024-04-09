@@ -172,9 +172,9 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: FUNCTION_PARAMETER_LIST_MODE");
             _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
             break;
-        case AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE:
-            Logger::log("pushing mode: LAMBDA_TYPE_PARAMETER_LIST_MODE");
-            _modeStack.push(SA_LAMBDA_TYPE_PARAMETER_LIST_MODE);
+        case AST_TYPE_PARAMETER_LIST_START_NODE:
+            Logger::log("pushing mode: TYPE_PARAMETER_LIST_MODE");
+            _modeStack.push(SA_TYPE_PARAMETER_LIST_MODE);
             break;
         case AST_FUNCTION_ARGUMENT_LIST_START_NODE:
             Logger::log("pushing mode: FUNCTION_ARGUMENT_LIST_MODE");
@@ -202,6 +202,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_ENUM_KEY_VALUE_LIST_NODE:
         case AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE:
         case AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE:
+        case AST_TUPLE_TYPE_NODE:
         case AST_TUPLE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_SOURCE_NODE:

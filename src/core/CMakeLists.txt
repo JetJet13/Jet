@@ -405,14 +405,14 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-type-base-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-type-base-node.h
         ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-parameter-list-node.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-parameter-list-node.h
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-parameter-list-start-node.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-parameter-list-start-node.h
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-parameter-list-end-node.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-parameter-list-end-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-node.h
+        ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-start-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-start-node.h
+        ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-end-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-end-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h
         ast/ast-nodes/ast-type-nodes/ast-type-node-factory.cpp
@@ -438,6 +438,10 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-callable-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-type-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-type-node.h
 
 )
 

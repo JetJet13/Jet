@@ -8,7 +8,7 @@
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 #include "../ast-function-nodes/ast-function-argument-list-end-node.h"
 #include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
-#include "../ast-lambda-nodes/ast-lambda-type-parameter-list-end-node.h"
+#include "../ast-type-nodes/ast-type-parameter-list-end-node.h"
 
 ASTGroupEndNode::ASTGroupEndNode(Lexeme *lexeme) {
     _lexeme = lexeme;

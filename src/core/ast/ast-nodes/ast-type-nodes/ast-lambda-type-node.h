@@ -6,15 +6,15 @@
 #define JETLANG_AST_LAMBDA_TYPE_NODE_H
 
 #include "ast-type-node.h"
-#include "../ast-lambda-nodes/ast-lambda-type-parameter-list-node.h"
+#include "ast-type-parameter-list-node.h"
 
 class ASTLambdaTypeNode : public ASTTypeBaseNode {
 private:
-    ASTLambdaTypeParameterListNode* _parameterList;
+    ASTTypeParameterListNode* _parameterList;
     std::optional<ASTTypeNode*> _returnType;
 public:
-    ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType = {});
-    ASTLambdaTypeParameterListNode* getParameterList();
+    ASTLambdaTypeNode(ASTTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType = {});
+    ASTTypeParameterListNode* getParameterList();
     std::optional<ASTTypeNode*> getReturnType();
     ASTNodeType getNodeType() override;
     std::string toString() override;

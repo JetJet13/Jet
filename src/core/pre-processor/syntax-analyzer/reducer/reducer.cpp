@@ -54,10 +54,11 @@
 #include "reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.h"
 #include "reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h"
-#include "reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.h"
+#include "reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.h"
+#include "reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -115,11 +116,12 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_FINALLY_BLOCK_NODE, new FinallyBlockReducerStrategy());
     this->addStrategy(AST_LAMBDA_EXPRESSION_NODE, new LambdaExpressionReducerStrategy());
     this->addStrategy(AST_LAMBDA_RETURN_EXPRESSION_NODE, new LambdaReturnExpressionReducerStrategy());
-    this->addStrategy(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaTypeParameterListReducerStrategy());
+    this->addStrategy(AST_TYPE_PARAMETER_LIST_NODE, new TypeParameterListReducerStrategy());
     this->addStrategy(AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaFunctionTypeParameterListReducerStrategy());
     this->addStrategy(AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaProcedureTypeParameterListReducerStrategy());
     this->addStrategy(AST_LAMBDA_TYPE_NODE, new LambdaTypeReducerStrategy());
     this->addStrategy(AST_CURRY_EXPRESSION_NODE, new CurryExpressionReducerStrategy());
+    this->addStrategy(AST_TUPLE_TYPE_NODE, new TupleTypeReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

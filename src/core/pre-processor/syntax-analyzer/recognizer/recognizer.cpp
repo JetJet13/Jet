@@ -33,7 +33,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
     } else if (handle->isTupleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     } else if (handle->isLambdaTypeParameterListEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TYPE_PARAMETER_LIST_NODE);
     }
 
     if (mode == RM_BACKTRACK) {
@@ -113,31 +113,31 @@ RecognizerMode Recognizer::determineMode(Handle* handle) {
 
 bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
     return astNode.has_value() && astNode.value()->isOneOf({
-        AST_TERMINATOR_NODE,
-        AST_RIGHT_BRACKET_NODE,
-        AST_GROUP_END_NODE,
-        AST_STRUCT_END_NODE,
-        AST_FUNCTION_BLOCK_NODE,
-        AST_FUNCTION_PARAMETER_LIST_END_NODE,
-        AST_FUNCTION_ARGUMENT_LIST_END_NODE,
-        AST_ENUM_KEY_VALUE_LIST_NODE,
-        AST_ENUM_KEY_VALUE_LIST_END_NODE,
-        AST_TUPLE_LIST_END_NODE,
-        AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE,
-        AST_CONTROL_FLOW_BLOCK_NODE,
-        AST_CONTROL_FLOW_START_NODE,
+                                                                   AST_TERMINATOR_NODE,
+                                                                   AST_RIGHT_BRACKET_NODE,
+                                                                   AST_GROUP_END_NODE,
+                                                                   AST_STRUCT_END_NODE,
+                                                                   AST_FUNCTION_BLOCK_NODE,
+                                                                   AST_FUNCTION_PARAMETER_LIST_END_NODE,
+                                                                   AST_FUNCTION_ARGUMENT_LIST_END_NODE,
+                                                                   AST_ENUM_KEY_VALUE_LIST_NODE,
+                                                                   AST_ENUM_KEY_VALUE_LIST_END_NODE,
+                                                                   AST_TUPLE_LIST_END_NODE,
+                                                                   AST_TYPE_PARAMETER_LIST_END_NODE,
+                                                                   AST_CONTROL_FLOW_BLOCK_NODE,
+                                                                   AST_CONTROL_FLOW_START_NODE,
     });
 }
 
 bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optional<ASTNode*> peekNode) {
     if (lastReducedNode &&
         lastReducedNode.value()->isOneOf({
-            AST_BLOCK_NODE,
-            AST_ENUM_KEY_VALUE_LIST_NODE,
-            AST_ELSE_BLOCK_NODE,
-            AST_FINALLY_BLOCK_NODE,
-            AST_LAMBDA_RETURN_EXPRESSION_NODE,
-            AST_LAMBDA_TYPE_PARAMETER_LIST_NODE
+                                                 AST_BLOCK_NODE,
+                                                 AST_ENUM_KEY_VALUE_LIST_NODE,
+                                                 AST_ELSE_BLOCK_NODE,
+                                                 AST_FINALLY_BLOCK_NODE,
+                                                 AST_LAMBDA_RETURN_EXPRESSION_NODE,
+                                                 AST_TYPE_PARAMETER_LIST_NODE
         })) {
         return true;
     } else if (lastReducedNode &&

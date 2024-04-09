@@ -2,46 +2,46 @@
 // Created by Johny Georges on 2024-04-04.
 //
 
-#include "ast-lambda-type-parameter-list-node.h"
+#include "ast-type-parameter-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode() {
+ASTTypeParameterListNode::ASTTypeParameterListNode() {
     _parameters = std::vector<ASTTypeNode*>();
 }
 
-ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(std::vector<ASTTypeNode*> parameters) {
+ASTTypeParameterListNode::ASTTypeParameterListNode(std::vector<ASTTypeNode*> parameters) {
     _parameters = std::vector<ASTTypeNode*>();
     for (auto parameter: parameters) {
         _parameters.push_back(parameter);
     }
 }
 
-std::vector<ASTTypeNode*> ASTLambdaTypeParameterListNode::getParameters() {
+std::vector<ASTTypeNode*> ASTTypeParameterListNode::getParameters() {
     return _parameters;
 }
 
-unsigned long ASTLambdaTypeParameterListNode::numParameters() {
+unsigned long ASTTypeParameterListNode::numParameters() {
     return _parameters.size();
 }
 
-ASTLambdaTypeParameterListNode* ASTLambdaTypeParameterListNode::addParameter(ASTTypeNode* parameter) {
+ASTTypeParameterListNode* ASTTypeParameterListNode::addParameter(ASTTypeNode* parameter) {
     _parameters.push_back(parameter);
     return this;
 }
 
-ASTNodeType ASTLambdaTypeParameterListNode::getNodeType() {
-    return AST_LAMBDA_TYPE_PARAMETER_LIST_NODE;
+ASTNodeType ASTTypeParameterListNode::getNodeType() {
+    return AST_TYPE_PARAMETER_LIST_NODE;
 }
 
-std::string ASTLambdaTypeParameterListNode::toString() {
-    return "LAMBDA_TYPE_PARAMETER_LIST";
+std::string ASTTypeParameterListNode::toString() {
+    return "TYPE_PARAMETER_LIST";
 }
 
-bool ASTLambdaTypeParameterListNode::isSameAs(ASTNode *other) {
+bool ASTTypeParameterListNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLambdaTypeParameterListNode*)other;
+    auto otherNode = (ASTTypeParameterListNode*)other;
     auto otherNodeElements = otherNode->getParameters();
     if (this->numParameters() != otherNode->numParameters()) {
         return false;
@@ -55,7 +55,7 @@ bool ASTLambdaTypeParameterListNode::isSameAs(ASTNode *other) {
     return true;
 }
 
-void ASTLambdaTypeParameterListNode::print() {
+void ASTTypeParameterListNode::print() {
     Logger::log("----------", this->toString(), "----------");
     for (auto parameters : _parameters) {
         parameters->print();

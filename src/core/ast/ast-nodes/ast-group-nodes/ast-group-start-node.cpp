@@ -7,7 +7,7 @@
 #include "../ast-function-nodes/ast-function-parameter-list-start-node.h"
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 #include "../ast-function-nodes/ast-function-argument-list-start-node.h"
-#include "../ast-lambda-nodes/ast-lambda-type-parameter-list-start-node.h"
+#include "../ast-type-nodes/ast-type-parameter-list-start-node.h"
 
 ASTGroupStartNode::ASTGroupStartNode(Lexeme *lexeme) {
 _lexeme = lexeme;

@@ -47,7 +47,7 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return new ASTEnumKeyNode(this->getIdentifier());
     }
 
-    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
+    if (mode == SA_TYPE_PARAMETER_LIST_MODE) {
         return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
 

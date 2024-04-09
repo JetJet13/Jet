@@ -8,10 +8,10 @@
 #include <string>
 #include "../ast-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "ast-lambda-type-parameter-list-node.h"
+#include "../ast-type-nodes/ast-type-parameter-list-node.h"
 
-class ASTFunctionLambdaTypeParameterListNode : public ASTLambdaTypeParameterListNode {
-    using ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode;
+class ASTFunctionLambdaTypeParameterListNode : public ASTTypeParameterListNode {
+    using ASTTypeParameterListNode::ASTTypeParameterListNode;
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
