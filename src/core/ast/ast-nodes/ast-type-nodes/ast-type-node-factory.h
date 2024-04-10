@@ -10,12 +10,14 @@
 #include "ast-primitive-type-node.h"
 #include "ast-lambda-type-node.h"
 #include "../ast-tuple-nodes/ast-tuple-type-node.h"
+#include "../ast-array-nodes/ast-array-type-node.h"
 
 namespace ASTTypeNodeFactory {
     ASTTypeNode* createCustomTypeNode(ASTIdentifierNode* identifierNode);
     ASTTypeNode* createPrimitiveTypeNode(Lexeme* lexeme);
     ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode);
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode);
+    ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
 }
 
 #endif //JETLANG_AST_TYPE_NODE_FACTORY_H

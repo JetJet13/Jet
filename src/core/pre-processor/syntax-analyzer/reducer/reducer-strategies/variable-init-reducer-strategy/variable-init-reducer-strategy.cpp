@@ -4,14 +4,23 @@
 
 #include "variable-init-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.h"
+#include "../../../../../ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.h"
 
 ASTNode* VariableInitReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() != 3) {
-        throw std::invalid_argument("unable to reduce to var init node since nodes list is not 3");
+    if (nodes.size() == 2) {
+        return new ASTVariableInitNode(
+                ((ASTVariableDefinitionNode*)nodes[0])->getVarTypeNode(),
+                ((ASTVariableDefinitionNode*)nodes[0])->getIdentifierNode()
+        );
     }
 
-    return new ASTVariableInitNode(
-            (ASTVariableTypeNode*)nodes[0],
-            (ASTIdentifierNode*)nodes[1]
-    );
+    if (nodes.size() == 4) {
+        return new ASTVariableInitNode(
+                ((ASTVariableDefinitionNode*)nodes[0])->getVarTypeNode(),
+                ((ASTVariableDefinitionNode*)nodes[0])->getIdentifierNode(),
+                (ASTTypeNode*)nodes[2]
+        );
+    }
+
+    throw std::invalid_argument("unable to reduce to var init node since nodes list is not 2 or 4");
 }

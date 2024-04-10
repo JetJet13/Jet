@@ -43,6 +43,10 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
 
+    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({ AST_ASSIGNMENT_OPERATOR_NODE })) {
+        return ASTTypeNodeFactory::createCustomTypeNode(this);
+    }
+
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {
         return new ASTEnumKeyNode(this->getIdentifier());
     }

@@ -20,4 +20,8 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode) {
         return new ASTTypeNode(tupleTypeNode);
     }
+
+    ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode) {
+        return new ASTTypeNode(arrayTypeNode);
+    }
 }

@@ -79,8 +79,8 @@ const bedmasIdQuint = one * two - three + four / twentyFour;
 const bedmasIdQuintWithBrackets = one * two - (three + four) / twentyFour;
 const bedmasUnary = +1 * 2 / -3;
 const bedmasUnaryQuad = +1 * 2 - -3 + 4;
-const arr = [1, 2, 3];
-const arrAccess = arr[0];
+const array = [1, 2, 3];
+const arrAccess = array[0];
 const rawArrAccess = [1,2][0];
 const nestedArr = [ [1], [2], [3] ];
 const nestedArrWithExpressions = [ [1 + 1], [2 + 2], [3 + 3] ];
@@ -94,8 +94,8 @@ const structObj = {
  character: 'c',
  str: "Hello World",
  identifier: foo,
- arr: [1,2,3],
- arrAccess: arr[0],
+ array: [1,2,3],
+ arrAccess: array[0],
  obj: {
     test: 100,
     nest: {
@@ -109,16 +109,16 @@ const structObj = {
 const structObjAccess = structObj.world;
 const structObjNestedAccess = structObj.obj.test;
 const structObjTripleNestedAccess = structObj.obj.nest.value;
-const arrStructs = [
+const arrayStructs = [
  { hello: "world", test: 1 } // another 1!
 ];
 const arrStructsAccess = arrStructs[0].hello;
 const structArr = {
- arr: [ { hello: "world", test: 1 } ],
+ array: [ { hello: "world", test: 1 } ],
  arrNested: [  [{ hello: "world", test: 1 }] ]
 };
-const structArrAccess = structArr.arr[0].hello;
-const structArrNestedAccess = structArr.arr[0][0].hello;
+const structArrAccess = structArr.array[0].hello;
+const structArrNestedAccess = structArr.array[0][0].hello;
 
 func sum(x: int, y: int) int {
  const total = x + y;
@@ -187,7 +187,7 @@ struct.one.0;
 struct.one.0.two;
 struct.one.0.two.0;
 myTuple.0.0.0;
-struct.arr[0].0.one[1].1;
+struct.array[0].0.one[1].1;
 myFunction().one.two.0.1;
 !myFunction().one.two.0.1;
 
@@ -343,3 +343,22 @@ useLambda(x)(y)(z)(a);
 func useTuple(x: tuple<int, string, boolean, CustomType>) boolean {
     return true;
 }
+
+func useArray(x: arr<int>, y: arr<CustomType>, z: arr<arr<int>>, n: arr<arr<arr<int>>>) boolean {
+    return true;
+}
+
+func useArrayOfFuncs(x: arr<func<int> => boolean>) boolean {
+    return true;
+}
+
+const intWithType: int = 5;
+const floatWithType: float = 5.0;
+const charWithType: char = 'c';
+const stringWithType: string = "foo";
+const boolWithType: boolean = true;
+const arrWithType: arr<int> = [1,2,3];
+const funcWithType: func<int> => boolean = (x: int) => true;
+const procWithType: proc<int> = (x: int) { x + 1; };
+const tupleWithType: tuple<int, int> = tuple { 1, 2 };
+const customWithType: CustomType = "custom-type";

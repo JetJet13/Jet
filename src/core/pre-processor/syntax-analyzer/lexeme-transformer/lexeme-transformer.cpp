@@ -45,6 +45,7 @@
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.h"
+#include "../../../ast/ast-nodes/ast-array-nodes/ast-array-type-keyword-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -145,6 +146,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTLessThanBaseNode(lexeme);
     } else if (symbol->isGreaterThan()) {
         return new ASTGreaterThanBaseNode(lexeme);
+    } else if (symbol->isArrayTypeKeyword()) {
+        return new ASTArrayTypeKeywordNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

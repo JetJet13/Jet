@@ -27,6 +27,7 @@ void SyntaxDfa::init() {
     DFANode* varDeclaration = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_DECLARATION_NODE, AST_VARIABLE_DECLARATION_NODE);
     DFANode* varInit = DFANodeFactory::Once::create(AST_VARIABLE_INIT_NODE);
     DFANode* varType = DFANodeFactory::Once::create(AST_VARIABLE_TYPE_NODE);
+    DFANode* varDefinition = DFANodeFactory::Once::create(AST_VARIABLE_DEFINITION_NODE);
     DFANode* identifierExpression = DFANodeFactory::Once::create(AST_IDENTIFIER_EXPRESSION_NODE);
     DFANode* literalExpression = DFANodeFactory::Once::create(AST_LITERAL_EXPRESSION_NODE);
     DFANode* arrayAccessExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_EXPRESSION_NODE);
@@ -112,12 +113,10 @@ void SyntaxDfa::init() {
     DFANode* procedureLambdaTypeParameterList = DFANodeFactory::Once::createWithTarget(AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE, AST_LAMBDA_TYPE_NODE);
     DFANode* curryExpression = DFANodeFactory::Once::create(AST_CURRY_EXPRESSION_NODE);
     DFANode* tupleType = DFANodeFactory::Once::createWithTarget(AST_TUPLE_TYPE_NODE, AST_TUPLE_TYPE_NODE);
+    DFANode* arrayType = DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_NODE, AST_ARRAY_TYPE_NODE);
+    DFANode* arrayTypeKeyword = DFANodeFactory::Once::create(AST_ARRAY_TYPE_KEYWORD_NODE);
 
-    // todo: implement currying
-    // example
-    // lambda(x)(y);
-
-    this->initVarType(varType);
+    this->initVarDefinition(varDefinition);
     this->initVarInit(varInit);
     this->initFunction(functionKeyword);
     this->initProcedure(procedureKeyword);
@@ -127,6 +126,9 @@ void SyntaxDfa::init() {
     this->initElseIf(elseIfKeyword);
     this->initWhile(whileKeyword);
     this->initFor(forKeyword);
+
+    varType
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_VARIABLE_DEFINITION_NODE)));
 
     logicalOperator
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_LOGICAL_EXPRESSION_NODE)))
@@ -438,7 +440,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)));
 
     assignmentOperator
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE });
 
     objectAccessSource
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_PERIOD_NODE })
@@ -551,7 +553,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     typeParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_ARRAY_TYPE_KEYWORD_NODE });
 
     functionLambdaTypeParameterList
     ->addTransition(DFATransitionFactory::create(
@@ -578,9 +580,17 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, AST_LAMBDA_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_LAMBDA_RETURN_EXPRESSION_NODE)));
 
+    arrayTypeKeyword
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_PARAMETER_LIST_START_NODE })
+    ->addTransition(
+            DFATransitionFactory::create(
+                DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_ARRAY_TYPE_NODE)
+    ));
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
+    ->insertStartNode(varDefinition)
     ->insertStartNode(varInit)
     ->insertStartNode(varAssignment)
     ->insertStartNode(assignmentOperator)
@@ -682,6 +692,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(procedureLambdaTypeParameterList)
     ->insertStartNode(curryExpression)
     ->insertStartNode(tupleType)
+    ->insertStartNode(arrayType)
+    ->insertStartNode(arrayTypeKeyword)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
@@ -700,16 +712,22 @@ void SyntaxDfa::init() {
                       }));
 }
 
-void SyntaxDfa::initVarType(DFANode* varTypeNode) {
-    varTypeNode
+void SyntaxDfa::initVarDefinition(DFANode* varDefinition) {
+    varDefinition
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_COLON_NODE)
+            ->addTransition(DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_TYPE_NODE)
+                        ->addTransition(
+                            DFATransitionFactory::create(
+                                    DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_INIT_NODE)))
+            ))
+        )
+    )
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::create(AST_IDENTIFIER_NODE)
-                    ->addTransition(
-                            DFATransitionFactory::create(
-                                DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_INIT_NODE)))
-            )
-    );
+                DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_INIT_NODE)));
 }
 
 void SyntaxDfa::initVarInit(DFANode* varInitNode) {

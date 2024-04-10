@@ -203,6 +203,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE:
         case AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE:
         case AST_TUPLE_TYPE_NODE:
+        case AST_ARRAY_TYPE_NODE:
         case AST_TUPLE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_SOURCE_NODE:

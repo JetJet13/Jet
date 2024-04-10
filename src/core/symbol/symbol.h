@@ -66,6 +66,7 @@ public:
     bool isCatch();
     bool isFinally();
     bool isFatArrow();
+    bool isArrayTypeKeyword();
     SymbolType getType();
     std::string toString();
 };

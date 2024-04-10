@@ -14,7 +14,7 @@ class SyntaxDfa {
 private:
     DFA* _dfa;
     void init();
-    void initVarType(DFANode* varTypeNode);
+    void initVarDefinition(DFANode* varDefinition);
     void initVarInit(DFANode* varInitNode);
     void initFunction(DFANode* functionNode);
     void initProcedure(DFANode* procedureNode);

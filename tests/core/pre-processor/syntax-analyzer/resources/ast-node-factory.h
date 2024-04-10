@@ -52,7 +52,13 @@ namespace ASTNodeFactory {
             new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
             new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
-
+    static ASTVariableInitNode* createConstInitWithType(ASTTypeNode* type) {
+        return new ASTVariableInitNode(
+                new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
+                new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+                type
+        );
+    }
     static ASTIntLiteralNode* intLiteral = new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()));
     static ASTFloatLiteralNode* floatLiteral = new ASTFloatLiteralNode(createLexeme(SymbolFactory::createFloatSymbol()));
     static ASTStringLiteralNode* stringLiteral = new ASTStringLiteralNode(createLexeme(SymbolFactory::createStringSymbol()));

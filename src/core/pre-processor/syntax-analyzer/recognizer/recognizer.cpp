@@ -113,19 +113,20 @@ RecognizerMode Recognizer::determineMode(Handle* handle) {
 
 bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
     return astNode.has_value() && astNode.value()->isOneOf({
-                                                                   AST_TERMINATOR_NODE,
-                                                                   AST_RIGHT_BRACKET_NODE,
-                                                                   AST_GROUP_END_NODE,
-                                                                   AST_STRUCT_END_NODE,
-                                                                   AST_FUNCTION_BLOCK_NODE,
-                                                                   AST_FUNCTION_PARAMETER_LIST_END_NODE,
-                                                                   AST_FUNCTION_ARGUMENT_LIST_END_NODE,
-                                                                   AST_ENUM_KEY_VALUE_LIST_NODE,
-                                                                   AST_ENUM_KEY_VALUE_LIST_END_NODE,
-                                                                   AST_TUPLE_LIST_END_NODE,
-                                                                   AST_TYPE_PARAMETER_LIST_END_NODE,
-                                                                   AST_CONTROL_FLOW_BLOCK_NODE,
-                                                                   AST_CONTROL_FLOW_START_NODE,
+           AST_TERMINATOR_NODE,
+           AST_RIGHT_BRACKET_NODE,
+           AST_GROUP_END_NODE,
+           AST_STRUCT_END_NODE,
+           AST_FUNCTION_BLOCK_NODE,
+           AST_FUNCTION_PARAMETER_LIST_END_NODE,
+           AST_FUNCTION_ARGUMENT_LIST_END_NODE,
+           AST_ENUM_KEY_VALUE_LIST_NODE,
+           AST_ENUM_KEY_VALUE_LIST_END_NODE,
+           AST_TUPLE_LIST_END_NODE,
+           AST_TYPE_PARAMETER_LIST_END_NODE,
+           AST_CONTROL_FLOW_BLOCK_NODE,
+           AST_CONTROL_FLOW_START_NODE,
+           AST_ASSIGNMENT_OPERATOR_NODE
     });
 }
 

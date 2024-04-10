@@ -211,6 +211,10 @@ namespace SymbolFactory {
         return new Symbol(SYM_FAT_ARROW, "=>");
     }
 
+    Symbol* createArrayTypeSymbol() {
+        return new Symbol(SYM_ARRAY_TYPE, "arr");
+    }
+
     Symbol* createVoidTypeSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");
     }
@@ -235,7 +239,4 @@ namespace SymbolFactory {
         return new Symbol(SYM_BOOLEAN_TYPE, "boolean_type");
     }
 
-    Symbol* createArrayTypeSymbol() {
-        return new Symbol(SYM_ARRAY_TYPE, "array_type");
-    }
 }

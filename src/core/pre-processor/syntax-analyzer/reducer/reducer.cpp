@@ -59,6 +59,8 @@
 #include "reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.h"
 #include "reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.h"
+#include "reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.h"
+#include "reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -67,6 +69,7 @@ Reducer::Reducer() {
 
 void Reducer::initStrategies() {
     this->addStrategy(AST_VARIABLE_INIT_NODE, new VariableInitReducerStrategy());
+    this->addStrategy(AST_VARIABLE_DEFINITION_NODE, new VariableDefinitionReducerStrategy());
     this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationReducerStrategy());
     this->addStrategy(AST_UNARY_EXPRESSION_NODE, new UnaryExpressionReducerStrategy());
     this->addStrategy(AST_BINARY_EXPRESSION_NODE, new BinaryExpressionReducerStrategy());
@@ -122,6 +125,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LAMBDA_TYPE_NODE, new LambdaTypeReducerStrategy());
     this->addStrategy(AST_CURRY_EXPRESSION_NODE, new CurryExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_TYPE_NODE, new TupleTypeReducerStrategy());
+    this->addStrategy(AST_ARRAY_TYPE_NODE, new ArrayTypeReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {
