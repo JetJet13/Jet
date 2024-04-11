@@ -415,7 +415,7 @@ class abstract ParentClass {
     public virtual isValid: func<> => boolean;
 }
 
-class MyClass implements MyInterface inherits ParentClass has IteratorTrait {
+class MyClass implements MyInterface extends ParentClass inherits IteratorTrait {
     public virtualFoo: int = 5;
     public let foo: int;
     public const bar: boolean;
