@@ -344,11 +344,11 @@ func useTuple(x: tuple<int, string, boolean, CustomType>) boolean {
     return true;
 }
 
-func useArray(x: arr<int>, y: arr<CustomType>, z: arr<arr<int>>, n: arr<arr<arr<int>>>) boolean {
+func useArray(x: arr<int, 4>, y: arr<CustomType, 4>, z: arr<arr<int, 4>, 4>, n: arr<arr<arr<int, 1>, 2>, 3>) boolean {
     return true;
 }
 
-func useArrayOfFuncs(x: arr<func<int> => boolean>) boolean {
+func useArrayOfFuncs(x: arr<func<int> => boolean, 4>) boolean {
     return true;
 }
 
@@ -357,8 +357,95 @@ const floatWithType: float = 5.0;
 const charWithType: char = 'c';
 const stringWithType: string = "foo";
 const boolWithType: boolean = true;
-const arrWithType: arr<int> = [1,2,3];
+const arrWithType: arr<int, 3> = [1,2,3];
 const funcWithType: func<int> => boolean = (x: int) => true;
 const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: CustomType = "custom-type";
+
+type Foo = string;
+type Bar = oneOf<string, int, CustomType>;
+type Nar = func<int> => boolean;
+type Money = float;
+// type GenericFiveArray<T> = arr<T, 5>;
+
+interface MyInterface {
+    let foo: int,
+    const bar: boolean,
+    hello: func<> => string,
+}
+
+// interface MyInterface<T, R> {
+//    let foo: T,
+//    const bar: R,
+//    hello<S>: func<S> => string,
+// }
+
+trait IteratorTrait<T> {
+    private data: arr<string, 5>;
+    private let current: int = 0;
+    public let hasNext: boolean = false;
+
+    protected initIteratorTrait(data: arr<string, 5>) {
+        this.data = data;
+        this.updateHasNext();
+    }
+
+    public next() string {
+        this.updateHasNext();
+        if (this.hasNext) {
+            return this.data[this.current];
+        }
+
+        return "";
+    }
+
+    public reset() {
+        this.current = 0;
+        this.updateHasNext();
+    }
+
+    private updateHasNext() {
+        this.hasNext = this.current < this.data.length;
+    }
+}
+
+class abstract ParentClass {
+    public virtual virtualFoo: int;
+    public virtual isValid: func<> => boolean;
+}
+
+class MyClass implements MyInterface inherits ParentClass has IteratorTrait {
+    public virtualFoo: int = 5;
+    public let foo: int;
+    public const bar: boolean;
+
+    constructor() {
+        this.initIteratorTrait([1,2,3,4,5]);
+        this.foo = 10;
+        this.bar = true;
+    }
+
+    public hello() string {
+        return "hello world!";
+    }
+
+    public isValid() boolean {
+        return this.bar;
+    }
+
+}
+
+const myClassInstance = new MyClass();
+
+myClassInstance.virtualFoo;
+myClassInstance.foo;
+myClassInstance.bar;
+
+while myClassInstance.hasNext {
+    myClassInstance.next();
+}
+
+myClassInstance.reset();
+myClassInstance.hello();
+myClassInstance.isValid();

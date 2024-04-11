@@ -452,6 +452,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.h
         ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.cpp
         ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.h
+        ast/ast-nodes/ast-type-nodes/ast-int-literal-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-int-literal-type-node.h
 
 )
 
