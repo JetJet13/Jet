@@ -70,6 +70,7 @@ namespace SymbolFactory {
     Symbol* createModuleSymbol();
     Symbol* createAsSymbol();
     Symbol* createImportSymbol();
+    Symbol* createUseSymbol();
     Symbol* createFromSymbol();
     Symbol* createDotDotSymbol();
     Symbol* createDotDotDotSymbol();

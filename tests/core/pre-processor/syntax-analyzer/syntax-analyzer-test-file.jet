@@ -363,60 +363,22 @@ const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: CustomType = "custom-type";
 
-module MyModule {
-    Variable as MyVariable,
-    MyClass
-};
-
 module MyOtherModule {};
 
 import MyModule from "./my-module.jet";
 
 module GlobalModule {
     MyModule,
-    MyOtherModule
-}
+    MyOtherModule,
+    ThirdModule as MyThirdModule,
+    ...FourthModule,
+};
 
+use MyPackage from "my-package";
+use { MyPackageModule::{ MyClass, ...MyPackageModule }, MyOtherModule as OtherPackageModule, MyThirdPackageModule, ...MyPackage } from "my-package";
 import GlobalModule from "./global-module.jet";
-import { MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, ..GlobalModuleAlias } from "./global-module.jet";
+import { MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, MyThirdModule, ...GlobalModule } from "./global-module.jet";
 
-const Variable = "hello-world";
 
-class MyClass {
-    public foo: int;
-    public const bar: boolean;
-    private privateBar: boolean = false;
-    private const privateConstBar: boolean = false;
-    protected protectedBar: boolean = false;
-    protected const protectedConstBar: boolean = false;
-
-    constructor(foo: int, bar: boolean) {
-        this.foo = foo;
-        this.bar = bar;
-    }
-
-    public publicFunction() string {
-        return "hello world!";
-    }
-
-    public publicProcedure() {
-        this.foo + 1;
-    }
-
-    protected protectedFunction() boolean {
-        return this.protectedBar;
-    }
-
-    protected protectedProcedure() {
-        this.bar && this.protectedBar;
-    }
-
-    private privateFunction() boolean {
-        return this.privateBar;
-    }
-
-    private protectedProcedure() {
-        this.bar && this.privateBar;
-    }
-
-}
+const myClass = new GlobalModule::MyModule::MyClass();
+const otherClass = new MyClass();

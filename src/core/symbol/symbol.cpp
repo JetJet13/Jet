@@ -250,6 +250,10 @@ bool Symbol::isColonColon() {
     return _type == SYM_COLON_COLON;
 }
 
+bool Symbol::isUseKeyword() {
+    return _type == SYM_USE;
+}
+
 SymbolType Symbol::getType() {
     return _type;
 }

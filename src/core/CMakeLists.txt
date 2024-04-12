@@ -454,6 +454,8 @@ add_library(jet-core
         ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.h
         ast/ast-nodes/ast-type-nodes/ast-int-literal-type-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-int-literal-type-node.h
+        ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.h
 
 )
 

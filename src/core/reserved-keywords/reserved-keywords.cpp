@@ -91,6 +91,7 @@ void ReservedKeywords::init() {
     this->add("module", SymbolFactory::createModuleSymbol());
     this->add("as", SymbolFactory::createAsSymbol());
     this->add("import", SymbolFactory::createImportSymbol());
+    this->add("use", SymbolFactory::createUseSymbol());
     this->add("from", SymbolFactory::createFromSymbol());
     this->add("..", SymbolFactory::createDotDotSymbol());
     this->add("...", SymbolFactory::createDotDotDotSymbol());
@@ -102,6 +103,7 @@ void ReservedKeywords::init() {
  *  module
  *  as
  *  import
+ *  use
  *  from
  *  ..
  *  ...

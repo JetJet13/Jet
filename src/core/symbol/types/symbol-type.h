@@ -71,6 +71,7 @@ typedef enum {
     SYM_DOT_DOT,
     SYM_DOT_DOT_DOT,
     SYM_COLON_COLON,
+    SYM_USE,
     SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H

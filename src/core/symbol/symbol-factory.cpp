@@ -251,6 +251,10 @@ namespace SymbolFactory {
         return new Symbol(SYM_IMPORT, "import");
     }
 
+    Symbol* createUseSymbol() {
+        return new Symbol(SYM_USE, "use");
+    }
+
     Symbol* createFromSymbol() {
         return new Symbol(SYM_FROM, "from");
     }

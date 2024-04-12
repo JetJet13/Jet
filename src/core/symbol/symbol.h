@@ -74,6 +74,7 @@ public:
     bool isDotDot();
     bool isDotDotDot();
     bool isColonColon();
+    bool isUseKeyword();
     SymbolType getType();
     std::string toString();
 };
