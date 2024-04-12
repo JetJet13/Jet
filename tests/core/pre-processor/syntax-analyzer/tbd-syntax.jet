@@ -1,0 +1,92 @@
+type Foo = string;
+type Bar = oneOf<string, int, CustomType>;
+type Nar = func<int> => boolean;
+type Money = float;
+type GenericFiveArray<T> = arr<T, 5>;
+
+interface MyInterface {
+    foo: int,
+    bar: boolean,
+    hello: func<> => string,
+}
+
+interface MyInterface<T, R> {
+    foo: T,
+    const bar: R,
+    hello<S>: func<S> => string,
+}
+
+trait IteratorTrait<T> {
+    private data: arr<string, 5>;
+    private current: int = 0;
+    public hasNext: boolean = false;
+
+    protected initIteratorTrait(data: arr<string, 5>) {
+        this.data = data;
+        this.updateHasNext();
+    }
+
+    public next() string {
+        this.updateHasNext();
+        if (this.hasNext) {
+            return this.data[this.current];
+        }
+
+        return "";
+    }
+
+    public reset() {
+        this.current = 0;
+        this.updateHasNext();
+    }
+
+    private updateHasNext() {
+        this.hasNext = this.current < this.data.length;
+    }
+}
+
+class abstract ParentClass {
+    public virtual virtualFoo: int;
+    public virtual isValid: func<> => boolean;
+}
+
+class MyClass {
+    public virtualFoo: int = 5;
+    public foo: int;
+    public const bar: boolean;
+
+    constructor() {
+        this.initIteratorTrait([1,2,3,4,5]);
+        this.foo = 10;
+        this.bar = true;
+    }
+
+    constructor(foo: int) {
+            this.initIteratorTrait([1,2,3,4,5]);
+            this.foo = foo;
+            this.bar = true;
+    }
+
+    public hello() string {
+        return "hello world!";
+    }
+
+    public isValid() boolean {
+        return this.bar;
+    }
+
+}
+
+const myClassInstance = new MyClass();
+
+myClassInstance.virtualFoo;
+myClassInstance.foo;
+myClassInstance.bar;
+
+while myClassInstance.hasNext {
+    myClassInstance.next();
+}
+
+myClassInstance.reset();
+myClassInstance.hello();
+myClassInstance.isValid();

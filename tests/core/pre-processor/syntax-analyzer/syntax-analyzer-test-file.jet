@@ -363,89 +363,60 @@ const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: CustomType = "custom-type";
 
-type Foo = string;
-type Bar = oneOf<string, int, CustomType>;
-type Nar = func<int> => boolean;
-type Money = float;
-// type GenericFiveArray<T> = arr<T, 5>;
+module MyModule {
+    Variable as MyVariable,
+    MyClass
+};
 
-interface MyInterface {
-    let foo: int,
-    const bar: boolean,
-    hello: func<> => string,
+module MyOtherModule {};
+
+import MyModule from "./my-module.jet";
+
+module GlobalModule {
+    MyModule,
+    MyOtherModule
 }
 
-// interface MyInterface<T, R> {
-//    let foo: T,
-//    const bar: R,
-//    hello<S>: func<S> => string,
-// }
+import GlobalModule from "./global-module.jet";
+import { MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, ...GlobalModuleAlias } from "./global-module.jet";
 
-trait IteratorTrait<T> {
-    private data: arr<string, 5>;
-    private let current: int = 0;
-    public let hasNext: boolean = false;
+const Variable = "hello-world";
 
-    protected initIteratorTrait(data: arr<string, 5>) {
-        this.data = data;
-        this.updateHasNext();
-    }
-
-    public next() string {
-        this.updateHasNext();
-        if (this.hasNext) {
-            return this.data[this.current];
-        }
-
-        return "";
-    }
-
-    public reset() {
-        this.current = 0;
-        this.updateHasNext();
-    }
-
-    private updateHasNext() {
-        this.hasNext = this.current < this.data.length;
-    }
-}
-
-class abstract ParentClass {
-    public virtual virtualFoo: int;
-    public virtual isValid: func<> => boolean;
-}
-
-class MyClass implements MyInterface extends ParentClass inherits IteratorTrait {
-    public virtualFoo: int = 5;
-    public let foo: int;
+class MyClass {
+    public foo: int;
     public const bar: boolean;
+    private privateBar: boolean = false;
+    private const privateConstBar: boolean = false;
+    protected protectedBar: boolean = false;
+    protected const protectedConstBar: boolean = false;
 
-    constructor() {
-        this.initIteratorTrait([1,2,3,4,5]);
-        this.foo = 10;
-        this.bar = true;
+    constructor(foo: int, bar: boolean) {
+        this.foo = foo;
+        this.bar = bar;
     }
 
-    public hello() string {
+    public publicFunction() string {
         return "hello world!";
     }
 
-    public isValid() boolean {
-        return this.bar;
+    public publicProcedure() {
+        this.foo + 1;
+    }
+
+    protected protectedFunction() boolean {
+        return this.protectedBar;
+    }
+
+    protected protectedProcedure() {
+        this.bar && this.protectedBar;
+    }
+
+    private privateFunction() boolean {
+        return this.privateBar;
+    }
+
+    private protectedProcedure() {
+        this.bar && this.privateBar;
     }
 
 }
-
-const myClassInstance = new MyClass();
-
-myClassInstance.virtualFoo;
-myClassInstance.foo;
-myClassInstance.bar;
-
-while myClassInstance.hasNext {
-    myClassInstance.next();
-}
-
-myClassInstance.reset();
-myClassInstance.hello();
-myClassInstance.isValid();
