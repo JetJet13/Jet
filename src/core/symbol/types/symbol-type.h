@@ -64,6 +64,13 @@ typedef enum {
     SYM_CATCH,
     SYM_FINALLY,
     SYM_FAT_ARROW,
+    SYM_MODULE,
+    SYM_AS,
+    SYM_IMPORT,
+    SYM_FROM,
+    SYM_DOT_DOT,
+    SYM_DOT_DOT_DOT,
+    SYM_COLON_COLON,
     SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H

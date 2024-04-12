@@ -378,7 +378,7 @@ module GlobalModule {
 }
 
 import GlobalModule from "./global-module.jet";
-import { MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, ...GlobalModuleAlias } from "./global-module.jet";
+import { MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, ..GlobalModuleAlias } from "./global-module.jet";
 
 const Variable = "hello-world";
 

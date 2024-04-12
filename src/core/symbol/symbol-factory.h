@@ -67,6 +67,13 @@ namespace SymbolFactory {
     Symbol* createCharTypeSymbol();
     Symbol* createBooleanTypeSymbol();
     Symbol* createArrayTypeSymbol();
+    Symbol* createModuleSymbol();
+    Symbol* createAsSymbol();
+    Symbol* createImportSymbol();
+    Symbol* createFromSymbol();
+    Symbol* createDotDotSymbol();
+    Symbol* createDotDotDotSymbol();
+    Symbol* createColonColonSymbol();
 }
 
 

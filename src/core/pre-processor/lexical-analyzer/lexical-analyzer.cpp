@@ -190,6 +190,37 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 return new Token(isEqualityOperator.value());
             }
             return new Token(isCharacterReservedKeyword.value());
+        } else if (nextChar &&
+                    (reservedKeyword->isColon())
+                ) {
+            std::string term;
+            term += character.value();
+            term += nextChar.value();
+            auto isColonColon = _reservedKeywords->match(term);
+            if (isColonColon) {
+                _fileReader.advance();
+                return new Token(isColonColon.value());
+            }
+            return new Token(isCharacterReservedKeyword.value());
+        }  else if (nextChar && reservedKeyword->isPeriod()) {
+            std::string term;
+            term += character.value();
+            term += nextChar.value();
+            auto isDotDot = _reservedKeywords->match(term);
+            if (isDotDot) {
+                _fileReader.advance();
+                auto afterNextChar = _fileReader.peek();
+                if (afterNextChar) {
+                    term += afterNextChar.value();
+                    auto isDotDotDot = _reservedKeywords->match(term);
+                    if (isDotDotDot) {
+                        _fileReader.advance();
+                        return new Token(isDotDotDot.value());
+                    }
+                }
+                return new Token(isDotDot.value());
+            }
+            return new Token(isCharacterReservedKeyword.value());
         } else {
             return new Token(isCharacterReservedKeyword.value());
         }

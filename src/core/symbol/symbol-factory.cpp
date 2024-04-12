@@ -239,4 +239,33 @@ namespace SymbolFactory {
         return new Symbol(SYM_BOOLEAN_TYPE, "boolean_type");
     }
 
+    Symbol* createModuleSymbol() {
+        return new Symbol(SYM_MODULE, "module");
+    }
+
+    Symbol* createAsSymbol() {
+        return new Symbol(SYM_AS, "as");
+    }
+
+    Symbol* createImportSymbol() {
+        return new Symbol(SYM_IMPORT, "import");
+    }
+
+    Symbol* createFromSymbol() {
+        return new Symbol(SYM_FROM, "from");
+    }
+
+    Symbol* createDotDotSymbol() {
+        return new Symbol(SYM_DOT_DOT, "..");
+    }
+
+    Symbol* createDotDotDotSymbol() {
+        return new Symbol(SYM_DOT_DOT_DOT, "...");
+    }
+
+    Symbol* createColonColonSymbol() {
+        return new Symbol(SYM_COLON_COLON, "::");
+    }
+
+
 }

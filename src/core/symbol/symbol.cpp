@@ -222,6 +222,34 @@ bool Symbol::isType() {
             _type == SYM_VOID_TYPE;
 }
 
+bool Symbol::isModule() {
+    return _type == SYM_MODULE;
+}
+
+bool Symbol::isAsKeyword() {
+    return _type == SYM_AS;
+}
+
+bool Symbol::isImport() {
+    return _type == SYM_IMPORT;
+}
+
+bool Symbol::isFromKeyword() {
+    return _type == SYM_FROM;
+}
+
+bool Symbol::isDotDot() {
+    return _type == SYM_DOT_DOT;
+}
+
+bool Symbol::isDotDotDot() {
+    return _type == SYM_DOT_DOT_DOT;
+}
+
+bool Symbol::isColonColon() {
+    return _type == SYM_COLON_COLON;
+}
+
 SymbolType Symbol::getType() {
     return _type;
 }

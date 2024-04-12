@@ -88,6 +88,26 @@ void ReservedKeywords::init() {
     this->add("catch", SymbolFactory::createCatchSymbol());
     this->add("finally", SymbolFactory::createFinallySymbol());
     this->add("=>", SymbolFactory::createFatArrowSymbol());
+    this->add("module", SymbolFactory::createModuleSymbol());
+    this->add("as", SymbolFactory::createAsSymbol());
+    this->add("import", SymbolFactory::createImportSymbol());
+    this->add("from", SymbolFactory::createFromSymbol());
+    this->add("..", SymbolFactory::createDotDotSymbol());
+    this->add("...", SymbolFactory::createDotDotDotSymbol());
+    this->add("::", SymbolFactory::createColonColonSymbol());
+
+/*  todo: create AST Nodes for the following symbols and then ast nodes to support
+ *  creating modules and importing modules
+ *  =========== SYMBOLS ===========
+ *  module
+ *  as
+ *  import
+ *  from
+ *  ..
+ *  ...
+ *  ::
+ *  ===============================
+ */
 
     this->initKeywordSymbolList();
 }

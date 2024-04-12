@@ -67,6 +67,13 @@ public:
     bool isFinally();
     bool isFatArrow();
     bool isArrayTypeKeyword();
+    bool isModule();
+    bool isAsKeyword();
+    bool isImport();
+    bool isFromKeyword();
+    bool isDotDot();
+    bool isDotDotDot();
+    bool isColonColon();
     SymbolType getType();
     std::string toString();
 };
