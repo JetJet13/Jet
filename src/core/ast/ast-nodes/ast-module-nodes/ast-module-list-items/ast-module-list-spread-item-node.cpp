@@ -5,31 +5,31 @@
 #include "ast-module-list-spread-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTModuleListSpreadItemNode::ASTModuleListSpreadItemNode(ASTIdentifierNode* identifier) {
+ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(ASTIdentifierNode* identifier) {
     _identifier = identifier;
 }
 
-ASTIdentifierNode* ASTModuleListSpreadItemNode::getIdentifier() {
+ASTIdentifierNode* ASTImportModuleListSpreadItemNode::getIdentifier() {
     return _identifier;
 }
 
-ASTNodeType ASTModuleListSpreadItemNode::getNodeType() {
+ASTNodeType ASTImportModuleListSpreadItemNode::getNodeType() {
     return AST_MODULE_LIST_SPREAD_ITEM_NODE;
 }
 
-std::string ASTModuleListSpreadItemNode::toString() {
+std::string ASTImportModuleListSpreadItemNode::toString() {
     return "MODULE_LIST_SPREAD_ITEM";
 }
 
-bool ASTModuleListSpreadItemNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleListSpreadItemNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTModuleListSpreadItemNode*)other;
+    auto otherNode = (ASTImportModuleListSpreadItemNode*)other;
     return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
 }
 
-void ASTModuleListSpreadItemNode::print() {
+void ASTImportModuleListSpreadItemNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _identifier->print();
     Logger::log("----------");

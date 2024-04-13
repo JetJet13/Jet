@@ -484,6 +484,31 @@ add_library(jet-core
         ast/ast-nodes/ast-module-nodes/ast-module-list-end-node.h
         ast/ast-nodes/ast-module-nodes/ast-module-spread-node.cpp
         ast/ast-nodes/ast-module-nodes/ast-module-spread-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-spread-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-spread-node.h
+        ast/ast-nodes/ast-import-nodes/ast-from-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-from-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-path-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-path-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-access-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-access-node.h
+        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-module-name-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-module-name-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h
+        ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-package-single-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-package-single-module-declaration-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-package-many-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-package-many-module-declaration-node.h
 
 )
 

@@ -5,16 +5,16 @@
 #include "ast-module-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTModuleNameNode* name, ASTModuleListNode* items) {
+ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTPackageNameNode* name, ASTImportModuleListNode* items) {
     _name = name;
     _items = items;
 }
 
-ASTModuleListNode* ASTModuleDeclarationNode::getValues() {
-    return _values;
+ASTImportModuleListNode* ASTModuleDeclarationNode::getItems() {
+    return _items;
 }
 
-ASTModuleNameNode* ASTModuleDeclarationNode::getName() {
+ASTPackageNameNode* ASTModuleDeclarationNode::getName() {
     return _name;
 }
 

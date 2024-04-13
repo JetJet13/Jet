@@ -5,30 +5,32 @@
 #include "ast-module-name-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleNameNode::ASTModuleNameNode(Lexeme *lexeme) {
-    _name = lexeme;
+ASTPackageNameNode::ASTPackageNameNode(ASTIdentifierNode* identifier) {
+    _identifier = identifier;
 }
 
-Lexeme* ASTModuleNameNode::getName() {
-    return _name;
+ASTIdentifierNode* ASTPackageNameNode::getIdentifier() {
+    return _identifier;
 }
 
-ASTNodeType ASTModuleNameNode::getNodeType() {
+ASTNodeType ASTPackageNameNode::getNodeType() {
     return AST_MODULE_NAME_NODE;
 }
 
-std::string ASTModuleNameNode::toString() {
+std::string ASTPackageNameNode::toString() {
     return "MODULE_NAME";
 }
 
-bool ASTModuleNameNode::isSameAs(ASTNode* other) {
+bool ASTPackageNameNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleNameNode*)other;
-    return this->getName()->hasSameSymbolTypeAs(otherNode->getName());
+    auto otherNode = (ASTPackageNameNode*)other;
+    return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
 }
 
-void ASTModuleNameNode::print() {
-    Logger::log(this->toString(), "-", _name->toString());
+void ASTPackageNameNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    _identifier->print();
+    Logger::log("----------");
 }

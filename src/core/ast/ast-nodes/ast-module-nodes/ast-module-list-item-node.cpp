@@ -5,31 +5,31 @@
 #include "ast-module-list-item-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleListItemNode::ASTModuleListItemNode(ASTModuleListBaseItemNode* item) {
+ASTImportModuleListItemNode::ASTImportModuleListItemNode(ASTModuleListBaseItemNode* item) {
     _item = item;
 }
 
-ASTModuleListBaseItemNode* ASTModuleListItemNode::getItem() {
+ASTModuleListBaseItemNode* ASTImportModuleListItemNode::getItem() {
     return _item;
 }
 
-ASTNodeType ASTModuleListItemNode::getNodeType() {
+ASTNodeType ASTImportModuleListItemNode::getNodeType() {
     return AST_MODULE_LIST_ITEM_NODE;
 }
 
-std::string ASTModuleListItemNode::toString() {
+std::string ASTImportModuleListItemNode::toString() {
     return "MODULE_LIST_ITEM";
 }
 
-bool ASTModuleListItemNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleListItemNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleListItemNode*)other;
+    auto otherNode = (ASTImportModuleListItemNode*)other;
     return _item->isSameAs(otherNode->getItem());
 }
 
-void ASTModuleListItemNode::print() {
+void ASTImportModuleListItemNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _item->print();
     Logger::log("----------");

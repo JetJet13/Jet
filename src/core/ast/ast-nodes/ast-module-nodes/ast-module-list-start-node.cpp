@@ -5,30 +5,30 @@
 #include "ast-module-list-start-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleListStartNode::ASTModuleListStartNode(Lexeme *lexeme) {
+ASTImportModuleListStartNode::ASTImportModuleListStartNode(Lexeme *lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTModuleListStartNode::getLexeme() {
+Lexeme* ASTImportModuleListStartNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNodeType ASTModuleListStartNode::getNodeType() {
+ASTNodeType ASTImportModuleListStartNode::getNodeType() {
     return AST_MODULE_LIST_START_NODE;
 }
 
-std::string ASTModuleListStartNode::toString() {
+std::string ASTImportModuleListStartNode::toString() {
     return "MODULE_LIST_START";
 }
 
-bool ASTModuleListStartNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleListStartNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTModuleListStartNode*)other;
+    auto otherNode = (ASTImportModuleListStartNode*)other;
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 
-void ASTModuleListStartNode::print() {
+void ASTImportModuleListStartNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
 }
