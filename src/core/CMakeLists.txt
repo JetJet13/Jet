@@ -505,10 +505,10 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h
         ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.cpp
         ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h
-        ast/ast-nodes/ast-declaration-nodes/ast-package-single-module-declaration-node.cpp
-        ast/ast-nodes/ast-declaration-nodes/ast-package-single-module-declaration-node.h
-        ast/ast-nodes/ast-declaration-nodes/ast-package-many-module-declaration-node.cpp
-        ast/ast-nodes/ast-declaration-nodes/ast-package-many-module-declaration-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.h
         ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.cpp
         ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h
         ast/ast-nodes/ast-base-nodes/ast-star-base-node.cpp
@@ -521,6 +521,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-spread-item-reducer-strategy/module-list-spread-item-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/use-single-module-declaration-reducer-strategy/use-single-module-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/use-single-module-declaration-reducer-strategy/use-single-module-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-single-module-declaration-reducer-strategy/import-single-module-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-single-module-declaration-reducer-strategy/import-single-module-declaration-reducer-strategy.h
 
 )
 

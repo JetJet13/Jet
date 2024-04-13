@@ -65,6 +65,8 @@
 #include "reducer-strategies/module-list-spread-item-reducer-strategy/module-list-spread-item-reducer-strategy.h"
 #include "reducer-strategies/module-list-reducer-strategy/module-list-reducer-strategy.h"
 #include "reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.h"
+#include "reducer-strategies/import-single-module-declaration-reducer-strategy/import-single-module-declaration-reducer-strategy.h"
+#include "reducer-strategies/use-single-module-declaration-reducer-strategy/use-single-module-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -134,6 +136,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_MODULE_LIST_SPREAD_ITEM_NODE, new ModuleListSpreadItemReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_NODE, new ModuleListReducerStrategy());
     this->addStrategy(AST_MODULE_DECLARATION_NODE, new ModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, new UseSingleModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, new ImportSingleModuleDeclarationReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

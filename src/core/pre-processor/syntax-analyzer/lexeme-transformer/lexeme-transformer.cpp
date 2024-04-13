@@ -50,6 +50,9 @@
 #include "../../../ast/ast-nodes/ast-module-nodes/ast-module-node.h"
 #include "../../../ast/ast-nodes/ast-module-nodes/ast-as-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.h"
+#include "../../../ast/ast-nodes/ast-import-nodes/ast-import-node.h"
+#include "../../../ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h"
+#include "../../../ast/ast-nodes/ast-import-nodes/ast-from-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -159,6 +162,12 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTAsNode(lexeme);
     } else if (symbol->isDotDotDot()) {
         return new ASTDotDotDotBaseNode(lexeme);
+    } else if (symbol->isImport()) {
+        return new ASTImportNode(lexeme);
+    } else if (symbol->isUseKeyword()) {
+        return new ASTUseNode(lexeme);
+    } else if (symbol->isFromKeyword()) {
+        return new ASTFromNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

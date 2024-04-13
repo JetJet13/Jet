@@ -131,7 +131,8 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
            AST_MODULE_ALIAS_NAME_NODE,
            AST_CONTROL_FLOW_BLOCK_NODE,
            AST_CONTROL_FLOW_START_NODE,
-           AST_ASSIGNMENT_OPERATOR_NODE
+           AST_ASSIGNMENT_OPERATOR_NODE,
+           AST_IMPORT_PATH_NODE
     });
 }
 

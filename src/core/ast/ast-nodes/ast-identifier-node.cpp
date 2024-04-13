@@ -15,6 +15,7 @@
 #include "ast-module-nodes/ast-module-name-node.h"
 #include "ast-module-nodes/ast-module-list-items/ast-module-list-normal-item-node.h"
 #include "ast-module-nodes/ast-module-alias-name-node.h"
+#include "ast-import-nodes/ast-import-module-name-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -52,6 +53,10 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
 
     if (prevNode && prevNode.value()->isOneOf({ AST_MODULE_NODE })) {
         return new ASTModuleNameNode(this);
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_IMPORT_NODE, AST_USE_NODE })) {
+        return new ASTImportModuleNameNode(this);
     }
 
     if (mode == SA_MODULE_LIST_MODE) {

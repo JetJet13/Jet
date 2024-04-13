@@ -122,6 +122,11 @@ void SyntaxDfa::init() {
     DFANode* moduleListAliasItem = DFANodeFactory::Once::create(AST_MODULE_LIST_ALIAS_ITEM_NODE);
     DFANode* moduleListSpreadItem = DFANodeFactory::Once::create(AST_MODULE_LIST_SPREAD_ITEM_NODE);
     DFANode* asKeyword = DFANodeFactory::Once::create(AST_AS_NODE);
+    DFANode* importKeyword = DFANodeFactory::Once::create(AST_IMPORT_NODE);
+    DFANode* useKeyword = DFANodeFactory::Once::create(AST_USE_NODE);
+    DFANode* fromKeyword = DFANodeFactory::Once::create(AST_FROM_NODE);
+    DFANode* importModuleName = DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE);
+
 
     this->initVarDefinition(varDefinition);
     this->initVarInit(varInit);
@@ -628,6 +633,42 @@ void SyntaxDfa::init() {
     asKeyword
     ->markAlwaysReduceSelf();
 
+    importKeyword
+    ->markAlwaysReduceSelf()
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_FROM_NODE)
+                    ->addTransition(
+                        DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE))
+                    )
+            ))
+    ));
+
+    useKeyword
+    ->markAlwaysReduceSelf()
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_FROM_NODE)
+                    ->addTransition(
+                        DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_USE_SINGLE_MODULE_DECLARATION_NODE))
+                    )
+            ))
+    ));
+
+    importModuleName
+    ->markAlwaysReduceSelf();
+
+    fromKeyword
+    ->markAlwaysReduceSelf();
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -743,6 +784,10 @@ void SyntaxDfa::init() {
     ->insertStartNode(moduleListAliasItem)
     ->insertStartNode(moduleListSpreadItem)
     ->insertStartNode(asKeyword)
+    ->insertStartNode(importKeyword)
+    ->insertStartNode(useKeyword)
+    ->insertStartNode(importModuleName)
+    ->insertStartNode(fromKeyword)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
