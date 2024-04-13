@@ -61,6 +61,10 @@
 #include "reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.h"
 #include "reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.h"
 #include "reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.h"
+#include "reducer-strategies/module-list-alias-item-reducer-strategy/module-list-alias-item-reducer-strategy.h"
+#include "reducer-strategies/module-list-spread-item-reducer-strategy/module-list-spread-item-reducer-strategy.h"
+#include "reducer-strategies/module-list-reducer-strategy/module-list-reducer-strategy.h"
+#include "reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -126,6 +130,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_CURRY_EXPRESSION_NODE, new CurryExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_TYPE_NODE, new TupleTypeReducerStrategy());
     this->addStrategy(AST_ARRAY_TYPE_NODE, new ArrayTypeReducerStrategy());
+    this->addStrategy(AST_MODULE_LIST_ALIAS_ITEM_NODE, new ModuleListAliasItemReducerStrategy());
+    this->addStrategy(AST_MODULE_LIST_SPREAD_ITEM_NODE, new ModuleListSpreadItemReducerStrategy());
+    this->addStrategy(AST_MODULE_LIST_NODE, new ModuleListReducerStrategy());
+    this->addStrategy(AST_MODULE_DECLARATION_NODE, new ModuleDeclarationReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

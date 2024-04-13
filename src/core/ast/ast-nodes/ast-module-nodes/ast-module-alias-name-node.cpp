@@ -5,31 +5,31 @@
 #include "ast-module-alias-name-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTPackageAliasNameNode::ASTPackageAliasNameNode(ASTIdentifierNode* identifier) {
+ASTModuleAliasNameNode::ASTModuleAliasNameNode(ASTIdentifierNode* identifier) {
     _identifier = identifier;
 }
 
-ASTIdentifierNode* ASTPackageAliasNameNode::getIdentifier() {
+ASTIdentifierNode* ASTModuleAliasNameNode::getIdentifier() {
     return _identifier;
 }
 
-ASTNodeType ASTPackageAliasNameNode::getNodeType() {
+ASTNodeType ASTModuleAliasNameNode::getNodeType() {
     return AST_MODULE_ALIAS_NAME_NODE;
 }
 
-std::string ASTPackageAliasNameNode::toString() {
+std::string ASTModuleAliasNameNode::toString() {
     return "MODULE_ALIAS_NAME";
 }
 
-bool ASTPackageAliasNameNode::isSameAs(ASTNode *other) {
+bool ASTModuleAliasNameNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTPackageAliasNameNode*)other;
+    auto otherNode = (ASTModuleAliasNameNode*)other;
     return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
 }
 
-void ASTPackageAliasNameNode::print() {
+void ASTModuleAliasNameNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _identifier->print();
     Logger::log("----------");

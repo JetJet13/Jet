@@ -29,6 +29,7 @@ public:
     bool isFunctionArgumentListEnclosed();
     bool isEnumKeyValueListEnclosed();
     bool isTupleListEnclosed();
+    bool isModuleListEnclosed();
     bool isLambdaTypeParameterListEnclosed();
     void clear();
     unsigned long size();

@@ -46,6 +46,10 @@
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.h"
 #include "../../../ast/ast-nodes/ast-array-nodes/ast-array-type-keyword-node.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-star-base-node.h"
+#include "../../../ast/ast-nodes/ast-module-nodes/ast-module-node.h"
+#include "../../../ast/ast-nodes/ast-module-nodes/ast-as-node.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -76,11 +80,12 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTPlusBaseNode(lexeme);
     } else if (symbol->isMinus()) {
         return new ASTMinusBaseNode(lexeme);
+    } else if (symbol->isStar()) {
+        return new ASTStarBaseNode(lexeme);
     } else if (symbol->isEqualityOperator() ||
                symbol->isInequalityOperator() ||
                symbol->isGreaterThanOrEqual() ||
                symbol->isLessThanOrEqual() ||
-               symbol->isStar() ||
                symbol->isSlash() ||
                symbol->isModulo()) {
         return new ASTBinaryOperatorNode(lexeme);
@@ -148,6 +153,12 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTGreaterThanBaseNode(lexeme);
     } else if (symbol->isArrayTypeKeyword()) {
         return new ASTArrayTypeKeywordNode(lexeme);
+    } else if (symbol->isModule()) {
+        return new ASTModuleNode(lexeme);
+    } else if (symbol->isAsKeyword()) {
+        return new ASTAsNode(lexeme);
+    } else if (symbol->isDotDotDot()) {
+        return new ASTDotDotDotBaseNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

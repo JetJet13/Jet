@@ -509,6 +509,18 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-package-single-module-declaration-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-package-many-module-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-package-many-module-declaration-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h
+        ast/ast-nodes/ast-base-nodes/ast-star-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-star-base-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-reducer-strategy/module-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-reducer-strategy/module-list-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-alias-item-reducer-strategy/module-list-alias-item-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-alias-item-reducer-strategy/module-list-alias-item-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-spread-item-reducer-strategy/module-list-spread-item-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-spread-item-reducer-strategy/module-list-spread-item-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.h
 
 )
 

@@ -11,11 +11,11 @@
 #include "../../ast-identifier-node.h"
 #include "../ast-module-name-node.h"
 
-class ASTImportModuleListNormalItemNode : public ASTModuleListBaseItemNode {
-    ASTPackageNameNode* _moduleName;
+class ASTModuleListNormalItemNode : public ASTModuleListBaseItemNode {
+    ASTModuleNameNode* _moduleName;
 public:
-    explicit ASTImportModuleListNormalItemNode(ASTPackageNameNode* moduleName);
-    ASTPackageNameNode* getModuleName();
+    explicit ASTModuleListNormalItemNode(ASTModuleNameNode* moduleName);
+    ASTModuleNameNode* getModuleName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

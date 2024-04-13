@@ -5,31 +5,31 @@
 #include "ast-module-name-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTPackageNameNode::ASTPackageNameNode(ASTIdentifierNode* identifier) {
+ASTModuleNameNode::ASTModuleNameNode(ASTIdentifierNode* identifier) {
     _identifier = identifier;
 }
 
-ASTIdentifierNode* ASTPackageNameNode::getIdentifier() {
+ASTIdentifierNode* ASTModuleNameNode::getIdentifier() {
     return _identifier;
 }
 
-ASTNodeType ASTPackageNameNode::getNodeType() {
+ASTNodeType ASTModuleNameNode::getNodeType() {
     return AST_MODULE_NAME_NODE;
 }
 
-std::string ASTPackageNameNode::toString() {
+std::string ASTModuleNameNode::toString() {
     return "MODULE_NAME";
 }
 
-bool ASTPackageNameNode::isSameAs(ASTNode* other) {
+bool ASTModuleNameNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTPackageNameNode*)other;
+    auto otherNode = (ASTModuleNameNode*)other;
     return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
 }
 
-void ASTPackageNameNode::print() {
+void ASTModuleNameNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _identifier->print();
     Logger::log("----------");

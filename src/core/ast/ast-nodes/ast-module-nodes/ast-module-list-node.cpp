@@ -5,43 +5,43 @@
 #include "ast-module-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTImportModuleListNode::ASTImportModuleListNode() {
-    _items = std::vector<ASTImportModuleListItemNode*>();
+ASTModuleListNode::ASTModuleListNode() {
+    _items = std::vector<ASTModuleListItemNode*>();
 }
 
-ASTImportModuleListNode::ASTImportModuleListNode(std::vector<ASTImportModuleListItemNode*> items) {
-    _items = std::vector<ASTImportModuleListItemNode*>();
+ASTModuleListNode::ASTModuleListNode(std::vector<ASTModuleListItemNode*> items) {
+    _items = std::vector<ASTModuleListItemNode*>();
     for (auto item: items) {
         _items.push_back(item);
     }
 }
 
-std::vector<ASTImportModuleListItemNode*> ASTImportModuleListNode::getItems() {
+std::vector<ASTModuleListItemNode*> ASTModuleListNode::getItems() {
     return _items;
 }
 
-unsigned long ASTImportModuleListNode::numItems() {
+unsigned long ASTModuleListNode::numItems() {
     return _items.size();
 }
 
-ASTImportModuleListNode* ASTImportModuleListNode::addItem(ASTImportModuleListItemNode* item) {
+ASTModuleListNode* ASTModuleListNode::addItem(ASTModuleListItemNode* item) {
     _items.push_back(item);
     return this;
 }
 
-ASTNodeType ASTImportModuleListNode::getNodeType() {
+ASTNodeType ASTModuleListNode::getNodeType() {
     return AST_MODULE_LIST_NODE;
 }
 
-std::string ASTImportModuleListNode::toString() {
+std::string ASTModuleListNode::toString() {
     return "MODULE_LIST";
 }
 
-bool ASTImportModuleListNode::isSameAs(ASTNode *other) {
+bool ASTModuleListNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTImportModuleListNode*)other;
+    auto otherNode = (ASTModuleListNode*)other;
     auto otherNodeElements = otherNode->getItems();
     if (this->numItems() != otherNode->numItems()) {
         return false;
@@ -55,7 +55,7 @@ bool ASTImportModuleListNode::isSameAs(ASTNode *other) {
     return true;
 }
 
-void ASTImportModuleListNode::print() {
+void ASTModuleListNode::print() {
     Logger::log("----------", this->toString(), "----------");
     for (auto item : _items) {
         item->print();

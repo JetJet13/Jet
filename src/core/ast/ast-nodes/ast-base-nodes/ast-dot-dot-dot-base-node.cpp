@@ -4,6 +4,7 @@
 
 #include "ast-dot-dot-dot-base-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ast-module-nodes/ast-module-spread-node.h"
 
 ASTDotDotDotBaseNode::ASTDotDotDotBaseNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -14,6 +15,10 @@ Lexeme* ASTDotDotDotBaseNode::getLexeme() {
 }
 
 ASTNode* ASTDotDotDotBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+    if (mode == SA_MODULE_LIST_MODE) {
+        return new ASTModuleSpreadNode(_lexeme);
+    }
+
     return this;
 }
 

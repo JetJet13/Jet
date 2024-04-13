@@ -6,6 +6,7 @@
 #include "../ast-struct-nodes/ast-struct-end-node.h"
 #include "../ast-enum-nodes/ast-enum-key-value-list-end-node.h"
 #include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
+#include "../ast-module-nodes/ast-module-list-end-node.h"
 
 ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -23,6 +24,10 @@ ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNod
 
     if (mode == SA_TUPLE_LIST_MODE) {
         return new ASTTupleListEndNode(_lexeme);
+    }
+
+    if (mode == SA_MODULE_LIST_MODE) {
+        return new ASTModuleListEndNode(_lexeme);
     }
     return this;
 }

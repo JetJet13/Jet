@@ -20,6 +20,7 @@ namespace ASTNodeUtils {
             case AST_FOR_STATEMENT_NODE:
             case AST_EXPRESSION_STATEMENT_NODE:
             case AST_ENUM_DECLARATION_NODE:
+            case AST_MODULE_DECLARATION_NODE:
             case AST_BLOCK_NODE:
             case AST_BREAK_NODE:
             case AST_SKIP_NODE:

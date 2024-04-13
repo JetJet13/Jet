@@ -9,15 +9,15 @@
 #include "../ast-node.h"
 #include "ast-module-list-item-node.h"
 
-class ASTImportModuleListNode : public ASTNode {
+class ASTModuleListNode : public ASTNode {
 private:
-    std::vector<ASTImportModuleListItemNode*> _items;
+    std::vector<ASTModuleListItemNode*> _items;
 public:
-    ASTImportModuleListNode();
-    ASTImportModuleListNode(std::vector<ASTImportModuleListItemNode*> items);
-    std::vector<ASTImportModuleListItemNode*> getItems();
+    ASTModuleListNode();
+    ASTModuleListNode(std::vector<ASTModuleListItemNode*> items);
+    std::vector<ASTModuleListItemNode*> getItems();
     unsigned long numItems();
-    ASTImportModuleListNode* addItem(ASTImportModuleListItemNode* item);
+    ASTModuleListNode* addItem(ASTModuleListItemNode* item);
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

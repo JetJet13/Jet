@@ -115,6 +115,13 @@ void SyntaxDfa::init() {
     DFANode* tupleType = DFANodeFactory::Once::createWithTarget(AST_TUPLE_TYPE_NODE, AST_TUPLE_TYPE_NODE);
     DFANode* arrayType = DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_NODE, AST_ARRAY_TYPE_NODE);
     DFANode* arrayTypeKeyword = DFANodeFactory::Once::create(AST_ARRAY_TYPE_KEYWORD_NODE);
+    DFANode* moduleKeyword = DFANodeFactory::Once::create(AST_MODULE_NODE);
+    DFANode* moduleName = DFANodeFactory::Once::create(AST_MODULE_NAME_NODE);
+    DFANode* moduleSpread = DFANodeFactory::Once::create(AST_MODULE_SPREAD_NODE);
+    DFANode* moduleListNormalItem = DFANodeFactory::Once::create(AST_MODULE_LIST_NORMAL_ITEM_NODE);
+    DFANode* moduleListAliasItem = DFANodeFactory::Once::create(AST_MODULE_LIST_ALIAS_ITEM_NODE);
+    DFANode* moduleListSpreadItem = DFANodeFactory::Once::create(AST_MODULE_LIST_SPREAD_ITEM_NODE);
+    DFANode* asKeyword = DFANodeFactory::Once::create(AST_AS_NODE);
 
     this->initVarDefinition(varDefinition);
     this->initVarInit(varInit);
@@ -587,6 +594,40 @@ void SyntaxDfa::init() {
                 DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_ARRAY_TYPE_NODE)
     ));
 
+    moduleKeyword
+    ->markAlwaysReduceSelf()
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_MODULE_NAME_NODE)
+            ->addTransition(DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_MODULE_LIST_NODE, AST_MODULE_DECLARATION_NODE)))
+    ));
+
+    moduleName
+    ->markAlwaysReduceSelf()
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_AS_NODE)
+                ->addTransition(DFATransitionFactory::create(
+                        DFANodeFactory::Once::createWithTarget(AST_MODULE_ALIAS_NAME_NODE, AST_MODULE_LIST_ALIAS_ITEM_NODE)))
+    ));
+
+    moduleSpread
+    ->addTransition(DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_MODULE_NAME_NODE, AST_MODULE_LIST_SPREAD_ITEM_NODE)));
+
+    moduleListNormalItem
+    ->markAlwaysReduceSelf();
+
+    moduleListAliasItem
+    ->markAlwaysReduceSelf();
+
+    moduleListSpreadItem
+    ->markAlwaysReduceSelf();
+
+    asKeyword
+    ->markAlwaysReduceSelf();
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -623,6 +664,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_FUNCTION_ARGUMENT_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_TUPLE_LIST_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_MODULE_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_CONTROL_FLOW_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_TYPE_PARAMETER_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
@@ -694,6 +736,13 @@ void SyntaxDfa::init() {
     ->insertStartNode(tupleType)
     ->insertStartNode(arrayType)
     ->insertStartNode(arrayTypeKeyword)
+    ->insertStartNode(moduleKeyword)
+    ->insertStartNode(moduleName)
+    ->insertStartNode(moduleSpread)
+    ->insertStartNode(moduleListNormalItem)
+    ->insertStartNode(moduleListAliasItem)
+    ->insertStartNode(moduleListSpreadItem)
+    ->insertStartNode(asKeyword)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({

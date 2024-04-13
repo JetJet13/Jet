@@ -9,11 +9,11 @@
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
 
-class ASTImportModuleListStartNode : public ASTNode {
+class ASTModuleListStartNode : public ASTNode {
 private:
     Lexeme* _lexeme;
 public:
-    ASTImportModuleListStartNode(Lexeme* lexeme);
+    ASTModuleListStartNode(Lexeme* lexeme);
     Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;

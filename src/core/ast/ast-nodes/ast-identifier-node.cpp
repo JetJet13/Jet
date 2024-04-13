@@ -12,6 +12,9 @@
 #include "ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h"
 #include "ast-type-nodes/ast-type-node.h"
 #include "ast-type-nodes/ast-type-node-factory.h"
+#include "ast-module-nodes/ast-module-name-node.h"
+#include "ast-module-nodes/ast-module-list-items/ast-module-list-normal-item-node.h"
+#include "ast-module-nodes/ast-module-alias-name-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -45,6 +48,21 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
 
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({ AST_ASSIGNMENT_OPERATOR_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this);
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_MODULE_NODE })) {
+        return new ASTModuleNameNode(this);
+    }
+
+    if (mode == SA_MODULE_LIST_MODE) {
+        if (prevNode && prevNode.value()->is(AST_MODULE_SPREAD_NODE) ||
+            nextNode && nextNode.value()->is(AST_AS_NODE)) {
+            return new ASTModuleNameNode(this);
+        }
+        if (prevNode && prevNode.value()->is(AST_AS_NODE)) {
+            return new ASTModuleAliasNameNode(this);
+        }
+        return new ASTModuleListNormalItemNode(new ASTModuleNameNode(this));
     }
 
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {

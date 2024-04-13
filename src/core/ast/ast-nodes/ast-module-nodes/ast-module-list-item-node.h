@@ -12,11 +12,11 @@
 #include "../ast-literal-nodes/ast-literal-node.h"
 #include "ast-module-list-items/ast-module-list-base-item-node.h"
 
-class ASTImportModuleListItemNode : public ASTNode {
+class ASTModuleListItemNode : public ASTNode {
 private:
     ASTModuleListBaseItemNode* _item;
 public:
-    ASTImportModuleListItemNode(ASTModuleListBaseItemNode* item);
+    ASTModuleListItemNode(ASTModuleListBaseItemNode* item);
     ASTModuleListBaseItemNode* getItem();
     ASTNodeType getNodeType() override;
     std::string toString() override;

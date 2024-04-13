@@ -8,13 +8,13 @@
 #include <string>
 #include "../../ast-node.h"
 #include "ast-module-list-base-item-node.h"
-#include "../../ast-identifier-node.h"
+#include "../ast-module-name-node.h"
 
-class ASTImportModuleListSpreadItemNode : public ASTModuleListBaseItemNode {
-    ASTIdentifierNode* _identifier;
+class ASTModuleListSpreadItemNode : public ASTModuleListBaseItemNode {
+    ASTModuleNameNode* _moduleName;
 public:
-    explicit ASTImportModuleListSpreadItemNode(ASTIdentifierNode* identifier);
-    ASTIdentifierNode* getIdentifier();
+    explicit ASTModuleListSpreadItemNode(ASTModuleNameNode* moduleName);
+    ASTModuleNameNode* getModuleName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

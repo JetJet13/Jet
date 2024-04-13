@@ -11,12 +11,12 @@
 
 class ASTModuleDeclarationNode : public ASTNode {
 private:
-    ASTPackageNameNode* _name;
-    ASTImportModuleListNode* _items;
+    ASTModuleNameNode* _name;
+    ASTModuleListNode* _items;
 public:
-    explicit ASTModuleDeclarationNode(ASTPackageNameNode* name, ASTImportModuleListNode* items);
-    ASTImportModuleListNode* getItems();
-    ASTPackageNameNode* getName();
+    explicit ASTModuleDeclarationNode(ASTModuleNameNode* name, ASTModuleListNode* items);
+    ASTModuleListNode* getItems();
+    ASTModuleNameNode* getName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

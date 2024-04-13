@@ -5,37 +5,37 @@
 #include "ast-module-list-alias-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(ASTPackageNameNode* moduleName, ASTPackageAliasNameNode* aliasModuleName) {
+ASTModuleListAliasItemNode::ASTModuleListAliasItemNode(ASTModuleNameNode* moduleName, ASTModuleAliasNameNode* aliasModuleName) {
     _moduleName = moduleName;
     _aliasModuleName = aliasModuleName;
 }
 
-ASTPackageNameNode* ASTImportModuleListAliasItemNode::getModuleName() {
+ASTModuleNameNode* ASTModuleListAliasItemNode::getModuleName() {
     return _moduleName;
 }
 
-ASTPackageAliasNameNode* ASTImportModuleListAliasItemNode::getAliasModuleName() {
+ASTModuleAliasNameNode* ASTModuleListAliasItemNode::getAliasModuleName() {
     return _aliasModuleName;
 }
 
-ASTNodeType ASTImportModuleListAliasItemNode::getNodeType() {
+ASTNodeType ASTModuleListAliasItemNode::getNodeType() {
     return AST_MODULE_LIST_ALIAS_ITEM_NODE;
 }
 
-std::string ASTImportModuleListAliasItemNode::toString() {
+std::string ASTModuleListAliasItemNode::toString() {
     return "MODULE_LIST_ALIAS_ITEM";
 }
 
-bool ASTImportModuleListAliasItemNode::isSameAs(ASTNode *other) {
+bool ASTModuleListAliasItemNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTImportModuleListAliasItemNode*)other;
+    auto otherNode = (ASTModuleListAliasItemNode*)other;
     return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
             this->getAliasModuleName()->isSameAs(otherNode->getAliasModuleName()) ;
 }
 
-void ASTImportModuleListAliasItemNode::print() {
+void ASTModuleListAliasItemNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _moduleName->print();
     _aliasModuleName->print();
