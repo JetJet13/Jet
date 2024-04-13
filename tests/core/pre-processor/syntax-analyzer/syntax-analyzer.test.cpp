@@ -29,6 +29,9 @@
 #include "../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-function-lambda-type-parameter-list-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-procedure-lambda-type-parameter-list-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -2556,7 +2559,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTTypeNodeFactory::createArrayTypeNode(
                              new ASTArrayTypeNode(
                                  new ASTTypeParameterListNode({
-                                      ASTNodeFactory::intType
+                                      ASTNodeFactory::intType,
+                                      ASTNodeFactory::intLiteralType
                                  })
                              )
                          )
@@ -2566,7 +2570,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTTypeNodeFactory::createArrayTypeNode(
                              new ASTArrayTypeNode(
                                  new ASTTypeParameterListNode({
-                                    ASTNodeFactory::idType
+                                    ASTNodeFactory::idType,
+                                    ASTNodeFactory::intLiteralType
                                  })
                              )
                          )
@@ -2579,10 +2584,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                       ASTTypeNodeFactory::createArrayTypeNode(
                                           new ASTArrayTypeNode(
                                               new ASTTypeParameterListNode({
-                                                ASTNodeFactory::intType
+                                                ASTNodeFactory::intType,
+                                                ASTNodeFactory::intLiteralType
                                               })
                                           )
-                                      )
+                                      ),
+                                      ASTNodeFactory::intLiteralType
                                  })
                              )
                          )
@@ -2598,13 +2605,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                                                ASTTypeNodeFactory::createArrayTypeNode(
                                                                    new ASTArrayTypeNode(
                                                                        new ASTTypeParameterListNode({
-                                                                            ASTNodeFactory::intType
+                                                                            ASTNodeFactory::intType,
+                                                                            ASTNodeFactory::intLiteralType
                                                                        })
                                                                    )
-                                                               )
+                                                               ),
+                                                               ASTNodeFactory::intLiteralType
                                                           })
                                                       )
-                                                  )
+                                                  ),
+                                                  ASTNodeFactory::intLiteralType
                                              })
                                      )
                              )
@@ -2630,7 +2640,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                               }),
                                               ASTNodeFactory::booleanType
                                           )
-                                      )
+                                      ),
+                                      ASTNodeFactory::intLiteralType
                                  })
                              )
                          )
@@ -2666,7 +2677,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTTypeNodeFactory::createArrayTypeNode(
                         new ASTArrayTypeNode(
                             new ASTTypeParameterListNode({
-                                ASTNodeFactory::intType
+                                ASTNodeFactory::intType,
+                                ASTNodeFactory::intLiteralType
                             })
                         )
                     )
@@ -2741,7 +2753,27 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {181, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::idType),
                 ASTNodeFactory::stringExpression
-        )}
+        )},
+        {182, new ASTModuleDeclarationNode(
+                ASTNodeFactory::moduleName,
+                new ASTModuleListNode()
+        )},
+        {183, new ASTModuleDeclarationNode(
+                ASTNodeFactory::moduleName,
+                new ASTModuleListNode({
+                    ASTNodeFactory::moduleNormalItem,
+                    ASTNodeFactory::moduleAliasItem,
+                    ASTNodeFactory::moduleSpreadItem
+                })
+        )},
+        {184, new ASTUseSingleModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                ASTNodeFactory::importPath
+        )},
+        {185, new ASTImportSingleModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                ASTNodeFactory::importPath
+        )},
 
 };
 
@@ -2753,8 +2785,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 181);
-    for (int i = 0; i < 181; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 185);
+    for (int i = 0; i < 185; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

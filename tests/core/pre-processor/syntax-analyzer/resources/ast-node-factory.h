@@ -34,6 +34,14 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-alias-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-alias-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-spread-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-normal-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-list-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-path-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-module-name-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -145,6 +153,7 @@ namespace ASTNodeFactory {
     static ASTArrayAccessNode* arrayAccessId =  new ASTArrayAccessNode(
             ASTNodeFactory::idExpression
     );
+    static ASTTypeNode* intLiteralType = ASTTypeNodeFactory::createIntLiteralTypeNode(createLexeme(SymbolFactory::createIntSymbol()));
     static ASTTypeNode* intType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
     static ASTTypeNode* floatType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
     static ASTTypeNode* stringType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
@@ -218,6 +227,27 @@ namespace ASTNodeFactory {
     );
     static ASTSkipNode* skipStatement = new ASTSkipNode(
             createLexeme(SymbolFactory::createSkipSymbol())
+    );
+    static ASTModuleNameNode* moduleName = new ASTModuleNameNode(
+            ASTNodeFactory::id
+    );
+    static ASTModuleAliasNameNode* moduleAliasName = new ASTModuleAliasNameNode(
+            ASTNodeFactory::id
+    );
+    static ASTModuleListItemNode* moduleNormalItem = new ASTModuleListItemNode(
+            new ASTModuleListNormalItemNode(moduleName)
+    );
+    static ASTModuleListItemNode* moduleAliasItem = new ASTModuleListItemNode(
+            new ASTModuleListAliasItemNode(moduleName, moduleAliasName)
+    );
+    static ASTModuleListItemNode* moduleSpreadItem = new ASTModuleListItemNode(
+            new ASTModuleListSpreadItemNode(moduleName)
+    );
+    static ASTImportModuleNameNode* importModuleName = new ASTImportModuleNameNode(
+            ASTNodeFactory::id
+    );
+    static ASTImportPathNode* importPath = new ASTImportPathNode(
+            ASTNodeFactory::stringLiteral
     );
 };
 

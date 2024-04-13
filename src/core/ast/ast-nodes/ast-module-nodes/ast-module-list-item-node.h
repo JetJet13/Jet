@@ -2,7 +2,7 @@
 // Created by Johny Georges on 2024-04-12.
 //
 
-#ifndef JETLANG_AST_IMPORT_MODULE_LIST_ITEM_NODE_H
+#ifndef JETLANG_AST_MODULE_LIST_ITEM_NODE_H
 #define JETLANG_AST_MODULE_LIST_ITEM_NODE_H
 
 #include <string>
@@ -24,4 +24,4 @@ public:
     void print() override;
 };
 
-#endif //JETLANG_AST_IMPORT_MODULE_LIST_ITEM_NODE_H
+#endif //JETLANG_AST_MODULE_LIST_ITEM_NODE_H
