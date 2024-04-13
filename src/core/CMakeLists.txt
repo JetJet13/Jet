@@ -456,6 +456,34 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-int-literal-type-node.h
         ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.cpp
         ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-name-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-name-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-item-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-item-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-base-item-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-base-item-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-normal-item-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-normal-item-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-spread-item-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-spread-item-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-alias-item-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-alias-item-node.h
+        ast/ast-nodes/ast-module-nodes/ast-as-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-as-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-alias-name-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-alias-name-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-start-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-start-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-list-end-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-list-end-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-spread-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-spread-node.h
 
 )
 

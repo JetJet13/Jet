@@ -3,6 +3,7 @@
 //
 
 #include "ast-dot-dot-dot-base-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTDotDotDotBaseNode::ASTDotDotDotBaseNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -12,16 +13,16 @@ Lexeme* ASTDotDotDotBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode * ASTDotDotDotBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTDotDotDotBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     return this;
 }
 
 ASTNodeType ASTDotDotDotBaseNode::getNodeType() {
-    return AST_LESS_THAN_BASE_NODE;
+    return AST_DOT_DOT_DOT_BASE_NODE;
 }
 
 std::string ASTDotDotDotBaseNode::toString() {
-    return "LESS_THAN";
+    return "DOT_DOT_DOT_BASE";
 }
 
 bool ASTDotDotDotBaseNode::isSameAs(ASTNode *other) {

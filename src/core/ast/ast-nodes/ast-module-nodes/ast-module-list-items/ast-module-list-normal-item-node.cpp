@@ -1,0 +1,36 @@
+//
+// Created by Johny Georges on 2024-04-12.
+//
+
+#include "ast-module-list-normal-item-node.h"
+#include "../../../../../shared/utils/logger/logger.h"
+
+ASTModuleListNormalItemNode::ASTModuleListNormalItemNode(ASTModuleNameNode* moduleName) {
+    _moduleName = moduleName;
+}
+
+ASTModuleNameNode* ASTModuleListNormalItemNode::getModuleName() {
+    return _moduleName;
+}
+
+ASTNodeType ASTModuleListNormalItemNode::getNodeType() {
+    return AST_MODULE_LIST_NORMAL_ITEM_NODE;
+}
+
+std::string ASTModuleListNormalItemNode::toString() {
+    return "MODULE_LIST_NORMAL_ITEM";
+}
+
+bool ASTModuleListNormalItemNode::isSameAs(ASTNode *other) {
+    if (!other->is(this->getNodeType())){
+        return false;
+    }
+    auto otherNode = (ASTModuleListNormalItemNode*)other;
+    return this->getModuleName()->isSameAs(otherNode->getModuleName());
+}
+
+void ASTModuleListNormalItemNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    _moduleName->print();
+    Logger::log("----------");
+}
