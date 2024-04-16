@@ -5,12 +5,12 @@
 #include "ast-import-module-list-spread-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(ASTIdentifierNode* identifier) {
-    _identifier = identifier;
+ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(ASTImportModuleNameNode* moduleName) {
+    _moduleName = moduleName;
 }
 
-ASTIdentifierNode* ASTImportModuleListSpreadItemNode::getIdentifier() {
-    return _identifier;
+ASTImportModuleNameNode* ASTImportModuleListSpreadItemNode::getModuleName() {
+    return _moduleName;
 }
 
 ASTNodeType ASTImportModuleListSpreadItemNode::getNodeType() {
@@ -26,11 +26,11 @@ bool ASTImportModuleListSpreadItemNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTImportModuleListSpreadItemNode*)other;
-    return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
+    return this->getModuleName()->isSameAs(otherNode->getModuleName());
 }
 
 void ASTImportModuleListSpreadItemNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _identifier->print();
+    _moduleName->print();
     Logger::log("----------");
 }

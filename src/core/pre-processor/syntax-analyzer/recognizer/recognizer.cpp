@@ -34,6 +34,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     } else if (handle->isModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_MODULE_LIST_NODE);
+    } else if (handle->isImportModuleListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_IMPORT_MODULE_LIST_NODE);
     } else if (handle->isLambdaTypeParameterListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TYPE_PARAMETER_LIST_NODE);
     }
@@ -129,10 +131,14 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
            AST_MODULE_LIST_NODE,
            AST_MODULE_LIST_END_NODE,
            AST_MODULE_ALIAS_NAME_NODE,
+           AST_IMPORT_MODULE_LIST_NODE,
+           AST_IMPORT_MODULE_LIST_END_NODE,
+           AST_IMPORT_MODULE_ALIAS_NAME_NODE,
            AST_CONTROL_FLOW_BLOCK_NODE,
            AST_CONTROL_FLOW_START_NODE,
            AST_ASSIGNMENT_OPERATOR_NODE,
-           AST_IMPORT_PATH_NODE
+           AST_IMPORT_PATH_NODE,
+           AST_IMPORT_WILDCARD_NODE
     });
 }
 
@@ -142,6 +148,7 @@ bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optiona
                                                  AST_BLOCK_NODE,
                                                  AST_ENUM_KEY_VALUE_LIST_NODE,
                                                  AST_MODULE_LIST_NODE,
+                                                 AST_IMPORT_MODULE_LIST_NODE,
                                                  AST_ELSE_BLOCK_NODE,
                                                  AST_FINALLY_BLOCK_NODE,
                                                  AST_LAMBDA_RETURN_EXPRESSION_NODE,

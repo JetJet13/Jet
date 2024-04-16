@@ -10,11 +10,11 @@
 #include "../ast-identifier-node.h"
 
 
-class ASTPackageAliasNameNode : public ASTNode {
+class ASTImportModuleAliasNameNode : public ASTNode {
 private:
     ASTIdentifierNode* _identifier;
 public:
-    ASTPackageAliasNameNode(ASTIdentifierNode* identifier);
+    ASTImportModuleAliasNameNode(ASTIdentifierNode* identifier);
     ASTIdentifierNode* getIdentifier();
     ASTNodeType getNodeType() override;
     std::string toString() override;

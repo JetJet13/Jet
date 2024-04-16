@@ -5,9 +5,14 @@
 #include "ast-use-many-module-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(ASTImportModuleListNode* importModuleList, ASTImportPathNode* path) {
+ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(ASTImportModuleNameNode* moduleName, ASTImportModuleListNode* importModuleList, ASTImportPathNode* path) {
+    _moduleName = moduleName;
     _importModuleList = importModuleList;
     _path = path;
+}
+
+ASTImportModuleNameNode* ASTUseManyModuleDeclarationNode::getModuleName() {
+    return _moduleName;
 }
 
 ASTImportModuleListNode* ASTUseManyModuleDeclarationNode::getModuleList() {
@@ -32,12 +37,14 @@ bool ASTUseManyModuleDeclarationNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTUseManyModuleDeclarationNode*)other;
 
-    return  this->getModuleList()->isSameAs(otherNode->getModuleList()) &&
-            this->getPath()->isSameAs(otherNode->getPath());
+    return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
+           this->getModuleList()->isSameAs(otherNode->getModuleList()) &&
+           this->getPath()->isSameAs(otherNode->getPath());
 }
 
 void ASTUseManyModuleDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
+    _moduleName->print();
     _importModuleList->print();
     _path->print();
     Logger::log("----------");

@@ -30,6 +30,7 @@ public:
     bool isEnumKeyValueListEnclosed();
     bool isTupleListEnclosed();
     bool isModuleListEnclosed();
+    bool isImportModuleListEnclosed();
     bool isLambdaTypeParameterListEnclosed();
     void clear();
     unsigned long size();

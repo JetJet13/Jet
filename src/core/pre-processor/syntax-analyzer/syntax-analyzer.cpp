@@ -188,6 +188,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: MODULE_LIST_MODE");
             _modeStack.push(SA_MODULE_LIST_MODE);
             break;
+        case AST_IMPORT_MODULE_LIST_START_NODE:
+            Logger::log("pushing mode: IMPORT_MODULE_LIST_MODE");
+            _modeStack.push(SA_IMPORT_MODULE_LIST_MODE);
+            break;
         case AST_TUPLE_LIST_START_NODE:
             Logger::log("pushing mode: TUPLE_LIST_MODE");
             _modeStack.push(SA_TUPLE_LIST_MODE);
@@ -210,6 +214,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_ARRAY_TYPE_NODE:
         case AST_TUPLE_LIST_NODE:
         case AST_MODULE_LIST_NODE:
+        case AST_IMPORT_MODULE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_SOURCE_NODE:
             Logger::log("popping mode:", _modeStack.top());

@@ -108,6 +108,13 @@ bool Handle::isModuleListEnclosed() {
     return this->first().value()->is(AST_MODULE_LIST_START_NODE) && this->last().value()->is(AST_MODULE_LIST_END_NODE);
 }
 
+bool Handle::isImportModuleListEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_IMPORT_MODULE_LIST_START_NODE) && this->last().value()->is(AST_IMPORT_MODULE_LIST_END_NODE);
+}
+
 bool Handle::isLambdaTypeParameterListEnclosed() {
     if (_handle.size() < 2) {
         return false;

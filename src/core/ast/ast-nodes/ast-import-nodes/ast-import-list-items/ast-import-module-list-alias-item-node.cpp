@@ -5,7 +5,7 @@
 #include "ast-import-module-list-alias-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTPackageAliasNameNode* aliasModuleName) {
+ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTImportModuleAliasNameNode* aliasModuleName) {
     _moduleName = moduleName;
     _aliasModuleName = aliasModuleName;
 }
@@ -14,7 +14,7 @@ ASTImportModuleNameNode* ASTImportModuleListAliasItemNode::getModuleName() {
     return _moduleName;
 }
 
-ASTPackageAliasNameNode* ASTImportModuleListAliasItemNode::getAliasModuleName() {
+ASTImportModuleAliasNameNode* ASTImportModuleListAliasItemNode::getAliasModuleName() {
     return _aliasModuleName;
 }
 

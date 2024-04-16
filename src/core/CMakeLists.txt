@@ -484,6 +484,8 @@ add_library(jet-core
         ast/ast-nodes/ast-module-nodes/ast-module-list-end-node.h
         ast/ast-nodes/ast-module-nodes/ast-module-spread-node.cpp
         ast/ast-nodes/ast-module-nodes/ast-module-spread-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-access-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-access-node.h
         ast/ast-nodes/ast-import-nodes/ast-import-node.cpp
         ast/ast-nodes/ast-import-nodes/ast-import-node.h
         ast/ast-nodes/ast-import-nodes/ast-import-spread-node.cpp
@@ -492,19 +494,27 @@ add_library(jet-core
         ast/ast-nodes/ast-import-nodes/ast-from-node.h
         ast/ast-nodes/ast-import-nodes/ast-import-path-node.cpp
         ast/ast-nodes/ast-import-nodes/ast-import-path-node.h
-        ast/ast-nodes/ast-module-nodes/ast-module-access-node.cpp
-        ast/ast-nodes/ast-module-nodes/ast-module-access-node.h
-        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.cpp
-        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h
         ast/ast-nodes/ast-import-nodes/ast-import-module-name-node.cpp
         ast/ast-nodes/ast-import-nodes/ast-import-module-name-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-module-alias-name-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-module-alias-name-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-start-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-start-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-end-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-end-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-module-list-item-node.h
+        ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h
+        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h
-        ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.cpp
-        ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.cpp
@@ -525,6 +535,36 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/use-single-module-declaration-reducer-strategy/use-single-module-declaration-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-single-module-declaration-reducer-strategy/import-single-module-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-single-module-declaration-reducer-strategy/import-single-module-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-import-nodes/ast-import-wildcard-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-wildcard-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-module-declaration-reducer-strategy/import-many-module-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-module-declaration-reducer-strategy/import-many-module-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-alias-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-alias-item-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-base-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-base-item-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-wildcard-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-wildcard-item-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-normal-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-normal-item-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-spread-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-spread-item-node.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-by-wildcard-item-reducer-strategy/import-module-list-by-wildcard-item-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-by-wildcard-item-reducer-strategy/import-module-list-by-wildcard-item-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-module-declaration-reducer-strategy/use-many-module-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-module-declaration-reducer-strategy/use-many-module-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.cpp
+        ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-by-group-item-reducer-strategy/import-module-list-by-group-item-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-by-group-item-reducer-strategy/import-module-list-by-group-item-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-alias-item-reducer-strategy/import-module-list-alias-item-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-alias-item-reducer-strategy/import-module-list-alias-item-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-spread-item-reducer-strategy/import-module-list-spread-item-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-spread-item-reducer-strategy/import-module-list-spread-item-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.h
 
 )
 

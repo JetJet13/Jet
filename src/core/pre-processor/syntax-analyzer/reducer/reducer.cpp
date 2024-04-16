@@ -67,6 +67,13 @@
 #include "reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.h"
 #include "reducer-strategies/import-single-module-declaration-reducer-strategy/import-single-module-declaration-reducer-strategy.h"
 #include "reducer-strategies/use-single-module-declaration-reducer-strategy/use-single-module-declaration-reducer-strategy.h"
+#include "reducer-strategies/import-many-module-declaration-reducer-strategy/import-many-module-declaration-reducer-strategy.h"
+#include "reducer-strategies/import-module-list-by-wildcard-item-reducer-strategy/import-module-list-by-wildcard-item-reducer-strategy.h"
+#include "reducer-strategies/use-many-module-declaration-reducer-strategy/use-many-module-declaration-reducer-strategy.h"
+#include "reducer-strategies/import-module-list-by-group-item-reducer-strategy/import-module-list-by-group-item-reducer-strategy.h"
+#include "reducer-strategies/import-module-list-alias-item-reducer-strategy/import-module-list-alias-item-reducer-strategy.h"
+#include "reducer-strategies/import-module-list-spread-item-reducer-strategy/import-module-list-spread-item-reducer-strategy.h"
+#include "reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -138,6 +145,13 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_MODULE_DECLARATION_NODE, new ModuleDeclarationReducerStrategy());
     this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, new UseSingleModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, new ImportSingleModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_USE_MANY_MODULE_DECLARATION_NODE, new UseManyModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE, new ImportModuleListByWildcardItemReducerStrategy());
+    this->addStrategy(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE, new ImportModuleListByGroupItemReducerStrategy());
+    this->addStrategy(AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE, new ImportModuleListAliasItemReducerStrategy());
+    this->addStrategy(AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE, new ImportModuleListSpreadItemReducerStrategy());
+    this->addStrategy(AST_IMPORT_MODULE_LIST_NODE, new ImportModuleListReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

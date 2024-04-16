@@ -13,11 +13,11 @@
 
 class ASTImportModuleListAliasItemNode : public ASTImportModuleListBaseItemNode {
     ASTImportModuleNameNode* _moduleName;
-    ASTPackageAliasNameNode* _aliasModuleName;
+    ASTImportModuleAliasNameNode* _aliasModuleName;
 public:
-    explicit ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTPackageAliasNameNode* aliasModuleName);
+    explicit ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTImportModuleAliasNameNode* aliasModuleName);
     ASTImportModuleNameNode* getModuleName();
-    ASTPackageAliasNameNode* getAliasModuleName();
+    ASTImportModuleAliasNameNode* getAliasModuleName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

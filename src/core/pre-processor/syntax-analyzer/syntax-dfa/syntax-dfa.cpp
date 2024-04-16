@@ -126,6 +126,13 @@ void SyntaxDfa::init() {
     DFANode* useKeyword = DFANodeFactory::Once::create(AST_USE_NODE);
     DFANode* fromKeyword = DFANodeFactory::Once::create(AST_FROM_NODE);
     DFANode* importModuleName = DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE);
+    DFANode* moduleAccess = DFANodeFactory::Once::create(AST_MODULE_ACCESS_NODE);
+    DFANode* importModuleListByWildcardItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE);
+    DFANode* importModuleListByGroupItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE);
+    DFANode* importModuleListAliasItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE);
+    DFANode* importModuleListSpreadItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE);
+    DFANode* importModuleListNormalItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_NORMAL_ITEM_NODE);
+    DFANode* importModuleListWildcardItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_WILDCARD_ITEM_NODE);
 
 
     this->initVarDefinition(varDefinition);
@@ -619,7 +626,9 @@ void SyntaxDfa::init() {
 
     moduleSpread
     ->addTransition(DFATransitionFactory::create(
-            DFANodeFactory::Once::createWithTarget(AST_MODULE_NAME_NODE, AST_MODULE_LIST_SPREAD_ITEM_NODE)));
+            DFANodeFactory::Once::createWithTarget(AST_MODULE_NAME_NODE, AST_MODULE_LIST_SPREAD_ITEM_NODE)))
+    ->addTransition(DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_IMPORT_MODULE_NAME_NODE, AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE)));
 
     moduleListNormalItem
     ->markAlwaysReduceSelf();
@@ -638,14 +647,38 @@ void SyntaxDfa::init() {
     ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE)
+                ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::Once::create(AST_FROM_NODE)
+                            ->addTransition(
+                                DFATransitionFactory::create(
+                                    DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE))
+                            )
+            ))
+    ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE)
             ->addTransition(
                 DFATransitionFactory::create(
                     DFANodeFactory::Once::create(AST_FROM_NODE)
-                    ->addTransition(
-                        DFATransitionFactory::create(
-                            DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE))
-                    )
+                        ->addTransition(
+                            DFATransitionFactory::create(
+                                DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_IMPORT_MANY_MODULE_DECLARATION_NODE))
+                        )
             ))
+    ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE)
+                ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::Once::create(AST_FROM_NODE)
+                            ->addTransition(
+                                DFATransitionFactory::create(
+                                    DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_IMPORT_MANY_MODULE_DECLARATION_NODE))
+                            )
+                ))
     ));
 
     useKeyword
@@ -661,12 +694,78 @@ void SyntaxDfa::init() {
                             DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_USE_SINGLE_MODULE_DECLARATION_NODE))
                     )
             ))
+    ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE)
+            ->addTransition(
+                 DFATransitionFactory::create(
+                     DFANodeFactory::Once::create(AST_FROM_NODE)
+                         ->addTransition(
+                             DFATransitionFactory::create(
+                                DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_USE_MANY_MODULE_DECLARATION_NODE))
+                 )
+            ))
+    ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE)
+                ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::Once::create(AST_FROM_NODE)
+                            ->addTransition(
+                                DFATransitionFactory::create(
+                                    DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_USE_MANY_MODULE_DECLARATION_NODE))
+                            )
+                ))
     ));
 
     importModuleName
-    ->markAlwaysReduceSelf();
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_FROM_NODE, AST_MODULE_ACCESS_NODE })
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_AS_NODE)
+                ->addTransition(DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_IMPORT_MODULE_ALIAS_NAME_NODE, AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE)))
+    ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_MODULE_ACCESS_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_IMPORT_WILDCARD_NODE, AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE)
+                )
+            )
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_IMPORT_MODULE_LIST_NODE, AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE)
+                )
+            )
+    ));
+
 
     fromKeyword
+    ->markAlwaysReduceSelf();
+
+    moduleAccess
+    ->markAlwaysReduceSelf();
+
+    importModuleListByWildcardItem
+    ->markAlwaysReduceSelf();
+
+    importModuleListByGroupItem
+    ->markAlwaysReduceSelf();
+
+    importModuleListAliasItem
+    ->markAlwaysReduceSelf();
+
+    importModuleListSpreadItem
+    ->markAlwaysReduceSelf();
+
+    importModuleListNormalItem
+    ->markAlwaysReduceSelf();
+
+    importModuleListWildcardItem
     ->markAlwaysReduceSelf();
 
     _dfa
@@ -706,6 +805,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_TUPLE_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_MODULE_LIST_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_CONTROL_FLOW_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_TYPE_PARAMETER_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
@@ -788,6 +888,13 @@ void SyntaxDfa::init() {
     ->insertStartNode(useKeyword)
     ->insertStartNode(importModuleName)
     ->insertStartNode(fromKeyword)
+    ->insertStartNode(moduleAccess)
+    ->insertStartNode(importModuleListByWildcardItem)
+    ->insertStartNode(importModuleListByGroupItem)
+    ->insertStartNode(importModuleListAliasItem)
+    ->insertStartNode(importModuleListSpreadItem)
+    ->insertStartNode(importModuleListNormalItem)
+    ->insertStartNode(importModuleListWildcardItem)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({

@@ -15,7 +15,7 @@ Lexeme* ASTDotDotDotBaseNode::getLexeme() {
 }
 
 ASTNode* ASTDotDotDotBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
-    if (mode == SA_MODULE_LIST_MODE) {
+    if (mode == SA_MODULE_LIST_MODE || mode == SA_IMPORT_MODULE_LIST_MODE) {
         return new ASTModuleSpreadNode(_lexeme);
     }
 

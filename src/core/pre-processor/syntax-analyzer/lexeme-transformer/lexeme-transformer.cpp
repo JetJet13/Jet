@@ -53,6 +53,7 @@
 #include "../../../ast/ast-nodes/ast-import-nodes/ast-import-node.h"
 #include "../../../ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h"
 #include "../../../ast/ast-nodes/ast-import-nodes/ast-from-node.h"
+#include "../../../ast/ast-nodes/ast-module-nodes/ast-module-access-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -168,6 +169,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTUseNode(lexeme);
     } else if (symbol->isFromKeyword()) {
         return new ASTFromNode(lexeme);
+    } else if (symbol->isColonColon()) {
+        return new ASTModuleAccessNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

@@ -7,14 +7,14 @@
 
 #include <string>
 #include "../../ast-node.h"
-#include "../../ast-identifier-node.h"
 #include "ast-import-module-list-base-item-node.h"
+#include "../ast-import-module-name-node.h"
 
 class ASTImportModuleListSpreadItemNode : public ASTImportModuleListBaseItemNode {
-    ASTIdentifierNode* _identifier;
+    ASTImportModuleNameNode* _moduleName;
 public:
-    explicit ASTImportModuleListSpreadItemNode(ASTIdentifierNode* identifier);
-    ASTIdentifierNode* getIdentifier();
+    explicit ASTImportModuleListSpreadItemNode(ASTImportModuleNameNode* moduleName);
+    ASTImportModuleNameNode* getModuleName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

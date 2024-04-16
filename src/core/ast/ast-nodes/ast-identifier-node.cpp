@@ -16,6 +16,8 @@
 #include "ast-module-nodes/ast-module-list-items/ast-module-list-normal-item-node.h"
 #include "ast-module-nodes/ast-module-alias-name-node.h"
 #include "ast-import-nodes/ast-import-module-name-node.h"
+#include "ast-import-nodes/ast-import-list-items/ast-import-module-list-normal-item-node.h"
+#include "ast-import-nodes/ast-import-module-alias-name-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -68,6 +70,26 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
             return new ASTModuleAliasNameNode(this);
         }
         return new ASTModuleListNormalItemNode(new ASTModuleNameNode(this));
+    }
+
+    if (mode == SA_IMPORT_MODULE_LIST_MODE) {
+        if (prevNode && prevNode.value()->is(AST_MODULE_SPREAD_NODE) ||
+            nextNode && nextNode.value()->is(AST_AS_NODE)) {
+            return new ASTImportModuleNameNode(this);
+        }
+        if (prevNode && prevNode.value()->is(AST_AS_NODE)) {
+            return new ASTImportModuleAliasNameNode(this);
+        }
+        if (nextNode && nextNode.value()->is(AST_MODULE_ACCESS_NODE)) {
+            return new ASTImportModuleNameNode(this);
+        }
+
+        if (nextNode) {
+            Logger::log("nextNode has value");
+            nextNode.value()->print();
+        }
+        Logger::log("creating ASTImportModuleListNormalItemNode");
+        return new ASTImportModuleListNormalItemNode(new ASTImportModuleNameNode(this));
     }
 
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {

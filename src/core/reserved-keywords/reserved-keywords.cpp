@@ -97,20 +97,6 @@ void ReservedKeywords::init() {
     this->add("...", SymbolFactory::createDotDotDotSymbol());
     this->add("::", SymbolFactory::createColonColonSymbol());
 
-/*  todo: create AST Nodes for the following symbols and then ast nodes to support
- *  creating modules and importing modules
- *  =========== SYMBOLS ===========
- *  module
- *  as
- *  import
- *  use
- *  from
- *  ..
- *  ...
- *  ::
- *  ===============================
- */
-
     this->initKeywordSymbolList();
 }
 

@@ -8,13 +8,16 @@
 #include "../ast-node.h"
 #include "../ast-import-nodes/ast-import-module-list-node.h"
 #include "../ast-import-nodes/ast-import-path-node.h"
+#include "../ast-import-nodes/ast-import-module-name-node.h"
 
 class ASTUseManyModuleDeclarationNode : public ASTNode {
 private:
+    ASTImportModuleNameNode* _moduleName;
     ASTImportModuleListNode* _importModuleList;
     ASTImportPathNode* _path;
 public:
-    explicit ASTUseManyModuleDeclarationNode(ASTImportModuleListNode* importModuleList, ASTImportPathNode* path);
+    explicit ASTUseManyModuleDeclarationNode(ASTImportModuleNameNode* moduleName, ASTImportModuleListNode* importModuleList, ASTImportPathNode* path);
+    ASTImportModuleNameNode* getModuleName();
     ASTImportModuleListNode* getModuleList();
     ASTImportPathNode* getPath();
     ASTNodeType getNodeType() override;
