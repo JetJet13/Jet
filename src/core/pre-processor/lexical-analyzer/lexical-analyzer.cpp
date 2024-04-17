@@ -411,10 +411,12 @@ void LexicalAnalyzer::skipComments() {
         return;
     }
 
+    auto cursorSnapshot = _fileReader.getCursor();
+    auto numAdvancesSnapshot = _fileReader.getNumAdvances();
     _fileReader.advance();
 
     if (_fileReader.peek() != SLASH) {
-        _fileReader.retreat();
+        this->resetAfterPeek(cursorSnapshot, numAdvancesSnapshot);
         return;
     }
 
@@ -425,6 +427,7 @@ void LexicalAnalyzer::skipComments() {
         nextChar = _fileReader.peek();
     }
     _fileReader.advance();
+    this->skipComments();
 }
 
 void LexicalAnalyzer::stopIfNecessary() {

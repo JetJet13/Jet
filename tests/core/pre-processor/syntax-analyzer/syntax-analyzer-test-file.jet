@@ -380,3 +380,6 @@ import GlobalModule::* from "./global-module.jet";
 use MyPackage::{ MyPackageModule::{ MyClass, ...MyPackageModule }, MyOtherModule as OtherPackageModule, MyThirdPackageModule, MyFourthPackageModule::*, ...MyPackage, * } from "my-package";
 import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, MyThirdModule, MyFourthModule::*, ...GlobalModule, * } from "./global-module.jet";
 
+// verify multiple inline comments
+// hello-world
+// hello-world again!
