@@ -5,12 +5,17 @@
 #include "ast-import-module-list-by-wildcard-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName) {
+ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTImportWildcardNode* wildcard) {
     _moduleName = moduleName;
+    _wildcard = wildcard;
 }
 
 ASTImportModuleNameNode* ASTImportModuleListByWildcardItemNode::getModuleName() {
     return _moduleName;
+}
+
+ASTImportWildcardNode* ASTImportModuleListByWildcardItemNode::getWildcard() {
+    return _wildcard;
 }
 
 ASTNodeType ASTImportModuleListByWildcardItemNode::getNodeType() {
@@ -26,11 +31,13 @@ bool ASTImportModuleListByWildcardItemNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTImportModuleListByWildcardItemNode*)other;
-    return this->getModuleName()->isSameAs(otherNode->getModuleName());
+    return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
+           this->getWildcard()->isSameAs(otherNode->getWildcard());
 }
 
 void ASTImportModuleListByWildcardItemNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _moduleName->print();
+    _wildcard->print();
     Logger::log("----------");
 }

@@ -10,13 +10,16 @@
 #include "../../ast-identifier-node.h"
 #include "../ast-import-module-name-node.h"
 #include "ast-import-module-list-base-item-node.h"
+#include "../ast-import-wildcard-node.h"
 
 
 class ASTImportModuleListByWildcardItemNode : public ASTImportModuleListBaseItemNode {
     ASTImportModuleNameNode* _moduleName;
+    ASTImportWildcardNode* _wildcard;
 public:
-    explicit ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName);
+    explicit ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTImportWildcardNode* wildcard);
     ASTImportModuleNameNode* getModuleName();
+    ASTImportWildcardNode* getWildcard();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

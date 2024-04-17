@@ -32,6 +32,9 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -2774,6 +2777,68 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::importModuleName,
                 ASTNodeFactory::importPath
         )},
+        {186, new ASTUseManyModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                new ASTImportModuleListNode({
+                    ASTNodeFactory::importModuleWildcardItem
+                }),
+                ASTNodeFactory::importPath
+        )},
+        {187, new ASTImportManyModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                new ASTImportModuleListNode({
+                    ASTNodeFactory::importModuleWildcardItem
+                }),
+                ASTNodeFactory::importPath
+        )},
+        {186, new ASTUseManyModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                new ASTImportModuleListNode({
+                    ASTNodeFactory::importModuleWildcardItem
+                }),
+                ASTNodeFactory::importPath
+        )},
+        {187, new ASTImportManyModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                new ASTImportModuleListNode({
+                    ASTNodeFactory::importModuleWildcardItem
+                }),
+                ASTNodeFactory::importPath
+        )},
+        {188, new ASTUseManyModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                new ASTImportModuleListNode({
+                    ASTNodeFactory::createImportModuleByGroupItem(
+                        new ASTImportModuleListNode({
+                              ASTNodeFactory::importModuleNormalItem,
+                              ASTNodeFactory::importModuleSpreadItem
+                        })
+                    ),
+                    ASTNodeFactory::importModuleAliasItem,
+                    ASTNodeFactory::importModuleNormalItem,
+                    ASTNodeFactory::importModuleByWildcardItem,
+                    ASTNodeFactory::importModuleSpreadItem,
+                    ASTNodeFactory::importModuleWildcardItem
+                }),
+                ASTNodeFactory::importPath
+        )},
+        {189, new ASTImportManyModuleDeclarationNode(
+                ASTNodeFactory::importModuleName,
+                new ASTImportModuleListNode({
+                    ASTNodeFactory::createImportModuleByGroupItem(
+                        new ASTImportModuleListNode({
+                            ASTNodeFactory::importModuleNormalItem,
+                            ASTNodeFactory::importModuleSpreadItem
+                        })
+                    ),
+                    ASTNodeFactory::importModuleAliasItem,
+                    ASTNodeFactory::importModuleNormalItem,
+                    ASTNodeFactory::importModuleByWildcardItem,
+                    ASTNodeFactory::importModuleSpreadItem,
+                    ASTNodeFactory::importModuleWildcardItem
+                }),
+                ASTNodeFactory::importPath
+        )},
 
 };
 
@@ -2785,8 +2850,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 185);
-    for (int i = 0; i < 185; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 189);
+    for (int i = 0; i < 189; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

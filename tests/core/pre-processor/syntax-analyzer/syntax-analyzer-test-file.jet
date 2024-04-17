@@ -378,5 +378,5 @@ use MyPackage::* from "my-package";
 import GlobalModule::* from "./global-module.jet";
 
 use MyPackage::{ MyPackageModule::{ MyClass, ...MyPackageModule }, MyOtherModule as OtherPackageModule, MyThirdPackageModule, MyFourthPackageModule::*, ...MyPackage, * } from "my-package";
-import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, MyThirdModule, ...GlobalModule, * } from "./global-module.jet";
+import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, MyThirdModule, MyFourthModule::*, ...GlobalModule, * } from "./global-module.jet";
 

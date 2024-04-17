@@ -10,6 +10,7 @@ ASTNode* ImportModuleListByWildcardItemReducerStrategy::execute(std::vector<ASTN
         throw std::invalid_argument("unable to reduce to import module list by wildcard item since nodes list is not 3");
     }
     return new ASTImportModuleListByWildcardItemNode(
-            (ASTImportModuleNameNode*)nodes[0]
+            (ASTImportModuleNameNode*)nodes[0],
+            (ASTImportWildcardNode*)nodes[2]
     );
 }

@@ -74,21 +74,13 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
 
     if (mode == SA_IMPORT_MODULE_LIST_MODE) {
         if (prevNode && prevNode.value()->is(AST_MODULE_SPREAD_NODE) ||
-            nextNode && nextNode.value()->is(AST_AS_NODE)) {
+            nextNode && nextNode.value()->isOneOf({ AST_AS_NODE, AST_MODULE_ACCESS_NODE })) {
             return new ASTImportModuleNameNode(this);
         }
         if (prevNode && prevNode.value()->is(AST_AS_NODE)) {
             return new ASTImportModuleAliasNameNode(this);
         }
-        if (nextNode && nextNode.value()->is(AST_MODULE_ACCESS_NODE)) {
-            return new ASTImportModuleNameNode(this);
-        }
 
-        if (nextNode) {
-            Logger::log("nextNode has value");
-            nextNode.value()->print();
-        }
-        Logger::log("creating ASTImportModuleListNormalItemNode");
         return new ASTImportModuleListNormalItemNode(new ASTImportModuleNameNode(this));
     }
 

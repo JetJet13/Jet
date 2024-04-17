@@ -42,6 +42,15 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-list-item-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-path-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-module-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-module-list-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-module-alias-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-alias-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-normal-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-spread-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-module-list-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-wildcard-item-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -246,6 +255,32 @@ namespace ASTNodeFactory {
     static ASTImportModuleNameNode* importModuleName = new ASTImportModuleNameNode(
             ASTNodeFactory::id
     );
+    static ASTImportModuleAliasNameNode* importModuleAliasName = new ASTImportModuleAliasNameNode(
+            ASTNodeFactory::id
+    );
+    static ASTImportWildcardNode* importModuleWildcard = new ASTImportWildcardNode(
+            createLexeme(SymbolFactory::createStarSymbol())
+    );
+    static ASTImportModuleListItemNode* importModuleNormalItem = new ASTImportModuleListItemNode(
+            new ASTImportModuleListNormalItemNode(importModuleName)
+    );
+    static ASTImportModuleListItemNode* importModuleAliasItem = new ASTImportModuleListItemNode(
+            new ASTImportModuleListAliasItemNode(importModuleName, importModuleAliasName)
+    );
+    static ASTImportModuleListItemNode* importModuleSpreadItem = new ASTImportModuleListItemNode(
+            new ASTImportModuleListSpreadItemNode(importModuleName)
+    );
+    static ASTImportModuleListItemNode* importModuleWildcardItem = new ASTImportModuleListItemNode(
+            new ASTImportModuleListWildcardItemNode(createLexeme(SymbolFactory::createStarSymbol()))
+    );
+    static ASTImportModuleListItemNode* importModuleByWildcardItem = new ASTImportModuleListItemNode(
+            new ASTImportModuleListByWildcardItemNode(importModuleName, importModuleWildcard)
+    );
+    static ASTImportModuleListItemNode* createImportModuleByGroupItem(ASTImportModuleListNode* importModuleList) {
+         return new ASTImportModuleListItemNode(
+                 new ASTImportModuleListByGroupItemNode(importModuleName, importModuleList)
+         );
+    }
     static ASTImportPathNode* importPath = new ASTImportPathNode(
             ASTNodeFactory::stringLiteral
     );

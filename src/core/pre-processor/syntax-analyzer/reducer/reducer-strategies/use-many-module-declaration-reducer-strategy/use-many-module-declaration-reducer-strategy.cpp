@@ -6,6 +6,7 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.h"
 #include "../../../../../ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-wildcard-item-node.h"
 #include "../../../../../ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
+#include "../../../../../ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h"
 
 ASTNode* UseManyModuleDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 4) {
@@ -17,7 +18,11 @@ ASTNode* UseManyModuleDeclarationReducerStrategy::execute(std::vector<ASTNode*> 
                 ((ASTImportModuleListByWildcardItemNode*)nodes[1])->getModuleName(),
                 new ASTImportModuleListNode({
                     new ASTImportModuleListItemNode(
-                            (ASTImportModuleListByWildcardItemNode*)nodes[1]
+                        new ASTImportModuleListWildcardItemNode(
+                                ((ASTImportModuleListByWildcardItemNode*)nodes[1])
+                                ->getWildcard()
+                                ->getLexeme()
+                        )
                     )
                 }),
                 (ASTImportPathNode*)nodes[3]
