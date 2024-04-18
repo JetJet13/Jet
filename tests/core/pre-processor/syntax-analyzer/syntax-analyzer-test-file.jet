@@ -385,3 +385,45 @@ import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as Othe
 // hello-world again!
 
 // time for classes
+class MyClass {
+    public const myInt: int = 5;
+    protected foo: int;
+    private bar: boolean;
+
+    public static create(foo: int) MyClass {
+        return new MyClass(foo);
+    }
+
+    protected static doSomething() MyClass {
+        return new MyClass();
+    }
+
+    private static doSomethingElse() MyClass {
+        return new MyClass(100);
+    }
+
+    constructor() {
+        this.foo = 10;
+        this.bar = true;
+        this.hello();
+    }
+
+    constructor(foo: int) {
+        this.foo = foo;
+        this.bar = true;
+    }
+
+    public isValid() boolean {
+        return this.bar;
+    }
+
+    protected setBar(bar: boolean) this {
+        this.bar = bar;
+        return this;
+    }
+
+    private hello() string {
+        return "hello world!";
+    }
+
+}

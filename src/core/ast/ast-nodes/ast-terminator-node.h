@@ -5,18 +5,13 @@
 #ifndef JETLANG_AST_TERMINATOR_NODE_H
 #define JETLANG_AST_TERMINATOR_NODE_H
 
-#include "ast-node.h"
+#include "ast-symbol-node.h"
 
-class ASTTerminatorNode : public ASTNode {
-private:
-    Lexeme* _terminator;
+class ASTTerminatorNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTTerminatorNode(Lexeme* lexeme);
-    Lexeme* getTerminator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_TERMINATOR_NODE_H

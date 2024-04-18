@@ -5,19 +5,13 @@
 #ifndef JETLANG_AST_COMMA_NODE_H
 #define JETLANG_AST_COMMA_NODE_H
 
-#include <string>
-#include "ast-node.h"
+#include "ast-symbol-node.h"
 
-class ASTCommaNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTCommaNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTCommaNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_COMMA_NODE_H
