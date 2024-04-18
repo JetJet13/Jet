@@ -565,6 +565,22 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-spread-item-reducer-strategy/import-module-list-spread-item-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.h
+        ast/ast-nodes/ast-access-modifier-nodes/ast-public-node.cpp
+        ast/ast-nodes/ast-access-modifier-nodes/ast-public-node.h
+        ast/ast-nodes/ast-access-modifier-nodes/ast-protected-node.cpp
+        ast/ast-nodes/ast-access-modifier-nodes/ast-protected-node.h
+        ast/ast-nodes/ast-access-modifier-nodes/ast-private-node.cpp
+        ast/ast-nodes/ast-access-modifier-nodes/ast-private-node.h
+        ast/ast-nodes/ast-symbol-node.cpp
+        ast/ast-nodes/ast-symbol-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-node.h
+        ast/ast-nodes/ast-class-nodes/ast-static-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-static-node.h
+        ast/ast-nodes/ast-class-nodes/ast-constructor-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-constructor-node.h
+        ast/ast-nodes/ast-class-nodes/ast-this-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-this-node.h
 
 )
 

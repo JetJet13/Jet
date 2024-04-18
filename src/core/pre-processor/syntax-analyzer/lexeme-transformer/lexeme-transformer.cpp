@@ -54,6 +54,13 @@
 #include "../../../ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h"
 #include "../../../ast/ast-nodes/ast-import-nodes/ast-from-node.h"
 #include "../../../ast/ast-nodes/ast-module-nodes/ast-module-access-node.h"
+#include "../../../ast/ast-nodes/ast-class-nodes/ast-class-node.h"
+#include "../../../ast/ast-nodes/ast-access-modifier-nodes/ast-public-node.h"
+#include "../../../ast/ast-nodes/ast-access-modifier-nodes/ast-protected-node.h"
+#include "../../../ast/ast-nodes/ast-access-modifier-nodes/ast-private-node.h"
+#include "../../../ast/ast-nodes/ast-class-nodes/ast-static-node.h"
+#include "../../../ast/ast-nodes/ast-class-nodes/ast-constructor-node.h"
+#include "../../../ast/ast-nodes/ast-class-nodes/ast-this-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -171,6 +178,20 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTFromNode(lexeme);
     } else if (symbol->isColonColon()) {
         return new ASTModuleAccessNode(lexeme);
+    } else if (symbol->isClass()) {
+        return new ASTClassNode(lexeme);
+    } else if (symbol->isPublic()) {
+        return new ASTPublicNode(lexeme);
+    } else if (symbol->isProtected()) {
+        return new ASTProtectedNode(lexeme);
+    } else if (symbol->isPrivate()) {
+        return new ASTPrivateNode(lexeme);
+    } else if (symbol->isStatic()) {
+        return new ASTStaticNode(lexeme);
+    } else if (symbol->isConstructor()) {
+        return new ASTConstructorNode(lexeme);
+    } else if (symbol->isThis()) {
+        return new ASTThisNode(lexeme);
     } else {
         return new ASTLiteralNode(lexeme);
     }

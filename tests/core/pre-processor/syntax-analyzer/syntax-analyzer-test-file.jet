@@ -383,3 +383,5 @@ import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as Othe
 // verify multiple inline comments
 // hello-world
 // hello-world again!
+
+// time for classes

@@ -75,6 +75,13 @@ public:
     bool isDotDotDot();
     bool isColonColon();
     bool isUseKeyword();
+    bool isClass();
+    bool isPublic();
+    bool isProtected();
+    bool isPrivate();
+    bool isStatic();
+    bool isConstructor();
+    bool isThis();
     SymbolType getType();
     std::string toString();
 };

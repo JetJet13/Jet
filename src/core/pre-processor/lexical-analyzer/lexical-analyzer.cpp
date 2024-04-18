@@ -44,7 +44,6 @@ std::optional<Lexeme*> LexicalAnalyzer::next() {
         return {};
     }
 
-    this->skipWhitespaceAndNewLine();
     this->skipComments();
     this->stopIfNecessary();
     if (!_hasMore) {
@@ -67,7 +66,6 @@ std::optional<Lexeme*> LexicalAnalyzer::peek() {
     auto cursorSnapshot = _fileReader.getCursor();
     auto numAdvancesSnapshot = _fileReader.getNumAdvances();
 
-    this->skipWhitespaceAndNewLine();
     this->skipComments();
     this->stopIfNecessary();
     if (!_hasMore) {
@@ -407,6 +405,7 @@ void LexicalAnalyzer::skipWhitespaceAndNewLine() {
 }
 
 void LexicalAnalyzer::skipComments() {
+    this->skipWhitespaceAndNewLine();
     if (_fileReader.peek() != SLASH) {
         return;
     }

@@ -254,6 +254,34 @@ bool Symbol::isUseKeyword() {
     return _type == SYM_USE;
 }
 
+bool Symbol::isClass() {
+    return _type == SYM_CLASS;
+}
+
+bool Symbol::isPublic() {
+    return _type == SYM_PUBLIC;
+}
+
+bool Symbol::isProtected() {
+    return _type == SYM_PROTECTED;
+}
+
+bool Symbol::isPrivate() {
+    return _type == SYM_PRIVATE;
+}
+
+bool Symbol::isStatic() {
+    return _type == SYM_STATIC;
+}
+
+bool Symbol::isConstructor() {
+    return _type == SYM_CONSTRUCTOR;
+}
+
+bool Symbol::isThis() {
+    return _type == SYM_THIS;
+}
+
 SymbolType Symbol::getType() {
     return _type;
 }

@@ -16,7 +16,6 @@ typedef enum {
     SYM_BOOLEAN_TYPE,
     SYM_ARRAY_TYPE,
     SYM_VOID_TYPE,
-    SYM_THIS,
     SYM_AND,
     SYM_OR,
     SYM_TRUE,
@@ -41,7 +40,6 @@ typedef enum {
     SYM_LEFT_PAREN,
     SYM_RIGHT_PAREN,
     SYM_BANG,
-    SYM_NEGATE,
     SYM_BANG_EQUAL,
     SYM_EQUAL_EQUAL,
     SYM_SEMICOLON,
@@ -72,6 +70,13 @@ typedef enum {
     SYM_DOT_DOT_DOT,
     SYM_COLON_COLON,
     SYM_USE,
+    SYM_CLASS,
+    SYM_PUBLIC,
+    SYM_PROTECTED,
+    SYM_PRIVATE,
+    SYM_STATIC,
+    SYM_CONSTRUCTOR,
+    SYM_THIS,
     SYM_MALFORMED
 } SymbolType;
 #endif //JETLANG_SYMBOL_TYPE_H
