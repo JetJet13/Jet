@@ -3,6 +3,7 @@
 //
 
 #include "ast-type-node-factory.h"
+#include "ast-this-type-node.h"
 
 namespace ASTTypeNodeFactory {
     ASTTypeNode* createCustomTypeNode(ASTIdentifierNode* identifierNode) {
@@ -27,5 +28,9 @@ namespace ASTTypeNodeFactory {
 
     ASTTypeNode* createIntLiteralTypeNode(Lexeme* lexeme) {
         return new ASTTypeNode(new ASTIntLiteralTypeNode(lexeme));
+    }
+
+    ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode) {
+        return new ASTTypeNode(new ASTThisTypeNode(thisNode));
     }
 }

@@ -133,8 +133,8 @@ add_library(jet-core
         ast/ast-nodes/ast-array-nodes/ast-array-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-node-reducer-strategy/array-node-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-node-reducer-strategy/array-node-reducer-strategy.h
-        ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h
+        ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-expression-reducer-strategy/array-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-expression-reducer-strategy/array-access-expression-reducer-strategy.h
         ast/ast-nodes/ast-array-nodes/ast-array-access-node.cpp
@@ -607,6 +607,18 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.h
+        ast/ast-nodes/ast-type-nodes/ast-this-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-this-type-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-access-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-access-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h
 
 )
 

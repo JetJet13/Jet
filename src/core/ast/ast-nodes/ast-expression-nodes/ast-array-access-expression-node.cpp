@@ -2,7 +2,7 @@
 // Created by Johny Georges on 2024-03-11.
 //
 
-#include "ast-array-access-expression.h"
+#include "ast-array-access-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
 ASTArrayAccessExpressionNode::ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* index) {

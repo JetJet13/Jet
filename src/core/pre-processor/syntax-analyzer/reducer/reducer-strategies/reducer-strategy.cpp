@@ -5,6 +5,8 @@
 #include "reducer-strategy.h"
 #include "../../../../ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../../../ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
+#include "../../../../ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
+#include "../../../../ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
 
 bool ReducerStrategy::startsWith(std::vector<ASTNode*> nodes, ASTNodeType astNodeType) {
     if (nodes.empty()) {
@@ -30,6 +32,10 @@ ASTExpressionNode* ReducerStrategy::createExpressionNode(ASTNode* node) {
         return new ASTLiteralExpressionNode((ASTLiteralNode*)node);
     } else if (node->is(AST_IDENTIFIER_NODE)) {
         return new ASTIdentifierExpressionNode((ASTIdentifierNode*)node);
+    } else if (node->is(AST_CLASS_PROPERTY_ACCESS_NODE)) {
+        return new ASTClassPropertyAccessExpressionNode((ASTClassPropertyAccessNode*)node);
+    } else if (node->is(AST_THIS_NODE)) {
+        return new ASTThisExpressionNode((ASTThisNode*)node);
     } else {
         return (ASTExpressionNode*)node;
     }

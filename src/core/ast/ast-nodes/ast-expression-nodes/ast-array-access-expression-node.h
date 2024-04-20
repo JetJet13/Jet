@@ -2,8 +2,8 @@
 // Created by Johny Georges on 2024-03-11.
 //
 
-#ifndef JETLANG_AST_ARRAY_ACCESS_EXPRESSION_H
-#define JETLANG_AST_ARRAY_ACCESS_EXPRESSION_H
+#ifndef JETLANG_AST_ARRAY_ACCESS_EXPRESSION_NODE_H
+#define JETLANG_AST_ARRAY_ACCESS_EXPRESSION_NODE_H
 
 #include "ast-expression-node.h"
 #include "ast-array-expression-node.h"
@@ -23,4 +23,4 @@ public:
     void print() override;
 };
 
-#endif //JETLANG_AST_ARRAY_ACCESS_EXPRESSION_H
+#endif //JETLANG_AST_ARRAY_ACCESS_EXPRESSION_NODE_H

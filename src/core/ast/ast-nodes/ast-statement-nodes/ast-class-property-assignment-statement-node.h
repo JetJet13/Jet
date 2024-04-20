@@ -1,0 +1,28 @@
+//
+// Created by Johny Georges on 2024-04-20.
+//
+
+#ifndef JETLANG_AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE_H
+#define JETLANG_AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE_H
+
+#include "../ast-node.h"
+#include "../ast-expression-nodes/ast-expression-node.h"
+#include "../ast-identifier-node.h"
+#include "../ast-variable-nodes/ast-variable-assignment-node.h"
+#include "../ast-class-nodes/ast-class-property-name-node.h"
+
+class ASTClassPropertyAssignmentStatementNode : public ASTNode {
+private:
+    ASTClassPropertyNameNode* _property;
+    ASTExpressionNode* _expression;
+public:
+    ASTClassPropertyAssignmentStatementNode(ASTClassPropertyNameNode* property, ASTExpressionNode* expression);
+    ASTClassPropertyNameNode* getProperty();
+    ASTExpressionNode* getExpression();
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+};
+
+#endif //JETLANG_AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE_H

@@ -3,7 +3,7 @@
 //
 
 #include "array-access-expression-reducer-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h"
+#include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h"
 
 ASTNode* ArrayAccessExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 2) {

@@ -12,6 +12,7 @@
 #include "../ast-tuple-nodes/ast-tuple-type-node.h"
 #include "../ast-array-nodes/ast-array-type-node.h"
 #include "ast-int-literal-type-node.h"
+#include "../ast-class-nodes/ast-this-node.h"
 
 namespace ASTTypeNodeFactory {
     ASTTypeNode* createCustomTypeNode(ASTIdentifierNode* identifierNode);
@@ -20,6 +21,7 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode);
     ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
     ASTTypeNode* createIntLiteralTypeNode(Lexeme* lexeme);
+    ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);
 }
 
 #endif //JETLANG_AST_TYPE_NODE_FACTORY_H

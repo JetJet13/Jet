@@ -10,7 +10,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
