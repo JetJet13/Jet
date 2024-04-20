@@ -1,0 +1,8 @@
+//
+// Created by Johny Georges on 2024-04-20.
+//
+
+#ifndef JETLANG_AST_CLASS_METHOD_NAME_NODE_H
+#define JETLANG_AST_CLASS_METHOD_NAME_NODE_H
+
+#endif //JETLANG_AST_CLASS_METHOD_NAME_NODE_H

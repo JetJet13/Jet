@@ -61,6 +61,7 @@
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-static-node.h"
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-constructor-node.h"
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-this-node.h"
+#include "../../../ast/ast-nodes/ast-const-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -71,8 +72,10 @@ std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexe
 
 ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     auto symbol = lexeme->getToken()->getSymbol();
-    if (symbol->isVarTypeQualifier()) {
+    if (symbol->isLet()) {
         return new ASTVariableTypeNode(lexeme);
+    } else if (symbol->isConst()) {
+        return new ASTConstNode(lexeme);
     } else if (symbol->isIdentifier()) {
         return new ASTIdentifierNode(lexeme);
     } else if (symbol->isEqual()) {

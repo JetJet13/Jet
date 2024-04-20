@@ -1,0 +1,36 @@
+//
+// Created by Johny Georges on 2024-04-19.
+//
+
+#ifndef JETLANG_AST_CLASS_METHOD_DECLARATION_NODE_H
+#define JETLANG_AST_CLASS_METHOD_DECLARATION_NODE_H
+
+#include <vector>
+#include "../ast-node.h"
+#include "../ast-identifier-node.h"
+#include "../ast-expression-nodes/ast-identifier-expression-node.h"
+#include "../ast-function-nodes/ast-function-parameter-list-node.h"
+#include "../ast-type-nodes/ast-type-node.h"
+#include "../ast-function-nodes/ast-function-block-node.h"
+#include "../ast-class-nodes/ast-class-method-node.h"
+
+class ASTClassMethodDeclarationNode : public ASTNode {
+private:
+    ASTClassMethodNameNode* _name;
+    ASTFunctionParameterListNode* _parameters;
+    std::optional<ASTTypeNode*> _returnType;
+    ASTFunctionBlockNode* _content;
+public:
+    explicit ASTClassMethodDeclarationNode(ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, std::optional<ASTTypeNode*> returnType, ASTFunctionBlockNode* content);
+    ASTFunctionParameterListNode* getParameters();
+    ASTClassMethodNameNode* getName();
+    std::optional<ASTTypeNode*> getReturnType();
+    ASTFunctionBlockNode* getContent();
+    unsigned long numParameters();
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+};
+
+#endif //JETLANG_AST_CLASS_METHOD_DECLARATION_NODE_H

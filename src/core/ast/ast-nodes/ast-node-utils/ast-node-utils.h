@@ -25,6 +25,9 @@ namespace ASTNodeUtils {
             case AST_USE_SINGLE_MODULE_DECLARATION_NODE:
             case AST_IMPORT_MANY_MODULE_DECLARATION_NODE:
             case AST_USE_MANY_MODULE_DECLARATION_NODE:
+            case AST_CLASS_DECLARATION_NODE:
+            case AST_CLASS_PROPERTY_DECLARATION_NODE:
+            case AST_CLASS_METHOD_DECLARATION_NODE:
             case AST_BLOCK_NODE:
             case AST_BREAK_NODE:
             case AST_SKIP_NODE:
@@ -46,6 +49,7 @@ namespace ASTNodeUtils {
             case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
             case AST_CURRY_EXPRESSION_NODE:
             case AST_FUNCTION_RETURN_EXPRESSION_NODE:
+            case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
             case AST_ARRAY_ACCESS_EXPRESSION_NODE:
             case AST_ARRAY_EXPRESSION_NODE:
             case AST_STRUCT_EXPRESSION_NODE:

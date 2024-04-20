@@ -1,0 +1,17 @@
+//
+// Created by Johny Georges on 2024-04-20.
+//
+
+#ifndef JETLANG_AST_CLASS_METHOD_CALL_NODE_H
+#define JETLANG_AST_CLASS_METHOD_CALL_NODE_H
+
+#include "../ast-symbol-node.h"
+
+class ASTClassMethodCallNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
+public:
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+};
+
+#endif //JETLANG_AST_CLASS_METHOD_CALL_NODE_H

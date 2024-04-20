@@ -164,6 +164,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: GROUP_MODE");
             _modeStack.push(SA_GROUP_MODE);
             break;
+        case AST_CLASS_BLOCK_START_NODE:
+            Logger::log("pushing mode: CLASS_BLOCK_MODE");
+            _modeStack.push(SA_CLASS_BLOCK_MODE);
+            break;
         case AST_STRUCT_START_NODE:
             Logger::log("pushing mode: STRUCT_MODE");
             _modeStack.push(SA_STRUCT_MODE);
@@ -217,6 +221,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_IMPORT_MODULE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_SOURCE_NODE:
+        case AST_CLASS_BLOCK_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();
             break;

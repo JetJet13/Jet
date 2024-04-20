@@ -581,6 +581,32 @@ add_library(jet-core
         ast/ast-nodes/ast-class-nodes/ast-constructor-node.h
         ast/ast-nodes/ast-class-nodes/ast-this-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-this-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-name-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-name-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-method-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-method-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-block-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-block-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-block-start-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-block-start-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-block-end-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-block-end-node.h
+        ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.h
+        ast/ast-nodes/ast-const-node.cpp
+        ast/ast-nodes/ast-const-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-method-name-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-method-name-node.h
+        ast/ast-nodes/ast-class-nodes/ast-this-access-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-this-access-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h
 
 )
 

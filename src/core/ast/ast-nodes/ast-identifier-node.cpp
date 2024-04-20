@@ -18,6 +18,10 @@
 #include "ast-import-nodes/ast-import-module-name-node.h"
 #include "ast-import-nodes/ast-import-list-items/ast-import-module-list-normal-item-node.h"
 #include "ast-import-nodes/ast-import-module-alias-name-node.h"
+#include "ast-class-nodes/ast-class-name-node.h"
+#include "ast-class-nodes/ast-class-property-name-node.h"
+#include "ast-class-nodes/ast-class-method-node.h"
+#include "ast-class-nodes/ast-class-method-call-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
     _identifier = lexeme;
@@ -41,6 +45,28 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return new ASTEnumNameNode(this->getIdentifier());
     }
 
+    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NODE })) {
+        return new ASTClassNameNode(this->getIdentifier());
+    }
+
+    if (mode == SA_CLASS_BLOCK_MODE) {
+        if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE) &&
+            prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
+            return new ASTClassMethodNameNode(this->getIdentifier());
+        }
+
+        if (prevNode && prevNode.value()->isOneOf({ AST_CONST_NODE, AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
+            return new ASTClassPropertyNameNode(this->getIdentifier());
+        }
+    }
+
+    if (prevNode && prevNode.value()->is(AST_THIS_ACCESS_NODE)) {
+        if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
+            return new ASTClassMethodCallNode(this->getIdentifier());
+        }
+        return new ASTClassPropertyNameNode(this->getIdentifier());
+    }
+
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
@@ -60,6 +86,7 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
     if (prevNode && prevNode.value()->isOneOf({ AST_IMPORT_NODE, AST_USE_NODE })) {
         return new ASTImportModuleNameNode(this);
     }
+
 
     if (mode == SA_MODULE_LIST_MODE) {
         if (prevNode && prevNode.value()->is(AST_MODULE_SPREAD_NODE) ||
