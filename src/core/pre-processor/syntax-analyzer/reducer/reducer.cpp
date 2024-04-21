@@ -16,7 +16,6 @@
 #include "reducer-strategies/array-node-reducer-strategy/array-node-reducer-strategy.h"
 #include "reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.h"
 #include "reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.h"
-#include "reducer-strategies/block-reducer-strategy/block-reducer-strategy.h"
 #include "reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.h"
 #include "reducer-strategies/function-declaration-reducer-strategy/function-declaration-reducer-strategy.h"
 #include "reducer-strategies/function-parameter-list-reducer-strategy/function-parameter-list-reducer-strategy.h"
@@ -74,6 +73,10 @@
 #include "reducer-strategies/import-module-list-alias-item-reducer-strategy/import-module-list-alias-item-reducer-strategy.h"
 #include "reducer-strategies/import-module-list-spread-item-reducer-strategy/import-module-list-spread-item-reducer-strategy.h"
 #include "reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.h"
+#include "reducer-strategies/class-declaration-reducer-strategy/class-declaration-reducer-strategy.h"
+#include "reducer-strategies/class-property-declaration-reducer-strategy/class-property-declaration-reducer-strategy.h"
+#include "reducer-strategies/class-constructor-declaration-reducer-strategy/class-constructor-declaration-reducer-strategy.h"
+#include "reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -93,7 +96,6 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ARRAY_ACCESS_EXPRESSION_NODE, new ArrayAccessExpressionReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_NODE, new ArrayAccessReducerStrategy());
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());
-    this->addStrategy(AST_BLOCK_NODE, new BlockReducerStrategy());
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, new ObjectAccessExpressionReducerStrategy());
@@ -152,6 +154,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE, new ImportModuleListAliasItemReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE, new ImportModuleListSpreadItemReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_NODE, new ImportModuleListReducerStrategy());
+    this->addStrategy(AST_CLASS_DECLARATION_NODE, new ClassDeclarationReducerStrategy());
+    this->addStrategy(AST_CLASS_PROPERTY_DECLARATION_NODE, new ClassPropertyDeclarationReducerStrategy());
+    this->addStrategy(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, new ClassConstructorDeclarationReducerStrategy());
+    this->addStrategy(AST_CLASS_METHOD_DECLARATION_NODE, new ClassMethodDeclarationReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

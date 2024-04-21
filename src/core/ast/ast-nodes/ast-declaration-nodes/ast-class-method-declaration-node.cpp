@@ -5,11 +5,16 @@
 #include "ast-class-method-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, std::optional<ASTTypeNode*> returnType, ASTFunctionBlockNode* content) {
+ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType) {
+    _accessModifier = accessModifier;
     _name = name;
     _content = content;
     _returnType = returnType;
     _parameters = parameters;
+}
+
+ASTAccessModifierNode* ASTClassMethodDeclarationNode::getAccessModifier() {
+    return _accessModifier;
 }
 
 ASTFunctionParameterListNode* ASTClassMethodDeclarationNode::getParameters() {
@@ -56,9 +61,10 @@ bool ASTClassMethodDeclarationNode::isSameAs(ASTNode *other) {
         return false;
     }
 
-    return  this->getName()->isSameAs(otherNode->getName()) &&
-            this->getParameters()->isSameAs(otherNode->getParameters()) &&
-            this->getContent()->isSameAs(otherNode->getContent());
+    return this->getAccessModifier()->isSameAs(otherNode->getAccessModifier()) &&
+           this->getName()->isSameAs(otherNode->getName()) &&
+           this->getParameters()->isSameAs(otherNode->getParameters()) &&
+           this->getContent()->isSameAs(otherNode->getContent());
 }
 
 void ASTClassMethodDeclarationNode::print() {

@@ -5,11 +5,10 @@
 #ifndef JETLANG_AST_PROTECTED_NODE_H
 #define JETLANG_AST_PROTECTED_NODE_H
 
-#include <string>
-#include "../ast-symbol-node.h"
+#include "ast-access-modifier-node.h"
 
-class ASTProtectedNode : public ASTSymbolNode {
-    using ASTSymbolNode::ASTSymbolNode;
+class ASTProtectedNode : public ASTAccessModifierNode {
+    using ASTAccessModifierNode::ASTAccessModifierNode;
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;

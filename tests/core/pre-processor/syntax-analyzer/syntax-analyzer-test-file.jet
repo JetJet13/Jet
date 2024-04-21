@@ -386,9 +386,21 @@ import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as Othe
 
 // time for classes
 class MyClass {
-    public const myInt: int = 5;
-    protected foo: int;
-    private bar: boolean;
+    public myIntOne: int; // 4
+    public myIntTwo: int = 5; // 6
+    public myIntThree = 5; // 4
+
+    public const myIntOne: int; // 5
+    public const myIntTwo: int = 5; // 7
+    public const myIntThree = 5; // 5
+
+    protected static fooOne: int; // 5
+    protected static fooTwo: int = 10; // 7
+    protected static fooThree = 10; // 5
+
+    private static const mickOne: boolean; // 6
+    private static const mickTwo: boolean = true; // 8
+    private static const mickThree = true; // 6
 
     public static create(foo: int) MyClass {
         return new MyClass(foo);
@@ -424,6 +436,10 @@ class MyClass {
 
     private hello() string {
         return "hello world!";
+    }
+
+    private hello() {
+        this.bar = true;
     }
 
 }

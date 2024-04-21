@@ -1,0 +1,24 @@
+//
+// Created by Johny Georges on 2024-04-20.
+//
+
+#ifndef JETLANG_CLASS_PROPERTY_DECLARATION_REDUCER_STRATEGY_H
+#define JETLANG_CLASS_PROPERTY_DECLARATION_REDUCER_STRATEGY_H
+
+#include <vector>
+#include "../reducer-strategy.h"
+#include "../../../../../ast/ast-nodes/ast-type-nodes/ast-type-node.h"
+#include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.h"
+
+class ClassPropertyDeclarationReducerStrategy : public ReducerStrategy {
+private:
+    ASTClassPropertyNameNode* getPropertyName(std::vector<ASTNode*>* nodes);
+    bool getIsStatic(std::vector<ASTNode*>* nodes);
+    bool getIsConstant(std::vector<ASTNode*>* nodes);
+    std::optional<ASTTypeNode*> getType(std::vector<ASTNode*>* nodes);
+    std::optional<ASTExpressionNode*> getInitializer(std::vector<ASTNode*>* nodes);
+public:
+    ASTNode* execute(std::vector<ASTNode*> nodes) override;
+};
+
+#endif //JETLANG_CLASS_PROPERTY_DECLARATION_REDUCER_STRATEGY_H

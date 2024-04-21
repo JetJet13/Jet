@@ -10,17 +10,24 @@
 #include "../ast-identifier-node.h"
 #include "../ast-variable-nodes/ast-variable-type-node.h"
 #include "../ast-variable-nodes/ast-variable-init-node.h"
+#include "../ast-class-nodes/ast-class-property-name-node.h"
+#include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 
 class ASTClassPropertyDeclarationNode : public ASTNode {
-    ASTVariableInitNode* _varInit;
-    ASTExpressionNode* _initializer;
-    ASTClassPropertyNameNode* _classPropertyName;
-    bool _static;
-    bool _constant;
+    ASTAccessModifierNode* _accessModifier;
+    ASTClassPropertyNameNode* _propertyName;
+    std::optional<ASTTypeNode*> _type;
+    std::optional<ASTExpressionNode*> _initializer;
+    bool _isStatic;
+    bool _isConstant;
 public:
-    explicit ASTClassPropertyDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer);
-    ASTVariableInitNode* getVarInitNode();
-    ASTExpressionNode* getInitializerNode();
+    explicit ASTClassPropertyDeclarationNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, bool isStatic, bool isConstant, std::optional<ASTTypeNode*> type = {}, std::optional<ASTExpressionNode*> initializer = {});
+    ASTAccessModifierNode* getAccessModifier();
+    ASTClassPropertyNameNode* getPropertyName();
+    std::optional<ASTTypeNode*> getType();
+    std::optional<ASTExpressionNode*> getInitializer();
+    bool isStatic();
+    bool isConstant();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
