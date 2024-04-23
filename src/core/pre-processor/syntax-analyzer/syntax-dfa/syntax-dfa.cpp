@@ -133,10 +133,29 @@ void SyntaxDfa::init() {
     DFANode* importModuleListSpreadItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE);
     DFANode* importModuleListNormalItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_NORMAL_ITEM_NODE);
     DFANode* importModuleListWildcardItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_WILDCARD_ITEM_NODE);
-
+    DFANode* classKeyword = DFANodeFactory::Once::create(AST_CLASS_NODE);
+    DFANode* className = DFANodeFactory::Once::create(AST_CLASS_NAME_NODE);
+    DFANode* thisKeyword = DFANodeFactory::Once::create(AST_THIS_NODE);
+    DFANode* thisAccess = DFANodeFactory::Once::create(AST_THIS_ACCESS_NODE);
+    DFANode* publicKeyword = DFANodeFactory::Once::create(AST_PUBLIC_NODE);
+    DFANode* protectedKeyword = DFANodeFactory::Once::create(AST_PROTECTED_NODE);
+    DFANode* privateKeyword = DFANodeFactory::Once::create(AST_PRIVATE_NODE);
+    DFANode* staticKeyword = DFANodeFactory::Once::create(AST_STATIC_NODE);
+    DFANode* constKeyword = DFANodeFactory::Once::create(AST_CONST_NODE);
+    DFANode* classMethodCall = DFANodeFactory::Once::create(AST_CLASS_METHOD_CALL_NODE);
+    DFANode* classMethodName = DFANodeFactory::Once::create(AST_CLASS_METHOD_NAME_NODE);
+    DFANode* classMethod = DFANodeFactory::Once::create(AST_CLASS_METHOD_NODE);
+    DFANode* classPropertyName = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_NAME_NODE);
+    DFANode* classPropertyDefinition = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_DEFINITION_NODE);
+    DFANode* classPropertyInit = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_INIT_NODE);
+    DFANode* classProperty = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_NODE);
+    DFANode* classPropertyAccess = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_NODE);
+    DFANode* classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
+    DFANode* constructorKeyword = DFANodeFactory::Once::create(AST_CONSTRUCTOR_NODE);
+    DFANode* classConstructor = DFANodeFactory::Once::create(AST_CLASS_CONSTRUCTOR_NODE);
 
     this->initVarDefinition(varDefinition);
-    this->initVarInit(varInit);
+    this->initVarInit(varInit, AST_VARIABLE_DECLARATION_NODE);
     this->initFunction(functionKeyword);
     this->initProcedure(procedureKeyword);
     this->initEnum(enumKeyword);
@@ -145,6 +164,11 @@ void SyntaxDfa::init() {
     this->initElseIf(elseIfKeyword);
     this->initWhile(whileKeyword);
     this->initFor(forKeyword);
+    this->initAccessModifier(publicKeyword);
+    this->initAccessModifier(protectedKeyword);
+    this->initAccessModifier(privateKeyword);
+    this->initClassPropertyDefinition(classPropertyDefinition);
+    this->initVarInit(classPropertyInit, AST_CLASS_PROPERTY_NODE);
 
     varType
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_VARIABLE_DEFINITION_NODE)));
@@ -459,7 +483,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)));
 
     assignmentOperator
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE });
 
     objectAccessSource
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_PERIOD_NODE })
@@ -768,6 +792,41 @@ void SyntaxDfa::init() {
     importModuleListWildcardItem
     ->markAlwaysReduceSelf();
 
+    classKeyword
+    ->markAlwaysReduceSelf()
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_CLASS_NAME_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_CLASS_BLOCK_NODE, AST_CLASS_DECLARATION_NODE)
+                )
+            )
+        )
+    );
+
+    className
+    ->markAlwaysReduceSelf();
+
+//    publicKeyword
+//    ->markAlwaysReduceSelf();
+//
+//    protectedKeyword
+//    ->markAlwaysReduceSelf();
+//
+//    privateKeyword
+//    ->markAlwaysReduceSelf();
+
+//    staticKeyword
+//    ->markAlwaysReduceSelf();
+//
+//    constKeyword
+//    ->markAlwaysReduceSelf();
+
+    classPropertyName
+    ->markAlwaysReduceSelf();
+
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -808,6 +867,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_CONTROL_FLOW_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_TYPE_PARAMETER_LIST_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_CLASS_BLOCK_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COLON_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_PERIOD_NODE)->markAlwaysReduceSelf())
@@ -895,6 +955,16 @@ void SyntaxDfa::init() {
     ->insertStartNode(importModuleListSpreadItem)
     ->insertStartNode(importModuleListNormalItem)
     ->insertStartNode(importModuleListWildcardItem)
+    ->insertStartNode(classKeyword)
+    ->insertStartNode(className)
+    ->insertStartNode(publicKeyword)
+    ->insertStartNode(protectedKeyword)
+    ->insertStartNode(privateKeyword)
+    ->insertStartNode(staticKeyword)
+    ->insertStartNode(constKeyword)
+    ->insertStartNode(classPropertyName)
+    ->insertStartNode(classPropertyDefinition)
+    ->insertStartNode(classPropertyInit)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
@@ -931,63 +1001,63 @@ void SyntaxDfa::initVarDefinition(DFANode* varDefinition) {
                 DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_INIT_NODE)));
 }
 
-void SyntaxDfa::initVarInit(DFANode* varInitNode) {
+void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
 
     varInitNode
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_TUPLE_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_TUPLE_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LAMBDA_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_LAMBDA_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, AST_VARIABLE_DECLARATION_NODE)))
+                    DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_VARIABLE_DECLARATION_NODE)));
+                    DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, targetNodeType)));
 
 }
 
@@ -1103,4 +1173,61 @@ void SyntaxDfa::initFor(DFANode* forNode) {
                                             ))
                     )
             );
+}
+
+void SyntaxDfa::initAccessModifier(DFANode* accessModifier) {
+    accessModifier
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_STATIC_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_CONST_NODE)
+                    ->addTransition(
+                        DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
+                    ))
+                ))
+        )
+    )
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_STATIC_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
+            ))
+        )
+    )
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_CONST_NODE)
+                ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
+                ))
+        )
+    )
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
+    ));
+}
+
+void SyntaxDfa::initClassPropertyDefinition(DFANode* classPropertyDefinition) {
+    classPropertyDefinition
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_COLON_NODE)
+            ->addTransition(DFATransitionFactory::create(
+                DFANodeFactory::Once::create(AST_TYPE_NODE)
+                ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::NilOrOnce::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_INIT_NODE)))
+            ))
+        )
+    )
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_INIT_NODE)));
 }

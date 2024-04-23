@@ -19,7 +19,7 @@
 #include "ast-import-nodes/ast-import-module-alias-name-node.h"
 #include "ast-class-nodes/ast-class-name-node.h"
 #include "ast-class-nodes/ast-class-property-name-node.h"
-#include "ast-class-nodes/ast-class-method-node.h"
+#include "ast-class-nodes/ast-class-method-name-node.h"
 #include "ast-class-nodes/ast-class-method-call-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {

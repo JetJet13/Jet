@@ -271,5 +271,25 @@ namespace SymbolFactory {
         return new Symbol(SYM_COLON_COLON, "::");
     }
 
+    Symbol* createClassSymbol()  {
+        return new Symbol(SYM_CLASS, "class");
+    }
+
+    Symbol* createPublicSymbol()  {
+        return new Symbol(SYM_PUBLIC, "public");
+    }
+
+    Symbol* createProtectedSymbol()  {
+        return new Symbol(SYM_PROTECTED, "protected");
+    }
+
+    Symbol* createPrivateSymbol()  {
+        return new Symbol(SYM_PRIVATE, "private");
+    }
+
+    Symbol* createStaticSymbol()  {
+        return new Symbol(SYM_STATIC, "static");
+    }
+
 
 }

@@ -9,6 +9,7 @@
 #include "../ast-control-flow-nodes/ast-control-flow-start-node.h"
 #include "../ast-module-nodes/ast-module-list-start-node.h"
 #include "../ast-import-nodes/ast-import-module-list-start-node.h"
+#include "../ast-class-nodes/ast-class-block-start-node.h"
 
 ASTBlockStartNode::ASTBlockStartNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -34,6 +35,10 @@ ASTNode * ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode *> prevN
 
     if (prevNode && prevNode.value()->isOneOf({ AST_MODULE_ACCESS_NODE })) {
         return new ASTImportModuleListStartNode(_lexeme);
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NAME_NODE })) {
+        return new ASTClassBlockStartNode(_lexeme);
     }
 
     if (mode == SA_CONTROL_FLOW_MODE) {

@@ -8,6 +8,8 @@
 #include "../ast-node.h"
 #include "../ast-symbol-node.h"
 
-class ASTAccessModifierNode : public ASTSymbolNode {};
+class ASTAccessModifierNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
+};
 
 #endif //JETLANG_AST_ACCESS_MODIFIER_NODE_H

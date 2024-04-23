@@ -122,6 +122,13 @@ bool Handle::isLambdaTypeParameterListEnclosed() {
     return this->first().value()->is(AST_TYPE_PARAMETER_LIST_START_NODE) && this->last().value()->is(AST_TYPE_PARAMETER_LIST_END_NODE);
 }
 
+bool Handle::isClassBlockEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_CLASS_BLOCK_START_NODE) && this->last().value()->is(AST_CLASS_BLOCK_END_NODE);
+}
+
 void Handle::clear() {
     _handle.clear();
 }

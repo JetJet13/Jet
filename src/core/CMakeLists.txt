@@ -579,16 +579,14 @@ add_library(jet-core
         ast/ast-nodes/ast-class-nodes/ast-class-name-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-method-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-method-node.h
-        ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.cpp
-        ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-block-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-block-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-block-start-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-block-start-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-block-end-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-block-end-node.h
-        ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.cpp
-        ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.h
         ast/ast-nodes/ast-const-node.cpp
@@ -601,8 +599,8 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h
-        ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.cpp
-        ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-constructor-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-constructor-node.h
         ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.cpp
         ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.h
         ast/ast-nodes/ast-type-nodes/ast-this-type-node.cpp
@@ -617,14 +615,24 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-declaration-reducer-strategy/class-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-declaration-reducer-strategy/class-declaration-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-declaration-reducer-strategy/class-property-declaration-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-declaration-reducer-strategy/class-property-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-reducer-strategy/class-property-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-reducer-strategy/class-property-reducer-strategy.h
         ast/ast-nodes/ast-access-modifier-nodes/ast-access-modifier-node.cpp
         ast/ast-nodes/ast-access-modifier-nodes/ast-access-modifier-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-constructor-declaration-reducer-strategy/class-constructor-declaration-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-constructor-declaration-reducer-strategy/class-constructor-declaration-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-constructor-reducer-strategy/class-constructor-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-constructor-reducer-strategy/class-constructor-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-reducer-strategy/class-method-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-reducer-strategy/class-method-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-block-reducer-strategy/class-block-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-block-reducer-strategy/class-block-reducer-strategy.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-definition-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-definition-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-reducer-strategy/class-property-definition-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-reducer-strategy/class-property-definition-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-init-reducer-strategy/class-property-init-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-init-reducer-strategy/class-property-init-reducer-strategy.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-init-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-init-node.h
 
 )
 

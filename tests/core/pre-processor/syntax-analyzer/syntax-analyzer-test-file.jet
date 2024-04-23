@@ -402,44 +402,4 @@ class MyClass {
     private static const mickTwo: boolean = true; // 8
     private static const mickThree = true; // 6
 
-    public static create(foo: int) MyClass {
-        return new MyClass(foo);
-    }
-
-    protected static doSomething() MyClass {
-        return new MyClass();
-    }
-
-    private static doSomethingElse() MyClass {
-        return new MyClass(100);
-    }
-
-    constructor() {
-        this.foo = 10;
-        this.bar = true;
-        this.hello();
-    }
-
-    constructor(foo: int) {
-        this.foo = foo;
-        this.bar = true;
-    }
-
-    public isValid() boolean {
-        return this.bar;
-    }
-
-    protected setBar(bar: boolean) this {
-        this.bar = bar;
-        return this;
-    }
-
-    private hello() string {
-        return "hello world!";
-    }
-
-    private hello() {
-        this.bar = true;
-    }
-
 }

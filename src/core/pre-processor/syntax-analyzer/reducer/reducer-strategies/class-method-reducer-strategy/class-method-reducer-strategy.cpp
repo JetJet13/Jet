@@ -2,12 +2,12 @@
 // Created by Johny Georges on 2024-04-21.
 //
 
-#include "class-method-declaration-reducer-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
+#include "class-method-reducer-strategy.h"
+#include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-method-node.h"
 
-ASTNode* ClassMethodDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+ASTNode* ClassMethodReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() == 4) {
-        return new ASTClassMethodDeclarationNode(
+        return new ASTClassMethodNode(
                 (ASTAccessModifierNode*)nodes[0],
                 (ASTClassMethodNameNode*)nodes[1],
                 (ASTFunctionParameterListNode*)nodes[2],
@@ -16,7 +16,7 @@ ASTNode* ClassMethodDeclarationReducerStrategy::execute(std::vector<ASTNode*> no
     }
 
     if (nodes.size() == 5) {
-        return new ASTClassMethodDeclarationNode(
+        return new ASTClassMethodNode(
                 (ASTAccessModifierNode*)nodes[0],
                 (ASTClassMethodNameNode*)nodes[1],
                 (ASTFunctionParameterListNode*)nodes[2],

@@ -13,5 +13,4 @@ public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;
 };
 
-
 #endif //JETLANG_VARIABLE_DEFINITION_REDUCER_STRATEGY_H

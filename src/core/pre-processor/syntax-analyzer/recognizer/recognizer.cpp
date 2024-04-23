@@ -34,6 +34,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     } else if (handle->isModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_MODULE_LIST_NODE);
+    } else if (handle->isClassBlockEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_CLASS_BLOCK_NODE);
     } else if (handle->isImportModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_IMPORT_MODULE_LIST_NODE);
     } else if (handle->isLambdaTypeParameterListEnclosed()) {
@@ -81,27 +83,27 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         }
 
         auto currentDfaState = dfa->getCurrentState();
+        if (dfa->getCurrentState()) {
+            auto nilTransition = dfa->getCurrentState().value()->findNilTransition();
+            while (nilTransition.has_value()) {
+                auto nextTransition = nilTransition.value()->findNilTransition();
+                if (!nextTransition) {
+                    break;
+                }
+                nilTransition = nextTransition;
+            }
+
+            if (nilTransition && nilTransition.value()->hasTargetAstNodeType()) {
+                return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), nilTransition.value()->getTargetAstNodeType().value());
+            }
+        }
+
         if (currentDfaState && currentDfaState.value()->hasTargetAstNodeType()) {
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
         } else if (mode == RM_BACKTRACK && !currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (mode == RM_NORMAL && !currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
-        }
-    }
-
-    if (dfa->getCurrentState()) {
-        auto nilTransition = dfa->getCurrentState().value()->findNilTransition();
-        while (nilTransition.has_value()) {
-            auto nextTransition = nilTransition.value()->findNilTransition();
-            if (!nextTransition) {
-                break;
-            }
-            nilTransition = nextTransition;
-        }
-
-        if (nilTransition && nilTransition.value()->hasTargetAstNodeType()) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), nilTransition.value()->getTargetAstNodeType().value());
         }
     }
 

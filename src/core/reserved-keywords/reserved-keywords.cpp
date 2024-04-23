@@ -96,6 +96,11 @@ void ReservedKeywords::init() {
     this->add("..", SymbolFactory::createDotDotSymbol());
     this->add("...", SymbolFactory::createDotDotDotSymbol());
     this->add("::", SymbolFactory::createColonColonSymbol());
+    this->add("class", SymbolFactory::createClassSymbol());
+    this->add("public", SymbolFactory::createPublicSymbol());
+    this->add("protected", SymbolFactory::createProtectedSymbol());
+    this->add("private", SymbolFactory::createPrivateSymbol());
+    this->add("static", SymbolFactory::createStaticSymbol());
 
     this->initKeywordSymbolList();
 }

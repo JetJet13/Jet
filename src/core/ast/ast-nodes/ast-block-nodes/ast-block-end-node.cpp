@@ -8,6 +8,7 @@
 #include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
 #include "../ast-module-nodes/ast-module-list-end-node.h"
 #include "../ast-import-nodes/ast-import-module-list-end-node.h"
+#include "../ast-class-nodes/ast-class-block-end-node.h"
 
 ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -33,6 +34,10 @@ ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNod
 
     if (mode == SA_IMPORT_MODULE_LIST_MODE) {
         return new ASTImportModuleListEndNode(_lexeme);
+    }
+
+    if (mode == SA_CLASS_BLOCK_MODE) {
+        return new ASTClassBlockEndNode(_lexeme);
     }
 
     return this;

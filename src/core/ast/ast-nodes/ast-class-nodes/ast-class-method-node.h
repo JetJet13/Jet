@@ -5,13 +5,35 @@
 #ifndef JETLANG_AST_CLASS_METHOD_NODE_H
 #define JETLANG_AST_CLASS_METHOD_NODE_H
 
-#include "../ast-symbol-node.h"
+#include <vector>
+#include "../ast-node.h"
+#include "../ast-identifier-node.h"
+#include "../ast-expression-nodes/ast-identifier-expression-node.h"
+#include "../ast-function-nodes/ast-function-parameter-list-node.h"
+#include "../ast-type-nodes/ast-type-node.h"
+#include "../ast-function-nodes/ast-function-block-node.h"
+#include "ast-class-method-name-node.h"
+#include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 
-class ASTClassMethodNameNode : public ASTSymbolNode {
-    using ASTSymbolNode::ASTSymbolNode;
+class ASTClassMethodNode : public ASTNode {
+private:
+    ASTAccessModifierNode* _accessModifier;
+    ASTClassMethodNameNode* _name;
+    ASTFunctionParameterListNode* _parameters;
+    std::optional<ASTTypeNode*> _returnType;
+    ASTFunctionBlockNode* _content;
 public:
+    explicit ASTClassMethodNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
+    ASTAccessModifierNode* getAccessModifier();
+    ASTFunctionParameterListNode* getParameters();
+    ASTClassMethodNameNode* getName();
+    std::optional<ASTTypeNode*> getReturnType();
+    ASTFunctionBlockNode* getContent();
+    unsigned long numParameters();
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
 };
 
 #endif //JETLANG_AST_CLASS_METHOD_NODE_H

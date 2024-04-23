@@ -15,7 +15,7 @@ private:
     DFA* _dfa;
     void init();
     void initVarDefinition(DFANode* varDefinition);
-    void initVarInit(DFANode* varInitNode);
+    void initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType);
     void initFunction(DFANode* functionNode);
     void initProcedure(DFANode* procedureNode);
     void initEnum(DFANode* enumNode);
@@ -24,6 +24,8 @@ private:
     void initElseIf(DFANode* elseIfNode);
     void initWhile(DFANode* whileNode);
     void initFor(DFANode* forNode);
+    void initAccessModifier(DFANode* accessModifier);
+    void initClassPropertyDefinition(DFANode* classPropertyDefinition);
 public:
     SyntaxDfa();
     DFA* getDFA();

@@ -75,6 +75,11 @@ namespace SymbolFactory {
     Symbol* createDotDotSymbol();
     Symbol* createDotDotDotSymbol();
     Symbol* createColonColonSymbol();
+    Symbol* createClassSymbol();
+    Symbol* createPublicSymbol();
+    Symbol* createProtectedSymbol();
+    Symbol* createPrivateSymbol();
+    Symbol* createStaticSymbol();
 }
 
 
