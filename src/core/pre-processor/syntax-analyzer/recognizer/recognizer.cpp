@@ -83,18 +83,11 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         }
 
         auto currentDfaState = dfa->getCurrentState();
-        if (dfa->getCurrentState()) {
-            auto nilTransition = dfa->getCurrentState().value()->findNilTransition();
-            while (nilTransition.has_value()) {
-                auto nextTransition = nilTransition.value()->findNilTransition();
-                if (!nextTransition) {
-                    break;
+        if (i + 1 == handle->size() && currentDfaState) {
+            for (auto nilTransition: currentDfaState.value()->findNilTransitions()) {
+                if (nilTransition->hasTargetAstNodeType()) {
+                    return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), nilTransition->getTargetAstNodeType().value());
                 }
-                nilTransition = nextTransition;
-            }
-
-            if (nilTransition && nilTransition.value()->hasTargetAstNodeType()) {
-                return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), nilTransition.value()->getTargetAstNodeType().value());
             }
         }
 

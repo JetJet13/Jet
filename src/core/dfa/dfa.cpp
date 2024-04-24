@@ -3,6 +3,7 @@
 //
 
 #include "dfa.h"
+#include "../../shared/utils/logger/logger.h"
 
 DFA::DFA() {
     _startNodes = std::unordered_map<ASTNodeType, DFANode*, std::hash<int>>();
@@ -39,7 +40,23 @@ void DFA::determine(ASTNodeType astNodeType, ASTNodeType nextAstNodeType) {
     if (!_current) {
         return;
     }
-    _current = _current.value()->transition(astNodeType, nextAstNodeType);
+
+    auto normalTransition = _current.value()->transition(astNodeType, nextAstNodeType);
+    if (normalTransition) {
+        _current = normalTransition;
+        return;
+    }
+
+    for (auto nilTransitionNode : _current.value()->findNilTransitions()) {
+        Logger::log("nilTransitionNode", nilTransitionNode->getNodeType());
+        auto nilTransitionResult = nilTransitionNode->transition(nilTransitionNode->getNodeType(), nextAstNodeType);
+        if (nilTransitionResult) {
+            _current = nilTransitionResult;
+            return;
+        }
+
+    }
+    _current = {};
 }
 
 std::optional<DFANode*> DFA::getStartState() {
