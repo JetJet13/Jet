@@ -79,7 +79,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         if (i == 0) {
             dfa->init(nodeType);
         } else {
-            dfa->determine(nodeType, nextNodeType);
+            dfa->determine(nodeType);
         }
 
         auto currentDfaState = dfa->getCurrentState();

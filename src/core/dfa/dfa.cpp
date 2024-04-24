@@ -36,20 +36,19 @@ void DFA::reset() {
     _current = {};
 }
 
-void DFA::determine(ASTNodeType astNodeType, ASTNodeType nextAstNodeType) {
+void DFA::determine(ASTNodeType nextAstNodeType) {
     if (!_current) {
         return;
     }
 
-    auto normalTransition = _current.value()->transition(astNodeType, nextAstNodeType);
+    auto normalTransition = _current.value()->transition(nextAstNodeType);
     if (normalTransition) {
         _current = normalTransition;
         return;
     }
 
     for (auto nilTransitionNode : _current.value()->findNilTransitions()) {
-        Logger::log("nilTransitionNode", nilTransitionNode->getNodeType());
-        auto nilTransitionResult = nilTransitionNode->transition(nilTransitionNode->getNodeType(), nextAstNodeType);
+        auto nilTransitionResult = nilTransitionNode->transition(nextAstNodeType);
         if (nilTransitionResult) {
             _current = nilTransitionResult;
             return;

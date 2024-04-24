@@ -1179,39 +1179,17 @@ void SyntaxDfa::initAccessModifier(DFANode* accessModifier) {
     accessModifier
     ->addTransition(
         DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_STATIC_NODE)
+            DFANodeFactory::NilOrOnce::create(AST_STATIC_NODE)
             ->addTransition(
                 DFATransitionFactory::create(
-                    DFANodeFactory::Once::create(AST_CONST_NODE)
+                    DFANodeFactory::NilOrOnce::create(AST_CONST_NODE)
                     ->addTransition(
                         DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
                     ))
                 ))
         )
-    )
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_STATIC_NODE)
-            ->addTransition(
-                DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
-            ))
-        )
-    )
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_CONST_NODE)
-                ->addTransition(
-                    DFATransitionFactory::create(
-                        DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
-                ))
-        )
-    )
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
-    ));
+    );
 }
 
 void SyntaxDfa::initClassPropertyDefinition(DFANode* classPropertyDefinition) {
@@ -1229,5 +1207,5 @@ void SyntaxDfa::initClassPropertyDefinition(DFANode* classPropertyDefinition) {
     )
     ->addTransition(
         DFATransitionFactory::create(
-            DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_INIT_NODE)));
+            DFANodeFactory::NilOrOnce::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_INIT_NODE)));
 }

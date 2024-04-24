@@ -21,7 +21,7 @@ public:
     DFA* insertStartNode(ASTNodeType astNodeType, DFANode* dfaNode);
     DFA* insertStartNode(DFANode* dfaNode);
     void reset();
-    void determine(ASTNodeType astNodeType, ASTNodeType nextAstNodeType = AST_NULL_NODE);
+    void determine(ASTNodeType nextAstNodeType);
     std::optional<DFANode*> getStartState();
     std::optional<DFANode*> getCurrentState();
     std::optional<DFANode*> findStartNode(ASTNodeType nodeType);

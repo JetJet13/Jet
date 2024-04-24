@@ -56,25 +56,16 @@ DFANode* DFANode::markAlwaysReduceSelf() {
     return this;
 }
 
-std::optional<DFANode*> DFANode::transition(ASTNodeType currentAstNodeType, ASTNodeType nextAstNodeType) {
-    if (_astNodeType == currentAstNodeType &&
+std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
+    if (_astNodeType == nextAstNodeType &&
         (_occurrence == DFA_OCCURRENCE_ONCE_OR_MORE ||
                _occurrence == DFA_OCCURRENCE_NIL_OR_MORE)
     ) {
         return this;
-    } else if (_astNodeType == currentAstNodeType && _occurrence == DFA_OCCURRENCE_ONCE ||
-               _astNodeType == currentAstNodeType && _astNodeType == nextAstNodeType && _occurrence == DFA_OCCURRENCE_NIL_OR_ONCE) {
-        return {};
-    } else if (_astNodeType != currentAstNodeType && (_occurrence == DFA_OCCURRENCE_NIL_OR_MORE || _occurrence == DFA_OCCURRENCE_NIL_OR_ONCE)) {
-        for (auto transition : _transitions) {
-            if (transition.astNodeType == nextAstNodeType) {
-                return transition.destination;
-            }
-        }
     }
 
     for (auto transition : _transitions) {
-        if (transition.astNodeType == currentAstNodeType) {
+        if (transition.astNodeType == nextAstNodeType) {
             return transition.destination;
         }
     }
@@ -85,7 +76,6 @@ std::vector<DFANode*> DFANode::findNilTransitions() {
     auto transitionStack = std::stack<DFANode*>();
     for (auto transition : _transitions) {
         if (transition.destination->isNilOrMore() || transition.destination->isNilOrOnce()) {
-            Logger::log("pushing node to transition stack", transition.destination->getNodeType());
             transitionStack.push(transition.destination);
         }
     }
@@ -96,7 +86,6 @@ std::vector<DFANode*> DFANode::findNilTransitions() {
         transitionStack.pop();
         auto nodeNilTransitions = node->findNilTransitions();
         if (nodeNilTransitions.empty()) {
-            Logger::log("nodeNilTransitions is empty", node->getNodeType());
             nilTransitions.push_back(node);
         }
         for (auto nilTransition : nodeNilTransitions) {
