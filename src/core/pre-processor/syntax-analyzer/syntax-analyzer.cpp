@@ -88,7 +88,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     }
 
     _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
-    if (ASTNodeUtils::isDeclarationNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
+    if (ASTNodeUtils::isStatementNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
         _handle.clear();
     }
 }

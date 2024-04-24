@@ -14,6 +14,7 @@
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 
 class ASTClassPropertyDefinitionNode : public ASTNode {
+protected:
     ASTAccessModifierNode* _accessModifier;
     ASTClassPropertyNameNode* _propertyName;
     bool _isStatic;

@@ -80,6 +80,7 @@
 #include "reducer-strategies/class-block-reducer-strategy/class-block-reducer-strategy.h"
 #include "reducer-strategies/class-property-definition-reducer-strategy/class-property-definition-reducer-strategy.h"
 #include "reducer-strategies/class-property-init-reducer-strategy/class-property-init-reducer-strategy.h"
+#include "reducer-strategies/class-property-definition-with-type-reducer-strategy/class-property-definition-with-type-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -160,6 +161,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_CLASS_DECLARATION_NODE, new ClassDeclarationReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_NODE, new ClassPropertyReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_DEFINITION_NODE, new ClassPropertyDefinitionReducerStrategy());
+    this->addStrategy(AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE, new ClassPropertyDefinitionWithTypeReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_INIT_NODE, new ClassPropertyInitReducerStrategy());
     this->addStrategy(AST_CLASS_CONSTRUCTOR_NODE, new ClassConstructorReducerStrategy());
     this->addStrategy(AST_CLASS_METHOD_NODE, new ClassMethodReducerStrategy());

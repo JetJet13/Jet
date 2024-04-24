@@ -633,6 +633,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-init-reducer-strategy/class-property-init-reducer-strategy.h
         ast/ast-nodes/ast-class-nodes/ast-class-property-init-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-property-init-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-with-type-reducer-strategy/class-property-definition-with-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-with-type-reducer-strategy/class-property-definition-with-type-reducer-strategy.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-definition-with-type-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-definition-with-type-node.h
 
 )
 

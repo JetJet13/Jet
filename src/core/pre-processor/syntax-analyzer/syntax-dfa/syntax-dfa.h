@@ -26,6 +26,7 @@ private:
     void initFor(DFANode* forNode);
     void initAccessModifier(DFANode* accessModifier);
     void initClassPropertyDefinition(DFANode* classPropertyDefinition);
+    void initClassPropertyDefinitionWithType(DFANode* classPropertyDefinitionWithType);
 public:
     SyntaxDfa();
     DFA* getDFA();

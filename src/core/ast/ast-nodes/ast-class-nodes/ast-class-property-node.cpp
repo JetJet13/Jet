@@ -40,11 +40,11 @@ bool ASTClassPropertyNode::isConstant() {
 }
 
 ASTNodeType ASTClassPropertyNode::getNodeType() {
-    return AST_CLASS_PROPERTY_DEFINITION_NODE;
+    return AST_CLASS_PROPERTY_NODE;
 }
 
 std::string ASTClassPropertyNode::toString() {
-    return "CLASS_PROPERTY_DEFINITION";
+    return "CLASS_PROPERTY";
 }
 
 bool ASTClassPropertyNode::isSameAs(ASTNode *other) {

@@ -36,6 +36,19 @@ namespace ASTNodeUtils {
         }
     }
 
+    static bool isStatementNode(ASTNode* node) {
+        if (ASTNodeUtils::isDeclarationNode(node)) {
+            return true;
+        }
+        switch (node->getNodeType()) {
+            case AST_CLASS_PROPERTY_NODE:
+                return true;
+            default:
+                return false;
+        }
+
+    }
+
     static bool isExpressionNode(ASTNode* node) {
         switch (node->getNodeType()) {
             case AST_IDENTIFIER_EXPRESSION_NODE:
