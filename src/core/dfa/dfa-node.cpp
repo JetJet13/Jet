@@ -69,7 +69,14 @@ std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
             return transition.destination;
         }
     }
-    return {};
+
+    auto result = std::optional<DFANode*>();
+    for (auto transition : _transitions) {
+        if (transition.destination->isNilOrMore() || transition.destination->isNilOrOnce()) {
+            result = transition.destination->transition(nextAstNodeType);
+        }
+    }
+    return result;
 }
 
 std::vector<DFANode*> DFANode::findNilTransitions() {

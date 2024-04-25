@@ -41,21 +41,7 @@ void DFA::determine(ASTNodeType nextAstNodeType) {
         return;
     }
 
-    auto normalTransition = _current.value()->transition(nextAstNodeType);
-    if (normalTransition) {
-        _current = normalTransition;
-        return;
-    }
-
-    for (auto nilTransitionNode : _current.value()->findNilTransitions()) {
-        auto nilTransitionResult = nilTransitionNode->transition(nextAstNodeType);
-        if (nilTransitionResult) {
-            _current = nilTransitionResult;
-            return;
-        }
-
-    }
-    _current = {};
+    _current = _current.value()->transition(nextAstNodeType);
 }
 
 std::optional<DFANode*> DFA::getStartState() {

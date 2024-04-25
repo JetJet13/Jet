@@ -133,7 +133,9 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
            AST_CONTROL_FLOW_START_NODE,
            AST_ASSIGNMENT_OPERATOR_NODE,
            AST_IMPORT_PATH_NODE,
-           AST_IMPORT_WILDCARD_NODE
+           AST_IMPORT_WILDCARD_NODE,
+           AST_CLASS_BLOCK_END_NODE,
+           AST_CLASS_BLOCK_NODE
     });
 }
 
@@ -146,6 +148,7 @@ bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optiona
                                                  AST_IMPORT_MODULE_LIST_NODE,
                                                  AST_ELSE_BLOCK_NODE,
                                                  AST_FINALLY_BLOCK_NODE,
+                                                 AST_CLASS_BLOCK_NODE,
                                                  AST_LAMBDA_RETURN_EXPRESSION_NODE,
                                                  AST_TYPE_PARAMETER_LIST_NODE
         })) {

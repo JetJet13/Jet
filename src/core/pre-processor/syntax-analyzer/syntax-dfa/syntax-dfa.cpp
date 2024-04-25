@@ -968,6 +968,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(classPropertyDefinition)
     ->insertStartNode(classPropertyDefinitionWithType)
     ->insertStartNode(classPropertyInit)
+    ->insertStartNode(classProperty)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
