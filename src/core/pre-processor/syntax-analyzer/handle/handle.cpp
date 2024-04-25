@@ -12,7 +12,7 @@ Handle::Handle() {
 }
 
 std::optional<ASTNode*> Handle::at(int index) {
-    if (_handle.size() < (index + 1) || index < 0) {
+    if (_handle.empty() || _handle.size() < (index + 1) || index < 0) {
         return {};
     }
     return _handle[index];

@@ -151,9 +151,11 @@ void SyntaxDfa::init() {
     DFANode* classPropertyInit = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_INIT_NODE);
     DFANode* classProperty = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_NODE);
     DFANode* classPropertyAccess = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_NODE);
+    DFANode* classPropertyAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ASSIGNMENT_NODE);
     DFANode* classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
     DFANode* constructorKeyword = DFANodeFactory::Once::create(AST_CONSTRUCTOR_NODE);
     DFANode* classConstructor = DFANodeFactory::Once::create(AST_CLASS_CONSTRUCTOR_NODE);
+    DFANode* classAccess = DFANodeFactory::Once::create(AST_CLASS_ACCESS_NODE);
 
     this->initVarDefinition(varDefinition);
     this->initVarInit(varInit, AST_VARIABLE_DECLARATION_NODE);
@@ -344,7 +346,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     functionParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NAME_NODE })
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NAME_NODE, AST_CONSTRUCTOR_NODE })
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LAMBDA_RETURN_EXPRESSION_NODE, AST_LAMBDA_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_LAMBDA_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(
@@ -359,7 +361,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     functionArgumentList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CURRY_EXPRESSION_NODE })
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE, AST_CURRY_EXPRESSION_NODE })
     ->markAlwaysReduceSelf();
 
     functionReturn
@@ -485,7 +487,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)));
 
     assignmentOperator
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE, AST_CLASS_PROPERTY_ACCESS_NODE  });
 
     objectAccessSource
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_PERIOD_NODE })
@@ -810,22 +812,49 @@ void SyntaxDfa::init() {
     className
     ->markAlwaysReduceSelf();
 
-//    publicKeyword
-//    ->markAlwaysReduceSelf();
-//
-//    protectedKeyword
-//    ->markAlwaysReduceSelf();
-//
-//    privateKeyword
-//    ->markAlwaysReduceSelf();
+    constructorKeyword
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_GROUP_START_NODE })
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE)
+                ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_CONSTRUCTOR_NODE)
+                ))
+    ));
 
-//    staticKeyword
-//    ->markAlwaysReduceSelf();
-//
-//    constKeyword
-//    ->markAlwaysReduceSelf();
+    thisKeyword
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_THIS_ACCESS_NODE, AST_CLASS_ACCESS_NODE)
+    ));
 
     classPropertyName
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_CLASS_ACCESS_NODE });
+
+    classAccess
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_ACCESS_NODE)
+    ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_CLASS_METHOD_CALL_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)
+            ))
+    ));
+
+    classPropertyAccess
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_ASSIGNMENT_NODE)
+    ));
+
+    this->initVarInit(classPropertyAssignment, AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE);
+
+    classMethodCall
     ->markAlwaysReduceSelf();
 
 
@@ -969,6 +998,14 @@ void SyntaxDfa::init() {
     ->insertStartNode(classPropertyDefinitionWithType)
     ->insertStartNode(classPropertyInit)
     ->insertStartNode(classProperty)
+    ->insertStartNode(classConstructor)
+    ->insertStartNode(thisKeyword)
+    ->insertStartNode(classAccess)
+    ->insertStartNode(classPropertyAccess)
+    ->insertStartNode(classPropertyAssignment)
+    ->insertStartNode(classMethodCall)
+    ->insertStartNode(constructorKeyword)
+    ->insertStartNode(classConstructor)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({

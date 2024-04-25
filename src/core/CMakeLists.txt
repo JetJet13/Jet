@@ -637,6 +637,20 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-with-type-reducer-strategy/class-property-definition-with-type-reducer-strategy.h
         ast/ast-nodes/ast-class-nodes/ast-class-property-definition-with-type-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-property-definition-with-type-node.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-assignment-reducer-strategy/class-property-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-assignment-reducer-strategy/class-property-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-reducer-strategy/class-property-access-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-reducer-strategy/class-property-access-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-access-reducer-strategy/class-access-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-access-reducer-strategy/class-access-reducer-strategy.h
+        ast/ast-nodes/ast-class-nodes/ast-class-access-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-access-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-assignment-statement-node/class-property-assignment-statement-node.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-assignment-statement-node/class-property-assignment-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-invocation-expression-reducer-strategy/class-method-invocation-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-invocation-expression-reducer-strategy/class-method-invocation-expression-reducer-strategy.h
 
 )
 

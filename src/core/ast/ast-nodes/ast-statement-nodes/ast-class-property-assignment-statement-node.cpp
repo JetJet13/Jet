@@ -5,13 +5,13 @@
 #include "ast-class-property-assignment-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTClassPropertyAssignmentStatementNode::ASTClassPropertyAssignmentStatementNode(ASTClassPropertyNameNode* property, ASTExpressionNode* expression) {
-    _property = property;
+ASTClassPropertyAssignmentStatementNode::ASTClassPropertyAssignmentStatementNode(ASTClassPropertyAssignmentNode* propertyAssignment, ASTExpressionNode* expression) {
+    _propertyAssignment = propertyAssignment;
     _expression = expression;
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyAssignmentStatementNode::getProperty() {
-    return _property;
+ASTClassPropertyAssignmentNode* ASTClassPropertyAssignmentStatementNode::getPropertyAssignment() {
+    return _propertyAssignment;
 }
 
 ASTExpressionNode* ASTClassPropertyAssignmentStatementNode::getExpression() {
@@ -31,13 +31,13 @@ bool ASTClassPropertyAssignmentStatementNode::isSameAs(ASTNode* other) {
         return false;
     }
     auto otherNode = (ASTClassPropertyAssignmentStatementNode*)other;
-    return this->getProperty()->isSameAs(otherNode->getProperty()) &&
+    return this->getPropertyAssignment()->isSameAs(otherNode->getPropertyAssignment()) &&
            this->getExpression()->isSameAs(otherNode->getExpression());
 }
 
 void ASTClassPropertyAssignmentStatementNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _property->print();
+    _propertyAssignment->print();
     _expression->print();
     Logger::log("----------");
 }

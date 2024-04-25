@@ -6,7 +6,7 @@
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-block-node.h"
 
 ASTNode* ClassBlockReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-
+        throw std::logic_error("ClassBlockReducerStrategy invoked");
 
     auto classBlock = new ASTClassBlockNode();
     for (auto node : nodes) {

@@ -10,14 +10,15 @@
 #include "../ast-identifier-node.h"
 #include "../ast-variable-nodes/ast-variable-assignment-node.h"
 #include "../ast-class-nodes/ast-class-property-name-node.h"
+#include "../ast-class-nodes/ast-class-property-assignment-node.h"
 
 class ASTClassPropertyAssignmentStatementNode : public ASTNode {
 private:
-    ASTClassPropertyNameNode* _property;
+    ASTClassPropertyAssignmentNode* _propertyAssignment;
     ASTExpressionNode* _expression;
 public:
-    ASTClassPropertyAssignmentStatementNode(ASTClassPropertyNameNode* property, ASTExpressionNode* expression);
-    ASTClassPropertyNameNode* getProperty();
+    ASTClassPropertyAssignmentStatementNode(ASTClassPropertyAssignmentNode* propertyAssignment, ASTExpressionNode* expression);
+    ASTClassPropertyAssignmentNode* getPropertyAssignment();
     ASTExpressionNode* getExpression();
     ASTNodeType getNodeType() override;
     std::string toString() override;

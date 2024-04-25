@@ -26,6 +26,7 @@ namespace ASTNodeUtils {
             case AST_IMPORT_MANY_MODULE_DECLARATION_NODE:
             case AST_USE_MANY_MODULE_DECLARATION_NODE:
             case AST_CLASS_DECLARATION_NODE:
+            case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
             case AST_BLOCK_NODE:
             case AST_BREAK_NODE:
             case AST_SKIP_NODE:

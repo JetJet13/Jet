@@ -32,6 +32,25 @@ Lexeme* ASTIdentifierNode::getIdentifier() {
 
 ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                                   SyntaxAnalyzerMode mode) {
+
+    if (mode == SA_CLASS_BLOCK_MODE) {
+        if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE) &&
+            prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
+            return new ASTClassMethodNameNode(this->getIdentifier());
+        }
+
+        if (prevNode && prevNode.value()->isOneOf({ AST_CONST_NODE, AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
+            return new ASTClassPropertyNameNode(this->getIdentifier());
+        }
+    }
+
+    if (prevNode && prevNode.value()->is(AST_CLASS_ACCESS_NODE)) {
+        if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
+            return new ASTClassMethodCallNode(this->getIdentifier());
+        }
+        return new ASTClassPropertyNameNode(this->getIdentifier());
+    }
+
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
         return new ASTFunctionNameNode(this->getIdentifier());
     }
@@ -46,24 +65,6 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NODE })) {
         return new ASTClassNameNode(this->getIdentifier());
-    }
-
-    if (mode == SA_CLASS_BLOCK_MODE) {
-        if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE) &&
-            prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
-            return new ASTClassMethodNameNode(this->getIdentifier());
-        }
-
-        if (prevNode && prevNode.value()->isOneOf({ AST_CONST_NODE, AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
-            return new ASTClassPropertyNameNode(this->getIdentifier());
-        }
-    }
-
-    if (prevNode && prevNode.value()->is(AST_THIS_ACCESS_NODE)) {
-        if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
-            return new ASTClassMethodCallNode(this->getIdentifier());
-        }
-        return new ASTClassPropertyNameNode(this->getIdentifier());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {

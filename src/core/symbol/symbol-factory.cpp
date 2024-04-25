@@ -291,5 +291,11 @@ namespace SymbolFactory {
         return new Symbol(SYM_STATIC, "static");
     }
 
+    Symbol* createThisSymbol()  {
+        return new Symbol(SYM_THIS, "this");
+    }
 
+    Symbol* createConstructorSymbol()  {
+        return new Symbol(SYM_CONSTRUCTOR, "constructor");
+    }
 }

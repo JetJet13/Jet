@@ -2,7 +2,7 @@
 // Created by Johny Georges on 2024-04-12.
 //
 
-#ifndef JETLANG_AST_IMPORT_MODULE_LIST_END_NODE_H
+#ifndef JETLANG_AST_MODULE_LIST_END_NODE_H
 #define JETLANG_AST_MODULE_LIST_END_NODE_H
 
 #include <string>
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif //JETLANG_AST_IMPORT_MODULE_LIST_END_NODE_H
+#endif //JETLANG_AST_MODULE_LIST_END_NODE_H

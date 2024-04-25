@@ -80,6 +80,8 @@ namespace SymbolFactory {
     Symbol* createProtectedSymbol();
     Symbol* createPrivateSymbol();
     Symbol* createStaticSymbol();
+    Symbol* createThisSymbol();
+    Symbol* createConstructorSymbol();
 }
 
 

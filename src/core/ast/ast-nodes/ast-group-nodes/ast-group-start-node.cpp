@@ -24,7 +24,7 @@ ASTNode * ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NAME_NODE, AST_CLASS_METHOD_NAME_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NAME_NODE, AST_CLASS_METHOD_NAME_NODE, AST_CONSTRUCTOR_NODE })) {
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }
 

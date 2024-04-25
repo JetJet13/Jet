@@ -8,7 +8,6 @@
 #include <vector>
 #include "../reducer-strategy.h"
 
-
 class VariableAssignmentStatementReducerStrategy : public ReducerStrategy {
 public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;

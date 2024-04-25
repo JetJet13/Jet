@@ -402,4 +402,7 @@ class MyClass {
     private static const mickTwo: boolean = true; // 8
     private static const mickThree = true; // 6
 
+    constructor(){}
+
+
 }
