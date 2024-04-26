@@ -6,24 +6,25 @@
 #define JETLANG_AST_CLASS_BLOCK_NODE_H
 
 #include "../ast-node.h"
-#include "ast-class-property-node.h"
-#include "ast-class-method-node.h"
-#include "ast-class-constructor-node.h"
+#include "../ast-declaration-nodes/ast-class-property-declaration-node.h"
+#include "../ast-declaration-nodes/ast-class-method-declaration-node.h"
+#include "../ast-declaration-nodes/ast-class-constructor-declaration-node.h"
 
 class ASTClassBlockNode : public ASTNode {
 private:
-    std::vector<ASTClassPropertyNode*> _properties;
-    std::vector<ASTClassMethodNode*> _methods;
-    std::vector<ASTClassConstructorNode*> _constructors;
+    std::vector<ASTClassPropertyDeclarationNode*> _properties;
+    std::vector<ASTClassMethodDeclarationNode*> _methods;
+    std::vector<ASTClassConstructorDeclarationNode*> _constructors;
 public:
     ASTClassBlockNode();
-    ASTClassBlockNode(std::vector<ASTClassPropertyNode*> properties, std::vector<ASTClassMethodNode*> methods, std::vector<ASTClassConstructorNode*> constructors);
-    void addProperty(ASTClassPropertyNode* property);
-    void addMethod(ASTClassMethodNode* method);
-    void addConstructor(ASTClassConstructorNode* constructor);
-    std::vector<ASTClassPropertyNode*>* getProperties();
-    std::vector<ASTClassMethodNode*>* getMethods();
-    std::vector<ASTClassConstructorNode*>* getConstructors();
+    ASTClassBlockNode(std::vector<ASTNode*> nodes);
+    ASTClassBlockNode(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors);
+    void addProperty(ASTClassPropertyDeclarationNode* property);
+    void addMethod(ASTClassMethodDeclarationNode* method);
+    void addConstructor(ASTClassConstructorDeclarationNode* constructor);
+    std::vector<ASTClassPropertyDeclarationNode*>* getProperties();
+    std::vector<ASTClassMethodDeclarationNode*>* getMethods();
+    std::vector<ASTClassConstructorDeclarationNode*>* getConstructors();
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

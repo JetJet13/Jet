@@ -8,7 +8,7 @@
 #include <vector>
 #include "../ast-node.h"
 #include "../ast-class-nodes/ast-class-name-node.h"
-#include "../ast-class-nodes/ast-class-property-node.h"
+#include "ast-class-property-declaration-node.h"
 #include "../ast-class-nodes/ast-class-block-node.h"
 
 class ASTClassDeclarationNode : public ASTNode {

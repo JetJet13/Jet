@@ -19,12 +19,12 @@ ASTNode* ClassPropertyDefinitionReducerStrategy::execute(std::vector<ASTNode*> n
 }
 
 ASTClassPropertyNameNode* ClassPropertyDefinitionReducerStrategy::getPropertyName(std::vector<ASTNode*>* nodes) {
-    if (nodes->size() == 4 && nodes->at(3)->is(AST_CLASS_PROPERTY_NAME_NODE)) {
-        return (ASTClassPropertyNameNode*)nodes->at(3);
-    } else if (nodes->size() == 3 && nodes->at(2)->is(AST_CLASS_PROPERTY_NAME_NODE)) {
-        return (ASTClassPropertyNameNode*)nodes->at(2);
+    if (nodes->size() == 4 && nodes->at(3)->is(AST_IDENTIFIER_NODE)) {
+        return new ASTClassPropertyNameNode(((ASTIdentifierNode*)nodes->at(3))->getIdentifier());
+    } else if (nodes->size() == 3 && nodes->at(2)->is(AST_IDENTIFIER_NODE)) {
+        return new ASTClassPropertyNameNode(((ASTIdentifierNode*)nodes->at(2))->getIdentifier());
     } else {
-        return (ASTClassPropertyNameNode*)nodes->at(1);
+        return new ASTClassPropertyNameNode(((ASTIdentifierNode*)nodes->at(1))->getIdentifier());
     }
 }
 

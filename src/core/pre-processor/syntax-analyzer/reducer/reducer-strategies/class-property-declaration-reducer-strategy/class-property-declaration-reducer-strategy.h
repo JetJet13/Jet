@@ -2,17 +2,17 @@
 // Created by Johny Georges on 2024-04-20.
 //
 
-#ifndef JETLANG_CLASS_PROPERTY_REDUCER_STRATEGY_H
-#define JETLANG_CLASS_PROPERTY_REDUCER_STRATEGY_H
+#ifndef JETLANG_CLASS_PROPERTY_DECLARATION_REDUCER_STRATEGY_H
+#define JETLANG_CLASS_PROPERTY_DECLARATION_REDUCER_STRATEGY_H
 
 #include <vector>
 #include "../reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-type-nodes/ast-type-node.h"
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.h"
 
-class ClassPropertyReducerStrategy : public ReducerStrategy {
+class ClassPropertyDeclarationReducerStrategy : public ReducerStrategy {
 public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;
 };
 
-#endif //JETLANG_CLASS_PROPERTY_REDUCER_STRATEGY_H
+#endif //JETLANG_CLASS_PROPERTY_DECLARATION_REDUCER_STRATEGY_H

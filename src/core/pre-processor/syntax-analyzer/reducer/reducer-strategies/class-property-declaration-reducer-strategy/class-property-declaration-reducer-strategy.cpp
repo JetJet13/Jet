@@ -2,19 +2,19 @@
 // Created by Johny Georges on 2024-04-20.
 //
 
-#include "class-property-reducer-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-node.h"
+#include "class-property-declaration-reducer-strategy.h"
+#include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.h"
 
-ASTNode* ClassPropertyReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+ASTNode* ClassPropertyDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() == 2) {
-        return new ASTClassPropertyNode(
+        return new ASTClassPropertyDeclarationNode(
                 (ASTClassPropertyInitNode*)nodes[0],
                 this->createExpressionNode(nodes[1])
         );
     }
 
     if (nodes.size() == 1) {
-        return new ASTClassPropertyNode(
+        return new ASTClassPropertyDeclarationNode(
                 (ASTClassPropertyInitNode*)nodes[0]
         );
     }

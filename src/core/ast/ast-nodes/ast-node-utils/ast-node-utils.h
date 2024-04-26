@@ -26,6 +26,9 @@ namespace ASTNodeUtils {
             case AST_IMPORT_MANY_MODULE_DECLARATION_NODE:
             case AST_USE_MANY_MODULE_DECLARATION_NODE:
             case AST_CLASS_DECLARATION_NODE:
+            case AST_CLASS_PROPERTY_DECLARATION_NODE:
+            case AST_CLASS_CONSTRUCTOR_DECLARATION_NODE:
+            case AST_CLASS_METHOD_DECLARATION_NODE:
             case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
             case AST_BLOCK_NODE:
             case AST_BREAK_NODE:
@@ -35,19 +38,6 @@ namespace ASTNodeUtils {
             default:
                 return false;
         }
-    }
-
-    static bool isStatementNode(ASTNode* node) {
-        if (ASTNodeUtils::isDeclarationNode(node)) {
-            return true;
-        }
-        switch (node->getNodeType()) {
-            case AST_CLASS_PROPERTY_NODE:
-                return true;
-            default:
-                return false;
-        }
-
     }
 
     static bool isExpressionNode(ASTNode* node) {

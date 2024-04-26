@@ -74,9 +74,9 @@
 #include "reducer-strategies/import-module-list-spread-item-reducer-strategy/import-module-list-spread-item-reducer-strategy.h"
 #include "reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.h"
 #include "reducer-strategies/class-declaration-reducer-strategy/class-declaration-reducer-strategy.h"
-#include "reducer-strategies/class-property-reducer-strategy/class-property-reducer-strategy.h"
-#include "reducer-strategies/class-constructor-reducer-strategy/class-constructor-reducer-strategy.h"
-#include "reducer-strategies/class-method-reducer-strategy/class-method-reducer-strategy.h"
+#include "reducer-strategies/class-property-declaration-reducer-strategy/class-property-declaration-reducer-strategy.h"
+#include "reducer-strategies/class-constructor-declaration-reducer-strategy/class-constructor-declaration-reducer-strategy.h"
+#include "reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.h"
 #include "reducer-strategies/class-block-reducer-strategy/class-block-reducer-strategy.h"
 #include "reducer-strategies/class-property-definition-reducer-strategy/class-property-definition-reducer-strategy.h"
 #include "reducer-strategies/class-property-init-reducer-strategy/class-property-init-reducer-strategy.h"
@@ -164,15 +164,15 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE, new ImportModuleListSpreadItemReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_NODE, new ImportModuleListReducerStrategy());
     this->addStrategy(AST_CLASS_DECLARATION_NODE, new ClassDeclarationReducerStrategy());
-    this->addStrategy(AST_CLASS_PROPERTY_NODE, new ClassPropertyReducerStrategy());
+    this->addStrategy(AST_CLASS_PROPERTY_DECLARATION_NODE, new ClassPropertyDeclarationReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_ACCESS_NODE, new ClassPropertyAccessReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_ASSIGNMENT_NODE, new ClassPropertyAssignmentReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE, new ClassPropertyAssignmentStatementReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_DEFINITION_NODE, new ClassPropertyDefinitionReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE, new ClassPropertyDefinitionWithTypeReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_INIT_NODE, new ClassPropertyInitReducerStrategy());
-    this->addStrategy(AST_CLASS_CONSTRUCTOR_NODE, new ClassConstructorReducerStrategy());
-    this->addStrategy(AST_CLASS_METHOD_NODE, new ClassMethodReducerStrategy());
+    this->addStrategy(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, new ClassConstructorDeclarationReducerStrategy());
+    this->addStrategy(AST_CLASS_METHOD_DECLARATION_NODE, new ClassMethodDeclarationReducerStrategy());
     this->addStrategy(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE, new ClassMethodInvocationExpressionReducerStrategy());
     this->addStrategy(AST_CLASS_BLOCK_NODE, new ClassBlockReducerStrategy());
     this->addStrategy(AST_CLASS_ACCESS_NODE, new ClassAccessReducerStrategy());

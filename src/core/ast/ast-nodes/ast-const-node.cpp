@@ -6,7 +6,7 @@
 #include "ast-variable-nodes/ast-variable-type-node.h"
 
 ASTNode* ASTConstNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
-    if (mode == SA_CLASS_BLOCK_MODE) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
         return this;
     }
     return new ASTVariableTypeNode(_lexeme);

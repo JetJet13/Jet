@@ -37,6 +37,10 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             this->shift();
         }
 
+        if (_recognizeStack.empty()) {
+            throw std::logic_error("REDUCE NODE IS CLASS BLOCK!");
+        }
+
         if (_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
             if (_handle.isEmpty()) {
                 this->accept();
@@ -74,6 +78,9 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
         auto blockNode = _scopeStack.top();
         _scopeStack.pop();
         _recognizeStack.pop();
+        if (_recognizeStack.empty()) {
+            throw std::logic_error("recognizeStack is empty");
+        }
         _recognizeStack.top()->push(blockNode);
     } else if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
         Logger::log("pushing node to latest scope node:", reducedNode->toString());
@@ -88,7 +95,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     }
 
     _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
-    if (ASTNodeUtils::isStatementNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
+    if (ASTNodeUtils::isDeclarationNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
         _handle.clear();
     }
 }
@@ -164,10 +171,6 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: GROUP_MODE");
             _modeStack.push(SA_GROUP_MODE);
             break;
-        case AST_CLASS_BLOCK_START_NODE:
-            Logger::log("pushing mode: CLASS_BLOCK_MODE");
-            _modeStack.push(SA_CLASS_BLOCK_MODE);
-            break;
         case AST_STRUCT_START_NODE:
             Logger::log("pushing mode: STRUCT_MODE");
             _modeStack.push(SA_STRUCT_MODE);
@@ -221,7 +224,6 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_IMPORT_MODULE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_SOURCE_NODE:
-        case AST_CLASS_BLOCK_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();
             break;

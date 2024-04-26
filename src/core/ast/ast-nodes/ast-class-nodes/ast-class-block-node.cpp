@@ -6,48 +6,65 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 ASTClassBlockNode::ASTClassBlockNode() {
-    _properties = std::vector<ASTClassPropertyNode*>();
-    _methods = std::vector<ASTClassMethodNode*>();
-    _constructors = std::vector<ASTClassConstructorNode*>();
+    _properties = std::vector<ASTClassPropertyDeclarationNode*>();
+    _methods = std::vector<ASTClassMethodDeclarationNode*>();
+    _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
 }
 
-ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTClassPropertyNode*> properties, std::vector<ASTClassMethodNode*> methods, std::vector<ASTClassConstructorNode*> constructors) {
-    _properties = std::vector<ASTClassPropertyNode*>();
+ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTNode*> nodes) {
+    _properties = std::vector<ASTClassPropertyDeclarationNode*>();
+    _methods = std::vector<ASTClassMethodDeclarationNode*>();
+    _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
+    for (auto node : nodes) {
+        if (node->is(AST_CLASS_PROPERTY_DECLARATION_NODE)) {
+            this->addProperty((ASTClassPropertyDeclarationNode*)node);
+        }
+        if (node->is(AST_CLASS_METHOD_DECLARATION_NODE)) {
+            this->addMethod((ASTClassMethodDeclarationNode*)node);
+        }
+        if (node->is(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE)) {
+            this->addConstructor((ASTClassConstructorDeclarationNode*)node);
+        }
+    }
+}
+
+ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors) {
+    _properties = std::vector<ASTClassPropertyDeclarationNode*>();
     for (auto property: properties) {
         _properties.push_back(property);
     }
 
-    _methods = std::vector<ASTClassMethodNode*>();
+    _methods = std::vector<ASTClassMethodDeclarationNode*>();
     for (auto method: methods) {
         _methods.push_back(method);
     }
 
-    _constructors = std::vector<ASTClassConstructorNode*>();
+    _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
     for (auto constructor: constructors) {
         _constructors.push_back(constructor);
     }
 }
-void ASTClassBlockNode::addProperty(ASTClassPropertyNode* property) {
+void ASTClassBlockNode::addProperty(ASTClassPropertyDeclarationNode* property) {
     _properties.push_back(property);
 }
 
-void ASTClassBlockNode::addMethod(ASTClassMethodNode* method) {
+void ASTClassBlockNode::addMethod(ASTClassMethodDeclarationNode* method) {
     _methods.push_back(method);
 }
 
-void ASTClassBlockNode::addConstructor(ASTClassConstructorNode* constructor) {
+void ASTClassBlockNode::addConstructor(ASTClassConstructorDeclarationNode* constructor) {
     _constructors.push_back(constructor);
 }
 
-std::vector<ASTClassPropertyNode*>* ASTClassBlockNode::getProperties() {
+std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getProperties() {
     return &_properties;
 }
 
-std::vector<ASTClassMethodNode*>* ASTClassBlockNode::getMethods() {
+std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getMethods() {
     return &_methods;
 }
 
-std::vector<ASTClassConstructorNode*>* ASTClassBlockNode::getConstructors() {
+std::vector<ASTClassConstructorDeclarationNode*>* ASTClassBlockNode::getConstructors() {
     return &_constructors;
 }
 

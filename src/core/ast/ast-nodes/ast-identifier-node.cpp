@@ -30,19 +30,8 @@ Lexeme* ASTIdentifierNode::getIdentifier() {
     return _identifier;
 }
 
-ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
-                                                  SyntaxAnalyzerMode mode) {
+ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
 
-    if (mode == SA_CLASS_BLOCK_MODE) {
-        if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE) &&
-            prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
-            return new ASTClassMethodNameNode(this->getIdentifier());
-        }
-
-        if (prevNode && prevNode.value()->isOneOf({ AST_CONST_NODE, AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
-            return new ASTClassPropertyNameNode(this->getIdentifier());
-        }
-    }
 
     if (prevNode && prevNode.value()->is(AST_CLASS_ACCESS_NODE)) {
         if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {

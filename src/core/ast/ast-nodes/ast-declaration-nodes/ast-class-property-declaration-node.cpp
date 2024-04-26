@@ -2,57 +2,57 @@
 // Created by Johny Georges on 2024-04-19.
 //
 
-#include "ast-class-property-node.h"
+#include "ast-class-property-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
 
-ASTClassPropertyNode::ASTClassPropertyNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer) {
+ASTClassPropertyDeclarationNode::ASTClassPropertyDeclarationNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer) {
     _propertyInit = propertyInit;
     _initializer = initializer;
 }
 
-ASTClassPropertyInitNode* ASTClassPropertyNode::getPropertyInit() {
+ASTClassPropertyInitNode* ASTClassPropertyDeclarationNode::getPropertyInit() {
     return _propertyInit;
 }
 
-ASTAccessModifierNode* ASTClassPropertyNode::getAccessModifier() {
+ASTAccessModifierNode* ASTClassPropertyDeclarationNode::getAccessModifier() {
     return _propertyInit->getAccessModifier();
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyNode::getPropertyName() {
+ASTClassPropertyNameNode* ASTClassPropertyDeclarationNode::getPropertyName() {
     return _propertyInit->getPropertyName();
 }
 
-std::optional<ASTTypeNode*> ASTClassPropertyNode::getType() {
+std::optional<ASTTypeNode*> ASTClassPropertyDeclarationNode::getType() {
     return _propertyInit->getType();
 }
 
-std::optional<ASTExpressionNode*> ASTClassPropertyNode::getInitializer() {
+std::optional<ASTExpressionNode*> ASTClassPropertyDeclarationNode::getInitializer() {
     return _initializer;
 }
 
-bool ASTClassPropertyNode::isStatic() {
+bool ASTClassPropertyDeclarationNode::isStatic() {
     return _propertyInit->isStatic();
 }
 
-bool ASTClassPropertyNode::isConstant() {
+bool ASTClassPropertyDeclarationNode::isConstant() {
     return _propertyInit->isConstant();
 }
 
-ASTNodeType ASTClassPropertyNode::getNodeType() {
-    return AST_CLASS_PROPERTY_NODE;
+ASTNodeType ASTClassPropertyDeclarationNode::getNodeType() {
+    return AST_CLASS_PROPERTY_DECLARATION_NODE;
 }
 
-std::string ASTClassPropertyNode::toString() {
-    return "CLASS_PROPERTY";
+std::string ASTClassPropertyDeclarationNode::toString() {
+    return "CLASS_PROPERTY_DECLARATION";
 }
 
-bool ASTClassPropertyNode::isSameAs(ASTNode *other) {
+bool ASTClassPropertyDeclarationNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
 
-    auto otherNode = (ASTClassPropertyNode*)other;
+    auto otherNode = (ASTClassPropertyDeclarationNode*)other;
 
     if (!_initializer.has_value() && otherNode->getInitializer().has_value() ||
         _initializer.has_value() && !otherNode->getInitializer().has_value()) {
@@ -67,7 +67,7 @@ bool ASTClassPropertyNode::isSameAs(ASTNode *other) {
     return this->getPropertyInit()->isSameAs(otherNode->getPropertyInit());
 }
 
-void ASTClassPropertyNode::print() {
+void ASTClassPropertyDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _propertyInit->print();
     if (_initializer) {

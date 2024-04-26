@@ -2,10 +2,10 @@
 // Created by Johny Georges on 2024-04-19.
 //
 
-#include "ast-class-method-node.h"
+#include "ast-class-method-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTClassMethodNode::ASTClassMethodNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType) {
+ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType) {
     _accessModifier = accessModifier;
     _name = name;
     _content = content;
@@ -13,43 +13,43 @@ ASTClassMethodNode::ASTClassMethodNode(ASTAccessModifierNode* accessModifier, AS
     _parameters = parameters;
 }
 
-ASTAccessModifierNode* ASTClassMethodNode::getAccessModifier() {
+ASTAccessModifierNode* ASTClassMethodDeclarationNode::getAccessModifier() {
     return _accessModifier;
 }
 
-ASTFunctionParameterListNode* ASTClassMethodNode::getParameters() {
+ASTFunctionParameterListNode* ASTClassMethodDeclarationNode::getParameters() {
     return _parameters;
 }
 
-ASTClassMethodNameNode* ASTClassMethodNode::getName() {
+ASTClassMethodNameNode* ASTClassMethodDeclarationNode::getName() {
     return _name;
 }
 
-std::optional<ASTTypeNode*> ASTClassMethodNode::getReturnType() {
+std::optional<ASTTypeNode*> ASTClassMethodDeclarationNode::getReturnType() {
     return _returnType;
 }
 
-ASTFunctionBlockNode* ASTClassMethodNode::getContent() {
+ASTFunctionBlockNode* ASTClassMethodDeclarationNode::getContent() {
     return _content;
 }
 
-unsigned long ASTClassMethodNode::numParameters() {
+unsigned long ASTClassMethodDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 
-ASTNodeType ASTClassMethodNode::getNodeType() {
-    return AST_CLASS_METHOD_NODE;
+ASTNodeType ASTClassMethodDeclarationNode::getNodeType() {
+    return AST_CLASS_METHOD_DECLARATION_NODE;
 }
 
-std::string ASTClassMethodNode::toString() {
+std::string ASTClassMethodDeclarationNode::toString() {
     return "CLASS_METHOD_DECLARATION";
 }
 
-bool ASTClassMethodNode::isSameAs(ASTNode *other) {
+bool ASTClassMethodDeclarationNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassMethodNode*)other;
+    auto otherNode = (ASTClassMethodDeclarationNode*)other;
 
     if (!_returnType.has_value() && otherNode->getReturnType().has_value() ||
         _returnType.has_value() && !otherNode->getReturnType().has_value()) {
@@ -67,7 +67,7 @@ bool ASTClassMethodNode::isSameAs(ASTNode *other) {
            this->getContent()->isSameAs(otherNode->getContent());
 }
 
-void ASTClassMethodNode::print() {
+void ASTClassMethodDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _name->print();
     _parameters->print();

@@ -2,8 +2,8 @@
 // Created by Johny Georges on 2024-04-19.
 //
 
-#ifndef JETLANG_AST_CLASS_METHOD_NODE_H
-#define JETLANG_AST_CLASS_METHOD_NODE_H
+#ifndef JETLANG_AST_CLASS_METHOD_DECLARATION_NODE_H
+#define JETLANG_AST_CLASS_METHOD_DECLARATION_NODE_H
 
 #include <vector>
 #include "../ast-node.h"
@@ -12,10 +12,10 @@
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
-#include "ast-class-method-name-node.h"
+#include "../ast-class-nodes/ast-class-method-name-node.h"
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 
-class ASTClassMethodNode : public ASTNode {
+class ASTClassMethodDeclarationNode : public ASTNode {
 private:
     ASTAccessModifierNode* _accessModifier;
     ASTClassMethodNameNode* _name;
@@ -23,7 +23,7 @@ private:
     std::optional<ASTTypeNode*> _returnType;
     ASTFunctionBlockNode* _content;
 public:
-    explicit ASTClassMethodNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
+    explicit ASTClassMethodDeclarationNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
     ASTAccessModifierNode* getAccessModifier();
     ASTFunctionParameterListNode* getParameters();
     ASTClassMethodNameNode* getName();
@@ -36,4 +36,4 @@ public:
     void print() override;
 };
 
-#endif //JETLANG_AST_CLASS_METHOD_NODE_H
+#endif //JETLANG_AST_CLASS_METHOD_DECLARATION_NODE_H

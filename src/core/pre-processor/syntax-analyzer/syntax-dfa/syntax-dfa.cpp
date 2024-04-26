@@ -144,17 +144,17 @@ void SyntaxDfa::init() {
     DFANode* constKeyword = DFANodeFactory::Once::create(AST_CONST_NODE);
     DFANode* classMethodCall = DFANodeFactory::Once::create(AST_CLASS_METHOD_CALL_NODE);
     DFANode* classMethodName = DFANodeFactory::Once::create(AST_CLASS_METHOD_NAME_NODE);
-    DFANode* classMethod = DFANodeFactory::Once::create(AST_CLASS_METHOD_NODE);
+    DFANode* classMethod = DFANodeFactory::Once::create(AST_CLASS_METHOD_DECLARATION_NODE);
     DFANode* classPropertyName = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_NAME_NODE);
     DFANode* classPropertyDefinition = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_DEFINITION_NODE);
     DFANode* classPropertyDefinitionWithType = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE);
     DFANode* classPropertyInit = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_INIT_NODE);
-    DFANode* classProperty = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_NODE);
+    DFANode* classPropertyDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_DECLARATION_NODE, AST_CLASS_PROPERTY_DECLARATION_NODE);
     DFANode* classPropertyAccess = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_NODE);
     DFANode* classPropertyAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ASSIGNMENT_NODE);
     DFANode* classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
     DFANode* constructorKeyword = DFANodeFactory::Once::create(AST_CONSTRUCTOR_NODE);
-    DFANode* classConstructor = DFANodeFactory::Once::create(AST_CLASS_CONSTRUCTOR_NODE);
+    DFANode* classConstructorDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, AST_CLASS_CONSTRUCTOR_DECLARATION_NODE);
     DFANode* classAccess = DFANodeFactory::Once::create(AST_CLASS_ACCESS_NODE);
 
     this->initVarDefinition(varDefinition);
@@ -172,7 +172,7 @@ void SyntaxDfa::init() {
     this->initAccessModifier(privateKeyword);
     this->initClassPropertyDefinition(classPropertyDefinition);
     this->initClassPropertyDefinitionWithType(classPropertyDefinitionWithType);
-    this->initVarInit(classPropertyInit, AST_CLASS_PROPERTY_NODE);
+    this->initVarInit(classPropertyInit, AST_CLASS_PROPERTY_DECLARATION_NODE);
 
     varType
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_VARIABLE_DEFINITION_NODE)));
@@ -819,7 +819,7 @@ void SyntaxDfa::init() {
             DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE)
                 ->addTransition(
                     DFATransitionFactory::create(
-                        DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_CONSTRUCTOR_NODE)
+                        DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_CONSTRUCTOR_DECLARATION_NODE)
                 ))
     ));
 
@@ -997,15 +997,15 @@ void SyntaxDfa::init() {
     ->insertStartNode(classPropertyDefinition)
     ->insertStartNode(classPropertyDefinitionWithType)
     ->insertStartNode(classPropertyInit)
-    ->insertStartNode(classProperty)
-    ->insertStartNode(classConstructor)
+    ->insertStartNode(classPropertyDeclaration)
+    ->insertStartNode(classConstructorDeclaration)
     ->insertStartNode(thisKeyword)
     ->insertStartNode(classAccess)
     ->insertStartNode(classPropertyAccess)
     ->insertStartNode(classPropertyAssignment)
     ->insertStartNode(classMethodCall)
     ->insertStartNode(constructorKeyword)
-    ->insertStartNode(classConstructor)
+    ->insertStartNode(classConstructorDeclaration)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
@@ -1226,7 +1226,7 @@ void SyntaxDfa::initAccessModifier(DFANode* accessModifier) {
                     DFANodeFactory::NilOrOnce::create(AST_CONST_NODE)
                     ->addTransition(
                         DFATransitionFactory::create(
-                            DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_NAME_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
+                            DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE)
                     ))
                 ))
         )
@@ -1250,7 +1250,7 @@ void SyntaxDfa::initClassPropertyDefinition(DFANode* classPropertyDefinition) {
 
 void SyntaxDfa::initClassPropertyDefinitionWithType(DFANode* classPropertyDefinitionWithType) {
     classPropertyDefinitionWithType
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_CLASS_PROPERTY_NODE, { AST_TERMINATOR_NODE }))
+    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_CLASS_PROPERTY_DECLARATION_NODE, {AST_TERMINATOR_NODE }))
     ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_INIT_NODE)));

@@ -37,10 +37,6 @@ ASTNode * ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return new ASTImportModuleListStartNode(_lexeme);
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NAME_NODE })) {
-        return new ASTClassBlockStartNode(_lexeme);
-    }
-
     if (mode == SA_CONTROL_FLOW_MODE) {
         return new ASTControlFlowStartNode(_lexeme);
     }
