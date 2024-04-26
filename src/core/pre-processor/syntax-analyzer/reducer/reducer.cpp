@@ -86,6 +86,8 @@
 #include "reducer-strategies/class-property-assignment-statement-node/class-property-assignment-statement-node.h"
 #include "reducer-strategies/class-method-invocation-expression-reducer-strategy/class-method-invocation-expression-reducer-strategy.h"
 #include "reducer-strategies/class-access-reducer-strategy/class-access-reducer-strategy.h"
+#include "reducer-strategies/new-class-instance-expression-reducer-strategy/new-class-instance-expression-reducer-strategy.h"
+#include "reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -174,8 +176,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, new ClassConstructorDeclarationReducerStrategy());
     this->addStrategy(AST_CLASS_METHOD_DECLARATION_NODE, new ClassMethodDeclarationReducerStrategy());
     this->addStrategy(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE, new ClassMethodInvocationExpressionReducerStrategy());
+    this->addStrategy(AST_CLASS_METHOD_DEFINITION_NODE, new ClassMethodDefinitionReducerStrategy());
     this->addStrategy(AST_CLASS_BLOCK_NODE, new ClassBlockReducerStrategy());
     this->addStrategy(AST_CLASS_ACCESS_NODE, new ClassAccessReducerStrategy());
+    this->addStrategy(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, new NewClassInstanceExpressionReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

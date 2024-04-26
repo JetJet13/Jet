@@ -5,24 +5,19 @@
 #include "ast-class-method-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType) {
-    _accessModifier = accessModifier;
-    _name = name;
+ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType) {
+    _classMethodDefinition = classMethodDefinition;
     _content = content;
     _returnType = returnType;
     _parameters = parameters;
 }
 
-ASTAccessModifierNode* ASTClassMethodDeclarationNode::getAccessModifier() {
-    return _accessModifier;
+ASTClassMethodDefinitionNode* ASTClassMethodDeclarationNode::getClassMethodDefinition() {
+    return _classMethodDefinition;
 }
 
 ASTFunctionParameterListNode* ASTClassMethodDeclarationNode::getParameters() {
     return _parameters;
-}
-
-ASTClassMethodNameNode* ASTClassMethodDeclarationNode::getName() {
-    return _name;
 }
 
 std::optional<ASTTypeNode*> ASTClassMethodDeclarationNode::getReturnType() {
@@ -61,15 +56,14 @@ bool ASTClassMethodDeclarationNode::isSameAs(ASTNode *other) {
         return false;
     }
 
-    return this->getAccessModifier()->isSameAs(otherNode->getAccessModifier()) &&
-           this->getName()->isSameAs(otherNode->getName()) &&
+    return this->getClassMethodDefinition()->isSameAs(otherNode->getClassMethodDefinition()) &&
            this->getParameters()->isSameAs(otherNode->getParameters()) &&
            this->getContent()->isSameAs(otherNode->getContent());
 }
 
 void ASTClassMethodDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _name->print();
+    _classMethodDefinition->print();
     _parameters->print();
     if (_returnType) {
         _returnType.value()->print();

@@ -4,23 +4,22 @@
 
 #include "class-method-declaration-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
+#include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h"
 
 ASTNode* ClassMethodDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() == 4) {
+    if (nodes.size() == 3) {
         return new ASTClassMethodDeclarationNode(
-                (ASTAccessModifierNode*)nodes[0],
-                (ASTClassMethodNameNode*)nodes[1],
-                (ASTFunctionParameterListNode*)nodes[2],
-                (ASTFunctionBlockNode*)nodes[3]
+                (ASTClassMethodDefinitionNode*)nodes[0],
+                (ASTFunctionParameterListNode*)nodes[1],
+                (ASTFunctionBlockNode*)nodes[2]
         );
     }
 
-    if (nodes.size() == 5) {
+    if (nodes.size() == 4) {
         return new ASTClassMethodDeclarationNode(
-                (ASTAccessModifierNode*)nodes[0],
-                (ASTClassMethodNameNode*)nodes[1],
-                (ASTFunctionParameterListNode*)nodes[2],
-                (ASTFunctionBlockNode*)nodes[4],
+                (ASTClassMethodDefinitionNode*)nodes[0],
+                (ASTFunctionParameterListNode*)nodes[1],
+                (ASTFunctionBlockNode*)nodes[2],
                 (ASTTypeNode*)nodes[3]
         );
     }

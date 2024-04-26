@@ -62,6 +62,7 @@
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-constructor-node.h"
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-this-node.h"
 #include "../../../ast/ast-nodes/ast-const-node.h"
+#include "../../../ast/ast-nodes/ast-class-nodes/ast-new-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -193,6 +194,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTStaticNode(lexeme);
     } else if (symbol->isConstructor()) {
         return new ASTConstructorNode(lexeme);
+    } else if (symbol->isNew()) {
+        return new ASTNewNode(lexeme);
     } else if (symbol->isThis()) {
         return new ASTThisNode(lexeme);
     } else {

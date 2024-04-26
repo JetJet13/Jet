@@ -1,0 +1,34 @@
+//
+// Created by Johny Georges on 2024-04-26.
+//
+
+#ifndef JETLANG_AST_NEW_CLASS_INSTANCE_EXPRESSION_H
+#define JETLANG_AST_NEW_CLASS_INSTANCE_EXPRESSION_H
+
+#include <vector>
+#include "../ast-node.h"
+#include "../ast-function-nodes/ast-function-parameter-list-node.h"
+#include "../ast-type-nodes/ast-type-node.h"
+#include "../ast-function-nodes/ast-function-name-node.h"
+#include "../ast-function-nodes/ast-function-block-node.h"
+#include "../ast-function-nodes/ast-function-argument-list-node.h"
+#include "../ast-function-nodes/ast-function-call-node.h"
+#include "ast-callable-expression-node.h"
+#include "../ast-class-nodes/ast-class-name-node.h"
+
+class ASTNewClassInstanceExpressionNode : public ASTCallableExpressionNode {
+private:
+    ASTClassNameNode* _className;
+    ASTFunctionArgumentListNode* _arguments;
+public:
+    explicit ASTNewClassInstanceExpressionNode(ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments);
+    ASTFunctionArgumentListNode* getArguments();
+    ASTClassNameNode* getClassName();
+    unsigned long numArguments();
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+};
+
+#endif //JETLANG_AST_NEW_CLASS_INSTANCE_EXPRESSION_H

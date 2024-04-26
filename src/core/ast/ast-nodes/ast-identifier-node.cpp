@@ -40,6 +40,15 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return new ASTClassPropertyNameNode(this->getIdentifier());
     }
 
+    if (prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE }) &&
+        nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
+        return new ASTClassMethodNameNode(this->getIdentifier());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NODE, AST_NEW_NODE })) {
+        return new ASTClassNameNode(this->getIdentifier());
+    }
+
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
         return new ASTFunctionNameNode(this->getIdentifier());
     }
@@ -50,10 +59,6 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
 
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {
         return new ASTEnumNameNode(this->getIdentifier());
-    }
-
-    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NODE })) {
-        return new ASTClassNameNode(this->getIdentifier());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {

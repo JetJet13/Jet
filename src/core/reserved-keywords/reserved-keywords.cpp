@@ -103,6 +103,7 @@ void ReservedKeywords::init() {
     this->add("static", SymbolFactory::createStaticSymbol());
     this->add("this", SymbolFactory::createThisSymbol());
     this->add("constructor", SymbolFactory::createConstructorSymbol());
+    this->add("new", SymbolFactory::createNewSymbol());
 
     this->initKeywordSymbolList();
 }

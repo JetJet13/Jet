@@ -76,6 +76,7 @@ typedef enum {
     SYM_PRIVATE,
     SYM_STATIC,
     SYM_CONSTRUCTOR,
+    SYM_NEW,
     SYM_THIS,
     SYM_MALFORMED
 } SymbolType;

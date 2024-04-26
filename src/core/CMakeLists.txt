@@ -651,6 +651,16 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-assignment-statement-node/class-property-assignment-statement-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-invocation-expression-reducer-strategy/class-method-invocation-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-invocation-expression-reducer-strategy/class-method-invocation-expression-reducer-strategy.h
+        ast/ast-nodes/ast-class-nodes/ast-new-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-new-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/new-class-instance-expression-reducer-strategy/new-class-instance-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/new-class-instance-expression-reducer-strategy/new-class-instance-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.h
+        ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h
 
 )
 

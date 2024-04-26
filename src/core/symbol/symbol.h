@@ -81,6 +81,7 @@ public:
     bool isPrivate();
     bool isStatic();
     bool isConstructor();
+    bool isNew();
     bool isThis();
     SymbolType getType();
     std::string toString();

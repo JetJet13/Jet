@@ -82,6 +82,7 @@ namespace SymbolFactory {
     Symbol* createStaticSymbol();
     Symbol* createThisSymbol();
     Symbol* createConstructorSymbol();
+    Symbol* createNewSymbol();
 }
 
 

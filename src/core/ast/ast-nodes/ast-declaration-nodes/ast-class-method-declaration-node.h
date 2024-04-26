@@ -14,19 +14,18 @@
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-class-nodes/ast-class-method-name-node.h"
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
+#include "../ast-class-nodes/ast-class-method-definition-node.h"
 
 class ASTClassMethodDeclarationNode : public ASTNode {
 private:
-    ASTAccessModifierNode* _accessModifier;
-    ASTClassMethodNameNode* _name;
+    ASTClassMethodDefinitionNode* _classMethodDefinition;
     ASTFunctionParameterListNode* _parameters;
     std::optional<ASTTypeNode*> _returnType;
     ASTFunctionBlockNode* _content;
 public:
-    explicit ASTClassMethodDeclarationNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
-    ASTAccessModifierNode* getAccessModifier();
+    explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
+    ASTClassMethodDefinitionNode* getClassMethodDefinition();
     ASTFunctionParameterListNode* getParameters();
-    ASTClassMethodNameNode* getName();
     std::optional<ASTTypeNode*> getReturnType();
     ASTFunctionBlockNode* getContent();
     unsigned long numParameters();

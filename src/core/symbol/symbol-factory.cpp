@@ -298,4 +298,8 @@ namespace SymbolFactory {
     Symbol* createConstructorSymbol()  {
         return new Symbol(SYM_CONSTRUCTOR, "constructor");
     }
+
+    Symbol* createNewSymbol()  {
+        return new Symbol(SYM_NEW, "new");
+    }
 }

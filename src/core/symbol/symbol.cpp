@@ -278,6 +278,10 @@ bool Symbol::isConstructor() {
     return _type == SYM_CONSTRUCTOR;
 }
 
+bool Symbol::isNew() {
+    return _type == SYM_NEW;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }
