@@ -51,6 +51,17 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-module-list-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-wildcard-item-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-access-modifier-nodes/ast-public-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-access-modifier-nodes/ast-protected-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-access-modifier-nodes/ast-private-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-method-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-property-access-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -162,6 +173,9 @@ namespace ASTNodeFactory {
     static ASTArrayAccessNode* arrayAccessId =  new ASTArrayAccessNode(
             ASTNodeFactory::idExpression
     );
+    static ASTThisNode* thisNode = new ASTThisNode(
+            createLexeme(SymbolFactory::createThisSymbol())
+    );
     static ASTTypeNode* intLiteralType = ASTTypeNodeFactory::createIntLiteralTypeNode(createLexeme(SymbolFactory::createIntSymbol()));
     static ASTTypeNode* intType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
     static ASTTypeNode* floatType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
@@ -170,6 +184,7 @@ namespace ASTNodeFactory {
     static ASTTypeNode* booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
     static ASTTypeNode* arrayType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
     static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(ASTNodeFactory::id);
+    static ASTTypeNode* thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
     static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
@@ -283,6 +298,39 @@ namespace ASTNodeFactory {
     }
     static ASTImportPathNode* importPath = new ASTImportPathNode(
             ASTNodeFactory::stringLiteral
+    );
+    static ASTClassNameNode* className = new ASTClassNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTClassPropertyNameNode* classPropertyName = new ASTClassPropertyNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTClassMethodNameNode* classMethodName = new ASTClassMethodNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTClassMethodCallNode* classMethodCall = new ASTClassMethodCallNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTClassPropertyAccessNode* classPropertyAccess = new ASTClassPropertyAccessNode(
+            ASTNodeFactory::classPropertyName
+    );
+    static ASTClassPropertyAssignmentNode* classPropertyAssignment = new ASTClassPropertyAssignmentNode(
+            ASTNodeFactory::classPropertyName
+    );
+    static ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression = new ASTClassPropertyAccessExpressionNode(
+            ASTNodeFactory::classPropertyAccess
+    );
+    static ASTThisExpressionNode* thisExpression = new ASTThisExpressionNode(
+            ASTNodeFactory::thisNode
+    );
+    static ASTPublicNode* publicModifier = new ASTPublicNode(
+            createLexeme(SymbolFactory::createPublicSymbol())
+    );
+    static ASTProtectedNode* protectedModifier = new ASTProtectedNode(
+            createLexeme(SymbolFactory::createProtectedSymbol())
+    );
+    static ASTPrivateNode* privateModifier = new ASTPrivateNode(
+            createLexeme(SymbolFactory::createPrivateSymbol())
     );
 };
 

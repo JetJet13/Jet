@@ -34,9 +34,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     } else if (handle->isModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_MODULE_LIST_NODE);
-    } else if (handle->isClassBlockEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_CLASS_BLOCK_NODE);
-    } else if (handle->isImportModuleListEnclosed()) {
+    }else if (handle->isImportModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_IMPORT_MODULE_LIST_NODE);
     } else if (handle->isLambdaTypeParameterListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TYPE_PARAMETER_LIST_NODE);
@@ -83,16 +81,9 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         }
 
         auto currentDfaState = dfa->getCurrentState();
-        if (i + 1 == handle->size() && currentDfaState) {
-            for (auto nilTransition: currentDfaState.value()->findNilTransitions()) {
-                if (nilTransition->hasTargetAstNodeType()) {
-                    return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), nilTransition->getTargetAstNodeType().value());
-                }
-            }
-        }
-
         if (currentDfaState && currentDfaState.value()->hasTargetAstNodeType()) {
-            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, i + 1, currentDfaState.value()->getTargetAstNodeType().value());
+            auto reduceCount = currentDfaState.value()->isAnyNode() ? i : i + 1;
+            return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, reduceCount, currentDfaState.value()->getTargetAstNodeType().value());
         } else if (mode == RM_BACKTRACK && !currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
         } else if (mode == RM_NORMAL && !currentDfaState) {

@@ -68,6 +68,9 @@ std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
         if (transition.astNodeType == nextAstNodeType) {
             return transition.destination;
         }
+        if (transition.astNodeType == AST_ANY_NODE) {
+            return transition.destination;
+        }
     }
 
     auto result = std::optional<DFANode*>();
@@ -183,6 +186,10 @@ bool DFANode::isOnceOrMore() {
 
 bool DFANode::isOnce() {
     return _occurrence == DFA_OCCURRENCE_ONCE;
+}
+
+bool DFANode::isAnyNode() {
+    return _astNodeType == AST_ANY_NODE;
 }
 
 ASTNodeType DFANode::getNodeType() {

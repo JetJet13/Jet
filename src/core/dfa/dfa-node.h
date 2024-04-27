@@ -47,12 +47,12 @@ public:
     bool isNilOrOnce();
     bool isOnceOrMore();
     bool isOnce();
+    bool isAnyNode();
     ASTNodeType getNodeType();
     std::optional<ASTNodeType> getReduceTargetForPrevNode(ASTNodeType astNodeType);
     std::optional<ASTNodeType> getReduceTargetForNextNode(ASTNodeType astNodeType);
     std::optional<ASTNodeType> getReduceTargetForPrevNodeAndNextNode(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType);
     std::optional<ASTNodeType> getTargetAstNodeType();
-
     bool hasTargetAstNodeType();
 };
 

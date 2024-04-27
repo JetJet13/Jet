@@ -106,11 +106,11 @@ void ASTClassBlockNode::print() {
     for (auto property : _properties) {
         property->print();
     }
-    for (auto constructor : _constructors) {
-        constructor->print();
-    }
     for (auto method : _methods) {
         method->print();
+    }
+    for (auto constructor : _constructors) {
+        constructor->print();
     }
     Logger::log("----------");
 }

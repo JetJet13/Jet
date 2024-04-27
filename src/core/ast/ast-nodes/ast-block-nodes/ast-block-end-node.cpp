@@ -8,7 +8,6 @@
 #include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
 #include "../ast-module-nodes/ast-module-list-end-node.h"
 #include "../ast-import-nodes/ast-import-module-list-end-node.h"
-#include "../ast-class-nodes/ast-class-block-end-node.h"
 
 ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
     _lexeme = lexeme;

@@ -19,8 +19,8 @@ ASTNode* ClassMethodDeclarationReducerStrategy::execute(std::vector<ASTNode*> no
         return new ASTClassMethodDeclarationNode(
                 (ASTClassMethodDefinitionNode*)nodes[0],
                 (ASTFunctionParameterListNode*)nodes[1],
-                (ASTFunctionBlockNode*)nodes[2],
-                (ASTTypeNode*)nodes[3]
+                (ASTFunctionBlockNode*)nodes[3],
+                (ASTTypeNode*)nodes[2]
         );
     }
 

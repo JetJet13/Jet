@@ -581,10 +581,6 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-block-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-block-node.h
-        ast/ast-nodes/ast-class-nodes/ast-class-block-start-node.cpp
-        ast/ast-nodes/ast-class-nodes/ast-class-block-start-node.h
-        ast/ast-nodes/ast-class-nodes/ast-class-block-end-node.cpp
-        ast/ast-nodes/ast-class-nodes/ast-class-block-end-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.h
         ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.cpp
@@ -661,6 +657,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.h
         ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h
 
 )
 

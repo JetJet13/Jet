@@ -35,6 +35,11 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -2839,6 +2844,298 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 }),
                 ASTNodeFactory::importPath
         )},
+        {190, new ASTClassDeclarationNode(
+                ASTNodeFactory::className,
+                new ASTClassBlockNode(
+                    {
+                        new ASTClassPropertyDeclarationNode(
+                            new ASTClassPropertyInitNode(
+                                ASTNodeFactory::publicModifier,
+                                ASTNodeFactory::classPropertyName,
+                                false,
+                                false,
+                                ASTNodeFactory::intType
+                            )
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::publicModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        false,
+                                        false,
+                                        ASTNodeFactory::intType
+                                ),
+                                ASTNodeFactory::intExpression
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::publicModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        false,
+                                        false
+                                ),
+                                ASTNodeFactory::intExpression
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::publicModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        false,
+                                        true,
+                                        ASTNodeFactory::intType
+                                )
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::publicModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        false,
+                                        true,
+                                        ASTNodeFactory::intType
+                                ),
+                                ASTNodeFactory::intExpression
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::publicModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        false,
+                                        true
+                                ),
+                                ASTNodeFactory::intExpression
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::protectedModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        true,
+                                        false,
+                                        ASTNodeFactory::intType
+                                )
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::protectedModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        true,
+                                        false,
+                                        ASTNodeFactory::intType
+                                ),
+                                ASTNodeFactory::intExpression
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::protectedModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        true,
+                                        false
+                                ),
+                                ASTNodeFactory::intExpression
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                            new ASTClassPropertyInitNode(
+                                ASTNodeFactory::privateModifier,
+                                ASTNodeFactory::classPropertyName,
+                                true,
+                                true,
+                                ASTNodeFactory::booleanType
+                            )
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::privateModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        true,
+                                        true,
+                                        ASTNodeFactory::booleanType
+                                ),
+                                ASTNodeFactory::trueExpression
+                        ),
+                        new ASTClassPropertyDeclarationNode(
+                                new ASTClassPropertyInitNode(
+                                        ASTNodeFactory::privateModifier,
+                                        ASTNodeFactory::classPropertyName,
+                                        true,
+                                        true
+                                ),
+                                ASTNodeFactory::trueExpression
+                        )
+                    },
+                    {
+                        new ASTClassMethodDeclarationNode(
+                            new ASTClassMethodDefinitionNode(
+                                ASTNodeFactory::publicModifier,
+                                ASTNodeFactory::classMethodName,
+                                true
+                            ),
+                            new ASTFunctionParameterListNode({
+                                new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
+                            }),
+                            new ASTFunctionBlockNode({
+                                new ASTFunctionReturnExpressionNode(
+                                    new ASTNewClassInstanceExpressionNode(
+                                        ASTNodeFactory::className,
+                                        new ASTFunctionArgumentListNode({
+                                            new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                        })
+                                  )
+                                )
+                            }),
+                            ASTNodeFactory::idType
+                        ),
+                        new ASTClassMethodDeclarationNode(
+                                new ASTClassMethodDefinitionNode(
+                                        ASTNodeFactory::protectedModifier,
+                                        ASTNodeFactory::classMethodName,
+                                        true
+                                ),
+                                new ASTFunctionParameterListNode(),
+                                new ASTFunctionBlockNode({
+                                     new ASTFunctionReturnExpressionNode(
+                                         new ASTNewClassInstanceExpressionNode(
+                                             ASTNodeFactory::className,
+                                             new ASTFunctionArgumentListNode()
+                                         )
+                                     )
+                                }),
+                                ASTNodeFactory::idType
+                        ),
+                        new ASTClassMethodDeclarationNode(
+                                new ASTClassMethodDefinitionNode(
+                                        ASTNodeFactory::privateModifier,
+                                        ASTNodeFactory::classMethodName,
+                                        true
+                                ),
+                                new ASTFunctionParameterListNode(),
+                                new ASTFunctionBlockNode({
+                                    new ASTFunctionReturnExpressionNode(
+                                        new ASTNewClassInstanceExpressionNode(
+                                            ASTNodeFactory::className,
+                                            new ASTFunctionArgumentListNode({
+                                                new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                                            })
+                                        )
+                                    )
+                                }),
+                                ASTNodeFactory::idType
+                        ),
+                        new ASTClassMethodDeclarationNode(
+                            new ASTClassMethodDefinitionNode(
+                                    ASTNodeFactory::publicModifier,
+                                    ASTNodeFactory::classMethodName,
+                                    false
+                            ),
+                                new ASTFunctionParameterListNode(),
+                                new ASTFunctionBlockNode({
+                                    new ASTFunctionReturnExpressionNode(
+                                        ASTNodeFactory::classPropertyAccessExpression
+                                    )
+                                }),
+                                ASTNodeFactory::booleanType
+                        ),
+                        new ASTClassMethodDeclarationNode(
+                            new ASTClassMethodDefinitionNode(
+                                    ASTNodeFactory::protectedModifier,
+                                    ASTNodeFactory::classMethodName,
+                                    false
+                            ),
+                            new ASTFunctionParameterListNode({
+                                new ASTFunctionParameterNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::booleanType
+                                )
+                            }),
+                            new ASTFunctionBlockNode({
+                                new ASTClassPropertyAssignmentStatementNode(
+                                    ASTNodeFactory::classPropertyAssignment,
+                                    ASTNodeFactory::idExpression
+                                ),
+                                new ASTFunctionReturnExpressionNode(
+                                    ASTNodeFactory::thisExpression
+                                )
+                            }),
+                            ASTNodeFactory::thisType
+                        ),
+                        new ASTClassMethodDeclarationNode(
+                            new ASTClassMethodDefinitionNode(
+                                    ASTNodeFactory::privateModifier,
+                                    ASTNodeFactory::classMethodName,
+                                    false
+                            ),
+                            new ASTFunctionParameterListNode(),
+                            new ASTFunctionBlockNode({
+                                new ASTFunctionReturnExpressionNode(
+                                    ASTNodeFactory::stringExpression
+                                )
+                            }),
+                            ASTNodeFactory::stringType
+                        ),
+                        new ASTClassMethodDeclarationNode(
+                                new ASTClassMethodDefinitionNode(
+                                        ASTNodeFactory::privateModifier,
+                                        ASTNodeFactory::classMethodName,
+                                        false
+                                ),
+                                new ASTFunctionParameterListNode(),
+                                new ASTFunctionBlockNode({
+                                     new ASTClassPropertyAssignmentStatementNode(
+                                         ASTNodeFactory::classPropertyAssignment,
+                                         ASTNodeFactory::trueExpression
+                                     )
+                                })
+                        )
+                    },
+                    {
+                        new ASTClassConstructorDeclarationNode(
+                                new ASTFunctionParameterListNode(),
+                                new ASTFunctionBlockNode({
+                                    new ASTExpressionStatementNode(
+                                        new ASTClassMethodInvocationExpressionNode(
+                                            ASTNodeFactory::classMethodCall,
+                                            new ASTFunctionArgumentListNode({
+                                                new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                                            })
+                                        )
+                                    ),
+                                    new ASTClassPropertyAssignmentStatementNode(
+                                         ASTNodeFactory::classPropertyAssignment,
+                                         ASTNodeFactory::intExpression
+                                    ),
+                                    new ASTClassPropertyAssignmentStatementNode(
+                                         ASTNodeFactory::classPropertyAssignment,
+                                         ASTNodeFactory::trueExpression
+                                    ),
+                                })
+                        ),
+                        new ASTClassConstructorDeclarationNode(
+                            new ASTFunctionParameterListNode({
+                                new ASTFunctionParameterNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::intType
+                                )
+                            }),
+                            new ASTFunctionBlockNode({
+                                     new ASTClassPropertyAssignmentStatementNode(
+                                         ASTNodeFactory::classPropertyAssignment,
+                                         ASTNodeFactory::idExpression
+                                     ),
+                                     new ASTClassPropertyAssignmentStatementNode(
+                                         ASTNodeFactory::classPropertyAssignment,
+                                         ASTNodeFactory::trueExpression
+                                     ),
+                                     new ASTExpressionStatementNode(
+                                         new ASTClassMethodInvocationExpressionNode(
+                                             ASTNodeFactory::classMethodCall,
+                                             new ASTFunctionArgumentListNode({
+                                                new ASTFunctionArgumentNode(ASTNodeFactory::classPropertyAccessExpression)
+                                             })
+                                         )
+                                     )
+                             })
+                        )
+                    }
+                )
+        )}
 
 };
 
@@ -2850,8 +3147,8 @@ auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 189);
-    for (int i = 0; i < 189; i++) {
+REQUIRE(fileNodeResult->getBody()->size() == 190);
+    for (int i = 0; i < 190; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

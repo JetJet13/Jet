@@ -409,9 +409,9 @@ class MyClass {
     }
 
     constructor(foo: int) {
-            this.initIteratorTrait(500);
             this.foo = foo;
             this.bar = true;
+            this.initIteratorTrait(this.foo);
     }
 
     public static create(foo: int) MyClass {

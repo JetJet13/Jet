@@ -19,7 +19,7 @@ ASTNode* ClassMethodDefinitionReducerStrategy::execute(std::vector<ASTNode*> nod
 }
 
 ASTClassMethodNameNode* ClassMethodDefinitionReducerStrategy::getMethodName(std::vector<ASTNode*>* nodes) {
-    if (nodes->size() == 3 && nodes->at(2)->is(AST_IDENTIFIER_NODE)) {
+    if (nodes->size() == 3) {
         return new ASTClassMethodNameNode(((ASTIdentifierNode*)nodes->at(2))->getIdentifier());
     } else {
         return new ASTClassMethodNameNode(((ASTIdentifierNode*)nodes->at(1))->getIdentifier());

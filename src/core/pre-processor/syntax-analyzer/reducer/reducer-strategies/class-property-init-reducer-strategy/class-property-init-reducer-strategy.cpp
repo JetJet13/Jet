@@ -8,8 +8,8 @@
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-definition-with-type-node.h"
 
 ASTNode* ClassPropertyInitReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() != 2) {
-        throw std::invalid_argument("unable to reduce to class property init since nodes list size is not 2");
+    if (nodes.size() > 2) {
+        throw std::invalid_argument("unable to reduce to class property init since nodes list size is > 2");
     }
 
     if (nodes[0]->is(AST_CLASS_PROPERTY_DEFINITION_NODE)) {

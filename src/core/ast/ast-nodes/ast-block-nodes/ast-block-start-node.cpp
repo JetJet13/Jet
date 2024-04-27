@@ -9,7 +9,6 @@
 #include "../ast-control-flow-nodes/ast-control-flow-start-node.h"
 #include "../ast-module-nodes/ast-module-list-start-node.h"
 #include "../ast-import-nodes/ast-import-module-list-start-node.h"
-#include "../ast-class-nodes/ast-class-block-start-node.h"
 
 ASTBlockStartNode::ASTBlockStartNode(Lexeme* lexeme) {
     _lexeme = lexeme;
