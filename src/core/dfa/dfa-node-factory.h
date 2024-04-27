@@ -8,6 +8,9 @@
 #include "dfa-node.h"
 
 namespace DFANodeFactory {
+    static DFANode* createAny(ASTNodeType targetAstNodeType) {
+        return new DFANode(AST_ANY_NODE, DFA_OCCURRENCE_ONCE, targetAstNodeType);
+    }
     namespace Once {
         static DFANode* create(ASTNodeType astNodeType) {
             return new DFANode(astNodeType, DFA_OCCURRENCE_ONCE);

@@ -533,9 +533,9 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(
             DFANodeFactory::OnceOrMore::create(AST_ELSE_IF_BLOCK_NODE)
             ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ELSE_BLOCK_NODE, AST_IF_STATEMENT_NODE)))
-            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ANY_NODE, AST_IF_STATEMENT_NODE)))
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_IF_STATEMENT_NODE)))
     ))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ANY_NODE, AST_IF_STATEMENT_NODE)));
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_IF_STATEMENT_NODE)));
 
     elseIfBlock
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_IF_BLOCK_NODE, AST_ELSE_IF_BLOCK_NODE });
@@ -600,9 +600,7 @@ void SyntaxDfa::init() {
             ->addTransition(DFATransitionFactory::create(
                 DFANodeFactory::Once::createWithTarget(AST_FINALLY_BLOCK_NODE, AST_TRY_STATEMENT_NODE)
             ))
-            ->addTransition(
-                DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_ANY_NODE, AST_TRY_STATEMENT_NODE)))
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_TRY_STATEMENT_NODE)))
     ));
 
     catchBlock
@@ -873,16 +871,10 @@ void SyntaxDfa::init() {
         DFATransitionFactory::create(
             DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_ASSIGNMENT_NODE)
     ))
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::NilOrMore::createWithTarget(AST_ANY_NODE, AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)
-    ));
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)));
 
     classPropertyInit
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::NilOrMore::createWithTarget(AST_ANY_NODE, AST_CLASS_PROPERTY_DECLARATION_NODE)
-    ));
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_CLASS_PROPERTY_DECLARATION_NODE)));
 
     classMethodCall
     ->markAlwaysReduceSelf();
