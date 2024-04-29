@@ -95,3 +95,48 @@ while myClassInstance.hasNext {
 myClassInstance.reset();
 myClassInstance.hello();
 myClassInstance.isValid();
+
+
+let myOptional = optional(50);
+clear myOptional;
+let otherOptional: optional<int> = optional(50);
+let emptyOptional: optional<string> = optional();
+
+if !emptyOptional || emptyOptional is Null {
+    emptyOptional = "hello";
+}
+
+if emptyOptional || emptyOptional is NotNull {
+    emptyOptional = "world";
+}
+
+
+const myOutcome: outcome<string> = openFile("hello-world.txt");
+if myOutcome {
+    processOutcome(myOutcome);
+}
+
+if !myOutcome || myOutcome is notOk {
+    handleFailedOutcome(myOutcome);
+}
+
+function openFile(filePath: string) outcome<string> {
+    if filePath {
+        return "file-opened";
+    }
+    return notOk("failed to open file");
+}
+
+function openMyFile(filePath: string) outcome<optional<int>> {
+    if filePath {
+        return optional("file-opened");
+    }
+    return notOk("failed to open file");
+}
+
+
+const openedFileOutcome = openMyFile("moo.txt");
+// outcome -> can be notOk, otherwise it's defined.
+if openedFileOutcome is notOk {
+    print("failed to open file")
+}
