@@ -22,6 +22,7 @@ public:
     std::optional<int> getValueId();
     Token* setValueId(int valueId);
     std::string toString();
+    bool isEqualTo(Token* otherToken);
 };
 
 #endif //JETLANG_TOKEN_H

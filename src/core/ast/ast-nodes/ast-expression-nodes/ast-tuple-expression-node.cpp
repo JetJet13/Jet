@@ -4,6 +4,7 @@
 
 #include "ast-tuple-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ast-type-nodes/types/tuple-type.h"
 
 ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListNode* tupleList) {
     _tupleList = tupleList;
@@ -34,4 +35,12 @@ void ASTTupleExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _tupleList->print();
     Logger::log("----------");
+}
+
+BaseType* ASTTupleExpressionNode::getType() {
+    auto tupleTypeParameterList = new std::vector<BaseType*>();
+    for (auto tupleItem : _tupleList->getItems()) {
+        tupleTypeParameterList->push_back(tupleItem->getItem()->getType());
+    }
+    return new TupleType(tupleTypeParameterList);
 }

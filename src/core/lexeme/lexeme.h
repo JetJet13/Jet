@@ -21,6 +21,7 @@ public:
     int getPosition() const;
     std::string toString();
     bool hasSameSymbolTypeAs(Lexeme* other);
+    bool isEqualTo(Lexeme* other);
 };
 
 #endif //JETLANG_LEXEME_H

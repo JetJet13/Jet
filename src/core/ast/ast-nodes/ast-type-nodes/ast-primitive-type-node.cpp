@@ -4,6 +4,7 @@
 
 #include "ast-primitive-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "types/literal-type-factory.h"
 
 ASTPrimitiveTypeNode::ASTPrimitiveTypeNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -31,4 +32,21 @@ bool ASTPrimitiveTypeNode::isSameAs(ASTNode *other) {
 
 void ASTPrimitiveTypeNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
+}
+
+BaseType* ASTPrimitiveTypeNode::getType() {
+    auto symbol = _lexeme->getToken()->getSymbol();
+    if (symbol->isIntType()) {
+        return LiteralTypeFactory::createIntLiteralType();
+    } else if (symbol->isFloatType()) {
+        return LiteralTypeFactory::createFloatLiteralType();
+    } else if (symbol->isCharType()) {
+        return LiteralTypeFactory::createCharLiteralType();
+    } else if (symbol->isStringType()) {
+        return LiteralTypeFactory::createStringLiteralType();
+    } else if (symbol->isBooleanType()) {
+        return LiteralTypeFactory::createBooleanLiteralType();
+    } else {
+        return LiteralTypeFactory::createNotNullLiteralType();
+    }
 }

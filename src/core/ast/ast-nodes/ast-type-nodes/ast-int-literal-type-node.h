@@ -20,6 +20,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    BaseType* getType() override;
 };
 
 #endif //JETLANG_AST_INT_LITERAL_TYPE_NODE_H

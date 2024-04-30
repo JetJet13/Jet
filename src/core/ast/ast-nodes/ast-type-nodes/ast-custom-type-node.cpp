@@ -4,6 +4,7 @@
 
 #include "ast-custom-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "types/class-type.h"
 
 ASTCustomTypeNode::ASTCustomTypeNode(ASTIdentifierNode* identifierNode) {
     _identifier = identifierNode;
@@ -33,4 +34,8 @@ void ASTCustomTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _identifier->print();
     Logger::log("----------");
+}
+
+BaseType* ASTCustomTypeNode::getType() {
+    return new ClassType(_identifier->getIdentifier());
 }

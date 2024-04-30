@@ -45,3 +45,16 @@ std::string Token::toString() {
     return tokenString;
 }
 
+bool Token::isEqualTo(Token* otherToken) {
+    if (this->getSymbolType() != otherToken->getSymbolType()) {
+        return false;
+    }
+
+    if (_valueId && !otherToken->getValueId() ||
+        !_valueId && otherToken->getValueId() ||
+        _valueId.value() != otherToken->getValueId().value()) {
+        return false;
+    }
+
+    return true;
+}

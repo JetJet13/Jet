@@ -9,8 +9,8 @@
 #include "ast-custom-type-node.h"
 #include "ast-primitive-type-node.h"
 #include "ast-lambda-type-node.h"
-#include "../ast-tuple-nodes/ast-tuple-type-node.h"
-#include "../ast-array-nodes/ast-array-type-node.h"
+#include "ast-tuple-type-node.h"
+#include "ast-array-type-node.h"
 #include "ast-int-literal-type-node.h"
 #include "../ast-class-nodes/ast-this-node.h"
 
@@ -22,6 +22,7 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
     ASTTypeNode* createIntLiteralTypeNode(Lexeme* lexeme);
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);
+    ASTTypeNode* createInferredTypeNode(ASTNodeType nodeType);
 }
 
 #endif //JETLANG_AST_TYPE_NODE_FACTORY_H

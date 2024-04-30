@@ -6,19 +6,23 @@
 #define JETLANG_AST_ARRAY_TYPE_NODE_H
 
 #include <string>
-#include "../ast-type-nodes/ast-type-base-node.h"
-#include "../ast-type-nodes/ast-type-parameter-list-node.h"
+#include "ast-type-base-node.h"
+#include "ast-type-parameter-list-node.h"
+#include "ast-int-literal-type-node.h"
 
 class ASTArrayTypeNode : public ASTTypeBaseNode {
 private:
-    ASTTypeParameterListNode* _typeParameterList;
+    ASTTypeNode* _elementType;
+    ASTIntLiteralTypeNode* _size;
 public:
-    ASTArrayTypeNode(ASTTypeParameterListNode* arrayTypeParameterList);
-    ASTTypeParameterListNode* getParameterList();
+    ASTArrayTypeNode(ASTTypeNode* elementType, ASTIntLiteralTypeNode* size);
+    ASTTypeNode* getElementType();
+    ASTIntLiteralTypeNode* getSize();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    BaseType* getType() override;
 };
 
 #endif //JETLANG_AST_ARRAY_TYPE_NODE_H

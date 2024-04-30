@@ -4,6 +4,9 @@
 
 #include "ast-lambda-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "types/literal-type-factory.h"
+#include "types/function-type.h"
+#include "types/procedure-type.h"
 
 ASTLambdaTypeNode::ASTLambdaTypeNode(ASTTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType) {
     _parameterList = parameterList;
@@ -52,4 +55,16 @@ void ASTLambdaTypeNode::print() {
         _returnType.value()->print();
     }
     Logger::log("----------");
+}
+
+BaseType* ASTLambdaTypeNode::getType() {
+    auto functionTypeParameterList = new std::vector<BaseType*>();
+    for (auto parameter : _parameterList->getParameters()) {
+        functionTypeParameterList->push_back(parameter->getType());
+    }
+
+    if (_returnType) {
+        return new FunctionType(functionTypeParameterList, _returnType.value()->getType());
+    }
+    return new ProcedureType(functionTypeParameterList);
 }

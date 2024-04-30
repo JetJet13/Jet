@@ -9,6 +9,7 @@
 ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer) {
     _varInit = varInit;
     _initializer = initializer;
+    _type = varInit->getTypeNode().value_or(initializer.getType());
 }
 
 ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {
@@ -17,6 +18,10 @@ ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {
 
 ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
+}
+
+ASTTypeNode* ASTVariableDeclarationNode::getTypeNode() {
+    return _type;
 }
 
 ASTNodeType ASTVariableDeclarationNode::getNodeType() {
@@ -33,12 +38,14 @@ bool ASTVariableDeclarationNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTVariableDeclarationNode*)other;
     return this->getVarInitNode()->isSameAs(otherNode->getVarInitNode()) &&
-           this->getInitializerNode()->isSameAs(otherNode->getInitializerNode());
+           this->getInitializerNode()->isSameAs(otherNode->getInitializerNode()) &&
+           this->getTypeNode()->isSameAs(otherNode->getTypeNode());
 }
 
 void ASTVariableDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _varInit->print();
     _initializer->print();
+    _type->print();
     Logger::log("----------");
 }

@@ -51,6 +51,11 @@ public:
     bool isFunction();
     bool isReturn();
     bool isType();
+    bool isIntType();
+    bool isFloatType();
+    bool isStringType();
+    bool isCharType();
+    bool isBooleanType();
     bool isVarTypeQualifier();
     bool isProcedure();
     bool isEnum();

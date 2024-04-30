@@ -8,7 +8,11 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "types/base-type.h"
 
-class ASTTypeBaseNode : public ASTNode {};
+class ASTTypeBaseNode : public ASTNode {
+public:
+    virtual BaseType* getType() = 0;
+};
 
 #endif //JETLANG_AST_TYPE_BASE_NODE_H

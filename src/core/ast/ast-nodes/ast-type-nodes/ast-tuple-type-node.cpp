@@ -4,6 +4,7 @@
 
 #include "ast-tuple-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "types/tuple-type.h"
 
 ASTTupleTypeNode::ASTTupleTypeNode(ASTTypeParameterListNode* typeParameterList) {
     _typeParameterList = typeParameterList;
@@ -33,4 +34,13 @@ void ASTTupleTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _typeParameterList->print();
     Logger::log("----------");
+}
+
+BaseType* ASTTupleTypeNode::getType() {
+    auto tupleTypeParameterList = new std::vector<BaseType*>();
+    for (auto parameter : _typeParameterList->getParameters()) {
+        tupleTypeParameterList->push_back(parameter->getType());
+    }
+
+    return new TupleType(tupleTypeParameterList);
 }

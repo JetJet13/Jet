@@ -4,6 +4,7 @@
 
 #include "ast-unary-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ast-type-nodes/types/literal-type-factory.h"
 
 
 ASTUnaryExpressionNode::ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode) {
@@ -41,4 +42,11 @@ void ASTUnaryExpressionNode::print() {
     _unaryOperator->print();
     _expression->print();
     Logger::log("----------");
+}
+
+BaseType* ASTUnaryExpressionNode::getType() {
+    if (_unaryOperator->getOperator()->getToken()->getSymbol()->isBang()) {
+        return LiteralTypeFactory::createBooleanLiteralType();
+    }
+    return _expression->getType();
 }

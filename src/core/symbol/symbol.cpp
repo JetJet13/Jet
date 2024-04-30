@@ -218,8 +218,27 @@ bool Symbol::isType() {
             _type == SYM_FLOAT_TYPE ||
             _type == SYM_STRING_TYPE ||
             _type == SYM_CHAR_TYPE ||
-            _type == SYM_BOOLEAN_TYPE ||
-            _type == SYM_VOID_TYPE;
+            _type == SYM_BOOLEAN_TYPE;
+}
+
+bool Symbol::isIntType() {
+    return _type == SYM_MODULE;
+}
+
+bool Symbol::isFloatType() {
+    return _type == SYM_MODULE;
+}
+
+bool Symbol::isStringType() {
+    return _type == SYM_MODULE;
+}
+
+bool Symbol::isCharType() {
+    return _type == SYM_MODULE;
+}
+
+bool Symbol::isBooleanType() {
+    return _type == SYM_MODULE;
 }
 
 bool Symbol::isModule() {

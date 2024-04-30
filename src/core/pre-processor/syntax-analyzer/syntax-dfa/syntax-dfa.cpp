@@ -161,7 +161,7 @@ void SyntaxDfa::init() {
     DFANode* classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
 
 
-//    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow anymore.
+//    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
 //    todo: create built-in/first-class support for result
 //    todo: add support for goroutines
@@ -169,6 +169,8 @@ void SyntaxDfa::init() {
 //    todo: add support for traits
 //    todo: add support for interfaces
 //    todo: add support for inheritance
+//    todo: add support for struct definitions
+//    todo: update 'getType' logic to leverage token table. Implement Visitor Pattern to handle this.
 
     this->initVarDefinition(varDefinition);
     this->initVarInit(varInit, AST_VARIABLE_DECLARATION_NODE);

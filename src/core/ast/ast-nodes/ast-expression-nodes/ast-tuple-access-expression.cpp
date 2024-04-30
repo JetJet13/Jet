@@ -4,6 +4,7 @@
 
 #include "ast-tuple-access-expression.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "ast-tuple-expression-node.h"
 
 ASTTupleAccessExpressionNode::ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTTupleAccessNode* index) {
     _source = source;
@@ -40,4 +41,13 @@ void ASTTupleAccessExpressionNode::print() {
     _source->print();
     _index->print();
     Logger::log("----------");
+}
+
+BaseType* ASTTupleAccessExpressionNode::getType() {
+    auto tuple = (ASTTupleExpressionNode*)_source->getSource();
+    return tuple
+            ->getTupleList()
+            ->getItems()[_index->getLexeme()->getToken()->getValueId().value()]
+            ->getItem()
+            ->getType();
 }

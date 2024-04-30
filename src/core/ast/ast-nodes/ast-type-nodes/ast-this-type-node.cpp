@@ -4,6 +4,7 @@
 
 #include "ast-this-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "types/class-type.h"
 
 ASTThisTypeNode::ASTThisTypeNode(ASTThisNode* thisNode) {
     _this = thisNode;
@@ -33,4 +34,8 @@ void ASTThisTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _this->print();
     Logger::log("----------");
+}
+
+BaseType* ASTThisTypeNode::getType() {
+    return new ClassType(_this->getLexeme());
 }

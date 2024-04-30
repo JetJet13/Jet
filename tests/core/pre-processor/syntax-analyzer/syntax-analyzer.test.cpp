@@ -2566,10 +2566,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTNodeFactory::idExpression,
                          ASTTypeNodeFactory::createArrayTypeNode(
                              new ASTArrayTypeNode(
-                                 new ASTTypeParameterListNode({
-                                      ASTNodeFactory::intType,
-                                      ASTNodeFactory::intLiteralType
-                                 })
+                                  ASTNodeFactory::intType,
+                                  ASTNodeFactory::intLiteralType
                              )
                          )
                      ),
@@ -2577,10 +2575,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTNodeFactory::idExpression,
                          ASTTypeNodeFactory::createArrayTypeNode(
                              new ASTArrayTypeNode(
-                                 new ASTTypeParameterListNode({
-                                    ASTNodeFactory::idType,
-                                    ASTNodeFactory::intLiteralType
-                                 })
+                                ASTNodeFactory::idType,
+                                ASTNodeFactory::intLiteralType
                              )
                          )
                      ),
@@ -2588,17 +2584,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTNodeFactory::idExpression,
                          ASTTypeNodeFactory::createArrayTypeNode(
                              new ASTArrayTypeNode(
-                                 new ASTTypeParameterListNode({
                                       ASTTypeNodeFactory::createArrayTypeNode(
                                           new ASTArrayTypeNode(
-                                              new ASTTypeParameterListNode({
                                                 ASTNodeFactory::intType,
                                                 ASTNodeFactory::intLiteralType
-                                              })
                                           )
                                       ),
                                       ASTNodeFactory::intLiteralType
-                                 })
                              )
                          )
                      ),
@@ -2606,24 +2598,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                              ASTNodeFactory::idExpression,
                              ASTTypeNodeFactory::createArrayTypeNode(
                                      new ASTArrayTypeNode(
-                                             new ASTTypeParameterListNode({
                                                   ASTTypeNodeFactory::createArrayTypeNode(
                                                       new ASTArrayTypeNode(
-                                                          new ASTTypeParameterListNode({
                                                                ASTTypeNodeFactory::createArrayTypeNode(
                                                                    new ASTArrayTypeNode(
-                                                                       new ASTTypeParameterListNode({
                                                                             ASTNodeFactory::intType,
                                                                             ASTNodeFactory::intLiteralType
-                                                                       })
                                                                    )
                                                                ),
                                                                ASTNodeFactory::intLiteralType
-                                                          })
                                                       )
                                                   ),
                                                   ASTNodeFactory::intLiteralType
-                                             })
                                      )
                              )
                      ),
@@ -2640,7 +2626,6 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTNodeFactory::idExpression,
                          ASTTypeNodeFactory::createArrayTypeNode(
                              new ASTArrayTypeNode(
-                                 new ASTTypeParameterListNode({
                                       ASTTypeNodeFactory::createLambdaTypeNode(
                                           new ASTLambdaTypeNode(
                                               new ASTFunctionLambdaTypeParameterListNode({
@@ -2650,7 +2635,6 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                           )
                                       ),
                                       ASTNodeFactory::intLiteralType
-                                 })
                              )
                          )
                      ),
@@ -2684,10 +2668,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createConstInitWithType(
                     ASTTypeNodeFactory::createArrayTypeNode(
                         new ASTArrayTypeNode(
-                            new ASTTypeParameterListNode({
                                 ASTNodeFactory::intType,
                                 ASTNodeFactory::intLiteralType
-                            })
                         )
                     )
                 ),

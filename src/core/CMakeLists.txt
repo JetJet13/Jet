@@ -434,14 +434,14 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.h
-        ast/ast-nodes/ast-tuple-nodes/ast-tuple-type-node.cpp
-        ast/ast-nodes/ast-tuple-nodes/ast-tuple-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.h
         ast/ast-nodes/ast-array-nodes/ast-array-type-keyword-node.cpp
         ast/ast-nodes/ast-array-nodes/ast-array-type-keyword-node.h
-        ast/ast-nodes/ast-array-nodes/ast-array-type-node.cpp
-        ast/ast-nodes/ast-array-nodes/ast-array-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-array-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-array-type-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.h
         ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.cpp
@@ -659,6 +659,26 @@ add_library(jet-core
         ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-inferred-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-inferred-type-node.h
+        ast/ast-nodes/ast-type-nodes/types/type.h
+        ast/ast-nodes/ast-type-nodes/types/base-type.cpp
+        ast/ast-nodes/ast-type-nodes/types/base-type.h
+        ast/ast-nodes/ast-type-nodes/types/literal-type.cpp
+        ast/ast-nodes/ast-type-nodes/types/literal-type.h
+        ast/ast-nodes/ast-type-nodes/types/type-source.h
+        ast/ast-nodes/ast-type-nodes/types/function-type.cpp
+        ast/ast-nodes/ast-type-nodes/types/function-type.h
+        ast/ast-nodes/ast-type-nodes/types/procedure-type.cpp
+        ast/ast-nodes/ast-type-nodes/types/procedure-type.h
+        ast/ast-nodes/ast-type-nodes/types/tuple-type.cpp
+        ast/ast-nodes/ast-type-nodes/types/tuple-type.h
+        ast/ast-nodes/ast-type-nodes/types/array-type.cpp
+        ast/ast-nodes/ast-type-nodes/types/array-type.h
+        ast/ast-nodes/ast-type-nodes/types/class-type.cpp
+        ast/ast-nodes/ast-type-nodes/types/class-type.h
+        ast/ast-nodes/ast-type-nodes/types/literal-type-factory.cpp
+        ast/ast-nodes/ast-type-nodes/types/literal-type-factory.h
 
 )
 
