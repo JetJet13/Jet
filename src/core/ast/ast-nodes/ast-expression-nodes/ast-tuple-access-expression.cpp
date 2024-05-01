@@ -43,7 +43,7 @@ void ASTTupleAccessExpressionNode::print() {
     Logger::log("----------");
 }
 
-BaseType* ASTTupleAccessExpressionNode::getType() {
+TypeSignature* ASTTupleAccessExpressionNode::getType() {
     auto tuple = (ASTTupleExpressionNode*)_source->getSource();
     return tuple
             ->getTupleList()

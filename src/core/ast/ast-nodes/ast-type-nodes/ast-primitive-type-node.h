@@ -6,9 +6,8 @@
 #define JETLANG_AST_PRIMITIVE_TYPE_NODE_H
 
 #include <string>
-#include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
-#include "ast-type-node.h"
+#include "ast-type-base-node.h"
 
 class ASTPrimitiveTypeNode : public ASTTypeBaseNode {
 private:
@@ -20,7 +19,6 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
-    BaseType* getType() override;
 };
 
 #endif //JETLANG_AST_PRIMITIVE_TYPE_NODE_H

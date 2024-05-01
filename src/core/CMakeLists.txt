@@ -659,26 +659,26 @@ add_library(jet-core
         ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h
-        ast/ast-nodes/ast-type-nodes/ast-inferred-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-inferred-type-node.h
-        ast/ast-nodes/ast-type-nodes/types/type.h
-        ast/ast-nodes/ast-type-nodes/types/base-type.cpp
-        ast/ast-nodes/ast-type-nodes/types/base-type.h
-        ast/ast-nodes/ast-type-nodes/types/literal-type.cpp
-        ast/ast-nodes/ast-type-nodes/types/literal-type.h
-        ast/ast-nodes/ast-type-nodes/types/type-source.h
-        ast/ast-nodes/ast-type-nodes/types/function-type.cpp
-        ast/ast-nodes/ast-type-nodes/types/function-type.h
-        ast/ast-nodes/ast-type-nodes/types/procedure-type.cpp
-        ast/ast-nodes/ast-type-nodes/types/procedure-type.h
-        ast/ast-nodes/ast-type-nodes/types/tuple-type.cpp
-        ast/ast-nodes/ast-type-nodes/types/tuple-type.h
-        ast/ast-nodes/ast-type-nodes/types/array-type.cpp
-        ast/ast-nodes/ast-type-nodes/types/array-type.h
-        ast/ast-nodes/ast-type-nodes/types/class-type.cpp
-        ast/ast-nodes/ast-type-nodes/types/class-type.h
-        ast/ast-nodes/ast-type-nodes/types/literal-type-factory.cpp
-        ast/ast-nodes/ast-type-nodes/types/literal-type-factory.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/type.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/type-signature.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/type-signature.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/type-source.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/function-type-signature.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/function-type-signature.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/procedure-type-signature.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/procedure-type-signature.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/tuple-type-signature.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/tuple-type-signature.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/array-type-signature.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/array-type-signature.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/class-type-signature.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/class-type-signature.h
+        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature-factory.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature-factory.h
+        pre-processor/syntax-analyzer/type-signature-generator/type-signature-generator.cpp
+        pre-processor/syntax-analyzer/type-signature-generator/type-signature-generator.h
 
 )
 

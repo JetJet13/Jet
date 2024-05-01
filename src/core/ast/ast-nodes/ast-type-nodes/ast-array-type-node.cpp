@@ -4,7 +4,6 @@
 
 #include "ast-array-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "types/array-type.h"
 
 ASTArrayTypeNode::ASTArrayTypeNode(ASTTypeNode* elementType, ASTIntLiteralTypeNode* size) {
     _elementType = elementType;
@@ -42,8 +41,4 @@ void ASTArrayTypeNode::print() {
     _elementType->print();
     _size->print();
     Logger::log("----------");
-}
-
-BaseType* ASTArrayTypeNode::getType() {
-    return new ArrayType(_elementType->getType(), 1);
 }

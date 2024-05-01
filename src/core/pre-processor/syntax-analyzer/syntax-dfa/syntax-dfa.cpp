@@ -170,7 +170,7 @@ void SyntaxDfa::init() {
 //    todo: add support for interfaces
 //    todo: add support for inheritance
 //    todo: add support for struct definitions
-//    todo: update 'getType' logic to leverage token table. Implement Visitor Pattern to handle this.
+//    todo: update 'getTypeSignature' logic to leverage token table. Implement Visitor Pattern to handle this.
 
     this->initVarDefinition(varDefinition);
     this->initVarInit(varInit, AST_VARIABLE_DECLARATION_NODE);

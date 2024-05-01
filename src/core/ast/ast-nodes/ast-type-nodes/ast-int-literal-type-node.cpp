@@ -4,7 +4,6 @@
 
 #include "ast-int-literal-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "types/literal-type-factory.h"
 
 ASTIntLiteralTypeNode::ASTIntLiteralTypeNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -32,8 +31,4 @@ bool ASTIntLiteralTypeNode::isSameAs(ASTNode *other) {
 
 void ASTIntLiteralTypeNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
-}
-
-BaseType* ASTIntLiteralTypeNode::getType() {
-    return LiteralTypeFactory::createIntLiteralType();
 }

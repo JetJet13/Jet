@@ -4,7 +4,6 @@
 
 #include "ast-type-node-factory.h"
 #include "ast-this-type-node.h"
-#include "ast-inferred-type-node.h"
 
 namespace ASTTypeNodeFactory {
     ASTTypeNode* createCustomTypeNode(ASTIdentifierNode* identifierNode) {
@@ -33,9 +32,5 @@ namespace ASTTypeNodeFactory {
 
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode) {
         return new ASTTypeNode(new ASTThisTypeNode(thisNode));
-    }
-
-    ASTTypeNode* createInferredTypeNode(ASTNodeType nodeType) {
-        return new ASTTypeNode(new ASTInferredTypeNode(nodeType));
     }
 }

@@ -15,7 +15,7 @@ private:
     ASTTypeBaseNode* _type;
 public:
     ASTTypeNode(ASTTypeBaseNode* type);
-    BaseType* getType();
+    TypeSignature* getTypeSignature();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

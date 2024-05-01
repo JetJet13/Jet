@@ -4,10 +4,11 @@
 
 #include "syntax-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "type-signature-generator/type-signature-generator.h"
 
 SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalAnalyzer) {
     _tokenTable = tokenTable;
-    _reducer = Reducer();
+    _reducer = Reducer(new TypeSignatureGenerator(_tokenTable));
     _handle = Handle();
     _lexemeTransformer = LexemeTransformer();
     _modeStack = std::stack<SyntaxAnalyzerMode>();

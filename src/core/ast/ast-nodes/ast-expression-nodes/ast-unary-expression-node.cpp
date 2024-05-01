@@ -44,7 +44,7 @@ void ASTUnaryExpressionNode::print() {
     Logger::log("----------");
 }
 
-BaseType* ASTUnaryExpressionNode::getType() {
+TypeSignature* ASTUnaryExpressionNode::getType() {
     if (_unaryOperator->getOperator()->getToken()->getSymbol()->isBang()) {
         return LiteralTypeFactory::createBooleanLiteralType();
     }

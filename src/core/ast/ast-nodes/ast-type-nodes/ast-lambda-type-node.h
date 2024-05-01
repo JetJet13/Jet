@@ -5,7 +5,7 @@
 #ifndef JETLANG_AST_LAMBDA_TYPE_NODE_H
 #define JETLANG_AST_LAMBDA_TYPE_NODE_H
 
-#include "ast-type-node.h"
+#include "ast-type-base-node.h"
 #include "ast-type-parameter-list-node.h"
 
 class ASTLambdaTypeNode : public ASTTypeBaseNode {
@@ -20,7 +20,6 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
-    BaseType* getType() override;
 };
 
 #endif //JETLANG_AST_LAMBDA_TYPE_NODE_H

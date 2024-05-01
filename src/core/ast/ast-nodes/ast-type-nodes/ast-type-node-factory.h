@@ -22,7 +22,6 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
     ASTTypeNode* createIntLiteralTypeNode(Lexeme* lexeme);
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);
-    ASTTypeNode* createInferredTypeNode(ASTNodeType nodeType);
 }
 
 #endif //JETLANG_AST_TYPE_NODE_FACTORY_H

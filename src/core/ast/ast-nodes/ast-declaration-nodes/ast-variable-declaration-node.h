@@ -10,16 +10,17 @@
 #include "../ast-identifier-node.h"
 #include "../ast-variable-nodes/ast-variable-type-node.h"
 #include "../ast-variable-nodes/ast-variable-init-node.h"
+#include "../../../pre-processor/syntax-analyzer/type-signature-generator/types/type-signature.h"
 
 class ASTVariableDeclarationNode : public ASTNode {
     ASTVariableInitNode* _varInit;
     ASTExpressionNode* _initializer;
-    ASTTypeNode* _type;
+    TypeSignature* _typeSignature;
 public:
-    explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer);
+    explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, TypeSignature* typeSignature);
     ASTVariableInitNode* getVarInitNode();
     ASTExpressionNode* getInitializerNode();
-    ASTTypeNode* getTypeNode();
+    TypeSignature* getTypeSignature();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

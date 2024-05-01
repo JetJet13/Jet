@@ -20,7 +20,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
-    BaseType* getType() override;
+    TypeSignature* getType() override;
 };
 
 #endif //JETLANG_AST_UNARY_EXPRESSION_NODE_H

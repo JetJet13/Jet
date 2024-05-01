@@ -8,18 +8,8 @@
 #include "../../../../ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
 #include "../../../../ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
 
-bool ReducerStrategy::startsWith(std::vector<ASTNode*> nodes, ASTNodeType astNodeType) {
-    if (nodes.empty()) {
-        return false;
-    }
-    return nodes[0]->is(astNodeType);
-}
-
-bool ReducerStrategy::endsWith(std::vector<ASTNode*> nodes, ASTNodeType astNodeType) {
-    if (nodes.empty()) {
-        return false;
-    }
-    return nodes[nodes.size() - 1]->is(astNodeType);
+ReducerStrategy::ReducerStrategy(TypeSignatureGenerator* typeSignatureGenerator) {
+    _typeSignatureGenerator = typeSignatureGenerator;
 }
 
 ASTExpressionNode* ReducerStrategy::createExpressionNode(ASTNode* node) {
@@ -29,14 +19,30 @@ ASTExpressionNode* ReducerStrategy::createExpressionNode(ASTNode* node) {
         node->is(AST_STRING_LITERAL_NODE) ||
         node->is(AST_CHAR_LITERAL_NODE) ||
         node->is(AST_BOOLEAN_LITERAL_NODE)) {
-        return new ASTLiteralExpressionNode((ASTLiteralNode*)node);
+        auto expression = new ASTLiteralExpressionNode((ASTLiteralNode*)node);
+        return expression
+        ->setTypeSignature(
+            _typeSignatureGenerator->generateForLiteralExpression(expression)
+        );
     } else if (node->is(AST_IDENTIFIER_NODE)) {
-        return new ASTIdentifierExpressionNode((ASTIdentifierNode*)node);
+        auto expression = new ASTIdentifierExpressionNode((ASTIdentifierNode*)node);
+        return expression
+        ->setTypeSignature(
+            _typeSignatureGenerator->generateForIdentifierExpression(expression)
+        );
     } else if (node->is(AST_CLASS_PROPERTY_ACCESS_NODE)) {
-        return new ASTClassPropertyAccessExpressionNode((ASTClassPropertyAccessNode*)node);
+        auto expression = new ASTClassPropertyAccessExpressionNode((ASTClassPropertyAccessNode*)node);
+        return expression
+        ->setTypeSignature(
+            _typeSignatureGenerator->generateForClassPropertyAccessExpression(expression)
+        );
     } else if (node->is(AST_THIS_NODE)) {
-        return new ASTThisExpressionNode((ASTThisNode*)node);
-    } else {
-        return (ASTExpressionNode*)node;
+        auto expression = new ASTThisExpressionNode((ASTThisNode*)node);
+        return expression
+        ->setTypeSignature(
+            _typeSignatureGenerator->generateForThisExpression(expression)
+        );
     }
+
+    return (ASTExpressionNode*)node;
 }
