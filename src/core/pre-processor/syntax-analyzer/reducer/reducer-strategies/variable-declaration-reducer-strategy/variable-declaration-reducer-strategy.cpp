@@ -12,15 +12,6 @@ ASTNode* VariableDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes
     auto expression = this->createExpressionNode(nodes[1]);
     return new ASTVariableDeclarationNode(
             (ASTVariableInitNode*)nodes[0],
-            expression,
-            this->determineTypeSignature((ASTVariableInitNode*)nodes[0], expression)
+            expression
     );
-}
-
-TypeSignature* VariableDeclarationReducerStrategy::determineTypeSignature(ASTVariableInitNode* varInit, ASTExpressionNode* expression) {
-
-    if (varInit->getTypeNode()) {
-        return this->determineTypeSignatureForTypeNode(varInit->getTypeNode().value());
-    }
-    return this->determineTypeSignatureFromExpressionNode(expression);
 }

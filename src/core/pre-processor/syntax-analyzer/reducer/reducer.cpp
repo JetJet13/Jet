@@ -90,8 +90,7 @@
 #include "reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.h"
 #include "reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h"
 
-Reducer::Reducer(TypeSignatureGenerator* typeSignatureGenerator) {
-    _typeSignatureGenerator = typeSignatureGenerator;
+Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
     this->initStrategies();
 }
@@ -99,7 +98,7 @@ Reducer::Reducer(TypeSignatureGenerator* typeSignatureGenerator) {
 void Reducer::initStrategies() {
     this->addStrategy(AST_VARIABLE_INIT_NODE, new VariableInitReducerStrategy());
     this->addStrategy(AST_VARIABLE_DEFINITION_NODE, new VariableDefinitionReducerStrategy());
-    this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationReducerStrategy(_typeSignatureGenerator));
+    this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationReducerStrategy());
     this->addStrategy(AST_UNARY_EXPRESSION_NODE, new UnaryExpressionReducerStrategy());
     this->addStrategy(AST_BINARY_EXPRESSION_NODE, new BinaryExpressionReducerStrategy());
     this->addStrategy(AST_LOGICAL_EXPRESSION_NODE, new LogicalExpressionReducerStrategy());

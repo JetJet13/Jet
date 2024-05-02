@@ -9,8 +9,8 @@ ASTTypeNode::ASTTypeNode(ASTTypeBaseNode* type) {
     _type = type;
 }
 
-TypeSignature* ASTTypeNode::getTypeSignature() {
-    return _type->getTypeSignature();
+ASTTypeBaseNode* ASTTypeNode::getType() {
+    return _type;
 }
 
 ASTNodeType ASTTypeNode::getNodeType() {
@@ -26,7 +26,7 @@ bool ASTTypeNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTTypeNode*)other;
-    return this->getTypeSignature()->isEqualTo(otherNode->getTypeSignature());
+    return _type->isSameAs(otherNode->getType());
 }
 
 void ASTTypeNode::print() {

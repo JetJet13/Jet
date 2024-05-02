@@ -3,6 +3,7 @@
 //
 
 #include "ast-primitive-type-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTPrimitiveTypeNode::ASTPrimitiveTypeNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -26,4 +27,8 @@ bool ASTPrimitiveTypeNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTPrimitiveTypeNode*)other;
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
+}
+
+void ASTPrimitiveTypeNode::print() {
+    Logger::log(this->toString(), "-", _lexeme->toString());
 }

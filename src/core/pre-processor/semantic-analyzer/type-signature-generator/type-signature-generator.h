@@ -17,9 +17,5 @@ private:
     TokenTable* _tokenTable;
 public:
     TypeSignatureGenerator(TokenTable* tokenTable);
-    TypeSignature* generateForLiteralExpression(ASTLiteralExpressionNode* literalExpression);
-    TypeSignature* generateForIdentifierExpression(ASTIdentifierExpressionNode* identifierExpression);
-    TypeSignature* generateForClassPropertyAccessExpression(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpressionNode);
-    TypeSignature* generateForThisExpression(ASTThisExpressionNode* thisExpression);
 };
 #endif //JETLANG_TYPE_SIGNATURE_GENERATOR_H

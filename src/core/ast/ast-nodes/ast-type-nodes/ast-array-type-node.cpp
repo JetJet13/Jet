@@ -5,7 +5,7 @@
 #include "ast-array-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTArrayTypeNode::ASTArrayTypeNode(ASTTypeNode* elementType, ASTIntLiteralTypeNode* size) {
+ASTArrayTypeNode::ASTArrayTypeNode(ASTTypeNode* elementType, ASTTypeNode* size) {
     _elementType = elementType;
     _size = size;
 }
@@ -14,7 +14,7 @@ ASTTypeNode* ASTArrayTypeNode::getElementType() {
     return _elementType;
 }
 
-ASTIntLiteralTypeNode* ASTArrayTypeNode::getSize() {
+ASTTypeNode* ASTArrayTypeNode::getSize() {
     return _size;
 }
 

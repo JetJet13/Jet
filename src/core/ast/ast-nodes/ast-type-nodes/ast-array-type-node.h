@@ -13,11 +13,11 @@
 class ASTArrayTypeNode : public ASTTypeBaseNode {
 private:
     ASTTypeNode* _elementType;
-    ASTIntLiteralTypeNode* _size;
+    ASTTypeNode* _size;
 public:
-    ASTArrayTypeNode(ASTTypeNode* elementType, ASTIntLiteralTypeNode* size);
+    ASTArrayTypeNode(ASTTypeNode* elementType, ASTTypeNode* size);
     ASTTypeNode* getElementType();
-    ASTIntLiteralTypeNode* getSize();
+    ASTTypeNode* getSize();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

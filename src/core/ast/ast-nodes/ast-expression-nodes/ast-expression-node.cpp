@@ -15,15 +15,6 @@ void ASTExpressionNode::addChildNode(ASTNode* astNode) {
     _childNodes.push_back(astNode);
 }
 
-TypeSignature* ASTExpressionNode::getTypeSignature() {
-    return _typeSignature;
-}
-
-ASTExpressionNode* ASTExpressionNode::setTypeSignature(TypeSignature* typeSignature) {
-    _typeSignature = typeSignature;
-    return this;
-}
-
 ASTNode * ASTExpressionNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     return this->baseTransformIfNecessary(prevNode, nextNode, mode);
 }

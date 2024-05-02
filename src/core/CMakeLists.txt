@@ -659,26 +659,28 @@ add_library(jet-core
         ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/type.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/type-signature.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/type-signature.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/type-source.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/function-type-signature.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/function-type-signature.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/procedure-type-signature.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/procedure-type-signature.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/tuple-type-signature.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/tuple-type-signature.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/array-type-signature.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/array-type-signature.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/class-type-signature.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/class-type-signature.h
-        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature-factory.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/types/literal-type-signature-factory.h
-        pre-processor/syntax-analyzer/type-signature-generator/type-signature-generator.cpp
-        pre-processor/syntax-analyzer/type-signature-generator/type-signature-generator.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/type.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/type-source.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/function-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/function-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/procedure-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/procedure-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/tuple-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/tuple-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/array-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/array-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/class-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/class-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature-factory.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature-factory.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.h
+        pre-processor/semantic-analyzer/dependency-graph/dependency-graph.cpp
+        pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h
 
 )
 

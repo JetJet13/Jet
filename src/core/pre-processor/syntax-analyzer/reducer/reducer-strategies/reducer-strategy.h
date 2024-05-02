@@ -9,14 +9,12 @@
 #include <vector>
 #include "../../../../ast/ast-nodes/ast-node.h"
 #include "../../../../ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
-#include "../../type-signature-generator/type-signature-generator.h"
 
 class ReducerStrategy {
 protected:
-    TypeSignatureGenerator* _typeSignatureGenerator;
     ASTExpressionNode* createExpressionNode(ASTNode* node);
 public:
-    ReducerStrategy(TypeSignatureGenerator* typeSignatureGenerator);
+    ReducerStrategy();
     virtual ASTNode* execute(std::vector<ASTNode*> nodes) = 0;
 };
 #endif //JETLANG_REDUCER_STRATEGY_H

@@ -6,10 +6,9 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 
-ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, TypeSignature* typeSignature) {
+ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer) {
     _varInit = varInit;
     _initializer = initializer;
-    _typeSignature = typeSignature;
 }
 
 ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {
@@ -18,10 +17,6 @@ ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {
 
 ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
-}
-
-TypeSignature* ASTVariableDeclarationNode::getTypeSignature() {
-    return _typeSignature;
 }
 
 ASTNodeType ASTVariableDeclarationNode::getNodeType() {
@@ -38,14 +33,12 @@ bool ASTVariableDeclarationNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTVariableDeclarationNode*)other;
     return this->getVarInitNode()->isSameAs(otherNode->getVarInitNode()) &&
-           this->getInitializerNode()->isSameAs(otherNode->getInitializerNode()) &&
-           this->getTypeSignature()->isEqualTo(otherNode->getTypeSignature());
+           this->getInitializerNode()->isSameAs(otherNode->getInitializerNode());
 }
 
 void ASTVariableDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _varInit->print();
     _initializer->print();
-    _typeSignature->print();
     Logger::log("----------");
 }

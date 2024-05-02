@@ -42,12 +42,3 @@ void ASTTupleAccessExpressionNode::print() {
     _index->print();
     Logger::log("----------");
 }
-
-TypeSignature* ASTTupleAccessExpressionNode::getType() {
-    auto tuple = (ASTTupleExpressionNode*)_source->getSource();
-    return tuple
-            ->getTupleList()
-            ->getItems()[_index->getLexeme()->getToken()->getValueId().value()]
-            ->getItem()
-            ->getType();
-}

@@ -9,19 +9,15 @@
 #include "../../../lexeme/lexeme.h"
 #include "../ast-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "../../../pre-processor/syntax-analyzer/type-signature-generator/types/type-signature.h"
 
 class ASTExpressionNode : public ASTNode {
 private:
     std::vector<ASTNode*> _childNodes;
-    TypeSignature* _typeSignature = {};
 protected:
     ASTNode* baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
 public:
     explicit ASTExpressionNode();
     void addChildNode(ASTNode* astNode);
-    TypeSignature* getTypeSignature();
-    ASTExpressionNode* setTypeSignature(TypeSignature* typeSignature);
     ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;

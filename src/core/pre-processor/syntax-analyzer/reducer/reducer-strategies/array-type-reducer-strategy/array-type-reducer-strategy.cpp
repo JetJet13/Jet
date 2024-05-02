@@ -14,7 +14,7 @@ ASTNode* ArrayTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     return ASTTypeNodeFactory::createArrayTypeNode(
             new ASTArrayTypeNode(
                     (ASTTypeNode*)parameterList->getParameters()[0],
-                    (ASTIntLiteralTypeNode*)parameterList->getParameters()[1]
+                    (ASTTypeNode*)parameterList->getParameters()[1]
             )
     );
 }

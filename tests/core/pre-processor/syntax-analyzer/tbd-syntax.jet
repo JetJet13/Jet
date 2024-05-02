@@ -140,3 +140,38 @@ const openedFileOutcome = openMyFile("moo.txt");
 if openedFileOutcome is notOk {
     print("failed to open file")
 }
+
+// Array and String Operators
+// union      [1,2,3,4] + [5,6,7] = [1,2,3,4,5,6,7]
+// difference [1,2,3,4] - [3]     = [1,2,4]
+// intersect  [1,2,3,4] ^ [1,2]   = [1,2]
+// slice      [1,2,3,4][1..]      = [2,3,4]
+//            [1,2,3,4][1..2]     = [2,3]
+//            [1,2,3,4][..2]      = [1,2,3]
+// find       [1,2,3,4]->find((x: int) => x == 1);
+// filter     [1,2,3,4]->filter((x: int) => x == 1);
+// map        [1,2,3,4]->map((x: int) => x + 1);
+// reduce     [1,2,3,4]->reduce((x: int, acc: int) => acc + x, 0);
+// replace    [1,2,3,4]->replace(4, 5);
+// size       [1,2,3,4]->size;
+// reverse    [1,2,3,4]->reverse;
+// flatten    [1,2,3,4]->flatten;
+
+// we can use 'union' to append/prepend
+// prepend: [1] + [2,3,4] = [1,2,3,4]
+// append:  [1,2,3] + [4] = [1,2,3,4]
+
+// we can use 'slice' to pop
+// pop for stack: [1,2,3,4][1..] = [2,3,4]
+// pop for queue: [1,2,3,4][..3] = [1,2,3]
+
+const myArray = [1,2,3,4];
+const myString = "hello";
+
+myArray->filter((x:int) => x == 1)
+       ->map((x:int) => x + 1)
+       ->reduce((x: int, acc: int) => acc + x, 0);
+
+myString->filter((x:int) => x == 1)
+        ->map((x:int) => x + 1)
+        ->reduce((x: int, acc: int) => acc + x, 0);
