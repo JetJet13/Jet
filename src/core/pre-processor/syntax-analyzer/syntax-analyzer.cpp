@@ -82,7 +82,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
             throw std::logic_error("recognizeStack is empty");
         }
         _recognizeStack.top()->push(blockNode);
-    } else if (ASTNodeUtils::isDeclarationNode(reducedNode)) {
+    } else if (ASTNodeUtils::isStatementNode(reducedNode)) {
         Logger::log("pushing node to latest scope node:", reducedNode->toString());
         if (!_scopeStack.empty()) {
             _scopeStack.top()->addContent(reducedNode);
@@ -95,7 +95,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     }
 
     _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
-    if (ASTNodeUtils::isDeclarationNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
+    if (ASTNodeUtils::isStatementNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
         _handle.clear();
     }
 }

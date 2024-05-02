@@ -11,7 +11,7 @@
 #include "ast-class-property-declaration-node.h"
 #include "../ast-class-nodes/ast-class-block-node.h"
 
-class ASTClassDeclarationNode : public ASTNode {
+class ASTClassDeclarationNode : public ASTDeclarationNode {
 private:
     ASTClassNameNode* _name;
     ASTClassBlockNode* _block;

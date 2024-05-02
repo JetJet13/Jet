@@ -229,10 +229,13 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
     auto nextChar = _fileReader.peek();
     while (nextChar) {
         if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
-            return new Token(
-                    _reservedKeywords->match(term)
-                    .value_or(SymbolFactory::createIdentifierSymbol())
-                    );
+            auto matchedKeyword = _reservedKeywords->match(term);
+            if (matchedKeyword) {
+                return new Token(matchedKeyword.value());
+            }
+            auto valueId = this->generateTokenValueId();
+            _tokenTable->setIdentifier(valueId, term);
+            return new Token(SymbolFactory::createIdentifierSymbol(), valueId);
         }
         auto c = _fileReader.advance().value();
         term += c;
@@ -380,10 +383,13 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
     auto nextChar = _fileReader.peek();
     while (nextChar) {
         if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
-            return new Token(
-                    _reservedKeywords->match(term)
-                            .value_or(SymbolFactory::createIdentifierSymbol())
-            );
+            auto matchedKeyword = _reservedKeywords->match(term);
+            if (matchedKeyword) {
+                return new Token(matchedKeyword.value());
+            }
+            auto valueId = this->generateTokenValueId();
+            _tokenTable->setIdentifier(valueId, term);
+            return new Token(SymbolFactory::createIdentifierSymbol(), valueId);
         }
         auto c = _fileReader.advance().value();
         term += c;

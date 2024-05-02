@@ -13,8 +13,9 @@
 #include "../ast-class-nodes/ast-class-property-name-node.h"
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 #include "../ast-class-nodes/ast-class-property-init-node.h"
+#include "ast-declaration-node.h"
 
-class ASTClassPropertyDeclarationNode : public ASTNode {
+class ASTClassPropertyDeclarationNode : public ASTDeclarationNode {
     ASTClassPropertyInitNode* _propertyInit;
     std::optional<ASTExpressionNode*> _initializer;
 public:

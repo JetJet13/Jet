@@ -8,8 +8,9 @@
 #include "../ast-node.h"
 #include "../ast-module-nodes/ast-module-name-node.h"
 #include "../ast-module-nodes/ast-module-list-node.h"
+#include "ast-declaration-node.h"
 
-class ASTModuleDeclarationNode : public ASTNode {
+class ASTModuleDeclarationNode : public ASTDeclarationNode {
 private:
     ASTModuleNameNode* _name;
     ASTModuleListNode* _items;

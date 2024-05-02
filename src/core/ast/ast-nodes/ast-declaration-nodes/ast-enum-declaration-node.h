@@ -10,8 +10,9 @@
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-enum-nodes/ast-enum-name-node.h"
 #include "../ast-enum-nodes/ast-enum-key-value-list-node.h"
+#include "ast-declaration-node.h"
 
-class ASTEnumDeclarationNode : public ASTNode {
+class ASTEnumDeclarationNode : public ASTDeclarationNode {
 private:
     ASTEnumNameNode* _name;
     ASTEnumKeyValueListNode* _values;

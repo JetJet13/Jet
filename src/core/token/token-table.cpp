@@ -9,6 +9,7 @@ TokenTable::TokenTable() {
     _floatMap = std::unordered_map<int, float>();
     _charMap = std::unordered_map<int, char>();
     _stringMap = std::unordered_map<int, std::string>();
+    _identifierMap = std::unordered_map<int, std::string>();
 }
 
 
@@ -48,6 +49,15 @@ std::optional<std::string> TokenTable::getString(int key) {
     }
 }
 
+std::optional<std::string> TokenTable::getIdentifier(int key) {
+    auto result = _identifierMap.find(key);
+    if (result == _identifierMap.end()) {
+        return {};
+    } else {
+        return result->second;
+    }
+}
+
 void TokenTable::setInt(int key, int value) {
     _intMap.insert(std::pair<int, int>(key, value));
 }
@@ -62,4 +72,8 @@ void TokenTable::setChar(int key, char value) {
 
 void TokenTable::setString(int key, std::string value) {
     _stringMap.insert(std::pair<int, std::string>(key, value));
+}
+
+void TokenTable::setIdentifier(int key, std::string value) {
+    _identifierMap.insert(std::pair<int, std::string>(key, value));
 }

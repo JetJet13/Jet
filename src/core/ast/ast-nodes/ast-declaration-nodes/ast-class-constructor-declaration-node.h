@@ -10,8 +10,10 @@
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
+#include "ast-declaration-node.h"
+#include "../ast-class-nodes/ast-constructor-node.h"
 
-class ASTClassConstructorDeclarationNode : public ASTNode {
+class ASTClassConstructorDeclarationNode : public ASTDeclarationNode {
 private:
     ASTFunctionParameterListNode* _parameters;
     ASTFunctionBlockNode* _content;

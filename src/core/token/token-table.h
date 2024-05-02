@@ -14,15 +14,18 @@ private:
     std::unordered_map<int, float> _floatMap;
     std::unordered_map<int, char> _charMap;
     std::unordered_map<int, std::string> _stringMap;
+    std::unordered_map<int, std::string> _identifierMap;
 public:
     TokenTable();
     std::optional<int> getInt(int key);
     std::optional<float> getFloat(int key);
     std::optional<char> getChar(int key);
     std::optional<std::string> getString(int key);
+    std::optional<std::string> getIdentifier(int key);
     void setInt(int key, int value);
     void setFloat(int key, float value);
     void setChar(int key, char value);
     void setString(int key, std::string value);
+    void setIdentifier(int key, std::string value);
 };
 #endif //JETLANG_TOKEN_TABLE_H

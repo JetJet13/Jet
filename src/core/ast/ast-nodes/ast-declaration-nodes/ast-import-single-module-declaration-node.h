@@ -8,8 +8,9 @@
 #include "../ast-node.h"
 #include "../ast-import-nodes/ast-import-module-name-node.h"
 #include "../ast-import-nodes/ast-import-path-node.h"
+#include "ast-declaration-node.h"
 
-class ASTImportSingleModuleDeclarationNode : public ASTNode {
+class ASTImportSingleModuleDeclarationNode : public ASTDeclarationNode {
 private:
     ASTImportModuleNameNode* _moduleName;
     ASTImportPathNode* _path;

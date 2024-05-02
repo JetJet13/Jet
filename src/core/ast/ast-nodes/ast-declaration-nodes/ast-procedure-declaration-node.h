@@ -12,8 +12,9 @@
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-function-nodes/ast-function-name-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
+#include "ast-declaration-node.h"
 
-class ASTProcedureDeclarationNode : public ASTNode {
+class ASTProcedureDeclarationNode : public ASTDeclarationNode {
 private:
     ASTFunctionNameNode* _name;
     ASTFunctionParameterListNode* _parameters;

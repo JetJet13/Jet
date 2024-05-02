@@ -15,8 +15,9 @@
 #include "../ast-class-nodes/ast-class-method-name-node.h"
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 #include "../ast-class-nodes/ast-class-method-definition-node.h"
+#include "ast-declaration-node.h"
 
-class ASTClassMethodDeclarationNode : public ASTNode {
+class ASTClassMethodDeclarationNode : public ASTDeclarationNode {
 private:
     ASTClassMethodDefinitionNode* _classMethodDefinition;
     ASTFunctionParameterListNode* _parameters;

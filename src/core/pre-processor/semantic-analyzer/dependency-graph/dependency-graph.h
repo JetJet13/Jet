@@ -8,15 +8,16 @@
 #include <unordered_map>
 #include <vector>
 #include <optional>
-#include "../../../ast/types/ast-node-type.h"
 
 class DependencyGraph {
 private:
-    std::unordered_map<ASTNodeType, std::vector<ASTNodeType>*, std::hash<int>> _followAstNodeMap;
+    std::unordered_map<int, std::vector<int>> _graph;
+    std::optional<std::vector<int>> find(int key);
 public:
     DependencyGraph();
     DependencyGraph* insert(int key, int dependency);
-    std::optional<int> getDependency(int key, int dependency);
+    bool hasDependency(int key, int dependency);
+
 };
 
 #endif //JETLANG_DEPENDENCY_GRAPH_H

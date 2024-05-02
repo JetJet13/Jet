@@ -9,8 +9,9 @@
 #include "../ast-import-nodes/ast-import-path-node.h"
 #include "../ast-import-nodes/ast-import-module-list-node.h"
 #include "../ast-import-nodes/ast-import-module-name-node.h"
+#include "ast-declaration-node.h"
 
-class ASTImportManyModuleDeclarationNode : public ASTNode {
+class ASTImportManyModuleDeclarationNode : public ASTDeclarationNode {
 private:
     ASTImportModuleNameNode* _moduleName;
     ASTImportModuleListNode* _importModuleList;

@@ -8,7 +8,7 @@
 #include "../ast-node.h"
 
 namespace ASTNodeUtils {
-    static bool isDeclarationNode(ASTNode* node) {
+    static bool isStatementNode(ASTNode* node) {
         switch (node->getNodeType()) {
             case AST_VARIABLE_DECLARATION_NODE:
             case AST_FUNCTION_RETURN_EXPRESSION_NODE:
@@ -39,6 +39,28 @@ namespace ASTNodeUtils {
                 return false;
         }
     }
+
+    static bool isDeclarationNode(ASTNode* node) {
+        switch (node->getNodeType()) {
+            case AST_VARIABLE_DECLARATION_NODE:
+            case AST_FUNCTION_DECLARATION_NODE:
+            case AST_PROCEDURE_DECLARATION_NODE:
+            case AST_ENUM_DECLARATION_NODE:
+            case AST_MODULE_DECLARATION_NODE:
+            case AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE:
+            case AST_USE_SINGLE_MODULE_DECLARATION_NODE:
+            case AST_IMPORT_MANY_MODULE_DECLARATION_NODE:
+            case AST_USE_MANY_MODULE_DECLARATION_NODE:
+            case AST_CLASS_DECLARATION_NODE:
+            case AST_CLASS_PROPERTY_DECLARATION_NODE:
+            case AST_CLASS_CONSTRUCTOR_DECLARATION_NODE:
+            case AST_CLASS_METHOD_DECLARATION_NODE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
 
     static bool isExpressionNode(ASTNode* node) {
         switch (node->getNodeType()) {

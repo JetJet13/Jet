@@ -13,8 +13,9 @@
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-function-nodes/ast-function-name-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
+#include "ast-declaration-node.h"
 
-class ASTFunctionDeclarationNode : public ASTNode {
+class ASTFunctionDeclarationNode : public ASTDeclarationNode {
 private:
     ASTFunctionNameNode* _name;
     ASTFunctionParameterListNode* _parameters;

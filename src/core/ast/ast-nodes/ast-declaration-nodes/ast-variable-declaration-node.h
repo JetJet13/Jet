@@ -10,8 +10,9 @@
 #include "../ast-identifier-node.h"
 #include "../ast-variable-nodes/ast-variable-type-node.h"
 #include "../ast-variable-nodes/ast-variable-init-node.h"
+#include "ast-declaration-node.h"
 
-class ASTVariableDeclarationNode : public ASTNode {
+class ASTVariableDeclarationNode : public ASTDeclarationNode {
     ASTVariableInitNode* _varInit;
     ASTExpressionNode* _initializer;
 public:

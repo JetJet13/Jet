@@ -681,6 +681,18 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.h
         pre-processor/semantic-analyzer/dependency-graph/dependency-graph.cpp
         pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h
+        ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h
+        pre-processor/semantic-analyzer/semantic-analyzer.cpp
+        pre-processor/semantic-analyzer/semantic-analyzer.h
+        pre-processor/semantic-analyzer/declaration-id/declaration-id.cpp
+        pre-processor/semantic-analyzer/declaration-id/declaration-id.h
+        pre-processor/semantic-analyzer/declaration-id-generator/declaration-id-generator.cpp
+        pre-processor/semantic-analyzer/declaration-id-generator/declaration-id-generator.h
+        pre-processor/semantic-analyzer/declaration-id-generator/declaration-id-strategies/variable-declaration-id-strategy/variable-declaration-id-strategy.cpp
+        pre-processor/semantic-analyzer/declaration-id-generator/declaration-id-strategies/variable-declaration-id-strategy/variable-declaration-id-strategy.h
+        pre-processor/semantic-analyzer/declaration-id-generator/declaration-id-strategies/declaration-id-strategy.cpp
+        pre-processor/semantic-analyzer/declaration-id-generator/declaration-id-strategies/declaration-id-strategy.h
 
 )
 
