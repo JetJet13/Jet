@@ -15,10 +15,12 @@
 
 class ASTClassConstructorDeclarationNode : public ASTDeclarationNode {
 private:
+    ASTConstructorNode* _constructor;
     ASTFunctionParameterListNode* _parameters;
     ASTFunctionBlockNode* _content;
 public:
-    explicit ASTClassConstructorDeclarationNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
+    explicit ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
+    ASTConstructorNode* getConstructor();
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionBlockNode* getContent();
     unsigned long numParameters();

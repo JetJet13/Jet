@@ -62,6 +62,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-constructor-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -310,6 +311,9 @@ namespace ASTNodeFactory {
     );
     static ASTClassMethodCallNode* classMethodCall = new ASTClassMethodCallNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTConstructorNode* classConstructor = new ASTConstructorNode(
+            createLexeme(SymbolFactory::createConstructorSymbol())
     );
     static ASTClassPropertyAccessNode* classPropertyAccess = new ASTClassPropertyAccessNode(
             ASTNodeFactory::classPropertyName

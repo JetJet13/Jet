@@ -11,6 +11,7 @@ ASTNode* ClassConstructorDeclarationReducerStrategy::execute(std::vector<ASTNode
     }
 
     return new ASTClassConstructorDeclarationNode(
+            (ASTConstructorNode*)nodes[0],
             (ASTFunctionParameterListNode*)nodes[1],
             (ASTFunctionBlockNode*)nodes[2]
     );

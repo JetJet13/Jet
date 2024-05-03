@@ -3,8 +3,21 @@
 //
 
 #include "ast-node.h"
+
+#include <utility>
 #include "../../../shared/utils/logger/logger.h"
 
+std::string ASTNode::getId() {
+    return _id;
+}
+
+void ASTNode::setId(std::string id) {
+    _id = std::move(id);
+}
+
+std::optional<ASTNode*> ASTNode::getParentNode() {
+    return _parentNode;
+}
 
 void ASTNode::setParentNode(ASTNode* parentNode) {
     _parentNode = parentNode;

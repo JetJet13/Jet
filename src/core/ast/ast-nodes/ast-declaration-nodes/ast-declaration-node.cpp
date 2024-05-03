@@ -3,3 +3,12 @@
 //
 
 #include "ast-declaration-node.h"
+
+
+DeclarationId* ASTDeclarationNode::getId() {
+    return _id;
+}
+
+void ASTDeclarationNode::setId(DeclarationId* id) {
+    _id = id;
+}

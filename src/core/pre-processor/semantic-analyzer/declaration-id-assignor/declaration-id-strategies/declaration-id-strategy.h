@@ -5,7 +5,6 @@
 #ifndef JETLANG_DECLARATION_ID_STRATEGY_H
 #define JETLANG_DECLARATION_ID_STRATEGY_H
 
-#include "../../declaration-id/declaration-id.h"
 #include "../../../../token/token-table.h"
 #include "../../../../ast/ast-nodes/ast-node.h"
 
@@ -14,7 +13,7 @@ protected:
     TokenTable* _tokenTable;
 public:
     DeclarationIdStrategy(TokenTable* tokenTable);
-    virtual DeclarationId* generate(ASTNode* node) = 0;
+    virtual void assign(ASTNode* node) = 0;
 };
 
 #endif //JETLANG_DECLARATION_ID_STRATEGY_H

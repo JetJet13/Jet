@@ -7,13 +7,16 @@
 
 #include "dependency-graph/dependency-graph.h"
 #include "../../ast/ast-nodes/ast-file-node.h"
-#include "declaration-id-generator/declaration-id-generator.h"
+#include "declaration-id-assignor/declaration-id-assignor.h"
+#include "type-signature-lookup-table/type-signature-lookup-table.h"
+
 
 class SemanticAnalyzer {
 private:
     DependencyGraph* _dependencyGraph;
+    TypeSignatureLookupTable* _typeSignatureLookupTable;
     TokenTable* _tokenTable;
-    DeclarationIdGenerator* _declarationIdGenerator;
+    DeclarationIdAssignor* _declarationIdAssignor;
     int generateDeclarationId();
     void assignDeclarationIds(ASTFileNode* fileNode);
 public:

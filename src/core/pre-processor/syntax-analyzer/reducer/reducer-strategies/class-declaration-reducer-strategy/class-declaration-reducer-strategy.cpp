@@ -10,8 +10,9 @@ ASTNode* ClassDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         throw std::invalid_argument("unable to reduce to class declaration since nodes list is not of size 3");
     }
 
-    return new ASTClassDeclarationNode(
+    auto classDeclaration = new ASTClassDeclarationNode(
             (ASTClassNameNode*)nodes[1],
             (ASTClassBlockNode*)nodes[2]
     );
+    return classDeclaration;
 }

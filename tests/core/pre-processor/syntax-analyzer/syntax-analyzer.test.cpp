@@ -3069,6 +3069,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     },
                     {
                         new ASTClassConstructorDeclarationNode(
+                                ASTNodeFactory::classConstructor,
                                 new ASTFunctionParameterListNode(),
                                 new ASTFunctionBlockNode({
                                     new ASTExpressionStatementNode(
@@ -3090,6 +3091,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 })
                         ),
                         new ASTClassConstructorDeclarationNode(
+                            ASTNodeFactory::classConstructor,
                             new ASTFunctionParameterListNode({
                                 new ASTFunctionParameterNode(
                                     ASTNodeFactory::idExpression,

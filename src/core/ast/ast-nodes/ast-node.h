@@ -15,7 +15,11 @@ protected:
     std::optional<ASTNode*> _parentNode;
     ASTNodeType _nodeType;
     unsigned int _priority = 1;
+    std::string _id;
 public:
+    std::string getId();
+    void setId(std::string id);
+    std::optional<ASTNode*> getParentNode();
     void setParentNode(ASTNode* parentNode);
     virtual ASTNodeType getNodeType() = 0;
     virtual std::string toString() = 0;

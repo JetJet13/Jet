@@ -11,7 +11,7 @@
 class VariableDeclarationIdStrategy : public DeclarationIdStrategy {
     using DeclarationIdStrategy::DeclarationIdStrategy;
 public:
-    DeclarationId* generate(ASTNode* node) override;
+    void assign(ASTNode* node) override;
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_ID_STRATEGY_H

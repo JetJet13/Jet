@@ -6,7 +6,6 @@
 #define JETLANG_AST_DECLARATION_NODE_H
 
 #include "../ast-node.h"
-#include "../../../pre-processor/semantic-analyzer/declaration-id/declaration-id.h"
 
 class ASTDeclarationNode : public ASTNode {};
 

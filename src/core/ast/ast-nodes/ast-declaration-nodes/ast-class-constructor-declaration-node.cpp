@@ -5,9 +5,14 @@
 #include "ast-class-constructor-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTClassConstructorDeclarationNode::ASTClassConstructorDeclarationNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
+ASTClassConstructorDeclarationNode::ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
+    _constructor = constructor;
     _content = content;
     _parameters = parameters;
+}
+
+ASTConstructorNode* ASTClassConstructorDeclarationNode::getConstructor() {
+    return _constructor;
 }
 
 ASTFunctionParameterListNode* ASTClassConstructorDeclarationNode::getParameters() {
