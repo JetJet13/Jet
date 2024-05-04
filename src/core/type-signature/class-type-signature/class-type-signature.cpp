@@ -29,6 +29,18 @@ TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getMethods() {
     return &_methods;
 }
 
+void ClassTypeSignature::addConstructor(ClassConstructorTypeSignature* classConstructorTypeSignature) {
+    _constructors.insert(classConstructorTypeSignature->getName(), classConstructorTypeSignature);
+}
+
+void ClassTypeSignature::addProperty(ClassPropertyTypeSignature* classPropertyTypeSignature) {
+    _properties.insert(classPropertyTypeSignature->getName(), classPropertyTypeSignature);
+}
+
+void ClassTypeSignature::addMethod(ClassMethodTypeSignature* classMethodTypeSignature) {
+    _methods.insert(classMethodTypeSignature->getName(), classMethodTypeSignature);
+}
+
 std::string ClassTypeSignature::toString() {
     return "CLASS_TYPE_SIGNATURE";
 }

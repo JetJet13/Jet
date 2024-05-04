@@ -733,6 +733,14 @@ add_library(jet-core
         type-signature/types/type-signature-map/type-signature-map.h
         type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.cpp
         type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h
 
 )
 
