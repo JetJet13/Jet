@@ -6,7 +6,7 @@
 #define JETLANG_TYPE_SIGNATURE_GENERATOR_H
 
 #include "../../../token/token-table.h"
-#include "types/type-signature.h"
+#include "../../../type-signature/type-signature.h"
 #include "../../../ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../../ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
 #include "../../../ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"

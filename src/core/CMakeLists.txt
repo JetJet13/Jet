@@ -659,24 +659,24 @@ add_library(jet-core
         ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/type.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/type-source.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/function-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/function-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/procedure-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/procedure-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/tuple-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/tuple-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/array-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/array-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/class-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/class-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature-factory.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature-factory.h
+        type-signature/literal-type-signature/types/literal-type.h
+        type-signature/type-signature.cpp
+        type-signature/type-signature.h
+        type-signature/literal-type-signature/literal-type-signature.cpp
+        type-signature/literal-type-signature/literal-type-signature.h
+        type-signature/types/type-source.h
+        type-signature/function-type-signature/function-type-signature.cpp
+        type-signature/function-type-signature/function-type-signature.h
+        type-signature/procedure-type-signature/procedure-type-signature.cpp
+        type-signature/procedure-type-signature/procedure-type-signature.h
+        type-signature/tuple-typle-signature/tuple-type-signature.cpp
+        type-signature/tuple-typle-signature/tuple-type-signature.h
+        type-signature/array-type-signature/array-type-signature.cpp
+        type-signature/array-type-signature/array-type-signature.h
+        type-signature/class-type-signature/class-type-signature.cpp
+        type-signature/class-type-signature/class-type-signature.h
+        type-signature/literal-type-signature/literal-type-signature-factory.cpp
+        type-signature/literal-type-signature/literal-type-signature-factory.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.h
         pre-processor/semantic-analyzer/dependency-graph/dependency-graph.cpp
@@ -717,20 +717,22 @@ add_library(jet-core
         pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.h
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.cpp
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature-name.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/class-method-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/class-method-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-list-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-list-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-item-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-item-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/access-modifier-type.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/class-property-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/class-property-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/access-modifier-type-signature.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/access-modifier-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature-map.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature-map.h
+        type-signature/literal-type-signature/types/literal-type-signature-name.h
+        type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.cpp
+        type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.h
+        type-signature/parameter-list-type-signature/parameter-list-type-signature.cpp
+        type-signature/parameter-list-type-signature/parameter-list-type-signature.h
+        type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.cpp
+        type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.h
+        type-signature/access-modifier-type-signature/access-modifier-type.h
+        type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.cpp
+        type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.h
+        type-signature/access-modifier-type-signature/access-modifier-type-signature.cpp
+        type-signature/access-modifier-type-signature/access-modifier-type-signature.h
+        type-signature/types/type-signature-map/type-signature-map.cpp
+        type-signature/types/type-signature-map/type-signature-map.h
+        type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.cpp
+        type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h
 
 )
 

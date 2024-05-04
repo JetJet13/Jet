@@ -3,8 +3,8 @@
 //
 
 #include "type-signature-lookup-table.h"
-#include "../type-signature-generator/types/literal-type-signature-factory.h"
-#include "../type-signature-generator/types/literal-type-signature-name.h"
+#include "../../../type-signature/literal-type-signature/types/literal-type-signature-name.h"
+#include "../../../type-signature/literal-type-signature/literal-type-signature-factory.h"
 
 TypeSignatureLookupTable::TypeSignatureLookupTable() {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();

@@ -6,7 +6,7 @@
 #define JETLANG_TYPE_SIGNATURE_LOOKUP_TABLE_H
 
 #include <unordered_map>
-#include "../type-signature-generator/types/type-signature.h"
+#include "../../../type-signature/type-signature.h"
 
 class TypeSignatureLookupTable {
 private:
