@@ -11,7 +11,7 @@
 class TypeSignatureLookupTable {
 private:
     std::unordered_map<std::string, TypeSignature*> _typeSignatureLookupTable;
-    void initBaseTypeSignatures();
+    void initLiteralTypeSignatures();
 public:
     TypeSignatureLookupTable();
     TypeSignatureLookupTable* insert(std::string key, TypeSignature* typeSignature);

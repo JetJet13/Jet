@@ -1,0 +1,67 @@
+//
+// Created by Johny Georges on 2024-05-03.
+//
+
+#include "class-property-type-signature.h"
+#include "../../../../../shared/utils/logger/logger.h"
+
+ClassPropertyTypeSignature::ClassPropertyTypeSignature(std::string name, AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst) {
+    _name = name;
+    _accessModifier = accessModifier;
+    _isStatic = isStatic;
+    _isConst = isConst;
+    _type = type;
+}
+
+std::string ClassPropertyTypeSignature::getName() {
+    return _name;
+}
+
+bool ClassPropertyTypeSignature::isStatic() {
+    return _isStatic;
+}
+
+bool ClassPropertyTypeSignature::isConst() {
+    return _isConst;
+}
+
+AccessModifierTypeSignature* ClassPropertyTypeSignature::getAccessModifier() {
+    return _accessModifier;
+}
+
+
+TypeSignature* ClassPropertyTypeSignature::getType() {
+    return _type;
+}
+
+std::string ClassPropertyTypeSignature::toString() {
+    return "CLASS_PROPERTY_TYPE_SIGNATURE";
+}
+
+TypeSource ClassPropertyTypeSignature::getTypeSource() {
+    return CLASS_PROPERTY_TYPE_SOURCE;
+}
+
+bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
+    if (this->getTypeSource() != otherType->getTypeSource()) {
+        return false;
+    }
+
+    auto other = (ClassPropertyTypeSignature*)otherType;
+    return this->getAccessModifier()->isEqualTo(other->getAccessModifier()) &&
+           this->getName() == other->getName() &&
+           this->getType()->isEqualTo(other->getType()) &&
+           this->isStatic() == other->isStatic() &&
+           this->isConst() == other->isConst();
+
+}
+
+void ClassPropertyTypeSignature::print() {
+    Logger::log("----------", this->toString(), "----------");
+    Logger::log("NAME - ", _name);
+    Logger::log("IS_STATIC - ", _isStatic);
+    Logger::log("IS_CONST - ", _isConst);
+    _accessModifier->print();
+    _type->print();
+    Logger::log("----------");
+}

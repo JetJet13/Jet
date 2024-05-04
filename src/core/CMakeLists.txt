@@ -717,6 +717,20 @@ add_library(jet-core
         pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.h
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.cpp
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/literal-type-signature-name.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/class-method-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/class-method-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-list-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-list-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-item-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/parameter-item-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/access-modifier-type.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/class-property-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/class-property-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/access-modifier-type-signature.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/access-modifier-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature-map.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/type-signature-map.h
 
 )
 

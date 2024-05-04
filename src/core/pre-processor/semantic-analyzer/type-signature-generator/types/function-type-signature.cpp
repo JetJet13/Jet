@@ -5,13 +5,18 @@
 #include "function-type-signature.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-FunctionTypeSignature::FunctionTypeSignature(std::vector<TypeSignature*>* parameterTypes, TypeSignature* returnType) {
-    _parameterTypes = parameterTypes;
+FunctionTypeSignature::FunctionTypeSignature(std::string name, ParameterListTypeSignature* parameterList, TypeSignature* returnType) {
+    _name = name;
+    _parameterList = parameterList;
     _returnType = returnType;
 }
 
-std::vector<TypeSignature*>* FunctionTypeSignature::getParameterTypes() {
-    return _parameterTypes;
+std::string FunctionTypeSignature::getName() {
+    return _name;
+}
+
+ParameterListTypeSignature* FunctionTypeSignature::getParameterList() {
+    return _parameterList;
 }
 
 TypeSignature* FunctionTypeSignature::getReturnType() {
@@ -32,19 +37,15 @@ bool FunctionTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (FunctionTypeSignature*)otherType;
-    for (int i = 0; i < _parameterTypes->size(); ++i) {
-        if (!_parameterTypes->at(i)->isEqualTo(other->getParameterTypes()->at(i))) {
-            return false;
-        }
-    }
-
-    return _returnType->isEqualTo(other->getReturnType());
+    return this->getName() == other->getName() &&
+           this->getParameterList()->isEqualTo(other->getParameterList()) &&
+           this->getReturnType()->isEqualTo(other->getReturnType());
 }
 
 void FunctionTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    for (int i = 0; i < _parameterTypes->size(); ++i) {
-        _parameterTypes->at(i)->print();
-    }
+    Logger::log("NAME - ", _name);
+    _parameterList->print();
+    _returnType->print();
     Logger::log("----------");
 }

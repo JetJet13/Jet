@@ -17,7 +17,7 @@ void ClassPropertyDeclarationIdStrategy::assign(ASTNode* node) {
                     ->getValueId()
                     .value()
     ).value();
-    new DeclarationId(
+    classPropertyDeclarationNode->setId(
         className +
         "_property_" +
         _tokenTable->getIdentifier(

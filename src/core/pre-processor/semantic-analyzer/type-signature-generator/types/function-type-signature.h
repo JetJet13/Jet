@@ -7,14 +7,17 @@
 
 #include <vector>
 #include "type-signature.h"
+#include "parameter-list-type-signature.h"
 
 class FunctionTypeSignature : public TypeSignature {
 private:
-    std::vector<TypeSignature*>* _parameterTypes;
+    std::string _name;
+    ParameterListTypeSignature* _parameterList;
     TypeSignature* _returnType;
 public:
-    FunctionTypeSignature(std::vector<TypeSignature*>* parameterTypes, TypeSignature* returnType);
-    std::vector<TypeSignature*>* getParameterTypes();
+    FunctionTypeSignature(std::string name, ParameterListTypeSignature* parameterList, TypeSignature* returnType);
+    std::string getName();
+    ParameterListTypeSignature* getParameterList();
     TypeSignature* getReturnType();
     std::string toString() override;
     TypeSource getTypeSource() override;

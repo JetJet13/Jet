@@ -10,11 +10,11 @@
 class ArrayTypeSignature : public TypeSignature {
 private:
     TypeSignature* _elementType;
-    int _size;
+    unsigned long _size;
 public:
-    ArrayTypeSignature(TypeSignature* elementType, int size);
+    ArrayTypeSignature(TypeSignature* elementType, unsigned long size);
     TypeSignature* getElementType();
-    int getSize();
+    unsigned long getSize();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

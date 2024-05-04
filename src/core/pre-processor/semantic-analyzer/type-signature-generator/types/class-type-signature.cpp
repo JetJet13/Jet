@@ -5,12 +5,27 @@
 #include "class-type-signature.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ClassTypeSignature::ClassTypeSignature(Lexeme* className) {
-    _className = className;
+ClassTypeSignature::ClassTypeSignature(std::string name) {
+    _name = name;
+    _constructors = TypeSignatureMap<ProcedureTypeSignature>();
+    _properties = TypeSignatureMap<ClassPropertyTypeSignature>();
+    _methods = TypeSignatureMap<ClassMethodTypeSignature>();
 }
 
-Lexeme* ClassTypeSignature::getName() {
-    return _className;
+std::string ClassTypeSignature::getName() {
+    return _name;
+}
+
+TypeSignatureMap<ProcedureTypeSignature>* ClassTypeSignature::getConstructors() {
+    return &_constructors;
+}
+
+TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getProperties() {
+    return &_properties;
+}
+
+TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getMethods() {
+    return &_methods;
 }
 
 std::string ClassTypeSignature::toString() {
@@ -22,15 +37,22 @@ TypeSource ClassTypeSignature::getTypeSource() {
 }
 
 bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
-    if (this->getTypeSource() == otherType->getTypeSource()) {
-        return this->getName()->isEqualTo(((ClassTypeSignature*)otherType)->getName());
+    if (this->getTypeSource() != otherType->getTypeSource()) {
+        return false;
     }
 
-    return false;
+    auto other = (ClassTypeSignature*)otherType;
+    return this->getName() == other->getName() &&
+           this->getProperties()->isEqualTo(other->getProperties()) &&
+           this->getMethods()->isEqualTo(other->getMethods()) &&
+           this->getConstructors()->isEqualTo(other->getConstructors());
 }
 
 void ClassTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    // todo: add class name print log;
+    Logger::log("NAME - ", _name);
+    this->getProperties()->print();
+    this->getMethods()->print();
+    this->getConstructors()->print();
     Logger::log("----------");
 }

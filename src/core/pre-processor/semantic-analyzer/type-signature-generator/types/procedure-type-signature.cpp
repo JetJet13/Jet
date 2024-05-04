@@ -5,12 +5,17 @@
 #include "procedure-type-signature.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ProcedureTypeSignature::ProcedureTypeSignature(std::vector<TypeSignature*>* parameterTypes) {
-    _parameterTypes = parameterTypes;
+ProcedureTypeSignature::ProcedureTypeSignature(std::string name, ParameterListTypeSignature* parameterList) {
+    _name = name;
+    _parameterList = parameterList;
 }
 
-std::vector<TypeSignature*>* ProcedureTypeSignature::getParameterTypes() {
-    return _parameterTypes;
+std::string ProcedureTypeSignature::getName() {
+    return _name;
+}
+
+ParameterListTypeSignature* ProcedureTypeSignature::getParameterList() {
+    return _parameterList;
 }
 
 std::string ProcedureTypeSignature::toString() {
@@ -27,19 +32,13 @@ bool ProcedureTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (ProcedureTypeSignature*)otherType;
-    for (int i = 0; i < _parameterTypes->size(); ++i) {
-        if (!_parameterTypes->at(i)->isEqualTo(other->getParameterTypes()->at(i))) {
-            return false;
-        }
-    }
-
-    return true;
+    return this->getName() == other->getName() &&
+           this->getParameterList()->isEqualTo(other->getParameterList());
 }
 
 void ProcedureTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    for (int i = 0; i < _parameterTypes->size(); ++i) {
-        _parameterTypes->at(i)->print();
-    }
+    Logger::log("NAME - ", _name);
+    _parameterList->print();
     Logger::log("----------");
 }

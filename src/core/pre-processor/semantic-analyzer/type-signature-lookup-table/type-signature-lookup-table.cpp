@@ -4,10 +4,11 @@
 
 #include "type-signature-lookup-table.h"
 #include "../type-signature-generator/types/literal-type-signature-factory.h"
+#include "../type-signature-generator/types/literal-type-signature-name.h"
 
 TypeSignatureLookupTable::TypeSignatureLookupTable() {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
-    this->initBaseTypeSignatures();
+    this->initLiteralTypeSignatures();
 }
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, TypeSignature* typeSignature) {
@@ -24,10 +25,10 @@ std::optional<TypeSignature*> TypeSignatureLookupTable::find(std::string key) {
     }
 }
 
-void TypeSignatureLookupTable::initBaseTypeSignatures() {
-    this->insert("int", LiteralTypeSignatureFactory::createIntLiteralType());
-    this->insert("float", LiteralTypeSignatureFactory::createFloatLiteralType());
-    this->insert("char", LiteralTypeSignatureFactory::createCharLiteralType());
-    this->insert("string", LiteralTypeSignatureFactory::createStringLiteralType());
-    this->insert("bool", LiteralTypeSignatureFactory::createBooleanLiteralType());
+void TypeSignatureLookupTable::initLiteralTypeSignatures() {
+    this->insert(LiteralTypeSignatureName::INT, LiteralTypeSignatureFactory::createIntLiteralType());
+    this->insert(LiteralTypeSignatureName::FLOAT, LiteralTypeSignatureFactory::createFloatLiteralType());
+    this->insert(LiteralTypeSignatureName::CHAR, LiteralTypeSignatureFactory::createCharLiteralType());
+    this->insert(LiteralTypeSignatureName::STRING, LiteralTypeSignatureFactory::createStringLiteralType());
+    this->insert(LiteralTypeSignatureName::BOOL, LiteralTypeSignatureFactory::createBooleanLiteralType());
 }

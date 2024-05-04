@@ -7,13 +7,16 @@
 
 #include <vector>
 #include "type-signature.h"
+#include "parameter-list-type-signature.h"
 
 class ProcedureTypeSignature : public TypeSignature {
 private:
-    std::vector<TypeSignature*>* _parameterTypes;
+    std::string _name;
+    ParameterListTypeSignature* _parameterList;
 public:
-    ProcedureTypeSignature(std::vector<TypeSignature*>* parameterTypes);
-    std::vector<TypeSignature*>* getParameterTypes();
+    ProcedureTypeSignature(std::string name, ParameterListTypeSignature* parameterList);
+    std::string getName();
+    ParameterListTypeSignature* getParameterList();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

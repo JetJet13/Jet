@@ -17,8 +17,7 @@ void ClassMethodDeclarationIdStrategy::assign(ASTNode* node) {
                     ->getValueId()
                     .value()
     ).value();
-    new DeclarationId(
-            className +
+    classMethodDeclarationNode->setId(className +
             "_method_" +
             _tokenTable->getIdentifier(
                     classMethodDeclarationNode
@@ -28,6 +27,5 @@ void ClassMethodDeclarationIdStrategy::assign(ASTNode* node) {
                             ->getToken()
                             ->getValueId()
                             .value()
-            ).value()
-    );
+            ).value());
 }

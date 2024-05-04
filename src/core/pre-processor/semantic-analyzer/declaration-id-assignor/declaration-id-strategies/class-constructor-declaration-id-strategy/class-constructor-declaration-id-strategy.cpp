@@ -17,14 +17,12 @@ void ClassConstructorDeclarationIdStrategy::assign(ASTNode* node) {
                     ->getValueId().value()
     ).value();
 
-    new DeclarationId(
-            className +
+    classConstructorDeclarationNode->setId(className +
             "_constructor_" +
             ToStringUtil::toString(
                 classConstructorDeclarationNode
                 ->getConstructor()
                 ->getLexeme()
                 ->getLine()
-            )
-    );
+            ));
 }
