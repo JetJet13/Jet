@@ -4,7 +4,6 @@
 
 #include "type-signature-lookup-table.h"
 #include "../../../type-signature/literal-type-signature/types/literal-type-signature-name.h"
-#include "../../../type-signature/literal-type-signature/literal-type-signature-factory.h"
 
 TypeSignatureLookupTable::TypeSignatureLookupTable() {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
@@ -25,10 +24,30 @@ std::optional<TypeSignature*> TypeSignatureLookupTable::find(std::string key) {
     }
 }
 
+IntLiteralTypeSignature* TypeSignatureLookupTable::getIntLiteralTypeSignature() {
+    return (IntLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+}
+
+FloatLiteralTypeSignature* TypeSignatureLookupTable::getFloatLiteralTypeSignature() {
+    return (FloatLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+}
+
+CharLiteralTypeSignature* TypeSignatureLookupTable::getCharLiteralTypeSignature() {
+    return (CharLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+}
+
+StringLiteralTypeSignature* TypeSignatureLookupTable::getStringLiteralTypeSignature() {
+    return (StringLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+}
+
+BoolLiteralTypeSignature* TypeSignatureLookupTable::getBoolLiteralTypeSignature() {
+    return (BoolLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+}
+
 void TypeSignatureLookupTable::initLiteralTypeSignatures() {
-    this->insert(LiteralTypeSignatureName::INT, LiteralTypeSignatureFactory::createIntLiteralType());
-    this->insert(LiteralTypeSignatureName::FLOAT, LiteralTypeSignatureFactory::createFloatLiteralType());
-    this->insert(LiteralTypeSignatureName::CHAR, LiteralTypeSignatureFactory::createCharLiteralType());
-    this->insert(LiteralTypeSignatureName::STRING, LiteralTypeSignatureFactory::createStringLiteralType());
-    this->insert(LiteralTypeSignatureName::BOOL, LiteralTypeSignatureFactory::createBooleanLiteralType());
+    this->insert(LiteralTypeSignatureName::INT, new IntLiteralTypeSignature());
+    this->insert(LiteralTypeSignatureName::FLOAT, new FloatLiteralTypeSignature());
+    this->insert(LiteralTypeSignatureName::CHAR, new CharLiteralTypeSignature());
+    this->insert(LiteralTypeSignatureName::STRING, new StringLiteralTypeSignature());
+    this->insert(LiteralTypeSignatureName::BOOL, new BoolLiteralTypeSignature());
 }

@@ -8,6 +8,6 @@
 TypeSignature* ParameterListItemTypeSignatureStrategy::generate(ASTFunctionParameterNode* node) {
     // todo: parameter list item type signature strategy
     //  needs to generate a type-signature from an ASTTypeNode.
-    auto parameterListTypeItemSignature = new ParameterListItemTypeSignature(node->getId(), node->getType());
+    auto parameterListTypeItemSignature = new ParameterListItemTypeSignature(node->getId(), new IntLiteralTypeSignature());
     return parameterListTypeItemSignature;
 }

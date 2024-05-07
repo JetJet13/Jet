@@ -4,8 +4,6 @@
 
 #include "unary-expression-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
-#include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
-#include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 
 ASTNode* UnaryExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 2) {

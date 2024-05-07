@@ -662,21 +662,17 @@ add_library(jet-core
         type-signature/literal-type-signature/types/literal-type.h
         type-signature/type-signature.cpp
         type-signature/type-signature.h
-        type-signature/literal-type-signature/literal-type-signature.cpp
-        type-signature/literal-type-signature/literal-type-signature.h
         type-signature/types/type-source.h
         type-signature/function-type-signature/function-type-signature.cpp
         type-signature/function-type-signature/function-type-signature.h
         type-signature/procedure-type-signature/procedure-type-signature.cpp
         type-signature/procedure-type-signature/procedure-type-signature.h
-        type-signature/tuple-typle-signature/tuple-type-signature.cpp
-        type-signature/tuple-typle-signature/tuple-type-signature.h
+        type-signature/tuple-type-signature/tuple-type-signature.cpp
+        type-signature/tuple-type-signature/tuple-type-signature.h
         type-signature/array-type-signature/array-type-signature.cpp
         type-signature/array-type-signature/array-type-signature.h
         type-signature/class-type-signature/class-type-signature.cpp
         type-signature/class-type-signature/class-type-signature.h
-        type-signature/literal-type-signature/literal-type-signature-factory.cpp
-        type-signature/literal-type-signature/literal-type-signature-factory.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.h
         pre-processor/semantic-analyzer/dependency-graph/dependency-graph.cpp
@@ -741,6 +737,30 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/expression-type-signature-strategy-map.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/expression-type-signature-strategy-map.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/expression-type-signature-strategy-provider.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/expression-type-signature-strategy-provider.h
+        type-signature/literal-type-signature/int-literal-type-signature.cpp
+        type-signature/literal-type-signature/int-literal-type-signature.h
+        type-signature/literal-type-signature/float-literal-type-signature.cpp
+        type-signature/literal-type-signature/float-literal-type-signature.h
+        type-signature/literal-type-signature/char-literal-type-signature.cpp
+        type-signature/literal-type-signature/char-literal-type-signature.h
+        type-signature/literal-type-signature/string-literal-type-signature.cpp
+        type-signature/literal-type-signature/string-literal-type-signature.h
+        type-signature/literal-type-signature/bool-literal-type-signature.cpp
+        type-signature/literal-type-signature/bool-literal-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/types/type-source-whitelist/type-source-whitelist.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/types/type-source-whitelist/type-source-whitelist.h
+        simple-dfa/simple-dfa.cpp
+        simple-dfa/simple-dfa.h
+        simple-dfa/simple-dfa-node.cpp
+        simple-dfa/simple-dfa-node.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/binary-expression-type-signature-strategy/types/binary-expression-type-combination.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/binary-expression-type-signature-strategy/types/binary-expression-type-combination.h
 
 )
 

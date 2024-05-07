@@ -3,9 +3,7 @@
 //
 
 #include "dfa-node.h"
-
 #include <stack>
-#include "../../shared/utils/logger/logger.h"
 
 DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType) {
     _astNodeType = astNodeType;

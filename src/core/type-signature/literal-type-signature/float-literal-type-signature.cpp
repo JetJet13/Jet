@@ -1,0 +1,22 @@
+//
+// Created by Johny Georges on 2024-05-06.
+//
+
+#include "float-literal-type-signature.h"
+#include "../../../shared/utils/logger/logger.h"
+
+std::string FloatLiteralTypeSignature::toString() {
+    return "FLOAT_LITERAL_TYPE_SIGNATURE";
+}
+
+TypeSource FloatLiteralTypeSignature::getTypeSource() {
+    return FLOAT_LITERAL_TYPE_SOURCE;
+}
+
+bool FloatLiteralTypeSignature::isEqualTo(TypeSignature* otherType) {
+    return this->getTypeSource() == otherType->getTypeSource();
+}
+
+void FloatLiteralTypeSignature::print() {
+    Logger::log(this->toString());
+}

@@ -309,6 +309,10 @@ SymbolType Symbol::getType() {
     return _type;
 }
 
+bool Symbol::isSameAs(Symbol* symbol) {
+    return _type == symbol->getType();
+}
+
 std::string Symbol::toString() {
     return _toStringValue;
 }

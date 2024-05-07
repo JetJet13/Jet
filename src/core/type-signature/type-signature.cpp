@@ -3,3 +3,7 @@
 //
 
 #include "type-signature.h"
+
+bool TypeSignature::hasTypeSource(TypeSource other) {
+    return this->getTypeSource() == other;
+}

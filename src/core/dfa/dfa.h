@@ -18,7 +18,6 @@ private:
 public:
     DFA();
     void init(ASTNodeType astNodeType);
-    DFA* insertStartNode(ASTNodeType astNodeType, DFANode* dfaNode);
     DFA* insertStartNode(DFANode* dfaNode);
     void reset();
     void determine(ASTNodeType nextAstNodeType);

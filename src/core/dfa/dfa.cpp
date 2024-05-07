@@ -21,11 +21,6 @@ void DFA::init(ASTNodeType astNodeType) {
     _current = startNode->second;
 }
 
-DFA* DFA::insertStartNode(ASTNodeType astNodeType, DFANode* dfaNode) {
-    _startNodes.insert(std::pair<ASTNodeType, DFANode*>(astNodeType, dfaNode));
-    return this;
-}
-
 DFA* DFA::insertStartNode(DFANode* dfaNode) {
     _startNodes.insert(std::pair<ASTNodeType, DFANode*>(dfaNode->getNodeType(), dfaNode));
     return this;

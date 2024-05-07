@@ -89,6 +89,7 @@ public:
     bool isNew();
     bool isThis();
     SymbolType getType();
+    bool isSameAs(Symbol* symbol);
     std::string toString();
 };
 

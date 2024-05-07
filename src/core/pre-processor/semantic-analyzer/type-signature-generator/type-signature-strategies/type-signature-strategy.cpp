@@ -3,8 +3,3 @@
 //
 
 #include "type-signature-strategy.h"
-
-template<class T>
-TypeSignatureStrategy<T>::TypeSignatureStrategy(TokenTable* tokenTable) {
-    _tokenTable = tokenTable;
-}

@@ -14,6 +14,50 @@ Lexeme* ASTBinaryOperatorNode::getOperator() {
     return _lexemeOperator;
 }
 
+bool ASTBinaryOperatorNode::isPlus() {
+    return _lexemeOperator->getToken()->getSymbol()->isPlus();
+}
+
+bool ASTBinaryOperatorNode::isMinus() {
+    return _lexemeOperator->getToken()->getSymbol()->isMinus();
+}
+
+bool ASTBinaryOperatorNode::isMultiply() {
+    return _lexemeOperator->getToken()->getSymbol()->isStar();
+}
+
+bool ASTBinaryOperatorNode::isDivide() {
+    return _lexemeOperator->getToken()->getSymbol()->isSlash();
+}
+
+bool ASTBinaryOperatorNode::isModulo() {
+    return _lexemeOperator->getToken()->getSymbol()->isModulo();
+}
+
+bool ASTBinaryOperatorNode::isEqual() {
+    return _lexemeOperator->getToken()->getSymbol()->isEqualityOperator();
+}
+
+bool ASTBinaryOperatorNode::isNotEqual() {
+    return _lexemeOperator->getToken()->getSymbol()->isInequalityOperator();
+}
+
+bool ASTBinaryOperatorNode::isGreaterThan() {
+    return _lexemeOperator->getToken()->getSymbol()->isGreaterThan();
+}
+
+bool ASTBinaryOperatorNode::isLessThan() {
+    return _lexemeOperator->getToken()->getSymbol()->isLessThan();
+}
+
+bool ASTBinaryOperatorNode::isGreaterThanOrEqual() {
+    return _lexemeOperator->getToken()->getSymbol()->isGreaterThanOrEqual();
+}
+
+bool ASTBinaryOperatorNode::isLessThanOrEqual() {
+    return _lexemeOperator->getToken()->getSymbol()->isLessThanOrEqual();
+}
+
 ASTNodeType ASTBinaryOperatorNode::getNodeType() {
     return AST_BINARY_OPERATOR_NODE;
 }

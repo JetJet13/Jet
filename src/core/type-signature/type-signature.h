@@ -11,6 +11,7 @@
 
 class TypeSignature {
 public:
+    bool hasTypeSource(TypeSource other);
     virtual std::string toString() = 0;
     virtual TypeSource getTypeSource() = 0;
     virtual bool isEqualTo(TypeSignature* otherType) = 0;
