@@ -8,8 +8,6 @@
 #include "../../../../../../../type-signature/type-signature.h"
 #include "../../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "../../expression-type-signature-strategy-provider.h"
-#include "../../../../types/type-source-whitelist/type-source-whitelist.h"
-#include "../../../../../../../simple-dfa/simple-dfa.h"
 #include "types/binary-expression-type-combination.h"
 
 class BinaryExpressionTypeSignatureStrategy {

@@ -4,6 +4,7 @@
 
 #include "type-signature-lookup-table.h"
 #include "../../../type-signature/literal-type-signature/types/literal-type-signature-name.h"
+#include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 TypeSignatureLookupTable::TypeSignatureLookupTable() {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
@@ -15,33 +16,33 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, Type
     return this;
 }
 
-std::optional<TypeSignature*> TypeSignatureLookupTable::find(std::string key) {
+TypeSignature* TypeSignatureLookupTable::find(std::string key) {
     auto result = _typeSignatureLookupTable.find(key);
     if (result == _typeSignatureLookupTable.end()) {
-        return {};
+        return new UnknownTypeSignature();
     } else {
         return result->second;
     }
 }
 
 IntLiteralTypeSignature* TypeSignatureLookupTable::getIntLiteralTypeSignature() {
-    return (IntLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+    return (IntLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
 }
 
 FloatLiteralTypeSignature* TypeSignatureLookupTable::getFloatLiteralTypeSignature() {
-    return (FloatLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+    return (FloatLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
 }
 
 CharLiteralTypeSignature* TypeSignatureLookupTable::getCharLiteralTypeSignature() {
-    return (CharLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+    return (CharLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
 }
 
 StringLiteralTypeSignature* TypeSignatureLookupTable::getStringLiteralTypeSignature() {
-    return (StringLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+    return (StringLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
 }
 
 BoolLiteralTypeSignature* TypeSignatureLookupTable::getBoolLiteralTypeSignature() {
-    return (BoolLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT).value();
+    return (BoolLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
 }
 
 void TypeSignatureLookupTable::initLiteralTypeSignatures() {

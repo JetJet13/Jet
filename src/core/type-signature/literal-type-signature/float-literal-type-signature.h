@@ -10,7 +10,6 @@
 
 class FloatLiteralTypeSignature : public TypeSignature {
 public:
-    FloatLiteralTypeSignature();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

@@ -10,7 +10,6 @@
 
 class BoolLiteralTypeSignature : public TypeSignature {
 public:
-    BoolLiteralTypeSignature();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

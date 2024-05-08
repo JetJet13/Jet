@@ -10,7 +10,6 @@
 
 class IntLiteralTypeSignature : public TypeSignature {
 public:
-    IntLiteralTypeSignature();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

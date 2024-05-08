@@ -5,7 +5,6 @@
 #include "ast-expression-node.h"
 #include "../ast-function-nodes/ast-function-argument-node.h"
 #include "../ast-tuple-nodes/ast-tuple-item-node.h"
-#include "../ast-object-nodes/ast-object-access-source-node.h"
 
 ASTExpressionNode::ASTExpressionNode() {
     _childNodes = {};

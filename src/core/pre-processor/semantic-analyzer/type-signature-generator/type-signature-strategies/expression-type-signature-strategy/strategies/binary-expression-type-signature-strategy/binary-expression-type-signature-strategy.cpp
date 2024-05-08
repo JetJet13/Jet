@@ -4,6 +4,7 @@
 
 #include "binary-expression-type-signature-strategy.h"
 #include "../../../../../../../symbol/symbol-factory.h"
+#include "../../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
@@ -19,7 +20,7 @@ TypeSignature* BinaryExpressionTypeSignatureStrategy::create(ASTBinaryExpression
 
     auto resultTypeSignature = combination.value()->match(leftTypeSignature, rightTypeSignature);
     if (!resultTypeSignature) {
-        throw std::invalid_argument("invalid binary expression: left, right types mismatch");
+        return new InvalidTypeSignature();
     }
     return resultTypeSignature.value();
 }
@@ -32,7 +33,6 @@ std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStr
     }
     return {};
 }
-
 
 void BinaryExpressionTypeSignatureStrategy::initCombinations() {
     _combinations = std::vector<BinaryExpressionTypeCombination*>({

@@ -753,14 +753,38 @@ add_library(jet-core
         type-signature/literal-type-signature/string-literal-type-signature.h
         type-signature/literal-type-signature/bool-literal-type-signature.cpp
         type-signature/literal-type-signature/bool-literal-type-signature.h
-        pre-processor/semantic-analyzer/type-signature-generator/types/type-source-whitelist/type-source-whitelist.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/types/type-source-whitelist/type-source-whitelist.h
         simple-dfa/simple-dfa.cpp
         simple-dfa/simple-dfa.h
         simple-dfa/simple-dfa-node.cpp
         simple-dfa/simple-dfa-node.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/binary-expression-type-signature-strategy/types/binary-expression-type-combination.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/binary-expression-type-signature-strategy/types/binary-expression-type-combination.h
+        type-signature/invalid-type-signature/invalid-type-signature.cpp
+        type-signature/invalid-type-signature/invalid-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.h
+        type-signature/not-null-type-signature/not-null-type-signature.cpp
+        type-signature/not-null-type-signature/not-null-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/class-method-invocation-expression-type-signature-strategy/class-method-invocation-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/class-method-invocation-expression-type-signature-strategy/class-method-invocation-expression-type-signature-strategy.h
+        type-signature/unknown-type-signature/unknown-type-signature.cpp
+        type-signature/unknown-type-signature/unknown-type-signature.h
+        type-signature/void-type-signature/void-type-signature.cpp
+        type-signature/void-type-signature/void-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/class-property-expression-type-signature-strategy/class-property-access-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/class-property-expression-type-signature-strategy/class-property-access-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/curry-expression-type-signature-strategy/curry-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/curry-expression-type-signature-strategy/curry-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/function-invocation-expression-type-signature-strategy/function-invocation-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/function-invocation-expression-type-signature-strategy/function-invocation-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/function-return-expression-type-signature-strategy/function-return-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/function-return-expression-type-signature-strategy/function-return-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/identifier-expression-type-signature-strategy/identifier-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategy/strategies/identifier-expression-type-signature-strategy/identifier-expression-type-signature-strategy.h
 
 )
 

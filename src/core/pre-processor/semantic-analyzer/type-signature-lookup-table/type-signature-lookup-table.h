@@ -20,7 +20,7 @@ private:
 public:
     TypeSignatureLookupTable();
     TypeSignatureLookupTable* insert(std::string key, TypeSignature* typeSignature);
-    std::optional<TypeSignature*> find(std::string key);
+    TypeSignature* find(std::string key);
     IntLiteralTypeSignature* getIntLiteralTypeSignature();
     FloatLiteralTypeSignature* getFloatLiteralTypeSignature();
     CharLiteralTypeSignature* getCharLiteralTypeSignature();
