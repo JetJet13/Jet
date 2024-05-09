@@ -24,5 +24,12 @@ void ClassConstructorDeclarationIdStrategy::assign(ASTNode* node) {
                 ->getConstructor()
                 ->getLexeme()
                 ->getLine()
+            ) +
+            "_" +
+            ToStringUtil::toString(
+                classConstructorDeclarationNode
+                ->getConstructor()
+                ->getLexeme()
+                ->getLine()
             ));
 }

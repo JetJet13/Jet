@@ -5,6 +5,13 @@
 #include "int-literal-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+IntLiteralTypeSignature::IntLiteralTypeSignature(unsigned long value) {
+    _value = value;
+}
+
+unsigned long IntLiteralTypeSignature::getValue() {
+    return _value;
+}
 
 std::string IntLiteralTypeSignature::toString() {
     return "INT_LITERAL_TYPE_SIGNATURE";
@@ -19,5 +26,7 @@ bool IntLiteralTypeSignature::isEqualTo(TypeSignature* otherType) {
 }
 
 void IntLiteralTypeSignature::print() {
-    Logger::log(this->toString());
+    Logger::log("----------", this->toString(), "----------");
+    Logger::log("VALUE - ", _value);
+    Logger::log("----------");
 }

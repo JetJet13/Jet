@@ -171,6 +171,7 @@ void SyntaxDfa::init() {
 //    todo: add support for inheritance
 //    todo: add support for struct definitions
 //    todo: update 'getTypeSignature' logic to leverage token table. Implement Visitor Pattern to handle this.
+//    todo: remove AST_INT_LITERAL_TYPE since array types will not need to declare size
 
     this->initVarDefinition(varDefinition);
     this->initVarInit(varInit, AST_VARIABLE_DECLARATION_NODE);

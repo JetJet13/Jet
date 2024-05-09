@@ -1,0 +1,16 @@
+//
+// Created by Johny Georges on 2024-05-09.
+//
+
+#ifndef JETLANG_ARRAY_TYPE_TYPE_SIGNATURE_STRATEGY_H
+#define JETLANG_ARRAY_TYPE_TYPE_SIGNATURE_STRATEGY_H
+
+#include "../../../../../../../ast/ast-nodes/ast-type-nodes/ast-array-type-node.h"
+#include "../../../type-signature-strategy-provider.h"
+
+class ArrayTypeTypeSignatureStrategy {
+public:
+    TypeSignature* create(ASTArrayTypeNode* node, TypeSignatureStrategyProvider* strategyMap);
+};
+
+#endif //JETLANG_ARRAY_TYPE_TYPE_SIGNATURE_STRATEGY_H

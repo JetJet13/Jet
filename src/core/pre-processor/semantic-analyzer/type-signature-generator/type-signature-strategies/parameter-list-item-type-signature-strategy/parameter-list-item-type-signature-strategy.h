@@ -7,11 +7,11 @@
 
 #include "../../../../../type-signature/type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.h"
-#include "../type-signature-strategy.h"
 
-class ParameterListItemTypeSignatureStrategy : public TypeSignatureStrategy<ASTFunctionParameterNode> {
+
+class ParameterListItemTypeSignatureStrategy {
 public:
-    TypeSignature* generate(ASTFunctionParameterNode* node) override;
+    TypeSignature* create(ASTFunctionParameterNode* node);
 };
 
 #endif //JETLANG_PARAMETER_LIST_ITEM_TYPE_SIGNATURE_STRATEGY_H

@@ -9,7 +9,11 @@
 #include "types/literal-type.h"
 
 class IntLiteralTypeSignature : public TypeSignature {
+private:
+    unsigned long _value;
 public:
+    IntLiteralTypeSignature(unsigned long value);
+    unsigned long getValue();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

@@ -6,15 +6,16 @@
 #define JETLANG_ARRAY_TYPE_SIGNATURE_H
 
 #include "../type-signature.h"
+#include "../literal-type-signature/int-literal-type-signature.h"
 
 class ArrayTypeSignature : public TypeSignature {
 private:
     TypeSignature* _elementType;
-    unsigned long _size;
+    IntLiteralTypeSignature* _size;
 public:
-    ArrayTypeSignature(TypeSignature* elementType, unsigned long size);
+    ArrayTypeSignature(TypeSignature* elementType, IntLiteralTypeSignature* size);
     TypeSignature* getElementType();
-    unsigned long getSize();
+    IntLiteralTypeSignature* getSize();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;
