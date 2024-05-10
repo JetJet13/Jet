@@ -10,6 +10,7 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.h"
+#include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
 
 class ClassDeclarationIdStrategy : public DeclarationIdStrategy {
     using DeclarationIdStrategy::DeclarationIdStrategy;

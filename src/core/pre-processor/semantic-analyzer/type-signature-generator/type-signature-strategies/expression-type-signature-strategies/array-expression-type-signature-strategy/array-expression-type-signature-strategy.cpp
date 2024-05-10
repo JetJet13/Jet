@@ -8,7 +8,7 @@
 
 TypeSignature* ArrayExpressionTypeSignatureStrategy::create(ASTArrayExpressionNode* arrayExpression, TypeSignatureStrategyProvider* strategyMap) {
     if (arrayExpression->size() == 0) {
-        return new ArrayTypeSignature(new InvalidTypeSignature(), 0);
+        return new ArrayTypeSignature(new InvalidTypeSignature());
     }
 
     TypeSignature* lastElementTypeSignature = strategyMap->getTypeSignatureFor(arrayExpression->getElements()->at(0));
@@ -18,5 +18,5 @@ TypeSignature* ArrayExpressionTypeSignatureStrategy::create(ASTArrayExpressionNo
             return new InvalidTypeSignature();
         }
     }
-    return new ArrayTypeSignature(lastElementTypeSignature, arrayExpression->size());
+    return new ArrayTypeSignature(lastElementTypeSignature);
 }

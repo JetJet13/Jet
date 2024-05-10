@@ -7,6 +7,8 @@
 
 #include "type-signature-strategy-map.h"
 #include "../../type-signature-lookup-table/type-signature-lookup-table.h"
+#include "../../../../token/token-table.h"
+#include "../../../../ast/ast-nodes/ast-node.h"
 
 
 class TypeSignatureStrategyProvider {

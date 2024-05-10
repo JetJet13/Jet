@@ -5,17 +5,12 @@
 #include "ast-array-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTArrayTypeNode::ASTArrayTypeNode(ASTTypeNode* elementType, ASTTypeNode* size) {
+ASTArrayTypeNode::ASTArrayTypeNode(ASTTypeNode* elementType) {
     _elementType = elementType;
-    _size = size;
 }
 
 ASTTypeNode* ASTArrayTypeNode::getElementType() {
     return _elementType;
-}
-
-ASTTypeNode* ASTArrayTypeNode::getSize() {
-    return _size;
 }
 
 ASTNodeType ASTArrayTypeNode::getNodeType() {
@@ -32,13 +27,11 @@ bool ASTArrayTypeNode::isSameAs(ASTNode *other) {
     }
 
     auto otherNode = (ASTArrayTypeNode*)other;
-    return this->getElementType()->isSameAs(otherNode->getElementType()) &&
-           this->getSize()->isSameAs(otherNode->getSize());
+    return this->getElementType()->isSameAs(otherNode->getElementType());
 }
 
 void ASTArrayTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _elementType->print();
-    _size->print();
     Logger::log("----------");
 }

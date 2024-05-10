@@ -8,16 +8,13 @@
 #include <string>
 #include "ast-type-base-node.h"
 #include "ast-type-parameter-list-node.h"
-#include "ast-int-literal-type-node.h"
 
 class ASTArrayTypeNode : public ASTTypeBaseNode {
 private:
     ASTTypeNode* _elementType;
-    ASTTypeNode* _size;
 public:
-    ASTArrayTypeNode(ASTTypeNode* elementType, ASTTypeNode* size);
+    ASTArrayTypeNode(ASTTypeNode* elementType);
     ASTTypeNode* getElementType();
-    ASTTypeNode* getSize();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

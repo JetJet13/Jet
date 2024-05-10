@@ -177,7 +177,6 @@ namespace ASTNodeFactory {
     static ASTThisNode* thisNode = new ASTThisNode(
             createLexeme(SymbolFactory::createThisSymbol())
     );
-    static ASTTypeNode* intLiteralType = ASTTypeNodeFactory::createIntLiteralTypeNode(createLexeme(SymbolFactory::createIntSymbol()));
     static ASTTypeNode* intType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
     static ASTTypeNode* floatType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
     static ASTTypeNode* stringType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));

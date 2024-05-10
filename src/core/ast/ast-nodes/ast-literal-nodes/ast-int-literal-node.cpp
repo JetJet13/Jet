@@ -12,10 +12,6 @@ ASTNode * ASTIntLiteralNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return new ASTTupleAccessNode(_lexemeLiteral);
     }
 
-    if (mode == SA_TYPE_PARAMETER_LIST_MODE) {
-        return ASTTypeNodeFactory::createIntLiteralTypeNode(_lexemeLiteral);
-    }
-
     return this;
 }
 

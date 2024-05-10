@@ -11,7 +11,6 @@
 #include "ast-lambda-type-node.h"
 #include "ast-tuple-type-node.h"
 #include "ast-array-type-node.h"
-#include "ast-int-literal-type-node.h"
 #include "../ast-class-nodes/ast-this-node.h"
 
 namespace ASTTypeNodeFactory {
@@ -20,7 +19,6 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode);
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode);
     ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
-    ASTTypeNode* createIntLiteralTypeNode(Lexeme* lexeme);
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);
 }
 

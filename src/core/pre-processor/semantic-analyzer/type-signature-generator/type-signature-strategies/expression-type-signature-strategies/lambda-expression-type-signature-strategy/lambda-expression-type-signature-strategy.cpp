@@ -5,5 +5,5 @@
 #include "lambda-expression-type-signature-strategy.h"
 
 TypeSignature* LambdaExpressionTypeSignatureStrategy::create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureStrategyProvider* strategyMap) {
-
+    return new FloatLiteralTypeSignature();
 }

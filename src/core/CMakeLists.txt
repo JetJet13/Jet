@@ -446,8 +446,6 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.h
         ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.cpp
         ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.h
-        ast/ast-nodes/ast-type-nodes/ast-int-literal-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-int-literal-type-node.h
         ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.cpp
         ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.cpp
@@ -793,8 +791,16 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/int-literal-type-type-signature-strategy/int-literal-type-type-signature-strategy.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/int-literal-type-type-signature-strategy/int-literal-type-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h
+        type-signature/lambda-type-signature/lambda-type-signature.cpp
+        type-signature/lambda-type-signature/lambda-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h
+        pre-processor/semantic-analyzer/ast-traverser/ast-traverser.cpp
+        pre-processor/semantic-analyzer/ast-traverser/ast-traverser.h
 
 )
 

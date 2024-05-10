@@ -344,11 +344,11 @@ func useTuple(x: tuple<int, string, boolean, CustomType>) boolean {
     return true;
 }
 
-func useArray(x: arr<int, 4>, y: arr<CustomType, 4>, z: arr<arr<int, 4>, 4>, n: arr<arr<arr<int, 1>, 2>, 3>) boolean {
+func useArray(x: arr<int>, y: arr<CustomType>, z: arr<arr<int>>, n: arr<arr<arr<int>>>) boolean {
     return true;
 }
 
-func useArrayOfFuncs(x: arr<func<int> => boolean, 4>) boolean {
+func useArrayOfFuncs(x: arr<func<int> => boolean>) boolean {
     return true;
 }
 
@@ -357,7 +357,7 @@ const floatWithType: float = 5.0;
 const charWithType: char = 'c';
 const stringWithType: string = "foo";
 const boolWithType: boolean = true;
-const arrWithType: arr<int, 3> = [1,2,3];
+const arrWithType: arr<int> = [1,2,3];
 const funcWithType: func<int> => boolean = (x: int) => true;
 const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };

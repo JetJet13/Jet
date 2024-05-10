@@ -13,8 +13,7 @@ ASTNode* ArrayTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto parameterList = (ASTTypeParameterListNode*)nodes[1];
     return ASTTypeNodeFactory::createArrayTypeNode(
             new ASTArrayTypeNode(
-                    (ASTTypeNode*)parameterList->getParameters()[0],
-                    (ASTTypeNode*)parameterList->getParameters()[1]
+                    (ASTTypeNode*)parameterList->getParameters()[0]
             )
     );
 }

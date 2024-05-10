@@ -30,19 +30,19 @@ IntLiteralTypeSignature* TypeSignatureLookupTable::getIntLiteralTypeSignature() 
 }
 
 FloatLiteralTypeSignature* TypeSignatureLookupTable::getFloatLiteralTypeSignature() {
-    return (FloatLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
+    return (FloatLiteralTypeSignature*)this->find(LiteralTypeSignatureName::FLOAT);
 }
 
 CharLiteralTypeSignature* TypeSignatureLookupTable::getCharLiteralTypeSignature() {
-    return (CharLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
+    return (CharLiteralTypeSignature*)this->find(LiteralTypeSignatureName::CHAR);
 }
 
 StringLiteralTypeSignature* TypeSignatureLookupTable::getStringLiteralTypeSignature() {
-    return (StringLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
+    return (StringLiteralTypeSignature*)this->find(LiteralTypeSignatureName::STRING);
 }
 
 BoolLiteralTypeSignature* TypeSignatureLookupTable::getBoolLiteralTypeSignature() {
-    return (BoolLiteralTypeSignature*)this->find(LiteralTypeSignatureName::INT);
+    return (BoolLiteralTypeSignature*)this->find(LiteralTypeSignatureName::BOOL);
 }
 
 void TypeSignatureLookupTable::initLiteralTypeSignatures() {

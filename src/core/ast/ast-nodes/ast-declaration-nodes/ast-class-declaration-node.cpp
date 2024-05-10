@@ -10,6 +10,14 @@ ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNameNode* name, ASTClas
     _block = block;
 }
 
+std::string ASTClassDeclarationNode::getInternalId() {
+    return "internal_" + this->getId();
+}
+
+std::string ASTClassDeclarationNode::getExternalId() {
+    return this->getId();
+}
+
 ASTClassBlockNode* ASTClassDeclarationNode::getBlock() {
     return _block;
 }

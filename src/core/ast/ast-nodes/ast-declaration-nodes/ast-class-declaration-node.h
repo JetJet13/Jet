@@ -17,6 +17,8 @@ private:
     ASTClassBlockNode* _block;
 public:
     explicit ASTClassDeclarationNode(ASTClassNameNode* name, ASTClassBlockNode* block);
+    std::string getInternalId();
+    std::string getExternalId();
     ASTClassBlockNode* getBlock();
     ASTClassNameNode* getName();
     ASTNodeType getNodeType() override;

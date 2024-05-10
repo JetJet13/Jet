@@ -26,10 +26,6 @@ namespace ASTTypeNodeFactory {
         return new ASTTypeNode(arrayTypeNode);
     }
 
-    ASTTypeNode* createIntLiteralTypeNode(Lexeme* lexeme) {
-        return new ASTTypeNode(new ASTIntLiteralTypeNode(lexeme));
-    }
-
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode) {
         return new ASTTypeNode(new ASTThisTypeNode(thisNode));
     }

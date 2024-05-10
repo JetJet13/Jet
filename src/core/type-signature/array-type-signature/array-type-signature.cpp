@@ -5,17 +5,12 @@
 #include "array-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
-ArrayTypeSignature::ArrayTypeSignature(TypeSignature* elementType, IntLiteralTypeSignature* size) {
+ArrayTypeSignature::ArrayTypeSignature(TypeSignature* elementType) {
     _elementType = elementType;
-    _size = size;
 }
 
 TypeSignature* ArrayTypeSignature::getElementType() {
     return _elementType;
-}
-
-IntLiteralTypeSignature* ArrayTypeSignature::getSize() {
-    return _size;
 }
 
 std::string ArrayTypeSignature::toString() {
@@ -32,13 +27,11 @@ bool ArrayTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (ArrayTypeSignature*)otherType;
-    return this->getElementType()->isEqualTo(other->getElementType()) &&
-           this->getSize()->isEqualTo(other->getSize());
+    return this->getElementType()->isEqualTo(other->getElementType());
 }
 
 void ArrayTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     _elementType->print();
-    _size->print();
     Logger::log("----------");
 }

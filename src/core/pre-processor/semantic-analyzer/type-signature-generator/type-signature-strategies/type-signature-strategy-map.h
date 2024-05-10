@@ -5,22 +5,27 @@
 #ifndef JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H
 #define JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H
 
-#include "type-type-signature-strategy/type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/primitive-type-type-signature-strategy/primitive-type-type-signature-strategy.h"
-#include "expression-type-signature-strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/class-method-invocation-expression-type-signature-strategy/class-method-invocation-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/class-property-expression-type-signature-strategy/class-property-access-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/curry-expression-type-signature-strategy/curry-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/function-invocation-expression-type-signature-strategy/function-invocation-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/function-return-expression-type-signature-strategy/function-return-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/identifier-expression-type-signature-strategy/identifier-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/lambda-expression-type-signature-strategy/lambda-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/int-literal-type-type-signature-strategy/int-literal-type-type-signature-strategy.h"
+// forward declaration to prevent
+// circular dependency error
+class ArrayAccessExpressionTypeSignatureStrategy;
+class ArrayExpressionTypeSignatureStrategy;
+class BinaryExpressionTypeSignatureStrategy;
+class ClassMethodInvocationExpressionTypeSignatureStrategy;
+class ClassPropertyAccessExpressionTypeSignatureStrategy;
+class CurryExpressionTypeSignatureStrategy;
+class FunctionInvocationExpressionTypeSignatureStrategy;
+class FunctionReturnExpressionTypeSignatureStrategy;
+class IdentifierExpressionTypeSignatureStrategy;
+class LambdaExpressionTypeSignatureStrategy;
+class LogicalExpressionTypeSignatureStrategy;
+class TypeTypeSignatureStrategy;
+class PrimitiveTypeTypeSignatureStrategy;
+class CustomTypeTypeSignatureStrategy;
+class ArrayTypeTypeSignatureStrategy;
+class TupleTypeTypeSignatureStrategy;
+class LambdaTypeTypeSignatureStrategy;
+class ThisTypeTypeSignatureStrategy;
+
 
 class TypeSignatureStrategyMap {
 private:
@@ -48,7 +53,9 @@ private:
       PrimitiveTypeTypeSignatureStrategy* _primitiveTypeTypeSignatureStrategy;
       CustomTypeTypeSignatureStrategy* _customTypeTypeSignatureStrategy;
       ArrayTypeTypeSignatureStrategy* _arrayTypeTypeSignatureStrategy;
-      IntLiteralTypeTypeSignatureStrategy* _intLiteralTypeTypeSignatureStrategy;
+      TupleTypeTypeSignatureStrategy* _tupleTypeTypeSignatureStrategy;
+      LambdaTypeTypeSignatureStrategy* _lambdaTypeTypeSignatureStrategy;
+      ThisTypeTypeSignatureStrategy* _thisTypeTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
@@ -75,7 +82,9 @@ public:
       PrimitiveTypeTypeSignatureStrategy* getPrimitiveTypeTypeSignatureStrategy();
       CustomTypeTypeSignatureStrategy* getCustomTypeTypeSignatureStrategy();
       ArrayTypeTypeSignatureStrategy* getArrayTypeTypeSignatureStrategy();
-      IntLiteralTypeTypeSignatureStrategy* getIntLiteralTypeTypeSignatureStrategy();
+      TupleTypeTypeSignatureStrategy* getTupleTypeTypeSignatureStrategy();
+      LambdaTypeTypeSignatureStrategy* getLambdaTypeTypeSignatureStrategy();
+      ThisTypeTypeSignatureStrategy* getThisTypeTypeSignatureStrategy();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H
