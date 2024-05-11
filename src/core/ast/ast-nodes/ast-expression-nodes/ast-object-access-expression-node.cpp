@@ -8,6 +8,8 @@
 ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTObjectAccessTargetNode* property) {
     _source = source;
     _target = property;
+    _children.push_back(_source);
+    _children.push_back(_target);
 }
 
 ASTObjectAccessSourceNode* ASTObjectAccessExpressionNode::getSource() {

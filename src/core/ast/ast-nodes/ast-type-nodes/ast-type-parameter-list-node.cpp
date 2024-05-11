@@ -12,7 +12,7 @@ ASTTypeParameterListNode::ASTTypeParameterListNode() {
 ASTTypeParameterListNode::ASTTypeParameterListNode(std::vector<ASTTypeNode*> parameters) {
     _parameters = std::vector<ASTTypeNode*>();
     for (auto parameter: parameters) {
-        _parameters.push_back(parameter);
+        this->addParameter(parameter);
     }
 }
 
@@ -26,6 +26,7 @@ unsigned long ASTTypeParameterListNode::numParameters() {
 
 ASTTypeParameterListNode* ASTTypeParameterListNode::addParameter(ASTTypeNode* parameter) {
     _parameters.push_back(parameter);
+    _children.push_back(parameter);
     return this;
 }
 

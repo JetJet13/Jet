@@ -8,6 +8,8 @@
 ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments) {
     _className = className;
     _arguments = arguments;
+    _children.push_back(_className);
+    _children.push_back(_arguments);
 }
 
 ASTFunctionArgumentListNode* ASTNewClassInstanceExpressionNode::getArguments() {

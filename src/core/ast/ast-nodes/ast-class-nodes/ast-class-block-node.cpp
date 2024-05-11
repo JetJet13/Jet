@@ -31,29 +31,32 @@ ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTNode*> nodes) {
 ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors) {
     _properties = std::vector<ASTClassPropertyDeclarationNode*>();
     for (auto property: properties) {
-        _properties.push_back(property);
+        this->addProperty(property);
     }
 
     _methods = std::vector<ASTClassMethodDeclarationNode*>();
     for (auto method: methods) {
-        _methods.push_back(method);
+        this->addMethod(method);
     }
 
     _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
     for (auto constructor: constructors) {
-        _constructors.push_back(constructor);
+        this->addConstructor(constructor);
     }
 }
 void ASTClassBlockNode::addProperty(ASTClassPropertyDeclarationNode* property) {
     _properties.push_back(property);
+    _children.push_back(property);
 }
 
 void ASTClassBlockNode::addMethod(ASTClassMethodDeclarationNode* method) {
     _methods.push_back(method);
+    _children.push_back(method);
 }
 
 void ASTClassBlockNode::addConstructor(ASTClassConstructorDeclarationNode* constructor) {
     _constructors.push_back(constructor);
+    _children.push_back(constructor);
 }
 
 std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getProperties() {
@@ -113,4 +116,9 @@ void ASTClassBlockNode::print() {
         constructor->print();
     }
     Logger::log("----------");
+}
+
+std::vector<ASTNode*> ASTClassBlockNode::getChildren() {
+    auto children = std::vector<ASTNode*>();
+    return children;
 }

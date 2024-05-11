@@ -8,6 +8,8 @@
 ASTFunctionInvocationExpressionNode::ASTFunctionInvocationExpressionNode(ASTFunctionCallNode* function, ASTFunctionArgumentListNode* arguments) {
     _function = function;
     _arguments = arguments;
+    _children.push_back(_function);
+    _children.push_back(_arguments);
 }
 
 ASTFunctionArgumentListNode* ASTFunctionInvocationExpressionNode::getArguments() {

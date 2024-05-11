@@ -9,6 +9,7 @@ ASTFunctionBlockNode::ASTFunctionBlockNode(std::vector<ASTNode*> contents) {
     _contents = std::vector<ASTNode*>();
     for (auto content: contents) {
         _contents.push_back(content);
+        _children.push_back(content);
     }
 }
 

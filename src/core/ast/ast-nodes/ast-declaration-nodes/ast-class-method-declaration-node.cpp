@@ -10,6 +10,13 @@ ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefin
     _content = content;
     _returnType = returnType;
     _parameters = parameters;
+
+    _children.push_back(_classMethodDefinition);
+    _children.push_back(_content);
+    if (_returnType) {
+        _children.push_back(_returnType.value());
+    }
+    _children.push_back(_parameters);
 }
 
 ASTClassMethodDefinitionNode* ASTClassMethodDeclarationNode::getClassMethodDefinition() {

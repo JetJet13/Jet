@@ -4,24 +4,41 @@
 
 #include "ast-traverser.h"
 
-
 ASTTraverser::ASTTraverser() {
     _stack = std::stack<ASTNode*>();
-    _startNode = {};
+    _traverseStack = std::stack<ASTNode*>();
     _hasMore = false;
 }
 
-void ASTTraverser::start(ASTNode* node) {
-    _startNode = node;
+void ASTTraverser::init(ASTNode* startNode) {
+    this->reset();
+    _traverseStack.push(startNode);
+    _stack.push(startNode);
+    while (!_stack.empty()) {
+        auto node = _stack.top();
+        _stack.pop();
+        for (auto child : node->getChildren()) {
+            _stack.push(child);
+            _traverseStack.push(child);
+        }
+
+    }
 }
 
 void ASTTraverser::reset() {
-    _startNode = {};
+    _stack = std::stack<ASTNode*>();
+    _traverseStack = std::stack<ASTNode*>();
     _hasMore = false;
 }
 
 std::optional<ASTNode*> ASTTraverser::next() {
-    return {};
+    if (_traverseStack.empty()) {
+        _hasMore = false;
+        return {};
+    }
+    auto node = _traverseStack.top();
+    _traverseStack.pop();
+    return node;
 }
 
 bool ASTTraverser::hasMore() {

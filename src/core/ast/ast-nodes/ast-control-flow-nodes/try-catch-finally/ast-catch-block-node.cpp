@@ -8,6 +8,10 @@
 ASTCatchBlockNode::ASTCatchBlockNode(ASTControlFlowBlockNode* block, std::optional<ASTCatchErrorVariableNode*> errorVariable) {
     _block = block;
     _errorVariable = errorVariable;
+    _children.push_back(_block);
+    if (_errorVariable) {
+        _children.push_back(_errorVariable.value());
+    }
 }
 
 ASTControlFlowBlockNode* ASTCatchBlockNode::getBlock() {

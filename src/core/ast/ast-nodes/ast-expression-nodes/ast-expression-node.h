@@ -11,13 +11,9 @@
 #include "../ast-type-nodes/ast-type-node.h"
 
 class ASTExpressionNode : public ASTNode {
-private:
-    std::vector<ASTNode*> _childNodes;
 protected:
     ASTNode* baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
 public:
-    explicit ASTExpressionNode();
-    void addChildNode(ASTNode* astNode);
     ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;

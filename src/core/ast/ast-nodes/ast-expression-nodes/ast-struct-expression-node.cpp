@@ -11,6 +11,9 @@ ASTStructExpressionNode::ASTStructExpressionNode() {
 
 ASTStructExpressionNode::ASTStructExpressionNode(std::vector<ASTStructKeyValueNode*> keyValuePairs) {
     _keyValuePairs = keyValuePairs;
+    for (auto keyValuePair : keyValuePairs) {
+        _children.push_back(keyValuePair);
+    }
 }
 
 std::vector<ASTStructKeyValueNode*> ASTStructExpressionNode::getKeyValuePairs() {
@@ -19,6 +22,7 @@ std::vector<ASTStructKeyValueNode*> ASTStructExpressionNode::getKeyValuePairs() 
 
 ASTStructExpressionNode* ASTStructExpressionNode::addKeyValuePair(ASTStructKeyValueNode* keyValuePair) {
     _keyValuePairs.push_back(keyValuePair);
+    _children.push_back(keyValuePair);
     return this;
 }
 

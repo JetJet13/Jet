@@ -9,6 +9,11 @@ ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQual
     _assignmentTypeQualifier = assignmentTypeQualifier;
     _identifier = astIdentifierNode;
     _type = type;
+    _children.push_back(_assignmentTypeQualifier);
+    _children.push_back(_identifier);
+    if (_type) {
+        _children.push_back(_type.value());
+    }
 }
 
 ASTVariableTypeNode* ASTVariableInitNode::getVarTypeNode() {

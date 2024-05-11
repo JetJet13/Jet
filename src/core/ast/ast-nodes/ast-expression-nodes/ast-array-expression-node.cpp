@@ -12,7 +12,7 @@ ASTArrayExpressionNode::ASTArrayExpressionNode() {
 ASTArrayExpressionNode::ASTArrayExpressionNode(std::vector<ASTExpressionNode*> elements) {
     _elements = new std::vector<ASTExpressionNode*>();
     for (auto element: elements) {
-        _elements->push_back(element);
+        this->addElement(element);
     }
 }
 
@@ -26,6 +26,7 @@ std::vector<ASTExpressionNode*>* ASTArrayExpressionNode::getElements() {
 
 ASTArrayExpressionNode* ASTArrayExpressionNode::addElement(ASTExpressionNode* element) {
     _elements->push_back(element);
+    _children.push_back(element);
     return this;
 }
 

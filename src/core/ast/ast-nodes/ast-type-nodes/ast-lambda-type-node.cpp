@@ -8,6 +8,10 @@
 ASTLambdaTypeNode::ASTLambdaTypeNode(ASTTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType) {
     _parameterList = parameterList;
     _returnType = returnType;
+    _children.push_back(_parameterList);
+    if (_returnType) {
+        _children.push_back(_returnType.value());
+    }
 }
 
 ASTTypeParameterListNode* ASTLambdaTypeNode::getParameterList() {

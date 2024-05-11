@@ -9,14 +9,22 @@ ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock) {
     _ifBlock = ifBlock;
     _elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
     _elseBlock = {};
+    _children.push_back(_ifBlock);
 }
 
 ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock, std::vector<ASTElseIfBlockNode*> elseIfBlocks, std::optional<ASTElseBlockNode*> elseBlock) {
     _ifBlock = ifBlock;
+    _children.push_back(_ifBlock);
+
     _elseBlock = elseBlock;
+    if (_elseBlock) {
+        _children.push_back(_elseBlock.value());
+    }
+
     _elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
     for (auto elseIfBlock: elseIfBlocks) {
         _elseIfBlocks.push_back(elseIfBlock);
+        _children.push_back(elseIfBlock);
     }
 }
 

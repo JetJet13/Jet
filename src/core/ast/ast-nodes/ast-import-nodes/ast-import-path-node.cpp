@@ -7,6 +7,7 @@
 
 ASTImportPathNode::ASTImportPathNode(ASTStringLiteralNode* importPath) {
     _importPath = importPath;
+    _children.push_back(_importPath);
 }
 
 ASTStringLiteralNode* ASTImportPathNode::getImportPath() {

@@ -9,12 +9,18 @@ ASTTryStatementNode::ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBloc
     _tryBlock = tryBlock;
     _catchBlock = catchBlock;
     _finallyBlock = {};
+    _children.push_back(_tryBlock);
+    _children.push_back(_catchBlock);
 }
 
 ASTTryStatementNode::ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBlockNode* catchBlock, ASTFinallyBlockNode* finallyBlock) {
     _tryBlock = tryBlock;
     _catchBlock = catchBlock;
     _finallyBlock = finallyBlock;
+    _children.push_back(_tryBlock);
+    _children.push_back(_catchBlock);
+    _children.push_back(_finallyBlock.value());
+
 }
 
 ASTTryBlockNode* ASTTryStatementNode::getTryBlock() {

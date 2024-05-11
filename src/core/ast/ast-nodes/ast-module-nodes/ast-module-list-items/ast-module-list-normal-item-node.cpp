@@ -7,6 +7,7 @@
 
 ASTModuleListNormalItemNode::ASTModuleListNormalItemNode(ASTModuleNameNode* moduleName) {
     _moduleName = moduleName;
+    _children.push_back(_moduleName);
 }
 
 ASTModuleNameNode* ASTModuleListNormalItemNode::getModuleName() {

@@ -13,12 +13,13 @@ ASTArrayNode::ASTArrayNode() {
 ASTArrayNode::ASTArrayNode(std::vector<ASTExpressionNode*> elements) {
     _elements = new std::vector<ASTExpressionNode*>();
     for (auto element: elements) {
-        _elements->push_back(element);
+        this->addElement(element);
     }
 }
 
 ASTArrayNode* ASTArrayNode::addElement(ASTExpressionNode* element) {
     _elements->push_back(element);
+    _children.push_back(element);
     return this;
 }
 

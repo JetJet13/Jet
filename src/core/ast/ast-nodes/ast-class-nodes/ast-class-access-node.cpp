@@ -8,6 +8,8 @@
 ASTClassAccessNode::ASTClassAccessNode(ASTThisNode* thisNode, ASTThisAccessNode* thisAccess) {
     _this = thisNode;
     _thisAccess = thisAccess;
+    _children.push_back(_this);
+    _children.push_back(_thisAccess);
 }
 
 ASTThisNode* ASTClassAccessNode::getThis() {

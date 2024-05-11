@@ -7,6 +7,7 @@
 
 ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(ASTImportModuleNameNode* moduleName) {
     _moduleName = moduleName;
+    _children.push_back(_moduleName);
 }
 
 ASTImportModuleNameNode* ASTImportModuleListSpreadItemNode::getModuleName() {

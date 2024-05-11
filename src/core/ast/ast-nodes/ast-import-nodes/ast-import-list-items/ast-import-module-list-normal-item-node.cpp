@@ -7,6 +7,7 @@
 
 ASTImportModuleListNormalItemNode::ASTImportModuleListNormalItemNode(ASTImportModuleNameNode* moduleName) {
     _moduleName = moduleName;
+    _children.push_back(_moduleName);
 }
 
 ASTImportModuleNameNode* ASTImportModuleListNormalItemNode::getModuleName() {

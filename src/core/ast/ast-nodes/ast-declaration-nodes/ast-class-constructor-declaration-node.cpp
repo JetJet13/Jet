@@ -9,6 +9,9 @@ ASTClassConstructorDeclarationNode::ASTClassConstructorDeclarationNode(ASTConstr
     _constructor = constructor;
     _content = content;
     _parameters = parameters;
+    _children.push_back(_constructor);
+    _children.push_back(_content);
+    _children.push_back(_parameters);
 }
 
 ASTConstructorNode* ASTClassConstructorDeclarationNode::getConstructor() {

@@ -16,6 +16,7 @@ protected:
     ASTNodeType _nodeType;
     unsigned int _priority = 1;
     std::string _id;
+    std::vector<ASTNode*> _children = {};
 public:
     std::string getId();
     void setId(std::string id);
@@ -25,6 +26,7 @@ public:
     virtual std::string toString() = 0;
     virtual bool isSameAs(ASTNode* other);
     virtual void print();
+    virtual std::vector<ASTNode*> getChildren();
     virtual ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode);
     bool is(ASTNodeType astNodeType);
     bool isOneOf(std::vector<ASTNodeType> astNodeTypes);

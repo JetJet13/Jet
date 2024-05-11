@@ -8,6 +8,8 @@
 ASTCurryExpressionNode::ASTCurryExpressionNode(ASTCallableExpressionNode* callableExpression, ASTFunctionArgumentListNode* arguments) {
     _callableExpression = callableExpression;
     _arguments = arguments;
+    _children.push_back(_callableExpression);
+    _children.push_back(_arguments);
 }
 
 ASTFunctionArgumentListNode* ASTCurryExpressionNode::getArguments() {

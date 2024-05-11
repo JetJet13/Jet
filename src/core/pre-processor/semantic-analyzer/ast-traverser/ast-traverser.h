@@ -12,11 +12,11 @@
 class ASTTraverser {
 private:
     std::stack<ASTNode*> _stack;
-    std::optional<ASTNode*> _startNode;
+    std::stack<ASTNode*> _traverseStack;
     bool _hasMore;
 public:
     ASTTraverser();
-    void start(ASTNode* node);
+    void init(ASTNode* startNode);
     void reset();
     std::optional<ASTNode*> next();
     bool hasMore();

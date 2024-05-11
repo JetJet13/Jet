@@ -8,6 +8,8 @@
 ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNameNode* name, ASTClassBlockNode* block) {
     _name = name;
     _block = block;
+    _children.push_back(_name);
+    _children.push_back(_block);
 }
 
 std::string ASTClassDeclarationNode::getInternalId() {

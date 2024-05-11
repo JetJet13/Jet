@@ -15,12 +15,13 @@ ASTBlockNode::ASTBlockNode() {
 ASTBlockNode::ASTBlockNode(std::vector<ASTNode*> contents) {
     _contents = std::vector<ASTNode*>();
     for (auto content: contents) {
-        _contents.push_back(content);
+        this->addContent(content);
     }
 }
 
 ASTBlockNode* ASTBlockNode::addContent(ASTNode* content) {
     _contents.push_back(content);
+    _children.push_back(content);
     return this;
 }
 

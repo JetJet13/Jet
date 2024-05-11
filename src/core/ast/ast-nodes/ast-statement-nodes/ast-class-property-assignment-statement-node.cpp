@@ -8,6 +8,8 @@
 ASTClassPropertyAssignmentStatementNode::ASTClassPropertyAssignmentStatementNode(ASTClassPropertyAssignmentNode* propertyAssignment, ASTExpressionNode* expression) {
     _propertyAssignment = propertyAssignment;
     _expression = expression;
+    _children.push_back(_propertyAssignment);
+    _children.push_back(_expression);
 }
 
 ASTClassPropertyAssignmentNode* ASTClassPropertyAssignmentStatementNode::getPropertyAssignment() {

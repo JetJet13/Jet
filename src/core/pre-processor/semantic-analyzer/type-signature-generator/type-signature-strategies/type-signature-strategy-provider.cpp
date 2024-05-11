@@ -15,12 +15,15 @@
 #include "expression-type-signature-strategies/function-return-expression-type-signature-strategy/function-return-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/identifier-expression-type-signature-strategy/identifier-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/lambda-expression-type-signature-strategy/lambda-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
+#include "../../../../ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider(TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable) {
     _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
@@ -71,6 +74,18 @@ TypeSignature*  TypeSignatureStrategyProvider::getTypeSignatureFor(ASTNode* node
             return this->_typeSignatureStrategyMap
                     ->getIdentifierExpressionTypeSignatureStrategy()
                     ->create((ASTIdentifierExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_LAMBDA_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLambdaExpressionTypeSignatureStrategy()
+                    ->create((ASTLambdaExpressionNode*)node, this);
+        case AST_LAMBDA_RETURN_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLambdaReturnExpressionTypeSignatureStrategy()
+                    ->create((ASTLambdaReturnExpressionNode*)node, this);
+        case AST_LITERAL_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLiteralExpressionTypeSignatureStrategy()
+                    ->create((ASTLiteralExpressionNode*)node, this);
         case AST_TYPE_NODE:
             return this->_typeSignatureStrategyMap
                     ->getTypeTypeSignatureStrategy()
@@ -98,7 +113,7 @@ TypeSignature*  TypeSignatureStrategyProvider::getTypeSignatureFor(ASTNode* node
         case AST_THIS_TYPE_NODE:
             return this->_typeSignatureStrategyMap
                     ->getThisTypeTypeSignatureStrategy()
-                    ->create((ASTThisTypeNode*)node, this);
+                    ->create((ASTThisTypeNode*)node, this->_typeSignatureLookupTable);
         default:
             throw std::invalid_argument("unable to locate expression type signature strategy for given ast node type");
     }

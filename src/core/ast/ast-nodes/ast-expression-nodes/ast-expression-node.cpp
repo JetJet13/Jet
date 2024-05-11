@@ -6,13 +6,6 @@
 #include "../ast-function-nodes/ast-function-argument-node.h"
 #include "../ast-tuple-nodes/ast-tuple-item-node.h"
 
-ASTExpressionNode::ASTExpressionNode() {
-    _childNodes = {};
-}
-
-void ASTExpressionNode::addChildNode(ASTNode* astNode) {
-    _childNodes.push_back(astNode);
-}
 
 ASTNode * ASTExpressionNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     return this->baseTransformIfNecessary(prevNode, nextNode, mode);

@@ -12,7 +12,7 @@ ASTTupleListNode::ASTTupleListNode() {
 ASTTupleListNode::ASTTupleListNode(std::vector<ASTTupleItemNode*> items) {
     _items = std::vector<ASTTupleItemNode*>();
     for (auto item: items) {
-        _items.push_back(item);
+        this->addItem(item);
     }
 }
 
@@ -24,8 +24,9 @@ unsigned long ASTTupleListNode::numItems() {
     return _items.size();
 }
 
-ASTTupleListNode* ASTTupleListNode::addItem(ASTTupleItemNode* argument) {
-    _items.push_back(argument);
+ASTTupleListNode* ASTTupleListNode::addItem(ASTTupleItemNode* item) {
+    _items.push_back(item);
+    _children.push_back(item);
     return this;
 }
 

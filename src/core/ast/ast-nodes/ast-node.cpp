@@ -42,6 +42,10 @@ void ASTNode::print() {
     Logger::log(this->toString());
 }
 
+std::vector<ASTNode*> ASTNode::getChildren() {
+    return _children;
+}
+
 unsigned int ASTNode::getPriority() {
     return _priority;
 }

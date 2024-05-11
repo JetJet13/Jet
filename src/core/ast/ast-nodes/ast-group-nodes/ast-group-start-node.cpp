@@ -10,7 +10,7 @@
 #include "../ast-type-nodes/ast-type-parameter-list-start-node.h"
 
 ASTGroupStartNode::ASTGroupStartNode(Lexeme *lexeme) {
-_lexeme = lexeme;
+    _lexeme = lexeme;
 }
 
 Lexeme* ASTGroupStartNode::getLexeme() {

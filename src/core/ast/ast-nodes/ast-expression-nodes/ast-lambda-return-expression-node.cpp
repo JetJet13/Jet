@@ -7,6 +7,7 @@
 
 ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(ASTExpressionNode* expressionNode) {
     _returnExpression = expressionNode;
+    _children.push_back(_returnExpression);
 }
 
 ASTExpressionNode* ASTLambdaReturnExpressionNode::getExpression() {

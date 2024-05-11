@@ -7,6 +7,7 @@
 
 ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTExpressionNode* expressionNode) {
     _returnExpression = expressionNode;
+    _children.push_back(_returnExpression);
 }
 
 ASTExpressionNode* ASTFunctionReturnExpressionNode::getExpression() {

@@ -7,6 +7,7 @@
 
 ASTForSourceNode::ASTForSourceNode(ASTExpressionNode* source) {
     _source = source;
+    _children.push_back(_source);
 }
 
 ASTExpressionNode* ASTForSourceNode::getSource() {

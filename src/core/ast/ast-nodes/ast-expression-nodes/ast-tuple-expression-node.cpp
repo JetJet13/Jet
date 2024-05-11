@@ -7,6 +7,7 @@
 
 ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListNode* tupleList) {
     _tupleList = tupleList;
+    _children.push_back(_tupleList);
 }
 
 ASTTupleListNode* ASTTupleExpressionNode::getTupleList() {

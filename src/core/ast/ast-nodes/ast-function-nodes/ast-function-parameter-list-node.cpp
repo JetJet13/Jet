@@ -12,7 +12,7 @@ ASTFunctionParameterListNode::ASTFunctionParameterListNode() {
 ASTFunctionParameterListNode::ASTFunctionParameterListNode(std::vector<ASTFunctionParameterNode*> parameters) {
     _parameters = std::vector<ASTFunctionParameterNode*>();
     for (auto parameter: parameters) {
-        _parameters.push_back(parameter);
+        this->addParameter(parameter);
     }
 }
 
@@ -26,6 +26,7 @@ unsigned long ASTFunctionParameterListNode::numParameters() {
 
 ASTFunctionParameterListNode* ASTFunctionParameterListNode::addParameter(ASTFunctionParameterNode* parameter) {
     _parameters.push_back(parameter);
+    _children.push_back(parameter);
     return this;
 }
 

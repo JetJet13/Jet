@@ -9,6 +9,8 @@
 ASTTupleAccessExpressionNode::ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTTupleAccessNode* index) {
     _source = source;
     _index = index;
+    _children.push_back(_source);
+    _children.push_back(_index);
 }
 
 ASTObjectAccessSourceNode* ASTTupleAccessExpressionNode::getSource() {

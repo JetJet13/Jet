@@ -7,6 +7,7 @@
 
 ASTThisTypeNode::ASTThisTypeNode(ASTThisNode* thisNode) {
     _this = thisNode;
+    _children.push_back(_this);
 }
 
 ASTThisNode* ASTThisTypeNode::getThis() {

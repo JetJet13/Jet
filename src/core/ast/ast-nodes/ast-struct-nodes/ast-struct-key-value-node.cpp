@@ -8,6 +8,8 @@
 ASTStructKeyValueNode::ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTExpressionNode* value) {
     _key = key;
     _value = value;
+    _children.push_back(_key);
+    _children.push_back(_value);
 }
 
 ASTIdentifierExpressionNode* ASTStructKeyValueNode::getKey() {

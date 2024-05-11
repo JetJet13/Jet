@@ -24,6 +24,18 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     for (auto constructorDeclaration : *classDeclarationNode->getBlock()->getConstructors()) {
         constructorDeclaration->setId(this->generateClassConstructorDeclarationId(className, constructorDeclaration));
     }
+
+    auto astTraverser = ASTTraverser();
+    astTraverser.init(classDeclarationNode);
+    auto astNode = astTraverser.next();
+    while (astNode) {
+        if (astNode.value()->isOneOf({ AST_THIS_EXPRESSION_NODE, AST_THIS_TYPE_NODE })) {
+            astNode.value()->setId(classDeclarationNode->getExternalId());
+        } else if (astNode.value()->is(AST_THIS_NODE)) {
+            astNode.value()->setId(classDeclarationNode->getInternalId());
+        }
+        astNode = astTraverser.next();
+    }
 }
 
 std::string ClassDeclarationIdStrategy::generateClassPropertyDeclarationId(std::string className, ASTClassPropertyDeclarationNode* classPropertyDeclaration) {

@@ -10,6 +10,10 @@ ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionNameNode* name
     _content = content;
     _returnType = returnType;
     _parameters = parameters;
+    _children.push_back(_name);
+    _children.push_back(_content);
+    _children.push_back(_returnType);
+    _children.push_back(_parameters);
 }
 
 ASTFunctionParameterListNode* ASTFunctionDeclarationNode::getParameters() {

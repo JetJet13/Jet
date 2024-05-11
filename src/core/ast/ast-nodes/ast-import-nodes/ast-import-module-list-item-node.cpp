@@ -7,6 +7,7 @@
 
 ASTImportModuleListItemNode::ASTImportModuleListItemNode(ASTImportModuleListBaseItemNode* item) {
     _item = item;
+    _children.push_back(_item);
 }
 
 ASTImportModuleListBaseItemNode* ASTImportModuleListItemNode::getItem() {

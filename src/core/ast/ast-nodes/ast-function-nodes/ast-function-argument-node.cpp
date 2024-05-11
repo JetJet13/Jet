@@ -7,6 +7,7 @@
 
 ASTFunctionArgumentNode::ASTFunctionArgumentNode(ASTExpressionNode* argument) {
     _argument = argument;
+    _children.push_back(_argument);
 }
 
 ASTExpressionNode* ASTFunctionArgumentNode::getArgument() {

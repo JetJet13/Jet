@@ -14,5 +14,5 @@ TypeSignature* LambdaTypeTypeSignatureStrategy::create(ASTLambdaTypeNode* node, 
     if (node->getReturnType()) {
         return new LambdaTypeSignature(typeSignatures, strategyMap->getTypeSignatureFor(node->getReturnType().value()));
     }
-    new LambdaTypeSignature(typeSignatures);
+    return new LambdaTypeSignature(typeSignatures);
 }

@@ -8,6 +8,8 @@
 ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTImportWildcardNode* wildcard) {
     _moduleName = moduleName;
     _wildcard = wildcard;
+    _children.push_back(_moduleName);
+    _children.push_back(_wildcard);
 }
 
 ASTImportModuleNameNode* ASTImportModuleListByWildcardItemNode::getModuleName() {

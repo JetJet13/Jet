@@ -7,6 +7,7 @@
 
 ASTVariableAssignmentNode::ASTVariableAssignmentNode(ASTIdentifierNode* astIdentifierNode) {
     _identifier = astIdentifierNode;
+    _children.push_back(_identifier);
 }
 
 ASTIdentifierNode* ASTVariableAssignmentNode::getIdentifierNode() {

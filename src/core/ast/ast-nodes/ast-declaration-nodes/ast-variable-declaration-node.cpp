@@ -9,6 +9,8 @@
 ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer) {
     _varInit = varInit;
     _initializer = initializer;
+    _children.push_back(_varInit);
+    _children.push_back(_initializer);
 }
 
 ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {

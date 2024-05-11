@@ -8,6 +8,8 @@
 ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTModuleNameNode* name, ASTModuleListNode* items) {
     _name = name;
     _items = items;
+    _children.push_back(_name);
+    _children.push_back(_items);
 }
 
 ASTModuleListNode* ASTModuleDeclarationNode::getItems() {

@@ -13,6 +13,11 @@ ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key) {
 ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTLiteralNode* value) {
     _key = key;
     _value = std::optional<ASTLiteralNode*>(value);
+
+    _children.push_back(_key);
+    if (_value) {
+        _children.push_back(_value.value());
+    }
 }
 
 ASTEnumKeyNode* ASTEnumKeyValueNode::getKey() {

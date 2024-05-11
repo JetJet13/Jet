@@ -9,6 +9,8 @@
 ASTUnaryExpressionNode::ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode) {
     _unaryOperator = unaryOperator;
     _expression = astExpressionNode;
+    _children.push_back(_unaryOperator);
+    _children.push_back(_expression);
 }
 
 ASTExpressionNode* ASTUnaryExpressionNode::getExpressionNode() {

@@ -8,6 +8,7 @@
 
 ASTThisExpressionNode::ASTThisExpressionNode(ASTThisNode* thisNode) {
     _this = thisNode;
+    _children.push_back(_this);
 }
 
 ASTThisNode* ASTThisExpressionNode::getThisNode() {

@@ -8,6 +8,8 @@
 ASTImportModuleListByGroupItemNode::ASTImportModuleListByGroupItemNode(ASTImportModuleNameNode* moduleName, ASTImportModuleListNode* importModuleList) {
     _moduleName = moduleName;
     _importModuleList = importModuleList;
+    _children.push_back(_moduleName);
+    _children.push_back(_importModuleList);
 }
 
 ASTImportModuleNameNode* ASTImportModuleListByGroupItemNode::getModuleName() {

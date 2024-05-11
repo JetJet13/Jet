@@ -12,7 +12,7 @@ ASTEnumKeyValueListNode::ASTEnumKeyValueListNode() {
 ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(std::vector<ASTEnumKeyValueNode*> enumKeyValues) {
     _enumKeyValues = std::vector<ASTEnumKeyValueNode*>();
     for (auto enumKeyValue: enumKeyValues) {
-        _enumKeyValues.push_back(enumKeyValue);
+        this->addEnumKeyValue(enumKeyValue);
     }
 }
 
@@ -26,6 +26,7 @@ unsigned long ASTEnumKeyValueListNode::numParameters() {
 
 ASTEnumKeyValueListNode* ASTEnumKeyValueListNode::addEnumKeyValue(ASTEnumKeyValueNode* enumKeyValue) {
     _enumKeyValues.push_back(enumKeyValue);
+    _children.push_back(enumKeyValue);
     return this;
 }
 

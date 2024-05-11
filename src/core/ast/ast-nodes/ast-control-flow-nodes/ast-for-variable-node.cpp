@@ -7,6 +7,7 @@
 
 ASTForVariableNode::ASTForVariableNode(ASTIdentifierExpressionNode* variable) {
     _variable = variable;
+    _children.push_back(_variable);
 }
 
 ASTIdentifierExpressionNode* ASTForVariableNode::getVariable() {

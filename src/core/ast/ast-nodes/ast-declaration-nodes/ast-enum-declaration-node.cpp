@@ -8,6 +8,8 @@
 ASTEnumDeclarationNode::ASTEnumDeclarationNode(ASTEnumNameNode* name, ASTEnumKeyValueListNode* values) {
     _name = name;
     _values = values;
+    _children.push_back(_name);
+    _children.push_back(_values);
 }
 
 ASTEnumKeyValueListNode* ASTEnumDeclarationNode::getValues() {

@@ -7,6 +7,7 @@
 
 ASTCustomTypeNode::ASTCustomTypeNode(ASTIdentifierNode* identifierNode) {
     _identifier = identifierNode;
+    _children.push_back(_identifier);
 }
 
 ASTIdentifierNode* ASTCustomTypeNode::getIdentifier() {

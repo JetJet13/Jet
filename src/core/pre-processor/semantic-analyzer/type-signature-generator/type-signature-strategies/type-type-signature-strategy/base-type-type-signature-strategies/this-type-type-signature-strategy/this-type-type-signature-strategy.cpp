@@ -3,9 +3,7 @@
 //
 
 #include "this-type-type-signature-strategy.h"
-#include "../../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
-TypeSignature* ThisTypeTypeSignatureStrategy::create(ASTThisTypeNode* node, TypeSignatureStrategyProvider* strategyMap) {
-
-    return new InvalidTypeSignature();
+TypeSignature* ThisTypeTypeSignatureStrategy::create(ASTThisTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
+    return typeSignatureLookupTable->find(node->getId());
 }

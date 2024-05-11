@@ -9,6 +9,8 @@
 ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTTypeNode* type) {
     _classPropertyDefinition = classPropertyDefinition;
     _type = type;
+    _children.push_back(_classPropertyDefinition);
+    _children.push_back(_type);
 }
 
 ASTClassPropertyDefinitionNode* ASTClassPropertyDefinitionWithTypeNode::getClassPropertyDefinition() {

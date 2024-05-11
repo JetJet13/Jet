@@ -7,6 +7,7 @@
 
 ASTFinallyBlockNode::ASTFinallyBlockNode(ASTControlFlowBlockNode* block) {
     _block = block;
+    _children.push_back(_block);
 }
 
 ASTControlFlowBlockNode* ASTFinallyBlockNode::getBlock() {

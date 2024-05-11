@@ -7,6 +7,7 @@
 
 ASTTupleItemNode::ASTTupleItemNode(ASTExpressionNode* item) {
     _item = item;
+    _children.push_back(_item);
 }
 
 ASTExpressionNode* ASTTupleItemNode::getItem() {

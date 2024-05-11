@@ -8,6 +8,8 @@
 ASTFunctionParameterNode::ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeNode* type) {
     _identifier = identifier;
     _type = type;
+    _children.push_back(_identifier);
+    _children.push_back(_type);
 }
 
 ASTIdentifierExpressionNode* ASTFunctionParameterNode::getIdentifier() {

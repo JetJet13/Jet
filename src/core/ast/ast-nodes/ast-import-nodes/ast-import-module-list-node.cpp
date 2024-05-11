@@ -12,7 +12,7 @@ ASTImportModuleListNode::ASTImportModuleListNode() {
 ASTImportModuleListNode::ASTImportModuleListNode(std::vector<ASTImportModuleListItemNode*> items) {
     _items = std::vector<ASTImportModuleListItemNode*>();
     for (auto item: items) {
-        _items.push_back(item);
+        this->addItem(item);
     }
 }
 
@@ -26,6 +26,7 @@ unsigned long ASTImportModuleListNode::numItems() {
 
 ASTImportModuleListNode* ASTImportModuleListNode::addItem(ASTImportModuleListItemNode* item) {
     _items.push_back(item);
+    _children.push_back(item);
     return this;
 }
 

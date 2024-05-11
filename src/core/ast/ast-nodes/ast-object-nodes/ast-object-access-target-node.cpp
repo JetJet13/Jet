@@ -7,6 +7,7 @@
 
 ASTObjectAccessTargetNode::ASTObjectAccessTargetNode(ASTExpressionNode* target) {
     _target = target;
+    _children.push_back(_target);
 }
 
 ASTExpressionNode* ASTObjectAccessTargetNode::getTarget() {

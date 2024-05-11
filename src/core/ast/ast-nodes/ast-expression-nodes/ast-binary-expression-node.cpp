@@ -10,6 +10,9 @@ ASTBinaryExpressionNode::ASTBinaryExpressionNode(ASTExpressionNode* leftNode, AS
     _leftNode = leftNode;
     _binaryOperator = binaryOperator;
     _rightNode = rightNode;
+    _children.push_back(_leftNode);
+    _children.push_back(_binaryOperator);
+    _children.push_back(_rightNode);
 }
 
 ASTExpressionNode* ASTBinaryExpressionNode::getLeftNode() {

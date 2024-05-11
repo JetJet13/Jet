@@ -11,6 +11,7 @@
 
 ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode) {
     _identifierNode = identifierNode;
+    _children.push_back(_identifierNode);
 }
 
 ASTIdentifierNode* ASTIdentifierExpressionNode::getIdentifierNode() {

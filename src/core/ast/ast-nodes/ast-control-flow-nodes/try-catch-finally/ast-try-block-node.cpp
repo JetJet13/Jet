@@ -7,6 +7,7 @@
 
 ASTTryBlockNode::ASTTryBlockNode(ASTControlFlowBlockNode* block) {
     _block = block;
+    _children.push_back(_block);
 }
 
 ASTControlFlowBlockNode* ASTTryBlockNode::getBlock() {

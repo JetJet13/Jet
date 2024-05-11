@@ -12,7 +12,7 @@ ASTModuleListNode::ASTModuleListNode() {
 ASTModuleListNode::ASTModuleListNode(std::vector<ASTModuleListItemNode*> items) {
     _items = std::vector<ASTModuleListItemNode*>();
     for (auto item: items) {
-        _items.push_back(item);
+        this->addItem(item);
     }
 }
 
@@ -26,6 +26,7 @@ unsigned long ASTModuleListNode::numItems() {
 
 ASTModuleListNode* ASTModuleListNode::addItem(ASTModuleListItemNode* item) {
     _items.push_back(item);
+    _children.push_back(item);
     return this;
 }
 

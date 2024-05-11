@@ -7,6 +7,7 @@
 
 ASTControlFlowConditionNode::ASTControlFlowConditionNode(ASTExpressionNode* condition) {
     _condition = condition;
+    _children.push_back(_condition);
 }
 
 ASTExpressionNode* ASTControlFlowConditionNode::getCondition() {

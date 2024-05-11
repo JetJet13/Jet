@@ -7,6 +7,7 @@
 
 ASTTypeNode::ASTTypeNode(ASTTypeBaseNode* type) {
     _type = type;
+    _children.push_back(_type);
 }
 
 ASTTypeBaseNode* ASTTypeNode::getType() {

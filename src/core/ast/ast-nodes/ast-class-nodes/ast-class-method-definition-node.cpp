@@ -10,6 +10,8 @@ ASTClassMethodDefinitionNode::ASTClassMethodDefinitionNode(ASTAccessModifierNode
     _accessModifier = accessModifier;
     _methodName = methodName;
     _isStatic = isStatic;
+    _children.push_back(_accessModifier);
+    _children.push_back(_methodName);
 }
 
 ASTAccessModifierNode* ASTClassMethodDefinitionNode::getAccessModifier() {

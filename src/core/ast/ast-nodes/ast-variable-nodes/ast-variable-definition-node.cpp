@@ -8,6 +8,8 @@
 ASTVariableDefinitionNode::ASTVariableDefinitionNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode) {
     _assignmentTypeQualifier = assignmentTypeQualifier;
     _identifier = astIdentifierNode;
+    _children.push_back(_assignmentTypeQualifier);
+    _children.push_back(_identifier);
 }
 
 ASTVariableTypeNode* ASTVariableDefinitionNode::getVarTypeNode() {

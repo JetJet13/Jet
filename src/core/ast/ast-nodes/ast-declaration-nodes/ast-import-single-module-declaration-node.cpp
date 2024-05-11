@@ -8,6 +8,8 @@
 ASTImportSingleModuleDeclarationNode::ASTImportSingleModuleDeclarationNode(ASTImportModuleNameNode* moduleName, ASTImportPathNode* path) {
     _moduleName = moduleName;
     _path = path;
+    _children.push_back(_moduleName);
+    _children.push_back(_path);
 }
 
 ASTImportModuleNameNode* ASTImportSingleModuleDeclarationNode::getModuleName() {

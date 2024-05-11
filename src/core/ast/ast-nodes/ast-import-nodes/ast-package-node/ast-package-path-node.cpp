@@ -7,6 +7,7 @@
 
 ASTPackagePathNode::ASTPackagePathNode(ASTStringLiteralNode* packagePath) {
     _packagePath = packagePath;
+    _children.push_back(_packagePath);
 }
 
 ASTStringLiteralNode* ASTPackagePathNode::getPackagePath() {

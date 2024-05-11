@@ -8,6 +8,8 @@
 ASTVariableAssignmentStatementNode::ASTVariableAssignmentStatementNode(ASTVariableAssignmentNode* variable, ASTExpressionNode* expression) {
     _variable = variable;
     _expression = expression;
+    _children.push_back(_variable);
+    _children.push_back(_expression);
 }
 
 ASTVariableAssignmentNode* ASTVariableAssignmentStatementNode::getVariable() {

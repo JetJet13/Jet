@@ -14,5 +14,4 @@ public:
     TypeSignature* create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureStrategyProvider* strategyMap);
 };
 
-
 #endif //JETLANG_LAMBDA_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

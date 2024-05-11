@@ -7,6 +7,7 @@
 
 ASTArrayAccessNode::ASTArrayAccessNode(ASTExpressionNode* index) {
     _index = index;
+    _children.push_back(_index);
 }
 
 ASTExpressionNode* ASTArrayAccessNode::getIndex() {

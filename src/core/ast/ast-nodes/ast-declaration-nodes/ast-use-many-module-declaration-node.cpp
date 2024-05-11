@@ -9,6 +9,9 @@ ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(ASTImportModule
     _moduleName = moduleName;
     _importModuleList = importModuleList;
     _path = path;
+    _children.push_back(_moduleName);
+    _children.push_back(_importModuleList);
+    _children.push_back(_path);
 }
 
 ASTImportModuleNameNode* ASTUseManyModuleDeclarationNode::getModuleName() {

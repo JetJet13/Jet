@@ -7,6 +7,7 @@
 
 ASTArrayTypeNode::ASTArrayTypeNode(ASTTypeNode* elementType) {
     _elementType = elementType;
+    _children.push_back(_elementType);
 }
 
 ASTTypeNode* ASTArrayTypeNode::getElementType() {

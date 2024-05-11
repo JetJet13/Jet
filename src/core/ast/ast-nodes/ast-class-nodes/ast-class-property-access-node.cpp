@@ -7,6 +7,7 @@
 
 ASTClassPropertyAccessNode::ASTClassPropertyAccessNode(ASTClassPropertyNameNode* property) {
     _property = property;
+    _children.push_back(_property);
 }
 
 ASTClassPropertyNameNode* ASTClassPropertyAccessNode::getProperty() {

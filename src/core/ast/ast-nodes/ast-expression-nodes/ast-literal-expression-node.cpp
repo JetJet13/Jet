@@ -7,6 +7,7 @@
 
 ASTLiteralExpressionNode::ASTLiteralExpressionNode(ASTLiteralNode* literalNode) {
     _literalNode = literalNode;
+    _children.push_back(_literalNode);
 }
 
 ASTLiteralNode* ASTLiteralExpressionNode::getLiteralNode() {

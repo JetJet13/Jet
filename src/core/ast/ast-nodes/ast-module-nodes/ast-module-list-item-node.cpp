@@ -7,6 +7,7 @@
 
 ASTModuleListItemNode::ASTModuleListItemNode(ASTModuleListBaseItemNode* item) {
     _item = item;
+    _children.push_back(_item);
 }
 
 ASTModuleListBaseItemNode* ASTModuleListItemNode::getItem() {

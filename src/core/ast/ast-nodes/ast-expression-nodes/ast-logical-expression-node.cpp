@@ -9,6 +9,9 @@ ASTLogicalExpressionNode::ASTLogicalExpressionNode(ASTExpressionNode* leftNode, 
     _leftNode = leftNode;
     _logicalOperator = logicalOperator;
     _rightNode = rightNode;
+    _children.push_back(_leftNode);
+    _children.push_back(_logicalOperator);
+    _children.push_back(_rightNode);
 }
 
 ASTExpressionNode* ASTLogicalExpressionNode::getLeftNode() {

@@ -8,6 +8,8 @@
 ASTIfBlockNode::ASTIfBlockNode(ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
     _condition = condition;
     _block = block;
+    _children.push_back(_condition);
+    _children.push_back(_block);
 }
 
 ASTControlFlowBlockNode* ASTIfBlockNode::getBlock() {

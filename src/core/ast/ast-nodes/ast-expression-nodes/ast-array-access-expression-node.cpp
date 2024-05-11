@@ -8,6 +8,8 @@
 ASTArrayAccessExpressionNode::ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* index) {
     _source = source;
     _index = index;
+    _children.push_back(_source);
+    _children.push_back(_index);
 }
 
 ASTExpressionNode* ASTArrayAccessExpressionNode::getSource() {

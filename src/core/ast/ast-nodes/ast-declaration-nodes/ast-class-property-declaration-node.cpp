@@ -9,6 +9,10 @@
 ASTClassPropertyDeclarationNode::ASTClassPropertyDeclarationNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer) {
     _propertyInit = propertyInit;
     _initializer = initializer;
+    _children.push_back(_propertyInit);
+    if (_initializer) {
+        _children.push_back(_initializer.value());
+    }
 }
 
 ASTClassPropertyInitNode* ASTClassPropertyDeclarationNode::getPropertyInit() {

@@ -7,6 +7,7 @@
 
 ASTExpressionStatementNode::ASTExpressionStatementNode(ASTExpressionNode* expression) {
     _expression = expression;
+    _children.push_back(_expression);
 }
 
 ASTExpressionNode* ASTExpressionStatementNode::getExpression() {

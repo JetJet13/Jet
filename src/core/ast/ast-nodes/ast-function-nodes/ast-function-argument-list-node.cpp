@@ -12,7 +12,7 @@ ASTFunctionArgumentListNode::ASTFunctionArgumentListNode() {
 ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(std::vector<ASTFunctionArgumentNode*> arguments) {
     _arguments = std::vector<ASTFunctionArgumentNode*>();
     for (auto argument: arguments) {
-        _arguments.push_back(argument);
+        this->addArgument(argument);
     }
 }
 
@@ -26,6 +26,7 @@ unsigned long ASTFunctionArgumentListNode::numArguments() {
 
 ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addArgument(ASTFunctionArgumentNode* argument) {
     _arguments.push_back(argument);
+    _children.push_back(argument);
     return this;
 }
 

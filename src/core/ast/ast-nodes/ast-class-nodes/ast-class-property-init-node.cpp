@@ -12,6 +12,11 @@ ASTClassPropertyInitNode::ASTClassPropertyInitNode(ASTAccessModifierNode* access
     _isStatic = isStatic;
     _isConstant = isConstant;
     _type = type;
+    _children.push_back(_accessModifier);
+    _children.push_back(propertyName);
+    if (_type) {
+        _children.push_back(_type.value());
+    }
 }
 
 ASTAccessModifierNode* ASTClassPropertyInitNode::getAccessModifier() {

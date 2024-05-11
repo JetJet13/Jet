@@ -8,6 +8,8 @@
 ASTClassMethodInvocationExpressionNode::ASTClassMethodInvocationExpressionNode(ASTClassMethodCallNode* method, ASTFunctionArgumentListNode* arguments) {
     _method = method;
     _arguments = arguments;
+    _children.push_back(_method);
+    _children.push_back(_arguments);
 }
 
 ASTFunctionArgumentListNode* ASTClassMethodInvocationExpressionNode::getArguments() {

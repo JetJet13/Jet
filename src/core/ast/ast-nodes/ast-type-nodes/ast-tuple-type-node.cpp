@@ -7,6 +7,7 @@
 
 ASTTupleTypeNode::ASTTupleTypeNode(ASTTypeParameterListNode* typeParameterList) {
     _typeParameterList = typeParameterList;
+    _children.push_back(_typeParameterList);
 }
 
 ASTTypeParameterListNode* ASTTupleTypeNode::getParameterList() {

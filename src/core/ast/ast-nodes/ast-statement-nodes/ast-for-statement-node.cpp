@@ -9,6 +9,9 @@ ASTForStatementNode::ASTForStatementNode(ASTForVariableNode* variable, ASTForSou
     _variable = variable;
     _source = source;
     _block = block;
+    _children.push_back(_variable);
+    _children.push_back(_source);
+    _children.push_back(_block);
 }
 
 ASTForVariableNode* ASTForStatementNode::getVariable() {

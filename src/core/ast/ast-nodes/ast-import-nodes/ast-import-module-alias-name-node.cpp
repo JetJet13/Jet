@@ -7,6 +7,7 @@
 
 ASTImportModuleAliasNameNode::ASTImportModuleAliasNameNode(ASTIdentifierNode* identifier) {
     _identifier = identifier;
+    _children.push_back(_identifier);
 }
 
 ASTIdentifierNode* ASTImportModuleAliasNameNode::getIdentifier() {

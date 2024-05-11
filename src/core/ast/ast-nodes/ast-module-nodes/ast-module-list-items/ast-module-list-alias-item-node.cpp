@@ -8,6 +8,8 @@
 ASTModuleListAliasItemNode::ASTModuleListAliasItemNode(ASTModuleNameNode* moduleName, ASTModuleAliasNameNode* aliasModuleName) {
     _moduleName = moduleName;
     _aliasModuleName = aliasModuleName;
+    _children.push_back(_moduleName);
+    _children.push_back(_aliasModuleName);
 }
 
 ASTModuleNameNode* ASTModuleListAliasItemNode::getModuleName() {

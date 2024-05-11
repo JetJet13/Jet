@@ -9,6 +9,11 @@ ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* p
     _parameters = parameters;
     _block = block;
     _returnType = returnType;
+    _children.push_back(_parameters);
+    _children.push_back(_block);
+    if (_returnType) {
+        _children.push_back(_returnType.value());
+    }
 }
 
 ASTFunctionParameterListNode* ASTLambdaExpressionNode::getParameters() {

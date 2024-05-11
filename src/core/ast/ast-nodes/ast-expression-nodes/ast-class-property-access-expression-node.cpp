@@ -7,6 +7,7 @@
 
 ASTClassPropertyAccessExpressionNode::ASTClassPropertyAccessExpressionNode(ASTClassPropertyAccessNode* propertyAccess) {
     _propertyAccess = propertyAccess;
+    _children.push_back(_propertyAccess);
 }
 
 ASTClassPropertyAccessNode* ASTClassPropertyAccessExpressionNode::getPropertyAccess() {

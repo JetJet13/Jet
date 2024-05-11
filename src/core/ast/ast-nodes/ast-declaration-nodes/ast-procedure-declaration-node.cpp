@@ -9,6 +9,10 @@ ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(ASTFunctionNameNode* na
     _name = name;
     _content = content;
     _parameters = parameters;
+    _children.push_back(_name);
+    _children.push_back(_content);
+    _children.push_back(_parameters);
+
 }
 
 ASTFunctionParameterListNode* ASTProcedureDeclarationNode::getParameters() {
