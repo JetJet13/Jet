@@ -9,7 +9,7 @@
 
 TypeSignature* ClassPropertyAccessExpressionTypeSignatureStrategy::create(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto classPropertyTypeSignature = typeSignatureLookupTable->find(classPropertyAccessExpression->getId());
-    if (!classPropertyTypeSignature->hasTypeSource(CLASS_PROPERTY_TYPE_SOURCE)) {
+    if (!classPropertyTypeSignature->is(CLASS_PROPERTY_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }
 

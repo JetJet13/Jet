@@ -4,8 +4,15 @@
 
 #include "type-signature.h"
 
-bool TypeSignature::hasTypeSource(TypeSource other) {
+bool TypeSignature::is(TypeSource other) {
     return this->getTypeSource() == other;
+}
+
+bool TypeSignature::isOneOf(std::vector<TypeSource> typeSources) {
+    return std::find(
+            typeSources.begin(),
+            typeSources.end(),
+            this->getTypeSource()) != typeSources.end();
 }
 
 bool TypeSignature::isUnknown() {
@@ -18,4 +25,14 @@ bool TypeSignature::isInvalid() {
 
 bool TypeSignature::isVoid() {
     return this->getTypeSource() == VOID_TYPE_SOURCE;
+}
+
+bool TypeSignature::isUnknownOrInvalidOrVoid() {
+    return this->isUnknown() ||
+           this->isInvalid() ||
+           this->isVoid();
+}
+
+bool TypeSignature::isLiteral() {
+    return false;
 }

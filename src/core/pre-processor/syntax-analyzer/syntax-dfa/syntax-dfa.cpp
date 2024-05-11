@@ -172,6 +172,7 @@ void SyntaxDfa::init() {
 //    todo: add support for struct definitions
 //    todo: update 'getTypeSignature' logic to leverage token table. Implement Visitor Pattern to handle this.
 //    todo: add support for tagged unions (sum types)
+//    todo: add support for enums to have structs as values
 
     this->initVarDefinition(varDefinition);
     this->initVarInit(varInit, AST_VARIABLE_DECLARATION_NODE);

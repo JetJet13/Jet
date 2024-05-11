@@ -5,15 +5,19 @@
 #ifndef JETLANG_TYPE_SIGNATURE_H
 #define JETLANG_TYPE_SIGNATURE_H
 
+#include <vector>
 #include <string>
 #include "types/type-source.h"
 
 class TypeSignature {
 public:
-    bool hasTypeSource(TypeSource other);
+    bool is(TypeSource other);
+    bool isOneOf(std::vector<TypeSource> typeSources);
     bool isUnknown();
     bool isInvalid();
     bool isVoid();
+    bool isUnknownOrInvalidOrVoid();
+    virtual bool isLiteral();
     virtual std::string toString() = 0;
     virtual TypeSource getTypeSource() = 0;
     virtual bool isEqualTo(TypeSignature* otherType) = 0;

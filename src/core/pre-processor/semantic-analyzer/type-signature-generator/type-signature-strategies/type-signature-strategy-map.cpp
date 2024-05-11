@@ -18,18 +18,26 @@
 #include "expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/new-class-instance-expression-type-signature-strategy/new-class-instance-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/object-access-expression-type-signature-strategy/object-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
+#include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
+#include "enum-type-signature-strategy/enum-type-signature-strategy.h"
 
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _arrayAccessExpressionTypeSignatureStrategy = new ArrayAccessExpressionTypeSignatureStrategy();
     _arrayExpressionTypeSignatureStrategy = new ArrayExpressionTypeSignatureStrategy();
     _binaryExpressionTypeSignatureStrategy = new BinaryExpressionTypeSignatureStrategy();
-    _logicalExpressionTypeSignatureStrategy = new LogicalExpressionTypeSignatureStrategy();
     _classMethodInvocationExpressionTypeSignatureStrategy = new ClassMethodInvocationExpressionTypeSignatureStrategy();
     _classPropertyAccessExpressionTypeSignatureStrategy = new ClassPropertyAccessExpressionTypeSignatureStrategy();
     _curryExpressionTypeSignatureStrategy = new CurryExpressionTypeSignatureStrategy();
@@ -39,6 +47,14 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _lambdaExpressionTypeSignatureStrategy = new LambdaExpressionTypeSignatureStrategy();
     _lambdaReturnExpressionTypeSignatureStrategy = new LambdaReturnExpressionTypeSignatureStrategy();
     _literalExpressionTypeSignatureStrategy = new LiteralExpressionTypeSignatureStrategy();
+    _logicalExpressionTypeSignatureStrategy = new LogicalExpressionTypeSignatureStrategy();
+    _newClassInstanceExpressionTypeSignatureStrategy = new NewClassInstanceExpressionTypeSignatureStrategy();
+    _objectAccessExpressionTypeSignatureStrategy = new ObjectAccessExpressionTypeSignatureStrategy();
+    _structExpressionTypeSignatureStrategy = new StructExpressionTypeSignatureStrategy();
+    _thisExpressionTypeSignatureStrategy = new ThisExpressionTypeSignatureStrategy();
+    _tupleAccessExpressionTypeSignatureStrategy = new TupleAccessExpressionTypeSignatureStrategy();
+    _tupleExpressionTypeSignatureStrategy = new TupleExpressionTypeSignatureStrategy();
+    _unaryExpressionTypeSignatureStrategy = new UnaryExpressionTypeSignatureStrategy();
     _typeTypeSignatureStrategy = new TypeTypeSignatureStrategy();
     _primitiveTypeTypeSignatureStrategy = new PrimitiveTypeTypeSignatureStrategy();
     _customTypeTypeSignatureStrategy = new CustomTypeTypeSignatureStrategy();
@@ -46,6 +62,8 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _tupleTypeTypeSignatureStrategy = new TupleTypeTypeSignatureStrategy();
     _lambdaTypeTypeSignatureStrategy = new LambdaTypeTypeSignatureStrategy();
     _thisTypeTypeSignatureStrategy = new ThisTypeTypeSignatureStrategy();
+    _enumKeyValueTypeSignatureStrategy = new EnumKeyValueTypeSignatureStrategy();
+    _enumTypeSignatureStrategy = new EnumTypeSignatureStrategy();
 }
 
 
@@ -59,10 +77,6 @@ ArrayExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayExpressi
 
 BinaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getBinaryExpressionTypeSignatureStrategy() {
     return this->_binaryExpressionTypeSignatureStrategy;
-}
-
-LogicalExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLogicalExpressionTypeSignatureStrategy() {
-    return this->_logicalExpressionTypeSignatureStrategy;
 }
 
 ClassMethodInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getClassMethodInvocationExpressionTypeSignatureStrategy() {
@@ -101,6 +115,38 @@ LiteralExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLiteralExpr
     return this->_literalExpressionTypeSignatureStrategy;
 }
 
+LogicalExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLogicalExpressionTypeSignatureStrategy() {
+    return this->_logicalExpressionTypeSignatureStrategy;
+}
+
+NewClassInstanceExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getNewClassInstanceExpressionTypeSignatureStrategy() {
+    return this->_newClassInstanceExpressionTypeSignatureStrategy;
+}
+
+ObjectAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessExpressionTypeSignatureStrategy() {
+    return this->_objectAccessExpressionTypeSignatureStrategy;
+}
+
+StructExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getStructExpressionTypeSignatureStrategy() {
+    return this->_structExpressionTypeSignatureStrategy;
+}
+
+ThisExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getThisExpressionTypeSignatureStrategy() {
+    return this->_thisExpressionTypeSignatureStrategy;
+}
+
+TupleAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessExpressionTypeSignatureStrategy() {
+    return this->_tupleAccessExpressionTypeSignatureStrategy;
+}
+
+TupleExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleExpressionTypeSignatureStrategy() {
+    return this->_tupleExpressionTypeSignatureStrategy;
+}
+
+UnaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getUnaryExpressionTypeSignatureStrategy() {
+    return this->_unaryExpressionTypeSignatureStrategy;
+}
+
 TypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTypeTypeSignatureStrategy() {
     return this->_typeTypeSignatureStrategy;
 }
@@ -127,4 +173,12 @@ LambdaTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaTypeTypeSign
 
 ThisTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getThisTypeTypeSignatureStrategy() {
     return this->_thisTypeTypeSignatureStrategy;
+}
+
+EnumKeyValueTypeSignatureStrategy* TypeSignatureStrategyMap::getEnumKeyValueTypeSignatureStrategy() {
+    return this->_enumKeyValueTypeSignatureStrategy;
+}
+
+EnumTypeSignatureStrategy* TypeSignatureStrategyMap::getEnumTypeSignatureStrategy() {
+    return this->_enumTypeSignatureStrategy;
 }

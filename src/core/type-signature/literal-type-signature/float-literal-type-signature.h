@@ -7,13 +7,12 @@
 
 #include "../type-signature.h"
 #include "types/literal-type.h"
+#include "literal-type-signature.h"
 
-class FloatLiteralTypeSignature : public TypeSignature {
+class FloatLiteralTypeSignature : public LiteralTypeSignature {
 public:
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
-    void print() override;
 };
 
 

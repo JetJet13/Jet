@@ -9,7 +9,7 @@
 
 TypeSignature* ClassMethodInvocationExpressionTypeSignatureStrategy::create(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto classMethodTypeSignature = typeSignatureLookupTable->find(classMethodInvocationExpression->getName()->getId());
-    if (!classMethodTypeSignature->hasTypeSource(CLASS_METHOD_TYPE_SOURCE)) {
+    if (!classMethodTypeSignature->is(CLASS_METHOD_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }
 

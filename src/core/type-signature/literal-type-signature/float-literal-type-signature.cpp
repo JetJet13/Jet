@@ -12,11 +12,3 @@ std::string FloatLiteralTypeSignature::toString() {
 TypeSource FloatLiteralTypeSignature::getTypeSource() {
     return FLOAT_LITERAL_TYPE_SOURCE;
 }
-
-bool FloatLiteralTypeSignature::isEqualTo(TypeSignature* otherType) {
-    return this->getTypeSource() == otherType->getTypeSource();
-}
-
-void FloatLiteralTypeSignature::print() {
-    Logger::log(this->toString());
-}

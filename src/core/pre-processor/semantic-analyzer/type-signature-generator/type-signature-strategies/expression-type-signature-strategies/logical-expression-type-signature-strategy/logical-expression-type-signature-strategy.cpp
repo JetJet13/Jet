@@ -9,7 +9,7 @@
 TypeSignature* LogicalExpressionTypeSignatureStrategy::create(ASTLogicalExpressionNode* logicalExpression, TypeSignatureStrategyProvider* strategyMap) {
     auto leftTypeSignature = strategyMap->getTypeSignatureFor(logicalExpression->getLeftNode());
     auto rightTypeSignature = strategyMap->getTypeSignatureFor(logicalExpression->getRightNode());
-    if (leftTypeSignature->hasTypeSource(INVALID_TYPE_SOURCE) || rightTypeSignature->hasTypeSource(INVALID_TYPE_SOURCE)) {
+    if (leftTypeSignature->is(INVALID_TYPE_SOURCE) || rightTypeSignature->is(INVALID_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }
     return new BoolLiteralTypeSignature();

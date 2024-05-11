@@ -18,12 +18,20 @@
 #include "expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/new-class-instance-expression-type-signature-strategy/new-class-instance-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/object-access-expression-type-signature-strategy/object-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
-#include "../../../../ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
+#include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
+#include "enum-type-signature-strategy/enum-type-signature-strategy.h"
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider(TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable) {
     _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
@@ -38,10 +46,6 @@ TypeSignature*  TypeSignatureStrategyProvider::getTypeSignatureFor(ASTNode* node
             return this->_typeSignatureStrategyMap
                        ->getBinaryExpressionTypeSignatureStrategy()
                        ->create((ASTBinaryExpressionNode*)node, this);
-        case AST_LOGICAL_EXPRESSION_NODE:
-            return this->_typeSignatureStrategyMap
-                    ->getLogicalExpressionTypeSignatureStrategy()
-                    ->create((ASTLogicalExpressionNode*)node, this);
         case AST_ARRAY_ACCESS_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                    ->getArrayAccessExpressionTypeSignatureStrategy()
@@ -86,6 +90,38 @@ TypeSignature*  TypeSignatureStrategyProvider::getTypeSignatureFor(ASTNode* node
             return this->_typeSignatureStrategyMap
                     ->getLiteralExpressionTypeSignatureStrategy()
                     ->create((ASTLiteralExpressionNode*)node, this);
+        case AST_LOGICAL_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLogicalExpressionTypeSignatureStrategy()
+                    ->create((ASTLogicalExpressionNode*)node, this);
+        case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getNewClassInstanceExpressionTypeSignatureStrategy()
+                    ->create((ASTNewClassInstanceExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_OBJECT_ACCESS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getObjectAccessExpressionTypeSignatureStrategy()
+                    ->create((ASTObjectAccessExpressionNode*)node, this->_tokenTable, this);
+        case AST_STRUCT_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getStructExpressionTypeSignatureStrategy()
+                    ->create((ASTStructExpressionNode*)node, this->_tokenTable, this);
+        case AST_THIS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getThisExpressionTypeSignatureStrategy()
+                    ->create((ASTThisExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_TUPLE_ACCESS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getTupleAccessExpressionTypeSignatureStrategy()
+                    ->create((ASTTupleAccessExpressionNode*)node, this->_tokenTable, this);
+        case AST_TUPLE_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getTupleExpressionTypeSignatureStrategy()
+                    ->create((ASTTupleExpressionNode*)node, this);
+        case AST_UNARY_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getUnaryExpressionTypeSignatureStrategy()
+                    ->create((ASTUnaryExpressionNode*)node, this);
         case AST_TYPE_NODE:
             return this->_typeSignatureStrategyMap
                     ->getTypeTypeSignatureStrategy()
@@ -114,6 +150,14 @@ TypeSignature*  TypeSignatureStrategyProvider::getTypeSignatureFor(ASTNode* node
             return this->_typeSignatureStrategyMap
                     ->getThisTypeTypeSignatureStrategy()
                     ->create((ASTThisTypeNode*)node, this->_typeSignatureLookupTable);
+        case AST_ENUM_KEY_VALUE_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getEnumKeyValueTypeSignatureStrategy()
+                    ->create((ASTEnumKeyValueNode*)node, this);
+        case AST_ENUM_DECLARATION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getEnumTypeSignatureStrategy()
+                    ->create((ASTEnumDeclarationNode*)node, this->_tokenTable, this);
         default:
             throw std::invalid_argument("unable to locate expression type signature strategy for given ast node type");
     }

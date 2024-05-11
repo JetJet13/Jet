@@ -6,14 +6,14 @@
 #define JETLANG_AST_OBJECT_ACCESS_TARGET_NODE_H
 
 #include "../../../lexeme/lexeme.h"
-#include "../ast-expression-nodes/ast-expression-node.h"
+#include "../ast-expression-nodes/ast-identifier-expression-node.h"
 
 class ASTObjectAccessTargetNode : public ASTNode {
 private:
-    ASTExpressionNode* _target;
+    ASTIdentifierExpressionNode* _target;
 public:
-    ASTObjectAccessTargetNode(ASTExpressionNode* target);
-    ASTExpressionNode* getTarget();
+    ASTObjectAccessTargetNode(ASTIdentifierExpressionNode* target);
+    ASTIdentifierExpressionNode* getTarget();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

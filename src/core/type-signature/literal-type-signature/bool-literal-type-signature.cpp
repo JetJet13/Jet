@@ -12,11 +12,3 @@ std::string BoolLiteralTypeSignature::toString() {
 TypeSource BoolLiteralTypeSignature::getTypeSource() {
     return BOOL_LITERAL_TYPE_SOURCE;
 }
-
-bool BoolLiteralTypeSignature::isEqualTo(TypeSignature* otherType) {
-    return this->getTypeSource() == otherType->getTypeSource();
-}
-
-void BoolLiteralTypeSignature::print() {
-    Logger::log(this->toString());
-}

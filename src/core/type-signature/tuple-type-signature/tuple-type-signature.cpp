@@ -4,6 +4,7 @@
 
 #include "tuple-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "../unknown-type-signature/unknown-type-signature.h"
 
 TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*>* elementTypes) {
     _elementTypes = elementTypes;
@@ -11,6 +12,17 @@ TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*>* elementTypes
 
 std::vector<TypeSignature*>* TupleTypeSignature::getElementTypes() {
     return _elementTypes;
+}
+
+TypeSignature* TupleTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+    if (index >= this->size()) {
+        return new UnknownTypeSignature();
+    }
+    return _elementTypes->at(index);
+}
+
+unsigned long TupleTypeSignature::size() {
+    return _elementTypes->size();
 }
 
 std::string TupleTypeSignature::toString() {
@@ -38,8 +50,8 @@ bool TupleTypeSignature::isEqualTo(TypeSignature* otherType) {
 
 void TupleTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    for (int i = 0; i < _elementTypes->size(); ++i) {
-        _elementTypes->at(i)->print();
+    for (auto & _elementType : *_elementTypes) {
+        _elementType->print();
     }
     Logger::log("----------");
 }

@@ -7,14 +7,12 @@
 
 #include "../type-signature.h"
 #include "types/literal-type.h"
+#include "literal-type-signature.h"
 
-class CharLiteralTypeSignature : public TypeSignature {
+class CharLiteralTypeSignature : public LiteralTypeSignature {
 public:
-    CharLiteralTypeSignature();
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
-    void print() override;
 };
 
 #endif //JETLANG_CHAR_LITERAL_TYPE_SIGNATURE_H

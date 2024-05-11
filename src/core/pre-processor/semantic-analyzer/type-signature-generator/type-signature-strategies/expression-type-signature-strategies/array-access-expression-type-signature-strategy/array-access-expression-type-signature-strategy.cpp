@@ -8,7 +8,7 @@
 
 TypeSignature* ArrayAccessExpressionTypeSignatureStrategy::create(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureStrategyProvider* strategyMap) {
     auto sourceTypeSignature = strategyMap->getTypeSignatureFor(arrayAccessExpression->getSource());
-    if (!sourceTypeSignature->hasTypeSource(ARRAY_TYPE_SOURCE)) {
+    if (!sourceTypeSignature->is(ARRAY_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }
 

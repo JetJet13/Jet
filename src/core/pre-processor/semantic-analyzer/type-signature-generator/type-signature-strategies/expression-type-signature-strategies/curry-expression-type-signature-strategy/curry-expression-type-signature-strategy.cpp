@@ -8,12 +8,12 @@
 
 TypeSignature* CurryExpressionTypeSignatureStrategy::create(ASTCurryExpressionNode* curryExpression, TypeSignatureStrategyProvider* strategyMap) {
     auto callableExpressionTypeSignature = strategyMap->getTypeSignatureFor(curryExpression->getCallableExpression());
-    if (callableExpressionTypeSignature->hasTypeSource(FUNCTION_TYPE_SOURCE)) {
+    if (callableExpressionTypeSignature->is(FUNCTION_TYPE_SOURCE)) {
         auto functionTypeSignature = (FunctionTypeSignature*)callableExpressionTypeSignature;
         return functionTypeSignature->getReturnType();
     }
 
-    if (callableExpressionTypeSignature->hasTypeSource(CLASS_METHOD_TYPE_SOURCE)) {
+    if (callableExpressionTypeSignature->is(CLASS_METHOD_TYPE_SOURCE)) {
         auto classMethod = (FunctionTypeSignature*)callableExpressionTypeSignature;
         if (classMethod->getReturnType()->isVoid()) {
             return new InvalidTypeSignature();

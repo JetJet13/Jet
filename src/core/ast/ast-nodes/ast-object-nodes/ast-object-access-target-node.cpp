@@ -5,12 +5,12 @@
 #include "ast-object-access-target-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTObjectAccessTargetNode::ASTObjectAccessTargetNode(ASTExpressionNode* target) {
+ASTObjectAccessTargetNode::ASTObjectAccessTargetNode(ASTIdentifierExpressionNode* target) {
     _target = target;
     _children.push_back(_target);
 }
 
-ASTExpressionNode* ASTObjectAccessTargetNode::getTarget() {
+ASTIdentifierExpressionNode* ASTObjectAccessTargetNode::getTarget() {
     return _target;
 }
 

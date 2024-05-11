@@ -1,0 +1,29 @@
+//
+// Created by Johny Georges on 2024-05-11.
+//
+
+#ifndef JETLANG_STRUCT_TYPE_SIGNATURE_H
+#define JETLANG_STRUCT_TYPE_SIGNATURE_H
+
+#include "../type-signature.h"
+#include "../literal-type-signature/types/literal-type.h"
+#include "../../lexeme/lexeme.h"
+#include "../procedure-type-signature/procedure-type-signature.h"
+#include "../types/type-signature-map/type-signature-map.h"
+#include "struct-key-value-type-signature/struct-key-value-type-signature.h"
+
+class StructTypeSignature : public TypeSignature {
+private:
+    TypeSignatureMap<StructKeyValueTypeSignature> _keyValuePairs;
+public:
+    StructTypeSignature();
+    TypeSignatureMap<StructKeyValueTypeSignature>* getKeyValuePairs();
+    TypeSignature* getTypeSignatureForKey(std::string key);
+    void addKeyValuePair(StructKeyValueTypeSignature* typeSignature);
+    std::string toString() override;
+    TypeSource getTypeSource() override;
+    bool isEqualTo(TypeSignature *otherType) override;
+    void print() override;
+};
+
+#endif //JETLANG_STRUCT_TYPE_SIGNATURE_H

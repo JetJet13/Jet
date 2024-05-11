@@ -8,7 +8,7 @@
 
 TypeSignature* FunctionInvocationExpressionTypeSignatureStrategy::create(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto functionTypeSignature = typeSignatureLookupTable->find(functionInvocationExpression->getName()->getId());
-    if (!functionTypeSignature->hasTypeSource(FUNCTION_TYPE_SOURCE)) {
+    if (!functionTypeSignature->is(FUNCTION_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }
 

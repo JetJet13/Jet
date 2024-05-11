@@ -12,8 +12,10 @@ class TupleTypeSignature : public TypeSignature {
 private:
     std::vector<TypeSignature*>* _elementTypes;
 public:
-    TupleTypeSignature(std::vector<TypeSignature*>* elementTypes);
+    explicit TupleTypeSignature(std::vector<TypeSignature*>* elementTypes);
     std::vector<TypeSignature*>* getElementTypes();
+    TypeSignature* getTypeSignatureAtIndex(unsigned long index);
+    unsigned long size();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

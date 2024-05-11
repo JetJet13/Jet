@@ -11,6 +11,6 @@ ASTNode* ObjectAccessTargetReducerStrategy::execute(std::vector<ASTNode*> nodes)
     }
 
     return new ASTObjectAccessTargetNode(
-            this->createExpressionNode(nodes[0])
+            (ASTIdentifierExpressionNode*)nodes[0]
     );
 }

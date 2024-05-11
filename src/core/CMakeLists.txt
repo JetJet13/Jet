@@ -805,6 +805,34 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/new-class-instance-expression-type-signature-strategy/new-class-instance-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/new-class-instance-expression-type-signature-strategy/new-class-instance-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/object-access-expression-type-signature-strategy/object-access-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/object-access-expression-type-signature-strategy/object-access-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.h
+        type-signature/enum-type-signature/enum-type-signature.cpp
+        type-signature/enum-type-signature/enum-type-signature.h
+        type-signature/literal-type-signature/literal-type-signature.cpp
+        type-signature/literal-type-signature/literal-type-signature.h
+        type-signature/struct-type-signature/struct-type-signature.cpp
+        type-signature/struct-type-signature/struct-type-signature.h
+        type-signature/struct-type-signature/struct-key-value-type-signature/struct-key-value-type-signature.cpp
+        type-signature/struct-type-signature/struct-key-value-type-signature/struct-key-value-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/enum-type-signature-strategy/enum-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/enum-type-signature-strategy/enum-type-signature-strategy.h
+        type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.cpp
+        type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h
 
 )
 
