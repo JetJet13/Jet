@@ -6,11 +6,11 @@
 #define JETLANG_PARAMETER_LIST_TYPE_SINGATURE_STRATEGY_H
 
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-node.h"
-#include "../../../../../type-signature/type-signature.h"
+#include "../type-signature-strategy-provider.h"
 
 class ParameterListTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTFunctionParameterListNode* node);
+    TypeSignature* create(ASTFunctionParameterListNode* node, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_PARAMETER_LIST_TYPE_SINGATURE_STRATEGY_H

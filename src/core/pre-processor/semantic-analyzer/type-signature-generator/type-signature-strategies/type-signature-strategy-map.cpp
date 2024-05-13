@@ -32,6 +32,16 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-type-signature-strategy.h"
+#include "variable-type-signature-strategy/variable-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-property-type-signature-strategy/class-property-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.h"
+#include "parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h"
+#include "parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h"
+#include "function-type-signature-strategy/function-type-signature-strategy.h"
+#include "procedure-type-signature-strategy/procedure-type-signature-strategy.h"
+#include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
@@ -64,6 +74,16 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _thisTypeTypeSignatureStrategy = new ThisTypeTypeSignatureStrategy();
     _enumKeyValueTypeSignatureStrategy = new EnumKeyValueTypeSignatureStrategy();
     _enumTypeSignatureStrategy = new EnumTypeSignatureStrategy();
+    _variableTypeSignatureStrategy = new VariableTypeSignatureStrategy();
+    _classTypeSignatureStrategy = new ClassTypeSignatureStrategy();
+    _classPropertyTypeSignatureStrategy = new ClassPropertyTypeSignatureStrategy();
+    _classConstructorTypeSignatureStrategy = new ClassConstructorTypeSignatureStrategy();
+    _classMethodTypeSignatureStrategy = new ClassMethodTypeSignatureStrategy();
+    _parameterListItemTypeSignatureStrategy = new ParameterListItemTypeSignatureStrategy();
+    _parameterListTypeSignatureStrategy = new ParameterListTypeSignatureStrategy();
+    _functionTypeSignatureStrategy = new FunctionTypeSignatureStrategy();
+    _procedureTypeSignatureStrategy = new ProcedureTypeSignatureStrategy();
+    _literalTypeSignatureStrategy = new LiteralTypeSignatureStrategy();
 }
 
 
@@ -181,4 +201,44 @@ EnumKeyValueTypeSignatureStrategy* TypeSignatureStrategyMap::getEnumKeyValueType
 
 EnumTypeSignatureStrategy* TypeSignatureStrategyMap::getEnumTypeSignatureStrategy() {
     return this->_enumTypeSignatureStrategy;
+}
+
+VariableTypeSignatureStrategy* TypeSignatureStrategyMap::getVariableTypeSignatureStrategy() {
+    return this->_variableTypeSignatureStrategy;
+}
+
+ClassTypeSignatureStrategy* TypeSignatureStrategyMap::getClassTypeSignatureStrategy() {
+    return this->_classTypeSignatureStrategy;
+}
+
+ClassPropertyTypeSignatureStrategy* TypeSignatureStrategyMap::getClassPropertyTypeSignatureStrategy() {
+    return this->_classPropertyTypeSignatureStrategy;
+}
+
+ClassConstructorTypeSignatureStrategy* TypeSignatureStrategyMap::getClassConstructorTypeSignatureStrategy() {
+    return this->_classConstructorTypeSignatureStrategy;
+}
+
+ClassMethodTypeSignatureStrategy* TypeSignatureStrategyMap::getClassMethodTypeSignatureStrategy() {
+    return this->_classMethodTypeSignatureStrategy;
+}
+
+ParameterListItemTypeSignatureStrategy* TypeSignatureStrategyMap::getParameterListItemTypeSignatureStrategy() {
+    return this->_parameterListItemTypeSignatureStrategy;
+}
+
+ParameterListTypeSignatureStrategy* TypeSignatureStrategyMap::getParameterListTypeSignatureStrategy() {
+    return this->_parameterListTypeSignatureStrategy;
+}
+
+FunctionTypeSignatureStrategy* TypeSignatureStrategyMap::getFunctionTypeSignatureStrategy() {
+    return this->_functionTypeSignatureStrategy;
+}
+
+ProcedureTypeSignatureStrategy* TypeSignatureStrategyMap::getProcedureTypeSignatureStrategy() {
+    return this->_procedureTypeSignatureStrategy;
+}
+
+LiteralTypeSignatureStrategy* TypeSignatureStrategyMap::getLiteralTypeSignatureStrategy() {
+    return this->_literalTypeSignatureStrategy;
 }

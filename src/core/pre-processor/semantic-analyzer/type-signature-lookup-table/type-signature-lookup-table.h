@@ -26,6 +26,7 @@ public:
     CharLiteralTypeSignature* getCharLiteralTypeSignature();
     StringLiteralTypeSignature* getStringLiteralTypeSignature();
     BoolLiteralTypeSignature* getBoolLiteralTypeSignature();
+    void dump();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_LOOKUP_TABLE_H

@@ -11,12 +11,10 @@
 
 class FunctionTypeSignature : public TypeSignature {
 private:
-    std::string _name;
     ParameterListTypeSignature* _parameterList;
     TypeSignature* _returnType;
 public:
-    FunctionTypeSignature(std::string name, ParameterListTypeSignature* parameterList, TypeSignature* returnType);
-    std::string getName();
+    FunctionTypeSignature(ParameterListTypeSignature* parameterList, TypeSignature* returnType);
     ParameterListTypeSignature* getParameterList();
     TypeSignature* getReturnType();
     std::string toString() override;

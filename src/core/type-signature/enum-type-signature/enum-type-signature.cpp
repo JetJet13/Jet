@@ -5,14 +5,9 @@
 #include "enum-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
-EnumTypeSignature::EnumTypeSignature(std::string name, LiteralTypeSignature* type) {
-    _name = std::move(name);
+EnumTypeSignature::EnumTypeSignature(LiteralTypeSignature* type) {
     _type = type;
     _keyValuePairs = TypeSignatureMap<LiteralTypeSignature>();
-}
-
-std::string EnumTypeSignature::getName() {
-    return _name;
 }
 
 TypeSignatureMap<LiteralTypeSignature>* EnumTypeSignature::getKeyValuePairs() {
@@ -50,13 +45,11 @@ bool EnumTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (EnumTypeSignature*)otherType;
-    return this->getName() == other->getName() &&
-    this->getKeyValuePairs()->isEqualTo(other->getKeyValuePairs());
+    return this->getKeyValuePairs()->isEqualTo(other->getKeyValuePairs());
 }
 
 void EnumTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    Logger::log("NAME - ", _name);
     this->getKeyValuePairs()->print();
     Logger::log("----------");
 }

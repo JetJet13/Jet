@@ -5,16 +5,11 @@
 #include "class-method-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ClassMethodTypeSignature::ClassMethodTypeSignature(std::string name, AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType) {
-    _name = name;
+ClassMethodTypeSignature::ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType) {
     _accessModifier = accessModifier;
     _parameterList = parameterList;
     _isStatic = isStatic;
     _returnType = returnType;
-}
-
-std::string ClassMethodTypeSignature::getName() {
-    return _name;
 }
 
 bool ClassMethodTypeSignature::isStatic() {
@@ -57,7 +52,6 @@ bool ClassMethodTypeSignature::isEqualTo(TypeSignature *otherType) {
     }
 
     return this->getAccessModifier()->isEqualTo(other->getAccessModifier()) &&
-    this->getName() == other->getName() &&
     this->isStatic() == other->isStatic() &&
     this->getParameters()->isEqualTo(other->getParameters());
 
@@ -65,7 +59,6 @@ bool ClassMethodTypeSignature::isEqualTo(TypeSignature *otherType) {
 
 void ClassMethodTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    Logger::log("NAME - ", _name);
     Logger::log("IS_STATIC - ", _isStatic);
     _accessModifier->print();
     _parameterList->print();

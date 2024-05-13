@@ -8,13 +8,8 @@
 #include "../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 TypeSignature* EnumTypeSignatureStrategy::create(ASTEnumDeclarationNode* enumDeclaration, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap) {
-    auto enumName = tokenTable->getIdentifier(enumDeclaration->getName()->getName()->getToken()->getValueId().value());
-    if (!enumName) {
-        throw std::invalid_argument("enum name not found in token table | " + enumDeclaration->getName()->toString());
-    }
-
     if (enumDeclaration->getValues()->getParameters().empty()) {
-        return new EnumTypeSignature(enumName.value(), new DefaultEnumKeyValueTypeSignature());
+        return new EnumTypeSignature(new DefaultEnumKeyValueTypeSignature());
     }
 
     TypeSignature* lastEnumValueTypeSignature = strategyMap->getTypeSignatureFor(enumDeclaration->getValues()->getParameters()[0]);
@@ -25,12 +20,9 @@ TypeSignature* EnumTypeSignatureStrategy::create(ASTEnumDeclarationNode* enumDec
         }
     }
 
-    auto enumTypeSignature = new EnumTypeSignature(enumName.value(), (LiteralTypeSignature*)lastEnumValueTypeSignature);
+    auto enumTypeSignature = new EnumTypeSignature((LiteralTypeSignature*)lastEnumValueTypeSignature);
     for (auto enumKeyValue : enumDeclaration->getValues()->getParameters()) {
         auto key = tokenTable->getIdentifier(enumKeyValue->getKey()->getLexeme()->getToken()->getValueId().value());
-        if (!key) {
-            throw std::invalid_argument("enum key not found in token table | " + enumKeyValue->getKey()->toString());
-        }
         enumTypeSignature->addKey(key.value());
     }
 

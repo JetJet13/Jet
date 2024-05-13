@@ -4,6 +4,10 @@
 
 #include "type-signature-generator.h"
 
-TypeSignatureGenerator::TypeSignatureGenerator(TokenTable* tokenTable) {
-    _tokenTable = tokenTable;
+TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider) {
+    _typeSignatureStrategyProvider = typeSignatureStrategyProvider;
+}
+
+TypeSignature*  TypeSignatureGenerator::generateTypeSignatureFor(ASTNode* node) {
+    return _typeSignatureStrategyProvider->getTypeSignatureFor(node);
 }

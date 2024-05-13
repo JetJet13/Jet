@@ -13,14 +13,12 @@
 
 class ClassPropertyTypeSignature : public TypeSignature {
 private:
-    std::string _name;
     AccessModifierTypeSignature* _accessModifier;
     bool _isStatic;
     bool _isConst;
     TypeSignature* _type;
 public:
-    ClassPropertyTypeSignature(std::string name, AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst);
-    std::string getName();
+    ClassPropertyTypeSignature(AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst);
     bool isStatic();
     bool isConst();
     AccessModifierTypeSignature* getAccessModifier();

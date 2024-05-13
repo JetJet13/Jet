@@ -9,6 +9,7 @@
 #include "../../ast/ast-nodes/ast-file-node.h"
 #include "declaration-id-assignor/declaration-id-assignor.h"
 #include "type-signature-lookup-table/type-signature-lookup-table.h"
+#include "type-signature-generator/type-signature-generator.h"
 
 
 class SemanticAnalyzer {
@@ -17,10 +18,11 @@ private:
     TypeSignatureLookupTable* _typeSignatureLookupTable;
     TokenTable* _tokenTable;
     DeclarationIdAssignor* _declarationIdAssignor;
-    int generateDeclarationId();
-    void assignDeclarationIds(ASTFileNode* fileNode);
+    TypeSignatureGenerator* _typeSignatureGenerator;
+    void prepareDeclarationsFor(ASTFileNode* fileNode);
+    void runTypeCheckerOn(ASTFileNode* fileNode);
 public:
-    SemanticAnalyzer(DependencyGraph* dependencyGraph, TokenTable* tokenTable);
+    SemanticAnalyzer(DependencyGraph* dependencyGraph, TokenTable* tokenTable, TypeSignatureLookupTable* typeSignatureLookupTable);
     void analyze(ASTFileNode* fileNode);
 };
 

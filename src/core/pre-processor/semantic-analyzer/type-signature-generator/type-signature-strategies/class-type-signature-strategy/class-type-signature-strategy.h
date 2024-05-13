@@ -9,14 +9,16 @@
 #include "../../../../../type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h"
 #include "../../../../../type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.h"
 #include "../../../../../type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.h"
+#include "../type-signature-strategy-provider.h"
+#include "../../../../../type-signature/class-type-signature/class-type-signature.h"
 
 class ClassTypeSignatureStrategy {
 private:
-    ClassConstructorTypeSignature* generateConstructorTypeSignature(ASTClassConstructorDeclarationNode* node);
-    ClassPropertyTypeSignature* generatePropertyTypeSignature(ASTClassPropertyDeclarationNode* node);
-    ClassMethodTypeSignature* generateMethodTypeSignature(ASTClassMethodDeclarationNode* node);
+    void createConstructorTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void createPropertyTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void createMethodTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
 public:
-    TypeSignature* create(ASTClassDeclarationNode* node);
+    TypeSignature* create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_STRATEGY_H

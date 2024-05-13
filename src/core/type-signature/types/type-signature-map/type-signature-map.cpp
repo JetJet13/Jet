@@ -3,7 +3,11 @@
 //
 
 #include "type-signature-map.h"
-#include "../../procedure-type-signature/procedure-type-signature.h"
+#include "../../literal-type-signature/literal-type-signature.h"
+#include "../../struct-type-signature/struct-key-value-type-signature/struct-key-value-type-signature.h"
+#include "../../class-type-signature/class-property-type-signature/class-property-type-signature.h"
+#include "../../class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h"
+#include "../../class-type-signature/class-method-type-signature/class-method-type-signature.h"
 
 template<class T>
 TypeSignatureMap<T>::TypeSignatureMap() {
@@ -51,3 +55,9 @@ void TypeSignatureMap<T>::print() {
         type.second->print();
     }
 }
+
+template class TypeSignatureMap<LiteralTypeSignature>;
+template class TypeSignatureMap<StructKeyValueTypeSignature>;
+template class TypeSignatureMap<ClassPropertyTypeSignature>;
+template class TypeSignatureMap<ClassConstructorTypeSignature>;
+template class TypeSignatureMap<ClassMethodTypeSignature>;

@@ -12,18 +12,11 @@ TypeSignature* ObjectAccessExpressionTypeSignatureStrategy::create(ASTObjectAcce
     if (sourceTypeSignature->is(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)sourceTypeSignature;
         auto key = tokenTable->getIdentifier(objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getIdentifier()->getToken()->getValueId().value());
-        if (!key) {
-            throw std::invalid_argument("object access target id key not found in token table");
-        }
         return structSource->getTypeSignatureForKey(key.value());
 
     } else if (sourceTypeSignature->is(ENUM_TYPE_SOURCE)) {
         auto enumSource = (EnumTypeSignature*)sourceTypeSignature;
         auto key = tokenTable->getIdentifier(objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getIdentifier()->getToken()->getValueId().value());
-        if (!key) {
-            throw std::invalid_argument("object access target id key not found in token table");
-        }
-
         if (enumSource->hasKey(key.value())) {
             return enumSource->getType();
         }

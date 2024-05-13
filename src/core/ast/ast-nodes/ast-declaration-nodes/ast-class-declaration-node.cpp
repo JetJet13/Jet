@@ -12,14 +12,6 @@ ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNameNode* name, ASTClas
     _children.push_back(_block);
 }
 
-std::string ASTClassDeclarationNode::getInternalId() {
-    return "internal_" + this->getId();
-}
-
-std::string ASTClassDeclarationNode::getExternalId() {
-    return this->getId();
-}
-
 ASTClassBlockNode* ASTClassDeclarationNode::getBlock() {
     return _block;
 }

@@ -11,11 +11,9 @@
 
 class ProcedureTypeSignature : public TypeSignature {
 private:
-    std::string _name;
     ParameterListTypeSignature* _parameterList;
 public:
-    ProcedureTypeSignature(std::string name, ParameterListTypeSignature* parameterList);
-    std::string getName();
+    explicit ProcedureTypeSignature(ParameterListTypeSignature* parameterList);
     ParameterListTypeSignature* getParameterList();
     std::string toString() override;
     TypeSource getTypeSource() override;

@@ -6,15 +6,10 @@
 #include "class-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
-ClassTypeSignature::ClassTypeSignature(std::string name) {
-    _name = std::move(name);
+ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
     _properties = TypeSignatureMap<ClassPropertyTypeSignature>();
     _methods = TypeSignatureMap<ClassMethodTypeSignature>();
-}
-
-std::string ClassTypeSignature::getName() {
-    return _name;
 }
 
 TypeSignatureMap<ClassConstructorTypeSignature>* ClassTypeSignature::getConstructors() {
@@ -29,16 +24,16 @@ TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getMethods() {
     return &_methods;
 }
 
-void ClassTypeSignature::addConstructor(ClassConstructorTypeSignature* classConstructorTypeSignature) {
-    _constructors.insert(classConstructorTypeSignature->getName(), classConstructorTypeSignature);
+void ClassTypeSignature::addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature) {
+    _constructors.insert(key, classConstructorTypeSignature);
 }
 
-void ClassTypeSignature::addProperty(ClassPropertyTypeSignature* classPropertyTypeSignature) {
-    _properties.insert(classPropertyTypeSignature->getName(), classPropertyTypeSignature);
+void ClassTypeSignature::addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature) {
+    _properties.insert(key, classPropertyTypeSignature);
 }
 
-void ClassTypeSignature::addMethod(ClassMethodTypeSignature* classMethodTypeSignature) {
-    _methods.insert(classMethodTypeSignature->getName(), classMethodTypeSignature);
+void ClassTypeSignature::addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature) {
+    _methods.insert(key, classMethodTypeSignature);
 }
 
 std::string ClassTypeSignature::toString() {
@@ -55,15 +50,13 @@ bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (ClassTypeSignature*)otherType;
-    return this->getName() == other->getName() &&
-           this->getProperties()->isEqualTo(other->getProperties()) &&
+    return this->getProperties()->isEqualTo(other->getProperties()) &&
            this->getMethods()->isEqualTo(other->getMethods()) &&
            this->getConstructors()->isEqualTo(other->getConstructors());
 }
 
 void ClassTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    Logger::log("NAME - ", _name);
     this->getProperties()->print();
     this->getMethods()->print();
     this->getConstructors()->print();

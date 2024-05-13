@@ -5,17 +5,13 @@
 #ifndef JETLANG_TYPE_SIGNATURE_GENERATOR_H
 #define JETLANG_TYPE_SIGNATURE_GENERATOR_H
 
-#include "../../../token/token-table.h"
-#include "../../../type-signature/type-signature.h"
-#include "../../../ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
-#include "../../../ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
-#include "../../../ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
-#include "../../../ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
+#include "type-signature-strategies/type-signature-strategy-provider.h"
 
 class TypeSignatureGenerator {
 private:
-    TokenTable* _tokenTable;
+    TypeSignatureStrategyProvider* _typeSignatureStrategyProvider;
 public:
-    TypeSignatureGenerator(TokenTable* tokenTable);
+    explicit TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider);
+    TypeSignature*  generateTypeSignatureFor(ASTNode* node);
 };
 #endif //JETLANG_TYPE_SIGNATURE_GENERATOR_H

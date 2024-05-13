@@ -5,6 +5,7 @@
 #include "type-signature-lookup-table.h"
 #include "../../../type-signature/literal-type-signature/types/literal-type-signature-name.h"
 #include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 TypeSignatureLookupTable::TypeSignatureLookupTable() {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
@@ -44,6 +45,15 @@ StringLiteralTypeSignature* TypeSignatureLookupTable::getStringLiteralTypeSignat
 BoolLiteralTypeSignature* TypeSignatureLookupTable::getBoolLiteralTypeSignature() {
     return (BoolLiteralTypeSignature*)this->find(LiteralTypeSignatureName::BOOL);
 }
+
+void TypeSignatureLookupTable::dump() {
+    Logger::log("======== TypeSignatureLookupTable DUMP ========");
+    for (auto keyValue : _typeSignatureLookupTable) {
+        Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
+    }
+    Logger::log("===============================================");
+}
+
 
 void TypeSignatureLookupTable::initLiteralTypeSignatures() {
     this->insert(LiteralTypeSignatureName::INT, new IntLiteralTypeSignature());

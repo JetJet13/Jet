@@ -1,0 +1,260 @@
+let integer = 1; // hello world
+let decimal = 2.0; // ain't that something?
+let str = "hello";
+let character = 'b';
+let flag = true;
+let iflag = false;
+const sumInt = 1 + 2;
+const doubleSumInt = 1 + 2 + 3;
+const subtractInt = 1 - 2;
+const multiplyInt = 1 * 2;
+const divideInt = 1 / 2;
+const moduloInt = 1 mod 10;
+const stringSum = "hello" + "world";
+const negOne = -1;
+const negOnePointO = -1.0;
+const negOneSum = -1 + 2;
+const negOneSubtract = -1 - 2;
+const negOneMultiply = -1 * 2;
+const negOneDivide = -1 / 2;
+const negOneDividePlusTwo = -1 / +2;
+const plusOne = +1;
+const plusOneSum = +1 + 2;
+const plusOneSubtract = +1 - 2;
+const plusOneMultiply = +1 * 2;
+const plusOneDivide = +1 / 2;
+const plusOneDivideNegTwo = +1 / -2;
+const negIntId = -integer;
+const bangTrue = !true;
+const bangFalse = !false;
+const bangIdentifier = !iflag;
+const andLogic = true && false;
+const orLogic = true || false;
+const andLogicBangId = !flag && true;
+const andLogicBang = !false && true;
+const orLogicBangId = !flag || true;
+const orLogicBang = !false || true;
+const andLogicOr = true && false || true;
+const andLogicOrBang = !true && false || true;
+const intLogicAnd = 1 && 2;
+const intLogicOr = 1 || 2;
+const intLogicAnd = !1 && 2;
+const intLogicOr = 1 || !2;
+const doubleBang = !1 && !2;
+const tripleBang = !'a' && !'b' || !'c';
+const gt = 1 > 2;
+const gte = 1 >= 2;
+const lt = 1 < 2;
+const lte = 1 <= 2;
+const bracket = (1 + 2);
+const doubleBracket = ((1 + 2));
+const tripleBracket = (((1 + 2)));
+const sumBracket = (1 + 2) + (2 + 3);
+const encloseSumBracket = ((1 + 2) + (2 + 3));
+const encloseOrBracket = ((1 + 2) || (2 + 3));
+const encloseUnary = (!true);
+const encloseDoubleUnary = !(!true);
+const encloseUnary = !(!true) && !(!false);
+const encloseBinary = (1 + ((2 + 3) + 4));
+const encloseLogical = (true && ((true || true) && true));
+const encloseTripleUnary = !(true && !(!(true || true) && true));
+const array = [1, 2, 3];
+const arrAccess = array[0];
+const rawArrAccess = [1,2][0];
+const nestedArr = [ [1], [2], [3] ];
+const nestedArrWithExpressions = [ [1 + 1], [2 + 2], [3 + 3] ];
+const arrWithIds = [one, two, three];
+const nestedArrAccess = [[1,2,3], [4,5,6]][0][0];
+const tripleNestedArrAccess = [[[1],[2],[3]], [[4],[5],[6]]][0][0][0];
+const structObj = {
+ i: 1,
+ f: 2.0,
+ world: true,
+ character: 'c',
+ str: "Hello World",
+ identifier: foo,
+ array: [1,2,3],
+ arrAccess: array[0],
+ obj: {
+    test: 100,
+    nest: {
+        value: true
+    }
+ },
+ binary: 1 + 2,
+ logical: true && false,
+ unary: !flag
+};
+const structObjAccess = structObj.world;
+const structObjNestedAccess = structObj.obj.test;
+const structObjTripleNestedAccess = structObj.obj.nest.value;
+const arrayStructs = [
+ { hello: "world", test: 1 } // another 1!
+];
+const arrStructsAccess = arrayStructs[0].hello;
+const structArr = {
+ array: [ { hello: "world", test: 1 } ],
+ arrNested: [  [{ hello: "world", test: 1 }] ]
+};
+const structArrAccess = structArr.array[0].hello;
+const structArrNestedAccess = structArr.arrNested[0][0].hello;
+
+func sum(x: int, y: int) int {
+ const total = x + y;
+ return total;
+}
+
+func returnFour() int {
+ return 4;
+}
+
+proc anotherOne(num: int) {
+    let myNum = 2;
+    myNum = myNum + 1;
+}
+
+proc anotherOnePlain() {
+    let moo = 4;
+}
+
+proc emptyProcedure() {}
+
+enum Color {
+    Red = "red",
+    Blue = "blue",
+    Green = "green",
+}
+
+enum RGB {
+    Red = 'r',
+    Blue = 'b',
+    Green = 'g',
+}
+
+enum NoValEnum {
+    Zero,
+    One,
+    Two
+}
+
+const isEnum = 0 == NoValEnum.Zero;
+const isNum = structObj.obj.test && RGB.Red;
+const myTuple = tuple { "hello", 1, 2 };
+
+func returnString() string {
+ return "hello";
+}
+
+const lambdaSum = (x: IdType, y: IdType) => x + y;
+const lambdaGt = (x: int, y: int) boolean => x > y;
+const lambdaFullSum = (x: int) { return x + 10; };
+const lambdaNestedSum = (x: int) => (y: int) => (z: int) => x + y + z;
+
+
+func useLambda(x: int, lambda: func<int> => boolean) boolean {
+    return lambda(x);
+}
+
+func useLambda(lambda: func<int,int> => func<int> => boolean) boolean {
+    return lambda(x);
+}
+
+func useLambdaSimpleLambda() func<> => int {
+    return () => 9;
+}
+
+func useLambdaLambda() func<int> => int {
+    return (x: int) => 9;
+}
+
+func useLambdaBool() boolean {
+    return (true && true);
+}
+
+func useLambdaFunc(x: func<int> => boolean) boolean {
+    return (true && true);
+}
+
+func useAnotherProc(x: proc<>, y: proc<CustomType>) boolean {
+    return true;
+}
+
+const funcLambda = () => 10;
+const procLambda = () { x + 10; };
+const procLambdaEmpty = () {};
+
+const intWithType: int = 5;
+const floatWithType: float = 5.0;
+const charWithType: char = 'c';
+const stringWithType: string = "foo";
+const boolWithType: boolean = true;
+const arrWithType: arr<int> = [1,2,3];
+const funcWithType: func<int> => boolean = (x: int) => true;
+const procWithType: proc<int> = (x: int) { x + 1; };
+const tupleWithType: tuple<int, int> = tuple { 1, 2 };
+const customWithType: Color = Color.Red;
+
+// verify multiple inline comments
+// hello-world
+// hello-world again!
+
+// time for classes
+class MyClass {
+    public myIntOne: int; // 4
+    public myIntTwo: int = 5; // 6
+    public myIntThree = 5; // 4
+
+    public const myIntOneConst: int; // 5
+    public const myIntTwoConst: int = 5; // 7
+    public const myIntThreeConst = 5; // 5
+
+    protected static fooOneStatic: int; // 5
+    protected static fooTwoStatic: int = 10; // 7
+    protected static fooThreeStatic = 10; // 5
+
+    private static const mickOneStatic: boolean; // 6
+    private static const mickTwoStatic: boolean = true; // 8
+    private static const mickThreeStatic = true; // 6
+
+    constructor() {
+        this.initIteratorTrait(500);
+        this.foo = 10;
+        this.bar = true;
+    }
+
+    constructor(foo: int) {
+            this.foo = foo;
+            this.bar = true;
+            this.initIteratorTrait(this.foo);
+    }
+
+    public static create(foo: int) MyClass {
+        return new MyClass(foo);
+    }
+
+    protected static doSomething() MyClass {
+        return new MyClass();
+    }
+
+    private static doSomethingElse() MyClass {
+        return new MyClass(100);
+    }
+
+    public isValid() boolean {
+        return this.bar;
+    }
+
+    protected setBar(bar: boolean) this {
+        this.bar = bar;
+        return this;
+    }
+
+    private hello() string {
+        return "hello world!";
+    }
+
+    private helloBar() {
+        this.bar = true;
+    }
+
+}

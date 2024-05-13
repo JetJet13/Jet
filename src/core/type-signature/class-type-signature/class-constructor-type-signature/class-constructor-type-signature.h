@@ -11,11 +11,9 @@
 
 class ClassConstructorTypeSignature : public TypeSignature {
 private:
-    std::string _name;
     ParameterListTypeSignature* _parameterList;
 public:
-    ClassConstructorTypeSignature(std::string name, ParameterListTypeSignature* parameterList);
-    std::string getName();
+    explicit ClassConstructorTypeSignature(ParameterListTypeSignature* parameterList);
     ParameterListTypeSignature* getParameterList();
     std::string toString() override;
     TypeSource getTypeSource() override;

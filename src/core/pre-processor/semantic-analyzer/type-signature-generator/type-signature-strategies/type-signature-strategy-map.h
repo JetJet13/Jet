@@ -36,8 +36,16 @@ class LambdaTypeTypeSignatureStrategy;
 class ThisTypeTypeSignatureStrategy;
 class EnumKeyValueTypeSignatureStrategy;
 class EnumTypeSignatureStrategy;
-
-
+class VariableTypeSignatureStrategy;
+class ClassTypeSignatureStrategy;
+class ClassPropertyTypeSignatureStrategy;
+class ClassConstructorTypeSignatureStrategy;
+class ClassMethodTypeSignatureStrategy;
+class ParameterListItemTypeSignatureStrategy;
+class ParameterListTypeSignatureStrategy;
+class FunctionTypeSignatureStrategy;
+class ProcedureTypeSignatureStrategy;
+class LiteralTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -70,6 +78,16 @@ private:
     ThisTypeTypeSignatureStrategy* _thisTypeTypeSignatureStrategy;
     EnumKeyValueTypeSignatureStrategy* _enumKeyValueTypeSignatureStrategy;
     EnumTypeSignatureStrategy* _enumTypeSignatureStrategy;
+    VariableTypeSignatureStrategy* _variableTypeSignatureStrategy;
+    ClassTypeSignatureStrategy* _classTypeSignatureStrategy;
+    ClassPropertyTypeSignatureStrategy* _classPropertyTypeSignatureStrategy;
+    ClassConstructorTypeSignatureStrategy* _classConstructorTypeSignatureStrategy;
+    ClassMethodTypeSignatureStrategy* _classMethodTypeSignatureStrategy;
+    ParameterListItemTypeSignatureStrategy* _parameterListItemTypeSignatureStrategy;
+    ParameterListTypeSignatureStrategy* _parameterListTypeSignatureStrategy;
+    FunctionTypeSignatureStrategy* _functionTypeSignatureStrategy;
+    ProcedureTypeSignatureStrategy* _procedureTypeSignatureStrategy;
+    LiteralTypeSignatureStrategy* _literalTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
@@ -101,6 +119,16 @@ public:
     ThisTypeTypeSignatureStrategy* getThisTypeTypeSignatureStrategy();
     EnumKeyValueTypeSignatureStrategy* getEnumKeyValueTypeSignatureStrategy();
     EnumTypeSignatureStrategy* getEnumTypeSignatureStrategy();
+    VariableTypeSignatureStrategy* getVariableTypeSignatureStrategy();
+    ClassTypeSignatureStrategy* getClassTypeSignatureStrategy();
+    ClassPropertyTypeSignatureStrategy* getClassPropertyTypeSignatureStrategy();
+    ClassConstructorTypeSignatureStrategy* getClassConstructorTypeSignatureStrategy();
+    ClassMethodTypeSignatureStrategy* getClassMethodTypeSignatureStrategy();
+    ParameterListItemTypeSignatureStrategy* getParameterListItemTypeSignatureStrategy();
+    ParameterListTypeSignatureStrategy* getParameterListTypeSignatureStrategy();
+    FunctionTypeSignatureStrategy* getFunctionTypeSignatureStrategy();
+    ProcedureTypeSignatureStrategy* getProcedureTypeSignatureStrategy();
+    LiteralTypeSignatureStrategy* getLiteralTypeSignatureStrategy();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H

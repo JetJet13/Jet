@@ -5,16 +5,11 @@
 #include "class-property-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ClassPropertyTypeSignature::ClassPropertyTypeSignature(std::string name, AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst) {
-    _name = name;
+ClassPropertyTypeSignature::ClassPropertyTypeSignature(AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst) {
     _accessModifier = accessModifier;
     _isStatic = isStatic;
     _isConst = isConst;
     _type = type;
-}
-
-std::string ClassPropertyTypeSignature::getName() {
-    return _name;
 }
 
 bool ClassPropertyTypeSignature::isStatic() {
@@ -49,7 +44,6 @@ bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
 
     auto other = (ClassPropertyTypeSignature*)otherType;
     return this->getAccessModifier()->isEqualTo(other->getAccessModifier()) &&
-           this->getName() == other->getName() &&
            this->getType()->isEqualTo(other->getType()) &&
            this->isStatic() == other->isStatic() &&
            this->isConst() == other->isConst();
@@ -58,7 +52,6 @@ bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
 
 void ClassPropertyTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    Logger::log("NAME - ", _name);
     Logger::log("IS_STATIC - ", _isStatic);
     Logger::log("IS_CONST - ", _isConst);
     _accessModifier->print();

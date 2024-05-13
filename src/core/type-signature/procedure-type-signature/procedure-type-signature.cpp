@@ -5,13 +5,8 @@
 #include "procedure-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
-ProcedureTypeSignature::ProcedureTypeSignature(std::string name, ParameterListTypeSignature* parameterList) {
-    _name = name;
+ProcedureTypeSignature::ProcedureTypeSignature(ParameterListTypeSignature* parameterList) {
     _parameterList = parameterList;
-}
-
-std::string ProcedureTypeSignature::getName() {
-    return _name;
 }
 
 ParameterListTypeSignature* ProcedureTypeSignature::getParameterList() {
@@ -32,13 +27,11 @@ bool ProcedureTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (ProcedureTypeSignature*)otherType;
-    return this->getName() == other->getName() &&
-           this->getParameterList()->isEqualTo(other->getParameterList());
+    return this->getParameterList()->isEqualTo(other->getParameterList());
 }
 
 void ProcedureTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    Logger::log("NAME - ", _name);
     _parameterList->print();
     Logger::log("----------");
 }

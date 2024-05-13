@@ -30,9 +30,9 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     auto astNode = astTraverser.next();
     while (astNode) {
         if (astNode.value()->isOneOf({ AST_THIS_EXPRESSION_NODE, AST_THIS_TYPE_NODE })) {
-            astNode.value()->setId(classDeclarationNode->getExternalId());
+            astNode.value()->setId(classDeclarationNode->getId());
         } else if (astNode.value()->is(AST_THIS_NODE)) {
-            astNode.value()->setId(classDeclarationNode->getInternalId());
+            astNode.value()->setId(classDeclarationNode->getId());
         }
         astNode = astTraverser.next();
     }

@@ -5,13 +5,8 @@
 #include "class-constructor-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ClassConstructorTypeSignature::ClassConstructorTypeSignature(std::string name, ParameterListTypeSignature* parameterList) {
-    _name = name;
+ClassConstructorTypeSignature::ClassConstructorTypeSignature(ParameterListTypeSignature* parameterList) {
     _parameterList = parameterList;
-}
-
-std::string ClassConstructorTypeSignature::getName() {
-    return _name;
 }
 
 ParameterListTypeSignature* ClassConstructorTypeSignature::getParameterList() {
@@ -32,13 +27,11 @@ bool ClassConstructorTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (ClassConstructorTypeSignature*)otherType;
-    return this->getName() == other->getName() &&
-           this->getParameterList()->isEqualTo(other->getParameterList());
+    return this->getParameterList()->isEqualTo(other->getParameterList());
 }
 
 void ClassConstructorTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    Logger::log("NAME - ", _name);
     _parameterList->print();
     Logger::log("----------");
 }

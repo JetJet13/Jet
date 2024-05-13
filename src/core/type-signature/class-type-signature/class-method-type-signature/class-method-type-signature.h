@@ -13,14 +13,12 @@
 
 class ClassMethodTypeSignature : public TypeSignature {
 private:
-    std::string _name;
     AccessModifierTypeSignature* _accessModifier;
     bool _isStatic;
     ParameterListTypeSignature* _parameterList;
     std::optional<TypeSignature*> _returnType;
 public:
-    ClassMethodTypeSignature(std::string name, AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType = {});
-    std::string getName();
+    ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType = {});
     bool isStatic();
     AccessModifierTypeSignature* getAccessModifier();
     ParameterListTypeSignature* getParameters();

@@ -16,19 +16,17 @@
 
 class ClassTypeSignature : public TypeSignature {
 private:
-    std::string _name;
     TypeSignatureMap<ClassConstructorTypeSignature> _constructors;
     TypeSignatureMap<ClassPropertyTypeSignature> _properties;
     TypeSignatureMap<ClassMethodTypeSignature> _methods;
 public:
-    ClassTypeSignature(std::string name);
-    std::string getName();
+    ClassTypeSignature();
     TypeSignatureMap<ClassConstructorTypeSignature>* getConstructors();
     TypeSignatureMap<ClassPropertyTypeSignature>* getProperties();
     TypeSignatureMap<ClassMethodTypeSignature>* getMethods();
-    void addConstructor(ClassConstructorTypeSignature* classConstructorTypeSignature);
-    void addProperty(ClassPropertyTypeSignature* classPropertyTypeSignature);
-    void addMethod(ClassMethodTypeSignature* classMethodTypeSignature);
+    void addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature);
+    void addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature);
+    void addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

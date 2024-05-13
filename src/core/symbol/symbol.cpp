@@ -222,23 +222,23 @@ bool Symbol::isType() {
 }
 
 bool Symbol::isIntType() {
-    return _type == SYM_MODULE;
+    return _type == SYM_INT_TYPE;
 }
 
 bool Symbol::isFloatType() {
-    return _type == SYM_MODULE;
+    return _type == SYM_FLOAT_TYPE;
 }
 
 bool Symbol::isStringType() {
-    return _type == SYM_MODULE;
+    return _type == SYM_STRING_TYPE;
 }
 
 bool Symbol::isCharType() {
-    return _type == SYM_MODULE;
+    return _type == SYM_CHAR_TYPE;
 }
 
 bool Symbol::isBooleanType() {
-    return _type == SYM_MODULE;
+    return _type == SYM_BOOLEAN_TYPE;
 }
 
 bool Symbol::isModule() {

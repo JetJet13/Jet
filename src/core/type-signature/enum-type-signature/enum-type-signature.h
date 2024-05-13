@@ -14,12 +14,10 @@
 
 class EnumTypeSignature : public TypeSignature {
 private:
-    std::string _name;
     LiteralTypeSignature* _type;
     TypeSignatureMap<LiteralTypeSignature> _keyValuePairs;
 public:
-    EnumTypeSignature(std::string name, LiteralTypeSignature* type);
-    std::string getName();
+    EnumTypeSignature(LiteralTypeSignature* type);
     TypeSignatureMap<LiteralTypeSignature>* getKeyValuePairs();
     LiteralTypeSignature* getType();
     bool hasKey(std::string key);
