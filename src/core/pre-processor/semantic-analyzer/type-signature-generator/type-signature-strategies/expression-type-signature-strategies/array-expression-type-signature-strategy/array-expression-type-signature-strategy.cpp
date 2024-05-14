@@ -11,9 +11,9 @@ TypeSignature* ArrayExpressionTypeSignatureStrategy::create(ASTArrayExpressionNo
         return new ArrayTypeSignature(new InvalidTypeSignature());
     }
 
-    TypeSignature* lastElementTypeSignature = strategyMap->getTypeSignatureFor(arrayExpression->getElements()->at(0));
+    TypeSignature* lastElementTypeSignature = strategyMap->getTypeSignatureForExpression(arrayExpression->getElements()->at(0));
     for (auto element : *arrayExpression->getElements()) {
-        auto elementTypeSignature = strategyMap->getTypeSignatureFor(element);
+        auto elementTypeSignature = strategyMap->getTypeSignatureForExpression(element);
         if (!lastElementTypeSignature->isEqualTo(elementTypeSignature)) {
             return new InvalidTypeSignature();
         }

@@ -63,7 +63,7 @@ const arrAccess = array[0];
 const rawArrAccess = [1,2][0];
 const nestedArr = [ [1], [2], [3] ];
 const nestedArrWithExpressions = [ [1 + 1], [2 + 2], [3 + 3] ];
-const arrWithIds = [one, two, three];
+const arrWithIds = [sumInt, doubleSumInt, multiplyInt];
 const nestedArrAccess = [[1,2,3], [4,5,6]][0][0];
 const tripleNestedArrAccess = [[[1],[2],[3]], [[4],[5],[6]]][0][0][0];
 const structObj = {
@@ -72,7 +72,7 @@ const structObj = {
  world: true,
  character: 'c',
  str: "Hello World",
- identifier: foo,
+ identifier: bangTrue,
  array: [1,2,3],
  arrAccess: array[0],
  obj: {
@@ -145,7 +145,7 @@ func returnString() string {
  return "hello";
 }
 
-const lambdaSum = (x: IdType, y: IdType) => x + y;
+const lambdaSum = (x: Color) => x;
 const lambdaGt = (x: int, y: int) boolean => x > y;
 const lambdaFullSum = (x: int) { return x + 10; };
 const lambdaNestedSum = (x: int) => (y: int) => (z: int) => x + y + z;
@@ -175,7 +175,7 @@ func useLambdaFunc(x: func<int> => boolean) boolean {
     return (true && true);
 }
 
-func useAnotherProc(x: proc<>, y: proc<CustomType>) boolean {
+func useAnotherProc(x: proc<>, y: proc<Color>) boolean {
     return true;
 }
 

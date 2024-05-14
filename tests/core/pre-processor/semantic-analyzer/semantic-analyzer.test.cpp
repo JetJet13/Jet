@@ -28,9 +28,10 @@ TEST_CASE( "should print the expected type signatures" ) {
     REQUIRE(fileNodeResult->getBody()->size() == 114);
     for (int i = 0; i < 114; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
+        auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("ID -", declaration->getId());
-        Logger::log("TYPE SIGNATURE -", typeSignatureLookupTable->find(declaration->getId())->toString());
+        typeSignature->print();
 //        declaration->print();
 //        Logger::log("RESULT =", declaration->isSameAs(expectedNodes[i + 1]));
 //        REQUIRE(declaration->isSameAs(expectedNodes[i + 1]));

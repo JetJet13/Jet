@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/function-type-signature/function-type-signature.h"
 
 TypeSignature* CurryExpressionTypeSignatureStrategy::create(ASTCurryExpressionNode* curryExpression, TypeSignatureStrategyProvider* strategyMap) {
-    auto callableExpressionTypeSignature = strategyMap->getTypeSignatureFor(curryExpression->getCallableExpression());
+    auto callableExpressionTypeSignature = strategyMap->getTypeSignatureForExpression(curryExpression->getCallableExpression());
     if (callableExpressionTypeSignature->is(FUNCTION_TYPE_SOURCE)) {
         auto functionTypeSignature = (FunctionTypeSignature*)callableExpressionTypeSignature;
         return functionTypeSignature->getReturnType();

@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
 TypeSignature* TupleAccessExpressionTypeSignatureStrategy::create(ASTTupleAccessExpressionNode* tupleAccessExpression, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap) {
-    auto sourceTypeSignature = strategyMap->getTypeSignatureFor(tupleAccessExpression->getSource());
+    auto sourceTypeSignature = strategyMap->getTypeSignatureForExpression(tupleAccessExpression->getSource()->getSource());
     if (!sourceTypeSignature->is(TUPLE_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }

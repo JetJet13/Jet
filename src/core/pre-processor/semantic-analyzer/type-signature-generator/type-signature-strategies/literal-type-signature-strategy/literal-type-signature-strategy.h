@@ -11,7 +11,7 @@
 
 class LiteralTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTLiteralNode* literalNode, TypeSignatureLookupTable* typeSignatureLookupTable);
+    LiteralTypeSignature* create(ASTLiteralNode* literalNode, TypeSignatureLookupTable* typeSignatureLookupTable);
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_STRATEGY_H

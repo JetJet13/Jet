@@ -8,7 +8,7 @@
 #include "../../../../../../type-signature/enum-type-signature/enum-type-signature.h"
 
 TypeSignature* ObjectAccessExpressionTypeSignatureStrategy::create(ASTObjectAccessExpressionNode* objectAccessExpression, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap) {
-    auto sourceTypeSignature = strategyMap->getTypeSignatureFor(objectAccessExpression->getSource()->getSource());
+    auto sourceTypeSignature = strategyMap->getTypeSignatureForExpression(objectAccessExpression->getSource()->getSource());
     if (sourceTypeSignature->is(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)sourceTypeSignature;
         auto key = tokenTable->getIdentifier(objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getIdentifier()->getToken()->getValueId().value());

@@ -9,10 +9,10 @@
 TypeSignature* LambdaTypeTypeSignatureStrategy::create(ASTLambdaTypeNode* node, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto type : node->getParameterList()->getParameters()) {
-        typeSignatures->push_back(strategyMap->getTypeSignatureFor(type));
+        typeSignatures->push_back(strategyMap->getTypeSignatureForType(type));
     }
     if (node->getReturnType()) {
-        return new LambdaTypeSignature(typeSignatures, strategyMap->getTypeSignatureFor(node->getReturnType().value()));
+        return new LambdaTypeSignature(typeSignatures, strategyMap->getTypeSignatureForType(node->getReturnType().value()));
     }
     return new LambdaTypeSignature(typeSignatures);
 }

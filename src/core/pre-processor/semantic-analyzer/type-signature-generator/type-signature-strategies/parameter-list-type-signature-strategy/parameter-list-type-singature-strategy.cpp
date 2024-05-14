@@ -5,11 +5,11 @@
 #include "parameter-list-type-singature-strategy.h"
 #include "../../../../../type-signature/parameter-list-type-signature/parameter-list-type-signature.h"
 
-TypeSignature* ParameterListTypeSignatureStrategy::create(ASTFunctionParameterListNode* node, TypeSignatureStrategyProvider* strategyMap) {
+ParameterListTypeSignature* ParameterListTypeSignatureStrategy::create(ASTFunctionParameterListNode* node, TypeSignatureStrategyProvider* strategyMap) {
     auto parameters = std::vector<ParameterListItemTypeSignature*>();
 
     for (auto parameterItem : node->getParameters()) {
-        parameters.push_back((ParameterListItemTypeSignature*)strategyMap->getTypeSignatureFor(parameterItem));
+        parameters.push_back(strategyMap->getTypeSignatureForParameter(parameterItem));
     }
 
     return new ParameterListTypeSignature(parameters);

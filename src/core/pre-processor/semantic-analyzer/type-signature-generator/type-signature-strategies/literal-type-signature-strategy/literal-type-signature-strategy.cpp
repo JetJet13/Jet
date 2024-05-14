@@ -6,7 +6,7 @@
 #include "../../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 
-TypeSignature* LiteralTypeSignatureStrategy::create(ASTLiteralNode* literalNode, TypeSignatureLookupTable* typeSignatureLookupTable) {
+LiteralTypeSignature* LiteralTypeSignatureStrategy::create(ASTLiteralNode* literalNode, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto literalSymbol = literalNode->getLiteral()->getToken()->getSymbol();
     if (literalSymbol->isInt()) {
         return typeSignatureLookupTable->getIntLiteralTypeSignature();
@@ -19,6 +19,6 @@ TypeSignature* LiteralTypeSignatureStrategy::create(ASTLiteralNode* literalNode,
     } else if (literalSymbol->isBoolean()) {
         return typeSignatureLookupTable->getBoolLiteralTypeSignature();
     } else {
-        return new UnknownTypeSignature();
+        throw std::invalid_argument("unknown literal node");
     }
 }

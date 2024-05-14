@@ -5,7 +5,7 @@
 #include "class-type-signature-strategy.h"
 #include "../../../../../type-signature/class-type-signature/class-type-signature.h"
 
-TypeSignature* ClassTypeSignatureStrategy::create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap) {
+ClassTypeSignature* ClassTypeSignatureStrategy::create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = new ClassTypeSignature();
     this->createPropertyTypeSignatures(node, classTypeSignature, strategyMap);
     this->createConstructorTypeSignatures(node, classTypeSignature, strategyMap);
@@ -14,37 +14,28 @@ TypeSignature* ClassTypeSignatureStrategy::create(ASTClassDeclarationNode* node,
 }
 
 void ClassTypeSignatureStrategy::createConstructorTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
-    for (auto property : *node->getBlock()->getProperties()) {
-        auto typeSignature = strategyMap->getTypeSignatureFor(property);
-        if (typeSignature->is(CLASS_CONSTRUCTOR_TYPE_SOURCE)) {
-            classTypeSignature->addConstructor(
-                    property->getId(),
-                    (ClassConstructorTypeSignature*)strategyMap->getTypeSignatureFor(property)
-            );
-        }
+    for (auto constructor : *node->getBlock()->getConstructors()) {
+        classTypeSignature->addConstructor(
+            constructor->getId(),
+            strategyMap->getTypeSignatureForClassConstructor(constructor)
+        );
     }
 }
 
 void ClassTypeSignatureStrategy::createPropertyTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto property : *node->getBlock()->getProperties()) {
-        auto typeSignature = strategyMap->getTypeSignatureFor(property);
-        if (typeSignature->is(CLASS_PROPERTY_TYPE_SOURCE)) {
-            classTypeSignature->addProperty(
-                    property->getId(),
-                    (ClassPropertyTypeSignature*)strategyMap->getTypeSignatureFor(property)
-            );
-        }
+        classTypeSignature->addProperty(
+                property->getId(),
+                strategyMap->getTypeSignatureForClassProperty(property)
+        );
     }
 }
 
 void ClassTypeSignatureStrategy::createMethodTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
-    for (auto property : *node->getBlock()->getProperties()) {
-        auto typeSignature = strategyMap->getTypeSignatureFor(property);
-        if (typeSignature->is(CLASS_METHOD_TYPE_SOURCE)) {
-            classTypeSignature->addMethod(
-                    property->getId(),
-                    (ClassMethodTypeSignature*)strategyMap->getTypeSignatureFor(property)
-            );
-        }
+    for (auto method : *node->getBlock()->getMethods()) {
+        classTypeSignature->addMethod(
+                method->getId(),
+                strategyMap->getTypeSignatureForClassMethod(method)
+        );
     }
 }

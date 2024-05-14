@@ -42,6 +42,7 @@
 #include "function-type-signature-strategy/function-type-signature-strategy.h"
 #include "procedure-type-signature-strategy/procedure-type-signature-strategy.h"
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
+#include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
 #include "../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider(TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable) {
@@ -51,7 +52,210 @@ TypeSignatureStrategyProvider::TypeSignatureStrategyProvider(TypeSignatureLookup
 }
 
 
-TypeSignature*  TypeSignatureStrategyProvider::getTypeSignatureFor(ASTNode* node) {
+TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForExpression(ASTExpressionNode* node) {
+    switch (node->getNodeType()) {
+        case AST_BINARY_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getBinaryExpressionTypeSignatureStrategy()
+                    ->create((ASTBinaryExpressionNode*)node, this);
+        case AST_ARRAY_ACCESS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getArrayAccessExpressionTypeSignatureStrategy()
+                    ->create((ASTArrayAccessExpressionNode*)node, this);
+        case AST_ARRAY_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getArrayExpressionTypeSignatureStrategy()
+                    ->create((ASTArrayExpressionNode*)node, this);
+        case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getClassMethodInvocationExpressionTypeSignatureStrategy()
+                    ->create((ASTClassMethodInvocationExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getClassPropertyAccessExpressionTypeSignatureStrategy()
+                    ->create((ASTClassPropertyAccessExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_CURRY_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getCurryExpressionTypeSignatureStrategy()
+                    ->create((ASTCurryExpressionNode*)node, this);
+        case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getFunctionInvocationExpressionTypeSignatureStrategy()
+                    ->create((ASTFunctionInvocationExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_FUNCTION_RETURN_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getFunctionReturnExpressionTypeSignatureStrategy()
+                    ->create((ASTFunctionReturnExpressionNode*)node, this);
+        case AST_IDENTIFIER_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getIdentifierExpressionTypeSignatureStrategy()
+                    ->create((ASTIdentifierExpressionNode*)node, this->_typeSignatureLookupTable, this->_tokenTable);
+        case AST_LAMBDA_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLambdaExpressionTypeSignatureStrategy()
+                    ->create((ASTLambdaExpressionNode*)node, this);
+        case AST_LAMBDA_RETURN_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLambdaReturnExpressionTypeSignatureStrategy()
+                    ->create((ASTLambdaReturnExpressionNode*)node, this);
+        case AST_LITERAL_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLiteralExpressionTypeSignatureStrategy()
+                    ->create((ASTLiteralExpressionNode*)node, this);
+        case AST_LOGICAL_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLogicalExpressionTypeSignatureStrategy()
+                    ->create((ASTLogicalExpressionNode*)node, this);
+        case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getNewClassInstanceExpressionTypeSignatureStrategy()
+                    ->create((ASTNewClassInstanceExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_OBJECT_ACCESS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getObjectAccessExpressionTypeSignatureStrategy()
+                    ->create((ASTObjectAccessExpressionNode*)node, this->_tokenTable, this);
+        case AST_STRUCT_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getStructExpressionTypeSignatureStrategy()
+                    ->create((ASTStructExpressionNode*)node, this->_tokenTable, this);
+        case AST_THIS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getThisExpressionTypeSignatureStrategy()
+                    ->create((ASTThisExpressionNode*)node, this->_typeSignatureLookupTable);
+        case AST_TUPLE_ACCESS_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getTupleAccessExpressionTypeSignatureStrategy()
+                    ->create((ASTTupleAccessExpressionNode*)node, this->_tokenTable, this);
+        case AST_TUPLE_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getTupleExpressionTypeSignatureStrategy()
+                    ->create((ASTTupleExpressionNode*)node, this);
+        case AST_UNARY_EXPRESSION_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getUnaryExpressionTypeSignatureStrategy()
+                    ->create((ASTUnaryExpressionNode*)node, this);
+        default:
+            return new UnknownTypeSignature();
+    }
+}
+
+TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForType(ASTTypeNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getTypeTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForBaseType(ASTTypeBaseNode* node) {
+    switch (node->getNodeType()) {
+        case AST_PRIMITIVE_TYPE_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getPrimitiveTypeTypeSignatureStrategy()
+                    ->create((ASTPrimitiveTypeNode*)node, this->_typeSignatureLookupTable);
+        case AST_CUSTOM_TYPE_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getCustomTypeTypeSignatureStrategy()
+                    ->create((ASTCustomTypeNode*)node, this->_typeSignatureLookupTable, this->_tokenTable);
+        case AST_ARRAY_TYPE_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getArrayTypeTypeSignatureStrategy()
+                    ->create((ASTArrayTypeNode*)node, this);
+        case AST_TUPLE_TYPE_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getTupleTypeTypeSignatureStrategy()
+                    ->create((ASTTupleTypeNode*)node, this);
+        case AST_LAMBDA_TYPE_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getLambdaTypeTypeSignatureStrategy()
+                    ->create((ASTLambdaTypeNode*)node, this);
+        case AST_THIS_TYPE_NODE:
+            return this->_typeSignatureStrategyMap
+                    ->getThisTypeTypeSignatureStrategy()
+                    ->create((ASTThisTypeNode*)node, this->_typeSignatureLookupTable);
+        default:
+            return new UnknownTypeSignature();
+    }
+}
+
+TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForVariable(ASTVariableDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getVariableTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+ClassTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForClass(ASTClassDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getClassTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+ClassPropertyTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForClassProperty(ASTClassPropertyDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getClassPropertyTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+ClassConstructorTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForClassConstructor(ASTClassConstructorDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getClassConstructorTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+ClassMethodTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForClassMethod(ASTClassMethodDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getClassMethodTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+EnumTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForEnum(ASTEnumDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getEnumTypeSignatureStrategy()
+            ->create(node, this->_tokenTable, this);
+}
+
+LiteralTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForEnumKeyValue(ASTEnumKeyValueNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getEnumKeyValueTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+FunctionTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForFunction(ASTFunctionDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getFunctionTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+ProcedureTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForProcedure(ASTProcedureDeclarationNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getProcedureTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+ParameterListItemTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForParameter(ASTFunctionParameterNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getParameterListItemTypeSignatureStrategy()
+            ->create(node, this->_tokenTable, this);
+}
+
+ParameterListTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForParameterList(ASTFunctionParameterListNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getParameterListTypeSignatureStrategy()
+            ->create(node, this);
+}
+
+LiteralTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForLiteral(ASTLiteralNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getLiteralTypeSignatureStrategy()
+            ->create(node, this->_typeSignatureLookupTable);
+}
+
+AccessModifierTypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForAccessModifier(ASTAccessModifierNode* node) {
+    return this->_typeSignatureStrategyMap
+            ->getAccessModifierTypeSignatureStrategy()
+            ->create(node);
+}
+
+
+TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureFor(ASTNode* node) {
     switch (node->getNodeType()) {
         case AST_INT_LITERAL_NODE:
         case AST_FLOAT_LITERAL_NODE:

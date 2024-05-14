@@ -14,7 +14,7 @@ TypeSignature* StructExpressionTypeSignatureStrategy::create(ASTStructExpression
         }
 
         structTypeSignature->addKeyValuePair(
-                new StructKeyValueTypeSignature(key.value(), strategyMap->getTypeSignatureFor(keyValuePair->getValue()))
+                new StructKeyValueTypeSignature(key.value(), strategyMap->getTypeSignatureForExpression(keyValuePair->getValue()))
         );
     }
 

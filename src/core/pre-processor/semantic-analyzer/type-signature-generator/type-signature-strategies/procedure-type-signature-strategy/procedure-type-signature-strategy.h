@@ -11,7 +11,7 @@
 
 class ProcedureTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTProcedureDeclarationNode* procedureDeclaration, TypeSignatureStrategyProvider* strategyMap);
+    ProcedureTypeSignature* create(ASTProcedureDeclarationNode* procedureDeclaration, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_PROCEDURE_TYPE_SIGNATURE_STRATEGY_H

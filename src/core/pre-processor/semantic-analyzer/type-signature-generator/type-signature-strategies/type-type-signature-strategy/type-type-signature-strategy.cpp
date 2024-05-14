@@ -5,5 +5,5 @@
 #include "type-type-signature-strategy.h"
 
 TypeSignature* TypeTypeSignatureStrategy::create(ASTTypeNode* node, TypeSignatureStrategyProvider* strategyMap) {
-    return strategyMap->getTypeSignatureFor(node->getType());
+    return strategyMap->getTypeSignatureForBaseType(node->getType());
 }

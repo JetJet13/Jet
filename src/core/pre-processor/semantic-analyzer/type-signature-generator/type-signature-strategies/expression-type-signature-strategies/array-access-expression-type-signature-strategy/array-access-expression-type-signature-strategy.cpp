@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 
 TypeSignature* ArrayAccessExpressionTypeSignatureStrategy::create(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureStrategyProvider* strategyMap) {
-    auto sourceTypeSignature = strategyMap->getTypeSignatureFor(arrayAccessExpression->getSource());
+    auto sourceTypeSignature = strategyMap->getTypeSignatureForExpression(arrayAccessExpression->getSource());
     if (!sourceTypeSignature->is(ARRAY_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }

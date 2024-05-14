@@ -8,7 +8,7 @@
 TypeSignature* TupleTypeTypeSignatureStrategy::create(ASTTupleTypeNode* node, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto type : node->getParameterList()->getParameters()) {
-        typeSignatures->push_back(strategyMap->getTypeSignatureFor(type));
+        typeSignatures->push_back(strategyMap->getTypeSignatureForType(type));
     }
     return new TupleTypeSignature(typeSignatures);
 }

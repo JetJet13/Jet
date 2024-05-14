@@ -11,7 +11,7 @@
 
 class ParameterListItemTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTFunctionParameterNode* node, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap);
+    ParameterListItemTypeSignature* create(ASTFunctionParameterNode* node, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_PARAMETER_LIST_ITEM_TYPE_SIGNATURE_STRATEGY_H

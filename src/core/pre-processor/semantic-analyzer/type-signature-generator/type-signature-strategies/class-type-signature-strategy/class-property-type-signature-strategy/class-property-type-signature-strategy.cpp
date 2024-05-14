@@ -6,16 +6,16 @@
 #include "../../../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.h"
 
-TypeSignature* ClassPropertyTypeSignatureStrategy::create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureStrategyProvider* strategyMap) {;
+ClassPropertyTypeSignature* ClassPropertyTypeSignatureStrategy::create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureStrategyProvider* strategyMap) {;
     TypeSignature* classPropertyType = new UnknownTypeSignature();
     if (classPropertyDeclaration->getType()) {
-        classPropertyType = strategyMap->getTypeSignatureFor(classPropertyDeclaration->getType().value());
+        classPropertyType = strategyMap->getTypeSignatureForType(classPropertyDeclaration->getType().value());
     } else if (classPropertyDeclaration->getInitializer()) {
-        classPropertyType = strategyMap->getTypeSignatureFor(classPropertyDeclaration->getInitializer().value());
+        classPropertyType = strategyMap->getTypeSignatureForExpression(classPropertyDeclaration->getInitializer().value());
     }
 
     return new ClassPropertyTypeSignature(
-        (AccessModifierTypeSignature*)strategyMap->getTypeSignatureFor(classPropertyDeclaration->getAccessModifier()),
+        strategyMap->getTypeSignatureForAccessModifier(classPropertyDeclaration->getAccessModifier()),
         classPropertyType,
         classPropertyDeclaration->isStatic(),
         classPropertyDeclaration->isConstant()

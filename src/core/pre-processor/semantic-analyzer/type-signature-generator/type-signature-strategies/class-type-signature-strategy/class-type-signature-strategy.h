@@ -18,7 +18,7 @@ private:
     void createPropertyTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
     void createMethodTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
 public:
-    TypeSignature* create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap);
+    ClassTypeSignature* create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_STRATEGY_H

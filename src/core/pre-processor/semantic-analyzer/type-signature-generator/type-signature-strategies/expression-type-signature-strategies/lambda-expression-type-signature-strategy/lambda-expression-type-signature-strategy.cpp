@@ -8,11 +8,11 @@
 TypeSignature* LambdaExpressionTypeSignatureStrategy::create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
-        typeSignatures->push_back(strategyMap->getTypeSignatureFor(parameter));
+        typeSignatures->push_back(strategyMap->getTypeSignatureForParameter(parameter));
     }
 
     if (lambdaExpression->getReturnType()) {
-        return new LambdaTypeSignature(typeSignatures, strategyMap->getTypeSignatureFor(lambdaExpression->getReturnType().value()));
+        return new LambdaTypeSignature(typeSignatures, strategyMap->getTypeSignatureForType(lambdaExpression->getReturnType().value()));
     }
     return new LambdaTypeSignature(typeSignatures);
 }

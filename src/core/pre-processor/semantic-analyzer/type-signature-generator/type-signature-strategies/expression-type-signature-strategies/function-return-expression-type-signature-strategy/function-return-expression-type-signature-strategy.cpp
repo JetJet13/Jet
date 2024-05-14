@@ -5,5 +5,5 @@
 #include "function-return-expression-type-signature-strategy.h"
 
 TypeSignature* FunctionReturnExpressionTypeSignatureStrategy::create(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeSignatureStrategyProvider* strategyMap) {
-    return strategyMap->getTypeSignatureFor(functionReturnExpression->getExpression());
+    return strategyMap->getTypeSignatureForExpression(functionReturnExpression->getExpression());
 }

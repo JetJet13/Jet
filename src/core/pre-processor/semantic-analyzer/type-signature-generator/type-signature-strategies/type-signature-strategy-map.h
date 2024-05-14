@@ -46,6 +46,7 @@ class ParameterListTypeSignatureStrategy;
 class FunctionTypeSignatureStrategy;
 class ProcedureTypeSignatureStrategy;
 class LiteralTypeSignatureStrategy;
+class AccessModifierTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -88,6 +89,7 @@ private:
     FunctionTypeSignatureStrategy* _functionTypeSignatureStrategy;
     ProcedureTypeSignatureStrategy* _procedureTypeSignatureStrategy;
     LiteralTypeSignatureStrategy* _literalTypeSignatureStrategy;
+    AccessModifierTypeSignatureStrategy* _accessModifierTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
@@ -129,6 +131,7 @@ public:
     FunctionTypeSignatureStrategy* getFunctionTypeSignatureStrategy();
     ProcedureTypeSignatureStrategy* getProcedureTypeSignatureStrategy();
     LiteralTypeSignatureStrategy* getLiteralTypeSignatureStrategy();
+    AccessModifierTypeSignatureStrategy* getAccessModifierTypeSignatureStrategy();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H

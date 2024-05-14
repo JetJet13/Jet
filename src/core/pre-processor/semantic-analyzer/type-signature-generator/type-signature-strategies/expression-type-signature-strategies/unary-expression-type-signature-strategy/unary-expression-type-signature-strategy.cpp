@@ -6,7 +6,7 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 TypeSignature* UnaryExpressionTypeSignatureStrategy::create(ASTUnaryExpressionNode* node, TypeSignatureStrategyProvider* strategyMap) {
-    auto expressionTypeSignature = strategyMap->getTypeSignatureFor(node->getExpressionNode());
+    auto expressionTypeSignature = strategyMap->getTypeSignatureForExpression(node->getExpressionNode());
     if (expressionTypeSignature->isUnknownOrInvalidOrVoid()) {
         return new InvalidTypeSignature();
     }

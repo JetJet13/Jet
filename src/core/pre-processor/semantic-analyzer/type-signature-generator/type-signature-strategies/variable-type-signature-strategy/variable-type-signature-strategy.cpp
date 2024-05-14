@@ -6,8 +6,8 @@
 
 TypeSignature* VariableTypeSignatureStrategy::create(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureStrategyProvider* strategyMap) {
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
-        auto result = strategyMap->getTypeSignatureFor(variableDeclaration->getVarInitNode()->getTypeNode().value());
+        auto result = strategyMap->getTypeSignatureForType(variableDeclaration->getVarInitNode()->getTypeNode().value());
         return result;
     }
-    return strategyMap->getTypeSignatureFor(variableDeclaration->getInitializerNode());
+    return strategyMap->getTypeSignatureForExpression(variableDeclaration->getInitializerNode());
 }
