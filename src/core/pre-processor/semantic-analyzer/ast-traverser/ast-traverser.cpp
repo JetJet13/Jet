@@ -3,6 +3,7 @@
 //
 
 #include "ast-traverser.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTTraverser::ASTTraverser() {
     _stack = std::stack<ASTNode*>();
@@ -33,6 +34,7 @@ void ASTTraverser::reset() {
 
 std::optional<ASTNode*> ASTTraverser::next() {
     if (_traverseStack.empty()) {
+        Logger::log("_traverseStack is empty");
         _hasMore = false;
         return {};
     }

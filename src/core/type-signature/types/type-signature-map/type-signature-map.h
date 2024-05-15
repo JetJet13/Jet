@@ -17,6 +17,7 @@ public:
     std::optional<T*> find(std::string key);
     void insert(std::string key, T* value);
     bool isEqualTo(TypeSignatureMap<T>* other);
+    std::vector<std::pair<std::string, T*>> getKeyValues();
     unsigned long size();
     void print();
 };

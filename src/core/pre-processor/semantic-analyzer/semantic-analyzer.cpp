@@ -23,11 +23,21 @@ void SemanticAnalyzer::analyze(ASTFileNode* fileNode) {
 void SemanticAnalyzer::prepareDeclarationsFor(ASTFileNode* fileNode) {
     for (auto node : fileNode->getBody()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(node)) {
+
+            // step 1: generate id for each declaration
+            // step 2: create a mapping between id and declaration
+            // step 3: traverse AST and determine type-signature:
+            //  1. generate it OR
+            //  2. look-up type-signature in lookup table:
+            //     if type-signature exists, assign it
+            //     otherwise, determine it
+
+
             // step 1: create a declaration id to assign to ast declaration node
             _declarationIdAssignor->assignId(node);
 
             // step 2: determine type signature for declaration
-            auto declarationTypeSignature = _typeSignatureGenerator->generateTypeSignatureFor(node);
+            auto declarationTypeSignature = _typeSignatureGenerator->generateTypeSignatureForDeclaration((ASTDeclarationNode*)node);
 
             // step 3: add declaration id -> declaration type signature to type-signature-lookup-table
             _typeSignatureLookupTable->insert(node->getId(), declarationTypeSignature);

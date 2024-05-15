@@ -8,6 +8,6 @@ TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* ty
     _typeSignatureStrategyProvider = typeSignatureStrategyProvider;
 }
 
-TypeSignature*  TypeSignatureGenerator::generateTypeSignatureFor(ASTNode* node) {
-    return _typeSignatureStrategyProvider->getTypeSignatureFor(node);
+TypeSignature*  TypeSignatureGenerator::generateTypeSignatureForDeclaration(ASTDeclarationNode* node) {
+    return _typeSignatureStrategyProvider->getTypeSignatureForDeclaration(node);
 }

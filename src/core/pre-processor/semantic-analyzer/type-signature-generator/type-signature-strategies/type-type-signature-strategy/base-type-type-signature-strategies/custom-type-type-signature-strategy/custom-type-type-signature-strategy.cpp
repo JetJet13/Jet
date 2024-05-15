@@ -6,9 +6,14 @@
 #include "../../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 TypeSignature* CustomTypeTypeSignatureStrategy::create(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable) {
-    auto customTypeValueId = node->getIdentifier()->getIdentifier()->getToken()->getValueId();
-    if (customTypeValueId && tokenTable->getIdentifier(customTypeValueId.value())) {
-        return typeSignatureLookupTable->find(tokenTable->getIdentifier(customTypeValueId.value()).value());
-    }
-    return new InvalidTypeSignature();
+    return typeSignatureLookupTable->find(
+                tokenTable->getIdentifier(
+                    node
+                    ->getIdentifier()
+                    ->getIdentifier()
+                    ->getToken()
+                    ->getValueId()
+                    .value()
+                ).value()
+            );
 }

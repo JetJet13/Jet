@@ -849,6 +849,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/literal-type-signature-strategy/literal-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h
+        type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.cpp
+        type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h
 
 )
 

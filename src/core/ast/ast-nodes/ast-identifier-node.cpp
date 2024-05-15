@@ -69,7 +69,7 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({ AST_ASSIGNMENT_OPERATOR_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({ AST_ASSIGNMENT_OPERATOR_NODE, AST_TERMINATOR_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this);
     }
 

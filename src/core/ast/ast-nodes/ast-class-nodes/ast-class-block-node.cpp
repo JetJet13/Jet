@@ -117,8 +117,3 @@ void ASTClassBlockNode::print() {
     }
     Logger::log("----------");
 }
-
-std::vector<ASTNode*> ASTClassBlockNode::getChildren() {
-    auto children = std::vector<ASTNode*>();
-    return children;
-}

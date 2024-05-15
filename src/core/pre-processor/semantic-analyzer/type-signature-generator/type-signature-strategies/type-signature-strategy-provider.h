@@ -51,7 +51,7 @@ public:
     ParameterListTypeSignature*  getTypeSignatureForParameterList(ASTFunctionParameterListNode* node);
     LiteralTypeSignature*  getTypeSignatureForLiteral(ASTLiteralNode* node);
     AccessModifierTypeSignature*  getTypeSignatureForAccessModifier(ASTAccessModifierNode* node);
-    TypeSignature*  getTypeSignatureFor(ASTNode* node);
+    TypeSignature*  getTypeSignatureForDeclaration(ASTDeclarationNode* node);
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

@@ -5,6 +5,8 @@
 #include "class-declaration-id-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
 #include "../../../../../../shared/utils/to-string/to-string.h"
+#include "../../../../../ast/ast-nodes/ast-type-nodes/ast-custom-type-node.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     auto classDeclarationNode = (ASTClassDeclarationNode*)node;
@@ -29,10 +31,31 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     astTraverser.init(classDeclarationNode);
     auto astNode = astTraverser.next();
     while (astNode) {
-        if (astNode.value()->isOneOf({ AST_THIS_EXPRESSION_NODE, AST_THIS_TYPE_NODE })) {
+        if (astNode.value()->isOneOf({ AST_THIS_EXPRESSION_NODE, AST_THIS_TYPE_NODE, AST_THIS_NODE })) {
             astNode.value()->setId(classDeclarationNode->getId());
-        } else if (astNode.value()->is(AST_THIS_NODE)) {
-            astNode.value()->setId(classDeclarationNode->getId());
+        } else if (astNode.value()->is(AST_CUSTOM_TYPE_NODE)) {
+            astNode.value()->print();
+            auto customTypeName = _tokenTable->getIdentifier(
+                    ((ASTCustomTypeNode*)astNode.value())
+                            ->getIdentifier()
+                            ->getIdentifier()
+                            ->getToken()
+                            ->getValueId().value()
+            ).value();
+            if (customTypeName == className) {
+                astNode.value()->setId(classDeclarationNode->getId());
+            }
+        } else if (astNode.value()->is(AST_CLASS_NAME_NODE)) {
+            astNode.value()->print();
+            auto nodeClassName = _tokenTable->getIdentifier(
+                    ((ASTClassNameNode*)astNode.value())
+                            ->getLexeme()
+                            ->getToken()
+                            ->getValueId().value()
+            ).value();
+            if (nodeClassName == className) {
+                astNode.value()->setId(classDeclarationNode->getId());
+            }
         }
         astNode = astTraverser.next();
     }

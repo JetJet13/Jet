@@ -28,6 +28,10 @@ std::optional<TypeSignature*> ClassMethodTypeSignature::getReturnType() {
     return _returnType;
 }
 
+void ClassMethodTypeSignature::setReturnType(TypeSignature* returnType) {
+    _returnType = returnType;
+}
+
 std::string ClassMethodTypeSignature::toString() {
     return "CLASS_METHOD_TYPE_SIGNATURE";
 }

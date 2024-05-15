@@ -23,6 +23,7 @@ public:
     bool isConst();
     AccessModifierTypeSignature* getAccessModifier();
     TypeSignature* getType();
+    void setType(TypeSignature* typeSignature);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature* otherType) override;

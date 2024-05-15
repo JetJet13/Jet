@@ -180,7 +180,7 @@ func useAnotherProc(x: proc<>, y: proc<Color>) boolean {
 }
 
 const funcLambda = () => 10;
-const procLambda = () { x + 10; };
+const procLambda = (x: int) { x + 10; };
 const procLambdaEmpty = () {};
 
 const intWithType: int = 5;
@@ -216,7 +216,10 @@ class MyClass {
     private static const mickTwoStatic: boolean = true; // 8
     private static const mickThreeStatic = true; // 6
 
-    constructor() {
+    private initMyClass = new MyClass();
+    private myClassProp: MyClass;
+
+    constructor(other: MyClass) {
         this.initIteratorTrait(500);
         this.foo = 10;
         this.bar = true;
@@ -232,7 +235,7 @@ class MyClass {
         return new MyClass(foo);
     }
 
-    protected static doSomething() MyClass {
+    protected static doSomething(other: MyClass) MyClass {
         return new MyClass();
     }
 

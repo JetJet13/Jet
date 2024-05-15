@@ -35,12 +35,21 @@ bool TypeSignatureMap<T>::isEqualTo(TypeSignatureMap<T>* other) {
         return false;
     }
 
-    for (auto type : _typeSignatureMap) {
+    for (const auto& type : _typeSignatureMap) {
         if (!other->find(type.first)) {
             return false;
         }
     }
     return true;
+}
+
+template<class T>
+std::vector<std::pair<std::string, T*>> TypeSignatureMap<T>::getKeyValues() {
+    auto keyValues = std::vector<std::pair<std::string, T*>>();
+    for (auto keyValue : _typeSignatureMap) {
+        keyValues.push_back(keyValue);
+    }
+    return keyValues;
 }
 
 template<class T>

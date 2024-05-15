@@ -29,7 +29,6 @@ public:
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;
     void print() override;
-    std::vector<ASTNode*> getChildren() override;
 };
 
 #endif //JETLANG_AST_CLASS_BLOCK_NODE_H

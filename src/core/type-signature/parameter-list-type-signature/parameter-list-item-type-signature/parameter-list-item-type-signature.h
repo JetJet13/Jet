@@ -16,6 +16,7 @@ public:
     ParameterListItemTypeSignature(std::string name, TypeSignature* type);
     std::string getName();
     TypeSignature* getType();
+    void setType(TypeSignature* typeSignature);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

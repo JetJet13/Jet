@@ -17,6 +17,7 @@ private:
     void createConstructorTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
     void createPropertyTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
     void createMethodTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void setClassInstanceTypeSignaturesFor(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature);
 public:
     ClassTypeSignature* create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap);
 };

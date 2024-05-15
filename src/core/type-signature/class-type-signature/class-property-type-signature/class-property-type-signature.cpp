@@ -29,6 +29,10 @@ TypeSignature* ClassPropertyTypeSignature::getType() {
     return _type;
 }
 
+void ClassPropertyTypeSignature::setType(TypeSignature* typeSignature) {
+    _type = typeSignature;
+}
+
 std::string ClassPropertyTypeSignature::toString() {
     return "CLASS_PROPERTY_TYPE_SIGNATURE";
 }
