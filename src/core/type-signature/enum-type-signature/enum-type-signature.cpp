@@ -5,6 +5,11 @@
 #include "enum-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+EnumTypeSignature::EnumTypeSignature() {
+    _type = new LiteralTypeSignature();
+    _keyValuePairs = TypeSignatureMap<LiteralTypeSignature>();
+}
+
 EnumTypeSignature::EnumTypeSignature(LiteralTypeSignature* type) {
     _type = type;
     _keyValuePairs = TypeSignatureMap<LiteralTypeSignature>();
@@ -46,6 +51,15 @@ bool EnumTypeSignature::isEqualTo(TypeSignature* otherType) {
 
     auto other = (EnumTypeSignature*)otherType;
     return this->getKeyValuePairs()->isEqualTo(other->getKeyValuePairs());
+}
+
+void EnumTypeSignature::copyFrom(TypeSignature* otherType) {
+    if (this->getTypeSource() != otherType->getTypeSource()) {
+        return;
+    }
+    auto other = (EnumTypeSignature*)otherType;
+    _type = other->getType();
+    _keyValuePairs = *other->getKeyValuePairs();
 }
 
 void EnumTypeSignature::print() {

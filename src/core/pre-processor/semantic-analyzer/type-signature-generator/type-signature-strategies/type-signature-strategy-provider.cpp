@@ -51,7 +51,6 @@ TypeSignatureStrategyProvider::TypeSignatureStrategyProvider(TypeSignatureLookup
     _tokenTable = tokenTable;
 }
 
-
 TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForExpression(ASTExpressionNode* node) {
     switch (node->getNodeType()) {
         case AST_BINARY_EXPRESSION_NODE:
@@ -81,7 +80,7 @@ TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForExpression(ASTE
         case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getFunctionInvocationExpressionTypeSignatureStrategy()
-                    ->create((ASTFunctionInvocationExpressionNode*)node, this->_typeSignatureLookupTable);
+                    ->create((ASTFunctionInvocationExpressionNode*)node, this->_typeSignatureLookupTable, this->_tokenTable);
         case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getFunctionReturnExpressionTypeSignatureStrategy()
@@ -109,7 +108,7 @@ TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForExpression(ASTE
         case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getNewClassInstanceExpressionTypeSignatureStrategy()
-                    ->create((ASTNewClassInstanceExpressionNode*)node, this->_typeSignatureLookupTable);
+                    ->create((ASTNewClassInstanceExpressionNode*)node, this->_typeSignatureLookupTable, this->_tokenTable);
         case AST_OBJECT_ACCESS_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getObjectAccessExpressionTypeSignatureStrategy()

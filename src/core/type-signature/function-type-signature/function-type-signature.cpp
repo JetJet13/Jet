@@ -3,7 +3,13 @@
 //
 
 #include "function-type-signature.h"
+#include "../unknown-type-signature/unknown-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
+
+FunctionTypeSignature::FunctionTypeSignature() {
+    _parameterList = new ParameterListTypeSignature();
+    _returnType = new UnknownTypeSignature();
+}
 
 FunctionTypeSignature::FunctionTypeSignature(ParameterListTypeSignature* parameterList, TypeSignature* returnType) {
     _parameterList = parameterList;
@@ -35,6 +41,15 @@ bool FunctionTypeSignature::isEqualTo(TypeSignature* otherType) {
     auto other = (FunctionTypeSignature*)otherType;
     return this->getParameterList()->isEqualTo(other->getParameterList()) &&
            this->getReturnType()->isEqualTo(other->getReturnType());
+}
+
+void FunctionTypeSignature::copyFrom(TypeSignature* otherType) {
+    if (this->getTypeSource() != otherType->getTypeSource()) {
+        return;
+    }
+    auto other = (FunctionTypeSignature*)otherType;
+    _returnType = other->getReturnType();
+    _parameterList = other->getParameterList();
 }
 
 void FunctionTypeSignature::print() {

@@ -5,6 +5,10 @@
 #include "parameter-list-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+ParameterListTypeSignature::ParameterListTypeSignature() {
+    _parameters = std::vector<ParameterListItemTypeSignature*>();
+}
+
 ParameterListTypeSignature::ParameterListTypeSignature(std::vector<ParameterListItemTypeSignature*> parameters) {
     _parameters = std::vector<ParameterListItemTypeSignature*>();
     for (auto parameter: parameters) {

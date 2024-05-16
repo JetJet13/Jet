@@ -5,6 +5,10 @@
 #include "procedure-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+ProcedureTypeSignature::ProcedureTypeSignature() {
+    _parameterList = new ParameterListTypeSignature();
+}
+
 ProcedureTypeSignature::ProcedureTypeSignature(ParameterListTypeSignature* parameterList) {
     _parameterList = parameterList;
 }
@@ -28,6 +32,14 @@ bool ProcedureTypeSignature::isEqualTo(TypeSignature* otherType) {
 
     auto other = (ProcedureTypeSignature*)otherType;
     return this->getParameterList()->isEqualTo(other->getParameterList());
+}
+
+void ProcedureTypeSignature::copyFrom(TypeSignature* otherType) {
+    if (this->getTypeSource() != otherType->getTypeSource()) {
+        return;
+    }
+    auto other = (ProcedureTypeSignature*)otherType;
+    _parameterList = other->getParameterList();
 }
 
 void ProcedureTypeSignature::print() {

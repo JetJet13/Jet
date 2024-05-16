@@ -119,6 +119,8 @@ proc anotherOnePlain() {
 
 proc emptyProcedure() {}
 
+const predefinedEnumAssignment = Color.Red;
+
 enum Color {
     Red = "red",
     Blue = "blue",
@@ -150,6 +152,7 @@ const lambdaGt = (x: int, y: int) boolean => x > y;
 const lambdaFullSum = (x: int) { return x + 10; };
 const lambdaNestedSum = (x: int) => (y: int) => (z: int) => x + y + z;
 
+const preDefinedFunctionCall = useLambdaBool();
 
 func useLambda(x: int, lambda: func<int> => boolean) boolean {
     return lambda(x);
@@ -194,30 +197,33 @@ const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: Color = Color.Red;
 
-// verify multiple inline comments
-// hello-world
-// hello-world again!
+const preDefinedClassInstance = new MyClass();
 
-// time for classes
+
+class OtherClass {
+    public myIntOne: MyClass;
+}
+
 class MyClass {
-    public myIntOne: int; // 4
-    public myIntTwo: int = 5; // 6
-    public myIntThree = 5; // 4
+    public myIntOne: int;
+    public myIntTwo: int = 5;
+    public myIntThree = 5;
 
-    public const myIntOneConst: int; // 5
-    public const myIntTwoConst: int = 5; // 7
-    public const myIntThreeConst = 5; // 5
+    public const myIntOneConst: int;
+    public const myIntTwoConst: int = 5;
+    public const myIntThreeConst = 5;
 
-    protected static fooOneStatic: int; // 5
-    protected static fooTwoStatic: int = 10; // 7
-    protected static fooThreeStatic = 10; // 5
+    protected static fooOneStatic: int;
+    protected static fooTwoStatic: int = 10;
+    protected static fooThreeStatic = 10;
 
-    private static const mickOneStatic: boolean; // 6
-    private static const mickTwoStatic: boolean = true; // 8
-    private static const mickThreeStatic = true; // 6
+    private static const mickOneStatic: boolean;
+    private static const mickTwoStatic: boolean = true;
+    private static const mickThreeStatic = true;
 
     private initMyClass = new MyClass();
     private myClassProp: MyClass;
+    private otherClass: OtherClass = new OtherClass();
 
     constructor(other: MyClass) {
         this.initIteratorTrait(500);

@@ -1144,6 +1144,9 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
                     DFANodeFactory::Once::createWithTarget(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, targetNodeType)))
+    ->addTransition(
+            DFATransitionFactory::create(
                     DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(

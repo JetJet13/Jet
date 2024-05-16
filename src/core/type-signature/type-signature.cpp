@@ -36,3 +36,5 @@ bool TypeSignature::isUnknownOrInvalidOrVoid() {
 bool TypeSignature::isLiteral() {
     return false;
 }
+
+void TypeSignature::copyFrom(TypeSignature* otherType) {}

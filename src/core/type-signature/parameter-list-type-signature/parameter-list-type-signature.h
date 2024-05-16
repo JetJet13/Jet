@@ -15,6 +15,7 @@ class ParameterListTypeSignature : public TypeSignature {
 private:
     std::vector<ParameterListItemTypeSignature*> _parameters;
 public:
+    ParameterListTypeSignature();
     ParameterListTypeSignature(std::vector<ParameterListItemTypeSignature*> parameters);
     std::vector<ParameterListItemTypeSignature*>* getParameters();
     unsigned long numParameters();

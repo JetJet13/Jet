@@ -55,10 +55,16 @@ bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
            this->getConstructors()->isEqualTo(other->getConstructors());
 }
 
+void ClassTypeSignature::copyFrom(TypeSignature* otherType) {
+    if (this->getTypeSource() != otherType->getTypeSource()) {
+        return;
+    }
+    auto other = (ClassTypeSignature*)otherType;
+    _properties = *other->getProperties();
+    _constructors = *other->getConstructors();
+    _methods = *other->getMethods();
+}
+
 void ClassTypeSignature::print() {
-    Logger::log("----------", this->toString(), "----------");
-    this->getProperties()->print();
-    this->getMethods()->print();
-    this->getConstructors()->print();
-    Logger::log("----------");
+    Logger::log(this->toString());
 }

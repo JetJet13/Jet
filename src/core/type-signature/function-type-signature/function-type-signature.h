@@ -14,12 +14,14 @@ private:
     ParameterListTypeSignature* _parameterList;
     TypeSignature* _returnType;
 public:
+    FunctionTypeSignature();
     FunctionTypeSignature(ParameterListTypeSignature* parameterList, TypeSignature* returnType);
     ParameterListTypeSignature* getParameterList();
     TypeSignature* getReturnType();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;
+    void copyFrom(TypeSignature* otherType) override;
     void print() override;
 };
 

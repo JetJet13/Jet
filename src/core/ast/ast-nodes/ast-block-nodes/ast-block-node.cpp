@@ -25,6 +25,18 @@ ASTBlockNode* ASTBlockNode::addContent(ASTNode* content) {
     return this;
 }
 
+void ASTBlockNode::hoistTypes(std::vector<ASTNodeType> astNodeTypes) {
+    auto newContent = std::vector<ASTNode*>();
+    for (auto content: _contents) {
+        if (content->isOneOf(astNodeTypes)) {
+            newContent.insert(newContent.begin(), content);
+        } else {
+            newContent.push_back(content);
+        }
+    }
+    _contents = newContent;
+}
+
 unsigned long ASTBlockNode::size() {
     return _contents.size();
 }

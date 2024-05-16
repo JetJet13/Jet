@@ -3,7 +3,6 @@
 //
 
 #include "class-type-signature-strategy.h"
-#include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
 

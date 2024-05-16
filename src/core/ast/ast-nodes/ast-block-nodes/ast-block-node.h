@@ -16,6 +16,7 @@ public:
     explicit ASTBlockNode();
     explicit ASTBlockNode(std::vector<ASTNode*> contents);
     ASTBlockNode* addContent(ASTNode* content);
+    void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     unsigned long size();
     std::vector<ASTNode*> getContents();
     ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,

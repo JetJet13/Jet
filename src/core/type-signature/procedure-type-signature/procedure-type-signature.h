@@ -13,11 +13,13 @@ class ProcedureTypeSignature : public TypeSignature {
 private:
     ParameterListTypeSignature* _parameterList;
 public:
+    ProcedureTypeSignature();
     explicit ProcedureTypeSignature(ParameterListTypeSignature* parameterList);
     ParameterListTypeSignature* getParameterList();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;
+    void copyFrom(TypeSignature* otherType) override;
     void print() override;
 };
 
