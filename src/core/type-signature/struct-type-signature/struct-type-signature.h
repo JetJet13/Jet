@@ -11,12 +11,13 @@
 
 class StructTypeSignature : public TypeSignature {
 private:
-    TypeSignatureMap<StructKeyValueTypeSignature> _keyValuePairs;
+    TypeSignatureMap<TypeSignature> _keyValuePairs;
 public:
     StructTypeSignature();
-    TypeSignatureMap<StructKeyValueTypeSignature>* getKeyValuePairs();
+    StructTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs);
+    TypeSignatureMap<TypeSignature>* getKeyValuePairs();
     TypeSignature* getTypeSignatureForKey(std::string key);
-    void addKeyValuePair(StructKeyValueTypeSignature* typeSignature);
+    void addKeyValuePair(std::string key, TypeSignature* typeSignature);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

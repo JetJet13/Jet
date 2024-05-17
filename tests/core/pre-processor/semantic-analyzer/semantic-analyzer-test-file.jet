@@ -199,7 +199,6 @@ const customWithType: Color = Color.Red;
 
 const preDefinedClassInstance = new MyClass();
 
-
 class OtherClass {
     public myIntOne: MyClass;
 }

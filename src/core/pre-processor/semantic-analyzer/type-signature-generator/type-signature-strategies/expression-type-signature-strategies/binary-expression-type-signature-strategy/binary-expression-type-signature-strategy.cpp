@@ -55,7 +55,7 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createSlashSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
+                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
                 { INT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
                 { FLOAT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },

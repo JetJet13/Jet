@@ -22,7 +22,6 @@ void SemanticAnalyzer::analyze(ASTFileNode* fileNode) {
 }
 
 void SemanticAnalyzer::prepareDeclarationsFor(ASTFileNode* fileNode) {
-    fileNode->getBody()->hoistTypes({ AST_ENUM_DECLARATION_NODE, AST_FUNCTION_DECLARATION_NODE });
     for (auto node : fileNode->getBody()->getContents()) {
         _declarationIdAssignor->assignId(node);
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {

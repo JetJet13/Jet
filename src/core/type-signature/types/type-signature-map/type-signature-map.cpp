@@ -15,6 +15,14 @@ TypeSignatureMap<T>::TypeSignatureMap() {
 }
 
 template<class T>
+TypeSignatureMap<T>::TypeSignatureMap(std::vector<std::pair<std::string, T*>> keyValuePairs) {
+    _typeSignatureMap = std::unordered_map<std::string, T*>();
+    for (auto keyValuePair : keyValuePairs) {
+        _typeSignatureMap.insert(keyValuePair);
+    }
+}
+
+template<class T>
 std::optional<T*> TypeSignatureMap<T>::find(std::string key) {
     auto result = _typeSignatureMap.find(key);
     if (result == _typeSignatureMap.end()) {
@@ -25,8 +33,9 @@ std::optional<T*> TypeSignatureMap<T>::find(std::string key) {
 }
 
 template<class T>
-void TypeSignatureMap<T>::insert(std::string key, T* value) {
+TypeSignatureMap<T>* TypeSignatureMap<T>::insert(std::string key, T* value) {
     _typeSignatureMap.insert(std::pair<std::string, T*>(key, value));
+    return this;
 }
 
 template<class T>
@@ -66,7 +75,7 @@ void TypeSignatureMap<T>::print() {
 }
 
 template class TypeSignatureMap<LiteralTypeSignature>;
-template class TypeSignatureMap<StructKeyValueTypeSignature>;
+template class TypeSignatureMap<TypeSignature>;
 template class TypeSignatureMap<ClassPropertyTypeSignature>;
 template class TypeSignatureMap<ClassConstructorTypeSignature>;
 template class TypeSignatureMap<ClassMethodTypeSignature>;

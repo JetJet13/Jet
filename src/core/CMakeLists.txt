@@ -853,6 +853,8 @@ add_library(jet-core
         type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h
         type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.cpp
         type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h
+        type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.cpp
+        type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h
 
 )
 

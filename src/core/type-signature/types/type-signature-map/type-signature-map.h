@@ -14,8 +14,9 @@ private:
     std::unordered_map<std::string, T*> _typeSignatureMap;
 public:
     TypeSignatureMap();
+    TypeSignatureMap(std::vector<std::pair<std::string, T*>> keyValuePairs);
     std::optional<T*> find(std::string key);
-    void insert(std::string key, T* value);
+    TypeSignatureMap<T>* insert(std::string key, T* value);
     bool isEqualTo(TypeSignatureMap<T>* other);
     std::vector<std::pair<std::string, T*>> getKeyValues();
     unsigned long size();

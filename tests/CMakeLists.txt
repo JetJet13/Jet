@@ -12,6 +12,7 @@ add_executable(jet-test
         core/pre-processor/syntax-analyzer/syntax-analyzer.test.cpp
         core/pre-processor/syntax-analyzer/resources/ast-node-factory.h
         core/pre-processor/semantic-analyzer/semantic-analyzer.test.cpp
+        core/pre-processor/semantic-analyzer/resources/type-signature-factory.h
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core/pre-processor/lexical-analyzer/lexical-analyzer-test-file.jet

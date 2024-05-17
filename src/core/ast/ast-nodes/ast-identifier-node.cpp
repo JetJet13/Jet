@@ -30,9 +30,13 @@ Lexeme* ASTIdentifierNode::getIdentifier() {
     return _identifier;
 }
 
+std::string ASTIdentifierNode::getValue(TokenTable* tokenTable) {
+    return tokenTable->getIdentifier(
+            _identifier->getToken()->getValueId().value()
+    ).value();
+}
+
 ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
-
-
     if (prevNode && prevNode.value()->is(AST_CLASS_ACCESS_NODE)) {
         if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
             return new ASTClassMethodCallNode(this->getIdentifier());

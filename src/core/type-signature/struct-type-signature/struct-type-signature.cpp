@@ -7,23 +7,27 @@
 #include "../unknown-type-signature/unknown-type-signature.h"
 
 StructTypeSignature::StructTypeSignature() {
-    _keyValuePairs = TypeSignatureMap<StructKeyValueTypeSignature>();
+    _keyValuePairs = TypeSignatureMap<TypeSignature>();
 }
 
-TypeSignatureMap<StructKeyValueTypeSignature>* StructTypeSignature::getKeyValuePairs() {
+StructTypeSignature::StructTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs) {
+    _keyValuePairs = keyValuePairs;
+}
+
+TypeSignatureMap<TypeSignature>* StructTypeSignature::getKeyValuePairs() {
     return &_keyValuePairs;
 }
 
 TypeSignature* StructTypeSignature::getTypeSignatureForKey(std::string key) {
     auto result = _keyValuePairs.find(key);
     if (result) {
-        return result.value()->getValue();
+        return result.value();
     }
     return new UnknownTypeSignature();
 }
 
-void StructTypeSignature::addKeyValuePair(StructKeyValueTypeSignature* typeSignature) {
-    _keyValuePairs.insert(typeSignature->getKey(), typeSignature);
+void StructTypeSignature::addKeyValuePair(std::string key, TypeSignature* typeSignature) {
+    _keyValuePairs.insert(key, typeSignature);
 }
 
 std::string StructTypeSignature::toString() {
