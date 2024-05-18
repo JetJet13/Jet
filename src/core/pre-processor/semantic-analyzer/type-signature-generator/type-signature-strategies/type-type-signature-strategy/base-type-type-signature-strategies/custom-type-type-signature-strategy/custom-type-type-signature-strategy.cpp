@@ -4,9 +4,10 @@
 
 #include "custom-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
+#include "../../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 TypeSignature* CustomTypeTypeSignatureStrategy::create(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable) {
-    return typeSignatureLookupTable->find(
+    auto customTypeSignature = typeSignatureLookupTable->find(
                 tokenTable->getIdentifier(
                     node
                     ->getIdentifier()
@@ -16,4 +17,10 @@ TypeSignature* CustomTypeTypeSignatureStrategy::create(ASTCustomTypeNode* node, 
                     .value()
                 ).value()
             );
+
+    if (customTypeSignature->is(CLASS_TYPE_SOURCE)) {
+        return new ClassInstanceTypeSignature((ClassTypeSignature*)customTypeSignature);
+    }
+
+    return customTypeSignature;
 }

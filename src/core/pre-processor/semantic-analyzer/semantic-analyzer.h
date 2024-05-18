@@ -15,15 +15,14 @@
 class SemanticAnalyzer {
 private:
     DependencyGraph* _dependencyGraph;
-    TypeSignatureLookupTable* _typeSignatureLookupTable;
     TokenTable* _tokenTable;
     DeclarationIdAssignor* _declarationIdAssignor;
     TypeSignatureGenerator* _typeSignatureGenerator;
-    void prepareDeclarationsFor(ASTFileNode* fileNode);
+    void prepareDeclarationsFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
     void runTypeCheckerOn(ASTFileNode* fileNode);
 public:
-    SemanticAnalyzer(DependencyGraph* dependencyGraph, TokenTable* tokenTable, TypeSignatureLookupTable* typeSignatureLookupTable);
-    void analyze(ASTFileNode* fileNode);
+    SemanticAnalyzer(DependencyGraph* dependencyGraph, TokenTable* tokenTable);
+    void analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
 };
 
 #endif //JETLANG_SEMANTIC_ANALYZER_H

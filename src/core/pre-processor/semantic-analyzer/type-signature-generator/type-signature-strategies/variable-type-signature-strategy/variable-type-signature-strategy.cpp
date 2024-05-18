@@ -4,10 +4,10 @@
 
 #include "variable-type-signature-strategy.h"
 
-TypeSignature* VariableTypeSignatureStrategy::create(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureStrategyProvider* strategyMap) {
+TypeSignature* VariableTypeSignatureStrategy::create(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
-        auto result = strategyMap->getTypeSignatureForType(variableDeclaration->getVarInitNode()->getTypeNode().value());
+        auto result = strategyMap->getTypeSignatureForType(variableDeclaration->getVarInitNode()->getTypeNode().value(), scope);
         return result;
     }
-    return strategyMap->getTypeSignatureForExpression(variableDeclaration->getInitializerNode());
+    return strategyMap->getTypeSignatureForExpression(variableDeclaration->getInitializerNode(), scope);
 }

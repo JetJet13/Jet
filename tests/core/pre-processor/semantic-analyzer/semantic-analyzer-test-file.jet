@@ -158,7 +158,7 @@ func useLambda(x: int, lambda: func<int> => boolean) boolean {
     return lambda(x);
 }
 
-func useLambda(lambda: func<int,int> => func<int> => boolean) boolean {
+func useLambdaOther(lambda: func<int,int> => func<int> => boolean) boolean {
     return lambda(x);
 }
 

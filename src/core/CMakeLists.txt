@@ -857,6 +857,8 @@ add_library(jet-core
         type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h
         type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.cpp
         type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.cpp
+        pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.h
 
 )
 

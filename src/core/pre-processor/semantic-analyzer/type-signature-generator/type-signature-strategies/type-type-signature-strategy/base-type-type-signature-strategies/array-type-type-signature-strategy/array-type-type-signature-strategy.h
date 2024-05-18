@@ -10,7 +10,7 @@
 
 class ArrayTypeTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTArrayTypeNode* node, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTArrayTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARRAY_TYPE_TYPE_SIGNATURE_STRATEGY_H

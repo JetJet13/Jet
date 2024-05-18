@@ -30,6 +30,6 @@ void ClassConstructorDeclarationIdStrategy::assign(ASTNode* node) {
                 classConstructorDeclarationNode
                 ->getConstructor()
                 ->getLexeme()
-                ->getLine()
+                ->getPosition()
             ));
 }

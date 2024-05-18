@@ -6,26 +6,25 @@
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../shared/utils/logger/logger.h"
 
-SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph, TokenTable* tokenTable, TypeSignatureLookupTable* typeSignatureLookupTable) {
+SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph, TokenTable* tokenTable) {
     _dependencyGraph = dependencyGraph;
     _tokenTable = tokenTable;
-    _typeSignatureLookupTable = typeSignatureLookupTable;
     _declarationIdAssignor = new DeclarationIdAssignor(_tokenTable);
     _typeSignatureGenerator = new TypeSignatureGenerator(
-        new TypeSignatureStrategyProvider(_typeSignatureLookupTable, _tokenTable)
+        new TypeSignatureStrategyProvider(_tokenTable)
     );
 }
 
-void SemanticAnalyzer::analyze(ASTFileNode* fileNode) {
-    this->prepareDeclarationsFor(fileNode);
+void SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+    this->prepareDeclarationsFor(fileNode, scope);
     this->runTypeCheckerOn(fileNode);
 }
 
-void SemanticAnalyzer::prepareDeclarationsFor(ASTFileNode* fileNode) {
+void SemanticAnalyzer::prepareDeclarationsFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
     for (auto node : fileNode->getBody()->getContents()) {
         _declarationIdAssignor->assignId(node);
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
-            _typeSignatureLookupTable->insert(
+            scope->insert(
                 node->getId(),
                 _typeSignatureGenerator
                 ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*) node)
@@ -35,11 +34,11 @@ void SemanticAnalyzer::prepareDeclarationsFor(ASTFileNode* fileNode) {
 
     for (auto node : fileNode->getBody()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(node)) {
-            auto declarationTypeSignature = _typeSignatureGenerator->generateTypeSignatureForDeclaration((ASTDeclarationNode*)node);
+            auto declarationTypeSignature = _typeSignatureGenerator->generateTypeSignatureForDeclaration((ASTDeclarationNode*)node, scope);
             if (ASTNodeUtils::isTypeDeclarationNode(node)) {
-                _typeSignatureLookupTable->find(node->getId())->copyFrom(declarationTypeSignature);
+                scope->find(node->getId())->copyFrom(declarationTypeSignature);
             } else {
-                _typeSignatureLookupTable->insert(node->getId(), declarationTypeSignature);
+                scope->insert(node->getId(), declarationTypeSignature);
             }
         }
     }

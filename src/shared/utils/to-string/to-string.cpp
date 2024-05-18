@@ -11,8 +11,10 @@ namespace ToStringUtil {
     std::string toString(int value) {
         return std::to_string(value);
     }
+    std::string toString(unsigned long value) {
+        return std::to_string(value);
+    }
     std::string toString(bool value) {
         return value ? "true" : "false";
     }
-
 }

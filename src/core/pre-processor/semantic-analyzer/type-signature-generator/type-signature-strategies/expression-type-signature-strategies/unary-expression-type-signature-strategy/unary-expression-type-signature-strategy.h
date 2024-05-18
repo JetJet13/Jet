@@ -11,7 +11,7 @@
 
 class UnaryExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTUnaryExpressionNode* node, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTUnaryExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_UNARY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

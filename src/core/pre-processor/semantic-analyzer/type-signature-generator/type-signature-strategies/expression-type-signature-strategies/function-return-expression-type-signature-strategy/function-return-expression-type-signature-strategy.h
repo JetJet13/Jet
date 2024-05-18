@@ -11,7 +11,7 @@
 
 class FunctionReturnExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FUNCTION_RETURN_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

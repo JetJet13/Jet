@@ -12,7 +12,7 @@
 
 class StructExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTStructExpressionNode* structExpression, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTStructExpressionNode* structExpression, TypeSignatureLookupTable* scope, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_STRUCT_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

@@ -5,8 +5,8 @@
 #include "procedure-type-signature-strategy.h"
 #include "../../../../../type-signature/procedure-type-signature/procedure-type-signature.h"
 
-ProcedureTypeSignature* ProcedureTypeSignatureStrategy::create(ASTProcedureDeclarationNode* functionDeclaration, TypeSignatureStrategyProvider* strategyMap) {
+ProcedureTypeSignature* ProcedureTypeSignatureStrategy::create(ASTProcedureDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     return new ProcedureTypeSignature(
-            strategyMap->getTypeSignatureForParameterList(functionDeclaration->getParameters())
+            strategyMap->getTypeSignatureForParameterList(functionDeclaration->getParameters(), scope)
     );
 }

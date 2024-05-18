@@ -6,8 +6,8 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/function-type-signature/function-type-signature.h"
 
-TypeSignature* CurryExpressionTypeSignatureStrategy::create(ASTCurryExpressionNode* curryExpression, TypeSignatureStrategyProvider* strategyMap) {
-    auto callableExpressionTypeSignature = strategyMap->getTypeSignatureForExpression(curryExpression->getCallableExpression());
+TypeSignature* CurryExpressionTypeSignatureStrategy::create(ASTCurryExpressionNode* curryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    auto callableExpressionTypeSignature = strategyMap->getTypeSignatureForExpression(curryExpression->getCallableExpression(), scope);
     if (callableExpressionTypeSignature->is(FUNCTION_TYPE_SOURCE)) {
         auto functionTypeSignature = (FunctionTypeSignature*)callableExpressionTypeSignature;
         return functionTypeSignature->getReturnType();

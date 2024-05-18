@@ -21,8 +21,11 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     for (auto classMethodDeclaration : *classDeclarationNode->getBlock()->getMethods()) {
         classMethodDeclaration->setId(this->generateClassMethodDeclarationId(className, classMethodDeclaration));
     }
+
+    unsigned long constructorIndex = 0;
     for (auto constructorDeclaration : *classDeclarationNode->getBlock()->getConstructors()) {
-        constructorDeclaration->setId(this->generateClassConstructorDeclarationId(className, constructorDeclaration));
+        constructorDeclaration->setId(this->generateClassConstructorDeclarationId(className, constructorIndex, constructorDeclaration));
+        constructorIndex++;
     }
 
     auto astTraverser = ASTTraverser();
@@ -84,13 +87,6 @@ std::string ClassDeclarationIdStrategy::generateClassMethodDeclarationId(std::st
             ).value();
 }
 
-std::string ClassDeclarationIdStrategy::generateClassConstructorDeclarationId(std::string className, ASTClassConstructorDeclarationNode* constructorDeclaration) {
-    return className +
-        "_constructor_" +
-        ToStringUtil::toString(
-            constructorDeclaration
-            ->getConstructor()
-            ->getLexeme()
-            ->getLine()
-        );
+std::string ClassDeclarationIdStrategy::generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, ASTClassConstructorDeclarationNode* constructorDeclaration) {
+    return className + "_constructor_" + ToStringUtil::toString(constructorIndex);
 }

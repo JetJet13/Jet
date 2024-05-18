@@ -6,17 +6,17 @@
 #include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
 
-ClassTypeSignature* ClassTypeSignatureStrategy::create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap) {
+ClassTypeSignature* ClassTypeSignatureStrategy::create(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = new ClassTypeSignature();
-    this->createPropertyTypeSignatures(node, classTypeSignature, strategyMap);
-    this->createConstructorTypeSignatures(node, classTypeSignature, strategyMap);
-    this->createMethodTypeSignatures(node, classTypeSignature, strategyMap);
+    this->createPropertyTypeSignatures(node, scope, classTypeSignature, strategyMap);
+    this->createConstructorTypeSignatures(node, scope, classTypeSignature, strategyMap);
+    this->createMethodTypeSignatures(node, scope, classTypeSignature, strategyMap);
     return classTypeSignature;
 }
 
-void ClassTypeSignatureStrategy::createConstructorTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::createConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto constructor : *node->getBlock()->getConstructors()) {
-        auto constructorTypeSignature = strategyMap->getTypeSignatureForClassConstructor(constructor);
+        auto constructorTypeSignature = strategyMap->getTypeSignatureForClassConstructor(constructor, scope);
         for (int i = 0; i < constructor->getParameters()->numParameters(); ++i) {
             auto parameter = constructor->getParameters()->getParameters().at(i);
             if (parameter->getType()->getType()->getId() == node->getId()) {
@@ -34,9 +34,9 @@ void ClassTypeSignatureStrategy::createConstructorTypeSignatures(ASTClassDeclara
     }
 }
 
-void ClassTypeSignatureStrategy::createPropertyTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::createPropertyTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto property : *node->getBlock()->getProperties()) {
-        auto propertyTypeSignature = strategyMap->getTypeSignatureForClassProperty(property);
+        auto propertyTypeSignature = strategyMap->getTypeSignatureForClassProperty(property, scope);
         if (property->getPropertyInit()->getType() &&
             property->getPropertyInit()->getType().value()->getType()->getId() == node->getId()) {
             propertyTypeSignature->setType(new ClassInstanceTypeSignature(classTypeSignature));
@@ -56,9 +56,9 @@ void ClassTypeSignatureStrategy::createPropertyTypeSignatures(ASTClassDeclaratio
     }
 }
 
-void ClassTypeSignatureStrategy::createMethodTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::createMethodTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto method : *node->getBlock()->getMethods()) {
-        auto methodTypeSignature = strategyMap->getTypeSignatureForClassMethod(method);
+        auto methodTypeSignature = strategyMap->getTypeSignatureForClassMethod(method, scope);
         for (int i = 0; i < method->getParameters()->numParameters(); ++i) {
             auto parameter = method->getParameters()->getParameters().at(i);
             if (parameter->getType()->getType()->getId() == node->getId()) {

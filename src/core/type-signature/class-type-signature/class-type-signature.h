@@ -24,9 +24,9 @@ public:
     TypeSignatureMap<ClassConstructorTypeSignature>* getConstructors();
     TypeSignatureMap<ClassPropertyTypeSignature>* getProperties();
     TypeSignatureMap<ClassMethodTypeSignature>* getMethods();
-    void addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature);
-    void addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature);
-    void addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);
+    ClassTypeSignature* addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature);
+    ClassTypeSignature* addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature);
+    ClassTypeSignature* addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

@@ -5,8 +5,8 @@
 #include "unary-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
-TypeSignature* UnaryExpressionTypeSignatureStrategy::create(ASTUnaryExpressionNode* node, TypeSignatureStrategyProvider* strategyMap) {
-    auto expressionTypeSignature = strategyMap->getTypeSignatureForExpression(node->getExpressionNode());
+TypeSignature* UnaryExpressionTypeSignatureStrategy::create(ASTUnaryExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    auto expressionTypeSignature = strategyMap->getTypeSignatureForExpression(node->getExpressionNode(), scope);
     if (expressionTypeSignature->isUnknownOrInvalidOrVoid()) {
         return new InvalidTypeSignature();
     }

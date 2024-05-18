@@ -4,15 +4,15 @@
 
 #include "class-method-type-signature-strategy.h"
 
-ClassMethodTypeSignature* ClassMethodTypeSignatureStrategy::create(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureStrategyProvider* strategyMap) {
+ClassMethodTypeSignature* ClassMethodTypeSignatureStrategy::create(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     std::optional<TypeSignature*> returnType = {};
     if (classMethodDeclaration->getReturnType()) {
-        returnType = strategyMap->getTypeSignatureForType(classMethodDeclaration->getReturnType().value());
+        returnType = strategyMap->getTypeSignatureForType(classMethodDeclaration->getReturnType().value(), scope);
     }
-// todo: fix UNKNOWN_TYPE_SIGNATURE for class methods that return a class instance: 'this' or 'MyClass'
+
     return new ClassMethodTypeSignature(
             strategyMap->getTypeSignatureForAccessModifier(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier()),
-            strategyMap->getTypeSignatureForParameterList(classMethodDeclaration->getParameters()),
+            strategyMap->getTypeSignatureForParameterList(classMethodDeclaration->getParameters(), scope),
             classMethodDeclaration->getClassMethodDefinition()->isStatic(),
             returnType
     );

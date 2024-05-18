@@ -10,7 +10,7 @@
 
 class ClassPropertyTypeSignatureStrategy {
 public:
-    ClassPropertyTypeSignature* create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureStrategyProvider* strategyMap);
+    ClassPropertyTypeSignature* create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_TYPE_SIGNATURE_STRATEGY_H

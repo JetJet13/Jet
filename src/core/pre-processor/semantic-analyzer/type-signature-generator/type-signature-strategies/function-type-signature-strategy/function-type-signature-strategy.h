@@ -11,7 +11,7 @@
 
 class FunctionTypeSignatureStrategy {
 public:
-    FunctionTypeSignature* create(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureStrategyProvider* strategyMap);
+    FunctionTypeSignature* create(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FUNCTION_TYPE_SIGNATURE_STRATEGY_H

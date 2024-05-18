@@ -11,7 +11,7 @@
 
 class ArrayExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTArrayExpressionNode* arrayExpression, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTArrayExpressionNode* arrayExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARRAY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

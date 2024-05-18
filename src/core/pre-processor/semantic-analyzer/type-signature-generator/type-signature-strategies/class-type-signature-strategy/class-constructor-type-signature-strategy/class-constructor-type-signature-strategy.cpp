@@ -5,8 +5,8 @@
 #include "class-constructor-type-signature-strategy.h"
 #include "../../../../../../type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h"
 
-ClassConstructorTypeSignature* ClassConstructorTypeSignatureStrategy::create(ASTClassConstructorDeclarationNode* classConstructorDeclaration, TypeSignatureStrategyProvider* strategyMap) {
+ClassConstructorTypeSignature* ClassConstructorTypeSignatureStrategy::create(ASTClassConstructorDeclarationNode* classConstructorDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     return new ClassConstructorTypeSignature(
-        strategyMap->getTypeSignatureForParameterList(classConstructorDeclaration->getParameters())
+        strategyMap->getTypeSignatureForParameterList(classConstructorDeclaration->getParameters(), scope)
     );
 }

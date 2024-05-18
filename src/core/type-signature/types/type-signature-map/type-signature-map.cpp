@@ -8,6 +8,7 @@
 #include "../../class-type-signature/class-property-type-signature/class-property-type-signature.h"
 #include "../../class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h"
 #include "../../class-type-signature/class-method-type-signature/class-method-type-signature.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 template<class T>
 TypeSignatureMap<T>::TypeSignatureMap() {
@@ -46,6 +47,12 @@ bool TypeSignatureMap<T>::isEqualTo(TypeSignatureMap<T>* other) {
 
     for (const auto& type : _typeSignatureMap) {
         if (!other->find(type.first)) {
+            Logger::log("type signature map, did not find type!", type.first);
+            return false;
+        }
+
+        if (!other->find(type.first).value()->isEqualTo(type.second)) {
+            Logger::log("type signature map, not equal!", type.first);
             return false;
         }
     }

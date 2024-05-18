@@ -14,12 +14,11 @@
 
 class ClassTypeSignatureStrategy {
 private:
-    void createConstructorTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
-    void createPropertyTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
-    void createMethodTypeSignatures(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
-    void setClassInstanceTypeSignaturesFor(ASTClassDeclarationNode* node, ClassTypeSignature* classTypeSignature);
+    void createConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void createPropertyTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void createMethodTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
 public:
-    ClassTypeSignature* create(ASTClassDeclarationNode* node, TypeSignatureStrategyProvider* strategyMap);
+    ClassTypeSignature* create(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_STRATEGY_H

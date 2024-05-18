@@ -47,6 +47,10 @@ bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
     }
 
     auto other = (ClassPropertyTypeSignature*)otherType;
+    if (!this->getType()->isEqualTo(other->getType())) {
+        Logger::log("class property type not equal", this->getType()->toString(), other->getType()->toString());
+    }
+
     return this->getAccessModifier()->isEqualTo(other->getAccessModifier()) &&
            this->getType()->isEqualTo(other->getType()) &&
            this->isStatic() == other->isStatic() &&

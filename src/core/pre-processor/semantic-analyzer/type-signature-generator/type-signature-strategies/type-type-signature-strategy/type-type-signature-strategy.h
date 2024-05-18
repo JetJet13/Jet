@@ -11,7 +11,7 @@
 
 class TypeTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTTypeNode* node, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TYPE_TYPE_SIGNATURE_STRATEGY_H

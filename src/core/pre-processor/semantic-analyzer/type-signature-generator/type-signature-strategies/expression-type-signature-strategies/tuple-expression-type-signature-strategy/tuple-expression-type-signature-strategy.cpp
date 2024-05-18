@@ -5,10 +5,10 @@
 #include "tuple-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
-TypeSignature* TupleExpressionTypeSignatureStrategy::create(ASTTupleExpressionNode* node, TypeSignatureStrategyProvider* strategyMap) {
+TypeSignature* TupleExpressionTypeSignatureStrategy::create(ASTTupleExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
-        typeSignatures->push_back(strategyMap->getTypeSignatureForExpression(tupleItem->getItem()));
+        typeSignatures->push_back(strategyMap->getTypeSignatureForExpression(tupleItem->getItem(), scope));
     }
     return new TupleTypeSignature(typeSignatures);
 }

@@ -11,7 +11,7 @@
 
 class ArrayAccessExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

@@ -12,7 +12,7 @@
 
 class TupleExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTTupleExpressionNode* node, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTTupleExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TUPLE_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

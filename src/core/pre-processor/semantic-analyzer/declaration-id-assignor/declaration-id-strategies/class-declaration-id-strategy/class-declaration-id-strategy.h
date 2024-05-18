@@ -18,7 +18,7 @@ class ClassDeclarationIdStrategy : public DeclarationIdStrategy {
 private:
     std::string generateClassPropertyDeclarationId(std::string className, ASTClassPropertyDeclarationNode* classPropertyDeclaration);
     std::string generateClassMethodDeclarationId(std::string className, ASTClassMethodDeclarationNode* classMethodDeclaration);
-    std::string generateClassConstructorDeclarationId(std::string className, ASTClassConstructorDeclarationNode* constructorDeclaration);
+    std::string generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, ASTClassConstructorDeclarationNode* constructorDeclaration);
 public:
     void assign(ASTNode* node) override;
 };

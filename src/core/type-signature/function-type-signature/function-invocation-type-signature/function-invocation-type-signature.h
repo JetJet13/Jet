@@ -19,6 +19,7 @@ public:
     TypeSignature* getReturnType();
     std::string toString() override;
     TypeSource getTypeSource() override;
+    TypeSource getTypeTarget() override;
     bool isEqualTo(TypeSignature *otherType) override;
     void print() override;
 };

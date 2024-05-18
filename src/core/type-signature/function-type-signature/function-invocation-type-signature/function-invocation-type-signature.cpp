@@ -25,6 +25,10 @@ TypeSource FunctionInvocationTypeSignature::getTypeSource() {
     return FUNCTION_INVOCATION_TYPE_SOURCE;
 }
 
+TypeSource FunctionInvocationTypeSignature::getTypeTarget() {
+    return _functionTypeSignature->getReturnType()->getTypeTarget();
+}
+
 bool FunctionInvocationTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;

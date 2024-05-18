@@ -6,12 +6,12 @@
 #include "../../../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 
-ClassPropertyTypeSignature* ClassPropertyTypeSignatureStrategy::create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureStrategyProvider* strategyMap) {;
+ClassPropertyTypeSignature* ClassPropertyTypeSignatureStrategy::create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {;
     TypeSignature* classPropertyType = new UnknownTypeSignature();
     if (classPropertyDeclaration->getType()) {
-        classPropertyType = strategyMap->getTypeSignatureForType(classPropertyDeclaration->getType().value());
+        classPropertyType = strategyMap->getTypeSignatureForType(classPropertyDeclaration->getType().value(), scope);
     } else if (classPropertyDeclaration->getInitializer()) {
-        classPropertyType = strategyMap->getTypeSignatureForExpression(classPropertyDeclaration->getInitializer().value());
+        classPropertyType = strategyMap->getTypeSignatureForExpression(classPropertyDeclaration->getInitializer().value(), scope);
     }
 
     return new ClassPropertyTypeSignature(

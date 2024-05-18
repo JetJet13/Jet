@@ -34,6 +34,11 @@ namespace TypeSignatureFactory {
     static ParameterListItemTypeSignature* createBoolParameter(std::string name) {
         return new ParameterListItemTypeSignature(name, TypeSignatureFactory::boolLiteral);
     }
+
+    static AccessModifierTypeSignature* publicAccess = new AccessModifierTypeSignature(PUBLIC_ACCESS_MODIFIER_TYPE);
+    static AccessModifierTypeSignature* protectedAccess = new AccessModifierTypeSignature(PROTECTED_ACCESS_MODIFIER_TYPE);
+    static AccessModifierTypeSignature* privateAccess = new AccessModifierTypeSignature(PRIVATE_ACCESS_MODIFIER_TYPE);
+
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_FACTORY_H

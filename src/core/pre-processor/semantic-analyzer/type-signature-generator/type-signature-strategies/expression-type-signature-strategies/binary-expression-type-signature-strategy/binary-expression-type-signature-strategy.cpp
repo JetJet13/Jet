@@ -10,9 +10,9 @@ BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
 }
 
-TypeSignature* BinaryExpressionTypeSignatureStrategy::create(ASTBinaryExpressionNode* binaryExpression, TypeSignatureStrategyProvider* strategyMap) {
-    auto leftTypeSignature = strategyMap->getTypeSignatureForExpression(binaryExpression->getLeftNode());
-    auto rightTypeSignature = strategyMap->getTypeSignatureForExpression(binaryExpression->getRightNode());
+TypeSignature* BinaryExpressionTypeSignatureStrategy::create(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    auto leftTypeSignature = strategyMap->getTypeSignatureForExpression(binaryExpression->getLeftNode(), scope);
+    auto rightTypeSignature = strategyMap->getTypeSignatureForExpression(binaryExpression->getRightNode(), scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());
     if (!combination) {
         throw std::invalid_argument("unknown binary operator..aborting.");
