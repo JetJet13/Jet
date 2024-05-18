@@ -51,88 +51,91 @@ TypeSignatureStrategyProvider::TypeSignatureStrategyProvider(TypeSignatureLookup
     _tokenTable = tokenTable;
 }
 
-TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForExpression(ASTExpressionNode* node) {
+TypeSignature* TypeSignatureStrategyProvider::getTypeSignatureForExpression(ASTExpressionNode* node, std::optional<TypeSignatureLookupTable*> scope) {
+    auto typeSignatureLookupTable = scope.value_or(this->_typeSignatureLookupTable);
+    // todo: update all expression type signature strategies to take lexical scope
+    // into account
     switch (node->getNodeType()) {
         case AST_BINARY_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getBinaryExpressionTypeSignatureStrategy()
-                    ->create((ASTBinaryExpressionNode*)node, this);
+                    ->create((ASTBinaryExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_ARRAY_ACCESS_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getArrayAccessExpressionTypeSignatureStrategy()
-                    ->create((ASTArrayAccessExpressionNode*)node, this);
+                    ->create((ASTArrayAccessExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_ARRAY_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getArrayExpressionTypeSignatureStrategy()
-                    ->create((ASTArrayExpressionNode*)node, this);
+                    ->create((ASTArrayExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getClassMethodInvocationExpressionTypeSignatureStrategy()
-                    ->create((ASTClassMethodInvocationExpressionNode*)node, this->_typeSignatureLookupTable);
+                    ->create((ASTClassMethodInvocationExpressionNode*)node, typeSignatureLookupTable);
         case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getClassPropertyAccessExpressionTypeSignatureStrategy()
-                    ->create((ASTClassPropertyAccessExpressionNode*)node, this->_typeSignatureLookupTable);
+                    ->create((ASTClassPropertyAccessExpressionNode*)node, typeSignatureLookupTable);
         case AST_CURRY_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getCurryExpressionTypeSignatureStrategy()
-                    ->create((ASTCurryExpressionNode*)node, this);
+                    ->create((ASTCurryExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getFunctionInvocationExpressionTypeSignatureStrategy()
-                    ->create((ASTFunctionInvocationExpressionNode*)node, this->_typeSignatureLookupTable, this->_tokenTable);
+                    ->create((ASTFunctionInvocationExpressionNode*)node, typeSignatureLookupTable, this->_tokenTable);
         case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getFunctionReturnExpressionTypeSignatureStrategy()
-                    ->create((ASTFunctionReturnExpressionNode*)node, this);
+                    ->create((ASTFunctionReturnExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_IDENTIFIER_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getIdentifierExpressionTypeSignatureStrategy()
-                    ->create((ASTIdentifierExpressionNode*)node, this->_typeSignatureLookupTable, this->_tokenTable);
+                    ->create((ASTIdentifierExpressionNode*)node, typeSignatureLookupTable, typeSignatureLookupTable, this->_tokenTable);
         case AST_LAMBDA_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getLambdaExpressionTypeSignatureStrategy()
-                    ->create((ASTLambdaExpressionNode*)node, this);
+                    ->create((ASTLambdaExpressionNode*)node, typeSignatureLookupTable, typeSignatureLookupTable, this);
         case AST_LAMBDA_RETURN_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getLambdaReturnExpressionTypeSignatureStrategy()
-                    ->create((ASTLambdaReturnExpressionNode*)node, this);
+                    ->create((ASTLambdaReturnExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_LITERAL_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getLiteralExpressionTypeSignatureStrategy()
-                    ->create((ASTLiteralExpressionNode*)node, this);
+                    ->create((ASTLiteralExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_LOGICAL_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getLogicalExpressionTypeSignatureStrategy()
-                    ->create((ASTLogicalExpressionNode*)node, this);
+                    ->create((ASTLogicalExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getNewClassInstanceExpressionTypeSignatureStrategy()
-                    ->create((ASTNewClassInstanceExpressionNode*)node, this->_typeSignatureLookupTable, this->_tokenTable);
+                    ->create((ASTNewClassInstanceExpressionNode*)node, typeSignatureLookupTable, this->_tokenTable);
         case AST_OBJECT_ACCESS_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getObjectAccessExpressionTypeSignatureStrategy()
-                    ->create((ASTObjectAccessExpressionNode*)node, this->_tokenTable, this);
+                    ->create((ASTObjectAccessExpressionNode*)node, typeSignatureLookupTable, this->_tokenTable, this);
         case AST_STRUCT_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getStructExpressionTypeSignatureStrategy()
-                    ->create((ASTStructExpressionNode*)node, this->_tokenTable, this);
+                    ->create((ASTStructExpressionNode*)node, typeSignatureLookupTable, this->_tokenTable, this);
         case AST_THIS_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getThisExpressionTypeSignatureStrategy()
-                    ->create((ASTThisExpressionNode*)node, this->_typeSignatureLookupTable);
+                    ->create((ASTThisExpressionNode*)node, typeSignatureLookupTable);
         case AST_TUPLE_ACCESS_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getTupleAccessExpressionTypeSignatureStrategy()
-                    ->create((ASTTupleAccessExpressionNode*)node, this->_tokenTable, this);
+                    ->create((ASTTupleAccessExpressionNode*)node, typeSignatureLookupTable, this->_tokenTable, this);
         case AST_TUPLE_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getTupleExpressionTypeSignatureStrategy()
-                    ->create((ASTTupleExpressionNode*)node, this);
+                    ->create((ASTTupleExpressionNode*)node, typeSignatureLookupTable, this);
         case AST_UNARY_EXPRESSION_NODE:
             return this->_typeSignatureStrategyMap
                     ->getUnaryExpressionTypeSignatureStrategy()
-                    ->create((ASTUnaryExpressionNode*)node, this);
+                    ->create((ASTUnaryExpressionNode*)node, typeSignatureLookupTable, this);
         default:
             return new UnknownTypeSignature();
     }

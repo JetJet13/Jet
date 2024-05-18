@@ -3,16 +3,31 @@
 //
 
 #include "lambda-expression-type-signature-strategy.h"
-#include "../../../../../../type-signature/lambda-type-signature/lambda-type-signature.h"
+#include "../../../../../../type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 
-TypeSignature* LambdaExpressionTypeSignatureStrategy::create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureStrategyProvider* strategyMap) {
+TypeSignature* LambdaExpressionTypeSignatureStrategy::create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+    auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
-        typeSignatures->push_back(strategyMap->getTypeSignatureForParameter(parameter));
+        auto parameterTypeSignature = strategyMap->getTypeSignatureForParameter(parameter);
+        typeSignatures->push_back(parameterTypeSignature);
+        scope.insert(parameterTypeSignature->getName(), parameterTypeSignature->getType());
     }
 
+    auto returnType = std::optional<TypeSignature*>();
     if (lambdaExpression->getReturnType()) {
-        return new LambdaTypeSignature(typeSignatures, strategyMap->getTypeSignatureForType(lambdaExpression->getReturnType().value()));
+        returnType = strategyMap->getTypeSignatureForType(lambdaExpression->getReturnType().value());
+    } else {
+        for (auto node : lambdaExpression->getBlock()->getContents()) {
+            if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+                auto returnExpression = (ASTFunctionReturnExpressionNode*)node;
+                returnType = strategyMap->getTypeSignatureForExpression(returnExpression, &scope);
+                break;
+            }
+        }
     }
-    return new LambdaTypeSignature(typeSignatures);
+    return new LambdaExpressionTypeSignature(
+        strategyMap->getTypeSignatureForParameterList(lambdaExpression->getParameters()),
+        returnType
+    );
 }

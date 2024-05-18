@@ -16,6 +16,7 @@ private:
     std::optional<TypeSignature*> _returnType;
 public:
     LambdaTypeSignature(std::vector<TypeSignature*>* parameterTypes, std::optional<TypeSignature*> returnType = {});
+    LambdaTypeSignature(std::vector<TypeSignature*> parameterTypes, std::optional<TypeSignature*> returnType = {});
     std::vector<TypeSignature*>* getParameterTypes();
     std::optional<TypeSignature*> getReturnType();
     std::string toString() override;

@@ -10,6 +10,14 @@ LambdaTypeSignature::LambdaTypeSignature(std::vector<TypeSignature*>* parameterT
     _returnType = returnType;
 }
 
+LambdaTypeSignature::LambdaTypeSignature(std::vector<TypeSignature*> parameterTypes, std::optional<TypeSignature*> returnType) {
+    _parameterTypes = new std::vector<TypeSignature*>();
+    for (auto parameter : parameterTypes) {
+        _parameterTypes->push_back(parameter);
+    }
+    _returnType = returnType;
+}
+
 std::vector<TypeSignature*>* LambdaTypeSignature::getParameterTypes() {
     return _parameterTypes;
 }

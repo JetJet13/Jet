@@ -19,6 +19,7 @@ private:
 public:
     EnumTypeSignature();
     EnumTypeSignature(LiteralTypeSignature* type);
+    EnumTypeSignature(LiteralTypeSignature* type, TypeSignatureMap<LiteralTypeSignature> keyValuePairs);
     TypeSignatureMap<LiteralTypeSignature>* getKeyValuePairs();
     LiteralTypeSignature* getType();
     bool hasKey(std::string key);

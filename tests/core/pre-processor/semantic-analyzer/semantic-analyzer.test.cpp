@@ -14,6 +14,9 @@
 #include "resources/type-signature-factory.h"
 #include "../../../../src/core/type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../src/core/type-signature/struct-type-signature/struct-type-signature.h"
+#include "../../../../src/core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
+#include "../../../../src/core/type-signature/tuple-type-signature/tuple-type-signature.h"
+#include "../../../../src/core/type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 
 std::unordered_map<int, TypeSignature*> expectedTypeSignature = {
         {1, TypeSignatureFactory::intLiteral},
@@ -112,21 +115,154 @@ std::unordered_map<int, TypeSignature*> expectedTypeSignature = {
         {70, TypeSignatureFactory::boolLiteral},
         {71, TypeSignatureFactory::intLiteral},
         {72, TypeSignatureFactory::boolLiteral},
-
-
-//        const structObjAccess = structObj.world;
-//        const structObjNestedAccess = structObj.obj.test;
-//        const structObjTripleNestedAccess = structObj.obj.nest.value;
-//        const arrayStructs = [
-//        { hello: "world", test: 1 } // another 1!
-//        ];
-//        const arrStructsAccess = arrayStructs[0].hello;
-//        const structArr = {
-//            array: [ { hello: "world", test: 1 } ],
-//            arrNested: [  [{ hello: "world", test: 1 }] ]
-//        };
-//        const structArrAccess = structArr.array[0].hello;
-//        const structArrNestedAccess = structArr.arrNested[0][0].hello;
+        {73, new ArrayTypeSignature(
+            new StructTypeSignature(
+                TypeSignatureMap({
+                    std::pair("hello", TypeSignatureFactory::stringLiteral),
+                    std::pair("test", TypeSignatureFactory::intLiteral),
+                })
+            )
+        )},
+        {74, TypeSignatureFactory::stringLiteral},
+        {75, new StructTypeSignature(
+                TypeSignatureMap({
+                    std::pair("array",
+                        new ArrayTypeSignature(
+                            new StructTypeSignature(
+                                TypeSignatureMap({
+                                    std::pair("hello", TypeSignatureFactory::stringLiteral),
+                                    std::pair("test", TypeSignatureFactory::intLiteral),
+                                })
+                        )
+                    )),
+                    std::pair("arrNested", new ArrayTypeSignature(
+                        new ArrayTypeSignature(
+                            new StructTypeSignature(
+                                TypeSignatureMap({
+                                    std::pair("hello", TypeSignatureFactory::stringLiteral),
+                                    std::pair("test", TypeSignatureFactory::intLiteral),
+                                })
+                            )
+                        )
+                    )),
+                })
+        )},
+        {76, TypeSignatureFactory::stringLiteral},
+        {77, TypeSignatureFactory::stringLiteral},
+        {78, new FunctionTypeSignature(
+            new ParameterListTypeSignature({
+               TypeSignatureFactory::createIntParameter("x"),
+               TypeSignatureFactory::createIntParameter("y")
+            }),
+            TypeSignatureFactory::intLiteral
+        )},
+        {79, new FunctionTypeSignature(
+                new ParameterListTypeSignature(),
+                TypeSignatureFactory::intLiteral
+        )},
+        {80, new ProcedureTypeSignature(
+                new ParameterListTypeSignature({
+                    TypeSignatureFactory::createIntParameter("num")
+                })
+        )},
+        {81, new ProcedureTypeSignature(
+                new ParameterListTypeSignature()
+        )},
+        {82, new ProcedureTypeSignature(
+                new ParameterListTypeSignature()
+        )},
+        {83, new EnumAccessTypeSignature(
+                new EnumTypeSignature(
+                    TypeSignatureFactory::stringLiteral,
+                    TypeSignatureMap<LiteralTypeSignature>({
+                        std::pair("Red", TypeSignatureFactory::stringLiteral),
+                        std::pair("Blue", TypeSignatureFactory::stringLiteral),
+                        std::pair("Green", TypeSignatureFactory::stringLiteral),
+                })),
+                "Red"
+        )},
+        {84, new EnumTypeSignature(
+                TypeSignatureFactory::stringLiteral,
+                TypeSignatureMap<LiteralTypeSignature>({
+                   std::pair("Red", TypeSignatureFactory::stringLiteral),
+                   std::pair("Blue", TypeSignatureFactory::stringLiteral),
+                   std::pair("Green", TypeSignatureFactory::stringLiteral),
+               }))
+        },
+        {85, new EnumTypeSignature(
+                TypeSignatureFactory::charLiteral,
+                TypeSignatureMap<LiteralTypeSignature>({
+                   std::pair("Red", TypeSignatureFactory::charLiteral),
+                   std::pair("Blue", TypeSignatureFactory::charLiteral),
+                   std::pair("Green", TypeSignatureFactory::charLiteral),
+               }))
+        },
+        {86, new EnumTypeSignature(
+                TypeSignatureFactory::intLiteral,
+                TypeSignatureMap<LiteralTypeSignature>({
+                   std::pair("Zero", TypeSignatureFactory::intLiteral),
+                   std::pair("One", TypeSignatureFactory::intLiteral),
+                   std::pair("Two", TypeSignatureFactory::intLiteral),
+                }))
+        },
+        {87, TypeSignatureFactory::boolLiteral},
+        {88, TypeSignatureFactory::boolLiteral},
+        {89, new TupleTypeSignature({
+                TypeSignatureFactory::stringLiteral,
+                TypeSignatureFactory::intLiteral,
+                TypeSignatureFactory::intLiteral
+        })},
+        {90, new FunctionTypeSignature(
+                new ParameterListTypeSignature(),
+                TypeSignatureFactory::stringLiteral
+        )},
+        {91, new LambdaExpressionTypeSignature(
+                new ParameterListTypeSignature({
+                    new ParameterListItemTypeSignature(
+                        "x",
+                        new EnumTypeSignature(
+                            TypeSignatureFactory::stringLiteral,
+                            TypeSignatureMap<LiteralTypeSignature>({
+                                   std::pair("Red", TypeSignatureFactory::stringLiteral),
+                                   std::pair("Blue", TypeSignatureFactory::stringLiteral),
+                                   std::pair("Green", TypeSignatureFactory::stringLiteral),
+                       })))
+        }), new EnumTypeSignature(
+                TypeSignatureFactory::stringLiteral,
+                TypeSignatureMap<LiteralTypeSignature>({
+                   std::pair("Red", TypeSignatureFactory::stringLiteral),
+                   std::pair("Blue", TypeSignatureFactory::stringLiteral),
+                   std::pair("Green", TypeSignatureFactory::stringLiteral),
+        })))},
+        {92, new LambdaExpressionTypeSignature(
+                new ParameterListTypeSignature({
+                   new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
+                   new ParameterListItemTypeSignature("y", TypeSignatureFactory::intLiteral),
+                }),
+                TypeSignatureFactory::boolLiteral
+        )},
+        {93, new LambdaExpressionTypeSignature(
+                new ParameterListTypeSignature({
+                   new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
+               }),
+               TypeSignatureFactory::intLiteral
+       )},
+        {94, new LambdaExpressionTypeSignature(
+                new ParameterListTypeSignature({
+                    new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
+                }),
+                new LambdaExpressionTypeSignature(
+                    new ParameterListTypeSignature({
+                       new ParameterListItemTypeSignature("y", TypeSignatureFactory::intLiteral),
+                }),
+                new LambdaExpressionTypeSignature(
+                    new ParameterListTypeSignature({
+                       new ParameterListItemTypeSignature("z", TypeSignatureFactory::intLiteral),
+                    }),
+                    TypeSignatureFactory::intLiteral
+                ))
+        )},
+        {95, TypeSignatureFactory::boolLiteral},
 
 
 };
@@ -145,7 +281,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
 //    REQUIRE(fileNodeResult->getBody()->size() == 118);
-    for (int i = 0; i < 72; i++) {
+    for (int i = 0; i < 95; i++) {
         auto declaration = fileNodeResult->getBody()->getContents()[i];
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         Logger::log("=====", i + 1, declaration->toString(), "=====");

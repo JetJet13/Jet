@@ -35,7 +35,7 @@ private:
     TokenTable* _tokenTable;
 public:
     explicit TypeSignatureStrategyProvider(TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable);
-    TypeSignature*  getTypeSignatureForExpression(ASTExpressionNode* node);
+    TypeSignature*  getTypeSignatureForExpression(ASTExpressionNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
     TypeSignature*  getTypeSignatureForType(ASTTypeNode* node);
     TypeSignature*  getTypeSignatureForBaseType(ASTTypeBaseNode* node);
     TypeSignature*  getTypeSignatureForVariable(ASTVariableDeclarationNode* node);

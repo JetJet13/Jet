@@ -4,7 +4,7 @@
 
 #include "class-property-type-signature-strategy.h"
 #include "../../../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
-#include "../../../../../../type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.h"
+
 
 ClassPropertyTypeSignature* ClassPropertyTypeSignatureStrategy::create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureStrategyProvider* strategyMap) {;
     TypeSignature* classPropertyType = new UnknownTypeSignature();

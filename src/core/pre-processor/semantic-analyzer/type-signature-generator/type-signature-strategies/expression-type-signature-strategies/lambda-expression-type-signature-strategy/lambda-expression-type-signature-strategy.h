@@ -11,7 +11,7 @@
 
 class LambdaExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LAMBDA_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

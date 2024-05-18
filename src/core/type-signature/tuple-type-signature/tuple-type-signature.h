@@ -13,6 +13,7 @@ private:
     std::vector<TypeSignature*>* _elementTypes;
 public:
     explicit TupleTypeSignature(std::vector<TypeSignature*>* elementTypes);
+    explicit TupleTypeSignature(std::vector<TypeSignature*> elementTypes);
     std::vector<TypeSignature*>* getElementTypes();
     TypeSignature* getTypeSignatureAtIndex(unsigned long index);
     unsigned long size();

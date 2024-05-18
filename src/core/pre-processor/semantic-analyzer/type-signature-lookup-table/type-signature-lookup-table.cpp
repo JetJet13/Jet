@@ -7,8 +7,9 @@
 #include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-TypeSignatureLookupTable::TypeSignatureLookupTable() {
+TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope) {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
+    _outerScope = outerScope;
     this->initLiteralTypeSignatures();
 }
 
@@ -20,6 +21,9 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, Type
 TypeSignature* TypeSignatureLookupTable::find(std::string key) {
     auto result = _typeSignatureLookupTable.find(key);
     if (result == _typeSignatureLookupTable.end()) {
+        if (_outerScope) {
+            return _outerScope.value()->find(key);
+        }
         return new UnknownTypeSignature();
     } else {
         return result->second;

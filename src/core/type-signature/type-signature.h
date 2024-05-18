@@ -19,6 +19,7 @@ public:
     bool isUnknownOrInvalidOrVoid();
     virtual bool isLiteral();
     virtual void copyFrom(TypeSignature* otherType);
+    virtual TypeSource getTypeTarget();
     virtual std::string toString() = 0;
     virtual TypeSource getTypeSource() = 0;
     virtual bool isEqualTo(TypeSignature* otherType) = 0;

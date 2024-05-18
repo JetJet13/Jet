@@ -855,6 +855,8 @@ add_library(jet-core
         type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h
         type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.cpp
         type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h
+        type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.cpp
+        type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h
 
 )
 

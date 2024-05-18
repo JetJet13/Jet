@@ -10,6 +10,13 @@ TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*>* elementTypes
     _elementTypes = elementTypes;
 }
 
+TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*> elementTypes) {
+    _elementTypes = new std::vector<TypeSignature*>();
+    for (auto element : elementTypes) {
+        _elementTypes->push_back(element);
+    }
+}
+
 std::vector<TypeSignature*>* TupleTypeSignature::getElementTypes() {
     return _elementTypes;
 }
@@ -34,7 +41,7 @@ TypeSource TupleTypeSignature::getTypeSource() {
 }
 
 bool TupleTypeSignature::isEqualTo(TypeSignature* otherType) {
-    if (this->getTypeSource() != otherType->getTypeSource()) {
+    if (this->getTypeSource() != otherType->getTypeSource() || this->getTypeTarget() != otherType->getTypeTarget()) {
         return false;
     }
 

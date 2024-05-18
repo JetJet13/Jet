@@ -15,6 +15,11 @@ EnumTypeSignature::EnumTypeSignature(LiteralTypeSignature* type) {
     _keyValuePairs = TypeSignatureMap<LiteralTypeSignature>();
 }
 
+EnumTypeSignature::EnumTypeSignature(LiteralTypeSignature* type, TypeSignatureMap<LiteralTypeSignature> keyValuePairs) {
+    _type = type;
+    _keyValuePairs = keyValuePairs;
+}
+
 TypeSignatureMap<LiteralTypeSignature>* EnumTypeSignature::getKeyValuePairs() {
     return &_keyValuePairs;
 }
@@ -64,6 +69,7 @@ void EnumTypeSignature::copyFrom(TypeSignature* otherType) {
 
 void EnumTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
+    Logger::log("TYPE -", this->getType()->toString());
     this->getKeyValuePairs()->print();
     Logger::log("----------");
 }

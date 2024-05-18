@@ -5,26 +5,26 @@
 #include "type-signature.h"
 
 bool TypeSignature::is(TypeSource other) {
-    return this->getTypeSource() == other;
+    return this->getTypeTarget() == other;
 }
 
 bool TypeSignature::isOneOf(std::vector<TypeSource> typeSources) {
     return std::find(
             typeSources.begin(),
             typeSources.end(),
-            this->getTypeSource()) != typeSources.end();
+            this->getTypeTarget()) != typeSources.end();
 }
 
 bool TypeSignature::isUnknown() {
-    return this->getTypeSource() == UNKNOWN_TYPE_SOURCE;
+    return this->getTypeTarget() == UNKNOWN_TYPE_SOURCE;
 }
 
 bool TypeSignature::isInvalid() {
-    return this->getTypeSource() == INVALID_TYPE_SOURCE;
+    return this->getTypeTarget() == INVALID_TYPE_SOURCE;
 }
 
 bool TypeSignature::isVoid() {
-    return this->getTypeSource() == VOID_TYPE_SOURCE;
+    return this->getTypeTarget() == VOID_TYPE_SOURCE;
 }
 
 bool TypeSignature::isUnknownOrInvalidOrVoid() {
@@ -38,3 +38,7 @@ bool TypeSignature::isLiteral() {
 }
 
 void TypeSignature::copyFrom(TypeSignature* otherType) {}
+
+TypeSource TypeSignature::getTypeTarget() {
+    return this->getTypeSource();
+}
