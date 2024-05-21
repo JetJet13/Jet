@@ -12,6 +12,6 @@ ASTNode* UnaryExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
 
     return new ASTUnaryExpressionNode(
             (ASTUnaryOperatorNode*)nodes[0],
-            this->createExpressionNode(nodes[1])
+            (ASTExpressionNode*)nodes[1]
     );
 }

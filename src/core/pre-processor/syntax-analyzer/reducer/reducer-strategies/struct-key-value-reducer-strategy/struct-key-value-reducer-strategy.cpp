@@ -12,6 +12,6 @@ ASTNode* StructKeyValueReducerStrategy::execute(std::vector<ASTNode*> nodes) {
 
     return new ASTStructKeyValueNode(
             (ASTIdentifierExpressionNode*)nodes[0],
-            this->createExpressionNode(nodes[2])
+            (ASTExpressionNode*)nodes[2]
     );
 }

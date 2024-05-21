@@ -679,36 +679,36 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h
         pre-processor/semantic-analyzer/semantic-analyzer.cpp
         pre-processor/semantic-analyzer/semantic-analyzer.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-assignor.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-assignor.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/variable-declaration-id-strategy/variable-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/variable-declaration-id-strategy/variable-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-declaration-id-strategy/class-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-declaration-id-strategy/class-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-constructor-declaration-id-strategy/class-constructor-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-constructor-declaration-id-strategy/class-constructor-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-property-declaration-id-strategy/class-property-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-property-declaration-id-strategy/class-property-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-method-declaration-id-strategy/class-method-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/class-method-declaration-id-strategy/class-method-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/enum-declaration-id-strategy/enum-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/enum-declaration-id-strategy/enum-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/function-declaration-id-strategy/function-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/function-declaration-id-strategy/function-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/procedure-declaration-id-strategy/procedure-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/procedure-declaration-id-strategy/procedure-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/module-declaration-id-strategy/module-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/module-declaration-id-strategy/module-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/import-single-module-declaration-id-strategy/import-single-module-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/import-single-module-declaration-id-strategy/import-single-module-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/use-single-module-declaration-id-strategy/use-single-module-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/use-single-module-declaration-id-strategy/use-single-module-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/import-many-module-declaration-id-strategy/import-many-module-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/import-many-module-declaration-id-strategy/import-many-module-declaration-id-strategy.h
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.cpp
-        pre-processor/semantic-analyzer/declaration-id-assignor/declaration-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-assignor.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-assignor.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/variable-declaration-id-strategy/variable-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/variable-declaration-id-strategy/variable-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/ast-node-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/ast-node-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-declaration-id-strategy/class-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-declaration-id-strategy/class-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-constructor-declaration-id-strategy/class-constructor-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-constructor-declaration-id-strategy/class-constructor-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-property-declaration-id-strategy/class-property-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-property-declaration-id-strategy/class-property-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-method-declaration-id-strategy/class-method-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-method-declaration-id-strategy/class-method-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/enum-declaration-id-strategy/enum-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/enum-declaration-id-strategy/enum-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/function-declaration-id-strategy/function-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/function-declaration-id-strategy/function-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/procedure-declaration-id-strategy/procedure-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/procedure-declaration-id-strategy/procedure-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/module-declaration-id-strategy/module-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/module-declaration-id-strategy/module-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-single-module-declaration-id-strategy/import-single-module-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-single-module-declaration-id-strategy/import-single-module-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-single-module-declaration-id-strategy/use-single-module-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-single-module-declaration-id-strategy/use-single-module-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-many-module-declaration-id-strategy/import-many-module-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-many-module-declaration-id-strategy/import-many-module-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.h
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.cpp
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.h
         type-signature/types/type-signature-map/type-signature-map.cpp
@@ -859,6 +859,16 @@ add_library(jet-core
         type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h
         pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.cpp
         pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.h
+        pre-processor/semantic-analyzer/type-checker/type-checker.cpp
+        pre-processor/semantic-analyzer/type-checker/type-checker.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-expression-id-strategy/identifier-expression-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-expression-id-strategy/identifier-expression-id-strategy.h
+        pre-processor/syntax-analyzer/ast-literal-node-value-assignor/ast-literal-node-value-assignor.cpp
+        pre-processor/syntax-analyzer/ast-literal-node-value-assignor/ast-literal-node-value-assignor.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.h
 
 )
 

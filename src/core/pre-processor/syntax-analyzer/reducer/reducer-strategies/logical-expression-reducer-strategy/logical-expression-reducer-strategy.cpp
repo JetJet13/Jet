@@ -11,8 +11,8 @@ ASTNode* LogicalExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) 
     }
 
     return new ASTLogicalExpressionNode(
-            this->createExpressionNode(nodes[0]),
+            (ASTExpressionNode*)nodes[0],
             (ASTLogicalOperatorNode*)nodes[1],
-            this->createExpressionNode(nodes[2])
+            (ASTExpressionNode*)nodes[2]
     );
 }

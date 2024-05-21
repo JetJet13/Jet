@@ -10,7 +10,7 @@
 
 class CustomTypeTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable);
+    TypeSignature* create(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable);
 };
 
 #endif //JETLANG_CUSTOM_TYPE_TYPE_SIGNATURE_STRATEGY_H

@@ -35,6 +35,8 @@ public:
     bool isString();
     bool isIdentifier();
     bool isBoolean();
+    bool isTrue();
+    bool isFalse();
     bool isPlus();
     bool isMinus();
     bool isStar();

@@ -27,7 +27,6 @@
 #include "../../../ast/ast-nodes/ast-period-node.h"
 #include "../../../ast/ast-nodes/ast-function-nodes/ast-function-return-node.h"
 #include "../../../ast/ast-nodes/ast-function-nodes/ast-function-node.h"
-#include "../../../ast/ast-nodes/ast-type-nodes/ast-type-node.h"
 #include "../../../ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.h"
 #include "../../../ast/ast-nodes/ast-enum-nodes/ast-enum-node.h"
 #include "../../../ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.h"
@@ -60,9 +59,9 @@
 #include "../../../ast/ast-nodes/ast-access-modifier-nodes/ast-private-node.h"
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-static-node.h"
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-constructor-node.h"
-#include "../../../ast/ast-nodes/ast-class-nodes/ast-this-node.h"
 #include "../../../ast/ast-nodes/ast-const-node.h"
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-new-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -73,12 +72,12 @@ std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexe
 
 ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     auto symbol = lexeme->getToken()->getSymbol();
-    if (symbol->isLet()) {
+    if (symbol->isIdentifier()) {
+        return new ASTIdentifierNode(lexeme);
+    } else if (symbol->isLet()) {
         return new ASTVariableTypeNode(lexeme);
     } else if (symbol->isConst()) {
         return new ASTConstNode(lexeme);
-    } else if (symbol->isIdentifier()) {
-        return new ASTIdentifierNode(lexeme);
     } else if (symbol->isEqual()) {
         return new ASTAssignmentOperatorNode(lexeme);
     } else if (symbol->isInt()) {
@@ -199,6 +198,7 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     } else if (symbol->isThis()) {
         return new ASTThisNode(lexeme);
     } else {
-        return new ASTLiteralNode(lexeme);
+        Logger::log(lexeme->toString());
+        throw std::invalid_argument("failed to transform lexeme...unknown symbol");
     }
 }

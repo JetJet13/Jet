@@ -43,7 +43,7 @@ namespace SymbolFactory {
     Symbol* createEqualEqualSymbol();
     Symbol* createCharSymbol();
     Symbol* createStringSymbol();
-    Symbol* createMalformedSymbol();
+    Symbol* createMalformedSymbol(std::string malformedText);
     Symbol* createFunctionSymbol();
     Symbol* createReturnSymbol();
     Symbol* createProcedureSymbol();

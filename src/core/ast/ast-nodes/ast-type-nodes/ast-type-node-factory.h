@@ -14,7 +14,8 @@
 #include "../ast-class-nodes/ast-this-node.h"
 
 namespace ASTTypeNodeFactory {
-    ASTTypeNode* createCustomTypeNode(ASTIdentifierNode* identifierNode);
+    ASTTypeNode* createCustomTypeNode(Lexeme* lexeme);
+    ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id);
     ASTTypeNode* createPrimitiveTypeNode(Lexeme* lexeme);
     ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode);
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode);

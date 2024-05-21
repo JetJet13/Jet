@@ -10,8 +10,8 @@ ASTNode* BinaryExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         throw std::invalid_argument("unable to reduce to binary expression since nodes list is too short");
     }
     return new ASTBinaryExpressionNode(
-            this->createExpressionNode(nodes[0]),
+            (ASTExpressionNode*)nodes[0],
             (ASTBinaryOperatorNode*)nodes[1],
-            this->createExpressionNode(nodes[2])
+            (ASTExpressionNode*)nodes[2]
     );
 }

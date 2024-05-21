@@ -11,9 +11,13 @@
 
 class ASTCharLiteralNode : public ASTLiteralNode {
     using ASTLiteralNode::ASTLiteralNode;
+private:
+    char _value;
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    void setValue(TokenTable* tokenTable) override;
+    char getValue();
 };
 
 

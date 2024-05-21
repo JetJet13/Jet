@@ -12,7 +12,7 @@ class ASTLiteralExpressionNode : public ASTExpressionNode {
 private:
     ASTLiteralNode* _literalNode;
 public:
-    ASTLiteralExpressionNode(ASTLiteralNode* literalNode);
+    explicit ASTLiteralExpressionNode(ASTLiteralNode* literalNode);
     ASTLiteralNode* getLiteralNode();
     ASTNodeType getNodeType() override;
     std::string toString() override;

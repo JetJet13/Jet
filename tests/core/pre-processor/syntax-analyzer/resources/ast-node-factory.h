@@ -63,6 +63,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-constructor-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -177,13 +178,14 @@ namespace ASTNodeFactory {
     static ASTThisNode* thisNode = new ASTThisNode(
             createLexeme(SymbolFactory::createThisSymbol())
     );
+    static ASTCatchErrorVariableNode* catchErrorVariable = new ASTCatchErrorVariableNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTTypeNode* intType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
     static ASTTypeNode* floatType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
     static ASTTypeNode* stringType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
     static ASTTypeNode* charType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
     static ASTTypeNode* booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
     static ASTTypeNode* arrayType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
-    static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(ASTNodeFactory::id);
+    static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTTypeNode* thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
     static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())

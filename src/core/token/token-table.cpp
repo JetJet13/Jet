@@ -13,46 +13,46 @@ TokenTable::TokenTable() {
 }
 
 
-std::optional<int> TokenTable::getInt(int key) {
+int TokenTable::getInt(int key) {
     auto result = _intMap.find(key);
     if (result == _intMap.end()) {
-        return {};
+        throw std::invalid_argument("no int value found for key");
     } else {
         return result->second;
     }
 }
 
-std::optional<float> TokenTable::getFloat(int key) {
+float TokenTable::getFloat(int key) {
     auto result = _floatMap.find(key);
     if (result == _floatMap.end()) {
-        return {};
+        throw std::invalid_argument("no float value found for key");
     } else {
         return result->second;
     }
 }
 
-std::optional<char> TokenTable::getChar(int key) {
+char TokenTable::getChar(int key) {
     auto result = _charMap.find(key);
     if (result == _charMap.end()) {
-        return {};
+        throw std::invalid_argument("no char value found for key");
     } else {
         return result->second;
     }
 }
 
-std::optional<std::string> TokenTable::getString(int key) {
+std::string TokenTable::getString(int key) {
     auto result = _stringMap.find(key);
     if (result == _stringMap.end()) {
-        return {};
+        throw std::invalid_argument("no string value found for key");
     } else {
         return result->second;
     }
 }
 
-std::optional<std::string> TokenTable::getIdentifier(int key) {
+std::string TokenTable::getIdentifier(int key) {
     auto result = _identifierMap.find(key);
     if (result == _identifierMap.end()) {
-        return {};
+        throw std::invalid_argument("no identifier value found for key");
     } else {
         return result->second;
     }

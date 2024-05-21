@@ -11,10 +11,7 @@
 #include "../../../../ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
 
 class ReducerStrategy {
-protected:
-    ASTExpressionNode* createExpressionNode(ASTNode* node);
 public:
-    ReducerStrategy();
     virtual ASTNode* execute(std::vector<ASTNode*> nodes) = 0;
 };
 #endif //JETLANG_REDUCER_STRATEGY_H

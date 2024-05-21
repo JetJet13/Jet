@@ -11,7 +11,7 @@
 
 class FunctionInvocationExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable);
+    TypeSignature* create(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable);
 };
 
 #endif //JETLANG_FUNCTION_INVOCATION_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

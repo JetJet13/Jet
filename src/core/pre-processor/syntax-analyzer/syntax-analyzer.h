@@ -22,6 +22,7 @@
 #include "../../ast/ast-nodes/ast-block-nodes/ast-block-node.h"
 #include "types/syntax-analyzer-mode.h"
 #include "recognizer/recognizer.h"
+#include "ast-node-id-assignor/ast-node-id-assignor.h"
 
 /* This SyntaxAnalyzer is a LALR(1) parser that performs bottom-up parsing
  * Instructions:
@@ -36,6 +37,7 @@ class SyntaxAnalyzer {
 private:
     TokenTable* _tokenTable;
     Recognizer* _recognizer;
+    ASTNodeIdAssignor* _astNodeIdAssignor;
     Reducer _reducer;
     LexicalAnalyzer* _lexicalAnalyzer;
     Handle _handle;
@@ -47,7 +49,6 @@ private:
     void shift();
     void reduceHandle(RecognizerResult* recognizerResult);
     void popFromStack();
-    void transform(RecognizerResult* recognizerResult);
     void accept();
     void error();
     void prepHandleForRecognizer();

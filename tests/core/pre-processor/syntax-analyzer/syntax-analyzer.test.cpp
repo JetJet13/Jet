@@ -1871,7 +1871,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             )
                         )
                     }),
-                    new ASTCatchErrorVariableNode(ASTNodeFactory::id)
+                    ASTNodeFactory::catchErrorVariable
                 )
         )},
         {140, new ASTTryStatementNode(
@@ -1924,7 +1924,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             )
                         )
                     }),
-                    new ASTCatchErrorVariableNode(ASTNodeFactory::id)
+                    ASTNodeFactory::catchErrorVariable
                 ),
                 new ASTFinallyBlockNode(
                     new ASTControlFlowBlockNode({
@@ -2323,7 +2323,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTTypeNodeFactory::createLambdaTypeNode(
                              new ASTLambdaTypeNode(
                                  new ASTProcedureLambdaTypeParameterListNode({
-                                     ASTTypeNodeFactory::createCustomTypeNode(ASTNodeFactory::id)
+                                     ASTNodeFactory::idType
                                  })
                              )
                          )

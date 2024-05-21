@@ -5,33 +5,34 @@
 #include "semantic-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "ast-traverser/ast-traverser.h"
 
-SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph, TokenTable* tokenTable) {
+SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph) {
     _dependencyGraph = dependencyGraph;
-    _tokenTable = tokenTable;
-    _declarationIdAssignor = new DeclarationIdAssignor(_tokenTable);
     _typeSignatureGenerator = new TypeSignatureGenerator(
-        new TypeSignatureStrategyProvider(_tokenTable)
+        new TypeSignatureStrategyProvider()
     );
 }
 
-void SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
-    this->prepareDeclarationsFor(fileNode, scope);
-    this->runTypeCheckerOn(fileNode);
+void SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
+    this->generateInitialTypeSignaturesFor(fileNode, fileScope);
+    this->generateDeclarationTypeSignaturesFor(fileNode, fileScope);
+    this->runTypeCheckerOn(fileNode, fileScope);
 }
 
-void SemanticAnalyzer::prepareDeclarationsFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
     for (auto node : fileNode->getBody()->getContents()) {
-        _declarationIdAssignor->assignId(node);
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
             scope->insert(
-                node->getId(),
-                _typeSignatureGenerator
-                ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*) node)
+                    node->getId(),
+                    _typeSignatureGenerator
+                            ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*) node)
             );
         }
     }
+}
 
+void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
     for (auto node : fileNode->getBody()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(node)) {
             auto declarationTypeSignature = _typeSignatureGenerator->generateTypeSignatureForDeclaration((ASTDeclarationNode*)node, scope);
@@ -44,6 +45,7 @@ void SemanticAnalyzer::prepareDeclarationsFor(ASTFileNode* fileNode, TypeSignatu
     }
 }
 
-void SemanticAnalyzer::runTypeCheckerOn(ASTFileNode* fileNode) {
+void SemanticAnalyzer::runTypeCheckerOn(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
     // build type checker and execute it here.
+    auto traverser = ASTTraverser();
 }

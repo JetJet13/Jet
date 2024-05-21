@@ -9,5 +9,13 @@ ASTNodeType ASTFloatLiteralNode::getNodeType() {
 }
 
 std::string ASTFloatLiteralNode::toString() {
-    return "FLOAT_LITERAL - " + _lexemeLiteral->toString();
+    return "FLOAT_LITERAL - " + _lexeme->toString();
+}
+
+void ASTFloatLiteralNode::setValue(TokenTable* tokenTable) {
+    _value = tokenTable->getFloat(_lexeme->getToken()->getValueId().value());
+}
+
+float ASTFloatLiteralNode::getValue() {
+    return _value;
 }

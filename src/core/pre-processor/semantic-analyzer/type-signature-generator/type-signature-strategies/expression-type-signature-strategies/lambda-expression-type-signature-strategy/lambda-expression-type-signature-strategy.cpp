@@ -5,12 +5,11 @@
 #include "lambda-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 
+
 TypeSignature* LambdaExpressionTypeSignatureStrategy::create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
-    auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
         auto parameterTypeSignature = strategyMap->getTypeSignatureForParameter(parameter, &scope);
-        typeSignatures->push_back(parameterTypeSignature);
         scope.insert(parameterTypeSignature->getName(), parameterTypeSignature->getType());
     }
 

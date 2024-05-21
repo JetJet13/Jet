@@ -9,6 +9,11 @@ ASTEnumNameNode::ASTEnumNameNode(Lexeme *lexeme) {
     _name = lexeme;
 }
 
+ASTEnumNameNode::ASTEnumNameNode(Lexeme *lexeme, std::string id) {
+    _name = lexeme;
+    _id = id;
+}
+
 Lexeme* ASTEnumNameNode::getName() {
     return _name;
 }

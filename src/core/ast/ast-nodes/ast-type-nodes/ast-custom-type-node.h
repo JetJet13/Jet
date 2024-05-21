@@ -10,10 +10,11 @@
 
 class ASTCustomTypeNode : public ASTTypeBaseNode {
 private:
-    ASTIdentifierNode* _identifier;
+    Lexeme* _lexeme;
 public:
-    ASTCustomTypeNode(ASTIdentifierNode* identifierNode);
-    ASTIdentifierNode* getIdentifier();
+    ASTCustomTypeNode(Lexeme* lexeme);
+    ASTCustomTypeNode(Lexeme* lexeme, std::string id);
+    Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -11,6 +11,6 @@ ASTNode* ControlFlowConditionReducerStrategy::execute(std::vector<ASTNode*> node
     }
 
     return new ASTControlFlowConditionNode(
-            this->createExpressionNode(nodes[0])
+            (ASTExpressionNode*)nodes[0]
     );
 }

@@ -6,13 +6,12 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
-TypeSignature* TupleAccessExpressionTypeSignatureStrategy::create(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeSignatureLookupTable* scope, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap) {
+TypeSignature* TupleAccessExpressionTypeSignatureStrategy::create(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto sourceTypeSignature = strategyMap->getTypeSignatureForExpression(tupleAccessExpression->getSource()->getSource(), scope);
     if (!sourceTypeSignature->is(TUPLE_TYPE_SOURCE)) {
         return new InvalidTypeSignature();
     }
 
-    auto index = tokenTable->getInt(tupleAccessExpression->getIndex()->getLexeme()->getToken()->getValueId().value());
     auto tupleTypeSignature = (TupleTypeSignature*)sourceTypeSignature;
-    return tupleTypeSignature->getTypeSignatureAtIndex(index.value());
+    return tupleTypeSignature->getTypeSignatureAtIndex(tupleAccessExpression->getIndex()->getIndexValue());
 }

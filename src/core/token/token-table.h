@@ -17,11 +17,11 @@ private:
     std::unordered_map<int, std::string> _identifierMap;
 public:
     TokenTable();
-    std::optional<int> getInt(int key);
-    std::optional<float> getFloat(int key);
-    std::optional<char> getChar(int key);
-    std::optional<std::string> getString(int key);
-    std::optional<std::string> getIdentifier(int key);
+    int getInt(int key);
+    float getFloat(int key);
+    char getChar(int key);
+    std::string getString(int key);
+    std::string getIdentifier(int key);
     void setInt(int key, int value);
     void setFloat(int key, float value);
     void setChar(int key, char value);

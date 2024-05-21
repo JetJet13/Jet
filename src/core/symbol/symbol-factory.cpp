@@ -143,8 +143,8 @@ namespace SymbolFactory {
         return new Symbol(SYM_STRING, "string");
     }
 
-    Symbol* createMalformedSymbol() {
-        return new Symbol(SYM_MALFORMED, "[MALFORMED]");
+    Symbol* createMalformedSymbol(std::string malformedText) {
+        return new Symbol(SYM_MALFORMED, "[MALFORMED] - " + malformedText);
     }
 
     Symbol* createFunctionSymbol() {

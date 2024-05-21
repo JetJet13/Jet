@@ -22,59 +22,59 @@
 #include "ast-class-nodes/ast-class-method-name-node.h"
 #include "ast-class-nodes/ast-class-method-call-node.h"
 
-ASTIdentifierNode::ASTIdentifierNode(Lexeme *lexeme) {
-    _identifier = lexeme;
+ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
+    _lexeme = lexeme;
 }
 
-Lexeme* ASTIdentifierNode::getIdentifier() {
-    return _identifier;
+Lexeme* ASTIdentifierNode::getLexeme() {
+    return _lexeme;
 }
 
 std::string ASTIdentifierNode::getValue(TokenTable* tokenTable) {
     return tokenTable->getIdentifier(
-            _identifier->getToken()->getValueId().value()
-    ).value();
+            _lexeme->getToken()->getValueId().value()
+    );
 }
 
 ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_CLASS_ACCESS_NODE)) {
         if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
-            return new ASTClassMethodCallNode(this->getIdentifier());
+            return new ASTClassMethodCallNode(this->getLexeme(), this->getId());
         }
-        return new ASTClassPropertyNameNode(this->getIdentifier());
+        return new ASTClassPropertyNameNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE }) &&
         nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
-        return new ASTClassMethodNameNode(this->getIdentifier());
+        return new ASTClassMethodNameNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NODE, AST_NEW_NODE })) {
-        return new ASTClassNameNode(this->getIdentifier());
+        return new ASTClassNameNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
-        return new ASTFunctionNameNode(this->getIdentifier());
+        return new ASTFunctionNameNode(this->getLexeme(), this->getId());
     }
 
     if (nextNode && nextNode.value()->isOneOf({ AST_GROUP_START_NODE, AST_FUNCTION_ARGUMENT_LIST_START_NODE })) {
-        return new ASTFunctionCallNode(this->getIdentifier());
+        return new ASTFunctionCallNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {
-        return new ASTEnumNameNode(this->getIdentifier());
+        return new ASTEnumNameNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
-        return ASTTypeNodeFactory::createCustomTypeNode(this);
+        return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE })) {
-        return ASTTypeNodeFactory::createCustomTypeNode(this);
+        return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({ AST_ASSIGNMENT_OPERATOR_NODE, AST_TERMINATOR_NODE })) {
-        return ASTTypeNodeFactory::createCustomTypeNode(this);
+        return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_MODULE_NODE })) {
@@ -110,15 +110,15 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
     }
 
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {
-        return new ASTEnumKeyNode(this->getIdentifier());
+        return new ASTEnumKeyNode(this->getLexeme(), this->getId());
     }
 
     if (mode == SA_TYPE_PARAMETER_LIST_MODE) {
-        return ASTTypeNodeFactory::createCustomTypeNode(this);
+        return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CATCH_NODE })) {
-        return new ASTCatchErrorVariableNode(this);
+        return new ASTCatchErrorVariableNode(this->getLexeme(), this->getId());
     }
 
     return this;
@@ -137,9 +137,9 @@ bool ASTIdentifierNode::isSameAs(ASTNode* other) {
         return false;
     }
     auto otherNode = (ASTIdentifierNode*)other;
-    return this->getIdentifier()->hasSameSymbolTypeAs(otherNode->getIdentifier());
+    return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 
 void ASTIdentifierNode::print() {
-    Logger::log(this->toString(), "-", _identifier->toString());
+    Logger::log(this->toString(), "-", _lexeme->toString(), "|", "id:", _id);
 }

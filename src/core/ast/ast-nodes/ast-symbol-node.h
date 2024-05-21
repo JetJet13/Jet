@@ -11,7 +11,8 @@ class ASTSymbolNode : public ASTNode {
 protected:
     Lexeme* _lexeme;
 public:
-    ASTSymbolNode(Lexeme* lexeme);
+    explicit ASTSymbolNode(Lexeme* lexeme);
+    explicit ASTSymbolNode(Lexeme* lexeme, std::string id);
     Lexeme* getLexeme();
     bool isSameAs(ASTNode* other) override;
     void print() override;

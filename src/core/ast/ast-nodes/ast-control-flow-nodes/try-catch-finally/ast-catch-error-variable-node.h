@@ -6,21 +6,13 @@
 #define JETLANG_AST_CATCH_ERROR_VARIABLE_NODE_H
 
 #include <string>
-#include "../../../../lexeme/lexeme.h"
-#include "../../ast-node.h"
-#include "../../../types/ast-node-type.h"
-#include "../../ast-identifier-node.h"
+#include "../../ast-symbol-node.h"
 
-class ASTCatchErrorVariableNode : public ASTNode {
-private:
-    ASTIdentifierNode* _identifier;
+class ASTCatchErrorVariableNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTCatchErrorVariableNode(ASTIdentifierNode* identifier);
-    ASTIdentifierNode* getIdentifier();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_CATCH_ERROR_VARIABLE_NODE_H

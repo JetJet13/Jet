@@ -491,7 +491,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
     auto dependencyGraph = new DependencyGraph();
     auto typeSignatureLookupTable = new TypeSignatureLookupTable();
-    auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph, tokenTable);
+    auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph);
     semanticAnalyzer.analyze(fileNodeResult, typeSignatureLookupTable);
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");

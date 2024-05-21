@@ -11,6 +11,6 @@ ASTNode* ClassPropertyAssignmentStatementReducerStrategy::execute(std::vector<AS
     }
     return new ASTClassPropertyAssignmentStatementNode(
             (ASTClassPropertyAssignmentNode*)nodes[0],
-            this->createExpressionNode(nodes[1])
+            (ASTExpressionNode*)nodes[1]
     );
 }

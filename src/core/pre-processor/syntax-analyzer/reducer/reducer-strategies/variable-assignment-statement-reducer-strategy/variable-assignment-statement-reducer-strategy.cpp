@@ -11,6 +11,6 @@ ASTNode* VariableAssignmentStatementReducerStrategy::execute(std::vector<ASTNode
     }
     return new ASTVariableAssignmentStatementNode(
             (ASTVariableAssignmentNode*)nodes[0],
-            this->createExpressionNode(nodes[1])
+            (ASTExpressionNode*)nodes[1]
     );
 }

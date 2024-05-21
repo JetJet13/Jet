@@ -7,16 +7,10 @@
 #include "../../../../../../type-signature/function-type-signature/function-type-signature.h"
 #include "../../../../../../type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 
-TypeSignature* FunctionInvocationExpressionTypeSignatureStrategy::create(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable) {
+TypeSignature* FunctionInvocationExpressionTypeSignatureStrategy::create(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
+    functionInvocationExpression->getName()->print();
     auto functionTypeSignature = typeSignatureLookupTable->find(
-        tokenTable->getIdentifier(
-            functionInvocationExpression
-            ->getName()
-            ->getName()
-            ->getToken()
-            ->getValueId()
-            .value()
-        ).value()
+            functionInvocationExpression->getName()->getId()
     );
     if (!functionTypeSignature->is(FUNCTION_TYPE_SOURCE)) {
         return new InvalidTypeSignature();

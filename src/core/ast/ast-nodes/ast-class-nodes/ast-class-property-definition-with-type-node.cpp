@@ -35,7 +35,6 @@ bool ASTClassPropertyDefinitionWithTypeNode::isSameAs(ASTNode *other) {
     }
 
     auto otherNode = (ASTClassPropertyDefinitionWithTypeNode*)other;
-
     return this->getClassPropertyDefinition()->isSameAs(otherNode->getClassPropertyDefinition()) &&
            this->getType()->isSameAs(otherNode->getType());
 }

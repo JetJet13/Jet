@@ -11,7 +11,7 @@
 
 class TupleAccessExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeSignatureLookupTable* scope, TokenTable* tokenTable, TypeSignatureStrategyProvider* strategyMap);
+    TypeSignature* create(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

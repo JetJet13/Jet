@@ -10,10 +10,10 @@
 
 class ASTIdentifierNode : public ASTNode {
 private:
-    Lexeme* _identifier;
+    Lexeme* _lexeme;
 public:
-    ASTIdentifierNode(Lexeme* lexeme);
-    Lexeme* getIdentifier();
+    explicit ASTIdentifierNode(Lexeme* lexeme);
+    Lexeme* getLexeme();
     std::string getValue(TokenTable* tokenTable);
     ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;

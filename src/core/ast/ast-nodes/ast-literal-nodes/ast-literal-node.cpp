@@ -5,11 +5,11 @@
 #include "ast-literal-node.h"
 
 ASTLiteralNode::ASTLiteralNode(Lexeme* lexemeLiteral) {
-    _lexemeLiteral = lexemeLiteral;
+    _lexeme = lexemeLiteral;
 }
 
 Lexeme* ASTLiteralNode::getLiteral() {
-    return _lexemeLiteral;
+    return _lexeme;
 }
 
 ASTNodeType ASTLiteralNode::getNodeType() {
@@ -19,6 +19,7 @@ ASTNodeType ASTLiteralNode::getNodeType() {
 std::string ASTLiteralNode::toString() {
     return "LITERAL";
 }
+
 
 bool ASTLiteralNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {

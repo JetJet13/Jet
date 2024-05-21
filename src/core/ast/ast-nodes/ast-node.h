@@ -19,7 +19,7 @@ protected:
     std::vector<ASTNode*> _children = {};
 public:
     std::string getId();
-    void setId(std::string id);
+    ASTNode* setId(std::string id);
     std::optional<ASTNode*> getParentNode();
     void setParentNode(ASTNode* parentNode);
     virtual ASTNodeType getNodeType() = 0;

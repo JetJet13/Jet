@@ -10,7 +10,7 @@ ASTNode* ArrayAccessExpressionReducerStrategy::execute(std::vector<ASTNode*> nod
         throw std::invalid_argument("unable to reduce to array access expression since nodes list is too short");
     }
     return new ASTArrayAccessExpressionNode(
-            this->createExpressionNode(nodes[0]),
+            (ASTExpressionNode*)nodes[0],
             (ASTArrayAccessNode*)nodes[1]
     );
 }

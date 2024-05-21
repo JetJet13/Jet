@@ -5,19 +5,13 @@
 #ifndef JETLANG_AST_FUNCTION_CALL_NODE_H
 #define JETLANG_AST_FUNCTION_CALL_NODE_H
 
-#include "../../../lexeme/lexeme.h"
-#include "../ast-node.h"
+#include "../ast-symbol-node.h"
 
-class ASTFunctionCallNode : public ASTNode {
-private:
-    Lexeme* _name;
+class ASTFunctionCallNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTFunctionCallNode(Lexeme* lexeme);
-    Lexeme* getName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 

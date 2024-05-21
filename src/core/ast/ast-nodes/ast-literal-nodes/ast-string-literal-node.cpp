@@ -19,5 +19,14 @@ ASTNodeType ASTStringLiteralNode::getNodeType() {
 }
 
 std::string ASTStringLiteralNode::toString() {
-    return "STRING_LITERAL - " + _lexemeLiteral->toString();
+    return "STRING_LITERAL - " + _lexeme->toString();
+}
+
+void ASTStringLiteralNode::setValue(TokenTable* tokenTable) {
+    _value = tokenTable->getString(_lexeme->getToken()->getValueId().value());
+}
+
+
+std::string ASTStringLiteralNode::getValue() {
+    return _value;
 }

@@ -5,13 +5,17 @@
 #include "ast-custom-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTCustomTypeNode::ASTCustomTypeNode(ASTIdentifierNode* identifierNode) {
-    _identifier = identifierNode;
-    _children.push_back(_identifier);
+ASTCustomTypeNode::ASTCustomTypeNode(Lexeme* lexeme) {
+    _lexeme = lexeme;
 }
 
-ASTIdentifierNode* ASTCustomTypeNode::getIdentifier() {
-    return _identifier;
+ASTCustomTypeNode::ASTCustomTypeNode(Lexeme* lexeme, std::string id) {
+    _lexeme = lexeme;
+    this->setId(id);
+}
+
+Lexeme* ASTCustomTypeNode::getLexeme() {
+    return _lexeme;
 }
 
 ASTNodeType ASTCustomTypeNode::getNodeType() {
@@ -27,11 +31,9 @@ bool ASTCustomTypeNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTCustomTypeNode*)other;
-    return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
+    return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 
 void ASTCustomTypeNode::print() {
-    Logger::log("----------", this->toString(), "----------");
-    _identifier->print();
-    Logger::log("----------");
+    Logger::log(this->toString(), "-", _lexeme->toString());
 }

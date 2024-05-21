@@ -11,8 +11,9 @@ std::string ASTNode::getId() {
     return _id;
 }
 
-void ASTNode::setId(std::string id) {
-    _id = std::move(id);
+ASTNode* ASTNode::setId(std::string id) {
+    _id = id;
+    return this;
 }
 
 std::optional<ASTNode*> ASTNode::getParentNode() {

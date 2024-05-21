@@ -89,6 +89,8 @@
 #include "reducer-strategies/new-class-instance-expression-reducer-strategy/new-class-instance-expression-reducer-strategy.h"
 #include "reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.h"
 #include "reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h"
+#include "reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -182,6 +184,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_CLASS_ACCESS_NODE, new ClassAccessReducerStrategy());
     this->addStrategy(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, new NewClassInstanceExpressionReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, new ClassPropertyAccessExpressionReducerStrategy());
+    this->addStrategy(AST_THIS_EXPRESSION_NODE, new ThisExpressionReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

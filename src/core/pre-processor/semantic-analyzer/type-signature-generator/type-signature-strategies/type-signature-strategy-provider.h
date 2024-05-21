@@ -5,9 +5,9 @@
 #ifndef JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H
 #define JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H
 
+#include <any>
 #include "type-signature-strategy-map.h"
 #include "../../type-signature-lookup-table/type-signature-lookup-table.h"
-#include "../../../../token/token-table.h"
 #include "../../../../ast/ast-nodes/ast-node.h"
 #include "../../../../ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
@@ -33,9 +33,8 @@ class TypeSignatureStrategyProvider {
 private:
     LiteralTypeSignatureLookupTable _literalTypeSignatureLookupTable;
     TypeSignatureStrategyMap* _typeSignatureStrategyMap;
-    TokenTable* _tokenTable;
 public:
-    explicit TypeSignatureStrategyProvider(TokenTable* tokenTable);
+    TypeSignatureStrategyProvider();
     TypeSignature*  getTypeSignatureForExpression(ASTExpressionNode* node, TypeSignatureLookupTable* scope);
     TypeSignature*  getTypeSignatureForType(ASTTypeNode* node, TypeSignatureLookupTable* scope);
     TypeSignature*  getTypeSignatureForBaseType(ASTTypeBaseNode* node, TypeSignatureLookupTable* scope);

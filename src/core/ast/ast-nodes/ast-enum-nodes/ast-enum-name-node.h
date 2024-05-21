@@ -13,6 +13,7 @@ private:
     Lexeme* _name;
 public:
     ASTEnumNameNode(Lexeme* lexeme);
+    ASTEnumNameNode(Lexeme* lexeme, std::string id);
     Lexeme* getName();
     ASTNodeType getNodeType() override;
     std::string toString() override;

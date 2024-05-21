@@ -11,9 +11,13 @@
 
 class ASTBooleanLiteralNode : public ASTLiteralNode {
     using ASTLiteralNode::ASTLiteralNode;
+private:
+    bool _value;
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    void setValue(TokenTable* tokenTable) override;
+    bool getValue();
 };
 
 #endif //JETLANG_AST_BOOLEAN_LITERAL_NODE_H

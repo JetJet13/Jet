@@ -95,15 +95,19 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
     if (isdigit(character.value())) {
         std::string term;
         term += character.value();
-        auto isPrevTokenNotPeriod = !(_prevToken && _prevToken.value()->getSymbol()->isPeriod());
+        auto isPrevTokenPeriod = (_prevToken && _prevToken.value()->getSymbol()->isPeriod());
         auto isFloat = false;
         auto peekNextChar = _fileReader.peek();
         while (peekNextChar) {
-            if (peekNextChar.value() == PERIOD && isFloat) {
-                return new Token(SymbolFactory::createMalformedSymbol());
-            } else if (peekNextChar.value() == PERIOD && isPrevTokenNotPeriod) {
-                isFloat = true;
-            } else if (!isdigit(peekNextChar.value())) {
+            if (peekNextChar.value() == PERIOD) {
+                if (isPrevTokenPeriod) {
+                    break;
+                } else if (isFloat) {
+                    return new Token(SymbolFactory::createMalformedSymbol(term));
+                } else {
+                    isFloat = true;
+                }
+            }  else if (!isdigit(peekNextChar.value())) {
                 break;
             }
             term += peekNextChar.value();
@@ -131,7 +135,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             if (nextChar.value() == SINGLE_QUOTE) {
                 auto c = _charTable.match(term);
                 if (!c) {
-                    return new Token(SymbolFactory::createMalformedSymbol());
+                    return new Token(SymbolFactory::createMalformedSymbol(term));
                 }
                 auto valueId = this->generateTokenValueId();
                 _tokenTable->setChar(valueId, c.value());
@@ -140,7 +144,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol());
+        return new Token(SymbolFactory::createMalformedSymbol(term));
     }
 
     if (character.value() == DOUBLE_QUOTE) {
@@ -156,7 +160,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol());
+        return new Token(SymbolFactory::createMalformedSymbol(term));
     }
 
     auto isCharacterReservedKeyword = _reservedKeywords->match(character);
@@ -218,10 +222,8 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 }
                 return new Token(isDotDot.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
-        } else {
-            return new Token(isCharacterReservedKeyword.value());
         }
+        return new Token(isCharacterReservedKeyword.value());
     }
 
     std::string term;
@@ -250,18 +252,22 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
     if (!character) {
         return {};
     }
-
     if (isdigit(character.value())) {
         std::string term;
         term += character.value();
+        auto isPrevTokenPeriod = (_prevToken && _prevToken.value()->getSymbol()->isPeriod());
         auto isFloat = false;
         auto peekNextChar = _fileReader.peek();
         while (peekNextChar) {
-            if (peekNextChar.value() == PERIOD && isFloat) {
-                return new Token(SymbolFactory::createMalformedSymbol());
-            } else if (peekNextChar.value() == PERIOD) {
-                isFloat = true;
-            } else if (!isdigit(peekNextChar.value())) {
+            if (peekNextChar.value() == PERIOD) {
+                if (isPrevTokenPeriod) {
+                    break;
+                } else if (isFloat) {
+                    return new Token(SymbolFactory::createMalformedSymbol(term));
+                } else {
+                    isFloat = true;
+                }
+            }  else if (!isdigit(peekNextChar.value())) {
                 break;
             }
             term += peekNextChar.value();
@@ -289,14 +295,14 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             if (nextChar.value() == SINGLE_QUOTE) {
                 auto c = _charTable.match(term);
                 if (!c) {
-                    return new Token(SymbolFactory::createMalformedSymbol());
+                    return new Token(SymbolFactory::createMalformedSymbol(term));
                 }
                 return new Token(SymbolFactory::createCharSymbol());
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol());
+        return new Token(SymbolFactory::createMalformedSymbol(term));
     }
 
     if (character.value() == DOUBLE_QUOTE) {
@@ -310,7 +316,7 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol());
+        return new Token(SymbolFactory::createMalformedSymbol(term));
     }
 
     auto isCharacterReservedKeyword = _reservedKeywords->match(character);
@@ -372,10 +378,8 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
                 }
                 return new Token(isDotDot.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
-        } else {
-            return new Token(isCharacterReservedKeyword.value());
         }
+        return new Token(isCharacterReservedKeyword.value());
     }
 
     std::string term;

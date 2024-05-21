@@ -9,5 +9,13 @@ ASTNodeType ASTCharLiteralNode::getNodeType() {
 }
 
 std::string ASTCharLiteralNode::toString() {
-    return "CHAR_LITERAL - " + _lexemeLiteral->toString();
+    return "CHAR_LITERAL - " + _lexeme->toString();
+}
+
+void ASTCharLiteralNode::setValue(TokenTable* tokenTable) {
+    _value = tokenTable->getChar(_lexeme->getToken()->getValueId().value());
+}
+
+char ASTCharLiteralNode::getValue() {
+    return _value;
 }

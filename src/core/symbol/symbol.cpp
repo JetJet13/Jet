@@ -96,7 +96,15 @@ bool Symbol::isIdentifier() {
 }
 
 bool Symbol::isBoolean() {
-    return _type == SYM_TRUE || _type == SYM_FALSE;
+    return this->isTrue() || this->isFalse();
+}
+
+bool Symbol::isTrue() {
+    return _type == SYM_TRUE;
+}
+
+bool Symbol::isFalse() {
+    return _type == SYM_FALSE;
 }
 
 bool Symbol::isPlus() {

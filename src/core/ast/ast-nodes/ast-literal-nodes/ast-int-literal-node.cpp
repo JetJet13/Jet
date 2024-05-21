@@ -9,7 +9,7 @@
 ASTNode * ASTIntLiteralNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                                   SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_PERIOD_NODE)) {
-        return new ASTTupleAccessNode(_lexemeLiteral);
+        return (new ASTTupleAccessNode(_lexeme))->setIndexValue(this->getValue());
     }
 
     return this;
@@ -20,5 +20,13 @@ ASTNodeType ASTIntLiteralNode::getNodeType() {
 }
 
 std::string ASTIntLiteralNode::toString() {
-    return "INT_LITERAL - " + _lexemeLiteral->toString();
+    return "INT_LITERAL - " + _lexeme->toString();
+}
+
+void ASTIntLiteralNode::setValue(TokenTable* tokenTable) {
+    _value = tokenTable->getInt(_lexeme->getToken()->getValueId().value());
+}
+
+int ASTIntLiteralNode::getValue() {
+    return _value;
 }

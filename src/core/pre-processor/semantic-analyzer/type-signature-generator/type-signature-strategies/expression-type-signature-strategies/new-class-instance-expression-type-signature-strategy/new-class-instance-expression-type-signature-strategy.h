@@ -11,7 +11,7 @@
 
 class NewClassInstanceExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TokenTable* tokenTable);
+    TypeSignature* create(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureLookupTable* typeSignatureLookupTable);
 };
 
 #endif //JETLANG_NEW_CLASS_INSTANCE_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

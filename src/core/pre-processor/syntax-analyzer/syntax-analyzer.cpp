@@ -4,16 +4,18 @@
 
 #include "syntax-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "ast-literal-node-value-assignor/ast-literal-node-value-assignor.h"
 
 SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalAnalyzer) {
     _tokenTable = tokenTable;
+    _recognizer = new Recognizer();
+    _astNodeIdAssignor = new ASTNodeIdAssignor(_tokenTable);
     _reducer = Reducer();
     _handle = Handle();
     _lexemeTransformer = LexemeTransformer();
     _modeStack = std::stack<SyntaxAnalyzerMode>();
     _scopeStack = std::stack<ASTBlockNode*>();
     _recognizeStack = std::stack<std::stack<ASTNode*>*>();
-    _recognizer = new Recognizer();
     _lexicalAnalyzer = lexicalAnalyzer;
 }
 
@@ -63,7 +65,10 @@ void SyntaxAnalyzer::shift() {
     Logger::log("shift");
     auto nextLexeme = _lexicalAnalyzer->next();
     if (nextLexeme) {
-        _handle.append(this->_lexemeTransformer.transform(nextLexeme.value()));
+        auto nextNode = _lexemeTransformer.transform(nextLexeme.value());
+        _astNodeIdAssignor->assignIdIfNecessary(nextNode);
+        ASTLiteralNodeValueAssignor::assignValue(nextNode, _tokenTable);
+        _handle.append(nextNode);
     }
 }
 
@@ -71,6 +76,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     Logger::log("reduce");
     Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
+    _astNodeIdAssignor->assignIdIfNecessary(reducedNode);
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
         _scopeStack.push(new ASTBlockNode());
         _recognizeStack.push(new std::stack<ASTNode*>());

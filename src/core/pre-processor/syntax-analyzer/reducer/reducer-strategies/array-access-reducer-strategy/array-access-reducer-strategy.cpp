@@ -14,5 +14,5 @@ ASTNode* ArrayAccessReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (!arrayBaseNode->getFirstElement()) {
         throw std::invalid_argument("unable to reduce to array access node since array base node has no elements");
     }
-    return new ASTArrayAccessNode(this->createExpressionNode(arrayBaseNode->getFirstElement().value()));
+    return new ASTArrayAccessNode((ASTExpressionNode*)(arrayBaseNode->getFirstElement().value()));
 }

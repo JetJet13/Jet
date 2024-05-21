@@ -137,6 +137,7 @@ void SyntaxDfa::init() {
     DFANode* className = DFANodeFactory::Once::create(AST_CLASS_NAME_NODE);
     DFANode* thisKeyword = DFANodeFactory::Once::create(AST_THIS_NODE);
     DFANode* thisAccess = DFANodeFactory::Once::create(AST_THIS_ACCESS_NODE);
+    DFANode* thisExpression = DFANodeFactory::Once::create(AST_THIS_EXPRESSION_NODE);
     DFANode* publicKeyword = DFANodeFactory::Once::create(AST_PUBLIC_NODE);
     DFANode* protectedKeyword = DFANodeFactory::Once::create(AST_PROTECTED_NODE);
     DFANode* privateKeyword = DFANodeFactory::Once::create(AST_PRIVATE_NODE);
@@ -206,11 +207,11 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_LOGICAL_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_LOGICAL_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CURRY_EXPRESSION_NODE, AST_LOGICAL_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
+//    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
+//    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
+//    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
+//    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
+//    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_LOGICAL_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_LOGICAL_EXPRESSION_NODE)));
 
     binaryOperator
@@ -225,11 +226,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_BINARY_EXPRESSION_NODE)));
 
     unaryOperator
-    ->reduceSelfWhenNextNodeIsOneOf({
-            AST_GROUP_START_NODE,
-            AST_FUNCTION_CALL_NODE,
-            AST_IDENTIFIER_NODE
-    })
+    ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
@@ -238,12 +235,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CURRY_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, AST_UNARY_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_UNARY_EXPRESSION_NODE)));
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)));
 
     identifierExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
@@ -401,7 +393,7 @@ void SyntaxDfa::init() {
             ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
             ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
             ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)))
-            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_THIS_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)));
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_THIS_EXPRESSION_NODE, AST_FUNCTION_RETURN_EXPRESSION_NODE)));
     functionReturnExpression
     ->markAlwaysReduceSelf();
 
@@ -851,6 +843,10 @@ void SyntaxDfa::init() {
     ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::createWithTarget(AST_THIS_ACCESS_NODE, AST_CLASS_ACCESS_NODE)
+    ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_ANY_NODE, AST_THIS_EXPRESSION_NODE)
     ));
 
     classPropertyName
@@ -1051,6 +1047,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(classPropertyDeclaration)
     ->insertStartNode(classConstructorDeclaration)
     ->insertStartNode(thisKeyword)
+    ->insertStartNode(thisExpression)
     ->insertStartNode(classAccess)
     ->insertStartNode(classPropertyAccess)
     ->insertStartNode(classPropertyAccessExpression)
@@ -1144,22 +1141,8 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
                     DFANodeFactory::Once::createWithTarget(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, targetNodeType)))
     ->addTransition(
             DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, targetNodeType)));
+                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, targetNodeType)));
+
 
 }
 

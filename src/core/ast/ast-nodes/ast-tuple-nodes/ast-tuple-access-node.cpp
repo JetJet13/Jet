@@ -32,3 +32,12 @@ bool ASTTupleAccessNode::isSameAs(ASTNode *other) {
 void ASTTupleAccessNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
 }
+
+ASTTupleAccessNode* ASTTupleAccessNode::setIndexValue(int index) {
+    _index = index;
+    return this;
+}
+
+int ASTTupleAccessNode::getIndexValue() {
+    return _index;
+}

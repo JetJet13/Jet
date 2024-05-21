@@ -6,5 +6,5 @@
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 
 ASTNode* LambdaReturnExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    return new ASTLambdaReturnExpressionNode(this->createExpressionNode(nodes[1]));
+    return new ASTLambdaReturnExpressionNode((ASTExpressionNode*)nodes[1]);
 }

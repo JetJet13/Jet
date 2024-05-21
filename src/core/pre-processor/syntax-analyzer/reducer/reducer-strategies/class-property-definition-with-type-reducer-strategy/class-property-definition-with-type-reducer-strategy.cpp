@@ -9,7 +9,6 @@ ASTNode* ClassPropertyDefinitionWithTypeReducerStrategy::execute(std::vector<AST
     if (nodes.size() != 3) {
         throw std::invalid_argument("unable to reduce to class property definition with type since nodes list size is not 3");
     }
-
     return new ASTClassPropertyDefinitionWithTypeNode(
             (ASTClassPropertyDefinitionNode*)nodes[0],
             (ASTTypeNode*)nodes[2]
