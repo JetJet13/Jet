@@ -48,4 +48,10 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNod
 void SemanticAnalyzer::runTypeCheckerOn(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
     // build type checker and execute it here.
     auto traverser = ASTTraverser();
+    traverser.init(fileNode);
+    auto node = traverser.next();
+    while (node) {
+        Logger::log("type-checker---", node.value()->toString());
+        node = traverser.next();
+    }
 }

@@ -12,7 +12,6 @@
 class ASTTraverser {
 private:
     std::stack<ASTNode*> _stack;
-    std::stack<ASTNode*> _traverseStack;
     bool _hasMore;
 public:
     ASTTraverser();

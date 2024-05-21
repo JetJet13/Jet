@@ -6,6 +6,7 @@
 
 ASTFileNode::ASTFileNode(ASTBlockNode* body) {
     _body = body;
+    _children.push_back(_body);
 }
 
 void ASTFileNode::append(ASTNode *node) {
