@@ -12,7 +12,7 @@ class AccessModifierTypeSignature : public TypeSignature {
 private:
     AccessModifierType _accessModifier;
 public:
-    AccessModifierTypeSignature(AccessModifierType accessModifier);
+    AccessModifierTypeSignature(AccessModifierType accessModifier = PRIVATE_ACCESS_MODIFIER_TYPE);
     bool isPublic();
     bool isProtected();
     bool isPrivate();

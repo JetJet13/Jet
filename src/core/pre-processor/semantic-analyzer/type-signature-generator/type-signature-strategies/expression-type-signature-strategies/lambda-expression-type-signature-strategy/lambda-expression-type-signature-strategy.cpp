@@ -6,27 +6,30 @@
 #include "../../../../../../type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 
 
-TypeSignature* LambdaExpressionTypeSignatureStrategy::create(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
-        auto parameterTypeSignature = strategyMap->getTypeSignatureForParameter(parameter, &scope);
-        scope.insert(parameterTypeSignature->getName(), parameterTypeSignature->getType());
+        strategyMap->assignTypeSignatureForParameter(parameter, &scope);
+        scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getType());
     }
 
     auto returnType = std::optional<TypeSignature*>();
     if (lambdaExpression->getReturnType()) {
-        returnType = strategyMap->getTypeSignatureForType(lambdaExpression->getReturnType().value(), &scope);
+        strategyMap->assignTypeSignatureForType(lambdaExpression->getReturnType().value(), &scope);
+        returnType = lambdaExpression->getReturnType().value()->getTypeSignature();
     } else {
         for (auto node : lambdaExpression->getBlock()->getContents()) {
             if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
                 auto returnExpression = (ASTFunctionReturnExpressionNode*)node;
-                returnType = strategyMap->getTypeSignatureForExpression(returnExpression, &scope);
+                strategyMap->assignTypeSignatureForExpression(returnExpression, &scope);
+                returnType = returnExpression->getTypeSignature();
                 break;
             }
         }
     }
-    return new LambdaExpressionTypeSignature(
-        strategyMap->getTypeSignatureForParameterList(lambdaExpression->getParameters(), &scope),
+    strategyMap->assignTypeSignatureForParameterList(lambdaExpression->getParameters(), &scope);
+    lambdaExpression->setTypeSignature(new LambdaExpressionTypeSignature(
+        lambdaExpression->getParameters()->getTypeSignature(),
         returnType
-    );
+    ));
 }

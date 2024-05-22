@@ -5,14 +5,15 @@
 #include "struct-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/struct-type-signature/struct-type-signature.h"
 
-TypeSignature* StructExpressionTypeSignatureStrategy::create(ASTStructExpressionNode* structExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void StructExpressionTypeSignatureStrategy::assign(ASTStructExpressionNode* structExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto structTypeSignature = new StructTypeSignature();
     for (auto keyValuePair : structExpression->getKeyValuePairs()) {
+        strategyMap->assignTypeSignatureForExpression(keyValuePair->getValue(), scope);
         structTypeSignature->addKeyValuePair(
                 keyValuePair->getKey()->getIdentifierNode()->getId(),
-                strategyMap->getTypeSignatureForExpression(keyValuePair->getValue(), scope)
+                keyValuePair->getValue()->getTypeSignature()
         );
     }
 
-    return structTypeSignature;
+    structExpression->setTypeSignature(structTypeSignature);
 }

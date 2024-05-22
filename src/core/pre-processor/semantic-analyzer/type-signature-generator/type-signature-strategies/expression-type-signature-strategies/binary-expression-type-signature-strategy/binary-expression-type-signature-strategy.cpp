@@ -10,19 +10,23 @@ BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
 }
 
-TypeSignature* BinaryExpressionTypeSignatureStrategy::create(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto leftTypeSignature = strategyMap->getTypeSignatureForExpression(binaryExpression->getLeftNode(), scope);
-    auto rightTypeSignature = strategyMap->getTypeSignatureForExpression(binaryExpression->getRightNode(), scope);
+void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForExpression(binaryExpression->getLeftNode(), scope);
+    strategyMap->assignTypeSignatureForExpression(binaryExpression->getRightNode(), scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());
     if (!combination) {
         throw std::invalid_argument("unknown binary operator..aborting.");
     }
 
-    auto resultTypeSignature = combination.value()->match(leftTypeSignature, rightTypeSignature);
+    auto resultTypeSignature = combination.value()->match(
+            binaryExpression->getLeftNode()->getTypeSignature(),
+            binaryExpression->getRightNode()->getTypeSignature()
+    );
     if (!resultTypeSignature) {
-        return new InvalidTypeSignature();
+        binaryExpression->setTypeSignature(new InvalidTypeSignature());
+        return;
     }
-    return resultTypeSignature.value();
+    binaryExpression->setTypeSignature(resultTypeSignature.value());
 }
 
 std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStrategy::findCombination(ASTBinaryOperatorNode* binaryOperatorNode) {

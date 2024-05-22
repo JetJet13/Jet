@@ -11,7 +11,7 @@
 
 class LogicalExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTLogicalExpressionNode* logicalExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTLogicalExpressionNode* logicalExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LOGICAL_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

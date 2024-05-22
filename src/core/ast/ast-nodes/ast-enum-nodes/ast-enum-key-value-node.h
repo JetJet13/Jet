@@ -11,16 +11,20 @@
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-literal-nodes/ast-literal-node.h"
 #include "ast-enum-key-node.h"
+#include "../../../type-signature/literal-type-signature/literal-type-signature.h"
 
 class ASTEnumKeyValueNode : public ASTNode {
 private:
     ASTEnumKeyNode* _key;
     std::optional<ASTLiteralNode*> _value;
+    LiteralTypeSignature* _typeSignature = new LiteralTypeSignature();
 public:
     ASTEnumKeyValueNode(ASTEnumKeyNode* key);
     ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTLiteralNode* value);
     ASTEnumKeyNode* getKey();
     std::optional<ASTLiteralNode*> getValue();
+    void setTypeSignature(LiteralTypeSignature* typeSignature);
+    LiteralTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -30,6 +30,14 @@ unsigned long ASTClassConstructorDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 
+void ASTClassConstructorDeclarationNode::setTypeSignature(ClassConstructorTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ClassConstructorTypeSignature* ASTClassConstructorDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTClassConstructorDeclarationNode::getNodeType() {
     return AST_CLASS_CONSTRUCTOR_DECLARATION_NODE;
 }

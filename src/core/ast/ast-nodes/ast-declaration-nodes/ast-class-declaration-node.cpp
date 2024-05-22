@@ -20,6 +20,14 @@ ASTClassNameNode* ASTClassDeclarationNode::getName() {
     return _name;
 }
 
+void ASTClassDeclarationNode::setTypeSignature(ClassTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ClassTypeSignature* ASTClassDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTClassDeclarationNode::getNodeType() {
     return AST_CLASS_DECLARATION_NODE;
 }

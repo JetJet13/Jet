@@ -11,7 +11,7 @@
 
 class PrimitiveTypeTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTPrimitiveTypeNode* node, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable);
+    void assign(ASTPrimitiveTypeNode* node, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable);
 };
 
 #endif //JETLANG_PRIMITIVE_TYPE_TYPE_SIGNATURE_STRATEGY_H

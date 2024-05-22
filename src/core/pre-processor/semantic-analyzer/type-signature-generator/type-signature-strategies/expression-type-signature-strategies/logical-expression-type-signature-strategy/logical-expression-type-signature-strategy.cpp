@@ -6,11 +6,13 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 
-TypeSignature* LogicalExpressionTypeSignatureStrategy::create(ASTLogicalExpressionNode* logicalExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto leftTypeSignature = strategyMap->getTypeSignatureForExpression(logicalExpression->getLeftNode(), scope);
-    auto rightTypeSignature = strategyMap->getTypeSignatureForExpression(logicalExpression->getRightNode(), scope);
-    if (leftTypeSignature->is(INVALID_TYPE_SOURCE) || rightTypeSignature->is(INVALID_TYPE_SOURCE)) {
-        return new InvalidTypeSignature();
+void LogicalExpressionTypeSignatureStrategy::assign(ASTLogicalExpressionNode* logicalExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForExpression(logicalExpression->getLeftNode(), scope);
+    strategyMap->assignTypeSignatureForExpression(logicalExpression->getRightNode(), scope);
+    if (logicalExpression->getLeftNode()->getTypeSignature()->is(INVALID_TYPE_SOURCE) ||
+        logicalExpression->getRightNode()->getTypeSignature()->is(INVALID_TYPE_SOURCE)) {
+        logicalExpression->setTypeSignature(new InvalidTypeSignature());
+        return;
     }
-    return new BoolLiteralTypeSignature();
+    logicalExpression->setTypeSignature(new BoolLiteralTypeSignature());
 }

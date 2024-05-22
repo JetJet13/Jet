@@ -10,7 +10,7 @@
 
 class ObjectAccessExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

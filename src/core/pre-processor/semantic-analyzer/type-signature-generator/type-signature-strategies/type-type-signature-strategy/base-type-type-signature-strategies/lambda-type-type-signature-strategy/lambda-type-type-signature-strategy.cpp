@@ -6,13 +6,16 @@
 #include "../../../../../../../type-signature/procedure-type-signature/procedure-type-signature.h"
 #include "../../../../../../../type-signature/lambda-type-signature/lambda-type-signature.h"
 
-TypeSignature* LambdaTypeTypeSignatureStrategy::create(ASTLambdaTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void LambdaTypeTypeSignatureStrategy::assign(ASTLambdaTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto type : node->getParameterList()->getParameters()) {
-        typeSignatures->push_back(strategyMap->getTypeSignatureForType(type, scope));
+        strategyMap->assignTypeSignatureForType(type, scope);
+        typeSignatures->push_back(type->getTypeSignature());
     }
     if (node->getReturnType()) {
-        return new LambdaTypeSignature(typeSignatures, strategyMap->getTypeSignatureForType(node->getReturnType().value(), scope));
+        strategyMap->assignTypeSignatureForType(node->getReturnType().value(), scope);
+        node->setTypeSignature(new LambdaTypeSignature(typeSignatures, node->getReturnType().value()->getTypeSignature()));
+        return;
     }
-    return new LambdaTypeSignature(typeSignatures);
+    node->setTypeSignature(new LambdaTypeSignature(typeSignatures));
 }

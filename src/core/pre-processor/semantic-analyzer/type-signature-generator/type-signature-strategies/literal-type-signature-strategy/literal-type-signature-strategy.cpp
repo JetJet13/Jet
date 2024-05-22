@@ -3,21 +3,20 @@
 //
 
 #include "literal-type-signature-strategy.h"
-#include "../../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 
-LiteralTypeSignature* LiteralTypeSignatureStrategy::create(ASTLiteralNode* literalNode, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
+void LiteralTypeSignatureStrategy::assign(ASTLiteralNode* literalNode, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
     auto literalSymbol = literalNode->getLiteral()->getToken()->getSymbol();
     if (literalSymbol->isInt()) {
-        return literalTypeSignatureLookupTable->getIntLiteralTypeSignature();
+        literalNode->setTypeSignature(literalTypeSignatureLookupTable->getIntLiteralTypeSignature());
     } else if (literalSymbol->isFloat()) {
-        return literalTypeSignatureLookupTable->getFloatLiteralTypeSignature();
+        literalNode->setTypeSignature(literalTypeSignatureLookupTable->getFloatLiteralTypeSignature());
     } else if (literalSymbol->isChar()) {
-        return literalTypeSignatureLookupTable->getCharLiteralTypeSignature();
+        literalNode->setTypeSignature(literalTypeSignatureLookupTable->getCharLiteralTypeSignature());
     } else if (literalSymbol->isString()) {
-        return literalTypeSignatureLookupTable->getStringLiteralTypeSignature();
+        literalNode->setTypeSignature(literalTypeSignatureLookupTable->getStringLiteralTypeSignature());
     } else if (literalSymbol->isBoolean()) {
-        return literalTypeSignatureLookupTable->getBoolLiteralTypeSignature();
+        literalNode->setTypeSignature(literalTypeSignatureLookupTable->getBoolLiteralTypeSignature());
     } else {
         throw std::invalid_argument("unknown literal node");
     }

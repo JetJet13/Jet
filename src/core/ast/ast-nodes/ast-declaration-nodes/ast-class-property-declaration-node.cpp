@@ -43,6 +43,14 @@ bool ASTClassPropertyDeclarationNode::isConstant() {
     return _propertyInit->isConstant();
 }
 
+void ASTClassPropertyDeclarationNode::setTypeSignature(ClassPropertyTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ClassPropertyTypeSignature* ASTClassPropertyDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTClassPropertyDeclarationNode::getNodeType() {
     return AST_CLASS_PROPERTY_DECLARATION_NODE;
 }

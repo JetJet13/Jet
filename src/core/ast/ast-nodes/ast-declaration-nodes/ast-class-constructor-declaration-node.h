@@ -12,18 +12,22 @@
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "ast-declaration-node.h"
 #include "../ast-class-nodes/ast-constructor-node.h"
+#include "../../../type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h"
 
 class ASTClassConstructorDeclarationNode : public ASTDeclarationNode {
 private:
     ASTConstructorNode* _constructor;
     ASTFunctionParameterListNode* _parameters;
     ASTFunctionBlockNode* _content;
+    ClassConstructorTypeSignature* _typeSignature = new ClassConstructorTypeSignature();
 public:
     explicit ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
     ASTConstructorNode* getConstructor();
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionBlockNode* getContent();
     unsigned long numParameters();
+    void setTypeSignature(ClassConstructorTypeSignature* typeSignature);
+    ClassConstructorTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -31,6 +31,14 @@ unsigned long ASTProcedureDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 
+void ASTProcedureDeclarationNode::setTypeSignature(ProcedureTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ProcedureTypeSignature* ASTProcedureDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTProcedureDeclarationNode::getNodeType() {
     return AST_PROCEDURE_DECLARATION_NODE;
 }

@@ -5,22 +5,23 @@
 #include "object-access-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/struct-type-signature/struct-type-signature.h"
-#include "../../../../../../type-signature/enum-type-signature/enum-type-signature.h"
 #include "../../../../../../type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 
-TypeSignature* ObjectAccessExpressionTypeSignatureStrategy::create(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto sourceTypeSignature = strategyMap->getTypeSignatureForExpression(objectAccessExpression->getSource()->getSource(), scope);
-    if (sourceTypeSignature->is(STRUCT_TYPE_SOURCE)) {
-        auto structSource = (StructTypeSignature*)sourceTypeSignature;
-        return structSource->getTypeSignatureForKey(
+void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForExpression(objectAccessExpression->getSource()->getSource(), scope);
+    if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->is(STRUCT_TYPE_SOURCE)) {
+        auto structSource = (StructTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        objectAccessExpression->setTypeSignature(structSource->getTypeSignatureForKey(
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
-        );
-    } else if (sourceTypeSignature->is(ENUM_TYPE_SOURCE)) {
-        auto enumSource = (EnumTypeSignature*)sourceTypeSignature;
-        return new EnumAccessTypeSignature(
+        ));
+        return;
+    } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->is(ENUM_TYPE_SOURCE)) {
+        auto enumSource = (EnumTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        objectAccessExpression->setTypeSignature(new EnumAccessTypeSignature(
             enumSource,
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
-        );
+        ));
+        return;
     }
-    return new InvalidTypeSignature();
+    objectAccessExpression->setTypeSignature(new InvalidTypeSignature());
 }

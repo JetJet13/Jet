@@ -20,6 +20,14 @@ ASTTypeNode* ASTFunctionParameterNode::getType() {
     return _type;
 }
 
+void ASTFunctionParameterNode::setTypeSignature(ParameterListItemTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ParameterListItemTypeSignature* ASTFunctionParameterNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTFunctionParameterNode::getNodeType() {
     return AST_FUNCTION_PARAMETER_NODE;
 }

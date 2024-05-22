@@ -20,6 +20,14 @@ ASTEnumNameNode* ASTEnumDeclarationNode::getName() {
     return _name;
 }
 
+void ASTEnumDeclarationNode::setTypeSignature(EnumTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+EnumTypeSignature* ASTEnumDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTEnumDeclarationNode::getNodeType() {
     return AST_ENUM_DECLARATION_NODE;
 }

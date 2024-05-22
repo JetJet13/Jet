@@ -6,9 +6,10 @@
 #include "../../../../../../type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.h"
 
 
-LiteralTypeSignature* EnumKeyValueTypeSignatureStrategy::create(ASTEnumKeyValueNode* node, TypeSignatureStrategyProvider* strategyMap) {
+void EnumKeyValueTypeSignatureStrategy::assign(ASTEnumKeyValueNode* node, TypeSignatureStrategyProvider* strategyMap) {
     if (node->getValue()) {
-        return strategyMap->getTypeSignatureForLiteral(node->getValue().value());
+        strategyMap->assignTypeSignatureForLiteral(node->getValue().value());
+        node->setTypeSignature(node->getValue().value()->getTypeSignature());
     }
-    return new DefaultEnumKeyValueTypeSignature();
+    node->setTypeSignature(new DefaultEnumKeyValueTypeSignature());
 }

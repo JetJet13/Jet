@@ -30,6 +30,14 @@ ASTFunctionParameterListNode* ASTFunctionParameterListNode::addParameter(ASTFunc
     return this;
 }
 
+void ASTFunctionParameterListNode::setTypeSignature(ParameterListTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ParameterListTypeSignature* ASTFunctionParameterListNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTFunctionParameterListNode::getNodeType() {
     return AST_FUNCTION_PARAMETER_LIST_NODE;
 }

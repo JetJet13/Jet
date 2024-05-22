@@ -8,13 +8,17 @@
 #include <any>
 #include "../../types/ast-node-type.h"
 #include "../ast-node.h"
+#include "../../../type-signature/literal-type-signature/literal-type-signature.h"
 
 class ASTLiteralNode : public ASTNode {
 protected:
     Lexeme* _lexeme;
+    LiteralTypeSignature* _typeSignature = new LiteralTypeSignature();
 public:
     explicit ASTLiteralNode(Lexeme* lexemeLiteral);
     Lexeme* getLiteral();
+    void setTypeSignature(LiteralTypeSignature* typeSignature);
+    LiteralTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

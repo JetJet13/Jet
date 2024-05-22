@@ -9,6 +9,7 @@
 #include "../../lexeme/lexeme.h"
 #include "../types/ast-node-type.h"
 #include "../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
+#include "../../type-signature/type-signature.h"
 
 class ASTNode {
 protected:
@@ -26,6 +27,7 @@ public:
     virtual std::string toString() = 0;
     virtual bool isSameAs(ASTNode* other);
     virtual void print();
+    virtual TypeSignature* getTypeSignature();
     virtual std::vector<ASTNode*> getChildren();
     virtual ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode);
     bool is(ASTNodeType astNodeType);

@@ -11,7 +11,7 @@
 
 class LambdaTypeTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTLambdaTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTLambdaTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LAMBDA_TYPE_TYPE_SIGNATURE_STRATEGY_H

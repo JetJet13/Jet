@@ -14,6 +14,14 @@ ASTTypeBaseNode* ASTTypeNode::getType() {
     return _type;
 }
 
+void ASTTypeNode::setTypeSignature(TypeSignature* typeSignature) {
+    _type->setTypeSignature(typeSignature);
+}
+
+TypeSignature* ASTTypeNode::getTypeSignature() {
+    return _type->getTypeSignature();
+}
+
 ASTNodeType ASTTypeNode::getNodeType() {
     return AST_TYPE_NODE;
 }

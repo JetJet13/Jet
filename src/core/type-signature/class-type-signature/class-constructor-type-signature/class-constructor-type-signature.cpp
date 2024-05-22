@@ -5,6 +5,10 @@
 #include "class-constructor-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
+ClassConstructorTypeSignature::ClassConstructorTypeSignature() {
+    _parameterList = new ParameterListTypeSignature();
+}
+
 ClassConstructorTypeSignature::ClassConstructorTypeSignature(ParameterListTypeSignature* parameterList) {
     _parameterList = parameterList;
 }

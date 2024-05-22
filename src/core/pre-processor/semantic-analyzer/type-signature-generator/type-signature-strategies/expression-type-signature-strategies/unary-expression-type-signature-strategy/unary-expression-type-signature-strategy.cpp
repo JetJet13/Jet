@@ -5,23 +5,27 @@
 #include "unary-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
-TypeSignature* UnaryExpressionTypeSignatureStrategy::create(ASTUnaryExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto expressionTypeSignature = strategyMap->getTypeSignatureForExpression(node->getExpressionNode(), scope);
-    if (expressionTypeSignature->isUnknownOrInvalidOrVoid()) {
-        return new InvalidTypeSignature();
+void UnaryExpressionTypeSignatureStrategy::assign(ASTUnaryExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForExpression(node->getExpressionNode(), scope);
+    if (node->getExpressionNode()->getTypeSignature()->isUnknownOrInvalidOrVoid()) {
+        node->setTypeSignature(new InvalidTypeSignature());
+        return;
     }
 
     auto unaryOperatorSymbol = node->getUnaryOperatorNode()->getOperator()->getToken()->getSymbol();
     if (unaryOperatorSymbol->isBang()) {
-        return new BoolLiteralTypeSignature();
+        node->setTypeSignature(new BoolLiteralTypeSignature());
+        return;
     } else if (unaryOperatorSymbol->isPlus() || unaryOperatorSymbol->isMinus()) {
-        if (expressionTypeSignature->is(INT_LITERAL_TYPE_SOURCE)) {
-            return new IntLiteralTypeSignature();
-        } else if (expressionTypeSignature->is(FLOAT_LITERAL_TYPE_SOURCE)) {
-            return new FloatLiteralTypeSignature();
+        if (node->getExpressionNode()->getTypeSignature()->is(INT_LITERAL_TYPE_SOURCE)) {
+            node->setTypeSignature(new IntLiteralTypeSignature());
+            return;
+        } else if (node->getExpressionNode()->getTypeSignature()->is(FLOAT_LITERAL_TYPE_SOURCE)) {
+            node->setTypeSignature(new FloatLiteralTypeSignature());
+            return;
         }
 
     }
 
-    return new InvalidTypeSignature();
+    node->setTypeSignature(new InvalidTypeSignature());
 }

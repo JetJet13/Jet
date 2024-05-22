@@ -6,6 +6,13 @@
 #include "../ast-function-nodes/ast-function-argument-node.h"
 #include "../ast-tuple-nodes/ast-tuple-item-node.h"
 
+void ASTExpressionNode::setTypeSignature(TypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+TypeSignature* ASTExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
 
 ASTNode * ASTExpressionNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     return this->baseTransformIfNecessary(prevNode, nextNode, mode);

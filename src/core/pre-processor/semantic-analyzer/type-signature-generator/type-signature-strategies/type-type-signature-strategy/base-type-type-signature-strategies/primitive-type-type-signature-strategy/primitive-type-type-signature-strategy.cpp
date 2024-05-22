@@ -5,19 +5,19 @@
 #include "primitive-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
-TypeSignature* PrimitiveTypeTypeSignatureStrategy::create(ASTPrimitiveTypeNode* node, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
+void PrimitiveTypeTypeSignatureStrategy::assign(ASTPrimitiveTypeNode* node, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
     auto symbol = node->getLexeme()->getToken()->getSymbol();
     if (symbol->isIntType()) {
-        return literalTypeSignatureLookupTable->getIntLiteralTypeSignature();
+        node->setTypeSignature(literalTypeSignatureLookupTable->getIntLiteralTypeSignature());
     } else if (symbol->isFloatType()) {
-        return literalTypeSignatureLookupTable->getFloatLiteralTypeSignature();
+        node->setTypeSignature(literalTypeSignatureLookupTable->getFloatLiteralTypeSignature());
     } else if (symbol->isCharType()) {
-        return literalTypeSignatureLookupTable->getCharLiteralTypeSignature();
+        node->setTypeSignature(literalTypeSignatureLookupTable->getCharLiteralTypeSignature());
     } else if (symbol->isStringType()) {
-        return literalTypeSignatureLookupTable->getStringLiteralTypeSignature();
+        node->setTypeSignature(literalTypeSignatureLookupTable->getStringLiteralTypeSignature());
     } else if (symbol->isBooleanType()) {
-        return literalTypeSignatureLookupTable->getBoolLiteralTypeSignature();
+        node->setTypeSignature(literalTypeSignatureLookupTable->getBoolLiteralTypeSignature());
     } else {
-        return new InvalidTypeSignature();
+        node->setTypeSignature(new InvalidTypeSignature());
     }
 }

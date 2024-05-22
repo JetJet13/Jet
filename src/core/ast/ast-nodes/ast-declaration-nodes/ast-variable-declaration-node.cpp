@@ -21,6 +21,14 @@ ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
 }
 
+void ASTVariableDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+TypeSignature* ASTVariableDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTVariableDeclarationNode::getNodeType() {
     return AST_VARIABLE_DECLARATION_NODE;
 }

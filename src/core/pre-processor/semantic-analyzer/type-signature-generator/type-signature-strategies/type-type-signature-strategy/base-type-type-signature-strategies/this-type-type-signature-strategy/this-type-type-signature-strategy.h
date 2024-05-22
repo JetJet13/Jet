@@ -11,7 +11,7 @@
 
 class ThisTypeTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTThisTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable);
+    void assign(ASTThisTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable);
 };
 
 #endif //JETLANG_THIS_TYPE_TYPE_SIGNATURE_STRATEGY_H

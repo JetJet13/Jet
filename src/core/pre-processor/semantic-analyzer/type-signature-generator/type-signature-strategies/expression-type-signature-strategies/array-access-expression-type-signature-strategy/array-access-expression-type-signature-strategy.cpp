@@ -6,11 +6,12 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 
-TypeSignature* ArrayAccessExpressionTypeSignatureStrategy::create(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto sourceTypeSignature = strategyMap->getTypeSignatureForExpression(arrayAccessExpression->getSource(), scope);
-    if (!sourceTypeSignature->is(ARRAY_TYPE_SOURCE)) {
-        return new InvalidTypeSignature();
+void ArrayAccessExpressionTypeSignatureStrategy::assign(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForExpression(arrayAccessExpression->getSource(), scope);
+    if (!arrayAccessExpression->getSource()->getTypeSignature()->is(ARRAY_TYPE_SOURCE)) {
+        arrayAccessExpression->setTypeSignature(new InvalidTypeSignature());
+        return;
     }
 
-    return ((ArrayTypeSignature*)sourceTypeSignature)->getElementType();
+    arrayAccessExpression->setTypeSignature(((ArrayTypeSignature*)arrayAccessExpression->getSource()->getTypeSignature())->getElementType());
 }

@@ -5,16 +5,17 @@
 #include "enum-type-signature-strategy.h"
 #include "../../../../../type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.h"
 
-EnumTypeSignature* EnumTypeSignatureStrategy::create(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureStrategyProvider* strategyMap) {
+void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureStrategyProvider* strategyMap) {
     if (enumDeclaration->getValues()->getParameters().empty()) {
-        return new EnumTypeSignature(new DefaultEnumKeyValueTypeSignature());
+        enumDeclaration->setTypeSignature(new EnumTypeSignature(new DefaultEnumKeyValueTypeSignature()));
+        return;
     }
 
-    auto firstEnumValueTypeSignature = strategyMap->getTypeSignatureForEnumKeyValue(enumDeclaration->getValues()->getParameters()[0]);
-    auto enumTypeSignature = new EnumTypeSignature(firstEnumValueTypeSignature);
+    auto enumTypeSignature = new EnumTypeSignature();
     for (auto enumKeyValue : enumDeclaration->getValues()->getParameters()) {
+        strategyMap->assignTypeSignatureForEnumKeyValue(enumKeyValue);
         enumTypeSignature->addKey(enumKeyValue->getKey()->getId());
     }
 
-    return enumTypeSignature;
+    enumDeclaration->setTypeSignature(enumTypeSignature);
 }

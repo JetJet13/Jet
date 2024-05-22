@@ -28,6 +28,14 @@ std::optional<ASTLiteralNode*> ASTEnumKeyValueNode::getValue() {
     return _value;
 }
 
+void ASTEnumKeyValueNode::setTypeSignature(LiteralTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+LiteralTypeSignature* ASTEnumKeyValueNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTEnumKeyValueNode::getNodeType() {
     return AST_ENUM_KEY_VALUE_NODE;
 }

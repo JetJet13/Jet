@@ -36,6 +36,14 @@ unsigned long ASTFunctionDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 
+void ASTFunctionDeclarationNode::setTypeSignature(FunctionTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+FunctionTypeSignature* ASTFunctionDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTFunctionDeclarationNode::getNodeType() {
     return AST_FUNCTION_DECLARATION_NODE;
 }

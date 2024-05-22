@@ -12,6 +12,14 @@ Lexeme* ASTLiteralNode::getLiteral() {
     return _lexeme;
 }
 
+void ASTLiteralNode::setTypeSignature(LiteralTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+LiteralTypeSignature* ASTLiteralNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTLiteralNode::getNodeType() {
     return AST_LITERAL_NODE;
 }

@@ -11,15 +11,19 @@
 #include "../../types/ast-node-type.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
+#include "../../../type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.h"
 
 class ASTFunctionParameterNode : public ASTNode {
 private:
     ASTIdentifierExpressionNode* _identifier;
     ASTTypeNode* _type;
+    ParameterListItemTypeSignature* _typeSignature = new ParameterListItemTypeSignature("_", new UnknownTypeSignature());
 public:
     ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeNode* type);
     ASTIdentifierExpressionNode* getIdentifier();
     ASTTypeNode* getType();
+    void setTypeSignature(ParameterListItemTypeSignature* typeSignature);
+    ParameterListItemTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -7,15 +7,17 @@
 #include "../../../../../../type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.h"
 #include "../../../../../../type-signature/void-type-signature/void-type-signature.h"
 
-TypeSignature* ClassMethodInvocationExpressionTypeSignatureStrategy::create(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
+void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto classMethodTypeSignature = typeSignatureLookupTable->find(classMethodInvocationExpression->getName()->getId());
     if (!classMethodTypeSignature->is(CLASS_METHOD_TYPE_SOURCE)) {
-        return new InvalidTypeSignature();
+        classMethodInvocationExpression->setTypeSignature(new InvalidTypeSignature());
+        return;
     }
 
     auto classMethodReturnType = ((ClassMethodTypeSignature*)classMethodTypeSignature)->getReturnType();
     if (classMethodReturnType) {
-        return classMethodReturnType.value();
+        classMethodInvocationExpression->setTypeSignature(classMethodReturnType.value());
+        return;
     }
-    return new VoidTypeSignature();
+    classMethodInvocationExpression->setTypeSignature(new VoidTypeSignature());
 }

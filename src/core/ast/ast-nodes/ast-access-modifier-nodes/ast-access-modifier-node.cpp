@@ -3,3 +3,11 @@
 //
 
 #include "ast-access-modifier-node.h"
+
+void ASTAccessModifierNode::setTypeSignature(AccessModifierTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+AccessModifierTypeSignature* ASTAccessModifierNode::getTypeSignature() {
+    return _typeSignature;
+}

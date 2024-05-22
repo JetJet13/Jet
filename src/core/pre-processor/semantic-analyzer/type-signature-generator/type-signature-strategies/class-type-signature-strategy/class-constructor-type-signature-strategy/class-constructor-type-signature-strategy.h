@@ -10,7 +10,7 @@
 
 class ClassConstructorTypeSignatureStrategy {
 public:
-    ClassConstructorTypeSignature* create(ASTClassConstructorDeclarationNode* classConstructorDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTClassConstructorDeclarationNode* classConstructorDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_CONSTRUCTOR_TYPE_SIGNATURE_STRATEGY_H

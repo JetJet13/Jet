@@ -4,6 +4,6 @@
 
 #include "identifier-expression-type-signature-strategy.h"
 
-TypeSignature* IdentifierExpressionTypeSignatureStrategy::create(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
-    return typeSignatureLookupTable->find(identifierExpression->getId());
+void IdentifierExpressionTypeSignatureStrategy::assign(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
+    identifierExpression->setTypeSignature(typeSignatureLookupTable->find(identifierExpression->getId()));
 }

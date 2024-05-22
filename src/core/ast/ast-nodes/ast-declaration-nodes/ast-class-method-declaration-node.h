@@ -16,6 +16,7 @@
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 #include "../ast-class-nodes/ast-class-method-definition-node.h"
 #include "ast-declaration-node.h"
+#include "../../../type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.h"
 
 class ASTClassMethodDeclarationNode : public ASTDeclarationNode {
 private:
@@ -23,6 +24,7 @@ private:
     ASTFunctionParameterListNode* _parameters;
     std::optional<ASTTypeNode*> _returnType;
     ASTFunctionBlockNode* _content;
+    ClassMethodTypeSignature* _typeSignature = new ClassMethodTypeSignature();
 public:
     explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
     ASTClassMethodDefinitionNode* getClassMethodDefinition();
@@ -30,6 +32,8 @@ public:
     std::optional<ASTTypeNode*> getReturnType();
     ASTFunctionBlockNode* getContent();
     unsigned long numParameters();
+    void setTypeSignature(ClassMethodTypeSignature* typeSignature);
+    ClassMethodTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

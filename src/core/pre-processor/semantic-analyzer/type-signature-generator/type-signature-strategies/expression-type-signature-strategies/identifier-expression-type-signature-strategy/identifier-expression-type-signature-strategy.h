@@ -11,7 +11,7 @@
 
 class IdentifierExpressionTypeSignatureStrategy {
 public:
-    TypeSignature* create(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureLookupTable* typeSignatureLookupTable);
+    void assign(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureLookupTable* typeSignatureLookupTable);
 };
 
 #endif //JETLANG_IDENTIFIER_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

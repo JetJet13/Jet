@@ -869,6 +869,12 @@ add_library(jet-core
         pre-processor/syntax-analyzer/ast-literal-node-value-assignor/ast-literal-node-value-assignor.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/policy-provider.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/policy-provider.h
+        pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.h
+        pre-processor/semantic-analyzer/types/ast-node-type-signature-result.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-result.h
 
 )
 

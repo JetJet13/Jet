@@ -4,6 +4,7 @@
 
 #include "function-return-expression-type-signature-strategy.h"
 
-TypeSignature* FunctionReturnExpressionTypeSignatureStrategy::create(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    return strategyMap->getTypeSignatureForExpression(functionReturnExpression->getExpression(), scope);
+void FunctionReturnExpressionTypeSignatureStrategy::assign(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForExpression(functionReturnExpression->getExpression(), scope);
+    functionReturnExpression->setTypeSignature(functionReturnExpression->getExpression()->getTypeSignature());
 }

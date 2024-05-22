@@ -3,10 +3,10 @@
 //
 
 #include "procedure-type-signature-strategy.h"
-#include "../../../../../type-signature/procedure-type-signature/procedure-type-signature.h"
 
-ProcedureTypeSignature* ProcedureTypeSignatureStrategy::create(ASTProcedureDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    return new ProcedureTypeSignature(
-            strategyMap->getTypeSignatureForParameterList(functionDeclaration->getParameters(), scope)
-    );
+void ProcedureTypeSignatureStrategy::assign(ASTProcedureDeclarationNode* procedureDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForParameterList(procedureDeclaration->getParameters(), scope);
+    procedureDeclaration->setTypeSignature(new ProcedureTypeSignature(
+            procedureDeclaration->getParameters()->getTypeSignature()
+    ));
 }

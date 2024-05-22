@@ -10,15 +10,19 @@
 #include "../ast-class-nodes/ast-class-name-node.h"
 #include "ast-class-property-declaration-node.h"
 #include "../ast-class-nodes/ast-class-block-node.h"
+#include "../../../type-signature/class-type-signature/class-type-signature.h"
 
 class ASTClassDeclarationNode : public ASTDeclarationNode {
 private:
     ASTClassNameNode* _name;
     ASTClassBlockNode* _block;
+    ClassTypeSignature* _typeSignature = new ClassTypeSignature();
 public:
     explicit ASTClassDeclarationNode(ASTClassNameNode* name, ASTClassBlockNode* block);
     ASTClassBlockNode* getBlock();
     ASTClassNameNode* getName();
+    void setTypeSignature(ClassTypeSignature* typeSignature);
+    ClassTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

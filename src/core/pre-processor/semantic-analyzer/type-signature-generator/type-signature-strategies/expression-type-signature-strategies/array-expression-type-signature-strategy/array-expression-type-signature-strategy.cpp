@@ -6,17 +6,16 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 
-TypeSignature* ArrayExpressionTypeSignatureStrategy::create(ASTArrayExpressionNode* arrayExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (arrayExpression->size() == 0) {
-        return new ArrayTypeSignature(new InvalidTypeSignature());
+        arrayExpression->setTypeSignature(new ArrayTypeSignature(new InvalidTypeSignature()));
+        return;
     }
 
-    TypeSignature* lastElementTypeSignature = strategyMap->getTypeSignatureForExpression(arrayExpression->getElements()->at(0), scope);
     for (auto element : *arrayExpression->getElements()) {
-        auto elementTypeSignature = strategyMap->getTypeSignatureForExpression(element, scope);
-        if (!lastElementTypeSignature->isEqualTo(elementTypeSignature)) {
-            return new InvalidTypeSignature();
-        }
+        strategyMap->assignTypeSignatureForExpression(element, scope);
     }
-    return new ArrayTypeSignature(lastElementTypeSignature);
+
+
+    arrayExpression->setTypeSignature(new ArrayTypeSignature(arrayExpression->getElements()->at(0)->getTypeSignature()));
 }

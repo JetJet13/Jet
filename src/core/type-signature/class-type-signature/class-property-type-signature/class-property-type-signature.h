@@ -18,6 +18,7 @@ private:
     bool _isConst;
     TypeSignature* _type;
 public:
+    ClassPropertyTypeSignature();
     ClassPropertyTypeSignature(AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst);
     bool isStatic();
     bool isConst();

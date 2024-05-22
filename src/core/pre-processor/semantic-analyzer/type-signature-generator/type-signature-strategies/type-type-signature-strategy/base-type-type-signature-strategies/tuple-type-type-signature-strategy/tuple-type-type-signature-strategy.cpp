@@ -5,10 +5,11 @@
 #include "tuple-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
-TypeSignature* TupleTypeTypeSignatureStrategy::create(ASTTupleTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void TupleTypeTypeSignatureStrategy::assign(ASTTupleTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto type : node->getParameterList()->getParameters()) {
-        typeSignatures->push_back(strategyMap->getTypeSignatureForType(type, scope));
+        strategyMap->assignTypeSignatureForType(type, scope);
+        typeSignatures->push_back(type->getTypeSignature());
     }
-    return new TupleTypeSignature(typeSignatures);
+    node->setTypeSignature(new TupleTypeSignature(typeSignatures));
 }

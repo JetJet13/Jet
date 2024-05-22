@@ -7,11 +7,12 @@
 #include "../../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 
-TypeSignature* CustomTypeTypeSignatureStrategy::create(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
+void CustomTypeTypeSignatureStrategy::assign(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto customTypeSignature = typeSignatureLookupTable->find(node->getId());
     if (customTypeSignature->is(CLASS_TYPE_SOURCE)) {
-        return new ClassInstanceTypeSignature((ClassTypeSignature*)customTypeSignature);
+        node->setTypeSignature(new ClassInstanceTypeSignature((ClassTypeSignature*)customTypeSignature));
+        return;
     }
 
-    return customTypeSignature;
+    node->setTypeSignature(customTypeSignature);
 }

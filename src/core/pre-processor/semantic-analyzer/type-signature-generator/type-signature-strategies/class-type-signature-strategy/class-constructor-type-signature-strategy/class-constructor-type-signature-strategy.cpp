@@ -3,10 +3,10 @@
 //
 
 #include "class-constructor-type-signature-strategy.h"
-#include "../../../../../../type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h"
 
-ClassConstructorTypeSignature* ClassConstructorTypeSignatureStrategy::create(ASTClassConstructorDeclarationNode* classConstructorDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    return new ClassConstructorTypeSignature(
-        strategyMap->getTypeSignatureForParameterList(classConstructorDeclaration->getParameters(), scope)
-    );
+void ClassConstructorTypeSignatureStrategy::assign(ASTClassConstructorDeclarationNode* classConstructorDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForParameterList(classConstructorDeclaration->getParameters(), scope);
+    classConstructorDeclaration->setTypeSignature(new ClassConstructorTypeSignature(
+        classConstructorDeclaration->getParameters()->getTypeSignature()
+    ));
 }

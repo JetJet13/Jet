@@ -17,7 +17,7 @@ private:
     std::optional<BinaryExpressionTypeCombination*> findCombination(ASTBinaryOperatorNode* binaryOperatorNode);
 public:
     BinaryExpressionTypeSignatureStrategy();
-    TypeSignature* create(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope,  TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope,  TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

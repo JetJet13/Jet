@@ -4,7 +4,6 @@
 
 #include "class-property-declaration-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.h"
-#include "../../../../../../shared/utils/logger/logger.h"
 
 ASTNode* ClassPropertyDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() == 2) {

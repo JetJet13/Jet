@@ -7,7 +7,7 @@
 
 #include "ast-expression-node.h"
 
-class ASTLambdaReturnExpressionNode : public ASTNode {
+class ASTLambdaReturnExpressionNode : public ASTExpressionNode {
 private:
     ASTExpressionNode* _returnExpression;
 public:

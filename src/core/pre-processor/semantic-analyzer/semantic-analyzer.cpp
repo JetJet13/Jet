@@ -9,15 +9,17 @@
 
 SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph) {
     _dependencyGraph = dependencyGraph;
+    _typeChecker = TypeChecker();
     _typeSignatureGenerator = new TypeSignatureGenerator(
         new TypeSignatureStrategyProvider()
     );
 }
 
-void SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
+std::vector<TypeCheckerResult> SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
+    auto typeCheckerResults = std::vector<TypeCheckerResult>();
     this->generateInitialTypeSignaturesFor(fileNode, fileScope);
-    this->generateDeclarationTypeSignaturesFor(fileNode, fileScope);
-    this->runTypeCheckerOn(fileNode, fileScope);
+    this->generateDeclarationTypeSignaturesFor(fileNode, fileScope, &typeCheckerResults);
+    return typeCheckerResults;
 }
 
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
@@ -32,26 +34,17 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, T
     }
 }
 
-void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, std::vector<TypeCheckerResult>* typeCheckerResults) {
     for (auto node : fileNode->getBody()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(node)) {
-            auto declarationTypeSignature = _typeSignatureGenerator->generateTypeSignatureForDeclaration((ASTDeclarationNode*)node, scope);
+            auto declarationNode = (ASTDeclarationNode*)node;
+            _typeSignatureGenerator->assignTypeSignatureForDeclaration(declarationNode, fileScope);
             if (ASTNodeUtils::isTypeDeclarationNode(node)) {
-                scope->find(node->getId())->copyFrom(declarationTypeSignature);
+                fileScope->find(node->getId())->copyFrom(declarationNode->getTypeSignature());
             } else {
-                scope->insert(node->getId(), declarationTypeSignature);
+                fileScope->insert(node->getId(), declarationNode->getTypeSignature());
             }
+            typeCheckerResults->push_back(_typeChecker.check(node, fileScope));
         }
-    }
-}
-
-void SemanticAnalyzer::runTypeCheckerOn(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
-    // build type checker and execute it here.
-    auto traverser = ASTTraverser();
-    traverser.init(fileNode);
-    auto node = traverser.next();
-    while (node) {
-        Logger::log("type-checker---", node.value()->toString());
-        node = traverser.next();
     }
 }

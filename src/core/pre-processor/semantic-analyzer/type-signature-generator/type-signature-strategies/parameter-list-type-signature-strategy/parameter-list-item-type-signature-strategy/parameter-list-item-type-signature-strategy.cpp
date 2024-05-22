@@ -4,9 +4,10 @@
 
 #include "parameter-list-item-type-signature-strategy.h"
 
-ParameterListItemTypeSignature* ParameterListItemTypeSignatureStrategy::create(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    return new ParameterListItemTypeSignature(
+void ParameterListItemTypeSignatureStrategy::assign(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForType(node->getType(), scope);
+    node->setTypeSignature(new ParameterListItemTypeSignature(
         node->getIdentifier()->getIdentifierNode()->getId(),
-        strategyMap->getTypeSignatureForType(node->getType(), scope)
-    );
+        node->getType()->getTypeSignature()
+    ));
 }

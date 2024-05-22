@@ -3,14 +3,14 @@
 //
 
 #include "parameter-list-type-singature-strategy.h"
-#include "../../../../../type-signature/parameter-list-type-signature/parameter-list-type-signature.h"
 
-ParameterListTypeSignature* ParameterListTypeSignatureStrategy::create(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ParameterListTypeSignatureStrategy::assign(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto parameters = std::vector<ParameterListItemTypeSignature*>();
 
     for (auto parameterItem : node->getParameters()) {
-        parameters.push_back(strategyMap->getTypeSignatureForParameter(parameterItem, scope));
+        strategyMap->assignTypeSignatureForParameter(parameterItem, scope);
+        parameters.push_back(parameterItem->getTypeSignature());
     }
 
-    return new ParameterListTypeSignature(parameters);
+    node->setTypeSignature(new ParameterListTypeSignature(parameters));
 }

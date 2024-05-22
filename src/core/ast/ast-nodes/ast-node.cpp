@@ -6,6 +6,7 @@
 
 #include <utility>
 #include "../../../shared/utils/logger/logger.h"
+#include "../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 std::string ASTNode::getId() {
     return _id;
@@ -41,6 +42,10 @@ bool ASTNode::isSameNodeTypeAs(ASTNode* other) {
 
 void ASTNode::print() {
     Logger::log(this->toString());
+}
+
+TypeSignature* ASTNode::getTypeSignature() {
+    return new UnknownTypeSignature();
 }
 
 std::vector<ASTNode*> ASTNode::getChildren() {

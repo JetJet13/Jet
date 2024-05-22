@@ -4,16 +4,19 @@
 
 #include "class-method-type-signature-strategy.h"
 
-ClassMethodTypeSignature* ClassMethodTypeSignatureStrategy::create(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassMethodTypeSignatureStrategy::assign(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     std::optional<TypeSignature*> returnType = {};
     if (classMethodDeclaration->getReturnType()) {
-        returnType = strategyMap->getTypeSignatureForType(classMethodDeclaration->getReturnType().value(), scope);
+        strategyMap->assignTypeSignatureForType(classMethodDeclaration->getReturnType().value(), scope);
+        returnType = classMethodDeclaration->getReturnType().value()->getTypeSignature();
     }
 
-    return new ClassMethodTypeSignature(
-            strategyMap->getTypeSignatureForAccessModifier(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier()),
-            strategyMap->getTypeSignatureForParameterList(classMethodDeclaration->getParameters(), scope),
+    strategyMap->assignTypeSignatureForAccessModifier(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier());
+    strategyMap->assignTypeSignatureForParameterList(classMethodDeclaration->getParameters(), scope);
+    classMethodDeclaration->setTypeSignature(new ClassMethodTypeSignature(
+            classMethodDeclaration->getClassMethodDefinition()->getAccessModifier()->getTypeSignature(),
+            classMethodDeclaration->getParameters()->getTypeSignature(),
             classMethodDeclaration->getClassMethodDefinition()->isStatic(),
             returnType
-    );
+    ));
 }

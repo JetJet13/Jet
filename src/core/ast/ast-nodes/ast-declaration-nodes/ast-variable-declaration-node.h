@@ -13,12 +13,16 @@
 #include "ast-declaration-node.h"
 
 class ASTVariableDeclarationNode : public ASTDeclarationNode {
+private:
     ASTVariableInitNode* _varInit;
     ASTExpressionNode* _initializer;
+    TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
     explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer);
     ASTVariableInitNode* getVarInitNode();
     ASTExpressionNode* getInitializerNode();
+    void setTypeSignature(TypeSignature* typeSignature);
+    TypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

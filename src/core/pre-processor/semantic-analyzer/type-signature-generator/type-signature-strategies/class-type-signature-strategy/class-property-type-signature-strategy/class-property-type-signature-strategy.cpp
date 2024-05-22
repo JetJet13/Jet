@@ -5,19 +5,26 @@
 #include "class-property-type-signature-strategy.h"
 #include "../../../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
+void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {;
+    classPropertyDeclaration->getPropertyInit();
 
-ClassPropertyTypeSignature* ClassPropertyTypeSignatureStrategy::create(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {;
     TypeSignature* classPropertyType = new UnknownTypeSignature();
-    if (classPropertyDeclaration->getType()) {
-        classPropertyType = strategyMap->getTypeSignatureForType(classPropertyDeclaration->getType().value(), scope);
-    } else if (classPropertyDeclaration->getInitializer()) {
-        classPropertyType = strategyMap->getTypeSignatureForExpression(classPropertyDeclaration->getInitializer().value(), scope);
+    if (classPropertyDeclaration->getInitializer()) {
+        strategyMap->assignTypeSignatureForExpression(classPropertyDeclaration->getInitializer().value(), scope);
+        classPropertyType = classPropertyDeclaration->getInitializer().value()->getTypeSignature();
     }
 
-    return new ClassPropertyTypeSignature(
-        strategyMap->getTypeSignatureForAccessModifier(classPropertyDeclaration->getAccessModifier()),
+    if (classPropertyDeclaration->getType()) {
+        strategyMap->assignTypeSignatureForType(classPropertyDeclaration->getType().value(), scope);
+        classPropertyType = classPropertyDeclaration->getType().value()->getTypeSignature();
+    }
+
+
+    strategyMap->assignTypeSignatureForAccessModifier(classPropertyDeclaration->getAccessModifier());
+    classPropertyDeclaration->setTypeSignature(new ClassPropertyTypeSignature(
+        classPropertyDeclaration->getAccessModifier()->getTypeSignature(),
         classPropertyType,
         classPropertyDeclaration->isStatic(),
         classPropertyDeclaration->isConstant()
-    );
+    ));
 }

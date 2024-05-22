@@ -3,11 +3,13 @@
 //
 
 #include "function-type-signature-strategy.h"
-#include "../../../../../type-signature/function-type-signature/function-type-signature.h"
 
-FunctionTypeSignature* FunctionTypeSignatureStrategy::create(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    return new FunctionTypeSignature(
-            strategyMap->getTypeSignatureForParameterList(functionDeclaration->getParameters(), scope),
-            strategyMap->getTypeSignatureForType(functionDeclaration->getReturnType(), scope)
-    );
+void FunctionTypeSignatureStrategy::assign(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureForParameterList(functionDeclaration->getParameters(), scope);
+    strategyMap->assignTypeSignatureForType(functionDeclaration->getReturnType(), scope);
+
+    functionDeclaration->setTypeSignature(new FunctionTypeSignature(
+            functionDeclaration->getParameters()->getTypeSignature(),
+            functionDeclaration->getReturnType()->getTypeSignature()
+    ));
 }

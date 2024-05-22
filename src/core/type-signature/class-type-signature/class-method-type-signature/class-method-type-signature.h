@@ -18,6 +18,7 @@ private:
     ParameterListTypeSignature* _parameterList;
     std::optional<TypeSignature*> _returnType;
 public:
+    ClassMethodTypeSignature();
     ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType = {});
     bool isStatic();
     AccessModifierTypeSignature* getAccessModifier();

@@ -4,6 +4,14 @@
 
 #include "class-property-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../unknown-type-signature/unknown-type-signature.h"
+
+ClassPropertyTypeSignature::ClassPropertyTypeSignature() {
+    _accessModifier = new AccessModifierTypeSignature();
+    _isStatic = false;
+    _isConst = false;
+    _type = new UnknownTypeSignature();
+}
 
 ClassPropertyTypeSignature::ClassPropertyTypeSignature(AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst) {
     _accessModifier = accessModifier;

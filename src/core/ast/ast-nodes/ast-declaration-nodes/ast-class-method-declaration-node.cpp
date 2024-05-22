@@ -39,6 +39,14 @@ unsigned long ASTClassMethodDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 
+void ASTClassMethodDeclarationNode::setTypeSignature(ClassMethodTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ClassMethodTypeSignature* ASTClassMethodDeclarationNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTClassMethodDeclarationNode::getNodeType() {
     return AST_CLASS_METHOD_DECLARATION_NODE;
 }

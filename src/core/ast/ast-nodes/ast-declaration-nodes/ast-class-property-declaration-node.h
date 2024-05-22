@@ -14,10 +14,13 @@
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 #include "../ast-class-nodes/ast-class-property-init-node.h"
 #include "ast-declaration-node.h"
+#include "../../../type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.h"
 
 class ASTClassPropertyDeclarationNode : public ASTDeclarationNode {
+private:
     ASTClassPropertyInitNode* _propertyInit;
     std::optional<ASTExpressionNode*> _initializer;
+    ClassPropertyTypeSignature* _typeSignature = new ClassPropertyTypeSignature();
 public:
     explicit ASTClassPropertyDeclarationNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer = {});
     ASTClassPropertyInitNode* getPropertyInit();
@@ -27,6 +30,8 @@ public:
     std::optional<ASTExpressionNode*> getInitializer();
     bool isStatic();
     bool isConstant();
+    void setTypeSignature(ClassPropertyTypeSignature* typeSignature);
+    ClassPropertyTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

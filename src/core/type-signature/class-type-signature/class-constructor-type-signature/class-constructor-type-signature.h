@@ -13,6 +13,7 @@ class ClassConstructorTypeSignature : public TypeSignature {
 private:
     ParameterListTypeSignature* _parameterList;
 public:
+    explicit ClassConstructorTypeSignature();
     explicit ClassConstructorTypeSignature(ParameterListTypeSignature* parameterList);
     ParameterListTypeSignature* getParameterList();
     std::string toString() override;

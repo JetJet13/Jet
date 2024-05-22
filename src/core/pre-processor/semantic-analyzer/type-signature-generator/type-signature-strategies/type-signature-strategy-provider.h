@@ -35,18 +35,18 @@ private:
     TypeSignatureStrategyMap* _typeSignatureStrategyMap;
 public:
     TypeSignatureStrategyProvider();
-    TypeSignature*  getTypeSignatureForExpression(ASTExpressionNode* node, TypeSignatureLookupTable* scope);
-    TypeSignature*  getTypeSignatureForType(ASTTypeNode* node, TypeSignatureLookupTable* scope);
-    TypeSignature*  getTypeSignatureForBaseType(ASTTypeBaseNode* node, TypeSignatureLookupTable* scope);
-    ClassPropertyTypeSignature*  getTypeSignatureForClassProperty(ASTClassPropertyDeclarationNode* node, TypeSignatureLookupTable* scope);
-    ClassConstructorTypeSignature*  getTypeSignatureForClassConstructor(ASTClassConstructorDeclarationNode* node, TypeSignatureLookupTable* scope);
-    ClassMethodTypeSignature*  getTypeSignatureForClassMethod(ASTClassMethodDeclarationNode* node, TypeSignatureLookupTable* scope);
-    LiteralTypeSignature*  getTypeSignatureForEnumKeyValue(ASTEnumKeyValueNode* node);
-    ParameterListItemTypeSignature*  getTypeSignatureForParameter(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope);
-    ParameterListTypeSignature*  getTypeSignatureForParameterList(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope);
-    LiteralTypeSignature*  getTypeSignatureForLiteral(ASTLiteralNode* node);
-    AccessModifierTypeSignature*  getTypeSignatureForAccessModifier(ASTAccessModifierNode* node);
-    TypeSignature*  getTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForExpression(ASTExpressionNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForType(ASTTypeNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForBaseType(ASTTypeBaseNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForClassProperty(ASTClassPropertyDeclarationNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForClassConstructor(ASTClassConstructorDeclarationNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForClassMethod(ASTClassMethodDeclarationNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForEnumKeyValue(ASTEnumKeyValueNode* node);
+    void assignTypeSignatureForParameter(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForParameterList(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForLiteral(ASTLiteralNode* node);
+    void assignTypeSignatureForAccessModifier(ASTAccessModifierNode* node);
+    void assignTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope);
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

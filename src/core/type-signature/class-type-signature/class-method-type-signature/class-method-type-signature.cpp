@@ -5,6 +5,13 @@
 #include "class-method-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
+ClassMethodTypeSignature::ClassMethodTypeSignature() {
+    _accessModifier = new AccessModifierTypeSignature();
+    _parameterList = new ParameterListTypeSignature();
+    _isStatic = false;
+    _returnType = {};
+}
+
 ClassMethodTypeSignature::ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType) {
     _accessModifier = accessModifier;
     _parameterList = parameterList;

@@ -9,11 +9,7 @@
 #include "../../../ast/ast-nodes/ast-node.h"
 #include "../type-signature-lookup-table/type-signature-lookup-table.h"
 #include "../ast-traverser/ast-traverser.h"
-
-struct TypeCheckerResult {
-    bool ok;
-    std::vector<std::string> errors;
-};
+#include "types/type-checker-result.h"
 
 class TypeChecker {
 private:
