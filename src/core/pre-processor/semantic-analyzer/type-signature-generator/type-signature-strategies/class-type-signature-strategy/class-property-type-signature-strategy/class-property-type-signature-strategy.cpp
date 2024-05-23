@@ -3,11 +3,8 @@
 //
 
 #include "class-property-type-signature-strategy.h"
-#include "../../../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {;
-    classPropertyDeclaration->getPropertyInit();
-
     TypeSignature* classPropertyType = new UnknownTypeSignature();
     if (classPropertyDeclaration->getInitializer()) {
         strategyMap->assignTypeSignatureForExpression(classPropertyDeclaration->getInitializer().value(), scope);

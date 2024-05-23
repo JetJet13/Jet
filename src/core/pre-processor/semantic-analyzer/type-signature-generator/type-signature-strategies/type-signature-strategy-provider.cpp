@@ -43,7 +43,6 @@
 #include "procedure-type-signature-strategy/procedure-type-signature-strategy.h"
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
-#include "../../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
     _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
@@ -257,34 +256,42 @@ void TypeSignatureStrategyProvider::assignTypeSignatureForDeclaration(ASTDeclara
             this->_typeSignatureStrategyMap
                     ->getEnumTypeSignatureStrategy()
                     ->assign((ASTEnumDeclarationNode*)node, this);
+            break;
         case AST_VARIABLE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getVariableTypeSignatureStrategy()
                     ->assign((ASTVariableDeclarationNode*)node, scope, this);
+            break;
         case AST_CLASS_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassTypeSignatureStrategy()
                     ->assign((ASTClassDeclarationNode*)node, scope, this);
+            break;
         case AST_CLASS_PROPERTY_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassPropertyTypeSignatureStrategy()
                     ->assign((ASTClassPropertyDeclarationNode*)node, scope, this);
+            break;
         case AST_CLASS_CONSTRUCTOR_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassConstructorTypeSignatureStrategy()
                     ->assign((ASTClassConstructorDeclarationNode*)node, scope, this);
+            break;
         case AST_CLASS_METHOD_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassMethodTypeSignatureStrategy()
                     ->assign((ASTClassMethodDeclarationNode*)node, scope, this);
+            break;
         case AST_FUNCTION_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getFunctionTypeSignatureStrategy()
                     ->assign((ASTFunctionDeclarationNode*)node, scope, this);
+            break;
         case AST_PROCEDURE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getProcedureTypeSignatureStrategy()
                     ->assign((ASTProcedureDeclarationNode*)node, scope, this);
+            break;
         default:
             throw std::logic_error("type signature strategy not setup for node: " + node->toString());
     }

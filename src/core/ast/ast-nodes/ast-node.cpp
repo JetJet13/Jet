@@ -45,7 +45,7 @@ void ASTNode::print() {
 }
 
 TypeSignature* ASTNode::getTypeSignature() {
-    return new UnknownTypeSignature();
+    throw std::logic_error("get type-signature not implemented");
 }
 
 std::vector<ASTNode*> ASTNode::getChildren() {

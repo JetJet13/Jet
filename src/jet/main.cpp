@@ -9,6 +9,7 @@
 #include "../shared/types/exit-status.enum.h"
 #include "../core/pre-processor/lexical-analyzer/lexical-analyzer.h"
 #include "../core/pre-processor/syntax-analyzer/syntax-analyzer.h"
+#include "../core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 
 
 int main (int argc, const char* argv[]) {
@@ -22,7 +23,9 @@ int main (int argc, const char* argv[]) {
         auto reservedKeywords = new ReservedKeywords();
         auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
         auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-        syntaxAnalyzer.analyze(filePath);
+        auto fileNode = syntaxAnalyzer.analyze(filePath);
+        auto semanticAnalyzer = SemanticAnalyzer(new DependencyGraph());
+        semanticAnalyzer.analyze(fileNode, new TypeSignatureLookupTable());
 
     } else {
         Logger::log("too many arguments..exiting");
