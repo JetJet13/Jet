@@ -11,10 +11,14 @@
 #include "ast-variable-type-node.h"
 
 class ASTVariableAssignmentNode : public ASTNode {
+private:
     ASTIdentifierNode* _identifier;
+    TypeSignature* _typeSignature;
 public:
     explicit ASTVariableAssignmentNode(ASTIdentifierNode* astIdentifierNode);
     ASTIdentifierNode* getIdentifierNode();
+    void setTypeSignature(TypeSignature* typeSignature);
+    TypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -10,7 +10,7 @@
 #include "ast-control-flow-condition-node.h"
 #include "ast-control-flow-block-node.h"
 
-class ASTIfBlockNode : public ASTNode {
+class ASTIfBlockNode : public ASTScopedBlockNode {
 private:
     ASTControlFlowConditionNode* _condition;
     ASTControlFlowBlockNode* _block;

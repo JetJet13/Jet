@@ -11,9 +11,12 @@
 class ASTForVariableNode : public ASTNode {
 private:
     ASTIdentifierExpressionNode* _variable;
+    TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
     ASTForVariableNode(ASTIdentifierExpressionNode* variable);
     ASTIdentifierExpressionNode* getVariable();
+    void setTypeSignature(TypeSignature* typeSignature);
+    TypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

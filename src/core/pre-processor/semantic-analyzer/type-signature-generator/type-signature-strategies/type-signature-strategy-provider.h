@@ -27,6 +27,7 @@
 #include "../../../../type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.h"
 #include "../../../../type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.h"
 #include "../../type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.h"
+#include "../../../../ast/ast-nodes/ast-statement-nodes/ast-statement-node.h"
 
 
 class TypeSignatureStrategyProvider {
@@ -47,6 +48,9 @@ public:
     void assignTypeSignatureForLiteral(ASTLiteralNode* node);
     void assignTypeSignatureForAccessModifier(ASTAccessModifierNode* node);
     void assignTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForBlockContents(ASTScopedBlockNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureForStatement(ASTStatementNode* node, TypeSignatureLookupTable* scope);
+
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

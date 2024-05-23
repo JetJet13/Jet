@@ -43,6 +43,8 @@
 #include "procedure-type-signature-strategy/procedure-type-signature-strategy.h"
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
+#include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
+#include "../../../../ast/ast-nodes/ast-scoped-block-node.h"
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
     _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
@@ -291,6 +293,25 @@ void TypeSignatureStrategyProvider::assignTypeSignatureForDeclaration(ASTDeclara
             this->_typeSignatureStrategyMap
                     ->getProcedureTypeSignatureStrategy()
                     ->assign((ASTProcedureDeclarationNode*)node, scope, this);
+            break;
+        default:
+            throw std::logic_error("type signature strategy not setup for node: " + node->toString());
+    }
+}
+
+void TypeSignatureStrategyProvider::assignTypeSignatureForBlockContents(ASTScopedBlockNode* node, TypeSignatureLookupTable* scope) {
+    this->_typeSignatureStrategyMap
+            ->getBlockTypeSignatureStrategy()
+            ->assign(node, scope, this);
+}
+
+void TypeSignatureStrategyProvider::assignTypeSignatureForStatement(ASTStatementNode* node, TypeSignatureLookupTable* scope) {
+
+    switch (node->getNodeType()) {
+        case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getVariableAssignmentStatementTypeSignatureStrategy()
+                    ->assign((ASTVariableAssignmentStatementNode*)node, scope, this);
             break;
         default:
             throw std::logic_error("type signature strategy not setup for node: " + node->toString());

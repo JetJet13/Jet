@@ -14,6 +14,14 @@ ASTIdentifierNode* ASTVariableAssignmentNode::getIdentifierNode() {
     return _identifier;
 }
 
+void ASTVariableAssignmentNode::setTypeSignature(TypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+TypeSignature* ASTVariableAssignmentNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTVariableAssignmentNode::getNodeType() {
     return AST_VARIABLE_ASSIGNMENT_NODE;
 }

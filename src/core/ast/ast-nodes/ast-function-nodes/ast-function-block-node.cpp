@@ -13,8 +13,8 @@ ASTFunctionBlockNode::ASTFunctionBlockNode(std::vector<ASTNode*> contents) {
     }
 }
 
-std::vector<ASTNode*> ASTFunctionBlockNode::getContents() {
-    return _contents;
+std::vector<ASTNode*>* ASTFunctionBlockNode::getContents() {
+    return &_contents;
 }
 
 ASTNodeType ASTFunctionBlockNode::getNodeType() {
@@ -31,7 +31,7 @@ bool ASTFunctionBlockNode::isSameAs(ASTNode* other) {
     }
     auto otherNode = (ASTFunctionBlockNode*)other;
     for (int i = 0; i < _contents.size(); ++i) {
-        if (!_contents[i]->isSameAs(otherNode->getContents()[i])) {
+        if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;
         }
     }

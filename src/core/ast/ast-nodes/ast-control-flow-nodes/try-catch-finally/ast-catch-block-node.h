@@ -11,7 +11,7 @@
 #include "../ast-control-flow-block-node.h"
 #include "ast-catch-error-variable-node.h"
 
-class ASTCatchBlockNode : public ASTNode {
+class ASTCatchBlockNode : public ASTScopedBlockNode {
 private:
     ASTControlFlowBlockNode* _block;
     std::optional<ASTCatchErrorVariableNode*> _errorVariable;

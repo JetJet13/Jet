@@ -13,7 +13,7 @@
 #include "../ast-control-flow-nodes/ast-else-if-block-node.h"
 #include "../ast-control-flow-nodes/ast-else-block-node.h"
 
-class ASTIfStatementNode : public ASTNode {
+class ASTIfStatementNode : public ASTStatementNode {
 private:
     ASTIfBlockNode* _ifBlock;
     std::vector<ASTElseIfBlockNode*> _elseIfBlocks;

@@ -14,6 +14,14 @@ ASTExpressionNode* ASTControlFlowConditionNode::getCondition() {
     return _condition;
 }
 
+void ASTControlFlowConditionNode::setTypeSignature(TypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+TypeSignature* ASTControlFlowConditionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTControlFlowConditionNode::getNodeType() {
     return AST_CONTROL_FLOW_CONDITION_NODE;
 }

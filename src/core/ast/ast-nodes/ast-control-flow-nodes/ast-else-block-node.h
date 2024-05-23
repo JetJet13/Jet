@@ -11,7 +11,7 @@
 #include "ast-control-flow-condition-node.h"
 #include "ast-control-flow-block-node.h"
 
-class ASTElseBlockNode : public ASTNode {
+class ASTElseBlockNode : public ASTScopedBlockNode {
 private:
     ASTControlFlowBlockNode* _block;
 public:

@@ -5,7 +5,7 @@
 #include "class-property-assignment-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-access-node.h"
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.h"
-#include "../../../../../../shared/utils/logger/logger.h"
+
 
 ASTNode* ClassPropertyAssignmentReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 2) {

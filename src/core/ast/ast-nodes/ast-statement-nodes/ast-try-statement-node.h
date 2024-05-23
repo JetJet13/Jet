@@ -10,7 +10,7 @@
 #include "../ast-control-flow-nodes/try-catch-finally/ast-catch-block-node.h"
 #include "../ast-control-flow-nodes/try-catch-finally/ast-finally-block-node.h"
 
-class ASTTryStatementNode : public ASTNode {
+class ASTTryStatementNode : public ASTStatementNode {
 private:
     ASTTryBlockNode* _tryBlock;
     ASTCatchBlockNode* _catchBlock;

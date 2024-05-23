@@ -10,8 +10,9 @@
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-control-flow-nodes/ast-control-flow-condition-node.h"
 #include "../ast-control-flow-nodes/ast-control-flow-block-node.h"
+#include "ast-statement-node.h"
 
-class ASTWhileStatementNode : public ASTNode {
+class ASTWhileStatementNode : public ASTStatementNode {
 private:
     ASTControlFlowConditionNode* _condition;
     ASTControlFlowBlockNode* _block;

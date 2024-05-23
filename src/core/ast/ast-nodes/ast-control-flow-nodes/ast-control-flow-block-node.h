@@ -9,12 +9,12 @@
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-expression-nodes/ast-function-return-expression-node.h"
 
-class ASTControlFlowBlockNode : public ASTNode {
+class ASTControlFlowBlockNode : public ASTScopedBlockNode {
 private:
     std::vector<ASTNode*> _contents;
 public:
     explicit ASTControlFlowBlockNode(std::vector<ASTNode*> contents);
-    std::vector<ASTNode*> getContents();
+    std::vector<ASTNode*>* getContents();
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

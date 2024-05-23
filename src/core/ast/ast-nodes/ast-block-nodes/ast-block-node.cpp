@@ -41,8 +41,8 @@ unsigned long ASTBlockNode::size() {
     return _contents.size();
 }
 
-std::vector<ASTNode*> ASTBlockNode::getContents() {
-    return _contents;
+std::vector<ASTNode*>* ASTBlockNode::getContents() {
+    return &_contents;
 }
 
 ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
@@ -76,7 +76,7 @@ bool ASTBlockNode::isSameAs(ASTNode* other) {
     }
     auto otherNode = (ASTBlockNode*)other;
     for (int i = 0; i < _contents.size(); ++i) {
-        if (!_contents[i]->isSameAs(otherNode->getContents()[i])) {
+        if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;
         }
     }

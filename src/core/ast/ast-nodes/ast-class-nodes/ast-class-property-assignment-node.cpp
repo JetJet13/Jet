@@ -14,6 +14,14 @@ ASTClassPropertyNameNode* ASTClassPropertyAssignmentNode::getProperty() {
     return _property;
 }
 
+void ASTClassPropertyAssignmentNode::setTypeSignature(TypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+TypeSignature* ASTClassPropertyAssignmentNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTClassPropertyAssignmentNode::getNodeType() {
     return AST_CLASS_PROPERTY_ASSIGNMENT_NODE;
 }

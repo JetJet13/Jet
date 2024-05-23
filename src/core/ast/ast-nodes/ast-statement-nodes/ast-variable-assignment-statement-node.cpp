@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 ASTVariableAssignmentStatementNode::ASTVariableAssignmentStatementNode(ASTVariableAssignmentNode* variable, ASTExpressionNode* expression) {
-    _variable = variable;
+    _variableAssignment = variable;
     _expression = expression;
-    _children.push_back(_variable);
+    _children.push_back(_variableAssignment);
     _children.push_back(_expression);
 }
 
-ASTVariableAssignmentNode* ASTVariableAssignmentStatementNode::getVariable() {
-    return _variable;
+ASTVariableAssignmentNode* ASTVariableAssignmentStatementNode::getVariableAssignment() {
+    return _variableAssignment;
 }
 
 ASTExpressionNode* ASTVariableAssignmentStatementNode::getExpression() {
@@ -33,13 +33,13 @@ bool ASTVariableAssignmentStatementNode::isSameAs(ASTNode* other) {
         return false;
     }
     auto otherNode = (ASTVariableAssignmentStatementNode*)other;
-    return this->getVariable()->isSameAs(otherNode->getVariable()) &&
+    return this->getVariableAssignment()->isSameAs(otherNode->getVariableAssignment()) &&
            this->getExpression()->isSameAs(otherNode->getExpression());
 }
 
 void ASTVariableAssignmentStatementNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _variable->print();
+    _variableAssignment->print();
     _expression->print();
     Logger::log("----------");
 }

@@ -14,6 +14,14 @@ ASTIdentifierExpressionNode* ASTForVariableNode::getVariable() {
     return _variable;
 }
 
+void ASTForVariableNode::setTypeSignature(TypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+TypeSignature* ASTForVariableNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTForVariableNode::getNodeType() {
     return AST_FOR_VARIABLE_NODE;
 }

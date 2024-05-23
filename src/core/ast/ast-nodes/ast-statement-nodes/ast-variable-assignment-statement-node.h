@@ -9,14 +9,15 @@
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-identifier-node.h"
 #include "../ast-variable-nodes/ast-variable-assignment-node.h"
+#include "ast-statement-node.h"
 
-class ASTVariableAssignmentStatementNode : public ASTNode {
+class ASTVariableAssignmentStatementNode : public ASTStatementNode {
 private:
-    ASTVariableAssignmentNode* _variable;
+    ASTVariableAssignmentNode* _variableAssignment;
     ASTExpressionNode* _expression;
 public:
     ASTVariableAssignmentStatementNode(ASTVariableAssignmentNode* variable, ASTExpressionNode* expression);
-    ASTVariableAssignmentNode* getVariable();
+    ASTVariableAssignmentNode* getVariableAssignment();
     ASTExpressionNode* getExpression();
     ASTNodeType getNodeType() override;
     std::string toString() override;

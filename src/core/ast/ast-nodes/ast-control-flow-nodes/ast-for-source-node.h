@@ -12,9 +12,12 @@
 class ASTForSourceNode : public ASTNode {
 private:
     ASTExpressionNode* _source;
+    TypeSignature* _typeSignature;
 public:
     ASTForSourceNode(ASTExpressionNode* source);
     ASTExpressionNode* getSource();
+    void setTypeSignature(TypeSignature* typeSignature);
+    TypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

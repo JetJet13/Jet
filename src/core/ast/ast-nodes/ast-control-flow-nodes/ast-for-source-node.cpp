@@ -14,6 +14,14 @@ ASTExpressionNode* ASTForSourceNode::getSource() {
     return _source;
 }
 
+void ASTForSourceNode::setTypeSignature(TypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+TypeSignature* ASTForSourceNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTForSourceNode::getNodeType() {
     return AST_FOR_SOURCE_NODE;
 }

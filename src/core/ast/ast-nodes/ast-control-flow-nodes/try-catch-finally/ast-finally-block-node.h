@@ -10,7 +10,7 @@
 #include "../ast-control-flow-condition-node.h"
 #include "../ast-control-flow-block-node.h"
 
-class ASTFinallyBlockNode : public ASTNode {
+class ASTFinallyBlockNode : public ASTScopedBlockNode {
 private:
     ASTControlFlowBlockNode* _block;
 public:

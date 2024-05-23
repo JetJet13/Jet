@@ -12,7 +12,7 @@
 #include "../ast-control-flow-nodes/ast-for-source-node.h"
 #include "../ast-control-flow-nodes/ast-control-flow-block-node.h"
 
-class ASTForStatementNode : public ASTNode {
+class ASTForStatementNode : public ASTStatementNode {
 private:
     ASTForVariableNode* _variable;
     ASTForSourceNode* _source;

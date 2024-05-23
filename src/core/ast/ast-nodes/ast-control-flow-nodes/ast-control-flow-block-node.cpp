@@ -13,8 +13,8 @@ ASTControlFlowBlockNode::ASTControlFlowBlockNode(std::vector<ASTNode*> contents)
     }
 }
 
-std::vector<ASTNode*> ASTControlFlowBlockNode::getContents() {
-    return _contents;
+std::vector<ASTNode*>* ASTControlFlowBlockNode::getContents() {
+    return &_contents;
 }
 
 ASTNodeType ASTControlFlowBlockNode::getNodeType() {
@@ -31,7 +31,7 @@ bool ASTControlFlowBlockNode::isSameAs(ASTNode* other) {
     }
     auto otherNode = (ASTControlFlowBlockNode*)other;
     for (int i = 0; i < _contents.size(); ++i) {
-        if (!_contents[i]->isSameAs(otherNode->getContents()[i])) {
+        if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;
         }
     }

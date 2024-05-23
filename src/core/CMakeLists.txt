@@ -875,6 +875,28 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.h
         pre-processor/semantic-analyzer/types/ast-node-type-signature-result.h
         pre-processor/semantic-analyzer/type-checker/types/type-checker-result.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/if-statement-type-signature-strategy/if-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/if-statement-type-signature-strategy/if-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/condition-type-signature-strategy/condition-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/condition-type-signature-strategy/condition-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/block-type-signature-strategy/block-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/block-type-signature-strategy/block-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/while-statement-type-signature-strategy/while-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/while-statement-type-signature-strategy/while-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/for-statement-type-signature-strategy/for-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/for-statement-type-signature-strategy/for-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/try-statement-type-signature-strategy/try-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/try-statement-type-signature-strategy/try-statement-type-signature-strategy.h
+        ast/ast-nodes/ast-scoped-block-node.cpp
+        ast/ast-nodes/ast-scoped-block-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-statement-node.h
 
 )
 

@@ -12,9 +12,12 @@
 class ASTClassPropertyAssignmentNode : public ASTNode {
 private:
     ASTClassPropertyNameNode* _property;
+    TypeSignature* _typeSignature;
 public:
     ASTClassPropertyAssignmentNode(ASTClassPropertyNameNode* property);
     ASTClassPropertyNameNode* getProperty();
+    void setTypeSignature(TypeSignature* typeSignature);
+    TypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

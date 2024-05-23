@@ -1,0 +1,29 @@
+//
+// Created by Johny Georges on 2024-05-23.
+//
+
+#ifndef JETLANG_BLOCK_TYPE_SIGNATURE_STRATEGY_H
+#define JETLANG_BLOCK_TYPE_SIGNATURE_STRATEGY_H
+
+#include "../../../../../type-signature/type-signature.h"
+#include "../type-signature-strategy-provider.h"
+#include "../../../../../ast/ast-nodes/ast-block-nodes/ast-block-node.h"
+#include "../../../../../ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-block-node.h"
+#include "../../../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-block-node.h"
+#include "../../../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-block-node.h"
+#include "../../../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-block-node.h"
+
+class BlockTypeSignatureStrategy {
+private:
+    void assignContents(std::vector<ASTNode*>* content, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+public:
+    void assign(ASTBlockNode* blockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTControlFlowBlockNode* controlFlowBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTFunctionBlockNode* functionBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTTryBlockNode* tryBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTCatchBlockNode* catchBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTFinallyBlockNode* finallyBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+};
+
+
+#endif //JETLANG_BLOCK_TYPE_SIGNATURE_STRATEGY_H

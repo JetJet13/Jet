@@ -11,8 +11,9 @@
 #include "../ast-variable-nodes/ast-variable-assignment-node.h"
 #include "../ast-class-nodes/ast-class-property-name-node.h"
 #include "../ast-class-nodes/ast-class-property-assignment-node.h"
+#include "ast-statement-node.h"
 
-class ASTClassPropertyAssignmentStatementNode : public ASTNode {
+class ASTClassPropertyAssignmentStatementNode : public ASTStatementNode {
 private:
     ASTClassPropertyAssignmentNode* _propertyAssignment;
     ASTExpressionNode* _expression;

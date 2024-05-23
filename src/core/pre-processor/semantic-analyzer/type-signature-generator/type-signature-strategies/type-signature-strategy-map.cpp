@@ -43,6 +43,7 @@
 #include "procedure-type-signature-strategy/procedure-type-signature-strategy.h"
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
+#include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
 
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
@@ -86,6 +87,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _procedureTypeSignatureStrategy = new ProcedureTypeSignatureStrategy();
     _literalTypeSignatureStrategy = new LiteralTypeSignatureStrategy();
     _accessModifierTypeSignatureStrategy = new AccessModifierTypeSignatureStrategy();
+    _variableAssignmentStatementTypeSignatureStrategy = new VariableAssignmentStatementTypeSignatureStrategy();
 }
 
 
@@ -247,4 +249,8 @@ LiteralTypeSignatureStrategy* TypeSignatureStrategyMap::getLiteralTypeSignatureS
 
 AccessModifierTypeSignatureStrategy* TypeSignatureStrategyMap::getAccessModifierTypeSignatureStrategy() {
     return this->_accessModifierTypeSignatureStrategy;
+}
+
+VariableAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getVariableAssignmentStatementTypeSignatureStrategy() {
+    return this->_variableAssignmentStatementTypeSignatureStrategy;
 }

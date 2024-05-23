@@ -11,9 +11,12 @@
 class ASTControlFlowConditionNode : public ASTNode {
 private:
     ASTExpressionNode* _condition;
+    TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
     ASTControlFlowConditionNode(ASTExpressionNode* condition);
     ASTExpressionNode* getCondition();
+    void setTypeSignature(TypeSignature* typeSignature);
+    TypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
