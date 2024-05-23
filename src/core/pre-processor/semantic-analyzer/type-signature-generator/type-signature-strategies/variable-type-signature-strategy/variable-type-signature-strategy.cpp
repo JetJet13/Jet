@@ -8,6 +8,7 @@ void VariableTypeSignatureStrategy::assign(ASTVariableDeclarationNode* variableD
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
         strategyMap->assignTypeSignatureForType(variableDeclaration->getVarInitNode()->getTypeNode().value(), scope);
         variableDeclaration->setTypeSignature(variableDeclaration->getVarInitNode()->getTypeNode().value()->getTypeSignature());
+        return;
     }
     strategyMap->assignTypeSignatureForExpression(variableDeclaration->getInitializerNode(), scope);
     variableDeclaration->setTypeSignature(variableDeclaration->getInitializerNode()->getTypeSignature());

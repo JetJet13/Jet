@@ -10,6 +10,7 @@ void EnumKeyValueTypeSignatureStrategy::assign(ASTEnumKeyValueNode* node, TypeSi
     if (node->getValue()) {
         strategyMap->assignTypeSignatureForLiteral(node->getValue().value());
         node->setTypeSignature(node->getValue().value()->getTypeSignature());
+        return;
     }
     node->setTypeSignature(new DefaultEnumKeyValueTypeSignature());
 }

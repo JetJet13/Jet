@@ -28,6 +28,10 @@ LiteralTypeSignature* EnumTypeSignature::getType() {
     return _type;
 }
 
+void EnumTypeSignature::setType(LiteralTypeSignature* type) {
+    _type = type;
+}
+
 bool EnumTypeSignature::hasKey(std::string key) {
     auto result = _keyValuePairs.find(key);
     if (result) {

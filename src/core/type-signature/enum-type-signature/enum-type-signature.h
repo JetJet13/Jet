@@ -22,6 +22,7 @@ public:
     EnumTypeSignature(LiteralTypeSignature* type, TypeSignatureMap<LiteralTypeSignature> keyValuePairs);
     TypeSignatureMap<LiteralTypeSignature>* getKeyValuePairs();
     LiteralTypeSignature* getType();
+    void setType(LiteralTypeSignature* type);
     bool hasKey(std::string key);
     void addKey(std::string key);
     std::string toString() override;
