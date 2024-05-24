@@ -5,5 +5,5 @@
 #include "type-type-signature-strategy.h"
 
 void TypeTypeSignatureStrategy::assign(ASTTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForBaseType(node->getType(), scope);
+    strategyMap->assignTypeSignatureFor(node->getType(), scope);
 }

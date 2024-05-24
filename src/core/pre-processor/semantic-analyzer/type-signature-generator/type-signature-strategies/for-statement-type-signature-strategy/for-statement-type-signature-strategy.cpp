@@ -5,7 +5,7 @@
 #include "for-statement-type-signature-strategy.h"
 
 void ForStatementTypeSignatureStrategy::assign(ASTForStatementNode* forStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(forStatementNode->getVariable()->getVariable(), scope);
+    strategyMap->assignTypeSignatureFor(forStatementNode->getVariable()->getVariable(), scope);
     forStatementNode->getVariable()->setTypeSignature(
         forStatementNode
         ->getVariable()
@@ -13,7 +13,7 @@ void ForStatementTypeSignatureStrategy::assign(ASTForStatementNode* forStatement
         ->getTypeSignature()
     );
 
-    strategyMap->assignTypeSignatureForExpression(forStatementNode->getSource()->getSource(), scope);
+    strategyMap->assignTypeSignatureFor(forStatementNode->getSource()->getSource(), scope);
     forStatementNode->getSource()->setTypeSignature(
         forStatementNode
         ->getSource()
@@ -21,5 +21,5 @@ void ForStatementTypeSignatureStrategy::assign(ASTForStatementNode* forStatement
         ->getTypeSignature()
     );
 
-    strategyMap->assignTypeSignatureForBlockContents(forStatementNode->getBlock(), scope);
+    strategyMap->assignTypeSignatureFor(forStatementNode->getBlock(), scope);
 }

@@ -5,6 +5,6 @@
 #include "literal-expression-type-signature-strategy.h"
 
 void LiteralExpressionTypeSignatureStrategy::assign(ASTLiteralExpressionNode* literalExpression, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForLiteral(literalExpression->getLiteralNode());
+    strategyMap->assignTypeSignatureFor(literalExpression->getLiteralNode());
     literalExpression->setTypeSignature(literalExpression->getLiteralNode()->getTypeSignature());
 }

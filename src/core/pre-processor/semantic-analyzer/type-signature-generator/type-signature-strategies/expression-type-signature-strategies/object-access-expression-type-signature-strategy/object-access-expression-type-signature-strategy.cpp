@@ -8,7 +8,7 @@
 #include "../../../../../../type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(objectAccessExpression->getSource()->getSource(), scope);
+    strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), scope);
     if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->is(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
         objectAccessExpression->setTypeSignature(structSource->getTypeSignatureForKey(

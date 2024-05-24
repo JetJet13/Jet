@@ -31,6 +31,6 @@ void BlockTypeSignatureStrategy::assign(ASTFinallyBlockNode* finallyBlockNode, T
 void BlockTypeSignatureStrategy::assignContents(std::vector<ASTNode*>* content, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto blockScope = new TypeSignatureLookupTable(scope);
     for (auto statement : *content) {
-        strategyMap->assignTypeSignatureForStatement(statement, blockScope);
+        strategyMap->assignTypeSignatureFor(statement, blockScope);
     }
 }

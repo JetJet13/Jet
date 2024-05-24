@@ -8,7 +8,7 @@ void ParameterListTypeSignatureStrategy::assign(ASTFunctionParameterListNode* no
     auto parameters = std::vector<ParameterListItemTypeSignature*>();
 
     for (auto parameterItem : node->getParameters()) {
-        strategyMap->assignTypeSignatureForParameter(parameterItem, scope);
+        strategyMap->assignTypeSignatureFor(parameterItem, scope);
         parameters.push_back(parameterItem->getTypeSignature());
     }
 

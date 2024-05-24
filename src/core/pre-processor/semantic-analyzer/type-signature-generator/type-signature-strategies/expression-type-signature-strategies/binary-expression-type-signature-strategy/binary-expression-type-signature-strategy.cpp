@@ -11,8 +11,8 @@ BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
 }
 
 void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(binaryExpression->getLeftNode(), scope);
-    strategyMap->assignTypeSignatureForExpression(binaryExpression->getRightNode(), scope);
+    strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), scope);
+    strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());
     if (!combination) {
         throw std::invalid_argument("unknown binary operator..aborting.");

@@ -44,7 +44,13 @@
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
 #include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
-
+#include "block-type-signature-strategy/block-type-signature-strategy.h"
+#include "if-statement-type-signature-strategy/if-statement-type-signature-strategy.h"
+#include "try-statement-type-signature-strategy/try-statement-type-signature-strategy.h"
+#include "while-statement-type-signature-strategy/while-statement-type-signature-strategy.h"
+#include "for-statement-type-signature-strategy/for-statement-type-signature-strategy.h"
+#include "condition-type-signature-strategy/condition-type-signature-strategy.h"
+#include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _arrayAccessExpressionTypeSignatureStrategy = new ArrayAccessExpressionTypeSignatureStrategy();
@@ -88,6 +94,13 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _literalTypeSignatureStrategy = new LiteralTypeSignatureStrategy();
     _accessModifierTypeSignatureStrategy = new AccessModifierTypeSignatureStrategy();
     _variableAssignmentStatementTypeSignatureStrategy = new VariableAssignmentStatementTypeSignatureStrategy();
+    _blockTypeSignatureStrategy = new BlockTypeSignatureStrategy();
+    _expressionStatementTypeSignatureStrategy = new ExpressionStatementTypeSignatureStrategy();
+    _conditionTypeSignatureStrategy = new ConditionTypeSignatureStrategy();
+    _forStatementTypeSignatureStrategy = new ForStatementTypeSignatureStrategy();
+    _whileStatementTypeSignatureStrategy = new WhileStatementTypeSignatureStrategy();
+    _tryStatementTypeSignatureStrategy = new TryStatementTypeSignatureStrategy();
+    _ifStatementTypeSignatureStrategy = new IfStatementTypeSignatureStrategy();
 }
 
 
@@ -253,4 +266,27 @@ AccessModifierTypeSignatureStrategy* TypeSignatureStrategyMap::getAccessModifier
 
 VariableAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getVariableAssignmentStatementTypeSignatureStrategy() {
     return this->_variableAssignmentStatementTypeSignatureStrategy;
+}
+
+BlockTypeSignatureStrategy* TypeSignatureStrategyMap::getBlockTypeSignatureStrategy() {
+    return this->_blockTypeSignatureStrategy;
+}
+
+ExpressionStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getExpressionStatementTypeSignatureStrategy() {
+    return this->_expressionStatementTypeSignatureStrategy;
+}
+ConditionTypeSignatureStrategy* TypeSignatureStrategyMap::getConditionTypeSignatureStrategy() {
+    return this->_conditionTypeSignatureStrategy;
+}
+ForStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getForStatementTypeSignatureStrategy() {
+    return this->_forStatementTypeSignatureStrategy;
+}
+WhileStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getWhileStatementTypeSignatureStrategy() {
+    return this->_whileStatementTypeSignatureStrategy;
+}
+TryStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTryStatementTypeSignatureStrategy() {
+    return this->_tryStatementTypeSignatureStrategy;
+}
+IfStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getIfStatementTypeSignatureStrategy() {
+    return this->_ifStatementTypeSignatureStrategy;
 }

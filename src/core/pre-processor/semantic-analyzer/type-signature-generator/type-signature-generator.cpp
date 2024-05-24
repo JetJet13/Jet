@@ -24,6 +24,6 @@ TypeSignature* TypeSignatureGenerator::generateInitialTypeSignatureForTypeDeclar
     }
 }
 
-void  TypeSignatureGenerator::assignTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope) {
-    _typeSignatureStrategyProvider->assignTypeSignatureForDeclaration(node, scope);
+void  TypeSignatureGenerator::assignTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope) {
+    _typeSignatureStrategyProvider->assignTypeSignatureFor(node, scope);
 }

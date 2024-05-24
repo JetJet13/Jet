@@ -3124,7 +3124,7 @@ auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
 REQUIRE(fileNodeResult->getBody()->size() == 190);
     for (int i = 0; i < 190; i++) {
-        auto declaration = fileNodeResult->getBody()->getContents()[i];
+        auto declaration = fileNodeResult->getBody()->getContents()->at(i);
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
         Logger::log("RESULT =", declaration->isSameAs(expectedNodes[i + 1]));

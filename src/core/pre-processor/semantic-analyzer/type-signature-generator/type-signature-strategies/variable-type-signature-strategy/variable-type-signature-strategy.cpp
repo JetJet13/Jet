@@ -5,9 +5,9 @@
 #include "variable-type-signature-strategy.h"
 
 void VariableTypeSignatureStrategy::assign(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(variableDeclaration->getInitializerNode(), scope);
+    strategyMap->assignTypeSignatureFor(variableDeclaration->getInitializerNode(), scope);
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
-        strategyMap->assignTypeSignatureForType(variableDeclaration->getVarInitNode()->getTypeNode().value(), scope);
+        strategyMap->assignTypeSignatureFor(variableDeclaration->getVarInitNode()->getTypeNode().value(), scope);
         variableDeclaration->setTypeSignature(variableDeclaration->getVarInitNode()->getTypeNode().value()->getTypeSignature());
         return;
     }

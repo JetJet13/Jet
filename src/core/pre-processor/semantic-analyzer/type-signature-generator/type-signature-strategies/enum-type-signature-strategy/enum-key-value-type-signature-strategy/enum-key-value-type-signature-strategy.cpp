@@ -8,7 +8,7 @@
 
 void EnumKeyValueTypeSignatureStrategy::assign(ASTEnumKeyValueNode* node, TypeSignatureStrategyProvider* strategyMap) {
     if (node->getValue()) {
-        strategyMap->assignTypeSignatureForLiteral(node->getValue().value());
+        strategyMap->assignTypeSignatureFor(node->getValue().value());
         node->setTypeSignature(node->getValue().value()->getTypeSignature());
         return;
     }

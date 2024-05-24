@@ -9,25 +9,25 @@
 void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
-        strategyMap->assignTypeSignatureForParameter(parameter, &scope);
+        strategyMap->assignTypeSignatureFor(parameter, &scope);
         scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getType());
     }
 
     auto returnType = std::optional<TypeSignature*>();
     if (lambdaExpression->getReturnType()) {
-        strategyMap->assignTypeSignatureForType(lambdaExpression->getReturnType().value(), &scope);
+        strategyMap->assignTypeSignatureFor(lambdaExpression->getReturnType().value(), &scope);
         returnType = lambdaExpression->getReturnType().value()->getTypeSignature();
     } else {
-        for (auto node : lambdaExpression->getBlock()->getContents()) {
+        for (auto node : *lambdaExpression->getBlock()->getContents()) {
             if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
                 auto returnExpression = (ASTFunctionReturnExpressionNode*)node;
-                strategyMap->assignTypeSignatureForExpression(returnExpression, &scope);
+                strategyMap->assignTypeSignatureFor(returnExpression, &scope);
                 returnType = returnExpression->getTypeSignature();
                 break;
             }
         }
     }
-    strategyMap->assignTypeSignatureForParameterList(lambdaExpression->getParameters(), &scope);
+    strategyMap->assignTypeSignatureFor(lambdaExpression->getParameters(), &scope);
     lambdaExpression->setTypeSignature(new LambdaExpressionTypeSignature(
         lambdaExpression->getParameters()->getTypeSignature(),
         returnType

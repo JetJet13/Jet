@@ -16,7 +16,7 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
 
 void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto constructor : *node->getBlock()->getConstructors()) {
-        strategyMap->assignTypeSignatureForClassConstructor(constructor, scope);
+        strategyMap->assignTypeSignatureFor(constructor, scope);
         for (int i = 0; i < constructor->getParameters()->numParameters(); ++i) {
             auto parameter = constructor->getParameters()->getParameters().at(i);
             if (parameter->getType()->getType()->getId() == node->getId()) {
@@ -37,7 +37,7 @@ void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclara
 
 void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto property : *node->getBlock()->getProperties()) {
-        strategyMap->assignTypeSignatureForClassProperty(property, scope);
+        strategyMap->assignTypeSignatureFor(property, scope);
         if (property->getPropertyInit()->getType() &&
             property->getPropertyInit()->getType().value()->getType()->getId() == node->getId()) {
             property->getTypeSignature()->setType(new ClassInstanceTypeSignature(classTypeSignature));
@@ -59,7 +59,7 @@ void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(ASTClassDeclaratio
 
 void ClassTypeSignatureStrategy::assignMethodTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto method : *node->getBlock()->getMethods()) {
-        strategyMap->assignTypeSignatureForClassMethod(method, scope);
+        strategyMap->assignTypeSignatureFor(method, scope);
         for (int i = 0; i < method->getParameters()->numParameters(); ++i) {
             auto parameter = method->getParameters()->getParameters().at(i);
             if (parameter->getType()->getType()->getId() == node->getId()) {

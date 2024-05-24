@@ -5,7 +5,7 @@
 #ifndef JETLANG_AST_IF_STATEMENT_NODE_H
 #define JETLANG_AST_IF_STATEMENT_NODE_H
 
-#include "../ast-node.h"
+#include "./ast-statement-node.h"
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-identifier-node.h"
 #include "../ast-variable-nodes/ast-variable-assignment-node.h"

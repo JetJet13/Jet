@@ -5,7 +5,7 @@
 #include "class-constructor-type-signature-strategy.h"
 
 void ClassConstructorTypeSignatureStrategy::assign(ASTClassConstructorDeclarationNode* classConstructorDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForParameterList(classConstructorDeclaration->getParameters(), scope);
+    strategyMap->assignTypeSignatureFor(classConstructorDeclaration->getParameters(), scope);
     classConstructorDeclaration->setTypeSignature(new ClassConstructorTypeSignature(
         classConstructorDeclaration->getParameters()->getTypeSignature()
     ));

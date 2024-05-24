@@ -5,16 +5,16 @@
 #include "if-statement-type-signature-strategy.h"
 
 void IfStatementTypeSignatureStrategy::assign(ASTIfStatementNode* ifStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForCondition(ifStatementNode->getIfBlock()->getCondition(), scope);
-    strategyMap->assignTypeSignatureForBlockContents(ifStatementNode->getIfBlock()->getBlock(), scope);
+    strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getCondition(), scope);
+    strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getBlock(), scope);
 
     for (auto elseIfBlock : *ifStatementNode->getElseIfBlocks()) {
-        strategyMap->assignTypeSignatureForCondition(elseIfBlock->getCondition(), scope);
-        strategyMap->assignTypeSignatureForBlockContents(elseIfBlock->getBlock(), scope);
+        strategyMap->assignTypeSignatureFor(elseIfBlock->getCondition(), scope);
+        strategyMap->assignTypeSignatureFor(elseIfBlock->getBlock(), scope);
     }
 
     if (ifStatementNode->getElseBlock()) {
-        strategyMap->assignTypeSignatureForBlockContents(
+        strategyMap->assignTypeSignatureFor(
             ifStatementNode->getElseBlock().value()->getBlock(),
             scope
         );

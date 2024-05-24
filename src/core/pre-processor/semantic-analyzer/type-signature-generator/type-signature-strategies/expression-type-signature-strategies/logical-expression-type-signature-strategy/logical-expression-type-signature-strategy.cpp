@@ -7,8 +7,8 @@
 
 
 void LogicalExpressionTypeSignatureStrategy::assign(ASTLogicalExpressionNode* logicalExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(logicalExpression->getLeftNode(), scope);
-    strategyMap->assignTypeSignatureForExpression(logicalExpression->getRightNode(), scope);
+    strategyMap->assignTypeSignatureFor(logicalExpression->getLeftNode(), scope);
+    strategyMap->assignTypeSignatureFor(logicalExpression->getRightNode(), scope);
     if (logicalExpression->getLeftNode()->getTypeSignature()->is(INVALID_TYPE_SOURCE) ||
         logicalExpression->getRightNode()->getTypeSignature()->is(INVALID_TYPE_SOURCE)) {
         logicalExpression->setTypeSignature(new InvalidTypeSignature());

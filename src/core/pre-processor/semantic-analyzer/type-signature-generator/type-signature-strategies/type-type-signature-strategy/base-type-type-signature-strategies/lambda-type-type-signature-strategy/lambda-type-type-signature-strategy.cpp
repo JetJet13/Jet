@@ -9,11 +9,11 @@
 void LambdaTypeTypeSignatureStrategy::assign(ASTLambdaTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto type : node->getParameterList()->getParameters()) {
-        strategyMap->assignTypeSignatureForType(type, scope);
+        strategyMap->assignTypeSignatureFor(type, scope);
         typeSignatures->push_back(type->getTypeSignature());
     }
     if (node->getReturnType()) {
-        strategyMap->assignTypeSignatureForType(node->getReturnType().value(), scope);
+        strategyMap->assignTypeSignatureFor(node->getReturnType().value(), scope);
         node->setTypeSignature(new LambdaTypeSignature(typeSignatures, node->getReturnType().value()->getTypeSignature()));
         return;
     }

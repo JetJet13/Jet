@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 
 void ArrayAccessExpressionTypeSignatureStrategy::assign(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(arrayAccessExpression->getSource(), scope);
+    strategyMap->assignTypeSignatureFor(arrayAccessExpression->getSource(), scope);
     if (!arrayAccessExpression->getSource()->getTypeSignature()->is(ARRAY_TYPE_SOURCE)) {
         arrayAccessExpression->setTypeSignature(new InvalidTypeSignature());
         return;

@@ -13,7 +13,7 @@ void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayE
     }
 
     for (auto element : *arrayExpression->getElements()) {
-        strategyMap->assignTypeSignatureForExpression(element, scope);
+        strategyMap->assignTypeSignatureFor(element, scope);
     }
 
 

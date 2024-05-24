@@ -13,6 +13,6 @@ private:
 public:
     explicit TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider);
     TypeSignature* generateInitialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node);
-    void assignTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope);
+    void assignTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope);
 };
 #endif //JETLANG_TYPE_SIGNATURE_GENERATOR_H

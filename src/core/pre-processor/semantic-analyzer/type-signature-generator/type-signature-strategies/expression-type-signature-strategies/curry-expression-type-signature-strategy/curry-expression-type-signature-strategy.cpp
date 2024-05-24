@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/function-type-signature/function-type-signature.h"
 
 void CurryExpressionTypeSignatureStrategy::assign(ASTCurryExpressionNode* curryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(curryExpression->getCallableExpression(), scope);
+    strategyMap->assignTypeSignatureFor(curryExpression->getCallableExpression(), scope);
     if (curryExpression->getCallableExpression()->getTypeSignature()->is(FUNCTION_TYPE_SOURCE)) {
         auto functionTypeSignature = (FunctionTypeSignature*)curryExpression->getCallableExpression()->getTypeSignature();
         curryExpression->setTypeSignature(functionTypeSignature->getReturnType());

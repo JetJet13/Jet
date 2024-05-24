@@ -5,6 +5,6 @@
 #include "function-return-expression-type-signature-strategy.h"
 
 void FunctionReturnExpressionTypeSignatureStrategy::assign(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(functionReturnExpression->getExpression(), scope);
+    strategyMap->assignTypeSignatureFor(functionReturnExpression->getExpression(), scope);
     functionReturnExpression->setTypeSignature(functionReturnExpression->getExpression()->getTypeSignature());
 }

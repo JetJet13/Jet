@@ -44,274 +44,289 @@
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
 #include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
-#include "../../../../ast/ast-nodes/ast-scoped-block-node.h"
+#include "block-type-signature-strategy/block-type-signature-strategy.h"
+#include "if-statement-type-signature-strategy/if-statement-type-signature-strategy.h"
+#include "try-statement-type-signature-strategy/try-statement-type-signature-strategy.h"
+#include "while-statement-type-signature-strategy/while-statement-type-signature-strategy.h"
+#include "for-statement-type-signature-strategy/for-statement-type-signature-strategy.h"
+#include "condition-type-signature-strategy/condition-type-signature-strategy.h"
+#include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
+
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
     _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
     _literalTypeSignatureLookupTable = LiteralTypeSignatureLookupTable();
 }
 
-void TypeSignatureStrategyProvider::assignTypeSignatureForExpression(ASTExpressionNode* node, TypeSignatureLookupTable* scope) {
-
-    switch (node->getNodeType()) {
-        case AST_BINARY_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getBinaryExpressionTypeSignatureStrategy()
-                    ->assign((ASTBinaryExpressionNode*)node, scope, this);
-            break;
-        case AST_ARRAY_ACCESS_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getArrayAccessExpressionTypeSignatureStrategy()
-                    ->assign((ASTArrayAccessExpressionNode*)node,scope, this);
-            break;
-        case AST_ARRAY_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getArrayExpressionTypeSignatureStrategy()
-                    ->assign((ASTArrayExpressionNode*)node, scope, this);
-            break;
-        case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getClassMethodInvocationExpressionTypeSignatureStrategy()
-                    ->assign((ASTClassMethodInvocationExpressionNode*)node, scope);
-            break;
-        case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getClassPropertyAccessExpressionTypeSignatureStrategy()
-                    ->assign((ASTClassPropertyAccessExpressionNode*)node, scope);
-            break;
-        case AST_CURRY_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getCurryExpressionTypeSignatureStrategy()
-                    ->assign((ASTCurryExpressionNode*)node, scope, this);
-            break;
-        case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getFunctionInvocationExpressionTypeSignatureStrategy()
-                    ->assign((ASTFunctionInvocationExpressionNode*)node, scope);
-            break;
-        case AST_FUNCTION_RETURN_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getFunctionReturnExpressionTypeSignatureStrategy()
-                    ->assign((ASTFunctionReturnExpressionNode*)node, scope, this);
-            break;
-        case AST_IDENTIFIER_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getIdentifierExpressionTypeSignatureStrategy()
-                    ->assign((ASTIdentifierExpressionNode*)node, scope);
-            break;
-        case AST_LAMBDA_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getLambdaExpressionTypeSignatureStrategy()
-                    ->assign((ASTLambdaExpressionNode*)node, scope, this);
-            break;
-        case AST_LAMBDA_RETURN_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getLambdaReturnExpressionTypeSignatureStrategy()
-                    ->assign((ASTLambdaReturnExpressionNode*)node, scope, this);
-            break;
-        case AST_LITERAL_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getLiteralExpressionTypeSignatureStrategy()
-                    ->assign((ASTLiteralExpressionNode*)node, this);
-            break;
-        case AST_LOGICAL_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getLogicalExpressionTypeSignatureStrategy()
-                    ->assign((ASTLogicalExpressionNode*)node, scope, this);
-            break;
-        case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getNewClassInstanceExpressionTypeSignatureStrategy()
-                    ->assign((ASTNewClassInstanceExpressionNode*)node, scope);
-            break;
-        case AST_OBJECT_ACCESS_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getObjectAccessExpressionTypeSignatureStrategy()
-                    ->assign((ASTObjectAccessExpressionNode*)node, scope, this);
-            break;
-        case AST_STRUCT_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getStructExpressionTypeSignatureStrategy()
-                    ->assign((ASTStructExpressionNode*)node, scope, this);
-            break;
-        case AST_THIS_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getThisExpressionTypeSignatureStrategy()
-                    ->assign((ASTThisExpressionNode*)node, scope);
-            break;
-        case AST_TUPLE_ACCESS_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getTupleAccessExpressionTypeSignatureStrategy()
-                    ->assign((ASTTupleAccessExpressionNode*)node, scope, this);
-            break;
-        case AST_TUPLE_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getTupleExpressionTypeSignatureStrategy()
-                    ->assign((ASTTupleExpressionNode*)node, scope, this);
-            break;
-        case AST_UNARY_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getUnaryExpressionTypeSignatureStrategy()
-                    ->assign((ASTUnaryExpressionNode*)node, scope, this);
-            break;
-        default:
-            throw std::logic_error("type signature strategy not setup for node: " + node->toString());
-    }
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForType(ASTTypeNode* node, TypeSignatureLookupTable* scope) {
-    this->_typeSignatureStrategyMap
-            ->getTypeTypeSignatureStrategy()
-            ->assign(node, scope, this);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForBaseType(ASTTypeBaseNode* node, TypeSignatureLookupTable* scope) {
-    switch (node->getNodeType()) {
-        case AST_PRIMITIVE_TYPE_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getPrimitiveTypeTypeSignatureStrategy()
-                    ->assign((ASTPrimitiveTypeNode*)node, &_literalTypeSignatureLookupTable);
-            break;
-        case AST_CUSTOM_TYPE_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getCustomTypeTypeSignatureStrategy()
-                    ->assign((ASTCustomTypeNode*)node, scope);
-            break;
-        case AST_ARRAY_TYPE_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getArrayTypeTypeSignatureStrategy()
-                    ->assign((ASTArrayTypeNode*)node, scope, this);
-            break;
-        case AST_TUPLE_TYPE_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getTupleTypeTypeSignatureStrategy()
-                    ->assign((ASTTupleTypeNode*)node, scope, this);
-            break;
-        case AST_LAMBDA_TYPE_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getLambdaTypeTypeSignatureStrategy()
-                    ->assign((ASTLambdaTypeNode*)node, scope, this);
-            break;
-        case AST_THIS_TYPE_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getThisTypeTypeSignatureStrategy()
-                    ->assign((ASTThisTypeNode*)node, scope);
-            break;
-        default:
-            throw std::logic_error("type signature strategy not setup for node: " + node->toString());
-    }
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForClassProperty(ASTClassPropertyDeclarationNode* node, TypeSignatureLookupTable* scope) {
-    this->_typeSignatureStrategyMap
-            ->getClassPropertyTypeSignatureStrategy()
-            ->assign(node, scope, this);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForClassConstructor(ASTClassConstructorDeclarationNode* node, TypeSignatureLookupTable* scope) {
-    this->_typeSignatureStrategyMap
-            ->getClassConstructorTypeSignatureStrategy()
-            ->assign(node, scope, this);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForClassMethod(ASTClassMethodDeclarationNode* node, TypeSignatureLookupTable* scope) {
-    this->_typeSignatureStrategyMap
-            ->getClassMethodTypeSignatureStrategy()
-            ->assign(node, scope, this);
-}
-
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForEnumKeyValue(ASTEnumKeyValueNode* node) {
-    this->_typeSignatureStrategyMap
-            ->getEnumKeyValueTypeSignatureStrategy()
-            ->assign(node, this);
-}
-
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForParameter(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope) {
-    this->_typeSignatureStrategyMap
-            ->getParameterListItemTypeSignatureStrategy()
-            ->assign(node, scope, this);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForParameterList(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope) {
-    this->_typeSignatureStrategyMap
-            ->getParameterListTypeSignatureStrategy()
-            ->assign(node, scope, this);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForLiteral(ASTLiteralNode* node) {
-    this->_typeSignatureStrategyMap
-            ->getLiteralTypeSignatureStrategy()
-            ->assign(node, &_literalTypeSignatureLookupTable);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForAccessModifier(ASTAccessModifierNode* node) {
-    this->_typeSignatureStrategyMap
-            ->getAccessModifierTypeSignatureStrategy()
-            ->assign(node);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope) {
+void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
+    auto typeSignatureScope = scope.value_or(new TypeSignatureLookupTable());
     switch (node->getNodeType()) {
         case AST_ENUM_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getEnumTypeSignatureStrategy()
-                    ->assign((ASTEnumDeclarationNode*)node, this);
+                    ->assign((ASTEnumDeclarationNode *) node, this);
             break;
         case AST_VARIABLE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getVariableTypeSignatureStrategy()
-                    ->assign((ASTVariableDeclarationNode*)node, scope, this);
+                    ->assign((ASTVariableDeclarationNode *) node, typeSignatureScope, this);
             break;
         case AST_CLASS_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassTypeSignatureStrategy()
-                    ->assign((ASTClassDeclarationNode*)node, scope, this);
+                    ->assign((ASTClassDeclarationNode *) node, typeSignatureScope, this);
             break;
         case AST_CLASS_PROPERTY_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassPropertyTypeSignatureStrategy()
-                    ->assign((ASTClassPropertyDeclarationNode*)node, scope, this);
+                    ->assign((ASTClassPropertyDeclarationNode *) node, typeSignatureScope, this);
             break;
         case AST_CLASS_CONSTRUCTOR_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassConstructorTypeSignatureStrategy()
-                    ->assign((ASTClassConstructorDeclarationNode*)node, scope, this);
+                    ->assign((ASTClassConstructorDeclarationNode *) node, typeSignatureScope, this);
             break;
         case AST_CLASS_METHOD_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassMethodTypeSignatureStrategy()
-                    ->assign((ASTClassMethodDeclarationNode*)node, scope, this);
+                    ->assign((ASTClassMethodDeclarationNode *) node, typeSignatureScope, this);
             break;
         case AST_FUNCTION_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getFunctionTypeSignatureStrategy()
-                    ->assign((ASTFunctionDeclarationNode*)node, scope, this);
+                    ->assign((ASTFunctionDeclarationNode *) node, typeSignatureScope, this);
+            break;
+        case AST_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getTypeTypeSignatureStrategy()
+                    ->assign((ASTTypeNode*)node, typeSignatureScope, this);
             break;
         case AST_PROCEDURE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getProcedureTypeSignatureStrategy()
-                    ->assign((ASTProcedureDeclarationNode*)node, scope, this);
+                    ->assign((ASTProcedureDeclarationNode *) node, typeSignatureScope, this);
             break;
-        default:
-            throw std::logic_error("type signature strategy not setup for node: " + node->toString());
-    }
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForBlockContents(ASTScopedBlockNode* node, TypeSignatureLookupTable* scope) {
-    this->_typeSignatureStrategyMap
-            ->getBlockTypeSignatureStrategy()
-            ->assign(node, scope, this);
-}
-
-void TypeSignatureStrategyProvider::assignTypeSignatureForStatement(ASTStatementNode* node, TypeSignatureLookupTable* scope) {
-
-    switch (node->getNodeType()) {
+        case AST_PRIMITIVE_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getPrimitiveTypeTypeSignatureStrategy()
+                    ->assign((ASTPrimitiveTypeNode *) node, &_literalTypeSignatureLookupTable);
+            break;
+        case AST_CUSTOM_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getCustomTypeTypeSignatureStrategy()
+                    ->assign((ASTCustomTypeNode *) node, typeSignatureScope);
+            break;
+        case AST_ARRAY_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getArrayTypeTypeSignatureStrategy()
+                    ->assign((ASTArrayTypeNode *) node, typeSignatureScope, this);
+            break;
+        case AST_TUPLE_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getTupleTypeTypeSignatureStrategy()
+                    ->assign((ASTTupleTypeNode *) node, typeSignatureScope, this);
+            break;
+        case AST_LAMBDA_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getLambdaTypeTypeSignatureStrategy()
+                    ->assign((ASTLambdaTypeNode *) node, typeSignatureScope, this);
+            break;
+        case AST_THIS_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getThisTypeTypeSignatureStrategy()
+                    ->assign((ASTThisTypeNode *) node, typeSignatureScope);
+            break;
+        case AST_BINARY_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBinaryExpressionTypeSignatureStrategy()
+                    ->assign((ASTBinaryExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_ARRAY_ACCESS_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getArrayAccessExpressionTypeSignatureStrategy()
+                    ->assign((ASTArrayAccessExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_ARRAY_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getArrayExpressionTypeSignatureStrategy()
+                    ->assign((ASTArrayExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getClassMethodInvocationExpressionTypeSignatureStrategy()
+                    ->assign((ASTClassMethodInvocationExpressionNode *) node, typeSignatureScope);
+            break;
+        case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getClassPropertyAccessExpressionTypeSignatureStrategy()
+                    ->assign((ASTClassPropertyAccessExpressionNode *) node, typeSignatureScope);
+            break;
+        case AST_CURRY_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getCurryExpressionTypeSignatureStrategy()
+                    ->assign((ASTCurryExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getFunctionInvocationExpressionTypeSignatureStrategy()
+                    ->assign((ASTFunctionInvocationExpressionNode *) node, typeSignatureScope);
+            break;
+        case AST_FUNCTION_RETURN_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getFunctionReturnExpressionTypeSignatureStrategy()
+                    ->assign((ASTFunctionReturnExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_IDENTIFIER_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getIdentifierExpressionTypeSignatureStrategy()
+                    ->assign((ASTIdentifierExpressionNode *) node, typeSignatureScope);
+            break;
+        case AST_LAMBDA_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getLambdaExpressionTypeSignatureStrategy()
+                    ->assign((ASTLambdaExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_LAMBDA_RETURN_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getLambdaReturnExpressionTypeSignatureStrategy()
+                    ->assign((ASTLambdaReturnExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_LITERAL_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getLiteralExpressionTypeSignatureStrategy()
+                    ->assign((ASTLiteralExpressionNode *) node, this);
+            break;
+        case AST_LOGICAL_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getLogicalExpressionTypeSignatureStrategy()
+                    ->assign((ASTLogicalExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getNewClassInstanceExpressionTypeSignatureStrategy()
+                    ->assign((ASTNewClassInstanceExpressionNode *) node, typeSignatureScope);
+            break;
+        case AST_OBJECT_ACCESS_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getObjectAccessExpressionTypeSignatureStrategy()
+                    ->assign((ASTObjectAccessExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_STRUCT_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getStructExpressionTypeSignatureStrategy()
+                    ->assign((ASTStructExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_THIS_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getThisExpressionTypeSignatureStrategy()
+                    ->assign((ASTThisExpressionNode *) node, typeSignatureScope);
+            break;
+        case AST_TUPLE_ACCESS_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getTupleAccessExpressionTypeSignatureStrategy()
+                    ->assign((ASTTupleAccessExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_TUPLE_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getTupleExpressionTypeSignatureStrategy()
+                    ->assign((ASTTupleExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_UNARY_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getUnaryExpressionTypeSignatureStrategy()
+                    ->assign((ASTUnaryExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_PUBLIC_NODE:
+        case AST_PROTECTED_NODE:
+        case AST_PRIVATE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getAccessModifierTypeSignatureStrategy()
+                    ->assign((ASTAccessModifierNode*)node);
+            break;
+        case AST_LITERAL_NODE:
+        case AST_INT_LITERAL_NODE:
+        case AST_FLOAT_LITERAL_NODE:
+        case AST_CHAR_LITERAL_NODE:
+        case AST_STRING_LITERAL_NODE:
+        case AST_BOOLEAN_LITERAL_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getLiteralTypeSignatureStrategy()
+                    ->assign((ASTLiteralNode*)node, &_literalTypeSignatureLookupTable);
+            break;
+        case AST_FUNCTION_PARAMETER_LIST_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getParameterListTypeSignatureStrategy()
+                    ->assign((ASTFunctionParameterListNode*)node, typeSignatureScope, this);
+            break;
+        case AST_FUNCTION_PARAMETER_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getParameterListItemTypeSignatureStrategy()
+                    ->assign((ASTFunctionParameterNode*)node, typeSignatureScope, this);
+            break;
+        case AST_ENUM_KEY_VALUE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getEnumKeyValueTypeSignatureStrategy()
+                    ->assign((ASTEnumKeyValueNode*)node, this);
+            break;
+        case AST_BLOCK_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBlockTypeSignatureStrategy()
+                    ->assign((ASTBlockNode*)node, typeSignatureScope, this);
+        case AST_CONTROL_FLOW_BLOCK_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBlockTypeSignatureStrategy()
+                    ->assign((ASTControlFlowBlockNode*)node, typeSignatureScope, this);
+        case AST_FUNCTION_BLOCK_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBlockTypeSignatureStrategy()
+                    ->assign((ASTFunctionBlockNode*)node, typeSignatureScope, this);
+        case AST_TRY_BLOCK_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBlockTypeSignatureStrategy()
+                    ->assign((ASTTryBlockNode*)node, typeSignatureScope, this);
+        case AST_CATCH_BLOCK_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBlockTypeSignatureStrategy()
+                    ->assign((ASTCatchBlockNode*)node, typeSignatureScope, this);
+        case AST_FINALLY_BLOCK_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBlockTypeSignatureStrategy()
+                    ->assign((ASTFinallyBlockNode*)node, typeSignatureScope, this);
+            break;
         case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
                     ->getVariableAssignmentStatementTypeSignatureStrategy()
-                    ->assign((ASTVariableAssignmentStatementNode*)node, scope, this);
+                    ->assign((ASTVariableAssignmentStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_EXPRESSION_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getExpressionStatementTypeSignatureStrategy()
+                    ->assign((ASTExpressionStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_CONTROL_FLOW_CONDITION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getConditionTypeSignatureStrategy()
+                    ->assign((ASTControlFlowConditionNode*)node, typeSignatureScope, this);
+            break;
+        case AST_FOR_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getForStatementTypeSignatureStrategy()
+                    ->assign((ASTForStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_WHILE_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getWhileStatementTypeSignatureStrategy()
+                    ->assign((ASTWhileStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_TRY_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getTryStatementTypeSignatureStrategy()
+                    ->assign((ASTTryStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_IF_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getIfStatementTypeSignatureStrategy()
+                    ->assign((ASTIfStatementNode*)node, typeSignatureScope, this);
             break;
         default:
             throw std::logic_error("type signature strategy not setup for node: " + node->toString());

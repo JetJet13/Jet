@@ -5,6 +5,6 @@
 #include "while-statement-type-signature-strategy.h"
 
 void WhileStatementTypeSignatureStrategy::assign(ASTWhileStatementNode* whileStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForCondition(whileStatementNode->getCondition(), scope);
-    strategyMap->assignTypeSignatureForBlockContents(whileStatementNode->getBlock(), scope);
+    strategyMap->assignTypeSignatureFor(whileStatementNode->getCondition(), scope);
+    strategyMap->assignTypeSignatureFor(whileStatementNode->getBlock(), scope);
 }

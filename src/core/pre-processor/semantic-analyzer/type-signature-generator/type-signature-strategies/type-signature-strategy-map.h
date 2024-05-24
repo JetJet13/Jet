@@ -48,6 +48,13 @@ class ProcedureTypeSignatureStrategy;
 class LiteralTypeSignatureStrategy;
 class AccessModifierTypeSignatureStrategy;
 class VariableAssignmentStatementTypeSignatureStrategy;
+class BlockTypeSignatureStrategy;
+class ExpressionStatementTypeSignatureStrategy;
+class ConditionTypeSignatureStrategy;
+class ForStatementTypeSignatureStrategy;
+class WhileStatementTypeSignatureStrategy;
+class TryStatementTypeSignatureStrategy;
+class IfStatementTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -92,6 +99,13 @@ private:
     LiteralTypeSignatureStrategy* _literalTypeSignatureStrategy;
     AccessModifierTypeSignatureStrategy* _accessModifierTypeSignatureStrategy;
     VariableAssignmentStatementTypeSignatureStrategy* _variableAssignmentStatementTypeSignatureStrategy;
+    BlockTypeSignatureStrategy* _blockTypeSignatureStrategy;
+    ExpressionStatementTypeSignatureStrategy* _expressionStatementTypeSignatureStrategy;
+    ConditionTypeSignatureStrategy* _conditionTypeSignatureStrategy;
+    ForStatementTypeSignatureStrategy* _forStatementTypeSignatureStrategy;
+    WhileStatementTypeSignatureStrategy* _whileStatementTypeSignatureStrategy;
+    TryStatementTypeSignatureStrategy* _tryStatementTypeSignatureStrategy;
+    IfStatementTypeSignatureStrategy* _ifStatementTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
@@ -135,6 +149,13 @@ public:
     LiteralTypeSignatureStrategy* getLiteralTypeSignatureStrategy();
     AccessModifierTypeSignatureStrategy* getAccessModifierTypeSignatureStrategy();
     VariableAssignmentStatementTypeSignatureStrategy* getVariableAssignmentStatementTypeSignatureStrategy();
+    BlockTypeSignatureStrategy* getBlockTypeSignatureStrategy();
+    ExpressionStatementTypeSignatureStrategy* getExpressionStatementTypeSignatureStrategy();
+    ConditionTypeSignatureStrategy* getConditionTypeSignatureStrategy();
+    ForStatementTypeSignatureStrategy* getForStatementTypeSignatureStrategy();
+    WhileStatementTypeSignatureStrategy* getWhileStatementTypeSignatureStrategy();
+    TryStatementTypeSignatureStrategy* getTryStatementTypeSignatureStrategy();
+    IfStatementTypeSignatureStrategy* getIfStatementTypeSignatureStrategy();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H

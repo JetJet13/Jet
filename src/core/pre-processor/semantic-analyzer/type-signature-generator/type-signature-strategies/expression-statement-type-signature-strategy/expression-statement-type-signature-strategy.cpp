@@ -5,5 +5,5 @@
 #include "expression-statement-type-signature-strategy.h"
 
 void ExpressionStatementTypeSignatureStrategy::assign(ASTExpressionStatementNode* expressionStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(expressionStatementNode->getExpression(), scope);
+    strategyMap->assignTypeSignatureFor(expressionStatementNode->getExpression(), scope);
 }

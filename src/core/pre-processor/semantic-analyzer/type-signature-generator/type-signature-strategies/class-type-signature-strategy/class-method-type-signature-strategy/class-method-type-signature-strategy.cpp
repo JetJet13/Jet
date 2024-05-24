@@ -7,12 +7,12 @@
 void ClassMethodTypeSignatureStrategy::assign(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     std::optional<TypeSignature*> returnType = {};
     if (classMethodDeclaration->getReturnType()) {
-        strategyMap->assignTypeSignatureForType(classMethodDeclaration->getReturnType().value(), scope);
+        strategyMap->assignTypeSignatureFor(classMethodDeclaration->getReturnType().value(), scope);
         returnType = classMethodDeclaration->getReturnType().value()->getTypeSignature();
     }
 
-    strategyMap->assignTypeSignatureForAccessModifier(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier());
-    strategyMap->assignTypeSignatureForParameterList(classMethodDeclaration->getParameters(), scope);
+    strategyMap->assignTypeSignatureFor(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier());
+    strategyMap->assignTypeSignatureFor(classMethodDeclaration->getParameters(), scope);
     classMethodDeclaration->setTypeSignature(new ClassMethodTypeSignature(
             classMethodDeclaration->getClassMethodDefinition()->getAccessModifier()->getTypeSignature(),
             classMethodDeclaration->getParameters()->getTypeSignature(),

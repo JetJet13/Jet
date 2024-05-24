@@ -6,7 +6,7 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 void UnaryExpressionTypeSignatureStrategy::assign(ASTUnaryExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(node->getExpressionNode(), scope);
+    strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
     if (node->getExpressionNode()->getTypeSignature()->isUnknownOrInvalidOrVoid()) {
         node->setTypeSignature(new InvalidTypeSignature());
         return;

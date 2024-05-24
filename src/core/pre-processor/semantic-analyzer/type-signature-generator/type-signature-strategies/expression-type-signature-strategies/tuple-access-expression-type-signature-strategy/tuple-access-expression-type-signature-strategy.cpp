@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
 void TupleAccessExpressionTypeSignatureStrategy::assign(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(tupleAccessExpression->getSource()->getSource(), scope);
+    strategyMap->assignTypeSignatureFor(tupleAccessExpression->getSource()->getSource(), scope);
     if (!tupleAccessExpression->getSource()->getSource()->getTypeSignature()->is(TUPLE_TYPE_SOURCE)) {
         tupleAccessExpression->setTypeSignature(new InvalidTypeSignature());
         return;

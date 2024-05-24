@@ -36,21 +36,7 @@ private:
     TypeSignatureStrategyMap* _typeSignatureStrategyMap;
 public:
     TypeSignatureStrategyProvider();
-    void assignTypeSignatureForExpression(ASTExpressionNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForType(ASTTypeNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForBaseType(ASTTypeBaseNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForClassProperty(ASTClassPropertyDeclarationNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForClassConstructor(ASTClassConstructorDeclarationNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForClassMethod(ASTClassMethodDeclarationNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForEnumKeyValue(ASTEnumKeyValueNode* node);
-    void assignTypeSignatureForParameter(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForParameterList(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForLiteral(ASTLiteralNode* node);
-    void assignTypeSignatureForAccessModifier(ASTAccessModifierNode* node);
-    void assignTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForBlockContents(ASTScopedBlockNode* node, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureForStatement(ASTStatementNode* node, TypeSignatureLookupTable* scope);
-
+    void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

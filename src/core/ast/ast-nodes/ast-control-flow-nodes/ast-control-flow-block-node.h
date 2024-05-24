@@ -5,7 +5,7 @@
 #ifndef JETLANG_AST_CONTROL_FLOW_BLOCK_NODE_H
 #define JETLANG_AST_CONTROL_FLOW_BLOCK_NODE_H
 
-#include "../ast-node.h"
+#include "../ast-scoped-block-node.h"
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../ast-expression-nodes/ast-function-return-expression-node.h"
 

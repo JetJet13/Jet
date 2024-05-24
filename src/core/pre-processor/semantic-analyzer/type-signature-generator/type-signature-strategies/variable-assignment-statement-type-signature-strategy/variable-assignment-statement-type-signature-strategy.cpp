@@ -5,7 +5,7 @@
 #include "variable-assignment-statement-type-signature-strategy.h"
 
 void VariableAssignmentStatementTypeSignatureStrategy::assign(ASTVariableAssignmentStatementNode* variableAssignmentStatement, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureForExpression(variableAssignmentStatement->getExpression(), scope);
+    strategyMap->assignTypeSignatureFor(variableAssignmentStatement->getExpression(), scope);
     variableAssignmentStatement->getVariableAssignment()->setTypeSignature(
         scope->find(
             variableAssignmentStatement

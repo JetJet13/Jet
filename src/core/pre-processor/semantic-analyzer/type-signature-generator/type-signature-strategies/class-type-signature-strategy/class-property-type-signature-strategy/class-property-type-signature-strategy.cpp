@@ -7,17 +7,17 @@
 void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {;
     TypeSignature* classPropertyType = new UnknownTypeSignature();
     if (classPropertyDeclaration->getInitializer()) {
-        strategyMap->assignTypeSignatureForExpression(classPropertyDeclaration->getInitializer().value(), scope);
+        strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getInitializer().value(), scope);
         classPropertyType = classPropertyDeclaration->getInitializer().value()->getTypeSignature();
     }
 
     if (classPropertyDeclaration->getType()) {
-        strategyMap->assignTypeSignatureForType(classPropertyDeclaration->getType().value(), scope);
+        strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getType().value(), scope);
         classPropertyType = classPropertyDeclaration->getType().value()->getTypeSignature();
     }
 
 
-    strategyMap->assignTypeSignatureForAccessModifier(classPropertyDeclaration->getAccessModifier());
+    strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getAccessModifier());
     classPropertyDeclaration->setTypeSignature(new ClassPropertyTypeSignature(
         classPropertyDeclaration->getAccessModifier()->getTypeSignature(),
         classPropertyType,
