@@ -9,7 +9,7 @@
 
 namespace DFANodeFactory {
     static DFANode* createAny(ASTNodeType targetAstNodeType) {
-        return new DFANode(AST_ANY_NODE, DFA_OCCURRENCE_ONCE, targetAstNodeType);
+        return new DFANode(AST_ANY_NODE, DFA_OCCURRENCE_NIL_OR_ONCE, targetAstNodeType);
     }
     namespace Once {
         static DFANode* create(ASTNodeType astNodeType) {

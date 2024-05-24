@@ -3,6 +3,7 @@
 //
 
 #include "dfa-node.h"
+#include "../../shared/utils/logger/logger.h"
 #include <stack>
 
 DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType) {
@@ -67,6 +68,7 @@ std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
             return transition.destination;
         }
         if (transition.astNodeType == AST_ANY_NODE) {
+
             return transition.destination;
         }
     }
@@ -78,29 +80,6 @@ std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
         }
     }
     return result;
-}
-
-std::vector<DFANode*> DFANode::findNilTransitions() {
-    auto transitionStack = std::stack<DFANode*>();
-    for (auto transition : _transitions) {
-        if (transition.destination->isNilOrMore() || transition.destination->isNilOrOnce()) {
-            transitionStack.push(transition.destination);
-        }
-    }
-
-    auto nilTransitions = std::vector<DFANode*>();
-    while (!transitionStack.empty()) {
-        auto node = transitionStack.top();
-        transitionStack.pop();
-        auto nodeNilTransitions = node->findNilTransitions();
-        if (nodeNilTransitions.empty()) {
-            nilTransitions.push_back(node);
-        }
-        for (auto nilTransition : nodeNilTransitions) {
-            transitionStack.push(nilTransition);
-        }
-    }
-    return nilTransitions;
 }
 
 bool DFANode::shouldBacktrackTo(ASTNodeType astNodeType) {

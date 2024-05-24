@@ -36,7 +36,6 @@ public:
     DFANode* addTransition(DFATransition transition);
     DFANode* markAlwaysReduceSelf();
     std::optional<DFANode*> transition(ASTNodeType nextAstNodeType);
-    std::vector<DFANode*> findNilTransitions();
     bool shouldBacktrackTo(ASTNodeType astNodeType);
     bool shouldReduceSelfFor(ASTNodeType astNodeType);
     bool shouldReduceToTargetWhenPrevNodeIs(ASTNodeType astNodeType);

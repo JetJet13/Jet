@@ -45,7 +45,7 @@ void ASTNode::print() {
 }
 
 TypeSignature* ASTNode::getTypeSignature() {
-    throw std::logic_error("get type-signature not implemented");
+    throw std::logic_error("get type-signature not implemented: " + this->toString());
 }
 
 std::vector<ASTNode*> ASTNode::getChildren() {

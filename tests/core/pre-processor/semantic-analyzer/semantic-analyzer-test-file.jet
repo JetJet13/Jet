@@ -266,3 +266,34 @@ class MyClass {
     }
 
 }
+
+if intWithType == 5 {
+    const nope = "hello";
+}
+
+if intWithType == 5 {
+    const nope = "hello";
+} else if decimal == 0.0 {
+    let bruce = "bruce";
+} else {
+    let wayne = "wayne";
+}
+
+try {
+    let bruce = "bruce";
+    let wayne = "wayne";
+    bruce = "Bruce";
+    wayne = "Wayne";
+} catch err {
+    const alfred = 99;
+} finally {
+    const pennyworth = 101;
+}
+
+for i in array {
+  array[i] + 1;
+}
+
+while true {
+    const anotherVar = true;
+}

@@ -272,22 +272,27 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getBlockTypeSignatureStrategy()
                     ->assign((ASTBlockNode*)node, typeSignatureScope, this);
+            break;
         case AST_CONTROL_FLOW_BLOCK_NODE:
             this->_typeSignatureStrategyMap
                     ->getBlockTypeSignatureStrategy()
                     ->assign((ASTControlFlowBlockNode*)node, typeSignatureScope, this);
+            break;
         case AST_FUNCTION_BLOCK_NODE:
             this->_typeSignatureStrategyMap
                     ->getBlockTypeSignatureStrategy()
                     ->assign((ASTFunctionBlockNode*)node, typeSignatureScope, this);
+            break;
         case AST_TRY_BLOCK_NODE:
             this->_typeSignatureStrategyMap
                     ->getBlockTypeSignatureStrategy()
                     ->assign((ASTTryBlockNode*)node, typeSignatureScope, this);
+            break;
         case AST_CATCH_BLOCK_NODE:
             this->_typeSignatureStrategyMap
                     ->getBlockTypeSignatureStrategy()
                     ->assign((ASTCatchBlockNode*)node, typeSignatureScope, this);
+            break;
         case AST_FINALLY_BLOCK_NODE:
             this->_typeSignatureStrategyMap
                     ->getBlockTypeSignatureStrategy()

@@ -80,9 +80,13 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
             dfa->determine(nodeType);
         }
 
+        if (handle->hasOneAndOnlyNode()) {
+            dfa->determine(AST_ANY_NODE);
+        }
+
         auto currentDfaState = dfa->getCurrentState();
         if (currentDfaState && currentDfaState.value()->hasTargetAstNodeType()) {
-            auto reduceCount = currentDfaState.value()->isAnyNode() ? i : i + 1;
+            auto reduceCount = currentDfaState.value()->isAnyNode() && !handle->hasOneAndOnlyNode() ? i : i + 1;
             return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, reduceCount, currentDfaState.value()->getTargetAstNodeType().value());
         } else if (mode == RM_BACKTRACK && !currentDfaState) {
             return new RecognizerResult(RECOGNIZER_ACTION_POP);
@@ -90,7 +94,6 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
             return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
         }
     }
-
     return new RecognizerResult(RECOGNIZER_ACTION_SHIFT);
 }
 

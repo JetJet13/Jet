@@ -24,7 +24,8 @@ ASTNode * ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNod
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_EXPRESSION_NODE,
-            AST_TUPLE_ACCESS_NODE
+            AST_TUPLE_ACCESS_NODE,
+            AST_ARRAY_NODE
     };
     if (prevNode && prevNode.value()->isOneOf(plusOperatorPrevNodes)) {
         Logger::log("transforming PLUS_BASE to BINARY_OPERATOR because prevNode is", prevNode.value()->toString());

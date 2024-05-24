@@ -39,15 +39,12 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
             this->shift();
         }
 
-        if (_recognizeStack.empty()) {
-            throw std::logic_error("REDUCE NODE IS CLASS BLOCK!");
-        }
-
         if (_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
             if (_handle.isEmpty()) {
                 this->accept();
                 break;
             }
+            Logger::log("_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()");
         }
         numLoops++;
     }

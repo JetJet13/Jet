@@ -122,6 +122,10 @@ bool Handle::isLambdaTypeParameterListEnclosed() {
     return this->first().value()->is(AST_TYPE_PARAMETER_LIST_START_NODE) && this->last().value()->is(AST_TYPE_PARAMETER_LIST_END_NODE);
 }
 
+bool Handle::hasOneAndOnlyNode() {
+    return _handle.size() == 1 && !_peekNode.has_value();
+}
+
 void Handle::clear() {
     _handle.clear();
 }

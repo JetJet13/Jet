@@ -39,7 +39,7 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNod
         _typeSignatureGenerator->assignTypeSignatureFor(node, fileScope);
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
             fileScope->find(node->getId())->copyFrom(node->getTypeSignature());
-        } else {
+        } else if (ASTNodeUtils::isDeclarationNode(node)){
             fileScope->insert(node->getId(), node->getTypeSignature());
         }
     }

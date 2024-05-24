@@ -32,6 +32,7 @@ public:
     bool isModuleListEnclosed();
     bool isImportModuleListEnclosed();
     bool isLambdaTypeParameterListEnclosed();
+    bool hasOneAndOnlyNode();
     void clear();
     unsigned long size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);

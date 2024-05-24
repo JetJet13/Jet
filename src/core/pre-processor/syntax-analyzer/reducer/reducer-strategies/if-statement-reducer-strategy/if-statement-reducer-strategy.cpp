@@ -6,6 +6,9 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 
 ASTNode* IfStatementReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+    if (nodes.empty()) {
+        throw std::logic_error("NO NODES!");
+    }
     auto elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
     auto elseBlock = std::optional<ASTElseBlockNode*>();
     for (int i = 1; i < nodes.size() ; i++) {
