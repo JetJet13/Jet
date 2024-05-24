@@ -1,23 +1,17 @@
 //
-// Created by Johny Georges on 2024-05-20.
+// Created by Johny Georges on 2024-05-21.
 //
 
 #ifndef JETLANG_TYPE_CHECKER_H
 #define JETLANG_TYPE_CHECKER_H
 
-#include <vector>
-#include "../../../ast/ast-nodes/ast-node.h"
-#include "../type-signature-lookup-table/type-signature-lookup-table.h"
-#include "../ast-traverser/ast-traverser.h"
 #include "types/type-checker-result.h"
+#include "../../../ast/ast-nodes/ast-node.h"
+#include "policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.h"
 
 class TypeChecker {
-private:
-    ASTTraverser traverser;
 public:
-    TypeChecker();
-    TypeCheckerResult check(ASTNode* rootNode, TypeSignatureLookupTable* scope);
-
+    TypeCheckerResult applyPolicyFor(ASTNode* node);
 };
 
 #endif //JETLANG_TYPE_CHECKER_H

@@ -859,8 +859,6 @@ add_library(jet-core
         type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h
         pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.cpp
         pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.h
-        pre-processor/semantic-analyzer/type-checker/type-checker.cpp
-        pre-processor/semantic-analyzer/type-checker/type-checker.h
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.cpp
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.h
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-expression-id-strategy/identifier-expression-id-strategy.cpp
@@ -869,8 +867,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/ast-literal-node-value-assignor/ast-literal-node-value-assignor.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.h
-        pre-processor/semantic-analyzer/type-checker/policies/policy-provider.cpp
-        pre-processor/semantic-analyzer/type-checker/policies/policy-provider.h
+        pre-processor/semantic-analyzer/type-checker/type-checker.cpp
+        pre-processor/semantic-analyzer/type-checker/type-checker.h
         pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.h
         pre-processor/semantic-analyzer/types/ast-node-type-signature-result.h
