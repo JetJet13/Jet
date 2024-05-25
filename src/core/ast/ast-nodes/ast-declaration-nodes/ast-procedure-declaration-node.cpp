@@ -23,7 +23,7 @@ ASTFunctionNameNode* ASTProcedureDeclarationNode::getName() {
     return _name;
 }
 
-ASTFunctionBlockNode* ASTProcedureDeclarationNode::getContent() {
+ASTFunctionBlockNode* ASTProcedureDeclarationNode::getBlock() {
     return _content;
 }
 
@@ -55,7 +55,7 @@ bool ASTProcedureDeclarationNode::isSameAs(ASTNode *other) {
 
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getParameters()->isSameAs(otherNode->getParameters()) &&
-            this->getContent()->isSameAs(otherNode->getContent());
+            this->getBlock()->isSameAs(otherNode->getBlock());
 }
 
 void ASTProcedureDeclarationNode::print() {

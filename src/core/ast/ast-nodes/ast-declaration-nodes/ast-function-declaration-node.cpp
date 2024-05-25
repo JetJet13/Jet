@@ -28,7 +28,7 @@ ASTTypeNode* ASTFunctionDeclarationNode::getReturnType() {
     return _returnType;
 }
 
-ASTFunctionBlockNode* ASTFunctionDeclarationNode::getContent() {
+ASTFunctionBlockNode* ASTFunctionDeclarationNode::getBlock() {
     return _content;
 }
 
@@ -61,7 +61,7 @@ bool ASTFunctionDeclarationNode::isSameAs(ASTNode *other) {
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getParameters()->isSameAs(otherNode->getParameters()) &&
             this->getReturnType()->isSameAs(otherNode->getReturnType()) &&
-            this->getContent()->isSameAs(otherNode->getContent());
+            this->getBlock()->isSameAs(otherNode->getBlock());
 }
 
 void ASTFunctionDeclarationNode::print() {

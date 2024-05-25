@@ -11,6 +11,14 @@ namespace TypeCheckerErrorMessageTable {
     static const auto VariableTypeInvalid = "variable type is invalid";
     static const auto VariableTypeVoid = "variable type cannot be void";
     static const auto ProcedureHasReturnExpression = "procedure cannot have return expression";
+    static const auto ParameterTypeUnknown = "parameter type is unknown";
+    static const auto ParameterTypeInvalid = "parameter type is invalid";
+    static const auto ParameterTypeVoid = "parameter type cannot be void";
+    static const auto FunctionReturnTypeUnknown = "function return type is unknown";
+    static const auto FunctionReturnTypeInvalid = "function return type is invalid";
+    static const auto FunctionReturnTypeVoid = "function return type cannot be void";
+    static const auto FunctionMissingReturnExpression = "function missing return expression";
+    static const auto FunctionReturnExpressionMismatch = "return expression type does not match function return type";
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

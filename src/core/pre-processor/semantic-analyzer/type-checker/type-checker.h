@@ -5,13 +5,12 @@
 #ifndef JETLANG_TYPE_CHECKER_H
 #define JETLANG_TYPE_CHECKER_H
 
-#include "types/type-checker-result.h"
 #include "../../../ast/ast-nodes/ast-node.h"
-#include "policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.h"
+#include "types/type-checker-result/type-checker-result.h"
+#include "types/type-checker-rules/type-checker-rule-list.h"
 
-class TypeChecker {
-public:
-    TypeCheckerResult applyPolicyFor(ASTNode* node);
+namespace TypeChecker {
+    TypeCheckerResult applyPolicyTo(ASTNode* node, TypeCheckerRuleList* rules);
 };
 
 #endif //JETLANG_TYPE_CHECKER_H

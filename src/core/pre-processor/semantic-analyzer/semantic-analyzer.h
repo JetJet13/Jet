@@ -10,13 +10,12 @@
 #include "type-signature-lookup-table/type-signature-lookup-table.h"
 #include "type-signature-generator/type-signature-generator.h"
 #include "types/ast-node-type-signature-result.h"
-#include "type-checker/types/type-checker-result.h"
 #include "type-checker/type-checker.h"
+#include "type-checker/types/type-checker-result/type-checker-result.h"
 
 class SemanticAnalyzer {
 private:
     DependencyGraph* _dependencyGraph;
-    TypeChecker _typeChecker;
     TypeSignatureGenerator* _typeSignatureGenerator;
     void generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
     void generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, std::vector<TypeCheckerResult>* typeCheckerResults);

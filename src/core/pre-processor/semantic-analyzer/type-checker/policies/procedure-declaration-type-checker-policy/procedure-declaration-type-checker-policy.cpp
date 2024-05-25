@@ -3,19 +3,17 @@
 //
 
 #include "procedure-declaration-type-checker-policy.h"
-#include "../../types/type-checker-result-factory.h"
 #include "../../types/type-checker-error-message-table.h"
+#include "../../type-checker.h"
 
-TypeCheckerResult ProcedureDeclarationTypeCheckerPolicy::verify(ASTProcedureDeclarationNode* procedureDeclarationNode) {
-    auto errors = std::vector<std::string>();
-    for (auto statement : *procedureDeclarationNode->getContent()->getContents()) {
-        if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
-            errors.push_back(TypeCheckerErrorMessageTable::ProcedureHasReturnExpression);
-        }
-    }
+namespace ProcedureDeclarationTypeCheckerPolicy {
+    TypeCheckerResult apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerRuleList* rules) {
+        auto typeCheckerResult = TypeCheckerResult();
 
-    if (errors.empty()) {
-        return TypeCheckerResultFactory::createOkResult();
+        rules->addRule(new NoReturnExpressionTypeCheckerRule());
+        typeCheckerResult.combine(TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), rules));
+        typeCheckerResult.combine(TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), rules));
+
+        return typeCheckerResult;
     }
-    return TypeCheckerResultFactory::createErrorResult(errors);
 }

@@ -4,13 +4,10 @@
 
 #include "semantic-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
-#include "../../../shared/utils/logger/logger.h"
 #include "ast-traverser/ast-traverser.h"
-#include "type-checker/type-checker.h"
 
 SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph) {
     _dependencyGraph = dependencyGraph;
-    _typeChecker = TypeChecker();
     _typeSignatureGenerator = new TypeSignatureGenerator(
         new TypeSignatureStrategyProvider()
     );
@@ -43,6 +40,6 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNod
         } else if (ASTNodeUtils::isDeclarationNode(node)){
             fileScope->insert(node->getId(), node->getTypeSignature());
         }
-        typeCheckerResults->push_back(_typeChecker.applyPolicyFor(node));
+        typeCheckerResults->push_back(TypeChecker::applyPolicyTo(node, new TypeCheckerRuleList()));
     }
 }

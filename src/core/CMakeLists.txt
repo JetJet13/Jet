@@ -872,7 +872,6 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.h
         pre-processor/semantic-analyzer/types/ast-node-type-signature-result.h
-        pre-processor/semantic-analyzer/type-checker/types/type-checker-result.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/if-statement-type-signature-strategy/if-statement-type-signature-strategy.cpp
@@ -901,6 +900,25 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/procedure-declaration-type-checker-policy/procedure-declaration-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/parameter-list-type-checker-policy/parameter-list-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/parameter-list-type-checker-policy/parameter-list-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-result/type-checker-result.cpp
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-result/type-checker-result.h
+        pre-processor/semantic-analyzer/type-checker/policies/parameter-type-checker-policy/parameter-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/parameter-type-checker-policy/parameter-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/function-declaration-type-checker-policy/function-declaration-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/function-declaration-type-checker-policy/function-declaration-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rule-list.cpp
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rule-list.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/types/type-checker-rule-type.h
+        pre-processor/semantic-analyzer/type-checker/policies/function-block-type-checker-policy/function-block-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/function-block-type-checker-policy/function-block-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/required-return-expression-type-checker-rule/required-return-expression-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/required-return-expression-type-checker-rule/required-return-expression-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/optional-return-expression-type-checker-rule/optional-return-expression-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/optional-return-expression-type-checker-rule/optional-return-expression-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/no-return-expression-type-checker-rule/no-return-expression-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-rules/type-checker-rules/no-return-expression-type-checker-rule/no-return-expression-type-checker-rule.h
 
 )
 

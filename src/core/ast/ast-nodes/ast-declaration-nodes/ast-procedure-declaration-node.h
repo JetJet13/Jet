@@ -25,7 +25,7 @@ public:
     explicit ASTProcedureDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
-    ASTFunctionBlockNode* getContent();
+    ASTFunctionBlockNode* getBlock();
     unsigned long numParameters();
     void setTypeSignature(ProcedureTypeSignature* typeSignature);
     ProcedureTypeSignature* getTypeSignature() override;

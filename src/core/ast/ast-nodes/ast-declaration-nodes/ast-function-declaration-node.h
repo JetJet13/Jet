@@ -28,7 +28,7 @@ public:
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
     ASTTypeNode* getReturnType();
-    ASTFunctionBlockNode* getContent();
+    ASTFunctionBlockNode* getBlock();
     unsigned long numParameters();
     void setTypeSignature(FunctionTypeSignature* typeSignature);
     FunctionTypeSignature* getTypeSignature() override;

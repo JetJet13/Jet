@@ -3,13 +3,16 @@
 //
 
 #include "parameter-list-type-checker-policy.h"
-#include "../../types/type-checker-result-factory.h"
+#include "../../type-checker.h"
 
-TypeCheckerResult ParameterListTypeCheckerPolicy::verify(ASTFunctionParameterListNode* functionParameterList) {
-    auto errors = std::vector<std::string>();
+namespace ParameterListTypeCheckerPolicy {
+    TypeCheckerResult apply(ASTFunctionParameterListNode* functionParameterList, TypeCheckerRuleList* rules) {
+        auto typeCheckerResult = TypeCheckerResult();
 
-    if (errors.empty()) {
-        return TypeCheckerResultFactory::createOkResult();
+        for (auto parameter : functionParameterList->getParameters()) {
+            typeCheckerResult.combine(TypeChecker::applyPolicyTo(parameter, rules));
+        }
+
+        return typeCheckerResult;
     }
-    return TypeCheckerResultFactory::createErrorResult(errors);
 }

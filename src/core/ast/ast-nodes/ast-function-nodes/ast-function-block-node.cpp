@@ -17,6 +17,15 @@ std::vector<ASTNode*>* ASTFunctionBlockNode::getContents() {
     return &_contents;
 }
 
+bool ASTFunctionBlockNode::hasReturnExpression() {
+    for (auto statement: _contents) {
+        if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 ASTNodeType ASTFunctionBlockNode::getNodeType() {
     return AST_FUNCTION_BLOCK_NODE;
 }

@@ -6,11 +6,11 @@
 #define JETLANG_VARIABLE_DECLARATION_TYPE_CHECKER_POLICY_H
 
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
-#include "../../types/type-checker-result.h"
+#include "../../types/type-checker-result/type-checker-result.h"
+#include "../../types/type-checker-rules/type-checker-rule-list.h"
 
-class VariableDeclarationTypeCheckerPolicy {
-public:
-    TypeCheckerResult static verify(ASTVariableDeclarationNode* variableDeclarationNode);
+namespace VariableDeclarationTypeCheckerPolicy {
+    TypeCheckerResult apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerRuleList* rules);
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_TYPE_CHECKER_POLICY_H

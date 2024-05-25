@@ -5,18 +5,14 @@
 #ifndef JETLANG_TYPE_CHECKER_RESULT_FACTORY_H
 #define JETLANG_TYPE_CHECKER_RESULT_FACTORY_H
 
+#include "type-checker-result/type-checker-result.h"
+
 namespace TypeCheckerResultFactory {
     static TypeCheckerResult createOkResult() {
-        return {
-            .ok = true,
-            .errors = {}
-        };
+        return TypeCheckerResult();
     }
     static TypeCheckerResult createErrorResult(std::vector<std::string> errors) {
-        return {
-            .ok = false,
-            .errors = errors
-        };
+        return TypeCheckerResult(errors);
     }
 }
 

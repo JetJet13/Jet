@@ -6,26 +6,28 @@
 #include "../../types/type-checker-result-factory.h"
 #include "../../types/type-checker-error-message-table.h"
 
-TypeCheckerResult VariableDeclarationTypeCheckerPolicy::verify(ASTVariableDeclarationNode* variableDeclarationNode) {
-    auto varTypeSignature = variableDeclarationNode->getTypeSignature();
-    auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
-    if (varTypeSignature->isEqualTo(initializerTypeSignature)) {
-        return TypeCheckerResultFactory::createOkResult();
-    } else if (varTypeSignature->isUnknown()) {
-        return TypeCheckerResultFactory::createErrorResult({
-           TypeCheckerErrorMessageTable::VariableTypeUnknown
-        });
-    } else if (varTypeSignature->isInvalid()) {
-        return TypeCheckerResultFactory::createErrorResult({
-            TypeCheckerErrorMessageTable::VariableTypeInvalid
-        });
-    } else if (varTypeSignature->isVoid()) {
-        return TypeCheckerResultFactory::createErrorResult({
-            TypeCheckerErrorMessageTable::VariableTypeVoid
-        });
-    } else {
-        return TypeCheckerResultFactory::createErrorResult({
-            TypeCheckerErrorMessageTable::VariableTypeMismatch
-        });
+namespace VariableDeclarationTypeCheckerPolicy {
+    TypeCheckerResult apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerRuleList* rules) {
+        auto varTypeSignature = variableDeclarationNode->getTypeSignature();
+        auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
+        if (varTypeSignature->isEqualTo(initializerTypeSignature)) {
+            return TypeCheckerResultFactory::createOkResult();
+        } else if (varTypeSignature->isUnknown()) {
+            return TypeCheckerResultFactory::createErrorResult({
+                   TypeCheckerErrorMessageTable::VariableTypeUnknown
+           });
+        } else if (varTypeSignature->isInvalid()) {
+            return TypeCheckerResultFactory::createErrorResult({
+                   TypeCheckerErrorMessageTable::VariableTypeInvalid
+           });
+        } else if (varTypeSignature->isVoid()) {
+            return TypeCheckerResultFactory::createErrorResult({
+                   TypeCheckerErrorMessageTable::VariableTypeVoid
+           });
+        } else {
+            return TypeCheckerResultFactory::createErrorResult({
+                   TypeCheckerErrorMessageTable::VariableTypeMismatch
+           });
+        }
     }
 }
