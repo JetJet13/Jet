@@ -895,6 +895,12 @@ add_library(jet-core
         ast/ast-nodes/ast-scoped-block-node.h
         ast/ast-nodes/ast-statement-nodes/ast-statement-node.cpp
         ast/ast-nodes/ast-statement-nodes/ast-statement-node.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-result-factory.h
+        pre-processor/semantic-analyzer/type-checker/types/type-checker-error-message-table.h
+        pre-processor/semantic-analyzer/type-checker/policies/procedure-declaration-type-checker-policy/procedure-declaration-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/procedure-declaration-type-checker-policy/procedure-declaration-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/parameter-list-type-checker-policy/parameter-list-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/parameter-list-type-checker-policy/parameter-list-type-checker-policy.h
 
 )
 
