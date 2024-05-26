@@ -40,6 +40,8 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNod
         } else if (ASTNodeUtils::isDeclarationNode(node)){
             fileScope->insert(node->getId(), node->getTypeSignature());
         }
-        typeCheckerResults->push_back(TypeChecker::applyPolicyTo(node, new TypeCheckerRuleList()));
+        auto typeCheckerResult = TypeCheckerResult();
+        TypeChecker::applyPolicyTo(node, &typeCheckerResult);
+        typeCheckerResults->push_back(typeCheckerResult);
     }
 }

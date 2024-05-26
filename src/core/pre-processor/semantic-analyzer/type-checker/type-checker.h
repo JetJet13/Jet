@@ -7,10 +7,12 @@
 
 #include "../../../ast/ast-nodes/ast-node.h"
 #include "types/type-checker-result/type-checker-result.h"
-#include "types/type-checker-rules/type-checker-rule-list.h"
+#include "rules/type-checker-rule-provider.h"
+
 
 namespace TypeChecker {
-    TypeCheckerResult applyPolicyTo(ASTNode* node, TypeCheckerRuleList* rules);
+    TypeCheckerRuleProvider typeCheckerRuleProvider = TypeCheckerRuleProvider();
+    void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_TYPE_CHECKER_H

@@ -7,10 +7,9 @@
 
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../../types/type-checker-result/type-checker-result.h"
-#include "../../types/type-checker-rules/type-checker-rule-list.h"
 
 namespace ParameterListTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTFunctionParameterListNode* functionParameterList, TypeCheckerRuleList* rules);
+    void apply(ASTFunctionParameterListNode* functionParameterList, TypeCheckerResult* typeCheckerResult);
 };
 
 

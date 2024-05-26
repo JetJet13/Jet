@@ -6,13 +6,11 @@
 #include "../../type-checker.h"
 
 namespace ParameterListTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTFunctionParameterListNode* functionParameterList, TypeCheckerRuleList* rules) {
-        auto typeCheckerResult = TypeCheckerResult();
+    void apply(ASTFunctionParameterListNode* functionParameterList, TypeCheckerResult* typeCheckerResult) {
 
         for (auto parameter : functionParameterList->getParameters()) {
-            typeCheckerResult.combine(TypeChecker::applyPolicyTo(parameter, rules));
+            TypeChecker::applyPolicyTo(parameter, typeCheckerResult);
         }
 
-        return typeCheckerResult;
     }
 }

@@ -7,10 +7,10 @@
 
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../../types/type-checker-result/type-checker-result.h"
-#include "../../types/type-checker-rules/type-checker-rule-list.h"
+#include "../../rules/type-checker-rule-provider.h"
 
 namespace VariableDeclarationTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerRuleList* rules);
+    void apply(ASTVariableDeclarationNode* variableDeclarationNode,  TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_TYPE_CHECKER_POLICY_H

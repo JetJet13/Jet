@@ -6,15 +6,13 @@
 #include "../../types/type-checker-error-message-table.h"
 
 namespace ParameterTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTFunctionParameterNode* functionParameter, TypeCheckerRuleList* rules) {
-        auto typeCheckerResult = TypeCheckerResult();
+    void apply(ASTFunctionParameterNode* functionParameter, TypeCheckerResult* typeCheckerResult) {
         if (functionParameter->getTypeSignature()->isUnknown()) {
-            typeCheckerResult.addError(TypeCheckerErrorMessageTable::ParameterTypeUnknown);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::ParameterTypeUnknown);
         } else if (functionParameter->getTypeSignature()->isInvalid()) {
-            typeCheckerResult.addError(TypeCheckerErrorMessageTable::ParameterTypeInvalid);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::ParameterTypeInvalid);
         } else if (functionParameter->getTypeSignature()->isVoid()) {
-            typeCheckerResult.addError(TypeCheckerErrorMessageTable::ParameterTypeVoid);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::ParameterTypeVoid);
         }
-        return typeCheckerResult;
     }
 };

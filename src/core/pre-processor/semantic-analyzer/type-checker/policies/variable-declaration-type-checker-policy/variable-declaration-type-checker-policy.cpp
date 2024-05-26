@@ -7,27 +7,18 @@
 #include "../../types/type-checker-error-message-table.h"
 
 namespace VariableDeclarationTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerRuleList* rules) {
+    void apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto varTypeSignature = variableDeclarationNode->getTypeSignature();
         auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
-        if (varTypeSignature->isEqualTo(initializerTypeSignature)) {
-            return TypeCheckerResultFactory::createOkResult();
-        } else if (varTypeSignature->isUnknown()) {
-            return TypeCheckerResultFactory::createErrorResult({
-                   TypeCheckerErrorMessageTable::VariableTypeUnknown
-           });
+
+        if (varTypeSignature->isUnknown()) {
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeUnknown);
         } else if (varTypeSignature->isInvalid()) {
-            return TypeCheckerResultFactory::createErrorResult({
-                   TypeCheckerErrorMessageTable::VariableTypeInvalid
-           });
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeInvalid);
         } else if (varTypeSignature->isVoid()) {
-            return TypeCheckerResultFactory::createErrorResult({
-                   TypeCheckerErrorMessageTable::VariableTypeVoid
-           });
-        } else {
-            return TypeCheckerResultFactory::createErrorResult({
-                   TypeCheckerErrorMessageTable::VariableTypeMismatch
-           });
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeVoid);
+        } else if (!varTypeSignature->isEqualTo(initializerTypeSignature)){
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch);
         }
     }
 }

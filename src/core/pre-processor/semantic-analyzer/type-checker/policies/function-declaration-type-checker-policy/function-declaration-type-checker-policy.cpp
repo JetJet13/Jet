@@ -8,23 +8,26 @@
 
 
 namespace FunctionDeclarationTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTFunctionDeclarationNode* functionDeclarationNode, TypeCheckerRuleList* rules) {
-        auto typeCheckerResult = TypeCheckerResult();
+    void apply(ASTFunctionDeclarationNode* functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto functionTypeSignature = functionDeclarationNode->getTypeSignature();
 
         if (functionTypeSignature->getReturnType()->isUnknown()) {
-            typeCheckerResult.addError(TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown);
         } else if (functionTypeSignature->getReturnType()->isInvalid()) {
-            typeCheckerResult.addError(TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid);
         } else if (functionTypeSignature->getReturnType()->isVoid()) {
-            typeCheckerResult.addError(TypeCheckerErrorMessageTable::FunctionReturnTypeVoid);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnTypeVoid);
         }
 
-        rules->addRule(new RequiredReturnExpressionTypeCheckerRule(functionTypeSignature->getReturnType()));
-        typeCheckerResult.combine(TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), rules));
-        typeCheckerResult.combine(TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), rules));
+        TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult);
+        TypeChecker::typeCheckerRuleProvider
+        .getRequiredReturnExpressionTypeCheckerRule()->enforce(
+            functionDeclarationNode->getBlock(),
+            functionTypeSignature->getReturnType(),
+            typeCheckerResult
+        );
 
-        return typeCheckerResult;
     }
 
 }

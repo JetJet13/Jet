@@ -6,7 +6,7 @@
 #define JETLANG_OPTIONAL_RETURN_EXPRESSION_TYPE_CHECKER_RULE_H
 
 #include "../type-checker-rule.h"
-#include "../../../../../../../type-signature/type-signature.h"
+#include "../../../../../../type-signature/type-signature.h"
 
 class OptionalReturnExpressionTypeCheckerRule : public TypeCheckerRule {
 private:

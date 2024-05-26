@@ -7,10 +7,9 @@
 
 #include "../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
-#include "../../types/type-checker-rules/type-checker-rule-list.h"
 
 namespace FunctionBlockTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTFunctionBlockNode* functionBlock, TypeCheckerRuleList*);
+    void apply(ASTFunctionBlockNode* functionBlock, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_FUNCTION_BLOCK_TYPE_CHECKER_POLICY_H

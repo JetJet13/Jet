@@ -8,10 +8,9 @@
 
 #include "../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.h"
-#include "../../types/type-checker-rules/type-checker-rule-list.h"
 
 namespace ParameterTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTFunctionParameterNode* functionParameter, TypeCheckerRuleList* rules);
+    void apply(ASTFunctionParameterNode* functionParameter, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_PARAMETER_TYPE_CHECKER_POLICY_H

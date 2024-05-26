@@ -7,10 +7,10 @@
 
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
 #include "../../types/type-checker-result/type-checker-result.h"
-#include "../../types/type-checker-rules/type-checker-rule-list.h"
+#include "../../rules/type-checker-rule-provider.h"
 
 namespace ProcedureDeclarationTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerRuleList* rules);
+    void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_PROCEDURE_DECLARATION_TYPE_CHECKER_POLICY_H

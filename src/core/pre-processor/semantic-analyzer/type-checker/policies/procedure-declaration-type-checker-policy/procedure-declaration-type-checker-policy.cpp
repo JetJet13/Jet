@@ -3,17 +3,12 @@
 //
 
 #include "procedure-declaration-type-checker-policy.h"
-#include "../../types/type-checker-error-message-table.h"
 #include "../../type-checker.h"
 
 namespace ProcedureDeclarationTypeCheckerPolicy {
-    TypeCheckerResult apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerRuleList* rules) {
-        auto typeCheckerResult = TypeCheckerResult();
-
-        rules->addRule(new NoReturnExpressionTypeCheckerRule());
-        typeCheckerResult.combine(TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), rules));
-        typeCheckerResult.combine(TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), rules));
-
-        return typeCheckerResult;
+    void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+        TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), typeCheckerResult);
+        TypeChecker::typeCheckerRuleProvider.getNoReturnExpressionTypeCheckerRule()->enforce(procedureDeclarationNode->getBlock(), typeCheckerResult);
     }
 }

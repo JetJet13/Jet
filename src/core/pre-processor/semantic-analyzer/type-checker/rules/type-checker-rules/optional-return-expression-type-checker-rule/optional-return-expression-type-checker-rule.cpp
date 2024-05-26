@@ -3,7 +3,7 @@
 //
 
 #include "optional-return-expression-type-checker-rule.h"
-#include "../../../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 OptionalReturnExpressionTypeCheckerRule::OptionalReturnExpressionTypeCheckerRule(TypeSignature* returnType) {
     _returnType = returnType;

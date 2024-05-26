@@ -297,3 +297,37 @@ for i in array {
 while true {
     const anotherVar = true;
 }
+
+
+func hi(n: int) int {
+    if n == 0 {
+        return 0;
+    }
+
+    if n == 1 {
+        return 1;
+    } else {
+      if true {
+        if false {
+          const foo = 4;
+        } else {
+            return 1;
+        }
+      }
+    }
+
+}
+
+//if block does not return, all inner blocks must return
+
+func bye() int {
+
+    try {
+        if 5 == 5 {
+            return 5;
+        }
+    } catch err {
+        return err;
+    }
+
+}
