@@ -17,7 +17,7 @@ namespace TypeCheckerErrorMessageTable {
     static const auto FunctionReturnTypeUnknown = "function return type is unknown";
     static const auto FunctionReturnTypeInvalid = "function return type is invalid";
     static const auto FunctionReturnTypeVoid = "function return type cannot be void";
-    static const auto FunctionMissingReturnExpression = "function missing return expression";
+    static const auto FunctionNotAllPathsReturn = "not all function paths return a value";
     static const auto FunctionReturnExpressionMismatch = "return expression type does not match function return type";
 }
 

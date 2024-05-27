@@ -17,6 +17,15 @@ std::vector<ASTNode*>* ASTControlFlowBlockNode::getContents() {
     return &_contents;
 }
 
+bool ASTControlFlowBlockNode::hasReturnExpression() {
+    for (auto statement: _contents) {
+        if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 ASTNodeType ASTControlFlowBlockNode::getNodeType() {
     return AST_CONTROL_FLOW_BLOCK_NODE;
 }

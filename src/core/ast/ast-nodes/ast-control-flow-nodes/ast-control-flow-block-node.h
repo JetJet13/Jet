@@ -15,6 +15,7 @@ private:
 public:
     explicit ASTControlFlowBlockNode(std::vector<ASTNode*> contents);
     std::vector<ASTNode*>* getContents();
+    bool hasReturnExpression();
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

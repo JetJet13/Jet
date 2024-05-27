@@ -21,11 +21,15 @@ namespace FunctionDeclarationTypeCheckerPolicy {
 
         TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult);
-        TypeChecker::typeCheckerRuleProvider
-        .getRequiredReturnExpressionTypeCheckerRule()->enforce(
+
+        TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()->enforce(
             functionDeclarationNode->getBlock(),
             functionTypeSignature->getReturnType(),
             typeCheckerResult
+        );
+        TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
+                functionDeclarationNode->getBlock(),
+                typeCheckerResult
         );
 
     }

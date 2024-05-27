@@ -7,15 +7,17 @@
 
 #include "type-checker-rules/no-return-expression-type-checker-rule/no-return-expression-type-checker-rule.h"
 #include "type-checker-rules/required-return-expression-type-checker-rule/required-return-expression-type-checker-rule.h"
+#include "type-checker-rules/all-paths-return-type-checker-rule/all-paths-return-type-checker-rule.h"
 
 class TypeCheckerRuleProvider {
 private:
-    NoReturnExpressionTypeCheckerRule* _noReturnExpressionTypeCheckerRule;
-    RequiredReturnExpressionTypeCheckerRule* _requiredReturnExpressionTypeCheckerRule;
+    static NoReturnExpressionTypeCheckerRule* _noReturnExpressionTypeCheckerRule;
+    static RequiredReturnExpressionTypeCheckerRule* _requiredReturnExpressionTypeCheckerRule;
+    static AllPathsReturnTypeCheckerRule* _allPathsReturnTypeCheckerRule;
 public:
-    TypeCheckerRuleProvider();
-    NoReturnExpressionTypeCheckerRule* getNoReturnExpressionTypeCheckerRule();
-    RequiredReturnExpressionTypeCheckerRule* getRequiredReturnExpressionTypeCheckerRule();
-
+    static NoReturnExpressionTypeCheckerRule* getNoReturnExpressionTypeCheckerRule();
+    static RequiredReturnExpressionTypeCheckerRule* getRequiredReturnExpressionTypeCheckerRule();
+    static AllPathsReturnTypeCheckerRule* getAllPathsReturnTypeCheckerRule();
 };
+
 #endif //JETLANG_TYPE_CHECKER_RULE_PROVIDER_H

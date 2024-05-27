@@ -9,6 +9,9 @@ namespace ProcedureDeclarationTypeCheckerPolicy {
     void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), typeCheckerResult);
-        TypeChecker::typeCheckerRuleProvider.getNoReturnExpressionTypeCheckerRule()->enforce(procedureDeclarationNode->getBlock(), typeCheckerResult);
+        TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
+            procedureDeclarationNode->getBlock(),
+            typeCheckerResult
+        );
     }
 }

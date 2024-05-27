@@ -7,11 +7,9 @@
 
 #include "../../../ast/ast-nodes/ast-node.h"
 #include "types/type-checker-result/type-checker-result.h"
-#include "rules/type-checker-rule-provider.h"
 
 
 namespace TypeChecker {
-    TypeCheckerRuleProvider typeCheckerRuleProvider = TypeCheckerRuleProvider();
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult);
 };
 

@@ -4,9 +4,9 @@
 
 #include "type-checker-rule-provider.h"
 
-TypeCheckerRuleProvider::TypeCheckerRuleProvider() {
-    _noReturnExpressionTypeCheckerRule = new NoReturnExpressionTypeCheckerRule();
-}
+NoReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::_noReturnExpressionTypeCheckerRule = new NoReturnExpressionTypeCheckerRule();
+RequiredReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::_requiredReturnExpressionTypeCheckerRule = new RequiredReturnExpressionTypeCheckerRule();
+AllPathsReturnTypeCheckerRule* TypeCheckerRuleProvider::_allPathsReturnTypeCheckerRule = new AllPathsReturnTypeCheckerRule();
 
 NoReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule() {
     return _noReturnExpressionTypeCheckerRule;
@@ -14,4 +14,8 @@ NoReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::getNoReturnExpressio
 
 RequiredReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule() {
     return _requiredReturnExpressionTypeCheckerRule;
+}
+
+AllPathsReturnTypeCheckerRule* TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule() {
+    return _allPathsReturnTypeCheckerRule;
 }
