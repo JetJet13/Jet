@@ -12,9 +12,9 @@
 class ASTForSourceNode : public ASTNode {
 private:
     ASTExpressionNode* _source;
-    TypeSignature* _typeSignature;
+    TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
-    ASTForSourceNode(ASTExpressionNode* source);
+    explicit ASTForSourceNode(ASTExpressionNode* source);
     ASTExpressionNode* getSource();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;

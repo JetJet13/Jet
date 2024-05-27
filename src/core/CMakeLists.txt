@@ -920,6 +920,32 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/all-paths-return-type-checker-rule/all-paths-return-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/all-paths-return-type-checker-rule/all-paths-return-type-checker-rule.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/all-paths-return-type-checker-rule/types/node-with-level.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/function-return-expression-type-checker-policy/function-return-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/function-return-expression-type-checker-policy/function-return-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/defined-type-signature-type-checker-rule/defined-type-signature-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/defined-type-signature-type-checker-rule/defined-type-signature-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/policies/variable-assignment-statement-type-checker-policy/variable-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/variable-assignment-statement-type-checker-policy/variable-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/type-signature-mismatch-type-checker-rule/type-signature-mismatch-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/type-signature-mismatch-type-checker-rule/type-signature-mismatch-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/policies/enum-declaration-type-checker-policy/enum-declaration-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/enum-declaration-type-checker-policy/enum-declaration-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/class-declaration-type-checker-policy/class-declaration-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/class-declaration-type-checker-policy/class-declaration-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/if-statement-type-checker-policy/if-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/if-statement-type-checker-policy/if-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/try-statement-type-checker-policy/try-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/try-statement-type-checker-policy/try-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/for-statement-type-checker-policy/for-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/for-statement-type-checker-policy/for-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/while-statement-type-checker-policy/while-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/while-statement-type-checker-policy/while-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/control-flow-block-type-checker-policy/control-flow-block-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/control-flow-block-type-checker-policy/control-flow-block-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/control-flow-condition-type-checker-policy/control-flow-condition-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/control-flow-condition-type-checker-policy/control-flow-condition-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/iterable-type-signature-type-checker-rule/iterable-type-signature-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/iterable-type-signature-type-checker-rule/iterable-type-signature-type-checker-rule.h
 
 )
 

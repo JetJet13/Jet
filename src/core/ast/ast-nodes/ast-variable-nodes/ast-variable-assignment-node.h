@@ -13,7 +13,7 @@
 class ASTVariableAssignmentNode : public ASTNode {
 private:
     ASTIdentifierNode* _identifier;
-    TypeSignature* _typeSignature;
+    TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
     explicit ASTVariableAssignmentNode(ASTIdentifierNode* astIdentifierNode);
     ASTIdentifierNode* getIdentifierNode();

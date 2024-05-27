@@ -11,5 +11,4 @@ namespace FunctionBlockTypeCheckerPolicy {
             TypeChecker::applyPolicyTo(statement, typeCheckerResult);
         }
     }
-
 }

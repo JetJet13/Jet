@@ -11,13 +11,16 @@ namespace VariableDeclarationTypeCheckerPolicy {
         auto varTypeSignature = variableDeclarationNode->getTypeSignature();
         auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
 
-        if (varTypeSignature->isUnknown()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeUnknown);
-        } else if (varTypeSignature->isInvalid()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeInvalid);
-        } else if (varTypeSignature->isVoid()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeVoid);
-        } else if (!varTypeSignature->isEqualTo(initializerTypeSignature)){
+        TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
+                ->enforce(
+                        varTypeSignature,
+                        TypeCheckerErrorMessageTable::VariableTypeUnknown,
+                        TypeCheckerErrorMessageTable::VariableTypeInvalid,
+                        TypeCheckerErrorMessageTable::VariableTypeVoid,
+                        typeCheckerResult
+                );
+
+       if (!varTypeSignature->isEqualTo(initializerTypeSignature)){
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch);
         }
     }
