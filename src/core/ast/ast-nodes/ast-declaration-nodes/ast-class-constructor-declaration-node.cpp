@@ -22,7 +22,7 @@ ASTFunctionParameterListNode* ASTClassConstructorDeclarationNode::getParameters(
     return _parameters;
 }
 
-ASTFunctionBlockNode* ASTClassConstructorDeclarationNode::getContent() {
+ASTFunctionBlockNode* ASTClassConstructorDeclarationNode::getBlock() {
     return _content;
 }
 
@@ -53,7 +53,7 @@ bool ASTClassConstructorDeclarationNode::isSameAs(ASTNode *other) {
     auto otherNode = (ASTClassConstructorDeclarationNode*)other;
 
     return this->getParameters()->isSameAs(otherNode->getParameters()) &&
-           this->getContent()->isSameAs(otherNode->getContent());
+            this->getBlock()->isSameAs(otherNode->getBlock());
 }
 
 void ASTClassConstructorDeclarationNode::print() {

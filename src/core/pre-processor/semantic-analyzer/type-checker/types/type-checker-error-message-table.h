@@ -26,6 +26,14 @@ namespace TypeCheckerErrorMessageTable {
     static const auto EnumKeyValueTypeMismatch = "enum key-value type does not match enum type";
     static const auto ControlFlowConditionNotBool = "condition must evaluate to true or false";
     static const auto ForStatementSourceNotIterable = "source of for-loop is not iterable";
+    static const auto ClassPropertyInitializerTypeMismatch = "type of initial value for class property does not match class property type";
+    static const auto ClassPropertyNamesNotUnique = "class property names must be unique";
+    static const auto ClassMethodNamesAndTypeSignaturesNotUnique = "one or more class methods have the same name and type-signature";
+    static const auto ClassConstructorsNotUnique = "class constructors must have unique parameter lists";
+    static const auto ClassMethodReturnTypeUnknown = "class method return type is unknown";
+    static const auto ClassMethodReturnTypeInvalid = "class method return type is invalid";
+    static const auto ClassMethodReturnTypeVoid = "class method return type cannot be void";
+    static const auto ClassMethodNotAllPathsReturn = "not all class method paths return a value";
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

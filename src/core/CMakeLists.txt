@@ -946,6 +946,14 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/control-flow-condition-type-checker-policy/control-flow-condition-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/iterable-type-signature-type-checker-rule/iterable-type-signature-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/iterable-type-signature-type-checker-rule/iterable-type-signature-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-scoped-names-type-checker-rule/unique-scoped-names-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-scoped-names-type-checker-rule/unique-scoped-names-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signature-with-id-type-checker-rule/unique-type-signature-with-id-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signature-with-id-type-checker-rule/unique-type-signature-with-id-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signatures-type-checker-rule/unique-type-signatures-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signatures-type-checker-rule/unique-type-signatures-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.h
 
 )
 

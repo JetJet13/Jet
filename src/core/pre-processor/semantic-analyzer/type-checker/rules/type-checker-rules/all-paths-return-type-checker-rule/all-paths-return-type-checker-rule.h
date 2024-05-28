@@ -18,7 +18,7 @@ private:
     bool verifyAllIfStatementPathsReturn(ASTIfStatementNode* ifStatementNode);
     bool verifyAllTryStatementPathsReturn(ASTTryStatementNode* tryStatementNode);
 public:
-    void enforce(ASTFunctionBlockNode* functionBlockNode, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTFunctionBlockNode* functionBlockNode, std::string message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

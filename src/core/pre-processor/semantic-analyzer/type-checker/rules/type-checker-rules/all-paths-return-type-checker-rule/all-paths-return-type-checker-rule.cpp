@@ -7,7 +7,7 @@
 #include "../../../types/type-checker-error-message-table.h"
 
 
-void AllPathsReturnTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockNode, TypeCheckerResult* typeCheckerResult) {
+void AllPathsReturnTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockNode, std::string message, TypeCheckerResult* typeCheckerResult) {
     if (functionBlockNode->hasReturnExpression()) {
         return;
     }
@@ -27,7 +27,7 @@ void AllPathsReturnTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockN
 
 
     if (!allPathsReturn) {
-        typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionNotAllPathsReturn);
+        typeCheckerResult->addError(message);
     }
 }
 

@@ -11,6 +11,9 @@
 #include "type-checker-rules/defined-type-signature-type-checker-rule/defined-type-signature-type-checker-rule.h"
 #include "type-checker-rules/type-signature-mismatch-type-checker-rule/type-signature-mismatch-type-checker-rule.h"
 #include "type-checker-rules/iterable-type-signature-type-checker-rule/iterable-type-signature-type-checker-rule.h"
+#include "type-checker-rules/unique-scoped-names-type-checker-rule/unique-scoped-names-type-checker-rule.h"
+#include "type-checker-rules/unique-type-signature-with-id-type-checker-rule/unique-type-signature-with-id-type-checker-rule.h"
+#include "type-checker-rules/unique-type-signatures-type-checker-rule/unique-type-signatures-type-checker-rule.h"
 
 class TypeCheckerRuleProvider {
 private:
@@ -20,6 +23,9 @@ private:
     static DefinedTypeSignatureTypeCheckerRule* _definedTypeSignatureTypeCheckerRule;
     static TypeSignatureMismatchTypeCheckerRule* _typeSignatureMismatchTypeCheckerRule;
     static IterableTypeSignatureTypeCheckerRule* _iterableTypeSignatureTypeCheckerRule;
+    static UniqueScopedNamesTypeCheckerRule* _uniqueScopedNamesTypeCheckerRule;
+    static UniqueTypeSignatureWithIdTypeCheckerRule* _uniqueTypeSignatureWithIdTypeCheckerRule;
+    static UniqueTypeSignaturesTypeCheckerRule* _uniqueTypeSignaturesTypeCheckerRule;
 public:
     static NoReturnExpressionTypeCheckerRule* getNoReturnExpressionTypeCheckerRule();
     static RequiredReturnExpressionTypeCheckerRule* getRequiredReturnExpressionTypeCheckerRule();
@@ -27,6 +33,9 @@ public:
     static DefinedTypeSignatureTypeCheckerRule* getDefinedTypeSignatureTypeCheckerRule();
     static TypeSignatureMismatchTypeCheckerRule* getTypeSignatureMismatchTypeCheckerRule();
     static IterableTypeSignatureTypeCheckerRule* getIterableTypeSignatureTypeCheckerRule();
+    static UniqueScopedNamesTypeCheckerRule* getUniqueScopedNamesTypeCheckerRule();
+    static UniqueTypeSignatureWithIdTypeCheckerRule* getUniqueTypeSignatureWithIdTypeCheckerRule();
+    static UniqueTypeSignaturesTypeCheckerRule* getUniqueTypeSignaturesTypeCheckerRule();
 };
 
 #endif //JETLANG_TYPE_CHECKER_RULE_PROVIDER_H

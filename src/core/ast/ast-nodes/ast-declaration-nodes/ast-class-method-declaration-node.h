@@ -30,7 +30,7 @@ public:
     ASTClassMethodDefinitionNode* getClassMethodDefinition();
     ASTFunctionParameterListNode* getParameters();
     std::optional<ASTTypeNode*> getReturnType();
-    ASTFunctionBlockNode* getContent();
+    ASTFunctionBlockNode* getBlock();
     unsigned long numParameters();
     void setTypeSignature(ClassMethodTypeSignature* typeSignature);
     ClassMethodTypeSignature* getTypeSignature() override;

@@ -11,16 +11,17 @@ namespace FunctionDeclarationTypeCheckerPolicy {
     void apply(ASTFunctionDeclarationNode* functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto functionTypeSignature = functionDeclarationNode->getTypeSignature();
 
-        if (functionTypeSignature->getReturnType()->isUnknown()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown);
-        } else if (functionTypeSignature->getReturnType()->isInvalid()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid);
-        } else if (functionTypeSignature->getReturnType()->isVoid()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnTypeVoid);
-        }
-
         TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult);
+
+        TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
+        ->enforce(
+            functionTypeSignature->getReturnType(),
+            TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown,
+            TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid,
+            TypeCheckerErrorMessageTable::FunctionReturnTypeVoid,
+            typeCheckerResult
+        );
 
         TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()->enforce(
             functionDeclarationNode->getBlock(),
@@ -29,6 +30,7 @@ namespace FunctionDeclarationTypeCheckerPolicy {
         );
         TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
                 functionDeclarationNode->getBlock(),
+                TypeCheckerErrorMessageTable::FunctionNotAllPathsReturn,
                 typeCheckerResult
         );
 

@@ -24,7 +24,7 @@ public:
     explicit ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
     ASTConstructorNode* getConstructor();
     ASTFunctionParameterListNode* getParameters();
-    ASTFunctionBlockNode* getContent();
+    ASTFunctionBlockNode* getBlock();
     unsigned long numParameters();
     void setTypeSignature(ClassConstructorTypeSignature* typeSignature);
     ClassConstructorTypeSignature* getTypeSignature() override;

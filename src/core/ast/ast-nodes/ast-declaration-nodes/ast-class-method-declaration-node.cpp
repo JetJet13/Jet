@@ -31,7 +31,7 @@ std::optional<ASTTypeNode*> ASTClassMethodDeclarationNode::getReturnType() {
     return _returnType;
 }
 
-ASTFunctionBlockNode* ASTClassMethodDeclarationNode::getContent() {
+ASTFunctionBlockNode* ASTClassMethodDeclarationNode::getBlock() {
     return _content;
 }
 
@@ -73,7 +73,7 @@ bool ASTClassMethodDeclarationNode::isSameAs(ASTNode *other) {
 
     return this->getClassMethodDefinition()->isSameAs(otherNode->getClassMethodDefinition()) &&
            this->getParameters()->isSameAs(otherNode->getParameters()) &&
-           this->getContent()->isSameAs(otherNode->getContent());
+            this->getBlock()->isSameAs(otherNode->getBlock());
 }
 
 void ASTClassMethodDeclarationNode::print() {
