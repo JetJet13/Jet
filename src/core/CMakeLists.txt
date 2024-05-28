@@ -954,6 +954,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signatures-type-checker-rule/unique-type-signatures-type-checker-rule.h
         pre-processor/semantic-analyzer/type-checker/policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expression-statement-type-checker-policy/expression-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expression-statement-type-checker-policy/expression-statement-type-checker-policy.h
 
 )
 

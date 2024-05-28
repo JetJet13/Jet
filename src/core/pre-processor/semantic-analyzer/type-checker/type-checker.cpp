@@ -20,6 +20,7 @@
 #include "policies/control-flow-block-type-checker-policy/control-flow-block-type-checker-policy.h"
 #include "policies/control-flow-condition-type-checker-policy/control-flow-condition-type-checker-policy.h"
 #include "policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.h"
+#include "policies/expression-statement-type-checker-policy/expression-statement-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -75,6 +76,9 @@ namespace TypeChecker {
                 break;
             case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
                 ClassPropertyAssignmentStatementTypeCheckerPolicy::apply((ASTClassPropertyAssignmentStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_EXPRESSION_STATEMENT_NODE:
+                ExpressionStatementTypeCheckerPolicy::apply((ASTExpressionStatementNode*)node, typeCheckerResult);
                 break;
             default:
                 throw std::logic_error("no type-signature policy found for " + node->toString());

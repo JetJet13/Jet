@@ -8,14 +8,12 @@
 
 namespace ClassPropertyAssignmentStatementTypeCheckerPolicy {
     void apply(ASTClassPropertyAssignmentStatementNode* classPropertyAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
-        classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature()->print();
-
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::VariableTypeUnknown,
-            TypeCheckerErrorMessageTable::VariableTypeInvalid,
-            TypeCheckerErrorMessageTable::VariableTypeVoid,
+            TypeCheckerErrorMessageTable::ClassPropertyTypeUnknown,
+            TypeCheckerErrorMessageTable::ClassPropertyTypeInvalid,
+            TypeCheckerErrorMessageTable::ClassPropertyTypeVoid,
             typeCheckerResult
         );
 
@@ -32,7 +30,7 @@ namespace ClassPropertyAssignmentStatementTypeCheckerPolicy {
         ->enforce(
             classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature(),
             classPropertyAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch,
+            TypeCheckerErrorMessageTable::ClassPropertyAssignmentTypeMismatch,
             typeCheckerResult
         );
     }

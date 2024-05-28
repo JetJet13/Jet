@@ -8,8 +8,6 @@
 
 namespace VariableAssignmentStatementTypeCheckerPolicy {
     void apply(ASTVariableAssignmentStatementNode* variableAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
-        variableAssignmentStatementNode->getVariableAssignment()->getTypeSignature()->print();
-
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             variableAssignmentStatementNode->getVariableAssignment()->getTypeSignature(),

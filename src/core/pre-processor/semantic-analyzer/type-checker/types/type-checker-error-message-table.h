@@ -26,6 +26,10 @@ namespace TypeCheckerErrorMessageTable {
     static const auto EnumKeyValueTypeMismatch = "enum key-value type does not match enum type";
     static const auto ControlFlowConditionNotBool = "condition must evaluate to true or false";
     static const auto ForStatementSourceNotIterable = "source of for-loop is not iterable";
+    static const auto ClassPropertyTypeUnknown = "class property type is unknown";
+    static const auto ClassPropertyTypeInvalid = "class property type is invalid";
+    static const auto ClassPropertyTypeVoid = "class property type cannot be void";
+    static const auto ClassPropertyAssignmentTypeMismatch = "class property type does not match expression type";
     static const auto ClassPropertyInitializerTypeMismatch = "type of initial value for class property does not match class property type";
     static const auto ClassPropertyNamesNotUnique = "class property names must be unique";
     static const auto ClassMethodNamesAndTypeSignaturesNotUnique = "one or more class methods have the same name and type-signature";
