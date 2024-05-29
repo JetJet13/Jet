@@ -10,7 +10,7 @@ void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lamb
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
         strategyMap->assignTypeSignatureFor(parameter, &scope);
-        scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getType());
+        scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
     }
 
     auto returnType = std::optional<TypeSignature*>();

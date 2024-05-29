@@ -4,6 +4,11 @@
 
 #include "array-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "../unknown-type-signature/unknown-type-signature.h"
+
+ArrayTypeSignature::ArrayTypeSignature() {
+    _elementType = new UnknownTypeSignature();
+}
 
 ArrayTypeSignature::ArrayTypeSignature(TypeSignature* elementType) {
     _elementType = elementType;
@@ -11,6 +16,10 @@ ArrayTypeSignature::ArrayTypeSignature(TypeSignature* elementType) {
 
 TypeSignature* ArrayTypeSignature::getElementType() {
     return _elementType;
+}
+
+void ArrayTypeSignature::setElementType(TypeSignature* elementType) {
+    _elementType = elementType;
 }
 
 std::string ArrayTypeSignature::toString() {

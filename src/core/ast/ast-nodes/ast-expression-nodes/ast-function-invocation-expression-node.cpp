@@ -24,6 +24,14 @@ unsigned long ASTFunctionInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
+void ASTFunctionInvocationExpressionNode::setTypeSignature(FunctionInvocationTypeSignature* functionInvocationTypeSignature) {
+    _typeSignature = functionInvocationTypeSignature;
+}
+
+FunctionInvocationTypeSignature* ASTFunctionInvocationExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTFunctionInvocationExpressionNode::getNodeType() {
     return AST_FUNCTION_INVOCATION_EXPRESSION_NODE;
 }

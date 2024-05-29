@@ -154,7 +154,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
         case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassMethodInvocationExpressionTypeSignatureStrategy()
-                    ->assign((ASTClassMethodInvocationExpressionNode *) node, typeSignatureScope);
+                    ->assign((ASTClassMethodInvocationExpressionNode *) node, typeSignatureScope, this);
             break;
         case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

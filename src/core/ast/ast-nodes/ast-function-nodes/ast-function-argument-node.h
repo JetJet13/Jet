@@ -16,7 +16,7 @@ class ASTFunctionArgumentNode : public ASTNode {
 private:
     ASTExpressionNode* _argument;
 public:
-    ASTFunctionArgumentNode(ASTExpressionNode* identifier);
+    explicit ASTFunctionArgumentNode(ASTExpressionNode* identifier);
     ASTExpressionNode* getArgument();
     ASTNodeType getNodeType() override;
     std::string toString() override;

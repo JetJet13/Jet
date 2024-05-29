@@ -16,8 +16,8 @@ ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(std::vector<ASTFunction
     }
 }
 
-std::vector<ASTFunctionArgumentNode*> ASTFunctionArgumentListNode::getArguments() {
-    return _arguments;
+std::vector<ASTFunctionArgumentNode*>* ASTFunctionArgumentListNode::getArguments() {
+    return &_arguments;
 }
 
 unsigned long ASTFunctionArgumentListNode::numArguments() {
@@ -48,7 +48,7 @@ bool ASTFunctionArgumentListNode::isSameAs(ASTNode *other) {
         return false;
     }
     for (int i = 0; i < this->numArguments(); i++) {
-        if (!_arguments[i]->isSameAs(otherNodeElements[i])) {
+        if (!_arguments[i]->isSameAs(otherNodeElements->at(i))) {
             return false;
         }
     }

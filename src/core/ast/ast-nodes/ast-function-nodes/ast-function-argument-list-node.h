@@ -16,7 +16,7 @@ private:
 public:
     ASTFunctionArgumentListNode();
     ASTFunctionArgumentListNode(std::vector<ASTFunctionArgumentNode*> arguments);
-    std::vector<ASTFunctionArgumentNode*> getArguments();
+    std::vector<ASTFunctionArgumentNode *> * getArguments();
     unsigned long numArguments();
     ASTFunctionArgumentListNode* addArgument(ASTFunctionArgumentNode* argument);
     ASTNodeType getNodeType() override;

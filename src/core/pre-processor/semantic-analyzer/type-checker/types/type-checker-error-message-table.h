@@ -38,6 +38,17 @@ namespace TypeCheckerErrorMessageTable {
     static const auto ClassMethodReturnTypeInvalid = "class method return type is invalid";
     static const auto ClassMethodReturnTypeVoid = "class method return type cannot be void";
     static const auto ClassMethodNotAllPathsReturn = "not all class method paths return a value";
+    static const auto ArrayElementTypeMismatch = "not all array elements match the array element type";
+    static const auto ClassMethodCallNotEnoughArguments = "not enough arguments provided for class method call";
+    static const auto ClassMethodCallTooManyArguments = "too many arguments provided for class method call";
+    static const auto ClassMethodCallArgumentTypeMismatch = "argument type does not match parameter type for class method call";
+    static const auto NotCallableCurryType = "curry function type is not callable";
+    static const auto CurryCallNotEnoughArguments = "not enough arguments provided for curry call";
+    static const auto CurryCallTooManyArguments = "too many arguments provided for curry call";
+    static const auto CurryCallArgumentTypeMismatch = "argument type does not match parameter type for curry call";
+    static const auto FunctionCallNotEnoughArguments = "not enough arguments provided for function call";
+    static const auto FunctionCallTooManyArguments = "too many arguments provided for function call";
+    static const auto FunctionCallArgumentTypeMismatch = "argument type does not match parameter type for function call";
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

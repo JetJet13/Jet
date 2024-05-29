@@ -30,6 +30,14 @@ ASTArrayExpressionNode* ASTArrayExpressionNode::addElement(ASTExpressionNode* el
     return this;
 }
 
+ArrayTypeSignature* ASTArrayExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
+void ASTArrayExpressionNode::setTypeSignature(ArrayTypeSignature* arrayTypeSignature) {
+    _typeSignature = arrayTypeSignature;
+}
+
 unsigned long ASTArrayExpressionNode::size() {
     return _elements->size();
 }

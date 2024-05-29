@@ -8,6 +8,10 @@
 
 void CurryExpressionTypeSignatureStrategy::assign(ASTCurryExpressionNode* curryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(curryExpression->getCallableExpression(), scope);
+    for (auto argument : *curryExpression->getArguments()->getArguments()) {
+        strategyMap->assignTypeSignatureFor(argument->getArgument());
+    }
+
     if (curryExpression->getCallableExpression()->getTypeSignature()->is(FUNCTION_TYPE_SOURCE)) {
         auto functionTypeSignature = (FunctionTypeSignature*)curryExpression->getCallableExpression()->getTypeSignature();
         curryExpression->setTypeSignature(functionTypeSignature->getReturnType());

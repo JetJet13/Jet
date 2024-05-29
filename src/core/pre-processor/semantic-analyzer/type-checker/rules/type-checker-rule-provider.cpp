@@ -14,7 +14,9 @@ IterableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_iterableTypeSign
 UniqueScopedNamesTypeCheckerRule* TypeCheckerRuleProvider::_uniqueScopedNamesTypeCheckerRule = new UniqueScopedNamesTypeCheckerRule();
 UniqueTypeSignatureWithIdTypeCheckerRule* TypeCheckerRuleProvider::_uniqueTypeSignatureWithIdTypeCheckerRule = new UniqueTypeSignatureWithIdTypeCheckerRule();
 UniqueTypeSignaturesTypeCheckerRule* TypeCheckerRuleProvider::_uniqueTypeSignaturesTypeCheckerRule = new UniqueTypeSignaturesTypeCheckerRule();
-
+ReturnTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_returnTypeSignatureTypeCheckerRule = new ReturnTypeSignatureTypeCheckerRule();
+MatchArgumentListCountWithParameterListCountTypeCheckerRule* TypeCheckerRuleProvider::_matchArgumentListCountWithParameterListCountTypeCheckerRule = new MatchArgumentListCountWithParameterListCountTypeCheckerRule();
+ArgumentListTypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::_argumentListTypeSignatureMismatchTypeCheckerRule = new ArgumentListTypeSignatureMismatchTypeCheckerRule();
 
 NoReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule() {
     return _noReturnExpressionTypeCheckerRule;
@@ -50,4 +52,16 @@ UniqueTypeSignatureWithIdTypeCheckerRule* TypeCheckerRuleProvider::getUniqueType
 
 UniqueTypeSignaturesTypeCheckerRule* TypeCheckerRuleProvider::getUniqueTypeSignaturesTypeCheckerRule() {
     return _uniqueTypeSignaturesTypeCheckerRule;
+}
+
+ReturnTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule() {
+    return _returnTypeSignatureTypeCheckerRule;
+}
+
+MatchArgumentListCountWithParameterListCountTypeCheckerRule* TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule() {
+    return _matchArgumentListCountWithParameterListCountTypeCheckerRule;
+}
+
+ArgumentListTypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule() {
+    return _argumentListTypeSignatureMismatchTypeCheckerRule;
 }

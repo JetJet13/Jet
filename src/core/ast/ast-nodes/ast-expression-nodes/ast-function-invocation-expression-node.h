@@ -14,16 +14,20 @@
 #include "../ast-function-nodes/ast-function-argument-list-node.h"
 #include "../ast-function-nodes/ast-function-call-node.h"
 #include "ast-callable-expression-node.h"
+#include "../../../type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 
 class ASTFunctionInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
     ASTFunctionCallNode* _function;
     ASTFunctionArgumentListNode* _arguments;
+    FunctionInvocationTypeSignature* _typeSignature = new FunctionInvocationTypeSignature();
 public:
     explicit ASTFunctionInvocationExpressionNode(ASTFunctionCallNode* name, ASTFunctionArgumentListNode* arguments);
     ASTFunctionArgumentListNode* getArguments();
     ASTFunctionCallNode* getName();
     unsigned long numArguments();
+    void setTypeSignature(FunctionInvocationTypeSignature* functionInvocationTypeSignature);
+    FunctionInvocationTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

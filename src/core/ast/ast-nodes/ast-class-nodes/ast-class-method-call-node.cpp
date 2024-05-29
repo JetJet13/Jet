@@ -4,6 +4,14 @@
 
 #include "ast-class-method-call-node.h"
 
+void ASTClassMethodCallNode::setTypeSignature(ClassMethodTypeSignature* classMethodTypeSignature) {
+    _typeSignature = classMethodTypeSignature;
+}
+
+ClassMethodTypeSignature* ASTClassMethodCallNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTClassMethodCallNode::getNodeType() {
     return AST_CLASS_METHOD_CALL_NODE;
 }

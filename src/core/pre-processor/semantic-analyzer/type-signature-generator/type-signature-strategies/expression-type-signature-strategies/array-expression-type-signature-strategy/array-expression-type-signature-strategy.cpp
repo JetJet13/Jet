@@ -8,14 +8,13 @@
 
 void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (arrayExpression->size() == 0) {
-        arrayExpression->setTypeSignature(new ArrayTypeSignature(new InvalidTypeSignature()));
+        arrayExpression->setTypeSignature(new ArrayTypeSignature(new UnknownTypeSignature()));
         return;
     }
 
     for (auto element : *arrayExpression->getElements()) {
         strategyMap->assignTypeSignatureFor(element, scope);
     }
-
 
     arrayExpression->setTypeSignature(new ArrayTypeSignature(arrayExpression->getElements()->at(0)->getTypeSignature()));
 }

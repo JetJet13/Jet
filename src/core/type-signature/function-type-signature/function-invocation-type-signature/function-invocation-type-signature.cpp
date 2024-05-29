@@ -5,6 +5,10 @@
 #include "function-invocation-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
+FunctionInvocationTypeSignature::FunctionInvocationTypeSignature() {
+    _functionTypeSignature = new FunctionTypeSignature();
+}
+
 FunctionInvocationTypeSignature::FunctionInvocationTypeSignature(FunctionTypeSignature* functionTypeSignature) {
     _functionTypeSignature = functionTypeSignature;
 }

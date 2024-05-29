@@ -14,6 +14,9 @@
 #include "type-checker-rules/unique-scoped-names-type-checker-rule/unique-scoped-names-type-checker-rule.h"
 #include "type-checker-rules/unique-type-signature-with-id-type-checker-rule/unique-type-signature-with-id-type-checker-rule.h"
 #include "type-checker-rules/unique-type-signatures-type-checker-rule/unique-type-signatures-type-checker-rule.h"
+#include "type-checker-rules/return-type-signature-type-checker-rule/return-type-signature-type-checker-rule.h"
+#include "type-checker-rules/match-argument-list-count-with-parameter-list-count-type-checker-rule/match-argument-list-count-with-parameter-list-count-type-checker-rule.h"
+#include "type-checker-rules/argument-list-type-signature-mismatch-type-checker-rule/argument-list-type-signature-mismatch-type-checker-rule.h"
 
 class TypeCheckerRuleProvider {
 private:
@@ -26,6 +29,9 @@ private:
     static UniqueScopedNamesTypeCheckerRule* _uniqueScopedNamesTypeCheckerRule;
     static UniqueTypeSignatureWithIdTypeCheckerRule* _uniqueTypeSignatureWithIdTypeCheckerRule;
     static UniqueTypeSignaturesTypeCheckerRule* _uniqueTypeSignaturesTypeCheckerRule;
+    static ReturnTypeSignatureTypeCheckerRule* _returnTypeSignatureTypeCheckerRule;
+    static MatchArgumentListCountWithParameterListCountTypeCheckerRule* _matchArgumentListCountWithParameterListCountTypeCheckerRule;
+    static ArgumentListTypeSignatureMismatchTypeCheckerRule* _argumentListTypeSignatureMismatchTypeCheckerRule;
 public:
     static NoReturnExpressionTypeCheckerRule* getNoReturnExpressionTypeCheckerRule();
     static RequiredReturnExpressionTypeCheckerRule* getRequiredReturnExpressionTypeCheckerRule();
@@ -36,6 +42,9 @@ public:
     static UniqueScopedNamesTypeCheckerRule* getUniqueScopedNamesTypeCheckerRule();
     static UniqueTypeSignatureWithIdTypeCheckerRule* getUniqueTypeSignatureWithIdTypeCheckerRule();
     static UniqueTypeSignaturesTypeCheckerRule* getUniqueTypeSignaturesTypeCheckerRule();
+    static ReturnTypeSignatureTypeCheckerRule* getReturnTypeSignatureTypeCheckerRule();
+    static MatchArgumentListCountWithParameterListCountTypeCheckerRule* getMatchArgumentListCountWithParameterListCountTypeCheckerRule();
+    static ArgumentListTypeSignatureMismatchTypeCheckerRule* getArgumentListTypeSignatureMismatchTypeCheckerRule();
 };
 
 #endif //JETLANG_TYPE_CHECKER_RULE_PROVIDER_H

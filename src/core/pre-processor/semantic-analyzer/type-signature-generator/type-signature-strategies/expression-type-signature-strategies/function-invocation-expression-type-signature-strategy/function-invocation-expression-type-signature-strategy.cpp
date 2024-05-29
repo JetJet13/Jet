@@ -8,14 +8,13 @@
 #include "../../../../../../type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 
 void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
-    functionInvocationExpression->getName()->print();
     auto functionTypeSignature = typeSignatureLookupTable->find(
             functionInvocationExpression->getName()->getId()
     );
+
     if (!functionTypeSignature->is(FUNCTION_TYPE_SOURCE)) {
-        functionInvocationExpression->setTypeSignature(new InvalidTypeSignature());
+        functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature());
         return;
     }
-
     functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature((FunctionTypeSignature*)functionTypeSignature));
 }

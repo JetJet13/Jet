@@ -14,7 +14,7 @@ std::string ParameterListItemTypeSignature::getName() {
     return _name;
 }
 
-TypeSignature* ParameterListItemTypeSignature::getType() {
+TypeSignature* ParameterListItemTypeSignature::getTypeSignature() {
     return _type;
 }
 
@@ -37,7 +37,7 @@ bool ParameterListItemTypeSignature::isEqualTo(TypeSignature* otherType) {
 
     auto other = (ParameterListItemTypeSignature*)otherType;
     return this->getName() == other->getName() &&
-           this->getType()->isEqualTo(other->getType());
+            this->getTypeSignature()->isEqualTo(other->getTypeSignature());
 }
 
 void ParameterListItemTypeSignature::print() {

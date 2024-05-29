@@ -44,7 +44,7 @@ bool ParameterListTypeSignature::isEqualTo(TypeSignature *otherType) {
     }
     for (int i = 0; i < this->numParameters(); i++) {
         if (_parameters[i]->getName() != otherParameters->at(i)->getName() ||
-            !_parameters[i]->getType()->isEqualTo(otherParameters->at(i)->getType())) {
+            !_parameters[i]->getTypeSignature()->isEqualTo(otherParameters->at(i)->getTypeSignature())) {
             return false;
         }
     }

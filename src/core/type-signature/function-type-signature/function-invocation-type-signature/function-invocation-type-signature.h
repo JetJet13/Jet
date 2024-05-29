@@ -14,6 +14,7 @@ class FunctionInvocationTypeSignature : public TypeSignature {
 private:
     FunctionTypeSignature* _functionTypeSignature;
 public:
+    FunctionInvocationTypeSignature();
     FunctionInvocationTypeSignature(FunctionTypeSignature* functionTypeSignature);
     FunctionTypeSignature* getFunctionType();
     TypeSignature* getReturnType();
