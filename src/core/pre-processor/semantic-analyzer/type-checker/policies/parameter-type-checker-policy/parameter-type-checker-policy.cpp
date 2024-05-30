@@ -12,9 +12,15 @@ namespace ParameterTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
                 functionParameter,
-                TypeCheckerErrorMessageTable::ParameterTypeUnknown,
-                TypeCheckerErrorMessageTable::ParameterTypeInvalid,
-                TypeCheckerErrorMessageTable::ParameterTypeVoid,
+                TypeCheckerErrorMessageTable::ParameterTypeUnknown(
+                    functionParameter->getIdentifier()->getIdentifierNode()->getLexeme()
+                ),
+                TypeCheckerErrorMessageTable::ParameterTypeInvalid(
+                    functionParameter->getIdentifier()->getIdentifierNode()->getLexeme()
+                ),
+                TypeCheckerErrorMessageTable::ParameterTypeVoid(
+                    functionParameter->getIdentifier()->getIdentifierNode()->getLexeme()
+                ),
                 typeCheckerResult
         );
     }

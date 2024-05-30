@@ -11,18 +11,30 @@ namespace VariableAssignmentStatementTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             variableAssignmentStatementNode->getVariableAssignment()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::VariableTypeUnknown,
-            TypeCheckerErrorMessageTable::VariableTypeInvalid,
-            TypeCheckerErrorMessageTable::VariableTypeVoid,
+            TypeCheckerErrorMessageTable::VariableTypeUnknown(
+                variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::VariableTypeInvalid(
+                variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::VariableTypeVoid(
+                variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getLexeme()
+            ),
             typeCheckerResult
         );
 
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             variableAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(
+                variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(
+                variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(
+                variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getLexeme()
+            ),
             typeCheckerResult
         );
 
@@ -30,7 +42,9 @@ namespace VariableAssignmentStatementTypeCheckerPolicy {
         ->enforce(
           variableAssignmentStatementNode->getVariableAssignment()->getTypeSignature(),
           variableAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch,
+            TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch(
+                variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getLexeme()
+            ),
             typeCheckerResult
         );
     }

@@ -5,15 +5,27 @@
 #include "ast-function-parameter-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTFunctionParameterListNode::ASTFunctionParameterListNode() {
+ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
+    _functionParameterListStartNode = functionParameterListStartNode;
+    _functionParameterListEndNode = functionParameterListEndNode;
     _parameters = std::vector<ASTFunctionParameterNode*>();
 }
 
-ASTFunctionParameterListNode::ASTFunctionParameterListNode(std::vector<ASTFunctionParameterNode*> parameters) {
+ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, std::vector<ASTFunctionParameterNode*> parameters, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
+    _functionParameterListStartNode = functionParameterListStartNode;
+    _functionParameterListEndNode = functionParameterListEndNode;
     _parameters = std::vector<ASTFunctionParameterNode*>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
     }
+}
+
+ASTFunctionParameterListStartNode* ASTFunctionParameterListNode::getFunctionParameterListStartNode() {
+    return _functionParameterListStartNode;
+}
+
+ASTFunctionParameterListEndNode* ASTFunctionParameterListNode::getFunctionParameterListEndNode() {
+    return _functionParameterListEndNode;
 }
 
 std::vector<ASTFunctionParameterNode*> ASTFunctionParameterListNode::getParameters() {

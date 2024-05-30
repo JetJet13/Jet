@@ -5,9 +5,14 @@
 #include "ast-function-return-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTExpressionNode* expressionNode) {
+ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* expressionNode) {
+    _returnNode = returnNode;
     _returnExpression = expressionNode;
     _children.push_back(_returnExpression);
+}
+
+ASTFunctionReturnNode* ASTFunctionReturnExpressionNode::getReturnNode() {
+    return _returnNode;
 }
 
 ASTExpressionNode* ASTFunctionReturnExpressionNode::getExpression() {

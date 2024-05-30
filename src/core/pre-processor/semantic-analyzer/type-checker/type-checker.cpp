@@ -41,7 +41,6 @@
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
-// todo: add type checker policy for: expression statement
         switch (node->getNodeType()) {
             case AST_VARIABLE_DECLARATION_NODE:
                 VariableDeclarationTypeCheckerPolicy::apply((ASTVariableDeclarationNode*) node, typeCheckerResult);

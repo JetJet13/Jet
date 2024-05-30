@@ -15,10 +15,14 @@ ASTNode* LambdaExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
             );
         }
         if (nodes[1]->is(AST_LAMBDA_RETURN_EXPRESSION_NODE)) {
+            auto lambdaReturnExpression = ((ASTLambdaReturnExpressionNode*)nodes[1]);
             return new ASTLambdaExpressionNode(
                 (ASTFunctionParameterListNode*)nodes[0],
                 new ASTFunctionBlockNode({
                      new ASTFunctionReturnExpressionNode(
+                         new ASTFunctionReturnNode(
+                            lambdaReturnExpression->getFatArrowNode()->getLexeme()
+                         ),
                         ((ASTLambdaReturnExpressionNode*)nodes[1])->getExpression()
                      )
                 })
@@ -35,11 +39,13 @@ ASTNode* LambdaExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
             );
         }
         if (nodes[2]->is(AST_LAMBDA_RETURN_EXPRESSION_NODE)) {
+            auto lambdaReturnExpression = ((ASTLambdaReturnExpressionNode*)nodes[2]);
             return new ASTLambdaExpressionNode(
                 (ASTFunctionParameterListNode*)nodes[0],
                 new ASTFunctionBlockNode({
                      new ASTFunctionReturnExpressionNode(
-                         ((ASTFunctionReturnExpressionNode*)nodes[2])->getExpression()
+                         new ASTFunctionReturnNode(lambdaReturnExpression->getFatArrowNode()->getLexeme()),
+                         lambdaReturnExpression->getExpression()
                      )
                 }),
                 (ASTTypeNode*)nodes[1]

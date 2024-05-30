@@ -16,6 +16,10 @@ ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* p
     }
 }
 
+Lexeme* ASTLambdaExpressionNode::getLexeme() {
+    return _lexeme;
+}
+
 ASTFunctionParameterListNode* ASTLambdaExpressionNode::getParameters() {
     return _parameters;
 }

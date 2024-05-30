@@ -6,12 +6,15 @@
 #define JETLANG_AST_FUNCTION_RETURN_EXPRESSION_NODE_H
 
 #include "ast-expression-node.h"
+#include "../ast-function-nodes/ast-function-return-node.h"
 
 class ASTFunctionReturnExpressionNode : public ASTExpressionNode {
 private:
+    ASTFunctionReturnNode* _returnNode;
     ASTExpressionNode* _returnExpression;
 public:
-    ASTFunctionReturnExpressionNode(ASTExpressionNode* returnExpression);
+    ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* returnExpression);
+    ASTFunctionReturnNode* getReturnNode();
     ASTExpressionNode* getExpression();
     ASTNodeType getNodeType() override;
     std::string toString() override;

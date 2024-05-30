@@ -57,9 +57,15 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
             TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
             ->enforce(
                 classMethod->getTypeSignature()->getReturnType().value(),
-                TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown,
-                TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid,
-                TypeCheckerErrorMessageTable::ClassMethodReturnTypeVoid,
+                TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(
+                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                ),
+                TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid(
+                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                ),
+                TypeCheckerErrorMessageTable::ClassMethodReturnTypeVoid(
+                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                ),
                 typeCheckerResult
             );
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
@@ -70,12 +76,17 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
             );
             TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
                 classMethod->getBlock(),
-                TypeCheckerErrorMessageTable::ClassMethodNotAllPathsReturn,
+                TypeCheckerErrorMessageTable::ClassMethodNotAllPathsReturn(
+                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                ),
                 typeCheckerResult
             );
         } else {
             TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
                 classMethod->getBlock(),
+                TypeCheckerErrorMessageTable::ClassMethodHasReturnExpression(
+                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                ),
                 typeCheckerResult
             );
         }
@@ -96,7 +107,9 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(ASTClassD
     TypeCheckerRuleProvider::getUniqueTypeSignatureWithIdTypeCheckerRule()
     ->enforce(
         &classMethodNameAndTypeSignatureList,
-        TypeCheckerErrorMessageTable::ClassMethodNamesAndTypeSignaturesNotUnique,
+        TypeCheckerErrorMessageTable::ClassMethodNamesAndTypeSignaturesNotUnique(
+            classDeclarationNode->getName()->getLexeme()
+        ),
         typeCheckerResult
     );
 }
@@ -108,6 +121,9 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(ASTClassDecla
         TypeChecker::applyPolicyTo(classConstructor->getBlock(), typeCheckerResult);
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             classConstructor->getBlock(),
+            TypeCheckerErrorMessageTable::ClassConstructorHasReturnExpression(
+                classConstructor->getConstructor()->getLexeme()
+            ),
             typeCheckerResult
         );
     }

@@ -3,7 +3,6 @@
 //
 
 #include "variable-declaration-type-checker-policy.h"
-#include "../../types/type-checker-result-factory.h"
 #include "../../types/type-checker-error-message-table.h"
 
 namespace VariableDeclarationTypeCheckerPolicy {
@@ -12,16 +11,24 @@ namespace VariableDeclarationTypeCheckerPolicy {
         auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
 
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        varTypeSignature,
-                        TypeCheckerErrorMessageTable::VariableTypeUnknown,
-                        TypeCheckerErrorMessageTable::VariableTypeInvalid,
-                        TypeCheckerErrorMessageTable::VariableTypeVoid,
-                        typeCheckerResult
-                );
+        ->enforce(
+            varTypeSignature,
+            TypeCheckerErrorMessageTable::VariableTypeUnknown(
+                variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::VariableTypeInvalid(
+                variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::VariableTypeVoid(
+                variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+            ),
+            typeCheckerResult
+        );
 
        if (!varTypeSignature->isEqualTo(initializerTypeSignature)){
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch(
+                    variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+            ));
         }
     }
 }

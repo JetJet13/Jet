@@ -17,9 +17,15 @@ namespace FunctionDeclarationTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             functionTypeSignature->getReturnType(),
-            TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown,
-            TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid,
-            TypeCheckerErrorMessageTable::FunctionReturnTypeVoid,
+            TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown(
+                functionDeclarationNode->getName()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid(
+                functionDeclarationNode->getName()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::FunctionReturnTypeVoid(
+                functionDeclarationNode->getName()->getLexeme()
+            ),
             typeCheckerResult
         );
 
@@ -29,9 +35,11 @@ namespace FunctionDeclarationTypeCheckerPolicy {
             typeCheckerResult
         );
         TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
-                functionDeclarationNode->getBlock(),
-                TypeCheckerErrorMessageTable::FunctionNotAllPathsReturn,
-                typeCheckerResult
+            functionDeclarationNode->getBlock(),
+            TypeCheckerErrorMessageTable::FunctionNotAllPathsReturn(
+                functionDeclarationNode->getName()->getLexeme()
+            ),
+            typeCheckerResult
         );
 
     }

@@ -9,10 +9,11 @@
 #include "../../../../../../type-signature/type-signature.h"
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-node.h"
+#include "../../../../../../ast/ast-nodes/ast-identifier-node.h"
 
 class UniqueScopedNamesTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(std::vector<std::string>* names, std::string nonUniqueMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<ASTIdentifierNode*>* names, std::string nonUniqueMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

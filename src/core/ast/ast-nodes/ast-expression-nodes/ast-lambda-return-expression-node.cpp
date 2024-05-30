@@ -5,9 +5,14 @@
 #include "ast-lambda-return-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(ASTExpressionNode* expressionNode) {
+ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* expressionNode) {
+    _fatArrowNode = fatArrowNode;
     _returnExpression = expressionNode;
     _children.push_back(_returnExpression);
+}
+
+ASTLambdaExpressionFatArrowNode* ASTLambdaReturnExpressionNode::getFatArrowNode() {
+    return _fatArrowNode;
 }
 
 ASTExpressionNode* ASTLambdaReturnExpressionNode::getExpression() {

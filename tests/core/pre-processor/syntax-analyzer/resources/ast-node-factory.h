@@ -64,6 +64,9 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-constructor-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-start-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-end-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-return-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -190,13 +193,26 @@ namespace ASTNodeFactory {
     static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
+    static ASTFunctionParameterListStartNode* functionParameterListStart =  new ASTFunctionParameterListStartNode(
+            createLexeme(SymbolFactory::createLeftParenSymbol())
+    );
+    static ASTFunctionParameterListEndNode* functionParameterListEnd =  new ASTFunctionParameterListEndNode(
+            createLexeme(SymbolFactory::createRightParenSymbol())
+    );
     static ASTFunctionCallNode* functionCall =  new ASTFunctionCallNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTFunctionReturnNode* functionReturn =  new ASTFunctionReturnNode(
+            createLexeme(SymbolFactory::createReturnSymbol())
+    );
+    static ASTFunctionReturnNode* functionReturnFatArrow =  new ASTFunctionReturnNode(
+            createLexeme(SymbolFactory::createFatArrowSymbol())
     );
     static ASTFunctionParameterNode* intFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::intType
     );
+
     static ASTFunctionParameterNode* floatFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::floatType

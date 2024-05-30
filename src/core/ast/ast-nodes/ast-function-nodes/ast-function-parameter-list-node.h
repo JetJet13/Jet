@@ -9,14 +9,20 @@
 #include "../ast-node.h"
 #include "ast-function-parameter-node.h"
 #include "../../../type-signature/parameter-list-type-signature/parameter-list-type-signature.h"
+#include "ast-function-parameter-list-start-node.h"
+#include "ast-function-parameter-list-end-node.h"
 
 class ASTFunctionParameterListNode : public ASTNode {
 private:
+    ASTFunctionParameterListStartNode* _functionParameterListStartNode;
+    ASTFunctionParameterListEndNode* _functionParameterListEndNode;
     std::vector<ASTFunctionParameterNode*> _parameters;
     ParameterListTypeSignature* _typeSignature = new ParameterListTypeSignature();
 public:
-    ASTFunctionParameterListNode();
-    ASTFunctionParameterListNode(std::vector<ASTFunctionParameterNode*> parameters);
+    ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, ASTFunctionParameterListEndNode* functionParameterListEndNode);
+    ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, std::vector<ASTFunctionParameterNode*> parameters, ASTFunctionParameterListEndNode* functionParameterListEndNode);
+    ASTFunctionParameterListStartNode* getFunctionParameterListStartNode();
+    ASTFunctionParameterListEndNode* getFunctionParameterListEndNode();
     std::vector<ASTFunctionParameterNode*> getParameters();
     unsigned long numParameters();
     ASTFunctionParameterListNode* addParameter(ASTFunctionParameterNode* parameter);

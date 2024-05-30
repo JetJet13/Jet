@@ -15,13 +15,13 @@
 
 class NoReturnExpressionTypeCheckerRule : public TypeCheckerRule {
 private:
-    void checkNode(std::vector<ASTNode*>* nodes, TypeCheckerResult* typeCheckerResult);
+    void checkNode(std::vector<ASTNode*>* nodes, std::string message, TypeCheckerResult* typeCheckerResult);
 public:
-    void enforce(ASTFunctionBlockNode* functionBlockNode, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTIfStatementNode* ifStatementNode, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTTryStatementNode* tryStatementNode, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTForStatementNode* forStatementNode, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTWhileStatementNode* whileStatementNode, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTFunctionBlockNode* functionBlockNode, std::string message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTIfStatementNode* ifStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTTryStatementNode* tryStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTForStatementNode* forStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTWhileStatementNode* whileStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

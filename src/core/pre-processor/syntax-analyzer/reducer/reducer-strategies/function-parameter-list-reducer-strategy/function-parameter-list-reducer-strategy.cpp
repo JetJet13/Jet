@@ -6,7 +6,10 @@
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-node.h"
 
 ASTNode* FunctionParameterListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    auto functionParameterListNode = new ASTFunctionParameterListNode();
+    auto functionParameterListNode = new ASTFunctionParameterListNode(
+            (ASTFunctionParameterListStartNode*)nodes[0],
+            (ASTFunctionParameterListEndNode*)nodes[nodes.size() - 1]
+    );
     for (auto node : nodes) {
         if (node->is(AST_FUNCTION_PARAMETER_NODE)) {
             functionParameterListNode->addParameter((ASTFunctionParameterNode*)node);

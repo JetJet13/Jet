@@ -6,12 +6,15 @@
 #define JETLANG_AST_LAMBDA_RETURN_EXPRESSION_NODE_H
 
 #include "ast-expression-node.h"
+#include "../ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h"
 
 class ASTLambdaReturnExpressionNode : public ASTExpressionNode {
 private:
+    ASTLambdaExpressionFatArrowNode* _fatArrowNode;
     ASTExpressionNode* _returnExpression;
 public:
-    ASTLambdaReturnExpressionNode(ASTExpressionNode* returnExpression);
+    ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* returnExpression);
+    ASTLambdaExpressionFatArrowNode* getFatArrowNode();
     ASTExpressionNode* getExpression();
     ASTNodeType getNodeType() override;
     std::string toString() override;

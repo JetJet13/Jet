@@ -11,9 +11,15 @@ namespace FunctionReturnExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             functionReturnExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(
+                functionReturnExpression->getReturnNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(
+                functionReturnExpression->getReturnNode()->getLexeme()
+            ),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(
+                functionReturnExpression->getReturnNode()->getLexeme()
+            ),
             typeCheckerResult
         );
     }

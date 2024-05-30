@@ -4,6 +4,7 @@
 
 #include "procedure-declaration-type-checker-policy.h"
 #include "../../type-checker.h"
+#include "../../types/type-checker-error-message-table.h"
 
 namespace ProcedureDeclarationTypeCheckerPolicy {
     void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult) {
@@ -11,6 +12,9 @@ namespace ProcedureDeclarationTypeCheckerPolicy {
         TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), typeCheckerResult);
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             procedureDeclarationNode->getBlock(),
+            TypeCheckerErrorMessageTable::ProcedureHasReturnExpression(
+                procedureDeclarationNode->getName()->getLexeme()
+            ),
             typeCheckerResult
         );
     }
