@@ -21,6 +21,23 @@
 #include "policies/control-flow-condition-type-checker-policy/control-flow-condition-type-checker-policy.h"
 #include "policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.h"
 #include "policies/expression-statement-type-checker-policy/expression-statement-type-checker-policy.h"
+#include "policies/expressions/array-access-expression-type-checker-policy/array-access-expression-type-checker-policy.h"
+#include "policies/expressions/array-expression-type-checker-policy/array-expression-type-checker-policy.h"
+#include "policies/expressions/binary-expression-type-checker-policy/binary-expression-type-checker-policy.h"
+#include "policies/expressions/class-method-invocation-expression-type-checker-policy/class-method-invocation-expression-type-checker-policy.h"
+#include "policies/expressions/class-property-access-expression-type-checker-policy/class-property-access-expression-type-checker-policy.h"
+#include "policies/expressions/curry-expression-type-checker-policy/curry-expression-type-checker-policy.h"
+#include "policies/expressions/function-invocation-expression-type-checker-policy/function-invocation-expression-type-checker-policy.h"
+#include "policies/expressions/identifier-expression-type-checker-policy/identifier-expression-type-checker-policy.h"
+#include "policies/expressions/lambda-expression-type-checker-policy/lambda-expression-type-checker-policy.h"
+#include "policies/expressions/logical-expression-type-checker-policy/logical-expression-type-checker-policy.h"
+#include "policies/expressions/new-class-instance-expression-type-checker-policy/new-class-instance-expression-type-checker-policy.h"
+#include "policies/expressions/object-access-expression-type-checker-policy/object-access-expression-type-checker-policy.h"
+#include "policies/expressions/struct-expression-type-checker-policy/struct-expression-type-checker-policy.h"
+#include "policies/expressions/this-expression-type-checker-policy/this-expression-type-checker-policy.h"
+#include "policies/expressions/tuple-access-expression-type-checker-policy/tuple-access-expression-type-checker-policy.h"
+#include "policies/expressions/tuple-expression-type-checker-policy/tuple-expression-type-checker-policy.h"
+#include "policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -79,6 +96,57 @@ namespace TypeChecker {
                 break;
             case AST_EXPRESSION_STATEMENT_NODE:
                 ExpressionStatementTypeCheckerPolicy::apply((ASTExpressionStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_ARRAY_ACCESS_EXPRESSION_NODE:
+                ArrayAccessExpressionTypeCheckerPolicy::apply((ASTArrayAccessExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_ARRAY_EXPRESSION_NODE:
+                ArrayExpressionTypeCheckerPolicy::apply((ASTArrayExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_BINARY_EXPRESSION_NODE:
+                BinaryExpressionTypeCheckerPolicy::apply((ASTBinaryExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
+                ClassMethodInvocationExpressionTypeCheckerPolicy::apply((ASTClassMethodInvocationExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
+                ClassPropertyAccessExpressionTypeCheckerPolicy::apply((ASTClassPropertyAccessExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_CURRY_EXPRESSION_NODE:
+                CurryExpressionTypeCheckerPolicy::apply((ASTCurryExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
+                FunctionInvocationExpressionTypeCheckerPolicy::apply((ASTFunctionInvocationExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_IDENTIFIER_EXPRESSION_NODE:
+                IdentifierExpressionTypeCheckerPolicy::apply((ASTIdentifierExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_LAMBDA_EXPRESSION_NODE:
+                LambdaExpressionTypeCheckerPolicy::apply((ASTLambdaExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_LOGICAL_EXPRESSION_NODE:
+                LogicalExpressionTypeCheckerPolicy::apply((ASTLogicalExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
+                NewClassInstanceExpressionTypeCheckerPolicy::apply((ASTNewClassInstanceExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_OBJECT_ACCESS_EXPRESSION_NODE:
+                ObjectAccessExpressionTypeCheckerPolicy::apply((ASTObjectAccessExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_STRUCT_EXPRESSION_NODE:
+                StructExpressionTypeCheckerPolicy::apply((ASTStructExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_THIS_EXPRESSION_NODE:
+                ThisExpressionTypeCheckerPolicy::apply((ASTThisExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_TUPLE_ACCESS_EXPRESSION_NODE:
+                TupleAccessExpressionTypeCheckerPolicy::apply((ASTTupleAccessExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_TUPLE_EXPRESSION_NODE:
+                TupleExpressionTypeCheckerPolicy::apply((ASTTupleExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_UNARY_EXPRESSION_NODE:
+                UnaryExpressionTypeCheckerPolicy::apply((ASTUnaryExpressionNode*)node, typeCheckerResult);
                 break;
             default:
                 throw std::logic_error("no type-signature policy found for " + node->toString());

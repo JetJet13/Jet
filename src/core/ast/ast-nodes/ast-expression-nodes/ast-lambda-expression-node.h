@@ -14,17 +14,21 @@
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-function-nodes/ast-function-argument-list-node.h"
 #include "../ast-function-nodes/ast-function-call-node.h"
+#include "../../../type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 
 class ASTLambdaExpressionNode : public ASTExpressionNode {
 private:
     ASTFunctionParameterListNode* _parameters;
     ASTFunctionBlockNode* _block;
     std::optional<ASTTypeNode*> _returnType;
+    LambdaExpressionTypeSignature* _typeSignature;
 public:
     ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType = {});
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionBlockNode* getBlock();
     std::optional<ASTTypeNode*> getReturnType();
+    void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
+    LambdaExpressionTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -49,6 +49,10 @@ namespace TypeCheckerErrorMessageTable {
     static const auto FunctionCallNotEnoughArguments = "not enough arguments provided for function call";
     static const auto FunctionCallTooManyArguments = "too many arguments provided for function call";
     static const auto FunctionCallArgumentTypeMismatch = "argument type does not match parameter type for function call";
+    static const auto LambdaExpressionReturnTypeUnknown = "lambda expression return type is unknown";
+    static const auto LambdaExpressionReturnTypeInvalid = "lambda expression return type is invalid";
+    static const auto LambdaExpressionNotAllPathsReturn = "not all lambda expression paths return a value";
+    static const auto NewClassInstanceNotClassType = "cannot instantiate new class instance since type is not a class type";
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

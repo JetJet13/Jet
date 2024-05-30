@@ -976,6 +976,26 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/argument-list-type-signature-mismatch-type-checker-rule/argument-list-type-signature-mismatch-type-checker-rule.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/function-invocation-expression-type-checker-policy/function-invocation-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/function-invocation-expression-type-checker-policy/function-invocation-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/identifier-expression-type-checker-policy/identifier-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/identifier-expression-type-checker-policy/identifier-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/lambda-expression-type-checker-policy/lambda-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/lambda-expression-type-checker-policy/lambda-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/logical-expression-type-checker-policy/logical-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/logical-expression-type-checker-policy/logical-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/new-class-instance-expression-type-checker-policy/new-class-instance-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/new-class-instance-expression-type-checker-policy/new-class-instance-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-expression-type-checker-policy/object-access-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-expression-type-checker-policy/object-access-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/struct-expression-type-checker-policy/struct-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/struct-expression-type-checker-policy/struct-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/this-expression-type-checker-policy/this-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/this-expression-type-checker-policy/this-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-expression-type-checker-policy/tuple-access-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-expression-type-checker-policy/tuple-access-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-expression-type-checker-policy/tuple-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-expression-type-checker-policy/tuple-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.h
 
 )
 

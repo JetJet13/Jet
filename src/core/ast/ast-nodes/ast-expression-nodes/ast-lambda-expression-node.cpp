@@ -28,6 +28,14 @@ std::optional<ASTTypeNode*> ASTLambdaExpressionNode::getReturnType() {
     return _returnType;
 }
 
+void ASTLambdaExpressionNode::setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature) {
+    _typeSignature = lambdaExpressionTypeSignature;
+}
+
+LambdaExpressionTypeSignature* ASTLambdaExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
 ASTNodeType ASTLambdaExpressionNode::getNodeType() {
     return AST_LAMBDA_EXPRESSION_NODE;
 }

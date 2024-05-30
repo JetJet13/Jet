@@ -4,6 +4,7 @@
 
 #include "lambda-expression-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
+#include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 
 ASTNode* LambdaExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() == 2) {
@@ -18,7 +19,7 @@ ASTNode* LambdaExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
                 (ASTFunctionParameterListNode*)nodes[0],
                 new ASTFunctionBlockNode({
                      new ASTFunctionReturnExpressionNode(
-                        ((ASTFunctionReturnExpressionNode*)nodes[1])->getExpression()
+                        ((ASTLambdaReturnExpressionNode*)nodes[1])->getExpression()
                      )
                 })
             );
