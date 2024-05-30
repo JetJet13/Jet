@@ -42,6 +42,7 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNod
         }
         auto typeCheckerResult = TypeCheckerResult();
         TypeChecker::applyPolicyTo(node, &typeCheckerResult);
+        typeCheckerResult.print();
         typeCheckerResults->push_back(typeCheckerResult);
     }
 }

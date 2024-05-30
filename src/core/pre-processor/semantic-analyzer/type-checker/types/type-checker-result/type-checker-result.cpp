@@ -3,6 +3,7 @@
 //
 
 #include "type-checker-result.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 TypeCheckerResult::TypeCheckerResult() {
     _errors = std::vector<std::string>();
@@ -30,4 +31,10 @@ TypeCheckerResult* TypeCheckerResult::combine(TypeCheckerResult other) {
         _errors.push_back(error);
     }
     return this;
+}
+
+void TypeCheckerResult::print() {
+    for (const auto& error : _errors) {
+        Logger::log("TYPE_CHECKER_ERROR - ", error);
+    }
 }

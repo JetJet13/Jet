@@ -18,6 +18,7 @@ public:
     bool ok();
     std::vector<std::string>* getErrors();
     TypeCheckerResult* combine(TypeCheckerResult other);
+    void print();
 };
 
 #endif //JETLANG_TYPE_CHECKER_RESULT_H

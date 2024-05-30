@@ -53,6 +53,7 @@ namespace TypeCheckerErrorMessageTable {
     static const auto LambdaExpressionReturnTypeInvalid = "lambda expression return type is invalid";
     static const auto LambdaExpressionNotAllPathsReturn = "not all lambda expression paths return a value";
     static const auto NewClassInstanceNotClassType = "cannot instantiate new class instance since type is not a class type";
+    static const auto VariableNamesNotUnique = "variable names must be unique";
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H
