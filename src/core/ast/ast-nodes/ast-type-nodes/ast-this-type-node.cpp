@@ -35,3 +35,7 @@ void ASTThisTypeNode::print() {
     _this->print();
     Logger::log("----------");
 }
+
+std::string ASTThisTypeNode::toSourceCode() {
+    return _this->toSourceCode();
+}

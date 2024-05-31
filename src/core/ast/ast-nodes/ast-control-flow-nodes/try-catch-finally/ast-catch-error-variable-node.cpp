@@ -3,6 +3,7 @@
 //
 
 #include "ast-catch-error-variable-node.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 
 ASTNodeType ASTCatchErrorVariableNode::getNodeType() {
@@ -11,4 +12,8 @@ ASTNodeType ASTCatchErrorVariableNode::getNodeType() {
 
 std::string ASTCatchErrorVariableNode::toString() {
     return "CATCH_ERROR_VARIABLE";
+}
+
+std::string ASTCatchErrorVariableNode::toSourceCode() {
+    Logger::log(this->getId());
 }

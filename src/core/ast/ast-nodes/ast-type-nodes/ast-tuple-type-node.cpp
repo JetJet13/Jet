@@ -4,8 +4,10 @@
 
 #include "ast-tuple-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleTypeNode::ASTTupleTypeNode(ASTTypeParameterListNode* typeParameterList) {
+ASTTupleTypeNode::ASTTupleTypeNode(ASTTupleNode* tupleNode, ASTTypeParameterListNode* typeParameterList) {
+    _tupleNode = tupleNode;
     _typeParameterList = typeParameterList;
     _children.push_back(_typeParameterList);
 }
@@ -34,4 +36,10 @@ void ASTTupleTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _typeParameterList->print();
     Logger::log("----------");
+}
+
+std::string ASTTupleTypeNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_tupleNode)->add(_typeParameterList);
+    return sourceCodeBuilder.build();
 }

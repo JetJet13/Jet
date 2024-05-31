@@ -44,6 +44,10 @@ void ASTNode::print() {
     Logger::log(this->toString());
 }
 
+std::string ASTNode::toSourceCode() {
+    throw std::logic_error("toSourceCode not implemented: " + this->toString());
+}
+
 TypeSignature* ASTNode::getTypeSignature() {
     throw std::logic_error("get type-signature not implemented: " + this->toString());
 }

@@ -35,3 +35,7 @@ void ASTTupleItemNode::print() {
     _item->print();
     Logger::log("----------");
 }
+
+std::string ASTTupleItemNode::toSourceCode() {
+    return _item->toSourceCode();
+}

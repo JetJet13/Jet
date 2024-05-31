@@ -9,7 +9,6 @@
 
 class ASTNullNode : public ASTNode {
 public:
-    ASTNullNode() = default;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

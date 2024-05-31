@@ -27,6 +27,7 @@ public:
     virtual std::string toString() = 0;
     virtual bool isSameAs(ASTNode* other);
     virtual void print();
+    virtual std::string toSourceCode();
     virtual TypeSignature* getTypeSignature();
     virtual std::vector<ASTNode*> getChildren();
     virtual ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode);

@@ -8,17 +8,20 @@
 #include <string>
 #include "ast-type-base-node.h"
 #include "ast-type-parameter-list-node.h"
+#include "../ast-tuple-nodes/ast-tuple-node.h"
 
 class ASTTupleTypeNode : public ASTTypeBaseNode {
 private:
+    ASTTupleNode* _tupleNode;
     ASTTypeParameterListNode* _typeParameterList;
 public:
-    ASTTupleTypeNode(ASTTypeParameterListNode* tupleTypeParameterList);
+    explicit ASTTupleTypeNode(ASTTupleNode* tupleNode, ASTTypeParameterListNode* tupleTypeParameterList);
     ASTTypeParameterListNode* getParameterList();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_TUPLE_TYPE_NODE_H

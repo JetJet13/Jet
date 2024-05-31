@@ -3,6 +3,7 @@
 //
 
 #include "ast-file-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
 ASTFileNode::ASTFileNode(ASTBlockNode* body) {
     _body = body;
@@ -31,4 +32,11 @@ bool ASTFileNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTFileNode*)other;
     return _body->isSameAs(otherNode->getBody());
+}
+
+std::string ASTFileNode::toSourceCode() {
+    Logger::log("File");
+    Logger::log("-----");
+    this->getBody()->toSourceCode();
+    Logger::log("-----");
 }

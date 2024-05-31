@@ -43,3 +43,7 @@ void ASTVariableAssignmentNode::print() {
     _identifier->print();
     Logger::log("----------");
 }
+
+std::string ASTVariableAssignmentNode::toSourceCode() {
+    return _identifier->toSourceCode();
+}

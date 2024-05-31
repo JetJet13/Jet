@@ -4,6 +4,7 @@
 
 #include "ast-lambda-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTLambdaTypeNode::ASTLambdaTypeNode(ASTTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType) {
     _parameterList = parameterList;
@@ -56,4 +57,15 @@ void ASTLambdaTypeNode::print() {
         _returnType.value()->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTLambdaTypeNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_assignmentTypeQualifier)->add(_identifier);
+
+    if (_colon && _type) {
+        sourceCodeBuilder.add(_colon.value())->add(_type.value());
+    }
+
+    return sourceCodeBuilder.build();
 }

@@ -110,7 +110,7 @@ void SyntaxDfa::init() {
     DFANode* lambdaExpression = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_NODE);
     DFANode* typeParameterList = DFANodeFactory::Once::create(AST_TYPE_PARAMETER_LIST_NODE);
     DFANode* functionLambdaTypeParameterList = DFANodeFactory::Once::create(AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE);
-    DFANode* procedureLambdaTypeParameterList = DFANodeFactory::Once::createWithTarget(AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE, AST_LAMBDA_TYPE_NODE);
+    DFANode* procedureLambdaTypeParameterList = DFANodeFactory::Once::createWithTarget(AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE, AST_PROCEDURE_TYPE_NODE);
     DFANode* curryExpression = DFANodeFactory::Once::create(AST_CURRY_EXPRESSION_NODE);
     DFANode* tupleType = DFANodeFactory::Once::createWithTarget(AST_TUPLE_TYPE_NODE, AST_TUPLE_TYPE_NODE);
     DFANode* arrayType = DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_NODE, AST_ARRAY_TYPE_NODE);
@@ -620,7 +620,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(
         DFANodeFactory::Once::create(AST_LAMBDA_TYPE_FAT_ARROW_NODE)
                 ->addTransition(DFATransitionFactory::create(
-                        DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_LAMBDA_TYPE_NODE)))
+                        DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_FUNCTION_TYPE_NODE)))
     ));
 
     lambdaTypeFatArrow

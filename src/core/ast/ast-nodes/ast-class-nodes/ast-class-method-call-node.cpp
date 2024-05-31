@@ -3,6 +3,7 @@
 //
 
 #include "ast-class-method-call-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 void ASTClassMethodCallNode::setTypeSignature(ClassMethodTypeSignature* classMethodTypeSignature) {
     _typeSignature = classMethodTypeSignature;
@@ -18,4 +19,8 @@ ASTNodeType ASTClassMethodCallNode::getNodeType() {
 
 std::string ASTClassMethodCallNode::toString() {
     return "CLASS_METHOD_CALL";
+}
+
+std::string ASTClassMethodCallNode::toSourceCode() {
+    Logger::log(this->getId());
 }

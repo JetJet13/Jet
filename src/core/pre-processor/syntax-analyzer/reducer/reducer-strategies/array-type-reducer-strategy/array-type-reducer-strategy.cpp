@@ -10,10 +10,10 @@ ASTNode* ArrayTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         throw std::invalid_argument("unable to reduce to array type since nodes list is not of size 2");
     }
 
-    auto parameterList = (ASTTypeParameterListNode*)nodes[1];
     return ASTTypeNodeFactory::createArrayTypeNode(
             new ASTArrayTypeNode(
-                    (ASTTypeNode*)parameterList->getParameters()[0]
+                (ASTArrayTypeKeywordNode*)nodes[0],
+                (ASTTypeParameterListNode*)nodes[1]
             )
     );
 }

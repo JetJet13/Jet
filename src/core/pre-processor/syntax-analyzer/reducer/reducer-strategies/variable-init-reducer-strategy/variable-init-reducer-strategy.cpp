@@ -18,6 +18,7 @@ ASTNode* VariableInitReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         return new ASTVariableInitNode(
                 ((ASTVariableDefinitionNode*)nodes[0])->getVarTypeNode(),
                 ((ASTVariableDefinitionNode*)nodes[0])->getIdentifierNode(),
+                (ASTColonNode*)nodes[1],
                 (ASTTypeNode*)nodes[2]
         );
     }

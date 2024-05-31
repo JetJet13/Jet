@@ -6,12 +6,14 @@
 #include "../../shared/utils/to-string/to-string.h"
 
 
-Token::Token(Symbol *symbol) {
+Token::Token(Symbol *symbol, std::string rawValue) {
     _symbol = symbol;
+    _rawValue = rawValue;
 }
 
-Token::Token(Symbol* symbol, int valueId) {
+Token::Token(Symbol* symbol, std::string rawValue, int valueId) {
     _symbol = symbol;
+    _rawValue = rawValue;
     _valueId = valueId;
 }
 
@@ -21,6 +23,10 @@ Symbol* Token::getSymbol() {
 
 SymbolType Token::getSymbolType() {
     return _symbol->getType();
+}
+
+std::string Token::getRawValue() {
+    return _rawValue;
 }
 
 std::optional<int> Token::getValueId() {

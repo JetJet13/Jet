@@ -4,12 +4,17 @@
 
 #include "ast-type-parameter-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTypeParameterListNode::ASTTypeParameterListNode() {
+ASTTypeParameterListNode::ASTTypeParameterListNode(ASTTypeParameterListStartNode* typeParameterListStartNode, ASTTypeParameterListEndNode* typeParameterListEndNode) {
+    _typeParameterListStartNode = typeParameterListStartNode;
+    _typeParameterListEndNode = typeParameterListEndNode;
     _parameters = std::vector<ASTTypeNode*>();
 }
 
-ASTTypeParameterListNode::ASTTypeParameterListNode(std::vector<ASTTypeNode*> parameters) {
+ASTTypeParameterListNode::ASTTypeParameterListNode(ASTTypeParameterListStartNode* typeParameterListStartNode, std::vector<ASTTypeNode*> parameters, ASTTypeParameterListEndNode* typeParameterListEndNode) {
+    _typeParameterListStartNode = typeParameterListStartNode;
+    _typeParameterListEndNode = typeParameterListEndNode;
     _parameters = std::vector<ASTTypeNode*>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
@@ -62,4 +67,14 @@ void ASTTypeParameterListNode::print() {
         parameters->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTTypeParameterListNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_typeParameterListStartNode);
+    for (auto parameters : _parameters) {
+        sourceCodeBuilder.addWithWhitespace(parameters);
+    }
+    sourceCodeBuilder.addWithWhitespace(_typeParameterListEndNode);
+    return sourceCodeBuilder.build();
 }

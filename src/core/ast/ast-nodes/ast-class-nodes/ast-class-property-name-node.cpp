@@ -3,6 +3,7 @@
 //
 
 #include "ast-class-property-name-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTNodeType ASTClassPropertyNameNode::getNodeType() {
     return AST_CLASS_PROPERTY_NAME_NODE;
@@ -10,4 +11,8 @@ ASTNodeType ASTClassPropertyNameNode::getNodeType() {
 
 std::string ASTClassPropertyNameNode::toString() {
     return "CLASS_PROPERTY_NAME";
+}
+
+std::string ASTClassPropertyNameNode::toSourceCode() {
+    Logger::log(this->getId());
 }

@@ -13,3 +13,7 @@ ASTNodeType ASTFunctionCallNode::getNodeType() {
 std::string ASTFunctionCallNode::toString() {
     return "FUNCTION_CALL";
 }
+
+std::string ASTFunctionCallNode::toSourceCode() {
+    Logger::log(this->getId());
+}

@@ -4,6 +4,7 @@
 
 #include "ast-variable-definition-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTVariableDefinitionNode::ASTVariableDefinitionNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode) {
     _assignmentTypeQualifier = assignmentTypeQualifier;
@@ -43,4 +44,10 @@ void ASTVariableDefinitionNode::print() {
     _assignmentTypeQualifier->print();
     _identifier->print();
     Logger::log("----------");
+}
+
+std::string ASTVariableDefinitionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_assignmentTypeQualifier)->addWithWhitespace(_identifier);
+    return sourceCodeBuilder.build();
 }

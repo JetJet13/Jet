@@ -3,6 +3,7 @@
 //
 
 #include "ast-class-method-name-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTNodeType ASTClassMethodNameNode::getNodeType() {
     return AST_CLASS_METHOD_NAME_NODE;
@@ -10,4 +11,8 @@ ASTNodeType ASTClassMethodNameNode::getNodeType() {
 
 std::string ASTClassMethodNameNode::toString() {
     return "CLASS_METHOD_NAME";
+}
+
+std::string ASTClassMethodNameNode::toSourceCode() {
+    Logger::log(this->getId());
 }

@@ -4,6 +4,7 @@
 
 #include "ast-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTTypeNode::ASTTypeNode(ASTTypeBaseNode* type) {
     _type = type;
@@ -42,4 +43,8 @@ void ASTTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _type->print();
     Logger::log("----------");
+}
+
+std::string ASTTypeNode::toSourceCode() {
+    return _type->toSourceCode();
 }

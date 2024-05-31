@@ -12,6 +12,7 @@ class ASTEnumKeyNode : public ASTSymbolNode {
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_ENUM_KEY_NODE_H

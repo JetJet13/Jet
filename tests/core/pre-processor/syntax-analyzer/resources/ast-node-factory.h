@@ -76,7 +76,7 @@ namespace ASTNodeFactory {
     static ASTIdentifierExpressionNode* idExpression = new ASTIdentifierExpressionNode(
         new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
-
+    static ASTColonNode* colon = new ASTColonNode(createLexeme(SymbolFactory::createColonSymbol()));
     static ASTVariableInitNode* letInit = new ASTVariableInitNode(
                 new ASTVariableTypeNode(createLexeme(SymbolFactory::createVarSymbol())),
                 new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
@@ -89,6 +89,7 @@ namespace ASTNodeFactory {
         return new ASTVariableInitNode(
                 new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
                 new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+                ASTNodeFactory::colon,
                 type
         );
     }
@@ -188,7 +189,7 @@ namespace ASTNodeFactory {
     static ASTTypeNode* charType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
     static ASTTypeNode* booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
     static ASTTypeNode* arrayType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
-    static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()), "id");
     static ASTTypeNode* thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
     static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())

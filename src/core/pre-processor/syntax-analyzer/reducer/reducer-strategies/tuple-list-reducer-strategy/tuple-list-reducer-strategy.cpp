@@ -6,7 +6,10 @@
 #include "../../../../../ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-node.h"
 
 ASTNode* TupleListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    auto tupleListNode = new ASTTupleListNode();
+    auto tupleListNode = new ASTTupleListNode(
+        (ASTTupleListStartNode*)nodes[0],
+        (ASTTupleListEndNode*)nodes[nodes.size() - 1]
+    );
     for (auto node : nodes) {
         if (node->is(AST_TUPLE_ITEM_NODE)) {
             tupleListNode->addItem((ASTTupleItemNode*)node);

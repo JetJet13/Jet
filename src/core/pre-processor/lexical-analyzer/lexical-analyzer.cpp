@@ -103,7 +103,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 if (isPrevTokenPeriod) {
                     break;
                 } else if (isFloat) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term));
+                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
                 } else {
                     isFloat = true;
                 }
@@ -119,10 +119,10 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
         auto valueId = this->generateTokenValueId();
         if (isFloat) {
             _tokenTable->setFloat(valueId, std::stof(term));
-            return new Token(SymbolFactory::createFloatSymbol(), valueId);
+            return new Token(SymbolFactory::createFloatSymbol(), term, valueId);
         } else {
             _tokenTable->setInt(valueId, std::stoi(term));
-            return new Token(SymbolFactory::createIntSymbol(), valueId);
+            return new Token(SymbolFactory::createIntSymbol(), term, valueId);
         }
 
     }
@@ -135,16 +135,16 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             if (nextChar.value() == SINGLE_QUOTE) {
                 auto c = _charTable.match(term);
                 if (!c) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term));
+                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
                 }
                 auto valueId = this->generateTokenValueId();
                 _tokenTable->setChar(valueId, c.value());
-                return new Token(SymbolFactory::createCharSymbol(), valueId);
+                return new Token(SymbolFactory::createCharSymbol(), term, valueId);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term));
+        return new Token(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     if (character.value() == DOUBLE_QUOTE) {
@@ -155,12 +155,12 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             if (nextChar.value() == DOUBLE_QUOTE) {
                 auto valueId = this->generateTokenValueId();
                 _tokenTable->setString(valueId, term);
-                return new Token(SymbolFactory::createStringSymbol(), valueId);
+                return new Token(SymbolFactory::createStringSymbol(), term, valueId);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term));
+        return new Token(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     auto isCharacterReservedKeyword = _reservedKeywords->match(character);
@@ -174,9 +174,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 auto isBangEqual = _reservedKeywords->match(term);
                 if (isBangEqual) {
                     _fileReader.advance();
-                    return new Token(isBangEqual.value());
+                    return new Token(isBangEqual.value(), term);
                 }
-                return new Token(isCharacterReservedKeyword.value());
+                return new Token(isCharacterReservedKeyword.value(), term);
 
         } else if (nextChar &&
                     (reservedKeyword->isEqual() ||
@@ -189,9 +189,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isEqualityOperator = _reservedKeywords->match(term);
             if (isEqualityOperator) {
                 _fileReader.advance();
-                return new Token(isEqualityOperator.value());
+                return new Token(isEqualityOperator.value(), term);
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return new Token(isCharacterReservedKeyword.value(), term);
         } else if (nextChar &&
                     (reservedKeyword->isColon())
                 ) {
@@ -201,9 +201,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isColonColon = _reservedKeywords->match(term);
             if (isColonColon) {
                 _fileReader.advance();
-                return new Token(isColonColon.value());
+                return new Token(isColonColon.value(), term);
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return new Token(isCharacterReservedKeyword.value(), term);
         }  else if (nextChar && reservedKeyword->isPeriod()) {
             std::string term;
             term += character.value();
@@ -217,13 +217,15 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                     auto isDotDotDot = _reservedKeywords->match(term);
                     if (isDotDotDot) {
                         _fileReader.advance();
-                        return new Token(isDotDotDot.value());
+                        return new Token(isDotDotDot.value(), term);
                     }
                 }
-                return new Token(isDotDot.value());
+                return new Token(isDotDot.value(), term);
             }
         }
-        return new Token(isCharacterReservedKeyword.value());
+        std::string term = "";
+        term += character.value();
+        return new Token(isCharacterReservedKeyword.value(), term);
     }
 
     std::string term;
@@ -233,11 +235,11 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
         if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
             auto matchedKeyword = _reservedKeywords->match(term);
             if (matchedKeyword) {
-                return new Token(matchedKeyword.value());
+                return new Token(matchedKeyword.value(), term);
             }
             auto valueId = this->generateTokenValueId();
             _tokenTable->setIdentifier(valueId, term);
-            return new Token(SymbolFactory::createIdentifierSymbol(), valueId);
+            return new Token(SymbolFactory::createIdentifierSymbol(), term, valueId);
         }
         auto c = _fileReader.advance().value();
         term += c;
@@ -263,7 +265,7 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
                 if (isPrevTokenPeriod) {
                     break;
                 } else if (isFloat) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term));
+                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
                 } else {
                     isFloat = true;
                 }
@@ -280,9 +282,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
         }
 
         if (isFloat) {
-            return new Token(SymbolFactory::createFloatSymbol());
+            return new Token(SymbolFactory::createFloatSymbol(), term);
         } else {
-            return new Token(SymbolFactory::createIntSymbol());
+            return new Token(SymbolFactory::createIntSymbol(), term);
         }
 
     }
@@ -295,14 +297,14 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             if (nextChar.value() == SINGLE_QUOTE) {
                 auto c = _charTable.match(term);
                 if (!c) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term));
+                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
                 }
-                return new Token(SymbolFactory::createCharSymbol());
+                return new Token(SymbolFactory::createCharSymbol(), term);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term));
+        return new Token(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     if (character.value() == DOUBLE_QUOTE) {
@@ -311,12 +313,12 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
         while (peekNextChar) {
             auto nextChar = _fileReader.advance();
             if (nextChar.value() == DOUBLE_QUOTE) {
-                return new Token(SymbolFactory::createStringSymbol());
+                return new Token(SymbolFactory::createStringSymbol(), term);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term));
+        return new Token(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     auto isCharacterReservedKeyword = _reservedKeywords->match(character);
@@ -330,9 +332,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isBangEqual = _reservedKeywords->match(term);
             if (isBangEqual) {
                 _fileReader.advance();
-                return new Token(isBangEqual.value());
+                return new Token(isBangEqual.value(), term);
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return new Token(isCharacterReservedKeyword.value(), term);
 
         } else if (nextChar &&
                    (reservedKeyword->isEqual() ||
@@ -345,9 +347,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isEqualityOperator = _reservedKeywords->match(term);
             if (isEqualityOperator) {
                 _fileReader.advance();
-                return new Token(isEqualityOperator.value());
+                return new Token(isEqualityOperator.value(), term);
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return new Token(isCharacterReservedKeyword.value(), term);
         }  else if (nextChar &&
                     (reservedKeyword->isColon())
                 ) {
@@ -357,9 +359,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isColonColon = _reservedKeywords->match(term);
             if (isColonColon) {
                 _fileReader.advance();
-                return new Token(isColonColon.value());
+                return new Token(isColonColon.value(), term);
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return new Token(isCharacterReservedKeyword.value(), term);
         }  else if (nextChar && reservedKeyword->isPeriod()) {
             std::string term;
             term += character.value();
@@ -373,13 +375,15 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
                     auto isDotDotDot = _reservedKeywords->match(term);
                     if (isDotDotDot) {
                         _fileReader.advance();
-                        return new Token(isDotDotDot.value());
+                        return new Token(isDotDotDot.value(), term);
                     }
                 }
-                return new Token(isDotDot.value());
+                return new Token(isDotDot.value(), term);
             }
         }
-        return new Token(isCharacterReservedKeyword.value());
+        std::string term;
+        term += character.value();
+        return new Token(isCharacterReservedKeyword.value(), term);
     }
 
     std::string term;
@@ -389,11 +393,11 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
         if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
             auto matchedKeyword = _reservedKeywords->match(term);
             if (matchedKeyword) {
-                return new Token(matchedKeyword.value());
+                return new Token(matchedKeyword.value(), term);
             }
             auto valueId = this->generateTokenValueId();
             _tokenTable->setIdentifier(valueId, term);
-            return new Token(SymbolFactory::createIdentifierSymbol(), valueId);
+            return new Token(SymbolFactory::createIdentifierSymbol(), term, valueId);
         }
         auto c = _fileReader.advance().value();
         term += c;

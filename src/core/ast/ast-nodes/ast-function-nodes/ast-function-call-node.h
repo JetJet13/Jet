@@ -12,6 +12,7 @@ class ASTFunctionCallNode : public ASTSymbolNode {
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    std::string toSourceCode() override;
 };
 
 

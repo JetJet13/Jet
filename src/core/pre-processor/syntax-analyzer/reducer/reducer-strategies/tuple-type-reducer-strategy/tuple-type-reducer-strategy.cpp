@@ -11,6 +11,6 @@ ASTNode* TupleTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return ASTTypeNodeFactory::createTupleTypeNode(
-        new ASTTupleTypeNode((ASTTypeParameterListNode*)nodes[1])
+        new ASTTupleTypeNode((ASTTupleNode*)nodes[0], (ASTTypeParameterListNode*)nodes[1])
     );
 }

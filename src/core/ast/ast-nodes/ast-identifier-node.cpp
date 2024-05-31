@@ -143,3 +143,7 @@ bool ASTIdentifierNode::isSameAs(ASTNode* other) {
 void ASTIdentifierNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString(), "|", "id:", _id);
 }
+
+std::string ASTIdentifierNode::toSourceCode() {
+    Logger::log(this->getId());
+}

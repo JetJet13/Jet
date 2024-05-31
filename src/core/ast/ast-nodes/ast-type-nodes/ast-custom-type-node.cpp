@@ -5,10 +5,6 @@
 #include "ast-custom-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTCustomTypeNode::ASTCustomTypeNode(Lexeme* lexeme) {
-    _lexeme = lexeme;
-}
-
 ASTCustomTypeNode::ASTCustomTypeNode(Lexeme* lexeme, std::string id) {
     _lexeme = lexeme;
     this->setId(id);
@@ -36,4 +32,8 @@ bool ASTCustomTypeNode::isSameAs(ASTNode *other) {
 
 void ASTCustomTypeNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
+}
+
+std::string ASTCustomTypeNode::toSourceCode() {
+    return _id;
 }

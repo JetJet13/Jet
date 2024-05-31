@@ -14,11 +14,13 @@ class Token {
 private:
     Symbol* _symbol;
     std::optional<int> _valueId;
+    std::string _rawValue;
 public:
-    explicit Token(Symbol* symbol);
-    Token(Symbol* symbol, int valueId);
+    explicit Token(Symbol* symbol, std::string rawValue);
+    Token(Symbol* symbol, std::string rawValue, int valueId);
     Symbol* getSymbol();
     SymbolType getSymbolType();
+    std::string getRawValue();
     std::optional<int> getValueId();
     Token* setValueId(int valueId);
     std::string toString();

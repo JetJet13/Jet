@@ -12,12 +12,15 @@
 #include "ast-tuple-type-node.h"
 #include "ast-array-type-node.h"
 #include "../ast-class-nodes/ast-this-node.h"
+#include "ast-procedure-type-node.h"
+#include "ast-function-type-node.h"
 
 namespace ASTTypeNodeFactory {
-    ASTTypeNode* createCustomTypeNode(Lexeme* lexeme);
     ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id);
     ASTTypeNode* createPrimitiveTypeNode(Lexeme* lexeme);
     ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode);
+    ASTTypeNode* createProcedureTypeNode(ASTProcedureTypeNode* procedureTypeNode);
+    ASTTypeNode* createFunctionTypeNode(ASTFunctionTypeNode* functionTypeNode);
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode);
     ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);

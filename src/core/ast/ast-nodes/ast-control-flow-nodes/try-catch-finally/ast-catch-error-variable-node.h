@@ -13,6 +13,7 @@ class ASTCatchErrorVariableNode : public ASTSymbolNode {
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CATCH_ERROR_VARIABLE_NODE_H

@@ -14,6 +14,4 @@ add_library(jet-shared
         ./utils/to-string/to-string.cpp
         types/null-type.h
         types/basic-character-type.h
-
-
 )

@@ -12,13 +12,13 @@ class ASTCustomTypeNode : public ASTTypeBaseNode {
 private:
     Lexeme* _lexeme;
 public:
-    ASTCustomTypeNode(Lexeme* lexeme);
     ASTCustomTypeNode(Lexeme* lexeme, std::string id);
     Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CUSTOM_TYPE_NODE_H

@@ -4,12 +4,17 @@
 
 #include "ast-tuple-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleListNode::ASTTupleListNode() {
+ASTTupleListNode::ASTTupleListNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd) {
+    _tupleListStart = tupleListStart;
+    _tupleListEnd = tupleListEnd;
     _items = std::vector<ASTTupleItemNode*>();
 }
 
-ASTTupleListNode::ASTTupleListNode(std::vector<ASTTupleItemNode*> items) {
+ASTTupleListNode::ASTTupleListNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, ASTTupleListEndNode* tupleListEnd) {
+    _tupleListStart = tupleListStart;
+    _tupleListEnd = tupleListEnd;
     _items = std::vector<ASTTupleItemNode*>();
     for (auto item: items) {
         this->addItem(item);
@@ -62,4 +67,14 @@ void ASTTupleListNode::print() {
         item->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTTupleListNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_tupleListStart);
+    for (auto item : _items) {
+        sourceCodeBuilder.addWithWhitespace(item);
+    }
+    sourceCodeBuilder.add(_tupleListEnd);
+    return sourceCodeBuilder.build();
 }

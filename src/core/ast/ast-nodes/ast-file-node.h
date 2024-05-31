@@ -19,6 +19,7 @@ public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_FILE_NODE_H

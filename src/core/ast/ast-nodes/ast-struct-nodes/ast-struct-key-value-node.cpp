@@ -4,11 +4,14 @@
 
 #include "ast-struct-key-value-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTStructKeyValueNode::ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTExpressionNode* value) {
+ASTStructKeyValueNode::ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTColonNode* colon, ASTExpressionNode* value) {
     _key = key;
+    _colon = colon;
     _value = value;
     _children.push_back(_key);
+    _children.push_back(_colon);
     _children.push_back(_value);
 }
 
@@ -41,4 +44,13 @@ void ASTStructKeyValueNode::print() {
     _key->print();
     _value->print();
     Logger::log("----------");
+}
+
+std::string ASTStructKeyValueNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder
+    .add(_key)
+    ->add(_colon)
+    ->add(_value);
+    return sourceCodeBuilder.build();
 }

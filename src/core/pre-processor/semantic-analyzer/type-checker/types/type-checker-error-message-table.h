@@ -156,8 +156,7 @@ namespace TypeCheckerErrorMessageTable {
     static std::string NewClassInstanceNotClassType(Lexeme* lexeme) {
       return "cannot instantiate new class instance since type is not a class type" + lexeme->toString();  
     }
-    // todo: figure out how to have a function return a function that takes a lexeme as a parameter
-    // and returns a string (a closure)
+
     static std::string VariableNamesNotUnique(Lexeme* lexeme) {
       return "variable name must be unique" + lexeme->toString();
     } 

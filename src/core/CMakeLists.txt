@@ -53,6 +53,8 @@ add_library(jet-core
         ast/ast-nodes/ast-file-node.cpp
         ast/ast-nodes/ast-file-node.h
         ast/types/ast-node-type.h
+        ast/types/source-code-builder/source-code-builder.cpp
+        ast/types/source-code-builder/source-code-builder.h
         grammar/tables/follow-symbol-table.cpp
         grammar/tables/follow-symbol-table.h
         ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.cpp
@@ -996,6 +998,14 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-expression-type-checker-policy/tuple-expression-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.h
+        ast/ast-nodes/ast-type-nodes/ast-function-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-function-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-procedure-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-procedure-type-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.h
 
 )
 

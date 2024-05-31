@@ -4,14 +4,17 @@
 
 #include "ast-array-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTArrayTypeNode::ASTArrayTypeNode(ASTTypeNode* elementType) {
-    _elementType = elementType;
-    _children.push_back(_elementType);
+ASTArrayTypeNode::ASTArrayTypeNode(ASTArrayTypeKeywordNode* arrayKeywordNode, ASTTypeParameterListNode* typeParameterList) {
+    _arrayKeyword = arrayKeywordNode;
+    _typeParameterList = typeParameterList;
+    _children.push_back(_arrayKeyword);
+    _children.push_back(_typeParameterList);
 }
 
 ASTTypeNode* ASTArrayTypeNode::getElementType() {
-    return _elementType;
+    return _typeParameterList->getParameters()[0];
 }
 
 ASTNodeType ASTArrayTypeNode::getNodeType() {
@@ -33,6 +36,12 @@ bool ASTArrayTypeNode::isSameAs(ASTNode *other) {
 
 void ASTArrayTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _elementType->print();
+    _typeParameterList->print();
     Logger::log("----------");
+}
+
+std::string ASTArrayTypeNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_arrayKeyword)->add(_typeParameterList);
+    return sourceCodeBuilder.build();
 }

@@ -14,7 +14,7 @@ class ASTTypeNode : public ASTNode {
 private:
     ASTTypeBaseNode* _type;
 public:
-    ASTTypeNode(ASTTypeBaseNode* type);
+    explicit ASTTypeNode(ASTTypeBaseNode* type);
     ASTTypeBaseNode* getType();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
@@ -22,6 +22,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 

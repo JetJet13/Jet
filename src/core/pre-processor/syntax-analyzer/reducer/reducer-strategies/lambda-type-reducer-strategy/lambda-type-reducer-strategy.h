@@ -9,6 +9,7 @@
 #include "../reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-node.h"
 
+// todo: remove, not in use anymore
 class LambdaTypeReducerStrategy : public ReducerStrategy {
 public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;

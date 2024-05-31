@@ -16,6 +16,7 @@ public:
     Lexeme* getLexeme();
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_SYMBOL_NODE_H

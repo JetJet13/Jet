@@ -32,3 +32,7 @@ bool ASTPrimitiveTypeNode::isSameAs(ASTNode *other) {
 void ASTPrimitiveTypeNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
 }
+
+std::string ASTPrimitiveTypeNode::toSourceCode() {
+    return _lexeme->getToken()->getRawValue();
+}

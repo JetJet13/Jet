@@ -30,3 +30,7 @@ bool ASTSymbolNode::isSameAs(ASTNode *other) {
 void ASTSymbolNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString(), "|", "id:", _id);
 }
+
+std::string ASTSymbolNode::toSourceCode() {
+    return this->getLexeme()->getToken()->getSymbol()->toString();
+}

@@ -4,6 +4,7 @@
 
 #include "struct-key-value-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-struct-nodes/ast-struct-key-value-node.h"
+#include "../../../../../ast/ast-nodes/ast-colon-node.h"
 
 ASTNode* StructKeyValueReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 3) {
@@ -12,6 +13,7 @@ ASTNode* StructKeyValueReducerStrategy::execute(std::vector<ASTNode*> nodes) {
 
     return new ASTStructKeyValueNode(
             (ASTIdentifierExpressionNode*)nodes[0],
+            (ASTColonNode*)nodes[1],
             (ASTExpressionNode*)nodes[2]
     );
 }

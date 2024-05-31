@@ -33,6 +33,10 @@ void ASTTupleAccessNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
 }
 
+std::string ASTTupleAccessNode::toSourceCode() {
+    return _lexeme->getToken()->getRawValue();
+}
+
 ASTTupleAccessNode* ASTTupleAccessNode::setIndexValue(int index) {
     _index = index;
     return this;
