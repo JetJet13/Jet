@@ -4,9 +4,12 @@
 
 #include "ast-try-block-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTTryBlockNode::ASTTryBlockNode(ASTControlFlowBlockNode* block) {
+ASTTryBlockNode::ASTTryBlockNode(ASTTryNode* tryKeyword, ASTControlFlowBlockNode* block) {
+    _tryKeyword = tryKeyword;
     _block = block;
+    _children.push_back(_tryKeyword);
     _children.push_back(_block);
 }
 
@@ -35,4 +38,11 @@ void ASTTryBlockNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTTryBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_tryKeyword)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

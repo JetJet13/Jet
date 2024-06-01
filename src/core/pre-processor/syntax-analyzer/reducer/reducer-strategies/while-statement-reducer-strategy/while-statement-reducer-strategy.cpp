@@ -11,6 +11,7 @@ ASTNode* WhileStatementReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTWhileStatementNode(
+            (ASTWhileNode*)nodes[0],
             (ASTControlFlowConditionNode*)nodes[1],
             (ASTControlFlowBlockNode*)nodes[2]
     );

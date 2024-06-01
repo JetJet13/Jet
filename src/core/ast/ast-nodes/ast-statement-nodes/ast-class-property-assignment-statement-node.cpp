@@ -4,6 +4,7 @@
 
 #include "ast-class-property-assignment-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTClassPropertyAssignmentStatementNode::ASTClassPropertyAssignmentStatementNode(ASTClassPropertyAssignmentNode* propertyAssignment, ASTExpressionNode* expression) {
     _propertyAssignment = propertyAssignment;
@@ -42,4 +43,11 @@ void ASTClassPropertyAssignmentStatementNode::print() {
     _propertyAssignment->print();
     _expression->print();
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyAssignmentStatementNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_propertyAssignment)
+    ->addWithWhitespace(_expression);
+    return sourceCodeBuilder.build();
 }

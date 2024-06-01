@@ -35,3 +35,7 @@ void ASTModuleListItemNode::print() {
     _item->print();
     Logger::log("----------");
 }
+
+std::string ASTModuleListItemNode::toSourceCode() {
+    return _item->toSourceCode();
+}

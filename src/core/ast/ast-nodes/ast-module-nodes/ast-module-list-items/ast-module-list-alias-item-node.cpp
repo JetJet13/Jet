@@ -4,11 +4,14 @@
 
 #include "ast-module-list-alias-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleListAliasItemNode::ASTModuleListAliasItemNode(ASTModuleNameNode* moduleName, ASTModuleAliasNameNode* aliasModuleName) {
+ASTModuleListAliasItemNode::ASTModuleListAliasItemNode(ASTModuleNameNode* moduleName, ASTAsNode* asNode, ASTModuleAliasNameNode* aliasModuleName) {
     _moduleName = moduleName;
+    _asNode = asNode;
     _aliasModuleName = aliasModuleName;
     _children.push_back(_moduleName);
+    _children.push_back(asNode);
     _children.push_back(_aliasModuleName);
 }
 
@@ -42,4 +45,12 @@ void ASTModuleListAliasItemNode::print() {
     _moduleName->print();
     _aliasModuleName->print();
     Logger::log("----------");
+}
+
+std::string ASTModuleListAliasItemNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_moduleName)
+    ->addWithWhitespace(_asNode)
+    ->addWithWhitespace(_aliasModuleName);
+    return sourceCodeBuilder.build();
 }

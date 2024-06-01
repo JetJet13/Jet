@@ -4,6 +4,7 @@
 
 #include "ast-if-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock) {
     _ifBlock = ifBlock;
@@ -91,4 +92,18 @@ void ASTIfStatementNode::print() {
         _elseBlock.value()->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTIfStatementNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_ifBlock);
+    for (auto elseIfBlock : _elseIfBlocks) {
+        sourceCodeBuilder.addWithWhitespace(elseIfBlock);
+    }
+
+    if (_elseBlock) {
+        sourceCodeBuilder.addWithWhitespace(_elseBlock.value());
+    }
+
+    return sourceCodeBuilder.build();
 }

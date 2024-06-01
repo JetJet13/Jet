@@ -8,13 +8,17 @@
 #include <string>
 #include "../ast-node.h"
 #include "ast-module-list-item-node.h"
+#include "ast-module-list-start-node.h"
+#include "ast-module-list-end-node.h"
 
 class ASTModuleListNode : public ASTNode {
 private:
+    ASTModuleListStartNode* _moduleListStartNode;
+    ASTModuleListEndNode* _moduleListEndNode;
     std::vector<ASTModuleListItemNode*> _items;
 public:
-    ASTModuleListNode();
-    ASTModuleListNode(std::vector<ASTModuleListItemNode*> items);
+    ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, ASTModuleListEndNode* moduleListEndNode);
+    ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, std::vector<ASTModuleListItemNode*> items, ASTModuleListEndNode* moduleListEndNode);
     std::vector<ASTModuleListItemNode*> getItems();
     unsigned long numItems();
     ASTModuleListNode* addItem(ASTModuleListItemNode* item);
@@ -22,6 +26,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_MODULE_LIST_NODE_H

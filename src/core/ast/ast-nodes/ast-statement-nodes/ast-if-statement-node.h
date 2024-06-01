@@ -29,6 +29,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_IF_STATEMENT_NODE_H

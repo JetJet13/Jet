@@ -5,26 +5,10 @@
 #include "./ast-unary-operator-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTUnaryOperatorNode::ASTUnaryOperatorNode(Lexeme* lexemeOperator) {
-    _lexemeOperator = lexemeOperator;
-}
-
-Lexeme* ASTUnaryOperatorNode::getOperator() {
-    return _lexemeOperator;
-}
-
 ASTNodeType ASTUnaryOperatorNode::getNodeType() {
     return AST_UNARY_OPERATOR_NODE;
 }
 
 std::string ASTUnaryOperatorNode::toString() {
-    return "UNARY_OPERATOR - " + _lexemeOperator->toString();
-}
-
-bool ASTUnaryOperatorNode::isSameAs(ASTNode *other) {
-    if (!other->is(this->getNodeType())) {
-        return false;
-    }
-    auto otherNode = (ASTUnaryOperatorNode*)other;
-    return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
+    return "UNARY_OPERATOR";
 }

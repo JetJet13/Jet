@@ -4,8 +4,10 @@
 
 #include "ast-if-block-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTIfBlockNode::ASTIfBlockNode(ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+ASTIfBlockNode::ASTIfBlockNode(ASTIfNode* ifKeyword, ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+    _ifKeyword = ifKeyword;
     _condition = condition;
     _block = block;
     _children.push_back(_condition);
@@ -43,4 +45,12 @@ void ASTIfBlockNode::print() {
     _condition->print();
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTIfBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_ifKeyword)
+    ->addWithWhitespace(_condition)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

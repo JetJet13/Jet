@@ -7,15 +7,11 @@
 
 #include "../../ast-node.h"
 
-class ASTLogicalOperatorNode : public ASTNode {
-private:
-    Lexeme* _logicalOperator;
+class ASTLogicalOperatorNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTLogicalOperatorNode(Lexeme* logicalOperatorLiteral);
-    Lexeme* getOperator();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
 };
 
 #endif //JETLANG_AST_LOGICAL_OPERATOR_NODE_H

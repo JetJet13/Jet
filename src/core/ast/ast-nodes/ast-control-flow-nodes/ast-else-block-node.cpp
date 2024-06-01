@@ -4,8 +4,10 @@
 
 #include "ast-else-block-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTElseBlockNode::ASTElseBlockNode(ASTControlFlowBlockNode* block) {
+ASTElseBlockNode::ASTElseBlockNode(ASTElseNode* elseKeyword, ASTControlFlowBlockNode* block) {
+    _elseKeyword = elseKeyword;
     _block = block;
     _children.push_back(_block);
 }
@@ -35,4 +37,11 @@ void ASTElseBlockNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTElseBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_elseKeyword)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

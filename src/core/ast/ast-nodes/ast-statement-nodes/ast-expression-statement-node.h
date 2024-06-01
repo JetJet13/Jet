@@ -15,12 +15,13 @@ class ASTExpressionStatementNode : public ASTStatementNode {
 private:
     ASTExpressionNode* _expression;
 public:
-    ASTExpressionStatementNode(ASTExpressionNode* expression);
+    explicit ASTExpressionStatementNode(ASTExpressionNode* expression);
     ASTExpressionNode* getExpression();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_EXPRESSION_STATEMENT_NODE_H

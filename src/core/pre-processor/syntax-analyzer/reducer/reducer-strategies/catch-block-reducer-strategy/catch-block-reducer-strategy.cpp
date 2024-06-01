@@ -8,12 +8,14 @@
 ASTNode* CatchBlockReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() == 2) {
         return new ASTCatchBlockNode(
+                (ASTCatchNode*)nodes[0],
                 (ASTControlFlowBlockNode*)nodes[1]
         );
     }
 
     if (nodes.size() == 3) {
         return new ASTCatchBlockNode(
+                (ASTCatchNode*)nodes[0],
                 (ASTControlFlowBlockNode*)nodes[2],
                 (ASTCatchErrorVariableNode*)nodes[1]
         );

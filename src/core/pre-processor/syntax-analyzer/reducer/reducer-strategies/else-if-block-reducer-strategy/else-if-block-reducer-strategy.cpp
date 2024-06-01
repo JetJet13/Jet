@@ -11,6 +11,7 @@ ASTNode* ElseIfBlockReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTElseIfBlockNode(
+            (ASTElseIfNode*)nodes[0],
             (ASTControlFlowConditionNode*)nodes[1],
             (ASTControlFlowBlockNode*)nodes[2]
     );

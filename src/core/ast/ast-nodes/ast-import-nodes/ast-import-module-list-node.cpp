@@ -4,16 +4,26 @@
 
 #include "ast-import-module-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListNode::ASTImportModuleListNode() {
+ASTImportModuleListNode::ASTImportModuleListNode(ASTImportModuleListStartNode* importModuleListStartNode, ASTImportModuleListEndNode* importModuleListEndNode) {
+    _importModuleListStartNode = importModuleListStartNode;
+    _importModuleListEndNode = importModuleListEndNode;
+    _children.push_back(_importModuleListStartNode);
+    _children.push_back(_importModuleListEndNode);
     _items = std::vector<ASTImportModuleListItemNode*>();
 }
 
-ASTImportModuleListNode::ASTImportModuleListNode(std::vector<ASTImportModuleListItemNode*> items) {
+ASTImportModuleListNode::ASTImportModuleListNode(ASTImportModuleListStartNode* importModuleListStartNode, std::vector<ASTImportModuleListItemNode*> items, ASTImportModuleListEndNode* importModuleListEndNode) {
+    _importModuleListStartNode = importModuleListStartNode;
+    _importModuleListEndNode = importModuleListEndNode;
+    _children.push_back(_importModuleListStartNode);
+    _children.push_back(_importModuleListEndNode);
     _items = std::vector<ASTImportModuleListItemNode*>();
     for (auto item: items) {
         this->addItem(item);
     }
+
 }
 
 std::vector<ASTImportModuleListItemNode*> ASTImportModuleListNode::getItems() {
@@ -62,4 +72,14 @@ void ASTImportModuleListNode::print() {
         item->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTImportModuleListNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_importModuleListStartNode);
+    for (auto item : _items) {
+        sourceCodeBuilder.addWithWhitespace(item);
+    }
+    sourceCodeBuilder.addWithWhitespace(_importModuleListEndNode);
+    return sourceCodeBuilder.build();
 }

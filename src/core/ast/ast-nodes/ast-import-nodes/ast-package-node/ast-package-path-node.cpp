@@ -35,3 +35,7 @@ void ASTPackagePathNode::print() {
     _packagePath->print();
     Logger::log("----------");
 }
+
+std::string ASTPackagePathNode::toSourceCode() {
+    return _packagePath->toSourceCode();
+}

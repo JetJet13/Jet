@@ -4,9 +4,12 @@
 
 #include "ast-finally-block-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTFinallyBlockNode::ASTFinallyBlockNode(ASTControlFlowBlockNode* block) {
+ASTFinallyBlockNode::ASTFinallyBlockNode(ASTFinallyNode* finallyKeyword, ASTControlFlowBlockNode* block) {
+    _finallyKeyword = finallyKeyword;
     _block = block;
+    _children.push_back(_finallyKeyword);
     _children.push_back(_block);
 }
 
@@ -35,4 +38,11 @@ void ASTFinallyBlockNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTFinallyBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_finallyKeyword)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

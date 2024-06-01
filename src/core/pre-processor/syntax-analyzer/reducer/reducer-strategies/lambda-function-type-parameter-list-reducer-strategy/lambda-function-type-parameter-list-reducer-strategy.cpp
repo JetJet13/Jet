@@ -11,6 +11,7 @@ ASTNode* LambdaFunctionTypeParameterListReducerStrategy::execute(std::vector<AST
     }
 
     return new ASTFunctionLambdaTypeParameterListNode(
-            ((ASTTypeParameterListNode*)nodes[1])->getParameters()
+            (ASTFunctionNode*)nodes[0],
+            (ASTTypeParameterListNode*)nodes[1]
     );
 }

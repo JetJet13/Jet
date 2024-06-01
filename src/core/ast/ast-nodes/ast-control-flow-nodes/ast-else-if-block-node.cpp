@@ -4,8 +4,10 @@
 
 #include "ast-else-if-block-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTElseIfBlockNode::ASTElseIfBlockNode(ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+ASTElseIfBlockNode::ASTElseIfBlockNode(ASTElseIfNode* elseIfKeyword, ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+    _elseIfKeyword = elseIfKeyword;
     _condition = condition;
     _block = block;
     _children.push_back(_condition);
@@ -43,4 +45,12 @@ void ASTElseIfBlockNode::print() {
     _condition->print();
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTElseIfBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_elseIfKeyword)
+    ->addWithWhitespace(_condition)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

@@ -4,9 +4,12 @@
 
 #include "ast-class-property-access-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassPropertyAccessNode::ASTClassPropertyAccessNode(ASTClassPropertyNameNode* property) {
+ASTClassPropertyAccessNode::ASTClassPropertyAccessNode(ASTClassAccessNode* classAccess, ASTClassPropertyNameNode* property) {
+    _classAccess = classAccess;
     _property = property;
+    _children.push_back(_classAccess);
     _children.push_back(_property);
 }
 
@@ -34,4 +37,11 @@ void ASTClassPropertyAccessNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _property->print();
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyAccessNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_classAccess)
+    ->add(_property);
+    return sourceCodeBuilder.build();
 }

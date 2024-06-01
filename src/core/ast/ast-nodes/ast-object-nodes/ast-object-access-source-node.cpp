@@ -35,3 +35,7 @@ void ASTObjectAccessSourceNode::print() {
     _source->print();
     Logger::log("----------");
 }
+
+std::string ASTObjectAccessSourceNode::toSourceCode() {
+    return _source->toSourceCode();
+}

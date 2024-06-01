@@ -23,6 +23,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     virtual void setValue(TokenTable* tokenTable) = 0;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_LITERAL_NODE_H

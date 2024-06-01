@@ -8,17 +8,13 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "../ast-symbol-node.h"
 
-class ASTModuleListStartNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTModuleListStartNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTModuleListStartNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_MODULE_LIST_START_NODE_H

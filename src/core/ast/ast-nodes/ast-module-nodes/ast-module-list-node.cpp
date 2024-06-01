@@ -4,12 +4,21 @@
 
 #include "ast-module-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleListNode::ASTModuleListNode() {
+ASTModuleListNode::ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, ASTModuleListEndNode* moduleListEndNode) {
+    _moduleListStartNode = moduleListStartNode;
+    _moduleListEndNode = moduleListEndNode;
+    _children.push_back(_moduleListStartNode);
+    _children.push_back(_moduleListEndNode);
     _items = std::vector<ASTModuleListItemNode*>();
 }
 
-ASTModuleListNode::ASTModuleListNode(std::vector<ASTModuleListItemNode*> items) {
+ASTModuleListNode::ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, std::vector<ASTModuleListItemNode*> items, ASTModuleListEndNode* moduleListEndNode) {
+    _moduleListStartNode = moduleListStartNode;
+    _moduleListEndNode = moduleListEndNode;
+    _children.push_back(_moduleListStartNode);
+    _children.push_back(_moduleListEndNode);
     _items = std::vector<ASTModuleListItemNode*>();
     for (auto item: items) {
         this->addItem(item);
@@ -62,4 +71,14 @@ void ASTModuleListNode::print() {
         item->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTModuleListNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_moduleListStartNode);
+    for (auto item : _items) {
+        sourceCodeBuilder.addWithWhitespace(item);
+    }
+    sourceCodeBuilder.addWithWhitespace(_moduleListEndNode);
+    return sourceCodeBuilder.build();
 }

@@ -12,7 +12,7 @@
 #include "ast-type-parameter-list-end-node.h"
 
 class ASTTypeParameterListNode : public ASTNode {
-private:
+protected:
     ASTTypeParameterListStartNode* _typeParameterListStartNode;
     ASTTypeParameterListEndNode* _typeParameterListEndNode;
     std::vector<ASTTypeNode*> _parameters;

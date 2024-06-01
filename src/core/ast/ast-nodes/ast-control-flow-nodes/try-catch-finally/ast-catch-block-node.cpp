@@ -4,10 +4,13 @@
 
 #include "ast-catch-block-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTCatchBlockNode::ASTCatchBlockNode(ASTControlFlowBlockNode* block, std::optional<ASTCatchErrorVariableNode*> errorVariable) {
+ASTCatchBlockNode::ASTCatchBlockNode(ASTCatchNode* catchKeyword, ASTControlFlowBlockNode* block, std::optional<ASTCatchErrorVariableNode*> errorVariable) {
+    _catchKeyword = catchKeyword;
     _block = block;
     _errorVariable = errorVariable;
+    _children.push_back(_catchKeyword);
     _children.push_back(_block);
     if (_errorVariable) {
         _children.push_back(_errorVariable.value());
@@ -56,4 +59,14 @@ void ASTCatchBlockNode::print() {
     }
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTCatchBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_catchKeyword);
+    if (_errorVariable) {
+        sourceCodeBuilder.addWithWhitespace(_errorVariable.value());
+    }
+    sourceCodeBuilder.addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

@@ -11,6 +11,7 @@ ASTNode* VariableAssignmentReducerStrategy::execute(std::vector<ASTNode*> nodes)
         throw std::invalid_argument("unable to reduce to variable assignment since nodes list is not 2");
     }
     return new ASTVariableAssignmentNode(
-            ((ASTIdentifierExpressionNode*)nodes[0])->getIdentifierNode()
+            ((ASTIdentifierExpressionNode*)nodes[0])->getIdentifierNode(),
+            (ASTAssignmentOperatorNode*)nodes[1]
     );
 }

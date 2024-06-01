@@ -10,17 +10,11 @@
 #include "../ast-node.h"
 #include "../../types/ast-node-type.h"
 
-class ASTProcedureNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTProcedureNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTProcedureNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
-
 
 #endif //JETLANG_AST_PROCEDURE_NODE_H

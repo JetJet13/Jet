@@ -35,3 +35,7 @@ void ASTImportModuleAliasNameNode::print() {
     _identifier->print();
     Logger::log("----------");
 }
+
+std::string ASTImportModuleAliasNameNode::toSourceCode() {
+    return _identifier->toSourceCode();
+}

@@ -9,12 +9,23 @@
 #include "../ast-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../ast-type-nodes/ast-type-parameter-list-node.h"
+#include "../ast-function-nodes/ast-function-node.h"
 
-class ASTFunctionLambdaTypeParameterListNode : public ASTTypeParameterListNode {
-    using ASTTypeParameterListNode::ASTTypeParameterListNode;
+class ASTFunctionLambdaTypeParameterListNode : public ASTNode {
+private:
+    ASTFunctionNode* _functionKeyword;
+    ASTTypeParameterListNode* _typeParameterList;
 public:
+    ASTFunctionLambdaTypeParameterListNode(ASTFunctionNode* functionKeyword, ASTTypeParameterListNode* typeParameterList);
+    ASTTypeParameterListNode* getTypeParameterList();
+    std::vector<ASTTypeNode*> getParameters();
+    unsigned long numParameters();
+    ASTFunctionLambdaTypeParameterListNode* addParameter(ASTTypeNode* parameter);
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE_H

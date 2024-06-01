@@ -5,57 +5,57 @@
 #include "ast-binary-operator-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTBinaryOperatorNode::ASTBinaryOperatorNode(Lexeme* lexemeOperator) {
-    _lexemeOperator = lexemeOperator;
-    _priority = this->determinePriority(lexemeOperator);
+ASTBinaryOperatorNode::ASTBinaryOperatorNode(Lexeme* lexeme) {
+    _lexeme = lexeme;
+    _priority = this->determinePriority(lexeme);
 }
 
 Lexeme* ASTBinaryOperatorNode::getOperator() {
-    return _lexemeOperator;
+    return _lexeme;
 }
 
 bool ASTBinaryOperatorNode::isPlus() {
-    return _lexemeOperator->getToken()->getSymbol()->isPlus();
+    return _lexeme->getToken()->getSymbol()->isPlus();
 }
 
 bool ASTBinaryOperatorNode::isMinus() {
-    return _lexemeOperator->getToken()->getSymbol()->isMinus();
+    return _lexeme->getToken()->getSymbol()->isMinus();
 }
 
 bool ASTBinaryOperatorNode::isMultiply() {
-    return _lexemeOperator->getToken()->getSymbol()->isStar();
+    return _lexeme->getToken()->getSymbol()->isStar();
 }
 
 bool ASTBinaryOperatorNode::isDivide() {
-    return _lexemeOperator->getToken()->getSymbol()->isSlash();
+    return _lexeme->getToken()->getSymbol()->isSlash();
 }
 
 bool ASTBinaryOperatorNode::isModulo() {
-    return _lexemeOperator->getToken()->getSymbol()->isModulo();
+    return _lexeme->getToken()->getSymbol()->isModulo();
 }
 
 bool ASTBinaryOperatorNode::isEqual() {
-    return _lexemeOperator->getToken()->getSymbol()->isEqualityOperator();
+    return _lexeme->getToken()->getSymbol()->isEqualityOperator();
 }
 
 bool ASTBinaryOperatorNode::isNotEqual() {
-    return _lexemeOperator->getToken()->getSymbol()->isInequalityOperator();
+    return _lexeme->getToken()->getSymbol()->isInequalityOperator();
 }
 
 bool ASTBinaryOperatorNode::isGreaterThan() {
-    return _lexemeOperator->getToken()->getSymbol()->isGreaterThan();
+    return _lexeme->getToken()->getSymbol()->isGreaterThan();
 }
 
 bool ASTBinaryOperatorNode::isLessThan() {
-    return _lexemeOperator->getToken()->getSymbol()->isLessThan();
+    return _lexeme->getToken()->getSymbol()->isLessThan();
 }
 
 bool ASTBinaryOperatorNode::isGreaterThanOrEqual() {
-    return _lexemeOperator->getToken()->getSymbol()->isGreaterThanOrEqual();
+    return _lexeme->getToken()->getSymbol()->isGreaterThanOrEqual();
 }
 
 bool ASTBinaryOperatorNode::isLessThanOrEqual() {
-    return _lexemeOperator->getToken()->getSymbol()->isLessThanOrEqual();
+    return _lexeme->getToken()->getSymbol()->isLessThanOrEqual();
 }
 
 ASTNodeType ASTBinaryOperatorNode::getNodeType() {
@@ -63,15 +63,7 @@ ASTNodeType ASTBinaryOperatorNode::getNodeType() {
 }
 
 std::string ASTBinaryOperatorNode::toString() {
-    return "BINARY_OPERATOR - " + _lexemeOperator->toString();
-}
-
-bool ASTBinaryOperatorNode::isSameAs(ASTNode *other) {
-    if (!other->is(this->getNodeType())) {
-        return false;
-    }
-    auto otherNode = (ASTBinaryOperatorNode*)other;
-    return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
+    return "BINARY_OPERATOR";
 }
 
 unsigned int ASTBinaryOperatorNode::determinePriority(Lexeme* lexeme) {

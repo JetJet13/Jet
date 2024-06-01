@@ -18,6 +18,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_OBJECT_ACCESS_SOURCE_NODE_H

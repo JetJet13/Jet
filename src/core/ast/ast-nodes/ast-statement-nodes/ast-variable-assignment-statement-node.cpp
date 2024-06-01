@@ -4,6 +4,7 @@
 
 #include "ast-variable-assignment-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTVariableAssignmentStatementNode::ASTVariableAssignmentStatementNode(ASTVariableAssignmentNode* variable, ASTExpressionNode* expression) {
     _variableAssignment = variable;
@@ -42,4 +43,11 @@ void ASTVariableAssignmentStatementNode::print() {
     _variableAssignment->print();
     _expression->print();
     Logger::log("----------");
+}
+
+std::string ASTVariableAssignmentStatementNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_variableAssignment)
+    ->addWithWhitespace(_expression);
+    return sourceCodeBuilder.build();
 }

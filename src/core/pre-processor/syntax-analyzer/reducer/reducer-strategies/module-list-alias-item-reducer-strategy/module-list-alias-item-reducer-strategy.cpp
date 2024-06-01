@@ -12,6 +12,7 @@ ASTNode* ModuleListAliasItemReducerStrategy::execute(std::vector<ASTNode*> nodes
 
     return new ASTModuleListAliasItemNode(
             (ASTModuleNameNode*)nodes[0],
+            (ASTAsNode*)nodes[1],
             (ASTModuleAliasNameNode*)nodes[2]
     );
 }

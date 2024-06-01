@@ -36,3 +36,7 @@ bool ASTLiteralNode::isSameAs(ASTNode *other) {
     auto otherNode = (ASTLiteralNode*)other;
     return this->getLiteral()->hasSameSymbolTypeAs(otherNode->getLiteral());
 }
+
+std::string ASTLiteralNode::toSourceCode() {
+    return _lexeme->getToken()->getRawValue();
+}

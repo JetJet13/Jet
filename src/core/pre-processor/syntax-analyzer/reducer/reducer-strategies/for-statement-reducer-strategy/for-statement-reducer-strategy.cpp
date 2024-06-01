@@ -11,7 +11,9 @@ ASTNode* ForStatementReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTForStatementNode(
+            (ASTForNode*)nodes[0],
             (ASTForVariableNode*)nodes[1],
+            (ASTForInNode*)nodes[2],
             (ASTForSourceNode*)nodes[3],
             (ASTControlFlowBlockNode*)nodes[4]
     );

@@ -13,7 +13,8 @@ ASTNode* ClassPropertyAssignmentReducerStrategy::execute(std::vector<ASTNode*> n
     }
 
     return new ASTClassPropertyAssignmentNode(
-            ((ASTClassPropertyAccessNode*)nodes[0])->getProperty()
+            (ASTClassPropertyAccessNode*)nodes[0],
+            (ASTAssignmentOperatorNode*)nodes[1]
     );
 
 }

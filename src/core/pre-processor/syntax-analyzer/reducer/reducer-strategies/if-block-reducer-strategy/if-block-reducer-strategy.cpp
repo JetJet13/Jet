@@ -11,6 +11,7 @@ ASTNode* IfBlockReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTIfBlockNode(
+            (ASTIfNode*)nodes[0],
             (ASTControlFlowConditionNode*)nodes[1],
             (ASTControlFlowBlockNode*)nodes[2]
     );

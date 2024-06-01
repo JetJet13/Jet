@@ -7,7 +7,10 @@
 
 
 ASTNode* TypeParameterListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    auto typeParameterListNode = new ASTTypeParameterListNode();
+    auto typeParameterListNode = new ASTTypeParameterListNode(
+        (ASTTypeParameterListStartNode*)nodes[0],
+        (ASTTypeParameterListEndNode*)nodes[nodes.size() - 1]
+    );
     for (auto node : nodes) {
         if (node->is(AST_TYPE_NODE)) {
             typeParameterListNode->addParameter((ASTTypeNode*)node);

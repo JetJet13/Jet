@@ -4,6 +4,7 @@
 
 #include "ast-class-access-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTClassAccessNode::ASTClassAccessNode(ASTThisNode* thisNode, ASTThisAccessNode* thisAccess) {
     _this = thisNode;
@@ -42,4 +43,11 @@ void ASTClassAccessNode::print() {
     _this->print();
     _thisAccess->print();
     Logger::log("----------");
+}
+
+std::string ASTClassAccessNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_this)
+    ->addWithWhitespace(_thisAccess);
+    return sourceCodeBuilder.build();
 }

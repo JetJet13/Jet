@@ -4,10 +4,13 @@
 
 #include "ast-variable-assignment-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTVariableAssignmentNode::ASTVariableAssignmentNode(ASTIdentifierNode* astIdentifierNode) {
+ASTVariableAssignmentNode::ASTVariableAssignmentNode(ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator) {
     _identifier = astIdentifierNode;
+    _assignmentOperator = assignmentOperator;
     _children.push_back(_identifier);
+    _children.push_back(_assignmentOperator);
 }
 
 ASTIdentifierNode* ASTVariableAssignmentNode::getIdentifierNode() {
@@ -45,5 +48,8 @@ void ASTVariableAssignmentNode::print() {
 }
 
 std::string ASTVariableAssignmentNode::toSourceCode() {
-    return _identifier->toSourceCode();
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_identifier)
+    ->addWithWhitespace(_assignmentOperator);
+    return sourceCodeBuilder.build();
 }

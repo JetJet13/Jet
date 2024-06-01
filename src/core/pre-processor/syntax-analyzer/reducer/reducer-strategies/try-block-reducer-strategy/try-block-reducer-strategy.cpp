@@ -11,6 +11,7 @@ ASTNode* TryBlockReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTTryBlockNode(
+            (ASTTryNode*)nodes[0],
             (ASTControlFlowBlockNode*)nodes[1]
     );
 }

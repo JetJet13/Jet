@@ -35,3 +35,7 @@ void ASTExpressionStatementNode::print() {
     _expression->print();
     Logger::log("----------");
 }
+
+std::string ASTExpressionStatementNode::toSourceCode() {
+    return _expression->toSourceCode();
+}

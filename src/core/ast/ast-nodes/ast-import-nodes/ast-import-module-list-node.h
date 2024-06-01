@@ -8,13 +8,20 @@
 #include <string>
 #include "../ast-node.h"
 #include "ast-import-module-list-item-node.h"
+#include "ast-import-module-list-start-node.h"
+#include "ast-import-module-list-end-node.h"
 
+// todo: add new ast node to handle syntactic sugar for importing
+// module by wildcard, since the syntax doesn't require ASTImportModuleListStartNode
+// and ASTImportModuleListEndNode
 class ASTImportModuleListNode : public ASTNode {
 private:
+    ASTImportModuleListStartNode* _importModuleListStartNode;
+    ASTImportModuleListEndNode* _importModuleListEndNode;
     std::vector<ASTImportModuleListItemNode*> _items;
 public:
-    ASTImportModuleListNode();
-    ASTImportModuleListNode(std::vector<ASTImportModuleListItemNode*> items);
+    ASTImportModuleListNode(ASTImportModuleListStartNode* importModuleListStartNode, ASTImportModuleListEndNode* importModuleListEndNode);
+    ASTImportModuleListNode(ASTImportModuleListStartNode* importModuleListStartNode, std::vector<ASTImportModuleListItemNode*> items, ASTImportModuleListEndNode* importModuleListEndNode);
     std::vector<ASTImportModuleListItemNode*> getItems();
     unsigned long numItems();
     ASTImportModuleListNode* addItem(ASTImportModuleListItemNode* item);
@@ -22,6 +29,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_IMPORT_MODULE_LIST_NODE_H

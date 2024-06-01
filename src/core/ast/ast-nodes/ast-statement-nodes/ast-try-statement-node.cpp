@@ -4,6 +4,7 @@
 
 #include "ast-try-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTTryStatementNode::ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBlockNode* catchBlock) {
     _tryBlock = tryBlock;
@@ -74,4 +75,16 @@ void ASTTryStatementNode::print() {
         _finallyBlock.value()->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTTryStatementNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_tryBlock)
+    ->addWithWhitespace(_catchBlock);
+
+    if (_finallyBlock) {
+        sourceCodeBuilder.addWithWhitespace(_finallyBlock.value());
+    }
+
+    return sourceCodeBuilder.build();
 }

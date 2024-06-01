@@ -35,3 +35,7 @@ void ASTImportPathNode::print() {
     _importPath->print();
     Logger::log("----------");
 }
+
+std::string ASTImportPathNode::toSourceCode() {
+    return _importPath->toSourceCode();
+}

@@ -4,10 +4,13 @@
 
 #include "ast-while-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTWhileStatementNode::ASTWhileStatementNode(ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+ASTWhileStatementNode::ASTWhileStatementNode(ASTWhileNode* whileKeyword, ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+    _whileKeyword = whileKeyword;
     _condition = condition;
     _block = block;
+    _children.push_back(_whileKeyword);
     _children.push_back(_condition);
     _children.push_back(_block);
 }
@@ -43,4 +46,12 @@ void ASTWhileStatementNode::print() {
     _condition->print();
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTWhileStatementNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_whileKeyword)
+    ->addWithWhitespace(_condition)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

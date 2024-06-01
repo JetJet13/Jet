@@ -35,3 +35,7 @@ void ASTModuleNameNode::print() {
     _identifier->print();
     Logger::log("----------");
 }
+
+std::string ASTModuleNameNode::toSourceCode() {
+    return _identifier->toSourceCode();
+}

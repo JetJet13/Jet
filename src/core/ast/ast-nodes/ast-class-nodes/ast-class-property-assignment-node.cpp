@@ -4,14 +4,18 @@
 
 #include "ast-class-property-assignment-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
+#include "ast-class-property-access-node.h"
 
-ASTClassPropertyAssignmentNode::ASTClassPropertyAssignmentNode(ASTClassPropertyNameNode* property) {
-    _property = property;
-    _children.push_back(_property);
+ASTClassPropertyAssignmentNode::ASTClassPropertyAssignmentNode(ASTClassPropertyAccessNode* classPropertyAccess, ASTAssignmentOperatorNode* assignmentOperator) {
+    _classPropertyAccess = classPropertyAccess;
+    _assignmentOperator = assignmentOperator;
+    _children.push_back(_classPropertyAccess);
+    _children.push_back(_assignmentOperator);
 }
 
 ASTClassPropertyNameNode* ASTClassPropertyAssignmentNode::getProperty() {
-    return _property;
+    return _classPropertyAccess->getProperty();
 }
 
 void ASTClassPropertyAssignmentNode::setTypeSignature(TypeSignature* typeSignature) {
@@ -40,6 +44,13 @@ bool ASTClassPropertyAssignmentNode::isSameAs(ASTNode *other) {
 
 void ASTClassPropertyAssignmentNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _property->print();
+    _classPropertyAccess->print();
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyAssignmentNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_classPropertyAccess)
+    ->addWithWhitespace(_assignmentOperator);
+    return sourceCodeBuilder.build();
 }
