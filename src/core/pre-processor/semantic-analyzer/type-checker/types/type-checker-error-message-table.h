@@ -6,159 +6,159 @@
 #define JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H
 
 namespace TypeCheckerErrorMessageTable {
-    static std::string VariableTypeMismatch(Lexeme* lexeme) {
-      return "variable type does not match initializer type" + lexeme->toString();  
+    static std::string VariableTypeMismatch(ASTNode* node) {
+      return "variable type does not match initializer type" + node->toSourceCode();  
     } 
-    static std::string VariableTypeUnknown(Lexeme* lexeme) {
-      return "variable type is unknown" + lexeme->toString();  
+    static std::string VariableTypeUnknown(ASTNode* node) {
+      return "variable type is unknown" + node->toSourceCode();  
     } 
-    static std::string VariableTypeInvalid(Lexeme* lexeme) {
-      return "variable type is invalid" + lexeme->toString();  
+    static std::string VariableTypeInvalid(ASTNode* node) {
+      return "variable type is invalid" + node->toSourceCode();  
     } 
-    static std::string VariableTypeVoid(Lexeme* lexeme) {
-      return "variable type cannot be void" + lexeme->toString();  
+    static std::string VariableTypeVoid(ASTNode* node) {
+      return "variable type cannot be void" + node->toSourceCode();  
     } 
-    static std::string VariableAssignmentTypeMismatch(Lexeme* lexeme) {
-      return "variable type does not match expression type" + lexeme->toString();  
+    static std::string VariableAssignmentTypeMismatch(ASTNode* node) {
+      return "variable type does not match expression type" + node->toSourceCode();  
     } 
-    static std::string ProcedureHasReturnExpression(Lexeme* lexeme) {
-      return "procedure cannot have return expression" + lexeme->toString();  
+    static std::string ProcedureHasReturnExpression(ASTNode* node) {
+      return "procedure cannot have return expression" + node->toSourceCode();  
     } 
-    static std::string ParameterTypeUnknown(Lexeme* lexeme) {
-      return "parameter type is unknown" + lexeme->toString();  
+    static std::string ParameterTypeUnknown(ASTNode* node) {
+      return "parameter type is unknown" + node->toSourceCode();  
     } 
-    static std::string ParameterTypeInvalid(Lexeme* lexeme) {
-      return "parameter type is invalid" + lexeme->toString();  
+    static std::string ParameterTypeInvalid(ASTNode* node) {
+      return "parameter type is invalid" + node->toSourceCode();  
     } 
-    static std::string ParameterTypeVoid(Lexeme* lexeme) {
-      return "parameter type cannot be void" + lexeme->toString();  
+    static std::string ParameterTypeVoid(ASTNode* node) {
+      return "parameter type cannot be void" + node->toSourceCode();  
     } 
-    static std::string FunctionReturnTypeUnknown(Lexeme* lexeme) {
-      return "function return type is unknown" + lexeme->toString();  
+    static std::string FunctionReturnTypeUnknown(ASTNode* node) {
+      return "function return type is unknown" + node->toSourceCode();  
     } 
-    static std::string FunctionReturnTypeInvalid(Lexeme* lexeme) {
-      return "function return type is invalid" + lexeme->toString();  
+    static std::string FunctionReturnTypeInvalid(ASTNode* node) {
+      return "function return type is invalid" + node->toSourceCode();  
     } 
-    static std::string FunctionReturnTypeVoid(Lexeme* lexeme) {
-      return "function return type cannot be void" + lexeme->toString();  
+    static std::string FunctionReturnTypeVoid(ASTNode* node) {
+      return "function return type cannot be void" + node->toSourceCode();  
     } 
-    static std::string FunctionNotAllPathsReturn(Lexeme* lexeme) {
-      return "not all function paths return a value" + lexeme->toString();  
+    static std::string FunctionNotAllPathsReturn(ASTNode* node) {
+      return "not all function paths return a value" + node->toSourceCode();  
     } 
-    static std::string FunctionReturnExpressionMismatch(Lexeme* lexeme) {
-      return "return expression type does not match function return type" + lexeme->toString();  
+    static std::string FunctionReturnExpressionMismatch(ASTNode* node) {
+      return "return expression type does not match function return type" + node->toSourceCode();  
     } 
-    static std::string ExpressionTypeUnknown(Lexeme* lexeme) {
-      return "expression type is unknown" + lexeme->toString();  
+    static std::string ExpressionTypeUnknown(ASTNode* node) {
+      return "expression type is unknown" + node->toSourceCode();  
     } 
-    static std::string ExpressionTypeInvalid(Lexeme* lexeme) {
-      return "expression type is invalid" + lexeme->toString();  
+    static std::string ExpressionTypeInvalid(ASTNode* node) {
+      return "expression type is invalid" + node->toSourceCode();  
     } 
-    static std::string ExpressionTypeVoid(Lexeme* lexeme) {
-      return "expression type cannot be void" + lexeme->toString();  
+    static std::string ExpressionTypeVoid(ASTNode* node) {
+      return "expression type cannot be void" + node->toSourceCode();  
     } 
-    static std::string EnumKeyValueTypeMismatch(Lexeme* lexeme) {
-      return "enum key-value type does not match enum type" + lexeme->toString();  
+    static std::string EnumKeyValueTypeMismatch(ASTNode* node) {
+      return "enum key-value type does not match enum type" + node->toSourceCode();  
     } 
-    static std::string ControlFlowConditionNotBool(Lexeme* lexeme) {
-      return "condition must evaluate to true or false" + lexeme->toString();  
+    static std::string ControlFlowConditionNotBool(ASTNode* node) {
+      return "condition must evaluate to true or false" + node->toSourceCode();  
     } 
-    static std::string ForStatementSourceNotIterable(Lexeme* lexeme) {
-      return "source of for-loop is not iterable" + lexeme->toString();  
+    static std::string ForStatementSourceNotIterable(ASTNode* node) {
+      return "source of for-loop is not iterable" + node->toSourceCode();  
     } 
-    static std::string ClassPropertyTypeUnknown(Lexeme* lexeme) {
-      return "class property type is unknown" + lexeme->toString();  
+    static std::string ClassPropertyTypeUnknown(ASTNode* node) {
+      return "class property type is unknown" + node->toSourceCode();  
     } 
-    static std::string ClassPropertyTypeInvalid(Lexeme* lexeme) {
-      return "class property type is invalid" + lexeme->toString();  
+    static std::string ClassPropertyTypeInvalid(ASTNode* node) {
+      return "class property type is invalid" + node->toSourceCode();  
     } 
-    static std::string ClassPropertyTypeVoid(Lexeme* lexeme) {
-      return "class property type cannot be void" + lexeme->toString();  
+    static std::string ClassPropertyTypeVoid(ASTNode* node) {
+      return "class property type cannot be void" + node->toSourceCode();  
     } 
-    static std::string ClassPropertyAssignmentTypeMismatch(Lexeme* lexeme) {
-      return "class property type does not match expression type" + lexeme->toString();  
+    static std::string ClassPropertyAssignmentTypeMismatch(ASTNode* node) {
+      return "class property type does not match expression type" + node->toSourceCode();  
     } 
-    static std::string ClassPropertyInitializerTypeMismatch(Lexeme* lexeme) {
-      return "type of initial value for class property does not match class property type" + lexeme->toString();  
+    static std::string ClassPropertyInitializerTypeMismatch(ASTNode* node) {
+      return "type of initial value for class property does not match class property type" + node->toSourceCode();  
     } 
-    static std::string ClassPropertyNamesNotUnique(Lexeme* lexeme) {
-      return "class property names must be unique" + lexeme->toString();  
+    static std::string ClassPropertyNamesNotUnique(ASTNode* node) {
+      return "class property names must be unique" + node->toSourceCode();  
     } 
-    static std::string ClassMethodNamesAndTypeSignaturesNotUnique(Lexeme* lexeme) {
-      return "one or more class methods have the same name and type-signature" + lexeme->toString();  
+    static std::string ClassMethodNamesAndTypeSignaturesNotUnique(ASTNode* node) {
+      return "one or more class methods have the same name and type-signature" + node->toSourceCode();  
     } 
-    static std::string ClassConstructorsNotUnique(Lexeme* lexeme) {
-      return "class constructors must have unique parameter lists" + lexeme->toString();  
+    static std::string ClassConstructorsNotUnique(ASTNode* node) {
+      return "class constructors must have unique parameter lists" + node->toSourceCode();  
     }
-    static std::string ClassConstructorHasReturnExpression(Lexeme* lexeme) {
-        return "class constructor cannot have return expression" + lexeme->toString();
+    static std::string ClassConstructorHasReturnExpression(ASTNode* node) {
+        return "class constructor cannot have return expression" + node->toSourceCode();
     }
-    static std::string ClassMethodReturnTypeUnknown(Lexeme* lexeme) {
-      return "class method return type is unknown" + lexeme->toString();  
+    static std::string ClassMethodReturnTypeUnknown(ASTNode* node) {
+      return "class method return type is unknown" + node->toSourceCode();  
     } 
-    static std::string ClassMethodReturnTypeInvalid(Lexeme* lexeme) {
-      return "class method return type is invalid" + lexeme->toString();  
+    static std::string ClassMethodReturnTypeInvalid(ASTNode* node) {
+      return "class method return type is invalid" + node->toSourceCode();  
     } 
-    static std::string ClassMethodReturnTypeVoid(Lexeme* lexeme) {
-      return "class method return type cannot be void" + lexeme->toString();  
+    static std::string ClassMethodReturnTypeVoid(ASTNode* node) {
+      return "class method return type cannot be void" + node->toSourceCode();  
     } 
-    static std::string ClassMethodNotAllPathsReturn(Lexeme* lexeme) {
-      return "not all class method paths return a value" + lexeme->toString();  
+    static std::string ClassMethodNotAllPathsReturn(ASTNode* node) {
+      return "not all class method paths return a value" + node->toSourceCode();  
     }
-    static std::string ClassMethodHasReturnExpression(Lexeme* lexeme) {
-        return "class method cannot have return expression" + lexeme->toString();
+    static std::string ClassMethodHasReturnExpression(ASTNode* node) {
+        return "class method cannot have return expression" + node->toSourceCode();
     }
-    static std::string ArrayElementTypeMismatch(Lexeme* lexeme) {
-      return "not all array elements match the array element type" + lexeme->toString();  
+    static std::string ArrayElementTypeMismatch(ASTNode* node) {
+      return "not all array elements match the array element type" + node->toSourceCode();  
     } 
-    static std::string ClassMethodCallNotEnoughArguments(Lexeme* lexeme) {
-      return "not enough arguments provided for class method call" + lexeme->toString();  
+    static std::string ClassMethodCallNotEnoughArguments(ASTNode* node) {
+      return "not enough arguments provided for class method call" + node->toSourceCode();  
     } 
-    static std::string ClassMethodCallTooManyArguments(Lexeme* lexeme) {
-      return "too many arguments provided for class method call" + lexeme->toString();  
+    static std::string ClassMethodCallTooManyArguments(ASTNode* node) {
+      return "too many arguments provided for class method call" + node->toSourceCode();  
     } 
-    static std::string ClassMethodCallArgumentTypeMismatch(Lexeme* lexeme) {
-      return "argument type does not match parameter type for class method call" + lexeme->toString();  
+    static std::string ClassMethodCallArgumentTypeMismatch(ASTNode* node) {
+      return "argument type does not match parameter type for class method call" + node->toSourceCode();  
     } 
-    static std::string NotCallableCurryType(Lexeme* lexeme) {
-      return "curry function type is not callable" + lexeme->toString();  
+    static std::string NotCallableCurryType(ASTNode* node) {
+      return "curry function type is not callable" + node->toSourceCode();  
     } 
-    static std::string CurryCallNotEnoughArguments(Lexeme* lexeme) {
-      return "not enough arguments provided for curry call" + lexeme->toString();  
+    static std::string CurryCallNotEnoughArguments(ASTNode* node) {
+      return "not enough arguments provided for curry call" + node->toSourceCode();  
     } 
-    static std::string CurryCallTooManyArguments(Lexeme* lexeme) {
-      return "too many arguments provided for curry call" + lexeme->toString();  
+    static std::string CurryCallTooManyArguments(ASTNode* node) {
+      return "too many arguments provided for curry call" + node->toSourceCode();  
     } 
-    static std::string CurryCallArgumentTypeMismatch(Lexeme* lexeme) {
-      return "argument type does not match parameter type for curry call" + lexeme->toString();  
+    static std::string CurryCallArgumentTypeMismatch(ASTNode* node) {
+      return "argument type does not match parameter type for curry call" + node->toSourceCode();  
     } 
-    static std::string FunctionCallNotEnoughArguments(Lexeme* lexeme) {
-      return "not enough arguments provided for function call" + lexeme->toString();  
+    static std::string FunctionCallNotEnoughArguments(ASTNode* node) {
+      return "not enough arguments provided for function call" + node->toSourceCode();  
     } 
-    static std::string FunctionCallTooManyArguments(Lexeme* lexeme) {
-      return "too many arguments provided for function call" + lexeme->toString();  
+    static std::string FunctionCallTooManyArguments(ASTNode* node) {
+      return "too many arguments provided for function call" + node->toSourceCode();  
     } 
-    static std::string FunctionCallArgumentTypeMismatch(Lexeme* lexeme) {
-      return "argument type does not match parameter type for function call" + lexeme->toString();  
+    static std::string FunctionCallArgumentTypeMismatch(ASTNode* node) {
+      return "argument type does not match parameter type for function call" + node->toSourceCode();  
     } 
-    static std::string LambdaExpressionReturnTypeUnknown(Lexeme* lexeme) {
-      return "lambda expression return type is unknown" + lexeme->toString();  
+    static std::string LambdaExpressionReturnTypeUnknown(ASTNode* node) {
+      return "lambda expression return type is unknown" + node->toSourceCode();  
     } 
-    static std::string LambdaExpressionReturnTypeInvalid(Lexeme* lexeme) {
-      return "lambda expression return type is invalid" + lexeme->toString();  
+    static std::string LambdaExpressionReturnTypeInvalid(ASTNode* node) {
+      return "lambda expression return type is invalid" + node->toSourceCode();  
     } 
-    static std::string LambdaExpressionNotAllPathsReturn(Lexeme* lexeme) {
-      return "not all lambda expression paths return a value" + lexeme->toString();  
+    static std::string LambdaExpressionNotAllPathsReturn(ASTNode* node) {
+      return "not all lambda expression paths return a value" + node->toSourceCode();  
     }
-    static std::string LambdaExpressionHasReturnExpression(Lexeme* lexeme) {
-        return "lambda expression cannot have return expression" + lexeme->toString();
+    static std::string LambdaExpressionHasReturnExpression(ASTNode* node) {
+        return "lambda expression cannot have return expression" + node->toSourceCode();
     }
-    static std::string NewClassInstanceNotClassType(Lexeme* lexeme) {
-      return "cannot instantiate new class instance since type is not a class type" + lexeme->toString();  
+    static std::string NewClassInstanceNotClassType(ASTNode* node) {
+      return "cannot instantiate new class instance since type is not a class type" + node->toSourceCode();  
     }
 
-    static std::string VariableNamesNotUnique(Lexeme* lexeme) {
-      return "variable name must be unique" + lexeme->toString();
+    static std::string VariableNamesNotUnique(ASTNode* node) {
+      return "variable name must be unique" + node->toSourceCode();
     } 
 }
 

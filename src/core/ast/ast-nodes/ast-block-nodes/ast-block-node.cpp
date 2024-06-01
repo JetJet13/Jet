@@ -7,12 +7,21 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-control-flow-nodes/ast-control-flow-block-node.h"
 #include "../ast-class-nodes/ast-class-block-node.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTBlockNode::ASTBlockNode() {
     _contents = std::vector<ASTNode*>();
 }
 
-ASTBlockNode::ASTBlockNode(std::vector<ASTNode*> contents) {
+ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode) {
+    _blockStartNode = blockStartNode;
+    _children.push_back(_blockStartNode);
+    _contents = std::vector<ASTNode*>();
+}
+
+ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents) {
+    _blockStartNode = blockStartNode;
+    _children.push_back(_blockStartNode);
     _contents = std::vector<ASTNode*>();
     for (auto content: contents) {
         this->addContent(content);
@@ -62,6 +71,14 @@ ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, 
     return this;
 }
 
+void ASTBlockNode::setBlockStartNode(ASTBlockStartNode* blockStartNode) {
+    _blockStartNode = blockStartNode;
+}
+
+void ASTBlockNode::setBlockEndNode(ASTBlockEndNode* blockEndNode) {
+    _blockEndNode = blockEndNode;
+}
+
 ASTNodeType ASTBlockNode::getNodeType() {
     return AST_BLOCK_NODE;
 }
@@ -90,4 +107,20 @@ void ASTBlockNode::print() {
         content->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    if (_blockStartNode) {
+        sourceCodeBuilder.add(_blockStartNode.value());
+    }
+
+    for (auto content : _contents) {
+        sourceCodeBuilder.addWithNewLine(content);
+    }
+
+    if (_blockEndNode) {
+        sourceCodeBuilder.addWithNewLine(_blockEndNode.value());
+    }
+    return sourceCodeBuilder.build();
 }

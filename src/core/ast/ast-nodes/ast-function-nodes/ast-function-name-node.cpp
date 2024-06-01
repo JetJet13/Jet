@@ -15,5 +15,5 @@ std::string ASTFunctionNameNode::toString() {
 }
 
 std::string ASTFunctionNameNode::toSourceCode() {
-    Logger::log(this->getId());
+    return _lexeme->getToken()->getRawValue();
 }

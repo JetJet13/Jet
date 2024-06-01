@@ -4,9 +4,11 @@
 
 #include "ast-import-module-list-by-group-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListByGroupItemNode::ASTImportModuleListByGroupItemNode(ASTImportModuleNameNode* moduleName, ASTImportModuleListNode* importModuleList) {
+ASTImportModuleListByGroupItemNode::ASTImportModuleListByGroupItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportModuleListNode* importModuleList) {
     _moduleName = moduleName;
+    _moduleAccessNode = moduleAccessNode;
     _importModuleList = importModuleList;
     _children.push_back(_moduleName);
     _children.push_back(_importModuleList);
@@ -43,4 +45,12 @@ void ASTImportModuleListByGroupItemNode::print() {
     _moduleName->print();
     _importModuleList->print();
     Logger::log("----------");
+}
+
+std::string ASTImportModuleListByGroupItemNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_moduleName)
+    ->add(_moduleAccessNode)
+    ->add(_importModuleList);
+    return sourceCodeBuilder.build();
 }

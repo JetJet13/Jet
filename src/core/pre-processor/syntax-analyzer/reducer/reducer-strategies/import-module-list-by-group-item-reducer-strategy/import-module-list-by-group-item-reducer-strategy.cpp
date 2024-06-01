@@ -11,6 +11,7 @@ ASTNode* ImportModuleListByGroupItemReducerStrategy::execute(std::vector<ASTNode
     }
     return new ASTImportModuleListByGroupItemNode(
             (ASTImportModuleNameNode*)nodes[0],
+            (ASTModuleAccessNode*)nodes[1],
             (ASTImportModuleListNode*)nodes[2]
     );
 }

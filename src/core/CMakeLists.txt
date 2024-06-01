@@ -1006,6 +1006,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.h
+        ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.h
 
 )
 

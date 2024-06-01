@@ -35,3 +35,7 @@ void ASTImportModuleListNormalItemNode::print() {
     _moduleName->print();
     Logger::log("----------");
 }
+
+std::string ASTImportModuleListNormalItemNode::toSourceCode() {
+    return _moduleName->toSourceCode();
+}

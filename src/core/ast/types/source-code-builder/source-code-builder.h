@@ -15,6 +15,7 @@ public:
     SourceCodeBuilder();
     SourceCodeBuilder* add(ASTNode* node);
     SourceCodeBuilder* addWithWhitespace(ASTNode* node);
+    SourceCodeBuilder* addWithNewLine(ASTNode* node);
     SourceCodeBuilder* addNewLine();
     std::string build();
 };

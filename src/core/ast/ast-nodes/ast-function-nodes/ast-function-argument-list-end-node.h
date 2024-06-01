@@ -8,17 +8,13 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "../ast-symbol-node.h"
 
-class ASTFunctionArgumentListEndNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTFunctionArgumentListEndNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTFunctionArgumentListEndNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_FUNCTION_ARGUMENT_LIST_END_NODE_H

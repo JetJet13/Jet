@@ -706,7 +706,7 @@ void SyntaxDfa::init() {
                     DFANodeFactory::Once::create(AST_FROM_NODE)
                         ->addTransition(
                             DFATransitionFactory::create(
-                                DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_IMPORT_MANY_MODULE_DECLARATION_NODE))
+                                DFANodeFactory::Once::createWithTarget(AST_IMPORT_PATH_NODE, AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE))
                         )
             ))
     ))

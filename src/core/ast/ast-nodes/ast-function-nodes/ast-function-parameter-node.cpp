@@ -4,11 +4,14 @@
 
 #include "ast-function-parameter-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionParameterNode::ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeNode* type) {
+ASTFunctionParameterNode::ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTColonNode* colon, ASTTypeNode* type) {
     _identifier = identifier;
+    _colon = colon;
     _type = type;
     _children.push_back(_identifier);
+    _children.push_back(_colon);
     _children.push_back(_type);
 }
 
@@ -50,4 +53,12 @@ void ASTFunctionParameterNode::print() {
     _identifier->print();
     _type->print();
     Logger::log("----------");
+}
+
+std::string ASTFunctionParameterNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_identifier)
+    ->add(_colon)
+    ->addWithWhitespace(_type);
+    return sourceCodeBuilder.build();
 }

@@ -4,9 +4,12 @@
 
 #include "ast-import-module-list-spread-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(ASTImportModuleNameNode* moduleName) {
+ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(ASTImportSpreadNode* spread, ASTImportModuleNameNode* moduleName) {
+    _spread = spread;
     _moduleName = moduleName;
+    _children.push_back(_spread);
     _children.push_back(_moduleName);
 }
 
@@ -34,4 +37,11 @@ void ASTImportModuleListSpreadItemNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _moduleName->print();
     Logger::log("----------");
+}
+
+std::string ASTImportModuleListSpreadItemNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_spread)
+    ->add(_moduleName);
+    return sourceCodeBuilder.build();
 }

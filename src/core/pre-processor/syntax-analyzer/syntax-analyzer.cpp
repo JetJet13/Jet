@@ -75,7 +75,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult) {
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
     _astNodeIdAssignor->assignIdIfNecessary(reducedNode);
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
-        _scopeStack.push(new ASTBlockNode());
+        _scopeStack.push(new ASTBlockNode((ASTBlockStartNode*)reducedNode));
         _recognizeStack.push(new std::stack<ASTNode*>());
     } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
         auto blockNode = _scopeStack.top();

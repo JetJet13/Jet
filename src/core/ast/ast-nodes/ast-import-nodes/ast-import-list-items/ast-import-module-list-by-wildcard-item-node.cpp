@@ -4,11 +4,14 @@
 
 #include "ast-import-module-list-by-wildcard-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTImportWildcardNode* wildcard) {
+ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportWildcardNode* wildcard) {
     _moduleName = moduleName;
+    _moduleAccessNode = moduleAccessNode;
     _wildcard = wildcard;
     _children.push_back(_moduleName);
+    _children.push_back(_moduleAccessNode);
     _children.push_back(_wildcard);
 }
 
@@ -42,4 +45,12 @@ void ASTImportModuleListByWildcardItemNode::print() {
     _moduleName->print();
     _wildcard->print();
     Logger::log("----------");
+}
+
+std::string ASTImportModuleListByWildcardItemNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_moduleName)
+    ->add(_moduleAccessNode)
+    ->add(_wildcard);
+    return sourceCodeBuilder.build();
 }

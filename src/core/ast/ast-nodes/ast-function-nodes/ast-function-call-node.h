@@ -15,5 +15,4 @@ public:
     std::string toSourceCode() override;
 };
 
-
 #endif //JETLANG_AST_FUNCTION_CALL_NODE_H

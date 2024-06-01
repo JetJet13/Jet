@@ -11,6 +11,8 @@
 
 class ASTFunctionBlockNode : public ASTNode {
 private:
+    // todo: figure out how to handle function block start and end nodes
+    // since block node start and end nodes are optional
     std::vector<ASTNode*> _contents;
 public:
     explicit ASTFunctionBlockNode(std::vector<ASTNode*> contents);

@@ -4,22 +4,25 @@
 
 #include "ast-import-many-module-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTImportManyModuleDeclarationNode::ASTImportManyModuleDeclarationNode(ASTImportModuleNameNode* moduleName, ASTImportModuleListNode* importModuleList, ASTImportPathNode* path) {
-    _moduleName = moduleName;
-    _importModuleList = importModuleList;
+ASTImportManyModuleDeclarationNode::ASTImportManyModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleListByGroupItemNode* importModuleListByGroupItem, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+    _importKeyword = importKeyword;
+    _importModuleListByGroupItem = importModuleListByGroupItem;
+    _fromKeyword = fromKeyword;
     _path = path;
-    _children.push_back(_moduleName);
-    _children.push_back(_importModuleList);
+    _children.push_back(_importKeyword);
+    _children.push_back(_importModuleListByGroupItem);
+    _children.push_back(_fromKeyword);
     _children.push_back(_path);
 }
 
 ASTImportModuleNameNode* ASTImportManyModuleDeclarationNode::getModuleName() {
-    return _moduleName;
+    return _importModuleListByGroupItem->getModuleName();
 }
 
 ASTImportModuleListNode* ASTImportManyModuleDeclarationNode::getModuleList() {
-    return _importModuleList;
+    return _importModuleListByGroupItem->getModuleList();
 }
 
 ASTImportPathNode* ASTImportManyModuleDeclarationNode::getPath() {
@@ -47,8 +50,16 @@ bool ASTImportManyModuleDeclarationNode::isSameAs(ASTNode *other) {
 
 void ASTImportManyModuleDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _moduleName->print();
-    _importModuleList->print();
+    _importModuleListByGroupItem->print();
     _path->print();
     Logger::log("----------");
+}
+
+std::string ASTImportManyModuleDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_importKeyword)
+    ->addWithWhitespace(_importModuleListByGroupItem)
+    ->addWithWhitespace(_fromKeyword)
+    ->addWithWhitespace(_path);
+    return sourceCodeBuilder.build();
 }

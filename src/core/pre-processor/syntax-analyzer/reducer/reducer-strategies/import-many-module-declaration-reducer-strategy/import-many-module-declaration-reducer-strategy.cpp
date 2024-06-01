@@ -13,24 +13,11 @@ ASTNode* ImportManyModuleDeclarationReducerStrategy::execute(std::vector<ASTNode
         throw std::invalid_argument("unable to reduce to import many module declaration since nodes list is not 4");
     }
 
-    if (nodes[1]->is(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE)) {
-        return new ASTImportManyModuleDeclarationNode(
-                ((ASTImportModuleListByWildcardItemNode*)nodes[1])->getModuleName(),
-                new ASTImportModuleListNode({
-                   new ASTImportModuleListItemNode(
-                       new ASTImportModuleListWildcardItemNode(
-                           ((ASTImportModuleListByWildcardItemNode*)nodes[1])
-                           ->getWildcard()
-                           ->getLexeme()
-                       )
-                   )
-                }),
-                (ASTImportPathNode*)nodes[3]
-        );
-    }
+
     return new ASTImportManyModuleDeclarationNode(
-            ((ASTImportModuleListByGroupItemNode*)nodes[1])->getModuleName(),
-            ((ASTImportModuleListByGroupItemNode*)nodes[1])->getModuleList(),
+            (ASTImportNode*)nodes[0],
+            (ASTImportModuleListByGroupItemNode*)nodes[1],
+            (ASTFromNode*)nodes[2],
             (ASTImportPathNode*)nodes[3]
     );
 }

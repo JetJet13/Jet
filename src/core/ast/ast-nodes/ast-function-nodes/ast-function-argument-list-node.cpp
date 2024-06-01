@@ -4,12 +4,21 @@
 
 #include "ast-function-argument-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionArgumentListNode::ASTFunctionArgumentListNode() {
+ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, ASTFunctionArgumentListEndNode* functionArgumentListEndNode) {
+    _functionArgumentListStartNode = functionArgumentListStartNode;
+    _functionArgumentListEndNode = functionArgumentListEndNode;
+    _children.push_back(_functionArgumentListStartNode);
+    _children.push_back(_functionArgumentListEndNode);
     _arguments = std::vector<ASTFunctionArgumentNode*>();
 }
 
-ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(std::vector<ASTFunctionArgumentNode*> arguments) {
+ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, std::vector<ASTFunctionArgumentNode*> arguments, ASTFunctionArgumentListEndNode* functionArgumentListEndNode) {
+    _functionArgumentListStartNode = functionArgumentListStartNode;
+    _functionArgumentListEndNode = functionArgumentListEndNode;
+    _children.push_back(_functionArgumentListStartNode);
+    _children.push_back(_functionArgumentListEndNode);
     _arguments = std::vector<ASTFunctionArgumentNode*>();
     for (auto argument: arguments) {
         this->addArgument(argument);
@@ -62,4 +71,14 @@ void ASTFunctionArgumentListNode::print() {
         argument->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTFunctionArgumentListNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_functionArgumentListStartNode);
+    for (auto argument : _arguments) {
+        sourceCodeBuilder.addWithWhitespace(argument);
+    }
+    sourceCodeBuilder.add(_functionArgumentListEndNode);
+    return sourceCodeBuilder.build();
 }

@@ -9,19 +9,14 @@
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
+#include "../ast-symbol-node.h"
 
-class ASTGroupStartNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTGroupStartNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTGroupStartNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
-    ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
-                                  SyntaxAnalyzerMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_GROUP_START_NODE_H

@@ -35,3 +35,7 @@ void ASTFunctionArgumentNode::print() {
     _argument->print();
     Logger::log("----------");
 }
+
+std::string ASTFunctionArgumentNode::toSourceCode() {
+    return _argument->toSourceCode();
+}

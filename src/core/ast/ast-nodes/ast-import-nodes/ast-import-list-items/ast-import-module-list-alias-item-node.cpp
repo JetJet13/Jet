@@ -4,11 +4,14 @@
 
 #include "ast-import-module-list-alias-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTImportModuleAliasNameNode* aliasModuleName) {
+ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTAsNode* asKeyword, ASTImportModuleAliasNameNode* aliasModuleName) {
     _moduleName = moduleName;
+    _asKeyword = asKeyword;
     _aliasModuleName = aliasModuleName;
     _children.push_back(_moduleName);
+    _children.push_back(_asKeyword);
     _children.push_back(_aliasModuleName);
 }
 
@@ -42,4 +45,12 @@ void ASTImportModuleListAliasItemNode::print() {
     _moduleName->print();
     _aliasModuleName->print();
     Logger::log("----------");
+}
+
+std::string ASTImportModuleListAliasItemNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_moduleName)
+    ->addWithWhitespace(_asKeyword)
+    ->addWithWhitespace(_aliasModuleName);
+    return sourceCodeBuilder.build();
 }

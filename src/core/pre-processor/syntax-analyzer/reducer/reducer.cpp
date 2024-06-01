@@ -165,6 +165,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, new UseSingleModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, new ImportSingleModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new ImportManyByWildcardModuleDeclarationReducerStrategy());
     this->addStrategy(AST_USE_MANY_MODULE_DECLARATION_NODE, new UseManyModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE, new ImportModuleListByWildcardItemReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE, new ImportModuleListByGroupItemReducerStrategy());

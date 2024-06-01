@@ -11,6 +11,7 @@ ASTNode* ImportModuleListByWildcardItemReducerStrategy::execute(std::vector<ASTN
     }
     return new ASTImportModuleListByWildcardItemNode(
             (ASTImportModuleNameNode*)nodes[0],
+            (ASTModuleAccessNode*)nodes[1],
             (ASTImportWildcardNode*)nodes[2]
     );
 }

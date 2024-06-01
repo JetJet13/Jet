@@ -12,6 +12,7 @@ ASTNode* FunctionParameterReducerStrategy::execute(std::vector<ASTNode*> nodes) 
 
     return new ASTFunctionParameterNode(
             (ASTIdentifierExpressionNode*)nodes[0],
+            (ASTColonNode*)nodes[1],
             (ASTTypeNode*)nodes[2]
     );
 }

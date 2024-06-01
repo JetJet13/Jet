@@ -21,8 +21,6 @@ private:
 public:
     ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, ASTFunctionParameterListEndNode* functionParameterListEndNode);
     ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, std::vector<ASTFunctionParameterNode*> parameters, ASTFunctionParameterListEndNode* functionParameterListEndNode);
-    ASTFunctionParameterListStartNode* getFunctionParameterListStartNode();
-    ASTFunctionParameterListEndNode* getFunctionParameterListEndNode();
     std::vector<ASTFunctionParameterNode*> getParameters();
     unsigned long numParameters();
     ASTFunctionParameterListNode* addParameter(ASTFunctionParameterNode* parameter);
@@ -32,6 +30,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_FUNCTION_PARAMETER_LIST_NODE_H

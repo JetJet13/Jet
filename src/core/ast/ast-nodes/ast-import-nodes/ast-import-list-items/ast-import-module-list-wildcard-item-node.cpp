@@ -34,3 +34,7 @@ void ASTImportModuleListWildcardItemNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString());
     Logger::log("----------");
 }
+
+std::string ASTImportModuleListWildcardItemNode::toSourceCode() {
+    return _lexeme->getToken()->getSymbol()->toString();
+}

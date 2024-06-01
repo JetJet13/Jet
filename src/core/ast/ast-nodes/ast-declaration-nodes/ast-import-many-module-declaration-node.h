@@ -7,17 +7,19 @@
 
 #include "../ast-node.h"
 #include "../ast-import-nodes/ast-import-path-node.h"
-#include "../ast-import-nodes/ast-import-module-list-node.h"
-#include "../ast-import-nodes/ast-import-module-name-node.h"
 #include "ast-declaration-node.h"
+#include "../ast-import-nodes/ast-import-node.h"
+#include "../ast-import-nodes/ast-from-node.h"
+#include "../ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
 
 class ASTImportManyModuleDeclarationNode : public ASTDeclarationNode {
-private:
-    ASTImportModuleNameNode* _moduleName;
-    ASTImportModuleListNode* _importModuleList;
+protected:
+    ASTImportNode* _importKeyword;
+    ASTImportModuleListByGroupItemNode* _importModuleListByGroupItem;
+    ASTFromNode* _fromKeyword;
     ASTImportPathNode* _path;
 public:
-    explicit ASTImportManyModuleDeclarationNode(ASTImportModuleNameNode* moduleName, ASTImportModuleListNode* importModuleList, ASTImportPathNode* path);
+    explicit ASTImportManyModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleListByGroupItemNode* importModuleListByGroupItem, ASTFromNode* fromKeyword, ASTImportPathNode* path);
     ASTImportModuleNameNode* getModuleName();
     ASTImportModuleListNode* getModuleList();
     ASTImportPathNode* getPath();
@@ -25,6 +27,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_IMPORT_MANY_MODULE_DECLARATION_NODE_H

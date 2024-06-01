@@ -11,9 +11,6 @@
 #include "ast-import-module-list-start-node.h"
 #include "ast-import-module-list-end-node.h"
 
-// todo: add new ast node to handle syntactic sugar for importing
-// module by wildcard, since the syntax doesn't require ASTImportModuleListStartNode
-// and ASTImportModuleListEndNode
 class ASTImportModuleListNode : public ASTNode {
 private:
     ASTImportModuleListStartNode* _importModuleListStartNode;

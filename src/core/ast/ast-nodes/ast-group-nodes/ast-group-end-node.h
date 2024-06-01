@@ -10,19 +10,14 @@
 #include "../ast-node.h"
 #include "../../types/ast-node-type.h"
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
+#include "../ast-symbol-node.h"
 
-class ASTGroupEndNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTGroupEndNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTGroupEndNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
-    ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
-                                  SyntaxAnalyzerMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_GROUP_END_NODE_H

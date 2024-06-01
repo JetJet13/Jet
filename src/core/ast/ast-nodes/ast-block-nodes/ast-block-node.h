@@ -8,22 +8,30 @@
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 #include "../ast-scoped-block-node.h"
+#include "ast-block-start-node.h"
+#include "ast-block-end-node.h"
 
 class ASTBlockNode : public ASTScopedBlockNode {
 private:
+    std::optional<ASTBlockStartNode*> _blockStartNode = {};
+    std::optional<ASTBlockEndNode*> _blockEndNode = {};
     std::vector<ASTNode*> _contents;
 public:
     explicit ASTBlockNode();
-    explicit ASTBlockNode(std::vector<ASTNode*> contents);
+    explicit ASTBlockNode(ASTBlockStartNode* blockStartNode);
+    explicit ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents);
     ASTBlockNode* addContent(ASTNode* content);
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     unsigned long size();
     std::vector<ASTNode*>* getContents();
     ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
+    void setBlockStartNode(ASTBlockStartNode* blockStartNode);
+    void setBlockEndNode(ASTBlockEndNode* blockEndNode);
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_BLOCK_NODE_H

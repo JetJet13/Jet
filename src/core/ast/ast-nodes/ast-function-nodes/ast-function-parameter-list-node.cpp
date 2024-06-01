@@ -4,28 +4,25 @@
 
 #include "ast-function-parameter-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
     _functionParameterListStartNode = functionParameterListStartNode;
     _functionParameterListEndNode = functionParameterListEndNode;
+    _children.push_back(_functionParameterListStartNode);
+    _children.push_back(_functionParameterListEndNode);
     _parameters = std::vector<ASTFunctionParameterNode*>();
 }
 
 ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, std::vector<ASTFunctionParameterNode*> parameters, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
     _functionParameterListStartNode = functionParameterListStartNode;
     _functionParameterListEndNode = functionParameterListEndNode;
+    _children.push_back(_functionParameterListStartNode);
+    _children.push_back(_functionParameterListEndNode);
     _parameters = std::vector<ASTFunctionParameterNode*>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
     }
-}
-
-ASTFunctionParameterListStartNode* ASTFunctionParameterListNode::getFunctionParameterListStartNode() {
-    return _functionParameterListStartNode;
-}
-
-ASTFunctionParameterListEndNode* ASTFunctionParameterListNode::getFunctionParameterListEndNode() {
-    return _functionParameterListEndNode;
 }
 
 std::vector<ASTFunctionParameterNode*> ASTFunctionParameterListNode::getParameters() {
@@ -82,4 +79,14 @@ void ASTFunctionParameterListNode::print() {
         parameters->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTFunctionParameterListNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_functionParameterListStartNode);
+    for (auto parameters : _parameters) {
+        sourceCodeBuilder.addWithWhitespace(parameters);
+    }
+    sourceCodeBuilder.add(_functionParameterListEndNode);
+    return sourceCodeBuilder.build();
 }
