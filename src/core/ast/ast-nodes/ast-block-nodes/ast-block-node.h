@@ -23,7 +23,7 @@ public:
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     unsigned long size();
     std::vector<ASTNode*>* getContents();
-    ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

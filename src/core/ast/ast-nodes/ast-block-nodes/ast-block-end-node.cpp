@@ -9,10 +9,6 @@
 #include "../ast-module-nodes/ast-module-list-end-node.h"
 #include "../ast-import-nodes/ast-import-module-list-end-node.h"
 
-ASTBlockEndNode::ASTBlockEndNode(Lexeme* lexeme) {
-    _lexeme = lexeme;
-}
-
 ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                                 SyntaxAnalyzerMode mode) {
     if (mode == SA_STRUCT_MODE) {

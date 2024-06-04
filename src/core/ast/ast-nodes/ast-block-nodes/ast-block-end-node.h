@@ -6,16 +6,13 @@
 #define JETLANG_AST_BLOCK_END_NODE_H
 
 #include <optional>
-#include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "../ast-symbol-node.h"
 
-class ASTBlockEndNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTBlockEndNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    explicit ASTBlockEndNode(Lexeme* lexeme);
-    ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
-                                  SyntaxAnalyzerMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

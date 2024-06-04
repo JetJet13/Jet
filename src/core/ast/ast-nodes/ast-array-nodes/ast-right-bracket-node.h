@@ -6,14 +6,12 @@
 #define JETLANG_AST_RIGHT_BRACKET_NODE_H
 
 #include <optional>
-#include "../ast-node.h"
-#include "../../../lexeme/lexeme.h"
 #include "../ast-symbol-node.h"
+#include "../../../lexeme/lexeme.h"
 
 class ASTRightBracketNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 public:
-    explicit ASTRightBracketNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

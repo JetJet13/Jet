@@ -6,14 +6,12 @@
 #define JETLANG_AST_LEFT_BRACKET_NODE_H
 
 #include <optional>
-#include "../ast-node.h"
+#include "../ast-symbol-node.h"
 #include "../../../lexeme/lexeme.h"
 
-class ASTLeftBracketNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTLeftBracketNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    explicit ASTLeftBracketNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };
