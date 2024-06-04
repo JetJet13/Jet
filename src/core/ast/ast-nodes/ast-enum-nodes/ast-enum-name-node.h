@@ -6,19 +6,13 @@
 #define JETLANG_AST_ENUM_NAME_NODE_H
 
 #include "../../../lexeme/lexeme.h"
-#include "../ast-node.h"
+#include "../ast-symbol-node.h"
 
-class ASTEnumNameNode : public ASTNode {
-private:
-    Lexeme* _name;
+class ASTEnumNameNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTEnumNameNode(Lexeme* lexeme);
-    ASTEnumNameNode(Lexeme* lexeme, std::string id);
-    Lexeme* getName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_ENUM_NAME_NODE_H

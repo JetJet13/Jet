@@ -12,7 +12,3 @@ ASTNodeType ASTEnumKeyNode::getNodeType() {
 std::string ASTEnumKeyNode::toString() {
     return "ENUM_KEY";
 }
-
-std::string ASTEnumKeyNode::toSourceCode() {
-    Logger::log(this->getId());
-}

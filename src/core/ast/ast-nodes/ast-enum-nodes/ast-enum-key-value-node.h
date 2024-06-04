@@ -12,15 +12,17 @@
 #include "../ast-literal-nodes/ast-literal-node.h"
 #include "ast-enum-key-node.h"
 #include "../../../type-signature/literal-type-signature/literal-type-signature.h"
+#include "../ast-operator-nodes/ast-assignment-operator-node.h"
 
 class ASTEnumKeyValueNode : public ASTNode {
 private:
     ASTEnumKeyNode* _key;
-    std::optional<ASTLiteralNode*> _value;
+    std::optional<ASTAssignmentOperatorNode*> _assignmentOperator = {};
+    std::optional<ASTLiteralNode*> _value = {};
     LiteralTypeSignature* _typeSignature = new LiteralTypeSignature();
 public:
     ASTEnumKeyValueNode(ASTEnumKeyNode* key);
-    ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTLiteralNode* value);
+    ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTAssignmentOperatorNode* assignmentOperator, ASTLiteralNode* value);
     ASTEnumKeyNode* getKey();
     std::optional<ASTLiteralNode*> getValue();
     void setTypeSignature(LiteralTypeSignature* typeSignature);
@@ -29,6 +31,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_ENUM_KEY_VALUE_NODE_H

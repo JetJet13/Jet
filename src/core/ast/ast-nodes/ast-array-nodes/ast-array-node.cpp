@@ -6,6 +6,7 @@
 #include "../ast-expression-nodes/ast-array-expression-node.h"
 #include "ast-array-access-node.h"
 #include "../../types/source-code-builder/source-code-builder.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ASTArrayNode::ASTArrayNode(ASTLeftBracketNode* leftBracket, ASTRightBracketNode* rightBracket) {
     _leftBracket = leftBracket;
@@ -57,6 +58,14 @@ ASTNodeType ASTArrayNode::getNodeType() {
 
 std::string ASTArrayNode::toString() {
     return "ARRAY";
+}
+
+void ASTArrayNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    for (auto element : *_elements) {
+        element->toString();
+    }
+    Logger::log("----------");
 }
 
 std::string ASTArrayNode::toSourceCode() {

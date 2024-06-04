@@ -8,17 +8,13 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "../ast-symbol-node.h"
 
-class ASTEnumKeyValueListStartNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTEnumKeyValueListStartNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTEnumKeyValueListStartNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_ENUM_KEY_VALUE_LIST_START_NODE_H

@@ -4,12 +4,21 @@
 
 #include "ast-enum-key-value-list-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTEnumKeyValueListNode::ASTEnumKeyValueListNode() {
+ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode) {
+    _enumKeyValueListStartNode = enumKeyValueListStartNode;
+    _enumKeyValueListEndNode = enumKeyValueListEndNode;
+    _children.push_back(_enumKeyValueListStartNode);
+    _children.push_back(_enumKeyValueListEndNode);
     _enumKeyValues = std::vector<ASTEnumKeyValueNode*>();
 }
 
-ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(std::vector<ASTEnumKeyValueNode*> enumKeyValues) {
+ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, std::vector<ASTEnumKeyValueNode*> enumKeyValues, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode) {
+    _enumKeyValueListStartNode = enumKeyValueListStartNode;
+    _enumKeyValueListEndNode = enumKeyValueListEndNode;
+    _children.push_back(_enumKeyValueListStartNode);
+    _children.push_back(_enumKeyValueListEndNode);
     _enumKeyValues = std::vector<ASTEnumKeyValueNode*>();
     for (auto enumKeyValue: enumKeyValues) {
         this->addEnumKeyValue(enumKeyValue);
@@ -62,4 +71,16 @@ void ASTEnumKeyValueListNode::print() {
         enumKeyValue->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTEnumKeyValueListNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_enumKeyValueListStartNode);
+
+    for (auto enumKeyValue : _enumKeyValues) {
+        sourceCodeBuilder.addWithNewLine(enumKeyValue);
+    }
+
+    sourceCodeBuilder.addWithWhitespace(_enumKeyValueListEndNode);
+    return sourceCodeBuilder.build();
 }

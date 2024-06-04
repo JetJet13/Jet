@@ -4,10 +4,6 @@
 
 #include "ast-right-bracket-node.h"
 
-ASTRightBracketNode::ASTRightBracketNode(Lexeme* lexeme) {
-    _lexeme = lexeme;
-}
-
 ASTNodeType ASTRightBracketNode::getNodeType() {
     return AST_RIGHT_BRACKET_NODE;
 }

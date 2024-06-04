@@ -27,6 +27,7 @@ public:
     std::vector<ASTExpressionNode*>* getElements();
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    void print() override;
     std::string toSourceCode() override;
 };
 

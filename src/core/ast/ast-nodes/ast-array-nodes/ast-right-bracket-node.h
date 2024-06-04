@@ -8,10 +8,10 @@
 #include <optional>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "../ast-symbol-node.h"
 
-class ASTRightBracketNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTRightBracketNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
     explicit ASTRightBracketNode(Lexeme* lexeme);
     ASTNodeType getNodeType() override;

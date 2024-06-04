@@ -4,20 +4,22 @@
 
 #include "ast-enum-key-value-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key) {
     _key = key;
-    _value = std::optional<ASTLiteralNode*>();
+    _children.push_back(_key);
 }
 
-ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTLiteralNode* value) {
+ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTAssignmentOperatorNode* assignmentOperator, ASTLiteralNode* value) {
     _key = key;
-    _value = std::optional<ASTLiteralNode*>(value);
+    _assignmentOperator = assignmentOperator;
+    _value = value;
 
     _children.push_back(_key);
-    if (_value) {
-        _children.push_back(_value.value());
-    }
+    _children.push_back(_assignmentOperator.value());
+    _children.push_back(_value.value());
+
 }
 
 ASTEnumKeyNode* ASTEnumKeyValueNode::getKey() {
@@ -65,4 +67,19 @@ void ASTEnumKeyValueNode::print() {
     _key->print();
     _value.has_value() ? _value.value()->print() : Logger::log("(NO VALUE)");
     Logger::log("----------");
+}
+
+std::string ASTEnumKeyValueNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_key);
+
+    if (_assignmentOperator) {
+        sourceCodeBuilder.addWithWhitespace(_assignmentOperator.value());
+    }
+
+    if (_value) {
+        sourceCodeBuilder.addWithWhitespace(_value.value());
+    }
+
+    return sourceCodeBuilder.build();
 }
