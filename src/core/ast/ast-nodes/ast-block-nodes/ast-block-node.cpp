@@ -57,11 +57,11 @@ std::vector<ASTNode*>* ASTBlockNode::getContents() {
 ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                              SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_TYPE_PARAMETER_LIST_NODE })) {
-        return new ASTFunctionBlockNode(_contents);
+        return new ASTFunctionBlockNode(_blockStartNode, _contents, _blockEndNode);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CONTROL_FLOW_CONDITION_NODE, AST_ELSE_NODE, AST_FOR_SOURCE_NODE, AST_TRY_NODE, AST_CATCH_NODE, AST_CATCH_ERROR_VARIABLE_NODE, AST_FINALLY_NODE })) {
-        return new ASTControlFlowBlockNode(_contents);
+        return new ASTControlFlowBlockNode(_blockStartNode, _contents, _blockEndNode);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NAME_NODE })) {

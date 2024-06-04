@@ -7,19 +7,14 @@
 
 #include <string>
 #include "../../../lexeme/lexeme.h"
-#include "../ast-node.h"
+#include "../ast-symbol-node.h"
 #include "../../types/ast-node-type.h"
 
-class ASTIfNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTIfNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTIfNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_IF_NODE_H

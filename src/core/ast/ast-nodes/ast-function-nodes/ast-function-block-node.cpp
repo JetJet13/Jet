@@ -69,6 +69,5 @@ std::string ASTFunctionBlockNode::toSourceCode() {
     }
 
     sourceCodeBuilder.addWithNewLine(_blockEndNode);
-
     return sourceCodeBuilder.build();
 }

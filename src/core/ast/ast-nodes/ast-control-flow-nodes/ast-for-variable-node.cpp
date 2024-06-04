@@ -43,3 +43,7 @@ void ASTForVariableNode::print() {
     _variable->print();
     Logger::log("----------");
 }
+
+std::string ASTForVariableNode::toSourceCode() {
+    return _variable->toSourceCode();
+}

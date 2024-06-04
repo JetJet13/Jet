@@ -13,7 +13,3 @@ ASTNodeType ASTCatchErrorVariableNode::getNodeType() {
 std::string ASTCatchErrorVariableNode::toString() {
     return "CATCH_ERROR_VARIABLE";
 }
-
-std::string ASTCatchErrorVariableNode::toSourceCode() {
-    Logger::log(this->getId());
-}

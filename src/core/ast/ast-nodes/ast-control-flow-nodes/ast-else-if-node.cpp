@@ -4,17 +4,18 @@
 
 #include "ast-else-if-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTElseIfNode::ASTElseIfNode(Lexeme* elseLexeme, Lexeme* ifLexeme) {
-    _else = elseLexeme;
-    _if = ifLexeme;
+ASTElseIfNode::ASTElseIfNode(ASTElseNode* elseKeyword, ASTIfNode* ifKeyword) {
+    _else = elseKeyword;
+    _if = ifKeyword;
 }
 
-Lexeme* ASTElseIfNode::getElse() {
+ASTElseNode* ASTElseIfNode::getElse() {
     return _else;
 }
 
-Lexeme* ASTElseIfNode::getIf() {
+ASTIfNode* ASTElseIfNode::getIf() {
     return _if;
 }
 
@@ -31,13 +32,20 @@ bool ASTElseIfNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTElseIfNode*)other;
-    return this->getElse()->hasSameSymbolTypeAs(otherNode->getElse()) &&
-           this->getIf()->hasSameSymbolTypeAs(otherNode->getIf());
+    return this->getElse()->isSameAs(otherNode->getElse()) &&
+           this->getIf()->isSameAs(otherNode->getIf());
 }
 
 void ASTElseIfNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    Logger::log(_else->toString());
-    Logger::log(_if->toString());
+    _else->print();
+    _if->print();
     Logger::log("----------");
+}
+
+std::string ASTElseIfNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_else)
+    ->addWithWhitespace(_if);
+    return sourceCodeBuilder.build();
 }

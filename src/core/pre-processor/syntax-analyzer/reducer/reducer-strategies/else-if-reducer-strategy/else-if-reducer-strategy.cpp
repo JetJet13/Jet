@@ -13,7 +13,7 @@ ASTNode* ElseIfReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTElseIfNode(
-            ((ASTElseNode*)nodes[0])->getLexeme(),
-            ((ASTIfNode*)nodes[1])->getLexeme()
+            (ASTElseNode*)nodes[0],
+            (ASTIfNode*)nodes[1]
     );
 }

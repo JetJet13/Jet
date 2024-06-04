@@ -8,19 +8,15 @@
 #include <string>
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
+#include "../ast-symbol-node.h"
 
-class ASTControlFlowStartNode : public ASTNode {
-private:
-    Lexeme* _lexeme;
+class ASTControlFlowStartNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTControlFlowStartNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
     ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                   SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
-    void print() override;
 };
 
 #endif //JETLANG_AST_CONTROL_FLOW_START_NODE_H

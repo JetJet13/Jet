@@ -43,3 +43,7 @@ void ASTForSourceNode::print() {
     _source->print();
     Logger::log("----------");
 }
+
+std::string ASTForSourceNode::toSourceCode() {
+    return _source->toSourceCode();
+}

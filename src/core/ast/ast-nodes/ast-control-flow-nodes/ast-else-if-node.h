@@ -9,19 +9,22 @@
 #include "../../../lexeme/lexeme.h"
 #include "../ast-node.h"
 #include "../../types/ast-node-type.h"
+#include "ast-if-node.h"
+#include "ast-else-node.h"
 
 class ASTElseIfNode : public ASTNode {
 private:
-    Lexeme* _else;
-    Lexeme* _if;
+    ASTElseNode* _else;
+    ASTIfNode* _if;
 public:
-    ASTElseIfNode(Lexeme* elseLexeme, Lexeme* ifLexeme);
-    Lexeme* getElse();
-    Lexeme* getIf();
+    ASTElseIfNode(ASTElseNode* elseKeyword, ASTIfNode* ifKeyword);
+    ASTElseNode* getElse();
+    ASTIfNode* getIf();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_ELSE_IF_NODE_H

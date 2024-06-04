@@ -4,6 +4,7 @@
 
 #include "ast-control-flow-condition-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTControlFlowConditionNode::ASTControlFlowConditionNode(ASTExpressionNode* condition) {
     _condition = condition;
@@ -42,4 +43,8 @@ void ASTControlFlowConditionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _condition->print();
     Logger::log("----------");
+}
+
+std::string ASTControlFlowConditionNode::toSourceCode() {
+    return _condition->toSourceCode();
 }
