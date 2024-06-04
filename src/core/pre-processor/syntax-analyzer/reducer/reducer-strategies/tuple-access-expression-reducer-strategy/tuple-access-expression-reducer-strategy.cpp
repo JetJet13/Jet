@@ -4,6 +4,7 @@
 
 #include "tuple-access-expression-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
+#include "../../../../../ast/ast-nodes/ast-period-node.h"
 
 ASTNode* TupleAccessExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 3) {
@@ -12,6 +13,7 @@ ASTNode* TupleAccessExpressionReducerStrategy::execute(std::vector<ASTNode*> nod
 
     return new ASTTupleAccessExpressionNode(
             (ASTObjectAccessSourceNode*)nodes[0],
+            (ASTPeriodNode*)nodes[1],
             (ASTTupleAccessNode*)nodes[2]
     );
 }

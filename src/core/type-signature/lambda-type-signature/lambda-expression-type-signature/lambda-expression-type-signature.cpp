@@ -5,6 +5,11 @@
 #include "lambda-expression-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
+LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
+    _parameterList = new ParameterListTypeSignature();
+    _returnType = {};
+}
+
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, std::optional<TypeSignature*> returnType) {
     _parameterList = parameterList;
     _returnType = returnType;

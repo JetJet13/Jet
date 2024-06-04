@@ -4,6 +4,7 @@
 
 #include "ast-function-invocation-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTFunctionInvocationExpressionNode::ASTFunctionInvocationExpressionNode(ASTFunctionCallNode* function, ASTFunctionArgumentListNode* arguments) {
     _function = function;
@@ -55,4 +56,11 @@ void ASTFunctionInvocationExpressionNode::print() {
     _function->print();
     _arguments->print();
     Logger::log("----------");
+}
+
+std::string ASTFunctionInvocationExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_function)
+    ->add(_arguments);
+    return sourceCodeBuilder.build();
 }

@@ -4,6 +4,7 @@
 
 #include "object-access-expression-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
+#include "../../../../../ast/ast-nodes/ast-period-node.h"
 
 ASTNode* ObjectAccessExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 3) {
@@ -12,6 +13,7 @@ ASTNode* ObjectAccessExpressionReducerStrategy::execute(std::vector<ASTNode*> no
 
     return new ASTObjectAccessExpressionNode(
             (ASTObjectAccessSourceNode*)nodes[0],
+            (ASTPeriodNode*)nodes[1],
             (ASTObjectAccessTargetNode*)nodes[2]
     );
 }

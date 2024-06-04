@@ -36,3 +36,7 @@ void ASTThisExpressionNode::print() {
     _this->print();
     Logger::log("----------");
 }
+
+std::string ASTThisExpressionNode::toSourceCode() {
+    return _this->toSourceCode();
+}

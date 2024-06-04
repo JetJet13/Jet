@@ -4,9 +4,11 @@
 
 #include "ast-object-access-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTObjectAccessTargetNode* property) {
+ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTPeriodNode* period, ASTObjectAccessTargetNode* property) {
     _source = source;
+    _period = period;
     _target = property;
     _children.push_back(_source);
     _children.push_back(_target);
@@ -42,4 +44,12 @@ void ASTObjectAccessExpressionNode::print() {
     _source->print();
     _target->print();
     Logger::log("----------");
+}
+
+std::string ASTObjectAccessExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_source)
+    ->add(_period)
+    ->add(_target);
+    return sourceCodeBuilder.build();
 }

@@ -5,28 +5,22 @@
 #include "ast-array-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTArrayExpressionNode::ASTArrayExpressionNode() {
-    _elements = new std::vector<ASTExpressionNode*>();
+
+ASTArrayExpressionNode::ASTArrayExpressionNode(ASTArrayNode* array) {
+    _array = array;
+    _children.push_back(_array);
 }
 
-ASTArrayExpressionNode::ASTArrayExpressionNode(std::vector<ASTExpressionNode*> elements) {
-    _elements = new std::vector<ASTExpressionNode*>();
-    for (auto element: elements) {
-        this->addElement(element);
-    }
-}
-
-ASTArrayExpressionNode::ASTArrayExpressionNode(std::vector<ASTExpressionNode*>* elements) {
-    _elements = elements;
+ASTArrayNode* ASTArrayExpressionNode::getArray() {
+    return _array;
 }
 
 std::vector<ASTExpressionNode*>* ASTArrayExpressionNode::getElements() {
-    return _elements;
+    return _array->getElements();
 }
 
 ASTArrayExpressionNode* ASTArrayExpressionNode::addElement(ASTExpressionNode* element) {
-    _elements->push_back(element);
-    _children.push_back(element);
+    _array->getElements()->push_back(element);
     return this;
 }
 
@@ -39,7 +33,7 @@ void ASTArrayExpressionNode::setTypeSignature(ArrayTypeSignature* arrayTypeSigna
 }
 
 unsigned long ASTArrayExpressionNode::size() {
-    return _elements->size();
+    return _array->getElements()->size();
 }
 
 ASTNodeType ASTArrayExpressionNode::getNodeType() {
@@ -55,23 +49,18 @@ bool ASTArrayExpressionNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTArrayExpressionNode*)other;
-    auto otherNodeElements = otherNode->getElements();
     if (this->size() != otherNode->size()) {
         return false;
     }
-    for (int i = 0; i < this->size(); i++) {
-        if (!_elements->at(i)->isSameAs(otherNodeElements->at(i))) {
-            return false;
-        }
-    }
-
-    return true;
+    return this->getArray()->isSameAs(otherNode->getArray());
 }
 
 void ASTArrayExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    for (auto element : *_elements) {
-        element->print();
-    }
+    _array->print();
     Logger::log("----------");
+}
+
+std::string ASTArrayExpressionNode::toSourceCode() {
+    return _array->toSourceCode();
 }

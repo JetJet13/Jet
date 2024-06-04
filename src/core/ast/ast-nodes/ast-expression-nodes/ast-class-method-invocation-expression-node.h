@@ -15,13 +15,15 @@
 #include "../ast-function-nodes/ast-function-call-node.h"
 #include "ast-callable-expression-node.h"
 #include "../ast-class-nodes/ast-class-method-call-node.h"
+#include "../ast-class-nodes/ast-class-access-node.h"
 
 class ASTClassMethodInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
+    ASTClassAccessNode* _classAccess;
     ASTClassMethodCallNode* _method;
     ASTFunctionArgumentListNode* _arguments;
 public:
-    explicit ASTClassMethodInvocationExpressionNode(ASTClassMethodCallNode* name, ASTFunctionArgumentListNode* arguments);
+    explicit ASTClassMethodInvocationExpressionNode(ASTClassAccessNode* classAccess, ASTClassMethodCallNode* name, ASTFunctionArgumentListNode* arguments);
     ASTFunctionArgumentListNode* getArguments();
     ASTClassMethodCallNode* getName();
     unsigned long numArguments();
@@ -29,6 +31,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE_H

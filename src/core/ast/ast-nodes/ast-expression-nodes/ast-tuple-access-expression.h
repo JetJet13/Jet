@@ -9,19 +9,22 @@
 #include "ast-array-expression-node.h"
 #include "../ast-tuple-nodes/ast-tuple-access-node.h"
 #include "../ast-object-nodes/ast-object-access-source-node.h"
+#include "../ast-period-node.h"
 
 class ASTTupleAccessExpressionNode : public ASTExpressionNode {
 private:
     ASTObjectAccessSourceNode* _source;
+    ASTPeriodNode* _period;
     ASTTupleAccessNode* _index;
 public:
-    ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTTupleAccessNode* index);
+    ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTPeriodNode* period, ASTTupleAccessNode* index);
     ASTObjectAccessSourceNode* getSource();
     ASTTupleAccessNode* getIndex();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_TUPLE_ACCESS_EXPRESSION_H

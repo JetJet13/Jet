@@ -12,6 +12,7 @@ ASTNode* NewClassInstanceExpressionReducerStrategy::execute(std::vector<ASTNode*
     }
 
     return new ASTNewClassInstanceExpressionNode(
+            (ASTNewNode*)nodes[0],
             (ASTClassNameNode*)nodes[1],
             (ASTFunctionArgumentListNode*)nodes[2]
     );

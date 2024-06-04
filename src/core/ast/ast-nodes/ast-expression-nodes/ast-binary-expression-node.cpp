@@ -4,6 +4,7 @@
 
 #include "ast-binary-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 
 ASTBinaryExpressionNode::ASTBinaryExpressionNode(ASTExpressionNode* leftNode, ASTBinaryOperatorNode* binaryOperator, ASTExpressionNode* rightNode) {
@@ -51,4 +52,12 @@ void ASTBinaryExpressionNode::print() {
     _binaryOperator->print();
     _rightNode->print();
     Logger::log("----------");
+}
+
+std::string ASTBinaryExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_leftNode)
+    ->addWithWhitespace(_binaryOperator)
+    ->addWithWhitespace(_rightNode);
+    return sourceCodeBuilder.build();
 }

@@ -7,13 +7,9 @@
 
 #include <vector>
 #include "../ast-node.h"
-#include "../ast-expression-nodes/ast-identifier-expression-node.h"
+#include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "../ast-function-nodes/ast-function-name-node.h"
-#include "../ast-function-nodes/ast-function-block-node.h"
-#include "../ast-function-nodes/ast-function-argument-list-node.h"
-#include "../ast-function-nodes/ast-function-call-node.h"
 #include "../../../type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 
 class ASTLambdaExpressionNode : public ASTExpressionNode {
@@ -22,7 +18,7 @@ private:
     ASTFunctionParameterListNode* _parameters;
     ASTFunctionBlockNode* _block;
     std::optional<ASTTypeNode*> _returnType;
-    LambdaExpressionTypeSignature* _typeSignature;
+    LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
 public:
     ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType = {});
     Lexeme* getLexeme();
@@ -35,6 +31,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 

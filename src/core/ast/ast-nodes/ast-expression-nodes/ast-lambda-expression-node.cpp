@@ -4,6 +4,7 @@
 
 #include "ast-lambda-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType) {
     _parameters = parameters;
@@ -76,4 +77,14 @@ void ASTLambdaExpressionNode::print() {
     }
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTLambdaExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_parameters);
+    if (_returnType) {
+        sourceCodeBuilder.addWithWhitespace(_returnType.value());
+    }
+    sourceCodeBuilder.addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

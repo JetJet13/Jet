@@ -4,6 +4,7 @@
 
 #include "ast-unary-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 
 ASTUnaryExpressionNode::ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode) {
@@ -43,4 +44,11 @@ void ASTUnaryExpressionNode::print() {
     _unaryOperator->print();
     _expression->print();
     Logger::log("----------");
+}
+
+std::string ASTUnaryExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_unaryOperator)
+    ->add(_expression);
+    return sourceCodeBuilder.build();
 }

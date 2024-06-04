@@ -4,6 +4,7 @@
 
 #include "ast-struct-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTStructExpressionNode::ASTStructExpressionNode() {
     _keyValuePairs = std::vector<ASTStructKeyValueNode*>();
@@ -62,4 +63,13 @@ void ASTStructExpressionNode::print() {
         keyValuePair->print();
     }
     Logger::log("----------");
+}
+
+
+std::string ASTStructExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    for (auto keyValuePair : _keyValuePairs) {
+        sourceCodeBuilder.addWithNewLine(keyValuePair);
+    }
+    return sourceCodeBuilder.build();
 }

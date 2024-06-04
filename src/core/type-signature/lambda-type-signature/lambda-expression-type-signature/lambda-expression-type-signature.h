@@ -14,6 +14,7 @@ private:
     ParameterListTypeSignature* _parameterList;
     std::optional<TypeSignature*> _returnType;
 public:
+    LambdaExpressionTypeSignature();
     LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, std::optional<TypeSignature*> returnType = {});
     ParameterListTypeSignature* getParameterTypes();
     std::optional<TypeSignature*> getReturnType();

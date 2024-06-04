@@ -37,3 +37,7 @@ bool ASTIdentifierExpressionNode::isSameAs(ASTNode *other) {
 void ASTIdentifierExpressionNode::print() {
     Logger::log(this->toString(), "-", _identifierNode->toString());
 }
+
+std::string ASTIdentifierExpressionNode::toSourceCode() {
+    return _identifierNode->toSourceCode();
+}

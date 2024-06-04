@@ -4,6 +4,7 @@
 
 #include "ast-logical-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTLogicalExpressionNode::ASTLogicalExpressionNode(ASTExpressionNode* leftNode, ASTLogicalOperatorNode* logicalOperator, ASTExpressionNode* rightNode) {
     _leftNode = leftNode;
@@ -50,4 +51,12 @@ void ASTLogicalExpressionNode::print() {
     _logicalOperator->print();
     _rightNode->print();
     Logger::log("----------");
+}
+
+std::string ASTLogicalExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_leftNode)
+    ->addWithWhitespace(_logicalOperator)
+    ->addWithWhitespace(_rightNode);
+    return sourceCodeBuilder.build();
 }

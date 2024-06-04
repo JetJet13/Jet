@@ -4,8 +4,10 @@
 
 #include "ast-new-class-instance-expression.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments) {
+ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments) {
+    _new = newKeywordNode;
     _className = className;
     _arguments = arguments;
     _children.push_back(_className);
@@ -47,4 +49,12 @@ void ASTNewClassInstanceExpressionNode::print() {
     _className->print();
     _arguments->print();
     Logger::log("----------");
+}
+
+std::string ASTNewClassInstanceExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_new)
+    ->addWithWhitespace(_className)
+    ->add(_arguments);
+    return sourceCodeBuilder.build();
 }

@@ -4,8 +4,10 @@
 
 #include "ast-class-method-invocation-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassMethodInvocationExpressionNode::ASTClassMethodInvocationExpressionNode(ASTClassMethodCallNode* method, ASTFunctionArgumentListNode* arguments) {
+ASTClassMethodInvocationExpressionNode::ASTClassMethodInvocationExpressionNode(ASTClassAccessNode* classAccess, ASTClassMethodCallNode* method, ASTFunctionArgumentListNode* arguments) {
+    _classAccess = classAccess;
     _method = method;
     _arguments = arguments;
     _children.push_back(_method);
@@ -47,4 +49,12 @@ void ASTClassMethodInvocationExpressionNode::print() {
     _method->print();
     _arguments->print();
     Logger::log("----------");
+}
+
+std::string ASTClassMethodInvocationExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_classAccess)
+    ->add(_method)
+    ->add(_arguments);
+    return sourceCodeBuilder.build();
 }

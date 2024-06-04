@@ -33,3 +33,7 @@ bool ASTLiteralExpressionNode::isSameAs(ASTNode *other) {
 void ASTLiteralExpressionNode::print() {
     Logger::log(this->toString(), "-", _literalNode->toString());
 }
+
+std::string ASTLiteralExpressionNode::toSourceCode() {
+    return _literalNode->toSourceCode();
+}

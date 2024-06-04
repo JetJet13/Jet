@@ -5,11 +5,14 @@
 #include "ast-tuple-access-expression.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "ast-tuple-expression-node.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleAccessExpressionNode::ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTTupleAccessNode* index) {
+ASTTupleAccessExpressionNode::ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTPeriodNode* period, ASTTupleAccessNode* index) {
     _source = source;
+    _period = period;
     _index = index;
     _children.push_back(_source);
+    _children.push_back(_period);
     _children.push_back(_index);
 }
 
@@ -43,4 +46,13 @@ void ASTTupleAccessExpressionNode::print() {
     _source->print();
     _index->print();
     Logger::log("----------");
+}
+
+
+std::string ASTTupleAccessExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_source)
+    ->add(_period)
+    ->add(_index);
+    return sourceCodeBuilder.build();
 }

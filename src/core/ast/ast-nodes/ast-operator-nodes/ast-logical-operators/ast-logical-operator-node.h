@@ -5,7 +5,7 @@
 #ifndef JETLANG_AST_LOGICAL_OPERATOR_NODE_H
 #define JETLANG_AST_LOGICAL_OPERATOR_NODE_H
 
-#include "../../ast-node.h"
+#include "../../ast-symbol-node.h"
 
 class ASTLogicalOperatorNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;

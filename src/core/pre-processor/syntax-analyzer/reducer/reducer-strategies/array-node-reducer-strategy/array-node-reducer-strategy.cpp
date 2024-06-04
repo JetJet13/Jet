@@ -7,7 +7,7 @@
 
 
 ASTNode* ArrayNodeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    auto arrayNode = new ASTArrayNode();
+    auto arrayNode = new ASTArrayNode((ASTLeftBracketNode*)nodes[0], (ASTRightBracketNode*)nodes[nodes.size() - 1]);
     for (int i = 1; i < nodes.size() - 1; i++) {
         if (!nodes[i]->is(AST_COMMA_NODE)) {
             arrayNode->addElement((ASTExpressionNode*)nodes[i]);

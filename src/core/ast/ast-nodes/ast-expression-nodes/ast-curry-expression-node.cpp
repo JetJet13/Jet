@@ -4,6 +4,7 @@
 
 #include "ast-curry-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTCurryExpressionNode::ASTCurryExpressionNode(ASTCallableExpressionNode* callableExpression, ASTFunctionArgumentListNode* arguments) {
     _callableExpression = callableExpression;
@@ -47,4 +48,11 @@ void ASTCurryExpressionNode::print() {
     _callableExpression->print();
     _arguments->print();
     Logger::log("----------");
+}
+
+std::string ASTCurryExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_callableExpression)
+    ->add(_arguments);
+    return sourceCodeBuilder.build();
 }

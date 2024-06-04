@@ -3,8 +3,6 @@
 //
 
 #include "lambda-expression-type-signature-strategy.h"
-#include "../../../../../../type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
-
 
 void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);

@@ -4,6 +4,7 @@
 
 #include "ast-tuple-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListNode* tupleList) {
     _tupleList = tupleList;
@@ -35,4 +36,8 @@ void ASTTupleExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _tupleList->print();
     Logger::log("----------");
+}
+
+std::string ASTTupleExpressionNode::toSourceCode() {
+    return _tupleList->toSourceCode();
 }

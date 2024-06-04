@@ -93,6 +93,8 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.h"
 #include "reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.h"
+#include "reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.h"
+#include "reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -149,6 +151,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_CATCH_BLOCK_NODE, new CatchBlockReducerStrategy());
     this->addStrategy(AST_FINALLY_BLOCK_NODE, new FinallyBlockReducerStrategy());
     this->addStrategy(AST_LAMBDA_EXPRESSION_NODE, new LambdaExpressionReducerStrategy());
+    this->addStrategy(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE, new LambdaWithFatArrowExpressionReducerStrategy());
     this->addStrategy(AST_LAMBDA_RETURN_EXPRESSION_NODE, new LambdaReturnExpressionReducerStrategy());
     this->addStrategy(AST_TYPE_PARAMETER_LIST_NODE, new TypeParameterListReducerStrategy());
     this->addStrategy(AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaFunctionTypeParameterListReducerStrategy());

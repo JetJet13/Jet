@@ -12,15 +12,9 @@ namespace LambdaExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             lambdaExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(
-                lambdaExpression->getParameters()->getFunctionParameterListStartNode()->getLexeme()
-            ),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(
-                lambdaExpression->getParameters()->getFunctionParameterListStartNode()->getLexeme()
-            ),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(
-                lambdaExpression->getParameters()->getFunctionParameterListStartNode()->getLexeme()
-            ),
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression),
             typeCheckerResult
         );
         TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
@@ -29,12 +23,8 @@ namespace LambdaExpressionTypeCheckerPolicy {
             TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
             ->enforce(
                 lambdaExpression->getTypeSignature()->getReturnType().value(),
-                TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeUnknown(
-                    lambdaExpression->getParameters()->getFunctionParameterListStartNode()->getLexeme()
-                ),
-                TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeInvalid(
-                    lambdaExpression->getParameters()->getFunctionParameterListStartNode()->getLexeme()
-                ),
+                TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeUnknown(lambdaExpression),
+                TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeInvalid(lambdaExpression),
                 typeCheckerResult
             );
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
@@ -46,17 +36,13 @@ namespace LambdaExpressionTypeCheckerPolicy {
             TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()
             ->enforce(
                 lambdaExpression->getBlock(),
-                TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(
-                    lambdaExpression->getParameters()->getFunctionParameterListStartNode()->getLexeme()
-                ),
+                TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression),
                 typeCheckerResult
             );
         } else {
             TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
                 lambdaExpression->getBlock(),
-                TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(
-                    lambdaExpression->getParameters()->getFunctionParameterListStartNode()->getLexeme()
-                ),
+                TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression),
                 typeCheckerResult
             );
         }

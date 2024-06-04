@@ -4,6 +4,7 @@
 
 #include "ast-function-return-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* expressionNode) {
     _returnNode = returnNode;
@@ -39,4 +40,11 @@ void ASTFunctionReturnExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _returnExpression->print();
     Logger::log("----------");
+}
+
+std::string ASTFunctionReturnExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_returnNode)
+    ->addWithWhitespace(_returnExpression);
+    return sourceCodeBuilder.build();
 }

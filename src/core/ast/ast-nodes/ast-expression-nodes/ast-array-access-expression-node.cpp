@@ -4,12 +4,13 @@
 
 #include "ast-array-access-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTArrayAccessExpressionNode::ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* index) {
+ASTArrayAccessExpressionNode::ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* arrayAccess) {
     _source = source;
-    _index = index;
+    _arrayAccess = arrayAccess;
     _children.push_back(_source);
-    _children.push_back(_index);
+    _children.push_back(_arrayAccess);
 }
 
 ASTExpressionNode* ASTArrayAccessExpressionNode::getSource() {
@@ -17,7 +18,7 @@ ASTExpressionNode* ASTArrayAccessExpressionNode::getSource() {
 }
 
 ASTArrayAccessNode* ASTArrayAccessExpressionNode::getIndex() {
-    return _index;
+    return _arrayAccess;
 }
 
 ASTNodeType ASTArrayAccessExpressionNode::getNodeType() {
@@ -40,6 +41,13 @@ bool ASTArrayAccessExpressionNode::isSameAs(ASTNode *other) {
 void ASTArrayAccessExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _source->print();
-    _index->print();
+    _arrayAccess->print();
     Logger::log("----------");
+}
+
+std::string ASTArrayAccessExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_source)
+    ->add(_arrayAccess);
+    return sourceCodeBuilder.build();
 }

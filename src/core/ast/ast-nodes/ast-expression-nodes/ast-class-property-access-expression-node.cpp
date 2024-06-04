@@ -4,6 +4,7 @@
 
 #include "ast-class-property-access-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTClassPropertyAccessExpressionNode::ASTClassPropertyAccessExpressionNode(ASTClassPropertyAccessNode* propertyAccess) {
     _propertyAccess = propertyAccess;
@@ -34,4 +35,8 @@ void ASTClassPropertyAccessExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _propertyAccess->print();
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyAccessExpressionNode::toSourceCode() {
+    return _propertyAccess->toSourceCode();
 }

@@ -15,13 +15,15 @@
 #include "../ast-function-nodes/ast-function-call-node.h"
 #include "ast-callable-expression-node.h"
 #include "../ast-class-nodes/ast-class-name-node.h"
+#include "../ast-class-nodes/ast-new-node.h"
 
 class ASTNewClassInstanceExpressionNode : public ASTCallableExpressionNode {
 private:
+    ASTNewNode* _new;
     ASTClassNameNode* _className;
     ASTFunctionArgumentListNode* _arguments;
 public:
-    explicit ASTNewClassInstanceExpressionNode(ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments);
+    explicit ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments);
     ASTFunctionArgumentListNode* getArguments();
     ASTClassNameNode* getClassName();
     unsigned long numArguments();
@@ -29,6 +31,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_NEW_CLASS_INSTANCE_EXPRESSION_H

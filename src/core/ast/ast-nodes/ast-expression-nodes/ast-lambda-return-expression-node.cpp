@@ -4,6 +4,7 @@
 
 #include "ast-lambda-return-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* expressionNode) {
     _fatArrowNode = fatArrowNode;
@@ -39,4 +40,11 @@ void ASTLambdaReturnExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _returnExpression->print();
     Logger::log("----------");
+}
+
+std::string ASTLambdaReturnExpressionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_fatArrowNode)
+    ->addWithWhitespace(_returnExpression);
+    return sourceCodeBuilder.build();
 }

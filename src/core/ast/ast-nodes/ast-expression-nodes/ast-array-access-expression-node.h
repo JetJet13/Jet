@@ -12,15 +12,16 @@
 class ASTArrayAccessExpressionNode : public ASTExpressionNode {
 private:
     ASTExpressionNode* _source;
-    ASTArrayAccessNode* _index;
+    ASTArrayAccessNode* _arrayAccess;
 public:
-    ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* index);
+    ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* arrayAccess);
     ASTExpressionNode* getSource();
     ASTArrayAccessNode* getIndex();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_ARRAY_ACCESS_EXPRESSION_NODE_H

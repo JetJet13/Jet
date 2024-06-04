@@ -1012,6 +1012,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.h
         pre-processor/syntax-analyzer/scope/scope.cpp
         pre-processor/syntax-analyzer/scope/scope.h
+        ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.h
 
 )
 

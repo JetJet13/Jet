@@ -11,6 +11,7 @@ ASTNode* ClassMethodInvocationExpressionReducerStrategy::execute(std::vector<AST
     }
 
     return new ASTClassMethodInvocationExpressionNode(
+            (ASTClassAccessNode*)nodes[0],
             (ASTClassMethodCallNode*)nodes[1],
             (ASTFunctionArgumentListNode*)nodes[2]
     );
