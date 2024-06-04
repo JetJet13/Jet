@@ -497,7 +497,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
     for (int i = 0; i < 118; i++) {
-        auto declaration = fileNodeResult->getBody()->getContents()->at(i);
+        auto declaration = fileNodeResult->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("ID -", declaration->getId());

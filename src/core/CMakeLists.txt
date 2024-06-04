@@ -1010,6 +1010,8 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/scope/scope.cpp
+        pre-processor/syntax-analyzer/scope/scope.h
 
 )
 

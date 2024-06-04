@@ -11,11 +11,11 @@
 
 class ASTFileNode : public ASTNode {
 private:
-    ASTBlockNode* _body;
+    std::vector<ASTNode*> _body;
 public:
-    ASTFileNode(ASTBlockNode* body);
+    ASTFileNode(std::vector<ASTNode*> body);
     void append(ASTNode* node);
-    ASTBlockNode* getBody();
+    std::vector<ASTNode*>* getBody();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

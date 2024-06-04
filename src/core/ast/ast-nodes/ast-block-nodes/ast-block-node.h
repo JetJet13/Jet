@@ -13,20 +13,17 @@
 
 class ASTBlockNode : public ASTScopedBlockNode {
 private:
-    std::optional<ASTBlockStartNode*> _blockStartNode = {};
-    std::optional<ASTBlockEndNode*> _blockEndNode = {};
+    ASTBlockStartNode* _blockStartNode;
+    ASTBlockEndNode* _blockEndNode;
     std::vector<ASTNode*> _contents;
 public:
-    explicit ASTBlockNode();
-    explicit ASTBlockNode(ASTBlockStartNode* blockStartNode);
-    explicit ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents);
+    explicit ASTBlockNode(ASTBlockStartNode* blockStartNode, ASTBlockEndNode* blockEndNode);
+    explicit ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode);
     ASTBlockNode* addContent(ASTNode* content);
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     unsigned long size();
     std::vector<ASTNode*>* getContents();
     ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
-    void setBlockStartNode(ASTBlockStartNode* blockStartNode);
-    void setBlockEndNode(ASTBlockEndNode* blockEndNode);
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

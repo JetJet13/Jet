@@ -9,19 +9,19 @@
 #include "../ast-class-nodes/ast-class-block-node.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTBlockNode::ASTBlockNode() {
+ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode, ASTBlockEndNode* blockEndNode) {
+    _blockStartNode = blockStartNode;
+    _blockEndNode = blockEndNode;
+    _children.push_back(_blockStartNode);
+    _children.push_back(_blockEndNode);
     _contents = std::vector<ASTNode*>();
 }
 
-ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode) {
+ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode) {
     _blockStartNode = blockStartNode;
+    _blockEndNode = blockEndNode;
     _children.push_back(_blockStartNode);
-    _contents = std::vector<ASTNode*>();
-}
-
-ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents) {
-    _blockStartNode = blockStartNode;
-    _children.push_back(_blockStartNode);
+    _children.push_back(_blockEndNode);
     _contents = std::vector<ASTNode*>();
     for (auto content: contents) {
         this->addContent(content);
@@ -71,14 +71,6 @@ ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, 
     return this;
 }
 
-void ASTBlockNode::setBlockStartNode(ASTBlockStartNode* blockStartNode) {
-    _blockStartNode = blockStartNode;
-}
-
-void ASTBlockNode::setBlockEndNode(ASTBlockEndNode* blockEndNode) {
-    _blockEndNode = blockEndNode;
-}
-
 ASTNodeType ASTBlockNode::getNodeType() {
     return AST_BLOCK_NODE;
 }
@@ -100,27 +92,25 @@ bool ASTBlockNode::isSameAs(ASTNode* other) {
     return true;
 }
 
-
 void ASTBlockNode::print() {
     Logger::log("----------", this->toString(), "----------");
+    _blockStartNode->print();
     for (auto content : _contents) {
         content->print();
     }
+    _blockEndNode->print();
     Logger::log("----------");
 }
 
 std::string ASTBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    if (_blockStartNode) {
-        sourceCodeBuilder.add(_blockStartNode.value());
-    }
+    sourceCodeBuilder.add(_blockStartNode);
 
     for (auto content : _contents) {
         sourceCodeBuilder.addWithNewLine(content);
     }
 
-    if (_blockEndNode) {
-        sourceCodeBuilder.addWithNewLine(_blockEndNode.value());
-    }
+    sourceCodeBuilder.addWithNewLine(_blockEndNode);
+
     return sourceCodeBuilder.build();
 }

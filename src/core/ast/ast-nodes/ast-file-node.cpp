@@ -3,19 +3,18 @@
 //
 
 #include "ast-file-node.h"
-#include "../../../shared/utils/logger/logger.h"
+#include "../types/source-code-builder/source-code-builder.h"
 
-ASTFileNode::ASTFileNode(ASTBlockNode* body) {
+ASTFileNode::ASTFileNode(std::vector<ASTNode*> body) {
     _body = body;
-    _children.push_back(_body);
 }
 
 void ASTFileNode::append(ASTNode *node) {
-    _body->addContent(node);
+    _body.push_back(node);
 }
 
-ASTBlockNode* ASTFileNode::getBody() {
-    return _body;
+std::vector<ASTNode*>* ASTFileNode::getBody() {
+    return &_body;
 }
 
 ASTNodeType ASTFileNode::getNodeType() {
@@ -31,12 +30,18 @@ bool ASTFileNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTFileNode*)other;
-    return _body->isSameAs(otherNode->getBody());
+    for (int i = 0; i < _body.size(); ++i) {
+        if (!_body[i]->isSameAs(otherNode->getBody()->at(i))) {
+            return false;
+        }
+    }
+    return true;
 }
 
 std::string ASTFileNode::toSourceCode() {
-    Logger::log("File");
-    Logger::log("-----");
-    this->getBody()->toSourceCode();
-    Logger::log("-----");
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    for (auto node : _body) {
+        sourceCodeBuilder.addWithNewLine(node);
+    }
+    return sourceCodeBuilder.build();
 }

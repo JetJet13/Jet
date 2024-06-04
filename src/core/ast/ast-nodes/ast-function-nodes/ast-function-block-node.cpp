@@ -4,8 +4,13 @@
 
 #include "ast-function-block-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionBlockNode::ASTFunctionBlockNode(std::vector<ASTNode*> contents) {
+ASTFunctionBlockNode::ASTFunctionBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode) {
+    _blockStartNode = blockStartNode;
+    _blockEndNode = blockEndNode;
+    _children.push_back(_blockStartNode);
+    _children.push_back(_blockEndNode);
     _contents = std::vector<ASTNode*>();
     for (auto content: contents) {
         _contents.push_back(content);
@@ -53,4 +58,17 @@ void ASTFunctionBlockNode::print() {
         content->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTFunctionBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_blockStartNode);
+
+    for (auto content : _contents) {
+        sourceCodeBuilder.addWithNewLine(content);
+    }
+
+    sourceCodeBuilder.addWithNewLine(_blockEndNode);
+
+    return sourceCodeBuilder.build();
 }
