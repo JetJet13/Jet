@@ -26,7 +26,7 @@ namespace FunctionBlockTypeCheckerPolicy {
         ->enforce(
             &scopedVariableDeclarationNames,
             // todo: come back to this
-            TypeCheckerErrorMessageTable::VariableNamesNotUnique(scopedVariableDeclarationNames[0]->getLexeme()),
+            TypeCheckerErrorMessageTable::VariableNamesNotUnique(scopedVariableDeclarationNames[0]),
             typeCheckerResult
         );
     }

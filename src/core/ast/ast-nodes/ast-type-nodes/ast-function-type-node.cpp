@@ -16,7 +16,7 @@ ASTFunctionTypeNode::ASTFunctionTypeNode(ASTFunctionLambdaTypeParameterListNode*
 }
 
 ASTTypeParameterListNode* ASTFunctionTypeNode::getParameterList() {
-    return _parameterList;
+    return _parameterList->getTypeParameterList();
 }
 
 ASTTypeNode* ASTFunctionTypeNode::getReturnType() {

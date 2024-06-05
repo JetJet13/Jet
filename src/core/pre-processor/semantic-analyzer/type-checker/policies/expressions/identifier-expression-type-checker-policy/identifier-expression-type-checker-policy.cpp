@@ -11,9 +11,9 @@ namespace IdentifierExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             identifierExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(identifierExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(identifierExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(identifierExpression),
             typeCheckerResult
         );
     }

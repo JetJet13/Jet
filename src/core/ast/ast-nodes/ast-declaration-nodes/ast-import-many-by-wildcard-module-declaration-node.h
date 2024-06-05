@@ -26,6 +26,6 @@ public:
     bool isSameAs(ASTNode* other) override;
     void print() override;
     std::string toSourceCode() override;
-}
+};
 
 #endif //JETLANG_AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE_H

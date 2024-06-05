@@ -11,18 +11,18 @@ namespace ClassPropertyAssignmentStatementTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ClassPropertyTypeUnknown,
-            TypeCheckerErrorMessageTable::ClassPropertyTypeInvalid,
-            TypeCheckerErrorMessageTable::ClassPropertyTypeVoid,
+            TypeCheckerErrorMessageTable::ClassPropertyTypeUnknown(classPropertyAssignmentStatementNode),
+            TypeCheckerErrorMessageTable::ClassPropertyTypeInvalid(classPropertyAssignmentStatementNode),
+            TypeCheckerErrorMessageTable::ClassPropertyTypeVoid(classPropertyAssignmentStatementNode),
             typeCheckerResult
         );
 
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             classPropertyAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classPropertyAssignmentStatementNode->getExpression()),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classPropertyAssignmentStatementNode->getExpression()),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(classPropertyAssignmentStatementNode->getExpression()),
             typeCheckerResult
         );
 
@@ -30,7 +30,7 @@ namespace ClassPropertyAssignmentStatementTypeCheckerPolicy {
         ->enforce(
             classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature(),
             classPropertyAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ClassPropertyAssignmentTypeMismatch,
+            TypeCheckerErrorMessageTable::ClassPropertyAssignmentTypeMismatch(classPropertyAssignmentStatementNode),
             typeCheckerResult
         );
     }

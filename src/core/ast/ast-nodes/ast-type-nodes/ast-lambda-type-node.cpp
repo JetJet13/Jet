@@ -58,14 +58,3 @@ void ASTLambdaTypeNode::print() {
     }
     Logger::log("----------");
 }
-
-std::string ASTLambdaTypeNode::toSourceCode() {
-    auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_assignmentTypeQualifier)->add(_identifier);
-
-    if (_colon && _type) {
-        sourceCodeBuilder.add(_colon.value())->add(_type.value());
-    }
-
-    return sourceCodeBuilder.build();
-}

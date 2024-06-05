@@ -13,7 +13,7 @@ namespace ProcedureDeclarationTypeCheckerPolicy {
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             procedureDeclarationNode->getBlock(),
             TypeCheckerErrorMessageTable::ProcedureHasReturnExpression(
-                procedureDeclarationNode->getName()->getLexeme()
+                procedureDeclarationNode
             ),
             typeCheckerResult
         );

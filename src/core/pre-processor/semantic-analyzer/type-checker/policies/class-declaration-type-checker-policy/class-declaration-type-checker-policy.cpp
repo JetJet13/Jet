@@ -26,7 +26,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
             ->enforce(
                 classProperty->getTypeSignature(),
                 classProperty->getInitializer().value()->getTypeSignature(),
-                TypeCheckerErrorMessageTable::ClassPropertyInitializerTypeMismatch,
+                TypeCheckerErrorMessageTable::ClassPropertyInitializerTypeMismatch(classProperty),
                 typeCheckerResult
             );
         }
@@ -34,15 +34,15 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
 }
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
-    auto classPropertyNames = std::vector<std::string>();
+    auto classPropertyNames = std::vector<ASTIdentifierNode*>();
     for (auto classProperty : *classDeclarationNode->getBlock()->getProperties()) {
-        classPropertyNames.push_back(classProperty->getId());
+
     }
 
     TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
     ->enforce(
         &classPropertyNames,
-        TypeCheckerErrorMessageTable::ClassPropertyNamesNotUnique,
+        TypeCheckerErrorMessageTable::ClassPropertyNamesNotUnique(classDeclarationNode),
         typeCheckerResult
     );
 }
@@ -58,13 +58,13 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
             ->enforce(
                 classMethod->getTypeSignature()->getReturnType().value(),
                 TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(
-                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                    classMethod
                 ),
                 TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid(
-                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                    classMethod
                 ),
                 TypeCheckerErrorMessageTable::ClassMethodReturnTypeVoid(
-                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                    classMethod
                 ),
                 typeCheckerResult
             );
@@ -77,7 +77,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
             TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
                 classMethod->getBlock(),
                 TypeCheckerErrorMessageTable::ClassMethodNotAllPathsReturn(
-                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                    classMethod
                 ),
                 typeCheckerResult
             );
@@ -85,7 +85,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
             TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
                 classMethod->getBlock(),
                 TypeCheckerErrorMessageTable::ClassMethodHasReturnExpression(
-                    classMethod->getClassMethodDefinition()->getMethodName()->getLexeme()
+                    classMethod
                 ),
                 typeCheckerResult
             );
@@ -108,7 +108,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(ASTClassD
     ->enforce(
         &classMethodNameAndTypeSignatureList,
         TypeCheckerErrorMessageTable::ClassMethodNamesAndTypeSignaturesNotUnique(
-            classDeclarationNode->getName()->getLexeme()
+            classDeclarationNode
         ),
         typeCheckerResult
     );
@@ -122,7 +122,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(ASTClassDecla
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             classConstructor->getBlock(),
             TypeCheckerErrorMessageTable::ClassConstructorHasReturnExpression(
-                classConstructor->getConstructor()->getLexeme()
+                classConstructor
             ),
             typeCheckerResult
         );
@@ -139,7 +139,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(ASTC
     TypeCheckerRuleProvider::getUniqueTypeSignaturesTypeCheckerRule()
             ->enforce(
                     &classConstructorTypeSignatures,
-                    TypeCheckerErrorMessageTable::ClassConstructorsNotUnique,
+                    TypeCheckerErrorMessageTable::ClassConstructorsNotUnique(classDeclarationNode),
                     typeCheckerResult
             );
 }

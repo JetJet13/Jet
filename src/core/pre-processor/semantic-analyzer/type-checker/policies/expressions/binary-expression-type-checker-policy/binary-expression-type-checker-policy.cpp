@@ -11,9 +11,9 @@ namespace BinaryExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             binaryExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(binaryExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(binaryExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(binaryExpression),
             typeCheckerResult
         );
     }

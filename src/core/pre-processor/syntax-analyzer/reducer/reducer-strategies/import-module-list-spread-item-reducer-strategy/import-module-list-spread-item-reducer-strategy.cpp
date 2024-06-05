@@ -11,6 +11,7 @@ ASTNode* ImportModuleListSpreadItemReducerStrategy::execute(std::vector<ASTNode*
     }
 
     return new ASTImportModuleListSpreadItemNode(
+            (ASTImportSpreadNode*)nodes[0],
             (ASTImportModuleNameNode*)nodes[1]
     );
 }

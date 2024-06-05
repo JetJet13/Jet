@@ -10,11 +10,11 @@
 namespace ControlFlowConditionTypeCheckerPolicy {
     void apply(ASTControlFlowConditionNode* controlFlowConditionNode, TypeCheckerResult* typeCheckerResult) {
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
-                ->enforce(
-                        controlFlowConditionNode->getTypeSignature(),
-                        new BoolLiteralTypeSignature(),
-                        TypeCheckerErrorMessageTable::ControlFlowConditionNotBool,
-                        typeCheckerResult
-                );
+        ->enforce(
+            controlFlowConditionNode->getTypeSignature(),
+            new BoolLiteralTypeSignature(),
+            TypeCheckerErrorMessageTable::ControlFlowConditionNotBool(controlFlowConditionNode),
+            typeCheckerResult
+        );
     }
 }

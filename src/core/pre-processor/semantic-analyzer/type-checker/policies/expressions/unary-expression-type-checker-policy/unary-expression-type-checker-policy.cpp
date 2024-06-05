@@ -12,9 +12,9 @@ namespace UnaryExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             unaryExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(unaryExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(unaryExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(unaryExpression),
             typeCheckerResult
         );
 

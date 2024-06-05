@@ -11,7 +11,7 @@ void EnumDeclarationIdStrategy::assign(ASTNode* node) {
             _tokenTable->getIdentifier(
                 enumDeclarationNode
                 ->getName()
-                ->getName()
+                ->getLexeme()
                 ->getToken()
                 ->getValueId()
                 .value()

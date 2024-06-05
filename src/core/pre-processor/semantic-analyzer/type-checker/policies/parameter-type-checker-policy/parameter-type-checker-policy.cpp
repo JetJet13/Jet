@@ -13,13 +13,13 @@ namespace ParameterTypeCheckerPolicy {
         ->enforce(
                 functionParameter,
                 TypeCheckerErrorMessageTable::ParameterTypeUnknown(
-                    functionParameter->getIdentifier()->getIdentifierNode()->getLexeme()
+                    functionParameter
                 ),
                 TypeCheckerErrorMessageTable::ParameterTypeInvalid(
-                    functionParameter->getIdentifier()->getIdentifierNode()->getLexeme()
+                    functionParameter
                 ),
                 TypeCheckerErrorMessageTable::ParameterTypeVoid(
-                    functionParameter->getIdentifier()->getIdentifierNode()->getLexeme()
+                    functionParameter
                 ),
                 typeCheckerResult
         );

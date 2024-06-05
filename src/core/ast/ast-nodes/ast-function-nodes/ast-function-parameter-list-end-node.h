@@ -6,7 +6,7 @@
 #define JETLANG_AST_FUNCTION_PARAMETER_LIST_END_NODE_H
 
 #include <string>
-#include "../ast-node.h"
+#include "../ast-symbol-node.h"
 #include "../../../lexeme/lexeme.h"
 
 class ASTFunctionParameterListEndNode : public ASTSymbolNode {

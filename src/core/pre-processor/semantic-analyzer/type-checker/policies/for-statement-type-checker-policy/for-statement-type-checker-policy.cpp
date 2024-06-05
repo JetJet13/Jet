@@ -14,7 +14,7 @@ namespace ForStatementTypeCheckerPolicy {
         TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule()
         ->enforce(
             forStatementNode->getSource()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ForStatementSourceNotIterable,
+            TypeCheckerErrorMessageTable::ForStatementSourceNotIterable(forStatementNode->getSource()),
             typeCheckerResult
         );
 

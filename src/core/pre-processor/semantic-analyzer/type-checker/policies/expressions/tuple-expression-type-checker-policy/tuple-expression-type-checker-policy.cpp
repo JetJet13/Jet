@@ -12,9 +12,9 @@ namespace TupleExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             tupleExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleExpression),
             typeCheckerResult
         );
 

@@ -11,9 +11,9 @@ namespace ArrayExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             arrayExpression->getTypeSignature()->getElementType(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayExpression),
             typeCheckerResult
         );
 
@@ -22,7 +22,7 @@ namespace ArrayExpressionTypeCheckerPolicy {
             ->enforce(
                 arrayExpression->getTypeSignature()->getElementType(),
                 element->getTypeSignature(),
-                TypeCheckerErrorMessageTable::ArrayElementTypeMismatch,
+                TypeCheckerErrorMessageTable::ArrayElementTypeMismatch(element),
                 typeCheckerResult
             );
         }

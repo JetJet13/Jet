@@ -11,9 +11,9 @@ namespace ClassPropertyAccessExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             classPropertyAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classPropertyAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classPropertyAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(classPropertyAccessExpression),
             typeCheckerResult
         );
     }

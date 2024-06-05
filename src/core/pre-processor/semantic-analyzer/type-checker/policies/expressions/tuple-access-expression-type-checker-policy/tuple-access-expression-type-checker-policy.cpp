@@ -11,9 +11,9 @@ namespace TupleAccessExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             tupleAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleAccessExpression),
             typeCheckerResult
         );
     }

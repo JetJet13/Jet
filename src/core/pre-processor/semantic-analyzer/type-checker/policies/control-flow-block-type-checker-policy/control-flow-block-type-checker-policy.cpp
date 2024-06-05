@@ -10,7 +10,7 @@
 
 namespace ControlFlowBlockTypeCheckerPolicy {
     void apply(ASTControlFlowBlockNode* controlFlowBlockNode, TypeCheckerResult* typeCheckerResult) {
-        auto scopedVariableDeclarationNames = std::vector<std::string>();
+        auto scopedVariableDeclarationNames = std::vector<ASTIdentifierNode*>();
         for (auto statement : *controlFlowBlockNode->getContents()) {
             TypeChecker::applyPolicyTo(statement, typeCheckerResult);
             if (statement->is(AST_VARIABLE_DECLARATION_NODE)) {
@@ -18,7 +18,6 @@ namespace ControlFlowBlockTypeCheckerPolicy {
                     ((ASTVariableDeclarationNode*)statement)
                     ->getVarInitNode()
                     ->getIdentifierNode()
-                    ->getId()
                 );
             }
         }
@@ -26,7 +25,7 @@ namespace ControlFlowBlockTypeCheckerPolicy {
         TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
         ->enforce(
             &scopedVariableDeclarationNames,
-            TypeCheckerErrorMessageTable::VariableNamesNotUnique,
+            TypeCheckerErrorMessageTable::VariableNamesNotUnique(controlFlowBlockNode),
             typeCheckerResult
         );
     }

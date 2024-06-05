@@ -11,8 +11,8 @@ namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
         ->enforce(
             classMethodInvocationExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classMethodInvocationExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classMethodInvocationExpression),
             typeCheckerResult
         );
 
@@ -20,8 +20,8 @@ namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
         ->enforce(
                 classMethodInvocationExpression->getName()->getTypeSignature()->getParameters()->numParameters(),
                 classMethodInvocationExpression->getArguments()->numArguments(),
-                TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments,
-                TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments,
+                TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments(classMethodInvocationExpression->getArguments()),
+                TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments(classMethodInvocationExpression->getArguments()),
                 typeCheckerResult
         );
 
@@ -29,7 +29,7 @@ namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
         ->enforce(
             classMethodInvocationExpression->getName()->getTypeSignature()->getParameters(),
             classMethodInvocationExpression->getArguments(),
-            TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch,
+            TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(classMethodInvocationExpression->getArguments()),
             typeCheckerResult
         );
 

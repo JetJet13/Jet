@@ -11,10 +11,10 @@ namespace EnumDeclarationTypeCheckerPolicy {
         for (auto enumKeyValue : enumDeclarationNode->getValues()->getParameters()) {
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
-                    enumDeclarationNode->getTypeSignature()->getType(),
-                    enumKeyValue->getTypeSignature(),
-                    TypeCheckerErrorMessageTable::EnumKeyValueTypeMismatch,
-                    typeCheckerResult
+                enumDeclarationNode->getTypeSignature()->getType(),
+                enumKeyValue->getTypeSignature(),
+                TypeCheckerErrorMessageTable::EnumKeyValueTypeMismatch(enumDeclarationNode),
+                typeCheckerResult
             );
         }
     }

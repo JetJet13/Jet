@@ -6,7 +6,7 @@
 #include "../../../../../ast/ast-nodes/ast-import-nodes/ast-import-module-list-node.h"
 
 ASTNode* ImportModuleListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    auto importModuleListNode = new ASTImportModuleListNode();
+    auto importModuleListNode = new ASTImportModuleListNode((ASTImportModuleListStartNode*)nodes[0], (ASTImportModuleListEndNode*)nodes[nodes.size() - 1]);
     for (auto node : nodes) {
         if (node->isOneOf({
             AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE,

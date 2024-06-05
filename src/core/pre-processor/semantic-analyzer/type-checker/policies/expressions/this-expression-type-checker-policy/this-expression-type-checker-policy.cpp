@@ -11,14 +11,14 @@ namespace ThisExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             thisExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(thisExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(thisExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(thisExpression),
             typeCheckerResult
         );
 
         if (thisExpression->getTypeSignature()->is(CLASS_TYPE_SOURCE)) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(thisExpression));
         }
     }
 }

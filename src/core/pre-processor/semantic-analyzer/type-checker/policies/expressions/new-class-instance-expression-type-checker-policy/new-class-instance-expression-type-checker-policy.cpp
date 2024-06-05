@@ -11,14 +11,14 @@ namespace NewClassInstanceExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             newClassInstanceExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(newClassInstanceExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(newClassInstanceExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(newClassInstanceExpression),
             typeCheckerResult
         );
 
         if (newClassInstanceExpression->getTypeSignature()->is(CLASS_TYPE_SOURCE)) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(newClassInstanceExpression));
         }
     }
 }

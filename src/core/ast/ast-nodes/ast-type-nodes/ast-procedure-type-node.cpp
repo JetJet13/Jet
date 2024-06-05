@@ -12,7 +12,7 @@ ASTProcedureTypeNode::ASTProcedureTypeNode(ASTProcedureLambdaTypeParameterListNo
 }
 
 ASTTypeParameterListNode* ASTProcedureTypeNode::getParameterList() {
-    return _parameterList;
+    return _parameterList->getTypeParameterList();
 }
 
 ASTNodeType ASTProcedureTypeNode::getNodeType() {

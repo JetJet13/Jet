@@ -145,5 +145,5 @@ void ASTIdentifierNode::print() {
 }
 
 std::string ASTIdentifierNode::toSourceCode() {
-    Logger::log(this->getId());
+    return this->getId();
 }

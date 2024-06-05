@@ -11,9 +11,9 @@ namespace LogicalExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             logicalExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(logicalExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(logicalExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(logicalExpression),
             typeCheckerResult
         );
     }

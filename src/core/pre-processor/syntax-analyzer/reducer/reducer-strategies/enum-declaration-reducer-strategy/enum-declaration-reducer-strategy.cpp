@@ -11,6 +11,7 @@ ASTNode* EnumDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTEnumDeclarationNode(
+            (ASTEnumNode*)nodes[0],
             (ASTEnumNameNode*)nodes[1],
             (ASTEnumKeyValueListNode*)nodes[2]
     );

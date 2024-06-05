@@ -14,20 +14,20 @@ namespace VariableDeclarationTypeCheckerPolicy {
         ->enforce(
             varTypeSignature,
             TypeCheckerErrorMessageTable::VariableTypeUnknown(
-                variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+                variableDeclarationNode
             ),
             TypeCheckerErrorMessageTable::VariableTypeInvalid(
-                variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+                variableDeclarationNode
             ),
             TypeCheckerErrorMessageTable::VariableTypeVoid(
-                variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+                variableDeclarationNode
             ),
             typeCheckerResult
         );
 
        if (!varTypeSignature->isEqualTo(initializerTypeSignature)){
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch(
-                    variableDeclarationNode->getVarInitNode()->getIdentifierNode()->getLexeme()
+                    variableDeclarationNode
             ));
         }
     }

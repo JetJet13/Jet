@@ -11,9 +11,9 @@ namespace ObjectAccessExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             objectAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(objectAccessExpression),
             typeCheckerResult
         );
     }

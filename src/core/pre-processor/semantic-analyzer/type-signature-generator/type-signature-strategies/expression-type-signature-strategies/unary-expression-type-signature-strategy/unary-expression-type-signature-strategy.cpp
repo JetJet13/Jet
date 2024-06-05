@@ -12,7 +12,7 @@ void UnaryExpressionTypeSignatureStrategy::assign(ASTUnaryExpressionNode* node, 
         return;
     }
 
-    auto unaryOperatorSymbol = node->getUnaryOperatorNode()->getOperator()->getToken()->getSymbol();
+    auto unaryOperatorSymbol = node->getUnaryOperatorNode()->getLexeme()->getToken()->getSymbol();
     if (unaryOperatorSymbol->isBang()) {
         node->setTypeSignature(new BoolLiteralTypeSignature());
         return;

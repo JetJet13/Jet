@@ -1018,6 +1018,10 @@ add_library(jet-core
         ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-many-by-wildcard-module-declaration-id-strategy/import-many-by-wildcard-module-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-many-by-wildcard-module-declaration-id-strategy/import-many-by-wildcard-module-declaration-id-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.h
 
 )
 

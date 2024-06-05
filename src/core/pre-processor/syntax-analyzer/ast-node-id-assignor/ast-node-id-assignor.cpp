@@ -16,6 +16,8 @@
 #include "ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.h"
 #include "ast-node-id-strategies/identifier-expression-id-strategy/identifier-expression-id-strategy.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "ast-node-id-strategies/import-many-by-wildcard-module-declaration-id-strategy/import-many-by-wildcard-module-declaration-id-strategy.h"
+#include "ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.h"
 
 ASTNodeIdAssignor::ASTNodeIdAssignor(TokenTable* tokenTable) {
     _tokenTable = tokenTable;
@@ -37,7 +39,7 @@ void ASTNodeIdAssignor::initStrategies() {
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new ImportManyByWildcardModuleDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_USE_MANY_MODULE_DECLARATION_NODE, new UseManyModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new UseManyModuleByWildcardDeclarationIdStrategy(_tokenTable));
+    this->addStrategy(AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new UseManyByWildcardModuleDeclarationIdStrategy(_tokenTable));
 }
 
 void ASTNodeIdAssignor::addStrategy(ASTNodeType astNodeType, ASTNodeIdStrategy* declarationIdStrategy) {

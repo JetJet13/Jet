@@ -13,8 +13,8 @@ namespace CurryExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
         ->enforce(
             curryExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(curryExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(curryExpression),
             typeCheckerResult
         );
 
@@ -25,8 +25,8 @@ namespace CurryExpressionTypeCheckerPolicy {
             ->enforce(
                 parameterList->numParameters(),
                 curryExpression->numArguments(),
-                TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments,
-                TypeCheckerErrorMessageTable::CurryCallTooManyArguments,
+                TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression),
+                TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression),
                 typeCheckerResult
             );
 
@@ -34,7 +34,7 @@ namespace CurryExpressionTypeCheckerPolicy {
             ->enforce(
                 parameterList,
                 curryExpression->getArguments(),
-                TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch,
+                TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression),
                 typeCheckerResult
             );
 
@@ -44,8 +44,8 @@ namespace CurryExpressionTypeCheckerPolicy {
             ->enforce(
                 parameterList->numParameters(),
                 curryExpression->numArguments(),
-                TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments,
-                TypeCheckerErrorMessageTable::CurryCallTooManyArguments,
+                TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression),
+                TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression),
                 typeCheckerResult
             );
 
@@ -53,11 +53,11 @@ namespace CurryExpressionTypeCheckerPolicy {
             ->enforce(
                 parameterList,
                 curryExpression->getArguments(),
-                TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch,
+                TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression),
                 typeCheckerResult
             );
         } else {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NotCallableCurryType);
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NotCallableCurryType(curryExpression));
         }
 
     }

@@ -11,8 +11,8 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getReturnType(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(functionInvocationExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionInvocationExpression),
             typeCheckerResult
         );
 
@@ -20,8 +20,8 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterList()->numParameters(),
             functionInvocationExpression->getArguments()->numArguments(),
-            TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments,
-            TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments,
+            TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments(functionInvocationExpression->getArguments()),
+            TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments(functionInvocationExpression->getArguments()),
             typeCheckerResult
         );
 
@@ -29,7 +29,7 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterList(),
             functionInvocationExpression->getArguments(),
-            TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch,
+            TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(functionInvocationExpression),
             typeCheckerResult
         );
 

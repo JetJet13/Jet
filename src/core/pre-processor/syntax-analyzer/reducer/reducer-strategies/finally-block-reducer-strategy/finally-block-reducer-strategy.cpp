@@ -11,6 +11,7 @@ ASTNode* FinallyBlockReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTFinallyBlockNode(
+            (ASTFinallyNode*)nodes[0],
             (ASTControlFlowBlockNode*)nodes[1]
     );
 }

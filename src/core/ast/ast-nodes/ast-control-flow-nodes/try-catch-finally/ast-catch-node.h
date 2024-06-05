@@ -7,7 +7,7 @@
 
 #include <string>
 #include "../../../../lexeme/lexeme.h"
-#include "../../ast-node.h"
+#include "../../ast-symbol-node.h"
 #include "../../../types/ast-node-type.h"
 
 class ASTCatchNode : public ASTSymbolNode {

@@ -12,13 +12,13 @@ namespace FunctionReturnExpressionTypeCheckerPolicy {
         ->enforce(
             functionReturnExpression,
             TypeCheckerErrorMessageTable::ExpressionTypeUnknown(
-                functionReturnExpression->getReturnNode()->getLexeme()
+                functionReturnExpression
             ),
             TypeCheckerErrorMessageTable::ExpressionTypeInvalid(
-                functionReturnExpression->getReturnNode()->getLexeme()
+                functionReturnExpression
             ),
             TypeCheckerErrorMessageTable::ExpressionTypeVoid(
-                functionReturnExpression->getReturnNode()->getLexeme()
+                functionReturnExpression
             ),
             typeCheckerResult
         );

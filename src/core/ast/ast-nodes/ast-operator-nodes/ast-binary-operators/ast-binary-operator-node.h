@@ -8,8 +8,9 @@
 #include "../../ast-symbol-node.h"
 #include "../../../../lexeme/lexeme.h"
 
-class ASTBinaryOperatorNode : public ASTSymbolNode {
+class ASTBinaryOperatorNode : public ASTNode {
 private:
+    Lexeme* _lexeme;
     unsigned int determinePriority(Lexeme* lexeme);
 public:
     ASTBinaryOperatorNode(Lexeme* lexeme);
@@ -27,6 +28,9 @@ public:
     bool isLessThanOrEqual();
     ASTNodeType getNodeType() override;
     std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_BINARY_OPERATOR_NODE_H

@@ -12,9 +12,9 @@ namespace StructExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             structExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(structExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(structExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(structExpression),
             typeCheckerResult
         );
 

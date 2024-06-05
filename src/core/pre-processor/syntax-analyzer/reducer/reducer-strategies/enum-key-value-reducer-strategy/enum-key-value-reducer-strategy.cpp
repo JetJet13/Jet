@@ -9,6 +9,7 @@ ASTNode* EnumKeyValueReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() == 3) {
         return new ASTEnumKeyValueNode(
                 (ASTEnumKeyNode*)nodes[0],
+                (ASTAssignmentOperatorNode*)nodes[1],
                 (ASTLiteralNode*)nodes[2]
         );
 

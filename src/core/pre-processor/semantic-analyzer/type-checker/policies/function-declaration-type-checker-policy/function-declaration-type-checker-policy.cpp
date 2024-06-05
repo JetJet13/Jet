@@ -18,13 +18,13 @@ namespace FunctionDeclarationTypeCheckerPolicy {
         ->enforce(
             functionTypeSignature->getReturnType(),
             TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown(
-                functionDeclarationNode->getName()->getLexeme()
+                functionDeclarationNode
             ),
             TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid(
-                functionDeclarationNode->getName()->getLexeme()
+                functionDeclarationNode
             ),
             TypeCheckerErrorMessageTable::FunctionReturnTypeVoid(
-                functionDeclarationNode->getName()->getLexeme()
+                functionDeclarationNode
             ),
             typeCheckerResult
         );
@@ -37,7 +37,7 @@ namespace FunctionDeclarationTypeCheckerPolicy {
         TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
             functionDeclarationNode->getBlock(),
             TypeCheckerErrorMessageTable::FunctionNotAllPathsReturn(
-                functionDeclarationNode->getName()->getLexeme()
+                functionDeclarationNode
             ),
             typeCheckerResult
         );

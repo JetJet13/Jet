@@ -11,9 +11,9 @@ namespace ArrayAccessExpressionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             arrayAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown,
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid,
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid,
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayAccessExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayAccessExpression),
             typeCheckerResult
         );
     }
