@@ -18,7 +18,7 @@ class ASTClassConstructorDeclarationNode : public ASTDeclarationNode {
 private:
     ASTConstructorNode* _constructor;
     ASTFunctionParameterListNode* _parameters;
-    ASTFunctionBlockNode* _content;
+    ASTFunctionBlockNode* _block;
     ClassConstructorTypeSignature* _typeSignature = new ClassConstructorTypeSignature();
 public:
     explicit ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
@@ -32,6 +32,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_CONSTRUCTOR_DECLARATION_NODE_H

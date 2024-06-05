@@ -4,14 +4,11 @@
 
 #include "ast-class-block-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassBlockNode::ASTClassBlockNode() {
-    _properties = std::vector<ASTClassPropertyDeclarationNode*>();
-    _methods = std::vector<ASTClassMethodDeclarationNode*>();
-    _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
-}
-
-ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTNode*> nodes) {
+ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> nodes, ASTBlockEndNode* blockEndNode) {
+    _blockStartNode = blockStartNode;
+    _blockEndNode = blockEndNode;
     _properties = std::vector<ASTClassPropertyDeclarationNode*>();
     _methods = std::vector<ASTClassMethodDeclarationNode*>();
     _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
@@ -28,7 +25,10 @@ ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTNode*> nodes) {
     }
 }
 
-ASTClassBlockNode::ASTClassBlockNode(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors) {
+ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors, ASTBlockEndNode* blockEndNode) {
+    _blockStartNode = blockStartNode;
+    _blockEndNode = blockEndNode;
+
     _properties = std::vector<ASTClassPropertyDeclarationNode*>();
     for (auto property: properties) {
         this->addProperty(property);
@@ -116,4 +116,20 @@ void ASTClassBlockNode::print() {
         constructor->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTClassBlockNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_blockStartNode);
+    for (auto property : _properties) {
+        sourceCodeBuilder.addWithNewLine(property);
+    }
+    for (auto constructor : _constructors) {
+        sourceCodeBuilder.addWithNewLine(constructor);
+    }
+    for (auto method : _methods) {
+        sourceCodeBuilder.addWithNewLine(method);
+    }
+    sourceCodeBuilder.addWithNewLine(_blockEndNode);
+    return sourceCodeBuilder.build();
 }

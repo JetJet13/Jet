@@ -12,7 +12,6 @@ class ASTClassPropertyNameNode : public ASTSymbolNode {
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_PROPERTY_NAME_NODE_H

@@ -12,17 +12,21 @@
 #include "../ast-variable-nodes/ast-variable-init-node.h"
 #include "ast-class-property-name-node.h"
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
+#include "ast-static-node.h"
+#include "../ast-const-node.h"
 
 class ASTClassPropertyDefinitionNode : public ASTNode {
 protected:
     ASTAccessModifierNode* _accessModifier;
     ASTClassPropertyNameNode* _propertyName;
-    bool _isStatic;
-    bool _isConstant;
+    std::optional<ASTStaticNode*> _staticKeyword;
+    std::optional<ASTConstNode*> _constKeyword;
 public:
-    explicit ASTClassPropertyDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, bool isStatic, bool isConstant);
+    explicit ASTClassPropertyDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword = {}, std::optional<ASTConstNode*> constKeyword = {});
     ASTAccessModifierNode* getAccessModifier();
     ASTClassPropertyNameNode* getPropertyName();
+    std::optional<ASTStaticNode*> getStatic();
+    std::optional<ASTConstNode*> getConstant();
     bool isStatic();
     bool isConstant();
     ASTNodeType getNodeType() override;

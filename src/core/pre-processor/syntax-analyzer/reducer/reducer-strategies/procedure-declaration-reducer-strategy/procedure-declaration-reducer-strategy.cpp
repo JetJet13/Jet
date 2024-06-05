@@ -11,6 +11,7 @@ ASTNode* ProcedureDeclarationReducerStrategy::execute(std::vector<ASTNode*> node
     }
 
     return new ASTProcedureDeclarationNode(
+            (ASTProcedureNode*)nodes[0],
             (ASTFunctionNameNode*)nodes[1],
             (ASTFunctionParameterListNode*)nodes[2],
             (ASTFunctionBlockNode*)nodes[3]

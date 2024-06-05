@@ -4,10 +4,13 @@
 
 #include "ast-class-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNameNode* name, ASTClassBlockNode* block) {
+ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block) {
+    _classKeyword = classKeyword;
     _name = name;
     _block = block;
+    _children.push_back(_classKeyword);
     _children.push_back(_name);
     _children.push_back(_block);
 }
@@ -51,4 +54,12 @@ void ASTClassDeclarationNode::print() {
     _name->print();
     _block->print();
     Logger::log("----------");
+}
+
+std::string ASTClassDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_classKeyword)
+    ->addWithWhitespace(_name)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

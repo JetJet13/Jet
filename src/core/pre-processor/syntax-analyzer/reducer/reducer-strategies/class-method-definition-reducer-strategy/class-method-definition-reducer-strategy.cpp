@@ -14,18 +14,21 @@ ASTNode* ClassMethodDefinitionReducerStrategy::execute(std::vector<ASTNode*> nod
     return new ASTClassMethodDefinitionNode(
             (ASTAccessModifierNode*)nodes[0],
             this->getMethodName(&nodes),
-            this->getIsStatic(&nodes)
+            this->getStatic(&nodes)
     );
 }
 
 ASTClassMethodNameNode* ClassMethodDefinitionReducerStrategy::getMethodName(std::vector<ASTNode*>* nodes) {
     if (nodes->size() == 3) {
-        return new ASTClassMethodNameNode(((ASTIdentifierNode *) nodes->at(2))->getLexeme());
+        return new ASTClassMethodNameNode(((ASTIdentifierNode*) nodes->at(2))->getLexeme());
     } else {
-        return new ASTClassMethodNameNode(((ASTIdentifierNode *) nodes->at(1))->getLexeme());
+        return new ASTClassMethodNameNode(((ASTIdentifierNode*) nodes->at(1))->getLexeme());
     }
 }
 
-bool ClassMethodDefinitionReducerStrategy::getIsStatic(std::vector<ASTNode*>* nodes) {
-    return nodes->at(1)->is(AST_STATIC_NODE);
+std::optional<ASTStaticNode*> ClassMethodDefinitionReducerStrategy::getStatic(std::vector<ASTNode*>* nodes) {
+    if (nodes->at(1)->is(AST_STATIC_NODE)) {
+        return (ASTStaticNode*)nodes->at(1);
+    }
+    return {};
 }

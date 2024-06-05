@@ -37,6 +37,7 @@ void ASTNodeIdAssignor::initStrategies() {
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new ImportManyByWildcardModuleDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_USE_MANY_MODULE_DECLARATION_NODE, new UseManyModuleDeclarationIdStrategy(_tokenTable));
+    this->addStrategy(AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new UseManyModuleByWildcardDeclarationIdStrategy(_tokenTable));
 }
 
 void ASTNodeIdAssignor::addStrategy(ASTNodeType astNodeType, ASTNodeIdStrategy* declarationIdStrategy) {

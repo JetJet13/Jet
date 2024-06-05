@@ -6,13 +6,19 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 
-ASTClassPropertyDefinitionNode::ASTClassPropertyDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, bool isStatic, bool isConstant) {
+ASTClassPropertyDefinitionNode::ASTClassPropertyDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword, std::optional<ASTConstNode*> constKeyword) {
     _accessModifier = accessModifier;
     _propertyName = propertyName;
-    _isStatic = isStatic;
-    _isConstant = isConstant;
+    _staticKeyword = staticKeyword;
+    _constKeyword = constKeyword;
     _children.push_back(_accessModifier);
     _children.push_back(_propertyName);
+    if (_staticKeyword){
+        _children.push_back(_staticKeyword.value());
+    }
+    if (_constKeyword){
+        _children.push_back(_constKeyword.value());
+    }
 }
 
 ASTAccessModifierNode* ASTClassPropertyDefinitionNode::getAccessModifier() {
@@ -23,12 +29,20 @@ ASTClassPropertyNameNode* ASTClassPropertyDefinitionNode::getPropertyName() {
     return _propertyName;
 }
 
+std::optional<ASTStaticNode*> ASTClassPropertyDefinitionNode::getStatic() {
+    return _staticKeyword;
+}
+
+std::optional<ASTConstNode*> ASTClassPropertyDefinitionNode::getConstant() {
+    return _constKeyword;
+}
+
 bool ASTClassPropertyDefinitionNode::isStatic() {
-    return _isStatic;
+    return _staticKeyword.has_value();
 }
 
 bool ASTClassPropertyDefinitionNode::isConstant() {
-    return _isConstant;
+    return _constKeyword.has_value();
 }
 
 ASTNodeType ASTClassPropertyDefinitionNode::getNodeType() {
@@ -56,7 +70,7 @@ void ASTClassPropertyDefinitionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _accessModifier->print();
     _propertyName->print();
-    Logger::log("isStatic -", _isStatic);
-    Logger::log("isConstant -", _isConstant);
+    Logger::log("isStatic -", this->isStatic());
+    Logger::log("isConstant -", this->isConstant());
     Logger::log("----------");
 }

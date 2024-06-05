@@ -12,7 +12,3 @@ ASTNodeType ASTClassPropertyNameNode::getNodeType() {
 std::string ASTClassPropertyNameNode::toString() {
     return "CLASS_PROPERTY_NAME";
 }
-
-std::string ASTClassPropertyNameNode::toSourceCode() {
-    Logger::log(this->getId());
-}

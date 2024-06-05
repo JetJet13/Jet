@@ -4,6 +4,7 @@
 
 #include "ast-class-property-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 
 ASTClassPropertyDeclarationNode::ASTClassPropertyDeclarationNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer) {
@@ -86,4 +87,15 @@ void ASTClassPropertyDeclarationNode::print() {
         _initializer.value()->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_propertyInit);
+
+    if (_initializer) {
+        sourceCodeBuilder.addWithWhitespace(_initializer.value());
+    }
+
+    return sourceCodeBuilder.build();
 }

@@ -14,15 +14,17 @@
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "ast-declaration-node.h"
 #include "../../../type-signature/procedure-type-signature/procedure-type-signature.h"
+#include "../ast-procedure-nodes/ast-procedure-node.h"
 
 class ASTProcedureDeclarationNode : public ASTDeclarationNode {
 private:
+    ASTProcedureNode* _procedureKeyword;
     ASTFunctionNameNode* _name;
     ASTFunctionParameterListNode* _parameters;
-    ASTFunctionBlockNode* _content;
+    ASTFunctionBlockNode* _block;
     ProcedureTypeSignature* _typeSignature = new ProcedureTypeSignature();
 public:
-    explicit ASTProcedureDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
+    explicit ASTProcedureDeclarationNode(ASTProcedureNode* procedureKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
     ASTFunctionBlockNode* getBlock();
@@ -33,6 +35,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_PROCEDURE_DECLARATION_NODE_H

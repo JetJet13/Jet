@@ -619,8 +619,6 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-constructor-declaration-reducer-strategy/class-constructor-declaration-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-block-reducer-strategy/class-block-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-block-reducer-strategy/class-block-reducer-strategy.h
         ast/ast-nodes/ast-class-nodes/ast-class-property-definition-node.cpp
         ast/ast-nodes/ast-class-nodes/ast-class-property-definition-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-reducer-strategy/class-property-definition-reducer-strategy.cpp
@@ -1016,6 +1014,10 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.h
+        ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.cpp
+        ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.h
 
 )
 

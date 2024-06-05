@@ -12,13 +12,14 @@
 
 class ASTClassBlockNode : public ASTNode {
 private:
+    ASTBlockStartNode* _blockStartNode;
+    ASTBlockEndNode* _blockEndNode;
     std::vector<ASTClassPropertyDeclarationNode*> _properties;
     std::vector<ASTClassMethodDeclarationNode*> _methods;
     std::vector<ASTClassConstructorDeclarationNode*> _constructors;
 public:
-    ASTClassBlockNode();
-    ASTClassBlockNode(std::vector<ASTNode*> nodes);
-    ASTClassBlockNode(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors);
+    ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> nodes, ASTBlockEndNode* blockEndNode);
+    ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors, ASTBlockEndNode* blockEndNode);
     void addProperty(ASTClassPropertyDeclarationNode* property);
     void addMethod(ASTClassMethodDeclarationNode* method);
     void addConstructor(ASTClassConstructorDeclarationNode* constructor);
@@ -29,6 +30,7 @@ public:
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_BLOCK_NODE_H

@@ -11,6 +11,7 @@ ASTNode* ModuleDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) 
     }
 
     return new ASTModuleDeclarationNode(
+            (ASTModuleNode*)nodes[0],
             (ASTModuleNameNode*)nodes[1],
             (ASTModuleListNode*)nodes[2]
     );

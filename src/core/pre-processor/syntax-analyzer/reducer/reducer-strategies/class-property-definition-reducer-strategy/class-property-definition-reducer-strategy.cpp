@@ -13,8 +13,8 @@ ASTNode* ClassPropertyDefinitionReducerStrategy::execute(std::vector<ASTNode*> n
     return new ASTClassPropertyDefinitionNode(
             (ASTAccessModifierNode*)nodes[0],
             this->getPropertyName(&nodes),
-            this->getIsStatic(&nodes),
-            this->getIsConstant(&nodes)
+            this->getStatic(&nodes),
+            this->getConstant(&nodes)
     );
 }
 
@@ -37,13 +37,20 @@ ASTClassPropertyNameNode* ClassPropertyDefinitionReducerStrategy::getPropertyNam
     }
 }
 
-bool ClassPropertyDefinitionReducerStrategy::getIsStatic(std::vector<ASTNode*>* nodes) {
-    return nodes->at(1)->is(AST_STATIC_NODE);
+std::optional<ASTStaticNode*> ClassPropertyDefinitionReducerStrategy::getStatic(std::vector<ASTNode*>* nodes) {
+    if (nodes->at(1)->is(AST_STATIC_NODE)) {
+        return (ASTStaticNode*)nodes->at(1);
+    }
+    return {};
 }
 
-bool ClassPropertyDefinitionReducerStrategy::getIsConstant(std::vector<ASTNode*>* nodes) {
+std::optional<ASTConstNode*> ClassPropertyDefinitionReducerStrategy::getConstant(std::vector<ASTNode*>* nodes) {
     if (nodes->size() > 2) {
-        return nodes->at(1)->is(AST_CONST_NODE) || nodes->at(2)->is(AST_CONST_NODE);
+        if (nodes->at(1)->is(AST_CONST_NODE)) {
+            return (ASTConstNode*)nodes->at(1);
+        } else if (nodes->at(2)->is(AST_CONST_NODE)) {
+            return (ASTConstNode*)nodes->at(2);
+        }
     }
-    return false;
+    return {};
 }

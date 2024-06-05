@@ -13,15 +13,18 @@
 class ASTClassPropertyDefinitionWithTypeNode : public ASTNode {
 private:
     ASTClassPropertyDefinitionNode* _classPropertyDefinition;
+    ASTColonNode* _colon;
     ASTTypeNode* _type;
 public:
-    ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTTypeNode* type);
+    ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTColonNode* colon, ASTTypeNode* type);
     ASTClassPropertyDefinitionNode* getClassPropertyDefinition();
+    ASTColonNode* getColon();
     ASTTypeNode* getType();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE_H

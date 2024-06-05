@@ -4,9 +4,12 @@
 
 #include "ast-use-single-module-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTUseSingleModuleDeclarationNode::ASTUseSingleModuleDeclarationNode(ASTImportModuleNameNode* moduleName, ASTImportPathNode* path) {
+ASTUseSingleModuleDeclarationNode::ASTUseSingleModuleDeclarationNode(ASTUseNode* useKeyword, ASTImportModuleNameNode* moduleName, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+    _useKeyword = useKeyword;
     _moduleName = moduleName;
+    _fromKeyword = fromKeyword;
     _path = path;
     _children.push_back(_moduleName);
     _children.push_back(_path);
@@ -43,4 +46,13 @@ void ASTUseSingleModuleDeclarationNode::print() {
     _moduleName->print();
     _path->print();
     Logger::log("----------");
+}
+
+std::string ASTUseSingleModuleDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_useKeyword)
+    ->addWithWhitespace(_moduleName)
+    ->addWithWhitespace(_fromKeyword)
+    ->addWithWhitespace(_path);
+    return sourceCodeBuilder.build();
 }

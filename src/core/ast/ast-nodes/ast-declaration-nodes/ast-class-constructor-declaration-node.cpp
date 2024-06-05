@@ -4,13 +4,14 @@
 
 #include "ast-class-constructor-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTClassConstructorDeclarationNode::ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
     _constructor = constructor;
-    _content = content;
+    _block = content;
     _parameters = parameters;
     _children.push_back(_constructor);
-    _children.push_back(_content);
+    _children.push_back(_block);
     _children.push_back(_parameters);
 }
 
@@ -23,7 +24,7 @@ ASTFunctionParameterListNode* ASTClassConstructorDeclarationNode::getParameters(
 }
 
 ASTFunctionBlockNode* ASTClassConstructorDeclarationNode::getBlock() {
-    return _content;
+    return _block;
 }
 
 unsigned long ASTClassConstructorDeclarationNode::numParameters() {
@@ -59,6 +60,14 @@ bool ASTClassConstructorDeclarationNode::isSameAs(ASTNode *other) {
 void ASTClassConstructorDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameters->print();
-    _content->print();
+    _block->print();
     Logger::log("----------");
+}
+
+std::string ASTClassConstructorDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_constructor)
+    ->addWithWhitespace(_parameters)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

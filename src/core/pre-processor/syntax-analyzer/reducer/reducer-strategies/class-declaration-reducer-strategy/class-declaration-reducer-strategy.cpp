@@ -11,6 +11,7 @@ ASTNode* ClassDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     auto classDeclaration = new ASTClassDeclarationNode(
+            (ASTClassNode*)nodes[0],
             (ASTClassNameNode*)nodes[1],
             (ASTClassBlockNode*)nodes[2]
     );

@@ -12,14 +12,16 @@
 #include "../ast-enum-nodes/ast-enum-key-value-list-node.h"
 #include "ast-declaration-node.h"
 #include "../../../type-signature/enum-type-signature/enum-type-signature.h"
+#include "../ast-enum-nodes/ast-enum-node.h"
 
 class ASTEnumDeclarationNode : public ASTDeclarationNode {
 private:
+    ASTEnumNode* _enumKeyword;
     ASTEnumNameNode* _name;
     ASTEnumKeyValueListNode* _values;
     EnumTypeSignature* _typeSignature = new EnumTypeSignature();
 public:
-    explicit ASTEnumDeclarationNode(ASTEnumNameNode* name, ASTEnumKeyValueListNode* values);
+    explicit ASTEnumDeclarationNode(ASTEnumNode* enumKeyword, ASTEnumNameNode* name, ASTEnumKeyValueListNode* values);
     ASTEnumKeyValueListNode* getValues();
     ASTEnumNameNode* getName();
     void setTypeSignature(EnumTypeSignature* typeSignature);
@@ -28,6 +30,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_ENUM_DECLARATION_NODE_H

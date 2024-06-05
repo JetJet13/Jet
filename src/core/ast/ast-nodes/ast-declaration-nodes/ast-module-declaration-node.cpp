@@ -4,8 +4,10 @@
 
 #include "ast-module-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTModuleNameNode* name, ASTModuleListNode* items) {
+ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name, ASTModuleListNode* items) {
+    _moduleKeyword = moduleKeyword;
     _name = name;
     _items = items;
     _children.push_back(_name);
@@ -43,4 +45,12 @@ void ASTModuleDeclarationNode::print() {
     _name->print();
     _items->print();
     Logger::log("----------");
+}
+
+std::string ASTModuleDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_moduleKeyword)
+    ->addWithWhitespace(_name)
+    ->addWithWhitespace(_items);
+    return sourceCodeBuilder.build();
 }

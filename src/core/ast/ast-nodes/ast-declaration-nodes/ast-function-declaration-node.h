@@ -15,16 +15,18 @@
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "ast-declaration-node.h"
 #include "../../../type-signature/function-type-signature/function-type-signature.h"
+#include "../ast-function-nodes/ast-function-node.h"
 
 class ASTFunctionDeclarationNode : public ASTDeclarationNode {
 private:
+    ASTFunctionNode* _functionKeyword;
     ASTFunctionNameNode* _name;
     ASTFunctionParameterListNode* _parameters;
     ASTTypeNode* _returnType;
-    ASTFunctionBlockNode* _content;
+    ASTFunctionBlockNode* _block;
     FunctionTypeSignature* _typeSignature = new FunctionTypeSignature();
 public:
-    explicit ASTFunctionDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTFunctionBlockNode* content);
+    explicit ASTFunctionDeclarationNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTFunctionBlockNode* content);
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
     ASTTypeNode* getReturnType();
@@ -36,6 +38,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_FUNCTION_DECLARATION_NODE_H

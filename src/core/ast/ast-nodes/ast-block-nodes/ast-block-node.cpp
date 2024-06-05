@@ -65,7 +65,7 @@ ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, 
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NAME_NODE })) {
-        return new ASTClassBlockNode(_contents);
+        return new ASTClassBlockNode(_blockStartNode, _contents, _blockEndNode);
     }
 
     return this;

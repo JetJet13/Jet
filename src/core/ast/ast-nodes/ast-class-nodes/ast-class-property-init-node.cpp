@@ -4,13 +4,16 @@
 
 #include "ast-class-property-init-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassPropertyInitNode::ASTClassPropertyInitNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, bool isStatic, bool isConstant, std::optional<ASTTypeNode*> type) {
+ASTClassPropertyInitNode::ASTClassPropertyInitNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword, std::optional<ASTConstNode*> constKeyword, std::optional<ASTAssignmentOperatorNode*> assignmentOperator, std::optional<ASTColonNode*> colon, std::optional<ASTTypeNode*> type) {
     _accessModifier = accessModifier;
     _propertyName = propertyName;
-    _isStatic = isStatic;
-    _isConstant = isConstant;
+    _assignmentOperator = assignmentOperator;
+    _staticKeyword = staticKeyword;
+    _constKeyword = constKeyword;
+    _colon = colon;
     _type = type;
     _children.push_back(_accessModifier);
     _children.push_back(propertyName);
@@ -32,11 +35,11 @@ std::optional<ASTTypeNode*> ASTClassPropertyInitNode::getType() {
 }
 
 bool ASTClassPropertyInitNode::isStatic() {
-    return _isStatic;
+    return _staticKeyword.has_value();
 }
 
 bool ASTClassPropertyInitNode::isConstant() {
-    return _isConstant;
+    return _constKeyword.has_value();
 }
 
 ASTNodeType ASTClassPropertyInitNode::getNodeType() {
@@ -74,10 +77,33 @@ void ASTClassPropertyInitNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _accessModifier->print();
     _propertyName->print();
-    Logger::log("isStatic -", _isStatic);
-    Logger::log("isConstant -", _isConstant);
     if (_type) {
         _type.value()->print();
     }
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyInitNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_accessModifier);
+    if (_staticKeyword) {
+        sourceCodeBuilder.addWithWhitespace(_staticKeyword.value());
+    }
+    if (_constKeyword) {
+        sourceCodeBuilder.addWithWhitespace(_constKeyword.value());
+    }
+
+    sourceCodeBuilder.addWithWhitespace(_propertyName);
+
+    if (_colon) {
+        sourceCodeBuilder.addWithWhitespace(_colon.value());
+    }
+    if (_type) {
+        sourceCodeBuilder.addWithWhitespace(_type.value());
+    }
+    if (_assignmentOperator){
+        sourceCodeBuilder.addWithWhitespace(_assignmentOperator.value());
+    }
+
+    return sourceCodeBuilder.build();
 }

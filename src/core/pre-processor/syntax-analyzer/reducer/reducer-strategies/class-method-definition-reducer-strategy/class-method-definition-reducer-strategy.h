@@ -10,11 +10,12 @@
 #include "../../../../../ast/ast-nodes/ast-type-nodes/ast-type-node.h"
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.h"
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-method-name-node.h"
+#include "../../../../../ast/ast-nodes/ast-class-nodes/ast-static-node.h"
 
 class ClassMethodDefinitionReducerStrategy : public ReducerStrategy {
 private:
     ASTClassMethodNameNode* getMethodName(std::vector<ASTNode*>* nodes);
-    bool getIsStatic(std::vector<ASTNode*>* nodes);
+    std::optional<ASTStaticNode*> getStatic(std::vector<ASTNode*>* nodes);
 public:
     ASTNode* execute(std::vector<ASTNode*> nodes) override;
 };

@@ -11,14 +11,16 @@
 #include "ast-class-property-declaration-node.h"
 #include "../ast-class-nodes/ast-class-block-node.h"
 #include "../../../type-signature/class-type-signature/class-type-signature.h"
+#include "../ast-class-nodes/ast-class-node.h"
 
 class ASTClassDeclarationNode : public ASTDeclarationNode {
 private:
+    ASTClassNode* _classKeyword;
     ASTClassNameNode* _name;
     ASTClassBlockNode* _block;
     ClassTypeSignature* _typeSignature = new ClassTypeSignature();
 public:
-    explicit ASTClassDeclarationNode(ASTClassNameNode* name, ASTClassBlockNode* block);
+    explicit ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block);
     ASTClassBlockNode* getBlock();
     ASTClassNameNode* getName();
     void setTypeSignature(ClassTypeSignature* typeSignature);
@@ -27,6 +29,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_DECLARATION_NODE_H

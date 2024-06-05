@@ -4,6 +4,7 @@
 
 #include "ast-variable-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 
 ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer) {
@@ -51,4 +52,11 @@ void ASTVariableDeclarationNode::print() {
     _varInit->print();
     _initializer->print();
     Logger::log("----------");
+}
+
+std::string ASTVariableDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_varInit)
+    ->addWithWhitespace(_initializer);
+    return sourceCodeBuilder.build();
 }

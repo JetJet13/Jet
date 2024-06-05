@@ -4,13 +4,15 @@
 
 #include "ast-procedure-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
+ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(ASTProcedureNode* procedureKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
+    _procedureKeyword = procedureKeyword;
     _name = name;
-    _content = content;
+    _block = content;
     _parameters = parameters;
     _children.push_back(_name);
-    _children.push_back(_content);
+    _children.push_back(_block);
     _children.push_back(_parameters);
 
 }
@@ -24,7 +26,7 @@ ASTFunctionNameNode* ASTProcedureDeclarationNode::getName() {
 }
 
 ASTFunctionBlockNode* ASTProcedureDeclarationNode::getBlock() {
-    return _content;
+    return _block;
 }
 
 unsigned long ASTProcedureDeclarationNode::numParameters() {
@@ -62,6 +64,15 @@ void ASTProcedureDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _name->print();
     _parameters->print();
-    _content->print();
+    _block->print();
     Logger::log("----------");
+}
+
+std::string ASTProcedureDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_procedureKeyword)
+    ->addWithWhitespace(_name)
+    ->addWithWhitespace(_parameters)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

@@ -4,10 +4,13 @@
 
 #include "ast-enum-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTEnumDeclarationNode::ASTEnumDeclarationNode(ASTEnumNameNode* name, ASTEnumKeyValueListNode* values) {
+ASTEnumDeclarationNode::ASTEnumDeclarationNode(ASTEnumNode* enumKeyword, ASTEnumNameNode* name, ASTEnumKeyValueListNode* values) {
+    _enumKeyword = enumKeyword;
     _name = name;
     _values = values;
+    _children.push_back(_enumKeyword);
     _children.push_back(_name);
     _children.push_back(_values);
 }
@@ -51,4 +54,12 @@ void ASTEnumDeclarationNode::print() {
     _name->print();
     _values->print();
     Logger::log("----------");
+}
+
+std::string ASTEnumDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_enumKeyword)
+    ->addWithWhitespace(_name)
+    ->addWithWhitespace(_values);
+    return sourceCodeBuilder.build();
 }

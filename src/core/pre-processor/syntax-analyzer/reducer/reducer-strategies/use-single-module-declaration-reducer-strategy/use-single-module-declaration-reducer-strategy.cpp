@@ -10,7 +10,9 @@ ASTNode* UseSingleModuleDeclarationReducerStrategy::execute(std::vector<ASTNode*
         throw std::invalid_argument("unable to reduce to use single module declaration since nodes list is not 4");
     }
     return new ASTUseSingleModuleDeclarationNode(
+            (ASTUseNode*)nodes[0],
             (ASTImportModuleNameNode*)nodes[1],
+            (ASTFromNode*)nodes[2],
             (ASTImportPathNode*)nodes[3]
     );
 }

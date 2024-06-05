@@ -23,7 +23,7 @@ private:
     ASTClassMethodDefinitionNode* _classMethodDefinition;
     ASTFunctionParameterListNode* _parameters;
     std::optional<ASTTypeNode*> _returnType;
-    ASTFunctionBlockNode* _content;
+    ASTFunctionBlockNode* _block;
     ClassMethodTypeSignature* _typeSignature = new ClassMethodTypeSignature();
 public:
     explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
@@ -38,6 +38,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_METHOD_DECLARATION_NODE_H

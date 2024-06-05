@@ -1,0 +1,59 @@
+//
+// Created by Johny Georges on 2024-06-04.
+//
+
+#include "ast-use-many-by-wildcard-module-declaration-node.h"
+#include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
+
+ASTUseManyByWildcardModuleDeclarationNode::ASTUseManyByWildcardModuleDeclarationNode(ASTUseNode* useKeyword, ASTImportModuleListByWildcardItemNode* importModuleListByWildcardItemNode, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+    _useKeyword = useKeyword;
+    _importModuleListByWildcardItemNode = importModuleListByWildcardItemNode;
+    _fromKeyword = fromKeyword;
+    _path = path;
+    _children.push_back(useKeyword);
+    _children.push_back(importModuleListByWildcardItemNode);
+    _children.push_back(fromKeyword);
+    _children.push_back(_path);
+}
+
+ASTImportModuleListByWildcardItemNode* ASTUseManyByWildcardModuleDeclarationNode::getImportModuleListByWildcardItemNode() {
+    return _importModuleListByWildcardItemNode;
+}
+
+ASTImportPathNode* ASTUseManyByWildcardModuleDeclarationNode::getPath() {
+    return _path;
+}
+
+ASTNodeType ASTUseManyByWildcardModuleDeclarationNode::getNodeType() {
+    return AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE;
+}
+
+std::string ASTUseManyByWildcardModuleDeclarationNode::toString() {
+    return "USE_MANY_BY_WILDCARD_MODULE_DECLARATION";
+}
+
+bool ASTUseManyByWildcardModuleDeclarationNode::isSameAs(ASTNode *other) {
+    if (!other->is(this->getNodeType())) {
+        return false;
+    }
+    auto otherNode = (ASTUseManyByWildcardModuleDeclarationNode*)other;
+    return this->getImportModuleListByWildcardItemNode()->isSameAs(otherNode->getImportModuleListByWildcardItemNode()) &&
+           this->getPath()->isSameAs(otherNode->getPath());
+}
+
+void ASTUseManyByWildcardModuleDeclarationNode::print() {
+    Logger::log("----------", this->toString(), "----------");
+    _importModuleListByWildcardItemNode->print();
+    _path->print();
+    Logger::log("----------");
+}
+
+std::string ASTUseManyByWildcardModuleDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_useKeyword)
+    ->addWithWhitespace(_importModuleListByWildcardItemNode)
+    ->addWithWhitespace(_fromKeyword)
+    ->addWithWhitespace(_path);
+    return sourceCodeBuilder.build();
+}

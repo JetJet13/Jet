@@ -4,14 +4,17 @@
 
 #include "ast-function-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTFunctionBlockNode* content) {
+ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTFunctionBlockNode* content) {
+    _functionKeyword = functionKeyword;
     _name = name;
-    _content = content;
+    _block = content;
     _returnType = returnType;
     _parameters = parameters;
+    _children.push_back(_functionKeyword);
     _children.push_back(_name);
-    _children.push_back(_content);
+    _children.push_back(_block);
     _children.push_back(_returnType);
     _children.push_back(_parameters);
 }
@@ -29,7 +32,7 @@ ASTTypeNode* ASTFunctionDeclarationNode::getReturnType() {
 }
 
 ASTFunctionBlockNode* ASTFunctionDeclarationNode::getBlock() {
-    return _content;
+    return _block;
 }
 
 unsigned long ASTFunctionDeclarationNode::numParameters() {
@@ -69,6 +72,15 @@ void ASTFunctionDeclarationNode::print() {
     _name->print();
     _parameters->print();
     _returnType->print();
-    _content->print();
+    _block->print();
     Logger::log("----------");
+}
+
+std::string ASTFunctionDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_functionKeyword)
+    ->addWithWhitespace(_name)
+    ->addWithWhitespace(_parameters)
+    ->addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }

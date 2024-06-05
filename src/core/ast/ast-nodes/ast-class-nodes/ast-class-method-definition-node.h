@@ -13,14 +13,15 @@
 #include "ast-class-property-name-node.h"
 #include "../ast-access-modifier-nodes/ast-access-modifier-node.h"
 #include "ast-class-method-name-node.h"
+#include "ast-static-node.h"
 
 class ASTClassMethodDefinitionNode : public ASTNode {
 protected:
     ASTAccessModifierNode* _accessModifier;
     ASTClassMethodNameNode* _methodName;
-    bool _isStatic;
+    std::optional<ASTStaticNode*> _staticKeyword;
 public:
-    explicit ASTClassMethodDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* methodName, bool isStatic);
+    explicit ASTClassMethodDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* methodName, std::optional<ASTStaticNode*> staticKeyword = {});
     ASTAccessModifierNode* getAccessModifier();
     ASTClassMethodNameNode* getMethodName();
     bool isStatic();
@@ -28,6 +29,7 @@ public:
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_METHOD_DEFINITION_NODE_H

@@ -17,7 +17,6 @@ public:
     ClassMethodTypeSignature* getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_METHOD_CALL_NODE_H

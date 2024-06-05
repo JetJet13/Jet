@@ -77,7 +77,6 @@
 #include "reducer-strategies/class-property-declaration-reducer-strategy/class-property-declaration-reducer-strategy.h"
 #include "reducer-strategies/class-constructor-declaration-reducer-strategy/class-constructor-declaration-reducer-strategy.h"
 #include "reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.h"
-#include "reducer-strategies/class-block-reducer-strategy/class-block-reducer-strategy.h"
 #include "reducer-strategies/class-property-definition-reducer-strategy/class-property-definition-reducer-strategy.h"
 #include "reducer-strategies/class-property-init-reducer-strategy/class-property-init-reducer-strategy.h"
 #include "reducer-strategies/class-property-definition-with-type-reducer-strategy/class-property-definition-with-type-reducer-strategy.h"
@@ -95,6 +94,7 @@
 #include "reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.h"
 #include "reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.h"
 #include "reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.h"
+#include "reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -170,6 +170,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new ImportManyByWildcardModuleDeclarationReducerStrategy());
     this->addStrategy(AST_USE_MANY_MODULE_DECLARATION_NODE, new UseManyModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new UseManyByWildcardModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE, new ImportModuleListByWildcardItemReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE, new ImportModuleListByGroupItemReducerStrategy());
     this->addStrategy(AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE, new ImportModuleListAliasItemReducerStrategy());
@@ -187,7 +188,6 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_CLASS_METHOD_DECLARATION_NODE, new ClassMethodDeclarationReducerStrategy());
     this->addStrategy(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE, new ClassMethodInvocationExpressionReducerStrategy());
     this->addStrategy(AST_CLASS_METHOD_DEFINITION_NODE, new ClassMethodDefinitionReducerStrategy());
-    this->addStrategy(AST_CLASS_BLOCK_NODE, new ClassBlockReducerStrategy());
     this->addStrategy(AST_CLASS_ACCESS_NODE, new ClassAccessReducerStrategy());
     this->addStrategy(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, new NewClassInstanceExpressionReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, new ClassPropertyAccessExpressionReducerStrategy());

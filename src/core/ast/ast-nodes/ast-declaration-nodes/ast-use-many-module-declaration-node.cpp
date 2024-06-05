@@ -4,22 +4,29 @@
 
 #include "ast-use-many-module-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
-ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(ASTImportModuleNameNode* moduleName, ASTImportModuleListNode* importModuleList, ASTImportPathNode* path) {
-    _moduleName = moduleName;
-    _importModuleList = importModuleList;
+ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(ASTUseNode* useKeyword, ASTImportModuleListByGroupItemNode* importModuleListByGroupItem, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+    _useKeyword = useKeyword;
+    _importModuleListByGroupItem = importModuleListByGroupItem;
+    _fromKeyword = fromKeyword;
     _path = path;
-    _children.push_back(_moduleName);
-    _children.push_back(_importModuleList);
+    _children.push_back(_useKeyword);
+    _children.push_back(_importModuleListByGroupItem);
+    _children.push_back(_fromKeyword);
     _children.push_back(_path);
 }
 
+ASTImportModuleListByGroupItemNode* ASTUseManyModuleDeclarationNode::getImportModuleListByGroupItem() {
+    return _importModuleListByGroupItem;
+}
+
 ASTImportModuleNameNode* ASTUseManyModuleDeclarationNode::getModuleName() {
-    return _moduleName;
+    return _importModuleListByGroupItem->getModuleName();
 }
 
 ASTImportModuleListNode* ASTUseManyModuleDeclarationNode::getModuleList() {
-    return _importModuleList;
+    return _importModuleListByGroupItem->getModuleList();
 }
 
 ASTImportPathNode* ASTUseManyModuleDeclarationNode::getPath() {
@@ -39,16 +46,22 @@ bool ASTUseManyModuleDeclarationNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTUseManyModuleDeclarationNode*)other;
-
-    return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
-           this->getModuleList()->isSameAs(otherNode->getModuleList()) &&
+    return this->getImportModuleListByGroupItem()->isSameAs(otherNode->getImportModuleListByGroupItem()) &&
            this->getPath()->isSameAs(otherNode->getPath());
 }
 
 void ASTUseManyModuleDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _moduleName->print();
-    _importModuleList->print();
+    _importModuleListByGroupItem->print();
     _path->print();
     Logger::log("----------");
+}
+
+std::string ASTUseManyModuleDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_useKeyword)
+    ->addWithWhitespace(_importModuleListByGroupItem)
+    ->addWithWhitespace(_fromKeyword)
+    ->addWithWhitespace(_path);
+    return sourceCodeBuilder.build();
 }

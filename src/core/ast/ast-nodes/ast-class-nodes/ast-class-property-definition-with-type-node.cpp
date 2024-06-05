@@ -4,17 +4,24 @@
 
 #include "ast-class-property-definition-with-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTTypeNode* type) {
+ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTColonNode* colon, ASTTypeNode* type) {
     _classPropertyDefinition = classPropertyDefinition;
+    _colon = colon;
     _type = type;
     _children.push_back(_classPropertyDefinition);
+    _children.push_back(_colon);
     _children.push_back(_type);
 }
 
 ASTClassPropertyDefinitionNode* ASTClassPropertyDefinitionWithTypeNode::getClassPropertyDefinition() {
     return _classPropertyDefinition;
+}
+
+ASTColonNode* ASTClassPropertyDefinitionWithTypeNode::getColon() {
+    return _colon;
 }
 
 ASTTypeNode* ASTClassPropertyDefinitionWithTypeNode::getType() {
@@ -44,4 +51,12 @@ void ASTClassPropertyDefinitionWithTypeNode::print() {
     _classPropertyDefinition->print();
     _type->print();
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyDefinitionWithTypeNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_classPropertyDefinition)
+    ->addWithWhitespace(_colon)
+    ->addWithWhitespace(_type);
+    return sourceCodeBuilder.build();
 }

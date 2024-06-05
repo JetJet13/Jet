@@ -4,15 +4,16 @@
 
 #include "ast-class-method-declaration-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType) {
     _classMethodDefinition = classMethodDefinition;
-    _content = content;
+    _block = content;
     _returnType = returnType;
     _parameters = parameters;
 
     _children.push_back(_classMethodDefinition);
-    _children.push_back(_content);
+    _children.push_back(_block);
     if (_returnType) {
         _children.push_back(_returnType.value());
     }
@@ -32,7 +33,7 @@ std::optional<ASTTypeNode*> ASTClassMethodDeclarationNode::getReturnType() {
 }
 
 ASTFunctionBlockNode* ASTClassMethodDeclarationNode::getBlock() {
-    return _content;
+    return _block;
 }
 
 unsigned long ASTClassMethodDeclarationNode::numParameters() {
@@ -83,6 +84,17 @@ void ASTClassMethodDeclarationNode::print() {
     if (_returnType) {
         _returnType.value()->print();
     }
-    _content->print();
+    _block->print();
     Logger::log("----------");
+}
+
+std::string ASTClassMethodDeclarationNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_classMethodDefinition)
+    ->addWithWhitespace(_parameters);
+    if (_returnType) {
+        sourceCodeBuilder.addWithWhitespace(_returnType.value());
+    }
+    sourceCodeBuilder.addWithWhitespace(_block);
+    return sourceCodeBuilder.build();
 }
