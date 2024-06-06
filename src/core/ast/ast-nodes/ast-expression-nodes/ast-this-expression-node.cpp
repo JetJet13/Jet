@@ -15,6 +15,14 @@ ASTThisNode* ASTThisExpressionNode::getThisNode() {
     return _this;
 }
 
+Position* ASTThisExpressionNode::getStartPosition() {
+    return _this->getStartPosition();
+}
+
+Position* ASTThisExpressionNode::getEndPosition() {
+    return _this->getEndPosition();
+}
+
 ASTNodeType ASTThisExpressionNode::getNodeType() {
     return AST_THIS_EXPRESSION_NODE;
 }

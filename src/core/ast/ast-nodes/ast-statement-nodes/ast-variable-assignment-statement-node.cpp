@@ -21,6 +21,14 @@ ASTExpressionNode* ASTVariableAssignmentStatementNode::getExpression() {
     return _expression;
 }
 
+Position* ASTVariableAssignmentStatementNode::getStartPosition() {
+    return _variableAssignment->getStartPosition();
+}
+
+Position* ASTVariableAssignmentStatementNode::getEndPosition() {
+    return _expression->getEndPosition();
+}
+
 ASTNodeType ASTVariableAssignmentStatementNode::getNodeType() {
     return AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE;
 }

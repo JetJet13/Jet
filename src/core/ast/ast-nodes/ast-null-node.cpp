@@ -13,6 +13,14 @@ std::string ASTNullNode::toString() {
     return "NULL";
 }
 
+Position* ASTNullNode::getStartPosition() {
+    return new Position();
+}
+
+Position* ASTNullNode::getEndPosition() {
+    return new Position();
+}
+
 bool ASTNullNode::isSameAs(ASTNode *other) {
     return !other->is(this->getNodeType());
 }

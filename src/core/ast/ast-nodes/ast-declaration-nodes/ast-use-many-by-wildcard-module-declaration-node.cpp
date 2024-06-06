@@ -25,6 +25,14 @@ ASTImportPathNode* ASTUseManyByWildcardModuleDeclarationNode::getPath() {
     return _path;
 }
 
+Position* ASTUseManyByWildcardModuleDeclarationNode::getStartPosition() {
+    return _useKeyword->getStartPosition();
+}
+
+Position* ASTUseManyByWildcardModuleDeclarationNode::getEndPosition() {
+    return _path->getEndPosition();
+}
+
 ASTNodeType ASTUseManyByWildcardModuleDeclarationNode::getNodeType() {
     return AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE;
 }

@@ -26,6 +26,8 @@ public:
     std::vector<ASTClassPropertyDeclarationNode*>* getProperties();
     std::vector<ASTClassMethodDeclarationNode*>* getMethods();
     std::vector<ASTClassConstructorDeclarationNode*>* getConstructors();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

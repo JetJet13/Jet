@@ -31,6 +31,14 @@ EnumTypeSignature* ASTEnumDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTEnumDeclarationNode::getStartPosition() {
+    return _enumKeyword->getStartPosition();
+}
+
+Position* ASTEnumDeclarationNode::getEndPosition() {
+    return _values->getEndPosition();
+}
+
 ASTNodeType ASTEnumDeclarationNode::getNodeType() {
     return AST_ENUM_DECLARATION_NODE;
 }

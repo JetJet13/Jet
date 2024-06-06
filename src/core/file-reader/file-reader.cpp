@@ -14,7 +14,7 @@ void FileReader::open(std::string &filePath) {
     _fileStream = FileIO::readFile(filePath);
     _cursor = {
         .line =  1,
-        .position =  0
+        .column =  0
     };
     _handleNewLine = false;
     _isOpen = true;
@@ -56,13 +56,13 @@ std::optional<char> FileReader::advance() {
 
     if (_handleNewLine) {
         _cursor.line++;
-        _cursor.position = 0;
+        _cursor.column = 0;
         _handleNewLine = nextCharacter == NEW_LINE;
     } else if (nextCharacter == NEW_LINE) {
         _handleNewLine = true;
-        _cursor.position++;
+        _cursor.column++;
     } else {
-        _cursor.position++;
+        _cursor.column++;
     }
     return std::char_traits<char>::to_char_type(nextCharacter);
 }
@@ -82,7 +82,7 @@ void FileReader::setCursor(Cursor cursor) {
     _cursor = cursor;
 }
 
-int FileReader::getPeekLine() {
+unsigned long FileReader::getPeekLine() {
     auto nextChar = this->peek();
     if (!nextChar) {
         return -1;
@@ -94,7 +94,7 @@ int FileReader::getPeekLine() {
     return _cursor.line;
 }
 
-int FileReader::getPeekPosition() {
+unsigned long FileReader::getPeekColumn() {
     auto nextChar = this->peek();
     if (!nextChar) {
         return -1;
@@ -103,10 +103,10 @@ int FileReader::getPeekPosition() {
     if (_handleNewLine) {
         return 0;
     }
-    return _cursor.position;
+    return _cursor.column;
 }
 
-int FileReader::getNumAdvances() const {
+unsigned long FileReader::getNumAdvances() const {
     return _numAdvances;
 }
 

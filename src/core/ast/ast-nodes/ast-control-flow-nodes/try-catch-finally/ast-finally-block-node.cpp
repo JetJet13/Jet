@@ -17,6 +17,14 @@ ASTControlFlowBlockNode* ASTFinallyBlockNode::getBlock() {
     return _block;
 }
 
+Position* ASTFinallyBlockNode::getStartPosition() {
+    return _finallyKeyword->getStartPosition();
+}
+
+Position* ASTFinallyBlockNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTFinallyBlockNode::getNodeType() {
     return AST_FINALLY_BLOCK_NODE;
 }

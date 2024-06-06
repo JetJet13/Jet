@@ -17,6 +17,14 @@ ASTControlFlowBlockNode* ASTTryBlockNode::getBlock() {
     return _block;
 }
 
+Position* ASTTryBlockNode::getStartPosition() {
+    return _tryKeyword->getStartPosition();
+}
+
+Position* ASTTryBlockNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTTryBlockNode::getNodeType() {
     return AST_TRY_BLOCK_NODE;
 }

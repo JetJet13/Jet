@@ -17,6 +17,14 @@ ASTClassPropertyNameNode* ASTClassPropertyAccessNode::getProperty() {
     return _property;
 }
 
+Position* ASTClassPropertyAccessNode::getStartPosition() {
+    return _classAccess->getStartPosition();
+}
+
+Position* ASTClassPropertyAccessNode::getEndPosition() {
+    return _property->getEndPosition();
+}
+
 ASTNodeType ASTClassPropertyAccessNode::getNodeType() {
     return AST_CLASS_PROPERTY_ACCESS_NODE;
 }

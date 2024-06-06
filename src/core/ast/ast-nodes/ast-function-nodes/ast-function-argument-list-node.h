@@ -23,6 +23,8 @@ public:
     std::vector<ASTFunctionArgumentNode*>* getArguments();
     unsigned long numArguments();
     ASTFunctionArgumentListNode* addArgument(ASTFunctionArgumentNode* argument);
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

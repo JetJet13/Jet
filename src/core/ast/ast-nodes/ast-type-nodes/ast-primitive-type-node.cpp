@@ -13,6 +13,14 @@ Lexeme* ASTPrimitiveTypeNode::getLexeme() {
     return _lexeme;
 }
 
+Position* ASTPrimitiveTypeNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTPrimitiveTypeNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
+
 ASTNodeType ASTPrimitiveTypeNode::getNodeType() {
     return AST_PRIMITIVE_TYPE_NODE;
 }

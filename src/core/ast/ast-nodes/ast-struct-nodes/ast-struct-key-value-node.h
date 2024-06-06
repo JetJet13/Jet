@@ -19,6 +19,8 @@ public:
     ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTColonNode* colon, ASTExpressionNode* value);
     ASTIdentifierExpressionNode* getKey();
     ASTExpressionNode* getValue();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

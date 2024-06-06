@@ -23,6 +23,17 @@ std::optional<ASTTypeNode*> ASTLambdaTypeNode::getReturnType() {
     return _returnType;
 }
 
+Position* ASTLambdaTypeNode::getStartPosition() {
+    return _parameterList->getStartPosition();
+}
+
+Position* ASTLambdaTypeNode::getEndPosition() {
+    if (_returnType) {
+        return _returnType.value()->getEndPosition();
+    }
+    return _parameterList->getEndPosition();
+}
+
 ASTNodeType ASTLambdaTypeNode::getNodeType() {
     return AST_LAMBDA_TYPE_NODE;
 }

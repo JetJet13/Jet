@@ -47,6 +47,14 @@ ParameterListTypeSignature* ASTFunctionParameterListNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTFunctionParameterListNode::getStartPosition() {
+    return _functionParameterListStartNode->getStartPosition();
+}
+
+Position* ASTFunctionParameterListNode::getEndPosition() {
+    return _functionParameterListEndNode->getEndPosition();
+}
+
 ASTNodeType ASTFunctionParameterListNode::getNodeType() {
     return AST_FUNCTION_PARAMETER_LIST_NODE;
 }

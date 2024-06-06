@@ -22,6 +22,14 @@ ASTImportModuleListNode* ASTImportModuleListByGroupItemNode::getModuleList() {
     return _importModuleList;
 }
 
+Position* ASTImportModuleListByGroupItemNode::getStartPosition() {
+    return _moduleName->getStartPosition();
+}
+
+Position* ASTImportModuleListByGroupItemNode::getEndPosition() {
+    return _importModuleList->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleListByGroupItemNode::getNodeType() {
     return AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE;
 }

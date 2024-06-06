@@ -19,6 +19,8 @@ public:
     Lexeme* getLexeme();
     ASTTupleAccessNode* setIndexValue(int index);
     int getIndexValue();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

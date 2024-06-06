@@ -16,6 +16,14 @@ ASTControlFlowBlockNode* ASTElseBlockNode::getBlock() {
     return _block;
 }
 
+Position* ASTElseBlockNode::getStartPosition() {
+    return _elseKeyword->getStartPosition();
+}
+
+Position* ASTElseBlockNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTElseBlockNode::getNodeType() {
     return AST_ELSE_BLOCK_NODE;
 }

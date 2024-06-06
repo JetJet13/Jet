@@ -21,6 +21,14 @@ ASTThisAccessNode* ASTClassAccessNode::getThisAccess() {
     return _thisAccess;
 }
 
+Position* ASTClassAccessNode::getStartPosition() {
+    return _this->getStartPosition();
+}
+
+Position* ASTClassAccessNode::getEndPosition() {
+    return _thisAccess->getEndPosition();
+}
+
 ASTNodeType ASTClassAccessNode::getNodeType() {
     return AST_CLASS_ACCESS_NODE;
 }

@@ -20,6 +20,8 @@ public:
     explicit ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name, ASTModuleListNode* items);
     ASTModuleListNode* getItems();
     ASTModuleNameNode* getName();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

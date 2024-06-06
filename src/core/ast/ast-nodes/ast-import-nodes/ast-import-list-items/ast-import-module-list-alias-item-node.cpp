@@ -23,6 +23,14 @@ ASTImportModuleAliasNameNode* ASTImportModuleListAliasItemNode::getAliasModuleNa
     return _aliasModuleName;
 }
 
+Position* ASTImportModuleListAliasItemNode::getStartPosition() {
+    return _moduleName->getStartPosition();
+}
+
+Position* ASTImportModuleListAliasItemNode::getEndPosition() {
+    return _aliasModuleName->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleListAliasItemNode::getNodeType() {
     return AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE;
 }

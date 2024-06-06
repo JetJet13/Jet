@@ -14,6 +14,14 @@ ASTExpressionNode* ASTFunctionArgumentNode::getArgument() {
     return _argument;
 }
 
+Position* ASTFunctionArgumentNode::getStartPosition() {
+    return _argument->getStartPosition();
+}
+
+Position* ASTFunctionArgumentNode::getEndPosition() {
+    return _argument->getEndPosition();
+}
+
 ASTNodeType ASTFunctionArgumentNode::getNodeType() {
     return AST_FUNCTION_ARGUMENT_NODE;
 }

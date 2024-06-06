@@ -14,6 +14,14 @@ ASTModuleListBaseItemNode* ASTModuleListItemNode::getItem() {
     return _item;
 }
 
+Position* ASTModuleListItemNode::getStartPosition() {
+    return _item->getStartPosition();
+}
+
+Position* ASTModuleListItemNode::getEndPosition() {
+    return _item->getEndPosition();
+}
+
 ASTNodeType ASTModuleListItemNode::getNodeType() {
     return AST_MODULE_LIST_ITEM_NODE;
 }

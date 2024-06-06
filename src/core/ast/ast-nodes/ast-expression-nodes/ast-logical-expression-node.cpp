@@ -27,6 +27,14 @@ ASTLogicalOperatorNode* ASTLogicalExpressionNode::getLogicalOperator() {
     return _logicalOperator;
 }
 
+Position* ASTLogicalExpressionNode::getStartPosition() {
+    return _leftNode->getStartPosition();
+}
+
+Position* ASTLogicalExpressionNode::getEndPosition() {
+    return _rightNode->getEndPosition();
+}
+
 ASTNodeType ASTLogicalExpressionNode::getNodeType() {
     return AST_LOGICAL_EXPRESSION_NODE;
 }

@@ -16,6 +16,8 @@ public:
     ASTFileNode(std::vector<ASTNode*> body);
     void append(ASTNode* node);
     std::vector<ASTNode*>* getBody();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

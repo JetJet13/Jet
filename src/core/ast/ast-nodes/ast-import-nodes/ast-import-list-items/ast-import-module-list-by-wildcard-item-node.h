@@ -22,6 +22,8 @@ public:
     explicit ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportWildcardNode* wildcard);
     ASTImportModuleNameNode* getModuleName();
     ASTImportWildcardNode* getWildcard();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

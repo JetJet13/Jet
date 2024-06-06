@@ -36,6 +36,14 @@ unsigned long ASTArrayExpressionNode::size() {
     return _array->getElements()->size();
 }
 
+Position* ASTArrayExpressionNode::getStartPosition() {
+    return _array->getStartPosition();
+}
+
+Position* ASTArrayExpressionNode::getEndPosition() {
+    return _array->getEndPosition();
+}
+
 ASTNodeType ASTArrayExpressionNode::getNodeType() {
     return AST_ARRAY_EXPRESSION_NODE;
 }

@@ -26,6 +26,14 @@ unsigned long ASTNewClassInstanceExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
+Position* ASTNewClassInstanceExpressionNode::getStartPosition() {
+    return _new->getStartPosition();
+}
+
+Position* ASTNewClassInstanceExpressionNode::getEndPosition() {
+    return _arguments->getEndPosition();
+}
+
 ASTNodeType ASTNewClassInstanceExpressionNode::getNodeType() {
     return AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE;
 }

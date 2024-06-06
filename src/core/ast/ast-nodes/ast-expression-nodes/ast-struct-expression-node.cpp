@@ -6,11 +6,19 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTStructExpressionNode::ASTStructExpressionNode() {
+ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStartNode, ASTStructEndNode* structEndNode) {
+    _structStartNode = structStartNode;
+    _structEndNode = structEndNode;
+    _children.push_back(_structStartNode);
+    _children.push_back(_structEndNode);
     _keyValuePairs = std::vector<ASTStructKeyValueNode*>();
 }
 
-ASTStructExpressionNode::ASTStructExpressionNode(std::vector<ASTStructKeyValueNode*> keyValuePairs) {
+ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStartNode, std::vector<ASTStructKeyValueNode*> keyValuePairs, ASTStructEndNode* structEndNode) {
+    _structStartNode = structStartNode;
+    _structEndNode = structEndNode;
+    _children.push_back(_structStartNode);
+    _children.push_back(_structEndNode);
     _keyValuePairs = keyValuePairs;
     for (auto keyValuePair : keyValuePairs) {
         _children.push_back(keyValuePair);
@@ -25,6 +33,14 @@ ASTStructExpressionNode* ASTStructExpressionNode::addKeyValuePair(ASTStructKeyVa
     _keyValuePairs.push_back(keyValuePair);
     _children.push_back(keyValuePair);
     return this;
+}
+
+Position* ASTStructExpressionNode::getStartPosition() {
+    return _structStartNode->getStartPosition();
+}
+
+Position* ASTStructExpressionNode::getEndPosition() {
+    return _structEndNode->getEndPosition();
 }
 
 ASTNodeType ASTStructExpressionNode::getNodeType() {

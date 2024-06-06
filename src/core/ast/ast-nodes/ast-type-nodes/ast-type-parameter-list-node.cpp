@@ -35,6 +35,14 @@ ASTTypeParameterListNode* ASTTypeParameterListNode::addParameter(ASTTypeNode* pa
     return this;
 }
 
+Position* ASTTypeParameterListNode::getStartPosition() {
+    return _typeParameterListStartNode->getStartPosition();
+}
+
+Position* ASTTypeParameterListNode::getEndPosition() {
+    return _typeParameterListEndNode->getEndPosition();
+}
+
 ASTNodeType ASTTypeParameterListNode::getNodeType() {
     return AST_TYPE_PARAMETER_LIST_NODE;
 }

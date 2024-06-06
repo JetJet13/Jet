@@ -21,6 +21,8 @@ public:
     ASTObjectAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTPeriodNode* period, ASTObjectAccessTargetNode* property);
     ASTObjectAccessSourceNode* getSource();
     ASTObjectAccessTargetNode* getTarget();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

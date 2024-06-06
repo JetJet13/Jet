@@ -22,6 +22,14 @@ ASTUnaryOperatorNode* ASTUnaryExpressionNode::getUnaryOperatorNode() {
     return _unaryOperator;
 }
 
+Position* ASTUnaryExpressionNode::getStartPosition() {
+    return _unaryOperator->getStartPosition();
+}
+
+Position* ASTUnaryExpressionNode::getEndPosition() {
+    return _expression->getEndPosition();
+}
+
 ASTNodeType ASTUnaryExpressionNode::getNodeType() {
     return AST_UNARY_EXPRESSION_NODE;
 }

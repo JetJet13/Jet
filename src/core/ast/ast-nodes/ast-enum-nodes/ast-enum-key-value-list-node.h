@@ -23,6 +23,8 @@ public:
     std::vector<ASTEnumKeyValueNode*> getParameters();
     unsigned long numParameters();
     ASTEnumKeyValueListNode* addEnumKeyValue(ASTEnumKeyValueNode* enumKeyValue);
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

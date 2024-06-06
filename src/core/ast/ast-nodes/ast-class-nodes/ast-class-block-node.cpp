@@ -71,6 +71,14 @@ std::vector<ASTClassConstructorDeclarationNode*>* ASTClassBlockNode::getConstruc
     return &_constructors;
 }
 
+Position* ASTClassBlockNode::getStartPosition() {
+    return _blockStartNode->getStartPosition();
+}
+
+Position* ASTClassBlockNode::getEndPosition() {
+    return _blockEndNode->getEndPosition();
+}
+
 ASTNodeType ASTClassBlockNode::getNodeType() {
     return AST_CLASS_BLOCK_NODE;
 }

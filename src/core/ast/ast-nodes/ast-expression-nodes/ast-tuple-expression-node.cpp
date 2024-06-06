@@ -15,6 +15,14 @@ ASTTupleListNode* ASTTupleExpressionNode::getTupleList() {
     return _tupleList;
 }
 
+Position* ASTTupleExpressionNode::getStartPosition() {
+    return _tupleList->getStartPosition();
+}
+
+Position* ASTTupleExpressionNode::getEndPosition() {
+    return _tupleList->getEndPosition();
+}
+
 ASTNodeType ASTTupleExpressionNode::getNodeType() {
     return AST_TUPLE_EXPRESSION_NODE;
 }

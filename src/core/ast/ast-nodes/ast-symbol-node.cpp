@@ -18,6 +18,13 @@ Lexeme* ASTSymbolNode::getLexeme() {
     return _lexeme;
 }
 
+Position* ASTSymbolNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTSymbolNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
 
 bool ASTSymbolNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){

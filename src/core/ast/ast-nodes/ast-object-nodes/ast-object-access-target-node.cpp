@@ -14,6 +14,14 @@ ASTIdentifierExpressionNode* ASTObjectAccessTargetNode::getTarget() {
     return _target;
 }
 
+Position* ASTObjectAccessTargetNode::getStartPosition() {
+    return _target->getStartPosition();
+}
+
+Position* ASTObjectAccessTargetNode::getEndPosition() {
+    return _target->getEndPosition();
+}
+
 ASTNodeType ASTObjectAccessTargetNode::getNodeType() {
     return AST_OBJECT_ACCESS_TARGET_NODE;
 }

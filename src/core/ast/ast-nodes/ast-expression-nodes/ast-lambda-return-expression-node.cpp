@@ -20,6 +20,14 @@ ASTExpressionNode* ASTLambdaReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
+Position* ASTLambdaReturnExpressionNode::getStartPosition() {
+    return _fatArrowNode->getStartPosition();
+}
+
+Position* ASTLambdaReturnExpressionNode::getEndPosition() {
+    return _returnExpression->getEndPosition();
+}
+
 ASTNodeType ASTLambdaReturnExpressionNode::getNodeType() {
     return AST_LAMBDA_RETURN_EXPRESSION_NODE;
 }

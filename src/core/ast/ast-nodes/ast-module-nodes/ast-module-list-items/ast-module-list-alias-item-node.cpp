@@ -23,6 +23,14 @@ ASTModuleAliasNameNode* ASTModuleListAliasItemNode::getAliasModuleName() {
     return _aliasModuleName;
 }
 
+Position* ASTModuleListAliasItemNode::getStartPosition() {
+    return _moduleName->getStartPosition();
+}
+
+Position* ASTModuleListAliasItemNode::getEndPosition() {
+    return _aliasModuleName->getEndPosition();
+}
+
 ASTNodeType ASTModuleListAliasItemNode::getNodeType() {
     return AST_MODULE_LIST_ALIAS_ITEM_NODE;
 }

@@ -23,6 +23,14 @@ TypeSignature* ASTControlFlowConditionNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTControlFlowConditionNode::getStartPosition() {
+    return _condition->getStartPosition();
+}
+
+Position* ASTControlFlowConditionNode::getEndPosition() {
+    return _condition->getEndPosition();
+}
+
 ASTNodeType ASTControlFlowConditionNode::getNodeType() {
     return AST_CONTROL_FLOW_CONDITION_NODE;
 }

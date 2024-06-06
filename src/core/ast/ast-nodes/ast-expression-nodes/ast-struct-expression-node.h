@@ -9,16 +9,22 @@
 #include "../ast-node.h"
 #include "ast-expression-node.h"
 #include "../ast-struct-nodes/ast-struct-key-value-node.h"
+#include "../ast-struct-nodes/ast-struct-start-node.h"
+#include "../ast-struct-nodes/ast-struct-end-node.h"
 
 class ASTStructExpressionNode : public ASTExpressionNode {
 private:
+    ASTStructStartNode* _structStartNode;
+    ASTStructEndNode* _structEndNode;
     std::vector<ASTStructKeyValueNode*> _keyValuePairs;
 public:
-    ASTStructExpressionNode();
-    ASTStructExpressionNode(std::vector<ASTStructKeyValueNode*> keyValuePairs);
+    ASTStructExpressionNode(ASTStructStartNode* structStartNode, ASTStructEndNode* structEndNode);
+    ASTStructExpressionNode(ASTStructStartNode* structStartNode, std::vector<ASTStructKeyValueNode*> keyValuePairs, ASTStructEndNode* structEndNode);
     std::vector<ASTStructKeyValueNode*> getKeyValuePairs();
     ASTStructExpressionNode* addKeyValuePair(ASTStructKeyValueNode* keyValuePair);
     unsigned long size();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -23,6 +23,14 @@ TypeSignature* ASTTypeNode::getTypeSignature() {
     return _type->getTypeSignature();
 }
 
+Position* ASTTypeNode::getStartPosition() {
+    return _type->getStartPosition();
+}
+
+Position* ASTTypeNode::getEndPosition() {
+    return _type->getEndPosition();
+}
+
 ASTNodeType ASTTypeNode::getNodeType() {
     return AST_TYPE_NODE;
 }

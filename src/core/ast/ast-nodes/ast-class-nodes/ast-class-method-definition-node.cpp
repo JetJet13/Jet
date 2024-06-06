@@ -29,6 +29,14 @@ bool ASTClassMethodDefinitionNode::isStatic() {
     return _staticKeyword.has_value();
 }
 
+Position* ASTClassMethodDefinitionNode::getStartPosition() {
+    return _accessModifier->getStartPosition();
+}
+
+Position* ASTClassMethodDefinitionNode::getEndPosition() {
+    return _methodName->getEndPosition();
+}
+
 ASTNodeType ASTClassMethodDefinitionNode::getNodeType() {
     return AST_CLASS_METHOD_DEFINITION_NODE;
 }

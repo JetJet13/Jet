@@ -25,6 +25,14 @@ unsigned long ASTCurryExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
+Position* ASTCurryExpressionNode::getStartPosition() {
+    return _callableExpression->getStartPosition();
+}
+
+Position* ASTCurryExpressionNode::getEndPosition() {
+    return _arguments->getEndPosition();
+}
+
 ASTNodeType ASTCurryExpressionNode::getNodeType() {
     return AST_CURRY_EXPRESSION_NODE;
 }

@@ -28,6 +28,14 @@ ASTBinaryOperatorNode* ASTBinaryExpressionNode::getBinaryOperator() {
     return _binaryOperator;
 }
 
+Position* ASTBinaryExpressionNode::getStartPosition() {
+    return _leftNode->getStartPosition();
+}
+
+Position* ASTBinaryExpressionNode::getEndPosition() {
+    return _rightNode->getEndPosition();
+}
+
 ASTNodeType ASTBinaryExpressionNode::getNodeType() {
     return AST_BINARY_EXPRESSION_NODE;
 }

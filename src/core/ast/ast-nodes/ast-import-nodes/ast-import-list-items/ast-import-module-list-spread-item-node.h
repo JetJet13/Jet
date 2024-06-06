@@ -17,6 +17,8 @@ class ASTImportModuleListSpreadItemNode : public ASTImportModuleListBaseItemNode
 public:
     explicit ASTImportModuleListSpreadItemNode(ASTImportSpreadNode* spread, ASTImportModuleNameNode* moduleName);
     ASTImportModuleNameNode* getModuleName();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

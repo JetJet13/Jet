@@ -39,6 +39,14 @@ ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addArgument(ASTFunctio
     return this;
 }
 
+Position* ASTFunctionArgumentListNode::getStartPosition() {
+    return _functionArgumentListStartNode->getStartPosition();
+}
+
+Position* ASTFunctionArgumentListNode::getEndPosition() {
+    return _functionArgumentListEndNode->getEndPosition();
+}
+
 ASTNodeType ASTFunctionArgumentListNode::getNodeType() {
     return AST_FUNCTION_ARGUMENT_LIST_NODE;
 }

@@ -52,6 +52,17 @@ ClassPropertyTypeSignature* ASTClassPropertyDeclarationNode::getTypeSignature() 
     return _typeSignature;
 }
 
+Position* ASTClassPropertyDeclarationNode::getStartPosition() {
+    return _propertyInit->getStartPosition();
+}
+
+Position* ASTClassPropertyDeclarationNode::getEndPosition() {
+    if (_initializer) {
+        return _initializer.value()->getEndPosition();
+    }
+    return _propertyInit->getEndPosition();
+}
+
 ASTNodeType ASTClassPropertyDeclarationNode::getNodeType() {
     return AST_CLASS_PROPERTY_DECLARATION_NODE;
 }

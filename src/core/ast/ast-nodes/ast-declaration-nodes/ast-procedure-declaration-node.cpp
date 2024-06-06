@@ -41,6 +41,14 @@ ProcedureTypeSignature* ASTProcedureDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTProcedureDeclarationNode::getStartPosition() {
+    return _procedureKeyword->getStartPosition();
+}
+
+Position* ASTProcedureDeclarationNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTProcedureDeclarationNode::getNodeType() {
     return AST_PROCEDURE_DECLARATION_NODE;
 }

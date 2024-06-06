@@ -19,6 +19,14 @@ ASTExpressionNode* ASTArrayAccessNode::getIndex() {
     return _index;
 }
 
+Position* ASTArrayAccessNode::getStartPosition() {
+    return _leftBracket->getStartPosition();
+}
+
+Position* ASTArrayAccessNode::getEndPosition() {
+    return _rightBracket->getEndPosition();
+}
+
 ASTNodeType ASTArrayAccessNode::getNodeType() {
     return AST_ARRAY_ACCESS_NODE;
 }

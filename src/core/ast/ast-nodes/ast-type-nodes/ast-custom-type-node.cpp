@@ -14,6 +14,14 @@ Lexeme* ASTCustomTypeNode::getLexeme() {
     return _lexeme;
 }
 
+Position* ASTCustomTypeNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTCustomTypeNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
+
 ASTNodeType ASTCustomTypeNode::getNodeType() {
     return AST_CUSTOM_TYPE_NODE;
 }

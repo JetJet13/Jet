@@ -16,6 +16,8 @@ public:
     ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* returnExpression);
     ASTLambdaExpressionFatArrowNode* getFatArrowNode();
     ASTExpressionNode* getExpression();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

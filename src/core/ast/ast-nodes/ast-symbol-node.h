@@ -14,6 +14,8 @@ public:
     explicit ASTSymbolNode(Lexeme* lexeme);
     explicit ASTSymbolNode(Lexeme* lexeme, std::string id);
     Lexeme* getLexeme();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     bool isSameAs(ASTNode* other) override;
     void print() override;
     std::string toSourceCode() override;

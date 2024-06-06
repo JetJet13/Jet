@@ -20,6 +20,14 @@ LiteralTypeSignature* ASTLiteralNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTLiteralNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTLiteralNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
+
 ASTNodeType ASTLiteralNode::getNodeType() {
     return AST_LITERAL_NODE;
 }

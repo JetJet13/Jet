@@ -71,6 +71,14 @@ ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, 
     return this;
 }
 
+Position* ASTBlockNode::getStartPosition() {
+    return _blockStartNode->getStartPosition();
+}
+
+Position* ASTBlockNode::getEndPosition() {
+    return _blockEndNode->getEndPosition();
+}
+
 ASTNodeType ASTBlockNode::getNodeType() {
     return AST_BLOCK_NODE;
 }

@@ -25,6 +25,8 @@ public:
     ASTIfBlockNode* getIfBlock();
     std::vector<ASTElseIfBlockNode*>* getElseIfBlocks();
     std::optional<ASTElseBlockNode*> getElseBlock();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

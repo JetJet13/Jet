@@ -16,6 +16,14 @@ ASTTypeParameterListNode* ASTTupleTypeNode::getParameterList() {
     return _typeParameterList;
 }
 
+Position* ASTTupleTypeNode::getStartPosition() {
+    return _tupleNode->getStartPosition();
+}
+
+Position* ASTTupleTypeNode::getEndPosition() {
+    return _typeParameterList->getEndPosition();
+}
+
 ASTNodeType ASTTupleTypeNode::getNodeType() {
     return AST_TUPLE_TYPE_NODE;
 }

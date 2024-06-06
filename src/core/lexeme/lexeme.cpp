@@ -7,22 +7,22 @@
 #include "../../shared/utils/to-string/to-string.h"
 #include "../../shared/utils/logger/logger.h"
 
-Lexeme::Lexeme(Token* token, int line, int startPosition) {
+Lexeme::Lexeme(Token* token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn) {
     _token = token;
-    _line = line;
-    _start_position = startPosition;
+    _startPosition = Position(startLine, startColumn);
+    _endPosition = Position(endLine, endColumn);
 }
 
 Token* Lexeme::getToken() {
     return _token;
 }
 
-int Lexeme::getLine() const {
-    return _line;
+Position* Lexeme::getStartPosition() {
+    return &_startPosition;
 }
 
-int Lexeme::getPosition() const {
-    return _start_position;
+Position* Lexeme::getEndPosition() {
+    return &_endPosition;
 }
 
 std::string Lexeme::toString() {
@@ -30,10 +30,10 @@ std::string Lexeme::toString() {
     lexemeString.append(_token->toString());
     lexemeString.append(" | ");
     lexemeString.append("line: ");
-    lexemeString.append(ToStringUtil::toString(_line));
+    lexemeString.append(ToStringUtil::toString(_startPosition.getLine()));
     lexemeString.append(" | ");
-    lexemeString.append("position: ");
-    lexemeString.append(ToStringUtil::toString(_start_position));
+    lexemeString.append("column: ");
+    lexemeString.append(ToStringUtil::toString(_startPosition.getColumn()));
     return lexemeString;
 }
 

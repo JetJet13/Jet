@@ -37,6 +37,14 @@ LambdaExpressionTypeSignature* ASTLambdaWithFatArrowExpressionNode::getTypeSigna
     return _typeSignature;
 }
 
+Position* ASTLambdaWithFatArrowExpressionNode::getStartPosition() {
+    return _parameters->getStartPosition();
+}
+
+Position* ASTLambdaWithFatArrowExpressionNode::getEndPosition() {
+    return _returnExpression->getEndPosition();
+}
+
 ASTNodeType ASTLambdaWithFatArrowExpressionNode::getNodeType() {
     return AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE;
 }

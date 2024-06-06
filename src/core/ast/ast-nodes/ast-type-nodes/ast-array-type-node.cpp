@@ -17,6 +17,14 @@ ASTTypeNode* ASTArrayTypeNode::getElementType() {
     return _typeParameterList->getParameters()[0];
 }
 
+Position* ASTArrayTypeNode::getStartPosition() {
+    return _arrayKeyword->getStartPosition();
+}
+
+Position* ASTArrayTypeNode::getEndPosition() {
+    return _typeParameterList->getEndPosition();
+}
+
 ASTNodeType ASTArrayTypeNode::getNodeType() {
     return AST_ARRAY_TYPE_NODE;
 }

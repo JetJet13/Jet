@@ -25,6 +25,8 @@ public:
     ASTRightBracketNode* getRightBracket();
     std::optional<ASTExpressionNode*> getFirstElement();
     std::vector<ASTExpressionNode*>* getElements();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     void print() override;

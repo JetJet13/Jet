@@ -14,6 +14,14 @@ ASTExpressionNode* ASTTupleItemNode::getItem() {
     return _item;
 }
 
+Position* ASTTupleItemNode::getStartPosition() {
+    return _item->getStartPosition();
+}
+
+Position* ASTTupleItemNode::getEndPosition() {
+    return _item->getEndPosition();
+}
+
 ASTNodeType ASTTupleItemNode::getNodeType() {
     return AST_TUPLE_ITEM_NODE;
 }

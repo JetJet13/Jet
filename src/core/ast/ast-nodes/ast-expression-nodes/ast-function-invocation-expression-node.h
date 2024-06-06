@@ -28,6 +28,8 @@ public:
     unsigned long numArguments();
     void setTypeSignature(FunctionInvocationTypeSignature* functionInvocationTypeSignature);
     FunctionInvocationTypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

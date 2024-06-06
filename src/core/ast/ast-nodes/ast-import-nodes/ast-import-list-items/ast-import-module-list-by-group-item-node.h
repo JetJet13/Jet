@@ -22,6 +22,8 @@ public:
     explicit ASTImportModuleListByGroupItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportModuleListNode* importModuleList);
     ASTImportModuleNameNode* getModuleName();
     ASTImportModuleListNode* getModuleList();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

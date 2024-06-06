@@ -14,6 +14,14 @@ ASTLiteralNode* ASTLiteralExpressionNode::getLiteralNode() {
     return _literalNode;
 }
 
+Position* ASTLiteralExpressionNode::getStartPosition() {
+    return _literalNode->getStartPosition();
+}
+
+Position* ASTLiteralExpressionNode::getEndPosition() {
+    return _literalNode->getEndPosition();
+}
+
 ASTNodeType ASTLiteralExpressionNode::getNodeType() {
     return AST_LITERAL_EXPRESSION_NODE;
 }

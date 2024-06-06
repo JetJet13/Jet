@@ -14,6 +14,14 @@ ASTStringLiteralNode* ASTPackagePathNode::getPackagePath() {
     return _packagePath;
 }
 
+Position* ASTPackagePathNode::getStartPosition() {
+    return _packagePath->getStartPosition();
+}
+
+Position* ASTPackagePathNode::getEndPosition() {
+    return _packagePath->getEndPosition();
+}
+
 ASTNodeType ASTPackagePathNode::getNodeType() {
     return AST_PACKAGE_PATH_NODE;
 }

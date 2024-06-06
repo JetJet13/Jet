@@ -23,6 +23,14 @@ ASTExpressionNode* ASTStructKeyValueNode::getValue() {
     return _value;
 }
 
+Position* ASTStructKeyValueNode::getStartPosition() {
+    return _key->getStartPosition();
+}
+
+Position* ASTStructKeyValueNode::getEndPosition() {
+    return _value->getEndPosition();
+}
+
 ASTNodeType ASTStructKeyValueNode::getNodeType() {
     return AST_STRUCT_KEY_VALUE_NODE;
 }

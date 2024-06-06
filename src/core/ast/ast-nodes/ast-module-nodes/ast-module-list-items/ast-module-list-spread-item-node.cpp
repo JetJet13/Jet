@@ -17,6 +17,14 @@ ASTModuleNameNode* ASTModuleListSpreadItemNode::getModuleName() {
     return _moduleName;
 }
 
+Position* ASTModuleListSpreadItemNode::getStartPosition() {
+    return _spread->getStartPosition();
+}
+
+Position* ASTModuleListSpreadItemNode::getEndPosition() {
+    return _moduleName->getEndPosition();
+}
+
 ASTNodeType ASTModuleListSpreadItemNode::getNodeType() {
     return AST_MODULE_LIST_SPREAD_ITEM_NODE;
 }

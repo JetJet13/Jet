@@ -23,6 +23,14 @@ ASTImportPathNode* ASTUseSingleModuleDeclarationNode::getPath() {
     return _path;
 }
 
+Position* ASTUseSingleModuleDeclarationNode::getStartPosition() {
+    return _useKeyword->getStartPosition();
+}
+
+Position* ASTUseSingleModuleDeclarationNode::getEndPosition() {
+    return _path->getEndPosition();
+}
+
 ASTNodeType ASTUseSingleModuleDeclarationNode::getNodeType() {
     return AST_USE_SINGLE_MODULE_DECLARATION_NODE;
 }

@@ -15,6 +15,14 @@ ASTClassPropertyAccessNode* ASTClassPropertyAccessExpressionNode::getPropertyAcc
     return _propertyAccess;
 }
 
+Position* ASTClassPropertyAccessExpressionNode::getStartPosition() {
+    return _propertyAccess->getStartPosition();
+}
+
+Position* ASTClassPropertyAccessExpressionNode::getEndPosition() {
+    return _propertyAccess->getEndPosition();
+}
+
 ASTNodeType ASTClassPropertyAccessExpressionNode::getNodeType() {
     return AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE;
 }

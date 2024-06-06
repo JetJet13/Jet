@@ -22,6 +22,14 @@ ASTControlFlowConditionNode* ASTElseIfBlockNode::getCondition() {
     return _condition;
 }
 
+Position* ASTElseIfBlockNode::getStartPosition() {
+    return _elseIfKeyword->getStartPosition();
+}
+
+Position* ASTElseIfBlockNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTElseIfBlockNode::getNodeType() {
     return AST_ELSE_IF_BLOCK_NODE;
 }

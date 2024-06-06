@@ -13,6 +13,14 @@ Lexeme* ASTImportModuleListWildcardItemNode::getLexeme() {
     return _lexeme;
 }
 
+Position* ASTImportModuleListWildcardItemNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTImportModuleListWildcardItemNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleListWildcardItemNode::getNodeType() {
     return AST_IMPORT_MODULE_LIST_WILDCARD_ITEM_NODE;
 }

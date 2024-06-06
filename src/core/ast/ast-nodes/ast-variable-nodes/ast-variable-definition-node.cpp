@@ -21,6 +21,14 @@ ASTIdentifierNode* ASTVariableDefinitionNode::getIdentifierNode() {
     return _identifier;
 }
 
+Position* ASTVariableDefinitionNode::getStartPosition() {
+    return _assignmentTypeQualifier->getStartPosition();
+}
+
+Position* ASTVariableDefinitionNode::getEndPosition() {
+    return _identifier->getEndPosition();
+}
+
 ASTNodeType ASTVariableDefinitionNode::getNodeType() {
     return AST_VARIABLE_DEFINITION_NODE;
 }

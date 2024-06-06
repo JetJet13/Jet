@@ -18,6 +18,8 @@ public:
     ASTTypeBaseNode* getType();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

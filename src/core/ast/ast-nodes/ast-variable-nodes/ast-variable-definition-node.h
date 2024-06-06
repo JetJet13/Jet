@@ -18,6 +18,8 @@ public:
     explicit ASTVariableDefinitionNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode);
     ASTVariableTypeNode* getVarTypeNode();
     ASTIdentifierNode* getIdentifierNode();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

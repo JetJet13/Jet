@@ -14,7 +14,7 @@ TypeSignature* ASTExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-ASTNode * ASTExpressionNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTExpressionNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     return this->baseTransformIfNecessary(prevNode, nextNode, mode);
 }
 

@@ -14,6 +14,14 @@ ASTStringLiteralNode* ASTImportPathNode::getImportPath() {
     return _importPath;
 }
 
+Position* ASTImportPathNode::getStartPosition() {
+    return _importPath->getStartPosition();
+}
+
+Position* ASTImportPathNode::getEndPosition() {
+    return _importPath->getEndPosition();
+}
+
 ASTNodeType ASTImportPathNode::getNodeType() {
     return AST_IMPORT_PATH_NODE;
 }

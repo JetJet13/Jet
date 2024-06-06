@@ -21,6 +21,14 @@ ASTExpressionNode* ASTClassPropertyAssignmentStatementNode::getExpression() {
     return _expression;
 }
 
+Position* ASTClassPropertyAssignmentStatementNode::getStartPosition() {
+    return _propertyAssignment->getStartPosition();
+}
+
+Position* ASTClassPropertyAssignmentStatementNode::getEndPosition() {
+    return _expression->getEndPosition();
+}
+
 ASTNodeType ASTClassPropertyAssignmentStatementNode::getNodeType() {
     return AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE;
 }

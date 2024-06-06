@@ -58,6 +58,14 @@ bool ASTBinaryOperatorNode::isLessThanOrEqual() {
     return _lexeme->getToken()->getSymbol()->isLessThanOrEqual();
 }
 
+Position* ASTBinaryOperatorNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTBinaryOperatorNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
+
 ASTNodeType ASTBinaryOperatorNode::getNodeType() {
     return AST_BINARY_OPERATOR_NODE;
 }

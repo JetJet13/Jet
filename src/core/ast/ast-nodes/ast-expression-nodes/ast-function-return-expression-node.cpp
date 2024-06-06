@@ -20,6 +20,14 @@ ASTExpressionNode* ASTFunctionReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
+Position* ASTFunctionReturnExpressionNode::getStartPosition() {
+    return _returnNode->getStartPosition();
+}
+
+Position* ASTFunctionReturnExpressionNode::getEndPosition() {
+    return _returnExpression->getEndPosition();
+}
+
 ASTNodeType ASTFunctionReturnExpressionNode::getNodeType() {
     return AST_FUNCTION_RETURN_EXPRESSION_NODE;
 }

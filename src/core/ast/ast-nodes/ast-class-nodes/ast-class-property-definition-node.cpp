@@ -45,6 +45,14 @@ bool ASTClassPropertyDefinitionNode::isConstant() {
     return _constKeyword.has_value();
 }
 
+Position* ASTClassPropertyDefinitionNode::getStartPosition() {
+    return _accessModifier->getStartPosition();
+}
+
+Position* ASTClassPropertyDefinitionNode::getEndPosition() {
+    return _propertyName->getEndPosition();
+}
+
 ASTNodeType ASTClassPropertyDefinitionNode::getNodeType() {
     return AST_CLASS_PROPERTY_DEFINITION_NODE;
 }

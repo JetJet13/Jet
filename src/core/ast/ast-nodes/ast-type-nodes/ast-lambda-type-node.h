@@ -16,6 +16,8 @@ public:
     ASTLambdaTypeNode(ASTTypeParameterListNode* parameterList, std::optional<ASTTypeNode*> returnType = {});
     ASTTypeParameterListNode* getParameterList();
     std::optional<ASTTypeNode*> getReturnType();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

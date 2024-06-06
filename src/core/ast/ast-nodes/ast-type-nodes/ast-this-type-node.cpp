@@ -14,6 +14,14 @@ ASTThisNode* ASTThisTypeNode::getThis() {
     return _this;
 }
 
+Position* ASTThisTypeNode::getStartPosition() {
+    return _this->getStartPosition();
+}
+
+Position* ASTThisTypeNode::getEndPosition() {
+    return _this->getEndPosition();
+}
+
 ASTNodeType ASTThisTypeNode::getNodeType() {
     return AST_THIS_TYPE_NODE;
 }

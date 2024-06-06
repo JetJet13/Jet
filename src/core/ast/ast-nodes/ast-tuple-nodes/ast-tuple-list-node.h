@@ -22,6 +22,8 @@ public:
     std::vector<ASTTupleItemNode*> getItems();
     unsigned long numItems();
     ASTTupleListNode* addItem(ASTTupleItemNode* item);
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

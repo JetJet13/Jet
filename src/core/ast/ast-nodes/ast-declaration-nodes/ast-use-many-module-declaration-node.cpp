@@ -33,6 +33,14 @@ ASTImportPathNode* ASTUseManyModuleDeclarationNode::getPath() {
     return _path;
 }
 
+Position* ASTUseManyModuleDeclarationNode::getStartPosition() {
+    return _useKeyword->getStartPosition();
+}
+
+Position* ASTUseManyModuleDeclarationNode::getEndPosition() {
+    return _path->getEndPosition();
+}
+
 ASTNodeType ASTUseManyModuleDeclarationNode::getNodeType() {
     return AST_USE_MANY_MODULE_DECLARATION_NODE;
 }

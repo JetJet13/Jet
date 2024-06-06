@@ -46,6 +46,22 @@ std::optional<ASTElseBlockNode*> ASTIfStatementNode::getElseBlock() {
     return _elseBlock;
 }
 
+Position* ASTIfStatementNode::getStartPosition() {
+    return _ifBlock->getStartPosition();
+}
+
+Position* ASTIfStatementNode::getEndPosition() {
+    if (_elseBlock) {
+        return _elseBlock.value()->getEndPosition();
+    }
+
+    if (_elseIfBlocks.empty()) {
+        return _ifBlock->getEndPosition();
+    }
+
+    return _elseIfBlocks[_elseIfBlocks.size() - 1]->getEndPosition();
+}
+
 ASTNodeType ASTIfStatementNode::getNodeType() {
     return AST_IF_STATEMENT_NODE;
 }

@@ -33,6 +33,14 @@ FunctionInvocationTypeSignature* ASTFunctionInvocationExpressionNode::getTypeSig
     return _typeSignature;
 }
 
+Position* ASTFunctionInvocationExpressionNode::getStartPosition() {
+    return _function->getStartPosition();
+}
+
+Position* ASTFunctionInvocationExpressionNode::getEndPosition() {
+    return _arguments->getEndPosition();
+}
+
 ASTNodeType ASTFunctionInvocationExpressionNode::getNodeType() {
     return AST_FUNCTION_INVOCATION_EXPRESSION_NODE;
 }

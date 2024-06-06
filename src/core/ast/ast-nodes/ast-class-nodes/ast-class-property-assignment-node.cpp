@@ -26,6 +26,14 @@ TypeSignature* ASTClassPropertyAssignmentNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTClassPropertyAssignmentNode::getStartPosition() {
+    return _classPropertyAccess->getStartPosition();
+}
+
+Position* ASTClassPropertyAssignmentNode::getEndPosition() {
+    return _assignmentOperator->getEndPosition();
+}
+
 ASTNodeType ASTClassPropertyAssignmentNode::getNodeType() {
     return AST_CLASS_PROPERTY_ASSIGNMENT_NODE;
 }

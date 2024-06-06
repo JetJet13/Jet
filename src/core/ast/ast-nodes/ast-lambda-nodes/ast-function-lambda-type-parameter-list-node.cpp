@@ -30,6 +30,14 @@ ASTFunctionLambdaTypeParameterListNode* ASTFunctionLambdaTypeParameterListNode::
     return this;
 }
 
+Position* ASTFunctionLambdaTypeParameterListNode::getStartPosition() {
+    return _functionKeyword->getStartPosition();
+}
+
+Position* ASTFunctionLambdaTypeParameterListNode::getEndPosition() {
+    return _typeParameterList->getEndPosition();
+}
+
 ASTNodeType ASTFunctionLambdaTypeParameterListNode::getNodeType() {
     return AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE;
 }

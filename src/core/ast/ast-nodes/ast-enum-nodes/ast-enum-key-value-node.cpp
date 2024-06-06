@@ -38,6 +38,17 @@ LiteralTypeSignature* ASTEnumKeyValueNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTEnumKeyValueNode::getStartPosition() {
+    return _key->getStartPosition();
+}
+
+Position* ASTEnumKeyValueNode::getEndPosition() {
+    if (_value) {
+        return _value.value()->getEndPosition();
+    }
+    return _key->getEndPosition();
+}
+
 ASTNodeType ASTEnumKeyValueNode::getNodeType() {
     return AST_ENUM_KEY_VALUE_NODE;
 }

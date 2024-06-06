@@ -17,6 +17,20 @@ std::vector<ASTNode*>* ASTFileNode::getBody() {
     return &_body;
 }
 
+Position* ASTFileNode::getStartPosition() {
+    if (_body.empty()) {
+        return new Position();
+    }
+    return _body[0]->getStartPosition();
+}
+
+Position* ASTFileNode::getEndPosition() {
+    if (_body.empty()) {
+        return new Position();
+    }
+    return _body[_body.size() - 1]->getEndPosition();
+}
+
 ASTNodeType ASTFileNode::getNodeType() {
     return AST_FILE_NODE;
 }

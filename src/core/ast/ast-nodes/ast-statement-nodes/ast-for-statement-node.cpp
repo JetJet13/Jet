@@ -31,6 +31,14 @@ ASTControlFlowBlockNode* ASTForStatementNode::getBlock() {
     return _block;
 }
 
+Position* ASTForStatementNode::getStartPosition() {
+    return _forKeyword->getStartPosition();
+}
+
+Position* ASTForStatementNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTForStatementNode::getNodeType() {
     return AST_FOR_STATEMENT_NODE;
 }

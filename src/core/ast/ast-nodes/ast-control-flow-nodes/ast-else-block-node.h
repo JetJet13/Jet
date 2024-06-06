@@ -19,6 +19,8 @@ private:
 public:
     explicit ASTElseBlockNode(ASTElseNode* elseKeyword, ASTControlFlowBlockNode* block);
     ASTControlFlowBlockNode* getBlock();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

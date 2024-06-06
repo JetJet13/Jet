@@ -29,6 +29,8 @@ public:
     std::optional<ASTConstNode*> getConstant();
     bool isStatic();
     bool isConstant();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

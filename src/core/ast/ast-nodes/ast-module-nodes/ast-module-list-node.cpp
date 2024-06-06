@@ -39,6 +39,14 @@ ASTModuleListNode* ASTModuleListNode::addItem(ASTModuleListItemNode* item) {
     return this;
 }
 
+Position* ASTModuleListNode::getStartPosition() {
+    return _moduleListStartNode->getStartPosition();
+}
+
+Position* ASTModuleListNode::getEndPosition() {
+    return _moduleListEndNode->getEndPosition();
+}
+
 ASTNodeType ASTModuleListNode::getNodeType() {
     return AST_MODULE_LIST_NODE;
 }

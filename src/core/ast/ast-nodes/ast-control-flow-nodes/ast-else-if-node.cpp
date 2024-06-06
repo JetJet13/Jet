@@ -19,6 +19,14 @@ ASTIfNode* ASTElseIfNode::getIf() {
     return _if;
 }
 
+Position* ASTElseIfNode::getStartPosition() {
+    return _else->getStartPosition();
+}
+
+Position* ASTElseIfNode::getEndPosition() {
+    return _if->getEndPosition();
+}
+
 ASTNodeType ASTElseIfNode::getNodeType() {
     return AST_ELSE_IF_NODE;
 }

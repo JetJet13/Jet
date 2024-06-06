@@ -28,6 +28,14 @@ ASTTypeNode* ASTClassPropertyDefinitionWithTypeNode::getType() {
     return _type;
 }
 
+Position* ASTClassPropertyDefinitionWithTypeNode::getStartPosition() {
+    return _classPropertyDefinition->getStartPosition();
+}
+
+Position* ASTClassPropertyDefinitionWithTypeNode::getEndPosition() {
+    return _type->getEndPosition();
+}
+
 ASTNodeType ASTClassPropertyDefinitionWithTypeNode::getNodeType() {
     return AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE;
 }

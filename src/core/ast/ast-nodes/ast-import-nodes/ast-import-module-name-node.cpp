@@ -14,6 +14,14 @@ ASTIdentifierNode* ASTImportModuleNameNode::getIdentifier() {
     return _identifier;
 }
 
+Position* ASTImportModuleNameNode::getStartPosition() {
+    return _identifier->getStartPosition();
+}
+
+Position* ASTImportModuleNameNode::getEndPosition() {
+    return _identifier->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleNameNode::getNodeType() {
     return AST_IMPORT_MODULE_NAME_NODE;
 }

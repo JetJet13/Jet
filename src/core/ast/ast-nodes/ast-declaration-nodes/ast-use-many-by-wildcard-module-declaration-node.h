@@ -22,6 +22,8 @@ public:
     ASTUseManyByWildcardModuleDeclarationNode(ASTUseNode* importKeyword, ASTImportModuleListByWildcardItemNode* importModuleListByWildcardItemNode, ASTFromNode* fromKeyword, ASTImportPathNode* path);
     ASTImportModuleListByWildcardItemNode* getImportModuleListByWildcardItemNode();
     ASTImportPathNode* getPath();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

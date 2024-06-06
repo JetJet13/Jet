@@ -23,6 +23,14 @@ ASTImportWildcardNode* ASTImportModuleListByWildcardItemNode::getWildcard() {
     return _wildcard;
 }
 
+Position* ASTImportModuleListByWildcardItemNode::getStartPosition() {
+    return _moduleName->getStartPosition();
+}
+
+Position* ASTImportModuleListByWildcardItemNode::getEndPosition() {
+    return _wildcard->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleListByWildcardItemNode::getNodeType() {
     return AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE;
 }

@@ -14,6 +14,14 @@ ASTImportModuleNameNode* ASTImportModuleListNormalItemNode::getModuleName() {
     return _moduleName;
 }
 
+Position* ASTImportModuleListNormalItemNode::getStartPosition() {
+    return _moduleName->getStartPosition();
+}
+
+Position* ASTImportModuleListNormalItemNode::getEndPosition() {
+    return _moduleName->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleListNormalItemNode::getNodeType() {
     return AST_IMPORT_MODULE_LIST_NORMAL_ITEM_NODE;
 }

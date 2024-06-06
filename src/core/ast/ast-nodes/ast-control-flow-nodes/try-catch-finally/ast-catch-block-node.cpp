@@ -25,6 +25,14 @@ std::optional<ASTCatchErrorVariableNode*> ASTCatchBlockNode::getErrorVariable() 
     return _errorVariable;
 }
 
+Position* ASTCatchBlockNode::getStartPosition() {
+    return _catchKeyword->getStartPosition();
+}
+
+Position* ASTCatchBlockNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTCatchBlockNode::getNodeType() {
     return AST_CATCH_BLOCK_NODE;
 }

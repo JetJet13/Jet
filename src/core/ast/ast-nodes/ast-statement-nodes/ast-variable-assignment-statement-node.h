@@ -19,6 +19,8 @@ public:
     ASTVariableAssignmentStatementNode(ASTVariableAssignmentNode* variable, ASTExpressionNode* expression);
     ASTVariableAssignmentNode* getVariableAssignment();
     ASTExpressionNode* getExpression();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

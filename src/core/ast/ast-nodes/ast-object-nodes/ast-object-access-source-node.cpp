@@ -14,6 +14,14 @@ ASTExpressionNode* ASTObjectAccessSourceNode::getSource() {
     return _source;
 }
 
+Position* ASTObjectAccessSourceNode::getStartPosition() {
+    return _source->getStartPosition();
+}
+
+Position* ASTObjectAccessSourceNode::getEndPosition() {
+    return _source->getEndPosition();
+}
+
 ASTNodeType ASTObjectAccessSourceNode::getNodeType() {
     return AST_OBJECT_ACCESS_SOURCE_NODE;
 }

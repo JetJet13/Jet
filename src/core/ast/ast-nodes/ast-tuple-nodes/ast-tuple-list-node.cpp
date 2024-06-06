@@ -35,6 +35,14 @@ ASTTupleListNode* ASTTupleListNode::addItem(ASTTupleItemNode* item) {
     return this;
 }
 
+Position* ASTTupleListNode::getStartPosition() {
+    return _tupleListStart->getStartPosition();
+}
+
+Position* ASTTupleListNode::getEndPosition() {
+    return _tupleListEnd->getEndPosition();
+}
+
 ASTNodeType ASTTupleListNode::getNodeType() {
     return AST_TUPLE_LIST_NODE;
 }

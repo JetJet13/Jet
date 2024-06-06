@@ -17,6 +17,14 @@ ASTImportModuleNameNode* ASTImportModuleListSpreadItemNode::getModuleName() {
     return _moduleName;
 }
 
+Position* ASTImportModuleListSpreadItemNode::getStartPosition() {
+    return _spread->getStartPosition();
+}
+
+Position* ASTImportModuleListSpreadItemNode::getEndPosition() {
+    return _moduleName->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleListSpreadItemNode::getNodeType() {
     return AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE;
 }

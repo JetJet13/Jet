@@ -23,6 +23,14 @@ ASTControlFlowConditionNode* ASTWhileStatementNode::getCondition() {
     return _condition;
 }
 
+Position* ASTWhileStatementNode::getStartPosition() {
+    return _whileKeyword->getStartPosition();
+}
+
+Position* ASTWhileStatementNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTWhileStatementNode::getNodeType() {
     return AST_WHILE_STATEMENT_NODE;
 }

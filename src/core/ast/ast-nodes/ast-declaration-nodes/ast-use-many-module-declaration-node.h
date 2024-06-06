@@ -26,6 +26,8 @@ public:
     ASTImportModuleNameNode* getModuleName();
     ASTImportModuleListNode* getModuleList();
     ASTImportPathNode* getPath();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

@@ -24,6 +24,14 @@ ASTTupleAccessNode* ASTTupleAccessExpressionNode::getIndex() {
     return _index;
 }
 
+Position* ASTTupleAccessExpressionNode::getStartPosition() {
+    return _source->getStartPosition();
+}
+
+Position* ASTTupleAccessExpressionNode::getEndPosition() {
+    return _index->getEndPosition();
+}
+
 ASTNodeType ASTTupleAccessExpressionNode::getNodeType() {
     return AST_TUPLE_ACCESS_EXPRESSION_NODE;
 }

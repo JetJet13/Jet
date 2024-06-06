@@ -4,10 +4,7 @@
 
 #include "ast-identifier-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../ast-type-nodes/ast-type-node.h"
-#include "../ast-object-nodes/ast-object-access-source-node.h"
 #include "../ast-function-nodes/ast-function-argument-node.h"
-#include "../ast-tuple-nodes/ast-tuple-item-node.h"
 
 ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode) {
     _identifierNode = identifierNode;
@@ -16,6 +13,14 @@ ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* iden
 
 ASTIdentifierNode* ASTIdentifierExpressionNode::getIdentifierNode() {
     return _identifierNode;
+}
+
+Position* ASTIdentifierExpressionNode::getStartPosition() {
+    return _identifierNode->getStartPosition();
+}
+
+Position* ASTIdentifierExpressionNode::getEndPosition() {
+    return _identifierNode->getEndPosition();
 }
 
 ASTNodeType ASTIdentifierExpressionNode::getNodeType() {

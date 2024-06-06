@@ -22,6 +22,14 @@ TypeSignature* ASTForVariableNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTForVariableNode::getStartPosition() {
+    return _variable->getStartPosition();
+}
+
+Position* ASTForVariableNode::getEndPosition() {
+    return _variable->getEndPosition();
+}
+
 ASTNodeType ASTForVariableNode::getNodeType() {
     return AST_FOR_VARIABLE_NODE;
 }

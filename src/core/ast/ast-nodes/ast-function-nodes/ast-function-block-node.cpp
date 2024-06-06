@@ -31,6 +31,14 @@ bool ASTFunctionBlockNode::hasReturnExpression() {
     return false;
 }
 
+Position* ASTFunctionBlockNode::getStartPosition() {
+    return _blockStartNode->getStartPosition();
+}
+
+Position* ASTFunctionBlockNode::getEndPosition() {
+    return _blockEndNode->getEndPosition();
+}
+
 ASTNodeType ASTFunctionBlockNode::getNodeType() {
     return AST_FUNCTION_BLOCK_NODE;
 }

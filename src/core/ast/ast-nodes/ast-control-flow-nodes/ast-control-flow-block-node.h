@@ -21,6 +21,8 @@ public:
     explicit ASTControlFlowBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode);
     std::vector<ASTNode*>* getContents();
     bool hasReturnExpression();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     bool isSameAs(ASTNode* other) override;
     std::string toString() override;

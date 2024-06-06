@@ -36,6 +36,17 @@ std::optional<ASTFinallyBlockNode*> ASTTryStatementNode::getFinallyBlock() {
     return _finallyBlock;
 }
 
+Position* ASTTryStatementNode::getStartPosition() {
+    return _tryBlock->getStartPosition();
+}
+
+Position* ASTTryStatementNode::getEndPosition() {
+    if (_finallyBlock) {
+        return _finallyBlock.value()->getEndPosition();
+    }
+    return _catchBlock->getEndPosition();
+}
+
 ASTNodeType ASTTryStatementNode::getNodeType() {
     return AST_TRY_STATEMENT_NODE;
 }

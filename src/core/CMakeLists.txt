@@ -502,8 +502,6 @@ add_library(jet-core
         ast/ast-nodes/ast-import-nodes/ast-import-module-list-item-node.h
         ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.cpp
         ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.h
-        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.cpp
-        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h
@@ -1022,6 +1020,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-many-by-wildcard-module-declaration-id-strategy/import-many-by-wildcard-module-declaration-id-strategy.h
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.cpp
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.h
+        lexeme/types/position.h
+        lexeme/types/position.cpp
 
 )
 

@@ -41,6 +41,14 @@ LambdaExpressionTypeSignature* ASTLambdaExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTLambdaExpressionNode::getStartPosition() {
+    return _parameters->getStartPosition();
+}
+
+Position* ASTLambdaExpressionNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTLambdaExpressionNode::getNodeType() {
     return AST_LAMBDA_EXPRESSION_NODE;
 }

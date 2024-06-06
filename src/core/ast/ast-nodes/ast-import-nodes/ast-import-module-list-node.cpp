@@ -40,6 +40,14 @@ ASTImportModuleListNode* ASTImportModuleListNode::addItem(ASTImportModuleListIte
     return this;
 }
 
+Position* ASTImportModuleListNode::getStartPosition() {
+    return _importModuleListStartNode->getStartPosition();
+}
+
+Position* ASTImportModuleListNode::getEndPosition() {
+    return _importModuleListEndNode->getEndPosition();
+}
+
 ASTNodeType ASTImportModuleListNode::getNodeType() {
     return AST_IMPORT_MODULE_LIST_NODE;
 }

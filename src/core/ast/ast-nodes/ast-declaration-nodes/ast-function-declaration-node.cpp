@@ -47,6 +47,14 @@ FunctionTypeSignature* ASTFunctionDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTFunctionDeclarationNode::getStartPosition() {
+    return _functionKeyword->getStartPosition();
+}
+
+Position* ASTFunctionDeclarationNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTFunctionDeclarationNode::getNodeType() {
     return AST_FUNCTION_DECLARATION_NODE;
 }

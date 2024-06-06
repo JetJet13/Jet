@@ -22,6 +22,14 @@ ASTObjectAccessTargetNode* ASTObjectAccessExpressionNode::getTarget() {
     return _target;
 }
 
+Position* ASTObjectAccessExpressionNode::getStartPosition() {
+    return _source->getStartPosition();
+}
+
+Position* ASTObjectAccessExpressionNode::getEndPosition() {
+    return _target->getEndPosition();
+}
+
 ASTNodeType ASTObjectAccessExpressionNode::getNodeType() {
     return AST_OBJECT_ACCESS_EXPRESSION_NODE;
 }

@@ -30,6 +30,14 @@ TypeSignature* ASTVariableDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTVariableDeclarationNode::getStartPosition() {
+    return _varInit->getStartPosition();
+}
+
+Position* ASTVariableDeclarationNode::getEndPosition() {
+    return _initializer->getEndPosition();
+}
+
 ASTNodeType ASTVariableDeclarationNode::getNodeType() {
     return AST_VARIABLE_DECLARATION_NODE;
 }

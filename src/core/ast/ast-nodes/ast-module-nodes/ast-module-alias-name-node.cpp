@@ -14,6 +14,14 @@ ASTIdentifierNode* ASTModuleAliasNameNode::getIdentifier() {
     return _identifier;
 }
 
+Position* ASTModuleAliasNameNode::getStartPosition() {
+    return _identifier->getStartPosition();
+}
+
+Position* ASTModuleAliasNameNode::getEndPosition() {
+    return _identifier->getEndPosition();
+}
+
 ASTNodeType ASTModuleAliasNameNode::getNodeType() {
     return AST_MODULE_ALIAS_NAME_NODE;
 }

@@ -26,6 +26,14 @@ unsigned long ASTClassMethodInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
+Position* ASTClassMethodInvocationExpressionNode::getStartPosition() {
+    return _classAccess->getStartPosition();
+}
+
+Position* ASTClassMethodInvocationExpressionNode::getEndPosition() {
+    return _arguments->getEndPosition();
+}
+
 ASTNodeType ASTClassMethodInvocationExpressionNode::getNodeType() {
     return AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE;
 }

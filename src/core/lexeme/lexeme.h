@@ -8,17 +8,18 @@
 #include <string>
 #include "../symbol/symbol.h"
 #include "../token/token.h"
+#include "types/position.h"
 
 class Lexeme {
 private:
     Token* _token;
-    int _line;
-    int _start_position;
+    Position _startPosition;
+    Position _endPosition;
 public:
-    Lexeme(Token* token, int line, int startPosition);
+    Lexeme(Token* token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn);
     Token* getToken();
-    int getLine() const;
-    int getPosition() const;
+    Position* getStartPosition();
+    Position* getEndPosition();
     std::string toString();
     bool hasSameSymbolTypeAs(Lexeme* other);
     bool isEqualTo(Lexeme* other);

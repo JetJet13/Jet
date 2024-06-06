@@ -39,6 +39,14 @@ ASTEnumKeyValueListNode* ASTEnumKeyValueListNode::addEnumKeyValue(ASTEnumKeyValu
     return this;
 }
 
+Position* ASTEnumKeyValueListNode::getStartPosition() {
+    return _enumKeyValueListStartNode->getStartPosition();
+}
+
+Position* ASTEnumKeyValueListNode::getEndPosition() {
+    return _enumKeyValueListEndNode->getEndPosition();
+}
+
 ASTNodeType ASTEnumKeyValueListNode::getNodeType() {
     return AST_ENUM_KEY_VALUE_LIST_NODE;
 }

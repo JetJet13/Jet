@@ -52,6 +52,14 @@ std::vector<ASTExpressionNode*>* ASTArrayNode::getElements() {
     return _elements;
 }
 
+Position* ASTArrayNode::getStartPosition() {
+    return _leftBracket->getStartPosition();
+}
+
+Position* ASTArrayNode::getEndPosition() {
+    return _rightBracket->getEndPosition();
+}
+
 ASTNodeType ASTArrayNode::getNodeType() {
     return AST_ARRAY_NODE;
 }

@@ -132,6 +132,14 @@ std::string ASTIdentifierNode::toString() {
     return "IDENTIFIER";
 }
 
+Position* ASTIdentifierNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTIdentifierNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
+
 bool ASTIdentifierNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;

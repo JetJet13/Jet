@@ -25,6 +25,14 @@ TypeSignature* ASTVariableAssignmentNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTVariableAssignmentNode::getStartPosition() {
+    return _identifier->getStartPosition();
+}
+
+Position* ASTVariableAssignmentNode::getEndPosition() {
+    return _assignmentOperator->getEndPosition();
+}
+
 ASTNodeType ASTVariableAssignmentNode::getNodeType() {
     return AST_VARIABLE_ASSIGNMENT_NODE;
 }

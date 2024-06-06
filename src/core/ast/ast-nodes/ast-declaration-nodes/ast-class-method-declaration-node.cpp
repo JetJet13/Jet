@@ -11,7 +11,6 @@ ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefin
     _block = content;
     _returnType = returnType;
     _parameters = parameters;
-
     _children.push_back(_classMethodDefinition);
     _children.push_back(_block);
     if (_returnType) {
@@ -46,6 +45,14 @@ void ASTClassMethodDeclarationNode::setTypeSignature(ClassMethodTypeSignature* t
 
 ClassMethodTypeSignature* ASTClassMethodDeclarationNode::getTypeSignature() {
     return _typeSignature;
+}
+
+Position* ASTClassMethodDeclarationNode::getStartPosition() {
+    return _classMethodDefinition->getStartPosition();
+}
+
+Position* ASTClassMethodDeclarationNode::getEndPosition() {
+    return _block->getEndPosition();
 }
 
 ASTNodeType ASTClassMethodDeclarationNode::getNodeType() {

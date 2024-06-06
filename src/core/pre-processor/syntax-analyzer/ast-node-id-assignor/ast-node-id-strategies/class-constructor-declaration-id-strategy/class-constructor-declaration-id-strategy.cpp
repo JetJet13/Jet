@@ -23,13 +23,15 @@ void ClassConstructorDeclarationIdStrategy::assign(ASTNode* node) {
                 classConstructorDeclarationNode
                 ->getConstructor()
                 ->getLexeme()
-                ->getLine()
+                ->getStartPosition()
+                ->line
             ) +
             "_" +
             ToStringUtil::toString(
                 classConstructorDeclarationNode
                 ->getConstructor()
                 ->getLexeme()
-                ->getPosition()
+                ->getStartPosition()
+                ->position
             ));
 }

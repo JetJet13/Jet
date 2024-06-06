@@ -13,6 +13,14 @@ Lexeme* ASTTupleAccessNode::getLexeme() {
     return _lexeme;
 }
 
+Position* ASTTupleAccessNode::getStartPosition() {
+    return _lexeme->getStartPosition();
+}
+
+Position* ASTTupleAccessNode::getEndPosition() {
+    return _lexeme->getEndPosition();
+}
+
 ASTNodeType ASTTupleAccessNode::getNodeType() {
     return AST_TUPLE_ACCESS_NODE;
 }

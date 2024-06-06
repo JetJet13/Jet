@@ -29,6 +29,14 @@ bool ASTControlFlowBlockNode::hasReturnExpression() {
     return false;
 }
 
+Position* ASTControlFlowBlockNode::getStartPosition() {
+    return _blockStartNode->getStartPosition();
+}
+
+Position* ASTControlFlowBlockNode::getEndPosition() {
+    return _blockEndNode->getEndPosition();
+}
+
 ASTNodeType ASTControlFlowBlockNode::getNodeType() {
     return AST_CONTROL_FLOW_BLOCK_NODE;
 }

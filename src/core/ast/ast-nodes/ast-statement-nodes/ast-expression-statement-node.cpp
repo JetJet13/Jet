@@ -14,6 +14,14 @@ ASTExpressionNode* ASTExpressionStatementNode::getExpression() {
     return _expression;
 }
 
+Position* ASTExpressionStatementNode::getStartPosition() {
+    return _expression->getStartPosition();
+}
+
+Position* ASTExpressionStatementNode::getEndPosition() {
+    return _expression->getEndPosition();
+}
+
 ASTNodeType ASTExpressionStatementNode::getNodeType() {
     return AST_EXPRESSION_STATEMENT_NODE;
 }

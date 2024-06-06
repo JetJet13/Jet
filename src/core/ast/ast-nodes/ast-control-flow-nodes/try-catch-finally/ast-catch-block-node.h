@@ -21,6 +21,8 @@ public:
     explicit ASTCatchBlockNode(ASTCatchNode* catchKeyword, ASTControlFlowBlockNode* block, std::optional<ASTCatchErrorVariableNode*> errorVariable = {});
     ASTControlFlowBlockNode* getBlock();
     std::optional<ASTCatchErrorVariableNode*> getErrorVariable();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

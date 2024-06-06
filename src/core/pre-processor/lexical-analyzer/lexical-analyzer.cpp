@@ -50,11 +50,13 @@ std::optional<Lexeme*> LexicalAnalyzer::next() {
         return {};
     }
     auto line = _fileReader.getPeekLine();
-    auto position = _fileReader.getPeekPosition();
+    auto column = _fileReader.getPeekColumn();
     auto nextToken = this->buildNextToken();
     _prevToken = nextToken;
     if (nextToken) {
-        return new Lexeme(nextToken.value(), line, position);
+        auto endLine = _fileReader.getCursor().line;
+        auto endColumn = _fileReader.getCursor().column;
+        return new Lexeme(nextToken.value(), line, column, endLine, endColumn);
     }
     return {};
 }
@@ -73,12 +75,15 @@ std::optional<Lexeme*> LexicalAnalyzer::peek() {
         return {};
     }
     auto line = _fileReader.getPeekLine();
-    auto position = _fileReader.getPeekPosition();
+    auto column = _fileReader.getPeekColumn();
     auto nextToken = this->peekNextToken();
-    this->resetAfterPeek(cursorSnapshot, numAdvancesSnapshot);
     if (nextToken) {
-        return new Lexeme(nextToken.value(), line, position);
+        auto endLine = _fileReader.getCursor().line;
+        auto endColumn = _fileReader.getCursor().column;
+        this->resetAfterPeek(cursorSnapshot, numAdvancesSnapshot);
+        return new Lexeme(nextToken.value(), line, column, endLine, endColumn);
     }
+    this->resetAfterPeek(cursorSnapshot, numAdvancesSnapshot);
     return {};
 }
 

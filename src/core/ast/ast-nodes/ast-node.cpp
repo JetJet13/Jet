@@ -68,6 +68,14 @@ bool ASTNode::isLowerPriorityThan(ASTNode* other) {
     return this->getPriority() > other->getPriority();
 }
 
+Position* ASTNode::getStartPosition() {
+    throw std::logic_error("get start-position not implemented: " + this->toString());
+}
+
+Position* ASTNode::getEndPosition() {
+    throw std::logic_error("get end-position not implemented: " + this->toString());
+}
+
 bool ASTNode::isSameAs(ASTNode* other) {
     return this->getNodeType() == other->getNodeType();
 }

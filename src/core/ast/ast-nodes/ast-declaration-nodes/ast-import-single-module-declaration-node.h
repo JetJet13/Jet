@@ -22,6 +22,8 @@ public:
     explicit ASTImportSingleModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleNameNode* moduleName, ASTFromNode* fromKeyword, ASTImportPathNode* path);
     ASTImportModuleNameNode* getModuleName();
     ASTImportPathNode* getPath();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

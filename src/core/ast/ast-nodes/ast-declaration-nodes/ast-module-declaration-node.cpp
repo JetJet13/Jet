@@ -22,6 +22,14 @@ ASTModuleNameNode* ASTModuleDeclarationNode::getName() {
     return _name;
 }
 
+Position* ASTModuleDeclarationNode::getStartPosition() {
+    return _moduleKeyword->getStartPosition();
+}
+
+Position* ASTModuleDeclarationNode::getEndPosition() {
+    return _items->getEndPosition();
+}
+
 ASTNodeType ASTModuleDeclarationNode::getNodeType() {
     return AST_MODULE_DECLARATION_NODE;
 }

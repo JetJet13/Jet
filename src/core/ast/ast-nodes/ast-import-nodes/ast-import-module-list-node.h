@@ -22,6 +22,8 @@ public:
     std::vector<ASTImportModuleListItemNode*> getItems();
     unsigned long numItems();
     ASTImportModuleListNode* addItem(ASTImportModuleListItemNode* item);
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(ASTNode* other) override;

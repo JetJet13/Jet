@@ -30,6 +30,13 @@ ASTProcedureLambdaTypeParameterListNode* ASTProcedureLambdaTypeParameterListNode
     return this;
 }
 
+Position* ASTProcedureLambdaTypeParameterListNode::getStartPosition() {
+    return _procedureKeyword->getStartPosition();
+}
+
+Position* ASTProcedureLambdaTypeParameterListNode::getEndPosition() {
+    return _typeParameterList->getEndPosition();
+}
 
 ASTNodeType ASTProcedureLambdaTypeParameterListNode::getNodeType() {
     return AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE;

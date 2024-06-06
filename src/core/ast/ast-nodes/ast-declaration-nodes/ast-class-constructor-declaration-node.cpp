@@ -39,6 +39,14 @@ ClassConstructorTypeSignature* ASTClassConstructorDeclarationNode::getTypeSignat
     return _typeSignature;
 }
 
+Position* ASTClassConstructorDeclarationNode::getStartPosition() {
+    return _constructor->getStartPosition();
+}
+
+Position* ASTClassConstructorDeclarationNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTClassConstructorDeclarationNode::getNodeType() {
     return AST_CLASS_CONSTRUCTOR_DECLARATION_NODE;
 }

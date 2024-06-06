@@ -25,6 +25,8 @@ public:
     void setParentNode(ASTNode* parentNode);
     virtual ASTNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
+    virtual Position* getStartPosition();
+    virtual Position* getEndPosition();
     virtual bool isSameAs(ASTNode* other);
     virtual void print();
     virtual std::string toSourceCode();
