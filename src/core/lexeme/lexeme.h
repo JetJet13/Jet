@@ -16,6 +16,7 @@ private:
     Position _startPosition;
     Position _endPosition;
 public:
+    Lexeme(Token* token);
     Lexeme(Token* token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn);
     Token* getToken();
     Position* getStartPosition();

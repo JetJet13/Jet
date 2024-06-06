@@ -7,6 +7,12 @@
 #include "../../shared/utils/to-string/to-string.h"
 #include "../../shared/utils/logger/logger.h"
 
+Lexeme::Lexeme(Token* token) {
+    _token = token;
+    _startPosition = Position();
+    _endPosition = Position();
+}
+
 Lexeme::Lexeme(Token* token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn) {
     _token = token;
     _startPosition = Position(startLine, startColumn);

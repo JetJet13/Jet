@@ -70,7 +70,7 @@
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
-        return new Lexeme(new Token(symbol), 1, 0, 1, 0);
+        return new Lexeme(new Token(symbol, symbol->toString()));
     }
     static ASTIdentifierNode* id = new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTIdentifierExpressionNode* idExpression = new ASTIdentifierExpressionNode(
@@ -173,11 +173,21 @@ namespace ASTNodeFactory {
             ASTNodeFactory::unaryPlus,
             ASTNodeFactory::floatExpression
     );
+    static ASTLeftBracketNode* leftBracket = new ASTLeftBracketNode(
+            createLexeme(SymbolFactory::createLeftBracketSymbol())
+    );
+    static ASTRightBracketNode* rightBracket = new ASTRightBracketNode(
+            createLexeme(SymbolFactory::createRightBracketSymbol())
+    );
     static ASTArrayAccessNode* arrayAccessInt =  new ASTArrayAccessNode(
-            ASTNodeFactory::intExpression
+            ASTNodeFactory::leftBracket,
+            ASTNodeFactory::intExpression,
+            ASTNodeFactory::rightBracket
     );
     static ASTArrayAccessNode* arrayAccessId =  new ASTArrayAccessNode(
-            ASTNodeFactory::idExpression
+            ASTNodeFactory::leftBracket,
+            ASTNodeFactory::idExpression,
+            ASTNodeFactory::rightBracket
     );
     static ASTThisNode* thisNode = new ASTThisNode(
             createLexeme(SymbolFactory::createThisSymbol())
@@ -209,37 +219,54 @@ namespace ASTNodeFactory {
     static ASTFunctionReturnNode* functionReturnFatArrow =  new ASTFunctionReturnNode(
             createLexeme(SymbolFactory::createFatArrowSymbol())
     );
+    static ASTFunctionParameterListStartNode* leftParen = new ASTFunctionParameterListStartNode(
+            createLexeme(SymbolFactory::createLeftParenSymbol())
+    );
+    static ASTFunctionParameterListEndNode* rightParen = new ASTFunctionParameterListEndNode(
+            createLexeme(SymbolFactory::createRightParenSymbol())
+    );
     static ASTFunctionParameterNode* intFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
+            ASTNodeFactory::colon,
             ASTNodeFactory::intType
     );
 
     static ASTFunctionParameterNode* floatFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
+            ASTNodeFactory::colon,
             ASTNodeFactory::floatType
     );
     static ASTFunctionParameterNode* stringFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
+            ASTNodeFactory::colon,
             ASTNodeFactory::stringType
     );
     static ASTFunctionParameterNode* charFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
+            ASTNodeFactory::colon,
             ASTNodeFactory::charType
     );
     static ASTFunctionParameterNode* booleanFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
+            ASTNodeFactory::colon,
             ASTNodeFactory::booleanType
     );
     static ASTFunctionParameterNode* arrayFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
+            ASTNodeFactory::colon,
             ASTNodeFactory::arrayType
     );
     static ASTFunctionParameterNode* idFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
+            ASTNodeFactory::colon,
             ASTNodeFactory::idType
     );
+    static ASTAssignmentOperatorNode* assignment = new ASTAssignmentOperatorNode(
+            createLexeme(SymbolFactory::createEqualSymbol())
+    );
     static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
-            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+            ASTNodeFactory::assignment
     );
     static ASTEnumNameNode* enumName =  new ASTEnumNameNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
@@ -280,11 +307,23 @@ namespace ASTNodeFactory {
     static ASTModuleListItemNode* moduleNormalItem = new ASTModuleListItemNode(
             new ASTModuleListNormalItemNode(moduleName)
     );
+    static ASTAsNode* as = new ASTAsNode(
+            createLexeme(SymbolFactory::createAsSymbol())
+    );
     static ASTModuleListItemNode* moduleAliasItem = new ASTModuleListItemNode(
-            new ASTModuleListAliasItemNode(moduleName, moduleAliasName)
+            new ASTModuleListAliasItemNode(moduleName, ASTNodeFactory::as, moduleAliasName)
+    );
+    static ASTModuleSpreadNode* moduleSpread = new ASTModuleSpreadNode(
+            createLexeme(SymbolFactory::createDotDotDotSymbol())
     );
     static ASTModuleListItemNode* moduleSpreadItem = new ASTModuleListItemNode(
-            new ASTModuleListSpreadItemNode(moduleName)
+            new ASTModuleListSpreadItemNode(moduleName, ASTNodeFactory::moduleSpread)
+    );
+    static ASTImportSpreadNode* importSpread = new ASTImportSpreadNode(
+            createLexeme(SymbolFactory::createDotDotDotSymbol())
+    );
+    static ASTModuleAccessNode* moduleAccess = new ASTModuleAccessNode(
+            createLexeme(SymbolFactory::createDotDotDotSymbol())
     );
     static ASTImportModuleNameNode* importModuleName = new ASTImportModuleNameNode(
             ASTNodeFactory::id
@@ -299,20 +338,21 @@ namespace ASTNodeFactory {
             new ASTImportModuleListNormalItemNode(importModuleName)
     );
     static ASTImportModuleListItemNode* importModuleAliasItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListAliasItemNode(importModuleName, importModuleAliasName)
+            new ASTImportModuleListAliasItemNode(importModuleName, ASTNodeFactory::as, importModuleAliasName)
     );
     static ASTImportModuleListItemNode* importModuleSpreadItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListSpreadItemNode(importModuleName)
+            new ASTImportModuleListSpreadItemNode(ASTNodeFactory::importSpread, importModuleName)
     );
     static ASTImportModuleListItemNode* importModuleWildcardItem = new ASTImportModuleListItemNode(
             new ASTImportModuleListWildcardItemNode(createLexeme(SymbolFactory::createStarSymbol()))
     );
+
     static ASTImportModuleListItemNode* importModuleByWildcardItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListByWildcardItemNode(importModuleName, importModuleWildcard)
+            new ASTImportModuleListByWildcardItemNode(importModuleName, ASTNodeFactory::moduleAccess, importModuleWildcard)
     );
     static ASTImportModuleListItemNode* createImportModuleByGroupItem(ASTImportModuleListNode* importModuleList) {
          return new ASTImportModuleListItemNode(
-                 new ASTImportModuleListByGroupItemNode(importModuleName, importModuleList)
+                 new ASTImportModuleListByGroupItemNode(importModuleName, ASTNodeFactory::moduleAccess, importModuleList)
          );
     }
     static ASTImportPathNode* importPath = new ASTImportPathNode(
@@ -333,11 +373,17 @@ namespace ASTNodeFactory {
     static ASTConstructorNode* classConstructor = new ASTConstructorNode(
             createLexeme(SymbolFactory::createConstructorSymbol())
     );
+    static ASTClassAccessNode* classAccess = new ASTClassAccessNode(
+            ASTNodeFactory::thisNode,
+            new ASTThisAccessNode(createLexeme(SymbolFactory::createPeriodSymbol()))
+    );
     static ASTClassPropertyAccessNode* classPropertyAccess = new ASTClassPropertyAccessNode(
+            ASTNodeFactory::classAccess,
             ASTNodeFactory::classPropertyName
     );
     static ASTClassPropertyAssignmentNode* classPropertyAssignment = new ASTClassPropertyAssignmentNode(
-            ASTNodeFactory::classPropertyName
+            ASTNodeFactory::classPropertyAccess,
+            ASTNodeFactory::assignment
     );
     static ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression = new ASTClassPropertyAccessExpressionNode(
             ASTNodeFactory::classPropertyAccess

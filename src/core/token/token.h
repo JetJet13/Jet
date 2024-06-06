@@ -16,6 +16,7 @@ private:
     std::optional<int> _valueId;
     std::string _rawValue;
 public:
+    explicit Token(Symbol* symbol);
     explicit Token(Symbol* symbol, std::string rawValue);
     Token(Symbol* symbol, std::string rawValue, int valueId);
     Symbol* getSymbol();

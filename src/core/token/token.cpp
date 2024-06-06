@@ -5,6 +5,10 @@
 #include "token.h"
 #include "../../shared/utils/to-string/to-string.h"
 
+Token::Token(Symbol *symbol) {
+    _symbol = symbol;
+    _rawValue = symbol->toString();
+}
 
 Token::Token(Symbol *symbol, std::string rawValue) {
     _symbol = symbol;
