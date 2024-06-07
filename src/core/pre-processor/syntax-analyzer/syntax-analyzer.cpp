@@ -3,6 +3,8 @@
 //
 
 #include "syntax-analyzer.h"
+
+#include <utility>
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ast-literal-node-value-assignor/ast-literal-node-value-assignor.h"
 
@@ -32,7 +34,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         auto recognizerResult = this->recognizeHandle();
         if (recognizerResult->reduce()) {
             this->updateModeIfNecessary(recognizerResult->getTargetAstNodeType());
-            this->reduceHandle(recognizerResult, fileScope);
+            this->reduceHandle(recognizerResult, &fileScope);
         } else if (recognizerResult->pop()) {
             this->popFromStack();
         } else if (recognizerResult->shift()){
@@ -69,7 +71,7 @@ void SyntaxAnalyzer::shift() {
     }
 }
 
-void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vector<ASTNode*> fileScope) {
+void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vector<ASTNode*>* fileScope) {
     Logger::log("reduce");
     Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
@@ -86,10 +88,11 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vecto
         }
         _recognizeStack.top()->push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
     } else if (ASTNodeUtils::isStatementNode(reducedNode)) {
-        Logger::log("pushing node to latest scope node:", reducedNode->toString());
         if (_scopeStack.empty()) {
-            fileScope.push_back(reducedNode);
+            Logger::log("pushing node to file scope:", reducedNode->toString());
+            fileScope->push_back(reducedNode);
         } else {
+            Logger::log("pushing node to latest scope node:", reducedNode->toString());
             _scopeStack.top().add(reducedNode);
         }
     } else {
@@ -159,8 +162,7 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
 }
 
 ASTFileNode* SyntaxAnalyzer::buildFileNode(std::vector<ASTNode*> fileScope) {
-    auto fileNode = new ASTFileNode(fileScope);
-    _scopeStack.pop();
+    auto fileNode = new ASTFileNode(std::move(fileScope));
     return fileNode;
 }
 

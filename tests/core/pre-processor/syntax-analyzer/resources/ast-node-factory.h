@@ -103,6 +103,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-new-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-block-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -129,6 +130,7 @@ namespace ASTNodeFactory {
     static ASTImportModuleListStartNode* importModuleListStart = new ASTImportModuleListStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
     static ASTImportModuleListEndNode* importModuleListEnd = new ASTImportModuleListEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
     static ASTPeriodNode* period = new ASTPeriodNode(createLexeme(SymbolFactory::createPeriodSymbol()));
+    static ASTLambdaExpressionFatArrowNode* lambdaFatArrow = new ASTLambdaExpressionFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
     static ASTLambdaTypeFatArrowNode* lambdaTypeFatArrow = new ASTLambdaTypeFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
     static ASTArrayTypeKeywordNode* arrayTypeKeyword = new ASTArrayTypeKeywordNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
     static ASTModuleAccessNode* moduleAccess = new ASTModuleAccessNode(createLexeme(SymbolFactory::createColonColonSymbol()));
@@ -536,6 +538,13 @@ namespace ASTNodeFactory {
                 name,
                 ASTNodeFactory::colon,
                 type
+        );
+    }
+    static ASTFunctionParameterListNode* createFunctionParameterList(std::vector<ASTFunctionParameterNode*> parameters = {}) {
+        return new ASTFunctionParameterListNode(
+                ASTNodeFactory::functionParameterListStart,
+                parameters,
+                ASTNodeFactory::functionParameterListEnd
         );
     }
     static ASTFunctionBlockNode* createFunctionBlock(std::vector<ASTNode*> contents) {

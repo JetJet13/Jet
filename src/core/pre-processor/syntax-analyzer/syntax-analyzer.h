@@ -48,7 +48,7 @@ private:
     std::stack<std::stack<ASTNode*>*> _recognizeStack;
     RecognizerResult* recognizeHandle();
     void shift();
-    void reduceHandle(RecognizerResult* recognizerResult, std::vector<ASTNode*> fileScope);
+    void reduceHandle(RecognizerResult* recognizerResult, std::vector<ASTNode*>* fileScope);
     void popFromStack();
     void accept();
     void error();
