@@ -7,8 +7,8 @@
 #include "../../../../src/core/symbol/symbol-factory.h"
 #include "../../../../src/shared/utils/logger/logger.h"
 
-std::string foo = foo;
-std::string bar = bar;
+std::string foo = "foo";
+std::string bar = "bar";
 
 std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createVarSymbol())),

@@ -6,7 +6,8 @@
 #define JETLANG_SOURCE_CODE_BUILDER_H
 
 #include <string>
-#include "../../ast-nodes/ast-node.h"
+
+class ASTNode;
 
 class SourceCodeBuilder {
 private:

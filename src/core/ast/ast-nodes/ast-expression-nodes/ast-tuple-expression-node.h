@@ -10,12 +10,14 @@
 #include "ast-expression-node.h"
 #include "../ast-struct-nodes/ast-struct-key-value-node.h"
 #include "../ast-tuple-nodes/ast-tuple-list-node.h"
+#include "../ast-tuple-nodes/ast-tuple-node.h"
 
 class ASTTupleExpressionNode : public ASTExpressionNode {
 private:
+    ASTTupleNode* _tupleKeyword;
     ASTTupleListNode* _tupleList;
 public:
-    ASTTupleExpressionNode(ASTTupleListNode* tupleList);
+    ASTTupleExpressionNode(ASTTupleNode* tupleKeyword, ASTTupleListNode* tupleList);
     ASTTupleListNode* getTupleList();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

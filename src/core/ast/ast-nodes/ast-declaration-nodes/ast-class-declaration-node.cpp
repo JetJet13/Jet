@@ -31,6 +31,14 @@ ClassTypeSignature* ASTClassDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
+Position* ASTClassDeclarationNode::getStartPosition() {
+    return _classKeyword->getStartPosition();
+}
+
+Position* ASTClassDeclarationNode::getEndPosition() {
+    return _block->getEndPosition();
+}
+
 ASTNodeType ASTClassDeclarationNode::getNodeType() {
     return AST_CLASS_DECLARATION_NODE;
 }

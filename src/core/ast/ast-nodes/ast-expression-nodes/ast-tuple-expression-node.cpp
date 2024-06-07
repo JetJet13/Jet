@@ -6,7 +6,9 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListNode* tupleList) {
+
+ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleNode* tupleKeyword, ASTTupleListNode* tupleList) {
+    _tupleKeyword = tupleKeyword;
     _tupleList = tupleList;
     _children.push_back(_tupleList);
 }

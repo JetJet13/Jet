@@ -74,20 +74,20 @@ std::string ASTBinaryOperatorNode::toString() {
     return "BINARY_OPERATOR";
 }
 
-bool ASTSymbolNode::isSameAs(ASTNode *other) {
+bool ASTBinaryOperatorNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTSymbolNode*)other;
-    return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
+    auto otherNode = (ASTBinaryOperatorNode*)other;
+    return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
 }
 
-void ASTSymbolNode::print() {
+void ASTBinaryOperatorNode::print() {
     Logger::log(this->toString(), "-", _lexeme->toString(), "|", "id:", _id);
 }
 
-std::string ASTSymbolNode::toSourceCode() {
-    return this->getLexeme()->getToken()->getSymbol()->toString();
+std::string ASTBinaryOperatorNode::toSourceCode() {
+    return this->getOperator()->getToken()->getSymbol()->toString();
 }
 
 unsigned int ASTBinaryOperatorNode::determinePriority(Lexeme* lexeme) {

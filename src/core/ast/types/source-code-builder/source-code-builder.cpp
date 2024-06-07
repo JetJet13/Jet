@@ -3,6 +3,7 @@
 //
 
 #include "source-code-builder.h"
+#include "../../ast-nodes/ast-node.h"
 #include "../../../../shared/types/basic-character-type.h"
 
 SourceCodeBuilder::SourceCodeBuilder() {

@@ -40,6 +40,8 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -844,59 +846,58 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
             {82, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTArrayExpressionNode({
-                       ASTNodeFactory::intExpression,
-                       ASTNodeFactory::intExpression,
-                       ASTNodeFactory::intExpression
+                    ASTNodeFactory::createArrayExpression(
+                        {
+                            ASTNodeFactory::intExpression,
+                            ASTNodeFactory::intExpression,
+                            ASTNodeFactory::intExpression
                     })
             )},
             {83, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
                     new ASTArrayAccessExpressionNode(
                            ASTNodeFactory::idExpression,
-                           new ASTArrayAccessNode(
-                                ASTNodeFactory::intExpression
-                           )
+                           ASTNodeFactory::createArrayAccess(ASTNodeFactory::intExpression)
                    )
             )},
             {84, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
                     new ASTArrayAccessExpressionNode(
-                            new ASTArrayExpressionNode({
+                            ASTNodeFactory::createArrayExpression({
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::intExpression
                             }),
-                            new ASTArrayAccessNode(
+                            ASTNodeFactory::createArrayAccess(
                                 ASTNodeFactory::intExpression
                             )
                     )
             )},
             {85, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTArrayExpressionNode({
-                           new ASTArrayExpressionNode({ ASTNodeFactory::intExpression }),
-                           new ASTArrayExpressionNode({ ASTNodeFactory::intExpression }),
-                           new ASTArrayExpressionNode({ ASTNodeFactory::intExpression })
+                    ASTNodeFactory::createArrayExpression({
+                           ASTNodeFactory::createArrayExpression({ ASTNodeFactory::intExpression }),
+                           ASTNodeFactory::createArrayExpression({ ASTNodeFactory::intExpression }),
+                           ASTNodeFactory::createArrayExpression({ ASTNodeFactory::intExpression })
                     })
             )},
             {86, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTArrayExpressionNode({
-                           new ASTArrayExpressionNode({
+                    ASTNodeFactory::createArrayExpression({
+                           ASTNodeFactory::createArrayExpression({
                                new ASTBinaryExpressionNode(
                                        ASTNodeFactory::intExpression,
                                        ASTNodeFactory::plus,
                                        ASTNodeFactory::intExpression
                                        )
                            }),
-                           new ASTArrayExpressionNode({
+                           ASTNodeFactory::createArrayExpression({
                                   new ASTBinaryExpressionNode(
                                           ASTNodeFactory::intExpression,
                                           ASTNodeFactory::plus,
                                           ASTNodeFactory::intExpression
                                   )
                           }),
-                           new ASTArrayExpressionNode({
+                           ASTNodeFactory::createArrayExpression({
                                   new ASTBinaryExpressionNode(
                                           ASTNodeFactory::intExpression,
                                           ASTNodeFactory::plus,
@@ -907,7 +908,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
             {87, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTArrayExpressionNode({
+                    ASTNodeFactory::createArrayExpression({
                            ASTNodeFactory::idExpression,
                            ASTNodeFactory::idExpression,
                            ASTNodeFactory::idExpression
@@ -917,23 +918,23 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::constInit,
                     new ASTArrayAccessExpressionNode(
                         new ASTArrayAccessExpressionNode(
-                            new ASTArrayExpressionNode({
-                               new ASTArrayExpressionNode({
+                            ASTNodeFactory::createArrayExpression({
+                               ASTNodeFactory::createArrayExpression({
                                       ASTNodeFactory::intExpression,
                                       ASTNodeFactory::intExpression,
                                       ASTNodeFactory::intExpression
                                }),
-                               new ASTArrayExpressionNode({
+                               ASTNodeFactory::createArrayExpression({
                                       ASTNodeFactory::intExpression,
                                       ASTNodeFactory::intExpression,
                                       ASTNodeFactory::intExpression
                                }),
                             }),
-                            new ASTArrayAccessNode(
+                            ASTNodeFactory::createArrayAccess(
                                     ASTNodeFactory::intExpression
                             )
                         ),
-                        new ASTArrayAccessNode(
+                        ASTNodeFactory::createArrayAccess(
                                 ASTNodeFactory::intExpression
                         )
                     )
@@ -943,67 +944,67 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTArrayAccessExpressionNode(
                     new ASTArrayAccessExpressionNode(
                         new ASTArrayAccessExpressionNode(
-                                new ASTArrayExpressionNode({
-                                   new ASTArrayExpressionNode({
-                                      new ASTArrayExpressionNode({ASTNodeFactory::intExpression}),
-                                      new ASTArrayExpressionNode({ASTNodeFactory::intExpression}),
-                                      new ASTArrayExpressionNode({ASTNodeFactory::intExpression})
+                                ASTNodeFactory::createArrayExpression({
+                                   ASTNodeFactory::createArrayExpression({
+                                      ASTNodeFactory::createArrayExpression({ASTNodeFactory::intExpression}),
+                                      ASTNodeFactory::createArrayExpression({ASTNodeFactory::intExpression}),
+                                      ASTNodeFactory::createArrayExpression({ASTNodeFactory::intExpression})
                                   }),
-                                  new ASTArrayExpressionNode({
-                                      new ASTArrayExpressionNode({ASTNodeFactory::intExpression}),
-                                      new ASTArrayExpressionNode({ASTNodeFactory::intExpression}),
-                                      new ASTArrayExpressionNode({ASTNodeFactory::intExpression})
+                                  ASTNodeFactory::createArrayExpression({
+                                      ASTNodeFactory::createArrayExpression({ASTNodeFactory::intExpression}),
+                                      ASTNodeFactory::createArrayExpression({ASTNodeFactory::intExpression}),
+                                      ASTNodeFactory::createArrayExpression({ASTNodeFactory::intExpression})
                                   }),
                             }),
-                            new ASTArrayAccessNode(
+                            ASTNodeFactory::createArrayAccess(
                                     ASTNodeFactory::intExpression
                             )
                         ),
-                        new ASTArrayAccessNode(
+                        ASTNodeFactory::createArrayAccess(
                                 ASTNodeFactory::intExpression
                         )
                     ),
-                    new ASTArrayAccessNode(
+                    ASTNodeFactory::createArrayAccess(
                             ASTNodeFactory::intExpression
                     )
                 )
             )},
         {90, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTStructExpressionNode({
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                ASTNodeFactory::createStructExpression({
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               ASTNodeFactory::intExpression),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               ASTNodeFactory::floatExpression),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               ASTNodeFactory::trueExpression),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               ASTNodeFactory::charExpression),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               ASTNodeFactory::stringExpression),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               ASTNodeFactory::idExpression),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                              new ASTArrayExpressionNode({
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::createArrayExpression({
                                                      ASTNodeFactory::intExpression,
                                                      ASTNodeFactory::intExpression,
                                                      ASTNodeFactory::intExpression
                                              })),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               new ASTArrayAccessExpressionNode(
                                                       ASTNodeFactory::idExpression,
                                                       ASTNodeFactory::arrayAccessInt
                                               )),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
-                                              new ASTStructExpressionNode({
-                                                  new ASTStructKeyValueNode(
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
+                                              ASTNodeFactory::createStructExpression({
+                                                  ASTNodeFactory::createStructKeyValue(
                                                       ASTNodeFactory::idExpression,
                                                       ASTNodeFactory::intExpression
                                                   ),
-                                                  new ASTStructKeyValueNode(
+                                                  ASTNodeFactory::createStructKeyValue(
                                                           ASTNodeFactory::idExpression,
-                                                          new ASTStructExpressionNode({
-                                                              new ASTStructKeyValueNode(
+                                                          ASTNodeFactory::createStructExpression({
+                                                              ASTNodeFactory::createStructKeyValue(
                                                                       ASTNodeFactory::idExpression,
                                                                       ASTNodeFactory::trueExpression
                                                               )
@@ -1011,19 +1012,19 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                                   ),
                                               })
                     ),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               new ASTBinaryExpressionNode(
                                                       ASTNodeFactory::intExpression,
                                                       ASTNodeFactory::plus,
                                                       ASTNodeFactory::intExpression
                                               )),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               new ASTLogicalExpressionNode(
                                                       ASTNodeFactory::trueExpression,
                                                       ASTNodeFactory::andOperator,
                                                       ASTNodeFactory::falseExpression
                                               )),
-                    new ASTStructKeyValueNode(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
                                               new ASTUnaryExpressionNode(
                                                       ASTNodeFactory::bang,
                                                       ASTNodeFactory::idExpression
@@ -1032,46 +1033,46 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
          },
         {91, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTObjectAccessExpressionNode({
+                ASTNodeFactory::createObjectAccessExpression(
                        ASTNodeFactory::objectAccessSourceId,
-                       ASTNodeFactory::objectAccessTargetId,
-               })
+                       ASTNodeFactory::objectAccessTargetId
+               )
         )},
         {92, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTObjectAccessExpressionNode({
+                ASTNodeFactory::createObjectAccessExpression(
                     new ASTObjectAccessSourceNode(
-                      new ASTObjectAccessExpressionNode({
+                      ASTNodeFactory::createObjectAccessExpression(
                             ASTNodeFactory::objectAccessSourceId,
-                            ASTNodeFactory::objectAccessTargetId,
-                      })),
-                      ASTNodeFactory::objectAccessTargetId,
-                })
+                            ASTNodeFactory::objectAccessTargetId
+                      )),
+                      ASTNodeFactory::objectAccessTargetId
+                )
         )},
         {93, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTObjectAccessExpressionNode({
+                ASTNodeFactory::createObjectAccessExpression(
                   new ASTObjectAccessSourceNode(
-                      new ASTObjectAccessExpressionNode({
+                      ASTNodeFactory::createObjectAccessExpression(
                           new ASTObjectAccessSourceNode(
-                            new ASTObjectAccessExpressionNode({
+                            ASTNodeFactory::createObjectAccessExpression(
                                   ASTNodeFactory::objectAccessSourceId,
-                                  ASTNodeFactory::objectAccessTargetId,
-                            })),
-                            ASTNodeFactory::objectAccessTargetId,
-                      })),
+                                  ASTNodeFactory::objectAccessTargetId
+                            )),
+                            ASTNodeFactory::objectAccessTargetId
+                      )),
                       ASTNodeFactory::objectAccessTargetId
-                })
+                )
         )},
         {94, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTArrayExpressionNode({
-                    new ASTStructExpressionNode({
-                        new ASTStructKeyValueNode(
+                ASTNodeFactory::createArrayExpression({
+                    ASTNodeFactory::createStructExpression({
+                        ASTNodeFactory::createStructKeyValue(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::stringExpression
                         ),
-                        new ASTStructKeyValueNode(
+                        ASTNodeFactory::createStructKeyValue(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::intExpression
                         ),
@@ -1080,7 +1081,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {95, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTObjectAccessExpressionNode(
+                ASTNodeFactory::createObjectAccessExpression(
                         new ASTObjectAccessSourceNode(
                             new ASTArrayAccessExpressionNode({
                                    ASTNodeFactory::idExpression,
@@ -1091,32 +1092,32 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {96, new ASTVariableDeclarationNode(
             ASTNodeFactory::constInit,
-            new ASTStructExpressionNode({
-                new ASTStructKeyValueNode(
+            ASTNodeFactory::createStructExpression({
+                ASTNodeFactory::createStructKeyValue(
                     ASTNodeFactory::idExpression,
-                    new ASTArrayExpressionNode({
-                           new ASTStructExpressionNode({
-                               new ASTStructKeyValueNode(
+                    ASTNodeFactory::createArrayExpression({
+                           ASTNodeFactory::createStructExpression({
+                               ASTNodeFactory::createStructKeyValue(
                                        ASTNodeFactory::idExpression,
                                        ASTNodeFactory::stringExpression
                                ),
-                               new ASTStructKeyValueNode(
+                               ASTNodeFactory::createStructKeyValue(
                                        ASTNodeFactory::idExpression,
                                        ASTNodeFactory::intExpression
                                ),
                            })
                    })
                 ),
-                new ASTStructKeyValueNode(
+                ASTNodeFactory::createStructKeyValue(
                         ASTNodeFactory::idExpression,
-                        new ASTArrayExpressionNode({
-                           new ASTArrayExpressionNode({
-                              new ASTStructExpressionNode({
-                                  new ASTStructKeyValueNode(
+                        ASTNodeFactory::createArrayExpression({
+                           ASTNodeFactory::createArrayExpression({
+                              ASTNodeFactory::createStructExpression({
+                                  ASTNodeFactory::createStructKeyValue(
                                           ASTNodeFactory::idExpression,
                                           ASTNodeFactory::stringExpression
                                   ),
-                                  new ASTStructKeyValueNode(
+                                  ASTNodeFactory::createStructKeyValue(
                                           ASTNodeFactory::idExpression,
                                           ASTNodeFactory::intExpression
                                   ),
@@ -1128,10 +1129,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {97, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                 new ASTObjectAccessExpressionNode(
+                 ASTNodeFactory::createObjectAccessExpression(
                          new ASTObjectAccessSourceNode(
                              new ASTArrayAccessExpressionNode(
-                                new ASTObjectAccessExpressionNode(
+                                ASTNodeFactory::createObjectAccessExpression(
                                     new ASTObjectAccessSourceNode(ASTNodeFactory::idExpression),
                                     ASTNodeFactory::objectAccessTargetId
                                 ),
@@ -1143,11 +1144,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         },
         {98, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTObjectAccessExpressionNode(
+                ASTNodeFactory::createObjectAccessExpression(
                     new ASTObjectAccessSourceNode(
                         new ASTArrayAccessExpressionNode(
                                     new ASTArrayAccessExpressionNode(
-                                            new ASTObjectAccessExpressionNode(
+                                            ASTNodeFactory::createObjectAccessExpression(
                                                 ASTNodeFactory::objectAccessSourceId,
                                                 ASTNodeFactory::objectAccessTargetId
                                         ),
@@ -1159,6 +1160,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
         )},
         {99, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
@@ -1169,7 +1171,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::intType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                     new ASTVariableDeclarationNode(
                             ASTNodeFactory::constInit,
                             new ASTBinaryExpressionNode(
@@ -1185,17 +1187,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {100, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::intType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn, ASTNodeFactory::intExpression)
                  })
         )},
-        {101, new ASTBlockNode({
+        {101, ASTNodeFactory::createBlock({
                    new ASTVariableDeclarationNode(
                            ASTNodeFactory::letInit,
                            ASTNodeFactory::stringExpression
@@ -1204,7 +1207,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                            ASTNodeFactory::varAssignment,
                            ASTNodeFactory::stringExpression
                    ),
-                   new ASTBlockNode({
+                   ASTNodeFactory::createBlock({
                         new ASTVariableDeclarationNode(
                                 ASTNodeFactory::constInit,
                                 ASTNodeFactory::stringExpression
@@ -1216,13 +1219,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                    })
         })},
         {102, new ASTProcedureDeclarationNode(
+                ASTNodeFactory::procedureKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     { ASTNodeFactory::intFunctionParameter },
                     ASTNodeFactory::functionParameterListEnd
                 ),
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTVariableDeclarationNode(
                              ASTNodeFactory::letInit,
                              ASTNodeFactory::intExpression
@@ -1238,12 +1242,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {103, new ASTProcedureDeclarationNode(
+                ASTNodeFactory::procedureKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     ASTNodeFactory::functionParameterListEnd
                 ),
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTVariableDeclarationNode(
                         ASTNodeFactory::letInit,
                         ASTNodeFactory::intExpression
@@ -1251,50 +1256,60 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {104, new ASTProcedureDeclarationNode(
+                ASTNodeFactory::procedureKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     ASTNodeFactory::functionParameterListEnd
                 ),
-                new ASTFunctionBlockNode({})
+                ASTNodeFactory::createFunctionBlock({})
         )},
         {105, new ASTEnumDeclarationNode(
+                ASTNodeFactory::enumKeyword,
                 ASTNodeFactory::enumName,
-                new ASTEnumKeyValueListNode({
+                ASTNodeFactory::createEnumKeyValueList({
                     new ASTEnumKeyValueNode(
                             ASTNodeFactory::enumKey,
+                            ASTNodeFactory::assignment,
                             ASTNodeFactory::stringLiteral
                     ),
                     new ASTEnumKeyValueNode(
                             ASTNodeFactory::enumKey,
+                            ASTNodeFactory::assignment,
                             ASTNodeFactory::stringLiteral
                     ),
                     new ASTEnumKeyValueNode(
                             ASTNodeFactory::enumKey,
+                            ASTNodeFactory::assignment,
                             ASTNodeFactory::stringLiteral
                     )
                 })
         )},
         {106, new ASTEnumDeclarationNode(
+                ASTNodeFactory::enumKeyword,
                 ASTNodeFactory::enumName,
-                new ASTEnumKeyValueListNode({
+                ASTNodeFactory::createEnumKeyValueList({
                         new ASTEnumKeyValueNode(
                                 ASTNodeFactory::enumKey,
+                                ASTNodeFactory::assignment,
                                 ASTNodeFactory::charLiteral
                         ),
                         new ASTEnumKeyValueNode(
                                 ASTNodeFactory::enumKey,
+                                ASTNodeFactory::assignment,
                                 ASTNodeFactory::charLiteral
                         ),
                         new ASTEnumKeyValueNode(
                                 ASTNodeFactory::enumKey,
+                                ASTNodeFactory::assignment,
                                 ASTNodeFactory::charLiteral
                         )
                 })
         )},
         {107, new ASTEnumDeclarationNode(
+                ASTNodeFactory::enumKeyword,
                 ASTNodeFactory::enumName,
-                new ASTEnumKeyValueListNode({
+                ASTNodeFactory::createEnumKeyValueList({
                         ASTNodeFactory::enumKeyOnly,
                         ASTNodeFactory::enumKeyOnly,
                         ASTNodeFactory::enumKeyOnly
@@ -1305,7 +1320,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTBinaryExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::equality,
-                        new ASTObjectAccessExpressionNode(
+                        ASTNodeFactory::createObjectAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::objectAccessTargetId
                         )
@@ -1314,16 +1329,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {109, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTLogicalExpressionNode(
-                        new ASTObjectAccessExpressionNode(
+                        ASTNodeFactory::createObjectAccessExpression(
                             new ASTObjectAccessSourceNode(
-                                new ASTObjectAccessExpressionNode(
+                                ASTNodeFactory::createObjectAccessExpression(
                                         ASTNodeFactory::objectAccessSourceId,
                                         ASTNodeFactory::objectAccessTargetId
                                 )),
                                 ASTNodeFactory::objectAccessTargetId
                         ),
                         ASTNodeFactory::andOperator,
-                        new ASTObjectAccessExpressionNode(
+                        ASTNodeFactory::createObjectAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::objectAccessTargetId
                         )
@@ -1332,28 +1347,28 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {110, new ASTExpressionStatementNode(
                 new ASTFunctionInvocationExpressionNode(
                         ASTNodeFactory::functionCall,
-                        new ASTFunctionArgumentListNode()
+                        ASTNodeFactory::createFunctionArgumentList()
                 )
         )},
         {111, new ASTExpressionStatementNode(
                 new ASTLogicalExpressionNode(
                         new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode()
+                                ASTNodeFactory::createFunctionArgumentList()
                         ),
                         ASTNodeFactory::andOperator,
                         new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode()
+                                ASTNodeFactory::createFunctionArgumentList()
                         )
                 )
         )},
         {112, new ASTExpressionStatementNode(
-                new ASTObjectAccessExpressionNode(
+                ASTNodeFactory::createObjectAccessExpression(
                     new ASTObjectAccessSourceNode(
                         new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode()
+                                ASTNodeFactory::createFunctionArgumentList()
                         )),
                         ASTNodeFactory::objectAccessTargetId
                 )
@@ -1363,7 +1378,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::bang,
                         new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode()
+                                ASTNodeFactory::createFunctionArgumentList()
                         )
                 )
         )},
@@ -1371,7 +1386,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTArrayAccessExpressionNode(
                         new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode()
+                                ASTNodeFactory::createFunctionArgumentList()
                         ),
                         ASTNodeFactory::arrayAccessInt
                 )
@@ -1379,11 +1394,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {115, new ASTExpressionStatementNode(
                 new ASTFunctionInvocationExpressionNode(
                         ASTNodeFactory::functionCall,
-                        new ASTFunctionArgumentListNode({
+                        ASTNodeFactory::createFunctionArgumentList({
                             new ASTFunctionArgumentNode(
                                 new ASTFunctionInvocationExpressionNode(
                                         ASTNodeFactory::functionCall,
-                                        new ASTFunctionArgumentListNode()
+                                        ASTNodeFactory::createFunctionArgumentList()
                                 )
                             )
                         })
@@ -1392,15 +1407,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {116, new ASTExpressionStatementNode(
                 new ASTFunctionInvocationExpressionNode(
                         ASTNodeFactory::functionCall,
-                        new ASTFunctionArgumentListNode({
+                        ASTNodeFactory::createFunctionArgumentList({
                                 new ASTFunctionArgumentNode(
                                         new ASTFunctionInvocationExpressionNode(
                                                 ASTNodeFactory::functionCall,
-                                                new ASTFunctionArgumentListNode({
+                                                ASTNodeFactory::createFunctionArgumentList({
                                                         new ASTFunctionArgumentNode(
                                                                 new ASTFunctionInvocationExpressionNode(
                                                                         ASTNodeFactory::functionCall,
-                                                                        new ASTFunctionArgumentListNode()
+                                                                        ASTNodeFactory::createFunctionArgumentList()
                                                                 )
                                                         )
                                                 })
@@ -1412,7 +1427,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {117, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTTupleExpressionNode(
-                        new ASTTupleListNode({
+                        ASTNodeFactory::tupleKeyword,
+                        ASTNodeFactory::createTupleList({
                              new ASTTupleItemNode(ASTNodeFactory::stringExpression),
                              new ASTTupleItemNode(ASTNodeFactory::intExpression),
                              new ASTTupleItemNode(ASTNodeFactory::intExpression)
@@ -1420,19 +1436,19 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {118, new ASTExpressionStatementNode(
-                new ASTTupleAccessExpressionNode(
+                ASTNodeFactory::createTupleAccessExpression(
                         ASTNodeFactory::objectAccessSourceId,
                         ASTNodeFactory::tupleAccess
                 )
         )},
         {119, new ASTExpressionStatementNode(
                 new ASTBinaryExpressionNode(
-                        new ASTTupleAccessExpressionNode(
+                        ASTNodeFactory::createTupleAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::tupleAccess
                         ),
                         ASTNodeFactory::plus,
-                        new ASTTupleAccessExpressionNode(
+                        ASTNodeFactory::createTupleAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::tupleAccess
                         )
@@ -1441,9 +1457,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {120, new ASTExpressionStatementNode(
                 new ASTFunctionInvocationExpressionNode(
                         ASTNodeFactory::functionCall,
-                        new ASTFunctionArgumentListNode({
+                        ASTNodeFactory::createFunctionArgumentList({
                             new ASTFunctionArgumentNode(
-                                new ASTTupleAccessExpressionNode(
+                                ASTNodeFactory::createTupleAccessExpression(
                                     ASTNodeFactory::objectAccessSourceId,
                                     ASTNodeFactory::tupleAccess
                                 )
@@ -1454,7 +1470,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {121, new ASTExpressionStatementNode(
                 new ASTUnaryExpressionNode(
                     ASTNodeFactory::bang,
-                    new ASTTupleAccessExpressionNode(
+                    ASTNodeFactory::createTupleAccessExpression(
                             ASTNodeFactory::objectAccessSourceId,
                             ASTNodeFactory::tupleAccess
                     )
@@ -1463,9 +1479,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {122, new ASTExpressionStatementNode(
                 new ASTUnaryExpressionNode(
                         ASTNodeFactory::bang,
-                        new ASTObjectAccessExpressionNode(
+                        ASTNodeFactory::createObjectAccessExpression(
                                 new ASTObjectAccessSourceNode(
-                                        new ASTObjectAccessExpressionNode(
+                                        ASTNodeFactory::createObjectAccessExpression(
                                                 ASTNodeFactory::objectAccessSourceId,
                                                 ASTNodeFactory::objectAccessTargetId
                                         )),
@@ -1474,9 +1490,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {123, new ASTExpressionStatementNode(
-                    new ASTTupleAccessExpressionNode(
+                    ASTNodeFactory::createTupleAccessExpression(
                             new ASTObjectAccessSourceNode(
-                                new ASTObjectAccessExpressionNode(
+                                ASTNodeFactory::createObjectAccessExpression(
                                         ASTNodeFactory::objectAccessSourceId,
                                         ASTNodeFactory::objectAccessTargetId
                                 )),
@@ -1484,11 +1500,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
         )},
         {124, new ASTExpressionStatementNode(
-                new ASTObjectAccessExpressionNode(
+                ASTNodeFactory::createObjectAccessExpression(
                         new ASTObjectAccessSourceNode(
-                                new ASTTupleAccessExpressionNode(
+                                ASTNodeFactory::createTupleAccessExpression(
                                         new ASTObjectAccessSourceNode(
-                                                new ASTObjectAccessExpressionNode(
+                                                ASTNodeFactory::createObjectAccessExpression(
                                                         ASTNodeFactory::objectAccessSourceId,
                                                         ASTNodeFactory::objectAccessTargetId
                                                 )),
@@ -1498,13 +1514,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {125, new ASTExpressionStatementNode(
-                new ASTTupleAccessExpressionNode(
+                ASTNodeFactory::createTupleAccessExpression(
                     new ASTObjectAccessSourceNode(
-                        new ASTObjectAccessExpressionNode(
+                        ASTNodeFactory::createObjectAccessExpression(
                             new ASTObjectAccessSourceNode(
-                                new ASTTupleAccessExpressionNode(
+                                ASTNodeFactory::createTupleAccessExpression(
                                         new ASTObjectAccessSourceNode(
-                                                new ASTObjectAccessExpressionNode(
+                                                ASTNodeFactory::createObjectAccessExpression(
                                                         ASTNodeFactory::objectAccessSourceId,
                                                         ASTNodeFactory::objectAccessTargetId
                                                 )),
@@ -1516,11 +1532,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {126, new ASTExpressionStatementNode(
-                new ASTTupleAccessExpressionNode(
+                ASTNodeFactory::createTupleAccessExpression(
                         new ASTObjectAccessSourceNode(
-                                new ASTTupleAccessExpressionNode(
+                                ASTNodeFactory::createTupleAccessExpression(
                                         new ASTObjectAccessSourceNode(
-                                                new ASTTupleAccessExpressionNode(
+                                                ASTNodeFactory::createTupleAccessExpression(
                                                         ASTNodeFactory::objectAccessSourceId,
                                                         ASTNodeFactory::tupleAccess
                                         )),
@@ -1530,15 +1546,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {127, new ASTExpressionStatementNode(
-                new ASTTupleAccessExpressionNode(
+                ASTNodeFactory::createTupleAccessExpression(
                     new ASTObjectAccessSourceNode(
                         new ASTArrayAccessExpressionNode(
-                            new ASTObjectAccessExpressionNode(
+                            ASTNodeFactory::createObjectAccessExpression(
                                 new ASTObjectAccessSourceNode(
-                                    new ASTTupleAccessExpressionNode(
+                                    ASTNodeFactory::createTupleAccessExpression(
                                         new ASTObjectAccessSourceNode(
                                             new ASTArrayAccessExpressionNode(
-                                                new ASTObjectAccessExpressionNode(
+                                                ASTNodeFactory::createObjectAccessExpression(
                                                     ASTNodeFactory::objectAccessSourceId,
                                                     ASTNodeFactory::objectAccessTargetId
                                                 ),
@@ -1557,17 +1573,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {128, new ASTExpressionStatementNode(
-                new ASTTupleAccessExpressionNode(
+                ASTNodeFactory::createTupleAccessExpression(
                     new ASTObjectAccessSourceNode(
-                        new ASTTupleAccessExpressionNode(
+                        ASTNodeFactory::createTupleAccessExpression(
                             new ASTObjectAccessSourceNode(
-                                new ASTObjectAccessExpressionNode(
+                                ASTNodeFactory::createObjectAccessExpression(
                                     new ASTObjectAccessSourceNode(
-                                        new ASTObjectAccessExpressionNode(
+                                        ASTNodeFactory::createObjectAccessExpression(
                                             new ASTObjectAccessSourceNode(
                                                 new ASTFunctionInvocationExpressionNode(
                                                     ASTNodeFactory::functionCall,
-                                                    new ASTFunctionArgumentListNode()
+                                                    ASTNodeFactory::createFunctionArgumentList()
                                                 )
                                             ),
                                             ASTNodeFactory::objectAccessTargetId
@@ -1585,17 +1601,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {129, new ASTExpressionStatementNode(
                 new ASTUnaryExpressionNode(
                     ASTNodeFactory::bang,
-                    new ASTTupleAccessExpressionNode(
+                    ASTNodeFactory::createTupleAccessExpression(
                         new ASTObjectAccessSourceNode(
-                            new ASTTupleAccessExpressionNode(
+                            ASTNodeFactory::createTupleAccessExpression(
                                 new ASTObjectAccessSourceNode(
-                                    new ASTObjectAccessExpressionNode(
+                                    ASTNodeFactory::createObjectAccessExpression(
                                         new ASTObjectAccessSourceNode(
-                                            new ASTObjectAccessExpressionNode(
+                                            ASTNodeFactory::createObjectAccessExpression(
                                                 new ASTObjectAccessSourceNode(
                                                     new ASTFunctionInvocationExpressionNode(
                                                         ASTNodeFactory::functionCall,
-                                                        new ASTFunctionArgumentListNode()
+                                                        ASTNodeFactory::createFunctionArgumentList()
                                                     )
                                                 ),
                                                 ASTNodeFactory::objectAccessTargetId
@@ -1613,8 +1629,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {130, new ASTIfStatementNode(
                 new ASTIfBlockNode(
+                    ASTNodeFactory::ifKeyword,
                     new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTVariableDeclarationNode(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
@@ -1623,6 +1640,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 {
                     new ASTElseIfBlockNode(
+                            ASTNodeFactory::elseIfKeyword,
                             new ASTControlFlowConditionNode(
                                 new ASTBinaryExpressionNode(
                                     ASTNodeFactory::intExpression,
@@ -1630,7 +1648,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     ASTNodeFactory::intExpression
                                 )
                             ),
-                            new ASTControlFlowBlockNode({
+                            ASTNodeFactory::createControlFlowBlock({
                                 new ASTVariableDeclarationNode(
                                     ASTNodeFactory::letInit,
                                     ASTNodeFactory::intExpression
@@ -1643,7 +1661,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                 },
                 new ASTElseBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::elseKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTVariableDeclarationNode(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
@@ -1661,8 +1680,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {131, new ASTIfStatementNode(
                 new ASTIfBlockNode(
+                        ASTNodeFactory::ifKeyword,
                         new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
-                        new ASTControlFlowBlockNode({
+                        ASTNodeFactory::createControlFlowBlock({
                             new ASTVariableDeclarationNode(
                                     ASTNodeFactory::letInit,
                                     ASTNodeFactory::intExpression
@@ -1673,8 +1693,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {132, new ASTIfStatementNode(
                 new ASTIfBlockNode(
+                        ASTNodeFactory::ifKeyword,
                         new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
-                        new ASTControlFlowBlockNode({
+                        ASTNodeFactory::createControlFlowBlock({
                             new ASTVariableDeclarationNode(
                                 ASTNodeFactory::letInit,
                                 ASTNodeFactory::intExpression
@@ -1683,22 +1704,24 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 {},
                 new ASTElseBlockNode(
-                        new ASTControlFlowBlockNode({
-                            new ASTVariableDeclarationNode(
-                                    ASTNodeFactory::letInit,
-                                    ASTNodeFactory::intExpression
-                            ),
-                            new ASTVariableAssignmentStatementNode(
-                                    ASTNodeFactory::varAssignment,
-                                    ASTNodeFactory::intExpression
-                            )
-                        })
+                    ASTNodeFactory::elseKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
+                        new ASTVariableDeclarationNode(
+                                ASTNodeFactory::letInit,
+                                ASTNodeFactory::intExpression
+                        ),
+                        new ASTVariableAssignmentStatementNode(
+                                ASTNodeFactory::varAssignment,
+                                ASTNodeFactory::intExpression
+                        )
+                    })
                 )
         )},
         {133, new ASTIfStatementNode(
                 new ASTIfBlockNode(
+                    ASTNodeFactory::ifKeyword,
                     new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTVariableDeclarationNode(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
@@ -1707,6 +1730,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 {
                     new ASTElseIfBlockNode(
+                        ASTNodeFactory::elseIfKeyword,
                         new ASTControlFlowConditionNode(
                             new ASTBinaryExpressionNode(
                                 ASTNodeFactory::intExpression,
@@ -1714,7 +1738,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ASTNodeFactory::intExpression
                             )
                         ),
-                        new ASTControlFlowBlockNode({
+                        ASTNodeFactory::createControlFlowBlock({
                             new ASTVariableDeclarationNode(
                                 ASTNodeFactory::letInit,
                                 ASTNodeFactory::intExpression
@@ -1722,6 +1746,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                     ),
                     new ASTElseIfBlockNode(
+                            ASTNodeFactory::elseIfKeyword,
                             new ASTControlFlowConditionNode(
                                 new ASTBinaryExpressionNode(
                                     ASTNodeFactory::intExpression,
@@ -1729,7 +1754,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     ASTNodeFactory::intExpression
                                 )
                             ),
-                            new ASTControlFlowBlockNode({
+                            ASTNodeFactory::createControlFlowBlock({
                                 new ASTVariableDeclarationNode(
                                     ASTNodeFactory::letInit,
                                     ASTNodeFactory::intExpression
@@ -1738,7 +1763,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                 },
                 new ASTElseBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::elseKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTVariableDeclarationNode(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
@@ -1748,34 +1774,35 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {134, new ASTIfStatementNode(
                 new ASTIfBlockNode(
+                        ASTNodeFactory::ifKeyword,
                         new ASTControlFlowConditionNode(
                             new ASTBinaryExpressionNode(
                                     new ASTBinaryExpressionNode(
-                                        new ASTObjectAccessExpressionNode({
+                                        ASTNodeFactory::createObjectAccessExpression(
                                               new ASTObjectAccessSourceNode(
-                                                      new ASTObjectAccessExpressionNode({
+                                                      ASTNodeFactory::createObjectAccessExpression(
                                                             ASTNodeFactory::objectAccessSourceId,
-                                                            ASTNodeFactory::objectAccessTargetId,
-                                              })),
-                                              ASTNodeFactory::objectAccessTargetId,
-                                        }),
+                                                            ASTNodeFactory::objectAccessTargetId
+                                              )),
+                                              ASTNodeFactory::objectAccessTargetId
+                                        ),
                                         ASTNodeFactory::plus,
                                         new ASTBinaryExpressionNode(
-                                            new ASTTupleAccessExpressionNode(
+                                            ASTNodeFactory::createTupleAccessExpression(
                                                 ASTNodeFactory::objectAccessSourceId,
                                                 ASTNodeFactory::tupleAccess
                                             ),
                                             ASTNodeFactory::minus,
                                             new ASTFunctionInvocationExpressionNode(
                                                     ASTNodeFactory::functionCall,
-                                                    new ASTFunctionArgumentListNode()
+                                                    ASTNodeFactory::createFunctionArgumentList()
                                             )
                                         )),
                                     ASTNodeFactory::greaterThan,
                                     ASTNodeFactory::intExpression
                                     )
                         ),
-                        new ASTControlFlowBlockNode({
+                        ASTNodeFactory::createControlFlowBlock({
                                 new ASTVariableDeclarationNode(
                                         ASTNodeFactory::letInit,
                                         ASTNodeFactory::intExpression
@@ -1785,6 +1812,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 {}
         )},
         {135, new ASTWhileStatementNode(
+                ASTNodeFactory::whileKeyword,
                 new ASTControlFlowConditionNode(
                         new ASTBinaryExpressionNode(
                                 ASTNodeFactory::idExpression,
@@ -1792,7 +1820,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ASTNodeFactory::intExpression
                         )
                 ),
-                new ASTControlFlowBlockNode({
+                ASTNodeFactory::createControlFlowBlock({
                     new ASTVariableDeclarationNode(
                         ASTNodeFactory::letInit,
                         ASTNodeFactory::intExpression
@@ -1800,9 +1828,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {136, new ASTForStatementNode(
+                ASTNodeFactory::forKeyword,
                 ASTNodeFactory::forVariable,
+                ASTNodeFactory::forInKeyword,
                 ASTNodeFactory::forSourceId,
-                new ASTControlFlowBlockNode({
+                ASTNodeFactory::createControlFlowBlock({
                     new ASTVariableDeclarationNode(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
@@ -1810,21 +1840,23 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {137, new ASTForStatementNode(
+                ASTNodeFactory::forKeyword,
                 ASTNodeFactory::forVariable,
+                ASTNodeFactory::forInKeyword,
                 new ASTForSourceNode(
                     new ASTFunctionInvocationExpressionNode(
                         ASTNodeFactory::functionCall,
-                        new ASTFunctionArgumentListNode({
+                        ASTNodeFactory::createFunctionArgumentList({
                             new ASTFunctionArgumentNode(ASTNodeFactory::intExpression),
                             new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
                         })
                     )
                 ),
-                new ASTControlFlowBlockNode({
+                ASTNodeFactory::createControlFlowBlock({
                     new ASTExpressionStatementNode(
                         new ASTFunctionInvocationExpressionNode(
                             ASTNodeFactory::functionCall,
-                            new ASTFunctionArgumentListNode({
+                            ASTNodeFactory::createFunctionArgumentList({
                                 new ASTFunctionArgumentNode(ASTNodeFactory::idExpression),
                             })
                         )
@@ -1835,12 +1867,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {138, new ASTIfStatementNode(
                 new ASTIfBlockNode(
+                    ASTNodeFactory::ifKeyword,
                     new ASTControlFlowConditionNode(ASTNodeFactory::idExpression),
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTIfStatementNode(
                             new ASTIfBlockNode(
+                                ASTNodeFactory::ifKeyword,
                                 new ASTControlFlowConditionNode(ASTNodeFactory::idExpression),
-                                new ASTControlFlowBlockNode({
+                                ASTNodeFactory::createControlFlowBlock({
                                     ASTNodeFactory::breakStatement
                                 })
                             )
@@ -1848,18 +1882,19 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode()
+                                ASTNodeFactory::createFunctionArgumentList()
                             )
                         )
                     })
                 ),
                 {},
                 new ASTElseBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::elseKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode()
+                                ASTNodeFactory::createFunctionArgumentList()
                             )
                         )
                     })
@@ -1867,11 +1902,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {139, new ASTTryStatementNode(
                 new ASTTryBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::tryKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1879,11 +1915,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 ),
                 new ASTCatchBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::catchKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                                 })
                             )
@@ -1894,11 +1931,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {140, new ASTTryStatementNode(
                 new ASTTryBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::tryKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1906,11 +1944,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 ),
                 new ASTCatchBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::catchKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1920,11 +1959,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {141, new ASTTryStatementNode(
                 new ASTTryBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::tryKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1932,11 +1972,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 ),
                 new ASTCatchBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::catchKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                                 })
                             )
@@ -1945,11 +1986,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::catchErrorVariable
                 ),
                 new ASTFinallyBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::finallyKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1959,11 +2001,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {142, new ASTTryStatementNode(
                 new ASTTryBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::tryKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1971,11 +2014,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 ),
                 new ASTCatchBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::catchKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1983,11 +2027,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 ),
                 new ASTFinallyBlockNode(
-                    new ASTControlFlowBlockNode({
+                    ASTNodeFactory::finallyKeyword,
+                    ASTNodeFactory::createControlFlowBlock({
                         new ASTExpressionStatementNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
                                 })
                             )
@@ -1996,13 +2041,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {143, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::idType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn, ASTNodeFactory::stringExpression)
                 })
         )},
@@ -2012,12 +2058,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTFunctionParameterListNode(
                             ASTNodeFactory::functionParameterListStart,
                             {
-                                new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::idType),
-                                new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::idType)
+                                ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::idType),
+                                ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::idType)
                             },
                             ASTNodeFactory::functionParameterListEnd
                         ),
-                        new ASTFunctionBlockNode({
+                        ASTNodeFactory::createFunctionBlock({
                             new ASTFunctionReturnExpressionNode(
                                 ASTNodeFactory::functionReturn,
                                 new ASTBinaryExpressionNode(
@@ -2035,12 +2081,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTFunctionParameterListNode(
                         ASTNodeFactory::functionParameterListStart,
                         {
-                         new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
-                         new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
+                         ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                         ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
                         },
                         ASTNodeFactory::functionParameterListEnd
                     ),
-                    new ASTFunctionBlockNode({
+                    ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
                          new ASTBinaryExpressionNode(
@@ -2059,11 +2105,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTFunctionParameterListNode(
                         ASTNodeFactory::functionParameterListStart,
                         {
-                            new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         },
                         ASTNodeFactory::functionParameterListEnd
                     ),
-                    new ASTFunctionBlockNode({
+                    ASTNodeFactory::createFunctionBlock({
                          new ASTFunctionReturnExpressionNode(
                              ASTNodeFactory::functionReturn,
                              new ASTBinaryExpressionNode(
@@ -2082,11 +2128,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTFunctionParameterListNode(
                         ASTNodeFactory::functionParameterListStart,
                         {
-                            new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         },
                         ASTNodeFactory::functionParameterListEnd
                     ),
-                    new ASTFunctionBlockNode({
+                    ASTNodeFactory::createFunctionBlock({
                          new ASTFunctionReturnExpressionNode(
                              ASTNodeFactory::functionReturnFatArrow,
                              new ASTBinaryExpressionNode(
@@ -2104,33 +2150,33 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTFunctionParameterListNode(
                         ASTNodeFactory::functionParameterListStart,
                         {
-                            new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         },
                         ASTNodeFactory::functionParameterListEnd
                     ),
-                    new ASTFunctionBlockNode({
+                    ASTNodeFactory::createFunctionBlock({
                         new ASTFunctionReturnExpressionNode(
                             ASTNodeFactory::functionReturnFatArrow,
                             new ASTLambdaExpressionNode(
                                 new ASTFunctionParameterListNode(
                                     ASTNodeFactory::functionParameterListStart,
                                     {
-                                        new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                                        ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                                     },
                                     ASTNodeFactory::functionParameterListEnd
                                 ),
-                                new ASTFunctionBlockNode({
+                                ASTNodeFactory::createFunctionBlock({
                                     new ASTFunctionReturnExpressionNode(
                                         ASTNodeFactory::functionReturnFatArrow,
                                         new ASTLambdaExpressionNode(
                                             new ASTFunctionParameterListNode(
                                                 ASTNodeFactory::functionParameterListStart,
                                                 {
-                                                     new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                                                     ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                                                 },
                                                 ASTNodeFactory::functionParameterListEnd
                                             ),
-                                            new ASTFunctionBlockNode({
+                                            ASTNodeFactory::createFunctionBlock({
                                                 new ASTFunctionReturnExpressionNode(
                                                     ASTNodeFactory::functionReturnFatArrow,
                                                     new ASTBinaryExpressionNode(
@@ -2157,11 +2203,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTFunctionParameterListNode(
                         ASTNodeFactory::functionParameterListStart,
                         {
-                            new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         },
                         ASTNodeFactory::functionParameterListEnd
                     ),
-                    new ASTFunctionBlockNode({
+                    ASTNodeFactory::createFunctionBlock({
                         new ASTFunctionReturnExpressionNode(
                             ASTNodeFactory::functionReturnFatArrow,
                             new ASTBinaryExpressionNode(
@@ -2174,28 +2220,25 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {150, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                        new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
-                        new ASTFunctionParameterNode(
+                        ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
+                        ASTNodeFactory::createFunctionParameter(
                             ASTNodeFactory::idExpression,
-                            ASTTypeNodeFactory::createLambdaTypeNode(
-                            new ASTLambdaTypeNode(
-                                new ASTFunctionLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
-                                ASTNodeFactory::booleanType
-                        )))
+                            ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType, { ASTNodeFactory::intType }))
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(
                         ASTNodeFactory::functionReturn,
                         new ASTFunctionInvocationExpressionNode(
                             ASTNodeFactory::functionCall,
-                            new ASTFunctionArgumentListNode({
+                            ASTNodeFactory::createFunctionArgumentList({
                                 new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                             })
                         )
@@ -2203,34 +2246,31 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {151, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createLambdaTypeNode(
-                                new ASTLambdaTypeNode(
-                                     new ASTFunctionLambdaTypeParameterListNode({ ASTNodeFactory::intType, ASTNodeFactory::intType }),
-                                     ASTTypeNodeFactory::createLambdaTypeNode(
-                                         new ASTLambdaTypeNode(
-                                             new ASTFunctionLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
-                                             ASTNodeFactory::booleanType
-                                        )
-                                    )
-                                )
+                             ASTNodeFactory::createFunctionType(
+                                 ASTNodeFactory::createFunctionType(
+                                     ASTNodeFactory::booleanType,
+                                     { ASTNodeFactory::intType }
+                                 ),
+                                 { ASTNodeFactory::intType, ASTNodeFactory::intType }
                              )
                          )
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
                          new ASTFunctionInvocationExpressionNode(
                              ASTNodeFactory::functionCall,
-                             new ASTFunctionArgumentListNode({
+                             ASTNodeFactory::createFunctionArgumentList({
                                  new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                              })
                          )
@@ -2238,40 +2278,33 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {152, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createLambdaTypeNode(
-                                 new ASTLambdaTypeNode(
-                                     new ASTFunctionLambdaTypeParameterListNode(),
-                                     ASTTypeNodeFactory::createLambdaTypeNode(
-                                         new ASTLambdaTypeNode(
-                                             new ASTFunctionLambdaTypeParameterListNode({
-                                                ASTTypeNodeFactory::createLambdaTypeNode(
-                                                    new ASTLambdaTypeNode(
-                                                        new ASTFunctionLambdaTypeParameterListNode({ ASTNodeFactory::stringType }),
-                                                        ASTNodeFactory::booleanType
-                                                    ))
-                                             }),
-                                             ASTNodeFactory::booleanType
-                                         )
-                                     )
-                                 )
-                             )
+                             ASTNodeFactory::createFunctionType(
+                                 ASTNodeFactory::booleanType,
+                                 {
+                                 ASTNodeFactory::createFunctionType(
+                                     ASTNodeFactory::booleanType,
+                                     {
+                                        ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType)
+                                     })
+                             })
                          )
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
                          new ASTFunctionInvocationExpressionNode(
                              ASTNodeFactory::functionCall,
-                             new ASTFunctionArgumentListNode({
+                             ASTNodeFactory::createFunctionArgumentList({
                                      new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                              })
                          )
@@ -2279,52 +2312,44 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {153, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                        new ASTFunctionParameterNode(
+                        ASTNodeFactory::createFunctionParameter(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::intType
                         ),
-                        new ASTFunctionParameterNode(
+                        ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createLambdaTypeNode(
-                                 new ASTLambdaTypeNode(
-                                     new ASTFunctionLambdaTypeParameterListNode(),
-                                     ASTNodeFactory::booleanType
-                                 )
-                             )
+                             ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType)
                         )
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
                          new ASTFunctionInvocationExpressionNode(
                              ASTNodeFactory::functionCall,
-                             new ASTFunctionArgumentListNode()
+                             ASTNodeFactory::createFunctionArgumentList()
                          )
                      )
                 })
         )},
         {154, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                ASTTypeNodeFactory::createLambdaTypeNode(
-                        new ASTLambdaTypeNode(
-                                new ASTFunctionLambdaTypeParameterListNode(),
-                                ASTNodeFactory::intType
-                        )
-                ),
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionType(ASTNodeFactory::intType),
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturnFatArrow,
                          new ASTLambdaExpressionNode(
                              new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                             new ASTFunctionBlockNode({
+                             ASTNodeFactory::createFunctionBlock({
                                   new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturnFatArrow,ASTNodeFactory::intExpression)
                              })
                          )
@@ -2332,26 +2357,22 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {155, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                ASTTypeNodeFactory::createLambdaTypeNode(
-                    new ASTLambdaTypeNode(
-                        new ASTFunctionLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
-                        ASTNodeFactory::intType
-                    )
-                ),
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionType(ASTNodeFactory::intType, { ASTNodeFactory::intType }),
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
                          new ASTLambdaExpressionNode(
                              new ASTFunctionParameterListNode(
                                  ASTNodeFactory::functionParameterListStart,
                                  {
-                                    new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
+                                    ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
                                  },
                                  ASTNodeFactory::functionParameterListEnd
                              ),
-                             new ASTFunctionBlockNode({
+                             ASTNodeFactory::createFunctionBlock({
                                 new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::intExpression)
                              })
                          )
@@ -2359,10 +2380,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {156, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
                          new ASTLogicalExpressionNode(
@@ -2374,24 +2396,20 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {157, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                        new ASTFunctionParameterNode(
+                        ASTNodeFactory::createFunctionParameter(
                             ASTNodeFactory::idExpression,
-                            ASTTypeNodeFactory::createLambdaTypeNode(
-                                new ASTLambdaTypeNode(
-                                    new ASTFunctionLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
-                                    ASTNodeFactory::booleanType
-                                )
-                            )
+                            ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType, { ASTNodeFactory::intType })
                         )
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
                          new ASTLogicalExpressionNode(
@@ -2403,48 +2421,41 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {158, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createLambdaTypeNode(
-                                 new ASTLambdaTypeNode(new ASTProcedureLambdaTypeParameterListNode())
-                             )
+                             ASTNodeFactory::createProcedureType()
                          ),
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createLambdaTypeNode(
-                                 new ASTLambdaTypeNode(
-                                     new ASTProcedureLambdaTypeParameterListNode({
-                                         ASTNodeFactory::idType
-                                     })
-                                 )
-                             )
+                             ASTNodeFactory::createProcedureType({ ASTNodeFactory::idType })
                          )
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
         {159, new ASTExpressionStatementNode(
                     new ASTLambdaExpressionNode(
                         new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                        new ASTFunctionBlockNode({
+                        ASTNodeFactory::createFunctionBlock({
                             new ASTFunctionReturnExpressionNode(
                                 ASTNodeFactory::functionReturnFatArrow,
                                 new ASTLambdaExpressionNode(
                                     new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                    new ASTFunctionBlockNode({
+                                    ASTNodeFactory::createFunctionBlock({
                                         new ASTFunctionReturnExpressionNode(
                                             ASTNodeFactory::functionReturnFatArrow,
                                             new ASTLambdaExpressionNode(
                                                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                                new ASTFunctionBlockNode({
+                                                ASTNodeFactory::createFunctionBlock({
                                                     new ASTFunctionReturnExpressionNode(
                                                         ASTNodeFactory::functionReturnFatArrow,
                                                         ASTNodeFactory::intExpression
@@ -2456,33 +2467,25 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 )
                             )
                         }),
-                        ASTTypeNodeFactory::createLambdaTypeNode(
-                                new ASTLambdaTypeNode(
-                                        new ASTFunctionLambdaTypeParameterListNode(),
-                                        ASTTypeNodeFactory::createLambdaTypeNode(
-                                                new ASTLambdaTypeNode(
-                                                        new ASTFunctionLambdaTypeParameterListNode(),
-                                                        ASTNodeFactory::intType
-                                                )
-                                        )
-                                )
+                        ASTNodeFactory::createFunctionType(
+                            ASTNodeFactory::createFunctionType(ASTNodeFactory::intType)
                         )
                     )
         )},
         {160, new ASTExpressionStatementNode(
                 new ASTLambdaExpressionNode(
                         new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                        new ASTFunctionBlockNode({
+                        ASTNodeFactory::createFunctionBlock({
                              new ASTFunctionReturnExpressionNode(
                                  ASTNodeFactory::functionReturnFatArrow,
                                  new ASTLambdaExpressionNode(
                                      new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                     new ASTFunctionBlockNode({
+                                     ASTNodeFactory::createFunctionBlock({
                                           new ASTFunctionReturnExpressionNode(
                                               ASTNodeFactory::functionReturnFatArrow,
                                               new ASTLambdaExpressionNode(
                                                   new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                                  new ASTFunctionBlockNode({
+                                                  ASTNodeFactory::createFunctionBlock({
                                                        new ASTFunctionReturnExpressionNode(
                                                            ASTNodeFactory::functionReturnFatArrow,
                                                            ASTNodeFactory::intExpression
@@ -2494,33 +2497,25 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                  )
                              )
                         }),
-                        ASTTypeNodeFactory::createLambdaTypeNode(
-                            new ASTLambdaTypeNode(
-                                new ASTFunctionLambdaTypeParameterListNode(),
-                                ASTTypeNodeFactory::createLambdaTypeNode(
-                                    new ASTLambdaTypeNode(
-                                        new ASTFunctionLambdaTypeParameterListNode(),
-                                        ASTNodeFactory::intType
-                                    )
-                                )
-                            )
+                        ASTNodeFactory::createFunctionType(
+                            ASTNodeFactory::createFunctionType(ASTNodeFactory::intType)
                         )
                 )
         )},
         {161, new ASTExpressionStatementNode(
                 new ASTLambdaExpressionNode(
                         new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                        new ASTFunctionBlockNode({
+                        ASTNodeFactory::createFunctionBlock({
                              new ASTFunctionReturnExpressionNode(
                                  ASTNodeFactory::functionReturnFatArrow,
                                  new ASTLambdaExpressionNode(
                                      new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                     new ASTFunctionBlockNode({
+                                     ASTNodeFactory::createFunctionBlock({
                                           new ASTFunctionReturnExpressionNode(
                                               ASTNodeFactory::functionReturnFatArrow,
                                               new ASTLambdaExpressionNode(
                                                   new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                                  new ASTFunctionBlockNode({
+                                                  ASTNodeFactory::createFunctionBlock({
                                                        new ASTExpressionStatementNode(
                                                            new ASTBinaryExpressionNode(
                                                                ASTNodeFactory::intExpression,
@@ -2535,15 +2530,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                  )
                              )
                      }),
-                     ASTTypeNodeFactory::createLambdaTypeNode(
-                        new ASTLambdaTypeNode(
-                            new ASTFunctionLambdaTypeParameterListNode(),
-                            ASTTypeNodeFactory::createLambdaTypeNode(
-                                new ASTLambdaTypeNode(
-                                    new ASTProcedureLambdaTypeParameterListNode()
-                                )
-                            )
-                        )
+                     ASTNodeFactory::createFunctionType(
+                        ASTNodeFactory::createProcedureType()
                      )
                 )
         )},
@@ -2551,7 +2539,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::constInit,
                 new ASTLambdaExpressionNode(
                         new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                        new ASTFunctionBlockNode({
+                        ASTNodeFactory::createFunctionBlock({
                              new ASTFunctionReturnExpressionNode(
                                  ASTNodeFactory::functionReturnFatArrow,
                                 ASTNodeFactory::intExpression
@@ -2563,7 +2551,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::constInit,
                 new ASTLambdaExpressionNode(
                     new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                    new ASTFunctionBlockNode({
+                    ASTNodeFactory::createFunctionBlock({
                          new ASTExpressionStatementNode(
                             new ASTBinaryExpressionNode(
                                 ASTNodeFactory::idExpression,
@@ -2578,13 +2566,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::constInit,
                 new ASTLambdaExpressionNode(
                     new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                    new ASTFunctionBlockNode({})
+                    ASTNodeFactory::createFunctionBlock({})
                 )
         )},
         {165, new ASTExpressionStatementNode(
                 new ASTLambdaExpressionNode(
                     new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                    new ASTFunctionBlockNode({
+                    ASTNodeFactory::createFunctionBlock({
                         new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::intExpression)
                     })
                 )
@@ -2593,11 +2581,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTCurryExpressionNode(
                     new ASTFunctionInvocationExpressionNode(
                             ASTNodeFactory::functionCall,
-                            new ASTFunctionArgumentListNode({
+                            ASTNodeFactory::createFunctionArgumentList({
                                 new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                             })
                     ),
-                    new ASTFunctionArgumentListNode({
+                    ASTNodeFactory::createFunctionArgumentList({
                             new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                     })
                 )
@@ -2607,15 +2595,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTCurryExpressionNode(
                         new ASTFunctionInvocationExpressionNode(
                             ASTNodeFactory::functionCall,
-                            new ASTFunctionArgumentListNode({
+                            ASTNodeFactory::createFunctionArgumentList({
                                 new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                             })
                         ),
-                        new ASTFunctionArgumentListNode({
+                        ASTNodeFactory::createFunctionArgumentList({
                             new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                         })
                     ),
-                    new ASTFunctionArgumentListNode({
+                    ASTNodeFactory::createFunctionArgumentList({
                         new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                     })
                 )
@@ -2626,131 +2614,100 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTCurryExpressionNode(
                             new ASTFunctionInvocationExpressionNode(
                                 ASTNodeFactory::functionCall,
-                                new ASTFunctionArgumentListNode({
+                                ASTNodeFactory::createFunctionArgumentList({
                                         new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                                 })
                             ),
-                            new ASTFunctionArgumentListNode({
+                            ASTNodeFactory::createFunctionArgumentList({
                                     new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                             })
                         ),
-                        new ASTFunctionArgumentListNode({
+                        ASTNodeFactory::createFunctionArgumentList({
                             new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                         })
                     ),
-                    new ASTFunctionArgumentListNode({
+                    ASTNodeFactory::createFunctionArgumentList({
                         new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                     })
                 )
         )},
         {169, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createTupleTypeNode(
-                                 new ASTTupleTypeNode(
-                                    new ASTTypeParameterListNode({
-                                        ASTNodeFactory::intType,
-                                        ASTNodeFactory::stringType,
-                                        ASTNodeFactory::booleanType,
-                                        ASTNodeFactory::idType
-                                    })
-                                 )
-                             )
+                             ASTNodeFactory::createTupleType({
+                                 ASTNodeFactory::intType,
+                                 ASTNodeFactory::stringType,
+                                 ASTNodeFactory::booleanType,
+                                 ASTNodeFactory::idType
+                             })
                          ),
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
         {170, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createArrayTypeNode(
-                                 new ASTArrayTypeNode(
-                                      ASTNodeFactory::intType
-                                 )
-                             )
+                             ASTNodeFactory::createArrayType(ASTNodeFactory::intType)
                          ),
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createArrayTypeNode(
-                                 new ASTArrayTypeNode(
-                                    ASTNodeFactory::idType
-                                 )
-                             )
+                             ASTNodeFactory::createArrayType(ASTNodeFactory::idType)
                          ),
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createArrayTypeNode(
-                                 new ASTArrayTypeNode(
-                                          ASTTypeNodeFactory::createArrayTypeNode(
-                                              new ASTArrayTypeNode(
-                                                    ASTNodeFactory::intType
-                                              )
-                                          )
-                                 )
-                             )
+                             ASTNodeFactory::createArrayType(ASTNodeFactory::intType)
                          ),
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                                  ASTNodeFactory::idExpression,
-                                 ASTTypeNodeFactory::createArrayTypeNode(
-                                         new ASTArrayTypeNode(
-                                                      ASTTypeNodeFactory::createArrayTypeNode(
-                                                          new ASTArrayTypeNode(
-                                                                   ASTTypeNodeFactory::createArrayTypeNode(
-                                                                       new ASTArrayTypeNode(
-                                                                                ASTNodeFactory::intType
-                                                                       )
-                                                                   )
-                                                          )
-                                                      )
-                                         )
+                                 ASTNodeFactory::createArrayType(
+                                    ASTNodeFactory::createArrayType(
+                                        ASTNodeFactory::createArrayType(ASTNodeFactory::intType)
+                                    )
                                  )
                          ),
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
         {171, new ASTFunctionDeclarationNode(
+                ASTNodeFactory::functionKeyword,
                 ASTNodeFactory::functionName,
                 new ASTFunctionParameterListNode(
                     ASTNodeFactory::functionParameterListStart,
                     {
-                         new ASTFunctionParameterNode(
+                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTTypeNodeFactory::createArrayTypeNode(
-                                 new ASTArrayTypeNode(
-                                          ASTTypeNodeFactory::createLambdaTypeNode(
-                                              new ASTLambdaTypeNode(
-                                                  new ASTFunctionLambdaTypeParameterListNode({
-                                                      ASTNodeFactory::intType
-                                                  }),
-                                                  ASTNodeFactory::booleanType
-                                              )
-                                          )
-                                 )
+                             ASTNodeFactory::createArrayType(
+                                ASTNodeFactory::createFunctionType(
+                                    ASTNodeFactory::booleanType,
+                                    { ASTNodeFactory::intType }
+                                )
                              )
                          ),
                     },
                     ASTNodeFactory::functionParameterListEnd
                 ),
                 ASTNodeFactory::booleanType,
-                new ASTFunctionBlockNode({
+                ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
@@ -2776,13 +2733,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {177, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(
-                    ASTTypeNodeFactory::createArrayTypeNode(
-                        new ASTArrayTypeNode(
-                                ASTNodeFactory::intType
-                        )
-                    )
+                    ASTNodeFactory::createArrayType(ASTNodeFactory::intType)
                 ),
-                new ASTArrayExpressionNode({
+                ASTNodeFactory::createArrayExpression({
                     ASTNodeFactory::intExpression,
                     ASTNodeFactory::intExpression,
                     ASTNodeFactory::intExpression
@@ -2790,22 +2743,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {178, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(
-                    ASTTypeNodeFactory::createLambdaTypeNode(
-                        new ASTLambdaTypeNode(
-                            new ASTFunctionLambdaTypeParameterListNode({ ASTNodeFactory::intType }),
-                            ASTNodeFactory::booleanType
-                        )
-                    )
+                    ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType, { ASTNodeFactory::intType })
                 ),
                 new ASTLambdaExpressionNode(
                         new ASTFunctionParameterListNode(
                             ASTNodeFactory::functionParameterListStart,
                             {
-                                new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
+                                ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
                             },
                             ASTNodeFactory::functionParameterListEnd
                         ),
-                        new ASTFunctionBlockNode({
+                        ASTNodeFactory::createFunctionBlock({
                             new ASTFunctionReturnExpressionNode(
                                 ASTNodeFactory::functionReturnFatArrow,
                                 ASTNodeFactory::trueExpression
@@ -2815,21 +2763,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {179, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(
-                        ASTTypeNodeFactory::createLambdaTypeNode(
-                                new ASTLambdaTypeNode(
-                                        new ASTProcedureLambdaTypeParameterListNode({ ASTNodeFactory::intType })
-                                )
-                        )
+                    ASTNodeFactory::createProcedureType({ ASTNodeFactory::intType })
                 ),
                 new ASTLambdaExpressionNode(
                         new ASTFunctionParameterListNode(
                             ASTNodeFactory::functionParameterListStart,
                             {
-                                new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
+                                ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
                             },
                             ASTNodeFactory::functionParameterListEnd
                         ),
-                        new ASTFunctionBlockNode({
+                        ASTNodeFactory::createFunctionBlock({
                              new ASTExpressionStatementNode(
                                  new ASTBinaryExpressionNode(
                                      ASTNodeFactory::idExpression,
@@ -2842,17 +2786,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {180, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(
-                    ASTTypeNodeFactory::createTupleTypeNode(
-                        new ASTTupleTypeNode(
-                            new ASTTypeParameterListNode({
-                                     ASTNodeFactory::intType,
-                                     ASTNodeFactory::intType
-                             })
-                        )
-                    )
+                    ASTNodeFactory::createTupleType({
+                        ASTNodeFactory::intType,
+                        ASTNodeFactory::intType
+                    })
                 ),
                 new ASTTupleExpressionNode(
-                    new ASTTupleListNode({
+                    ASTNodeFactory::tupleKeyword,
+                    ASTNodeFactory::createTupleList({
                          new ASTTupleItemNode(ASTNodeFactory::intExpression),
                          new ASTTupleItemNode(ASTNodeFactory::intExpression)
                     })
@@ -2863,97 +2804,106 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::stringExpression
         )},
         {182, new ASTModuleDeclarationNode(
+                ASTNodeFactory::moduleKeyword,
                 ASTNodeFactory::moduleName,
-                new ASTModuleListNode()
+                ASTNodeFactory::createModuleList()
         )},
         {183, new ASTModuleDeclarationNode(
+                ASTNodeFactory::moduleKeyword,
                 ASTNodeFactory::moduleName,
-                new ASTModuleListNode({
-                    ASTNodeFactory::moduleNormalItem,
-                    ASTNodeFactory::moduleAliasItem,
-                    ASTNodeFactory::moduleSpreadItem
+                ASTNodeFactory::createModuleList({
+                     ASTNodeFactory::moduleNormalItem,
+                     ASTNodeFactory::moduleAliasItem,
+                     ASTNodeFactory::moduleSpreadItem
                 })
         )},
         {184, new ASTUseSingleModuleDeclarationNode(
+                ASTNodeFactory::useKeyword,
                 ASTNodeFactory::importModuleName,
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
         {185, new ASTImportSingleModuleDeclarationNode(
+                ASTNodeFactory::importKeyword,
                 ASTNodeFactory::importModuleName,
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
         {186, new ASTUseManyModuleDeclarationNode(
-                ASTNodeFactory::importModuleName,
-                new ASTImportModuleListNode({
+                ASTNodeFactory::useKeyword,
+                ASTNodeFactory::createImportModuleByGroupItem({
                     ASTNodeFactory::importModuleWildcardItem
                 }),
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
         {187, new ASTImportManyModuleDeclarationNode(
-                ASTNodeFactory::importModuleName,
-                new ASTImportModuleListNode({
-                    ASTNodeFactory::importModuleWildcardItem
+                ASTNodeFactory::importKeyword,
+                ASTNodeFactory::createImportModuleByGroupItem({
+                  ASTNodeFactory::importModuleWildcardItem
                 }),
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
-        {186, new ASTUseManyModuleDeclarationNode(
-                ASTNodeFactory::importModuleName,
-                new ASTImportModuleListNode({
-                    ASTNodeFactory::importModuleWildcardItem
-                }),
+        {186, new ASTUseManyByWildcardModuleDeclarationNode(
+                ASTNodeFactory::useKeyword,
+                ASTNodeFactory::createImportModuleByWildcard(),
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
-        {187, new ASTImportManyModuleDeclarationNode(
-                ASTNodeFactory::importModuleName,
-                new ASTImportModuleListNode({
-                    ASTNodeFactory::importModuleWildcardItem
-                }),
+        {187, new ASTImportManyByWildcardModuleDeclarationNode(
+                ASTNodeFactory::importKeyword,
+                ASTNodeFactory::createImportModuleByWildcard(),
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
         {188, new ASTUseManyModuleDeclarationNode(
-                ASTNodeFactory::importModuleName,
-                new ASTImportModuleListNode({
-                    ASTNodeFactory::createImportModuleByGroupItem(
-                        new ASTImportModuleListNode({
-                              ASTNodeFactory::importModuleNormalItem,
-                              ASTNodeFactory::importModuleSpreadItem
-                        })
-                    ),
-                    ASTNodeFactory::importModuleAliasItem,
-                    ASTNodeFactory::importModuleNormalItem,
-                    ASTNodeFactory::importModuleByWildcardItem,
-                    ASTNodeFactory::importModuleSpreadItem,
-                    ASTNodeFactory::importModuleWildcardItem
+                ASTNodeFactory::useKeyword,
+                ASTNodeFactory::createImportModuleByGroupItem({
+                      new ASTImportModuleListItemNode(
+                          ASTNodeFactory::createImportModuleByGroupItem({
+                            ASTNodeFactory::importModuleNormalItem,
+                            ASTNodeFactory::importModuleSpreadItem
+                      })),
+                      ASTNodeFactory::importModuleAliasItem,
+                      ASTNodeFactory::importModuleNormalItem,
+                      ASTNodeFactory::importModuleByWildcardItem,
+                      ASTNodeFactory::importModuleSpreadItem,
+                      ASTNodeFactory::importModuleWildcardItem
                 }),
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
         {189, new ASTImportManyModuleDeclarationNode(
-                ASTNodeFactory::importModuleName,
-                new ASTImportModuleListNode({
-                    ASTNodeFactory::createImportModuleByGroupItem(
-                        new ASTImportModuleListNode({
-                            ASTNodeFactory::importModuleNormalItem,
-                            ASTNodeFactory::importModuleSpreadItem
-                        })
-                    ),
-                    ASTNodeFactory::importModuleAliasItem,
-                    ASTNodeFactory::importModuleNormalItem,
-                    ASTNodeFactory::importModuleByWildcardItem,
-                    ASTNodeFactory::importModuleSpreadItem,
-                    ASTNodeFactory::importModuleWildcardItem
+                ASTNodeFactory::importKeyword,
+                ASTNodeFactory::createImportModuleByGroupItem({
+                      new ASTImportModuleListItemNode(
+                              ASTNodeFactory::createImportModuleByGroupItem({
+                                    ASTNodeFactory::importModuleNormalItem,
+                                    ASTNodeFactory::importModuleSpreadItem
+                      })),
+                      ASTNodeFactory::importModuleAliasItem,
+                      ASTNodeFactory::importModuleNormalItem,
+                      ASTNodeFactory::importModuleByWildcardItem,
+                      ASTNodeFactory::importModuleSpreadItem,
+                      ASTNodeFactory::importModuleWildcardItem
                 }),
+                ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
         {190, new ASTClassDeclarationNode(
+                ASTNodeFactory::classKeyword,
                 ASTNodeFactory::className,
-                new ASTClassBlockNode(
+                ASTNodeFactory::createClassBlock(
                     {
                         new ASTClassPropertyDeclarationNode(
                             new ASTClassPropertyInitNode(
                                 ASTNodeFactory::publicModifier,
                                 ASTNodeFactory::classPropertyName,
-                                false,
-                                false,
+                                {},
+                                {},
+                                {},
+                                ASTNodeFactory::colon,
                                 ASTNodeFactory::intType
                             )
                         ),
@@ -2961,8 +2911,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        false,
-                                        false,
+                                        {},
+                                        {},
+                                        {},
+                                        ASTNodeFactory::colon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
@@ -2971,8 +2923,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        false,
-                                        false
+                                        {},
+                                        {},
+                                        ASTNodeFactory::assignment
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
@@ -2980,8 +2933,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        false,
-                                        true,
+                                        {},
+                                        ASTNodeFactory::constKeyword,
+                                        {},
+                                        ASTNodeFactory::colon,
                                         ASTNodeFactory::intType
                                 )
                         ),
@@ -2989,8 +2944,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        false,
-                                        true,
+                                        {},
+                                        ASTNodeFactory::constKeyword,
+                                        ASTNodeFactory::assignment,
+                                        ASTNodeFactory::colon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
@@ -2999,8 +2956,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        false,
-                                        true
+                                        {},
+                                        ASTNodeFactory::constKeyword,
+                                        ASTNodeFactory::assignment
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
@@ -3008,8 +2966,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        true,
-                                        false,
+                                        ASTNodeFactory::staticKeyword,
+                                        {},
+                                        {},
+                                        ASTNodeFactory::colon,
                                         ASTNodeFactory::intType
                                 )
                         ),
@@ -3017,8 +2977,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        true,
-                                        false,
+                                        ASTNodeFactory::staticKeyword,
+                                        {},
+                                        ASTNodeFactory::assignment,
+                                        ASTNodeFactory::colon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
@@ -3027,8 +2989,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        true,
-                                        false
+                                        ASTNodeFactory::staticKeyword,
+                                        {},
+                                        ASTNodeFactory::assignment
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
@@ -3036,8 +2999,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             new ASTClassPropertyInitNode(
                                 ASTNodeFactory::privateModifier,
                                 ASTNodeFactory::classPropertyName,
-                                true,
-                                true,
+                                ASTNodeFactory::staticKeyword,
+                                ASTNodeFactory::constKeyword,
+                                {},
+                                ASTNodeFactory::colon,
                                 ASTNodeFactory::booleanType
                             )
                         ),
@@ -3045,8 +3010,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::privateModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        true,
-                                        true,
+                                        ASTNodeFactory::staticKeyword,
+                                        ASTNodeFactory::constKeyword,
+                                        ASTNodeFactory::assignment,
+                                        ASTNodeFactory::colon,
                                         ASTNodeFactory::booleanType
                                 ),
                                 ASTNodeFactory::trueExpression
@@ -3055,8 +3022,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassPropertyInitNode(
                                         ASTNodeFactory::privateModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        true,
-                                        true
+                                        ASTNodeFactory::staticKeyword,
+                                        ASTNodeFactory::constKeyword,
+                                        ASTNodeFactory::assignment
                                 ),
                                 ASTNodeFactory::trueExpression
                         )
@@ -3066,21 +3034,22 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             new ASTClassMethodDefinitionNode(
                                 ASTNodeFactory::publicModifier,
                                 ASTNodeFactory::classMethodName,
-                                true
+                                ASTNodeFactory::staticKeyword
                             ),
                             new ASTFunctionParameterListNode(
                                 ASTNodeFactory::functionParameterListStart,
                                 {
-                                    new ASTFunctionParameterNode(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
+                                    ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
                                 },
                                 ASTNodeFactory::functionParameterListEnd
                             ),
-                            new ASTFunctionBlockNode({
+                            ASTNodeFactory::createFunctionBlock({
                                 new ASTFunctionReturnExpressionNode(
                                     ASTNodeFactory::functionReturn,
                                     new ASTNewClassInstanceExpressionNode(
+                                        ASTNodeFactory::newKeyword,
                                         ASTNodeFactory::className,
-                                        new ASTFunctionArgumentListNode({
+                                        ASTNodeFactory::createFunctionArgumentList({
                                             new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
                                         })
                                   )
@@ -3092,15 +3061,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassMethodDefinitionNode(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classMethodName,
-                                        true
+                                        ASTNodeFactory::staticKeyword
                                 ),
                                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                new ASTFunctionBlockNode({
+                                ASTNodeFactory::createFunctionBlock({
                                      new ASTFunctionReturnExpressionNode(
                                          ASTNodeFactory::functionReturn,
                                          new ASTNewClassInstanceExpressionNode(
+                                             ASTNodeFactory::newKeyword,
                                              ASTNodeFactory::className,
-                                             new ASTFunctionArgumentListNode()
+                                             ASTNodeFactory::createFunctionArgumentList()
                                          )
                                      )
                                 }),
@@ -3110,15 +3080,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 new ASTClassMethodDefinitionNode(
                                         ASTNodeFactory::privateModifier,
                                         ASTNodeFactory::classMethodName,
-                                        true
+                                        ASTNodeFactory::staticKeyword
                                 ),
                                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                new ASTFunctionBlockNode({
+                                ASTNodeFactory::createFunctionBlock({
                                     new ASTFunctionReturnExpressionNode(
                                         ASTNodeFactory::functionReturn,
                                         new ASTNewClassInstanceExpressionNode(
+                                            ASTNodeFactory::newKeyword,
                                             ASTNodeFactory::className,
-                                            new ASTFunctionArgumentListNode({
+                                            ASTNodeFactory::createFunctionArgumentList({
                                                 new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
                                             })
                                         )
@@ -3129,11 +3100,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTClassMethodDeclarationNode(
                             new ASTClassMethodDefinitionNode(
                                     ASTNodeFactory::publicModifier,
-                                    ASTNodeFactory::classMethodName,
-                                    false
+                                    ASTNodeFactory::classMethodName
                             ),
                                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                new ASTFunctionBlockNode({
+                                ASTNodeFactory::createFunctionBlock({
                                     new ASTFunctionReturnExpressionNode(
                                         ASTNodeFactory::functionReturn,
                                         ASTNodeFactory::classPropertyAccessExpression
@@ -3144,20 +3114,19 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTClassMethodDeclarationNode(
                             new ASTClassMethodDefinitionNode(
                                     ASTNodeFactory::protectedModifier,
-                                    ASTNodeFactory::classMethodName,
-                                    false
+                                    ASTNodeFactory::classMethodName
                             ),
                             new ASTFunctionParameterListNode(
                                 ASTNodeFactory::functionParameterListStart,
                                 {
-                                    new ASTFunctionParameterNode(
+                                    ASTNodeFactory::createFunctionParameter(
                                         ASTNodeFactory::idExpression,
                                         ASTNodeFactory::booleanType
                                     )
                                 },
                                 ASTNodeFactory::functionParameterListEnd
                             ),
-                            new ASTFunctionBlockNode({
+                            ASTNodeFactory::createFunctionBlock({
                                 new ASTClassPropertyAssignmentStatementNode(
                                     ASTNodeFactory::classPropertyAssignment,
                                     ASTNodeFactory::idExpression
@@ -3172,11 +3141,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTClassMethodDeclarationNode(
                             new ASTClassMethodDefinitionNode(
                                     ASTNodeFactory::privateModifier,
-                                    ASTNodeFactory::classMethodName,
-                                    false
+                                    ASTNodeFactory::classMethodName
                             ),
                             new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                            new ASTFunctionBlockNode({
+                            ASTNodeFactory::createFunctionBlock({
                                 new ASTFunctionReturnExpressionNode(
                                     ASTNodeFactory::functionReturn,
                                     ASTNodeFactory::stringExpression
@@ -3187,11 +3155,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTClassMethodDeclarationNode(
                                 new ASTClassMethodDefinitionNode(
                                         ASTNodeFactory::privateModifier,
-                                        ASTNodeFactory::classMethodName,
-                                        false
+                                        ASTNodeFactory::classMethodName
                                 ),
                                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                new ASTFunctionBlockNode({
+                                ASTNodeFactory::createFunctionBlock({
                                      new ASTClassPropertyAssignmentStatementNode(
                                          ASTNodeFactory::classPropertyAssignment,
                                          ASTNodeFactory::trueExpression
@@ -3203,11 +3170,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTClassConstructorDeclarationNode(
                                 ASTNodeFactory::classConstructor,
                                 new ASTFunctionParameterListNode(ASTNodeFactory::functionParameterListStart, ASTNodeFactory::functionParameterListEnd),
-                                new ASTFunctionBlockNode({
+                                ASTNodeFactory::createFunctionBlock({
                                     new ASTExpressionStatementNode(
                                         new ASTClassMethodInvocationExpressionNode(
+                                            ASTNodeFactory::classAccess,
                                             ASTNodeFactory::classMethodCall,
-                                            new ASTFunctionArgumentListNode({
+                                            ASTNodeFactory::createFunctionArgumentList({
                                                 new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
                                             })
                                         )
@@ -3227,14 +3195,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             new ASTFunctionParameterListNode(
                                 ASTNodeFactory::functionParameterListStart,
                                 {
-                                    new ASTFunctionParameterNode(
+                                    ASTNodeFactory::createFunctionParameter(
                                         ASTNodeFactory::idExpression,
                                         ASTNodeFactory::intType
                                     )
                                 },
                                 ASTNodeFactory::functionParameterListEnd
                             ),
-                            new ASTFunctionBlockNode({
+                            ASTNodeFactory::createFunctionBlock({
                                      new ASTClassPropertyAssignmentStatementNode(
                                          ASTNodeFactory::classPropertyAssignment,
                                          ASTNodeFactory::idExpression
@@ -3245,8 +3213,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                      ),
                                      new ASTExpressionStatementNode(
                                          new ASTClassMethodInvocationExpressionNode(
+                                             ASTNodeFactory::classAccess,
                                              ASTNodeFactory::classMethodCall,
-                                             new ASTFunctionArgumentListNode({
+                                             ASTNodeFactory::createFunctionArgumentList({
                                                 new ASTFunctionArgumentNode(ASTNodeFactory::classPropertyAccessExpression)
                                              })
                                          )

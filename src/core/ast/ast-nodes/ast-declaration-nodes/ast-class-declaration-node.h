@@ -7,11 +7,11 @@
 
 #include <vector>
 #include "../ast-node.h"
+#include "ast-declaration-node.h"
+#include "../ast-class-nodes/ast-class-node.h"
 #include "../ast-class-nodes/ast-class-name-node.h"
-#include "ast-class-property-declaration-node.h"
 #include "../ast-class-nodes/ast-class-block-node.h"
 #include "../../../type-signature/class-type-signature/class-type-signature.h"
-#include "../ast-class-nodes/ast-class-node.h"
 
 class ASTClassDeclarationNode : public ASTDeclarationNode {
 private:

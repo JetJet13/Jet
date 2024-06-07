@@ -12,6 +12,7 @@ ASTNode* TupleExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
 
     return new ASTTupleExpressionNode(
+            (ASTTupleNode*)nodes[0],
             (ASTTupleListNode*)nodes[1]
     );
 }
