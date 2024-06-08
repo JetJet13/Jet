@@ -8,7 +8,6 @@
 #include "../type-signature.h"
 #include "../literal-type-signature/types/literal-type.h"
 #include "../../lexeme/lexeme.h"
-#include "../procedure-type-signature/procedure-type-signature.h"
 #include "class-property-type-signature/class-property-type-signature.h"
 #include "class-method-type-signature/class-method-type-signature.h"
 #include "class-constructor-type-signature/class-constructor-type-signature.h"

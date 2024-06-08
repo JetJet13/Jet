@@ -10,6 +10,7 @@ ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode*
     _new = newKeywordNode;
     _className = className;
     _arguments = arguments;
+    _children.push_back(_new);
     _children.push_back(_className);
     _children.push_back(_arguments);
 }

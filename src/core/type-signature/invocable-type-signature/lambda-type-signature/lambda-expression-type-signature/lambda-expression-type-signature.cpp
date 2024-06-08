@@ -3,23 +3,32 @@
 //
 
 #include "lambda-expression-type-signature.h"
-#include "../../../../shared/utils/logger/logger.h"
+#include "../../../../../shared/utils/logger/logger.h"
+#include "../../../void-type-signature/void-type-signature.h"
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
-    _returnType = {};
+    _returnType = new VoidTypeSignature();
 }
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, std::optional<TypeSignature*> returnType) {
     _parameterList = parameterList;
-    _returnType = returnType;
+    if (returnType) {
+        _returnType = returnType.value();
+    } else {
+        _returnType = new VoidTypeSignature();
+    }
 }
 
-ParameterListTypeSignature* LambdaExpressionTypeSignature::getParameterTypes() {
+ParameterListTypeSignature* LambdaExpressionTypeSignature::getParameterList() {
     return _parameterList;
 }
 
-std::optional<TypeSignature*> LambdaExpressionTypeSignature::getReturnType() {
+std::vector<TypeSignature*>* LambdaExpressionTypeSignature::getParameterTypes() {
+    return _parameterList->getParameterTypes();
+}
+
+TypeSignature* LambdaExpressionTypeSignature::getReturnType() {
     return _returnType;
 }
 
@@ -37,25 +46,13 @@ bool LambdaExpressionTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (LambdaExpressionTypeSignature*)otherType;
-
-    if (!_returnType.has_value() && other->getReturnType().has_value() ||
-        _returnType.has_value() && !other->getReturnType().has_value()) {
-        return false;
-    }
-
-    if (_returnType.has_value() && other->getReturnType().has_value() &&
-        !_returnType.value()->isEqualTo(other->getReturnType().value())) {
-        return false;
-    }
-
-    return this->getParameterTypes()->isEqualTo(other->getParameterTypes());
+    return this->getParameterList()->isEqualTo(other->getParameterList()) &&
+           this->getReturnType()->isEqualTo(other->getReturnType());
 }
 
 void LambdaExpressionTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameterList->print();
-    if (_returnType) {
-        _returnType.value()->print();
-    }
+    _returnType->print();
     Logger::log("----------");
 }

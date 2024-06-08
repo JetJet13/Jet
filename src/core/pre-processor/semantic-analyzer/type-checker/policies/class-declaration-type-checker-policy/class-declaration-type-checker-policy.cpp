@@ -6,6 +6,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 #include "../../types/type-checker-error-message-table.h"
 #include "../../type-checker.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 void ClassDeclarationTypeCheckerPolicy::apply(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(classDeclarationNode, typeCheckerResult);
@@ -24,7 +25,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
         if (classProperty->getInitializer()) {
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
-                classProperty->getTypeSignature(),
+                classProperty->getTypeSignature()->getType(),
                 classProperty->getInitializer().value()->getTypeSignature(),
                 TypeCheckerErrorMessageTable::ClassPropertyInitializerTypeMismatch(classProperty),
                 typeCheckerResult
@@ -53,10 +54,10 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
         TypeChecker::applyPolicyTo(classMethod->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(classMethod->getBlock(), typeCheckerResult);
-        if (classMethod->getTypeSignature()->getReturnType()) {
+        if (!classMethod->getTypeSignature()->getReturnType()->isVoid()) {
             TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
             ->enforce(
-                classMethod->getTypeSignature()->getReturnType().value(),
+                classMethod->getTypeSignature()->getReturnType(),
                 TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(
                     classMethod
                 ),
@@ -71,7 +72,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
             ->enforce(
                 classMethod->getBlock(),
-                classMethod->getTypeSignature()->getReturnType().value(),
+                classMethod->getTypeSignature()->getReturnType(),
                 typeCheckerResult
             );
             TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(

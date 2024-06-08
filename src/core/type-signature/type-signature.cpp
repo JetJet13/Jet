@@ -4,8 +4,12 @@
 
 #include "type-signature.h"
 
-bool TypeSignature::is(TypeSource other) {
+bool TypeSignature::typeTargetIs(TypeSource other) {
     return this->getTypeTarget() == other;
+}
+
+bool TypeSignature::typeSourceIs(TypeSource other) {
+    return this->getTypeSource() == other;
 }
 
 bool TypeSignature::isOneOf(std::vector<TypeSource> typeSources) {
@@ -37,8 +41,20 @@ bool TypeSignature::isLiteral() {
     return false;
 }
 
+bool TypeSignature::isInvocable() {
+    return false;
+}
+
 void TypeSignature::copyFrom(TypeSignature* otherType) {}
 
 TypeSource TypeSignature::getTypeTarget() {
     return this->getTypeSource();
+}
+
+TypeSignature* TypeSignature::getTargetTypeSignature() {
+    return this;
+}
+
+bool TypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    return this->isEqualTo(otherType);
 }

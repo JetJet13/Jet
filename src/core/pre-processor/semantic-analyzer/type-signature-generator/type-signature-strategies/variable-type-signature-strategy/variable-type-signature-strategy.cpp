@@ -4,7 +4,7 @@
 
 #include "variable-type-signature-strategy.h"
 
-void VariableTypeSignatureStrategy::assign(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(variableDeclaration->getInitializerNode(), scope);
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
         strategyMap->assignTypeSignatureFor(variableDeclaration->getVarInitNode()->getTypeNode().value(), scope);

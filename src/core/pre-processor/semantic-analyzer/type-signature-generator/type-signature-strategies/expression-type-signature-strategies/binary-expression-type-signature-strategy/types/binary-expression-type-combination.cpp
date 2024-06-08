@@ -16,10 +16,10 @@ Symbol* BinaryExpressionTypeCombination::getOperator() {
 
 std::optional<TypeSignature*> BinaryExpressionTypeCombination::match(TypeSignature* leftTypeSignature, TypeSignature* rightTypeSignature) {
     for (auto binaryResultType: _binaryResultTypes) {
-        if ((leftTypeSignature->is(binaryResultType.leftType) &&
-             rightTypeSignature->is(binaryResultType.rightType)) ||
-            (leftTypeSignature->is(binaryResultType.rightType) &&
-             rightTypeSignature->is(binaryResultType.leftType))) {
+        if ((leftTypeSignature->typeTargetIs(binaryResultType.leftType) &&
+             rightTypeSignature->typeTargetIs(binaryResultType.rightType)) ||
+            (leftTypeSignature->typeTargetIs(binaryResultType.rightType) &&
+             rightTypeSignature->typeTargetIs(binaryResultType.leftType))) {
             return binaryResultType.resultType;
         }
     }

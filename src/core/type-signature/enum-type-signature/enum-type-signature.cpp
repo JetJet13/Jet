@@ -4,6 +4,7 @@
 
 #include "enum-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "enum-access-type-signature/enum-access-type-signature.h"
 
 EnumTypeSignature::EnumTypeSignature() {
     _type = new LiteralTypeSignature();
@@ -51,6 +52,14 @@ std::string EnumTypeSignature::toString() {
 
 TypeSource EnumTypeSignature::getTypeSource() {
     return ENUM_TYPE_SOURCE;
+}
+
+bool EnumTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    if (otherType->typeSourceIs(ENUM_ACCESS_TYPE_SOURCE)){
+        auto enumAccessTypeSignature = (EnumAccessTypeSignature*)otherType;
+        return this->isEqualTo(enumAccessTypeSignature->getEnum());
+    }
+    return this->isEqualTo(otherType);
 }
 
 bool EnumTypeSignature::isEqualTo(TypeSignature* otherType) {

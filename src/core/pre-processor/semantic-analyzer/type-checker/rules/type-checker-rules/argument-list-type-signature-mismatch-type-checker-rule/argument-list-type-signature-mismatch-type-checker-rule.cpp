@@ -5,9 +5,10 @@
 #include "argument-list-type-signature-mismatch-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void ArgumentListTypeSignatureMismatchTypeCheckerRule::enforce(ParameterListTypeSignature* parameterList, ASTFunctionArgumentListNode* argumentList,  std::string mismatchMessage, TypeCheckerResult* typeCheckerResult) {
-    for (int i = 0; i < parameterList->numParameters(); i++) {
-        if (!parameterList->getParameters()->at(i)->getTypeSignature()->isEqualTo(argumentList->getArguments()->at(i)->getArgument()->getTypeSignature())) {
+void ArgumentListTypeSignatureMismatchTypeCheckerRule::enforce(std::vector<TypeSignature*>* parameterList, ASTFunctionArgumentListNode* argumentList,  std::string mismatchMessage, TypeCheckerResult* typeCheckerResult) {
+    for (int i = 0; i < parameterList->size(); i++) {
+        if (!parameterList->at(i)->isEquivalentTo(
+                argumentList->getArguments()->at(i)->getArgument()->getTypeSignature())) {
             typeCheckerResult->addError(mismatchMessage);
         }
     }

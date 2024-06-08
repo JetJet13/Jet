@@ -11,15 +11,19 @@
 
 class TypeSignature {
 public:
-    bool is(TypeSource other);
+    bool typeTargetIs(TypeSource other);
+    bool typeSourceIs(TypeSource other);
     bool isOneOf(std::vector<TypeSource> typeSources);
     bool isUnknown();
     bool isInvalid();
     bool isVoid();
     bool isUnknownOrInvalidOrVoid();
     virtual bool isLiteral();
+    virtual bool isInvocable();
     virtual void copyFrom(TypeSignature* otherType);
     virtual TypeSource getTypeTarget();
+    virtual TypeSignature* getTargetTypeSignature();
+    virtual bool isEquivalentTo(TypeSignature* otherType);
     virtual std::string toString() = 0;
     virtual TypeSource getTypeSource() = 0;
     virtual bool isEqualTo(TypeSignature* otherType) = 0;

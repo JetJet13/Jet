@@ -10,7 +10,7 @@
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "../../../type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
+#include "../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 
 class ASTLambdaExpressionNode : public ASTExpressionNode {
 private:

@@ -6,21 +6,23 @@
 #define JETLANG_FUNCTION_INVOCATION_TYPE_SIGNATURE_H
 
 #include <string>
-#include "../../type-signature.h"
+#include "../../../type-signature.h"
 #include "../function-type-signature.h"
+#include "../../invocable-type-signature.h"
 
 
 class FunctionInvocationTypeSignature : public TypeSignature {
 private:
-    FunctionTypeSignature* _functionTypeSignature;
+    InvocableTypeSignature* _invocableTypeSignature;
 public:
     FunctionInvocationTypeSignature();
-    FunctionInvocationTypeSignature(FunctionTypeSignature* functionTypeSignature);
-    FunctionTypeSignature* getFunctionType();
+    FunctionInvocationTypeSignature(InvocableTypeSignature* invocableTypeSignature);
+    InvocableTypeSignature* getFunctionType();
     TypeSignature* getReturnType();
     std::string toString() override;
     TypeSource getTypeSource() override;
     TypeSource getTypeTarget() override;
+    TypeSignature* getTargetTypeSignature() override;
     bool isEqualTo(TypeSignature *otherType) override;
     void print() override;
 };

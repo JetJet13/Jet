@@ -22,7 +22,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
         if (lambdaExpression->getReturnType() && lambdaExpression->getTypeSignature()->getReturnType()) {
             TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
             ->enforce(
-                lambdaExpression->getTypeSignature()->getReturnType().value(),
+                lambdaExpression->getTypeSignature()->getReturnType(),
                 TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeUnknown(lambdaExpression),
                 TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeInvalid(lambdaExpression),
                 typeCheckerResult
@@ -30,7 +30,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
             ->enforce(
                 lambdaExpression->getBlock(),
-                lambdaExpression->getTypeSignature()->getReturnType().value(),
+                lambdaExpression->getTypeSignature()->getReturnType(),
                 typeCheckerResult
             );
             TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()

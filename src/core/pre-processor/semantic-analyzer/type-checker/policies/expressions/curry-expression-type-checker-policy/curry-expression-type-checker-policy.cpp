@@ -5,8 +5,8 @@
 #include "curry-expression-type-checker-policy.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../types/type-checker-error-message-table.h"
-#include "../../../../../../type-signature/function-type-signature/function-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.h"
+#include "../../../../../../type-signature/invocable-type-signature/function-type-signature/function-type-signature.h"
 
 namespace CurryExpressionTypeCheckerPolicy {
     void apply(ASTCurryExpressionNode* curryExpression, TypeCheckerResult* typeCheckerResult) {
@@ -19,7 +19,7 @@ namespace CurryExpressionTypeCheckerPolicy {
         );
 
         auto callableTypeSignature = curryExpression->getCallableExpression()->getTypeSignature();
-        if (callableTypeSignature->is(FUNCTION_TYPE_SOURCE)) {
+        if (callableTypeSignature->typeTargetIs(FUNCTION_TYPE_SOURCE)) {
             auto parameterList = ((FunctionTypeSignature*)callableTypeSignature)->getParameterList();
             TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
             ->enforce(
@@ -32,13 +32,13 @@ namespace CurryExpressionTypeCheckerPolicy {
 
             TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
-                parameterList,
+                parameterList->getParameterTypes(),
                 curryExpression->getArguments(),
                 TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression),
                 typeCheckerResult
             );
 
-        } else if (callableTypeSignature->is(CLASS_METHOD_TYPE_SOURCE)) {
+        } else if (callableTypeSignature->typeTargetIs(CLASS_METHOD_TYPE_SOURCE)) {
             auto parameterList = ((ClassMethodTypeSignature*)callableTypeSignature)->getParameters();
             TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
             ->enforce(
@@ -51,7 +51,7 @@ namespace CurryExpressionTypeCheckerPolicy {
 
             TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
-                parameterList,
+                parameterList->getParameterTypes(),
                 curryExpression->getArguments(),
                 TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression),
                 typeCheckerResult

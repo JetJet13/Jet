@@ -3,7 +3,7 @@
 //
 
 #include "function-type-type-signature-strategy.h"
-#include "../../../../../../../type-signature/lambda-type-signature/lambda-type-signature.h"
+#include "../../../../../../../type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
 
 void FunctionTypeTypeSignatureStrategy::assign(ASTFunctionTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
@@ -13,5 +13,5 @@ void FunctionTypeTypeSignatureStrategy::assign(ASTFunctionTypeNode* node, TypeSi
     }
 
     strategyMap->assignTypeSignatureFor(node->getReturnType(), scope);
-    node->setTypeSignature(new LambdaTypeSignature(typeSignatures, node->getReturnType()->getTypeSignature()));
+    node->setTypeSignature(new FunctionLambdaTypeSignature(typeSignatures, node->getReturnType()->getTypeSignature()));
 }

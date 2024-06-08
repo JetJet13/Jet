@@ -19,8 +19,6 @@
 #include "../../../../ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
 #include "../../../../ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
 #include "../../../../type-signature/parameter-list-type-signature/parameter-list-type-signature.h"
-#include "../../../../type-signature/procedure-type-signature/procedure-type-signature.h"
-#include "../../../../type-signature/function-type-signature/function-type-signature.h"
 #include "../../../../type-signature/enum-type-signature/enum-type-signature.h"
 #include "../../../../type-signature/class-type-signature/class-type-signature.h"
 #include "../../../../type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.h"

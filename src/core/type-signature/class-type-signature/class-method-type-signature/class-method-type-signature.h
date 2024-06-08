@@ -10,20 +10,22 @@
 #include "../../../lexeme/lexeme.h"
 #include "../../parameter-list-type-signature/parameter-list-type-signature.h"
 #include "../../access-modifier-type-signature/access-modifier-type-signature.h"
+#include "../../invocable-type-signature/invocable-type-signature.h"
 
-class ClassMethodTypeSignature : public TypeSignature {
+class ClassMethodTypeSignature : public InvocableTypeSignature {
 private:
     AccessModifierTypeSignature* _accessModifier;
     bool _isStatic;
     ParameterListTypeSignature* _parameterList;
-    std::optional<TypeSignature*> _returnType;
+    TypeSignature* _returnType;
 public:
     ClassMethodTypeSignature();
     ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType = {});
     bool isStatic();
     AccessModifierTypeSignature* getAccessModifier();
     ParameterListTypeSignature* getParameters();
-    std::optional<TypeSignature*> getReturnType();
+    std::vector<TypeSignature*>* getParameterTypes() override;
+    TypeSignature* getReturnType() override;
     void setReturnType(TypeSignature* returnType);
     std::string toString() override;
     TypeSource getTypeSource() override;

@@ -33,6 +33,14 @@ TypeSource EnumAccessTypeSignature::getTypeTarget() {
     return INVALID_TYPE_SOURCE;
 }
 
+bool EnumAccessTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    if (otherType->typeSourceIs(ENUM_TYPE_SOURCE)){
+        auto enumTypeSignature = (EnumTypeSignature*)otherType;
+        return this->getEnum()->isEqualTo(enumTypeSignature);
+    }
+    return this->isEqualTo(otherType);
+}
+
 bool EnumAccessTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->getTypeSource() != otherType->getTypeSource() || this->getTypeTarget() != otherType->getTypeTarget()) {
         return false;

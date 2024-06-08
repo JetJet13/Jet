@@ -4,7 +4,8 @@
 
 #include "curry-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
-#include "../../../../../../type-signature/function-type-signature/function-type-signature.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 
 void CurryExpressionTypeSignatureStrategy::assign(ASTCurryExpressionNode* curryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(curryExpression->getCallableExpression(), scope);
@@ -12,19 +13,9 @@ void CurryExpressionTypeSignatureStrategy::assign(ASTCurryExpressionNode* curryE
         strategyMap->assignTypeSignatureFor(argument->getArgument());
     }
 
-    if (curryExpression->getCallableExpression()->getTypeSignature()->is(FUNCTION_TYPE_SOURCE)) {
-        auto functionTypeSignature = (FunctionTypeSignature*)curryExpression->getCallableExpression()->getTypeSignature();
-        curryExpression->setTypeSignature(functionTypeSignature->getReturnType());
-        return;
-    }
-
-    if (curryExpression->getCallableExpression()->getTypeSignature()->is(CLASS_METHOD_TYPE_SOURCE)) {
-        auto classMethod = (FunctionTypeSignature*)curryExpression->getCallableExpression()->getTypeSignature();
-        if (classMethod->getReturnType()->isVoid()) {
-            curryExpression->setTypeSignature(new InvalidTypeSignature());
-            return;
-        }
-        curryExpression->setTypeSignature(classMethod->getReturnType());
+    if (curryExpression->getCallableExpression()->getTypeSignature()->typeSourceIs(FUNCTION_INVOCATION_TYPE_SOURCE)) {
+        auto functionInvocationTypeSignature = (FunctionInvocationTypeSignature*)curryExpression->getCallableExpression()->getTypeSignature();
+        curryExpression->setTypeSignature(functionInvocationTypeSignature->getReturnType()->getTargetTypeSignature());
         return;
     }
 

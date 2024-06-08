@@ -17,10 +17,10 @@ void UnaryExpressionTypeSignatureStrategy::assign(ASTUnaryExpressionNode* node, 
         node->setTypeSignature(new BoolLiteralTypeSignature());
         return;
     } else if (unaryOperatorSymbol->isPlus() || unaryOperatorSymbol->isMinus()) {
-        if (node->getExpressionNode()->getTypeSignature()->is(INT_LITERAL_TYPE_SOURCE)) {
+        if (node->getExpressionNode()->getTypeSignature()->typeTargetIs(INT_LITERAL_TYPE_SOURCE)) {
             node->setTypeSignature(new IntLiteralTypeSignature());
             return;
-        } else if (node->getExpressionNode()->getTypeSignature()->is(FLOAT_LITERAL_TYPE_SOURCE)) {
+        } else if (node->getExpressionNode()->getTypeSignature()->typeTargetIs(FLOAT_LITERAL_TYPE_SOURCE)) {
             node->setTypeSignature(new FloatLiteralTypeSignature());
             return;
         }

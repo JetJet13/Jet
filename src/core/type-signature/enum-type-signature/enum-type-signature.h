@@ -8,7 +8,6 @@
 #include "../type-signature.h"
 #include "../literal-type-signature/types/literal-type.h"
 #include "../../lexeme/lexeme.h"
-#include "../procedure-type-signature/procedure-type-signature.h"
 #include "../types/type-signature-map/type-signature-map.h"
 #include "../literal-type-signature/literal-type-signature.h"
 
@@ -27,6 +26,7 @@ public:
     void addKey(std::string key);
     std::string toString() override;
     TypeSource getTypeSource() override;
+    bool isEquivalentTo(TypeSignature *otherType) override;
     bool isEqualTo(TypeSignature *otherType) override;
     void copyFrom(TypeSignature* otherType) override;
     void print() override;

@@ -6,18 +6,20 @@
 #define JETLANG_LAMBDA_EXPRESSION_TYPE_SIGNATURE_H
 
 #include <optional>
-#include "../../type-signature.h"
-#include "../../parameter-list-type-signature/parameter-list-type-signature.h"
+#include "../../../type-signature.h"
+#include "../../../parameter-list-type-signature/parameter-list-type-signature.h"
+#include "../../invocable-type-signature.h"
 
-class LambdaExpressionTypeSignature : public TypeSignature {
+class LambdaExpressionTypeSignature : public InvocableTypeSignature {
 private:
     ParameterListTypeSignature* _parameterList;
-    std::optional<TypeSignature*> _returnType;
+    TypeSignature* _returnType;
 public:
     LambdaExpressionTypeSignature();
     LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, std::optional<TypeSignature*> returnType = {});
-    ParameterListTypeSignature* getParameterTypes();
-    std::optional<TypeSignature*> getReturnType();
+    ParameterListTypeSignature* getParameterList();
+    std::vector<TypeSignature*>* getParameterTypes() override;
+    TypeSignature* getReturnType() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

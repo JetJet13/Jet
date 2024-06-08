@@ -11,7 +11,7 @@ void UniqueTypeSignaturesTypeCheckerRule::enforce(std::vector<TypeSignature*>* t
         for (int j = i + 1; j < typeSignatures->size(); ++j) {
             auto typeSignature = typeSignatures->at(i);
             auto otherTypeSignature = typeSignatures->at(j);
-            if (typeSignature->isEqualTo(otherTypeSignature)) {
+            if (typeSignature->isEquivalentTo(otherTypeSignature)) {
                 sameNames.push_back(typeSignature);
             }
         }

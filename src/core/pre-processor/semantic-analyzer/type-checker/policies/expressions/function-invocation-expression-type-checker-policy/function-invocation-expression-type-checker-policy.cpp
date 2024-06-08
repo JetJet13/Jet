@@ -18,7 +18,7 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
 
         TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
         ->enforce(
-            functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterList()->numParameters(),
+            functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes()->size(),
             functionInvocationExpression->getArguments()->numArguments(),
             TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments(functionInvocationExpression->getArguments()),
             TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments(functionInvocationExpression->getArguments()),
@@ -27,7 +27,7 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
 
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
-            functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterList(),
+            functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes(),
             functionInvocationExpression->getArguments(),
             TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(functionInvocationExpression),
             typeCheckerResult

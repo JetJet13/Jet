@@ -8,7 +8,7 @@
 
 void TupleAccessExpressionTypeSignatureStrategy::assign(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(tupleAccessExpression->getSource()->getSource(), scope);
-    if (!tupleAccessExpression->getSource()->getSource()->getTypeSignature()->is(TUPLE_TYPE_SOURCE)) {
+    if (!tupleAccessExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(TUPLE_TYPE_SOURCE)) {
         tupleAccessExpression->setTypeSignature(new InvalidTypeSignature());
         return;
     }

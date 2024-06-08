@@ -16,10 +16,11 @@
 #include "../../../../src/core/type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../../../src/core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../../../../src/core/type-signature/tuple-type-signature/tuple-type-signature.h"
-#include "../../../../src/core/type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
-#include "../../../../src/core/type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
-#include "../../../../src/core/type-signature/lambda-type-signature/lambda-type-signature.h"
 #include "../../../../src/core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
+#include "../../../../src/core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
+#include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
+#include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
 
 auto colorEnumTypeSignature = new EnumTypeSignature(
         TypeSignatureFactory::stringLiteral,
@@ -368,7 +369,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                        ),
                        new ParameterListItemTypeSignature(
                            "lambda",
-                           new LambdaTypeSignature(
+                           new FunctionLambdaTypeSignature(
                                { TypeSignatureFactory::intLiteral },
                                TypeSignatureFactory::boolLiteral)
                        ),
@@ -379,12 +380,12 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature(
                            "lambda",
-                           new LambdaTypeSignature(
+                           new FunctionLambdaTypeSignature(
                                {
                                    TypeSignatureFactory::intLiteral,
                                    TypeSignatureFactory::intLiteral
                                },
-                               new LambdaTypeSignature(
+                               new FunctionLambdaTypeSignature(
                                    {
                                        TypeSignatureFactory::intLiteral
                                    },
@@ -397,14 +398,14 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             )},
             {98, new FunctionTypeSignature(
                     new ParameterListTypeSignature(),
-                    new LambdaTypeSignature(
+                    new FunctionLambdaTypeSignature(
                         {},
                         TypeSignatureFactory::intLiteral
                     )
             )},
             {99, new FunctionTypeSignature(
                     new ParameterListTypeSignature(),
-                    new LambdaTypeSignature(
+                    new FunctionLambdaTypeSignature(
                         { TypeSignatureFactory::intLiteral },
                         TypeSignatureFactory::intLiteral
                     )
@@ -417,7 +418,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature(
                            "x",
-                           new LambdaTypeSignature(
+                           new FunctionLambdaTypeSignature(
                                { TypeSignatureFactory::intLiteral },
                                TypeSignatureFactory::boolLiteral
                            )
@@ -429,13 +430,13 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature(
                            "x",
-                           new LambdaTypeSignature(
+                           new ProcedureLambdaTypeSignature(
                                {}
                            )
                        ),
                        new ParameterListItemTypeSignature(
                            "y",
-                           new LambdaTypeSignature(
+                           new ProcedureLambdaTypeSignature(
                                {
                                    colorEnumTypeSignature
                                }
@@ -462,11 +463,11 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {109, TypeSignatureFactory::stringLiteral},
             {110, TypeSignatureFactory::boolLiteral},
             {111, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {112, new LambdaTypeSignature(
+            {112, new FunctionLambdaTypeSignature(
                     { TypeSignatureFactory::intLiteral },
                     TypeSignatureFactory::boolLiteral
             )},
-            {113, new LambdaTypeSignature(
+            {113, new ProcedureLambdaTypeSignature(
                     { TypeSignatureFactory::intLiteral }
             )},
             {114, new TupleTypeSignature({
@@ -505,6 +506,6 @@ TEST_CASE( "should print the expected type signatures" ) {
         Logger::log("RESULT =", typeSignature->isEqualTo(expectedTypeSignatures[i + 1]));
         REQUIRE(typeSignature->isEqualTo(expectedTypeSignatures[i + 1]));
         Logger::log("====================================");
-        typeCheckerResult.print();
     }
+    typeCheckerResult.print();
 }

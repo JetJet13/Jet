@@ -6,7 +6,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void IterableTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, std::string message, TypeCheckerResult* typeCheckerResult) {
-    if (!typeSignature->is(ARRAY_TYPE_SOURCE)) {
+    if (!typeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)) {
         typeCheckerResult->addError(message);
     }
 }

@@ -27,7 +27,7 @@ namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
 
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
-            classMethodInvocationExpression->getName()->getTypeSignature()->getParameters(),
+            classMethodInvocationExpression->getName()->getTypeSignature()->getParameterTypes(),
             classMethodInvocationExpression->getArguments(),
             TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(classMethodInvocationExpression->getArguments()),
             typeCheckerResult

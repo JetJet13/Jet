@@ -3,22 +3,22 @@
 //
 
 #include "function-invocation-type-signature.h"
-#include "../../../../shared/utils/logger/logger.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 FunctionInvocationTypeSignature::FunctionInvocationTypeSignature() {
-    _functionTypeSignature = new FunctionTypeSignature();
+    _invocableTypeSignature = new FunctionTypeSignature();
 }
 
-FunctionInvocationTypeSignature::FunctionInvocationTypeSignature(FunctionTypeSignature* functionTypeSignature) {
-    _functionTypeSignature = functionTypeSignature;
+FunctionInvocationTypeSignature::FunctionInvocationTypeSignature(InvocableTypeSignature* invocableTypeSignature) {
+    _invocableTypeSignature = invocableTypeSignature;
 }
 
-FunctionTypeSignature* FunctionInvocationTypeSignature::getFunctionType() {
-    return _functionTypeSignature;
+InvocableTypeSignature* FunctionInvocationTypeSignature::getFunctionType() {
+    return _invocableTypeSignature;
 }
 
 TypeSignature* FunctionInvocationTypeSignature::getReturnType() {
-    return _functionTypeSignature->getReturnType();
+    return _invocableTypeSignature->getReturnType();
 }
 
 std::string FunctionInvocationTypeSignature::toString() {
@@ -30,7 +30,11 @@ TypeSource FunctionInvocationTypeSignature::getTypeSource() {
 }
 
 TypeSource FunctionInvocationTypeSignature::getTypeTarget() {
-    return _functionTypeSignature->getReturnType()->getTypeTarget();
+    return _invocableTypeSignature->getReturnType()->getTypeTarget();
+}
+
+TypeSignature* FunctionInvocationTypeSignature::getTargetTypeSignature() {
+    return _invocableTypeSignature->getReturnType();
 }
 
 bool FunctionInvocationTypeSignature::isEqualTo(TypeSignature* otherType) {
@@ -44,6 +48,6 @@ bool FunctionInvocationTypeSignature::isEqualTo(TypeSignature* otherType) {
 
 void FunctionInvocationTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    _functionTypeSignature->getReturnType()->print();
+    _invocableTypeSignature->getReturnType()->print();
     Logger::log("----------");
 }

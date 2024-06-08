@@ -10,7 +10,6 @@ namespace VariableDeclarationTypeCheckerPolicy {
     void apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto varTypeSignature = variableDeclarationNode->getTypeSignature();
         auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
-        Logger::log("initializerTypeSignature", variableDeclarationNode->getId(), initializerTypeSignature->toString());
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             varTypeSignature,
@@ -26,7 +25,7 @@ namespace VariableDeclarationTypeCheckerPolicy {
             typeCheckerResult
         );
 
-       if (!varTypeSignature->isEqualTo(initializerTypeSignature)){
+       if (!varTypeSignature->isEquivalentTo(initializerTypeSignature)){
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch(
                     variableDeclarationNode
             ));

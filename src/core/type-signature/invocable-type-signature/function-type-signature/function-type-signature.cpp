@@ -3,8 +3,8 @@
 //
 
 #include "function-type-signature.h"
-#include "../unknown-type-signature/unknown-type-signature.h"
-#include "../../../shared/utils/logger/logger.h"
+#include "../../unknown-type-signature/unknown-type-signature.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 FunctionTypeSignature::FunctionTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
@@ -21,6 +21,10 @@ ParameterListTypeSignature* FunctionTypeSignature::getParameterList() {
     return _parameterList;
 }
 
+std::vector<TypeSignature*>* FunctionTypeSignature::getParameterTypes() {
+    return _parameterList->getParameterTypes();
+}
+
 TypeSignature* FunctionTypeSignature::getReturnType() {
     return _returnType;
 }
@@ -31,6 +35,10 @@ std::string FunctionTypeSignature::toString() {
 
 TypeSource FunctionTypeSignature::getTypeSource() {
     return FUNCTION_TYPE_SOURCE;
+}
+
+TypeSignature* FunctionTypeSignature::getTargetTypeSignature() {
+    return _returnType;
 }
 
 bool FunctionTypeSignature::isEqualTo(TypeSignature* otherType) {

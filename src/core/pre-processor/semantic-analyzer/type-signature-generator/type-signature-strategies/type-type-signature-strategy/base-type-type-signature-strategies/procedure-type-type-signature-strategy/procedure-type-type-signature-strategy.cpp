@@ -3,7 +3,8 @@
 //
 
 #include "procedure-type-type-signature-strategy.h"
-#include "../../../../../../../type-signature/lambda-type-signature/lambda-type-signature.h"
+#include "../../../../../../../type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
+
 
 void ProcedureTypeTypeSignatureStrategy::assign(ASTProcedureTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
@@ -12,5 +13,5 @@ void ProcedureTypeTypeSignatureStrategy::assign(ASTProcedureTypeNode* node, Type
         typeSignatures->push_back(type->getTypeSignature());
     }
 
-    node->setTypeSignature(new LambdaTypeSignature(typeSignatures));
+    node->setTypeSignature(new ProcedureLambdaTypeSignature(typeSignatures));
 }

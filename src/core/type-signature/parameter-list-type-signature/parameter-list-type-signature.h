@@ -14,10 +14,12 @@
 class ParameterListTypeSignature : public TypeSignature {
 private:
     std::vector<ParameterListItemTypeSignature*> _parameters;
+    std::vector<TypeSignature*> _parameterTypes;
 public:
     ParameterListTypeSignature();
     ParameterListTypeSignature(std::vector<ParameterListItemTypeSignature*> parameters);
     std::vector<ParameterListItemTypeSignature*>* getParameters();
+    std::vector<TypeSignature*>* getParameterTypes();
     unsigned long numParameters();
     std::string toString() override;
     TypeSource getTypeSource() override;

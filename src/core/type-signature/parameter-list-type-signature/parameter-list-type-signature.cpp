@@ -7,17 +7,24 @@
 
 ParameterListTypeSignature::ParameterListTypeSignature() {
     _parameters = std::vector<ParameterListItemTypeSignature*>();
+    _parameterTypes = std::vector<TypeSignature*>();
 }
 
 ParameterListTypeSignature::ParameterListTypeSignature(std::vector<ParameterListItemTypeSignature*> parameters) {
     _parameters = std::vector<ParameterListItemTypeSignature*>();
+    _parameterTypes = std::vector<TypeSignature*>();
     for (auto parameter: parameters) {
         _parameters.push_back(parameter);
+        _parameterTypes.push_back(parameter->getTypeSignature());
     }
 }
 
 std::vector<ParameterListItemTypeSignature*>* ParameterListTypeSignature::getParameters() {
     return &_parameters;
+}
+
+std::vector<TypeSignature*>* ParameterListTypeSignature::getParameterTypes() {
+    return &_parameterTypes;
 }
 
 unsigned long ParameterListTypeSignature::numParameters() {

@@ -14,8 +14,8 @@
 #include "../ast-function-nodes/ast-function-name-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "ast-declaration-node.h"
-#include "../../../type-signature/function-type-signature/function-type-signature.h"
 #include "../ast-function-nodes/ast-function-node.h"
+#include "../../../type-signature/invocable-type-signature/function-type-signature/function-type-signature.h"
 
 class ASTFunctionDeclarationNode : public ASTDeclarationNode {
 private:

@@ -11,7 +11,7 @@ void UniqueTypeSignatureWithIdTypeCheckerRule::enforce(std::vector<std::pair<std
         for (int j = i + 1; j < pairs->size(); ++j) {
             auto pair = pairs->at(i);
             auto otherPair = pairs->at(j);
-            if (pair.first == otherPair.first && pair.second->isEqualTo(otherPair.second)) {
+            if (pair.first == otherPair.first && pair.second->isEquivalentTo(otherPair.second)) {
                 samePairs.push_back(pair);
             }
         }

@@ -4,19 +4,24 @@
 
 #include "class-method-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../void-type-signature/void-type-signature.h"
 
 ClassMethodTypeSignature::ClassMethodTypeSignature() {
     _accessModifier = new AccessModifierTypeSignature();
     _parameterList = new ParameterListTypeSignature();
     _isStatic = false;
-    _returnType = {};
+    _returnType = new VoidTypeSignature();
 }
 
 ClassMethodTypeSignature::ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType) {
     _accessModifier = accessModifier;
     _parameterList = parameterList;
     _isStatic = isStatic;
-    _returnType = returnType;
+    if (returnType) {
+        _returnType = returnType.value();
+    } else {
+        _returnType = new VoidTypeSignature();
+    }
 }
 
 bool ClassMethodTypeSignature::isStatic() {
@@ -31,7 +36,11 @@ ParameterListTypeSignature* ClassMethodTypeSignature::getParameters() {
     return _parameterList;
 }
 
-std::optional<TypeSignature*> ClassMethodTypeSignature::getReturnType() {
+std::vector<TypeSignature*>* ClassMethodTypeSignature::getParameterTypes() {
+    return _parameterList->getParameterTypes();
+}
+
+TypeSignature* ClassMethodTypeSignature::getReturnType() {
     return _returnType;
 }
 
@@ -52,20 +61,10 @@ bool ClassMethodTypeSignature::isEqualTo(TypeSignature *otherType) {
         return false;
     }
     auto other = (ClassMethodTypeSignature*)otherType;
-    if (!_returnType.has_value() && other->getReturnType().has_value() ||
-        _returnType.has_value() && !other->getReturnType().has_value()) {
-        return false;
-    }
-
-    if (_returnType.has_value() && other->getReturnType().has_value() &&
-        !_returnType.value()->isEqualTo(other->getReturnType().value())) {
-        return false;
-    }
-
     return this->getAccessModifier()->isEqualTo(other->getAccessModifier()) &&
-    this->isStatic() == other->isStatic() &&
-    this->getParameters()->isEqualTo(other->getParameters());
-
+           this->isStatic() == other->isStatic() &&
+           this->getParameters()->isEqualTo(other->getParameters()) &&
+           this->getReturnType()->isEqualTo(other->getReturnType());
 }
 
 void ClassMethodTypeSignature::print() {
@@ -73,8 +72,6 @@ void ClassMethodTypeSignature::print() {
     Logger::log("IS_STATIC - ", _isStatic);
     _accessModifier->print();
     _parameterList->print();
-    if (_returnType) {
-        _returnType.value()->print();
-    }
+    _returnType->print();
     Logger::log("----------");
 }

@@ -13,8 +13,8 @@
 #include "../ast-function-nodes/ast-function-name-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "ast-declaration-node.h"
-#include "../../../type-signature/procedure-type-signature/procedure-type-signature.h"
 #include "../ast-procedure-nodes/ast-procedure-node.h"
+#include "../../../type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
 
 class ASTProcedureDeclarationNode : public ASTDeclarationNode {
 private:

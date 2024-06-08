@@ -9,7 +9,7 @@
 
 void CustomTypeTypeSignatureStrategy::assign(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto customTypeSignature = typeSignatureLookupTable->find(node->getId());
-    if (customTypeSignature->is(CLASS_TYPE_SOURCE)) {
+    if (customTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
         node->setTypeSignature(new ClassInstanceTypeSignature((ClassTypeSignature*)customTypeSignature));
         return;
     }

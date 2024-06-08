@@ -9,13 +9,13 @@
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), scope);
-    if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->is(STRUCT_TYPE_SOURCE)) {
+    if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
         objectAccessExpression->setTypeSignature(structSource->getTypeSignatureForKey(
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
         ));
         return;
-    } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->is(ENUM_TYPE_SOURCE)) {
+    } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(ENUM_TYPE_SOURCE)) {
         auto enumSource = (EnumTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
         objectAccessExpression->setTypeSignature(new EnumAccessTypeSignature(
             enumSource,

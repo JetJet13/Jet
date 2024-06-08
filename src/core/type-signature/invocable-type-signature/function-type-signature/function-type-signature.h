@@ -6,10 +6,11 @@
 #define JETLANG_FUNCTION_TYPE_SIGNATURE_H
 
 #include <string>
-#include "../type-signature.h"
-#include "../parameter-list-type-signature/parameter-list-type-signature.h"
+#include "../../type-signature.h"
+#include "../../parameter-list-type-signature/parameter-list-type-signature.h"
+#include "../invocable-type-signature.h"
 
-class FunctionTypeSignature : public TypeSignature {
+class FunctionTypeSignature : public InvocableTypeSignature {
 private:
     ParameterListTypeSignature* _parameterList;
     TypeSignature* _returnType;
@@ -17,9 +18,11 @@ public:
     FunctionTypeSignature();
     FunctionTypeSignature(ParameterListTypeSignature* parameterList, TypeSignature* returnType);
     ParameterListTypeSignature* getParameterList();
-    TypeSignature* getReturnType();
+    std::vector<TypeSignature*>* getParameterTypes() override;
+    TypeSignature* getReturnType() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
+    TypeSignature* getTargetTypeSignature() override;
     bool isEqualTo(TypeSignature *otherType) override;
     void copyFrom(TypeSignature* otherType) override;
     void print() override;

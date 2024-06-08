@@ -3,7 +3,7 @@
 //
 
 #include "procedure-type-signature.h"
-#include "../../../shared/utils/logger/logger.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 ProcedureTypeSignature::ProcedureTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
@@ -17,12 +17,24 @@ ParameterListTypeSignature* ProcedureTypeSignature::getParameterList() {
     return _parameterList;
 }
 
+std::vector<TypeSignature*>* ProcedureTypeSignature::getParameterTypes() {
+    return _parameterList->getParameterTypes();
+}
+
+TypeSignature* ProcedureTypeSignature::getReturnType() {
+    return _returnType;
+}
+
 std::string ProcedureTypeSignature::toString() {
     return "PROCEDURE_TYPE_SIGNATURE";
 }
 
 TypeSource ProcedureTypeSignature::getTypeSource() {
     return PROCEDURE_TYPE_SOURCE;
+}
+
+TypeSignature* ProcedureTypeSignature::getTargetTypeSignature() {
+    return _returnType;
 }
 
 bool ProcedureTypeSignature::isEqualTo(TypeSignature* otherType) {

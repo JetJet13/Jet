@@ -3,8 +3,9 @@
 //
 
 #include "parameter-list-item-type-signature-strategy.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
-void ParameterListItemTypeSignatureStrategy::assign(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ParameterListItemTypeSignatureStrategy::assignAndAddToScope(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getType(), scope);
     node->setTypeSignature(new ParameterListItemTypeSignature(
         node->getIdentifier()->getIdentifierNode()->getId(),

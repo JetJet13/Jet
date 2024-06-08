@@ -14,7 +14,7 @@ void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, 
     auto enumTypeSignature = new EnumTypeSignature();
     for (auto enumKeyValue : enumDeclaration->getValues()->getParameters()) {
         strategyMap->assignTypeSignatureFor(enumKeyValue);
-        if (enumTypeSignature->getType()->is(LITERAL_TYPE_SOURCE)) {
+        if (enumTypeSignature->getType()->typeTargetIs(LITERAL_TYPE_SOURCE)) {
             enumTypeSignature->setType(enumKeyValue->getTypeSignature());
         }
         enumTypeSignature->addKey(enumKeyValue->getKey()->getId());

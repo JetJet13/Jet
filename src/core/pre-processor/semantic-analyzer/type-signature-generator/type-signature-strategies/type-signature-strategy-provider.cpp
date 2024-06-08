@@ -71,7 +71,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
         case AST_VARIABLE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getVariableTypeSignatureStrategy()
-                    ->assign((ASTVariableDeclarationNode *) node, typeSignatureScope, this);
+                    ->assignAndAddToScope((ASTVariableDeclarationNode *) node, typeSignatureScope, this);
             break;
         case AST_CLASS_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
@@ -273,7 +273,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
         case AST_FUNCTION_PARAMETER_NODE:
             this->_typeSignatureStrategyMap
                     ->getParameterListItemTypeSignatureStrategy()
-                    ->assign((ASTFunctionParameterNode*)node, typeSignatureScope, this);
+                    ->assignAndAddToScope((ASTFunctionParameterNode *) node, typeSignatureScope, this);
             break;
         case AST_ENUM_KEY_VALUE_NODE:
             this->_typeSignatureStrategyMap

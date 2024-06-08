@@ -17,7 +17,7 @@ namespace NewClassInstanceExpressionTypeCheckerPolicy {
             typeCheckerResult
         );
 
-        if (newClassInstanceExpression->getTypeSignature()->is(CLASS_TYPE_SOURCE)) {
+        if (newClassInstanceExpression->getTypeSignature()->typeTargetIs(CLASS_TYPE_SOURCE)) {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(newClassInstanceExpression));
         }
     }

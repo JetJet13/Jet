@@ -659,10 +659,10 @@ add_library(jet-core
         type-signature/type-signature.cpp
         type-signature/type-signature.h
         type-signature/types/type-source.h
-        type-signature/function-type-signature/function-type-signature.cpp
-        type-signature/function-type-signature/function-type-signature.h
-        type-signature/procedure-type-signature/procedure-type-signature.cpp
-        type-signature/procedure-type-signature/procedure-type-signature.h
+        type-signature/invocable-type-signature/function-type-signature/function-type-signature.cpp
+        type-signature/invocable-type-signature/function-type-signature/function-type-signature.h
+        type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.cpp
+        type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h
         type-signature/tuple-type-signature/tuple-type-signature.cpp
         type-signature/tuple-type-signature/tuple-type-signature.h
         type-signature/array-type-signature/array-type-signature.cpp
@@ -791,10 +791,6 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h
-        type-signature/lambda-type-signature/lambda-type-signature.cpp
-        type-signature/lambda-type-signature/lambda-type-signature.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h
         pre-processor/semantic-analyzer/ast-traverser/ast-traverser.cpp
@@ -849,12 +845,12 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h
         type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.cpp
         type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h
-        type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.cpp
-        type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h
+        type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.cpp
+        type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h
         type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.cpp
         type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h
-        type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.cpp
-        type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h
+        type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.cpp
+        type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h
         pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.cpp
         pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.h
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.cpp
@@ -917,7 +913,6 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rule-provider.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/all-paths-return-type-checker-rule/all-paths-return-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/all-paths-return-type-checker-rule/all-paths-return-type-checker-rule.h
-        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/all-paths-return-type-checker-rule/types/node-with-level.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/function-return-expression-type-checker-policy/function-return-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/function-return-expression-type-checker-policy/function-return-expression-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/defined-type-signature-type-checker-rule/defined-type-signature-type-checker-rule.cpp
@@ -1028,6 +1023,12 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h
+        type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.cpp
+        type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h
+        type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.cpp
+        type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h
+        type-signature/invocable-type-signature/invocable-type-signature.cpp
+        type-signature/invocable-type-signature/invocable-type-signature.h
 
 )
 
