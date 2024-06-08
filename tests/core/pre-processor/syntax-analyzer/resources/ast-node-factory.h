@@ -137,6 +137,9 @@ namespace ASTNodeFactory {
     static ASTModuleSpreadNode* moduleSpread = new ASTModuleSpreadNode(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
     );
+    static ASTAssignmentOperatorNode* assignment = new ASTAssignmentOperatorNode(
+            createLexeme(SymbolFactory::createEqualSymbol())
+    );
     static ASTTupleNode* tupleKeyword = new ASTTupleNode(createLexeme(SymbolFactory::createTupleSymbol()));
     static ASTIfNode* ifKeyword = new ASTIfNode(createLexeme(SymbolFactory::createIfSymbol()));
     static ASTElseNode* elseKeyword = new ASTElseNode(createLexeme(SymbolFactory::createElseSymbol()));
@@ -157,16 +160,19 @@ namespace ASTNodeFactory {
     static ASTColonNode* colon = new ASTColonNode(createLexeme(SymbolFactory::createColonSymbol()));
     static ASTVariableInitNode* letInit = new ASTVariableInitNode(
                 new ASTVariableTypeNode(createLexeme(SymbolFactory::createLetSymbol())),
-                new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+                new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+                ASTNodeFactory::assignment
     );
     static ASTVariableInitNode* constInit = new ASTVariableInitNode(
             new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
-            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+            ASTNodeFactory::assignment
     );
     static ASTVariableInitNode* createConstInitWithType(ASTTypeNode* type) {
         return new ASTVariableInitNode(
                 new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
                 new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+                ASTNodeFactory::assignment,
                 ASTNodeFactory::colon,
                 type
         );
@@ -332,9 +338,6 @@ namespace ASTNodeFactory {
             ASTNodeFactory::idExpression,
             ASTNodeFactory::colon,
             ASTNodeFactory::idType
-    );
-    static ASTAssignmentOperatorNode* assignment = new ASTAssignmentOperatorNode(
-            createLexeme(SymbolFactory::createEqualSymbol())
     );
     static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
             new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),

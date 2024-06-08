@@ -87,6 +87,6 @@ std::string ASTFunctionArgumentListNode::toSourceCode() {
     for (auto argument : _arguments) {
         sourceCodeBuilder.addWithWhitespace(argument);
     }
-    sourceCodeBuilder.add(_functionArgumentListEndNode);
+    sourceCodeBuilder.addWithWhitespace(_functionArgumentListEndNode);
     return sourceCodeBuilder.build();
 }

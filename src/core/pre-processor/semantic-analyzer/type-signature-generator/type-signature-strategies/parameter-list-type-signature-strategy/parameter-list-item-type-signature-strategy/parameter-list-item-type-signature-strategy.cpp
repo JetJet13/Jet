@@ -10,4 +10,5 @@ void ParameterListItemTypeSignatureStrategy::assign(ASTFunctionParameterNode* no
         node->getIdentifier()->getIdentifierNode()->getId(),
         node->getType()->getTypeSignature()
     ));
+    scope->insert(node->getIdentifier()->getIdentifierNode()->getId(), node->getType()->getTypeSignature());
 }

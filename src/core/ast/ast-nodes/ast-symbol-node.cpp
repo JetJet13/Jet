@@ -39,5 +39,5 @@ void ASTSymbolNode::print() {
 }
 
 std::string ASTSymbolNode::toSourceCode() {
-    return this->getLexeme()->getToken()->getSymbol()->toString();
+    return this->getLexeme()->getToken()->getRawValue();
 }

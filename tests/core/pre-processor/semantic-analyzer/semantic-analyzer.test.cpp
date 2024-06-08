@@ -492,7 +492,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto dependencyGraph = new DependencyGraph();
     auto typeSignatureLookupTable = new TypeSignatureLookupTable();
     auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph);
-    semanticAnalyzer.analyze(fileNodeResult, typeSignatureLookupTable);
+    auto typeCheckerResult = semanticAnalyzer.analyze(fileNodeResult, typeSignatureLookupTable);
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
@@ -505,5 +505,6 @@ TEST_CASE( "should print the expected type signatures" ) {
         Logger::log("RESULT =", typeSignature->isEqualTo(expectedTypeSignatures[i + 1]));
         REQUIRE(typeSignature->isEqualTo(expectedTypeSignatures[i + 1]));
         Logger::log("====================================");
+        typeCheckerResult.print();
     }
 }

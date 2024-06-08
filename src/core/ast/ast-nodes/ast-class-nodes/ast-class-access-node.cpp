@@ -56,6 +56,6 @@ void ASTClassAccessNode::print() {
 std::string ASTClassAccessNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_this)
-    ->addWithWhitespace(_thisAccess);
+    ->add(_thisAccess);
     return sourceCodeBuilder.build();
 }

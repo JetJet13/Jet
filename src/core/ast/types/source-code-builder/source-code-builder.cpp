@@ -22,8 +22,8 @@ SourceCodeBuilder* SourceCodeBuilder::addWithWhitespace(ASTNode* node) {
 }
 
 SourceCodeBuilder* SourceCodeBuilder::addWithNewLine(ASTNode* node) {
-    _sourceCode += node->toSourceCode();
     _sourceCode += NEW_LINE;
+    _sourceCode += node->toSourceCode();
     return this;
 }
 

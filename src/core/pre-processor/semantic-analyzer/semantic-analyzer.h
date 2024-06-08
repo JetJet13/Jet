@@ -18,10 +18,11 @@ private:
     DependencyGraph* _dependencyGraph;
     TypeSignatureGenerator* _typeSignatureGenerator;
     void generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
-    void generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, std::vector<TypeCheckerResult>* typeCheckerResults);
+    void generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
+    void runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults);
 public:
     SemanticAnalyzer(DependencyGraph* dependencyGraph);
-    std::vector<TypeCheckerResult> analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
+    TypeCheckerResult analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
 };
 
 #endif //JETLANG_SEMANTIC_ANALYZER_H

@@ -6,11 +6,12 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, std::optional<ASTColonNode*> colon,  std::optional<ASTTypeNode*> type) {
+ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator, std::optional<ASTColonNode*> colon,  std::optional<ASTTypeNode*> type) {
     _assignmentTypeQualifier = assignmentTypeQualifier;
     _identifier = astIdentifierNode;
     _colon = colon;
     _type = type;
+    _assignmentOperator = assignmentOperator;
     _children.push_back(_assignmentTypeQualifier);
     _children.push_back(_identifier);
     if (_colon) {
@@ -89,6 +90,6 @@ std::string ASTVariableInitNode::toSourceCode() {
     if (_colon && _type) {
         sourceCodeBuilder.addWithWhitespace(_colon.value())->addWithWhitespace(_type.value());
     }
-
+    sourceCodeBuilder.addWithWhitespace(_assignmentOperator);
     return sourceCodeBuilder.build();
 }

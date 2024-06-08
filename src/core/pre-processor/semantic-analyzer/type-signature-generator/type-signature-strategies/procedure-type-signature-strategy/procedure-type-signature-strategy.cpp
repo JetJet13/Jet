@@ -5,7 +5,9 @@
 #include "procedure-type-signature-strategy.h"
 
 void ProcedureTypeSignatureStrategy::assign(ASTProcedureDeclarationNode* procedureDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(procedureDeclaration->getParameters(), scope);
+    auto procedureScope = TypeSignatureLookupTable(scope);
+    strategyMap->assignTypeSignatureFor(procedureDeclaration->getParameters(), &procedureScope);
+    strategyMap->assignTypeSignatureFor(procedureDeclaration->getBlock(), &procedureScope);
     procedureDeclaration->setTypeSignature(new ProcedureTypeSignature(
             procedureDeclaration->getParameters()->getTypeSignature()
     ));

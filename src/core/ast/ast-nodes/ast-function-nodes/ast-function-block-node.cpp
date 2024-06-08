@@ -70,7 +70,7 @@ void ASTFunctionBlockNode::print() {
 
 std::string ASTFunctionBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_blockStartNode);
+    sourceCodeBuilder.addWithWhitespace(_blockStartNode);
 
     for (auto content : _contents) {
         sourceCodeBuilder.addWithNewLine(content);

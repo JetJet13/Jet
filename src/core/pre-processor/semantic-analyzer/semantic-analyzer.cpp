@@ -13,11 +13,12 @@ SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph) {
     );
 }
 
-std::vector<TypeCheckerResult> SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
-    auto typeCheckerResults = std::vector<TypeCheckerResult>();
+TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
+    auto typeCheckerResult = TypeCheckerResult();
     this->generateInitialTypeSignaturesFor(fileNode, fileScope);
-    this->generateDeclarationTypeSignaturesFor(fileNode, fileScope, &typeCheckerResults);
-    return typeCheckerResults;
+    this->generateDeclarationTypeSignaturesFor(fileNode, fileScope);
+    this->runTypeChecker(fileNode, &typeCheckerResult);
+    return typeCheckerResult;
 }
 
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
@@ -32,16 +33,17 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, T
     }
 }
 
-void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, std::vector<TypeCheckerResult>* typeCheckerResults) {
+void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
     for (auto node : *fileNode->getBody()) {
         _typeSignatureGenerator->assignTypeSignatureFor(node, fileScope);
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
             fileScope->find(node->getId())->copyFrom(node->getTypeSignature());
-        } else if (ASTNodeUtils::isDeclarationNode(node)){
-            fileScope->insert(node->getId(), node->getTypeSignature());
         }
-        auto typeCheckerResult = TypeCheckerResult();
-        TypeChecker::applyPolicyTo(node, &typeCheckerResult);
-        typeCheckerResults->push_back(typeCheckerResult);
+    }
+}
+
+void SemanticAnalyzer::runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults) {
+    for (auto node : *fileNode->getBody()) {
+        TypeChecker::applyPolicyTo(node, typeCheckerResults);
     }
 }
