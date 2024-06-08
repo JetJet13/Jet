@@ -13,7 +13,7 @@ namespace SymbolFactory {
     Symbol* createIntSymbol();
     Symbol* createFloatSymbol();
     Symbol* createEqualSymbol();
-    Symbol* createVarSymbol();
+    Symbol* createLetSymbol();
     Symbol* createConstSymbol();
     Symbol* createSemicolonSymbol();
     Symbol* createModuloSymbol();

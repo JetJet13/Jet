@@ -179,9 +179,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 auto isBangEqual = _reservedKeywords->match(term);
                 if (isBangEqual) {
                     _fileReader.advance();
-                    return new Token(isBangEqual.value(), term);
+                    return new Token(isBangEqual.value());
                 }
-                return new Token(isCharacterReservedKeyword.value(), term);
+                return new Token(isCharacterReservedKeyword.value());
 
         } else if (nextChar &&
                     (reservedKeyword->isEqual() ||
@@ -194,9 +194,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isEqualityOperator = _reservedKeywords->match(term);
             if (isEqualityOperator) {
                 _fileReader.advance();
-                return new Token(isEqualityOperator.value(), term);
+                return new Token(isEqualityOperator.value());
             }
-            return new Token(isCharacterReservedKeyword.value(), term);
+            return new Token(isCharacterReservedKeyword.value());
         } else if (nextChar &&
                     (reservedKeyword->isColon())
                 ) {
@@ -206,9 +206,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isColonColon = _reservedKeywords->match(term);
             if (isColonColon) {
                 _fileReader.advance();
-                return new Token(isColonColon.value(), term);
+                return new Token(isColonColon.value());
             }
-            return new Token(isCharacterReservedKeyword.value(), term);
+            return new Token(isCharacterReservedKeyword.value());
         }  else if (nextChar && reservedKeyword->isPeriod()) {
             std::string term;
             term += character.value();
@@ -222,15 +222,13 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                     auto isDotDotDot = _reservedKeywords->match(term);
                     if (isDotDotDot) {
                         _fileReader.advance();
-                        return new Token(isDotDotDot.value(), term);
+                        return new Token(isDotDotDot.value());
                     }
                 }
-                return new Token(isDotDot.value(), term);
+                return new Token(isDotDot.value());
             }
         }
-        std::string term = "";
-        term += character.value();
-        return new Token(isCharacterReservedKeyword.value(), term);
+        return new Token(isCharacterReservedKeyword.value());
     }
 
     std::string term;
@@ -337,9 +335,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isBangEqual = _reservedKeywords->match(term);
             if (isBangEqual) {
                 _fileReader.advance();
-                return new Token(isBangEqual.value(), term);
+                return new Token(isBangEqual.value());
             }
-            return new Token(isCharacterReservedKeyword.value(), term);
+            return new Token(isCharacterReservedKeyword.value());
 
         } else if (nextChar &&
                    (reservedKeyword->isEqual() ||
@@ -352,9 +350,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isEqualityOperator = _reservedKeywords->match(term);
             if (isEqualityOperator) {
                 _fileReader.advance();
-                return new Token(isEqualityOperator.value(), term);
+                return new Token(isEqualityOperator.value());
             }
-            return new Token(isCharacterReservedKeyword.value(), term);
+            return new Token(isCharacterReservedKeyword.value());
         }  else if (nextChar &&
                     (reservedKeyword->isColon())
                 ) {
@@ -364,9 +362,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isColonColon = _reservedKeywords->match(term);
             if (isColonColon) {
                 _fileReader.advance();
-                return new Token(isColonColon.value(), term);
+                return new Token(isColonColon.value());
             }
-            return new Token(isCharacterReservedKeyword.value(), term);
+            return new Token(isCharacterReservedKeyword.value());
         }  else if (nextChar && reservedKeyword->isPeriod()) {
             std::string term;
             term += character.value();
@@ -380,15 +378,13 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
                     auto isDotDotDot = _reservedKeywords->match(term);
                     if (isDotDotDot) {
                         _fileReader.advance();
-                        return new Token(isDotDotDot.value(), term);
+                        return new Token(isDotDotDot.value());
                     }
                 }
-                return new Token(isDotDot.value(), term);
+                return new Token(isDotDot.value());
             }
         }
-        std::string term;
-        term += character.value();
-        return new Token(isCharacterReservedKeyword.value(), term);
+        return new Token(isCharacterReservedKeyword.value());
     }
 
     std::string term;

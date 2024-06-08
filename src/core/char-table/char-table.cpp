@@ -31,7 +31,7 @@ void CharTable::init() {
     this->add("\a", '\a');
     this->add("\b", '\b');
     this->add("\f", '\f');
-    this->add("\n", '\n');
+    this->add("\\n", '\n');
     this->add("\r", '\r');
     this->add("\t", '\t');
     this->add("\v", '\v');

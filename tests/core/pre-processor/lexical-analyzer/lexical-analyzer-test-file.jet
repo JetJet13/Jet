@@ -36,7 +36,7 @@ const obj = {
  bar: 100
 };
 
-let arr = [1, 2, 3];
+let array = [1, 2, 3];
 
 const answer = (10 + 1);
 

@@ -31,7 +31,7 @@ namespace SymbolFactory {
         return new Symbol(SYM_SEMICOLON, ";");
     }
 
-    Symbol* createVarSymbol() {
+    Symbol* createLetSymbol() {
         return new Symbol(SYM_LET, "let");
     }
 
@@ -80,11 +80,11 @@ namespace SymbolFactory {
     }
 
     Symbol* createAndSymbol() {
-        return new Symbol(SYM_AND, "and");
+        return new Symbol(SYM_AND, "&&");
     }
 
     Symbol* createOrSymbol() {
-        return new Symbol(SYM_OR, "or");
+        return new Symbol(SYM_OR, "||");
     }
 
     Symbol* createLeftParenSymbol() {

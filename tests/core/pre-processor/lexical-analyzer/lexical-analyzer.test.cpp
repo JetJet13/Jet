@@ -11,39 +11,39 @@ std::string foo = "foo";
 std::string bar = "bar";
 
 std::vector<Lexeme*> expectedLexemes = {
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "one")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "1")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "twenty")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "20")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "hundred")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "100")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "negOne")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createMinusSymbol())),
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "1")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "negTwenty")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createMinusSymbol())),
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "20")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "negHundred")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createMinusSymbol())),
@@ -89,19 +89,19 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "200")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createTrueSymbol())),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), bar)),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createFalseSymbol())),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "fun")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
@@ -109,7 +109,7 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), bar)),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "nor")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
@@ -117,7 +117,7 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), bar)),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "fig")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
@@ -126,14 +126,14 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), bar)),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "bang")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createBangSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "bangEqual")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
@@ -141,7 +141,7 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), bar)),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "equalEqual")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
@@ -214,8 +214,8 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createRightBraceSymbol())),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
-        new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "arr")),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
+        new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "array")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createLeftBracketSymbol())),
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "1")),
@@ -236,22 +236,22 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createRightParenSymbol())),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "moose")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createStringSymbol(), "hello world")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "miro")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createCharSymbol(), "c")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "beaver")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
-        new Lexeme(new Token(SymbolFactory::createCharSymbol(), "\n")),
+        new Lexeme(new Token(SymbolFactory::createCharSymbol(), "\\n")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
         new Lexeme(new Token(SymbolFactory::createConstSymbol())),
@@ -266,7 +266,7 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "13")),
         new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
-        new Lexeme(new Token(SymbolFactory::createVarSymbol())),
+        new Lexeme(new Token(SymbolFactory::createLetSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), "modulo")),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIntSymbol(), "5")),
@@ -284,12 +284,14 @@ std::vector<Lexeme*> expectedLexemes = {
         new Lexeme(new Token(SymbolFactory::createStringSymbol(), "hello")),
         new Lexeme(new Token(SymbolFactory::createPlusSymbol())),
         new Lexeme(new Token(SymbolFactory::createStringSymbol(), "world")),
+        new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
         new Lexeme(new Token(SymbolFactory::createEqualSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), foo)),
         new Lexeme(new Token(SymbolFactory::createColonColonSymbol())),
         new Lexeme(new Token(SymbolFactory::createIdentifierSymbol(), bar)),
+        new Lexeme(new Token(SymbolFactory::createSemicolonSymbol())),
 };
 
 TEST_CASE( "should create 233 lexemes with the correct token symbol type" ) {
@@ -300,10 +302,11 @@ TEST_CASE( "should create 233 lexemes with the correct token symbol type" ) {
     auto lexeme = lexicalAnalyzer.next();
     while (lexeme) {
         auto expectedLexeme = expectedLexemes[tokenCounter];
+        Logger::log(lexeme.value()->toString());
         REQUIRE(lexeme.value()->getToken()->getSymbolType() == expectedLexeme->getToken()->getSymbolType());
         REQUIRE(lexeme.value()->getToken()->getRawValue() == expectedLexeme->getToken()->getRawValue());
         tokenCounter++;
         lexeme = lexicalAnalyzer.next();
     }
-    REQUIRE(tokenCounter == 233);
+    REQUIRE(tokenCounter == 241);
 }

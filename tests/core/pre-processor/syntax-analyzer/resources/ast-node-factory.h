@@ -156,7 +156,7 @@ namespace ASTNodeFactory {
     );
     static ASTColonNode* colon = new ASTColonNode(createLexeme(SymbolFactory::createColonSymbol()));
     static ASTVariableInitNode* letInit = new ASTVariableInitNode(
-                new ASTVariableTypeNode(createLexeme(SymbolFactory::createVarSymbol())),
+                new ASTVariableTypeNode(createLexeme(SymbolFactory::createLetSymbol())),
                 new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
     static ASTVariableInitNode* constInit = new ASTVariableInitNode(

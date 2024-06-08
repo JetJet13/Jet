@@ -44,7 +44,7 @@ void ReservedKeywords::init() {
     this->add("arr", SymbolFactory::createArrayTypeSymbol());
     this->add("void", SymbolFactory::createVoidTypeSymbol());
     this->add("=", SymbolFactory::createEqualSymbol());
-    this->add("let", SymbolFactory::createVarSymbol());
+    this->add("let", SymbolFactory::createLetSymbol());
     this->add("const", SymbolFactory::createConstSymbol());
     this->add(";", SymbolFactory::createSemicolonSymbol());
     this->add("mod", SymbolFactory::createModuloSymbol());
