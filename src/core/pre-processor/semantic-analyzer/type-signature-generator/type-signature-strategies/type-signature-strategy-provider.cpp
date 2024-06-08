@@ -15,6 +15,7 @@
 #include "expression-type-signature-strategies/function-return-expression-type-signature-strategy/function-return-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/identifier-expression-type-signature-strategy/identifier-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/lambda-expression-type-signature-strategy/lambda-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/lambda-with-fat-arrow-expression-type-signature-strategy/lambda-with-fat-arrow-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h"
@@ -28,7 +29,8 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-type-signature-strategy.h"
@@ -126,10 +128,15 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
                     ->getTupleTypeTypeSignatureStrategy()
                     ->assign((ASTTupleTypeNode *) node, typeSignatureScope, this);
             break;
-        case AST_LAMBDA_TYPE_NODE:
+        case AST_FUNCTION_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLambdaTypeTypeSignatureStrategy()
-                    ->assign((ASTLambdaTypeNode *) node, typeSignatureScope, this);
+                    ->getFunctionTypeTypeSignatureStrategy()
+                    ->assign((ASTFunctionTypeNode*) node, typeSignatureScope, this);
+            break;
+        case AST_PROCEDURE_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getProcedureTypeTypeSignatureStrategy()
+                    ->assign((ASTProcedureTypeNode*) node, typeSignatureScope, this);
             break;
         case AST_THIS_TYPE_NODE:
             this->_typeSignatureStrategyMap
@@ -185,6 +192,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getLambdaExpressionTypeSignatureStrategy()
                     ->assign((ASTLambdaExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getLambdaWithFatArrowExpressionTypeSignatureStrategy()
+                    ->assign((ASTLambdaWithFatArrowExpressionNode*) node, typeSignatureScope, this);
             break;
         case AST_LAMBDA_RETURN_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

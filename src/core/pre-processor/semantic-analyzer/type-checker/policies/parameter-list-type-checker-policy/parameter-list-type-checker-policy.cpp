@@ -7,10 +7,8 @@
 
 namespace ParameterListTypeCheckerPolicy {
     void apply(ASTFunctionParameterListNode* functionParameterList, TypeCheckerResult* typeCheckerResult) {
-
         for (auto parameter : functionParameterList->getParameters()) {
             TypeChecker::applyPolicyTo(parameter, typeCheckerResult);
         }
-
     }
 }

@@ -6,14 +6,12 @@
 #include "../../types/type-checker-error-message-table.h"
 #include "../../type-checker.h"
 
-
 namespace FunctionDeclarationTypeCheckerPolicy {
     void apply(ASTFunctionDeclarationNode* functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto functionTypeSignature = functionDeclarationNode->getTypeSignature();
 
         TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult);
-
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             functionTypeSignature->getReturnType(),
@@ -28,7 +26,6 @@ namespace FunctionDeclarationTypeCheckerPolicy {
             ),
             typeCheckerResult
         );
-
         TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()->enforce(
             functionDeclarationNode->getBlock(),
             functionTypeSignature->getReturnType(),

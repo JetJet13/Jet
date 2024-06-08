@@ -15,6 +15,7 @@
 #include "expression-type-signature-strategies/function-return-expression-type-signature-strategy/function-return-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/identifier-expression-type-signature-strategy/identifier-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/lambda-expression-type-signature-strategy/lambda-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/lambda-with-fat-arrow-expression-type-signature-strategy/lambda-with-fat-arrow-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h"
@@ -51,6 +52,8 @@
 #include "for-statement-type-signature-strategy/for-statement-type-signature-strategy.h"
 #include "condition-type-signature-strategy/condition-type-signature-strategy.h"
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _arrayAccessExpressionTypeSignatureStrategy = new ArrayAccessExpressionTypeSignatureStrategy();
@@ -63,6 +66,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _functionReturnExpressionTypeSignatureStrategy = new FunctionReturnExpressionTypeSignatureStrategy();
     _identifierExpressionTypeSignatureStrategy = new IdentifierExpressionTypeSignatureStrategy();
     _lambdaExpressionTypeSignatureStrategy = new LambdaExpressionTypeSignatureStrategy();
+    _lambdaWithFatArrowExpressionTypeSignatureStrategy = new LambdaWithFatArrowExpressionTypeSignatureStrategy();
     _lambdaReturnExpressionTypeSignatureStrategy = new LambdaReturnExpressionTypeSignatureStrategy();
     _literalExpressionTypeSignatureStrategy = new LiteralExpressionTypeSignatureStrategy();
     _logicalExpressionTypeSignatureStrategy = new LogicalExpressionTypeSignatureStrategy();
@@ -78,7 +82,8 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _customTypeTypeSignatureStrategy = new CustomTypeTypeSignatureStrategy();
     _arrayTypeTypeSignatureStrategy = new ArrayTypeTypeSignatureStrategy();
     _tupleTypeTypeSignatureStrategy = new TupleTypeTypeSignatureStrategy();
-    _lambdaTypeTypeSignatureStrategy = new LambdaTypeTypeSignatureStrategy();
+    _functionTypeTypeSignatureStrategy = new FunctionTypeTypeSignatureStrategy();
+    _procedureTypeTypeSignatureStrategy = new ProcedureTypeTypeSignatureStrategy();
     _thisTypeTypeSignatureStrategy = new ThisTypeTypeSignatureStrategy();
     _enumKeyValueTypeSignatureStrategy = new EnumKeyValueTypeSignatureStrategy();
     _enumTypeSignatureStrategy = new EnumTypeSignatureStrategy();
@@ -144,6 +149,10 @@ LambdaExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaExpres
     return this->_lambdaExpressionTypeSignatureStrategy;
 }
 
+LambdaWithFatArrowExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaWithFatArrowExpressionTypeSignatureStrategy() {
+    return this->_lambdaWithFatArrowExpressionTypeSignatureStrategy;
+}
+
 LambdaReturnExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaReturnExpressionTypeSignatureStrategy() {
     return this->_lambdaReturnExpressionTypeSignatureStrategy;
 }
@@ -204,8 +213,12 @@ TupleTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleTypeTypeSignat
     return this->_tupleTypeTypeSignatureStrategy;
 }
 
-LambdaTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaTypeTypeSignatureStrategy() {
-    return this->_lambdaTypeTypeSignatureStrategy;
+FunctionTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getFunctionTypeTypeSignatureStrategy() {
+    return this->_functionTypeTypeSignatureStrategy;
+}
+
+ProcedureTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getProcedureTypeTypeSignatureStrategy() {
+    return this->_procedureTypeTypeSignatureStrategy;
 }
 
 ThisTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getThisTypeTypeSignatureStrategy() {
