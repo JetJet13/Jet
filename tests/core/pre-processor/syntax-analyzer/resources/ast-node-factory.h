@@ -621,9 +621,16 @@ namespace ASTNodeFactory {
                 )
         );
     }
-    static ASTTypeNode* createFunctionType(ASTTypeNode* returnType, std::vector<ASTTypeNode*> items = {}) {
+    static ASTTypeNode* createFunctionType(std::vector<ASTTypeNode*> items, ASTTypeNode* returnType) {
         return ASTTypeNodeFactory::createFunctionTypeNode(new ASTFunctionTypeNode(
                 ASTNodeFactory::createFunctionLambdaTypeParameterList(items),
+                ASTNodeFactory::lambdaTypeFatArrow,
+                returnType
+        ));
+    }
+    static ASTTypeNode* createFunctionType(ASTTypeNode* returnType) {
+        return ASTTypeNodeFactory::createFunctionTypeNode(new ASTFunctionTypeNode(
+                ASTNodeFactory::createFunctionLambdaTypeParameterList(),
                 ASTNodeFactory::lambdaTypeFatArrow,
                 returnType
         ));

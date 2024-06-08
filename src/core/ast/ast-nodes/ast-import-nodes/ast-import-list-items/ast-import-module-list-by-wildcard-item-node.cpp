@@ -51,6 +51,7 @@ bool ASTImportModuleListByWildcardItemNode::isSameAs(ASTNode *other) {
 void ASTImportModuleListByWildcardItemNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _moduleName->print();
+    _moduleAccessNode->print();
     _wildcard->print();
     Logger::log("----------");
 }

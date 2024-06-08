@@ -11,9 +11,9 @@ ASTUseManyByWildcardModuleDeclarationNode::ASTUseManyByWildcardModuleDeclaration
     _importModuleListByWildcardItemNode = importModuleListByWildcardItemNode;
     _fromKeyword = fromKeyword;
     _path = path;
-    _children.push_back(useKeyword);
-    _children.push_back(importModuleListByWildcardItemNode);
-    _children.push_back(fromKeyword);
+    _children.push_back(_useKeyword);
+    _children.push_back(_importModuleListByWildcardItemNode);
+    _children.push_back(_fromKeyword);
     _children.push_back(_path);
 }
 
@@ -52,7 +52,9 @@ bool ASTUseManyByWildcardModuleDeclarationNode::isSameAs(ASTNode *other) {
 
 void ASTUseManyByWildcardModuleDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
+    _useKeyword->print();
     _importModuleListByWildcardItemNode->print();
+    _fromKeyword->print();
     _path->print();
     Logger::log("----------");
 }
