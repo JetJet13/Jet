@@ -37,6 +37,7 @@
 #include "class-type-signature-strategy/class-property-type-signature-strategy/class-property-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h"
 #include "function-type-signature-strategy/function-type-signature-strategy.h"
@@ -60,6 +61,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _binaryExpressionTypeSignatureStrategy = new BinaryExpressionTypeSignatureStrategy();
     _classMethodInvocationExpressionTypeSignatureStrategy = new ClassMethodInvocationExpressionTypeSignatureStrategy();
     _classPropertyAccessExpressionTypeSignatureStrategy = new ClassPropertyAccessExpressionTypeSignatureStrategy();
+    _classPropertyAssignmentStatementTypeSignatureStrategy = new ClassPropertyAssignmentStatementTypeSignatureStrategy();
     _curryExpressionTypeSignatureStrategy = new CurryExpressionTypeSignatureStrategy();
     _functionInvocationExpressionTypeSignatureStrategy = new FunctionInvocationExpressionTypeSignatureStrategy();
     _functionReturnExpressionTypeSignatureStrategy = new FunctionReturnExpressionTypeSignatureStrategy();
@@ -126,6 +128,10 @@ ClassMethodInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::
 
 ClassPropertyAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getClassPropertyAccessExpressionTypeSignatureStrategy() {
     return this->_classPropertyAccessExpressionTypeSignatureStrategy;
+}
+
+ClassPropertyAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getClassPropertyAssignmentStatementTypeSignatureStrategy() {
+    return this->_classPropertyAssignmentStatementTypeSignatureStrategy;
 }
 
 CurryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getCurryExpressionTypeSignatureStrategy() {

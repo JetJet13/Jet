@@ -13,7 +13,7 @@
 
 class ClassPropertyAccessExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTClassPropertyAccessExpressionNode* classPropertyExpression, TypeSignatureLookupTable* typeSignatureLookupTable);
+    void assign(ASTClassPropertyAccessExpressionNode* classPropertyExpression, TypeSignatureLookupTable* scope);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_ACCESS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

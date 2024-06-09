@@ -14,14 +14,10 @@ void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstance
     );
     Logger::log("NewClassInstanceExpressionTypeSignatureStrategy");
     customTypeSignature->print();
-    Logger::log("customTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE)",
-                newClassInstanceExpression
-            ->getClassName()
-            ->getId(),  customTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE));
     Logger::log("!---");
     if (customTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
         newClassInstanceExpression->setTypeSignature(new ClassInstanceTypeSignature((ClassTypeSignature*)customTypeSignature));
-        return;
+    } else {
+        newClassInstanceExpression->setTypeSignature(new UnknownTypeSignature());
     }
-    newClassInstanceExpression->setTypeSignature(new UnknownTypeSignature());
 }

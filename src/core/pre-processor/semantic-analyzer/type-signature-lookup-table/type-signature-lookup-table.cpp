@@ -34,5 +34,8 @@ void TypeSignatureLookupTable::dump() {
     for (auto keyValue : _typeSignatureLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
     }
+    if (_outerScope) {
+        _outerScope.value()->dump();
+    }
     Logger::log("===============================================");
 }

@@ -11,10 +11,10 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     auto className = classDeclarationNode->getName()->getId();
     classDeclarationNode->setId(className);
     for (auto classPropertyDeclaration : *classDeclarationNode->getBlock()->getProperties()) {
-        classPropertyDeclaration->setId(this->generateClassPropertyDeclarationId(className, classPropertyDeclaration));
+        classPropertyDeclaration->setId(this->generateClassPropertyId(className, classPropertyDeclaration->getPropertyName()));
     }
     for (auto classMethodDeclaration : *classDeclarationNode->getBlock()->getMethods()) {
-        classMethodDeclaration->setId(this->generateClassMethodDeclarationId(className, classMethodDeclaration));
+        classMethodDeclaration->setId(this->generateClassMethodId(className, classMethodDeclaration->getClassMethodDefinition()->getMethodName()));
     }
 
     unsigned long constructorIndex = 0;
@@ -49,17 +49,37 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
             if (nodeClassName == className) {
                 astNode.value()->setId(classDeclarationNode->getId());
             }
+        } else if (astNode.value()->is(AST_CLASS_PROPERTY_NAME_NODE)) {
+            astNode.value()->setId(
+                this->generateClassPropertyId(
+                    className,
+                    (ASTClassPropertyNameNode*)astNode.value()
+                )
+            );
+        } else if (astNode.value()->is(AST_CLASS_METHOD_NAME_NODE)) {
+            astNode.value()->setId(
+                this->generateClassMethodId(
+                    className,
+                    (ASTClassMethodNameNode*)astNode.value()
+                )
+            );
+        } else if (astNode.value()->is(AST_CLASS_METHOD_CALL_NODE)) {
+            astNode.value()->setId(
+                this->generateClassMethodId(
+                        className,
+                        (ASTClassMethodCallNode*)astNode.value()
+                )
+            );
         }
         astNode = astTraverser.next();
     }
 }
 
-std::string ClassDeclarationIdStrategy::generateClassPropertyDeclarationId(std::string className, ASTClassPropertyDeclarationNode* classPropertyDeclaration) {
+std::string ClassDeclarationIdStrategy::generateClassPropertyId(std::string className, ASTClassPropertyNameNode* classPropertyName) {
     return className +
             "_property_" +
             _tokenTable->getIdentifier(
-                    classPropertyDeclaration
-                    ->getPropertyName()
+                    classPropertyName
                     ->getLexeme()
                     ->getToken()
                     ->getValueId()
@@ -67,18 +87,22 @@ std::string ClassDeclarationIdStrategy::generateClassPropertyDeclarationId(std::
             );
 }
 
-std::string ClassDeclarationIdStrategy::generateClassMethodDeclarationId(std::string className, ASTClassMethodDeclarationNode* classMethodDeclaration) {
+std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, ASTClassMethodNameNode* classMethodName) {
+    return this->generateClassMethodId(className, classMethodName->getLexeme());
+}
+
+std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, ASTClassMethodCallNode* classMethodCall) {
+    return this->generateClassMethodId(className, classMethodCall->getLexeme());
+}
+
+std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, Lexeme* lexeme) {
     return className +
-            "_method_" +
-            _tokenTable->getIdentifier(
-                classMethodDeclaration
-                ->getClassMethodDefinition()
-                ->getMethodName()
-                ->getLexeme()
-                ->getToken()
-                ->getValueId()
-                .value()
-            );
+           "_method_" +
+           _tokenTable->getIdentifier(
+                   lexeme->getToken()
+                   ->getValueId()
+                   .value()
+           );
 }
 
 std::string ClassDeclarationIdStrategy::generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, ASTClassConstructorDeclarationNode* constructorDeclaration) {

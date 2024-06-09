@@ -13,7 +13,11 @@ ASTClassPropertyAccessNode::ASTClassPropertyAccessNode(ASTClassAccessNode* class
     _children.push_back(_property);
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyAccessNode::getProperty() {
+ASTClassAccessNode* ASTClassPropertyAccessNode::getClassAccess() {
+    return _classAccess;
+}
+
+ASTClassPropertyNameNode* ASTClassPropertyAccessNode::getPropertyName() {
     return _property;
 }
 
@@ -38,7 +42,7 @@ bool ASTClassPropertyAccessNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTClassPropertyAccessNode*)other;
-    return this->getProperty()->isSameAs(otherNode->getProperty());
+    return this->getPropertyName()->isSameAs(otherNode->getPropertyName());
 }
 
 void ASTClassPropertyAccessNode::print() {

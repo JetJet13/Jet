@@ -5,13 +5,24 @@
 #include "class-property-access-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../type-signature/class-type-signature/class-type-signature.h"
 
-void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
-    auto classPropertyTypeSignature = typeSignatureLookupTable->find(classPropertyAccessExpression->getId());
-    if (!classPropertyTypeSignature->typeTargetIs(CLASS_PROPERTY_TYPE_SOURCE)) {
+void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeSignatureLookupTable* scope) {
+    auto classTypeSignature = (ClassTypeSignature*)scope->find(classPropertyAccessExpression->getPropertyAccess()->getClassAccess()->getThis()->getId());
+    Logger::log("ClassPropertyAccessExpressionTypeSignatureStrategy", "id", classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
+    classTypeSignature->print();
+    classTypeSignature->getProperties()->print();
+    classTypeSignature->getMethods()->print();
+    classTypeSignature->getConstructors()->print();
+    auto classPropertyTypeSignature = classTypeSignature->getProperties()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
+    if (!classPropertyTypeSignature) {
+        // todo: figure out a strategy so that the class properties and method type-signatures
+        // are defined at this point of the process
+        Logger::log("!classPropertyTypeSignature");
         classPropertyAccessExpression->setTypeSignature(new InvalidTypeSignature());
         return;
     }
-
-    classPropertyAccessExpression->setTypeSignature(((ClassPropertyTypeSignature*)classPropertyTypeSignature)->getType());
+    classPropertyTypeSignature.value()->print();
+    classPropertyAccessExpression->setTypeSignature(classPropertyTypeSignature.value()->getType());
 }

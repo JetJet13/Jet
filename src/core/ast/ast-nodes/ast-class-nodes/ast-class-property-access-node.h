@@ -16,7 +16,8 @@ private:
     ASTClassPropertyNameNode* _property;
 public:
     ASTClassPropertyAccessNode(ASTClassAccessNode* classAccess, ASTClassPropertyNameNode* property);
-    ASTClassPropertyNameNode* getProperty();
+    ASTClassAccessNode* getClassAccess();
+    ASTClassPropertyNameNode* getPropertyName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

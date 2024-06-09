@@ -12,6 +12,7 @@ class ArrayExpressionTypeSignatureStrategy;
 class BinaryExpressionTypeSignatureStrategy;
 class ClassMethodInvocationExpressionTypeSignatureStrategy;
 class ClassPropertyAccessExpressionTypeSignatureStrategy;
+class ClassPropertyAssignmentStatementTypeSignatureStrategy;
 class CurryExpressionTypeSignatureStrategy;
 class FunctionInvocationExpressionTypeSignatureStrategy;
 class FunctionReturnExpressionTypeSignatureStrategy;
@@ -65,6 +66,7 @@ private:
     BinaryExpressionTypeSignatureStrategy* _binaryExpressionTypeSignatureStrategy;
     ClassMethodInvocationExpressionTypeSignatureStrategy* _classMethodInvocationExpressionTypeSignatureStrategy;
     ClassPropertyAccessExpressionTypeSignatureStrategy* _classPropertyAccessExpressionTypeSignatureStrategy;
+    ClassPropertyAssignmentStatementTypeSignatureStrategy* _classPropertyAssignmentStatementTypeSignatureStrategy;
     CurryExpressionTypeSignatureStrategy* _curryExpressionTypeSignatureStrategy;
     FunctionInvocationExpressionTypeSignatureStrategy* _functionInvocationExpressionTypeSignatureStrategy;
     FunctionReturnExpressionTypeSignatureStrategy* _functionReturnExpressionTypeSignatureStrategy;
@@ -117,6 +119,7 @@ public:
     BinaryExpressionTypeSignatureStrategy* getBinaryExpressionTypeSignatureStrategy();
     ClassMethodInvocationExpressionTypeSignatureStrategy* getClassMethodInvocationExpressionTypeSignatureStrategy();
     ClassPropertyAccessExpressionTypeSignatureStrategy* getClassPropertyAccessExpressionTypeSignatureStrategy();
+    ClassPropertyAssignmentStatementTypeSignatureStrategy* getClassPropertyAssignmentStatementTypeSignatureStrategy();
     CurryExpressionTypeSignatureStrategy* getCurryExpressionTypeSignatureStrategy();
     FunctionInvocationExpressionTypeSignatureStrategy* getFunctionInvocationExpressionTypeSignatureStrategy();
     FunctionReturnExpressionTypeSignatureStrategy* getFunctionReturnExpressionTypeSignatureStrategy();

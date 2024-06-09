@@ -61,15 +61,6 @@ void RequiredReturnExpressionTypeCheckerRule::checkNode(std::vector<ASTNode*>* n
     for (auto statement : *nodes) {
         if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE) &&
             !statement->getTypeSignature()->getTargetTypeSignature()->isEquivalentTo(returnType)) {
-            Logger::log("RequiredReturnExpressionTypeCheckerRule");
-            Logger::log("statement");
-            statement->getTypeSignature()->print();
-            Logger::log("statement target");
-            statement->getTypeSignature()->getTargetTypeSignature()->print();
-            Logger::log("+++++++++++++++++++");
-            Logger::log("return type");
-            returnType->print();
-            Logger::log("!---");
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnExpressionMismatch(statement));
         } else if (statement->is(AST_IF_STATEMENT_NODE)) {
             this->enforce((ASTIfStatementNode*)statement, returnType, typeCheckerResult);

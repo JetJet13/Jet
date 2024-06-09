@@ -48,14 +48,10 @@ TypeSource ClassTypeSignature::getTypeSource() {
 }
 
 bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
-    if (this->getTypeSource() != otherType->getTypeSource()) {
-        return false;
-    }
-
-    auto other = (ClassTypeSignature*)otherType;
-    return this->getProperties()->isEqualTo(other->getProperties()) &&
-           this->getMethods()->isEqualTo(other->getMethods()) &&
-           this->getConstructors()->isEqualTo(other->getConstructors());
+    // todo: figure out an elegant way to perform equality check
+    // for class type-signatures without causing an infinite loop
+    // due to class instance references of self.
+    return this->getTypeSource() == otherType->getTypeSource();
 }
 
 void ClassTypeSignature::copyFrom(TypeSignature* otherType) {

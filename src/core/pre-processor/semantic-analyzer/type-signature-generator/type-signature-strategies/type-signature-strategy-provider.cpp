@@ -39,6 +39,7 @@
 #include "class-type-signature-strategy/class-property-type-signature-strategy/class-property-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h"
 #include "function-type-signature-strategy/function-type-signature-strategy.h"
@@ -86,12 +87,17 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
         case AST_CLASS_CONSTRUCTOR_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassConstructorTypeSignatureStrategy()
-                    ->assign((ASTClassConstructorDeclarationNode *) node, typeSignatureScope, this);
+                    ->assign((ASTClassConstructorDeclarationNode*) node, typeSignatureScope, this);
             break;
         case AST_CLASS_METHOD_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getClassMethodTypeSignatureStrategy()
-                    ->assign((ASTClassMethodDeclarationNode *) node, typeSignatureScope, this);
+                    ->assign((ASTClassMethodDeclarationNode*) node, typeSignatureScope, this);
+            break;
+        case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getClassPropertyAssignmentStatementTypeSignatureStrategy()
+                    ->assign((ASTClassPropertyAssignmentStatementNode*) node, typeSignatureScope, this);
             break;
         case AST_FUNCTION_DECLARATION_NODE:
             this->_typeSignatureStrategyMap

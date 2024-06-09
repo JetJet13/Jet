@@ -8,26 +8,17 @@
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = new ClassTypeSignature();
-    this->assignPropertyTypeSignatures(node, scope, classTypeSignature, strategyMap);
-    this->assignConstructorTypeSignatures(node, scope, classTypeSignature, strategyMap);
-    this->assignMethodTypeSignatures(node, scope, classTypeSignature, strategyMap);
+    auto classScope = TypeSignatureLookupTable(scope);
+    this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
+    this->assignConstructorTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
+    this->assignMethodTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     node->setTypeSignature(classTypeSignature);
+    scope->insert(node->getId(), node->getTypeSignature());
 }
 
 void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto constructor : *node->getBlock()->getConstructors()) {
         strategyMap->assignTypeSignatureFor(constructor, scope);
-        for (int i = 0; i < constructor->getParameters()->numParameters(); ++i) {
-            auto parameter = constructor->getParameters()->getParameters().at(i);
-            if (parameter->getType()->getType()->getId() == node->getId()) {
-                constructor
-                ->getTypeSignature()
-                ->getParameterList()
-                ->getParameters()
-                ->at(i)
-                ->setType(new ClassInstanceTypeSignature(classTypeSignature));
-            }
-        }
         classTypeSignature->addConstructor(
             constructor->getId(),
             constructor->getTypeSignature()
@@ -60,22 +51,6 @@ void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(ASTClassDeclaratio
 void ClassTypeSignatureStrategy::assignMethodTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto method : *node->getBlock()->getMethods()) {
         strategyMap->assignTypeSignatureFor(method, scope);
-        for (int i = 0; i < method->getParameters()->numParameters(); ++i) {
-            auto parameter = method->getParameters()->getParameters().at(i);
-            if (parameter->getType()->getType()->getId() == node->getId()) {
-                method
-                ->getTypeSignature()
-                ->getParameters()
-                ->getParameters()
-                ->at(i)
-                ->setType(new ClassInstanceTypeSignature(classTypeSignature));
-            }
-        }
-        if (method->getTypeSignature() &&
-            method->getReturnType() &&
-            method->getReturnType().value()->getType()->getId() == node->getId()) {
-            method->getTypeSignature()->setReturnType(new ClassInstanceTypeSignature(classTypeSignature));
-        }
         classTypeSignature->addMethod(
                 method->getId(),
                 method->getTypeSignature()
