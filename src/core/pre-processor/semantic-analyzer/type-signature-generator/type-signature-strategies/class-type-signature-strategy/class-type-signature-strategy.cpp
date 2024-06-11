@@ -5,6 +5,7 @@
 #include "class-type-signature-strategy.h"
 #include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = new ClassTypeSignature();
@@ -12,8 +13,17 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
     this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     this->assignConstructorTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     this->assignMethodTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
+    Logger::log("ClassTypeSignatureStrategy", node->getId());
+    classTypeSignature->print();
+    classTypeSignature->getProperties()->print();
+    classTypeSignature->getMethods()->print();
+    classTypeSignature->getConstructors()->print();
+    Logger::log("!!!----");
     node->setTypeSignature(classTypeSignature);
     scope->insert(node->getId(), node->getTypeSignature());
+    classScope.insert(node->getId(), node->getTypeSignature());
+    this->assignConstructorBlocksTypeSignature(node, &classScope, strategyMap);
+    this->assignMethodBlocksTypeSignature(node, &classScope, strategyMap);
 }
 
 void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
@@ -55,5 +65,21 @@ void ClassTypeSignatureStrategy::assignMethodTypeSignatures(ASTClassDeclarationN
                 method->getId(),
                 method->getTypeSignature()
         );
+    }
+}
+
+void ClassTypeSignatureStrategy::assignConstructorBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    for (auto constructor : *node->getBlock()->getConstructors()) {
+        auto constructorScope = TypeSignatureLookupTable(scope);
+        strategyMap->assignTypeSignatureFor(constructor->getParameters(), &constructorScope);
+        strategyMap->assignTypeSignatureFor(constructor->getBlock(), &constructorScope);
+    }
+}
+
+void ClassTypeSignatureStrategy::assignMethodBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    for (auto method : *node->getBlock()->getMethods()) {
+        auto methodScope = TypeSignatureLookupTable(scope);
+        strategyMap->assignTypeSignatureFor(method->getParameters(), &methodScope);
+        strategyMap->assignTypeSignatureFor(method->getBlock(), &methodScope);
     }
 }

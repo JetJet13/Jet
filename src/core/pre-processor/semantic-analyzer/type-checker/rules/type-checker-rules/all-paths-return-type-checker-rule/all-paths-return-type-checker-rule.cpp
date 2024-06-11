@@ -12,21 +12,7 @@ void AllPathsReturnTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockN
         return;
     }
 
-    auto allPathsReturn = true;
-    for (auto node : *functionBlockNode->getContents()) {
-        if (node->is(AST_IF_STATEMENT_NODE) && !this->verifyAllIfStatementPathsReturn((ASTIfStatementNode *) node)) {
-            allPathsReturn = false;
-            break;
-        }
-
-        if (node->is(AST_TRY_STATEMENT_NODE) && !this->verifyAllTryStatementPathsReturn((ASTTryStatementNode *) node)) {
-            allPathsReturn = false;
-            break;
-        }
-    }
-
-
-    if (!allPathsReturn) {
+    if (!this->verifyAllBlockPathsReturn(functionBlockNode->getContents())) {
         typeCheckerResult->addError(message);
     }
 }
@@ -52,107 +38,79 @@ bool AllPathsReturnTypeCheckerRule::verifyAllIfStatementPathsReturn(ASTIfStateme
         return false;
     }
 
-    auto ifBlockReturns = ifStatementNode->getIfBlock()->getBlock()->hasReturnExpression();
-    auto elseBlockReturns = ifStatementNode->getElseBlock().value()->getBlock()->hasReturnExpression();
 
-    if (ifBlockReturns && elseBlockReturns && ifStatementNode->getElseIfBlocks()->empty()) {
-        return true;
-    }
-
-    if (!ifBlockReturns) {
-        for (auto node : *ifStatementNode->getIfBlock()->getBlock()->getContents()) {
-            if (node->is(AST_IF_STATEMENT_NODE) && !this->verifyAllIfStatementPathsReturn((ASTIfStatementNode *) node)) {
-                return false;
-            }
-
-            if (node->is(AST_TRY_STATEMENT_NODE) && !this->verifyAllTryStatementPathsReturn((ASTTryStatementNode *) node)) {
-                return false;
-            }
-        }
+    if (!ifStatementNode->getIfBlock()->getBlock()->hasReturnExpression() &&
+        !this->verifyAllBlockPathsReturn(ifStatementNode->getIfBlock()->getBlock()->getContents())) {
+        return false;
     }
 
     for (auto elseIfBlock : *ifStatementNode->getElseIfBlocks()) {
-        if (elseIfBlock->getBlock()->hasReturnExpression()) {
-            continue;
-        } else {
-            for (auto node : *elseIfBlock->getBlock()->getContents()) {
-                if (node->is(AST_IF_STATEMENT_NODE) && !this->verifyAllIfStatementPathsReturn((ASTIfStatementNode *) node)) {
-                    return false;
-                }
-
-                if (node->is(AST_TRY_STATEMENT_NODE) && !this->verifyAllTryStatementPathsReturn((ASTTryStatementNode *) node)) {
-                    return false;
-                }
-            }
+        if (!elseIfBlock->getBlock()->hasReturnExpression() &&
+            !this->verifyAllBlockPathsReturn(elseIfBlock->getBlock()->getContents())) {
+            return false;
         }
     }
 
-    if (!elseBlockReturns) {
-        for (auto node : *ifStatementNode->getElseBlock().value()->getBlock()->getContents()) {
-            if (node->is(AST_IF_STATEMENT_NODE) && !this->verifyAllIfStatementPathsReturn((ASTIfStatementNode *) node)) {
-                return false;
-            }
 
-            if (node->is(AST_TRY_STATEMENT_NODE) && !this->verifyAllTryStatementPathsReturn((ASTTryStatementNode *) node)) {
-                return false;
-            }
-        }
+    if (!ifStatementNode->getElseBlock().value()->getBlock()->hasReturnExpression() &&
+        !this->verifyAllBlockPathsReturn(ifStatementNode->getElseBlock().value()->getBlock()->getContents())) {
+        return false;
     }
 
     return true;
 }
 
 bool AllPathsReturnTypeCheckerRule::verifyAllTryStatementPathsReturn(ASTTryStatementNode* tryStatementNode) {
-    auto tryBlockReturns = tryStatementNode->getTryBlock()->getBlock()->hasReturnExpression();
-    auto catchBlockReturns = tryStatementNode->getCatchBlock()->getBlock()->hasReturnExpression();
-    auto finallyBlockReturns = true;
+    auto tryBlockDoesNotReturn = !tryStatementNode->getTryBlock()->getBlock()->hasReturnExpression() &&
+                                 !this->verifyAllBlockPathsReturn(tryStatementNode->getTryBlock()->getBlock()->getContents());
 
-    if (tryStatementNode->getFinallyBlock()) {
-        finallyBlockReturns = tryStatementNode->getFinallyBlock().value()->getBlock()->hasReturnExpression();
+    auto catchBlockDoesNotReturn = !tryStatementNode->getCatchBlock()->getBlock()->hasReturnExpression() &&
+                                 !this->verifyAllBlockPathsReturn(tryStatementNode->getCatchBlock()->getBlock()->getContents());
+
+
+    if (tryStatementNode->getFinallyBlock() &&
+        !tryStatementNode->getFinallyBlock().value()->getBlock()->hasReturnExpression() &&
+        !this->verifyAllBlockPathsReturn(tryStatementNode->getFinallyBlock().value()->getBlock()->getContents())) {
+        return false;
+    } else if (tryBlockDoesNotReturn || catchBlockDoesNotReturn) {
+        return false;
     }
-
-    if (tryBlockReturns && catchBlockReturns && finallyBlockReturns) {
-        return true;
-    }
-
-    if (!tryBlockReturns) {
-        for (auto node : *tryStatementNode->getTryBlock()->getBlock()->getContents()) {
-            if (node->is(AST_IF_STATEMENT_NODE) && !this->verifyAllIfStatementPathsReturn((ASTIfStatementNode *) node)) {
-                return false;
-            }
-
-            if (node->is(AST_TRY_STATEMENT_NODE) && !this->verifyAllTryStatementPathsReturn((ASTTryStatementNode *) node)) {
-                return false;
-            }
-        }
-
-    }
-
-    if (!catchBlockReturns) {
-        for (auto node : *tryStatementNode->getCatchBlock()->getBlock()->getContents()) {
-            if (node->is(AST_IF_STATEMENT_NODE) && !this->verifyAllIfStatementPathsReturn((ASTIfStatementNode *) node)) {
-                return false;
-            }
-
-            if (node->is(AST_TRY_STATEMENT_NODE) && !this->verifyAllTryStatementPathsReturn((ASTTryStatementNode *) node)) {
-                return false;
-            }
-        }
-
-    }
-
-
-   if (tryStatementNode->getFinallyBlock() && !finallyBlockReturns) {
-       for (auto node : *tryStatementNode->getTryBlock()->getBlock()->getContents()) {
-           if (node->is(AST_IF_STATEMENT_NODE) && !this->verifyAllIfStatementPathsReturn((ASTIfStatementNode *) node)) {
-               return false;
-           }
-
-           if (node->is(AST_TRY_STATEMENT_NODE) && !this->verifyAllTryStatementPathsReturn((ASTTryStatementNode *) node)) {
-               return false;
-           }
-       }
-   }
 
     return true;
+}
+
+bool AllPathsReturnTypeCheckerRule::verifyAllBlockPathsReturn(std::vector<ASTNode*>* blockContents) {
+    auto pathsReturnResults = std::vector<bool>();
+    for (auto node : *blockContents) {
+
+        if (node->is(AST_IF_STATEMENT_NODE)) {
+            auto ifStatementNode = (ASTIfStatementNode*)node;
+            if (ifStatementNode->getElseBlock()) {
+                pathsReturnResults.push_back(
+                        this->verifyAllIfStatementPathsReturn(ifStatementNode)
+                );
+            }
+        }
+
+        if (node->is(AST_TRY_STATEMENT_NODE)) {
+            pathsReturnResults.push_back(
+                    this->verifyAllTryStatementPathsReturn((ASTTryStatementNode*) node)
+            );
+        }
+    }
+    return this->verifyAllPathsReturn(&pathsReturnResults);
+}
+
+bool AllPathsReturnTypeCheckerRule::verifyAllPathsReturn(std::vector<bool>* allPathsReturnResults) {
+    if (allPathsReturnResults->empty()) {
+        return false;
+    }
+
+    for (auto result : *allPathsReturnResults) {
+        if (!result) {
+            return false;
+        }
+    }
+    return true;
+
 }

@@ -10,17 +10,24 @@
 
 void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeSignatureLookupTable* scope) {
     auto classTypeSignature = (ClassTypeSignature*)scope->find(classPropertyAccessExpression->getPropertyAccess()->getClassAccess()->getThis()->getId());
-    Logger::log("ClassPropertyAccessExpressionTypeSignatureStrategy", "id", classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
-    classTypeSignature->print();
-    classTypeSignature->getProperties()->print();
-    classTypeSignature->getMethods()->print();
-    classTypeSignature->getConstructors()->print();
+//    Logger::log("class type id", classPropertyAccessExpression->getPropertyAccess()->getClassAccess()->getThis()->getId());
+//    Logger::log("ClassPropertyAccessExpressionTypeSignatureStrategy", "id", classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
+//    classTypeSignature->print();
+//    classTypeSignature->getProperties()->print();
+//    classTypeSignature->getMethods()->print();
+//    classTypeSignature->getConstructors()->print();
+//    Logger::log("!!!----");
     auto classPropertyTypeSignature = classTypeSignature->getProperties()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
     if (!classPropertyTypeSignature) {
-        // todo: figure out a strategy so that the class properties and method type-signatures
-        // are defined at this point of the process
-        Logger::log("!classPropertyTypeSignature");
-        classPropertyAccessExpression->setTypeSignature(new InvalidTypeSignature());
+        auto classMethodTypeSignature = classTypeSignature->getMethods()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
+        if (!classMethodTypeSignature) {
+            Logger::log("!classMethodTypeSignature and !classPropertyTypeSignature", classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
+            classPropertyAccessExpression->setTypeSignature(new InvalidTypeSignature());
+            return;
+        }
+        Logger::log("classMethodTypeSignature.value()", classMethodTypeSignature.value()->toString());
+        classPropertyAccessExpression->setTypeSignature(classMethodTypeSignature.value());
+        classPropertyAccessExpression->getTypeSignature()->print();
         return;
     }
     classPropertyTypeSignature.value()->print();

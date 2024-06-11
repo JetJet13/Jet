@@ -5,16 +5,14 @@
 #include "class-method-type-signature-strategy.h"
 
 void ClassMethodTypeSignatureStrategy::assign(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto classMethodScope = TypeSignatureLookupTable(scope);
     std::optional<TypeSignature*> returnType = {};
     if (classMethodDeclaration->getReturnType()) {
-        strategyMap->assignTypeSignatureFor(classMethodDeclaration->getReturnType().value(), &classMethodScope);
+        strategyMap->assignTypeSignatureFor(classMethodDeclaration->getReturnType().value(), scope);
         returnType = classMethodDeclaration->getReturnType().value()->getTypeSignature();
     }
 
-    strategyMap->assignTypeSignatureFor(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier(), &classMethodScope);
-    strategyMap->assignTypeSignatureFor(classMethodDeclaration->getParameters(), &classMethodScope);
-    strategyMap->assignTypeSignatureFor(classMethodDeclaration->getBlock(), &classMethodScope);
+    strategyMap->assignTypeSignatureFor(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier(), scope);
+    strategyMap->assignTypeSignatureFor(classMethodDeclaration->getParameters(), scope);
 
     classMethodDeclaration->setTypeSignature(
             new ClassMethodTypeSignature(

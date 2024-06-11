@@ -20,6 +20,7 @@ private:
     TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
     explicit ASTClassPropertyAssignmentNode(ASTClassPropertyAccessNode* classPropertyAccess, ASTAssignmentOperatorNode* assignmentOperator);
+    ASTClassAccessNode* getClassAccess();
     ASTClassPropertyNameNode* getProperty();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;

@@ -508,4 +508,5 @@ TEST_CASE( "should print the expected type signatures" ) {
         Logger::log("====================================");
     }
     typeCheckerResult.print();
+    REQUIRE(typeCheckerResult.ok());
 }

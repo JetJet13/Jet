@@ -14,6 +14,10 @@ ASTClassPropertyAssignmentNode::ASTClassPropertyAssignmentNode(ASTClassPropertyA
     _children.push_back(_assignmentOperator);
 }
 
+ASTClassAccessNode* ASTClassPropertyAssignmentNode::getClassAccess() {
+    return _classPropertyAccess->getClassAccess();
+}
+
 ASTClassPropertyNameNode* ASTClassPropertyAssignmentNode::getProperty() {
     return _classPropertyAccess->getPropertyName();
 }

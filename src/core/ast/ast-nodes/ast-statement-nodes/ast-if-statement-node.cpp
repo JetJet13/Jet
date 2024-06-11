@@ -46,6 +46,10 @@ std::optional<ASTElseBlockNode*> ASTIfStatementNode::getElseBlock() {
     return _elseBlock;
 }
 
+bool ASTIfStatementNode::onlyHasIfBlock() {
+    return _elseIfBlocks.empty() && !_elseBlock;
+}
+
 Position* ASTIfStatementNode::getStartPosition() {
     return _ifBlock->getStartPosition();
 }

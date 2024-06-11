@@ -77,7 +77,7 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
 
 std::string ClassDeclarationIdStrategy::generateClassPropertyId(std::string className, ASTClassPropertyNameNode* classPropertyName) {
     return className +
-            "_property_" +
+            "_" +
             _tokenTable->getIdentifier(
                     classPropertyName
                     ->getLexeme()
@@ -97,7 +97,7 @@ std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string classN
 
 std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, Lexeme* lexeme) {
     return className +
-           "_method_" +
+           "_" +
            _tokenTable->getIdentifier(
                    lexeme->getToken()
                    ->getValueId()

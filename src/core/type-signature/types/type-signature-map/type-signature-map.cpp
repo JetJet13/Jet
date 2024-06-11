@@ -77,6 +77,7 @@ unsigned long TypeSignatureMap<T>::size() {
 template<class T>
 void TypeSignatureMap<T>::print() {
     for (auto type : _typeSignatureMap) {
+        Logger::log("ID", type.first);
         type.second->print();
     }
 }

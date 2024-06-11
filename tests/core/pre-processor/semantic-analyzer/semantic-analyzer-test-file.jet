@@ -224,8 +224,10 @@ class MyClass {
     private myClassProp: MyClass;
     private otherClass: OtherClass = new OtherClass();
 
+    private foo: int;
+    private bar: boolean;
+
     constructor(other: MyClass) {
-        this.initIteratorTrait(500);
         this.foo = 10;
         this.bar = true;
     }
@@ -233,7 +235,6 @@ class MyClass {
     constructor(foo: int) {
             this.foo = foo;
             this.bar = true;
-            this.initIteratorTrait(this.foo);
     }
 
     public static create(foo: int) MyClass {
@@ -248,8 +249,12 @@ class MyClass {
         return new MyClass(100);
     }
 
-    public isValid() boolean {
-        return this.bar;
+    private static getBar() boolean {
+        return true;
+    }
+
+    public isValid() func<> => boolean {
+        return this.getBar;
     }
 
     protected setBar(bar: boolean) this {
@@ -298,36 +303,33 @@ while true {
     const anotherVar = true;
 }
 
-
 func hi(n: int) int {
     if n == 0 {
         return 0;
     }
 
     if n == 1 {
-        return 1;
+        return 10;
     } else {
-      if true {
-        if false {
-          const foo = 4;
+      if n == 2 {
+        if n == 3 {
+          return 40;
         } else {
-            return 1;
+           return 11;
         }
+      } else {
+        return 500;
       }
     }
-
 }
 
-//if block does not return, all inner blocks must return
-
 func bye() int {
-
     try {
         if 5 == 5 {
             return 5;
         }
+        return 1;
     } catch err {
-        return err;
+        return 0;
     }
-
 }
