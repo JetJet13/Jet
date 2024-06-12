@@ -477,8 +477,21 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {115, colorEnumTypeSignature},
             {116, new ClassInstanceTypeSignature(myClassTypeSignature)},
             {117, otherClassTypeSignature},
-            {118, myClassTypeSignature}
-
+            {118, myClassTypeSignature},
+            {119, new FunctionTypeSignature(
+                    new ParameterListTypeSignature({
+                       TypeSignatureFactory::createIntParameter("n")
+                    }),
+                    TypeSignatureFactory::intLiteral
+            )},
+            {120, new FunctionTypeSignature(
+                    new ParameterListTypeSignature(),
+                    TypeSignatureFactory::intLiteral
+            )},
+            {121, new FunctionTypeSignature(
+                    new ParameterListTypeSignature(),
+                    TypeSignatureFactory::intLiteral
+            )},
 
     };
 }
@@ -497,7 +510,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
-    for (int i = 0; i < 118; i++) {
+    for (int i = 0; i < 121; i++) {
         auto declaration = fileNodeResult->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         Logger::log("=====", i + 1, declaration->toString(), "=====");

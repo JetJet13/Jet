@@ -69,10 +69,14 @@ bool AllPathsReturnTypeCheckerRule::verifyAllTryStatementPathsReturn(ASTTryState
 
 
     if (tryStatementNode->getFinallyBlock() &&
-        !tryStatementNode->getFinallyBlock().value()->getBlock()->hasReturnExpression() &&
-        !this->verifyAllBlockPathsReturn(tryStatementNode->getFinallyBlock().value()->getBlock()->getContents())) {
-        return false;
-    } else if (tryBlockDoesNotReturn || catchBlockDoesNotReturn) {
+        (
+            tryStatementNode->getFinallyBlock().value()->getBlock()->hasReturnExpression() ||
+            this->verifyAllBlockPathsReturn(tryStatementNode->getFinallyBlock().value()->getBlock()->getContents()))
+        ) {
+        return true;
+    }
+
+    if (tryBlockDoesNotReturn || catchBlockDoesNotReturn) {
         return false;
     }
 
