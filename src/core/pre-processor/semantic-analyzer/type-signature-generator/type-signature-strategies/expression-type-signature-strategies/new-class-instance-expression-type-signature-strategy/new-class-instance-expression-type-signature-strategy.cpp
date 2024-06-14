@@ -12,9 +12,6 @@ void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstance
             ->getClassName()
             ->getId()
     );
-    Logger::log("NewClassInstanceExpressionTypeSignatureStrategy");
-    customTypeSignature->print();
-    Logger::log("!---");
     if (customTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
         newClassInstanceExpression->setTypeSignature(new ClassInstanceTypeSignature((ClassTypeSignature*)customTypeSignature));
     } else {

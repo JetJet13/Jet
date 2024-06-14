@@ -17,18 +17,23 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Value.h"
+#include "llvm/IR/IRBuilder.h"
 #include "ir-lookup-table/ir-lookup-table.h"
-#include "../ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h"
-#include "../ast/ast-nodes/ast-literal-nodes/ast-literal-node.h"
+#include "../../core/ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h"
+#include "../../core/ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
+#include "../../core/ast/ast-nodes/ast-literal-nodes/ast-literal-node.h"
+#include "../../core/ast/ast-nodes/ast-statement-nodes/ast-statement-node.h"
 
 class IRGenerator {
 private:
     std::unique_ptr<llvm::LLVMContext> _context;
-    std::unique_ptr<llvm::Module> _module;
-    std::unique_ptr<llvm::IRBuilder<>> _builder;
     TokenTable* _tokenTable;
 public:
-    IRGenerator(TokenTable* tokenTable);
+    explicit IRGenerator(TokenTable* tokenTable);
+    llvm::Value* generateFor(ASTNode* node, IRLookupTable* scope);
+    llvm::Value* generateFor(ASTStatementNode* node, IRLookupTable* scope);
+    llvm::Value* generateFor(ASTDeclarationNode* node, IRLookupTable* scope);
+    llvm::Value* generateFor(ASTExpressionNode* node, IRLookupTable* scope);
     llvm::Value* generateFor(ASTLiteralNode* node, IRLookupTable* scope);
 };
 

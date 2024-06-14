@@ -1,9 +1,3 @@
-set(LT_LLVM_INSTALL_DIR, "/usr/local/opt/llvm")
-set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
-find_package(LLVM CONFIG)
-include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
-link_directories(${LLVM_LIBRARY_DIRS})
-add_definitions(${LLVM_DEFINITIONS})
 
 add_library(jet-core
         ./lexeme/lexeme.h
@@ -1036,10 +1030,6 @@ add_library(jet-core
         type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h
         type-signature/invocable-type-signature/invocable-type-signature.cpp
         type-signature/invocable-type-signature/invocable-type-signature.h
-        ir-generator/ir-generator.cpp
-        ir-generator/ir-generator.h
-        ir-generator/ir-lookup-table/ir-lookup-table.cpp
-        ir-generator/ir-lookup-table/ir-lookup-table.h
 
 )
 

@@ -13,12 +13,6 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
     this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     this->assignConstructorTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     this->assignMethodTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
-    Logger::log("ClassTypeSignatureStrategy", node->getId());
-    classTypeSignature->print();
-    classTypeSignature->getProperties()->print();
-    classTypeSignature->getMethods()->print();
-    classTypeSignature->getConstructors()->print();
-    Logger::log("!!!----");
     node->setTypeSignature(classTypeSignature);
     scope->insert(node->getId(), node->getTypeSignature());
     classScope.insert(node->getId(), node->getTypeSignature());
