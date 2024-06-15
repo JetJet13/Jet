@@ -4,6 +4,7 @@ find_package(LLVM CONFIG)
 include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
 link_directories(${LLVM_LIBRARY_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
+llvm_map_components_to_libnames(llvm_libs support core irreader irprinter)
 
 add_library(jet-vm
         ./ir-generator/ir-generator.cpp
@@ -15,5 +16,5 @@ add_library(jet-vm
 target_link_libraries(jet-vm
         PRIVATE jet-core
         PRIVATE jet-shared
-        PRIVATE LLVMSupport
+        PRIVATE ${llvm_libs}
 )

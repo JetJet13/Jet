@@ -46,7 +46,6 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
                 this->accept();
                 break;
             }
-            Logger::log("_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()");
         }
         numLoops++;
     }

@@ -10,6 +10,7 @@
 #include "../core/pre-processor/lexical-analyzer/lexical-analyzer.h"
 #include "../core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../core/pre-processor/semantic-analyzer/semantic-analyzer.h"
+#include "../vm/ir-generator/ir-generator.h"
 
 
 int main (int argc, const char* argv[]) {
@@ -26,6 +27,7 @@ int main (int argc, const char* argv[]) {
         auto fileNode = syntaxAnalyzer.analyze(filePath);
         auto semanticAnalyzer = SemanticAnalyzer(new DependencyGraph());
         semanticAnalyzer.analyze(fileNode, new TypeSignatureLookupTable());
+        auto irGenerator = new IRGenerator(tokenTable);
 
     } else {
         Logger::log("too many arguments..exiting");

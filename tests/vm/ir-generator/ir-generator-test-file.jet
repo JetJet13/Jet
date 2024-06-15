@@ -1,6 +1,7 @@
-123;
+89;
 100.0;
 'c';
 "Hello World";
 true;
 false;
+'\n';

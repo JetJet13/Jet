@@ -1,0 +1,7 @@
+i7 -39
+float 1.000000e+02
+i8 99
+[11 x i8] c"Hello World"
+i1 true
+i1 false
+i8 10

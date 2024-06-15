@@ -1,3 +1,10 @@
+set(LT_LLVM_INSTALL_DIR, "/usr/local/opt/llvm")
+set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
+find_package(LLVM CONFIG)
+include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
+link_directories(${LLVM_LIBRARY_DIRS})
+add_definitions(${LLVM_DEFINITIONS})
+llvm_map_components_to_libnames(llvm_libs support core irreader irprinter)
 
 Include(FetchContent)
 FetchContent_Declare(
@@ -14,6 +21,8 @@ add_executable(jet-test
         core/pre-processor/semantic-analyzer/semantic-analyzer.test.cpp
         core/pre-processor/semantic-analyzer/resources/type-signature-factory.h
         vm/ir-generator/ir-generator.test.cpp
+        vm/ir-generator/resources/file-equality-checker/file-equality-checker.cpp
+        vm/ir-generator/resources/file-equality-checker/file-equality-checker.h
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core/pre-processor/lexical-analyzer/lexical-analyzer-test-file.jet
@@ -24,13 +33,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core/pre-processor/semantic-analyzer/
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/vm/ir-generator/ir-generator-test-file.jet
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-
-set(LT_LLVM_INSTALL_DIR, "/usr/local/opt/llvm")
-set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
-find_package(LLVM CONFIG)
-include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
-link_directories(${LLVM_LIBRARY_DIRS})
-add_definitions(${LLVM_DEFINITIONS})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/vm/ir-generator/ir-generator-test-expected-output.ir
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 target_compile_features(jet-test PRIVATE cxx_std_17)
 target_link_libraries(jet-test
@@ -38,4 +42,5 @@ target_link_libraries(jet-test
         PRIVATE jet-vm
         PRIVATE jet-core
         PRIVATE jet-shared
+        PRIVATE ${llvm_libs}
 )

@@ -54,12 +54,12 @@ llvm::Value* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope
     } else if (node->is(AST_FLOAT_LITERAL_NODE)) {
         return llvm::ConstantFP::get(*_context, llvm::APFloat(_tokenTable->getFloat(node->getLiteral()->getToken()->getValueId().value())));
     } else if (node->is(AST_CHAR_LITERAL_NODE)) {
-        return llvm::ConstantInt::get(*_context, llvm::APInt(8, _tokenTable->getChar(node->getLiteral()->getToken()->getValueId().value())));
+        return llvm::ConstantInt::get(*_context, llvm::APInt(CHAR_BIT, _tokenTable->getChar(node->getLiteral()->getToken()->getValueId().value())));
     } else if (node->is(AST_STRING_LITERAL_NODE)) {
         auto chars = std::vector<llvm::Constant*>();
         auto stringNode = (ASTStringLiteralNode*)node;
         for (auto character : stringNode->getValue()) {
-            chars.push_back(llvm::ConstantInt::get(*_context, llvm::APInt(8, character)));
+            chars.push_back(llvm::ConstantInt::get(*_context, llvm::APInt(CHAR_BIT, character)));
         }
         return llvm::ConstantArray::get(
                 llvm::ArrayType::get(
