@@ -23,6 +23,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h
         ir-generator/ir-strategies/ir-strategy-map.cpp
         ir-generator/ir-strategies/ir-strategy-map.h
+        ir-generator/ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

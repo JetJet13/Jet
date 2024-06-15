@@ -48,6 +48,8 @@ public:
     bool isLessThanOrEqual();
     bool isEqualityOperator();
     bool isInequalityOperator();
+    bool isAnd();
+    bool isOr();
     bool isLogicalOperator();
     bool isUnaryOperator();
     bool isFunction();

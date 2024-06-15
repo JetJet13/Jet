@@ -26,6 +26,8 @@ public:
     bool isLessThan();
     bool isGreaterThanOrEqual();
     bool isLessThanOrEqual();
+    bool isArithmetic();
+    bool isComparator();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

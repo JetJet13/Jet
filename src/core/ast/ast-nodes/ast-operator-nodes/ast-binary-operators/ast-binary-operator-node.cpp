@@ -58,6 +58,23 @@ bool ASTBinaryOperatorNode::isLessThanOrEqual() {
     return _lexeme->getToken()->getSymbol()->isLessThanOrEqual();
 }
 
+bool ASTBinaryOperatorNode::isArithmetic() {
+    return this->isPlus() ||
+    this->isMinus() ||
+    this->isMultiply() ||
+    this->isDivide() ||
+    this->isModulo();
+}
+
+bool ASTBinaryOperatorNode::isComparator() {
+    return this->isEqual() ||
+    this->isNotEqual() ||
+    this->isLessThan() ||
+    this->isLessThanOrEqual() ||
+    this->isGreaterThan() ||
+    this->isGreaterThanOrEqual();
+}
+
 Position* ASTBinaryOperatorNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }

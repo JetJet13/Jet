@@ -8,6 +8,8 @@
 #include "ir-strategies/literal-ir-strategies/char-literal-ir-strategy/char-literal-ir-strategy.h"
 #include "ir-strategies/literal-ir-strategies/string-literal-ir-strategy/string-literal-ir-strategy.h"
 #include "ir-strategies/literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
@@ -47,6 +49,10 @@ llvm::Value* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTable* s
 llvm::Value* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope) {
     if (node->is(AST_LITERAL_EXPRESSION_NODE)) {
         return this->generateFor(((ASTLiteralExpressionNode*)node)->getLiteralNode(), scope);
+    } else if (node->is(AST_BINARY_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node, &_context, this, scope);
+    } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node, &_context, this, scope);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }

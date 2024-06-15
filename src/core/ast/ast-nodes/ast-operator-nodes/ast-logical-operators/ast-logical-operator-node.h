@@ -10,6 +10,8 @@
 class ASTLogicalOperatorNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 public:
+    bool isAnd();
+    bool isOr();
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

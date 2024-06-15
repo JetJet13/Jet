@@ -145,6 +145,14 @@ bool Symbol::isInequalityOperator() {
     return _type == SYM_BANG_EQUAL;
 }
 
+bool Symbol::isAnd() {
+    return _type == SYM_AND;
+}
+
+bool Symbol::isOr() {
+    return _type == SYM_OR;
+}
+
 bool Symbol::isLogicalOperator() {
     return _type == SYM_AND || _type == SYM_OR;
 }

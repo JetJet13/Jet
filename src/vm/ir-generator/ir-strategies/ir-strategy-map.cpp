@@ -8,6 +8,8 @@
 #include "./literal-ir-strategies/char-literal-ir-strategy/char-literal-ir-strategy.h"
 #include "./literal-ir-strategies/string-literal-ir-strategy/string-literal-ir-strategy.h"
 #include "./literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
+#include "./expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
+#include "./expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
     _intLiteralIRStrategy = new IntLiteralIRStrategy();
@@ -15,6 +17,8 @@ IRStrategyMap::IRStrategyMap() {
     _charLiteralIRStrategy = new CharLiteralIRStrategy();
     _stringLiteralIRStrategy = new StringLiteralIRStrategy();
     _boolLiteralIRStrategy = new BoolLiteralIRStrategy();
+    _binaryExpressionIRStrategy = new BinaryExpressionIRStrategy();
+    _logicalExpressionIRStrategy = new LogicalExpressionIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -35,4 +39,12 @@ StringLiteralIRStrategy* IRStrategyMap::getStringLiteralIRStrategy() {
 
 BoolLiteralIRStrategy* IRStrategyMap::getBoolLiteralIRStrategy() {
     return _boolLiteralIRStrategy;
+}
+
+BinaryExpressionIRStrategy* IRStrategyMap::getBinaryExpressionIRStrategy() {
+    return _binaryExpressionIRStrategy;
+}
+
+LogicalExpressionIRStrategy* IRStrategyMap::getLogicalExpressionIRStrategy() {
+    return _logicalExpressionIRStrategy;
 }

@@ -10,6 +10,8 @@ class FloatLiteralIRStrategy;
 class CharLiteralIRStrategy;
 class StringLiteralIRStrategy;
 class BoolLiteralIRStrategy;
+class BinaryExpressionIRStrategy;
+class LogicalExpressionIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -18,6 +20,8 @@ private:
     CharLiteralIRStrategy* _charLiteralIRStrategy;
     StringLiteralIRStrategy* _stringLiteralIRStrategy;
     BoolLiteralIRStrategy* _boolLiteralIRStrategy;
+    BinaryExpressionIRStrategy* _binaryExpressionIRStrategy;
+    LogicalExpressionIRStrategy* _logicalExpressionIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -25,6 +29,8 @@ public:
     CharLiteralIRStrategy* getCharLiteralIRStrategy();
     StringLiteralIRStrategy* getStringLiteralIRStrategy();
     BoolLiteralIRStrategy* getBoolLiteralIRStrategy();
+    BinaryExpressionIRStrategy* getBinaryExpressionIRStrategy();
+    LogicalExpressionIRStrategy* getLogicalExpressionIRStrategy();
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H
