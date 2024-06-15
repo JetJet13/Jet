@@ -3,19 +3,22 @@
 //
 
 #include "ir-generator.h"
-#include "../../core/ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
-#include "../../core/ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
-#include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
+#include "ir-strategies/literal-ir-strategies/int-literal-ir-strategy/int-literal-ir-strategy.h"
+#include "ir-strategies/literal-ir-strategies/float-literal-ir-strategy/float-literal-ir-strategy.h"
+#include "ir-strategies/literal-ir-strategies/char-literal-ir-strategy/char-literal-ir-strategy.h"
+#include "ir-strategies/literal-ir-strategies/string-literal-ir-strategy/string-literal-ir-strategy.h"
+#include "ir-strategies/literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
+#include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 
 // The IRGenerator will be responsible for programmatically generating
 // vm code.
 // we need to figure out how to generate vm code for an ASTNode and its
 // type signature.
-IRGenerator::IRGenerator(TokenTable* tokenTable) {
+IRGenerator::IRGenerator() {
     _context = std::make_unique<llvm::LLVMContext>();
-    _tokenTable = tokenTable;
+    _irStrategyMap = IRStrategyMap();
 }
 
 llvm::Value* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope) {
@@ -49,30 +52,18 @@ llvm::Value* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* sc
 }
 
 llvm::Value* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope) {
-    if (node->is(AST_INT_LITERAL_NODE)) {
-        return llvm::ConstantInt::get(*_context, llvm::APSInt(node->getLiteral()->getToken()->getRawValue()));
-    } else if (node->is(AST_FLOAT_LITERAL_NODE)) {
-        return llvm::ConstantFP::get(*_context, llvm::APFloat(_tokenTable->getFloat(node->getLiteral()->getToken()->getValueId().value())));
-    } else if (node->is(AST_CHAR_LITERAL_NODE)) {
-        return llvm::ConstantInt::get(*_context, llvm::APInt(CHAR_BIT, _tokenTable->getChar(node->getLiteral()->getToken()->getValueId().value())));
-    } else if (node->is(AST_STRING_LITERAL_NODE)) {
-        auto chars = std::vector<llvm::Constant*>();
-        auto stringNode = (ASTStringLiteralNode*)node;
-        for (auto character : stringNode->getValue()) {
-            chars.push_back(llvm::ConstantInt::get(*_context, llvm::APInt(CHAR_BIT, character)));
-        }
-        return llvm::ConstantArray::get(
-                llvm::ArrayType::get(
-                        llvm::IntegerType::getInt8Ty(*_context),
-                        chars.size()
-                ),
-                llvm::ArrayRef(chars)
-        );
-    } else if (node->is(AST_BOOLEAN_LITERAL_NODE)) {
-        return ((ASTBooleanLiteralNode*)node)->getValue()
-               ? llvm::ConstantInt::get(*_context, llvm::APSInt("1"))
-               : llvm::ConstantInt::get(*_context, llvm::APSInt("0"));
+    switch (node->getNodeType()) {
+        case AST_INT_LITERAL_NODE:
+            return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode*)node, &_context);;
+        case AST_FLOAT_LITERAL_NODE:
+            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode*)node, &_context);
+        case AST_CHAR_LITERAL_NODE:
+            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode*)node, &_context);
+        case AST_STRING_LITERAL_NODE:
+            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode*)node, &_context);
+        case AST_BOOLEAN_LITERAL_NODE:
+            return _irStrategyMap.getBoolLiteralIRStrategy()->generate((ASTBooleanLiteralNode*)node, &_context);
+        default:
+            throw std::logic_error("unknown literal node");
     }
-
-    throw std::logic_error("unknown literal node");
 }

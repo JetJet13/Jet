@@ -23,13 +23,14 @@
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
 #include "../../core/ast/ast-nodes/ast-literal-nodes/ast-literal-node.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-statement-node.h"
+#include "ir-strategies/ir-strategy-map.h"
 
 class IRGenerator {
 private:
     std::unique_ptr<llvm::LLVMContext> _context;
-    TokenTable* _tokenTable;
+    IRStrategyMap _irStrategyMap;
 public:
-    explicit IRGenerator(TokenTable* tokenTable);
+    explicit IRGenerator();
     llvm::Value* generateFor(ASTNode* node, IRLookupTable* scope);
     llvm::Value* generateFor(ASTStatementNode* node, IRLookupTable* scope);
     llvm::Value* generateFor(ASTDeclarationNode* node, IRLookupTable* scope);

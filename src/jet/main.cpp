@@ -27,7 +27,7 @@ int main (int argc, const char* argv[]) {
         auto fileNode = syntaxAnalyzer.analyze(filePath);
         auto semanticAnalyzer = SemanticAnalyzer(new DependencyGraph());
         semanticAnalyzer.analyze(fileNode, new TypeSignatureLookupTable());
-        auto irGenerator = new IRGenerator(tokenTable);
+        auto irGenerator = new IRGenerator();
 
     } else {
         Logger::log("too many arguments..exiting");
