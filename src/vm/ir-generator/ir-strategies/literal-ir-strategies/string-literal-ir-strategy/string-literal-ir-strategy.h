@@ -10,7 +10,7 @@
 
 class StringLiteralIRStrategy {
 public:
-    llvm::Value* generate(ASTStringLiteralNode* node, std::unique_ptr<llvm::LLVMContext>*);
+    llvm::Value* generate(ASTStringLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context);
 };
 
 #endif //JETLANG_STRING_LITERAL_IR_STRATEGY_H

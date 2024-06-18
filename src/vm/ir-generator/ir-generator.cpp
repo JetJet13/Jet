@@ -10,6 +10,8 @@
 #include "ir-strategies/literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
@@ -53,6 +55,8 @@ llvm::Value* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* sc
         return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node, &_context, this, scope);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node, &_context, this, scope);
+    } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node, &_context, this, scope);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
@@ -72,4 +76,24 @@ llvm::Value* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope
         default:
             throw std::logic_error("unknown literal node");
     }
+}
+
+llvm::Type* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
+    switch (typeSignature->getTypeSource()) {
+        case ARRAY_TYPE_SOURCE:
+            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, this);
+        default:
+            throw std::logic_error("unable to generate llvm type for type-signature " + typeSignature->toString());
+    }
+}
+
+llvm::Type* IRGenerator::determineBestFitType(std::vector<llvm::Value*> elementValues) {
+// todo: implement
+// e.g. array of strings, where each string has a different length
+// find the largest string and return it's type
+// [ "hi", "there", "willis"]
+// return llvm::Type* should be [6 x i8] for "willis"
+// so the array expression llvm::Type* will be [3 x [6 x i8]]
+// instead of always taking the llvm::Type* of the first element in the array
+// which would be [3 x [2 x i8]] which is wrong since "willis" will not fit inside [2 x i8]
 }

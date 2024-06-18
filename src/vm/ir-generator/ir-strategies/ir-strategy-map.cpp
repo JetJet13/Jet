@@ -10,6 +10,8 @@
 #include "./literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
 #include "./expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
 #include "./expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
+#include "./expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
+#include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
     _intLiteralIRStrategy = new IntLiteralIRStrategy();
@@ -19,6 +21,8 @@ IRStrategyMap::IRStrategyMap() {
     _boolLiteralIRStrategy = new BoolLiteralIRStrategy();
     _binaryExpressionIRStrategy = new BinaryExpressionIRStrategy();
     _logicalExpressionIRStrategy = new LogicalExpressionIRStrategy();
+    _arrayExpressionIRStrategy = new ArrayExpressionIRStrategy();
+    _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -47,4 +51,12 @@ BinaryExpressionIRStrategy* IRStrategyMap::getBinaryExpressionIRStrategy() {
 
 LogicalExpressionIRStrategy* IRStrategyMap::getLogicalExpressionIRStrategy() {
     return _logicalExpressionIRStrategy;
+}
+
+ArrayExpressionIRStrategy* IRStrategyMap::getArrayExpressionIRStrategy() {
+    return _arrayExpressionIRStrategy;
+}
+
+ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
+    return _arrayTypeSignatureIRStrategy;
 }

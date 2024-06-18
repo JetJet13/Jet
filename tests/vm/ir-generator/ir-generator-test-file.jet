@@ -33,3 +33,5 @@ false || false;
 'c' && 'b';
 "hello" && "world";
 20.10 && 15.10;
+[20, 30 , 40];
+["hello", "foo"];

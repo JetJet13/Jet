@@ -24,6 +24,7 @@
 #include "../../core/ast/ast-nodes/ast-literal-nodes/ast-literal-node.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-statement-node.h"
 #include "ir-strategies/ir-strategy-map.h"
+#include "../../core/type-signature/array-type-signature/array-type-signature.h"
 
 class IRGenerator {
 private:
@@ -36,6 +37,8 @@ public:
     llvm::Value* generateFor(ASTDeclarationNode* node, IRLookupTable* scope);
     llvm::Value* generateFor(ASTExpressionNode* node, IRLookupTable* scope);
     llvm::Value* generateFor(ASTLiteralNode* node, IRLookupTable* scope);
+    llvm::Type* generateTypeFor(TypeSignature* typeSignature);
+    llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
 };
 
 #endif //JETLANG_IR_GENERATOR_H

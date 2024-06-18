@@ -343,3 +343,5 @@ for i in array {
 while true {
     const anotherVar = true;
 }
+
+const emptyArray: arr<int> = [];

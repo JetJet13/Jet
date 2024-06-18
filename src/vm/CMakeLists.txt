@@ -27,6 +27,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h
         ir-generator/ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

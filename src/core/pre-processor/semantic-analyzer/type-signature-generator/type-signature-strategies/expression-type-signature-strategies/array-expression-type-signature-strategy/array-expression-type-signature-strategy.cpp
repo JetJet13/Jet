@@ -5,10 +5,17 @@
 #include "array-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    if (arrayExpression->size() == 0) {
-        arrayExpression->setTypeSignature(new ArrayTypeSignature(new UnknownTypeSignature()));
+    if (arrayExpression->size() == 0 &&
+        arrayExpression->getParentNode() &&
+        arrayExpression->getParentNode().value()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE)) {
+        arrayExpression->setTypeSignature(
+            (ArrayTypeSignature*)arrayExpression->getParentNode().value()->getTypeSignature()
+        );
+        return;
+    } else if (arrayExpression->size() == 0) {
         return;
     }
 

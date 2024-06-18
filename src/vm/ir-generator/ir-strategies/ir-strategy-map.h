@@ -12,6 +12,9 @@ class StringLiteralIRStrategy;
 class BoolLiteralIRStrategy;
 class BinaryExpressionIRStrategy;
 class LogicalExpressionIRStrategy;
+class ArrayExpressionIRStrategy;
+// Type Signature IR Strategies
+class ArrayTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -22,6 +25,9 @@ private:
     BoolLiteralIRStrategy* _boolLiteralIRStrategy;
     BinaryExpressionIRStrategy* _binaryExpressionIRStrategy;
     LogicalExpressionIRStrategy* _logicalExpressionIRStrategy;
+    ArrayExpressionIRStrategy* _arrayExpressionIRStrategy;
+    // Type Signature IR Strategies
+    ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -31,6 +37,9 @@ public:
     BoolLiteralIRStrategy* getBoolLiteralIRStrategy();
     BinaryExpressionIRStrategy* getBinaryExpressionIRStrategy();
     LogicalExpressionIRStrategy* getLogicalExpressionIRStrategy();
+    ArrayExpressionIRStrategy* getArrayExpressionIRStrategy();
+    // Type Signature IR Strategies
+    ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H
