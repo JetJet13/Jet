@@ -15,6 +15,8 @@
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "../../shared/utils/logger/logger.h"
+#include "../ir-type/ir-type.h"
 
 // The IRGenerator will be responsible for programmatically generating
 // vm code.
@@ -24,6 +26,8 @@ IRGenerator::IRGenerator() {
     _context = std::make_unique<llvm::LLVMContext>();
     _irStrategyMap = IRStrategyMap();
 }
+
+
 
 llvm::Value* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope) {
     if (ASTNodeUtils::isDeclarationNode(node)) {
@@ -88,12 +92,13 @@ llvm::Type* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
 }
 
 llvm::Type* IRGenerator::determineBestFitType(std::vector<llvm::Value*> elementValues) {
-// todo: implement
-// e.g. array of strings, where each string has a different length
-// find the largest string and return it's type
-// [ "hi", "there", "willis"]
-// return llvm::Type* should be [6 x i8] for "willis"
-// so the array expression llvm::Type* will be [3 x [6 x i8]]
-// instead of always taking the llvm::Type* of the first element in the array
-// which would be [3 x [2 x i8]] which is wrong since "willis" will not fit inside [2 x i8]
+
+IRType* largestType = new IRType(elementValues[0]->getType());
+    for (auto element : elementValues) {
+        auto elementType = new IRType(element->getType());
+        if (elementType->isGreaterThan(largestType)) {
+            largestType = elementType;
+        }
+    }
+    return largestType->getType();
 }

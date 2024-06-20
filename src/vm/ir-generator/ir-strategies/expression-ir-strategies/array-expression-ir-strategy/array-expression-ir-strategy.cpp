@@ -3,9 +3,19 @@
 //
 
 #include "array-expression-ir-strategy.h"
+#include "../../../../ir-type/ir-type.h"
+#include "../../../../utils/address-space-calculator/address-space-calculator.h"
+#include "../../../../utils/data-alignment-calculator/data-alignment-calculator.h"
+
 
 llvm::Value* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    return new llvm::AllocaInst(this->generateArrayType(node, irGenerator, scope), 0, nullptr, llvm::Align(256));
+    auto arrayType = this->generateArrayType(node, irGenerator, scope);
+    auto irArrayType = new IRType(arrayType);
+    return new llvm::AllocaInst(
+            this->generateArrayType(node, irGenerator, scope),
+            AddressSpaceCalculator::calculate(irArrayType),
+            nullptr,
+            DataAlignmentCalculator::calculate(irArrayType));
 }
 
 llvm::Type* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope) {
@@ -17,5 +27,6 @@ llvm::Type* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode*
     for (auto element : *node->getElements()) {
         elementValues.push_back(irGenerator->generateFor(element, scope));
     }
-    return llvm::ArrayType::get(irGenerator->determineBestFitType(&elementValues), node->size());
+
+    return llvm::ArrayType::get(irGenerator->determineBestFitType(elementValues), node->size());
 }

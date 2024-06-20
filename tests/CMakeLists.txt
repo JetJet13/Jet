@@ -23,6 +23,12 @@ add_executable(jet-test
         vm/ir-generator/ir-generator.test.cpp
         vm/ir-generator/resources/file-equality-checker/file-equality-checker.cpp
         vm/ir-generator/resources/file-equality-checker/file-equality-checker.h
+        ../src/vm/ir-type/ir-type.cpp
+        ../src/vm/ir-type/ir-type.h
+        ../src/vm/utils/address-space-calculator/address-space-calculator.cpp
+        ../src/vm/utils/address-space-calculator/address-space-calculator.h
+        ../src/vm/utils/data-alignment-calculator/data-alignment-calculator.cpp
+        ../src/vm/utils/data-alignment-calculator/data-alignment-calculator.h
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core/pre-processor/lexical-analyzer/lexical-analyzer-test-file.jet
