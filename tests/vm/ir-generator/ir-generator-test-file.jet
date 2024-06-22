@@ -38,3 +38,22 @@ false || false;
 ["hello", "hello", "worldly"];
 ['a', 'b', 'c'];
 [ [1,2,3], [4,5,6], [7,8,9] ];
+{
+ i: 1,
+ f: 2.0,
+ world: true,
+ character: 'c',
+ str: "Hello World",
+ identifier: foo,
+ array: [1,2,3],
+ arrAccess: array[0],
+ obj: {
+    test: 100,
+    nest: {
+        value: true
+    }
+ },
+ binary: 1 + 2,
+ logical: true && false,
+ unary: !flag
+};

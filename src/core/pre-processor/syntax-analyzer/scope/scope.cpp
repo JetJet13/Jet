@@ -20,3 +20,12 @@ std::vector<ASTNode*> Scope::getBlock() {
 ASTBlockNode* Scope::convertToBlockNode(ASTBlockEndNode* blockEndNode) {
     return new ASTBlockNode(_blockStartNode, _block, blockEndNode);
 }
+
+std::stack<ASTNode*> Scope::convertToStack() {
+    auto nodeStack = std::stack<ASTNode*>();
+    nodeStack.push(_blockStartNode);
+    for (auto node : _block) {
+        nodeStack.push(node);
+    }
+    return nodeStack;
+}

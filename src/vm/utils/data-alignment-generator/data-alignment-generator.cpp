@@ -4,7 +4,15 @@
 
 #include "data-alignment-generator.h"
 
+llvm::Align DataAlignmentGenerator::generate(llvm::Type* type) {
+    return DataAlignmentGenerator::generate(new IRType(type));
+}
+
 llvm::Align DataAlignmentGenerator::generate(IRType* type) {
+    if (type->isCharType()) {
+        return llvm::Align(1);
+    }
+
     if (type->isIntegerType() || type->isFloatType()) {
         return llvm::Align(4);
     }

@@ -15,17 +15,18 @@
 #include "../ast-operator-nodes/ast-assignment-operator-node.h"
 #include "ast-static-node.h"
 #include "../ast-const-node.h"
+#include "../ast-type-nodes/ast-type-colon-node.h"
 
 class ASTClassPropertyInitNode : public ASTNode {
     ASTAccessModifierNode* _accessModifier;
     ASTClassPropertyNameNode* _propertyName;
     std::optional<ASTAssignmentOperatorNode*> _assignmentOperator;
-    std::optional<ASTColonNode*> _colon;
+    std::optional<ASTTypeColonNode*> _colon;
     std::optional<ASTTypeNode*> _type;
     std::optional<ASTStaticNode*> _staticKeyword;
     std::optional<ASTConstNode*> _constKeyword;
 public:
-    explicit ASTClassPropertyInitNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword = {}, std::optional<ASTConstNode*> constKeyword = {}, std::optional<ASTAssignmentOperatorNode*> assignmentOperator = {}, std::optional<ASTColonNode*> colon = {}, std::optional<ASTTypeNode*> type = {});
+    explicit ASTClassPropertyInitNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword = {}, std::optional<ASTConstNode*> constKeyword = {}, std::optional<ASTAssignmentOperatorNode*> assignmentOperator = {}, std::optional<ASTTypeColonNode*> colon = {}, std::optional<ASTTypeNode*> type = {});
     ASTAccessModifierNode* getAccessModifier();
     ASTClassPropertyNameNode* getPropertyName();
     std::optional<ASTTypeNode*> getType();

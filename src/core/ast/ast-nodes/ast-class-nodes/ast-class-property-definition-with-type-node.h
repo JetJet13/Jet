@@ -9,16 +9,17 @@
 #include "../ast-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "ast-class-property-definition-node.h"
+#include "../ast-type-nodes/ast-type-colon-node.h"
 
 class ASTClassPropertyDefinitionWithTypeNode : public ASTNode {
 private:
     ASTClassPropertyDefinitionNode* _classPropertyDefinition;
-    ASTColonNode* _colon;
+    ASTTypeColonNode* _colon;
     ASTTypeNode* _type;
 public:
-    ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTColonNode* colon, ASTTypeNode* type);
+    ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTTypeColonNode* colon, ASTTypeNode* type);
     ASTClassPropertyDefinitionNode* getClassPropertyDefinition();
-    ASTColonNode* getColon();
+    ASTTypeColonNode* getColon();
     ASTTypeNode* getType();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -14,6 +14,7 @@ private:
 public:
     IRType(llvm::Type* type);
     llvm::Type* getType();
+    bool isCharType();
     bool isIntegerType();
     bool isFloatType();
     bool isArrayType();

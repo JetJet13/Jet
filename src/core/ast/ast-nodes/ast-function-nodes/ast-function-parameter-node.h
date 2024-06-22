@@ -12,16 +12,17 @@
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../../../type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.h"
-#include "../ast-colon-node.h"
+#include "../ast-base-nodes/ast-colon-node.h"
+#include "../ast-type-nodes/ast-type-colon-node.h"
 
 class ASTFunctionParameterNode : public ASTNode {
 private:
     ASTIdentifierExpressionNode* _identifier;
-    ASTColonNode* _colon;
+    ASTTypeColonNode* _colon;
     ASTTypeNode* _type;
     ParameterListItemTypeSignature* _typeSignature = new ParameterListItemTypeSignature("_", new UnknownTypeSignature());
 public:
-    ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTColonNode* colon, ASTTypeNode* type);
+    ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeColonNode* colon, ASTTypeNode* type);
     ASTIdentifierExpressionNode* getIdentifier();
     ASTTypeNode* getType();
     void setTypeSignature(ParameterListItemTypeSignature* typeSignature);

@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionParameterNode::ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTColonNode* colon, ASTTypeNode* type) {
+ASTFunctionParameterNode::ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeColonNode* colon, ASTTypeNode* type) {
     _identifier = identifier;
     _colon = colon;
     _type = type;

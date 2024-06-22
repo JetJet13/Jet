@@ -65,7 +65,7 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return new ASTEnumNameNode(this->getLexeme(), this->getId());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
+    if (prevNode && prevNode.value()->isOneOf({AST_TYPE_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
@@ -73,7 +73,7 @@ ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevN
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({ AST_ASSIGNMENT_OPERATOR_NODE, AST_TERMINATOR_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({AST_ASSIGNMENT_OPERATOR_NODE, AST_TERMINATOR_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 

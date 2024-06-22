@@ -11,7 +11,7 @@ ASTNode* ClassPropertyDefinitionWithTypeReducerStrategy::execute(std::vector<AST
     }
     return new ASTClassPropertyDefinitionWithTypeNode(
             (ASTClassPropertyDefinitionNode*)nodes[0],
-            (ASTColonNode*)nodes[1],
+            (ASTTypeColonNode*)nodes[1],
             (ASTTypeNode*)nodes[2]
     );
 }

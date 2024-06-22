@@ -2827,7 +2827,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 {},
                                 {},
                                 {},
-                                ASTNodeFactory::colon,
+                                ASTNodeFactory::typeColon,
                                 ASTNodeFactory::intType
                             )
                         ),
@@ -2838,7 +2838,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                         {},
                                         {},
                                         {},
-                                        ASTNodeFactory::colon,
+                                        ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
@@ -2860,7 +2860,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                         {},
                                         ASTNodeFactory::constKeyword,
                                         {},
-                                        ASTNodeFactory::colon,
+                                        ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 )
                         ),
@@ -2871,7 +2871,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                         {},
                                         ASTNodeFactory::constKeyword,
                                         ASTNodeFactory::assignment,
-                                        ASTNodeFactory::colon,
+                                        ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
@@ -2893,7 +2893,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                         ASTNodeFactory::staticKeyword,
                                         {},
                                         {},
-                                        ASTNodeFactory::colon,
+                                        ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 )
                         ),
@@ -2904,7 +2904,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                         ASTNodeFactory::staticKeyword,
                                         {},
                                         ASTNodeFactory::assignment,
-                                        ASTNodeFactory::colon,
+                                        ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
@@ -2926,7 +2926,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ASTNodeFactory::staticKeyword,
                                 ASTNodeFactory::constKeyword,
                                 {},
-                                ASTNodeFactory::colon,
+                                ASTNodeFactory::typeColon,
                                 ASTNodeFactory::booleanType
                             )
                         ),
@@ -2937,7 +2937,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                         ASTNodeFactory::staticKeyword,
                                         ASTNodeFactory::constKeyword,
                                         ASTNodeFactory::assignment,
-                                        ASTNodeFactory::colon,
+                                        ASTNodeFactory::typeColon,
                                         ASTNodeFactory::booleanType
                                 ),
                                 ASTNodeFactory::trueExpression

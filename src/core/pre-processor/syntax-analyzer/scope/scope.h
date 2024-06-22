@@ -5,6 +5,7 @@
 #ifndef JETLANG_SCOPE_H
 #define JETLANG_SCOPE_H
 
+#include <stack>
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-start-node.h"
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-node.h"
 
@@ -17,6 +18,7 @@ public:
     void add(ASTNode* node);
     std::vector<ASTNode*> getBlock();
     ASTBlockNode* convertToBlockNode(ASTBlockEndNode* blockEndNode);
+    std::stack<ASTNode*> convertToStack();
 };
 
 #endif //JETLANG_SCOPE_H

@@ -14,4 +14,6 @@ add_library(jet-shared
         ./utils/to-string/to-string.cpp
         types/null-type.h
         types/basic-character-type.h
+        ../core/pre-processor/syntax-analyzer/stack-merger/stack-merger.cpp
+        ../core/pre-processor/syntax-analyzer/stack-merger/stack-merger.h
 )

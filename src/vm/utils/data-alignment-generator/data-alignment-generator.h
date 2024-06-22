@@ -10,6 +10,7 @@
 
 class DataAlignmentGenerator {
 public:
+    llvm::Align static generate(llvm::Type* type);
     llvm::Align static generate(IRType* type);
 };
 

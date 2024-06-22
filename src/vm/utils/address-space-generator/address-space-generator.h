@@ -9,6 +9,7 @@
 
 class AddressSpaceGenerator {
 public:
+    unsigned int static generate(llvm::Type* type);
     unsigned int static generate(IRType* type);
 };
 

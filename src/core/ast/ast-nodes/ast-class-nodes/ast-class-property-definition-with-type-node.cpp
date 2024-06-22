@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTColonNode* colon, ASTTypeNode* type) {
+ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTTypeColonNode* colon, ASTTypeNode* type) {
     _classPropertyDefinition = classPropertyDefinition;
     _colon = colon;
     _type = type;
@@ -20,7 +20,7 @@ ASTClassPropertyDefinitionNode* ASTClassPropertyDefinitionWithTypeNode::getClass
     return _classPropertyDefinition;
 }
 
-ASTColonNode* ASTClassPropertyDefinitionWithTypeNode::getColon() {
+ASTTypeColonNode* ASTClassPropertyDefinitionWithTypeNode::getColon() {
     return _colon;
 }
 

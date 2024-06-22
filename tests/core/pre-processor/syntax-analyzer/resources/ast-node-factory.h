@@ -104,6 +104,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-block-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-colon-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -157,7 +158,9 @@ namespace ASTNodeFactory {
     static ASTImportSpreadNode* importSpread = new ASTImportSpreadNode(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
     );
-    static ASTColonNode* colon = new ASTColonNode(createLexeme(SymbolFactory::createColonSymbol()));
+    static ASTColonBaseNode* colon = new ASTColonBaseNode(createLexeme(SymbolFactory::createColonSymbol()));
+    static ASTStructColonNode* structColon = new ASTStructColonNode(createLexeme(SymbolFactory::createColonSymbol()));
+    static ASTTypeColonNode* typeColon = new ASTTypeColonNode(createLexeme(SymbolFactory::createColonSymbol()));
     static ASTVariableInitNode* letInit = new ASTVariableInitNode(
                 new ASTVariableTypeNode(createLexeme(SymbolFactory::createLetSymbol())),
                 new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
@@ -173,7 +176,7 @@ namespace ASTNodeFactory {
                 new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
                 new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
                 ASTNodeFactory::assignment,
-                ASTNodeFactory::colon,
+                ASTNodeFactory::typeColon,
                 type
         );
     }
@@ -305,38 +308,38 @@ namespace ASTNodeFactory {
     );
     static ASTFunctionParameterNode* intFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
-            ASTNodeFactory::colon,
+            ASTNodeFactory::typeColon,
             ASTNodeFactory::intType
     );
 
     static ASTFunctionParameterNode* floatFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
-            ASTNodeFactory::colon,
+            ASTNodeFactory::typeColon,
             ASTNodeFactory::floatType
     );
     static ASTFunctionParameterNode* stringFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
-            ASTNodeFactory::colon,
+            ASTNodeFactory::typeColon,
             ASTNodeFactory::stringType
     );
     static ASTFunctionParameterNode* charFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
-            ASTNodeFactory::colon,
+            ASTNodeFactory::typeColon,
             ASTNodeFactory::charType
     );
     static ASTFunctionParameterNode* booleanFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
-            ASTNodeFactory::colon,
+            ASTNodeFactory::typeColon,
             ASTNodeFactory::booleanType
     );
     static ASTFunctionParameterNode* arrayFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
-            ASTNodeFactory::colon,
+            ASTNodeFactory::typeColon,
             ASTNodeFactory::arrayType
     );
     static ASTFunctionParameterNode* idFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
-            ASTNodeFactory::colon,
+            ASTNodeFactory::typeColon,
             ASTNodeFactory::idType
     );
     static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
@@ -511,7 +514,7 @@ namespace ASTNodeFactory {
     static ASTStructKeyValueNode* createStructKeyValue(ASTIdentifierExpressionNode* key, ASTExpressionNode* value) {
         return new ASTStructKeyValueNode(
                 key,
-                ASTNodeFactory::colon,
+                ASTNodeFactory::structColon,
                 value
         );
     }
@@ -539,7 +542,7 @@ namespace ASTNodeFactory {
     static ASTFunctionParameterNode* createFunctionParameter(ASTIdentifierExpressionNode* name, ASTTypeNode* type) {
         return new ASTFunctionParameterNode(
                 name,
-                ASTNodeFactory::colon,
+                ASTNodeFactory::typeColon,
                 type
         );
     }

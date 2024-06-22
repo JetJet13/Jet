@@ -4,18 +4,17 @@
 
 #include "array-expression-ir-strategy.h"
 #include "../../../../ir-type/ir-type.h"
-#include "../../../../utils/address-space-calculator/address-space-calculator.h"
-#include "../../../../utils/data-alignment-calculator/data-alignment-calculator.h"
+#include "../../../../utils/address-space-generator/address-space-generator.h"
+#include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 
 llvm::Value* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto arrayType = this->generateArrayType(node, irGenerator, scope);
-    auto irArrayType = new IRType(arrayType);
     return new llvm::AllocaInst(
             this->generateArrayType(node, irGenerator, scope),
-            AddressSpaceCalculator::calculate(irArrayType),
+            AddressSpaceGenerator::generate(arrayType),
             nullptr,
-            DataAlignmentCalculator::calculate(irArrayType));
+            DataAlignmentGenerator::generate(arrayType));
 }
 
 llvm::Type* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope) {

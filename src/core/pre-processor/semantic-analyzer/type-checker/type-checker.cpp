@@ -148,7 +148,7 @@ namespace TypeChecker {
                 UnaryExpressionTypeCheckerPolicy::apply((ASTUnaryExpressionNode*)node, typeCheckerResult);
                 break;
             default:
-                throw std::logic_error("no type-signature policy found for " + node->toString());
+                throw std::logic_error("no type-checker policy found for " + node->toString());
         }
     }
 }

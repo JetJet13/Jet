@@ -34,7 +34,7 @@ i8 10
   <badref> = and [5 x i8] c"hello", c"world"
   <badref> = and float 0x40341999A0000000, 0x402E333340000000
   <badref> = alloca [3 x i32], align 4, addrspace(12)
-  <badref> = alloca [2 x [5 x i8]], align 4, addrspace(40)
-  <badref> = alloca [3 x [7 x i8]], align 4, addrspace(84)
-  <badref> = alloca [3 x i8], align 4, addrspace(12)
+  <badref> = alloca [2 x [5 x i8]], align 1, addrspace(10)
+  <badref> = alloca [3 x [7 x i8]], align 1, addrspace(21)
+  <badref> = alloca [3 x i8], align 1, addrspace(3)
   <badref> = alloca [3 x ptr addrspace(12)], align 1, addrspace(3)

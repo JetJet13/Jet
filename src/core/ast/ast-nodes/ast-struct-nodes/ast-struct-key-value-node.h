@@ -7,16 +7,16 @@
 
 #include <string>
 #include "../ast-expression-nodes/ast-expression-node.h"
-#include "../ast-colon-node.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
+#include "ast-struct-colon-node.h"
 
 class ASTStructKeyValueNode : public ASTNode {
 private:
     ASTIdentifierExpressionNode* _key;
-    ASTColonNode* _colon;
+    ASTStructColonNode* _colon;
     ASTExpressionNode* _value;
 public:
-    ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTColonNode* colon, ASTExpressionNode* value);
+    ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTStructColonNode* colon, ASTExpressionNode* value);
     ASTIdentifierExpressionNode* getKey();
     ASTExpressionNode* getValue();
     Position* getStartPosition() override;

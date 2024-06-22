@@ -162,8 +162,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.h
-        ast/ast-nodes/ast-colon-node.cpp
-        ast/ast-nodes/ast-colon-node.h
+        ast/ast-nodes/ast-base-nodes/ast-colon-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-colon-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.h
         ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.cpp
@@ -1030,6 +1030,10 @@ add_library(jet-core
         type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h
         type-signature/invocable-type-signature/invocable-type-signature.cpp
         type-signature/invocable-type-signature/invocable-type-signature.h
+        ast/ast-nodes/ast-struct-nodes/ast-struct-colon-node.cpp
+        ast/ast-nodes/ast-struct-nodes/ast-struct-colon-node.h
+        ast/ast-nodes/ast-type-nodes/ast-type-colon-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-colon-node.h
 
 )
 

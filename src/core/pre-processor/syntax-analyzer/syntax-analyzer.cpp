@@ -7,6 +7,8 @@
 #include <utility>
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ast-literal-node-value-assignor/ast-literal-node-value-assignor.h"
+#include "stack-merger/stack-merger.h"
+
 
 SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalAnalyzer) {
     _tokenTable = tokenTable;
@@ -76,16 +78,21 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vecto
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
     _astNodeIdAssignor->assignIdIfNecessary(reducedNode);
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
+        Logger::log("pushing new Scope to scope stack and creating new recognize stack");
         _scopeStack.push(Scope((ASTBlockStartNode*)reducedNode));
         _recognizeStack.push(new std::stack<ASTNode*>());
     } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
         auto scope = _scopeStack.top();
         _scopeStack.pop();
         _recognizeStack.pop();
-        if (_recognizeStack.empty()) {
-            throw std::logic_error("recognizeStack is empty");
-        }
         _recognizeStack.top()->push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
+    } else if (reducedNode->is(AST_COLON_BASE_NODE) && _modeStack.top() == SA_STRUCT_MODE) {
+        auto scopeAsStack = _scopeStack.top().convertToStack();
+        auto newRecognizeStack = std::move(StackMerger<ASTNode*>::merge(&scopeAsStack, _recognizeStack.top()));
+        _scopeStack.pop();
+        _recognizeStack.pop();
+        _recognizeStack.push(newRecognizeStack);
+        _recognizeStack.top()->push(reducedNode);
     } else if (ASTNodeUtils::isStatementNode(reducedNode)) {
         if (_scopeStack.empty()) {
             Logger::log("pushing node to file scope:", reducedNode->toString());
@@ -132,7 +139,6 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
     } else {
         _handle.clearLastReducedNode();
     }
-
     if (_recognizeStack.top()->empty() && _handle.isTerminatorOnlyNode()) {
         _handle.clear();
     }
@@ -235,9 +241,15 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             break;
     }
 
-    if (astNodeType == AST_COLON_NODE && _modeStack.top() == SA_GROUP_MODE) {
+    if (astNodeType == AST_TYPE_COLON_NODE && _modeStack.top() == SA_GROUP_MODE) {
         Logger::log("replacing GROUP_MODE with FUNCTION_PARAMETER_LIST_MODE");
         _modeStack.pop();
         _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
+    }
+
+    if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_BLOCK_MODE) {
+        Logger::log("replacing BLOCK_MODE with STRUCT_MODE");
+        _modeStack.pop();
+        _modeStack.push(SA_STRUCT_MODE);
     }
 }

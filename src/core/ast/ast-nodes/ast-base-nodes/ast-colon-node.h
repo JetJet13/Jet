@@ -5,11 +5,12 @@
 #ifndef JETLANG_AST_COLON_NODE_H
 #define JETLANG_AST_COLON_NODE_H
 
-#include "ast-symbol-node.h"
+#include "../ast-symbol-node.h"
 
-class ASTColonNode : public ASTSymbolNode {
+class ASTColonBaseNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 public:
+    ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

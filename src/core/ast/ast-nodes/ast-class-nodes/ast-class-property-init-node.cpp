@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassPropertyInitNode::ASTClassPropertyInitNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword, std::optional<ASTConstNode*> constKeyword, std::optional<ASTAssignmentOperatorNode*> assignmentOperator, std::optional<ASTColonNode*> colon, std::optional<ASTTypeNode*> type) {
+ASTClassPropertyInitNode::ASTClassPropertyInitNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword, std::optional<ASTConstNode*> constKeyword, std::optional<ASTAssignmentOperatorNode*> assignmentOperator, std::optional<ASTTypeColonNode*> colon, std::optional<ASTTypeNode*> type) {
     _accessModifier = accessModifier;
     _propertyName = propertyName;
     _assignmentOperator = assignmentOperator;

@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTStructKeyValueNode::ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTColonNode* colon, ASTExpressionNode* value) {
+ASTStructKeyValueNode::ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTStructColonNode* colon, ASTExpressionNode* value) {
     _key = key;
     _colon = colon;
     _value = value;

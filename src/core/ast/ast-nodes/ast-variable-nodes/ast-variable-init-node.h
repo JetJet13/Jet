@@ -10,17 +10,18 @@
 #include "../ast-identifier-node.h"
 #include "ast-variable-type-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "../ast-colon-node.h"
+#include "../ast-base-nodes/ast-colon-node.h"
 #include "../ast-operator-nodes/ast-assignment-operator-node.h"
+#include "../ast-type-nodes/ast-type-colon-node.h"
 
 class ASTVariableInitNode : public ASTNode {
     ASTVariableTypeNode* _assignmentTypeQualifier;
     ASTIdentifierNode* _identifier;
-    std::optional<ASTColonNode*> _colon;
+    std::optional<ASTTypeColonNode*> _colon;
     std::optional<ASTTypeNode*> _type;
     ASTAssignmentOperatorNode* _assignmentOperator;
 public:
-    explicit ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator, std::optional<ASTColonNode*> colon = {}, std::optional<ASTTypeNode*> type = {});
+    explicit ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator, std::optional<ASTTypeColonNode*> colon = {}, std::optional<ASTTypeNode*> type = {});
     ASTVariableTypeNode* getVarTypeNode();
     ASTIdentifierNode* getIdentifierNode();
     std::optional<ASTTypeNode*> getTypeNode();

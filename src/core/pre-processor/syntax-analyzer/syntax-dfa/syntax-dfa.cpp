@@ -44,7 +44,8 @@ void SyntaxDfa::init() {
     DFANode* arrayAccess = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_NODE);
     DFANode* structKeyValue = DFANodeFactory::Once::create(AST_STRUCT_KEY_VALUE_NODE);
     DFANode* block = DFANodeFactory::Once::create(AST_BLOCK_NODE);
-    DFANode* colon = DFANodeFactory::Once::create(AST_COLON_NODE);
+    DFANode* typeColon = DFANodeFactory::Once::create(AST_TYPE_COLON_NODE);
+    DFANode* structColon = DFANodeFactory::Once::create(AST_STRUCT_COLON_NODE);
     DFANode* period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
     DFANode* functionDeclaration = DFANodeFactory::Once::createWithTarget(AST_FUNCTION_DECLARATION_NODE, AST_FUNCTION_DECLARATION_NODE);
     DFANode* functionKeyword = DFANodeFactory::Once::create(AST_FUNCTION_NODE);
@@ -246,7 +247,8 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_VARIABLE_NODE, { AST_FOR_NODE }, { AST_FOR_IN_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
-    ->addTransition(DFATransitionFactory::create(colon))
+    ->addTransition(DFATransitionFactory::create(typeColon))
+    ->addTransition(DFATransitionFactory::create(structColon))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_ASSIGNMENT_NODE)));
 
@@ -323,8 +325,14 @@ void SyntaxDfa::init() {
     block
     ->markAlwaysReduceSelf();
 
-    colon
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_FUNCTION_PARAMETER_NODE)))
+    typeColon
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE })
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_FUNCTION_PARAMETER_NODE)));
+
+    structColon
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE })
+    ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
@@ -952,9 +960,11 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_CONTROL_FLOW_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_TYPE_PARAMETER_LIST_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_CLASS_BLOCK_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_COLON_BASE_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
-    ->insertStartNode(DFANodeFactory::Once::create(AST_COLON_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_PERIOD_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(typeColon)
+    ->insertStartNode(structColon)
     ->insertStartNode(unaryOperator)
     ->insertStartNode(arrayBase)
     ->insertStartNode(arrayAccess)
@@ -1086,7 +1096,7 @@ void SyntaxDfa::initVarDefinition(DFANode* varDefinition) {
     varDefinition
     ->addTransition(
         DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_COLON_NODE)
+            DFANodeFactory::Once::create(AST_TYPE_COLON_NODE)
             ->addTransition(DFATransitionFactory::create(
                     DFANodeFactory::Once::create(AST_TYPE_NODE)
                         ->addTransition(
@@ -1294,7 +1304,7 @@ void SyntaxDfa::initClassPropertyDefinition(DFANode* classPropertyDefinition) {
     classPropertyDefinition
     ->addTransition(
         DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_COLON_NODE)
+            DFANodeFactory::Once::create(AST_TYPE_COLON_NODE)
             ->addTransition(DFATransitionFactory::create(
                 DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE)
             ))

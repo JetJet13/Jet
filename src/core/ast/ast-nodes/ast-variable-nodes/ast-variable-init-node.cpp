@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator, std::optional<ASTColonNode*> colon,  std::optional<ASTTypeNode*> type) {
+ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator, std::optional<ASTTypeColonNode*> colon, std::optional<ASTTypeNode*> type) {
     _assignmentTypeQualifier = assignmentTypeQualifier;
     _identifier = astIdentifierNode;
     _colon = colon;

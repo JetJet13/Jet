@@ -31,6 +31,16 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h
+        ir-type/ir-type.cpp
+        ir-type/ir-type.h
+        utils/address-space-generator/address-space-generator.cpp
+        utils/address-space-generator/address-space-generator.h
+        utils/data-alignment-generator/data-alignment-generator.cpp
+        utils/data-alignment-generator/data-alignment-generator.h
 )
 
 target_link_libraries(jet-vm
