@@ -44,9 +44,9 @@ false || false;
  world: true,
  character: 'c',
  str: "Hello World",
- identifier: foo,
+// identifier: foo, // uncomment when IDENTIFIER_EXPRESSION is supported
  array: [1,2,3],
- arrAccess: array[0],
+// arrAccess: array[0], // uncomment when ARRAY_ACCESS_EXPRESSION is supported
  obj: {
     test: 100,
     nest: {
@@ -55,5 +55,5 @@ false || false;
  },
  binary: 1 + 2,
  logical: true && false,
- unary: !flag
+// unary: !flag // uncomment when UNARY_EXPRESSION is supported
 };

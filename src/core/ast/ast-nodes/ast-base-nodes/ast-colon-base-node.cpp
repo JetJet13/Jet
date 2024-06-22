@@ -2,7 +2,7 @@
 // Created by Johny Georges on 2024-03-14.
 //
 
-#include "ast-colon-node.h"
+#include "ast-colon-base-node.h"
 #include "../ast-type-nodes/ast-type-colon-node.h"
 #include "../ast-struct-nodes/ast-struct-colon-node.h"
 

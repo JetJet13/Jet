@@ -162,8 +162,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.h
-        ast/ast-nodes/ast-base-nodes/ast-colon-node.cpp
-        ast/ast-nodes/ast-base-nodes/ast-colon-node.h
+        ast/ast-nodes/ast-base-nodes/ast-colon-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-colon-base-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.h
         ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.cpp

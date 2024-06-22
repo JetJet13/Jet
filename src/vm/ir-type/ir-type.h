@@ -17,7 +17,9 @@ public:
     bool isCharType();
     bool isIntegerType();
     bool isFloatType();
+    bool isBoolType();
     bool isArrayType();
+    bool isStructType();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
     bool isLessThan(IRType* otherValue);

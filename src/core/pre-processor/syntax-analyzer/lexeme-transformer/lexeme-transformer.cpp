@@ -21,7 +21,7 @@
 #include "../../../ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.h"
 #include "../../../ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.h"
 #include "../../../ast/ast-nodes/ast-comma-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-node.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-base-node.h"
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-end-node.h"
 #include "../../../ast/ast-nodes/ast-block-nodes/ast-block-start-node.h"
 #include "../../../ast/ast-nodes/ast-period-node.h"

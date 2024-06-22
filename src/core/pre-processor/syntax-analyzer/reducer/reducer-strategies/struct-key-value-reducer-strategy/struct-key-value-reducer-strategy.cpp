@@ -4,7 +4,7 @@
 
 #include "struct-key-value-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-struct-nodes/ast-struct-key-value-node.h"
-#include "../../../../../ast/ast-nodes/ast-base-nodes/ast-colon-node.h"
+#include "../../../../../ast/ast-nodes/ast-base-nodes/ast-colon-base-node.h"
 
 ASTNode* StructKeyValueReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 3) {

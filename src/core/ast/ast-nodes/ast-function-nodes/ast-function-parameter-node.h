@@ -12,7 +12,7 @@
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../../../type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.h"
-#include "../ast-base-nodes/ast-colon-node.h"
+#include "../ast-base-nodes/ast-colon-base-node.h"
 #include "../ast-type-nodes/ast-type-colon-node.h"
 
 class ASTFunctionParameterNode : public ASTNode {

@@ -10,7 +10,7 @@
 #include "../ast-identifier-node.h"
 #include "ast-variable-type-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "../ast-base-nodes/ast-colon-node.h"
+#include "../ast-base-nodes/ast-colon-base-node.h"
 #include "../ast-operator-nodes/ast-assignment-operator-node.h"
 #include "../ast-type-nodes/ast-type-colon-node.h"
 

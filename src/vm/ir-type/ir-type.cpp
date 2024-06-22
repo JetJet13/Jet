@@ -17,15 +17,23 @@ bool IRType::isCharType() {
 }
 
 bool IRType::isIntegerType() {
-    return _type->isIntegerTy();
+    return _type->isIntegerTy(32);
 }
 
 bool IRType::isFloatType() {
     return _type->isFloatTy();
 }
 
+bool IRType::isBoolType() {
+    return _type->isIntegerTy(1);
+}
+
 bool IRType::isArrayType() {
     return _type->isArrayTy();
+}
+
+bool IRType::isStructType() {
+    return _type->isStructTy();
 }
 
 bool IRType::isEqual(IRType* otherValue) {

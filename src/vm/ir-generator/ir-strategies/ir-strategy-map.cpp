@@ -11,6 +11,7 @@
 #include "./expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
 #include "./expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "./expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
+#include "./expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
@@ -22,6 +23,7 @@ IRStrategyMap::IRStrategyMap() {
     _binaryExpressionIRStrategy = new BinaryExpressionIRStrategy();
     _logicalExpressionIRStrategy = new LogicalExpressionIRStrategy();
     _arrayExpressionIRStrategy = new ArrayExpressionIRStrategy();
+    _structExpressionIRStrategy = new StructExpressionIRStrategy();
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
 }
 
@@ -55,6 +57,10 @@ LogicalExpressionIRStrategy* IRStrategyMap::getLogicalExpressionIRStrategy() {
 
 ArrayExpressionIRStrategy* IRStrategyMap::getArrayExpressionIRStrategy() {
     return _arrayExpressionIRStrategy;
+}
+
+StructExpressionIRStrategy* IRStrategyMap::getStructExpressionIRStrategy() {
+    return _structExpressionIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
