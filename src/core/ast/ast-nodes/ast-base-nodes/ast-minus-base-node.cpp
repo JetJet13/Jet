@@ -10,8 +10,7 @@ ASTMinusBaseNode::ASTMinusBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode * ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
-                                                 SyntaxAnalyzerMode mode) {
+ASTNode * ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     if (!prevNode && !nextNode) {
         return this;
     }
@@ -29,23 +28,7 @@ ASTNode * ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTBinaryOperatorNode(_lexeme);
     }
 
-    std::vector<ASTNodeType> unaryMinusOperatorPrevNodes = {
-            AST_VARIABLE_INIT_NODE,
-            AST_BINARY_OPERATOR_NODE
-    };
-    std::vector<ASTNodeType> unaryMinusOperatorNextNodes = {
-            AST_BINARY_EXPRESSION_NODE,
-            AST_LITERAL_EXPRESSION_NODE,
-            AST_IDENTIFIER_EXPRESSION_NODE,
-            AST_TUPLE_EXPRESSION_NODE,
-            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
-    };
-    if ((prevNode && prevNode.value()->isOneOf(unaryMinusOperatorPrevNodes)) ||
-        (nextNode && nextNode.value()->isOneOf(unaryMinusOperatorNextNodes))) {
-        return new ASTUnaryOperatorNode(_lexeme);
-    }
-
-    return this;
+    return new ASTUnaryOperatorNode(_lexeme);
 }
 
 ASTNodeType ASTMinusBaseNode::getNodeType() {

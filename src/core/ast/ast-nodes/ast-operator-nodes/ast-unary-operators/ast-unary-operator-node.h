@@ -10,6 +10,9 @@
 class ASTUnaryOperatorNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 public:
+    bool isPlus();
+    bool isMinus();
+    bool isBang();
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

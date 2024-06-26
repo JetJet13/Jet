@@ -41,6 +41,8 @@ add_library(jet-vm
         utils/address-space-generator/address-space-generator.h
         utils/data-alignment-generator/data-alignment-generator.cpp
         utils/data-alignment-generator/data-alignment-generator.h
+        ir-generator/ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

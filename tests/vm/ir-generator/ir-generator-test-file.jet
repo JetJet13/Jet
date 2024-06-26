@@ -55,5 +55,12 @@ false || false;
  },
  binary: 1 + 2,
  logical: true && false,
-// unary: !flag // uncomment when UNARY_EXPRESSION is supported
+ unary: !true
 };
+
++2;
+-2;
++2.1;
+-2.5;
+!10;
+!20.5;
