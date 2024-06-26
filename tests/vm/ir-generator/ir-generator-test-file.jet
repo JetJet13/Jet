@@ -64,3 +64,4 @@ false || false;
 -2.5;
 !10;
 !20.5;
+tuple { 1, "hi", false };
