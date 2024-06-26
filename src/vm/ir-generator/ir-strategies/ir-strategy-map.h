@@ -16,6 +16,8 @@ class ArrayExpressionIRStrategy;
 class StructExpressionIRStrategy;
 class UnaryExpressionIRStrategy;
 class TupleExpressionIRStrategy;
+class IdentifierIRStrategy;
+class VariableDeclarationIRStrategy;
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
 
@@ -32,6 +34,8 @@ private:
     StructExpressionIRStrategy* _structExpressionIRStrategy;
     UnaryExpressionIRStrategy* _unaryExpressionIRStrategy;
     TupleExpressionIRStrategy* _tupleExpressionIRStrategy;
+    IdentifierIRStrategy* _identifierIRStrategy;
+    VariableDeclarationIRStrategy* _variableDeclarationIRStrategy;
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
 public:
@@ -47,6 +51,8 @@ public:
     StructExpressionIRStrategy* getStructExpressionIRStrategy();
     UnaryExpressionIRStrategy* getUnaryExpressionIRStrategy();
     TupleExpressionIRStrategy* getTupleExpressionIRStrategy();
+    IdentifierIRStrategy* getIdentifierIRStrategy();
+    VariableDeclarationIRStrategy* getVariableDeclarationIRStrategy();
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
 };

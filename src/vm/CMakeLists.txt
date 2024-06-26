@@ -45,6 +45,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h
         ir-generator/ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h
+        ir-generator/ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h
+        ir-generator/ir-strategies/identifier-ir-strategy/identifier-ir-strategy.cpp
+        ir-generator/ir-strategies/identifier-ir-strategy/identifier-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

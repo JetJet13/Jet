@@ -65,3 +65,5 @@ false || false;
 !10;
 !20.5;
 tuple { 1, "hi", false };
+const foo = 5;
+let bar = "hello world";

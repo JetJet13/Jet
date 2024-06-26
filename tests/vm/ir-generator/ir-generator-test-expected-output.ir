@@ -46,3 +46,5 @@ i8 10
   <badref> = fneg i32 10
   <badref> = fneg float 2.050000e+01
   <badref> = alloca { i32, [2 x i8], i1 }, align 4, addrspace(7)
+  %foo = alloca i32, align 4, addrspace(4)
+  %bar = alloca [11 x i8], align 1, addrspace(11)
