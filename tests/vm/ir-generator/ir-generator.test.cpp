@@ -12,6 +12,8 @@
 #include "../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../../../src/vm/ir-generator/ir-generator.h"
 #include "resources/file-equality-checker/file-equality-checker.h"
+#include "../../../src/core/pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h"
+#include "../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 
 TEST_CASE( "should create expected vm code" ) {
     std::string filePath = "./ir-generator-test-file.jet";
@@ -23,6 +25,12 @@ TEST_CASE( "should create expected vm code" ) {
     auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
     auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
     auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
+    auto dependencyGraph = new DependencyGraph();
+    auto typeSignatureLookupTable = new TypeSignatureLookupTable();
+    auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph);
+    auto typeCheckerResult = semanticAnalyzer.analyze(fileNodeResult, typeSignatureLookupTable);
+    typeCheckerResult.print();
+    REQUIRE(typeCheckerResult.ok());
     auto irGenerator = IRGenerator();
     auto irLookupTable = IRLookupTable();
     std::error_code streamError;

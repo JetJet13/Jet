@@ -5,6 +5,7 @@
 #include "array-access-expression-ir-strategy.h"
 
 llvm::Value* ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    // todo: implement once pointers are supported
-    return llvm::ConstantInt::get(**context, llvm::APInt(CHAR_BIT, 'A'));
+    auto sourceValue = irGenerator->generateFor(node->getSource(), scope);
+    auto indexValue = irGenerator->generateFor(node->getIndex()->getIndex(), scope);
+    return llvm::ExtractElementInst::Create(sourceValue, indexValue);
 }

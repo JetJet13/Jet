@@ -11,6 +11,7 @@
 #include "./expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
 #include "./expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "./expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
+#include "./expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h"
 #include "./expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
 #include "./expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
@@ -29,6 +30,7 @@ IRStrategyMap::IRStrategyMap() {
     _arrayExpressionIRStrategy = new ArrayExpressionIRStrategy();
     _structExpressionIRStrategy = new StructExpressionIRStrategy();
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
+    _arrayAccessExpressionIRStrategy = new ArrayAccessExpressionIRStrategy();
     _unaryExpressionIRStrategy = new UnaryExpressionIRStrategy();
     _tupleExpressionIRStrategy = new TupleExpressionIRStrategy();
     _identifierIRStrategy = new IdentifierIRStrategy();
@@ -65,6 +67,10 @@ LogicalExpressionIRStrategy* IRStrategyMap::getLogicalExpressionIRStrategy() {
 
 ArrayExpressionIRStrategy* IRStrategyMap::getArrayExpressionIRStrategy() {
     return _arrayExpressionIRStrategy;
+}
+
+ArrayAccessExpressionIRStrategy* IRStrategyMap::getArrayAccessExpressionIRStrategy() {
+    return _arrayAccessExpressionIRStrategy;
 }
 
 StructExpressionIRStrategy* IRStrategyMap::getStructExpressionIRStrategy() {

@@ -75,6 +75,14 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 { BOOL_LITERAL_TYPE_SOURCE, BOOL_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
                 { INT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
         }),
+        new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
+                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { STRING_LITERAL_TYPE_SOURCE, STRING_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { BOOL_LITERAL_TYPE_SOURCE, BOOL_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { INT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+        }),
         new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
                 { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },

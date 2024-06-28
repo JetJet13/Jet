@@ -147,6 +147,8 @@ namespace TypeChecker {
             case AST_UNARY_EXPRESSION_NODE:
                 UnaryExpressionTypeCheckerPolicy::apply((ASTUnaryExpressionNode*)node, typeCheckerResult);
                 break;
+            case AST_LITERAL_EXPRESSION_NODE:
+                break;
             default:
                 throw std::logic_error("no type-checker policy found for " + node->toString());
         }

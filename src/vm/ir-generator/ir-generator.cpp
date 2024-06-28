@@ -11,6 +11,7 @@
 #include "ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
@@ -66,6 +67,8 @@ llvm::Value* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* sc
         return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node, &_context, this, scope);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node, &_context, this, scope);
+    } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node, &_context, this, scope);
     } else if (node->is(AST_STRUCT_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node, &_context, this, scope);
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {
@@ -73,7 +76,7 @@ llvm::Value* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* sc
     } else if (node->is(AST_TUPLE_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode *) node, &_context,this, scope);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getIdentifierIRStrategy()->generate((ASTIdentifierExpressionNode*)node, &_context);
+        return this->_irStrategyMap.getIdentifierIRStrategy()->generate((ASTIdentifierExpressionNode*)node, &_context, scope);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }

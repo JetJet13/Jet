@@ -13,7 +13,7 @@
 
 class IdentifierIRStrategy {
 public:
-    llvm::Value* generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context);
+    llvm::Value* generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRLookupTable* scope);
     llvm::Value* generate(ASTIdentifierNode* node, std::unique_ptr<llvm::LLVMContext>* context);
 };
 

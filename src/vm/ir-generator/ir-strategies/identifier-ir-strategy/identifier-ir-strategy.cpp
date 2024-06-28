@@ -4,8 +4,8 @@
 
 #include "identifier-ir-strategy.h"
 
-llvm::Value* IdentifierIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context) {
-    return IdentifierIRStrategy::generate(node->getIdentifierNode(), context);
+llvm::Value* IdentifierIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRLookupTable* scope) {
+    return scope->find(node->getIdentifierNode()->getId());
 }
 
 llvm::Value* IdentifierIRStrategy::generate(ASTIdentifierNode* node, std::unique_ptr<llvm::LLVMContext>* context) {
