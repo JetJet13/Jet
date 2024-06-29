@@ -10,11 +10,21 @@
 
 llvm::Value* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto arrayType = this->generateArrayType(node, irGenerator, scope);
-    return new llvm::AllocaInst(
+    auto alignment = DataAlignmentGenerator::generate(arrayType);
+    auto allocation = new llvm::AllocaInst(
             this->generateArrayType(node, irGenerator, scope),
             AddressSpaceGenerator::generate(arrayType),
             nullptr,
-            DataAlignmentGenerator::generate(arrayType));
+            alignment);
+
+    auto elementValues = std::vector<llvm::Value*>();
+    for (auto element : *node->getElements()) {
+        elementValues.push_back(irGenerator->generateFor(element, scope));
+    }
+    auto pointer = llvm::GetElementPtrInst::Create(arrayType, allocation, elementValues);
+    auto store = new llvm::StoreInst(allocation, pointer, false, alignment);
+
+    return pointer;
 }
 
 llvm::Type* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope) {

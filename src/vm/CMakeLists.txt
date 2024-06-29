@@ -49,6 +49,25 @@ add_library(jet-vm
         ir-generator/ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h
         ir-generator/ir-strategies/identifier-ir-strategy/identifier-ir-strategy.cpp
         ir-generator/ir-strategies/identifier-ir-strategy/identifier-ir-strategy.h
+        ir-nodes/ir-node.cpp
+        ir-nodes/ir-node.h
+        ir-nodes/types/ir-node-type.h
+        ir-nodes/ir-literal-nodes/ir-bool-literal-node.cpp
+        ir-nodes/ir-literal-nodes/ir-bool-literal-node.h
+        ir-nodes/ir-literal-nodes/ir-int-literal-node.cpp
+        ir-nodes/ir-literal-nodes/ir-int-literal-node.h
+        ir-nodes/ir-literal-nodes/ir-float-literal-node.cpp
+        ir-nodes/ir-literal-nodes/ir-float-literal-node.h
+        ir-nodes/ir-literal-nodes/ir-char-literal-node.cpp
+        ir-nodes/ir-literal-nodes/ir-char-literal-node.h
+        ir-nodes/ir-literal-nodes/ir-string-literal-node.cpp
+        ir-nodes/ir-literal-nodes/ir-string-literal-node.h
+        ir-nodes/ir-expression-nodes/ir-identifier-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.h
 )
 
 target_link_libraries(jet-vm
