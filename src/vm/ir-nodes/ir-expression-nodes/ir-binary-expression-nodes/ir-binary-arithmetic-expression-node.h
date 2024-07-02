@@ -6,16 +6,16 @@
 #define JETLANG_IR_BINARY_ARITHMETIC_EXPRESSION_NODE_H
 
 #include <llvm/IR/InstrTypes.h>
-#include "../../ir-node.h"
 #include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "ir-binary-expression-node.h"
 
-class IRBinaryArithmeticExpressionNode : public IRNode {
+class IRBinaryArithmeticExpressionNode : public IRBinaryExpressionNode {
 private:
     ASTBinaryExpressionNode* _astNode;
     llvm::BinaryOperator* _irValue;
 public:
-    IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astBinaryExpressionNode, llvm::BinaryOperator* irValue);
-    llvm::BinaryOperator* getIRValue();
+    IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue);
+    llvm::BinaryOperator* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
 };

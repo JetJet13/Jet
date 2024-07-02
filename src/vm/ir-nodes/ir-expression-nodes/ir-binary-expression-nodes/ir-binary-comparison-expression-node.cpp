@@ -4,8 +4,8 @@
 
 #include "ir-binary-comparison-expression-node.h"
 
-IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astBinaryExpressionNode, llvm::CmpInst* irValue) {
-    _astNode = astBinaryExpressionNode;
+IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue) {
+    _astNode = astNode;
     _irValue = irValue;
 }
 

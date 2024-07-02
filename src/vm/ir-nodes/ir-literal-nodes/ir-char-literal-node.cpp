@@ -4,9 +4,13 @@
 
 #include "ir-char-literal-node.h"
 
-IRCharLiteralNode::IRCharLiteralNode(ASTCharLiteralNode* astCharLiteralNode, llvm::ConstantInt* irValue) {
-    _astNode = astCharLiteralNode;
+IRCharLiteralNode::IRCharLiteralNode(ASTCharLiteralNode* astNode, llvm::ConstantInt* irValue) {
+    _astNode = astNode;
     _irValue = irValue;
+}
+
+llvm::Constant* IRCharLiteralNode::getConstantIRValue() {
+    return _irValue;
 }
 
 llvm::ConstantInt* IRCharLiteralNode::getIRValue() {

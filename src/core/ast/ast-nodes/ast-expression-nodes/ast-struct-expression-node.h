@@ -21,6 +21,7 @@ public:
     ASTStructExpressionNode(ASTStructStartNode* structStartNode, ASTStructEndNode* structEndNode);
     ASTStructExpressionNode(ASTStructStartNode* structStartNode, std::vector<ASTStructKeyValueNode*> keyValuePairs, ASTStructEndNode* structEndNode);
     std::vector<ASTStructKeyValueNode*> getKeyValuePairs();
+    ASTStructKeyValueNode* getKeyValuePairAt(unsigned long index);
     ASTStructExpressionNode* addKeyValuePair(ASTStructKeyValueNode* keyValuePair);
     unsigned long size();
     Position* getStartPosition() override;

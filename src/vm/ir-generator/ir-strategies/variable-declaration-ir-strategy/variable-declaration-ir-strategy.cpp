@@ -6,14 +6,14 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-llvm::Value* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto value = irGenerator->generateFor(node->getInitializerNode(), scope);
     scope->insert(node->getId(), value);
-    return new llvm::AllocaInst(
-            value->getType(),
-            AddressSpaceGenerator::generate(value->getType()),
+    return new IRVariableDeclarationNode(node, new llvm::AllocaInst(
+            value->getIRValue()->getType(),
+            AddressSpaceGenerator::generate(value->getIRValue()->getType()),
             nullptr,
-            DataAlignmentGenerator::generate(value->getType()),
+            DataAlignmentGenerator::generate(value->getIRValue()->getType()),
             node->getId()
-    );
+    ));
 }

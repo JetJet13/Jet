@@ -10,10 +10,11 @@
 #include "../../../ir-generator.h"
 #include "../../../../../core/ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
 #include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-expression-node.h"
 
 class UnaryExpressionIRStrategy {
 public:
-    llvm::Value* generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRUnaryExpressionNode* generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_UNARY_EXPRESSION_IR_STRATEGY_H

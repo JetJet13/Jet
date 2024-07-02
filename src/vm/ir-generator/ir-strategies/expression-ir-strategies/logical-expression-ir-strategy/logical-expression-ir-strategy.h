@@ -8,12 +8,13 @@
 #include <llvm/IR/Value.h>
 #include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 #include "../../../ir-generator.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-logical-expression-node.h"
 
 class LogicalExpressionIRStrategy {
 private:
     llvm::Instruction::BinaryOps determineOperatorIR(ASTLogicalOperatorNode* node);
 public:
-    llvm::Value* generate(ASTLogicalExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRLogicalExpressionNode* generate(ASTLogicalExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_LOGICAL_EXPRESSION_IR_STRATEGY_H

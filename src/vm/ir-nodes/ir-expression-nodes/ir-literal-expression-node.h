@@ -1,0 +1,26 @@
+//
+// Created by Johny Georges on 2024-07-02.
+//
+
+#ifndef JETLANG_IR_LITERAL_EXPRESSION_NODE_H
+#define JETLANG_IR_LITERAL_EXPRESSION_NODE_H
+
+#include <llvm/IR/Value.h>
+#include "ir-expression-node.h"
+#include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
+#include "../ir-literal-nodes/ir-literal-node.h"
+
+class IRLiteralExpressionNode : public IRExpressionNode {
+private:
+    ASTLiteralExpressionNode* _astNode;
+    IRLiteralNode* _irValue;
+public:
+    IRLiteralExpressionNode(ASTLiteralExpressionNode* astNode, IRLiteralNode* irValue);
+    llvm::Constant* getConstantIRValue() override;
+    llvm::Value* getIRValue() override;
+    IRNodeType getNodeType() override;
+    std::string toString() override;
+};
+
+
+#endif //JETLANG_IR_LITERAL_EXPRESSION_NODE_H

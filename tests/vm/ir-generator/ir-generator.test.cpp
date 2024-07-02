@@ -37,7 +37,7 @@ TEST_CASE( "should create expected vm code" ) {
     llvm::raw_fd_ostream ostream = llvm::raw_fd_ostream(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *fileNodeResult->getBody()) {
         auto value = irGenerator.generateFor(node, &irLookupTable);
-        value->print(ostream, false);
+        value->getIRValue()->print(ostream, false);
         ostream.write('\n');
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());

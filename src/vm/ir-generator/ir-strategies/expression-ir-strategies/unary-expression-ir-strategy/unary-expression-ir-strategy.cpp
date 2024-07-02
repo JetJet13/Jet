@@ -3,26 +3,28 @@
 //
 
 #include "unary-expression-ir-strategy.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-negate-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-arithmetic-expression-node.h"
 
-llvm::Value* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope);
 
     if (node->getUnaryOperatorNode()->isPlus()) {
-        return llvm::BinaryOperator::Create(
+        return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 llvm::ConstantInt::get(**context, llvm::APInt(32, 1)),
-                expressionIr
-        );
+                expressionIr->getIRValue()
+        ));
     } else if (node->getUnaryOperatorNode()->isMinus()) {
-        return llvm::BinaryOperator::Create(
+        return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 llvm::ConstantInt::get(**context, llvm::APInt(32, -1, true)),
-                expressionIr
-        );
+                expressionIr->getIRValue()
+        ));
     } else {
-        return llvm::UnaryOperator::Create(
+        return new IRUnaryNegateExpressionNode(node, llvm::UnaryOperator::Create(
                 llvm::Instruction::UnaryOps::FNeg,
-                expressionIr
-        );
+                expressionIr->getIRValue()
+        ));
     }
 }

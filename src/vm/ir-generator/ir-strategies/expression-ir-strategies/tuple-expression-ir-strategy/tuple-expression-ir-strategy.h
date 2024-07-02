@@ -8,12 +8,11 @@
 #include <llvm/IR/Value.h>
 #include "../../../ir-generator.h"
 #include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-tuple-expression-node.h"
 
 class TupleExpressionIRStrategy {
-private:
-    llvm::StructType* generateTupleType(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 public:
-    llvm::Value* generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRTupleExpressionNode* generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_TUPLE_EXPRESSION_IR_STRATEGY_H

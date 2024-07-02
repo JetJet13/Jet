@@ -47,8 +47,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h
         ir-generator/ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.cpp
         ir-generator/ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h
-        ir-generator/ir-strategies/identifier-ir-strategy/identifier-ir-strategy.cpp
-        ir-generator/ir-strategies/identifier-ir-strategy/identifier-ir-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h
         ir-nodes/ir-node.cpp
         ir-nodes/ir-node.h
         ir-nodes/types/ir-node-type.h
@@ -68,6 +68,32 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h
         ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-logical-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-logical-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-negate-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-negate-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-arithmetic-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-arithmetic-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-struct-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-struct-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-tuple-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-tuple-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-array-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-array-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-expression-node.h
+        ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h
+        ir-nodes/ir-expression-nodes/ir-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-literal-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-literal-expression-node.h
+        ir-nodes/ir-literal-nodes/ir-literal-node.cpp
+        ir-nodes/ir-literal-nodes/ir-literal-node.h
+        ir-generator/ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

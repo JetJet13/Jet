@@ -8,26 +8,16 @@
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 
-llvm::Value* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto arrayType = this->generateArrayType(node, irGenerator, scope);
-    auto alignment = DataAlignmentGenerator::generate(arrayType);
-    auto allocation = new llvm::AllocaInst(
-            this->generateArrayType(node, irGenerator, scope),
-            AddressSpaceGenerator::generate(arrayType),
-            nullptr,
-            alignment);
-
-    auto elementValues = std::vector<llvm::Value*>();
+    auto elementValues = std::vector<llvm::Constant*>();
     for (auto element : *node->getElements()) {
-        elementValues.push_back(irGenerator->generateFor(element, scope));
+        elementValues.push_back(irGenerator->generateFor(element, scope)->getConstantIRValue());
     }
-    auto pointer = llvm::GetElementPtrInst::Create(arrayType, allocation, elementValues);
-    auto store = new llvm::StoreInst(allocation, pointer, false, alignment);
-
-    return pointer;
+    return new IRArrayExpressionNode(node, llvm::ConstantArray::get(arrayType, elementValues));
 }
 
-llvm::Type* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope) {
+llvm::ArrayType* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope) {
     if (node->size() == 0) {
         auto arrayElementType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
         return llvm::ArrayType::get(arrayElementType, 0);
@@ -35,7 +25,7 @@ llvm::Type* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode*
 
     auto elementValues = std::vector<llvm::Value*>();
     for (auto element : *node->getElements()) {
-        elementValues.push_back(irGenerator->generateFor(element, scope));
+        elementValues.push_back(irGenerator->generateFor(element, scope)->getIRValue());
     }
 
     return llvm::ArrayType::get(irGenerator->determineBestFitType(elementValues), node->size());

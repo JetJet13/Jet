@@ -7,10 +7,11 @@
 
 #include <llvm/IR/Value.h>
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h"
+#include "../../../../ir-nodes/ir-literal-nodes/ir-char-literal-node.h"
 
 class CharLiteralIRStrategy {
 public:
-    llvm::Value* generate(ASTCharLiteralNode* node, std::unique_ptr<llvm::LLVMContext>*);
+    IRCharLiteralNode* generate(ASTCharLiteralNode* node, std::unique_ptr<llvm::LLVMContext>*);
 };
 
 #endif //JETLANG_CHAR_LITERAL_IR_STRATEGY_H

@@ -6,21 +6,16 @@
 #include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-llvm::Value* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    auto structType = this->generateTupleType(node, context, irGenerator, scope);
-    return new llvm::AllocaInst(
-            structType,
-            AddressSpaceGenerator::generate(structType),
-            nullptr,
-            DataAlignmentGenerator::generate(structType));
-}
-
-llvm::StructType* TupleExpressionIRStrategy::generateTupleType(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
 
     auto structValueTypes = std::vector<llvm::Type*>();
+    auto structValues = std::vector<llvm::Constant*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
-        structValueTypes.push_back(irGenerator->generateFor(tupleItem->getItem(), scope)->getType());
+        auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope);
+        structValueTypes.push_back(irNode->getIRValue()->getType());
+        structValues.push_back(irNode->getConstantIRValue());
     }
 
-    return llvm::StructType::get(**context, structValueTypes);
+    auto structType = llvm::StructType::get(**context, structValueTypes);
+    return new IRTupleExpressionNode(node, llvm::ConstantStruct::get(structType, structValues));
 }

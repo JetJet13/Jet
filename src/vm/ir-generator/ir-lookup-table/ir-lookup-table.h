@@ -7,16 +7,16 @@
 
 #include <unordered_map>
 #include <optional>
-#include "llvm/IR/Value.h"
+#include "../../ir-nodes/ir-node.h"
 
 class IRLookupTable {
 private:
-    std::unordered_map<std::string, llvm::Value*> _scope;
+    std::unordered_map<std::string, IRNode*> _scope;
     std::optional<IRLookupTable*> _outerScope;
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
-    IRLookupTable* insert(std::string key, llvm::Value* value);
-    llvm::Value* find(std::string key);
+    IRLookupTable* insert(std::string key, IRNode* value);
+    IRNode* find(std::string key);
     void dump();
 };
 

@@ -6,16 +6,17 @@
 #define JETLANG_IR_BOOL_LITERAL_NODE_H
 
 #include <llvm/IR/Constants.h>
-#include "../ir-node.h"
 #include "../../../core/ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
+#include "ir-literal-node.h"
 
-class IRBoolLiteralNode : public IRNode {
+class IRBoolLiteralNode : public IRLiteralNode {
 private:
     ASTBooleanLiteralNode* _astNode;
     llvm::ConstantInt* _irValue;
 public:
-    IRBoolLiteralNode(ASTBooleanLiteralNode* astLiteralBoolNode, llvm::ConstantInt* irValue);
-    llvm::ConstantInt* getIRValue();
+    IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue);
+    llvm::Constant* getConstantIRValue() override;
+    llvm::ConstantInt* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
 };

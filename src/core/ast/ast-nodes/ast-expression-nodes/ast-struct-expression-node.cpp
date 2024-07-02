@@ -29,6 +29,10 @@ std::vector<ASTStructKeyValueNode*> ASTStructExpressionNode::getKeyValuePairs() 
     return _keyValuePairs;
 }
 
+ASTStructKeyValueNode* ASTStructExpressionNode::getKeyValuePairAt(unsigned long index) {
+    return _keyValuePairs.at(index);
+}
+
 ASTStructExpressionNode* ASTStructExpressionNode::addKeyValuePair(ASTStructKeyValueNode* keyValuePair) {
     _keyValuePairs.push_back(keyValuePair);
     _children.push_back(keyValuePair);

@@ -6,16 +6,16 @@
 #define JETLANG_IR_IDENTIFIER_EXPRESSION_NODE_H
 
 #include <llvm/IR/Value.h>
-#include "../ir-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
+#include "ir-expression-node.h"
 
-class IRIdentifierExpressionNode : public IRNode {
+class IRIdentifierExpressionNode : public IRExpressionNode {
 private:
     ASTIdentifierExpressionNode* _astNode;
     llvm::Value* _irValue;
 public:
-    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astIdentifierExpressionNode, llvm::Value* irValue);
-    llvm::Value* getIRValue();
+    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, llvm::Value* irValue);
+    llvm::Value* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
 };

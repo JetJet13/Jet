@@ -10,6 +10,7 @@ class FloatLiteralIRStrategy;
 class CharLiteralIRStrategy;
 class StringLiteralIRStrategy;
 class BoolLiteralIRStrategy;
+class LiteralExpressionIRStrategy;
 class BinaryExpressionIRStrategy;
 class LogicalExpressionIRStrategy;
 class ArrayExpressionIRStrategy;
@@ -17,7 +18,7 @@ class ArrayAccessExpressionIRStrategy;
 class StructExpressionIRStrategy;
 class UnaryExpressionIRStrategy;
 class TupleExpressionIRStrategy;
-class IdentifierIRStrategy;
+class IdentifierExpressionIRStrategy;
 class VariableDeclarationIRStrategy;
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -29,6 +30,7 @@ private:
     CharLiteralIRStrategy* _charLiteralIRStrategy;
     StringLiteralIRStrategy* _stringLiteralIRStrategy;
     BoolLiteralIRStrategy* _boolLiteralIRStrategy;
+    LiteralExpressionIRStrategy* _literalExpressionIRStrategy;
     BinaryExpressionIRStrategy* _binaryExpressionIRStrategy;
     LogicalExpressionIRStrategy* _logicalExpressionIRStrategy;
     ArrayExpressionIRStrategy* _arrayExpressionIRStrategy;
@@ -36,7 +38,7 @@ private:
     StructExpressionIRStrategy* _structExpressionIRStrategy;
     UnaryExpressionIRStrategy* _unaryExpressionIRStrategy;
     TupleExpressionIRStrategy* _tupleExpressionIRStrategy;
-    IdentifierIRStrategy* _identifierIRStrategy;
+    IdentifierExpressionIRStrategy* _identifierExpressionIRStrategy;
     VariableDeclarationIRStrategy* _variableDeclarationIRStrategy;
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -47,6 +49,7 @@ public:
     CharLiteralIRStrategy* getCharLiteralIRStrategy();
     StringLiteralIRStrategy* getStringLiteralIRStrategy();
     BoolLiteralIRStrategy* getBoolLiteralIRStrategy();
+    LiteralExpressionIRStrategy* getLiteralExpressionIRStrategy();
     BinaryExpressionIRStrategy* getBinaryExpressionIRStrategy();
     LogicalExpressionIRStrategy* getLogicalExpressionIRStrategy();
     ArrayExpressionIRStrategy* getArrayExpressionIRStrategy();
@@ -54,7 +57,7 @@ public:
     StructExpressionIRStrategy* getStructExpressionIRStrategy();
     UnaryExpressionIRStrategy* getUnaryExpressionIRStrategy();
     TupleExpressionIRStrategy* getTupleExpressionIRStrategy();
-    IdentifierIRStrategy* getIdentifierIRStrategy();
+    IdentifierExpressionIRStrategy* getIdentifierExpressionIRStrategy();
     VariableDeclarationIRStrategy* getVariableDeclarationIRStrategy();
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();

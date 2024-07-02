@@ -4,8 +4,8 @@
 
 #include "ir-identifier-expression-node.h"
 
-IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astIdentifierExpressionNode, llvm::Value* irValue) {
-    _astNode = astIdentifierExpressionNode;
+IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, llvm::Value* irValue) {
+    _astNode = astNode;
     _irValue = irValue;
 }
 

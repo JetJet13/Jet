@@ -4,9 +4,13 @@
 
 #include "ir-int-literal-node.h"
 
-IRIntLiteralNode::IRIntLiteralNode(ASTIntLiteralNode* astIntLiteralNode, llvm::ConstantInt* irValue) {
-    _astNode = astIntLiteralNode;
+IRIntLiteralNode::IRIntLiteralNode(ASTIntLiteralNode* astNode, llvm::ConstantInt* irValue) {
+    _astNode = astNode;
     _irValue = irValue;
+}
+
+llvm::Constant* IRIntLiteralNode::getConstantIRValue() {
+    return _irValue;
 }
 
 llvm::ConstantInt* IRIntLiteralNode::getIRValue() {

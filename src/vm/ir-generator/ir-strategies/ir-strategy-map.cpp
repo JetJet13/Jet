@@ -8,6 +8,7 @@
 #include "./literal-ir-strategies/char-literal-ir-strategy/char-literal-ir-strategy.h"
 #include "./literal-ir-strategies/string-literal-ir-strategy/string-literal-ir-strategy.h"
 #include "./literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
+#include "./expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.h"
 #include "./expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
 #include "./expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "./expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
@@ -15,7 +16,7 @@
 #include "./expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h"
 #include "./expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
 #include "./expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
-#include "./identifier-ir-strategy/identifier-ir-strategy.h"
+#include "./expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 
@@ -25,6 +26,7 @@ IRStrategyMap::IRStrategyMap() {
     _charLiteralIRStrategy = new CharLiteralIRStrategy();
     _stringLiteralIRStrategy = new StringLiteralIRStrategy();
     _boolLiteralIRStrategy = new BoolLiteralIRStrategy();
+    _literalExpressionIRStrategy = new LiteralExpressionIRStrategy();
     _binaryExpressionIRStrategy = new BinaryExpressionIRStrategy();
     _logicalExpressionIRStrategy = new LogicalExpressionIRStrategy();
     _arrayExpressionIRStrategy = new ArrayExpressionIRStrategy();
@@ -33,7 +35,7 @@ IRStrategyMap::IRStrategyMap() {
     _arrayAccessExpressionIRStrategy = new ArrayAccessExpressionIRStrategy();
     _unaryExpressionIRStrategy = new UnaryExpressionIRStrategy();
     _tupleExpressionIRStrategy = new TupleExpressionIRStrategy();
-    _identifierIRStrategy = new IdentifierIRStrategy();
+    _identifierExpressionIRStrategy = new IdentifierExpressionIRStrategy();
     _variableDeclarationIRStrategy = new VariableDeclarationIRStrategy();
 }
 
@@ -55,6 +57,10 @@ StringLiteralIRStrategy* IRStrategyMap::getStringLiteralIRStrategy() {
 
 BoolLiteralIRStrategy* IRStrategyMap::getBoolLiteralIRStrategy() {
     return _boolLiteralIRStrategy;
+}
+
+LiteralExpressionIRStrategy* IRStrategyMap::getLiteralExpressionIRStrategy() {
+    return _literalExpressionIRStrategy;
 }
 
 BinaryExpressionIRStrategy* IRStrategyMap::getBinaryExpressionIRStrategy() {
@@ -85,8 +91,8 @@ TupleExpressionIRStrategy* IRStrategyMap::getTupleExpressionIRStrategy() {
     return _tupleExpressionIRStrategy;
 }
 
-IdentifierIRStrategy* IRStrategyMap::getIdentifierIRStrategy() {
-    return _identifierIRStrategy;
+IdentifierExpressionIRStrategy* IRStrategyMap::getIdentifierExpressionIRStrategy() {
+    return _identifierExpressionIRStrategy;
 }
 
 VariableDeclarationIRStrategy* IRStrategyMap::getVariableDeclarationIRStrategy() {

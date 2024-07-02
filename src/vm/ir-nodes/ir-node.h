@@ -5,11 +5,15 @@
 #ifndef JETLANG_IR_NODE_H
 #define JETLANG_IR_NODE_H
 
+#include <llvm/IR/Value.h>
+#include <llvm/IR/Constants.h>
 #include <string>
 #include "types/ir-node-type.h"
 
 class IRNode {
 public:
+    virtual llvm::Constant* getConstantIRValue();
+    virtual llvm::Value* getIRValue() = 0;
     virtual IRNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
 };

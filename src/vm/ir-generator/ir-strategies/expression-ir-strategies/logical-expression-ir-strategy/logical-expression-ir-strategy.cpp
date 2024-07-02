@@ -4,14 +4,14 @@
 
 #include "logical-expression-ir-strategy.h"
 
-llvm::Value* LogicalExpressionIRStrategy::generate(ASTLogicalExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope);
-    return llvm::BinaryOperator::Create(
+    return new IRLogicalExpressionNode(node, llvm::BinaryOperator::Create(
             this->determineOperatorIR(node->getLogicalOperator()),
-            leftExpressionIr,
-            rightExpressionIr
-    );
+            leftExpressionIr->getIRValue(),
+            rightExpressionIr->getIRValue()
+    ));
 }
 
 llvm::Instruction::BinaryOps LogicalExpressionIRStrategy::determineOperatorIR(ASTLogicalOperatorNode *node) {

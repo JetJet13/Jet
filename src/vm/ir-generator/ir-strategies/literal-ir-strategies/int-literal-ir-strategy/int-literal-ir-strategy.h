@@ -7,10 +7,11 @@
 
 #include <llvm/IR/Value.h>
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.h"
+#include "../../../../ir-nodes/ir-literal-nodes/ir-int-literal-node.h"
 
 class IntLiteralIRStrategy {
 public:
-    llvm::Value* generate(ASTIntLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context);
+    IRIntLiteralNode* generate(ASTIntLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context);
 };
 
 #endif //JETLANG_INT_LITERAL_IR_STRATEGY_H

@@ -6,16 +6,16 @@
 #define JETLANG_IR_BINARY_COMPARISON_EXPRESSION_NODE_H
 
 #include <llvm/IR/InstrTypes.h>
-#include "../../ir-node.h"
 #include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "ir-binary-expression-node.h"
 
-class IRBinaryComparisonExpressionNode : public IRNode {
+class IRBinaryComparisonExpressionNode : public IRBinaryExpressionNode {
 private:
     ASTBinaryExpressionNode* _astNode;
     llvm::CmpInst* _irValue;
 public:
-    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astBinaryExpressionNode, llvm::CmpInst* irValue);
-    llvm::CmpInst* getIRValue();
+    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue);
+    llvm::CmpInst* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
 };

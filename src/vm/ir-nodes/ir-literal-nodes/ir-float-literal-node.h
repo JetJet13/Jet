@@ -6,16 +6,17 @@
 #define JETLANG_IR_FLOAT_LITERAL_NODE_H
 
 #include <llvm/IR/Constants.h>
-#include "../ir-node.h"
 #include "../../../core/ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h"
+#include "ir-literal-node.h"
 
-class IRFloatLiteralNode : public IRNode {
+class IRFloatLiteralNode : public IRLiteralNode {
 private:
     ASTFloatLiteralNode* _astNode;
     llvm::ConstantFP* _irValue;
 public:
-    IRFloatLiteralNode(ASTFloatLiteralNode* astFloatLiteralNode, llvm::ConstantFP* irValue);
-    llvm::ConstantFP* getIRValue();
+    IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::ConstantFP* irValue);
+    llvm::Constant* getConstantIRValue() override;
+    llvm::ConstantFP* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
 };

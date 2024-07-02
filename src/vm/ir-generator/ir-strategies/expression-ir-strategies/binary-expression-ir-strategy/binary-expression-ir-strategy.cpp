@@ -3,24 +3,26 @@
 //
 
 #include "binary-expression-ir-strategy.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.h"
 
-llvm::Value* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope);
     if (node->getBinaryOperator()->isArithmetic()) {
-        return llvm::BinaryOperator::Create(
+        return new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 this->determineArithmeticOperatorIR(node->getBinaryOperator()),
-                leftExpressionIr,
-                rightExpressionIr
-        );
+                leftExpressionIr->getIRValue(),
+                rightExpressionIr->getIRValue()
+        ));
     }
 
-    return llvm::CmpInst::Create(
+    return new IRBinaryComparisonExpressionNode(node, llvm::CmpInst::Create(
             llvm::Instruction::OtherOps::ICmp,
             this->determineComparatorPredicate(node->getBinaryOperator()),
-            leftExpressionIr,
-            rightExpressionIr
-    );
+            leftExpressionIr->getIRValue(),
+            rightExpressionIr->getIRValue()
+    ));
 }
 
 llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode) {

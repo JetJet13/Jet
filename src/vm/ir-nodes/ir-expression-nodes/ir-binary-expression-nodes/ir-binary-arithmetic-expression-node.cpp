@@ -4,8 +4,8 @@
 
 #include "ir-binary-arithmetic-expression-node.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astBinaryExpressionNode, llvm::BinaryOperator* irValue) {
-    _astNode = astBinaryExpressionNode;
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue) {
+    _astNode = astNode;
     _irValue = irValue;
 }
 

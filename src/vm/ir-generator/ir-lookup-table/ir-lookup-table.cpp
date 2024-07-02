@@ -6,16 +6,16 @@
 #include "../../../shared/utils/logger/logger.h"
 
 IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
-    _scope = std::unordered_map<std::string, llvm::Value*>();
+    _scope = std::unordered_map<std::string, IRNode*>();
     _outerScope = outerScope;
 }
 
-IRLookupTable* IRLookupTable::insert(std::string key, llvm::Value* value) {
-    _scope.insert(std::pair<std::string, llvm::Value*>(key, value));
+IRLookupTable* IRLookupTable::insert(std::string key, IRNode* value) {
+    _scope.insert(std::pair<std::string, IRNode*>(key, value));
     return this;
 }
 
-llvm::Value* IRLookupTable::find(std::string key) {
+IRNode* IRLookupTable::find(std::string key) {
     auto result = _scope.find(key);
     if (result == _scope.end()) {
         if (_outerScope) {
