@@ -24,3 +24,7 @@ IRNodeType IRBoolLiteralNode::getNodeType() {
 std::string IRBoolLiteralNode::toString() {
     return "IR_BOOL_LITERAL_NODE";
 }
+
+void IRBoolLiteralNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irValue->print(**stream);
+}

@@ -34,16 +34,16 @@ TEST_CASE( "should create expected vm code" ) {
     auto irGenerator = IRGenerator();
     auto irLookupTable = IRLookupTable();
     std::error_code streamError;
-    llvm::raw_fd_ostream ostream = llvm::raw_fd_ostream(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
+    auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *fileNodeResult->getBody()) {
         auto value = irGenerator.generateFor(node, &irLookupTable);
-        value->getIRValue()->print(ostream, false);
-        ostream.write('\n');
+        value->print(&ostream);
+        ostream->write('\n');
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }
     }
-    ostream.close();
+    ostream->close();
     auto fileEqualityChecker = FileEqualityChecker();
     REQUIRE(fileEqualityChecker.areFilesEqual(expectedOutputFilePath, outputFilePath));
     Logger::log("FILES ARE EQUAL");

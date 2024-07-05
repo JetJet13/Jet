@@ -24,3 +24,7 @@ IRNodeType IRLiteralExpressionNode::getNodeType() {
 std::string IRLiteralExpressionNode::toString() {
     return "IR_LITERAL_EXPRESSION_NODE";
 }
+
+void IRLiteralExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irValue->print(stream);
+}

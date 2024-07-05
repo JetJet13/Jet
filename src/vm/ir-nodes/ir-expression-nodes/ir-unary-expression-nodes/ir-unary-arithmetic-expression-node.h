@@ -14,11 +14,13 @@ class IRUnaryArithmeticExpressionNode : public IRUnaryExpressionNode {
 private:
     ASTUnaryExpressionNode* _astNode;
     llvm::BinaryOperator* _irValue;
+    IRExpressionNode* _irExpression;
 public:
-    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue);
+    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression);
     llvm::BinaryOperator* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
 #endif //JETLANG_IR_UNARY_ARITHMETIC_EXPRESSION_NODE_H

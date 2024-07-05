@@ -19,6 +19,7 @@ public:
     llvm::ConstantFP* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
 #endif //JETLANG_IR_FLOAT_LITERAL_NODE_H

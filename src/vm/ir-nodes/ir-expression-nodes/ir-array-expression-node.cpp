@@ -24,3 +24,7 @@ IRNodeType IRArrayExpressionNode::getNodeType() {
 std::string IRArrayExpressionNode::toString() {
     return "IR_ARRAY_EXPRESSION_NODE";
 }
+
+void IRArrayExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irValue->print(**stream);
+}

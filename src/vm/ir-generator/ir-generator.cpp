@@ -30,6 +30,7 @@
 // we need to figure out how to generate vm code for an ASTNode and its
 // type signature.
 IRGenerator::IRGenerator() {
+    _numAsNameCursor = 0;
     _context = std::make_unique<llvm::LLVMContext>();
     _irStrategyMap = IRStrategyMap();
 }
@@ -118,4 +119,9 @@ llvm::Type* IRGenerator::determineBestFitType(std::vector<llvm::Value*> elementV
 
 llvm::Constant* IRGenerator::generateZeroConstant() {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, 0));
+}
+
+std::string IRGenerator::generateName() {
+    _numAsNameCursor++;
+    return llvm::Twine(_numAsNameCursor).str();
 }

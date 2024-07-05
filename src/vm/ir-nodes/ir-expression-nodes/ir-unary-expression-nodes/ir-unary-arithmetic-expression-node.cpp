@@ -4,9 +4,10 @@
 
 #include "ir-unary-arithmetic-expression-node.h"
 
-IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue) {
+IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression) {
     _astNode = astNode;
     _irValue = irValue;
+    _irExpression = irExpression;
 }
 
 llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getIRValue() {
@@ -19,4 +20,10 @@ IRNodeType IRUnaryArithmeticExpressionNode::getNodeType() {
 
 std::string IRUnaryArithmeticExpressionNode::toString() {
     return "IR_UNARY_EXPRESSION_NODE";
+}
+
+void IRUnaryArithmeticExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irValue->print(**stream);
+    stream->get()->write('\n');
+    _irExpression->print(stream);
 }

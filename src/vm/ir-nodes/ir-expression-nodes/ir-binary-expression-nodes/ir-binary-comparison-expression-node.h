@@ -13,11 +13,14 @@ class IRBinaryComparisonExpressionNode : public IRBinaryExpressionNode {
 private:
     ASTBinaryExpressionNode* _astNode;
     llvm::CmpInst* _irValue;
+    IRExpressionNode* _irLeftNode;
+    IRExpressionNode* _irRightNode;
 public:
-    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue);
+    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode);
     llvm::CmpInst* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
 #endif //JETLANG_IR_BINARY_COMPARISON_EXPRESSION_NODE_H

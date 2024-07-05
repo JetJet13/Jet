@@ -9,13 +9,18 @@
 IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
 
     auto structValueTypes = std::vector<llvm::Type*>();
-    auto structValues = std::vector<llvm::Constant*>();
+    auto structValues = std::vector<IRExpressionNode*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
         auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope);
         structValueTypes.push_back(irNode->getIRValue()->getType());
-        structValues.push_back(irNode->getConstantIRValue());
+        structValues.push_back(irNode);
     }
-
-    auto structType = llvm::StructType::get(**context, structValueTypes);
-    return new IRTupleExpressionNode(node, llvm::ConstantStruct::get(structType, structValues));
+    auto tupleType = llvm::StructType::get(**context, structValueTypes);
+    auto allocation = new llvm::AllocaInst(
+            tupleType,
+            AddressSpaceGenerator::generate(tupleType),
+            nullptr,
+            DataAlignmentGenerator::generate(tupleType));
+    auto irTuplePointer = llvm::GetElementPtrInst::Create(tupleType, allocation, irGenerator->generateZeroConstant());
+    return new IRTupleExpressionNode(node, allocation, structValues, irTuplePointer);
 }

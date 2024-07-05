@@ -14,7 +14,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
                 this->determineArithmeticOperatorIR(node->getBinaryOperator()),
                 leftExpressionIr->getIRValue(),
                 rightExpressionIr->getIRValue()
-        ));
+        ), leftExpressionIr, rightExpressionIr);
     }
 
     return new IRBinaryComparisonExpressionNode(node, llvm::CmpInst::Create(
@@ -22,7 +22,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
             this->determineComparatorPredicate(node->getBinaryOperator()),
             leftExpressionIr->getIRValue(),
             rightExpressionIr->getIRValue()
-    ));
+    ), leftExpressionIr, rightExpressionIr);
 }
 
 llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode) {

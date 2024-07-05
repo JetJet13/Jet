@@ -20,6 +20,7 @@ public:
     llvm::Value* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
 

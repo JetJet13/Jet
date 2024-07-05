@@ -16,12 +16,14 @@ private:
     llvm::AllocaInst* _irAllocation;
     std::vector<IRExpressionNode*> _irValues;
     llvm::GetElementPtrInst* _irPointer;
+    std::vector<llvm::Value*> _irStatements;
+    void generateStatements();
 public:
     IRStructExpressionNode(ASTStructExpressionNode* astNode, llvm::AllocaInst* irAllocation, std::vector<IRExpressionNode*> irValues, llvm::GetElementPtrInst* irPointer);
-    void evaluate() override;
     llvm::AllocaInst* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
 #endif //JETLANG_IR_STRUCT_EXPRESSION_NODE_H

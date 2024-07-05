@@ -7,13 +7,13 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    auto value = irGenerator->generateFor(node->getInitializerNode(), scope);
-    scope->insert(node->getId(), value);
+    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope);
+    scope->insert(node->getId(), irExpression);
     return new IRVariableDeclarationNode(node, new llvm::AllocaInst(
-            value->getIRValue()->getType(),
-            AddressSpaceGenerator::generate(value->getIRValue()->getType()),
+            irExpression->getIRValue()->getType(),
+            AddressSpaceGenerator::generate(irExpression->getIRValue()->getType()),
             nullptr,
-            DataAlignmentGenerator::generate(value->getIRValue()->getType()),
+            DataAlignmentGenerator::generate(irExpression->getIRValue()->getType()),
             node->getId()
-    ));
+    ), irExpression);
 }

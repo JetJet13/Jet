@@ -24,3 +24,7 @@ IRNodeType IRIntLiteralNode::getNodeType() {
 std::string IRIntLiteralNode::toString() {
     return "IR_INT_LITERAL_NODE";
 }
+
+void IRIntLiteralNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irValue->print(**stream);
+}

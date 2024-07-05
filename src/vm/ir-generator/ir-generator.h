@@ -31,6 +31,7 @@
 
 class IRGenerator {
 private:
+    int _numAsNameCursor;
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
 public:
@@ -43,6 +44,7 @@ public:
     llvm::Type* generateTypeFor(TypeSignature* typeSignature);
     llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
     llvm::Constant* generateZeroConstant();
+    std::string generateName();
 };
 
 #endif //JETLANG_IR_GENERATOR_H

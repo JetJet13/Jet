@@ -14,17 +14,17 @@ IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNod
                 llvm::Instruction::BinaryOps::Mul,
                 llvm::ConstantInt::get(**context, llvm::APInt(32, 1)),
                 expressionIr->getIRValue()
-        ));
+        ), expressionIr);
     } else if (node->getUnaryOperatorNode()->isMinus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 llvm::ConstantInt::get(**context, llvm::APInt(32, -1, true)),
                 expressionIr->getIRValue()
-        ));
+        ), expressionIr);
     } else {
         return new IRUnaryNegateExpressionNode(node, llvm::UnaryOperator::Create(
                 llvm::Instruction::UnaryOps::FNeg,
                 expressionIr->getIRValue()
-        ));
+        ), expressionIr);
     }
 }

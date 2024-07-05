@@ -14,11 +14,13 @@ class IRUnaryNegateExpressionNode : public IRUnaryExpressionNode {
 private:
     ASTUnaryExpressionNode* _astNode;
     llvm::UnaryOperator* _irValue;
+    IRExpressionNode* _irExpression;
 public:
-    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* astNode, llvm::UnaryOperator* irValue);
+    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* astNode, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression);
     llvm::UnaryOperator* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
 #endif //JETLANG_IR_UNARY_NEGATE_EXPRESSION_NODE_H

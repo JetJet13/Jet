@@ -26,4 +26,3 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
 
     return irStruct;
 }
-

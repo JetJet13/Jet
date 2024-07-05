@@ -4,13 +4,13 @@
 
 #include "ir-identifier-expression-node.h"
 
-IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, llvm::Value* irValue) {
+IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, IRNode* irNode) {
     _astNode = astNode;
-    _irValue = irValue;
+    _irNode = irNode;
 }
 
 llvm::Value* IRIdentifierExpressionNode::getIRValue() {
-    return _irValue;
+    return _irNode->getIRValue();
 }
 
 IRNodeType IRIdentifierExpressionNode::getNodeType() {
@@ -19,4 +19,8 @@ IRNodeType IRIdentifierExpressionNode::getNodeType() {
 
 std::string IRIdentifierExpressionNode::toString() {
     return "IR_IDENTIFIER_EXPRESSION_NODE";
+}
+
+void IRIdentifierExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irNode->print(stream);
 }

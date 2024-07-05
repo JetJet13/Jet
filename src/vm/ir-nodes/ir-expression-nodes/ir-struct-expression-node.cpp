@@ -9,16 +9,8 @@ IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode,
     _irAllocation = irAllocation;
     _irValues = irValues;
     _irPointer = irPointer;
-}
-
-void IRStructExpressionNode::evaluate() {
-    auto numElements =_irAllocation->getType()->getStructNumElements();
-    for (int i = 0; i < numElements; ++i) {
-        auto structElementType = _irAllocation->getType()->getStructElementType(i);
-        auto irExpression = _irValues[i];
-        irExpression->evaluate();
-    }
-
+    _irStatements = std::vector<llvm::Value*>();
+    this->generateStatements();
 }
 
 llvm::AllocaInst* IRStructExpressionNode::getIRValue() {
@@ -31,4 +23,24 @@ IRNodeType IRStructExpressionNode::getNodeType() {
 
 std::string IRStructExpressionNode::toString() {
     return "IR_STRUCT_EXPRESSION_NODE";
+}
+
+void IRStructExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    for (auto irStatement : _irStatements) {
+        irStatement->print(**stream);
+        stream->get()->write('\n');
+    }
+}
+
+void IRStructExpressionNode::generateStatements() {
+    _irStatements.push_back(_irAllocation);
+    _irStatements.push_back(_irPointer);
+    auto numElements = _irValues.size();
+    for (int i = 0; i < numElements; ++i) {
+        auto irExpression = _irValues[i];
+        _irStatements.push_back(irExpression->getIRValue());
+        _irStatements.push_back(
+            new llvm::StoreInst(irExpression->getIRValue(), _irPointer, false, _irAllocation->getAlign())
+        );
+    }
 }

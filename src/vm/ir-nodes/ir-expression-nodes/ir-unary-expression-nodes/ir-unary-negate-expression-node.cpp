@@ -4,9 +4,10 @@
 
 #include "ir-unary-negate-expression-node.h"
 
-IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* astNode, llvm::UnaryOperator* irValue) {
+IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* astNode, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression) {
     _astNode = astNode;
     _irValue = irValue;
+    _irExpression = irExpression;
 }
 
 llvm::UnaryOperator* IRUnaryNegateExpressionNode::getIRValue() {
@@ -19,4 +20,10 @@ IRNodeType IRUnaryNegateExpressionNode::getNodeType() {
 
 std::string IRUnaryNegateExpressionNode::toString() {
     return "IR_UNARY_EXPRESSION_NODE";
+}
+
+void IRUnaryNegateExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irValue->print(**stream);
+    stream->get()->write('\n');
+    _irExpression->print(stream);
 }

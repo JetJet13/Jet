@@ -16,6 +16,7 @@ public:
     virtual llvm::Value* getIRValue() = 0;
     virtual IRNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
+    virtual void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) = 0;
 };
 
 #endif //JETLANG_IR_NODE_H

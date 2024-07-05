@@ -12,12 +12,13 @@
 class IRIdentifierExpressionNode : public IRExpressionNode {
 private:
     ASTIdentifierExpressionNode* _astNode;
-    llvm::Value* _irValue;
+    IRNode* _irNode;
 public:
-    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, llvm::Value* irValue);
+    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, IRNode* irNode);
     llvm::Value* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
 #endif //JETLANG_IR_IDENTIFIER_EXPRESSION_NODE_H
