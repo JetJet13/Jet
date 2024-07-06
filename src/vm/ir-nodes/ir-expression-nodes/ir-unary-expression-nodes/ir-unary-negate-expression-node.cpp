@@ -10,6 +10,10 @@ IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode*
     _irExpression = irExpression;
 }
 
+llvm::Value * IRUnaryNegateExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+    return builder->get()->CreateStore(builder->get()->Insert(_irValue), parent);
+}
+
 llvm::UnaryOperator* IRUnaryNegateExpressionNode::getIRValue() {
     return _irValue;
 }

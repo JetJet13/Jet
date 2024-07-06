@@ -14,7 +14,7 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
 llvm::GlobalVariable* IRVariableDeclarationNode::asGlobalVariable() {
     if (_irExpression->isConstant()) {
         return new llvm::GlobalVariable(
-                _irExpression->getIRValue()->getType(),
+                _irExpression->getIRType(),
                 true,
                 llvm::GlobalValue::PrivateLinkage,
                 _irExpression->getConstantIRValue(),
@@ -22,7 +22,7 @@ llvm::GlobalVariable* IRVariableDeclarationNode::asGlobalVariable() {
         );
     }
     return new llvm::GlobalVariable(
-            _irExpression->getIRValue()->getType(),
+            _irExpression->getIRType(),
             true,
             llvm::GlobalValue::PrivateLinkage,
             nullptr,
@@ -30,9 +30,10 @@ llvm::GlobalVariable* IRVariableDeclarationNode::asGlobalVariable() {
     );
 }
 
-void IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    builder->get()->CreateAlloca(_irExpression->getIRValue()->getType(), _irExpression->getIRValue(), _astNode->getId());
-
+llvm::Value * IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    builder->get()->Insert(_irValue, _astNode->getId());
+    _irExpression->insertSelfIntoBlock(builder, _irValue);
+    return _irValue;
 }
 
 llvm::AllocaInst* IRVariableDeclarationNode::getIRValue() {

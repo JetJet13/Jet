@@ -12,7 +12,7 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     for (auto keyValuePair : node->getKeyValuePairs()) {
         auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope);
         structValues.push_back(irNode);
-        structValueTypes.push_back(irNode->getIRValue()->getType());
+        structValueTypes.push_back(irNode->getIRType());
     }
 
     auto structType = llvm::StructType::get(**context, structValueTypes);

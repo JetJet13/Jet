@@ -9,8 +9,16 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
     _irNode = irNode;
 }
 
+llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+    return builder->get()->CreateStore(builder->get()->Insert(_irNode->getIRValue()), parent);
+}
+
 llvm::Value* IRIdentifierExpressionNode::getIRValue() {
     return _irNode->getIRValue();
+}
+
+llvm::Type* IRIdentifierExpressionNode::getIRTypeAtIndex(unsigned long index) {
+    return _irNode->getIRTypeAtIndex(index);
 }
 
 IRNodeType IRIdentifierExpressionNode::getNodeType() {

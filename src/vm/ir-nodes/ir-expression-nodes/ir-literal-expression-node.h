@@ -16,6 +16,7 @@ private:
     IRLiteralNode* _irValue;
 public:
     IRLiteralExpressionNode(ASTLiteralExpressionNode* astNode, IRLiteralNode* irValue);
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
     llvm::Constant* getConstantIRValue() override;
     llvm::Value* getIRValue() override;
     IRNodeType getNodeType() override;

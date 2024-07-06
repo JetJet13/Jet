@@ -15,7 +15,9 @@ private:
     IRNode* _irNode;
 public:
     IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, IRNode* irNode);
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *variableAllocation) override;
     llvm::Value* getIRValue() override;
+    llvm::Type* getIRTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

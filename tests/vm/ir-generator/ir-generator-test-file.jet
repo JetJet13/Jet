@@ -21,6 +21,7 @@ const areStringsEqual = "hello" == "hello";
 const areOtherStringsEqual = "not" == "equal";
 const concatStrings = "hello" + "world";
 const doubleSum = 3 + 4 + 5;
+const trueTrueTrue = true && true && true;
 const trueTrue = true  && true;
 const trueFalse = true  && false;
 const falseTrue = false && true;
@@ -47,16 +48,16 @@ const myStruct = {
  str: "Hello World",
  identifier: foo,
  array: [1,2,3],
- // arrAccess: myArray[0],
+ arrAccess: myArray[0],
  obj: {
     test: 100,
     nest: {
         value: true
     }
  },
- // binary: 1 + 2,
- // logical: true && false,
- // unary: !true
+ binary: 1 + 2,
+ logical: true && false,
+ unary: !true
 };
 
 const posTwo = +2;

@@ -17,6 +17,7 @@ private:
     IRExpressionNode* _irExpression;
 public:
     IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* astNode, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression);
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
     llvm::UnaryOperator* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

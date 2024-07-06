@@ -22,6 +22,7 @@ private:
     void generateStatements();
 public:
     IRTupleExpressionNode(ASTTupleExpressionNode* astNode, llvm::AllocaInst* irAllocation, std::vector<IRExpressionNode*> irValues, llvm::GetElementPtrInst* irPointer);
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
     llvm::AllocaInst* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

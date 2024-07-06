@@ -13,6 +13,10 @@ llvm::Constant* IRLiteralExpressionNode::getConstantIRValue() {
     return _irValue->getConstantIRValue();
 }
 
+llvm::Value * IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+    return builder->get()->CreateStore(_irValue->getIRValue(), parent);
+}
+
 llvm::Value* IRLiteralExpressionNode::getIRValue() {
     return _irValue->getIRValue();
 }

@@ -8,11 +8,12 @@
 #include <llvm/IR/Value.h>
 #include "../../../ir-generator.h"
 #include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-array-access-expression-node.h"
 
 
 class ArrayAccessExpressionIRStrategy {
 public:
-    llvm::Value* generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRArrayAccessExpressionNode* generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_EXPRESSION_IR_STRATEGY_H

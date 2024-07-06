@@ -12,7 +12,7 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
     auto structValues = std::vector<IRExpressionNode*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
         auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope);
-        structValueTypes.push_back(irNode->getIRValue()->getType());
+        structValueTypes.push_back(irNode->getIRType());
         structValues.push_back(irNode);
     }
     auto tupleType = llvm::StructType::get(**context, structValueTypes);

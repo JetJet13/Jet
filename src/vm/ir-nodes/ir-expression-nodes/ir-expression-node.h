@@ -10,6 +10,7 @@
 class IRExpressionNode : public IRNode {
 public:
     virtual void evaluate();
+    virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) = 0;
 };
 
 #endif //JETLANG_IR_EXPRESSION_NODE_H

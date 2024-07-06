@@ -16,8 +16,10 @@ class IRNode {
 public:
     bool is(IRNodeType irNodeType);
     bool isConstant();
-    virtual void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder);
+    virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder);
     virtual llvm::Constant* getConstantIRValue();
+    virtual llvm::Type* getIRType();
+    virtual llvm::Type* getIRTypeAtIndex(unsigned long index);
     virtual llvm::Value* getIRValue() = 0;
     virtual IRNodeType getNodeType() = 0;
     virtual std::string toString() = 0;

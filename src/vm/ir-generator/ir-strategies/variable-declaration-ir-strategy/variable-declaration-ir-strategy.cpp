@@ -10,10 +10,10 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope);
     scope->insert(node->getId(), irExpression);
     return new IRVariableDeclarationNode(node, new llvm::AllocaInst(
-            irExpression->getIRValue()->getType(),
-            AddressSpaceGenerator::generate(irExpression->getIRValue()->getType()),
+            irExpression->getIRType(),
+            AddressSpaceGenerator::generate(irExpression->getIRType()),
             nullptr,
-            DataAlignmentGenerator::generate(irExpression->getIRValue()->getType()),
+            DataAlignmentGenerator::generate(irExpression->getIRType()),
             node->getId()
     ), irExpression);
 }

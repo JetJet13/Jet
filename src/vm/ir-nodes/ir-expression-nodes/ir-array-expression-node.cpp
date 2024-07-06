@@ -9,12 +9,20 @@ IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* astNode, ll
     _irValue = irValue;
 }
 
+llvm::Value * IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+    return builder->get()->CreateStore(_irValue, parent);
+}
+
 llvm::Constant* IRArrayExpressionNode::getConstantIRValue() {
     return _irValue;
 }
 
 llvm::Constant* IRArrayExpressionNode::getIRValue() {
     return _irValue;
+}
+
+llvm::Type* IRArrayExpressionNode::getIRTypeAtIndex(unsigned long index) {
+    return _irValue->getType()->getArrayElementType();
 }
 
 IRNodeType IRArrayExpressionNode::getNodeType() {

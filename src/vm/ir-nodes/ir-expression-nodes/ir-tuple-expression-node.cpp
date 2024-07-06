@@ -13,6 +13,20 @@ IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* astNode, ll
     this->generateStatements();
 }
 
+llvm::Value * IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+    auto tupleExpressionAllocation = builder->get()->Insert(_irAllocation);
+    auto numElements = _irValues.size();
+    auto zeroIndex = builder->get()->getInt32(0);
+    for (int i = 0; i < numElements; ++i) {
+        auto irExpression = _irValues[i];
+        auto irIndex = builder->get()->getInt32(i);
+        auto pointer = builder->get()->CreateInBoundsGEP(tupleExpressionAllocation->getAllocatedType(), tupleExpressionAllocation, { zeroIndex, irIndex });
+        irExpression->insertSelfIntoBlock(builder, pointer);
+    }
+    builder->get()->CreateStore(tupleExpressionAllocation, parent);
+    return tupleExpressionAllocation;
+}
+
 llvm::AllocaInst* IRTupleExpressionNode::getIRValue() {
     return _irAllocation;
 }

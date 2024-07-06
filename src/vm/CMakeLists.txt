@@ -100,6 +100,8 @@ add_library(jet-vm
         ir-nodes/ir-module-node.h
         ir-nodes/ir-function-nodes/ir-function-node.cpp
         ir-nodes/ir-function-nodes/ir-function-node.h
+        ir-nodes/ir-expression-nodes/ir-array-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-array-access-expression-node.h
 )
 
 target_link_libraries(jet-vm

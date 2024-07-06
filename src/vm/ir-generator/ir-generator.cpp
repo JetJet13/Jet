@@ -66,6 +66,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node, &_context, this, scope);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node, &_context, this, scope);
+    } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node, &_context, this, scope);
     } else if (node->is(AST_STRUCT_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node, &_context, this, scope);
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {
