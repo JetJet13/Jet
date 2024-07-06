@@ -94,6 +94,12 @@ add_library(jet-vm
         ir-nodes/ir-literal-nodes/ir-literal-node.h
         ir-generator/ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.h
+        ir-nodes/ir-block-node.cpp
+        ir-nodes/ir-block-node.h
+        ir-nodes/ir-module-node.cpp
+        ir-nodes/ir-module-node.h
+        ir-nodes/ir-function-nodes/ir-function-node.cpp
+        ir-nodes/ir-function-nodes/ir-function-node.h
 )
 
 target_link_libraries(jet-vm

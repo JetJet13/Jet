@@ -17,6 +17,8 @@ private:
     IRExpressionNode* _irExpression;
 public:
     IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, llvm::AllocaInst* irValue, IRExpressionNode* irExpression);
+    llvm::GlobalVariable* asGlobalVariable();
+    void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::AllocaInst* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

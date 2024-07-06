@@ -28,10 +28,12 @@
 #include "../ir-nodes/ir-node.h"
 #include "../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../ir-nodes/ir-literal-nodes/ir-literal-node.h"
+#include "../ir-nodes/ir-block-node.h"
+#include "../ir-nodes/ir-module-node.h"
+#include "../ir-nodes/ir-function-nodes/ir-function-node.h"
 
 class IRGenerator {
 private:
-    int _numAsNameCursor;
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
 public:
@@ -44,7 +46,11 @@ public:
     llvm::Type* generateTypeFor(TypeSignature* typeSignature);
     llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
     llvm::Constant* generateZeroConstant();
-    std::string generateName();
+    IRBlockNode* generateBasicBlock();
+    IRBlockNode* generateFunctionBlock(IRFunctionNode* irFunctionNode);
+    IRModuleNode* generateModule(std::string moduleName);
+    IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
+    llvm::IRBuilder<> generateBasicBlockBuilder();
 };
 
 #endif //JETLANG_IR_GENERATOR_H

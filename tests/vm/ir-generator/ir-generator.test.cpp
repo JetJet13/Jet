@@ -14,6 +14,7 @@
 #include "resources/file-equality-checker/file-equality-checker.h"
 #include "../../../src/core/pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h"
 #include "../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
+#include "../../../src/vm/ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 
 TEST_CASE( "should create expected vm code" ) {
     std::string filePath = "./ir-generator-test-file.jet";
@@ -32,17 +33,20 @@ TEST_CASE( "should create expected vm code" ) {
     typeCheckerResult.print();
     REQUIRE(typeCheckerResult.ok());
     auto irGenerator = IRGenerator();
+    auto irModule = irGenerator.generateModule(filePath);
+    auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
+    auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction);
     auto irLookupTable = IRLookupTable();
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *fileNodeResult->getBody()) {
         auto value = irGenerator.generateFor(node, &irLookupTable);
-        value->print(&ostream);
-        ostream->write('\n');
+        irMainFunctionBlock->insert(value);
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }
     }
+    irModule->getModule()->print(*ostream, nullptr);
     ostream->close();
     auto fileEqualityChecker = FileEqualityChecker();
     REQUIRE(fileEqualityChecker.areFilesEqual(expectedOutputFilePath, outputFilePath));

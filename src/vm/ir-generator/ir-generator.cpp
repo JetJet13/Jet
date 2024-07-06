@@ -30,7 +30,6 @@
 // we need to figure out how to generate vm code for an ASTNode and its
 // type signature.
 IRGenerator::IRGenerator() {
-    _numAsNameCursor = 0;
     _context = std::make_unique<llvm::LLVMContext>();
     _irStrategyMap = IRStrategyMap();
 }
@@ -121,7 +120,21 @@ llvm::Constant* IRGenerator::generateZeroConstant() {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, 0));
 }
 
-std::string IRGenerator::generateName() {
-    _numAsNameCursor++;
-    return llvm::Twine(_numAsNameCursor).str();
+IRBlockNode* IRGenerator::generateBasicBlock() {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context));
+}
+
+IRBlockNode* IRGenerator::generateFunctionBlock(IRFunctionNode* irFunctionNode) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry", irFunctionNode->getFunction()));
+}
+
+IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
+    return new IRModuleNode(new llvm::Module(moduleName, *_context));
+}
+
+IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
+    auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(*_context), {});
+    return new IRFunctionNode(
+        llvm::Function::Create(functionType, llvm::GlobalValue::PrivateLinkage, functionName, irModuleNode->getModule())
+    );
 }

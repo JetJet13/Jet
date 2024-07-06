@@ -7,11 +7,16 @@
 
 #include <llvm/IR/Value.h>
 #include <llvm/IR/Constants.h>
+#include <llvm/IR/Constant.h>
+#include <llvm/IR/IRBuilder.h>
 #include <string>
 #include "types/ir-node-type.h"
 
 class IRNode {
 public:
+    bool is(IRNodeType irNodeType);
+    bool isConstant();
+    virtual void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder);
     virtual llvm::Constant* getConstantIRValue();
     virtual llvm::Value* getIRValue() = 0;
     virtual IRNodeType getNodeType() = 0;
