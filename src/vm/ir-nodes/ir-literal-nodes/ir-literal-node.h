@@ -7,6 +7,10 @@
 
 #include "../ir-node.h"
 
-class IRLiteralNode : public IRNode {};
+class IRLiteralNode : public IRNode {
+public:
+    virtual llvm::Type* getIRType();
+    virtual llvm::Constant* getConstantIRValue() = 0;
+};
 
 #endif //JETLANG_IR_LITERAL_NODE_H

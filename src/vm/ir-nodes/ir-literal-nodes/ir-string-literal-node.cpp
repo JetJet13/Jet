@@ -13,10 +13,6 @@ llvm::Constant* IRStringLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 
-llvm::Constant* IRStringLiteralNode::getIRValue() {
-    return _irValue;
-}
-
 IRNodeType IRStringLiteralNode::getNodeType() {
     return IR_STRING_LITERAL_NODE;
 }

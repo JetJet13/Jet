@@ -9,16 +9,12 @@ IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* astNo
     _irValue = irValue;
 }
 
-llvm::Constant* IRLiteralExpressionNode::getConstantIRValue() {
-    return _irValue->getConstantIRValue();
-}
-
 llvm::Value * IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
-    return builder->get()->CreateStore(_irValue->getIRValue(), parent);
+    return builder->get()->CreateStore(_irValue->getConstantIRValue(), parent);
 }
 
-llvm::Value* IRLiteralExpressionNode::getIRValue() {
-    return _irValue->getIRValue();
+llvm::Constant* IRLiteralExpressionNode::getIRValue() {
+    return _irValue->getConstantIRValue();
 }
 
 IRNodeType IRLiteralExpressionNode::getNodeType() {

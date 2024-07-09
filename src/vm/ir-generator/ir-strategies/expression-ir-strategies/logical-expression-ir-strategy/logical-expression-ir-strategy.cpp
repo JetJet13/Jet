@@ -4,9 +4,9 @@
 
 #include "logical-expression-ir-strategy.h"
 
-IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope) {
-    auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope);
-    auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope);
+IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+    auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irModule);
+    auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irModule);
     return new IRLogicalExpressionNode(node, llvm::BinaryOperator::Create(
             this->determineOperatorIR(node->getLogicalOperator()),
             leftExpressionIr->getIRValue(),

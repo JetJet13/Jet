@@ -4,8 +4,8 @@
 
 #include "array-access-expression-ir-strategy.h"
 
-IRArrayAccessExpressionNode* ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    auto sourceValue = irGenerator->generateFor(node->getSource(), scope);
-    auto indexValue = irGenerator->generateFor(node->getIndex()->getIndex(), scope);
+IRArrayAccessExpressionNode* ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+    auto sourceValue = irGenerator->generateFor(node->getSource(), scope, irModule);
+    auto indexValue = irGenerator->generateFor(node->getIndex()->getIndex(), scope, irModule);
     return new IRArrayAccessExpressionNode(node, sourceValue, indexValue);
 }

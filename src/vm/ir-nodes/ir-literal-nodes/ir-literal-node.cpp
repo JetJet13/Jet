@@ -3,3 +3,7 @@
 //
 
 #include "ir-literal-node.h"
+
+llvm::Type* IRLiteralNode::getIRType() {
+    return this->getConstantIRValue()->getType();
+}

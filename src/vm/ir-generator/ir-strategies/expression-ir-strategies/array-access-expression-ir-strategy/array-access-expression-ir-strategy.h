@@ -13,7 +13,7 @@
 
 class ArrayAccessExpressionIRStrategy {
 public:
-    IRArrayAccessExpressionNode* generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRArrayAccessExpressionNode* generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_EXPRESSION_IR_STRATEGY_H

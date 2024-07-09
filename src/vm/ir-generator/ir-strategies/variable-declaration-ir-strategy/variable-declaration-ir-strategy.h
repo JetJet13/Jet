@@ -11,10 +11,9 @@
 #include "../../ir-lookup-table/ir-lookup-table.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 
-
 class VariableDeclarationIRStrategy {
 public:
-    IRVariableDeclarationNode* generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRVariableDeclarationNode* generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_IR_STRATEGY_H

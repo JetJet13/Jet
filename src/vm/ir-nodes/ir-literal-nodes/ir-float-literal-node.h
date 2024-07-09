@@ -15,8 +15,7 @@ private:
     llvm::ConstantFP* _irValue;
 public:
     IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::ConstantFP* irValue);
-    llvm::Constant* getConstantIRValue() override;
-    llvm::ConstantFP* getIRValue() override;
+    llvm::ConstantFP* getConstantIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

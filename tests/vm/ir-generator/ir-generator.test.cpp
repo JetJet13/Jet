@@ -40,7 +40,7 @@ TEST_CASE( "should create expected vm code" ) {
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *fileNodeResult->getBody()) {
-        auto value = irGenerator.generateFor(node, &irLookupTable);
+        auto value = irGenerator.generateFor(node, &irLookupTable, irModule);
         irMainFunctionBlock->insert(value);
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());

@@ -31,6 +31,7 @@
 #include "../ir-nodes/ir-block-node.h"
 #include "../ir-nodes/ir-module-node.h"
 #include "../ir-nodes/ir-function-nodes/ir-function-node.h"
+#include "../ir-nodes/ir-function-nodes/ir-function-parameter-list-node.h"
 
 class IRGenerator {
 private:
@@ -38,11 +39,12 @@ private:
     IRStrategyMap _irStrategyMap;
 public:
     explicit IRGenerator();
-    IRNode* generateFor(ASTNode* node, IRLookupTable* scope);
-    IRNode* generateFor(ASTStatementNode* node, IRLookupTable* scope);
-    IRNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope);
-    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope);
-    IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope);
+    IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     llvm::Type* generateTypeFor(TypeSignature* typeSignature);
     llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
     llvm::Constant* generateZeroConstant();

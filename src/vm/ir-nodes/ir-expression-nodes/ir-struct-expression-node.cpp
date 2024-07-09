@@ -27,8 +27,8 @@ llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::
     return structExpressionAllocation;
 }
 
-llvm::AllocaInst* IRStructExpressionNode::getIRValue() {
-    return _irAllocation;
+llvm::Constant* IRStructExpressionNode::getIRValue() {
+
 }
 
 IRNodeType IRStructExpressionNode::getNodeType() {

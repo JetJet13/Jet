@@ -18,6 +18,8 @@
 #include "ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
+#include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
+#include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
@@ -34,53 +36,59 @@ IRGenerator::IRGenerator() {
     _irStrategyMap = IRStrategyMap();
 }
 
-IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope) {
+IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     if (ASTNodeUtils::isDeclarationNode(node)) {
-        return this->generateFor(((ASTDeclarationNode*)node), scope);
+        return this->generateFor(((ASTDeclarationNode*)node), scope, irModuleNode);
     } else if (ASTNodeUtils::isStatementNode(node)) {
-        return this->generateFor(((ASTStatementNode*)node), scope);
+        return this->generateFor(((ASTStatementNode*)node), scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for node " + node->toString());
 }
 
-IRNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable* scope) {
+IRNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     if (node->is(AST_EXPRESSION_STATEMENT_NODE)) {
-        return this->generateFor(((ASTExpressionStatementNode*)node)->getExpression(), scope);
+        return this->generateFor(((ASTExpressionStatementNode*)node)->getExpression(), scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
 
-IRNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTable* scope) {
+IRNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getVariableDeclarationIRStrategy()->generate((ASTVariableDeclarationNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getVariableDeclarationIRStrategy()->generate((ASTVariableDeclarationNode*)node, &_context, this, scope, irModuleNode);
+    } else if (node->is(AST_FUNCTION_DECLARATION_NODE)) {
+        return this->_irStrategyMap.getFunctionDeclarationIRStrategy()->generate((ASTFunctionDeclarationNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
 
-IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope) {
+IRFunctionParameterListNode* IRGenerator::generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
+    return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node, &_context, this, scope, irModuleNode);
+}
+
+IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     if (node->is(AST_LITERAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate((ASTLiteralExpressionNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate((ASTLiteralExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_BINARY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_STRUCT_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate((ASTUnaryExpressionNode*)node, &_context, this, scope);
+        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate((ASTUnaryExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_TUPLE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode *) node, &_context,this, scope);
+        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode *) node, &_context,this, scope, irModuleNode);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node, &_context, scope);
+        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node, &_context, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
 
-IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope) {
+IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     switch (node->getNodeType()) {
         case AST_INT_LITERAL_NODE:
             return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode*)node, &_context);;

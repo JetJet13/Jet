@@ -18,6 +18,8 @@
 #include "./expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
 #include "./expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
+#include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
+#include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
@@ -37,6 +39,8 @@ IRStrategyMap::IRStrategyMap() {
     _tupleExpressionIRStrategy = new TupleExpressionIRStrategy();
     _identifierExpressionIRStrategy = new IdentifierExpressionIRStrategy();
     _variableDeclarationIRStrategy = new VariableDeclarationIRStrategy();
+    _functionDeclarationIRStrategy = new FunctionDeclarationIRStrategy();
+    _functionParameterListIRStrategy = new FunctionParameterListIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -97,6 +101,14 @@ IdentifierExpressionIRStrategy* IRStrategyMap::getIdentifierExpressionIRStrategy
 
 VariableDeclarationIRStrategy* IRStrategyMap::getVariableDeclarationIRStrategy() {
     return _variableDeclarationIRStrategy;
+}
+
+FunctionDeclarationIRStrategy* IRStrategyMap::getFunctionDeclarationIRStrategy() {
+    return _functionDeclarationIRStrategy;
+}
+
+FunctionParameterListIRStrategy* IRStrategyMap::getFunctionParameterListIRStrategy() {
+    return _functionParameterListIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

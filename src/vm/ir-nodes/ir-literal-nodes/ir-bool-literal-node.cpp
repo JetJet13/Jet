@@ -9,11 +9,7 @@ IRBoolLiteralNode::IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::Const
     _irValue = irValue;
 }
 
-llvm::Constant* IRBoolLiteralNode::getConstantIRValue() {
-    return _irValue;
-}
-
-llvm::ConstantInt* IRBoolLiteralNode::getIRValue() {
+llvm::ConstantInt* IRBoolLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 

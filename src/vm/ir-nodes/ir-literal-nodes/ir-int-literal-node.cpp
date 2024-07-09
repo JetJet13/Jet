@@ -9,11 +9,7 @@ IRIntLiteralNode::IRIntLiteralNode(ASTIntLiteralNode* astNode, llvm::ConstantInt
     _irValue = irValue;
 }
 
-llvm::Constant* IRIntLiteralNode::getConstantIRValue() {
-    return _irValue;
-}
-
-llvm::ConstantInt* IRIntLiteralNode::getIRValue() {
+llvm::ConstantInt* IRIntLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 

@@ -10,6 +10,7 @@
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.h"
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h"
 #include "../../../../ir-nodes/ir-literal-nodes/ir-float-literal-node.h"
+#include "../../../../ir-nodes/ir-module-node.h"
 
 class FloatLiteralIRStrategy {
 public:

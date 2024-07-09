@@ -6,8 +6,8 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope);
+IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irModule);
     scope->insert(node->getId(), irExpression);
     return new IRVariableDeclarationNode(node, new llvm::AllocaInst(
             irExpression->getIRType(),

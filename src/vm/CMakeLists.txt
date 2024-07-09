@@ -102,6 +102,18 @@ add_library(jet-vm
         ir-nodes/ir-function-nodes/ir-function-node.h
         ir-nodes/ir-expression-nodes/ir-array-access-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-array-access-expression-node.h
+        ir-generator/ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h
+        ir-nodes/ir-declaration-nodes/ir-function-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-function-declaration-node.h
+        ir-nodes/ir-function-nodes/ir-function-parameter-list-node.cpp
+        ir-nodes/ir-function-nodes/ir-function-parameter-list-node.h
+        ir-nodes/ir-declaration-nodes/ir-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-declaration-node.h
+        ir-generator/ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.cpp
+        ir-generator/ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-constant-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-constant-expression-node.h
 )
 
 target_link_libraries(jet-vm

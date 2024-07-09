@@ -4,5 +4,10 @@
 
 #include "ir-expression-node.h"
 
+llvm::Type* IRExpressionNode::getIRType() {
+    return this->getIRValue()->getType();
+}
 
-void IRExpressionNode::evaluate() {}
+llvm::Type* IRExpressionNode::getIRTypeAtIndex(unsigned long index) {
+    return this->getIRValue()->getType();
+}

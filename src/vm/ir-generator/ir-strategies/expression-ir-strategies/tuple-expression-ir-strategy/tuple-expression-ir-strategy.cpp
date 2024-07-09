@@ -6,12 +6,12 @@
 #include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
 
     auto structValueTypes = std::vector<llvm::Type*>();
     auto structValues = std::vector<IRExpressionNode*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
-        auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope);
+        auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope, irModule);
         structValueTypes.push_back(irNode->getIRType());
         structValues.push_back(irNode);
     }

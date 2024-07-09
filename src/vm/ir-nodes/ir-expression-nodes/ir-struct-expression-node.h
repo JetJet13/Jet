@@ -9,8 +9,9 @@
 #include <llvm/IR/Instructions.h>
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
 #include "ir-expression-node.h"
+#include "ir-constant-expression-node.h"
 
-class IRStructExpressionNode : public IRExpressionNode {
+class IRStructExpressionNode : public IRConstantExpressionNode {
 private:
     ASTStructExpressionNode* _astNode;
     llvm::AllocaInst* _irAllocation;
@@ -21,7 +22,7 @@ private:
 public:
     IRStructExpressionNode(ASTStructExpressionNode* astNode, llvm::AllocaInst* irAllocation, std::vector<IRExpressionNode*> irValues, llvm::GetElementPtrInst* irPointer);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
-    llvm::AllocaInst* getIRValue() override;
+    llvm::Constant* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

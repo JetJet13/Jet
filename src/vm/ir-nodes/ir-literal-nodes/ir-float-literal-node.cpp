@@ -9,11 +9,7 @@ IRFloatLiteralNode::IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::Const
     _irValue = irValue;
 }
 
-llvm::Constant* IRFloatLiteralNode::getConstantIRValue() {
-    return _irValue;
-}
-
-llvm::ConstantFP* IRFloatLiteralNode::getIRValue() {
+llvm::ConstantFP* IRFloatLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 
