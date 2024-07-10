@@ -12,7 +12,7 @@
 
 class ArrayTypeSignatureIRStrategy {
 public:
-    llvm::Type* generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator);
+    IRType* generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_ARRAY_TYPE_SIGNATURE_IR_STRATEGY_H

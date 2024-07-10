@@ -24,6 +24,7 @@ class FunctionDeclarationIRStrategy;
 class FunctionParameterListIRStrategy;
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
+class LiteralTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -46,6 +47,7 @@ private:
     FunctionParameterListIRStrategy* _functionParameterListIRStrategy;
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
+    LiteralTypeSignatureIRStrategy* _literalTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -67,6 +69,7 @@ public:
     FunctionParameterListIRStrategy* getFunctionParameterListIRStrategy();
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
+    LiteralTypeSignatureIRStrategy* getLiteralTypeSignatureIRStrategy();
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H

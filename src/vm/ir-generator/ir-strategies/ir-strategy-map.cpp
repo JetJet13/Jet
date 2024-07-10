@@ -21,6 +21,8 @@
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
+
 
 IRStrategyMap::IRStrategyMap() {
     _intLiteralIRStrategy = new IntLiteralIRStrategy();
@@ -33,7 +35,6 @@ IRStrategyMap::IRStrategyMap() {
     _logicalExpressionIRStrategy = new LogicalExpressionIRStrategy();
     _arrayExpressionIRStrategy = new ArrayExpressionIRStrategy();
     _structExpressionIRStrategy = new StructExpressionIRStrategy();
-    _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _arrayAccessExpressionIRStrategy = new ArrayAccessExpressionIRStrategy();
     _unaryExpressionIRStrategy = new UnaryExpressionIRStrategy();
     _tupleExpressionIRStrategy = new TupleExpressionIRStrategy();
@@ -41,6 +42,8 @@ IRStrategyMap::IRStrategyMap() {
     _variableDeclarationIRStrategy = new VariableDeclarationIRStrategy();
     _functionDeclarationIRStrategy = new FunctionDeclarationIRStrategy();
     _functionParameterListIRStrategy = new FunctionParameterListIRStrategy();
+    _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
+    _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -113,4 +116,8 @@ FunctionParameterListIRStrategy* IRStrategyMap::getFunctionParameterListIRStrate
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
     return _arrayTypeSignatureIRStrategy;
+}
+
+LiteralTypeSignatureIRStrategy* IRStrategyMap::getLiteralTypeSignatureIRStrategy() {
+    return _literalTypeSignatureIRStrategy;
 }

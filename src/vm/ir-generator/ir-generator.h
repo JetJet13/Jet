@@ -32,6 +32,7 @@
 #include "../ir-nodes/ir-module-node.h"
 #include "../ir-nodes/ir-function-nodes/ir-function-node.h"
 #include "../ir-nodes/ir-function-nodes/ir-function-parameter-list-node.h"
+#include "../ir-type/ir-type.h"
 
 class IRGenerator {
 private:
@@ -45,7 +46,7 @@ public:
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
-    llvm::Type* generateTypeFor(TypeSignature* typeSignature);
+    IRType* generateTypeFor(TypeSignature* typeSignature);
     llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
     llvm::Constant* generateZeroConstant();
     IRBlockNode* generateBasicBlock();

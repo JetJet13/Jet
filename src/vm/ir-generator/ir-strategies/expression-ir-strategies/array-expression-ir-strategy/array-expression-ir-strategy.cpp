@@ -20,7 +20,7 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
 llvm::ArrayType* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     if (node->size() == 0) {
         auto arrayElementType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
-        return llvm::ArrayType::get(arrayElementType, 0);
+        return llvm::ArrayType::get(arrayElementType->getType(), 0);
     }
 
     auto elementValues = std::vector<llvm::Value*>();

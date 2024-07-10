@@ -21,6 +21,7 @@
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
@@ -105,10 +106,16 @@ IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* sco
     }
 }
 
-llvm::Type* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
+IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
     switch (typeSignature->getTypeSource()) {
         case ARRAY_TYPE_SOURCE:
             return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, this);
+        case INT_LITERAL_TYPE_SOURCE:
+        case FLOAT_LITERAL_TYPE_SOURCE:
+        case CHAR_LITERAL_TYPE_SOURCE:
+        case STRING_LITERAL_TYPE_SOURCE:
+        case BOOL_LITERAL_TYPE_SOURCE:
+            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature*)typeSignature, &_context);
         default:
             throw std::logic_error("unable to generate llvm type for type-signature " + typeSignature->toString());
     }
