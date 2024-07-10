@@ -10,20 +10,17 @@
 #include <llvm/IR/Instructions.h>
 #include "../ir-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
-#include "ir-expression-node.h"
+#include "ir-constant-expression-node.h"
 
-class IRTupleExpressionNode : public IRExpressionNode {
+class IRTupleExpressionNode : public IRConstantExpressionNode {
 private:
-    ASTTupleExpressionNode* _astNode;
-    llvm::AllocaInst* _irAllocation;
+    ASTTupleExpressionNode* _node;
+    llvm::Constant* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    llvm::GetElementPtrInst* _irPointer;
-    std::vector<llvm::Value*> _irStatements;
-    void generateStatements();
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* astNode, llvm::AllocaInst* irAllocation, std::vector<IRExpressionNode*> irValues, llvm::GetElementPtrInst* irPointer);
+    IRTupleExpressionNode(ASTTupleExpressionNode* node, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
-    llvm::AllocaInst* getIRValue() override;
+    llvm::Constant* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -52,7 +52,7 @@ IRNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable* scope, I
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
 
-IRNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
+IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
         return this->_irStrategyMap.getVariableDeclarationIRStrategy()->generate((ASTVariableDeclarationNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_FUNCTION_DECLARATION_NODE)) {

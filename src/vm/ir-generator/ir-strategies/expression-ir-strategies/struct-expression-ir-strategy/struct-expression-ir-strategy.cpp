@@ -15,17 +15,9 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
         structValueTypes.push_back(irNode->getIRType());
     }
 
-    auto structType = llvm::StructType::get(**context, structValueTypes);
-    auto allocation = new llvm::AllocaInst(
-            structType,
-            AddressSpaceGenerator::generate(structType),
-            nullptr,
-            DataAlignmentGenerator::generate(structType));
-    auto irStructPointer = llvm::GetElementPtrInst::Create(structType, allocation, irGenerator->generateZeroConstant());
-
-    auto constantStruct = llvm::ConstantStruct::get(structType);
-
-    auto irStruct = new IRStructExpressionNode(node, allocation, structValues, irStructPointer);
-
-    return irStruct;
+    return new IRStructExpressionNode(
+            node,
+            llvm::ConstantStruct::get(llvm::StructType::get(**context, structValueTypes)),
+            structValues
+    );
 }

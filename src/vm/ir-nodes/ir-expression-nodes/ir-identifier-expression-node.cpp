@@ -4,7 +4,7 @@
 
 #include "ir-identifier-expression-node.h"
 
-IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, IRNode* irNode) {
+IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, IRExpressionNode* irNode) {
     _astNode = astNode;
     _irNode = irNode;
 }

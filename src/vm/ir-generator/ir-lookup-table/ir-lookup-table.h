@@ -7,16 +7,16 @@
 
 #include <unordered_map>
 #include <optional>
-#include "../../ir-nodes/ir-node.h"
+#include "../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 
 class IRLookupTable {
 private:
-    std::unordered_map<std::string, IRNode*> _scope;
+    std::unordered_map<std::string, IRExpressionNode*> _scope;
     std::optional<IRLookupTable*> _outerScope;
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
-    IRLookupTable* insert(std::string key, IRNode* value);
-    IRNode* find(std::string key);
+    IRLookupTable* insert(std::string key, IRExpressionNode* value);
+    IRExpressionNode* find(std::string key);
     void dump();
 };
 

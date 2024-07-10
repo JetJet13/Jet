@@ -14,13 +14,10 @@
 class IRStructExpressionNode : public IRConstantExpressionNode {
 private:
     ASTStructExpressionNode* _astNode;
-    llvm::AllocaInst* _irAllocation;
+    llvm::Constant* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    llvm::GetElementPtrInst* _irPointer;
-    std::vector<llvm::Value*> _irStatements;
-    void generateStatements();
 public:
-    IRStructExpressionNode(ASTStructExpressionNode* astNode, llvm::AllocaInst* irAllocation, std::vector<IRExpressionNode*> irValues, llvm::GetElementPtrInst* irPointer);
+    IRStructExpressionNode(ASTStructExpressionNode* astNode, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
     llvm::Constant* getIRValue() override;
     IRNodeType getNodeType() override;

@@ -10,11 +10,11 @@
 
 IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto arrayType = this->generateArrayType(node, irGenerator, scope, irModule);
-    auto elementValues = std::vector<llvm::Constant*>();
+    auto elementValues = std::vector<IRExpressionNode*>();
     for (auto element : *node->getElements()) {
-        elementValues.push_back(irGenerator->generateFor(element, scope, irModule)->getIRValue());
+        elementValues.push_back(irGenerator->generateFor(element, scope, irModule));
     }
-    return new IRArrayExpressionNode(node, llvm::ConstantArray::get(arrayType));
+    return new IRArrayExpressionNode(node, llvm::ConstantArray::get(arrayType, {}), elementValues);
 }
 
 llvm::ArrayType* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {

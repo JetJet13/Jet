@@ -9,7 +9,7 @@ IRCharLiteralNode::IRCharLiteralNode(ASTCharLiteralNode* astNode, llvm::Constant
     _irValue = irValue;
 }
 
-llvm::Constant* IRCharLiteralNode::getConstantIRValue() {
+llvm::ConstantInt* IRCharLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 
