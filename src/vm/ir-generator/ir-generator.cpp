@@ -108,8 +108,10 @@ IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* sco
 
 IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
     switch (typeSignature->getTypeSource()) {
+        case VOID_TYPE_SOURCE:
+            return this->generateVoidType();
         case ARRAY_TYPE_SOURCE:
-            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, this);
+            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, &_context, this);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
@@ -119,6 +121,18 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
         default:
             throw std::logic_error("unable to generate llvm type for type-signature " + typeSignature->toString());
     }
+}
+
+IRType* IRGenerator::generateVoidType() {
+    return new IRType(llvm::Type::getVoidTy(*_context));
+}
+
+IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList) {
+
+}
+
+IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignature* parameter) {
+
 }
 
 llvm::Type* IRGenerator::determineBestFitType(std::vector<llvm::Value*> elementValues) {

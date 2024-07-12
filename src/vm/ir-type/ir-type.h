@@ -12,7 +12,7 @@ class IRType {
 private:
     llvm::Type* _type;
 public:
-    IRType(llvm::Type* type);
+    explicit IRType(llvm::Type* type);
     llvm::Type* getType();
     bool isCharType();
     bool isIntegerType();
