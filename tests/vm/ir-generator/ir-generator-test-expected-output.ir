@@ -416,3 +416,29 @@ entry:
   %6 = add ptr addrspace(4) %3, i32 %5
   ret ptr addrspace(4) %6
 }
+
+define private void @myProcedure(i32 %0, i1 %1) {
+entry:
+  %2 = alloca i32, align 4, addrspace(4)
+  store i32 %0, ptr addrspace(4) %2, align 4
+  %3 = alloca i1, align 1, addrspace(1)
+  store i1 %1, ptr addrspace(1) %3, align 1
+  %addFive = alloca ptr addrspace(4), align 1, addrspace(1)
+  %4 = alloca ptr addrspace(4), align 8
+  store ptr addrspace(4) %1, ptr %4, align 8
+  %5 = load ptr addrspace(4), ptr %4, align 8
+  %6 = alloca i32, align 4
+  store i32 5, ptr %6, align 4
+  %7 = load i32, ptr %6, align 4
+  %8 = add ptr addrspace(4) %5, i32 %7
+  store ptr addrspace(4) %8, ptr addrspace(1) %addFive, align 8
+  %myBool = alloca ptr addrspace(1), align 1, addrspace(1)
+  %9 = alloca ptr addrspace(1), align 8
+  store ptr addrspace(1) %3, ptr %9, align 8
+  %10 = load ptr addrspace(1), ptr %9, align 8
+  %11 = alloca i1, align 1
+  store i1 true, ptr %11, align 1
+  %12 = load i1, ptr %11, align 1
+  %13 = or ptr addrspace(1) %10, i1 %12
+  store ptr addrspace(1) %13, ptr addrspace(1) %myBool, align 8
+}

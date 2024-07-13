@@ -148,6 +148,10 @@ add_library(jet-vm
         ir-nodes/ir-function-nodes/ir-function-parameter-node.h
         ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.cpp
         ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h
+        ir-nodes/ir-declaration-nodes/ir-procedure-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-procedure-declaration-node.h
+        ir-generator/ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

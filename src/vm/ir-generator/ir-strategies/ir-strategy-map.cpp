@@ -21,6 +21,7 @@
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
 #include "./function-return-expression-ir-strategy/function-return-expression-ir-strategy.h"
+#include "./procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
@@ -53,6 +54,7 @@ IRStrategyMap::IRStrategyMap() {
     _functionDeclarationIRStrategy = new FunctionDeclarationIRStrategy();
     _functionParameterListIRStrategy = new FunctionParameterListIRStrategy();
     _functionReturnExpressionIRStrategy = new FunctionReturnExpressionIRStrategy();
+    _procedureDeclarationIRStrategy = new ProcedureDeclarationIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
@@ -137,6 +139,10 @@ FunctionParameterListIRStrategy* IRStrategyMap::getFunctionParameterListIRStrate
 
 FunctionReturnExpressionIRStrategy* IRStrategyMap::getFunctionReturnExpressionIRStrategy() {
     return _functionReturnExpressionIRStrategy;
+}
+
+ProcedureDeclarationIRStrategy* IRStrategyMap::getProcedureDeclarationIRStrategy() {
+    return _procedureDeclarationIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

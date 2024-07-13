@@ -30,7 +30,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        if (ASTNodeUtils::isTypeDeclarationNode(statement)) {
+        if (ASTNodeUtils::isDeclarationNode(statement)) {
             functionBlock->insert(
                     irGenerator->generateFor((ASTDeclarationNode*)statement, scope, irModule)
             );

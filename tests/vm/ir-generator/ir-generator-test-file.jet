@@ -73,3 +73,8 @@ let bar = "hello world";
 func testFunc(x: int) int {
     return x + 1;
 }
+
+proc myProcedure(x: int, y: boolean) {
+ const addFive = x + 5;
+ const myBool = y || true;
+}
