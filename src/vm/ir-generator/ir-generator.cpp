@@ -20,13 +20,22 @@
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
+#include "ir-strategies/function-return-expression-ir-strategy/function-return-expression-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
-#include "../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
+#include "ir-strategies/type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/enum-type-signature-ir-strategy/enum-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/lambda-type-signature-ir-strategy/lambda-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/procedure-type-signature-ir-strategy/procedure-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-list-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/struct-type-signature-ir-strategy/struct-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../shared/utils/logger/logger.h"
-#include "../ir-type/ir-type.h"
+
 
 // The IRGenerator will be responsible for programmatically generating
 // vm code.
@@ -46,11 +55,11 @@ IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNo
     throw std::logic_error("unable to generate llvm value for node " + node->toString());
 }
 
-IRNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
-    if (node->is(AST_EXPRESSION_STATEMENT_NODE)) {
-        return this->generateFor(((ASTExpressionStatementNode*)node)->getExpression(), scope, irModuleNode);
+IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
+    if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getFunctionReturnExpressionIRStrategy()->generate((ASTFunctionReturnExpressionNode*)node, &_context, this, scope, irModuleNode);
     }
-    throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
+    throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }
 
 IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
@@ -62,8 +71,8 @@ IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTa
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
 
-IRFunctionParameterListNode* IRGenerator::generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
-    return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node, &_context, this, scope, irModuleNode);
+IRFunctionParameterListNode* IRGenerator::generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, llvm::Function* irFunction) {
+    return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node, &_context, this, scope, irModuleNode, irFunction);
 }
 
 IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
@@ -112,6 +121,24 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
             return this->generateVoidType();
         case ARRAY_TYPE_SOURCE:
             return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, &_context, this);
+        case CLASS_TYPE_SOURCE:
+            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature*)typeSignature, &_context, this);
+        case ENUM_TYPE_SOURCE:
+            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, &_context, this);
+        case FUNCTION_TYPE_SOURCE:
+            return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate((FunctionTypeSignature*)typeSignature, &_context, this);
+        case PROCEDURE_TYPE_SOURCE:
+            return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate((ProcedureTypeSignature*)typeSignature, &_context, this);
+        case LAMBDA_TYPE_SOURCE:
+            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((LambdaExpressionTypeSignature*)typeSignature, &_context, this);
+        case FUNCTION_LAMBDA_TYPE_SOURCE:
+            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((FunctionLambdaTypeSignature*)typeSignature, &_context, this);
+        case PROCEDURE_LAMBDA_TYPE_SOURCE:
+            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((ProcedureLambdaTypeSignature*)typeSignature, &_context, this);
+        case STRUCT_TYPE_SOURCE:
+            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*)typeSignature, &_context, this);
+        case TUPLE_TYPE_SOURCE:
+            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
@@ -128,11 +155,11 @@ IRType* IRGenerator::generateVoidType() {
 }
 
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList) {
-
+    return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, &_context, this);
 }
 
 IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignature* parameter) {
-
+    return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, &_context, this);
 }
 
 llvm::Type* IRGenerator::determineBestFitType(std::vector<llvm::Value*> elementValues) {

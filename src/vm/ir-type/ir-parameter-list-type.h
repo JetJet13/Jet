@@ -6,7 +6,6 @@
 #define JETLANG_IR_PARAMETER_LIST_TYPE_H
 
 #include <llvm/IR/Type.h>
-#include <llvm/IR/DerivedTypes.h>
 #include "ir-parameter-type.h"
 
 class IRParameterListType {
@@ -15,6 +14,7 @@ private:
 public:
     explicit IRParameterListType(std::vector<IRParameterType*> parameters);
     std::vector<IRParameterType*>* getParameters();
+    std::vector<llvm::Type*> getParameterTypes();
 };
 
 #endif //JETLANG_IR_PARAMETER_LIST_TYPE_H

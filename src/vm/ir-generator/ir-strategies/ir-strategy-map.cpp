@@ -20,8 +20,18 @@
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
+#include "./function-return-expression-ir-strategy/function-return-expression-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/enum-type-signature-ir-strategy/enum-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/lambda-type-signature-ir-strategy/lambda-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/procedure-type-signature-ir-strategy/procedure-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-list-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/struct-type-signature-ir-strategy/struct-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
 
 
 IRStrategyMap::IRStrategyMap() {
@@ -42,8 +52,19 @@ IRStrategyMap::IRStrategyMap() {
     _variableDeclarationIRStrategy = new VariableDeclarationIRStrategy();
     _functionDeclarationIRStrategy = new FunctionDeclarationIRStrategy();
     _functionParameterListIRStrategy = new FunctionParameterListIRStrategy();
+    _functionReturnExpressionIRStrategy = new FunctionReturnExpressionIRStrategy();
+
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
+    _classTypeSignatureIRStrategy = new ClassTypeSignatureIRStrategy();
+    _enumTypeSignatureIRStrategy = new EnumTypeSignatureIRStrategy();
+    _functionTypeSignatureIRStrategy = new FunctionTypeSignatureIRStrategy();
+    _lambdaTypeSignatureIRStrategy = new LambdaTypeSignatureIRStrategy();
+    _procedureTypeSignatureIRStrategy = new ProcedureTypeSignatureIRStrategy();
+    _parameterListTypeSignatureIRStrategy = new ParameterListTypeSignatureIRStrategy();
+    _parameterTypeSignatureIRStrategy = new ParameterTypeSignatureIRStrategy();
+    _structTypeSignatureIRStrategy = new StructTypeSignatureIRStrategy();
+    _tupleTypeSignatureIRStrategy = new TupleTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -114,10 +135,50 @@ FunctionParameterListIRStrategy* IRStrategyMap::getFunctionParameterListIRStrate
     return _functionParameterListIRStrategy;
 }
 
+FunctionReturnExpressionIRStrategy* IRStrategyMap::getFunctionReturnExpressionIRStrategy() {
+    return _functionReturnExpressionIRStrategy;
+}
+
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
     return _arrayTypeSignatureIRStrategy;
 }
 
 LiteralTypeSignatureIRStrategy* IRStrategyMap::getLiteralTypeSignatureIRStrategy() {
     return _literalTypeSignatureIRStrategy;
+}
+
+ClassTypeSignatureIRStrategy* IRStrategyMap::getClassTypeSignatureIRStrategy() {
+    return _classTypeSignatureIRStrategy;
+}
+
+EnumTypeSignatureIRStrategy* IRStrategyMap::getEnumTypeSignatureIRStrategy() {
+    return _enumTypeSignatureIRStrategy;
+}
+
+FunctionTypeSignatureIRStrategy* IRStrategyMap::getFunctionTypeSignatureIRStrategy() {
+    return _functionTypeSignatureIRStrategy;
+}
+
+LambdaTypeSignatureIRStrategy* IRStrategyMap::getLambdaTypeSignatureIRStrategy() {
+    return _lambdaTypeSignatureIRStrategy;
+}
+
+ProcedureTypeSignatureIRStrategy* IRStrategyMap::getProcedureTypeSignatureIRStrategy() {
+    return _procedureTypeSignatureIRStrategy;
+}
+
+ParameterListTypeSignatureIRStrategy* IRStrategyMap::getParameterListTypeSignatureIRStrategy() {
+    return _parameterListTypeSignatureIRStrategy;
+}
+
+ParameterTypeSignatureIRStrategy* IRStrategyMap::getParameterTypeSignatureIRStrategy() {
+    return _parameterTypeSignatureIRStrategy;
+}
+
+StructTypeSignatureIRStrategy* IRStrategyMap::getStructTypeSignatureIRStrategy() {
+    return _structTypeSignatureIRStrategy;
+}
+
+TupleTypeSignatureIRStrategy* IRStrategyMap::getTupleTypeSignatureIRStrategy() {
+    return _tupleTypeSignatureIRStrategy;
 }

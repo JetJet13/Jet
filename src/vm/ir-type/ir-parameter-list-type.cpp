@@ -11,3 +11,11 @@ IRParameterListType::IRParameterListType(std::vector<IRParameterType*> parameter
 std::vector<IRParameterType*>* IRParameterListType::getParameters() {
     return &_parameters;
 }
+
+std::vector<llvm::Type*> IRParameterListType::getParameterTypes() {
+    auto argumentList = std::vector<llvm::Type*>();
+    for (auto parameter : _parameters) {
+        argumentList.push_back(parameter->getType());
+    }
+    return argumentList;
+}

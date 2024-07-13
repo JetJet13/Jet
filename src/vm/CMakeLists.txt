@@ -126,8 +126,6 @@ add_library(jet-vm
         ir-generator/ir-strategies/type-signature-ir-strategies/enum-type-signature-ir-strategy/enum-type-signature-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.h
-        ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.cpp
-        ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/procedure-type-signature-ir-strategy/procedure-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/procedure-type-signature-ir-strategy/procedure-type-signature-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/lambda-type-signature-ir-strategy/lambda-type-signature-ir-strategy.cpp
@@ -140,6 +138,12 @@ add_library(jet-vm
         ir-type/ir-parameter-type.h
         ir-generator/ir-strategies/type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-type-signature-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-function-return-expression-node.cpp
+        ir-nodes/ir-statement-nodes/ir-function-return-expression-node.h
+        ir-generator/ir-strategies/function-return-expression-ir-strategy/function-return-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/function-return-expression-ir-strategy/function-return-expression-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-statement-node.h
 )
 
 target_link_libraries(jet-vm

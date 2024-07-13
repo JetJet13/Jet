@@ -16,3 +16,7 @@ llvm::BasicBlock* IRBlockNode::getBlock() {
 void IRBlockNode::insert(IRDeclarationNode* irNode) {
     irNode->insertSelfIntoBlock(&_builder);
 }
+
+void IRBlockNode::insert(IRStatementNode* irNode) {
+    irNode->insertSelfIntoBlock(&_builder);
+}

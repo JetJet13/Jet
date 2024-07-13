@@ -5,7 +5,7 @@
 #ifndef JETLANG_IR_FUNCTION_DECLARATION_NODE_H
 #define JETLANG_IR_FUNCTION_DECLARATION_NODE_H
 
-#include <llvm/IR/Instructions.h>
+#include <llvm/IR/Function.h>
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
 #include "../ir-block-node.h"
 #include "../ir-function-nodes/ir-function-parameter-list-node.h"

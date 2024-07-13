@@ -69,3 +69,7 @@ const notTwentyPointFive = !20.5;
 const myTuple = tuple { 1, "hi", false };
 const otherFoo = 5;
 let bar = "hello world";
+
+func testFunc(x: int) int {
+    return 1;
+}

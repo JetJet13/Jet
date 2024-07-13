@@ -15,6 +15,7 @@ private:
     std::vector<llvm::Argument*> _irValues;
 public:
     IRFunctionParameterListNode(ASTFunctionParameterListNode* node, std::vector<llvm::Argument*> irValues);
+    std::vector<llvm::Argument*>* getArguments();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

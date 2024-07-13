@@ -35,6 +35,7 @@
 #include "../ir-type/ir-type.h"
 #include "../ir-type/ir-parameter-type.h"
 #include "../ir-type/ir-parameter-list-type.h"
+#include "../ir-nodes/ir-statement-nodes/ir-statement-node.h"
 
 class IRGenerator {
 private:
@@ -43,9 +44,9 @@ private:
 public:
     explicit IRGenerator();
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
-    IRNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
-    IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, llvm::Function* irFunction);
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRType* generateTypeFor(TypeSignature* typeSignature);

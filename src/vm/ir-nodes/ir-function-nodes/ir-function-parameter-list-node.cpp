@@ -9,6 +9,10 @@ IRFunctionParameterListNode::IRFunctionParameterListNode(ASTFunctionParameterLis
     _irValues = irValues;
 }
 
+std::vector<llvm::Argument*>* IRFunctionParameterListNode::getArguments() {
+    return &_irValues;
+}
+
 IRNodeType IRFunctionParameterListNode::getNodeType() {
     return IR_FUNCTION_PARAMETER_LIST_NODE;
 }

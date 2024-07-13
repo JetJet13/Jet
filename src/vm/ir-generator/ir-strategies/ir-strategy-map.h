@@ -22,9 +22,21 @@ class IdentifierExpressionIRStrategy;
 class VariableDeclarationIRStrategy;
 class FunctionDeclarationIRStrategy;
 class FunctionParameterListIRStrategy;
+class FunctionReturnExpressionIRStrategy;
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
 class LiteralTypeSignatureIRStrategy;
+class ClassTypeSignatureIRStrategy;
+class EnumTypeSignatureIRStrategy;
+class FunctionTypeSignatureIRStrategy;
+class LambdaTypeSignatureIRStrategy;
+class ProcedureTypeSignatureIRStrategy;
+class LiteralTypeSignatureIRStrategy;
+class ParameterListTypeSignatureIRStrategy;
+class ParameterTypeSignatureIRStrategy;
+class StructTypeSignatureIRStrategy;
+class TupleTypeSignatureIRStrategy;
+class VoidTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -45,9 +57,19 @@ private:
     VariableDeclarationIRStrategy* _variableDeclarationIRStrategy;
     FunctionDeclarationIRStrategy* _functionDeclarationIRStrategy;
     FunctionParameterListIRStrategy* _functionParameterListIRStrategy;
+    FunctionReturnExpressionIRStrategy* _functionReturnExpressionIRStrategy;
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
     LiteralTypeSignatureIRStrategy* _literalTypeSignatureIRStrategy;
+    ClassTypeSignatureIRStrategy* _classTypeSignatureIRStrategy;
+    EnumTypeSignatureIRStrategy* _enumTypeSignatureIRStrategy;
+    FunctionTypeSignatureIRStrategy* _functionTypeSignatureIRStrategy;
+    LambdaTypeSignatureIRStrategy* _lambdaTypeSignatureIRStrategy;
+    ProcedureTypeSignatureIRStrategy* _procedureTypeSignatureIRStrategy;
+    ParameterListTypeSignatureIRStrategy* _parameterListTypeSignatureIRStrategy;
+    ParameterTypeSignatureIRStrategy* _parameterTypeSignatureIRStrategy;
+    StructTypeSignatureIRStrategy* _structTypeSignatureIRStrategy;
+    TupleTypeSignatureIRStrategy* _tupleTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -67,9 +89,20 @@ public:
     VariableDeclarationIRStrategy* getVariableDeclarationIRStrategy();
     FunctionDeclarationIRStrategy* getFunctionDeclarationIRStrategy();
     FunctionParameterListIRStrategy* getFunctionParameterListIRStrategy();
+    FunctionReturnExpressionIRStrategy* getFunctionReturnExpressionIRStrategy();
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
     LiteralTypeSignatureIRStrategy* getLiteralTypeSignatureIRStrategy();
+    ClassTypeSignatureIRStrategy* getClassTypeSignatureIRStrategy();
+    EnumTypeSignatureIRStrategy* getEnumTypeSignatureIRStrategy();
+    FunctionTypeSignatureIRStrategy* getFunctionTypeSignatureIRStrategy();
+    LambdaTypeSignatureIRStrategy* getLambdaTypeSignatureIRStrategy();
+    ProcedureTypeSignatureIRStrategy* getProcedureTypeSignatureIRStrategy();
+    ParameterListTypeSignatureIRStrategy* getParameterListTypeSignatureIRStrategy();
+    ParameterTypeSignatureIRStrategy* getParameterTypeSignatureIRStrategy();
+    StructTypeSignatureIRStrategy* getStructTypeSignatureIRStrategy();
+    TupleTypeSignatureIRStrategy* getTupleTypeSignatureIRStrategy();
+
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H

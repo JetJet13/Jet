@@ -8,6 +8,7 @@
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/BasicBlock.h"
 #include "ir-declaration-nodes/ir-declaration-node.h"
+#include "ir-statement-nodes/ir-statement-node.h"
 
 class IRBlockNode {
 private:
@@ -17,6 +18,7 @@ public:
     IRBlockNode(llvm::BasicBlock* irValue);
     llvm::BasicBlock* getBlock();
     void insert(IRDeclarationNode* irNode);
+    void insert(IRStatementNode* irNode);
 };
 
 #endif //JETLANG_IR_BLOCK_NODE_H
