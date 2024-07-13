@@ -10,8 +10,8 @@ IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpress
     _irExpression = irExpression;
 }
 
-llvm::Value * IRUnaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
-    return builder->get()->CreateStore(builder->get()->Insert(_irValue), parent);
+llvm::Value * IRUnaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    return builder->get()->Insert(_irValue);
 }
 
 llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getIRValue() {

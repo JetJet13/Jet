@@ -71,5 +71,5 @@ const otherFoo = 5;
 let bar = "hello world";
 
 func testFunc(x: int) int {
-    return 1;
+    return x + 1;
 }

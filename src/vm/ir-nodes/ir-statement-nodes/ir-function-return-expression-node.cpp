@@ -4,18 +4,14 @@
 
 #include "ir-function-return-expression-node.h"
 
-IRFunctionReturnExpressionNode::IRFunctionReturnExpressionNode(ASTFunctionReturnExpressionNode* node, llvm::ReturnInst* irValue, IRExpressionNode* irExpression) {
+IRFunctionReturnExpressionNode::IRFunctionReturnExpressionNode(ASTFunctionReturnExpressionNode* node, IRExpressionNode* irExpression) {
     _node = node;
-    _irValue = irValue;
     _irExpression = irExpression;
 }
 
-llvm::Value * IRFunctionReturnExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    return _irValue;
-}
-
-llvm::ReturnInst* IRFunctionReturnExpressionNode::getIRValue() {
-    return _irValue;
+void IRFunctionReturnExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    auto irExpressionValue = _irExpression->insertSelfIntoBlock(builder);
+    builder->get()->CreateRet(irExpressionValue);
 }
 
 IRNodeType IRFunctionReturnExpressionNode::getNodeType() {
@@ -27,7 +23,5 @@ std::string IRFunctionReturnExpressionNode::toString() {
 }
 
 void IRFunctionReturnExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irValue->print(**stream);
-    stream->get()->write('\n');
     _irExpression->print(stream);
 }

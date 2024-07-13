@@ -6,7 +6,7 @@
 #define JETLANG_IR_PARAMETER_TYPE_H
 
 #include <llvm/IR/Type.h>
-#include <llvm/IR/DerivedTypes.h>
+#include <llvm/IR/IRBuilder.h>
 #include "ir-type.h"
 
 class IRParameterType {

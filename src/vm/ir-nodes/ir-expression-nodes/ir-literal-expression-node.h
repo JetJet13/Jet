@@ -13,11 +13,11 @@
 
 class IRLiteralExpressionNode : public IRConstantExpressionNode {
 private:
-    ASTLiteralExpressionNode* _astNode;
+    ASTLiteralExpressionNode* _node;
     IRLiteralNode* _irValue;
 public:
-    IRLiteralExpressionNode(ASTLiteralExpressionNode* astNode, IRLiteralNode* irValue);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
+    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue);
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Constant* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

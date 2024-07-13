@@ -10,7 +10,7 @@ IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode,
     _irValues = irValues;
 }
 
-llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     auto structExpressionAllocation = builder->get()->Insert(_irValue);
     auto numElements = _irValues.size();
     auto zeroIndex = builder->get()->getInt32(0);
@@ -18,9 +18,9 @@ llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::
         auto irExpression = _irValues[i];
         auto irIndex = builder->get()->getInt32(i);
         auto pointer = builder->get()->CreateInBoundsGEP(structExpressionAllocation->getType(), structExpressionAllocation, { zeroIndex, irIndex });
-        irExpression->insertSelfIntoBlock(builder, pointer);
+        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
+        builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    builder->get()->CreateStore(structExpressionAllocation, parent);
     return structExpressionAllocation;
 }
 

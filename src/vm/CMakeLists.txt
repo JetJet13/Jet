@@ -144,6 +144,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/function-return-expression-ir-strategy/function-return-expression-ir-strategy.h
         ir-nodes/ir-statement-nodes/ir-statement-node.cpp
         ir-nodes/ir-statement-nodes/ir-statement-node.h
+        ir-nodes/ir-function-nodes/ir-function-parameter-node.cpp
+        ir-nodes/ir-function-nodes/ir-function-parameter-node.h
+        ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h
 )
 
 target_link_libraries(jet-vm

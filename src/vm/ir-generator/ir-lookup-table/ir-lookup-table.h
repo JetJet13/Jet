@@ -11,12 +11,12 @@
 
 class IRLookupTable {
 private:
-    std::unordered_map<std::string, IRExpressionNode*> _scope;
+    std::unordered_map<std::string, llvm::AllocaInst*> _scope;
     std::optional<IRLookupTable*> _outerScope;
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
-    IRLookupTable* insert(std::string key, IRExpressionNode* value);
-    IRExpressionNode* find(std::string key);
+    IRLookupTable* insert(std::string key, llvm::AllocaInst* value);
+    llvm::AllocaInst* find(std::string key);
     void dump();
 };
 

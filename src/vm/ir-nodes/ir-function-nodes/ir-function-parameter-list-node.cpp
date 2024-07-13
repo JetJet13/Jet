@@ -4,13 +4,21 @@
 
 #include "ir-function-parameter-list-node.h"
 
-IRFunctionParameterListNode::IRFunctionParameterListNode(ASTFunctionParameterListNode* node, std::vector<llvm::Argument*> irValues) {
+IRFunctionParameterListNode::IRFunctionParameterListNode(ASTFunctionParameterListNode* node, std::vector<IRFunctionParameterNode*> parameters) {
     _node = node;
-    _irValues = irValues;
+    _parameters = parameters;
 }
 
-std::vector<llvm::Argument*>* IRFunctionParameterListNode::getArguments() {
-    return &_irValues;
+std::vector<IRFunctionParameterNode*>* IRFunctionParameterListNode::getParameters() {
+    return &_parameters;
+}
+
+std::vector<llvm::Argument*> IRFunctionParameterListNode::getArguments() {
+    auto arguments = std::vector<llvm::Argument*>();
+    for (auto parameter : _parameters) {
+        arguments.push_back(parameter->getArgument());
+    }
+    return arguments;
 }
 
 IRNodeType IRFunctionParameterListNode::getNodeType() {
@@ -22,7 +30,7 @@ std::string IRFunctionParameterListNode::toString() {
 }
 
 void IRFunctionParameterListNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    for (auto value : _irValues) {
-        value->print(**stream);
+    for (auto parameter : _parameters) {
+        parameter->print(stream);
     }
 }

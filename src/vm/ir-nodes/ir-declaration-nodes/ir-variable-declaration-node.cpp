@@ -11,14 +11,10 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
     _irExpression = irExpression;
 }
 
-llvm::Value * IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+void IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     builder->get()->Insert(_irValue, _astNode->getId());
-    _irExpression->insertSelfIntoBlock(builder, _irValue);
-    return _irValue;
-}
-
-llvm::AllocaInst* IRVariableDeclarationNode::getIRValue() {
-    return _irValue;
+    auto irExpressionValue = _irExpression->insertSelfIntoBlock(builder);
+    builder->get()->CreateStore(irExpressionValue, _irValue);
 }
 
 IRNodeType IRVariableDeclarationNode::getNodeType() {

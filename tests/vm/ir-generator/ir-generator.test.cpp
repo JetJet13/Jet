@@ -35,7 +35,7 @@ TEST_CASE( "should create expected vm code" ) {
     auto irGenerator = IRGenerator();
     auto irModule = irGenerator.generateModule(filePath);
     auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
-    auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction);
+    auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
     auto irLookupTable = IRLookupTable();
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));

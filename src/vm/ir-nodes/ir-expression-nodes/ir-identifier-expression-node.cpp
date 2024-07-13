@@ -4,21 +4,28 @@
 
 #include "ir-identifier-expression-node.h"
 
-IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, IRExpressionNode* irNode) {
-    _astNode = astNode;
-    _irNode = irNode;
+IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, llvm::AllocaInst* irValue) {
+    _node = node;
+    _irValue = irValue;
 }
 
-llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
-    return builder->get()->CreateStore(builder->get()->Insert(_irNode->getIRValue()), parent);
+llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    return _irValue;
 }
 
 llvm::Value* IRIdentifierExpressionNode::getIRValue() {
-    return _irNode->getIRValue();
+    return _irValue;
 }
 
 llvm::Type* IRIdentifierExpressionNode::getIRTypeAtIndex(unsigned long index) {
-    return _irNode->getIRTypeAtIndex(index);
+    auto type = _irValue->getType();
+    if (type->isArrayTy()) {
+        return type->getArrayElementType();
+    } else if (type->isStructTy()) {
+        return type->getStructElementType(index);
+    } else {
+        return type;
+    }
 }
 
 IRNodeType IRIdentifierExpressionNode::getNodeType() {
@@ -30,5 +37,5 @@ std::string IRIdentifierExpressionNode::toString() {
 }
 
 void IRIdentifierExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irNode->print(stream);
+    _irValue->print(**stream);
 }

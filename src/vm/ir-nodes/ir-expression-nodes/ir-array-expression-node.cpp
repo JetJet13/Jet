@@ -4,13 +4,13 @@
 
 #include "ir-array-expression-node.h"
 
-IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* astNode, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues) {
-    _astNode = astNode;
+IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues) {
+    _node = node;
     _irValue = irValue;
     _irValues = irValues;
 }
 
-llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     auto arrayExpressionAllocation = builder->get()->Insert(_irValue);
     auto numElements = _irValues.size();
     auto zeroIndex = builder->get()->getInt32(0);
@@ -18,9 +18,9 @@ llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
         auto irExpression = _irValues[i];
         auto irIndex = builder->get()->getInt32(i);
         auto pointer = builder->get()->CreateInBoundsGEP(arrayExpressionAllocation->getType(), arrayExpressionAllocation, { zeroIndex, irIndex });
-        irExpression->insertSelfIntoBlock(builder, pointer);
+        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
+        builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    builder->get()->CreateStore(arrayExpressionAllocation, parent);
     return arrayExpressionAllocation;
 }
 

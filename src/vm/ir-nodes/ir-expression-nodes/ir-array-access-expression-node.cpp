@@ -4,30 +4,28 @@
 
 #include "ir-array-access-expression-node.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* astNode, IRExpressionNode* irSource, IRExpressionNode* irIndex) {
-    _astNode = astNode;
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex) {
+    _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
 }
 
-llvm::Value * IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
+llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     auto arrayElementType = _irSource->getIRTypeAtIndex(0);
 
     auto arrayAccessSourceAllocation = builder->get()->CreateAlloca(_irSource->getIRType());
-    _irSource->insertSelfIntoBlock(builder, arrayAccessSourceAllocation);
+    auto irSourceValue = _irSource->insertSelfIntoBlock(builder);
+    builder->get()->CreateStore(irSourceValue, arrayAccessSourceAllocation);
 
     auto arrayAccessIndexAllocation = builder->get()->CreateAlloca(builder->get()->getInt32Ty());
-    _irIndex->insertSelfIntoBlock(builder, arrayAccessIndexAllocation);
+    auto irIndexValue = _irIndex->insertSelfIntoBlock(builder);
+    builder->get()->CreateStore(irIndexValue, arrayAccessIndexAllocation);
     auto index = builder->get()->CreateLoad(arrayElementType, arrayAccessIndexAllocation);
 
     auto zeroIndex = builder->get()->getInt32(0);
     auto sourcePointer = builder->get()->CreateInBoundsGEP(arrayAccessSourceAllocation->getAllocatedType(), arrayAccessSourceAllocation, { zeroIndex, index });
-    auto valueAtIndex = builder->get()->CreateLoad(arrayElementType, sourcePointer);
 
-    auto arrayAccessExpressionAllocation = builder->get()->CreateAlloca(arrayElementType);
-    builder->get()->CreateStore(valueAtIndex, arrayAccessExpressionAllocation);
-    builder->get()->CreateStore(valueAtIndex, parent);
-    return arrayAccessExpressionAllocation;
+    return builder->get()->CreateLoad(arrayElementType, sourcePointer);
 }
 
 llvm::Value* IRArrayAccessExpressionNode::getIRValue() {

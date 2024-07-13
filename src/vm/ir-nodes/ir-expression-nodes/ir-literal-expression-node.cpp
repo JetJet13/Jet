@@ -4,13 +4,13 @@
 
 #include "ir-literal-expression-node.h"
 
-IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* astNode, IRLiteralNode* irValue) {
-    _astNode = astNode;
+IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue) {
+    _node = node;
     _irValue = irValue;
 }
 
-llvm::Value * IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) {
-    return builder->get()->CreateStore(_irValue->getConstantIRValue(), parent);
+llvm::Value* IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    return _irValue->getConstantIRValue();
 }
 
 llvm::Constant* IRLiteralExpressionNode::getIRValue() {

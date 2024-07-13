@@ -11,12 +11,8 @@ IRFunctionDeclarationNode::IRFunctionDeclarationNode(ASTFunctionDeclarationNode*
     _irBlock = irBlock;
 }
 
-llvm::Value* IRFunctionDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    return _irValue;
-}
+void IRFunctionDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
 
-llvm::Function* IRFunctionDeclarationNode::getIRValue() {
-    return _irValue;
 }
 
 IRNodeType IRFunctionDeclarationNode::getNodeType() {

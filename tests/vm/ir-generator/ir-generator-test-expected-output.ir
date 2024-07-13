@@ -332,68 +332,66 @@ entry:
   store i8 100, [5 x i8] getelementptr inbounds ([5 x i8], [5 x i8] zeroinitializer, i32 0, i32 3), align 1
   store i8 101, [5 x i8] getelementptr inbounds ([5 x i8], [5 x i8] zeroinitializer, i32 0, i32 4), align 1
   store [5 x i8] zeroinitializer, ptr addrspace(5) %foo, align 1
-  %myStruct = alloca { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, align 16, addrspace(61)
-  store i32 1, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, align 4
-  store float 2.000000e+00, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 1), align 4
-  store i1 true, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 2), align 1
-  store i8 99, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 3), align 1
-  store [11 x i8] c"Hello World", { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 4), align 1
-  store [5 x i8] zeroinitializer, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 5), align 1
+  %myStruct = alloca { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, align 16, addrspace(46)
+  store i32 1, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, align 4
+  store float 2.000000e+00, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 1), align 4
+  store i1 true, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 2), align 1
+  store i8 99, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 3), align 1
+  store [11 x i8] c"Hello World", { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 4), align 1
+  store ptr addrspace(5) %foo, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 5), align 8
   store i32 1, [3 x i32] zeroinitializer, align 4
   store i32 2, [3 x i32] getelementptr inbounds ([3 x i32], [3 x i32] zeroinitializer, i32 0, i32 1), align 4
   store i32 3, [3 x i32] getelementptr inbounds ([3 x i32], [3 x i32] zeroinitializer, i32 0, i32 2), align 4
-  store [3 x i32] zeroinitializer, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 6), align 4
-  %155 = alloca [3 x i32], align 4
-  store [3 x i32] zeroinitializer, ptr %155, align 4
+  store [3 x i32] zeroinitializer, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 6), align 4
+  %155 = alloca ptr addrspace(12), align 8
+  store ptr addrspace(12) %myArray, ptr %155, align 8
   %156 = alloca i32, align 4
   store i32 0, ptr %156, align 4
-  %157 = load i32, ptr %156, align 4
-  %158 = getelementptr inbounds [3 x i32], ptr %155, i32 0, i32 %157
-  %159 = load i32, ptr %158, align 4
-  %160 = alloca i32, align 4
-  store i32 %159, ptr %160, align 4
-  store i32 %159, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 7), align 4
+  %157 = load ptr addrspace(12), ptr %156, align 8
+  %158 = getelementptr inbounds ptr addrspace(12), ptr %155, i32 0, ptr addrspace(12) %157
+  %159 = load ptr addrspace(12), ptr %158, align 8
+  store ptr addrspace(12) %159, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 7), align 8
   store i32 100, { i32, { i1 } } zeroinitializer, align 4
   store i1 true, { i1 } zeroinitializer, align 1
   store { i1 } zeroinitializer, { i32, { i1 } } getelementptr inbounds ({ i32, { i1 } }, { i32, { i1 } } zeroinitializer, i32 0, i32 1), align 1
-  store { i32, { i1 } } zeroinitializer, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 8), align 4
-  %161 = alloca i32, align 4
-  store i32 1, ptr %161, align 4
-  %162 = load i32, ptr %161, align 4
-  %163 = alloca i32, align 4
-  store i32 2, ptr %163, align 4
-  %164 = load i32, ptr %163, align 4
-  %165 = add i32 %162, %164
-  store i32 %165, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 9), align 4
-  %166 = alloca i1, align 1
-  store i1 true, ptr %166, align 1
-  %167 = load i1, ptr %166, align 1
-  %168 = alloca i1, align 1
-  store i1 false, ptr %168, align 1
-  %169 = load i1, ptr %168, align 1
-  %170 = and i1 %167, %169
-  store i1 %170, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 10), align 1
-  %171 = fneg i1 true
-  store i1 %171, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 11), align 1
-  store { i32, float, i1, i8, [11 x i8], [5 x i8], [3 x i32], [3 x i32], { i32, { i1 } }, i32, i1, i1 } zeroinitializer, ptr addrspace(61) %myStruct, align 4
+  store { i32, { i1 } } zeroinitializer, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 8), align 4
+  %160 = alloca i32, align 4
+  store i32 1, ptr %160, align 4
+  %161 = load i32, ptr %160, align 4
+  %162 = alloca i32, align 4
+  store i32 2, ptr %162, align 4
+  %163 = load i32, ptr %162, align 4
+  %164 = add i32 %161, %163
+  store i32 %164, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 9), align 4
+  %165 = alloca i1, align 1
+  store i1 true, ptr %165, align 1
+  %166 = load i1, ptr %165, align 1
+  %167 = alloca i1, align 1
+  store i1 false, ptr %167, align 1
+  %168 = load i1, ptr %167, align 1
+  %169 = and i1 %166, %168
+  store i1 %169, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 10), align 1
+  %170 = fneg i1 true
+  store i1 %170, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } getelementptr inbounds ({ i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 }, { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, i32 0, i32 11), align 1
+  store { i32, float, i1, i8, [11 x i8], ptr addrspace(5), [3 x i32], ptr addrspace(12), { i32, { i1 } }, i32, i1, i1 } zeroinitializer, ptr addrspace(46) %myStruct, align 8
   %posTwo = alloca i32, align 4, addrspace(4)
-  %172 = mul i32 1, 2
-  store i32 %172, ptr addrspace(4) %posTwo, align 4
+  %171 = mul i32 1, 2
+  store i32 %171, ptr addrspace(4) %posTwo, align 4
   %negTwo = alloca i32, align 4, addrspace(4)
-  %173 = mul i32 -1, 2
-  store i32 %173, ptr addrspace(4) %negTwo, align 4
+  %172 = mul i32 -1, 2
+  store i32 %172, ptr addrspace(4) %negTwo, align 4
   %posTwoPointOne = alloca i32, align 4, addrspace(4)
-  %174 = mul i32 1, float 0x4000CCCCC0000000
-  store i32 %174, ptr addrspace(4) %posTwoPointOne, align 4
+  %173 = mul i32 1, float 0x4000CCCCC0000000
+  store i32 %173, ptr addrspace(4) %posTwoPointOne, align 4
   %negTwoPointFive = alloca i32, align 4, addrspace(4)
-  %175 = mul i32 -1, float 2.500000e+00
-  store i32 %175, ptr addrspace(4) %negTwoPointFive, align 4
+  %174 = mul i32 -1, float 2.500000e+00
+  store i32 %174, ptr addrspace(4) %negTwoPointFive, align 4
   %notTen = alloca i32, align 4, addrspace(4)
-  %176 = fneg i32 10
-  store i32 %176, ptr addrspace(4) %notTen, align 4
+  %175 = fneg i32 10
+  store i32 %175, ptr addrspace(4) %notTen, align 4
   %notTwentyPointFive = alloca float, align 4, addrspace(4)
-  %177 = fneg float 2.050000e+01
-  store float %177, ptr addrspace(4) %notTwentyPointFive, align 4
+  %176 = fneg float 2.050000e+01
+  store float %176, ptr addrspace(4) %notTwentyPointFive, align 4
   %myTuple = alloca { i32, [2 x i8], i1 }, align 4, addrspace(7)
   store i32 1, { i32, [2 x i8], i1 } zeroinitializer, align 4
   store [2 x i8] c"hi", { i32, [2 x i8], i1 } getelementptr inbounds ({ i32, [2 x i8], i1 }, { i32, [2 x i8], i1 } zeroinitializer, i32 0, i32 1), align 1
@@ -403,4 +401,18 @@ entry:
   store i32 5, ptr addrspace(4) %otherFoo, align 4
   %bar = alloca [11 x i8], align 1, addrspace(11)
   store [11 x i8] c"hello world", ptr addrspace(11) %bar, align 1
+}
+
+define private i32 @testFunc(i32 %0) {
+entry:
+  %1 = alloca i32, align 4, addrspace(4)
+  store i32 %0, ptr addrspace(4) %1, align 4
+  %2 = alloca ptr addrspace(4), align 8
+  store ptr addrspace(4) %1, ptr %2, align 8
+  %3 = load ptr addrspace(4), ptr %2, align 8
+  %4 = alloca i32, align 4
+  store i32 1, ptr %4, align 4
+  %5 = load i32, ptr %4, align 4
+  %6 = add ptr addrspace(4) %3, i32 %5
+  ret ptr addrspace(4) %6
 }

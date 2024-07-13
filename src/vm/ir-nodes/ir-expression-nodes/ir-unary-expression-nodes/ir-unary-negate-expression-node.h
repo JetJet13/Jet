@@ -12,12 +12,12 @@
 
 class IRUnaryNegateExpressionNode : public IRUnaryExpressionNode {
 private:
-    ASTUnaryExpressionNode* _astNode;
+    ASTUnaryExpressionNode* _node;
     llvm::UnaryOperator* _irValue;
     IRExpressionNode* _irExpression;
 public:
-    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* astNode, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
+    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression);
+    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::UnaryOperator* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

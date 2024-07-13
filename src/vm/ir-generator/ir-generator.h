@@ -56,7 +56,7 @@ public:
     llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
     llvm::Constant* generateZeroConstant();
     IRBlockNode* generateBasicBlock();
-    IRBlockNode* generateFunctionBlock(IRFunctionNode* irFunctionNode);
+    IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
     llvm::IRBuilder<> generateBasicBlockBuilder();

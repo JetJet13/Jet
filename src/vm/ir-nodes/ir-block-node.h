@@ -9,6 +9,7 @@
 #include "llvm/IR/BasicBlock.h"
 #include "ir-declaration-nodes/ir-declaration-node.h"
 #include "ir-statement-nodes/ir-statement-node.h"
+#include "ir-function-nodes/ir-function-parameter-list-node.h"
 
 class IRBlockNode {
 private:

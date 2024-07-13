@@ -19,7 +19,7 @@ private:
     std::vector<IRExpressionNode*> _irValues;
 public:
     IRTupleExpressionNode(ASTTupleExpressionNode* node, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Constant* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

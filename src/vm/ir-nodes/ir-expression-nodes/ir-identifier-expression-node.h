@@ -11,11 +11,11 @@
 
 class IRIdentifierExpressionNode : public IRExpressionNode {
 private:
-    ASTIdentifierExpressionNode* _astNode;
-    IRExpressionNode* _irNode;
+    ASTIdentifierExpressionNode* _node;
+    llvm::AllocaInst* _irValue;
 public:
-    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* astNode, IRExpressionNode* irNode);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *variableAllocation) override;
+    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, llvm::AllocaInst* irValue);
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getIRValue() override;
     llvm::Type* getIRTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

@@ -13,12 +13,12 @@
 
 class IRArrayExpressionNode : public IRConstantExpressionNode {
 private:
-    ASTArrayExpressionNode* _astNode;
+    ASTArrayExpressionNode* _node;
     llvm::Constant* _irValue;
     std::vector<IRExpressionNode*> _irValues;
 public:
-    IRArrayExpressionNode(ASTArrayExpressionNode* astNode, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
+    IRArrayExpressionNode(ASTArrayExpressionNode* node, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues);
+    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Constant* getIRValue() override;
     llvm::Type* getIRTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

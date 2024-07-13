@@ -13,12 +13,12 @@
 
 class IRArrayAccessExpressionNode : public IRExpressionNode {
 private:
-    ASTArrayAccessExpressionNode* _astNode;
+    ASTArrayAccessExpressionNode* _node;
     IRExpressionNode* _irSource;
     IRExpressionNode* _irIndex;
 public:
-    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* astNode, IRExpressionNode* irSource, IRExpressionNode* irIndex);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) override;
+    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex);
+    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getIRValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

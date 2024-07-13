@@ -11,7 +11,7 @@ class IRExpressionNode : public IRNode {
 public:
     virtual llvm::Type* getIRType();
     virtual llvm::Type* getIRTypeAtIndex(unsigned long index);
-    virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value *parent) = 0;
+    virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) = 0;
     virtual llvm::Value* getIRValue() = 0;
 };
 

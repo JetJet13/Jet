@@ -6,6 +6,5 @@
 
 IRFunctionReturnExpressionNode* FunctionReturnExpressionIRStrategy::generate(ASTFunctionReturnExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irExpressionNode = irGenerator->generateFor(node->getExpression(), scope, irModule);
-    auto irReturnInstruction = llvm::ReturnInst::Create(**context, irExpressionNode->getIRValue());
-    return new IRFunctionReturnExpressionNode(node, irReturnInstruction, irExpressionNode);
+    return new IRFunctionReturnExpressionNode(node, irExpressionNode);
 }
