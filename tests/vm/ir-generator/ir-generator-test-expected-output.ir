@@ -1,6 +1,8 @@
 ; ModuleID = './ir-generator-test-file.jet'
 source_filename = "./ir-generator-test-file.jet"
 
+@MyEnum = private constant { i32, i32, i32 } { i32 0, i32 1, i32 2 }
+
 define private void @main() {
 entry:
   %eight = alloca i32, align 4, addrspace(4)

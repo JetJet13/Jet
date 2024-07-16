@@ -36,6 +36,8 @@
 #include "../ir-type/ir-parameter-type.h"
 #include "../ir-type/ir-parameter-list-type.h"
 #include "../ir-nodes/ir-statement-nodes/ir-statement-node.h"
+#include "../ir-type/ir-struct-type.h"
+#include "../../core/type-signature/enum-type-signature/enum-type-signature.h"
 
 class IRGenerator {
 private:
@@ -50,11 +52,13 @@ public:
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRType* generateTypeFor(TypeSignature* typeSignature);
+    IRStructType* generateTypeFor(EnumTypeSignature* typeSignature);
     IRType* generateVoidType();
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);
     llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
     llvm::Constant* generateZeroConstant();
+    llvm::Constant* generateIntConstant(int integer);
     IRBlockNode* generateBasicBlock();
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);

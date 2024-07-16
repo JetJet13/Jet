@@ -3,7 +3,6 @@
 //
 
 #include "ir-variable-declaration-node.h"
-#include <llvm/IR/GlobalVariable.h>
 
 IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, llvm::AllocaInst* irValue, IRExpressionNode* irExpression) {
     _astNode = astNode;

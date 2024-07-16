@@ -3,8 +3,6 @@
 //
 
 #include "struct-expression-ir-strategy.h"
-#include "../../../../utils/address-space-generator/address-space-generator.h"
-#include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto structValueTypes = std::vector<llvm::Type*>();

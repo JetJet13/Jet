@@ -9,11 +9,11 @@
 #include <llvm/IR/DerivedTypes.h>
 
 class IRType {
-private:
+protected:
     llvm::Type* _type;
 public:
     explicit IRType(llvm::Type* type);
-    llvm::Type* getType();
+    virtual llvm::Type* getType();
     bool isCharType();
     bool isIntegerType();
     bool isFloatType();

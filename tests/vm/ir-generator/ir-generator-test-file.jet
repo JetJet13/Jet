@@ -78,3 +78,9 @@ proc myProcedure(x: int, y: boolean) {
  const addFive = x + 5;
  const myBool = y || true;
 }
+
+enum MyEnum {
+    Uno,
+    Dos,
+    Tres
+}

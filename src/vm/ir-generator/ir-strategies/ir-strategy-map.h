@@ -24,6 +24,7 @@ class FunctionDeclarationIRStrategy;
 class FunctionParameterListIRStrategy;
 class FunctionReturnExpressionIRStrategy;
 class ProcedureDeclarationIRStrategy;
+class EnumDeclarationIRStrategy;
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
 class LiteralTypeSignatureIRStrategy;
@@ -60,6 +61,7 @@ private:
     FunctionParameterListIRStrategy* _functionParameterListIRStrategy;
     FunctionReturnExpressionIRStrategy* _functionReturnExpressionIRStrategy;
     ProcedureDeclarationIRStrategy* _procedureDeclarationIRStrategy;
+    EnumDeclarationIRStrategy* _enumDeclarationIRStrategy;
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
     LiteralTypeSignatureIRStrategy* _literalTypeSignatureIRStrategy;
@@ -93,6 +95,7 @@ public:
     FunctionParameterListIRStrategy* getFunctionParameterListIRStrategy();
     FunctionReturnExpressionIRStrategy* getFunctionReturnExpressionIRStrategy();
     ProcedureDeclarationIRStrategy* getProcedureDeclarationIRStrategy();
+    EnumDeclarationIRStrategy* getEnumDeclarationIRStrategy();
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
     LiteralTypeSignatureIRStrategy* getLiteralTypeSignatureIRStrategy();

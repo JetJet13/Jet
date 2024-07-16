@@ -152,6 +152,12 @@ add_library(jet-vm
         ir-nodes/ir-declaration-nodes/ir-procedure-declaration-node.h
         ir-generator/ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.cpp
         ir-generator/ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h
+        ir-nodes/ir-declaration-nodes/ir-enum-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-enum-declaration-node.h
+        ir-generator/ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.h
+        ir-type/ir-struct-type.cpp
+        ir-type/ir-struct-type.h
 )
 
 target_link_libraries(jet-vm
