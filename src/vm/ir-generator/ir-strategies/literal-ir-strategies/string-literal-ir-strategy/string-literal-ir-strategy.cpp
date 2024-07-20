@@ -8,6 +8,7 @@
 #include "string-literal-ir-strategy.h"
 
 IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context) {
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto chars = std::vector<llvm::Constant*>();
     auto stringNode = (ASTStringLiteralNode*)node;
     for (auto character : stringNode->getValue()) {
@@ -18,6 +19,7 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
                     llvm::IntegerType::getInt8Ty(**context),
                     chars.size()
             ),
-            llvm::ArrayRef(chars)
+            llvm::ArrayRef(chars),
+            irType
     ));
 }

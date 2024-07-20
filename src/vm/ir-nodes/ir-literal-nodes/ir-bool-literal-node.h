@@ -13,9 +13,11 @@ class IRBoolLiteralNode : public IRLiteralNode {
 private:
     ASTBooleanLiteralNode* _astNode;
     llvm::ConstantInt* _irValue;
+    IRType* _type;
 public:
-    IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue);
+    IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue, IRType* type);
     llvm::ConstantInt* getConstantIRValue() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

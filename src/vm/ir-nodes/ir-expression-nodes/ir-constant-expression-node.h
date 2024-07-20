@@ -10,7 +10,7 @@
 
 class IRConstantExpressionNode : public IRExpressionNode {
 public:
-     llvm::Constant* getIRValue() override = 0;
+     llvm::Constant* getValue() override = 0;
 };
 
 #endif //JETLANG_IR_CONSTANT_EXPRESSION_NODE_H

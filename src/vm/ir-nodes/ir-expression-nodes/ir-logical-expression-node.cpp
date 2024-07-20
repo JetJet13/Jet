@@ -4,9 +4,10 @@
 
 #include "ir-logical-expression-node.h"
 
-IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
+IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
     _astNode = astNode;
     _irValue = irValue;
+    _type = type;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
 }
@@ -25,7 +26,11 @@ llvm::Value * IRLogicalExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm:
     return builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
 }
 
-llvm::BinaryOperator* IRLogicalExpressionNode::getIRValue() {
+IRType* IRLogicalExpressionNode::getIRType() {
+    return _type;
+}
+
+llvm::BinaryOperator* IRLogicalExpressionNode::getValue() {
     return _irValue;
 }
 

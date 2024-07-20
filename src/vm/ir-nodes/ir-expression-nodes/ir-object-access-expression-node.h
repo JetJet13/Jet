@@ -9,17 +9,21 @@
 #include <llvm/IR/Constants.h>
 #include "ir-expression-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
+#include "../../ir-type/ir-struct-type.h"
 
 
 class IRObjectAccessExpressionNode : public IRExpressionNode {
 private:
     ASTObjectAccessExpressionNode* _node;
     IRExpressionNode* _irSource;
+    std::string _targetKey;
     unsigned long _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
+    IRStructType* _sourceType;
 public:
-    IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex);
+    IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, IRStructType* sourceType, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    IRType* getIRType() override;
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

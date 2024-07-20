@@ -4,13 +4,18 @@
 
 #include "ir-float-literal-node.h"
 
-IRFloatLiteralNode::IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::ConstantFP* irValue) {
+IRFloatLiteralNode::IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::ConstantFP* irValue, IRType* type) {
     _astNode = astNode;
     _irValue = irValue;
+    _type = type;
 }
 
 llvm::ConstantFP* IRFloatLiteralNode::getConstantIRValue() {
     return _irValue;
+}
+
+IRType* IRFloatLiteralNode::getIRType() {
+    return _type;
 }
 
 IRNodeType IRFloatLiteralNode::getNodeType() {

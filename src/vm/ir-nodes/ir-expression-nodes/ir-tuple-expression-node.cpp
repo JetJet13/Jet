@@ -25,7 +25,7 @@ llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
     return tupleExpressionAllocation;
 }
 
-llvm::Constant* IRTupleExpressionNode::getIRValue() {
+llvm::Constant* IRTupleExpressionNode::getValue() {
     return _irValue;
 }
 

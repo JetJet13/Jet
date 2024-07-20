@@ -24,7 +24,7 @@ llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
     return arrayExpressionAllocation;
 }
 
-llvm::Constant* IRArrayExpressionNode::getIRValue() {
+llvm::Constant* IRArrayExpressionNode::getValue() {
     return _irValue;
 }
 

@@ -4,6 +4,6 @@
 
 #include "ir-literal-node.h"
 
-llvm::Type* IRLiteralNode::getIRType() {
+llvm::Type* IRLiteralNode::getType() {
     return this->getConstantIRValue()->getType();
 }

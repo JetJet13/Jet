@@ -8,14 +8,17 @@
 #include <llvm/IR/Constants.h>
 #include "../../../core/ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
 #include "ir-literal-node.h"
+#include "../../ir-type/ir-type.h"
 
 class IRStringLiteralNode : public IRLiteralNode {
 private:
     ASTStringLiteralNode* _astNode;
     llvm::Constant* _irValue;
+    IRType* _type;
 public:
-    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue);
+    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRType* type);
     llvm::Constant* getConstantIRValue() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

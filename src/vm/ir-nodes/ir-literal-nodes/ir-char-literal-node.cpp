@@ -4,13 +4,18 @@
 
 #include "ir-char-literal-node.h"
 
-IRCharLiteralNode::IRCharLiteralNode(ASTCharLiteralNode* astNode, llvm::ConstantInt* irValue) {
+IRCharLiteralNode::IRCharLiteralNode(ASTCharLiteralNode* astNode, llvm::ConstantInt* irValue, IRType* type) {
     _astNode = astNode;
     _irValue = irValue;
+    _type = type;
 }
 
 llvm::ConstantInt* IRCharLiteralNode::getConstantIRValue() {
     return _irValue;
+}
+
+IRType* IRCharLiteralNode::getIRType() {
+    return _type;
 }
 
 IRNodeType IRCharLiteralNode::getNodeType() {

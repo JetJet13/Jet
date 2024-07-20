@@ -4,10 +4,11 @@
 
 #include "ir-struct-expression-node.h"
 
-IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues) {
+IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, llvm::Constant* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues) {
     _astNode = astNode;
     _irValue = irValue;
     _irValues = irValues;
+    _type = type;
 }
 
 llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -24,7 +25,11 @@ llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::
     return structExpressionAllocation;
 }
 
-llvm::Constant* IRStructExpressionNode::getIRValue() {
+IRStructType* IRStructExpressionNode::getIRType() {
+    return _type;
+}
+
+llvm::Constant* IRStructExpressionNode::getValue() {
     return _irValue;
 }
 

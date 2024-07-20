@@ -13,9 +13,11 @@ class IRIntLiteralNode : public IRLiteralNode {
 private:
     ASTIntLiteralNode* _astNode;
     llvm::ConstantInt* _irValue;
+    IRType* _type;
 public:
-    IRIntLiteralNode(ASTIntLiteralNode* astNode, llvm::ConstantInt* irValue);
+    IRIntLiteralNode(ASTIntLiteralNode* astNode, llvm::ConstantInt* irValue, IRType* type);
     llvm::ConstantInt* getConstantIRValue() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

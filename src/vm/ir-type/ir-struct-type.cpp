@@ -5,9 +5,10 @@
 #include "ir-struct-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap) : IRType(type) {
+IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap) : IRType(type) {
     _type = type;
     _keyIndexMap = keyIndexMap;
+    _keyTypeMap = keyTypeMap;
 }
 
 llvm::StructType* IRStructType::getType() {
@@ -21,6 +22,23 @@ unsigned long IRStructType::getIndexForKey(std::string key) {
     } else {
         return result->second;
     }
+}
+
+unsigned long IRStructType::getIndexForKey(unsigned long indexAsKey) {
+    return this->getIndexForKey(std::to_string(indexAsKey));
+}
+
+IRType* IRStructType::getIRTypeForKey(std::string key) {
+    auto result = _keyTypeMap.find(key);
+    if (result == _keyTypeMap.end()) {
+        throw std::logic_error("no type found for key: " + key);
+    } else {
+        return result->second;
+    }
+}
+
+IRType* IRStructType::getIRTypeForKey(unsigned long indexAsKey) {
+    return this->getIRTypeForKey(std::to_string(indexAsKey));
 }
 
 void IRStructType::print() {

@@ -6,10 +6,12 @@
 #define JETLANG_IR_LITERAL_NODE_H
 
 #include "../ir-node.h"
+#include "../../ir-type/ir-type.h"
 
 class IRLiteralNode : public IRNode {
 public:
-    virtual llvm::Type* getIRType();
+    virtual llvm::Type* getType();
+    virtual IRType* getIRType() = 0;
     virtual llvm::Constant* getConstantIRValue() = 0;
 };
 

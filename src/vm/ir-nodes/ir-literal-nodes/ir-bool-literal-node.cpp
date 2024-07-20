@@ -4,13 +4,18 @@
 
 #include "ir-bool-literal-node.h"
 
-IRBoolLiteralNode::IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue) {
+IRBoolLiteralNode::IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue, IRType* type) {
     _astNode = astNode;
     _irValue = irValue;
+    _type = type;
 }
 
 llvm::ConstantInt* IRBoolLiteralNode::getConstantIRValue() {
     return _irValue;
+}
+
+IRType* IRBoolLiteralNode::getIRType() {
+    return _type;
 }
 
 IRNodeType IRBoolLiteralNode::getNodeType() {

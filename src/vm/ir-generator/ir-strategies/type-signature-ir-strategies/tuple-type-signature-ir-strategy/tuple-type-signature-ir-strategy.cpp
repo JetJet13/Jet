@@ -4,10 +4,18 @@
 
 #include "tuple-type-signature-ir-strategy.h"
 
-IRType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRStructType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto tupleElementTypes = std::vector<llvm::Type*>();
-    for (auto tupleElement : *tupleTypeSignature->getElementTypes()) {
-        tupleElementTypes.push_back(irGenerator->generateTypeFor(tupleElement)->getType());
+    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
+    auto keyTypeMap = std::unordered_map<std::string, IRType*>();
+    for (int i = 0; i < tupleTypeSignature->size(); ++i) {
+        auto tupleElement = tupleTypeSignature->getTypeSignatureAtIndex(i);
+        auto tupleElementIrType = irGenerator->generateTypeFor(tupleElement);
+        tupleElementTypes.push_back(tupleElementIrType->getType());
+        auto key = std::to_string(i);
+        keyIndexMap.insert(std::pair(key, i));
+        keyTypeMap.insert(std::pair(key, tupleElementIrType));
     }
-    return new IRType(llvm::StructType::get(**context, tupleElementTypes));
+
+    return new IRStructType(llvm::StructType::get(**context, tupleElementTypes), keyIndexMap, keyTypeMap);
 }
