@@ -3,8 +3,6 @@
 //
 
 #include "enum-declaration-ir-strategy.h"
-#include "../../../utils/address-space-generator/address-space-generator.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto enumValueType = irGenerator->generateTypeFor(node->getTypeSignature());
@@ -19,16 +17,17 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
             structValues.push_back(enumValue);
         }
     }
-    
-    return new IREnumDeclarationNode(
-        node,
-        new llvm::GlobalVariable(
+
+    auto irEnum = new llvm::GlobalVariable(
             *irModule->getModule(),
             enumValueType->getType(),
             true,
-            llvm::GlobalValue::PrivateLinkage,
+            llvm::GlobalValue::InternalLinkage,
             llvm::ConstantStruct::get(enumValueType->getType(), structValues),
             node->getId()
-        )
+    );
+    return new IREnumDeclarationNode(
+        node,
+        irEnum
     );
 }

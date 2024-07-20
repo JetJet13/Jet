@@ -12,16 +12,16 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
     if (node->getBinaryOperator()->isArithmetic()) {
         return new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 this->determineArithmeticOperatorIR(node->getBinaryOperator()),
-                leftExpressionIr->getIRValue(),
-                rightExpressionIr->getIRValue()
+                leftExpressionIr->getValue(),
+                rightExpressionIr->getValue()
         ), leftExpressionIr, rightExpressionIr);
     }
 
     return new IRBinaryComparisonExpressionNode(node, llvm::CmpInst::Create(
             llvm::Instruction::OtherOps::ICmp,
             this->determineComparatorPredicate(node->getBinaryOperator()),
-            leftExpressionIr->getIRValue(),
-            rightExpressionIr->getIRValue()
+            leftExpressionIr->getValue(),
+            rightExpressionIr->getValue()
     ), leftExpressionIr, rightExpressionIr);
 }
 

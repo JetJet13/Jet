@@ -13,11 +13,11 @@ llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llv
     return _irValue;
 }
 
-llvm::Value* IRIdentifierExpressionNode::getIRValue() {
+llvm::Value* IRIdentifierExpressionNode::getValue() {
     return _irValue;
 }
 
-llvm::Type* IRIdentifierExpressionNode::getIRTypeAtIndex(unsigned long index) {
+llvm::Type* IRIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
     auto type = _irValue->getType();
     if (type->isArrayTy()) {
         return type->getArrayElementType();

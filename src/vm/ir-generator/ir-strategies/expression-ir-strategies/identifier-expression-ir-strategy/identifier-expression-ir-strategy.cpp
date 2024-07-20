@@ -4,7 +4,16 @@
 
 #include "identifier-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h"
 
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRLookupTable* scope, IRModuleNode* irModule) {
-    return new IRIdentifierExpressionNode(node, scope->find(node->getIdentifierNode()->getId()));
+    auto allocation = scope->find(node->getIdentifierNode()->getId());
+    if (allocation) {
+        return new IRIdentifierExpressionNode(node, allocation.value());
+    }
+
+    return new IRGlobalIdentifierExpressionNode(
+            node,
+            irModule->getModule()->getGlobalVariable(node->getIdentifierNode()->getId(), true)
+    );
 }

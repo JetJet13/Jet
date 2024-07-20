@@ -15,9 +15,9 @@ private:
     llvm::AllocaInst* _irValue;
 public:
     IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, llvm::AllocaInst* irValue);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    llvm::Value* getIRValue() override;
-    llvm::Type* getIRTypeAtIndex(unsigned long index) override;
+    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::Value* getValue() override;
+    llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

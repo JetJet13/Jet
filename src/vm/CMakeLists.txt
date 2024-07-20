@@ -158,6 +158,12 @@ add_library(jet-vm
         ir-generator/ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.h
         ir-type/ir-struct-type.cpp
         ir-type/ir-struct-type.h
+        ir-nodes/ir-expression-nodes/ir-object-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h
+        ir-generator/ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h
 )
 
 target_link_libraries(jet-vm

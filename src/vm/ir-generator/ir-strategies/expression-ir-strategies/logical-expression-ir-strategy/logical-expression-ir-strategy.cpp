@@ -9,8 +9,8 @@ IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpress
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irModule);
     return new IRLogicalExpressionNode(node, llvm::BinaryOperator::Create(
             this->determineOperatorIR(node->getLogicalOperator()),
-            leftExpressionIr->getIRValue(),
-            rightExpressionIr->getIRValue()
+            leftExpressionIr->getValue(),
+            rightExpressionIr->getValue()
     ), leftExpressionIr, rightExpressionIr);
 }
 

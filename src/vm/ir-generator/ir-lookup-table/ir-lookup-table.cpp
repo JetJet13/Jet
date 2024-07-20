@@ -15,13 +15,13 @@ IRLookupTable* IRLookupTable::insert(std::string key, llvm::AllocaInst* value) {
     return this;
 }
 
-llvm::AllocaInst* IRLookupTable::find(std::string key) {
+std::optional<llvm::AllocaInst*> IRLookupTable::find(std::string key) {
     auto result = _scope.find(key);
     if (result == _scope.end()) {
         if (_outerScope) {
             return _outerScope.value()->find(key);
         }
-        throw std::logic_error("no IR Value found for key: " + key);
+        return {};
     } else {
         return result->second;
     }

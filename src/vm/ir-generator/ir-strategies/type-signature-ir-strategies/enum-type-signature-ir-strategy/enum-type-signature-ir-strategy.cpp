@@ -6,9 +6,13 @@
 
 IRStructType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto enumPropertyTypes = std::vector<llvm::Type*>();
+    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto enumPropertyType = irGenerator->generateTypeFor(enumTypeSignature->getType());
-    for (auto keyValue : enumTypeSignature->getKeyValuePairs()->getKeyValues()) {
+    for (int i = 0; i < enumTypeSignature->getKeyValuePairs()->size(); ++i) {
         enumPropertyTypes.push_back(enumPropertyType->getType());
+        auto enumKey = enumTypeSignature->getKeyValuePairs()->getKeyValues()[i].first;
+        keyIndexMap.insert(std::pair(enumKey, i));
     }
-    return new IRStructType(llvm::StructType::get(**context, enumPropertyTypes));
+
+    return new IRStructType(llvm::StructType::get(**context, enumPropertyTypes), keyIndexMap);
 }

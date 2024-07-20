@@ -3,11 +3,28 @@
 //
 
 #include "ir-struct-type.h"
+#include "../../shared/utils/logger/logger.h"
 
-IRStructType::IRStructType(llvm::StructType* type) : IRType(type) {
+IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap) : IRType(type) {
     _type = type;
+    _keyIndexMap = keyIndexMap;
 }
 
 llvm::StructType* IRStructType::getType() {
     return _type;
+}
+
+unsigned long IRStructType::getIndexForKey(std::string key) {
+    auto result = _keyIndexMap.find(key);
+    if (result == _keyIndexMap.end()) {
+        throw std::logic_error("no struct index found for key: " + key);
+    } else {
+        return result->second;
+    }
+}
+
+void IRStructType::print() {
+    for (auto keyValue : _keyIndexMap) {
+        Logger::log(keyValue.first, keyValue.second);
+    }
 }

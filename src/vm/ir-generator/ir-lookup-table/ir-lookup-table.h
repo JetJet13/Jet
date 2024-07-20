@@ -16,7 +16,7 @@ private:
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
     IRLookupTable* insert(std::string key, llvm::AllocaInst* value);
-    llvm::AllocaInst* find(std::string key);
+    std::optional<llvm::AllocaInst*> find(std::string key);
     void dump();
 };
 

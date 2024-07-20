@@ -168,6 +168,9 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
 
 ASTFileNode* SyntaxAnalyzer::buildFileNode(std::vector<ASTNode*> fileScope) {
     auto fileNode = new ASTFileNode(std::move(fileScope));
+    fileNode->hoistTypes({ AST_ENUM_DECLARATION_NODE });
+    fileNode->hoistTypes({ AST_FUNCTION_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE });
+    fileNode->hoistTypes({ AST_CLASS_DECLARATION_NODE });
     return fileNode;
 }
 

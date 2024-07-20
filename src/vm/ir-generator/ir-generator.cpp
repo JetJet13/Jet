@@ -17,6 +17,7 @@
 #include "ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -100,6 +101,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode *) node, &_context,this, scope, irModuleNode);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node, &_context, scope, irModuleNode);
+    } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate((ASTObjectAccessExpressionNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
@@ -207,6 +210,6 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
     auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(*_context), {});
     return new IRFunctionNode(
-        llvm::Function::Create(functionType, llvm::GlobalValue::PrivateLinkage, functionName, irModuleNode->getModule())
+        llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, functionName, irModuleNode->getModule())
     );
 }

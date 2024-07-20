@@ -13,6 +13,18 @@ void ASTFileNode::append(ASTNode *node) {
     _body.push_back(node);
 }
 
+void ASTFileNode::hoistTypes(const std::vector<ASTNodeType> astNodeTypes) {
+    auto newContent = std::vector<ASTNode*>();
+    for (auto content: _body) {
+        if (content->isOneOf(astNodeTypes)) {
+            newContent.insert(newContent.begin(), content);
+        } else {
+            newContent.push_back(content);
+        }
+    }
+    _body = newContent;
+}
+
 std::vector<ASTNode*>* ASTFileNode::getBody() {
     return &_body;
 }

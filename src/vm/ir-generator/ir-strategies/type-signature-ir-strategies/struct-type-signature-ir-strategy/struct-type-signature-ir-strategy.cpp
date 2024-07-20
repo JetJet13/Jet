@@ -6,10 +6,14 @@
 
 IRType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* structTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
+    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     for (auto keyValue : structTypeSignature->getKeyValuePairs()->getKeyValues()) {
         structPropertyTypes.push_back(
                 irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature())->getType()
         );
+        keyIndexMap.insert(
+            std::pair(keyValue.first, structTypeSignature->getKeyValuePairs()->findKeyIndex(keyValue.first))
+        );
     }
-    return new IRType(llvm::StructType::get(**context, structPropertyTypes));
+    return new IRStructType(llvm::StructType::get(**context, structPropertyTypes), keyIndexMap);
 }

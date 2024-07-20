@@ -17,6 +17,7 @@
 #include "./expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
 #include "./expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
 #include "./expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
+#include "./expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -57,6 +58,7 @@ IRStrategyMap::IRStrategyMap() {
     _functionReturnExpressionIRStrategy = new FunctionReturnExpressionIRStrategy();
     _procedureDeclarationIRStrategy = new ProcedureDeclarationIRStrategy();
     _enumDeclarationIRStrategy = new EnumDeclarationIRStrategy();
+    _objectAccessExpressionIRStrategy = new ObjectAccessExpressionIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
@@ -149,6 +151,10 @@ ProcedureDeclarationIRStrategy* IRStrategyMap::getProcedureDeclarationIRStrategy
 
 EnumDeclarationIRStrategy* IRStrategyMap::getEnumDeclarationIRStrategy() {
     return _enumDeclarationIRStrategy;
+}
+
+ObjectAccessExpressionIRStrategy* IRStrategyMap::getObjectAccessExpressionIRStrategy() {
+    return _objectAccessExpressionIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

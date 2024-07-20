@@ -10,7 +10,7 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     for (auto keyValuePair : node->getKeyValuePairs()) {
         auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irModule);
         structValues.push_back(irNode);
-        structValueTypes.push_back(irNode->getIRType());
+        structValueTypes.push_back(irNode->getType());
     }
 
     return new IRStructExpressionNode(

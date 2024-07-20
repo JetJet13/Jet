@@ -1,0 +1,12 @@
+//
+// Created by Johny Georges on 2024-07-16.
+//
+
+#include "object-access-expression-ir-strategy.h"
+
+IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irModule);
+    auto sourceType = (IRStructType*)irGenerator->generateTypeFor(node->getSource()->getSource()->getTypeSignature());
+    auto targetIndex = sourceType->getIndexForKey(node->getTarget()->getTarget()->getIdentifierNode()->getId());
+    return new IRObjectAccessExpressionNode(node, sourceValue, targetIndex, irGenerator->generateIntConstant(targetIndex));
+}

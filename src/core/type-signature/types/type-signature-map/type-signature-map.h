@@ -12,10 +12,12 @@ template<class T = TypeSignature>
 class TypeSignatureMap {
 private:
     std::unordered_map<std::string, T*> _typeSignatureMap;
+    std::vector<std::string> _typeSignatureKeyList;
 public:
     TypeSignatureMap();
     TypeSignatureMap(std::vector<std::pair<std::string, T*>> keyValuePairs);
     std::optional<T*> find(std::string key);
+    unsigned long findKeyIndex(std::string key);
     TypeSignatureMap<T>* insert(std::string key, T* value);
     bool isEqualTo(TypeSignatureMap<T>* other);
     std::vector<std::pair<std::string, T*>> getKeyValues();

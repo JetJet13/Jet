@@ -11,16 +11,19 @@
 #include "../ir-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
 #include "ir-constant-expression-node.h"
+#include "../../ir-type/ir-struct-type.h"
 
 class IRTupleExpressionNode : public IRConstantExpressionNode {
 private:
     ASTTupleExpressionNode* _node;
     llvm::Constant* _irValue;
     std::vector<IRExpressionNode*> _irValues;
+    IRStructType* _type;
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* node, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(ASTTupleExpressionNode* node, llvm::Constant* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Constant* getIRValue() override;
+    IRStructType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

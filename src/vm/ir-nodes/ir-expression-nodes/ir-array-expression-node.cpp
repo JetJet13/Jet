@@ -28,7 +28,7 @@ llvm::Constant* IRArrayExpressionNode::getIRValue() {
     return _irValue;
 }
 
-llvm::Type* IRArrayExpressionNode::getIRTypeAtIndex(unsigned long index) {
+llvm::Type* IRArrayExpressionNode::getTypeAtIndex(unsigned long index) {
     return _irValue->getType()->getArrayElementType();
 }
 

@@ -9,7 +9,7 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
     auto tupleValues = std::vector<IRExpressionNode*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
         auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope, irModule);
-        tupleValueTypes.push_back(irNode->getIRType());
+        tupleValueTypes.push_back(irNode->getType());
         tupleValues.push_back(irNode);
     }
 

@@ -13,6 +13,7 @@
 template<class T>
 TypeSignatureMap<T>::TypeSignatureMap() {
     _typeSignatureMap = std::unordered_map<std::string, T*>();
+    _typeSignatureKeyList = std::vector<std::string>();
 }
 
 template<class T>
@@ -20,6 +21,7 @@ TypeSignatureMap<T>::TypeSignatureMap(std::vector<std::pair<std::string, T*>> ke
     _typeSignatureMap = std::unordered_map<std::string, T*>();
     for (auto keyValuePair : keyValuePairs) {
         _typeSignatureMap.insert(keyValuePair);
+        _typeSignatureKeyList.push_back(keyValuePair.first);
     }
 }
 
@@ -34,8 +36,19 @@ std::optional<T*> TypeSignatureMap<T>::find(std::string key) {
 }
 
 template<class T>
+unsigned long TypeSignatureMap<T>::findKeyIndex(std::string key) {
+    for (int i = 0; i < _typeSignatureKeyList.size(); ++i) {
+        if (_typeSignatureKeyList[i] == key) {
+            return i;
+        }
+    }
+    throw std::invalid_argument("no index found for key: " + key);
+}
+
+template<class T>
 TypeSignatureMap<T>* TypeSignatureMap<T>::insert(std::string key, T* value) {
     _typeSignatureMap.insert(std::pair<std::string, T*>(key, value));
+    _typeSignatureKeyList.push_back(key);
     return this;
 }
 

@@ -15,6 +15,7 @@ private:
 public:
     ASTFileNode(std::vector<ASTNode*> body);
     void append(ASTNode* node);
+    void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     std::vector<ASTNode*>* getBody();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

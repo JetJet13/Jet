@@ -28,8 +28,8 @@ llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<ll
     return builder->get()->CreateLoad(arrayElementType, sourcePointer);
 }
 
-llvm::Value* IRArrayAccessExpressionNode::getIRValue() {
-    return _irSource->getIRValue();
+llvm::Value* IRArrayAccessExpressionNode::getValue() {
+    return _irSource->getValue();
 }
 
 IRNodeType IRArrayAccessExpressionNode::getNodeType() {

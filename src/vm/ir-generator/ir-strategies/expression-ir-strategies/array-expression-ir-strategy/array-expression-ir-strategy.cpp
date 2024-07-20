@@ -25,7 +25,7 @@ llvm::ArrayType* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpression
 
     auto elementValues = std::vector<llvm::Value*>();
     for (auto element : *node->getElements()) {
-        elementValues.push_back(irGenerator->generateFor(element, scope, irModule)->getIRValue());
+        elementValues.push_back(irGenerator->generateFor(element, scope, irModule)->getValue());
     }
 
     return llvm::ArrayType::get(irGenerator->determineBestFitType(elementValues), node->size());

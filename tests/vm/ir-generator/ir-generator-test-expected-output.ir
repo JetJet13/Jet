@@ -1,9 +1,9 @@
 ; ModuleID = './ir-generator-test-file.jet'
 source_filename = "./ir-generator-test-file.jet"
 
-@MyEnum = private constant { i32, i32, i32 } { i32 0, i32 1, i32 2 }
+@MyEnum = internal constant { i32, i32, i32 } { i32 0, i32 1, i32 2 }
 
-define private void @main() {
+define internal void @main() {
 entry:
   %eight = alloca i32, align 4, addrspace(4)
   store i32 895, ptr addrspace(4) %eight, align 4
@@ -403,23 +403,16 @@ entry:
   store i32 5, ptr addrspace(4) %otherFoo, align 4
   %bar = alloca [11 x i8], align 1, addrspace(11)
   store [11 x i8] c"hello world", ptr addrspace(11) %bar, align 1
+  %magic = alloca ptr, align 1, addrspace(1)
+  %177 = load ptr, ptr getelementptr inbounds ({ i32, i32, i32 }, ptr @MyEnum, i32 0, i32 1), align 8
+  store ptr %177, ptr addrspace(1) %magic, align 8
+  %structAccess = alloca ptr addrspace(46), align 1, addrspace(1)
+  %178 = getelementptr inbounds ptr addrspace(46), ptr addrspace(46) %myStruct, i32 0, i32 2
+  %179 = load ptr addrspace(46), ptr addrspace(46) %178, align 8
+  store ptr addrspace(46) %179, ptr addrspace(1) %structAccess, align 8
 }
 
-define private i32 @testFunc(i32 %0) {
-entry:
-  %1 = alloca i32, align 4, addrspace(4)
-  store i32 %0, ptr addrspace(4) %1, align 4
-  %2 = alloca ptr addrspace(4), align 8
-  store ptr addrspace(4) %1, ptr %2, align 8
-  %3 = load ptr addrspace(4), ptr %2, align 8
-  %4 = alloca i32, align 4
-  store i32 1, ptr %4, align 4
-  %5 = load i32, ptr %4, align 4
-  %6 = add ptr addrspace(4) %3, i32 %5
-  ret ptr addrspace(4) %6
-}
-
-define private void @myProcedure(i32 %0, i1 %1) {
+define internal void @myProcedure(i32 %0, i1 %1) {
 entry:
   %2 = alloca i32, align 4, addrspace(4)
   store i32 %0, ptr addrspace(4) %2, align 4
@@ -427,7 +420,7 @@ entry:
   store i1 %1, ptr addrspace(1) %3, align 1
   %addFive = alloca ptr addrspace(4), align 1, addrspace(1)
   %4 = alloca ptr addrspace(4), align 8
-  store ptr addrspace(4) %1, ptr %4, align 8
+  store ptr addrspace(4) %2, ptr %4, align 8
   %5 = load ptr addrspace(4), ptr %4, align 8
   %6 = alloca i32, align 4
   store i32 5, ptr %6, align 4
@@ -443,4 +436,18 @@ entry:
   %12 = load i1, ptr %11, align 1
   %13 = or ptr addrspace(1) %10, i1 %12
   store ptr addrspace(1) %13, ptr addrspace(1) %myBool, align 8
+}
+
+define internal i32 @testFunc(i32 %0) {
+entry:
+  %1 = alloca i32, align 4, addrspace(4)
+  store i32 %0, ptr addrspace(4) %1, align 4
+  %2 = alloca ptr addrspace(4), align 8
+  store ptr addrspace(4) %2, ptr %2, align 8
+  %3 = load ptr addrspace(4), ptr %2, align 8
+  %4 = alloca i32, align 4
+  store i32 1, ptr %4, align 4
+  %5 = load i32, ptr %4, align 4
+  %6 = add ptr addrspace(4) %3, i32 %5
+  ret ptr addrspace(4) %6
 }

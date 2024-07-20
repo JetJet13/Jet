@@ -12,12 +12,12 @@ IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNo
 }
 
 llvm::Value * IRLogicalExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto leftNodeAllocation = builder->get()->CreateAlloca(_irLeftNode->getIRType());
+    auto leftNodeAllocation = builder->get()->CreateAlloca(_irLeftNode->getType());
     auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder);
     builder->get()->CreateStore(irLeftNodeValue, leftNodeAllocation);
     auto leftNodeValue = builder->get()->CreateLoad(leftNodeAllocation->getAllocatedType(), leftNodeAllocation);
 
-    auto rightNodeAllocation = builder->get()->CreateAlloca(_irRightNode->getIRType());
+    auto rightNodeAllocation = builder->get()->CreateAlloca(_irRightNode->getType());
     auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder);
     builder->get()->CreateStore(irRightNodeValue, rightNodeAllocation);
     auto rightNodeValue = builder->get()->CreateLoad(rightNodeAllocation->getAllocatedType(), rightNodeAllocation);

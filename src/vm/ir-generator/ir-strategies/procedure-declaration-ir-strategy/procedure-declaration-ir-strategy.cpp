@@ -11,7 +11,7 @@
 IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto procedureTypeNode = irGenerator->generateTypeFor(node->getTypeSignature());
     auto functionType = llvm::cast<llvm::FunctionType>(procedureTypeNode->getType());
-    auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::PrivateLinkage, node->getId(), irModule->getModule());
+    auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
