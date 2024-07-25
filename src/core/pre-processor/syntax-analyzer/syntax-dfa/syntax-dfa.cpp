@@ -173,7 +173,6 @@ void SyntaxDfa::init() {
 //    todo: add support for interfaces
 //    todo: add support for inheritance
 //    todo: add support for struct definitions
-//    todo: update 'getTypeSignature' logic to leverage token table. Implement Visitor Pattern to handle this.
 //    todo: add support for tagged unions (sum types)
 //    todo: add support for enums to have structs as values
 

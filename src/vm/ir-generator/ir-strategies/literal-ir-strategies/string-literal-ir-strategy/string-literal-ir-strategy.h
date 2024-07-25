@@ -8,6 +8,7 @@
 #include <llvm/IR/Value.h>
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
 #include "../../../../ir-nodes/ir-literal-nodes/ir-string-literal-node.h"
+#include "../../../ir-generator.h"
 
 class StringLiteralIRStrategy {
 public:

@@ -39,6 +39,14 @@ ASTStructExpressionNode* ASTStructExpressionNode::addKeyValuePair(ASTStructKeyVa
     return this;
 }
 
+StructTypeSignature* ASTStructExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
+void ASTStructExpressionNode::setTypeSignature(StructTypeSignature* structTypeSignature) {
+    _typeSignature = structTypeSignature;
+}
+
 Position* ASTStructExpressionNode::getStartPosition() {
     return _structStartNode->getStartPosition();
 }

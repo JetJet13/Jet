@@ -16,6 +16,7 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
     return new IRTupleExpressionNode(
             node,
             llvm::ConstantStruct::get(llvm::StructType::get(**context, tupleValueTypes)),
+            irGenerator->generateTypeFor(node->getTypeSignature()),
             tupleValues
     );
 }

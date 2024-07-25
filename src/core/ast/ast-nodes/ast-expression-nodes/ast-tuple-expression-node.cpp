@@ -17,6 +17,14 @@ ASTTupleListNode* ASTTupleExpressionNode::getTupleList() {
     return _tupleList;
 }
 
+TupleTypeSignature* ASTTupleExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
+void ASTTupleExpressionNode::setTypeSignature(TupleTypeSignature* tupleTypeSignature) {
+    _typeSignature = tupleTypeSignature;
+}
+
 Position* ASTTupleExpressionNode::getStartPosition() {
     return _tupleList->getStartPosition();
 }

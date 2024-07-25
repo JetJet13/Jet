@@ -15,10 +15,12 @@ private:
     ASTUnaryExpressionNode* _node;
     llvm::UnaryOperator* _irValue;
     IRExpressionNode* _irExpression;
+    IRType* _type;
 public:
-    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression);
+    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    llvm::UnaryOperator* getIRValue() override;
+    llvm::UnaryOperator* getValue() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

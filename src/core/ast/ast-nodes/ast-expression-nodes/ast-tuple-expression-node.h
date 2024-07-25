@@ -11,14 +11,18 @@
 #include "../ast-struct-nodes/ast-struct-key-value-node.h"
 #include "../ast-tuple-nodes/ast-tuple-list-node.h"
 #include "../ast-tuple-nodes/ast-tuple-node.h"
+#include "../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
 class ASTTupleExpressionNode : public ASTExpressionNode {
 private:
     ASTTupleNode* _tupleKeyword;
     ASTTupleListNode* _tupleList;
+    TupleTypeSignature* _typeSignature = new TupleTypeSignature();
 public:
     ASTTupleExpressionNode(ASTTupleNode* tupleKeyword, ASTTupleListNode* tupleList);
     ASTTupleListNode* getTupleList();
+    TupleTypeSignature* getTypeSignature() override;
+    void setTypeSignature(TupleTypeSignature* tupleTypeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -4,7 +4,7 @@
 
 #include "ir-enum-declaration-node.h"
 
-IREnumDeclarationNode::IREnumDeclarationNode(ASTEnumDeclarationNode* node, llvm::GlobalVariable* irValue) {
+IREnumDeclarationNode::IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlobalVariableNode* irValue) {
     _node = node;
     _irValue = irValue;
 }
@@ -20,5 +20,5 @@ std::string IREnumDeclarationNode::toString() {
 }
 
 void IREnumDeclarationNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irValue->print(**stream);
+    _irValue->print(stream);
 }

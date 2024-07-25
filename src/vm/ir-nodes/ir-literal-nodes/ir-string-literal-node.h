@@ -16,7 +16,7 @@ private:
     llvm::Constant* _irValue;
     IRType* _type;
 public:
-    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRType* type);
+    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue);
     llvm::Constant* getConstantIRValue() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;

@@ -8,12 +8,15 @@
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irModule);
-    auto variableAllocation = new llvm::AllocaInst(
+    auto variableAllocation = new IRAllocationNode(
+        new llvm::AllocaInst(
             irExpression->getType(),
             AddressSpaceGenerator::generate(irExpression->getType()),
             nullptr,
             DataAlignmentGenerator::generate(irExpression->getType()),
             node->getId()
+        ),
+        irGenerator->generateTypeFor(node->getTypeSignature())
     );
     scope->insert(node->getId(), variableAllocation);
     return new IRVariableDeclarationNode(node, variableAllocation, irExpression);

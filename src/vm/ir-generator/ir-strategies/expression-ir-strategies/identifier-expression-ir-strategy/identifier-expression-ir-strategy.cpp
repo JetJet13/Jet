@@ -14,6 +14,6 @@ IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressi
 
     return new IRGlobalIdentifierExpressionNode(
             node,
-            irModule->getModule()->getGlobalVariable(node->getIdentifierNode()->getId(), true)
+            scope->findGlobalVariable(node->getIdentifierNode()->getId()).value()
     );
 }

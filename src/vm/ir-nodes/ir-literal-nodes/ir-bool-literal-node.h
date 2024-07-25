@@ -15,7 +15,7 @@ private:
     llvm::ConstantInt* _irValue;
     IRType* _type;
 public:
-    IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue, IRType* type);
+    IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue);
     llvm::ConstantInt* getConstantIRValue() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;

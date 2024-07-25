@@ -15,10 +15,12 @@ private:
     llvm::CmpInst* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
+    IRType* _type;
 public:
-    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode);
+    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    llvm::CmpInst* getIRValue() override;
+    llvm::CmpInst* getValue() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

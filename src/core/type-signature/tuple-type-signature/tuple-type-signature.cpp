@@ -6,6 +6,10 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../unknown-type-signature/unknown-type-signature.h"
 
+TupleTypeSignature::TupleTypeSignature() {
+    _elementTypes = new std::vector<TypeSignature*>();
+}
+
 TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*>* elementTypes) {
     _elementTypes = elementTypes;
 }

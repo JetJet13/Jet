@@ -40,6 +40,7 @@ class ParameterTypeSignatureIRStrategy;
 class StructTypeSignatureIRStrategy;
 class TupleTypeSignatureIRStrategy;
 class VoidTypeSignatureIRStrategy;
+class EnumAccessTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -76,6 +77,7 @@ private:
     ParameterTypeSignatureIRStrategy* _parameterTypeSignatureIRStrategy;
     StructTypeSignatureIRStrategy* _structTypeSignatureIRStrategy;
     TupleTypeSignatureIRStrategy* _tupleTypeSignatureIRStrategy;
+    EnumAccessTypeSignatureIRStrategy* _enumAccessTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -111,6 +113,7 @@ public:
     ParameterTypeSignatureIRStrategy* getParameterTypeSignatureIRStrategy();
     StructTypeSignatureIRStrategy* getStructTypeSignatureIRStrategy();
     TupleTypeSignatureIRStrategy* getTupleTypeSignatureIRStrategy();
+    EnumAccessTypeSignatureIRStrategy* getEnumAccessTypeSignatureIRStrategy();
 
 };
 

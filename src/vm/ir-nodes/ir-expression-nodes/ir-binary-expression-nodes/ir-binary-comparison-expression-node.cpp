@@ -4,11 +4,12 @@
 
 #include "ir-binary-comparison-expression-node.h"
 
-IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
+IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
     _astNode = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
+    _type = type;
 }
 
 llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -25,8 +26,12 @@ llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_
     return builder->get()->CreateCmp(_irValue->getPredicate(), leftNodeValue, rightNodeValue);
 }
 
-llvm::CmpInst* IRBinaryComparisonExpressionNode::getIRValue() {
+llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {
     return _irValue;
+}
+
+IRType* IRBinaryComparisonExpressionNode::getIRType() {
+    return _type;
 }
 
 IRNodeType IRBinaryComparisonExpressionNode::getNodeType() {

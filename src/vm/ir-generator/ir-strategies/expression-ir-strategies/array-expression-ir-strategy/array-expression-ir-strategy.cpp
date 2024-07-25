@@ -14,7 +14,7 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     for (auto element : *node->getElements()) {
         elementValues.push_back(irGenerator->generateFor(element, scope, irModule));
     }
-    return new IRArrayExpressionNode(node, llvm::ConstantArray::get(arrayType, {}), elementValues);
+    return new IRArrayExpressionNode(node, llvm::ConstantArray::get(arrayType, {}), elementValues, irGenerator->generateTypeFor(node->getTypeSignature()));
 }
 
 llvm::ArrayType* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {

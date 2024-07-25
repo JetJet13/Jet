@@ -4,14 +4,14 @@
 
 #include "ir-function-parameter-declaration-node.h"
 
-IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Argument* argument, llvm::AllocaInst* irValue) {
+IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRAllocationNode* irValue) {
     _argument = argument;
     _irValue = irValue;
 }
 
 void IRFunctionParameterDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    builder->get()->Insert(_irValue);
-    builder->get()->CreateStore(_argument, _irValue);
+    builder->get()->Insert(_irValue->getValue());
+    builder->get()->CreateStore(_argument, _irValue->getValue());
 }
 
 IRNodeType IRFunctionParameterDeclarationNode::getNodeType() {

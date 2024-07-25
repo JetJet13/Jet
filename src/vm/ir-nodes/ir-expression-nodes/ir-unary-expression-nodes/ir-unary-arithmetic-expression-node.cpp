@@ -4,18 +4,23 @@
 
 #include "ir-unary-arithmetic-expression-node.h"
 
-IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression) {
+IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type) {
     _astNode = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
+    _type = type;
 }
 
 llvm::Value * IRUnaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     return builder->get()->Insert(_irValue);
 }
 
-llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getIRValue() {
+llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getValue() {
     return _irValue;
+}
+
+IRType* IRUnaryArithmeticExpressionNode::getIRType() {
+    return _type;
 }
 
 IRNodeType IRUnaryArithmeticExpressionNode::getNodeType() {

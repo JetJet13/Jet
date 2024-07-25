@@ -14,7 +14,7 @@ llvm::Value* IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::
 }
 
 IRType* IRLiteralExpressionNode::getIRType() {
-    return _irValue->getType();
+    return _irValue->getIRType();
 }
 
 llvm::Constant* IRLiteralExpressionNode::getValue() {

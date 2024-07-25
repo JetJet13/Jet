@@ -16,10 +16,12 @@ private:
     ASTArrayAccessExpressionNode* _node;
     IRExpressionNode* _irSource;
     IRExpressionNode* _irIndex;
+    IRType* _type;
 public:
-    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex);
+    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -5,7 +5,7 @@
 #include "enum-declaration-ir-strategy.h"
 
 IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    auto enumValueType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto enumType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto structValues = std::vector<llvm::Constant*>();
     for (int i = 0; i < node->getValues()->numParameters(); ++i) {
         auto keyValuePair = node->getValues()->getParameters()[i];
@@ -18,16 +18,18 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
         }
     }
 
-    auto irEnum = new llvm::GlobalVariable(
-            *irModule->getModule(),
-            enumValueType->getType(),
-            true,
-            llvm::GlobalValue::InternalLinkage,
-            llvm::ConstantStruct::get(enumValueType->getType(), structValues),
-            node->getId()
-    );
+    auto globalVariableEnum = new IRGlobalVariableNode(
+            new llvm::GlobalVariable(
+                *irModule->getModule(),
+                enumType->getType(),
+                true,
+                llvm::GlobalValue::InternalLinkage,
+                llvm::ConstantStruct::get(enumType->getType(), structValues),
+                node->getId()
+    ), enumType);
+    scope->insertGlobalVariable(node->getId(), globalVariableEnum);
     return new IREnumDeclarationNode(
         node,
-        irEnum
+        globalVariableEnum
     );
 }

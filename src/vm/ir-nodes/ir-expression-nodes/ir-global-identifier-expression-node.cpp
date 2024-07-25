@@ -4,25 +4,29 @@
 
 #include "ir-global-identifier-expression-node.h"
 
-IRGlobalIdentifierExpressionNode::IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, llvm::GlobalVariable* irValue) {
+IRGlobalIdentifierExpressionNode::IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRGlobalVariableNode* irValue) {
     _node = node;
     _irValue = irValue;
 }
 
 llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    return _irValue;
+    return _irValue->getValue();
 }
 
-llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::getIRValue() {
-    return _irValue;
+llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::getValue() {
+    return _irValue->getValue();
+}
+
+IRType* IRGlobalIdentifierExpressionNode::getIRType() {
+    return _irValue->getIRType();
 }
 
 llvm::Type* IRGlobalIdentifierExpressionNode::getType() {
-    return _irValue->getValueType();
+    return _irValue->getValue()->getValueType();
 }
 
 llvm::Type* IRGlobalIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
-    auto type = _irValue->getType();
+    auto type = _irValue->getValue()->getType();
     if (type->isArrayTy()) {
         return type->getArrayElementType();
     } else if (type->isStructTy()) {
@@ -41,5 +45,5 @@ std::string IRGlobalIdentifierExpressionNode::toString() {
 }
 
 void IRGlobalIdentifierExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irValue->print(**stream);
+    _irValue->print(stream);
 }

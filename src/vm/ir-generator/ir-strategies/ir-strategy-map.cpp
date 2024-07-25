@@ -35,6 +35,7 @@
 #include "./type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/struct-type-signature-ir-strategy/struct-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 
 
 IRStrategyMap::IRStrategyMap() {
@@ -71,6 +72,7 @@ IRStrategyMap::IRStrategyMap() {
     _parameterTypeSignatureIRStrategy = new ParameterTypeSignatureIRStrategy();
     _structTypeSignatureIRStrategy = new StructTypeSignatureIRStrategy();
     _tupleTypeSignatureIRStrategy = new TupleTypeSignatureIRStrategy();
+    _enumAccessTypeSignatureIRStrategy = new EnumAccessTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -199,4 +201,8 @@ StructTypeSignatureIRStrategy* IRStrategyMap::getStructTypeSignatureIRStrategy()
 
 TupleTypeSignatureIRStrategy* IRStrategyMap::getTupleTypeSignatureIRStrategy() {
     return _tupleTypeSignatureIRStrategy;
+}
+
+EnumAccessTypeSignatureIRStrategy* IRStrategyMap::getEnumAccessTypeSignatureIRStrategy() {
+    return _enumAccessTypeSignatureIRStrategy;
 }

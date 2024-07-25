@@ -12,6 +12,7 @@ class TupleTypeSignature : public TypeSignature {
 private:
     std::vector<TypeSignature*>* _elementTypes;
 public:
+    TupleTypeSignature();
     explicit TupleTypeSignature(std::vector<TypeSignature*>* elementTypes);
     explicit TupleTypeSignature(std::vector<TypeSignature*> elementTypes);
     std::vector<TypeSignature*>* getElementTypes();

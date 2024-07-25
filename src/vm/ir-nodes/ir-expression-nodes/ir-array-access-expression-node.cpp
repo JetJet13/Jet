@@ -4,16 +4,17 @@
 
 #include "ir-array-access-expression-node.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
+    _type = type;
 }
 
 llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto arrayElementType = _irSource->getIRTypeAtIndex(0);
+    auto arrayElementType = _irSource->getTypeAtIndex(0);
 
-    auto arrayAccessSourceAllocation = builder->get()->CreateAlloca(_irSource->getIRType());
+    auto arrayAccessSourceAllocation = builder->get()->CreateAlloca(_irSource->getType());
     auto irSourceValue = _irSource->insertSelfIntoBlock(builder);
     builder->get()->CreateStore(irSourceValue, arrayAccessSourceAllocation);
 
@@ -30,6 +31,10 @@ llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<ll
 
 llvm::Value* IRArrayAccessExpressionNode::getValue() {
     return _irSource->getValue();
+}
+
+IRType* IRArrayAccessExpressionNode::getIRType() {
+    return _type;
 }
 
 IRNodeType IRArrayAccessExpressionNode::getNodeType() {

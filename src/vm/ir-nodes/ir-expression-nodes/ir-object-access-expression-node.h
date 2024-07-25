@@ -11,7 +11,6 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
 #include "../../ir-type/ir-struct-type.h"
 
-
 class IRObjectAccessExpressionNode : public IRExpressionNode {
 private:
     ASTObjectAccessExpressionNode* _node;

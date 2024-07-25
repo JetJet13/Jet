@@ -35,7 +35,7 @@
 #include "ir-strategies/type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/struct-type-signature-ir-strategy/struct-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
-#include "../../core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
+#include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../shared/utils/logger/logger.h"
 
@@ -133,7 +133,9 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
         case CLASS_TYPE_SOURCE:
             return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature*)typeSignature, &_context, this);
         case ENUM_TYPE_SOURCE:
-            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, &_context, this);
+            return this->generateTypeFor((EnumTypeSignature*)typeSignature);
+        case ENUM_ACCESS_TYPE_SOURCE:
+            return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate((EnumAccessTypeSignature*)typeSignature, &_context, this);
         case FUNCTION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate((FunctionTypeSignature*)typeSignature, &_context, this);
         case PROCEDURE_TYPE_SOURCE:
@@ -145,9 +147,9 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
         case PROCEDURE_LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((ProcedureLambdaTypeSignature*)typeSignature, &_context, this);
         case STRUCT_TYPE_SOURCE:
-            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*)typeSignature, &_context, this);
+            return this->generateTypeFor((StructTypeSignature*)typeSignature);
         case TUPLE_TYPE_SOURCE:
-            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
+            return this->generateTypeFor((TupleTypeSignature*)typeSignature);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
@@ -163,8 +165,32 @@ IRStructType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature) {
     return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, &_context, this);
 }
 
+IRStructType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature) {
+    return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*)typeSignature, &_context, this);
+}
+
+IRStructType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature) {
+    return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
+}
+
 IRType* IRGenerator::generateVoidType() {
     return new IRType(llvm::Type::getVoidTy(*_context));
+}
+
+IRType* IRGenerator::generateIntType() {
+    return new IRType(llvm::IntegerType::get(*_context, 32));
+}
+
+IRType* IRGenerator::generateFloatType() {
+    return new IRType(llvm::ConstantFP::get(*_context, llvm::APFloat(0.0))->getType());
+}
+
+IRType* IRGenerator::generateCharType() {
+    return new IRType(llvm::IntegerType::get(*_context, 8));
+}
+
+IRType* IRGenerator::generateBoolType() {
+    return new IRType(llvm::IntegerType::get(*_context, 1));
 }
 
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList) {

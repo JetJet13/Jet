@@ -14,7 +14,6 @@ public:
     virtual llvm::Type* getTypeAtIndex(unsigned long index);
     virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) = 0;
     virtual llvm::Value* getValue() = 0;
-    // todo: Implement getType for all IRExpressions
     virtual IRType* getIRType() = 0;
 };
 

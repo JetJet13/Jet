@@ -8,15 +8,17 @@
 #include <llvm/IR/Value.h>
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
 #include "ir-expression-node.h"
+#include "../ir-global-variable-node.h"
 
 class IRGlobalIdentifierExpressionNode : public IRExpressionNode {
 private:
     ASTIdentifierExpressionNode* _node;
-    llvm::GlobalVariable* _irValue;
+    IRGlobalVariableNode* _irValue;
 public:
-    IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, llvm::GlobalVariable* irValue);
+    IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRGlobalVariableNode* irValue);
     llvm::GlobalVariable* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    llvm::GlobalVariable* getIRValue() override;
+    llvm::GlobalVariable* getValue() override;
+    IRType* getIRType() override;
     llvm::Type* getType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

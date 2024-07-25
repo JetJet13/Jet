@@ -38,6 +38,8 @@
 #include "../ir-nodes/ir-statement-nodes/ir-statement-node.h"
 #include "../ir-type/ir-struct-type.h"
 #include "../../core/type-signature/enum-type-signature/enum-type-signature.h"
+#include "../../core/type-signature/struct-type-signature/struct-type-signature.h"
+#include "../../core/type-signature/tuple-type-signature/tuple-type-signature.h"
 
 class IRGenerator {
 private:
@@ -53,7 +55,13 @@ public:
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRType* generateTypeFor(TypeSignature* typeSignature);
     IRStructType* generateTypeFor(EnumTypeSignature* typeSignature);
+    IRStructType* generateTypeFor(StructTypeSignature* typeSignature);
+    IRStructType* generateTypeFor(TupleTypeSignature* typeSignature);
     IRType* generateVoidType();
+    IRType* generateIntType();
+    IRType* generateFloatType();
+    IRType* generateCharType();
+    IRType* generateBoolType();
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);
     llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);

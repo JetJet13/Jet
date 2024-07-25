@@ -164,6 +164,12 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h
         ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h
+        ir-nodes/ir-allocation-node.cpp
+        ir-nodes/ir-allocation-node.h
+        ir-nodes/ir-global-variable-node.cpp
+        ir-nodes/ir-global-variable-node.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

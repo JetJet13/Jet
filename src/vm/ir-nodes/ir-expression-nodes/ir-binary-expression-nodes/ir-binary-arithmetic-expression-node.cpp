@@ -4,11 +4,12 @@
 
 #include "ir-binary-arithmetic-expression-node.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
     _astNode = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
+    _type = type;
 }
 
 llvm::Value * IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -25,8 +26,12 @@ llvm::Value * IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_
     return builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
 }
 
-llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getIRValue() {
+llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
+}
+
+IRType* IRBinaryArithmeticExpressionNode::getIRType() {
+    return _type;
 }
 
 IRNodeType IRBinaryArithmeticExpressionNode::getNodeType() {

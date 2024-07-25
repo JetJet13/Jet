@@ -15,7 +15,7 @@ private:
     llvm::ConstantFP* _irValue;
     IRType* _type;
 public:
-    IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::ConstantFP* irValue, IRType* type);
+    IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::ConstantFP* irValue);
     llvm::ConstantFP* getConstantIRValue() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;

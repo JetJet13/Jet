@@ -8,13 +8,14 @@
 #include <llvm/IR/Instructions.h>
 #include "ir-declaration-node.h"
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
+#include "../ir-global-variable-node.h"
 
 class IREnumDeclarationNode : public IRDeclarationNode {
 private:
     ASTEnumDeclarationNode* _node;
-    llvm::GlobalVariable* _irValue;
+    IRGlobalVariableNode* _irValue;
 public:
-    IREnumDeclarationNode(ASTEnumDeclarationNode* node, llvm::GlobalVariable* irValue);
+    IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlobalVariableNode* irValue);
     void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     IRNodeType getNodeType() override;
     std::string toString() override;

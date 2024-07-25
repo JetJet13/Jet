@@ -7,5 +7,6 @@
 IRArrayAccessExpressionNode* ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto sourceValue = irGenerator->generateFor(node->getSource(), scope, irModule);
     auto indexValue = irGenerator->generateFor(node->getIndex()->getIndex(), scope, irModule);
-    return new IRArrayAccessExpressionNode(node, sourceValue, indexValue);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    return new IRArrayAccessExpressionNode(node, sourceValue, indexValue, irType);
 }

@@ -16,6 +16,7 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     return new IRStructExpressionNode(
             node,
             llvm::ConstantStruct::get(llvm::StructType::get(**context, structValueTypes)),
+            irGenerator->generateTypeFor(node->getTypeSignature()),
             structValues
     );
 }
