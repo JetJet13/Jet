@@ -10,10 +10,10 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irModule);
     auto variableAllocation = new IRAllocationNode(
         new llvm::AllocaInst(
-            irExpression->getType(),
-            AddressSpaceGenerator::generate(irExpression->getType()),
+            irExpression->getIRType()->getType(),
+            AddressSpaceGenerator::generate(irExpression->getIRType()),
             nullptr,
-            DataAlignmentGenerator::generate(irExpression->getType()),
+            DataAlignmentGenerator::generate(irExpression->getIRType()),
             node->getId()
         ),
         irGenerator->generateTypeFor(node->getTypeSignature())

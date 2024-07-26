@@ -71,6 +71,7 @@ const otherFoo = 5;
 let bar = "hello world";
 let magic = MyEnum.Uno;
 let structAccess = myStruct.world;
+let structWord = myStruct.str;
 
 func testFunc(x: int) int {
     return x + 1;

@@ -26,6 +26,14 @@ TypeSignature* StructTypeSignature::getTypeSignatureForKey(std::string key) {
     return new UnknownTypeSignature();
 }
 
+TypeSignature* StructTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+    if (index >= _keyValuePairs.size()) {
+        return new UnknownTypeSignature();
+    }
+
+    return _keyValuePairs.find(_keyValuePairs.findKeyByIndex(index)).value();
+}
+
 void StructTypeSignature::addKeyValuePair(std::string key, TypeSignature* typeSignature) {
     _keyValuePairs.insert(key, typeSignature);
 }

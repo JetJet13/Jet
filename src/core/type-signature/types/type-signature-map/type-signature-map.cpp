@@ -46,6 +46,14 @@ unsigned long TypeSignatureMap<T>::findKeyIndex(std::string key) {
 }
 
 template<class T>
+std::string TypeSignatureMap<T>::findKeyByIndex(unsigned long index) {
+    if (index >= _typeSignatureKeyList.size()) {
+        throw std::invalid_argument("no key found for index: " + std::to_string(index));
+    }
+    return _typeSignatureKeyList[index];
+}
+
+template<class T>
 TypeSignatureMap<T>* TypeSignatureMap<T>::insert(std::string key, T* value) {
     _typeSignatureMap.insert(std::pair<std::string, T*>(key, value));
     _typeSignatureKeyList.push_back(key);
@@ -75,10 +83,28 @@ bool TypeSignatureMap<T>::isEqualTo(TypeSignatureMap<T>* other) {
 template<class T>
 std::vector<std::pair<std::string, T*>> TypeSignatureMap<T>::getKeyValues() {
     auto keyValues = std::vector<std::pair<std::string, T*>>();
-    for (auto keyValue : _typeSignatureMap) {
-        keyValues.push_back(keyValue);
+    for (auto key : _typeSignatureKeyList) {
+        keyValues.push_back(std::pair(key, this->find(key).value()));
     }
     return keyValues;
+}
+
+template<class T>
+std::vector<std::string> TypeSignatureMap<T>::getKeys() {
+    auto keys = std::vector<std::string>();
+    for (const auto& key : _typeSignatureKeyList) {
+        keys.push_back(key);
+    }
+    return keys;
+}
+
+template<class T>
+std::vector<T*> TypeSignatureMap<T>::getValues() {
+    auto values = std::vector<T*>();
+    for (const auto& key : _typeSignatureKeyList) {
+        values.push_back(this->find(key).value());
+    }
+    return values;
 }
 
 template<class T>

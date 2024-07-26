@@ -1034,6 +1034,10 @@ add_library(jet-core
         ast/ast-nodes/ast-struct-nodes/ast-struct-colon-node.h
         ast/ast-nodes/ast-type-nodes/ast-type-colon-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-type-colon-node.h
+        type-signature/aggregate-type-signature.cpp
+        type-signature/aggregate-type-signature.h
+        ast/ast-nodes/ast-expression-nodes/ast-aggregate-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-aggregate-expression-node.h
 
 )
 

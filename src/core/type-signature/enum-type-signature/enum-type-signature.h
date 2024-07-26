@@ -5,21 +5,24 @@
 #ifndef JETLANG_ENUM_TYPE_SIGNATURE_H
 #define JETLANG_ENUM_TYPE_SIGNATURE_H
 
-#include "../type-signature.h"
 #include "../literal-type-signature/types/literal-type.h"
 #include "../../lexeme/lexeme.h"
 #include "../types/type-signature-map/type-signature-map.h"
 #include "../literal-type-signature/literal-type-signature.h"
+#include "../aggregate-type-signature.h"
 
-class EnumTypeSignature : public TypeSignature {
+class EnumTypeSignature : public AggregateTypeSignature<LiteralTypeSignature> {
 private:
     LiteralTypeSignature* _type;
+protected:
     TypeSignatureMap<LiteralTypeSignature> _keyValuePairs;
 public:
     EnumTypeSignature();
-    EnumTypeSignature(LiteralTypeSignature* type);
+    explicit EnumTypeSignature(LiteralTypeSignature* type);
     EnumTypeSignature(LiteralTypeSignature* type, TypeSignatureMap<LiteralTypeSignature> keyValuePairs);
-    TypeSignatureMap<LiteralTypeSignature>* getKeyValuePairs();
+    TypeSignatureMap<LiteralTypeSignature>* getKeyValuePairs() override;
+    LiteralTypeSignature* getTypeSignatureForKey(std::string key) override;
+    LiteralTypeSignature* getTypeSignatureAtIndex(unsigned long index) override;
     LiteralTypeSignature* getType();
     void setType(LiteralTypeSignature* type);
     bool hasKey(std::string key);

@@ -5,13 +5,17 @@
 #include "ast-object-access-source-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTObjectAccessSourceNode::ASTObjectAccessSourceNode(ASTExpressionNode* source) {
+ASTObjectAccessSourceNode::ASTObjectAccessSourceNode(ASTAggregateExpressionNode* source) {
     _source = source;
     _children.push_back(_source);
 }
 
-ASTExpressionNode* ASTObjectAccessSourceNode::getSource() {
+ASTAggregateExpressionNode* ASTObjectAccessSourceNode::getSource() {
     return _source;
+}
+
+AggregateTypeSignature<TypeSignature>* ASTObjectAccessSourceNode::getTypeSignature() {
+    return (AggregateTypeSignature<TypeSignature>*)_source->getTypeSignature();
 }
 
 Position* ASTObjectAccessSourceNode::getStartPosition() {

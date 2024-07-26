@@ -7,33 +7,48 @@
 #include "../unknown-type-signature/unknown-type-signature.h"
 
 TupleTypeSignature::TupleTypeSignature() {
-    _elementTypes = new std::vector<TypeSignature*>();
+    _keyValuePairs = TypeSignatureMap<TypeSignature>();
 }
 
 TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*>* elementTypes) {
-    _elementTypes = elementTypes;
-}
-
-TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*> elementTypes) {
-    _elementTypes = new std::vector<TypeSignature*>();
-    for (auto element : elementTypes) {
-        _elementTypes->push_back(element);
+    _keyValuePairs = TypeSignatureMap<TypeSignature>();
+    for (int i = 0; i < elementTypes->size(); ++i) {
+        auto key = std::to_string(i);
+        auto value = elementTypes->at(i);
+        _keyValuePairs.insert(key, value);
     }
 }
 
-std::vector<TypeSignature*>* TupleTypeSignature::getElementTypes() {
-    return _elementTypes;
+TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*> elementTypes) {
+    _keyValuePairs = TypeSignatureMap<TypeSignature>();
+    for (int i = 0; i < elementTypes.size(); ++i) {
+        auto key = std::to_string(i);
+        auto value = elementTypes[i];
+        _keyValuePairs.insert(key, value);
+    }
+}
+
+TypeSignatureMap<TypeSignature>* TupleTypeSignature::getKeyValuePairs() {
+    return &_keyValuePairs;
+}
+
+TypeSignature* TupleTypeSignature::getTypeSignatureForKey(std::string key) {
+    auto result = _keyValuePairs.find(key);
+    if (result) {
+        return result.value();
+    }
+    return new UnknownTypeSignature();
 }
 
 TypeSignature* TupleTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
     if (index >= this->size()) {
         return new UnknownTypeSignature();
     }
-    return _elementTypes->at(index);
+    return _keyValuePairs.find(std::to_string(index)).value();
 }
 
 unsigned long TupleTypeSignature::size() {
-    return _elementTypes->size();
+    return _keyValuePairs.size();
 }
 
 std::string TupleTypeSignature::toString() {
@@ -50,19 +65,11 @@ bool TupleTypeSignature::isEqualTo(TypeSignature* otherType) {
     }
 
     auto other = (TupleTypeSignature*)otherType;
-    for (int i = 0; i < _elementTypes->size(); ++i) {
-        if (!_elementTypes->at(i)->isEqualTo(other->getElementTypes()->at(i))) {
-            return false;
-        }
-    }
-
-    return true;
+    return _keyValuePairs.isEqualTo(other->getKeyValuePairs());
 }
 
 void TupleTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
-    for (auto & _elementType : *_elementTypes) {
-        _elementType->print();
-    }
+    _keyValuePairs.print();
     Logger::log("----------");
 }

@@ -6,13 +6,13 @@
 #define JETLANG_AST_OBJECT_ACCESS_EXPRESSION_NODE_H
 
 #include <string>
-#include "ast-expression-node.h"
 #include "ast-identifier-expression-node.h"
 #include "../ast-object-nodes/ast-object-access-source-node.h"
 #include "../ast-object-nodes/ast-object-access-target-node.h"
 #include "../ast-period-node.h"
+#include "ast-aggregate-expression-node.h"
 
-class ASTObjectAccessExpressionNode : public ASTExpressionNode {
+class ASTObjectAccessExpressionNode : public ASTAggregateExpressionNode {
 private:
     ASTObjectAccessSourceNode* _source;
     ASTPeriodNode* _period;

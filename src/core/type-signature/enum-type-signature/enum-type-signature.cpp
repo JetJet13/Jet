@@ -25,6 +25,22 @@ TypeSignatureMap<LiteralTypeSignature>* EnumTypeSignature::getKeyValuePairs() {
     return &_keyValuePairs;
 }
 
+LiteralTypeSignature* EnumTypeSignature::getTypeSignatureForKey(std::string key) {
+    auto result = _keyValuePairs.find(key);
+    if (result) {
+        return _type;
+    }
+    return new LiteralTypeSignature();
+}
+
+LiteralTypeSignature* EnumTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+    if (index >= _keyValuePairs.size()) {
+        return new LiteralTypeSignature();
+    }
+
+    return _type;
+}
+
 LiteralTypeSignature* EnumTypeSignature::getType() {
     return _type;
 }

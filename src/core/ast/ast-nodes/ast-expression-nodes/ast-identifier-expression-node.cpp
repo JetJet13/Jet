@@ -4,7 +4,6 @@
 
 #include "ast-identifier-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../ast-function-nodes/ast-function-argument-node.h"
 
 ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode) {
     _identifierNode = identifierNode;

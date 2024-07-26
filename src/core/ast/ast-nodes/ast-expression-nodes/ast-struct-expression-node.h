@@ -7,13 +7,13 @@
 
 #include <unordered_map>
 #include "../ast-node.h"
-#include "ast-expression-node.h"
 #include "../ast-struct-nodes/ast-struct-key-value-node.h"
 #include "../ast-struct-nodes/ast-struct-start-node.h"
 #include "../ast-struct-nodes/ast-struct-end-node.h"
 #include "../../../type-signature/struct-type-signature/struct-type-signature.h"
+#include "ast-aggregate-expression-node.h"
 
-class ASTStructExpressionNode : public ASTExpressionNode {
+class ASTStructExpressionNode : public ASTAggregateExpressionNode {
 private:
     ASTStructStartNode* _structStartNode;
     ASTStructEndNode* _structEndNode;

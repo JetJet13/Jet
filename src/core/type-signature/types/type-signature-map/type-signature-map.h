@@ -15,12 +15,15 @@ private:
     std::vector<std::string> _typeSignatureKeyList;
 public:
     TypeSignatureMap();
-    TypeSignatureMap(std::vector<std::pair<std::string, T*>> keyValuePairs);
+    explicit TypeSignatureMap(std::vector<std::pair<std::string, T*>> keyValuePairs);
     std::optional<T*> find(std::string key);
     unsigned long findKeyIndex(std::string key);
+    std::string findKeyByIndex(unsigned long index);
     TypeSignatureMap<T>* insert(std::string key, T* value);
     bool isEqualTo(TypeSignatureMap<T>* other);
     std::vector<std::pair<std::string, T*>> getKeyValues();
+    std::vector<std::string> getKeys();
+    std::vector<T*> getValues();
     unsigned long size();
     void print();
 };

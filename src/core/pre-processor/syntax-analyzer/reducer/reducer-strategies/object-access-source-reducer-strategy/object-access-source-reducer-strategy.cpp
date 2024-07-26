@@ -11,6 +11,6 @@ ASTNode* ObjectAccessSourceReducerStrategy::execute(std::vector<ASTNode*> nodes)
     }
 
     return new ASTObjectAccessSourceNode(
-            (ASTExpressionNode*)nodes[0]
+            (ASTAggregateExpressionNode*)nodes[0]
     );
 }

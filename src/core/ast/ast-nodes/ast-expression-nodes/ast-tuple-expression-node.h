@@ -6,14 +6,14 @@
 #define JETLANG_AST_TUPLE_EXPRESSION_NODE_H
 
 #include <vector>
+#include "ast-aggregate-expression-node.h"
 #include "../ast-node.h"
-#include "ast-expression-node.h"
 #include "../ast-struct-nodes/ast-struct-key-value-node.h"
 #include "../ast-tuple-nodes/ast-tuple-list-node.h"
 #include "../ast-tuple-nodes/ast-tuple-node.h"
 #include "../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
-class ASTTupleExpressionNode : public ASTExpressionNode {
+class ASTTupleExpressionNode : public ASTAggregateExpressionNode {
 private:
     ASTTupleNode* _tupleKeyword;
     ASTTupleListNode* _tupleList;
