@@ -8,14 +8,14 @@
 #include <llvm/IR/Value.h>
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
 #include "ir-expression-node.h"
-#include "../ir-allocation-node.h"
+#include "../ir-instruction-node.h"
 
 class IRIdentifierExpressionNode : public IRExpressionNode {
 private:
     ASTIdentifierExpressionNode* _node;
-    IRAllocationNode* _irValue;
+    IRInstructionNode* _irValue;
 public:
-    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRAllocationNode* irValue);
+    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRType* getIRType() override;

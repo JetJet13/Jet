@@ -4,7 +4,7 @@
 
 #include "ir-function-parameter-declaration-node.h"
 
-IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRAllocationNode* irValue) {
+IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue) {
     _argument = argument;
     _irValue = irValue;
 }

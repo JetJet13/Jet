@@ -3,8 +3,9 @@
 //
 
 #include "ir-identifier-expression-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
-IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRAllocationNode* irValue) {
+IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue) {
     _node = node;
     _irValue = irValue;
 }

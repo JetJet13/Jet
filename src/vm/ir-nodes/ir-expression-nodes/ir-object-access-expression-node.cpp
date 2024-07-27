@@ -4,16 +4,24 @@
 
 #include "ir-object-access-expression-node.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
+    _irTargetKeyIndex = irTargetKeyIndex;
+    _targetKeyIndex = targetKeyIndex;
 }
 
 llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto sourceValue = builder->get()->CreateLoad(_irSource->getIRType()->getType(), _irSource->getValue());
-    auto sourcePointer = builder->get()->CreateInBoundsGEP(_irSource->getTypeAtIndex(_targetKeyIndex), sourceValue, {builder->get()->getInt32(0), _irTargetKeyIndex });
-    return builder->get()->CreateLoad(_irSource->getTypeAtIndex(_targetKeyIndex), sourcePointer);
+    if (_irSource->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
+        return llvm::GetElementPtrInst::CreateInBounds(
+                _irSource->getIRType()->getType(),
+                _irSource->getValue(),
+                { builder->get()->getInt32(0), _irTargetKeyIndex }
+        );
+    }
+    auto sourceValue = _irSource->insertSelfIntoBlock(builder);
+    return llvm::GetElementPtrInst::CreateInBounds(_irSource->getIRType()->getType(), sourceValue, { builder->get()->getInt32(0), _irTargetKeyIndex });
 }
 
 IRType* IRObjectAccessExpressionNode::getIRType() {

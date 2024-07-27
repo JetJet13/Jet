@@ -4,7 +4,7 @@
 
 #include "ir-variable-declaration-node.h"
 
-IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRAllocationNode* irValue, IRExpressionNode* irExpression) {
+IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression) {
     _astNode = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
@@ -13,7 +13,13 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
 void IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     builder->get()->Insert(_irValue->getValue(), _astNode->getId());
     auto irExpressionValue = _irExpression->insertSelfIntoBlock(builder);
-    builder->get()->CreateStore(irExpressionValue, _irValue->getValue());
+    if (_irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
+        auto pointer = builder->get()->Insert(irExpressionValue);
+        auto loadedValue = builder->get()->CreateLoad(_irValue->getIRType()->getType(), pointer);
+        builder->get()->CreateStore(loadedValue, _irValue->getValue());
+    } else {
+        builder->get()->CreateStore(irExpressionValue, _irValue->getValue());
+    }
 }
 
 IRNodeType IRVariableDeclarationNode::getNodeType() {

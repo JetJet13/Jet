@@ -6,6 +6,7 @@
 #define JETLANG_AGGREGATE_TYPE_SIGNATURE_H
 
 #include "type-signature.h"
+#include "./types/type-signature-map/type-signature-map.h"
 
 template<class T = TypeSignature>
 class AggregateTypeSignature : public TypeSignature {

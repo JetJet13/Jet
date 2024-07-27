@@ -19,13 +19,13 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
         auto parameter = functionType->params()[i];
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto irParamType = formalParameter->getParameterType()->getIRType();
-        auto functionParameterAllocation = new IRAllocationNode(
+        auto functionParameterAllocation = new IRInstructionNode(
             new llvm::AllocaInst(
                 parameter,
                 AddressSpaceGenerator::generate(irParamType),
                 nullptr,
                 DataAlignmentGenerator::generate(irParamType)
-        ), irParamType);
+        ), irParamType, formalParameter);
 
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));

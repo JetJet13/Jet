@@ -11,11 +11,10 @@
 
 class ASTObjectAccessSourceNode : public ASTNode {
 private:
-    ASTAggregateExpressionNode* _source;
+    ASTExpressionNode* _source;
 public:
-    explicit ASTObjectAccessSourceNode(ASTAggregateExpressionNode* source);
-    ASTAggregateExpressionNode* getSource();
-    AggregateTypeSignature<TypeSignature>* getTypeSignature() override;
+    explicit ASTObjectAccessSourceNode(ASTExpressionNode* source);
+    ASTExpressionNode* getSource();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

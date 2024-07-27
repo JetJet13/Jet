@@ -9,14 +9,14 @@
 #include "../ir-expression-nodes/ir-expression-node.h"
 #include "ir-declaration-node.h"
 #include "../ir-function-nodes/ir-function-parameter-node.h"
-#include "../ir-allocation-node.h"
+#include "../ir-instruction-node.h"
 
 class IRFunctionParameterDeclarationNode : public IRDeclarationNode {
 private:
     llvm::Argument* _argument;
-    IRAllocationNode* _irValue;
+    IRInstructionNode* _irValue;
 public:
-    IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRAllocationNode* irValue);
+    IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue);
     void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     IRNodeType getNodeType() override;
     std::string toString() override;

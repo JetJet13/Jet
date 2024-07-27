@@ -8,18 +8,18 @@
 #include <unordered_map>
 #include <optional>
 #include "../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
-#include "../../ir-nodes/ir-allocation-node.h"
+#include "../../ir-nodes/ir-instruction-node.h"
 #include "../../ir-nodes/ir-global-variable-node.h"
 
 class IRLookupTable {
 private:
     std::unordered_map<std::string, IRGlobalVariableNode*> _globalScope;
-    std::unordered_map<std::string, IRAllocationNode*> _scope;
+    std::unordered_map<std::string, IRInstructionNode*> _scope;
     std::optional<IRLookupTable*> _outerScope;
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
-    IRLookupTable* insert(std::string key, IRAllocationNode* value);
-    std::optional<IRAllocationNode*> find(std::string key);
+    IRLookupTable* insert(std::string key, IRInstructionNode* value);
+    std::optional<IRInstructionNode*> find(std::string key);
     IRLookupTable* insertGlobalVariable(std::string key, IRGlobalVariableNode* value);
     std::optional<IRGlobalVariableNode*> findGlobalVariable(std::string key);
     void dump();

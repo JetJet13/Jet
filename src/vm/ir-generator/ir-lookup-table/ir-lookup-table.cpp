@@ -7,16 +7,16 @@
 
 IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
     _globalScope = std::unordered_map<std::string, IRGlobalVariableNode*>();
-    _scope = std::unordered_map<std::string, IRAllocationNode*>();
+    _scope = std::unordered_map<std::string, IRInstructionNode*>();
     _outerScope = outerScope;
 }
 
-IRLookupTable* IRLookupTable::insert(std::string key, IRAllocationNode* value) {
-    _scope.insert(std::pair<std::string, IRAllocationNode*>(key, value));
+IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) {
+    _scope.insert(std::pair<std::string, IRInstructionNode*>(key, value));
     return this;
 }
 
-std::optional<IRAllocationNode*> IRLookupTable::find(std::string key) {
+std::optional<IRInstructionNode*> IRLookupTable::find(std::string key) {
     auto result = _scope.find(key);
     if (result == _scope.end()) {
         if (_outerScope) {
