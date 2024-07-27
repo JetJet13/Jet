@@ -11,18 +11,20 @@
 #include "ir-expression-node.h"
 #include "ir-constant-expression-node.h"
 #include "../../ir-type/ir-struct-type.h"
+#include "../ir-instruction-node.h"
 
-class IRStructExpressionNode : public IRConstantExpressionNode {
+class IRStructExpressionNode : public IRExpressionNode {
 private:
     ASTStructExpressionNode* _astNode;
-    llvm::Constant* _irValue;
+    IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
     IRStructType* _type;
 public:
-    IRStructExpressionNode(ASTStructExpressionNode* astNode, llvm::Constant* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
+    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     IRStructType* getIRType() override;
-    llvm::Constant* getValue() override;
+    llvm::Value* getValue() override;
+    IRInstructionNode* getSourceAllocation() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -4,12 +4,13 @@
 
 #include "ir-binary-arithmetic-expression-node.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation) {
     _astNode = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
     _type = type;
+    _sourceAllocation = sourceAllocation;
 }
 
 llvm::Value * IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -28,6 +29,10 @@ llvm::Value * IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_
 
 llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
+}
+
+IRInstructionNode* IRBinaryArithmeticExpressionNode::getSourceAllocation() {
+    return _sourceAllocation;
 }
 
 IRType* IRBinaryArithmeticExpressionNode::getIRType() {

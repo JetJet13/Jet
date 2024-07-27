@@ -11,8 +11,6 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-array-expression-node.h"
 
 class ArrayExpressionIRStrategy {
-private:
-    llvm::ArrayType* generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
 public:
     IRArrayExpressionNode* generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
 };

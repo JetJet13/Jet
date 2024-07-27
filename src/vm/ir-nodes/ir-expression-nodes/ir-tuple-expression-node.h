@@ -13,16 +13,17 @@
 #include "ir-constant-expression-node.h"
 #include "../../ir-type/ir-struct-type.h"
 
-class IRTupleExpressionNode : public IRConstantExpressionNode {
+class IRTupleExpressionNode : public IRExpressionNode {
 private:
     ASTTupleExpressionNode* _node;
-    llvm::Constant* _irValue;
+    IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
     IRStructType* _type;
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* node, llvm::Constant* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    llvm::Constant* getValue() override;
+    llvm::Value* getValue() override;
+    IRInstructionNode* getSourceAllocation() override;
     IRStructType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

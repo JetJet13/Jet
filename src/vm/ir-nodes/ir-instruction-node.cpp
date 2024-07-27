@@ -4,22 +4,17 @@
 
 #include "ir-instruction-node.h"
 
-IRInstructionNode::IRInstructionNode(llvm::Instruction* irValue, IRType* type, IRNode* irNode) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRType* type) {
     _irValue = irValue;
     _type = type;
-    _irNode = irNode;
 }
 
-llvm::Instruction* IRInstructionNode::getValue() {
+llvm::AllocaInst* IRInstructionNode::getValue() {
     return _irValue;
 }
 
 IRType* IRInstructionNode::getIRType() {
     return _type;
-}
-
-IRNode* IRInstructionNode::getIRNode() {
-    return _irNode;
 }
 
 IRNodeType IRInstructionNode::getNodeType() {

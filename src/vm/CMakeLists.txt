@@ -170,6 +170,8 @@ add_library(jet-vm
         ir-nodes/ir-global-variable-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h
+        utils/ir-instruction-node-factory/ir-instruction-node-factory.cpp
+        utils/ir-instruction-node-factory/ir-instruction-node-factory.h
 )
 
 target_link_libraries(jet-vm

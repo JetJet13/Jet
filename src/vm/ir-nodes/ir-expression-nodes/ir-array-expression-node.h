@@ -9,18 +9,20 @@
 #include <llvm/IR/Constants.h>
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "ir-constant-expression-node.h"
+#include "../ir-instruction-node.h"
 
 
-class IRArrayExpressionNode : public IRConstantExpressionNode {
+class IRArrayExpressionNode : public IRExpressionNode {
 private:
     ASTArrayExpressionNode* _node;
-    llvm::Constant* _irValue;
+    IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
     IRType* _type;
 public:
-    IRArrayExpressionNode(ASTArrayExpressionNode* node, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues, IRType* type);
+    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRType* type);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    llvm::Constant* getValue() override;
+    llvm::Value* getValue() override;
+    IRInstructionNode* getSourceAllocation() override;
     IRType* getIRType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

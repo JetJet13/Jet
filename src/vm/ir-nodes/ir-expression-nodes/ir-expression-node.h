@@ -7,6 +7,7 @@
 
 #include "../ir-node.h"
 #include "../../ir-type/ir-type.h"
+#include "../ir-instruction-node.h"
 
 class IRExpressionNode : public IRNode {
 public:
@@ -15,6 +16,7 @@ public:
     virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) = 0;
     virtual llvm::Value* getValue() = 0;
     virtual IRType* getIRType() = 0;
+    virtual IRInstructionNode* getSourceAllocation() = 0;
 };
 
 #endif //JETLANG_IR_EXPRESSION_NODE_H

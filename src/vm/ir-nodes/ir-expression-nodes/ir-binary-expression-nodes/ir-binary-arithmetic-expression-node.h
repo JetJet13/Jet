@@ -16,10 +16,12 @@ private:
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
     IRType* _type;
+    IRInstructionNode* _sourceAllocation;
 public:
-    IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation);
+    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::BinaryOperator* getValue() override;
+    IRInstructionNode* getSourceAllocation() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

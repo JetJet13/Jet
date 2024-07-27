@@ -3,20 +3,22 @@
 //
 
 #include "tuple-expression-ir-strategy.h"
+#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    auto tupleValueTypes = std::vector<llvm::Type*>();
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto tupleValues = std::vector<IRExpressionNode*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
         auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope, irModule);
-        tupleValueTypes.push_back(irNode->getType());
         tupleValues.push_back(irNode);
     }
 
+    auto tupleAllocation = IRInstructionNodeFactory::create(irType);
+
     return new IRTupleExpressionNode(
             node,
-            llvm::ConstantStruct::get(llvm::StructType::get(**context, tupleValueTypes)),
-            irGenerator->generateTypeFor(node->getTypeSignature()),
+            tupleAllocation,
+            irType,
             tupleValues
     );
 }

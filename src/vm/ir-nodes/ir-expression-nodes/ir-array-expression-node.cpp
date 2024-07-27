@@ -4,7 +4,7 @@
 
 #include "ir-array-expression-node.h"
 
-IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, llvm::Constant* irValue, std::vector<IRExpressionNode*> irValues, IRType* type) {
+IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRType* type) {
     _node = node;
     _irValue = irValue;
     _irValues = irValues;
@@ -12,7 +12,7 @@ IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, llvm:
 }
 
 llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto arrayExpressionAllocation = builder->get()->Insert(_irValue);
+    auto arrayExpressionAllocation = builder->get()->Insert(_irValue->getValue());
     auto numElements = _irValues.size();
     auto zeroIndex = builder->get()->getInt32(0);
     for (int i = 0; i < numElements; ++i) {
@@ -22,10 +22,18 @@ llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
         auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    return arrayExpressionAllocation;
+    return builder->get()->CreateInBoundsGEP(
+            _irValue->getValue()->getAllocatedType()->getArrayElementType(),
+            arrayExpressionAllocation,
+            { zeroIndex, zeroIndex }
+    );
 }
 
-llvm::Constant* IRArrayExpressionNode::getValue() {
+llvm::Value* IRArrayExpressionNode::getValue() {
+    return _irValue->getValue();
+}
+
+IRInstructionNode* IRArrayExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
@@ -34,7 +42,7 @@ IRType* IRArrayExpressionNode::getIRType() {
 }
 
 llvm::Type* IRArrayExpressionNode::getTypeAtIndex(unsigned long index) {
-    return _irValue->getType()->getArrayElementType();
+    return _irValue->getValue()->getAllocatedType()->getArrayElementType();
 }
 
 IRNodeType IRArrayExpressionNode::getNodeType() {
@@ -46,5 +54,5 @@ std::string IRArrayExpressionNode::toString() {
 }
 
 void IRArrayExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irValue->print(**stream);
+    _irValue->print(stream);
 }

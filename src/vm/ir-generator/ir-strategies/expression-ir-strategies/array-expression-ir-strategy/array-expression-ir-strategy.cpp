@@ -6,27 +6,15 @@
 #include "../../../../ir-type/ir-type.h"
 #include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
-
+#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    auto arrayType = this->generateArrayType(node, irGenerator, scope, irModule);
     auto elementValues = std::vector<IRExpressionNode*>();
     for (auto element : *node->getElements()) {
         elementValues.push_back(irGenerator->generateFor(element, scope, irModule));
     }
-    return new IRArrayExpressionNode(node, llvm::ConstantArray::get(arrayType, {}), elementValues, irGenerator->generateTypeFor(node->getTypeSignature()));
-}
-
-llvm::ArrayType* ArrayExpressionIRStrategy::generateArrayType(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    if (node->size() == 0) {
-        auto arrayElementType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
-        return llvm::ArrayType::get(arrayElementType->getType(), 0);
-    }
-
-    auto elementValues = std::vector<llvm::Value*>();
-    for (auto element : *node->getElements()) {
-        elementValues.push_back(irGenerator->generateFor(element, scope, irModule)->getValue());
-    }
-
-    return llvm::ArrayType::get(irGenerator->determineBestFitType(elementValues), node->size());
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto arrayElementType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
+    auto arrayAllocation = IRInstructionNodeFactory::createForArray(arrayElementType, irType, node->size());
+    return new IRArrayExpressionNode(node, arrayAllocation, elementValues, irGenerator->generateTypeFor(node->getTypeSignature()));
 }

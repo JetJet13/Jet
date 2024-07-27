@@ -4,7 +4,7 @@
 
 #include "ir-tuple-expression-node.h"
 
-IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, llvm::Constant* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues) {
+IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues) {
     _node = node;
     _irValue = irValue;
     _irValues = irValues;
@@ -12,7 +12,7 @@ IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, llvm:
 }
 
 llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto tupleExpressionAllocation = builder->get()->Insert(_irValue);
+    auto tupleExpressionAllocation = builder->get()->Insert(_irValue->getValue());
     auto numElements = _irValues.size();
     auto zeroIndex = builder->get()->getInt32(0);
     for (int i = 0; i < numElements; ++i) {
@@ -25,7 +25,11 @@ llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
     return tupleExpressionAllocation;
 }
 
-llvm::Constant* IRTupleExpressionNode::getValue() {
+llvm::Value* IRTupleExpressionNode::getValue() {
+    return _irValue->getValue();
+}
+
+IRInstructionNode* IRTupleExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
@@ -42,5 +46,5 @@ std::string IRTupleExpressionNode::toString() {
 }
 
 void IRTupleExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irValue->print(**stream);
+    _irValue->print(stream);
 }

@@ -17,6 +17,9 @@ void IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuil
         auto pointer = builder->get()->Insert(irExpressionValue);
         auto loadedValue = builder->get()->CreateLoad(_irValue->getIRType()->getType(), pointer);
         builder->get()->CreateStore(loadedValue, _irValue->getValue());
+    } else if (_irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
+        auto loadedValue = builder->get()->CreateLoad(_irValue->getIRType()->getType(), irExpressionValue);
+        builder->get()->CreateStore(loadedValue, _irValue->getValue());
     } else {
         builder->get()->CreateStore(irExpressionValue, _irValue->getValue());
     }

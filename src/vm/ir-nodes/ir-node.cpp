@@ -8,3 +8,10 @@
 bool IRNode::is(IRNodeType irNodeType) {
     return this->getNodeType() == irNodeType;
 }
+
+bool IRNode::isOneOf(std::vector<IRNodeType> irNodeTypes) {
+    return std::find(
+            irNodeTypes.begin(),
+            irNodeTypes.end(),
+            this->getNodeType()) != irNodeTypes.end();
+}

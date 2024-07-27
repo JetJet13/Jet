@@ -32,6 +32,10 @@ llvm::Value* IRObjectAccessExpressionNode::getValue() {
     return _irSource->getValue();
 }
 
+IRInstructionNode* IRObjectAccessExpressionNode::getSourceAllocation() {
+    return _irSource->getSourceAllocation();
+}
+
 IRNodeType IRObjectAccessExpressionNode::getNodeType() {
     return IR_OBJECT_ACCESS_EXPRESSION_NODE;
 }

@@ -4,11 +4,12 @@
 
 #include "ir-unary-negate-expression-node.h"
 
-IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type) {
+IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation) {
     _node = node;
     _irValue = irValue;
     _irExpression = irExpression;
     _type = type;
+    _sourceAllocation = sourceAllocation;
 }
 
 llvm::Value* IRUnaryNegateExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -17,6 +18,10 @@ llvm::Value* IRUnaryNegateExpressionNode::insertSelfIntoBlock(std::unique_ptr<ll
 
 llvm::UnaryOperator* IRUnaryNegateExpressionNode::getValue() {
     return _irValue;
+}
+
+IRInstructionNode* IRUnaryNegateExpressionNode::getSourceAllocation() {
+    return _sourceAllocation;
 }
 
 IRType* IRUnaryNegateExpressionNode::getIRType() {

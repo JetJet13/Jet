@@ -10,14 +10,12 @@
 
 class IRInstructionNode : public IRNode {
 private:
-    llvm::Instruction* _irValue;
+    llvm::AllocaInst* _irValue;
     IRType* _type;
-    IRNode* _irNode;
 public:
-    IRInstructionNode(llvm::Instruction* irValue, IRType* type, IRNode* irNode);
-    llvm::Instruction* getValue();
+    IRInstructionNode(llvm::AllocaInst* irValue, IRType* type);
+    llvm::AllocaInst* getValue();
     IRType* getIRType();
-    IRNode* getIRNode();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

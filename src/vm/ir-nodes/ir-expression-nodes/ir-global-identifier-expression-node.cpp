@@ -17,6 +17,10 @@ llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
+IRInstructionNode* IRGlobalIdentifierExpressionNode::getSourceAllocation() {
+    throw new std::logic_error("getSourceAllocation not supported by GlobalIdentifierExpression");
+}
+
 IRType* IRGlobalIdentifierExpressionNode::getIRType() {
     return _irValue->getIRType();
 }

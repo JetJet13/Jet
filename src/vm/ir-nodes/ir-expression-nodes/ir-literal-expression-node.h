@@ -11,15 +11,17 @@
 #include "../ir-literal-nodes/ir-literal-node.h"
 #include "ir-constant-expression-node.h"
 
-class IRLiteralExpressionNode : public IRConstantExpressionNode {
+class IRLiteralExpressionNode : public IRExpressionNode {
 private:
     ASTLiteralExpressionNode* _node;
     IRLiteralNode* _irValue;
+    IRInstructionNode* _sourceAllocation;
 public:
-    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue);
+    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRInstructionNode* sourceAllocation);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     IRType* getIRType() override;
     llvm::Constant* getValue() override;
+    IRInstructionNode* getSourceAllocation() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

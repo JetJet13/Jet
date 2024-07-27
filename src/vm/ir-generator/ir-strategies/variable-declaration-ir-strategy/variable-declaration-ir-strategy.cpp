@@ -17,9 +17,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
             DataAlignmentGenerator::generate(irExpression->getIRType()),
             node->getId()
         ),
-        irGenerator->generateTypeFor(node->getTypeSignature()),
-        irExpression
-    );
+        irGenerator->generateTypeFor(node->getTypeSignature()));
     scope->insert(node->getId(), variableAllocation);
     return new IRVariableDeclarationNode(node, variableAllocation, irExpression);
 }

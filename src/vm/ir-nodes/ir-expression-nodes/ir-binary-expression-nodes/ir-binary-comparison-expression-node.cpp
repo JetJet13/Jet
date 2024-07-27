@@ -4,12 +4,13 @@
 
 #include "ir-binary-comparison-expression-node.h"
 
-IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
+IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation) {
     _astNode = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
     _type = type;
+    _sourceAllocation = sourceAllocation;
 }
 
 llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -28,6 +29,10 @@ llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_
 
 llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {
     return _irValue;
+}
+
+IRInstructionNode* IRBinaryComparisonExpressionNode::getSourceAllocation() {
+    return _sourceAllocation;
 }
 
 IRType* IRBinaryComparisonExpressionNode::getIRType() {
