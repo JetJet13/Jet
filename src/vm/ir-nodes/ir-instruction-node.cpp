@@ -4,13 +4,27 @@
 
 #include "ir-instruction-node.h"
 
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRType* type, IRInstructionNode* sourceAllocation) {
+    _irValue = irValue;
+    _type = type;
+    _sourceAllocation = sourceAllocation;
+}
+
 IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRType* type) {
     _irValue = irValue;
     _type = type;
+    _sourceAllocation = {};
 }
 
 llvm::AllocaInst* IRInstructionNode::getValue() {
     return _irValue;
+}
+
+IRInstructionNode* IRInstructionNode::getSourceAllocation() {
+    if (_sourceAllocation) {
+        return _sourceAllocation.value();
+    }
+    return this;
 }
 
 IRType* IRInstructionNode::getIRType() {

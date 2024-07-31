@@ -10,8 +10,10 @@
 class IRInstructionNodeFactory {
 public:
     static IRInstructionNode* create(IRType* irType);
+    static IRInstructionNode* create(IRType* irType, IRInstructionNode* sourceAllocation);
     static IRInstructionNode* createForArray(IRType* arrayType, IRType* arrayElementType, unsigned long size);
     static IRInstructionNode* create(IRType* irType, std::string name);
+    static IRInstructionNode* create(IRType* irType, std::string name, IRInstructionNode* sourceAllocation);
 };
 
 #endif //JETLANG_IR_INSTRUCTION_NODE_FACTORY_H

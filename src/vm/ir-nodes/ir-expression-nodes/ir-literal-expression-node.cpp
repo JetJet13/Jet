@@ -11,9 +11,9 @@ IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node,
 }
 
 llvm::Value* IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
+    builder->get()->CreateStore(_irValue->getConstantIRValue(), allocation);
     if (_irValue->is(IR_STRING_LITERAL_NODE)) {
-        auto allocation = builder->get()->CreateAlloca(_irValue->getType());
-        builder->get()->CreateStore(_irValue->getConstantIRValue(), allocation);
         auto zero = builder->get()->getInt32(0);
         return builder->get()->CreateInBoundsGEP(
                 _irValue->getType()->getArrayElementType(),

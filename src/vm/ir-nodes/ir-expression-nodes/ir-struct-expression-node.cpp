@@ -37,6 +37,10 @@ IRInstructionNode* IRStructExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
+IRInstructionNode* IRStructExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
+    return _irValues[index]->getSourceAllocation();
+}
+
 IRNodeType IRStructExpressionNode::getNodeType() {
     return IR_STRUCT_EXPRESSION_NODE;
 }

@@ -12,9 +12,12 @@ class IRInstructionNode : public IRNode {
 private:
     llvm::AllocaInst* _irValue;
     IRType* _type;
+    std::optional<IRInstructionNode*> _sourceAllocation;
 public:
+    IRInstructionNode(llvm::AllocaInst* irValue, IRType* type, IRInstructionNode* sourceAllocation);
     IRInstructionNode(llvm::AllocaInst* irValue, IRType* type);
     llvm::AllocaInst* getValue();
+    IRInstructionNode* getSourceAllocation();
     IRType* getIRType();
     IRNodeType getNodeType() override;
     std::string toString() override;

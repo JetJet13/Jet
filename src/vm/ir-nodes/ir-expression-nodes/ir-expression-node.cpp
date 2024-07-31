@@ -11,3 +11,7 @@ llvm::Type* IRExpressionNode::getType() {
 llvm::Type* IRExpressionNode::getTypeAtIndex(unsigned long index) {
     return this->getValue()->getType();
 }
+
+IRInstructionNode* IRExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
+    return this->getSourceAllocation();
+}

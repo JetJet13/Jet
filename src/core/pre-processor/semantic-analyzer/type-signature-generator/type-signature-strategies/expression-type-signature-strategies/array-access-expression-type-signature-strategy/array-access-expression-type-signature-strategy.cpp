@@ -8,6 +8,7 @@
 
 void ArrayAccessExpressionTypeSignatureStrategy::assign(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(arrayAccessExpression->getSource(), scope);
+    strategyMap->assignTypeSignatureFor(arrayAccessExpression->getIndex()->getIndex(), scope);
     if (!arrayAccessExpression->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
         arrayAccessExpression->setTypeSignature(new InvalidTypeSignature());
         return;

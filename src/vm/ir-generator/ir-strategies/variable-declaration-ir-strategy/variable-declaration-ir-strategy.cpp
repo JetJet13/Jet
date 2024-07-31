@@ -3,21 +3,12 @@
 //
 
 #include "variable-declaration-ir-strategy.h"
-#include "../../../utils/address-space-generator/address-space-generator.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irModule);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto variableAllocation = new IRInstructionNode(
-        new llvm::AllocaInst(
-            irType->getType(),
-            AddressSpaceGenerator::generate(irExpression->getIRType()),
-            nullptr,
-            DataAlignmentGenerator::generate(irExpression->getIRType()),
-            node->getId()
-        ),
-        irGenerator->generateTypeFor(node->getTypeSignature()));
+    auto variableAllocation = IRInstructionNodeFactory::create(irExpression->getIRType(), node->getId());
     scope->insert(node->getId(), variableAllocation);
     return new IRVariableDeclarationNode(node, variableAllocation, irExpression);
 }

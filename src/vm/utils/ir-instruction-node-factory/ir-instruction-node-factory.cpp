@@ -16,6 +16,16 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType) {
                     irType);
 }
 
+IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, IRInstructionNode* sourceAllocation) {
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getType(),
+                    AddressSpaceGenerator::generate(irType),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irType)),
+            irType, sourceAllocation);
+}
+
 IRInstructionNode* IRInstructionNodeFactory::createForArray(IRType* arrayType, IRType* arrayElementType, unsigned long size) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
@@ -35,4 +45,15 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, std::string 
                     DataAlignmentGenerator::generate(irType),
                     name),
             irType);
+}
+
+IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, std::string name, IRInstructionNode* sourceAllocation) {
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getType(),
+                    AddressSpaceGenerator::generate(irType),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irType),
+                    name),
+            irType, sourceAllocation);
 }

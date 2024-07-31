@@ -21,7 +21,10 @@ llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<l
         );
     }
     auto sourceValue = _irSource->insertSelfIntoBlock(builder);
-    return llvm::GetElementPtrInst::CreateInBounds(_irSource->getIRType()->getType(), sourceValue, { builder->get()->getInt32(0), _irTargetKeyIndex });
+    // we need to return a pointer to the source allocation of the target because we want to copy the value
+    // from the source (required for aggregate types (strings, tuples, structs and arrays)
+    // todo: create a source allocation lookup table
+    return _irSource->getSourceAllocationAtIndex(_targetKeyIndex)->getValue();
 }
 
 IRType* IRObjectAccessExpressionNode::getIRType() {

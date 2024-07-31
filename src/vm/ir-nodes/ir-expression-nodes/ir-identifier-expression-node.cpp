@@ -19,7 +19,7 @@ llvm::Value* IRIdentifierExpressionNode::getValue() {
 }
 
 IRInstructionNode* IRIdentifierExpressionNode::getSourceAllocation() {
-    return _irValue;
+    return _irValue->getSourceAllocation();
 }
 
 IRType* IRIdentifierExpressionNode::getIRType() {

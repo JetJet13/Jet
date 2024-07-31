@@ -157,6 +157,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
         case BOOL_LITERAL_TYPE_SOURCE:
             return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature*)typeSignature, &_context);
         default:
+            typeSignature->print();
             throw std::logic_error("unable to generate llvm type for type-signature " + typeSignature->toString());
     }
 }
