@@ -13,5 +13,5 @@ llvm::Type* IRExpressionNode::getTypeAtIndex(unsigned long index) {
 }
 
 IRInstructionNode* IRExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
-    return this->getSourceAllocation();
+    return this->getSourceAllocation()->getSourceAllocationAtIndex(index);
 }

@@ -4,11 +4,12 @@
 
 #include "ir-array-access-expression-node.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, IRInstructionNode* sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
     _type = type;
+    _sourceAllocation = sourceAllocation;
 }
 
 llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -34,7 +35,7 @@ llvm::Value* IRArrayAccessExpressionNode::getValue() {
 }
 
 IRInstructionNode* IRArrayAccessExpressionNode::getSourceAllocation() {
-    return _irSource->getSourceAllocation();
+    return _sourceAllocation;
 }
 
 IRType* IRArrayAccessExpressionNode::getIRType() {

@@ -11,7 +11,6 @@
 IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irModule);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    Logger::log("UnaryExpressionIRStrategy irType", node->getTypeSignature()->toString());
     auto sourceAllocation = IRInstructionNodeFactory::create(irType);
     if (node->getUnaryOperatorNode()->isPlus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(

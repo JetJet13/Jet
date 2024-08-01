@@ -162,7 +162,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
     }
 }
 
-IRStructType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature) {
+IREnumType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature) {
     return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, &_context, this);
 }
 

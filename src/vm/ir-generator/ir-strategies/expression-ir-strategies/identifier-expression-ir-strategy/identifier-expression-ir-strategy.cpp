@@ -5,6 +5,7 @@
 #include "identifier-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h"
+#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRLookupTable* scope, IRModuleNode* irModule) {
     auto allocation = scope->find(node->getIdentifierNode()->getId());
@@ -12,8 +13,9 @@ IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressi
         return new IRIdentifierExpressionNode(node, allocation.value());
     }
 
+    auto globalVariable = scope->findGlobalVariable(node->getIdentifierNode()->getId()).value();
     return new IRGlobalIdentifierExpressionNode(
             node,
-            scope->findGlobalVariable(node->getIdentifierNode()->getId()).value()
+            globalVariable
     );
 }

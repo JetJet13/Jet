@@ -4,7 +4,7 @@
 
 #include "enum-type-signature-ir-strategy.h"
 
-IRStructType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto enumPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
@@ -16,5 +16,5 @@ IRStructType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeS
         keyTypeMap.insert(std::pair(enumKey, enumPropertyType));
     }
 
-    return new IRStructType(llvm::StructType::get(**context, enumPropertyTypes), keyIndexMap, keyTypeMap);
+    return new IREnumType(llvm::StructType::get(**context, enumPropertyTypes), keyIndexMap, keyTypeMap);
 }

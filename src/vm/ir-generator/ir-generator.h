@@ -40,6 +40,7 @@
 #include "../../core/type-signature/enum-type-signature/enum-type-signature.h"
 #include "../../core/type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../core/type-signature/tuple-type-signature/tuple-type-signature.h"
+#include "../ir-type/ir-enum-type.h"
 
 class IRGenerator {
 private:
@@ -54,7 +55,7 @@ public:
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRType* generateTypeFor(TypeSignature* typeSignature);
-    IRStructType* generateTypeFor(EnumTypeSignature* typeSignature);
+    IREnumType* generateTypeFor(EnumTypeSignature* typeSignature);
     IRStructType* generateTypeFor(StructTypeSignature* typeSignature);
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature);
     IRType* generateVoidType();

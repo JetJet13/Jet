@@ -19,7 +19,7 @@ public:
     llvm::GlobalVariable* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::GlobalVariable* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
-    IRType* getIRType() override;
+    IREnumType* getIRType() override;
     llvm::Type* getType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

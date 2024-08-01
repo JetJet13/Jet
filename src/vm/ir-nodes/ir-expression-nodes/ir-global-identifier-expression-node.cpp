@@ -18,10 +18,10 @@ llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::getValue() {
 }
 
 IRInstructionNode* IRGlobalIdentifierExpressionNode::getSourceAllocation() {
-    throw new std::logic_error("getSourceAllocation not supported by GlobalIdentifierExpression");
+    return _irValue->getSourceAllocation();
 }
 
-IRType* IRGlobalIdentifierExpressionNode::getIRType() {
+IREnumType* IRGlobalIdentifierExpressionNode::getIRType() {
     return _irValue->getIRType();
 }
 
@@ -30,14 +30,7 @@ llvm::Type* IRGlobalIdentifierExpressionNode::getType() {
 }
 
 llvm::Type* IRGlobalIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
-    auto type = _irValue->getValue()->getType();
-    if (type->isArrayTy()) {
-        return type->getArrayElementType();
-    } else if (type->isStructTy()) {
-        return type->getStructElementType(index);
-    } else {
-        return type;
-    }
+    return _irValue->getIRType()->getValueType();
 }
 
 IRNodeType IRGlobalIdentifierExpressionNode::getNodeType() {

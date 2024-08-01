@@ -73,6 +73,9 @@ let magic = MyEnum.Uno;
 let structAccess = myStruct.world;
 let structWord = myStruct.str;
 let myStructCopy = myStruct;
+let arrAccess = myArray[1];
+const arrIndex = 1;
+let otherArrAccess = myArray[arrIndex];
 
 func testFunc(x: int) int {
     return x + 1;

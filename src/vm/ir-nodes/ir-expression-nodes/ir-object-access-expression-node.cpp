@@ -3,6 +3,7 @@
 //
 
 #include "ir-object-access-expression-node.h"
+#include "ir-global-identifier-expression-node.h"
 
 IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex) {
     _node = node;
@@ -14,17 +15,17 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
 
 llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     if (_irSource->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
-        return llvm::GetElementPtrInst::CreateInBounds(
-                _irSource->getIRType()->getType(),
+        auto pointer = llvm::GetElementPtrInst::CreateInBounds(
+                _irSource->getType(),
                 _irSource->getValue(),
                 { builder->get()->getInt32(0), _irTargetKeyIndex }
         );
+        return builder->get()->Insert(pointer);
+
     }
-    auto sourceValue = _irSource->insertSelfIntoBlock(builder);
-    // we need to return a pointer to the source allocation of the target because we want to copy the value
-    // from the source (required for aggregate types (strings, tuples, structs and arrays)
-    // todo: create a source allocation lookup table
-    return _irSource->getSourceAllocationAtIndex(_targetKeyIndex)->getValue();
+
+    _irSource->insertSelfIntoBlock(builder);
+    return _irSource->getSourceAllocation()->getSourceAllocationAtIndex(_targetKeyIndex)->getValue();
 }
 
 IRType* IRObjectAccessExpressionNode::getIRType() {
@@ -36,7 +37,7 @@ llvm::Value* IRObjectAccessExpressionNode::getValue() {
 }
 
 IRInstructionNode* IRObjectAccessExpressionNode::getSourceAllocation() {
-    return _irSource->getSourceAllocation();
+    return _irSource->getSourceAllocation()->getSourceAllocationAtIndex(_targetKeyIndex);
 }
 
 IRNodeType IRObjectAccessExpressionNode::getNodeType() {

@@ -19,6 +19,7 @@ llvm::Value* IRIdentifierExpressionNode::getValue() {
 }
 
 IRInstructionNode* IRIdentifierExpressionNode::getSourceAllocation() {
+    Logger::log("ir-identifier-expression get-source-allocation", _irValue->getSourceAllocation()->toString());
     return _irValue->getSourceAllocation();
 }
 

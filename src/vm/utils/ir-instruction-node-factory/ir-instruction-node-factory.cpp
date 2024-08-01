@@ -16,6 +16,34 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType) {
                     irType);
 }
 
+IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, std::vector<IRExpressionNode*>* childExpressions) {
+    auto childSourceAllocations = std::vector<IRInstructionNode*>();
+    for (auto childExpression : *childExpressions) {
+        childSourceAllocations.push_back(childExpression->getSourceAllocation());
+    }
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getType(),
+                    AddressSpaceGenerator::generate(irType),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irType)),
+            irType, childSourceAllocations);
+}
+
+IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, std::vector<llvm::Constant*>* childConstants) {
+    auto childSourceAllocations = std::vector<IRInstructionNode*>();
+    for (auto childConstant : *childConstants) {
+        childSourceAllocations.push_back(IRInstructionNodeFactory::create(new IRType(childConstant->getType())));
+    }
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getType(),
+                    AddressSpaceGenerator::generate(irType),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irType)),
+            irType, childSourceAllocations);
+}
+
 IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, IRInstructionNode* sourceAllocation) {
     return new IRInstructionNode(
             new llvm::AllocaInst(

@@ -3,6 +3,7 @@
 //
 
 #include "enum-declaration-ir-strategy.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto enumType = irGenerator->generateTypeFor(node->getTypeSignature());
@@ -26,7 +27,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
                 llvm::GlobalValue::InternalLinkage,
                 llvm::ConstantStruct::get(enumType->getType(), structValues),
                 node->getId()
-    ), enumType);
+    ), enumType, IRInstructionNodeFactory::create(enumType, &structValues));
     scope->insertGlobalVariable(node->getId(), globalVariableEnum);
     return new IREnumDeclarationNode(
         node,

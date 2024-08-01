@@ -4,17 +4,22 @@
 
 #include "ir-global-variable-node.h"
 
-IRGlobalVariableNode::IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRType* type) {
+IRGlobalVariableNode::IRGlobalVariableNode(llvm::GlobalVariable* irValue, IREnumType* type, IRInstructionNode* sourceAllocation) {
     _irValue = irValue;
     _type = type;
+    _sourceAllocation = sourceAllocation;
 }
 
 llvm::GlobalVariable* IRGlobalVariableNode::getValue() {
     return _irValue;
 }
 
-IRType* IRGlobalVariableNode::getIRType() {
+IREnumType* IRGlobalVariableNode::getIRType() {
     return _type;
+}
+
+IRInstructionNode* IRGlobalVariableNode::getSourceAllocation() {
+    return _sourceAllocation;
 }
 
 IRNodeType IRGlobalVariableNode::getNodeType() {

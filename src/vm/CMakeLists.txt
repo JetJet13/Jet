@@ -172,6 +172,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h
         utils/ir-instruction-node-factory/ir-instruction-node-factory.cpp
         utils/ir-instruction-node-factory/ir-instruction-node-factory.h
+        ir-type/ir-enum-type.cpp
+        ir-type/ir-enum-type.h
 )
 
 target_link_libraries(jet-vm

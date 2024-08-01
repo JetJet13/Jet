@@ -3,8 +3,6 @@
 //
 
 #include "array-expression-ir-strategy.h"
-#include "../../../../ir-type/ir-type.h"
-#include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
