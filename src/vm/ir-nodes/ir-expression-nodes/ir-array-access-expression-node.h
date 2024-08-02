@@ -17,9 +17,8 @@ private:
     IRExpressionNode* _irSource;
     IRExpressionNode* _irIndex;
     IRType* _type;
-    IRInstructionNode* _sourceAllocation;
 public:
-    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, IRInstructionNode* sourceAllocation);
+    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;

@@ -174,6 +174,10 @@ add_library(jet-vm
         utils/ir-instruction-node-factory/ir-instruction-node-factory.h
         ir-type/ir-enum-type.cpp
         ir-type/ir-enum-type.h
+        ir-type/ir-array-type.cpp
+        ir-type/ir-array-type.h
+        ir-type/ir-pointer-type.cpp
+        ir-type/ir-pointer-type.h
 )
 
 target_link_libraries(jet-vm

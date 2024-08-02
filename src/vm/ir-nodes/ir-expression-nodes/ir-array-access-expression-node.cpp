@@ -4,30 +4,23 @@
 
 #include "ir-array-access-expression-node.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, IRInstructionNode* sourceAllocation) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
     _type = type;
-    _sourceAllocation = sourceAllocation;
 }
 
 llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto arrayElementType = _irSource->getTypeAtIndex(0);
 
-    auto arrayAccessSourceAllocation = builder->get()->CreateAlloca(_irSource->getType());
     auto irSourceValue = _irSource->insertSelfIntoBlock(builder);
-    builder->get()->CreateStore(irSourceValue, arrayAccessSourceAllocation);
-
-    auto arrayAccessIndexAllocation = builder->get()->CreateAlloca(builder->get()->getInt32Ty());
     auto irIndexValue = _irIndex->insertSelfIntoBlock(builder);
-    builder->get()->CreateStore(irIndexValue, arrayAccessIndexAllocation);
-    auto index = builder->get()->CreateLoad(arrayElementType, arrayAccessIndexAllocation);
-
     auto zeroIndex = builder->get()->getInt32(0);
-    auto sourcePointer = builder->get()->CreateInBoundsGEP(arrayAccessSourceAllocation->getAllocatedType(), arrayAccessSourceAllocation, { zeroIndex, index });
+    auto sourcePointer = builder->get()->CreateInBoundsGEP(irSourceValue->getType(), irSourceValue, { zeroIndex, irIndexValue });
+//  make every element of an array a pointer that points to the source allocation, regardless
+//  of source allocation type. llvm pointers can have types (see llvm::PointerType::get())
 
-    return builder->get()->CreateLoad(arrayElementType, sourcePointer);
+    return builder->get()->CreateLoad(sourcePointer->getType(), sourcePointer);
 }
 
 llvm::Value* IRArrayAccessExpressionNode::getValue() {
@@ -35,7 +28,7 @@ llvm::Value* IRArrayAccessExpressionNode::getValue() {
 }
 
 IRInstructionNode* IRArrayAccessExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
+    return _irSource->getSourceAllocation();
 }
 
 IRType* IRArrayAccessExpressionNode::getIRType() {

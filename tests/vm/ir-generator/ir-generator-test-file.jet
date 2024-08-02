@@ -76,6 +76,7 @@ let myStructCopy = myStruct;
 let arrAccess = myArray[1];
 const arrIndex = 1;
 let otherArrAccess = myArray[arrIndex];
+let copyStringFromArray = mySecondArray[1];
 
 func testFunc(x: int) int {
     return x + 1;

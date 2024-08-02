@@ -3,6 +3,7 @@
 //
 
 #include "literal-type-signature-ir-strategy.h"
+#include "../../../../ir-type/ir-pointer-type.h"
 
 IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
@@ -12,7 +13,8 @@ IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTy
     } else if (literalTypeSignature->typeSourceIs(CHAR_LITERAL_TYPE_SOURCE)) {
         return new IRType(llvm::IntegerType::get(**context, 8));
     } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
-        return new IRType(llvm::PointerType::get(llvm::IntegerType::get(**context, 8), 0));
+        auto charType = llvm::IntegerType::get(**context, 8);
+        return new IRPointerType(llvm::PointerType::get(charType, 0), new IRType(charType));
     } else {
         return new IRType(llvm::IntegerType::get(**context, 1));
     }
