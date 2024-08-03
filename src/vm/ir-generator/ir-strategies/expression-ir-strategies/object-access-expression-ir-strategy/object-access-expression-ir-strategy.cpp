@@ -6,7 +6,7 @@
 
 IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irModule);
-    auto sourceType = (IRStructType*)irGenerator->generateTypeFor(node->getSource()->getSource()->getTypeSignature());
+    auto sourceType = (IRStructType*)(irGenerator->generateTypeFor(node->getSource()->getSource()->getTypeSignature())->getPointerSourceIRType());
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());

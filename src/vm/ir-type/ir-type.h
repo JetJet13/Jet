@@ -20,6 +20,8 @@ public:
     bool isBoolType();
     bool isArrayType();
     bool isStructType();
+    virtual bool isPointerType();
+    bool isFunctionType();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
     bool isLessThan(IRType* otherValue);

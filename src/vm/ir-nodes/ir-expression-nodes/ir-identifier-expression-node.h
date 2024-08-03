@@ -19,7 +19,7 @@ public:
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
-    IRType* getIRType() override;
+    IRPointerType* getIRType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;

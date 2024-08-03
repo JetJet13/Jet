@@ -19,15 +19,20 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
         }
     }
 
+    auto structType = llvm::cast<llvm::StructType>(enumType->getPointerSourceIRType()->getType());
+    auto globalVariable = new llvm::GlobalVariable(
+            *irModule->getModule(),
+            enumType->getPointerSourceIRType()->getType(),
+            true,
+            llvm::GlobalValue::InternalLinkage,
+            llvm::ConstantStruct::get(structType, structValues),
+            node->getId()
+    );
     auto globalVariableEnum = new IRGlobalVariableNode(
-            new llvm::GlobalVariable(
-                *irModule->getModule(),
-                enumType->getType(),
-                true,
-                llvm::GlobalValue::InternalLinkage,
-                llvm::ConstantStruct::get(enumType->getType(), structValues),
-                node->getId()
-    ), enumType, IRInstructionNodeFactory::create(enumType, &structValues));
+            globalVariable,
+            enumType,
+            IRInstructionNodeFactory::create(globalVariable)
+    );
     scope->insertGlobalVariable(node->getId(), globalVariableEnum);
     return new IREnumDeclarationNode(
         node,

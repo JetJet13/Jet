@@ -8,8 +8,8 @@
 
 IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irLiteralNode = irGenerator->generateFor(node->getLiteralNode(), scope, irModule);
-    auto sourceAllocation = IRInstructionNodeFactory::create(irLiteralNode->getIRType());
     auto irType = irGenerator->generateTypeFor(node->getLiteralNode()->getTypeSignature());
+    auto sourceAllocation = IRInstructionNodeFactory::create(irType);
     irType->setSourceType(irLiteralNode->getIRType());
     return new IRLiteralExpressionNode(node, irLiteralNode, irType, sourceAllocation);
 }

@@ -14,6 +14,6 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
     auto arrayAllocation = IRInstructionNodeFactory::createForArray(arrayElementIrType, irType, node->size());
-    irType->setSourceType(new IRType(arrayAllocation->getValue()->getAllocatedType()));
+    irType->setSourceType(arrayAllocation->getIRType()->getPointerSourceIRType());
     return new IRArrayExpressionNode(node, arrayAllocation, elementValues, irGenerator->generateTypeFor(node->getTypeSignature()));
 }

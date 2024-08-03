@@ -4,7 +4,7 @@
 
 #include "ir-parameter-type.h"
 
-IRParameterType::IRParameterType(std::string name, IRType* type) {
+IRParameterType::IRParameterType(std::string name, IRPointerType* type) {
     _name = name;
     _type = type;
 }
@@ -13,7 +13,7 @@ std::string IRParameterType::getName() {
     return _name;
 }
 
-IRType* IRParameterType::getIRType() {
+IRPointerType* IRParameterType::getIRType() {
     return _type;
 }
 

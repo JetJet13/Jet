@@ -4,7 +4,7 @@
 
 #include "ir-binary-arithmetic-expression-node.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation) {
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRPointerType* type, IRInstructionNode* sourceAllocation) {
     _astNode = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
@@ -13,18 +13,18 @@ IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpr
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value * IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto leftNodeAllocation = builder->get()->CreateAlloca(_irLeftNode->getType());
+llvm::Value* IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
+
     auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder);
-    builder->get()->CreateStore(irLeftNodeValue, leftNodeAllocation);
-    auto leftNodeValue = builder->get()->CreateLoad(leftNodeAllocation->getAllocatedType(), leftNodeAllocation);
+    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getPointerSourceIRType()->getType(), irLeftNodeValue);
 
-    auto rightNodeAllocation = builder->get()->CreateAlloca(_irRightNode->getType());
     auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder);
-    builder->get()->CreateStore(irRightNodeValue, rightNodeAllocation);
-    auto rightNodeValue = builder->get()->CreateLoad(rightNodeAllocation->getAllocatedType(), rightNodeAllocation);
+    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getPointerSourceIRType()->getType(), irRightNodeValue);
 
-    return builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
+    auto result = builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
+    builder->get()->CreateStore(result, allocation);
+    return allocation;
 }
 
 llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
@@ -35,7 +35,7 @@ IRInstructionNode* IRBinaryArithmeticExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 
-IRType* IRBinaryArithmeticExpressionNode::getIRType() {
+IRPointerType* IRBinaryArithmeticExpressionNode::getIRType() {
     return _type;
 }
 

@@ -9,22 +9,23 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 #include "../ir-node.h"
+#include "../ir-instruction-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
-#include "ir-constant-expression-node.h"
 #include "../../ir-type/ir-struct-type.h"
+#include "ir-expression-node.h"
 
 class IRTupleExpressionNode : public IRExpressionNode {
 private:
     ASTTupleExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    IRStructType* _type;
+    IRPointerType* _type;
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRPointerType* type, std::vector<IRExpressionNode*> irValues);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
-    IRStructType* getIRType() override;
+    IRPointerType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

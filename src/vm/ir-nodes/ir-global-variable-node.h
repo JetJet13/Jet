@@ -7,18 +7,17 @@
 
 #include "ir-node.h"
 #include "ir-instruction-node.h"
-#include "../ir-type/ir-struct-type.h"
-#include "../ir-type/ir-enum-type.h"
+#include "../ir-type/ir-pointer-type.h"
 
 class IRGlobalVariableNode : public IRNode {
 private:
     llvm::GlobalVariable* _irValue;
-    IREnumType* _type;
+    IRPointerType* _type;
     IRInstructionNode* _sourceAllocation;
 public:
-    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IREnumType* type, IRInstructionNode* sourceAllocation);
+    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type, IRInstructionNode* sourceAllocation);
     llvm::GlobalVariable* getValue();
-    IREnumType* getIRType();
+    IRPointerType* getIRType();
     IRInstructionNode* getSourceAllocation();
     IRNodeType getNodeType() override;
     std::string toString() override;

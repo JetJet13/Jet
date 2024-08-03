@@ -7,16 +7,16 @@
 
 #include <llvm/IR/Type.h>
 #include <llvm/IR/IRBuilder.h>
-#include "ir-type.h"
+#include "ir-pointer-type.h"
 
 class IRParameterType {
 private:
     std::string _name;
-    IRType* _type;
+    IRPointerType* _type;
 public:
-    IRParameterType(std::string name, IRType* type);
+    IRParameterType(std::string name, IRPointerType* type);
     std::string getName();
-    IRType* getIRType();
+    IRPointerType* getIRType();
     llvm::Type* getType();
 };
 

@@ -16,12 +16,12 @@ private:
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
-    IRType* _type;
+    IRPointerType* _type;
     IRInstructionNode* _sourceAllocation;
 public:
-    IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRInstructionNode* sourceAllocation);
+    IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRPointerType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRInstructionNode* sourceAllocation);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    IRType* getIRType() override;
+    IRPointerType* getIRType() override;
     llvm::BinaryOperator* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
     IRNodeType getNodeType() override;

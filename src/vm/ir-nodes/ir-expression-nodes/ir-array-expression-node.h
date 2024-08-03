@@ -8,8 +8,8 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/Constants.h>
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
-#include "ir-constant-expression-node.h"
 #include "../ir-instruction-node.h"
+#include "ir-expression-node.h"
 
 
 class IRArrayExpressionNode : public IRExpressionNode {
@@ -17,13 +17,13 @@ private:
     ASTArrayExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    IRType* _type;
+    IRPointerType* _type;
 public:
-    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRType* type);
+    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRPointerType* type);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
-    IRType* getIRType() override;
+    IRPointerType* getIRType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;

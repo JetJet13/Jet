@@ -8,10 +8,10 @@
 #include "ir-struct-type.h"
 
 class IRFunctionType : public IRType {
-    using IRType::IRType;
 private:
     llvm::FunctionType* _type;
 public:
+    IRFunctionType(llvm::FunctionType* type);
     llvm::FunctionType* getType() override;
 };
 

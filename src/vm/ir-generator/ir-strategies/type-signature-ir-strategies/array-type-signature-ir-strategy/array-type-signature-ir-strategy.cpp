@@ -8,7 +8,7 @@ IRPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayT
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType());
 
     return new IRPointerType(
-                llvm::PointerType::get(**context, 0),
-                arrayElementType
-            );
+            llvm::PointerType::get(**context, 0),
+            arrayElementType
+    );
 }

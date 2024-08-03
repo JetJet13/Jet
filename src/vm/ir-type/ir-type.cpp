@@ -36,6 +36,14 @@ bool IRType::isStructType() {
     return _type->isStructTy();
 }
 
+bool IRType::isPointerType() {
+    return false;
+}
+
+bool IRType::isFunctionType() {
+    return _type->isFunctionTy();
+}
+
 bool IRType::isEqual(IRType* otherValue) {
     if (this->isIntegerType() && otherValue->isIntegerType()) {
         return this->getType()->getIntegerBitWidth() == otherValue->getType()->getIntegerBitWidth();

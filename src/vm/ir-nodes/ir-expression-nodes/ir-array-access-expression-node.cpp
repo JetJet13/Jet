@@ -4,7 +4,7 @@
 
 #include "ir-array-access-expression-node.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRPointerType* type) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
@@ -31,7 +31,7 @@ IRInstructionNode* IRArrayAccessExpressionNode::getSourceAllocation() {
     return _irSource->getSourceAllocation();
 }
 
-IRType* IRArrayAccessExpressionNode::getIRType() {
+IRPointerType* IRArrayAccessExpressionNode::getIRType() {
     return _type;
 }
 

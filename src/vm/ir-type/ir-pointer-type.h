@@ -5,6 +5,8 @@
 #ifndef JETLANG_IR_POINTER_TYPE_H
 #define JETLANG_IR_POINTER_TYPE_H
 
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/GlobalVariable.h>
 #include "ir-type.h"
 
 class IRPointerType : public IRType {
@@ -12,9 +14,12 @@ private:
     llvm::PointerType* _type;
     IRType* _sourceType;
 public:
+    static IRPointerType* create(llvm::AllocaInst* allocation);
+    static IRPointerType* create(llvm::GlobalVariable* globalVariable);
     IRPointerType(llvm::PointerType* type, IRType* sourceType);
     IRType* getPointerSourceIRType();
     void setSourceType(IRType* type);
+    bool isPointerType() override;
 };
 
 #endif //JETLANG_IR_POINTER_TYPE_H

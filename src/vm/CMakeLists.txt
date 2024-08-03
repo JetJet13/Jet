@@ -112,8 +112,6 @@ add_library(jet-vm
         ir-nodes/ir-declaration-nodes/ir-declaration-node.h
         ir-generator/ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.cpp
         ir-generator/ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h
-        ir-nodes/ir-expression-nodes/ir-constant-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-constant-expression-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.cpp

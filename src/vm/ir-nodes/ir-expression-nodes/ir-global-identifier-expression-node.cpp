@@ -21,7 +21,7 @@ IRInstructionNode* IRGlobalIdentifierExpressionNode::getSourceAllocation() {
     return _irValue->getSourceAllocation();
 }
 
-IREnumType* IRGlobalIdentifierExpressionNode::getIRType() {
+IRPointerType* IRGlobalIdentifierExpressionNode::getIRType() {
     return _irValue->getIRType();
 }
 
@@ -30,7 +30,7 @@ llvm::Type* IRGlobalIdentifierExpressionNode::getType() {
 }
 
 llvm::Type* IRGlobalIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
-    return _irValue->getIRType()->getValueType();
+    return _irValue->getIRType()->getPointerSourceIRType()->getType();
 }
 
 IRNodeType IRGlobalIdentifierExpressionNode::getNodeType() {

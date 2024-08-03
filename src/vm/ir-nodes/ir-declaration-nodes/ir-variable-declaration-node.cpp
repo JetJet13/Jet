@@ -13,10 +13,7 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
 void IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     builder->get()->Insert(_irValue->getValue(), _astNode->getId());
     auto irExpressionValue = _irExpression->insertSelfIntoBlock(builder);
-    if (_irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        auto loadedValue = builder->get()->CreateLoad(_irValue->getIRType()->getType(), irExpressionValue);
-        builder->get()->CreateStore(loadedValue, _irValue->getValue());
-    } else if (_irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
+    if (_irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         auto loadedValue = builder->get()->CreateLoad(_irValue->getIRType()->getType(), irExpressionValue);
         builder->get()->CreateStore(loadedValue, _irValue->getValue());
     } else {

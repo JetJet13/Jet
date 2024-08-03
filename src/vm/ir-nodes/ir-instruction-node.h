@@ -7,22 +7,24 @@
 
 #include "ir-node.h"
 #include "../ir-type/ir-type.h"
+#include "../ir-type/ir-pointer-type.h"
 
 class IRInstructionNode : public IRNode {
 private:
-    llvm::AllocaInst* _irValue;
-    IRType* _type;
+    llvm::Value* _irValue;
     std::optional<IRInstructionNode*> _sourceAllocation;
     std::vector<IRInstructionNode*> _childSourceAllocations;
+    IRPointerType* _irType;
 public:
-    IRInstructionNode(llvm::AllocaInst* irValue, IRType* type, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations);
-    IRInstructionNode(llvm::AllocaInst* irValue, IRType* type, IRInstructionNode* sourceAllocation);
-    IRInstructionNode(llvm::AllocaInst* irValue, IRType* type, std::vector<IRInstructionNode*> childSourceAllocations);
-    IRInstructionNode(llvm::AllocaInst* irValue, IRType* type);
-    llvm::AllocaInst* getValue();
+    IRInstructionNode(llvm::AllocaInst* irValue, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRInstructionNode* sourceAllocation);
+    IRInstructionNode(llvm::AllocaInst* irValue, std::vector<IRInstructionNode*> childSourceAllocations);
+    explicit IRInstructionNode(llvm::AllocaInst* irValue);
+    explicit IRInstructionNode(llvm::GlobalVariable* irValue);
+    llvm::Value* getValue();
     IRInstructionNode* getSourceAllocation();
     IRInstructionNode* getSourceAllocationAtIndex(unsigned long index);
-    IRType* getIRType();
+    IRPointerType* getIRType();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

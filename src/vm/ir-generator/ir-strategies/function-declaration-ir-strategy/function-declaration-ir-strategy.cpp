@@ -10,7 +10,7 @@
 
 IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
+    auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getPointerSourceIRType()->getType());
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
@@ -25,7 +25,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
                 AddressSpaceGenerator::generate(irParamType),
                 nullptr,
                 DataAlignmentGenerator::generate(irParamType)
-        ), irParamType);
+        ));
 
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));

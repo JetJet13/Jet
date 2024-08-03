@@ -6,8 +6,8 @@
 #define JETLANG_IR_EXPRESSION_NODE_H
 
 #include "../ir-node.h"
-#include "../../ir-type/ir-type.h"
 #include "../ir-instruction-node.h"
+#include "../../ir-type/ir-pointer-type.h"
 
 class IRExpressionNode : public IRNode {
 public:
@@ -16,7 +16,7 @@ public:
     virtual IRInstructionNode* getSourceAllocationAtIndex(unsigned long index);
     virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) = 0;
     virtual llvm::Value* getValue() = 0;
-    virtual IRType* getIRType() = 0;
+    virtual IRPointerType* getIRType() = 0;
     virtual IRInstructionNode* getSourceAllocation() = 0;
 };
 
