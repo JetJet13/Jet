@@ -4,13 +4,11 @@
 
 #include "array-type-signature-ir-strategy.h"
 
-IRArrayType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType());
 
-    return new IRArrayType(
-            new IRPointerType(
-                llvm::PointerType::get(arrayElementType->getType(), 0),
+    return new IRPointerType(
+                llvm::PointerType::get(**context, 0),
                 arrayElementType
-            )
-    );
+            );
 }

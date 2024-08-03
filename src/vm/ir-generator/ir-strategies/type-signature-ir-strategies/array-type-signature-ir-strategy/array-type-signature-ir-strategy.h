@@ -8,12 +8,11 @@
 #include <llvm/IR/Value.h>
 #include "../../../../../core/type-signature/array-type-signature/array-type-signature.h"
 #include "../../../ir-generator.h"
-#include "../../../../ir-type/ir-array-type.h"
 
 
 class ArrayTypeSignatureIRStrategy {
 public:
-    IRArrayType* generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRPointerType* generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_ARRAY_TYPE_SIGNATURE_IR_STRATEGY_H

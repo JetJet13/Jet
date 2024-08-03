@@ -7,10 +7,11 @@
 
 #include <llvm/IR/Value.h>
 #include "../../../ir-generator.h"
+#include "../../../../ir-type/ir-pointer-type.h"
 
 class LiteralTypeSignatureIRStrategy {
 public:
-    IRType* generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context);
+    IRPointerType* generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context);
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_IR_STRATEGY_H

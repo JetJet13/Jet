@@ -41,6 +41,14 @@
 #include "../../core/type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../core/type-signature/tuple-type-signature/tuple-type-signature.h"
 #include "../ir-type/ir-enum-type.h"
+#include "../ir-type/ir-pointer-type.h"
+#include "../ir-type/ir-function-type.h"
+#include "../../core/type-signature/invocable-type-signature/function-type-signature/function-type-signature.h"
+#include "../../core/type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
+#include "../../core/type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
+#include "../../core/type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
+#include "../../core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
+#include "../../core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 
 class IRGenerator {
 private:
@@ -58,21 +66,21 @@ public:
     IREnumType* generateTypeFor(EnumTypeSignature* typeSignature);
     IRStructType* generateTypeFor(StructTypeSignature* typeSignature);
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature);
+    IRPointerType* generateTypeFor(LiteralTypeSignature* typeSignature);
+    IRPointerType* generateTypeFor(ArrayTypeSignature* typeSignature);
+    IRPointerType* generateTypeFor(EnumAccessTypeSignature* typeSignature);
+    IRFunctionType* generateTypeFor(FunctionTypeSignature* typeSignature);
+    IRFunctionType* generateTypeFor(ProcedureTypeSignature* typeSignature);
+    IRFunctionType* generateTypeFor(ProcedureLambdaTypeSignature* typeSignature);
+    IRFunctionType* generateTypeFor(FunctionLambdaTypeSignature* typeSignature);
+    IRFunctionType* generateTypeFor(LambdaExpressionTypeSignature* typeSignature);
     IRType* generateVoidType();
-    IRType* generateIntType();
-    IRType* generateFloatType();
-    IRType* generateCharType();
-    IRType* generateBoolType();
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);
-    llvm::Type* determineBestFitType(std::vector<llvm::Value*> elementValues);
-    llvm::Constant* generateZeroConstant();
     llvm::Constant* generateIntConstant(int integer);
-    IRBlockNode* generateBasicBlock();
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
-    llvm::IRBuilder<> generateBasicBlockBuilder();
 };
 
 #endif //JETLANG_IR_GENERATOR_H

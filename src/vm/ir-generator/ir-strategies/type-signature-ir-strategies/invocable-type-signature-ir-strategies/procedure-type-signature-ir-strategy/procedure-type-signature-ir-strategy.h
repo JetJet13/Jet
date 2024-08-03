@@ -8,10 +8,11 @@
 #include <llvm/IR/Value.h>
 #include "../../../../ir-generator.h"
 #include "../../../../../../core/type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
+#include "../../../../../ir-type/ir-function-type.h"
 
 class ProcedureTypeSignatureIRStrategy {
 public:
-    IRType* generate(ProcedureTypeSignature* procedureTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRFunctionType* generate(ProcedureTypeSignature* procedureTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_PROCEDURE_TYPE_SIGNATURE_IR_STRATEGY_H

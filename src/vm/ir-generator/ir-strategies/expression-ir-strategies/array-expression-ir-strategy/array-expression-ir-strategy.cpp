@@ -12,7 +12,8 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
         elementValues.push_back(irGenerator->generateFor(element, scope, irModule));
     }
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-
-    auto arrayAllocation = IRInstructionNodeFactory::createForArray(arrayElementType, irType, node->size());
+    auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
+    auto arrayAllocation = IRInstructionNodeFactory::createForArray(arrayElementIrType, irType, node->size());
+    irType->setSourceType(new IRType(arrayAllocation->getValue()->getAllocatedType()));
     return new IRArrayExpressionNode(node, arrayAllocation, elementValues, irGenerator->generateTypeFor(node->getTypeSignature()));
 }

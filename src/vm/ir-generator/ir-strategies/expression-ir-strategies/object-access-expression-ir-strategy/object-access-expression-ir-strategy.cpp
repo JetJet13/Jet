@@ -9,5 +9,6 @@ IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::ObjectAccessExpr
     auto sourceType = (IRStructType*)irGenerator->generateTypeFor(node->getSource()->getSource()->getTypeSignature());
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
-    return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex));
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType);
 }

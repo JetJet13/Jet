@@ -4,9 +4,10 @@
 
 #include "ir-literal-expression-node.h"
 
-IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRInstructionNode* sourceAllocation) {
+IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation) {
     _node = node;
     _irValue = irValue;
+    _irType = irType;
     _sourceAllocation = sourceAllocation;
 }
 

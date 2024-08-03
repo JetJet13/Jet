@@ -163,35 +163,51 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
 }
 
 IREnumType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature) {
-    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, &_context, this);
+    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
 }
 
 IRStructType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature) {
-    return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*)typeSignature, &_context, this);
+    return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
 }
 
 IRStructType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature) {
-    return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
+    return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRPointerType* IRGenerator::generateTypeFor(LiteralTypeSignature* typeSignature) {
+    return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate(typeSignature, &_context);
+}
+
+IRPointerType* IRGenerator::generateTypeFor(ArrayTypeSignature* typeSignature) {
+    return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRPointerType* IRGenerator::generateTypeFor(EnumAccessTypeSignature* typeSignature) {
+    return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRFunctionType* IRGenerator::generateTypeFor(FunctionTypeSignature* typeSignature) {
+    return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRFunctionType* IRGenerator::generateTypeFor(ProcedureTypeSignature* typeSignature) {
+    return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRFunctionType* IRGenerator::generateTypeFor(ProcedureLambdaTypeSignature* typeSignature) {
+    return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRFunctionType* IRGenerator::generateTypeFor(FunctionLambdaTypeSignature* typeSignature) {
+    return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRFunctionType* IRGenerator::generateTypeFor(LambdaExpressionTypeSignature* typeSignature) {
+    return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
 }
 
 IRType* IRGenerator::generateVoidType() {
     return new IRType(llvm::Type::getVoidTy(*_context));
-}
-
-IRType* IRGenerator::generateIntType() {
-    return new IRType(llvm::IntegerType::get(*_context, 32));
-}
-
-IRType* IRGenerator::generateFloatType() {
-    return new IRType(llvm::ConstantFP::get(*_context, llvm::APFloat(0.0))->getType());
-}
-
-IRType* IRGenerator::generateCharType() {
-    return new IRType(llvm::IntegerType::get(*_context, 8));
-}
-
-IRType* IRGenerator::generateBoolType() {
-    return new IRType(llvm::IntegerType::get(*_context, 1));
 }
 
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList) {
@@ -202,28 +218,8 @@ IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignatu
     return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, &_context, this);
 }
 
-llvm::Type* IRGenerator::determineBestFitType(std::vector<llvm::Value*> elementValues) {
-
-    auto largestType = new IRType(elementValues[0]->getType());
-    for (auto element : elementValues) {
-        auto elementType = new IRType(element->getType());
-        if (elementType->isGreaterThan(largestType)) {
-            largestType = elementType;
-        }
-    }
-    return largestType->getType();
-}
-
-llvm::Constant* IRGenerator::generateZeroConstant() {
-    return llvm::ConstantInt::get(*_context, llvm::APInt(32, 0));
-}
-
 llvm::Constant* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
-}
-
-IRBlockNode* IRGenerator::generateBasicBlock() {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context));
 }
 
 IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {

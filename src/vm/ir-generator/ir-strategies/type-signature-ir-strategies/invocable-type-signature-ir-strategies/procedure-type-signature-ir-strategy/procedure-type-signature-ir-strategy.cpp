@@ -4,8 +4,8 @@
 
 #include "procedure-type-signature-ir-strategy.h"
 
-IRType* ProcedureTypeSignatureIRStrategy::generate(ProcedureTypeSignature* procedureTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRFunctionType* ProcedureTypeSignatureIRStrategy::generate(ProcedureTypeSignature* procedureTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto returnType = irGenerator->generateTypeFor(procedureTypeSignature->getReturnType());
     auto parameterTypes = irGenerator->generateParameterList(procedureTypeSignature->getParameterList());
-    return new IRType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false));
+    return new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false));
 }

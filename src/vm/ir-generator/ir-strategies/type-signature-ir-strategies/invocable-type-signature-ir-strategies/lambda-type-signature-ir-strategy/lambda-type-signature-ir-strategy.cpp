@@ -4,22 +4,22 @@
 
 #include "lambda-type-signature-ir-strategy.h"
 
-IRType* LambdaTypeSignatureIRStrategy::generate(ProcedureLambdaTypeSignature* procedureLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRFunctionType* LambdaTypeSignatureIRStrategy::generate(ProcedureLambdaTypeSignature* procedureLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto returnType = irGenerator->generateTypeFor(procedureLambdaTypeSignature->getReturnType());
     auto parameterTypes = this->generateParameterTypes(procedureLambdaTypeSignature->getParameterTypes(), irGenerator);
-    return new IRType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false));
+    return new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false));
 }
 
-IRType* LambdaTypeSignatureIRStrategy::generate(FunctionLambdaTypeSignature* functionLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRFunctionType* LambdaTypeSignatureIRStrategy::generate(FunctionLambdaTypeSignature* functionLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto returnType = irGenerator->generateTypeFor(functionLambdaTypeSignature->getReturnType());
     auto parameterTypes = this->generateParameterTypes(functionLambdaTypeSignature->getParameterTypes(), irGenerator);
-    return new IRType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false));
+    return new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false));
 }
 
-IRType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRFunctionType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto returnType = irGenerator->generateTypeFor(lambdaExpressionTypeSignature->getReturnType());
     auto parameterTypes = this->generateParameterTypes(lambdaExpressionTypeSignature->getParameterTypes(), irGenerator);
-    return new IRType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false));
+    return new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false));
 }
 
 std::vector<llvm::Type*> LambdaTypeSignatureIRStrategy::generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator) {

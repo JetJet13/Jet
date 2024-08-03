@@ -5,12 +5,13 @@
 #include "ir-object-access-expression-node.h"
 #include "ir-global-identifier-expression-node.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
     _irTargetKeyIndex = irTargetKeyIndex;
     _targetKeyIndex = targetKeyIndex;
+    _irType = irType;
 }
 
 llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -29,7 +30,7 @@ llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<l
 }
 
 IRType* IRObjectAccessExpressionNode::getIRType() {
-    return _irSource->getIRType();
+    return _irType;
 }
 
 llvm::Value* IRObjectAccessExpressionNode::getValue() {

@@ -12,3 +12,7 @@ IRPointerType::IRPointerType(llvm::PointerType* type, IRType* sourceType) : IRTy
 IRType* IRPointerType::getPointerSourceIRType() {
     return _sourceType;
 }
+
+void IRPointerType::setSourceType(IRType* type) {
+    _sourceType = type;
+}

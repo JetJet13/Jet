@@ -10,14 +10,16 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../ir-literal-nodes/ir-literal-node.h"
 #include "ir-constant-expression-node.h"
+#include "../../ir-type/ir-pointer-type.h"
 
 class IRLiteralExpressionNode : public IRExpressionNode {
 private:
     ASTLiteralExpressionNode* _node;
     IRLiteralNode* _irValue;
     IRInstructionNode* _sourceAllocation;
+    IRPointerType* _irType;
 public:
-    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRInstructionNode* sourceAllocation);
+    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     IRType* getIRType() override;
     llvm::Constant* getValue() override;

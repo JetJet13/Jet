@@ -4,8 +4,8 @@
 
 #include "function-type-signature-ir-strategy.h"
 
-IRType* FunctionTypeSignatureIRStrategy::generate(FunctionTypeSignature* functionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRFunctionType* FunctionTypeSignatureIRStrategy::generate(FunctionTypeSignature* functionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto returnType = irGenerator->generateTypeFor(functionTypeSignature->getReturnType());
     auto parameterTypes = irGenerator->generateParameterList(functionTypeSignature->getParameterList());
-    return new IRType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false));
+    return new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false));
 }

@@ -14,6 +14,7 @@ private:
 public:
     IRPointerType(llvm::PointerType* type, IRType* sourceType);
     IRType* getPointerSourceIRType();
+    void setSourceType(IRType* type);
 };
 
 #endif //JETLANG_IR_POINTER_TYPE_H
