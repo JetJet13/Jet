@@ -106,3 +106,7 @@ bool IRType::isGreaterThan(IRType* otherValue) {
 bool IRType::isGreaterThanOrEqual(IRType* otherValue) {
     return this->isEqual(otherValue) || this->isGreaterThan(otherValue);
 }
+
+void IRType::print() {
+    _type->print(llvm::outs(), true, true);
+}

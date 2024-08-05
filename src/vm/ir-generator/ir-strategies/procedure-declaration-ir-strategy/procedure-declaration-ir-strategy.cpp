@@ -25,7 +25,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
                 AddressSpaceGenerator::generate(irParamType),
                 nullptr,
                 DataAlignmentGenerator::generate(irParamType)
-            ));
+            ), irParamType);
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
     }

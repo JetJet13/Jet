@@ -18,9 +18,8 @@ private:
     std::string _targetKey;
     unsigned long _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
-    IRPointerType* _irType;
 public:
-    IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRPointerType* irType);
+    IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     IRPointerType* getIRType() override;
     llvm::Value* getValue() override;

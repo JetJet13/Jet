@@ -166,6 +166,10 @@ IRType* IRGenerator::generateVoidType() {
     return new IRType(llvm::Type::getVoidTy(*_context));
 }
 
+IRPointerType* IRGenerator::generatePointerType() {
+    return new IRPointerType(llvm::PointerType::get(*_context, 0));
+}
+
 IRPointerType* IRGenerator::generatePointerType(IRType* type) {
     return new IRPointerType(llvm::PointerType::get(*_context, 0), type);
 }

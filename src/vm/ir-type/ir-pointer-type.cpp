@@ -5,10 +5,6 @@
 #include "ir-pointer-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRPointerType* IRPointerType::create(llvm::AllocaInst* allocation) {
-    return new IRPointerType(allocation->getType(), new IRType(allocation->getAllocatedType()));
-}
-
 IRPointerType* IRPointerType::create(llvm::GlobalVariable* globalVariable) {
     return new IRPointerType(globalVariable->getType(), new IRType(globalVariable->getValueType()));
 }
@@ -18,11 +14,19 @@ IRPointerType::IRPointerType(llvm::PointerType* type, IRType* sourceType) : IRTy
     _sourceType = sourceType;
 }
 
+IRPointerType::IRPointerType(llvm::PointerType* type) : IRType(type) {
+    _type = type;
+    _sourceType = {};
+}
+
 IRType* IRPointerType::getPointerSourceIRType() {
-    if (_sourceType->isPointerType()) {
-        return ((IRPointerType*)_sourceType)->getPointerSourceIRType();
+    if (!_sourceType) {
+        throw std::logic_error("ir pointer does not have source ir type set");
     }
-    return _sourceType;
+//    if (_sourceType.value()->isPointerType()) {
+//        return ((IRPointerType*)_sourceType.value())->getPointerSourceIRType();
+//    }
+    return _sourceType.value();
 }
 
 void IRPointerType::setSourceType(IRType* type) {
@@ -31,4 +35,14 @@ void IRPointerType::setSourceType(IRType* type) {
 
 bool IRPointerType::isPointerType() {
     return true;
+}
+
+void IRPointerType::print() {
+    _type->print(llvm::outs(), true, true);
+    llvm::outs().write(' ');
+    if (_sourceType) {
+        _sourceType.value()->print();
+    } else {
+        llvm::outs().write_escaped("NO SOURCE POINTER TYPE");
+    }
 }

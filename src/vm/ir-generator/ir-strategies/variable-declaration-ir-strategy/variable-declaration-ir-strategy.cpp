@@ -7,8 +7,7 @@
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irModule);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto variableAllocation = IRInstructionNodeFactory::create(irType, node->getId(), irExpression->getSourceAllocation());
+    auto variableAllocation = IRInstructionNodeFactory::create(irExpression->getIRType(), node->getId(), irExpression->getSourceAllocation());
     scope->insert(node->getId(), variableAllocation);
     return new IRVariableDeclarationNode(node, variableAllocation, irExpression);
 }

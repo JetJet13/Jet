@@ -12,15 +12,9 @@ IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressio
 }
 
 llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-
-    auto irSourceValue = _irSource->insertSelfIntoBlock(builder);
     auto irIndexValue = _irIndex->insertSelfIntoBlock(builder);
     auto zeroIndex = builder->get()->getInt32(0);
-    auto sourcePointer = builder->get()->CreateInBoundsGEP(irSourceValue->getType(), irSourceValue, { zeroIndex, irIndexValue });
-//  make every element of an array a pointer that points to the source allocation, regardless
-//  of source allocation type. llvm pointers can have types (see llvm::PointerType::get())
-
-    return builder->get()->CreateLoad(sourcePointer->getType(), sourcePointer);
+    return builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
 }
 
 llvm::Value* IRArrayAccessExpressionNode::getValue() {

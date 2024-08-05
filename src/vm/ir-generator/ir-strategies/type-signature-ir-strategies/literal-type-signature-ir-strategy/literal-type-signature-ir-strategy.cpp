@@ -22,10 +22,7 @@ IRPointerType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* li
             new IRType(llvm::IntegerType::get(**context, 8))
         );
     } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
-        return new IRPointerType(
-            pointer,
-            new IRType(llvm::IntegerType::get(**context, 8))
-        );
+        return new IRPointerType(pointer);
     } else {
         return new IRPointerType(
             pointer,

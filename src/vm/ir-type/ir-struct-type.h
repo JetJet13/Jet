@@ -8,20 +8,22 @@
 #include <unordered_map>
 #include <llvm/IR/Constants.h>
 #include "ir-type.h"
+#include "ir-pointer-type.h"
 
 class IRStructType : public IRType {
 private:
     llvm::StructType* _type;
     std::unordered_map<std::string, unsigned long> _keyIndexMap;
-    std::unordered_map<std::string, IRType*> _keyTypeMap;
+    std::unordered_map<std::string, IRPointerType*> _keyTypeMap;
 public:
-    IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap);
+    IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRPointerType*> keyTypeMap);
     llvm::StructType* getType() override;
     unsigned long getIndexForKey(std::string key);
     unsigned long getIndexForKey(unsigned long key);
-    IRType* getIRTypeForKey(std::string key);
-    IRType* getIRTypeForKey(unsigned long indexAsKey);
-    void print();
+    IRPointerType* getIRTypeForKey(std::string key);
+    IRPointerType* getIRTypeForKey(unsigned long indexAsKey);
+    void replaceIRTypeAtKey(std::string key, IRPointerType* newIRType);
+    virtual void print() override;
 };
 
 #endif //JETLANG_IR_STRUCT_TYPE_H

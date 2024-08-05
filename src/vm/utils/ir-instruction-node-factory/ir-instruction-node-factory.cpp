@@ -10,8 +10,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* global
     return new IRInstructionNode(globalVariable);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::AllocaInst* allocaInst) {
-    return new IRInstructionNode(allocaInst);
+IRInstructionNode* IRInstructionNodeFactory::create(llvm::AllocaInst* allocaInst, IRPointerType* irType) {
+    return new IRInstructionNode(allocaInst, irType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType) {
@@ -20,7 +20,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType) {
                     irType->getPointerSourceIRType()->getType(),
                     AddressSpaceGenerator::generate(irType->getPointerSourceIRType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getPointerSourceIRType())));
+                    DataAlignmentGenerator::generate(irType->getPointerSourceIRType())), irType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::vector<IRExpressionNode*>* childExpressions) {
@@ -34,6 +34,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     AddressSpaceGenerator::generate(irType->getPointerSourceIRType()),
                     nullptr,
                     DataAlignmentGenerator::generate(irType->getPointerSourceIRType())),
+            irType,
             childSourceAllocations);
 }
 
@@ -44,6 +45,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, IRIns
                     AddressSpaceGenerator::generate(irType->getPointerSourceIRType()),
                     nullptr,
                     DataAlignmentGenerator::generate(irType->getPointerSourceIRType())),
+            irType,
             sourceAllocation);
 }
 
@@ -53,7 +55,7 @@ IRInstructionNode* IRInstructionNodeFactory::createForArray(IRPointerType* array
                     llvm::ArrayType::get(arrayElementType->getType(), size),
                     AddressSpaceGenerator::generate(arrayElementType),
                     nullptr,
-                    DataAlignmentGenerator::generate(arrayElementType)));
+                    DataAlignmentGenerator::generate(arrayElementType)), arrayType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::string name) {
@@ -63,7 +65,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     AddressSpaceGenerator::generate(irType->getType()),
                     nullptr,
                     DataAlignmentGenerator::generate(irType->getType()),
-                    name));
+                    name), irType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::string name, IRInstructionNode* sourceAllocation) {
@@ -74,5 +76,6 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     nullptr,
                     DataAlignmentGenerator::generate(irType->getType()),
                     name),
+            irType,
             sourceAllocation);
 }

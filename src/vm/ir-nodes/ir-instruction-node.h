@@ -16,10 +16,10 @@ private:
     std::vector<IRInstructionNode*> _childSourceAllocations;
     IRPointerType* _irType;
 public:
-    IRInstructionNode(llvm::AllocaInst* irValue, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations);
-    IRInstructionNode(llvm::AllocaInst* irValue, IRInstructionNode* sourceAllocation);
-    IRInstructionNode(llvm::AllocaInst* irValue, std::vector<IRInstructionNode*> childSourceAllocations);
-    explicit IRInstructionNode(llvm::AllocaInst* irValue);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childSourceAllocations);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType);
     explicit IRInstructionNode(llvm::GlobalVariable* irValue);
     llvm::Value* getValue();
     IRInstructionNode* getSourceAllocation();

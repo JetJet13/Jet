@@ -28,6 +28,7 @@ public:
     bool isLessThanOrEqual(IRType* otherValue);
     bool isGreaterThan(IRType* otherValue);
     bool isGreaterThanOrEqual(IRType* otherValue);
+    virtual void print();
 };
 
 #endif //JETLANG_IR_TYPE_H

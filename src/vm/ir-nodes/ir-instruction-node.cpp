@@ -5,30 +5,30 @@
 #include "ir-instruction-node.h"
 #include <utility>
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRInstructionNode* sourceAllocation) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation) {
     _irValue = irValue;
-    _irType = IRPointerType::create(irValue);
+    _irType = irType;
     _sourceAllocation = sourceAllocation;
     _childSourceAllocations = std::vector<IRInstructionNode*>();
 }
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations) {
     _irValue = irValue;
-    _irType = IRPointerType::create(irValue);
+    _irType = irType;
     _sourceAllocation = sourceAllocation;
     _childSourceAllocations = std::move(childSourceAllocations);
 }
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, std::vector<IRInstructionNode*> childSourceAllocations) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childSourceAllocations) {
     _irValue = irValue;
-    _irType = IRPointerType::create(irValue);
+    _irType = irType;
     _sourceAllocation = {};
     _childSourceAllocations = std::move(childSourceAllocations);
 }
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType) {
     _irValue = irValue;
-    _irType = IRPointerType::create(irValue);
+    _irType = irType;
     _sourceAllocation = {};
     _childSourceAllocations = std::vector<IRInstructionNode*>();
 }

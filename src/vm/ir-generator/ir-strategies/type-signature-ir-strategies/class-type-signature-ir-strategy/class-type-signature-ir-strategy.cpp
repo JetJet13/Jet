@@ -7,7 +7,7 @@
 IRStructType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyTypeMap = std::unordered_map<std::string, IRType*>();
+    auto keyTypeMap = std::unordered_map<std::string, IRPointerType*>();
     for (auto keyValue : classTypeSignature->getProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature());
         classPropertyTypes.push_back(irType->getType());

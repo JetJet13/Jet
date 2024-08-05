@@ -64,6 +64,7 @@ public:
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRPointerType* generateTypeFor(TypeSignature* typeSignature);
     IRType* generateVoidType();
+    IRPointerType* generatePointerType();
     IRPointerType* generatePointerType(IRType* type);
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);

@@ -11,7 +11,7 @@
 class IRInstructionNodeFactory {
 public:
     static IRInstructionNode* create(llvm::GlobalVariable* globalVariable);
-    static IRInstructionNode* create(llvm::AllocaInst* allocaInst);
+    static IRInstructionNode* create(llvm::AllocaInst* allocaInst, IRPointerType* irType);
     static IRInstructionNode* create(IRPointerType* irType);
     static IRInstructionNode* create(IRPointerType* irType, std::vector<IRExpressionNode*>* childExpressions);
     static IRInstructionNode* create(IRPointerType* irType, IRInstructionNode* sourceAllocation);

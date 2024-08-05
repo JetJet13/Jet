@@ -12,14 +12,15 @@
 class IRPointerType : public IRType {
 private:
     llvm::PointerType* _type;
-    IRType* _sourceType;
+    std::optional<IRType*> _sourceType;
 public:
-    static IRPointerType* create(llvm::AllocaInst* allocation);
     static IRPointerType* create(llvm::GlobalVariable* globalVariable);
     IRPointerType(llvm::PointerType* type, IRType* sourceType);
+    explicit IRPointerType(llvm::PointerType* type);
     IRType* getPointerSourceIRType();
     void setSourceType(IRType* type);
     bool isPointerType() override;
+    virtual void print() override;
 };
 
 #endif //JETLANG_IR_POINTER_TYPE_H

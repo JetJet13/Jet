@@ -11,7 +11,11 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
 }
 
 llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    return _irValue->getValue();
+    auto type = _irValue->getIRType()->getPointerSourceIRType()->getType();
+    auto allocation = builder->get()->CreateAlloca(type);
+    auto loadedValue = builder->get()->CreateLoad(type, _irValue->getSourceAllocation()->getValue());
+    builder->get()->CreateStore(loadedValue, allocation);
+    return allocation;
 }
 
 llvm::Value* IRIdentifierExpressionNode::getValue() {
