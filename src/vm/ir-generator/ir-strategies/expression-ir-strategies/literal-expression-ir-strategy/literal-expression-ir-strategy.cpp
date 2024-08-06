@@ -5,11 +5,15 @@
 #include "literal-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-literal-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h"
 
 IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irLiteralNode = irGenerator->generateFor(node->getLiteralNode(), scope, irModule);
     auto irType = irGenerator->generateTypeFor(node->getLiteralNode()->getTypeSignature());
     irType->setSourceType(irLiteralNode->getIRType());
     auto sourceAllocation = IRInstructionNodeFactory::create(irType);
+    if (irLiteralNode->is(IR_STRING_LITERAL_NODE)) {
+        return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, irType, sourceAllocation);
+    }
     return new IRLiteralExpressionNode(node, irLiteralNode, irType, sourceAllocation);
 }

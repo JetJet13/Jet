@@ -10,6 +10,7 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "../ir-instruction-node.h"
 #include "ir-expression-node.h"
+#include "../ir-array-node.h"
 
 
 class IRArrayExpressionNode : public IRExpressionNode {
@@ -17,9 +18,10 @@ private:
     ASTArrayExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
+    IRArrayNode* _array;
     IRPointerType* _type;
 public:
-    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRPointerType* type);
+    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRPointerType* type);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;

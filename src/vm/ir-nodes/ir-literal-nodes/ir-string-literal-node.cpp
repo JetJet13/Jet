@@ -4,10 +4,15 @@
 
 #include "ir-string-literal-node.h"
 
-IRStringLiteralNode::IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue) {
+IRStringLiteralNode::IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRArrayNode* irArray) {
     _astNode = astNode;
     _irValue = irValue;
-    _type = new IRType(_irValue->getType());
+    _irArray = irArray;
+    _type = _irArray->getIRType();
+}
+
+IRArrayNode* IRStringLiteralNode::getIRArray() {
+    return _irArray;
 }
 
 llvm::Constant* IRStringLiteralNode::getConstantIRValue() {

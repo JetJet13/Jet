@@ -9,14 +9,17 @@
 #include "../../../core/ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
 #include "ir-literal-node.h"
 #include "../../ir-type/ir-type.h"
+#include "../ir-array-node.h"
 
 class IRStringLiteralNode : public IRLiteralNode {
 private:
     ASTStringLiteralNode* _astNode;
     llvm::Constant* _irValue;
+    IRArrayNode* _irArray;
     IRType* _type;
 public:
-    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue);
+    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRArrayNode* irArray);
+    IRArrayNode* getIRArray();
     llvm::Constant* getConstantIRValue() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;

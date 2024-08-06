@@ -116,7 +116,7 @@ IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* sco
         case AST_CHAR_LITERAL_NODE:
             return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode*)node, &_context);
         case AST_STRING_LITERAL_NODE:
-            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode*)node, &_context);
+            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode*)node, &_context, this);
         case AST_BOOLEAN_LITERAL_NODE:
             return _irStrategyMap.getBoolLiteralIRStrategy()->generate((ASTBooleanLiteralNode*)node, &_context);
         default:
@@ -184,6 +184,10 @@ IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignatu
 
 llvm::Constant* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
+}
+
+llvm::StructType* IRGenerator::generateArrayElementType() {
+    return llvm::StructType::get(*_context, { llvm::IntegerType::get(*_context, 32), llvm::PointerType::get(*_context, 0) });
 }
 
 IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {

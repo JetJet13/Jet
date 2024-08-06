@@ -4,10 +4,11 @@
 
 #include "ir-array-expression-node.h"
 
-IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRPointerType* type) {
+IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRPointerType* type) {
     _node = node;
     _irValue = irValue;
     _irValues = irValues;
+    _array = array;
     _type = type;
 }
 
@@ -22,7 +23,7 @@ llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
         auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    return arrayExpressionAllocation;
+    return _array->insertSelfIntoBlock(builder, arrayExpressionAllocation);
 }
 
 llvm::Value* IRArrayExpressionNode::getValue() {

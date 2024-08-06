@@ -23,5 +23,13 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
             DataAlignmentGenerator::generate(arrayElementIrType)),
             irType
     );
-    return new IRArrayExpressionNode(node, arrayAllocation, elementValues, irType);
+
+    auto arrayStructType = irGenerator->generateArrayElementType();
+    auto arrayStructAllocation = new llvm::AllocaInst(
+            arrayStructType,
+            AddressSpaceGenerator::generate(arrayElementIrType),
+            nullptr,
+            DataAlignmentGenerator::generate(arrayElementIrType));
+    auto irArray = new IRArrayNode(irType, elementValues.size(), arrayStructAllocation);
+    return new IRArrayExpressionNode(node, arrayAllocation, elementValues, irArray, irType);
 }

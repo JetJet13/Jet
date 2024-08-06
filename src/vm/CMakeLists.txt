@@ -176,6 +176,10 @@ add_library(jet-vm
         ir-type/ir-pointer-type.h
         ir-type/ir-function-type.cpp
         ir-type/ir-function-type.h
+        ir-nodes/ir-array-node.cpp
+        ir-nodes/ir-array-node.h
+        ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h
 )
 
 target_link_libraries(jet-vm
