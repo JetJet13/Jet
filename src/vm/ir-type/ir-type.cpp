@@ -29,11 +29,14 @@ bool IRType::isBoolType() {
 }
 
 bool IRType::isArrayType() {
-    return _type->isArrayTy();
+    if (_type->isStructTy()) {
+        return _type->getStructName() == "__ARRAY_TYPE__";
+    }
+    return false;
 }
 
 bool IRType::isStructType() {
-    return _type->isStructTy();
+    return !this->isArrayType() && _type->isStructTy();
 }
 
 bool IRType::isPointerType() {

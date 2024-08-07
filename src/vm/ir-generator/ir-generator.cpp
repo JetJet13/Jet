@@ -47,6 +47,7 @@
 IRGenerator::IRGenerator() {
     _context = std::make_unique<llvm::LLVMContext>();
     _irStrategyMap = IRStrategyMap();
+    _arrayStructType = llvm::StructType::create({ llvm::IntegerType::get(*_context, 32), llvm::PointerType::get(*_context, 0) }, "__ARRAY_TYPE__");
 }
 
 IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
@@ -187,7 +188,7 @@ llvm::Constant* IRGenerator::generateIntConstant(int integer) {
 }
 
 llvm::StructType* IRGenerator::generateArrayElementType() {
-    return llvm::StructType::get(*_context, { llvm::IntegerType::get(*_context, 32), llvm::PointerType::get(*_context, 0) });
+    return _arrayStructType;
 }
 
 IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
@@ -203,4 +204,8 @@ IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRM
     return new IRFunctionNode(
         llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, functionName, irModuleNode->getModule())
     );
+}
+
+void IRGenerator::generateBuiltInTypes() {
+    llvm::StructType::create(*_context, this->generateArrayElementType(), "__ARRAY_TYPE__");
 }

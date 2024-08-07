@@ -3,6 +3,7 @@
 //
 
 #include "ir-array-access-expression-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
 IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRPointerType* type) {
     _node = node;
@@ -13,8 +14,11 @@ IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressio
 
 llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     auto irIndexValue = _irIndex->insertSelfIntoBlock(builder);
+    auto loadIrIndexValue = builder->get()->CreateLoad(_irIndex->getType(), irIndexValue, "LOADED_ARRAY_ACCESS");
     auto zeroIndex = builder->get()->getInt32(0);
-    return builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
+    auto pointerToElement = builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
+//    Logger::log("irIndexAsInt->getZExtValue()", irIndexAsInt->getSExtValue());
+    return pointerToElement;
 }
 
 llvm::Value* IRArrayAccessExpressionNode::getValue() {

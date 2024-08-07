@@ -34,6 +34,7 @@ TEST_CASE( "should create expected vm code" ) {
     typeCheckerResult.print();
     REQUIRE(typeCheckerResult.ok());
     auto irGenerator = IRGenerator();
+    irGenerator.generateBuiltInTypes();
     auto irModule = irGenerator.generateModule(filePath);
     auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
     auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());

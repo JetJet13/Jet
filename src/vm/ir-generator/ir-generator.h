@@ -54,6 +54,7 @@ class IRGenerator {
 private:
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
+    llvm::StructType* _arrayStructType;
 public:
     explicit IRGenerator();
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
@@ -73,6 +74,7 @@ public:
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
+    void generateBuiltInTypes();
 };
 
 #endif //JETLANG_IR_GENERATOR_H
