@@ -15,7 +15,6 @@ public:
     static IRInstructionNode* create(IRPointerType* irType);
     static IRInstructionNode* create(IRPointerType* irType, std::vector<IRExpressionNode*>* childExpressions);
     static IRInstructionNode* create(IRPointerType* irType, IRInstructionNode* sourceAllocation);
-    static IRInstructionNode* createForArray(IRPointerType* arrayType, IRPointerType* arrayElementType, unsigned long size);
     static IRInstructionNode* create(IRPointerType* irType, std::string name);
     static IRInstructionNode* create(IRPointerType* irType, std::string name, IRInstructionNode* sourceAllocation);
 };

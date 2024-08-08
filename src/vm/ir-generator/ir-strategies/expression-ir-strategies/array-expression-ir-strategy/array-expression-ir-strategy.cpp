@@ -14,19 +14,18 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto arrayType = llvm::ArrayType::get(arrayElementIrType->getType(), elementValues.size());
-    irType->setSourceType(new IRType(arrayType));
     auto arrayAllocation = new IRInstructionNode(
         new llvm::AllocaInst(
             arrayType,
             AddressSpaceGenerator::generate(arrayElementIrType),
             nullptr,
             DataAlignmentGenerator::generate(arrayElementIrType)),
-            irType
+            irGenerator->generatePointerType(new IRType(arrayType))
     );
 
-    auto arrayStructType = irGenerator->generateArrayElementType();
+
     auto arrayStructAllocation = new llvm::AllocaInst(
-            arrayStructType,
+            irType->getType(),
             AddressSpaceGenerator::generate(arrayElementIrType),
             nullptr,
             DataAlignmentGenerator::generate(arrayElementIrType));

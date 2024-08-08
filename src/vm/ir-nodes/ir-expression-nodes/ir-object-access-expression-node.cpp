@@ -24,15 +24,15 @@ llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<l
         return builder->get()->Insert(pointer);
     }
 
-    auto allocation = builder->get()->CreateAlloca(this->getIRType()->getPointerSourceIRType()->getType());
+    auto allocation = builder->get()->CreateAlloca(this->getIRType()->getType());
     auto valueToLoad = _irSource->getSourceAllocationAtIndex(_targetKeyIndex);
-    auto loadedValue = builder->get()->CreateLoad(this->getIRType()->getPointerSourceIRType()->getType(), valueToLoad->getValue());
+    auto loadedValue = builder->get()->CreateLoad(this->getIRType()->getType(), valueToLoad->getValue());
     builder->get()->CreateStore(loadedValue, allocation);
     return allocation;
 }
 
-IRPointerType* IRObjectAccessExpressionNode::getIRType() {
-    return ((IRStructType*)_irSource->getIRType()->getPointerSourceIRType())->getIRTypeForKey(_targetKey);
+IRType* IRObjectAccessExpressionNode::getIRType() {
+    return ((IRStructType*)_irSource->getIRType()->getSourceType())->getIRTypeForKey(_targetKey);
 }
 
 llvm::Value* IRObjectAccessExpressionNode::getValue() {

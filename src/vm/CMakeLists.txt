@@ -180,6 +180,10 @@ add_library(jet-vm
         ir-nodes/ir-array-node.h
         ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h
+        ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.cpp
+        ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h
+        ir-type/ir-array-type.cpp
+        ir-type/ir-array-type.h
 )
 
 target_link_libraries(jet-vm

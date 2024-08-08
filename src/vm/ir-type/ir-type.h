@@ -14,6 +14,7 @@ protected:
 public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
+    virtual IRType* getSourceType();
     bool isCharType();
     bool isIntegerType();
     bool isFloatType();

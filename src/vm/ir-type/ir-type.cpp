@@ -12,6 +12,10 @@ llvm::Type* IRType::getType() {
     return _type;
 }
 
+IRType* IRType::getSourceType() {
+    return this;
+}
+
 bool IRType::isCharType() {
     return _type->isIntegerTy(8);
 }

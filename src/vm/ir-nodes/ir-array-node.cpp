@@ -4,25 +4,26 @@
 
 #include "ir-array-node.h"
 
-IRArrayNode::IRArrayNode(IRPointerType* type, unsigned long size, llvm::AllocaInst* allocation) {
+IRArrayNode::IRArrayNode(IRArrayType* type, unsigned long size, llvm::AllocaInst* allocation) {
     _type = type;
     _size = size;
     _allocation = allocation;
 }
 
-llvm::Value* IRArrayNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, llvm::Value* arrayAllocation) {
+llvm::Value* IRArrayNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* arrayAllocation) {
     auto arrayObjectAllocation = builder->get()->Insert(_allocation);
     auto zeroIndex = builder->get()->getInt32(0);
     auto intIndex = builder->get()->getInt32(0);
     auto pointerIndex = builder->get()->getInt32(1);
-    auto intPointer = builder->get()->CreateInBoundsGEP(_type->getPointerSourceIRType()->getType(), arrayObjectAllocation, { zeroIndex, intIndex });
+    auto intPointer = builder->get()->CreateInBoundsGEP(_type->getSourceType()->getType(), arrayObjectAllocation, {zeroIndex, intIndex });
     builder->get()->CreateStore(builder->get()->getInt32(_size), intPointer);
-    auto arrayPointer = builder->get()->CreateInBoundsGEP(_type->getPointerSourceIRType()->getType(), arrayObjectAllocation, { zeroIndex, pointerIndex });
-    builder->get()->CreateStore(arrayAllocation, arrayPointer);
-    return arrayObjectAllocation;
+    auto arrayPointer = builder->get()->CreateInBoundsGEP(_type->getSourceType()->getType(), arrayObjectAllocation, {zeroIndex, pointerIndex });
+    auto firstElementPointer = builder->get()->CreateInBoundsGEP(arrayAllocation->getIRType()->getSourceType()->getType(), arrayAllocation->getValue(), { zeroIndex, zeroIndex });
+    builder->get()->CreateStore(firstElementPointer, arrayPointer);
+    return builder->get()->CreateLoad(arrayObjectAllocation->getAllocatedType(), arrayObjectAllocation);
 }
 
-IRPointerType* IRArrayNode::getIRType() {
+IRArrayType* IRArrayNode::getIRType() {
     return _type;
 }
 

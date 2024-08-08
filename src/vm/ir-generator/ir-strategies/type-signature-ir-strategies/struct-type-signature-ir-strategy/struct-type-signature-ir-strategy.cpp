@@ -8,7 +8,7 @@
 IRStructType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* structTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyTypeMap = std::unordered_map<std::string, IRPointerType*>();
+    auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (auto keyValue : structTypeSignature->getKeyValuePairs()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature());
         structPropertyTypes.push_back(irType->getType());

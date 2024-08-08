@@ -15,14 +15,14 @@ private:
     ASTUnaryExpressionNode* _astNode;
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irExpression;
-    IRPointerType* _type;
+    IRType* _type;
     IRInstructionNode* _sourceAllocation;
 public:
-    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRPointerType* type, IRInstructionNode* sourceAllocation);
+    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::BinaryOperator* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
-    IRPointerType* getIRType() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -19,13 +19,13 @@ private:
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
     IRArrayNode* _array;
-    IRPointerType* _type;
+    IRType* _type;
 public:
-    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRPointerType* type);
+    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRType* type);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
-    IRPointerType* getIRType() override;
+    IRType* getIRType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;

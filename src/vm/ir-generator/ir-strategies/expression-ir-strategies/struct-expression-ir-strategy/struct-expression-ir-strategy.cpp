@@ -12,10 +12,8 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     for (auto keyValuePair : node->getKeyValuePairs()) {
         auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irModule);
         auto key = keyValuePair->getKey()->getIdentifierNode()->getId();
-        auto keyIrType = ((IRStructType*)irType->getPointerSourceIRType())->getIRTypeForKey(key);
-        keyIrType->setSourceType(irNode->getIRType()->getPointerSourceIRType());
         structValues.push_back(irNode);
     }
-    auto structAllocation = IRInstructionNodeFactory::create(irType, &structValues);
+    auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), &structValues);
     return new IRStructExpressionNode(node, structAllocation, irType, structValues);
 }

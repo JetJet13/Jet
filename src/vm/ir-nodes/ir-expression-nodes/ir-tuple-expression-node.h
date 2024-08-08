@@ -19,13 +19,13 @@ private:
     ASTTupleExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    IRPointerType* _type;
+    IRType* _type;
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRPointerType* type, std::vector<IRExpressionNode*> irValues);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues);
+    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
-    IRPointerType* getIRType() override;
+    IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

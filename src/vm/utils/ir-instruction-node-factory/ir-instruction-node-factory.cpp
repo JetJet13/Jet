@@ -17,10 +17,10 @@ IRInstructionNode* IRInstructionNodeFactory::create(llvm::AllocaInst* allocaInst
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
-                    irType->getPointerSourceIRType()->getType(),
-                    AddressSpaceGenerator::generate(irType->getPointerSourceIRType()),
+                    irType->getSourceType()->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getPointerSourceIRType())), irType);
+                    DataAlignmentGenerator::generate(irType->getSourceType())), irType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::vector<IRExpressionNode*>* childExpressions) {
@@ -30,10 +30,10 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
     }
     return new IRInstructionNode(
             new llvm::AllocaInst(
-                    irType->getPointerSourceIRType()->getType(),
-                    AddressSpaceGenerator::generate(irType->getPointerSourceIRType()),
+                    irType->getSourceType()->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getPointerSourceIRType())),
+                    DataAlignmentGenerator::generate(irType->getSourceType())),
             irType,
             childSourceAllocations);
 }
@@ -41,40 +41,31 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, IRInstructionNode* sourceAllocation) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
-                    irType->getPointerSourceIRType()->getType(),
-                    AddressSpaceGenerator::generate(irType->getPointerSourceIRType()),
+                    irType->getSourceType()->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getPointerSourceIRType())),
+                    DataAlignmentGenerator::generate(irType->getSourceType())),
             irType,
             sourceAllocation);
-}
-
-IRInstructionNode* IRInstructionNodeFactory::createForArray(IRPointerType* arrayType, IRPointerType* arrayElementType, unsigned long size) {
-    return new IRInstructionNode(
-            new llvm::AllocaInst(
-                    llvm::ArrayType::get(arrayElementType->getType(), size),
-                    AddressSpaceGenerator::generate(arrayElementType),
-                    nullptr,
-                    DataAlignmentGenerator::generate(arrayElementType)), arrayType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::string name) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
-                    irType->getType(),
-                    AddressSpaceGenerator::generate(irType->getType()),
+                    irType->getSourceType()->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getType()),
+                    DataAlignmentGenerator::generate(irType->getSourceType()),
                     name), irType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::string name, IRInstructionNode* sourceAllocation) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
-                    irType->getType(),
-                    AddressSpaceGenerator::generate(irType->getType()),
+                    irType->getSourceType()->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getType()),
+                    DataAlignmentGenerator::generate(irType->getSourceType()),
                     name),
             irType,
             sourceAllocation);

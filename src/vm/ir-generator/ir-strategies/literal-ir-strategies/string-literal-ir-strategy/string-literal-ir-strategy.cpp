@@ -11,8 +11,8 @@
 
 IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto chars = std::vector<llvm::Constant*>();
-    auto stringNode = (ASTStringLiteralNode*)node;
-    for (auto character : stringNode->getValue()) {
+
+    for (auto character : node->getValue()) {
         chars.push_back(llvm::ConstantInt::get(**context, llvm::APInt(CHAR_BIT, character)));
     }
     auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**context));
@@ -24,9 +24,9 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
             llvm::ArrayRef(chars)
     );
 
-    auto arrayType = irGenerator->generateArrayElementType();
+    auto arrayType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto arrayAllocation = new llvm::AllocaInst(
-            arrayType,
+            arrayType->getType(),
             AddressSpaceGenerator::generate(charIrType),
             nullptr,
             DataAlignmentGenerator::generate(charIrType));
@@ -35,7 +35,7 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
         node,
         stringArray,
         new IRArrayNode(
-            irGenerator->generatePointerType(new IRType(arrayType)),
+            (IRArrayType*)arrayType,
             chars.size(),
             arrayAllocation
         )

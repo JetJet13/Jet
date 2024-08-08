@@ -4,7 +4,7 @@
 
 #include "ir-array-expression-node.h"
 
-IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRPointerType* type) {
+IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRType* type) {
     _node = node;
     _irValue = irValue;
     _irValues = irValues;
@@ -23,7 +23,7 @@ llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
         auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    return _array->insertSelfIntoBlock(builder, arrayExpressionAllocation);
+    return _array->insertSelfIntoBlock(builder, _irValue);
 }
 
 llvm::Value* IRArrayExpressionNode::getValue() {
@@ -34,12 +34,12 @@ IRInstructionNode* IRArrayExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
-IRPointerType* IRArrayExpressionNode::getIRType() {
+IRType* IRArrayExpressionNode::getIRType() {
     return _type;
 }
 
 llvm::Type* IRArrayExpressionNode::getTypeAtIndex(unsigned long index) {
-    return _irValue->getIRType()->getPointerSourceIRType()->getType()->getArrayElementType();
+    return _irValue->getIRType()->getSourceType()->getType()->getArrayElementType();
 }
 
 IRNodeType IRArrayExpressionNode::getNodeType() {

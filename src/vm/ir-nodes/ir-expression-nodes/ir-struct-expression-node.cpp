@@ -4,7 +4,7 @@
 
 #include "ir-struct-expression-node.h"
 
-IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRPointerType* type, std::vector<IRExpressionNode*> irValues) {
+IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues) {
     _astNode = astNode;
     _irValue = irValue;
     _irValues = irValues;
@@ -18,14 +18,14 @@ llvm::Value* IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::I
     for (int i = 0; i < numElements; ++i) {
         auto irExpression = _irValues[i];
         auto irIndex = builder->get()->getInt32(i);
-        auto pointer = builder->get()->CreateInBoundsGEP(_irValue->getIRType()->getPointerSourceIRType()->getType()->getStructElementType(i), structExpressionAllocation, { zeroIndex, irIndex });
+        auto pointer = builder->get()->CreateInBoundsGEP(_irValue->getIRType()->getSourceType()->getType()->getStructElementType(i), structExpressionAllocation, {zeroIndex, irIndex });
         auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
     return structExpressionAllocation;
 }
 
-IRPointerType* IRStructExpressionNode::getIRType() {
+IRType* IRStructExpressionNode::getIRType() {
     return _type;
 }
 

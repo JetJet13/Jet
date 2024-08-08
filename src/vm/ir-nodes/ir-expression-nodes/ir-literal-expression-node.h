@@ -16,11 +16,11 @@ private:
     ASTLiteralExpressionNode* _node;
     IRLiteralNode* _irValue;
     IRInstructionNode* _sourceAllocation;
-    IRPointerType* _irType;
+    IRType* _irType;
 public:
-    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation);
+    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType, IRInstructionNode* sourceAllocation);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    IRPointerType* getIRType() override;
+    IRType* getIRType() override;
     llvm::Constant* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
     IRNodeType getNodeType() override;

@@ -16,7 +16,7 @@ public:
     virtual IRInstructionNode* getSourceAllocationAtIndex(unsigned long index);
     virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) = 0;
     virtual llvm::Value* getValue() = 0;
-    virtual IRPointerType* getIRType() = 0;
+    virtual IRType* getIRType() = 0;
     virtual IRInstructionNode* getSourceAllocation() = 0;
 };
 

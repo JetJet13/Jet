@@ -12,11 +12,11 @@
 class IRParameterType {
 private:
     std::string _name;
-    IRPointerType* _type;
+    IRType* _type;
 public:
-    IRParameterType(std::string name, IRPointerType* type);
+    IRParameterType(std::string name, IRType* type);
     std::string getName();
-    IRPointerType* getIRType();
+    IRType* getIRType();
     llvm::Type* getType();
 };
 

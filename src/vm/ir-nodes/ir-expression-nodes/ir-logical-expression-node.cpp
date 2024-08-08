@@ -4,7 +4,7 @@
 
 #include "ir-logical-expression-node.h"
 
-IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRPointerType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRInstructionNode* sourceAllocation) {
+IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRInstructionNode* sourceAllocation) {
     _astNode = astNode;
     _irValue = irValue;
     _type = type;
@@ -16,17 +16,17 @@ IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNo
 llvm::Value * IRLogicalExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
     auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder);
-    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getPointerSourceIRType()->getType(), irLeftNodeValue);
+    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
 
     auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder);
-    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getPointerSourceIRType()->getType(), irRightNodeValue);
+    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
 
     auto result = builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
     builder->get()->CreateStore(result, allocation);
     return allocation;
 }
 
-IRPointerType* IRLogicalExpressionNode::getIRType() {
+IRType* IRLogicalExpressionNode::getIRType() {
     return _type;
 }
 

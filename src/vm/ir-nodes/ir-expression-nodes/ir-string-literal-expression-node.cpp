@@ -14,7 +14,7 @@ IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(ASTLiteralExpressio
 llvm::Value* IRStringLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     auto arrayAllocation = builder->get()->CreateAlloca(_irValue->getConstantIRValue()->getType());
     builder->get()->CreateStore(_irValue->getConstantIRValue(), arrayAllocation);
-    return _irValue->getIRArray()->insertSelfIntoBlock(builder, arrayAllocation);
+    return _irValue->getIRArray()->insertSelfIntoBlock(builder, new IRInstructionNode(arrayAllocation, _irType));
 }
 
 IRPointerType* IRStringLiteralExpressionNode::getIRType() {

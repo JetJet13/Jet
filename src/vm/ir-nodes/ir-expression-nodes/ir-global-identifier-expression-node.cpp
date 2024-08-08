@@ -30,7 +30,7 @@ llvm::Type* IRGlobalIdentifierExpressionNode::getType() {
 }
 
 llvm::Type* IRGlobalIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
-    return _irValue->getIRType()->getPointerSourceIRType()->getType();
+    return _irValue->getIRType()->getSourceType()->getType();
 }
 
 IRNodeType IRGlobalIdentifierExpressionNode::getNodeType() {

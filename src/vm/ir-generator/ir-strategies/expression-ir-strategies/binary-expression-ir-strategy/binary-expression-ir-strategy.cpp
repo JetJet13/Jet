@@ -11,7 +11,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irModule);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irModule);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto sourceAllocation = IRInstructionNodeFactory::create(irType);
+    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
     if (node->getBinaryOperator()->isArithmetic()) {
         return new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 this->determineArithmeticOperatorIR(node->getBinaryOperator()),

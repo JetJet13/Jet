@@ -4,29 +4,18 @@
 
 #include "literal-type-signature-ir-strategy.h"
 
-IRPointerType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context) {
-    auto pointer = llvm::PointerType::get(**context, 0);
+IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
-        return new IRPointerType(
-            pointer,
-            new IRType(llvm::IntegerType::get(**context, 32))
-        );
+        return new IRType(llvm::IntegerType::get(**context, 32));
     } else if (literalTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {
-        return new IRPointerType(
-            pointer,
-            new IRType(llvm::ConstantFP::get(**context, llvm::APFloat(0.0))->getType())
-        );
+        return new IRType(llvm::ConstantFP::get(**context, llvm::APFloat(0.0))->getType());
     } else if (literalTypeSignature->typeSourceIs(CHAR_LITERAL_TYPE_SOURCE)) {
-        return new IRPointerType(
-            pointer,
-            new IRType(llvm::IntegerType::get(**context, 8))
-        );
+        return new IRType(llvm::IntegerType::get(**context, 8));
     } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
-        return new IRPointerType(pointer);
-    } else {
-        return new IRPointerType(
-            pointer,
-            new IRType(llvm::IntegerType::get(**context, 1))
+        return irGenerator->generateArrayElementType(
+            irGenerator->generatePointerType(llvm::IntegerType::get(**context, 8))
         );
+    } else {
+        return new IRType(llvm::IntegerType::get(**context, 1));
     }
 }

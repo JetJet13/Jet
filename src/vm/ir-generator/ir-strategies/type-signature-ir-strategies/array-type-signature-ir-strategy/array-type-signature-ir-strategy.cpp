@@ -4,6 +4,10 @@
 
 #include "array-type-signature-ir-strategy.h"
 
-IRPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
-    return irGenerator->generatePointerType();
+IRArrayType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+    auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType());
+    if (arrayElementType->isPointerType()) {
+        return irGenerator->generateArrayElementType((IRPointerType*)arrayElementType);
+    }
+    return irGenerator->generateArrayElementType(irGenerator->generatePointerType(arrayElementType));
 }

@@ -14,15 +14,15 @@ class IRStructType : public IRType {
 private:
     llvm::StructType* _type;
     std::unordered_map<std::string, unsigned long> _keyIndexMap;
-    std::unordered_map<std::string, IRPointerType*> _keyTypeMap;
+    std::unordered_map<std::string, IRType*> _keyTypeMap;
 public:
-    IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRPointerType*> keyTypeMap);
+    IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap);
     llvm::StructType* getType() override;
     unsigned long getIndexForKey(std::string key);
     unsigned long getIndexForKey(unsigned long key);
-    IRPointerType* getIRTypeForKey(std::string key);
-    IRPointerType* getIRTypeForKey(unsigned long indexAsKey);
-    void replaceIRTypeAtKey(std::string key, IRPointerType* newIRType);
+    IRType* getIRTypeForKey(std::string key);
+    IRType* getIRTypeForKey(unsigned long indexAsKey);
+    void replaceIRTypeAtKey(std::string key, IRType* newIRType);
     virtual void print() override;
 };
 

@@ -17,11 +17,11 @@ private:
     ASTStructExpressionNode* _astNode;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    IRPointerType* _type;
+    IRType* _type;
 public:
-    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRPointerType* type, std::vector<IRExpressionNode*> irValues);
+    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    IRPointerType* getIRType() override;
+    IRType* getIRType() override;
     llvm::Value* getValue() override;
     IRInstructionNode* getSourceAllocation() override;
     IRInstructionNode* getSourceAllocationAtIndex(unsigned long index) override;

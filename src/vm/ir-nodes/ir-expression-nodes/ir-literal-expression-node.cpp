@@ -4,7 +4,7 @@
 
 #include "ir-literal-expression-node.h"
 
-IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation) {
+IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType, IRInstructionNode* sourceAllocation) {
     _node = node;
     _irValue = irValue;
     _irType = irType;
@@ -12,12 +12,10 @@ IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node,
 }
 
 llvm::Value* IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
-    builder->get()->CreateStore(_irValue->getConstantIRValue(), allocation);
-    return allocation;
+    return _irValue->getConstantIRValue();
 }
 
-IRPointerType* IRLiteralExpressionNode::getIRType() {
+IRType* IRLiteralExpressionNode::getIRType() {
     return _irType;
 }
 

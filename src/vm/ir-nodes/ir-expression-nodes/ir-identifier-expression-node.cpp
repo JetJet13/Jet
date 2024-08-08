@@ -11,7 +11,7 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
 }
 
 llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto type = _irValue->getIRType()->getPointerSourceIRType()->getType();
+    auto type = _irValue->getIRType()->getSourceType()->getType();
     auto allocation = builder->get()->CreateAlloca(type);
     auto loadedValue = builder->get()->CreateLoad(type, _irValue->getSourceAllocation()->getValue());
     builder->get()->CreateStore(loadedValue, allocation);
@@ -31,7 +31,7 @@ IRPointerType* IRIdentifierExpressionNode::getIRType() {
 }
 
 llvm::Type* IRIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
-    auto type = _irValue->getIRType()->getPointerSourceIRType()->getType();
+    auto type = _irValue->getIRType()->getSourceType()->getType();
     if (type->isArrayTy()) {
         return type->getArrayElementType();
     } else if (type->isStructTy()) {

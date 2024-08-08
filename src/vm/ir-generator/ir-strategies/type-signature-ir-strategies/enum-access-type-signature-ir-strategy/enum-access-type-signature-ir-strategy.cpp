@@ -4,6 +4,6 @@
 
 #include "enum-access-type-signature-ir-strategy.h"
 
-IRPointerType* EnumAccessTypeSignatureIRStrategy::generate(EnumAccessTypeSignature* enumAccessTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRType* EnumAccessTypeSignatureIRStrategy::generate(EnumAccessTypeSignature* enumAccessTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     return irGenerator->generateTypeFor(enumAccessTypeSignature->getEnum()->getType());
 }
