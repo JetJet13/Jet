@@ -17,6 +17,8 @@ public:
     static IRPointerType* create(llvm::GlobalVariable* globalVariable);
     IRPointerType(llvm::PointerType* type, IRType* sourceType);
     explicit IRPointerType(llvm::PointerType* type);
+    llvm::PointerType* getType() override;
+    uint64_t getSizeInBytes() override;
     IRType* getSourceType() override;
     void setSourceType(IRType* type);
     bool isPointerType() override;

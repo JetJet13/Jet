@@ -1,9 +1,30 @@
 //
-// Created by Johny Georges on 2024-08-08.
+// Created by Johny Georges on 2024-08-09.
 //
 
 #include "ir-array-type.h"
 
-IRArrayType::IRArrayType(llvm::StructType* type) : IRType(type) {
+IRArrayType::IRArrayType(llvm::ArrayType* type, IRType* arrayElementType) : IRType(type) {
     _type = type;
+    _arrayElementType = arrayElementType;
+}
+
+llvm::ArrayType* IRArrayType::getType() {
+    return _type;
+}
+
+IRType* IRArrayType::getElementIRType() {
+    return _arrayElementType;
+}
+
+llvm::Type* IRArrayType::getElementType() {
+    return _arrayElementType->getType();
+}
+
+uint64_t IRArrayType::getSizeInBytes() {
+    return _type->getNumElements() * _arrayElementType->getSizeInBytes();
+}
+
+bool IRArrayType::isArrayType() {
+    return true;
 }

@@ -15,6 +15,14 @@ llvm::StructType* IRStructType::getType() {
     return _type;
 }
 
+uint64_t IRStructType::getSizeInBytes() {
+    uint64_t totalSize = 0;
+    for (auto keyType : _keyTypeMap) {
+        totalSize += keyType.second->getSizeInBytes();
+    }
+    return totalSize;
+}
+
 unsigned long IRStructType::getIndexForKey(std::string key) {
     Logger::log("getIndexForKey::key", key);
     auto result = _keyIndexMap.find(key);
@@ -44,6 +52,10 @@ IRType* IRStructType::getIRTypeForKey(unsigned long indexAsKey) {
 
 void IRStructType::replaceIRTypeAtKey(std::string key, IRType* newIRType) {
     this->_keyTypeMap.insert(std::pair<std::string, IRType*>(key, newIRType));
+}
+
+bool IRStructType::isStructType() {
+    return true;
 }
 
 void IRStructType::print() {

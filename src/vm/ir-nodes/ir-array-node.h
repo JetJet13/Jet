@@ -7,17 +7,17 @@
 
 #include "ir-node.h"
 #include "ir-instruction-node.h"
-#include "../ir-type/ir-array-type.h"
+#include "../ir-type/ir-array-pointer-type.h"
 
 class IRArrayNode : public IRNode {
 private:
     unsigned long _size;
-    IRArrayType* _type;
+    IRArrayPointerType* _type;
     llvm::AllocaInst* _allocation;
 public:
-    IRArrayNode(IRArrayType* type, unsigned long size, llvm::AllocaInst* allocation);
+    IRArrayNode(IRArrayPointerType* type, unsigned long size, llvm::AllocaInst* allocation);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* arrayAllocation);
-    IRArrayType* getIRType();
+    IRArrayPointerType* getIRType();
     unsigned long getSize();
     IRNodeType getNodeType() override;
     std::string toString() override;

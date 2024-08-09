@@ -15,13 +15,15 @@ public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
     virtual IRType* getSourceType();
+    virtual uint64_t getSizeInBytes();
     bool isCharType();
     bool isIntegerType();
     bool isFloatType();
     bool isBoolType();
-    bool isArrayType();
-    bool isStructType();
+    virtual bool isArrayType();
+    virtual bool isStructType();
     virtual bool isPointerType();
+    virtual bool isArrayPointerType();
     bool isFunctionType();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);

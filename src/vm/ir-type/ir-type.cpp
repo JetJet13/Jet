@@ -16,6 +16,16 @@ IRType* IRType::getSourceType() {
     return this;
 }
 
+uint64_t IRType::getSizeInBytes() {
+    if (this->isCharType() || this->isBoolType()) {
+        return 1;
+    } else if (this->isIntegerType() || this->isFloatType()) {
+        return 4;
+    } else {
+        return 0;
+    }
+}
+
 bool IRType::isCharType() {
     return _type->isIntegerTy(8);
 }
@@ -33,14 +43,15 @@ bool IRType::isBoolType() {
 }
 
 bool IRType::isArrayType() {
-    if (_type->isStructTy()) {
-        return _type->getStructName() == "__ARRAY_TYPE__";
-    }
+    return false;
+}
+
+bool IRType::isArrayPointerType() {
     return false;
 }
 
 bool IRType::isStructType() {
-    return !this->isArrayType() && _type->isStructTy();
+    return false;
 }
 
 bool IRType::isPointerType() {

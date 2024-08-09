@@ -19,6 +19,14 @@ IRPointerType::IRPointerType(llvm::PointerType* type) : IRType(type) {
     _sourceType = {};
 }
 
+llvm::PointerType* IRPointerType::getType() {
+    return _type;
+}
+
+uint64_t IRPointerType::getSizeInBytes() {
+    return 1;
+}
+
 IRType* IRPointerType::getSourceType() {
     if (!_sourceType) {
         throw std::logic_error("ir pointer does not have source ir type set");

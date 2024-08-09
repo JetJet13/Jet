@@ -15,20 +15,18 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
 }
 
 llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    auto pointer = llvm::GetElementPtrInst::CreateInBounds(
+            _irSource->getIRType()->getSourceType()->getType(),
+            _irSource->getValue(),
+            { builder->get()->getInt32(0), _irTargetKeyIndex }
+    );
+    builder->get()->Insert(pointer);
+
     if (_irSource->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
-        auto pointer = llvm::GetElementPtrInst::CreateInBounds(
-                _irSource->getType(),
-                _irSource->getValue(),
-                { builder->get()->getInt32(0), _irTargetKeyIndex }
-        );
-        return builder->get()->Insert(pointer);
+        return builder->get()->CreateLoad(this->getIRType()->getType(), pointer);
     }
 
-    auto allocation = builder->get()->CreateAlloca(this->getIRType()->getType());
-    auto valueToLoad = _irSource->getSourceAllocationAtIndex(_targetKeyIndex);
-    auto loadedValue = builder->get()->CreateLoad(this->getIRType()->getType(), valueToLoad->getValue());
-    builder->get()->CreateStore(loadedValue, allocation);
-    return allocation;
+    return builder->get()->CreateLoad(this->getIRType()->getType(), pointer);
 }
 
 IRType* IRObjectAccessExpressionNode::getIRType() {

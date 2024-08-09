@@ -1,19 +1,24 @@
 //
-// Created by Johny Georges on 2024-08-08.
+// Created by Johny Georges on 2024-08-09.
 //
 
 #ifndef JETLANG_IR_ARRAY_TYPE_H
 #define JETLANG_IR_ARRAY_TYPE_H
 
+#include <llvm/IR/Value.h>
 #include "ir-type.h"
 
 class IRArrayType : public IRType {
 private:
-    llvm::StructType* _type;
+    llvm::ArrayType* _type;
+    IRType* _arrayElementType;
 public:
-    IRArrayType(llvm::StructType* type);
-    void setPointerType(llvm::PointerType* pointerType);
-
+    explicit IRArrayType(llvm::ArrayType* type, IRType* arrayElementType);
+    llvm::ArrayType* getType() override;
+    IRType* getElementIRType();
+    llvm::Type* getElementType();
+    uint64_t getSizeInBytes() override;
+    bool isArrayType() override;
 };
 
 #endif //JETLANG_IR_ARRAY_TYPE_H

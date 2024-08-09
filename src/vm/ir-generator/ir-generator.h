@@ -49,7 +49,7 @@
 #include "../../core/type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
 #include "../../core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 #include "../../core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
-#include "../ir-type/ir-array-type.h"
+#include "../ir-type/ir-array-pointer-type.h"
 
 class IRGenerator {
 private:
@@ -65,7 +65,7 @@ public:
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRType* generateTypeFor(TypeSignature* typeSignature);
-    IRArrayType* generateTypeFor(ArrayTypeSignature* typeSignature);
+    IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature);
     IREnumType* generateTypeFor(EnumTypeSignature* typeSignature);
     IRStructType* generateTypeFor(StructTypeSignature* typeSignature);
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature);
@@ -76,8 +76,8 @@ public:
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);
     llvm::Constant* generateIntConstant(int integer);
-    IRArrayType* generateArrayElementType(IRPointerType* irPointerType);
-    IRArrayType* generateArrayElementType(llvm::PointerType* pointerType);
+    IRArrayPointerType* generateArrayElementType(IRPointerType* irPointerType);
+    IRArrayPointerType* generateArrayElementType(llvm::PointerType* pointerType, IRType* arrayElementType);
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);

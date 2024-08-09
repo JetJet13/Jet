@@ -4,7 +4,7 @@
 
 #include "ir-array-node.h"
 
-IRArrayNode::IRArrayNode(IRArrayType* type, unsigned long size, llvm::AllocaInst* allocation) {
+IRArrayNode::IRArrayNode(IRArrayPointerType* type, unsigned long size, llvm::AllocaInst* allocation) {
     _type = type;
     _size = size;
     _allocation = allocation;
@@ -23,7 +23,7 @@ llvm::Value* IRArrayNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>
     return builder->get()->CreateLoad(arrayObjectAllocation->getAllocatedType(), arrayObjectAllocation);
 }
 
-IRArrayType* IRArrayNode::getIRType() {
+IRArrayPointerType* IRArrayNode::getIRType() {
     return _type;
 }
 

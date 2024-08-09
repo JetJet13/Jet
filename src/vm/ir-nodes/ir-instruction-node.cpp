@@ -55,6 +55,17 @@ IRInstructionNode* IRInstructionNode::getSourceAllocationAtIndex(unsigned long i
     return _childSourceAllocations[index];
 }
 
+llvm::MaybeAlign IRInstructionNode::getAlignment() {
+    if (llvm::isa<llvm::AllocaInst>(_irValue)) {
+        return llvm::cast<llvm::AllocaInst>(_irValue)->getAlign();
+    }
+    return llvm::cast<llvm::GlobalVariable>(_irValue)->getAlign();
+}
+
+uint64_t IRInstructionNode::getSizeInBytes() {
+    return _irType->getSourceType()->getSizeInBytes();
+}
+
 IRPointerType* IRInstructionNode::getIRType() {
     return _irType;
 }

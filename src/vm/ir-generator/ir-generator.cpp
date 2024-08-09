@@ -163,7 +163,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
     }
 }
 
-IRArrayType* IRGenerator::generateTypeFor(ArrayTypeSignature* typeSignature) {
+IRArrayPointerType* IRGenerator::generateTypeFor(ArrayTypeSignature* typeSignature) {
     return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, &_context, this);
 }
 
@@ -207,18 +207,18 @@ llvm::Constant* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
 }
 
-IRArrayType* IRGenerator::generateArrayElementType(IRPointerType* irPointerType) {
-    return new IRArrayType(llvm::StructType::get(*_context, {
+IRArrayPointerType* IRGenerator::generateArrayElementType(IRPointerType* irPointerType) {
+    return new IRArrayPointerType(llvm::StructType::get(*_context, {
         llvm::IntegerType::get(*_context, 32),
         irPointerType->getType()
-    }));
+    }), irPointerType->getSourceType());
 }
 
-IRArrayType* IRGenerator::generateArrayElementType(llvm::PointerType* pointerType) {
-    return new IRArrayType(llvm::StructType::get(*_context, {
+IRArrayPointerType* IRGenerator::generateArrayElementType(llvm::PointerType* pointerType, IRType* arrayElementType) {
+    return new IRArrayPointerType(llvm::StructType::get(*_context, {
             llvm::IntegerType::get(*_context, 32),
             pointerType
-    }));
+    }), arrayElementType);
 }
 
 IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {

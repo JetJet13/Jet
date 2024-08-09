@@ -10,18 +10,19 @@
 #include "ir-literal-node.h"
 #include "../../ir-type/ir-type.h"
 #include "../ir-array-node.h"
+#include "../../ir-type/ir-array-type.h"
 
 class IRStringLiteralNode : public IRLiteralNode {
 private:
     ASTStringLiteralNode* _astNode;
     llvm::Constant* _irValue;
     IRArrayNode* _irArray;
-    IRType* _type;
+    IRArrayType* _type;
 public:
-    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRArrayNode* irArray);
+    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRArrayType* type, IRArrayNode* irArray);
     IRArrayNode* getIRArray();
     llvm::Constant* getConstantIRValue() override;
-    IRType* getIRType() override;
+    IRArrayType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

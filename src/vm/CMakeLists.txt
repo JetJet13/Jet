@@ -182,6 +182,10 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h
         ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.cpp
         ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h
+        ir-type/ir-array-pointer-type.cpp
+        ir-type/ir-array-pointer-type.h
+        ir-generator/ir-strategies/support-function-ir-strategies/copy-array-support-function-ir-strategy/copy-array-support-function-ir-strategy.cpp
+        ir-generator/ir-strategies/support-function-ir-strategies/copy-array-support-function-ir-strategy/copy-array-support-function-ir-strategy.h
         ir-type/ir-array-type.cpp
         ir-type/ir-array-type.h
 )

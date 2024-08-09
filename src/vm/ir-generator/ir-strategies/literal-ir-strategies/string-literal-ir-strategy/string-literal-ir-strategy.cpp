@@ -16,17 +16,21 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
         chars.push_back(llvm::ConstantInt::get(**context, llvm::APInt(CHAR_BIT, character)));
     }
     auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**context));
+    auto stringArrayType = new IRArrayType(
+        llvm::ArrayType::get(
+            charIrType->getType(),
+            chars.size()
+        ),
+        charIrType
+    );
     auto stringArray = llvm::ConstantArray::get(
-            llvm::ArrayType::get(
-                charIrType->getType(),
-                chars.size()
-            ),
+            stringArrayType->getType(),
             llvm::ArrayRef(chars)
     );
 
-    auto arrayType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto arrayPointerType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto arrayAllocation = new llvm::AllocaInst(
-            arrayType->getType(),
+            arrayPointerType->getType(),
             AddressSpaceGenerator::generate(charIrType),
             nullptr,
             DataAlignmentGenerator::generate(charIrType));
@@ -34,8 +38,9 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
     return new IRStringLiteralNode(
         node,
         stringArray,
+        stringArrayType,
         new IRArrayNode(
-            (IRArrayType*)arrayType,
+            (IRArrayPointerType*)arrayPointerType,
             chars.size(),
             arrayAllocation
         )
