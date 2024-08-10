@@ -4,11 +4,10 @@
 
 #include "ir-literal-expression-node.h"
 
-IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType, IRInstructionNode* sourceAllocation) {
+IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType) {
     _node = node;
     _irValue = irValue;
     _irType = irType;
-    _sourceAllocation = sourceAllocation;
 }
 
 llvm::Value* IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
@@ -21,10 +20,6 @@ IRType* IRLiteralExpressionNode::getIRType() {
 
 llvm::Constant* IRLiteralExpressionNode::getValue() {
     return _irValue->getConstantIRValue();
-}
-
-IRInstructionNode* IRLiteralExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
 }
 
 IRNodeType IRLiteralExpressionNode::getNodeType() {

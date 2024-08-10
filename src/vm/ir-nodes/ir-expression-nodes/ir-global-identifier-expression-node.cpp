@@ -17,10 +17,6 @@ llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRGlobalIdentifierExpressionNode::getSourceAllocation() {
-    return _irValue->getSourceAllocation();
-}
-
 IRPointerType* IRGlobalIdentifierExpressionNode::getIRType() {
     return _irValue->getIRType();
 }

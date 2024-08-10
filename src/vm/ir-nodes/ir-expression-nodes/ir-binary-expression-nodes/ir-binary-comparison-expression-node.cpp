@@ -30,7 +30,7 @@ llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {
     return _irValue;
 }
 
-IRInstructionNode* IRBinaryComparisonExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRBinaryComparisonExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

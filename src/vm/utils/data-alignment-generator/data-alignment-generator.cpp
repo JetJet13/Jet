@@ -5,6 +5,7 @@
 #include <cmath>
 #include "data-alignment-generator.h"
 #include "../address-space-generator/address-space-generator.h"
+#include "../../ir-type/ir-struct-type.h"
 
 llvm::Align DataAlignmentGenerator::generate(llvm::Type* type) {
     return DataAlignmentGenerator::generate(new IRType(type));
@@ -24,14 +25,14 @@ llvm::Align DataAlignmentGenerator::generate(IRType* type) {
     }
 
     if (type->isStructType()) {
-        unsigned long largestAddressSpace = 0;
+        unsigned long largestSize = 0;
         for (unsigned long i = 0; i < type->getType()->getStructNumElements(); i++) {
-            auto structElementAddressSpace = AddressSpaceGenerator::generate(type->getType()->getStructElementType(i));
-            if (structElementAddressSpace > largestAddressSpace) {
-                largestAddressSpace = structElementAddressSpace;
+            auto structElementSize = ((IRStructType*)type)->getIRTypeForKey(i)->getSizeInBytes();
+            if (structElementSize > largestSize) {
+                largestSize = structElementSize;
             }
         }
-        auto largestPowerOfTwo = std::ceil(log2(largestAddressSpace));
+        auto largestPowerOfTwo = std::ceil(log2(largestSize));
         return llvm::Align(std::pow(2, largestPowerOfTwo));
     }
 

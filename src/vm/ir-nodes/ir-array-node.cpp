@@ -15,9 +15,9 @@ llvm::Value* IRArrayNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>
     auto zeroIndex = builder->get()->getInt32(0);
     auto intIndex = builder->get()->getInt32(0);
     auto pointerIndex = builder->get()->getInt32(1);
-    auto intPointer = builder->get()->CreateInBoundsGEP(_type->getSourceType()->getType(), arrayObjectAllocation, {zeroIndex, intIndex });
+    auto intPointer = builder->get()->CreateInBoundsGEP(_type->getSourceType()->getType(), arrayObjectAllocation, { zeroIndex, intIndex });
     builder->get()->CreateStore(builder->get()->getInt32(_size), intPointer);
-    auto arrayPointer = builder->get()->CreateInBoundsGEP(_type->getSourceType()->getType(), arrayObjectAllocation, {zeroIndex, pointerIndex });
+    auto arrayPointer = builder->get()->CreateInBoundsGEP(_type->getSourceType()->getType(), arrayObjectAllocation, { zeroIndex, pointerIndex });
     auto firstElementPointer = builder->get()->CreateInBoundsGEP(arrayAllocation->getIRType()->getSourceType()->getType(), arrayAllocation->getValue(), { zeroIndex, zeroIndex });
     builder->get()->CreateStore(firstElementPointer, arrayPointer);
     return builder->get()->CreateLoad(arrayObjectAllocation->getAllocatedType(), arrayObjectAllocation);

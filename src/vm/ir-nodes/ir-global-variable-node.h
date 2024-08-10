@@ -13,12 +13,10 @@ class IRGlobalVariableNode : public IRNode {
 private:
     llvm::GlobalVariable* _irValue;
     IRPointerType* _type;
-    IRInstructionNode* _sourceAllocation;
 public:
-    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type, IRInstructionNode* sourceAllocation);
+    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type);
     llvm::GlobalVariable* getValue();
     IRPointerType* getIRType();
-    IRInstructionNode* getSourceAllocation();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

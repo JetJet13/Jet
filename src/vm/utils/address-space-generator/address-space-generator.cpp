@@ -9,6 +9,7 @@ unsigned int AddressSpaceGenerator::generate(llvm::Type* type) {
 }
 
 unsigned int AddressSpaceGenerator::generate(IRType* type) {
+    return 1;
     if (type->isCharType() || type->isBoolType()) {
         return 1;
     }

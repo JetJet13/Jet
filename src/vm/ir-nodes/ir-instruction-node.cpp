@@ -5,7 +5,7 @@
 #include "ir-instruction-node.h"
 #include <utility>
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _irValue = irValue;
     _irType = irType;
     _sourceAllocation = sourceAllocation;
@@ -49,6 +49,13 @@ IRInstructionNode* IRInstructionNode::getSourceAllocation() {
         return _sourceAllocation.value();
     }
     return this;
+}
+
+llvm::Type* IRInstructionNode::getAllocatedType() {
+    if (llvm::isa<llvm::AllocaInst>(_irValue)) {
+        return llvm::cast<llvm::AllocaInst>(_irValue)->getAllocatedType();
+    }
+    return llvm::cast<llvm::GlobalVariable>(_irValue)->getValueType();
 }
 
 IRInstructionNode* IRInstructionNode::getSourceAllocationAtIndex(unsigned long index) {

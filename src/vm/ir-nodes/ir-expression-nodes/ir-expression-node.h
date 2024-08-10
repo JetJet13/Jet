@@ -13,11 +13,11 @@ class IRExpressionNode : public IRNode {
 public:
     virtual llvm::Type* getType();
     virtual llvm::Type* getTypeAtIndex(unsigned long index);
-    virtual IRInstructionNode* getSourceAllocationAtIndex(unsigned long index);
+    virtual std::optional<IRInstructionNode*> getSourceAllocationAtIndex(unsigned long index);
+    virtual std::optional<IRInstructionNode*> getSourceAllocation();
     virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) = 0;
     virtual llvm::Value* getValue() = 0;
     virtual IRType* getIRType() = 0;
-    virtual IRInstructionNode* getSourceAllocation() = 0;
 };
 
 #endif //JETLANG_IR_EXPRESSION_NODE_H

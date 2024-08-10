@@ -15,14 +15,12 @@ class IRLiteralExpressionNode : public IRExpressionNode {
 private:
     ASTLiteralExpressionNode* _node;
     IRLiteralNode* _irValue;
-    IRInstructionNode* _sourceAllocation;
     IRType* _irType;
 public:
-    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType, IRInstructionNode* sourceAllocation);
+    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     IRType* getIRType() override;
     llvm::Constant* getValue() override;
-    IRInstructionNode* getSourceAllocation() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

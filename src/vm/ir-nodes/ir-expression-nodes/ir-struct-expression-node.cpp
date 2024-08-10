@@ -3,6 +3,7 @@
 //
 
 #include "ir-struct-expression-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
 IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues) {
     _astNode = astNode;
@@ -33,11 +34,12 @@ llvm::Value* IRStructExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRStructExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
-IRInstructionNode* IRStructExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
+std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
+    Logger::log("IRStructExpressionNode::getSourceAllocationAtIndex");
     return _irValues[index]->getSourceAllocation();
 }
 

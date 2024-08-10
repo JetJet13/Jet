@@ -24,7 +24,6 @@ uint64_t IRStructType::getSizeInBytes() {
 }
 
 unsigned long IRStructType::getIndexForKey(std::string key) {
-    Logger::log("getIndexForKey::key", key);
     auto result = _keyIndexMap.find(key);
     if (result == _keyIndexMap.end()) {
         throw std::logic_error("no struct index found for key: " + key);
@@ -47,7 +46,12 @@ IRType* IRStructType::getIRTypeForKey(std::string key) {
 }
 
 IRType* IRStructType::getIRTypeForKey(unsigned long indexAsKey) {
-    return this->getIRTypeForKey(std::to_string(indexAsKey));
+    for (auto keyValue : _keyIndexMap) {
+        if (keyValue.second == indexAsKey) {
+            return this->getIRTypeForKey(keyValue.first);
+        }
+    }
+    throw std::logic_error("no type found for index: " + indexAsKey);
 }
 
 void IRStructType::replaceIRTypeAtKey(std::string key, IRType* newIRType) {

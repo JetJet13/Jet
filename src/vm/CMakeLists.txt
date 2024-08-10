@@ -188,6 +188,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/support-function-ir-strategies/copy-array-support-function-ir-strategy/copy-array-support-function-ir-strategy.h
         ir-type/ir-array-type.cpp
         ir-type/ir-array-type.h
+        ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.cpp
+        ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h
 )
 
 target_link_libraries(jet-vm

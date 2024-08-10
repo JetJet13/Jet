@@ -1,3 +1,4 @@
+const e: OtherEnum = OtherEnum.First;
 const eight = 895;
 const hundred = 100.0;
 const character = 'c';
@@ -45,7 +46,7 @@ const myStruct = {
  f: 2.0,
  world: true,
  character: 'c',
- str: "Hello World",
+ str: "Hello World!",
  identifier: foo,
  array: [1,2,3],
  arrAccess: myArray[0],
@@ -74,6 +75,7 @@ let structAccess = myStruct.world;
 let structWord = myStruct.str;
 let myStructCopy = myStruct;
 let myArrayCopy = myArray;
+let strCopy = str;
 let arrAccess = myArray[1];
 const arrIndex = 1;
 // let otherArrAccess = myArray[arrIndex];
@@ -92,4 +94,10 @@ enum MyEnum {
     Uno,
     Dos,
     Tres
+}
+
+enum OtherEnum {
+    First = "first",
+    Second = "second",
+    Third = "third"
 }

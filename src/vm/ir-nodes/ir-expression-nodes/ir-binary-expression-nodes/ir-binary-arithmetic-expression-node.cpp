@@ -31,7 +31,7 @@ llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }
 
-IRInstructionNode* IRBinaryArithmeticExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRBinaryArithmeticExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

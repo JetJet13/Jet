@@ -18,7 +18,6 @@ public:
     IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRGlobalVariableNode* irValue);
     llvm::GlobalVariable* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::GlobalVariable* getValue() override;
-    IRInstructionNode* getSourceAllocation() override;
     IRPointerType* getIRType() override;
     llvm::Type* getType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;

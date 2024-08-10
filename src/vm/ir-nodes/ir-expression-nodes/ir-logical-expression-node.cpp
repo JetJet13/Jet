@@ -34,7 +34,7 @@ llvm::BinaryOperator* IRLogicalExpressionNode::getValue() {
     return _irValue;
 }
 
-IRInstructionNode* IRLogicalExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRLogicalExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

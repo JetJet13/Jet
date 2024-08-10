@@ -20,7 +20,7 @@ llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }
 
-IRInstructionNode* IRUnaryArithmeticExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRUnaryArithmeticExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

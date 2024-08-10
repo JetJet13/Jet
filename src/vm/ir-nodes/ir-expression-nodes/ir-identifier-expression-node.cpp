@@ -6,6 +6,7 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h"
 #include "../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h"
 
 IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue) {
     _node = node;
@@ -14,14 +15,15 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
 
 llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     if (_irValue->getIRType()->getSourceType()->isArrayPointerType()) {
-        auto arrayPointerType = (IRArrayPointerType*)_irValue->getIRType()->getSourceType();
-        auto destinationAllocation = IRInstructionNodeFactory::create(_irValue->getSourceAllocation()->getIRType());
-        auto allocation = builder->get()->Insert(destinationAllocation->getValue());
+        auto destinationAllocation = IRInstructionNodeFactory::create(_irValue->getSourceAllocation()->getSourceAllocation());
+        builder->get()->Insert(destinationAllocation->getValue());
         IRCopyArraySupportFunction::insertSelfIntoBlock(
                 builder,
                 _irValue->getSourceAllocation(),
                 destinationAllocation);
-        return builder->get()->CreateLoad(_irValue->getIRType()->getSourceType()->getType(), destinationAllocation->getValue());
+        auto arrayPointerType = (IRArrayPointerType*)_irValue->getIRType()->getSourceType();
+        auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(_irValue->getIRType(), destinationAllocation);
+        return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, arrayPointerType, arrayPointerTypeAllocation);
     }
     return builder->get()->CreateLoad(_irValue->getIRType()->getSourceType()->getType(), _irValue->getValue());
 }
@@ -30,7 +32,7 @@ llvm::Value* IRIdentifierExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRIdentifierExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getSourceAllocation() {
     return _irValue->getSourceAllocation();
 }
 

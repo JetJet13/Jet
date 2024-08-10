@@ -125,6 +125,10 @@ IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* sco
     }
 }
 
+IRType* IRGenerator::generateTypeFor(llvm::Constant* constant) {
+    return new IRType(constant->getType());
+}
+
 IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
     switch (typeSignature->getTypeSource()) {
         case VOID_TYPE_SOURCE:
@@ -167,8 +171,8 @@ IRArrayPointerType* IRGenerator::generateTypeFor(ArrayTypeSignature* typeSignatu
     return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, &_context, this);
 }
 
-IREnumType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature) {
-    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, &_context, this);
+IREnumType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues) {
+    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, enumValues, &_context, this);
 }
 
 IRStructType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature) {

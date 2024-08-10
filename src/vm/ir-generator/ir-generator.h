@@ -64,9 +64,10 @@ public:
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, llvm::Function* irFunction);
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRType* generateTypeFor(llvm::Constant* constant);
     IRType* generateTypeFor(TypeSignature* typeSignature);
     IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature);
-    IREnumType* generateTypeFor(EnumTypeSignature* typeSignature);
+    IREnumType* generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues);
     IRStructType* generateTypeFor(StructTypeSignature* typeSignature);
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature);
     IRType* generateVoidType();

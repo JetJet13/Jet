@@ -3,29 +3,31 @@
 //
 
 #include "ir-string-literal-expression-node.h"
+#include "../../ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h"
 
-IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(ASTLiteralExpressionNode* node, IRStringLiteralNode* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation) {
+IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(ASTLiteralExpressionNode* node, IRStringLiteralNode* irValue, IRArrayPointerType* irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation) {
     _node = node;
     _irValue = irValue;
-    _irType = irType;
+    _irArrayPointerType = irArrayPointerType;
     _sourceAllocation = sourceAllocation;
+    _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
 }
 
 llvm::Value* IRStringLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto arrayAllocation = builder->get()->CreateAlloca(_irValue->getConstantIRValue()->getType());
-    builder->get()->CreateStore(_irValue->getConstantIRValue(), arrayAllocation);
-    return _irValue->getIRArray()->insertSelfIntoBlock(builder, new IRInstructionNode(arrayAllocation, _irType));
+    builder->get()->Insert(_sourceAllocation->getValue());
+    builder->get()->CreateStore(_irValue->getConstantIRValue(), _sourceAllocation->getValue());
+    return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, _irArrayPointerType, _arrayPointerSourceAllocation);
 }
 
-IRPointerType* IRStringLiteralExpressionNode::getIRType() {
-    return _irType;
+IRArrayPointerType* IRStringLiteralExpressionNode::getIRType() {
+    return _irArrayPointerType;
 }
 
 llvm::Constant* IRStringLiteralExpressionNode::getValue() {
     return _irValue->getConstantIRValue();
 }
 
-IRInstructionNode* IRStringLiteralExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRStringLiteralExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

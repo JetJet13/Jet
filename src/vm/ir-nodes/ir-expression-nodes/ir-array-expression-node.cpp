@@ -30,7 +30,7 @@ llvm::Value* IRArrayExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRArrayExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRArrayExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 

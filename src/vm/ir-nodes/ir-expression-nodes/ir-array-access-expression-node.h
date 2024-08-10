@@ -21,7 +21,7 @@ public:
     IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type);
     llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::Value* getValue() override;
-    IRInstructionNode* getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

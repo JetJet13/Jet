@@ -9,10 +9,11 @@
 
 IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irLiteralNode = irGenerator->generateFor(node->getLiteralNode(), scope, irModule);
-    auto irType = irGenerator->generateTypeFor(node->getLiteralNode()->getTypeSignature());
-    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     if (irLiteralNode->is(IR_STRING_LITERAL_NODE)) {
-        return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, (IRPointerType*)irType, sourceAllocation);
+        auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irLiteralNode->getIRType()));
+        auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), sourceAllocation);
+        return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, (IRArrayPointerType*)irType,  sourceAllocation, arrayPointerSourceAllocation);
     }
-    return new IRLiteralExpressionNode(node, irLiteralNode, irType, sourceAllocation);
+    return new IRLiteralExpressionNode(node, irLiteralNode, irType);
 }

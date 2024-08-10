@@ -20,7 +20,7 @@ llvm::UnaryOperator* IRUnaryNegateExpressionNode::getValue() {
     return _irValue;
 }
 
-IRInstructionNode* IRUnaryNegateExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRUnaryNegateExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

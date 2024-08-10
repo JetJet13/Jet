@@ -21,7 +21,7 @@ public:
     IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation);
     llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
     llvm::BinaryOperator* getValue() override;
-    IRInstructionNode* getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

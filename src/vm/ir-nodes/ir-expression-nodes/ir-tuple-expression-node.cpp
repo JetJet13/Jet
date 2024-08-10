@@ -29,7 +29,7 @@ llvm::Value* IRTupleExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRTupleExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRTupleExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 

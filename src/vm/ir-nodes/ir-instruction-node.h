@@ -17,11 +17,12 @@ private:
     IRPointerType* _irType;
 public:
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations);
-    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childSourceAllocations);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType);
     explicit IRInstructionNode(llvm::GlobalVariable* irValue);
     llvm::Value* getValue();
+    llvm::Type* getAllocatedType();
     IRInstructionNode* getSourceAllocation();
     IRInstructionNode* getSourceAllocationAtIndex(unsigned long index);
     llvm::MaybeAlign getAlignment();

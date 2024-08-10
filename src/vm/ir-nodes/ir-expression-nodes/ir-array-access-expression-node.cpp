@@ -25,7 +25,7 @@ llvm::Value* IRArrayAccessExpressionNode::getValue() {
     return _irSource->getValue();
 }
 
-IRInstructionNode* IRArrayAccessExpressionNode::getSourceAllocation() {
+std::optional<IRInstructionNode*> IRArrayAccessExpressionNode::getSourceAllocation() {
     return _irSource->getSourceAllocation();
 }
 

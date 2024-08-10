@@ -6,7 +6,6 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    auto enumType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto structValues = std::vector<llvm::Constant*>();
     for (int i = 0; i < node->getValues()->numParameters(); ++i) {
         auto keyValuePair = node->getValues()->getParameters()[i];
@@ -19,6 +18,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
         }
     }
 
+    auto enumType = irGenerator->generateTypeFor(node->getTypeSignature(), structValues);
     auto structType = enumType->getType();
     auto globalVariable = new llvm::GlobalVariable(
             *irModule->getModule(),
@@ -30,8 +30,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
     );
     auto globalVariableEnum = new IRGlobalVariableNode(
             globalVariable,
-            irGenerator->generatePointerType(enumType),
-            IRInstructionNodeFactory::create(globalVariable)
+            irGenerator->generatePointerType(enumType)
     );
     scope->insertGlobalVariable(node->getId(), globalVariableEnum);
     return new IREnumDeclarationNode(
