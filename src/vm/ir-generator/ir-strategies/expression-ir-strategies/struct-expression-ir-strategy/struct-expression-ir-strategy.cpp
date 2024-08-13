@@ -11,7 +11,6 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     auto structValues = std::vector<IRExpressionNode*>();
     for (auto keyValuePair : node->getKeyValuePairs()) {
         auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irModule);
-        auto key = keyValuePair->getKey()->getIdentifierNode()->getId();
         structValues.push_back(irNode);
     }
     auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), &structValues);

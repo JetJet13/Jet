@@ -190,6 +190,12 @@ add_library(jet-vm
         ir-type/ir-array-type.h
         ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.cpp
         ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h
+        ir-injector/ir-injectors/ir-injector.cpp
+        ir-injector/ir-injectors/ir-injector.h
+        ir-injector/ir-injector-map.cpp
+        ir-injector/ir-injector-map.h
+        ir-injector/ir-injectors/string-ir-injector/string-ir-injector.cpp
+        ir-injector/ir-injectors/string-ir-injector/string-ir-injector.h
 )
 
 target_link_libraries(jet-vm

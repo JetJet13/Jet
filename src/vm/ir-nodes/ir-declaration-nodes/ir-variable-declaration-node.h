@@ -18,7 +18,7 @@ private:
     IRExpressionNode* _irExpression;
 public:
     IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression);
-    void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

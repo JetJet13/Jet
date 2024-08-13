@@ -3,6 +3,7 @@
 //
 
 #include "ir-expression-node.h"
+#include "../../../shared/utils/logger/logger.h"
 
 llvm::Type* IRExpressionNode::getType() {
     return this->getValue()->getType();
@@ -21,4 +22,12 @@ std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocationAtIndex(u
 
 std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocation() {
     return {};
+}
+
+std::optional<IRInstructionNode*> IRExpressionNode::getRootAllocationAtIndex(unsigned long index) {
+    return {};
+}
+
+std::optional<IRInstructionNode*> IRExpressionNode::getRootAllocation() {
+    return this->getSourceAllocation();
 }

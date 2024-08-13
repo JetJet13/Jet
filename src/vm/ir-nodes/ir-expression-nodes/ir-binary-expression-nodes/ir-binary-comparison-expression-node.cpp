@@ -13,12 +13,13 @@ IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpr
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value* IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                                    IRInjectorMap *injectorMap) {
     auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
-    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder);
+    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
     auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
 
-    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder);
+    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
     auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
 
     auto result = builder->get()->CreateCmp(_irValue->getPredicate(), leftNodeValue, rightNodeValue);

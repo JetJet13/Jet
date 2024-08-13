@@ -10,16 +10,18 @@
 #include "ir-declaration-nodes/ir-declaration-node.h"
 #include "ir-statement-nodes/ir-statement-node.h"
 #include "ir-function-nodes/ir-function-parameter-list-node.h"
+#include "../ir-injector/ir-injector-map.h"
 
 class IRBlockNode {
 private:
     llvm::BasicBlock* _irValue;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
+    IRInjectorMap _injectorMap;
 public:
     IRBlockNode(llvm::BasicBlock* irValue);
     llvm::BasicBlock* getBlock();
-    void insert(IRDeclarationNode* irNode);
-    void insert(IRStatementNode* irNode);
+    void inject(IRDeclarationNode* irNode);
+    void inject(IRStatementNode* irNode);
 };
 
 #endif //JETLANG_IR_BLOCK_NODE_H

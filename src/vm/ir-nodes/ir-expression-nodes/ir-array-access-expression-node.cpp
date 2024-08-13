@@ -12,9 +12,10 @@ IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressio
     _type = type;
 }
 
-llvm::Value* IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-    auto irIndexValue = _irIndex->insertSelfIntoBlock(builder);
-    auto loadIrIndexValue = builder->get()->CreateLoad(_irIndex->getType(), irIndexValue, "LOADED_ARRAY_ACCESS");
+llvm::Value * IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                               IRInjectorMap *injectorMap) {
+    auto irIndexValue = _irIndex->insertSelfIntoBlock(builder, injectorMap);
+    auto loadIrIndexValue = builder->get()->CreateLoad(_irIndex->getType(), irIndexValue);
     auto zeroIndex = builder->get()->getInt32(0);
     auto pointerToElement = builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
 //    Logger::log("irIndexAsInt->getZExtValue()", irIndexAsInt->getSExtValue());

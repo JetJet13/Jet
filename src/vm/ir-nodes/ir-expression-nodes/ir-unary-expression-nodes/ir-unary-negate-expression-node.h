@@ -19,7 +19,7 @@ private:
     IRInstructionNode* _sourceAllocation;
 public:
     IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation);
-    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::UnaryOperator* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;

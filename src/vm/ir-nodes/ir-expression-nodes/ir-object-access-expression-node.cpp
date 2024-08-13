@@ -8,6 +8,7 @@
 #include "../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h"
 #include "../../ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h"
+#include "../../ir-injector/ir-injector-map.h"
 
 IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
@@ -19,15 +20,16 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value* IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                                IRInjectorMap *injectorMap) {
     if (_sourceAllocation) {
         builder->get()->Insert(_sourceAllocation.value()->getValue());
     }
     if (this->getTargetIRType()->isArrayPointerType()) {
-        auto sourceAllocation = _irSource->getSourceAllocation().value()->getSourceAllocationAtIndex(_targetKeyIndex);
+        auto sourceAllocation = _irSource->getRootAllocationAtIndex(_targetKeyIndex).value();
         IRCopyArraySupportFunction::insertSelfIntoBlock(
                 builder,
-                sourceAllocation->getSourceAllocation(),
+                sourceAllocation,
                 _sourceAllocation.value());
         auto arrayPointerType = (IRArrayPointerType*)this->getTargetIRType();
         auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(sourceAllocation, _sourceAllocation.value());

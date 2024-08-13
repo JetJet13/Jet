@@ -12,7 +12,8 @@ IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpress
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value* IRUnaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRUnaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                                   IRInjectorMap *injectorMap) {
     return builder->get()->Insert(_irValue);
 }
 

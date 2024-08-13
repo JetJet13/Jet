@@ -22,7 +22,7 @@ private:
     IRType* _type;
 public:
     IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRType* type);
-    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::Value* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;

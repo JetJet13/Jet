@@ -28,16 +28,17 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
         ), irGenerator->generatePointerType(irParamType));
 
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
+        functionBlock->inject(
+                new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            functionBlock->insert(
-                    irGenerator->generateFor((ASTDeclarationNode*)statement, scope, irModule)
+            functionBlock->inject(
+                    irGenerator->generateFor((ASTDeclarationNode *) statement, scope, irModule)
             );
         } else if (ASTNodeUtils::isStatementNode(statement)) {
-            functionBlock->insert(
+            functionBlock->inject(
                     irGenerator->generateFor((ASTStatementNode*)statement, scope, irModule)
             );
         }

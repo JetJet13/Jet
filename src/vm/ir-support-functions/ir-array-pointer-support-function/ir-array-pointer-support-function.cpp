@@ -10,8 +10,7 @@ llvm::LoadInst* IRArrayPointerSupportFunction::insertSelfIntoBlock(std::unique_p
     auto intIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());
     auto pointerIndex = builder->get()->getInt32(arrayPointerType->getPointerIndex());
     auto intPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getNumElementsType(), arrayPointerAllocation->getValue(), {zeroIndex, intIndex });
-//    builder->get()->CreateStore(builder->get()->getInt32(arrayPointerAllocation->getSourceAllocation()->getAllocatedType()->getArrayNumElements()), intPointer);
-    builder->get()->CreateStore(builder->get()->getInt32(1), intPointer);
+    builder->get()->CreateStore(builder->get()->getInt32(arrayPointerAllocation->getSourceAllocation()->getAllocatedType()->getArrayNumElements()), intPointer);
     auto arrayPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getPointerType(), arrayPointerAllocation->getValue(), {zeroIndex, pointerIndex });
     auto firstElementPointer = builder->get()->CreateInBoundsGEP(arrayPointerAllocation->getSourceAllocation()->getAllocatedType(), arrayPointerAllocation->getSourceAllocation()->getValue(), {zeroIndex, zeroIndex });
     builder->get()->CreateStore(firstElementPointer, arrayPointer);

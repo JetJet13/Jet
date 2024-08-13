@@ -9,6 +9,7 @@
 #include "ir-declaration-node.h"
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
 #include "../ir-global-variable-node.h"
+#include "../../ir-injector/ir-injector-map.h"
 
 class IREnumDeclarationNode : public IRDeclarationNode {
 private:
@@ -16,7 +17,7 @@ private:
     IRGlobalVariableNode* _irValue;
 public:
     IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlobalVariableNode* irValue);
-    void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

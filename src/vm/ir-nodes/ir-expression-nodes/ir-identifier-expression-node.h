@@ -16,9 +16,10 @@ private:
     IRInstructionNode* _irValue;
 public:
     IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue);
-    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::Value* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getRootAllocation() override;
     IRPointerType* getIRType() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

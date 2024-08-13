@@ -3,6 +3,7 @@
 //
 
 #include "ir-literal-expression-node.h"
+#include "../../ir-injector/ir-injector-map.h"
 
 IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType) {
     _node = node;
@@ -10,7 +11,8 @@ IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node,
     _irType = irType;
 }
 
-llvm::Value* IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                           IRInjectorMap *injectorMap) {
     return _irValue->getConstantIRValue();
 }
 

@@ -12,7 +12,8 @@ IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode*
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value* IRUnaryNegateExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRUnaryNegateExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                               IRInjectorMap *injectorMap) {
     return builder->get()->Insert(_irValue);
 }
 

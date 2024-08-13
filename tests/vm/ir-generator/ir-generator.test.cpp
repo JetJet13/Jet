@@ -44,7 +44,7 @@ TEST_CASE( "should create expected vm code" ) {
         Logger::log("generating IR for node", node->toString(), node->getId());
         auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule);
         Logger::log("done generating IR for node", node->toString(), node->getId());
-        irMainFunctionBlock->insert(value);
+        irMainFunctionBlock->inject(value);
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }

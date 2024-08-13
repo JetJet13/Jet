@@ -16,11 +16,9 @@ class IRStringLiteralNode : public IRLiteralNode {
 private:
     ASTStringLiteralNode* _astNode;
     llvm::Constant* _irValue;
-    IRArrayNode* _irArray;
     IRArrayType* _type;
 public:
-    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRArrayType* type, IRArrayNode* irArray);
-    IRArrayNode* getIRArray();
+    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRArrayType* type);
     llvm::Constant* getConstantIRValue() override;
     IRArrayType* getIRType() override;
     IRNodeType getNodeType() override;

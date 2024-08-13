@@ -28,21 +28,9 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
             llvm::ArrayRef(chars)
     );
 
-    auto arrayPointerType = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto arrayAllocation = new llvm::AllocaInst(
-            arrayPointerType->getType(),
-            AddressSpaceGenerator::generate(charIrType),
-            nullptr,
-            DataAlignmentGenerator::generate(charIrType));
-
     return new IRStringLiteralNode(
         node,
         stringArray,
-        stringArrayType,
-        new IRArrayNode(
-            (IRArrayPointerType*)arrayPointerType,
-            chars.size(),
-            arrayAllocation
-        )
+        stringArrayType
     );
 }

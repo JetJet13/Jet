@@ -9,7 +9,7 @@ IRGlobalIdentifierExpressionNode::IRGlobalIdentifierExpressionNode(ASTIdentifier
     _irValue = irValue;
 }
 
-llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* injectorMap) {
     return _irValue->getValue();
 }
 

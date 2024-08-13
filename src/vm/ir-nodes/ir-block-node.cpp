@@ -7,16 +7,17 @@
 IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue) {
     _irValue = irValue;
     _builder = std::make_unique<llvm::IRBuilder<>>(_irValue);
+    _injectorMap = IRInjectorMap();
 }
 
 llvm::BasicBlock* IRBlockNode::getBlock() {
     return _irValue;
 }
 
-void IRBlockNode::insert(IRDeclarationNode* irNode) {
-    irNode->insertSelfIntoBlock(&_builder);
+void IRBlockNode::inject(IRDeclarationNode* irNode) {
+    irNode->insertSelfIntoBlock(&_builder, &_injectorMap);
 }
 
-void IRBlockNode::insert(IRStatementNode* irNode) {
-    irNode->insertSelfIntoBlock(&_builder);
+void IRBlockNode::inject(IRStatementNode* irNode) {
+    irNode->insertSelfIntoBlock(&_builder, &_injectorMap);
 }

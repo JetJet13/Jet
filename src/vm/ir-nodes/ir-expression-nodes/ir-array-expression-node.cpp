@@ -12,7 +12,8 @@ IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRIns
     _type = type;
 }
 
-llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                         IRInjectorMap *injectorMap) {
     auto arrayExpressionAllocation = builder->get()->Insert(_irValue->getValue());
     auto numElements = _irValues.size();
     auto zeroIndex = builder->get()->getInt32(0);
@@ -20,7 +21,7 @@ llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
         auto irExpression = _irValues[i];
         auto irIndex = builder->get()->getInt32(i);
         auto pointer = builder->get()->CreateInBoundsGEP(arrayExpressionAllocation->getType(), arrayExpressionAllocation, { zeroIndex, irIndex });
-        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
+        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder, injectorMap);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
     return _array->insertSelfIntoBlock(builder, _irValue);

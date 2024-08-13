@@ -11,7 +11,8 @@ IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, IRIns
     _type = type;
 }
 
-llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                         IRInjectorMap *injectorMap) {
     auto tupleExpressionAllocation = builder->get()->Insert(_irValue->getValue());
     auto numElements = _irValues.size();
     auto zeroIndex = builder->get()->getInt32(0);
@@ -19,7 +20,7 @@ llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IR
         auto irExpression = _irValues[i];
         auto irIndex = builder->get()->getInt32(i);
         auto pointer = builder->get()->CreateInBoundsGEP(tupleExpressionAllocation->getType(), tupleExpressionAllocation, { zeroIndex, irIndex });
-        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
+        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder, injectorMap);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
     return tupleExpressionAllocation;

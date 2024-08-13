@@ -9,6 +9,7 @@
 #include <llvm/IR/InstrTypes.h>
 #include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
 #include "ir-unary-expression-node.h"
+#include "../../../ir-injector/ir-injector-map.h"
 
 class IRUnaryArithmeticExpressionNode : public IRUnaryExpressionNode {
 private:
@@ -19,7 +20,7 @@ private:
     IRInstructionNode* _sourceAllocation;
 public:
     IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::BinaryOperator* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;

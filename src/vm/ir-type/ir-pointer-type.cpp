@@ -43,6 +43,7 @@ bool IRPointerType::isPointerType() {
 }
 
 void IRPointerType::print() {
+    llvm::outs().write_escaped("IR POINTER TYPE ->");
     _type->print(llvm::outs(), true, true);
     llvm::outs().write(' ');
     if (_sourceType) {
@@ -50,4 +51,5 @@ void IRPointerType::print() {
     } else {
         llvm::outs().write_escaped("NO SOURCE POINTER TYPE");
     }
+    llvm::outs().write_escaped("<- IR POINTER TYPE");
 }

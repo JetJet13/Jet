@@ -16,7 +16,7 @@ private:
     IRGlobalVariableNode* _irValue;
 public:
     IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRGlobalVariableNode* irValue);
-    llvm::GlobalVariable* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::GlobalVariable* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* injectorMap) override;
     llvm::GlobalVariable* getValue() override;
     IRPointerType* getIRType() override;
     llvm::Type* getType() override;

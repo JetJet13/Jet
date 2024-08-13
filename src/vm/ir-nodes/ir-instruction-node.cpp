@@ -48,7 +48,7 @@ IRInstructionNode* IRInstructionNode::getSourceAllocation() {
     if (_sourceAllocation) {
         return _sourceAllocation.value();
     }
-    return this;
+    throw std::logic_error("instruction does not have a source allocation");
 }
 
 llvm::Type* IRInstructionNode::getAllocatedType() {

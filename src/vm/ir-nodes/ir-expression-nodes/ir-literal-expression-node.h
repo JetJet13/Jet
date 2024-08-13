@@ -10,6 +10,7 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../ir-literal-nodes/ir-literal-node.h"
 #include "../../ir-type/ir-pointer-type.h"
+#include "../../ir-injector/ir-injector-map.h"
 
 class IRLiteralExpressionNode : public IRExpressionNode {
 private:
@@ -18,7 +19,7 @@ private:
     IRType* _irType;
 public:
     IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType);
-    llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     IRType* getIRType() override;
     llvm::Constant* getValue() override;
     IRNodeType getNodeType() override;

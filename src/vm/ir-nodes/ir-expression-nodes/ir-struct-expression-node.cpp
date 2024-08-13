@@ -12,15 +12,16 @@ IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode,
     _type = type;
 }
 
-llvm::Value* IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                          IRInjectorMap *injectorMap) {
     auto structExpressionAllocation = builder->get()->Insert(_irValue->getValue());
     auto numElements = _irValues.size();
     auto zeroIndex = builder->get()->getInt32(0);
     for (int i = 0; i < numElements; ++i) {
         auto irExpression = _irValues[i];
         auto irIndex = builder->get()->getInt32(i);
-        auto pointer = builder->get()->CreateInBoundsGEP(_irValue->getIRType()->getSourceType()->getType()->getStructElementType(i), structExpressionAllocation, {zeroIndex, irIndex });
-        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder);
+        auto pointer = builder->get()->CreateInBoundsGEP(_irValue->getAllocatedType(), structExpressionAllocation, { zeroIndex, irIndex });
+        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder, injectorMap);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
     return structExpressionAllocation;
@@ -39,9 +40,14 @@ std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() 
 }
 
 std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
-    Logger::log("IRStructExpressionNode::getSourceAllocationAtIndex");
     return _irValues[index]->getSourceAllocation();
 }
+
+std::optional<IRInstructionNode*> IRStructExpressionNode::getRootAllocationAtIndex(unsigned long index) {
+    Logger::log("IRStructExpressionNode::getRootAllocationAtIndex");
+    return _irValues[index]->getRootAllocation();
+}
+
 
 IRNodeType IRStructExpressionNode::getNodeType() {
     return IR_STRUCT_EXPRESSION_NODE;

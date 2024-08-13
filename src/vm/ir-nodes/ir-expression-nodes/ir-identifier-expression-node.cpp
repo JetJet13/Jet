@@ -7,15 +7,17 @@
 #include "../../ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h"
 #include "../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h"
+#include "../../ir-injector/ir-injector-map.h"
 
 IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue) {
     _node = node;
     _irValue = irValue;
 }
 
-llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value * IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+                                                              IRInjectorMap *injectorMap) {
     if (_irValue->getIRType()->getSourceType()->isArrayPointerType()) {
-        auto destinationAllocation = IRInstructionNodeFactory::create(_irValue->getSourceAllocation()->getSourceAllocation());
+        auto destinationAllocation = IRInstructionNodeFactory::create(_irValue->getSourceAllocation());
         builder->get()->Insert(destinationAllocation->getValue());
         IRCopyArraySupportFunction::insertSelfIntoBlock(
                 builder,
@@ -34,6 +36,10 @@ llvm::Value* IRIdentifierExpressionNode::getValue() {
 
 std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getSourceAllocation() {
     return _irValue->getSourceAllocation();
+}
+
+std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getRootAllocation() {
+    return _irValue->getSourceAllocation()->getSourceAllocation();
 }
 
 IRPointerType* IRIdentifierExpressionNode::getIRType() {

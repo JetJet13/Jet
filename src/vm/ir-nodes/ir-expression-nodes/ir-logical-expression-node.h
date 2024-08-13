@@ -20,7 +20,7 @@ private:
     IRInstructionNode* _sourceAllocation;
 public:
     IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRInstructionNode* sourceAllocation);
-    llvm::Value * insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
+    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     IRType* getIRType() override;
     llvm::BinaryOperator* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
