@@ -6,12 +6,14 @@
 
 IRInjectorMap::IRInjectorMap() {
     _injectorMap = std::unordered_map<TypeSource, IRInjector*, std::hash<int>>();
-    _stringIRInjector = new StringIRInjector();
+    _stringIRInjector = new StringIRInjector(this);
+    _arrayIRInjector = new ArrayIRInjector(this);
     this->init();
 }
 
 void IRInjectorMap::init() {
     _injectorMap.insert(this->insert(STRING_LITERAL_TYPE_SOURCE, _stringIRInjector));
+    _injectorMap.insert(this->insert(ARRAY_TYPE_SOURCE, _arrayIRInjector));
 }
 
 std::pair<TypeSource, IRInjector*> IRInjectorMap::insert(TypeSource typeSignature, IRInjector* injector) {
@@ -28,4 +30,8 @@ IRInjector* IRInjectorMap::getInjector(TypeSignature* typeSignature) {
 
 StringIRInjector* IRInjectorMap::getStringInjector() {
     return _stringIRInjector;
+}
+
+ArrayIRInjector* IRInjectorMap::getArrayInjector() {
+    return _arrayIRInjector;
 }

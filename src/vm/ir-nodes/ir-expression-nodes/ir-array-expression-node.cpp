@@ -3,40 +3,46 @@
 //
 
 #include "ir-array-expression-node.h"
+#include "../../ir-injector/ir-injector-map.h"
 
-IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRType* type) {
+IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type) {
     _node = node;
     _irValue = irValue;
+    _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
     _irValues = irValues;
-    _array = array;
     _type = type;
 }
 
-llvm::Value * IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                         IRInjectorMap *injectorMap) {
-    auto arrayExpressionAllocation = builder->get()->Insert(_irValue->getValue());
-    auto numElements = _irValues.size();
-    auto zeroIndex = builder->get()->getInt32(0);
-    for (int i = 0; i < numElements; ++i) {
-        auto irExpression = _irValues[i];
-        auto irIndex = builder->get()->getInt32(i);
-        auto pointer = builder->get()->CreateInBoundsGEP(arrayExpressionAllocation->getType(), arrayExpressionAllocation, { zeroIndex, irIndex });
-        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder, injectorMap);
-        builder->get()->CreateStore(irExpressionValue, pointer);
-    }
-    return _array->insertSelfIntoBlock(builder, _irValue);
+llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+    return injectorMap->getArrayInjector()->inject(this, builder);
 }
 
 llvm::Value* IRArrayExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
+std::vector<IRExpressionNode*>* IRArrayExpressionNode::getValues() {
+    return &_irValues;
+}
+
 std::optional<IRInstructionNode*> IRArrayExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
-IRType* IRArrayExpressionNode::getIRType() {
+IRInstructionNode* IRArrayExpressionNode::getSourceArrayAllocation() {
+    return _irValue;
+}
+
+IRInstructionNode* IRArrayExpressionNode::getArrayPointerAllocation() {
+    return _arrayPointerSourceAllocation;
+}
+
+IRArrayPointerType* IRArrayExpressionNode::getIRType() {
     return _type;
+}
+
+unsigned long IRArrayExpressionNode::size() {
+    return _irValues.size();
 }
 
 llvm::Type* IRArrayExpressionNode::getTypeAtIndex(unsigned long index) {

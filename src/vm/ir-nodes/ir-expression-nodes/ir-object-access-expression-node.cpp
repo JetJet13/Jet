@@ -20,8 +20,11 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                                IRInjectorMap *injectorMap) {
+llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+    if (_node->getTypeSignature()->typeSourceIs(ENUM_ACCESS_TYPE_SOURCE)) {
+        return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
+    }
+
     if (_sourceAllocation) {
         builder->get()->Insert(_sourceAllocation.value()->getValue());
     }
@@ -56,6 +59,22 @@ llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<
     }
 
     return builder->get()->CreateLoad(this->getTargetIRType()->getType(), pointer);
+}
+
+IRExpressionNode* IRObjectAccessExpressionNode::getSource() {
+    return _irSource;
+}
+
+std::string* IRObjectAccessExpressionNode::getTargetKey() {
+    return &_targetKey;
+}
+
+llvm::Constant* IRObjectAccessExpressionNode::getIRTargetKeyIndex() {
+    return _irTargetKeyIndex;
+}
+
+unsigned long IRObjectAccessExpressionNode::getTargetKeyIndex() {
+    return _targetKeyIndex;
 }
 
 IRType* IRObjectAccessExpressionNode::getIRType() {

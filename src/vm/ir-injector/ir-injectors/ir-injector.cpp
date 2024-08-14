@@ -3,3 +3,7 @@
 //
 
 #include "ir-injector.h"
+
+IRInjector::IRInjector(IRInjectorMap* irInjectorMap) {
+    _irInjectorMap = irInjectorMap;
+}

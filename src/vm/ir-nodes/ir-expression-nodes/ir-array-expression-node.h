@@ -17,15 +17,19 @@ class IRArrayExpressionNode : public IRExpressionNode {
 private:
     ASTArrayExpressionNode* _node;
     IRInstructionNode* _irValue;
+    IRInstructionNode* _arrayPointerSourceAllocation;
     std::vector<IRExpressionNode*> _irValues;
-    IRArrayNode* _array;
-    IRType* _type;
+    IRArrayPointerType* _type;
 public:
-    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, std::vector<IRExpressionNode*> irValues, IRArrayNode* array, IRType* type);
+    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
     llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::Value* getValue() override;
+    std::vector<IRExpressionNode*>* getValues();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
-    IRType* getIRType() override;
+    IRInstructionNode* getSourceArrayAllocation();
+    IRInstructionNode* getArrayPointerAllocation();
+    IRArrayPointerType* getIRType() override;
+    unsigned long size();
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;

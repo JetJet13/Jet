@@ -8,10 +8,14 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
 
+class IRInjectorMap;
 class IRExpressionNode;
 
 class IRInjector {
+protected:
+    IRInjectorMap* _irInjectorMap;
 public:
+    IRInjector(IRInjectorMap* irInjectorMap);
     virtual llvm::Value* inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) = 0;
 };
 

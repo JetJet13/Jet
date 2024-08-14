@@ -6,6 +6,7 @@
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../ir-type/ir-array-type.h"
+#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto elementValues = std::vector<IRExpressionNode*>();
@@ -23,13 +24,6 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
             DataAlignmentGenerator::generate(arrayElementIrType)),
             irGenerator->generatePointerType(arrayType)
     );
-
-
-    auto arrayStructAllocation = new llvm::AllocaInst(
-            irType->getType(),
-            AddressSpaceGenerator::generate(arrayElementIrType),
-            nullptr,
-            DataAlignmentGenerator::generate(arrayElementIrType));
-    auto irArray = new IRArrayNode(irType, elementValues.size(), arrayStructAllocation);
-    return new IRArrayExpressionNode(node, arrayAllocation, elementValues, irArray, irType);
+    auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), arrayAllocation);
+    return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerSourceAllocation, elementValues, irType);
 }

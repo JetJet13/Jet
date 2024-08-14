@@ -17,15 +17,7 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
 llvm::Value * IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
                                                               IRInjectorMap *injectorMap) {
     if (_irValue->getIRType()->getSourceType()->isArrayPointerType()) {
-        auto destinationAllocation = IRInstructionNodeFactory::create(_irValue->getSourceAllocation());
-        builder->get()->Insert(destinationAllocation->getValue());
-        IRCopyArraySupportFunction::insertSelfIntoBlock(
-                builder,
-                _irValue->getSourceAllocation(),
-                destinationAllocation);
-        auto arrayPointerType = (IRArrayPointerType*)_irValue->getIRType()->getSourceType();
-        auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(_irValue->getIRType(), destinationAllocation);
-        return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, arrayPointerType, arrayPointerTypeAllocation);
+        return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
     }
     return builder->get()->CreateLoad(_irValue->getIRType()->getSourceType()->getType(), _irValue->getValue());
 }
