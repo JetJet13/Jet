@@ -200,6 +200,14 @@ add_library(jet-vm
         ir-injector/ir-injectors/array-ir-injector/array-ir-injector.h
         ir-injector/ir-injectors/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.cpp
         ir-injector/ir-injectors/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h
+        ir-injector/ir-injectors/literal-ir-injector/literal-ir-injector.cpp
+        ir-injector/ir-injectors/literal-ir-injector/literal-ir-injector.h
+        ir-injector/ir-injectors/struct-ir-injector/struct-ir-injector.cpp
+        ir-injector/ir-injectors/struct-ir-injector/struct-ir-injector.h
+        ir-injector/ir-injectors/tuple-ir-injector/tuple-ir-injector.cpp
+        ir-injector/ir-injectors/tuple-ir-injector/tuple-ir-injector.h
+        ir-injector/ir-injectors/expression-ir-injector.cpp
+        ir-injector/ir-injectors/expression-ir-injector.h
 )
 
 target_link_libraries(jet-vm

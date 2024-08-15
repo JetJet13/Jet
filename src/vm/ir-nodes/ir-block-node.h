@@ -16,9 +16,9 @@ class IRBlockNode {
 private:
     llvm::BasicBlock* _irValue;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
-    IRInjectorMap _injectorMap;
+    IRInjectorMap* _injectorMap;
 public:
-    IRBlockNode(llvm::BasicBlock* irValue);
+    IRBlockNode(llvm::BasicBlock* irValue, IRInjectorMap* injectorMap);
     llvm::BasicBlock* getBlock();
     void inject(IRDeclarationNode* irNode);
     void inject(IRStatementNode* irNode);

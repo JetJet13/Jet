@@ -11,9 +11,8 @@ IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node,
     _irType = irType;
 }
 
-llvm::Value * IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                           IRInjectorMap *injectorMap) {
-    return _irValue->getConstantIRValue();
+llvm::Value* IRLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+    return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
 }
 
 IRType* IRLiteralExpressionNode::getIRType() {

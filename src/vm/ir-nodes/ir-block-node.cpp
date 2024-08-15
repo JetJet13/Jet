@@ -4,10 +4,10 @@
 
 #include "ir-block-node.h"
 
-IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue) {
+IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRInjectorMap* injectorMap) {
     _irValue = irValue;
     _builder = std::make_unique<llvm::IRBuilder<>>(_irValue);
-    _injectorMap = IRInjectorMap();
+    _injectorMap = injectorMap;
 }
 
 llvm::BasicBlock* IRBlockNode::getBlock() {
@@ -15,9 +15,9 @@ llvm::BasicBlock* IRBlockNode::getBlock() {
 }
 
 void IRBlockNode::inject(IRDeclarationNode* irNode) {
-    irNode->insertSelfIntoBlock(&_builder, &_injectorMap);
+    irNode->insertSelfIntoBlock(&_builder, _injectorMap);
 }
 
 void IRBlockNode::inject(IRStatementNode* irNode) {
-    irNode->insertSelfIntoBlock(&_builder, &_injectorMap);
+    irNode->insertSelfIntoBlock(&_builder, _injectorMap);
 }

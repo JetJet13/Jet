@@ -3,6 +3,7 @@
 //
 
 #include "ir-struct-expression-node.h"
+#include "../../ir-injector/ir-injector-map.h"
 #include "../../../shared/utils/logger/logger.h"
 
 IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues) {
@@ -12,27 +13,24 @@ IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode,
     _type = type;
 }
 
-llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                          IRInjectorMap *injectorMap) {
-    auto structExpressionAllocation = builder->get()->Insert(_irValue->getValue());
-    auto numElements = _irValues.size();
-    auto zeroIndex = builder->get()->getInt32(0);
-    for (int i = 0; i < numElements; ++i) {
-        auto irExpression = _irValues[i];
-        auto irIndex = builder->get()->getInt32(i);
-        auto pointer = builder->get()->CreateInBoundsGEP(_irValue->getAllocatedType(), structExpressionAllocation, { zeroIndex, irIndex });
-        auto irExpressionValue = irExpression->insertSelfIntoBlock(builder, injectorMap);
-        builder->get()->CreateStore(irExpressionValue, pointer);
-    }
-    return structExpressionAllocation;
+llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+    return injectorMap->getStructInjector()->inject(this, builder);
 }
 
 IRType* IRStructExpressionNode::getIRType() {
     return _type;
 }
 
+unsigned long IRStructExpressionNode::size() {
+    return _irValues.size();
+}
+
 llvm::Value* IRStructExpressionNode::getValue() {
     return _irValue->getValue();
+}
+
+std::vector<IRExpressionNode*>* IRStructExpressionNode::getValues() {
+    return &_irValues;
 }
 
 std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() {

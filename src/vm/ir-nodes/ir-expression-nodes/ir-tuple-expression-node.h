@@ -24,6 +24,8 @@ public:
     IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues);
     llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::Value* getValue() override;
+    unsigned long size();
+    std::vector<IRExpressionNode*>* getValues();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;

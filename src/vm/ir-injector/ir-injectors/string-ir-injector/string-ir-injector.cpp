@@ -33,7 +33,7 @@ llvm::Value* StringIRInjector::inject(IRIdentifierExpressionNode* irExpression, 
 
 llvm::Value* StringIRInjector::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     builder->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
-    auto arrayPointerType = (IRArrayPointerType*)irExpression->getTargetIRType();
+    auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
 
     if (irExpression->getSource()->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
         auto pointer = llvm::GetElementPtrInst::CreateInBounds(
@@ -43,14 +43,14 @@ llvm::Value* StringIRInjector::inject(IRObjectAccessExpressionNode* irExpression
         );
         builder->get()->Insert(pointer);
         auto loadedValue = builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-            builder->get()->CreateStore(loadedValue, irExpression->getSourceAllocation().value()->getValue());
-            auto arrayPointerTypeAllocation = builder->get()->CreateAlloca(arrayPointerType->getType());
-            return ArrayIRInjectorHelper::injectArrayPointer(
-                    builder,
-                    arrayPointerType,
-                    irExpression->getSourceAllocation().value(),
-                    arrayPointerTypeAllocation
-            );
+        builder->get()->CreateStore(loadedValue, irExpression->getSourceAllocation().value()->getValue());
+        auto arrayPointerTypeAllocation = builder->get()->CreateAlloca(arrayPointerType->getType());
+        return ArrayIRInjectorHelper::injectArrayPointer(
+                builder,
+                arrayPointerType,
+                irExpression->getSourceAllocation().value(),
+                arrayPointerTypeAllocation
+        );
     }
 
     auto sourceAllocation = irExpression->getSource()->getRootAllocationAtIndex(irExpression->getTargetKeyIndex()).value();
@@ -58,6 +58,6 @@ llvm::Value* StringIRInjector::inject(IRObjectAccessExpressionNode* irExpression
             builder,
             sourceAllocation,
             irExpression->getSourceAllocation().value());
-    auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(sourceAllocation, irExpression->getSourceAllocation().value());
+    auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(sourceAllocation, irExpression->getRootAllocation().value());
     return ArrayIRInjectorHelper::injectArrayPointer(builder, arrayPointerType, arrayPointerTypeAllocation);
 }

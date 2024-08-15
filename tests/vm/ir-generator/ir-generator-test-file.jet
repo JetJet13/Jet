@@ -47,8 +47,8 @@ const myStruct = {
  world: true,
  character: 'c',
  str: "Hello World!",
- identifier: foo,
- array: [1,2,3],
+ // identifier: foo,
+ // array: [1,2,3],
  arrAccess: myArray[0],
  obj: {
     test: 100,

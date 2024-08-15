@@ -4,8 +4,6 @@
 
 #include "ir-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
-#include "../../ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h"
-#include "../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h"
 #include "../../ir-injector/ir-injector-map.h"
 
@@ -14,12 +12,8 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
     _irValue = irValue;
 }
 
-llvm::Value * IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                              IRInjectorMap *injectorMap) {
-    if (_irValue->getIRType()->getSourceType()->isArrayPointerType()) {
-        return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
-    }
-    return builder->get()->CreateLoad(_irValue->getIRType()->getSourceType()->getType(), _irValue->getValue());
+llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+    return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
 }
 
 llvm::Value* IRIdentifierExpressionNode::getValue() {

@@ -55,6 +55,7 @@ class IRGenerator {
 private:
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
+    IRInjectorMap _irInjectorMap;
     llvm::StructType* _arrayStructType;
 public:
     explicit IRGenerator();
