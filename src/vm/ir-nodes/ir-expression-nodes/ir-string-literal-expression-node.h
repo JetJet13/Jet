@@ -10,7 +10,7 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../ir-type/ir-pointer-type.h"
 #include "../ir-literal-nodes/ir-string-literal-node.h"
-#include "../../ir-injector/ir-injector-map.h"
+#include "../../ir-type/ir-array-pointer-type.h"
 
 class IRStringLiteralExpressionNode : public IRExpressionNode {
 private:
@@ -21,8 +21,8 @@ private:
     IRInstructionNode* _arrayPointerSourceAllocation;
 public:
     IRStringLiteralExpressionNode(ASTLiteralExpressionNode* node, IRStringLiteralNode* irValue, IRArrayPointerType* irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation);
-    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     IRArrayPointerType* getIRType() override;
+    TypeSignature* getTypeSignature() override;
     llvm::Constant* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     std::optional<IRInstructionNode*> getRootAllocation() override;

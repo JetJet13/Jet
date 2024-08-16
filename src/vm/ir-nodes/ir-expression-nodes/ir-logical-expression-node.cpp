@@ -5,7 +5,7 @@
 #include "ir-logical-expression-node.h"
 
 IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRInstructionNode* sourceAllocation) {
-    _astNode = astNode;
+    _node = astNode;
     _irValue = irValue;
     _type = type;
     _irLeftNode = irLeftNode;
@@ -13,22 +13,26 @@ IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNo
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value * IRLogicalExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                           IRInjectorMap *injectorMap) {
-    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
-    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
-    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
-
-    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
-    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
-
-    auto result = builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
-    builder->get()->CreateStore(result, allocation);
-    return allocation;
-}
+//llvm::Value * IRLogicalExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+//                                                           IRInjectorMap *injectorMap) {
+//    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
+//    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
+//    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
+//
+//    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
+//    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
+//
+//    auto result = builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
+//    builder->get()->CreateStore(result, allocation);
+//    return allocation;
+//}
 
 IRType* IRLogicalExpressionNode::getIRType() {
     return _type;
+}
+
+TypeSignature* IRLogicalExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 llvm::BinaryOperator* IRLogicalExpressionNode::getValue() {

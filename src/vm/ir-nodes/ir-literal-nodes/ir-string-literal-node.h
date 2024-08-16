@@ -9,7 +9,6 @@
 #include "../../../core/ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
 #include "ir-literal-node.h"
 #include "../../ir-type/ir-type.h"
-#include "../ir-array-node.h"
 #include "../../ir-type/ir-array-type.h"
 
 class IRStringLiteralNode : public IRLiteralNode {

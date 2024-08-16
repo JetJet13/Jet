@@ -9,32 +9,38 @@
 #include "../ir-type/ir-type.h"
 #include "../../core/type-signature/types/type-source.h"
 #include "../../core/type-signature/type-signature.h"
-#include "ir-injectors/ir-injector.h"
-#include "ir-injectors/string-ir-injector/string-ir-injector.h"
-#include "ir-injectors/array-ir-injector/array-ir-injector.h"
-#include "ir-injectors/literal-ir-injector/literal-ir-injector.h"
-#include "ir-injectors/struct-ir-injector/struct-ir-injector.h"
-#include "ir-injectors/tuple-ir-injector/tuple-ir-injector.h"
+#include "ir-injector-strategies/ir-injector-strategy.h"
+#include "ir-injector-strategies/string-ir-injector-strategy/string-ir-injector-strategy.h"
+#include "ir-injector-strategies/literal-ir-injector-strategy/literal-ir-injector-strategy.h"
+#include "ir-injector-strategies/array-ir-injector-strategy/array-ir-injector-strategy.h"
+#include "ir-injector-strategies/struct-ir-injector-strategy/struct-ir-injector-strategy.h"
+#include "ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.h"
+#include "ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.h"
+#include "ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h"
 
 
 class IRInjectorMap {
 private:
-    std::unordered_map<TypeSource, ExpressionIRInjector*, std::hash<int>> _injectorMap;
-    StringIRInjector* _stringIRInjector;
-    LiteralIRInjector* _literalIRInjector;
-    ArrayIRInjector* _arrayIRInjector;
-    StructIRInjector* _structIRInjector;
-    TupleIRInjector* _tupleIRInjector;
+    std::unordered_map<TypeSource, IRInjectorStrategy*, std::hash<int>> _injectorMap;
+    StringIRInjectorStrategy* _stringIRInjector;
+    LiteralIRInjectorStrategy* _literalIRInjector;
+    ArrayIRInjectorStrategy* _arrayIRInjector;
+    StructIRInjectorStrategy* _structIRInjector;
+    TupleIRInjectorStrategy* _tupleIRInjector;
+    VariableIRInjectorStrategy* _variableIRInjector;
+    FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
     void init();
-    std::pair<TypeSource, ExpressionIRInjector*> insert(TypeSource typeSignature, ExpressionIRInjector* injector);
+    std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
     IRInjectorMap();
-    StringIRInjector* getStringInjector();
-    ArrayIRInjector* getArrayInjector();
-    StructIRInjector* getStructInjector();
-    LiteralIRInjector* getLiteralInjector();
-    TupleIRInjector* getTupleInjector();
-    ExpressionIRInjector* getInjector(TypeSignature* typeSignature);
+    StringIRInjectorStrategy* getStringInjector();
+    ArrayIRInjectorStrategy* getArrayInjector();
+    StructIRInjectorStrategy* getStructInjector();
+    LiteralIRInjectorStrategy* getLiteralInjector();
+    TupleIRInjectorStrategy* getTupleInjector();
+    VariableIRInjectorStrategy* getVariableInjector();
+    FunctionReturnIRInjectorStrategy* getFunctionReturnInjector();
+    IRInjectorStrategy* getInjector(TypeSignature* typeSignature);
 };
 
 #endif //JETLANG_IR_INJECTOR_MAP_H

@@ -6,12 +6,14 @@
 #include "../../shared/utils/logger/logger.h"
 
 IRInjectorMap::IRInjectorMap() {
-    _injectorMap = std::unordered_map<TypeSource, ExpressionIRInjector*, std::hash<int>>();
-    _stringIRInjector = new StringIRInjector(this);
-    _literalIRInjector = new LiteralIRInjector(this);
-    _arrayIRInjector = new ArrayIRInjector(this);
-    _structIRInjector = new StructIRInjector(this);
-    _tupleIRInjector = new TupleIRInjector(this);
+    _injectorMap = std::unordered_map<TypeSource, IRInjectorStrategy*, std::hash<int>>();
+    _stringIRInjector = new StringIRInjectorStrategy(this);
+    _literalIRInjector = new LiteralIRInjectorStrategy(this);
+    _arrayIRInjector = new ArrayIRInjectorStrategy(this);
+    _structIRInjector = new StructIRInjectorStrategy(this);
+    _tupleIRInjector = new TupleIRInjectorStrategy(this);
+    _variableIRInjector = new VariableIRInjectorStrategy();
+    _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
     this->init();
 }
 
@@ -26,11 +28,11 @@ void IRInjectorMap::init() {
     _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
 }
 
-std::pair<TypeSource, ExpressionIRInjector*> IRInjectorMap::insert(TypeSource typeSignature, ExpressionIRInjector* injector) {
+std::pair<TypeSource, IRInjectorStrategy*> IRInjectorMap::insert(TypeSource typeSignature, IRInjectorStrategy* injector) {
     return std::pair { typeSignature, injector };
 }
 
-ExpressionIRInjector* IRInjectorMap::getInjector(TypeSignature* typeSignature) {
+IRInjectorStrategy* IRInjectorMap::getInjector(TypeSignature* typeSignature) {
     auto injector = _injectorMap.find(typeSignature->getTypeTarget());
     Logger::log("injectorMap", _injectorMap.size());
     if (injector == _injectorMap.end()) {
@@ -40,22 +42,30 @@ ExpressionIRInjector* IRInjectorMap::getInjector(TypeSignature* typeSignature) {
     return injector->second;
 }
 
-StringIRInjector* IRInjectorMap::getStringInjector() {
+StringIRInjectorStrategy* IRInjectorMap::getStringInjector() {
     return _stringIRInjector;
 }
 
-ArrayIRInjector* IRInjectorMap::getArrayInjector() {
+ArrayIRInjectorStrategy* IRInjectorMap::getArrayInjector() {
     return _arrayIRInjector;
 }
 
-StructIRInjector* IRInjectorMap::getStructInjector() {
+StructIRInjectorStrategy* IRInjectorMap::getStructInjector() {
     return _structIRInjector;
 }
 
-LiteralIRInjector* IRInjectorMap::getLiteralInjector() {
+LiteralIRInjectorStrategy* IRInjectorMap::getLiteralInjector() {
     return _literalIRInjector;
 }
 
-TupleIRInjector* IRInjectorMap::getTupleInjector() {
+TupleIRInjectorStrategy* IRInjectorMap::getTupleInjector() {
     return _tupleIRInjector;
+}
+
+VariableIRInjectorStrategy* IRInjectorMap::getVariableInjector() {
+    return _variableIRInjector;
+}
+
+FunctionReturnIRInjectorStrategy* IRInjectorMap::getFunctionReturnInjector() {
+    return _functionReturnIRInjector;
 }

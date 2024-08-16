@@ -9,8 +9,6 @@ IREnumDeclarationNode::IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlo
     _irValue = irValue;
 }
 
-void IREnumDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {}
-
 IRNodeType IREnumDeclarationNode::getNodeType() {
     return IR_ENUM_DECLARATION_NODE;
 }

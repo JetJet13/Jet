@@ -19,10 +19,10 @@ private:
     IRType* _type;
 public:
     IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type);
-    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::Value* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
+    TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

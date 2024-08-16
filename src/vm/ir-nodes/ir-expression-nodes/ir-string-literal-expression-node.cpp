@@ -3,7 +3,6 @@
 //
 
 #include "ir-string-literal-expression-node.h"
-#include "../../ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h"
 
 IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(ASTLiteralExpressionNode* node, IRStringLiteralNode* irValue, IRArrayPointerType* irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation) {
     _node = node;
@@ -13,12 +12,16 @@ IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(ASTLiteralExpressio
     _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
 }
 
-llvm::Value* IRStringLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-    return injectorMap->getStringInjector()->inject(this, builder);
-}
+//llvm::Value* IRStringLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+//    return injectorMap->getStringInjector()->inject(this, builder);
+//}
 
 IRArrayPointerType* IRStringLiteralExpressionNode::getIRType() {
     return _irArrayPointerType;
+}
+
+TypeSignature* IRStringLiteralExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 llvm::Constant* IRStringLiteralExpressionNode::getValue() {

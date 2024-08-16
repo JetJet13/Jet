@@ -12,15 +12,15 @@ IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressio
     _type = type;
 }
 
-llvm::Value * IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                               IRInjectorMap *injectorMap) {
-    auto irIndexValue = _irIndex->insertSelfIntoBlock(builder, injectorMap);
-    auto loadIrIndexValue = builder->get()->CreateLoad(_irIndex->getType(), irIndexValue);
-    auto zeroIndex = builder->get()->getInt32(0);
-    auto pointerToElement = builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
-//    Logger::log("irIndexAsInt->getZExtValue()", irIndexAsInt->getSExtValue());
-    return pointerToElement;
-}
+//llvm::Value * IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+//                                                               IRInjectorMap *injectorMap) {
+//    auto irIndexValue = _irIndex->insertSelfIntoBlock(builder, injectorMap);
+//    auto loadIrIndexValue = builder->get()->CreateLoad(_irIndex->getType(), irIndexValue);
+//    auto zeroIndex = builder->get()->getInt32(0);
+//    auto pointerToElement = builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
+////    Logger::log("irIndexAsInt->getZExtValue()", irIndexAsInt->getSExtValue());
+//    return pointerToElement;
+//}
 
 llvm::Value* IRArrayAccessExpressionNode::getValue() {
     return _irSource->getValue();
@@ -32,6 +32,10 @@ std::optional<IRInstructionNode*> IRArrayAccessExpressionNode::getSourceAllocati
 
 IRType* IRArrayAccessExpressionNode::getIRType() {
     return _type;
+}
+
+TypeSignature* IRArrayAccessExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 IRNodeType IRArrayAccessExpressionNode::getNodeType() {

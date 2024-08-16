@@ -11,11 +11,6 @@ IRProcedureDeclarationNode::IRProcedureDeclarationNode(ASTProcedureDeclarationNo
     _irBlock = irBlock;
 }
 
-void IRProcedureDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                     IRInjectorMap *injectorMap) {
-
-}
-
 IRNodeType IRProcedureDeclarationNode::getNodeType() {
     return IR_PROCEDURE_DECLARATION_NODE;
 }

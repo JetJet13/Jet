@@ -8,11 +8,10 @@
 #include <llvm/IR/InstrTypes.h>
 #include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "ir-binary-expression-node.h"
-#include "../../../ir-injector/ir-injector-map.h"
 
 class IRBinaryArithmeticExpressionNode : public IRBinaryExpressionNode {
 private:
-    ASTBinaryExpressionNode* _astNode;
+    ASTBinaryExpressionNode* _node;
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
@@ -20,10 +19,10 @@ private:
     IRInstructionNode* _sourceAllocation;
 public:
     IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation);
-    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::BinaryOperator* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
+    TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

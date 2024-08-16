@@ -10,7 +10,6 @@
 #include "ir-declaration-node.h"
 #include "../ir-function-nodes/ir-function-parameter-node.h"
 #include "../ir-instruction-node.h"
-#include "../../ir-injector/ir-injector-map.h"
 
 class IRFunctionParameterDeclarationNode : public IRDeclarationNode {
 private:
@@ -18,7 +17,6 @@ private:
     IRInstructionNode* _irValue;
 public:
     IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue);
-    void insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

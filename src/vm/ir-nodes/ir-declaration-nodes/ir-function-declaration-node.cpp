@@ -11,11 +11,6 @@ IRFunctionDeclarationNode::IRFunctionDeclarationNode(ASTFunctionDeclarationNode*
     _irBlock = irBlock;
 }
 
-void IRFunctionDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                    IRInjectorMap *injectorMap) {
-
-}
-
 IRNodeType IRFunctionDeclarationNode::getNodeType() {
     return IR_FUNCTION_DECLARATION_NODE;
 }

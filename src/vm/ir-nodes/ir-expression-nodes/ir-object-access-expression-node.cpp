@@ -5,10 +5,6 @@
 #include "ir-object-access-expression-node.h"
 #include "ir-global-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
-#include "../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h"
-#include "../../ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h"
-#include "../../ir-injector/ir-injector-map.h"
 
 IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
@@ -20,9 +16,9 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-        return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
-
+//llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+//        return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
+//
 //    if (_sourceAllocation) {
 //        builder->get()->Insert(_sourceAllocation.value()->getValue());
 //    }
@@ -57,7 +53,7 @@ llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<
 //    }
 //
 //    return builder->get()->CreateLoad(this->getTargetIRType()->getType(), pointer);
-}
+//}
 
 IRExpressionNode* IRObjectAccessExpressionNode::getSource() {
     return _irSource;
@@ -77,6 +73,10 @@ unsigned long IRObjectAccessExpressionNode::getTargetKeyIndex() {
 
 IRType* IRObjectAccessExpressionNode::getIRType() {
     return _irType;
+}
+
+TypeSignature* IRObjectAccessExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 IRType* IRObjectAccessExpressionNode::getTargetIRType() {

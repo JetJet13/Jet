@@ -50,15 +50,16 @@
 #include "../../core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 #include "../../core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../ir-type/ir-array-pointer-type.h"
+#include "../ir-nodes/ir-declaration-nodes/ir-declaration-node.h"
+#include "../ir-injector/ir-injector.h"
 
 class IRGenerator {
 private:
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
-    IRInjectorMap _irInjectorMap;
-    llvm::StructType* _arrayStructType;
+    IRInjector* _irInjector;
 public:
-    explicit IRGenerator();
+    explicit IRGenerator(IRInjector* irInjector);
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
@@ -83,6 +84,7 @@ public:
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
+    IRInjector* getInjector();
 };
 
 #endif //JETLANG_IR_GENERATOR_H

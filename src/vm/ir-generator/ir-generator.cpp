@@ -44,11 +44,10 @@
 // vm code.
 // we need to figure out how to generate vm code for an ASTNode and its
 // type signature.
-IRGenerator::IRGenerator() {
+IRGenerator::IRGenerator(IRInjector* irInjector) {
     _context = std::make_unique<llvm::LLVMContext>();
     _irStrategyMap = IRStrategyMap();
-    _irInjectorMap = IRInjectorMap();
-    _arrayStructType = llvm::StructType::create({ llvm::IntegerType::get(*_context, 32), llvm::PointerType::get(*_context, 0) }, "__ARRAY_TYPE__");
+    _irInjector = irInjector;
 }
 
 IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
@@ -227,7 +226,7 @@ IRArrayPointerType* IRGenerator::generateArrayElementType(llvm::PointerType* poi
 }
 
 IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry", irFunction), &_irInjectorMap);
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry", irFunction));
 }
 
 IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
@@ -239,4 +238,8 @@ IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRM
     return new IRFunctionNode(
         llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, functionName, irModuleNode->getModule())
     );
+}
+
+IRInjector* IRGenerator::getInjector() {
+    return _irInjector;
 }

@@ -176,38 +176,36 @@ add_library(jet-vm
         ir-type/ir-pointer-type.h
         ir-type/ir-function-type.cpp
         ir-type/ir-function-type.h
-        ir-nodes/ir-array-node.cpp
-        ir-nodes/ir-array-node.h
         ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h
-        ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.cpp
-        ir-support-functions/ir-copy-array-support-function/ir-copy-array-support-function.h
         ir-type/ir-array-pointer-type.cpp
         ir-type/ir-array-pointer-type.h
         ir-generator/ir-strategies/support-function-ir-strategies/copy-array-support-function-ir-strategy/copy-array-support-function-ir-strategy.cpp
         ir-generator/ir-strategies/support-function-ir-strategies/copy-array-support-function-ir-strategy/copy-array-support-function-ir-strategy.h
         ir-type/ir-array-type.cpp
         ir-type/ir-array-type.h
-        ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.cpp
-        ir-support-functions/ir-array-pointer-support-function/ir-array-pointer-support-function.h
-        ir-injector/ir-injectors/ir-injector.cpp
-        ir-injector/ir-injectors/ir-injector.h
+        ir-injector/ir-injector-strategies/ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ir-injector-strategy.h
         ir-injector/ir-injector-map.cpp
         ir-injector/ir-injector-map.h
-        ir-injector/ir-injectors/string-ir-injector/string-ir-injector.cpp
-        ir-injector/ir-injectors/string-ir-injector/string-ir-injector.h
-        ir-injector/ir-injectors/array-ir-injector/array-ir-injector.cpp
-        ir-injector/ir-injectors/array-ir-injector/array-ir-injector.h
-        ir-injector/ir-injectors/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.cpp
-        ir-injector/ir-injectors/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h
-        ir-injector/ir-injectors/literal-ir-injector/literal-ir-injector.cpp
-        ir-injector/ir-injectors/literal-ir-injector/literal-ir-injector.h
-        ir-injector/ir-injectors/struct-ir-injector/struct-ir-injector.cpp
-        ir-injector/ir-injectors/struct-ir-injector/struct-ir-injector.h
-        ir-injector/ir-injectors/tuple-ir-injector/tuple-ir-injector.cpp
-        ir-injector/ir-injectors/tuple-ir-injector/tuple-ir-injector.h
-        ir-injector/ir-injectors/expression-ir-injector.cpp
-        ir-injector/ir-injectors/expression-ir-injector.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/string-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/string-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/array-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/array-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/literal-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/literal-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/struct-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/struct-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.h
+        ir-injector/ir-injector.cpp
+        ir-injector/ir-injector.h
+        ir-injector/ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

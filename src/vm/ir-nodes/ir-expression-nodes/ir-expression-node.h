@@ -8,8 +8,7 @@
 #include "../ir-node.h"
 #include "../ir-instruction-node.h"
 #include "../../ir-type/ir-pointer-type.h"
-
-class IRInjectorMap;
+#include "../../../core/type-signature/type-signature.h"
 
 class IRExpressionNode : public IRNode {
 public:
@@ -19,9 +18,9 @@ public:
     virtual std::optional<IRInstructionNode*> getRootAllocationAtIndex(unsigned long index);
     virtual std::optional<IRInstructionNode*> getSourceAllocation();
     virtual std::optional<IRInstructionNode*> getRootAllocation();
-    virtual llvm::Value* insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) = 0;
     virtual llvm::Value* getValue() = 0;
     virtual IRType* getIRType() = 0;
+    virtual TypeSignature* getTypeSignature() = 0;
 };
 
 #endif //JETLANG_IR_EXPRESSION_NODE_H

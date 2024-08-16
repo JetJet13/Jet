@@ -12,10 +12,10 @@ IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode*
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value * IRUnaryNegateExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                               IRInjectorMap *injectorMap) {
-    return builder->get()->Insert(_irValue);
-}
+//llvm::Value * IRUnaryNegateExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+//                                                               IRInjectorMap *injectorMap) {
+//    return builder->get()->Insert(_irValue);
+//}
 
 llvm::UnaryOperator* IRUnaryNegateExpressionNode::getValue() {
     return _irValue;
@@ -27,6 +27,10 @@ std::optional<IRInstructionNode*> IRUnaryNegateExpressionNode::getSourceAllocati
 
 IRType* IRUnaryNegateExpressionNode::getIRType() {
     return _type;
+}
+
+TypeSignature* IRUnaryNegateExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 IRNodeType IRUnaryNegateExpressionNode::getNodeType() {

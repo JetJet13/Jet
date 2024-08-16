@@ -27,19 +27,14 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
                 DataAlignmentGenerator::generate(irParamType)
             ), irGenerator->generatePointerType(irParamType));
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        functionBlock->inject(
-                new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
+        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            functionBlock->inject(
-                    irGenerator->generateFor((ASTDeclarationNode *) statement, scope, irModule)
-            );
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*) statement, scope, irModule));
         } else if (ASTNodeUtils::isStatementNode(statement)) {
-            functionBlock->inject(
-                    irGenerator->generateFor((ASTStatementNode*)statement, scope, irModule)
-            );
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, scope, irModule));
         }
     }
     return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock);

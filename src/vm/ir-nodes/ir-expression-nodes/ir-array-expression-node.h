@@ -10,7 +10,7 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "../ir-instruction-node.h"
 #include "ir-expression-node.h"
-#include "../ir-array-node.h"
+#include "../../ir-type/ir-array-pointer-type.h"
 
 
 class IRArrayExpressionNode : public IRExpressionNode {
@@ -22,13 +22,13 @@ private:
     IRArrayPointerType* _type;
 public:
     IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
-    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRInstructionNode* getSourceArrayAllocation();
     IRInstructionNode* getArrayPointerAllocation();
     IRArrayPointerType* getIRType() override;
+    TypeSignature* getTypeSignature() override;
     unsigned long size();
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

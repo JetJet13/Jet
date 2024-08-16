@@ -5,7 +5,7 @@
 #include "ir-binary-comparison-expression-node.h"
 
 IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation) {
-    _astNode = astNode;
+    _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
@@ -13,19 +13,19 @@ IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpr
     _sourceAllocation = sourceAllocation;
 }
 
-llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                                    IRInjectorMap *injectorMap) {
-    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
-    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
-    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
-
-    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
-    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
-
-    auto result = builder->get()->CreateCmp(_irValue->getPredicate(), leftNodeValue, rightNodeValue);
-    builder->get()->CreateStore(result, allocation);
-    return allocation;
-}
+//llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
+//                                                                    IRInjectorMap *injectorMap) {
+//    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
+//    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
+//    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
+//
+//    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
+//    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
+//
+//    auto result = builder->get()->CreateCmp(_irValue->getPredicate(), leftNodeValue, rightNodeValue);
+//    builder->get()->CreateStore(result, allocation);
+//    return allocation;
+//}
 
 llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {
     return _irValue;
@@ -37,6 +37,10 @@ std::optional<IRInstructionNode*> IRBinaryComparisonExpressionNode::getSourceAll
 
 IRType* IRBinaryComparisonExpressionNode::getIRType() {
     return _type;
+}
+
+TypeSignature* IRBinaryComparisonExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 IRNodeType IRBinaryComparisonExpressionNode::getNodeType() {

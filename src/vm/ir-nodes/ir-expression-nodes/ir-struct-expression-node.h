@@ -14,14 +14,14 @@
 
 class IRStructExpressionNode : public IRExpressionNode {
 private:
-    ASTStructExpressionNode* _astNode;
+    ASTStructExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
     IRType* _type;
 public:
     IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues);
-    llvm::Value *insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) override;
     IRType* getIRType() override;
+    TypeSignature* getTypeSignature() override;
     unsigned long size();
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();

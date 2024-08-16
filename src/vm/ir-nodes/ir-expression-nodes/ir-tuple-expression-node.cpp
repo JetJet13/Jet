@@ -3,7 +3,6 @@
 //
 
 #include "ir-tuple-expression-node.h"
-#include "../../ir-injector/ir-injector-map.h"
 
 IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues) {
     _node = node;
@@ -12,9 +11,9 @@ IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, IRIns
     _type = type;
 }
 
-llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>* builder, IRInjectorMap* injectorMap) {
-    return injectorMap->getTupleInjector()->inject(this, builder);
-}
+//llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>* builder, IRInjectorMap* injectorMap) {
+//    return injectorMap->getTupleInjector()->inject(this, builder);
+//}
 
 llvm::Value* IRTupleExpressionNode::getValue() {
     return _irValue->getValue();
@@ -34,6 +33,10 @@ std::optional<IRInstructionNode*> IRTupleExpressionNode::getSourceAllocation() {
 
 IRType* IRTupleExpressionNode::getIRType() {
     return _type;
+}
+
+TypeSignature* IRTupleExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 IRNodeType IRTupleExpressionNode::getNodeType() {

@@ -15,6 +15,7 @@
 #include "../../../src/core/pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h"
 #include "../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 #include "../../../src/vm/ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
+#include "../../../src/vm/ir-injector/ir-injector.h"
 
 TEST_CASE( "should create expected vm code" ) {
     std::string filePath = "./ir-generator-test-file.jet";
@@ -33,7 +34,8 @@ TEST_CASE( "should create expected vm code" ) {
     typeSignatureLookupTable->dump();
     typeCheckerResult.print();
     REQUIRE(typeCheckerResult.ok());
-    auto irGenerator = IRGenerator();
+    auto irInjector = new IRInjector();
+    auto irGenerator = IRGenerator(irInjector);
     auto irModule = irGenerator.generateModule(filePath);
     auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
     auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
@@ -44,7 +46,7 @@ TEST_CASE( "should create expected vm code" ) {
         Logger::log("generating IR for node", node->toString(), node->getId());
         auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule);
         Logger::log("done generating IR for node", node->toString(), node->getId());
-        irMainFunctionBlock->inject(value);
+        irInjector->inject(irMainFunctionBlock, value);
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }

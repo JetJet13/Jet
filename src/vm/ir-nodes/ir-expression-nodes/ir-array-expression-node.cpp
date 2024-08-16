@@ -3,7 +3,6 @@
 //
 
 #include "ir-array-expression-node.h"
-#include "../../ir-injector/ir-injector-map.h"
 
 IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type) {
     _node = node;
@@ -13,9 +12,9 @@ IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRIns
     _type = type;
 }
 
-llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-    return injectorMap->getArrayInjector()->inject(this, builder);
-}
+//llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+//    return injectorMap->getArrayInjector()->inject(this, builder);
+//}
 
 llvm::Value* IRArrayExpressionNode::getValue() {
     return _irValue->getValue();
@@ -39,6 +38,10 @@ IRInstructionNode* IRArrayExpressionNode::getArrayPointerAllocation() {
 
 IRArrayPointerType* IRArrayExpressionNode::getIRType() {
     return _type;
+}
+
+TypeSignature* IRArrayExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 unsigned long IRArrayExpressionNode::size() {

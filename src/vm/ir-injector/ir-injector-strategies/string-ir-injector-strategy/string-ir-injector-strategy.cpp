@@ -2,14 +2,14 @@
 // Created by Johny Georges on 2024-08-12.
 //
 
-#include "string-ir-injector.h"
+#include "string-ir-injector-strategy.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-llvm::Value* StringIRInjector::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     if (irExpression->is(IR_STRING_LITERAL_EXPRESSION_NODE)) {
         return this->inject((IRStringLiteralExpressionNode*)irExpression, builder);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
@@ -17,21 +17,21 @@ llvm::Value* StringIRInjector::inject(IRExpressionNode* irExpression, std::uniqu
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRObjectAccessExpressionNode*)irExpression, builder);
     }
-    throw std::logic_error("StringIRInjector - ir-injector expression type mismatch: " + irExpression->toString());
+    throw std::logic_error("StringIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
 
-llvm::Value* StringIRInjector::inject(IRStringLiteralExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value* StringIRInjectorStrategy::inject(IRStringLiteralExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     auto arrayAllocation = irExpression->getSourceArrayAllocation()->getValue();
     builder->get()->Insert(arrayAllocation);
     builder->get()->CreateStore(irExpression->getValue(), arrayAllocation);
     return ArrayIRInjectorHelper::injectArrayPointer(builder, irExpression->getIRType(), irExpression->getArrayPointerAllocation());
 }
 
-llvm::Value* StringIRInjector::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value* StringIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder);
 }
 
-llvm::Value* StringIRInjector::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
     builder->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
 

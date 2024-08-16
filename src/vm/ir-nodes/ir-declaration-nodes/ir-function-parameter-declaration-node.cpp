@@ -3,18 +3,16 @@
 //
 
 #include "ir-function-parameter-declaration-node.h"
-#include "../../ir-injector/ir-injector-map.h"
 
 IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue) {
     _argument = argument;
     _irValue = irValue;
 }
 
-void IRFunctionParameterDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                                             IRInjectorMap *injectorMap) {
-    builder->get()->Insert(_irValue->getValue());
-    builder->get()->CreateStore(_argument, _irValue->getValue());
-}
+//void IRFunctionParameterDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder) {
+//    builder->get()->Insert(_irValue->getValue());
+//    builder->get()->CreateStore(_argument, _irValue->getValue());
+//}
 
 IRNodeType IRFunctionParameterDeclarationNode::getNodeType() {
     return IR_FUNCTION_PARAMETER_DECLARATION_NODE;

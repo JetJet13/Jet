@@ -3,22 +3,24 @@
 //
 
 #include "ir-struct-expression-node.h"
-#include "../../ir-injector/ir-injector-map.h"
-#include "../../../shared/utils/logger/logger.h"
 
 IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues) {
-    _astNode = astNode;
+    _node = astNode;
     _irValue = irValue;
     _irValues = irValues;
     _type = type;
 }
 
-llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-    return injectorMap->getStructInjector()->inject(this, builder);
-}
+//llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
+//    return injectorMap->getStructInjector()->inject(this, builder);
+//}
 
 IRType* IRStructExpressionNode::getIRType() {
     return _type;
+}
+
+TypeSignature* IRStructExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
 }
 
 unsigned long IRStructExpressionNode::size() {
@@ -42,7 +44,6 @@ std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocationAtI
 }
 
 std::optional<IRInstructionNode*> IRStructExpressionNode::getRootAllocationAtIndex(unsigned long index) {
-    Logger::log("IRStructExpressionNode::getRootAllocationAtIndex");
     return _irValues[index]->getRootAllocation();
 }
 
