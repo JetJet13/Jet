@@ -4,6 +4,3 @@
 
 #include "ir-injector-strategy.h"
 
-IRInjectorStrategy::IRInjectorStrategy(IRInjectorMap* irInjectorMap) {
-    _irInjectorMap = irInjectorMap;
-}

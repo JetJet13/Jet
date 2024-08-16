@@ -3,19 +3,18 @@
 //
 
 #include "array-ir-injector-strategy.h"
-#include "../../../ir-nodes/ir-expression-nodes/ir-array-expression-node.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
-llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
-        return this->inject((IRArrayExpressionNode*)irExpression, builder);
+        return this->inject((IRArrayExpressionNode*)irExpression, builder, irInjectorMap);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->inject((IRIdentifierExpressionNode*)irExpression, builder);
+        return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap);
     }
     throw std::logic_error("ArrayIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
 
-llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap) {
     builder->get()->Insert(irExpression->getSourceArrayAllocation()->getValue());
     auto numElements = irExpression->size();
     auto zeroIndex = builder->get()->getInt32(0);
@@ -29,6 +28,6 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression
     return ArrayIRInjectorHelper::injectArrayPointer(builder, irExpression->getIRType(), irExpression->getArrayPointerAllocation());
 }
 
-llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap) {
     return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder);
 }

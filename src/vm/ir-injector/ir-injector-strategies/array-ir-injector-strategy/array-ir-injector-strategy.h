@@ -6,16 +6,16 @@
 #define JETLANG_ARRAY_IR_INJECTOR_STRATEGY_H
 
 #include "../ir-injector-strategy.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-array-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 
-class IRArrayExpressionNode;
-class IRIdentifierExpressionNode;
 
 class ArrayIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 public:
-    llvm::Value* inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) override;
-    llvm::Value* inject(IRArrayExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder);
-    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder);
+    llvm::Value* inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap) override;
+    llvm::Value* inject(IRArrayExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap);
+    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap);
 };
 
 #endif //JETLANG_ARRAY_IR_INJECTOR_STRATEGY_H

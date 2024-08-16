@@ -5,7 +5,7 @@
 #include "ir-variable-declaration-node.h"
 
 IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression) {
-    _astNode = astNode;
+    _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
 }
@@ -15,6 +15,18 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
 //    auto irExpressionValue = _irExpression->insertSelfIntoBlock(builder, injectorMap);
 //    builder->get()->CreateStore(irExpressionValue, _irValue->getValue());
 //}
+
+std::string IRVariableDeclarationNode::getVariableName() {
+    return _node->getId();
+}
+
+llvm::Value* IRVariableDeclarationNode::getValue() {
+    return _irValue->getValue();
+}
+
+IRExpressionNode* IRVariableDeclarationNode::getIRExpression() {
+    return _irExpression;
+}
 
 IRNodeType IRVariableDeclarationNode::getNodeType() {
     return IR_VARIABLE_DECLARATION_NODE;

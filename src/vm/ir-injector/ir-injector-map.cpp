@@ -7,11 +7,11 @@
 
 IRInjectorMap::IRInjectorMap() {
     _injectorMap = std::unordered_map<TypeSource, IRInjectorStrategy*, std::hash<int>>();
-    _stringIRInjector = new StringIRInjectorStrategy(this);
-    _literalIRInjector = new LiteralIRInjectorStrategy(this);
-    _arrayIRInjector = new ArrayIRInjectorStrategy(this);
-    _structIRInjector = new StructIRInjectorStrategy(this);
-    _tupleIRInjector = new TupleIRInjectorStrategy(this);
+    _stringIRInjector = new StringIRInjectorStrategy();
+    _literalIRInjector = new LiteralIRInjectorStrategy();
+    _arrayIRInjector = new ArrayIRInjectorStrategy();
+    _structIRInjector = new StructIRInjectorStrategy();
+    _tupleIRInjector = new TupleIRInjectorStrategy();
     _variableIRInjector = new VariableIRInjectorStrategy();
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
     this->init();

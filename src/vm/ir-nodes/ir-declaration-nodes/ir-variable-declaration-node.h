@@ -13,11 +13,14 @@
 
 class IRVariableDeclarationNode : public IRDeclarationNode {
 private:
-    ASTVariableDeclarationNode* _astNode;
+    ASTVariableDeclarationNode* _node;
     IRInstructionNode* _irValue;
     IRExpressionNode* _irExpression;
 public:
     IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression);
+    std::string getVariableName();
+    llvm::Value* getValue();
+    IRExpressionNode* getIRExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

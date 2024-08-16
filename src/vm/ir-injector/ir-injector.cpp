@@ -10,7 +10,7 @@ IRInjector::IRInjector() {
 
 void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration) {
     if (irDeclaration->is(IR_VARIABLE_DECLARATION_NODE)) {
-        _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder());
+        _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap);
     }
 }
 
@@ -21,5 +21,5 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement) {
 }
 
 void IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression) {
-    _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder());
+    _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap);
 }

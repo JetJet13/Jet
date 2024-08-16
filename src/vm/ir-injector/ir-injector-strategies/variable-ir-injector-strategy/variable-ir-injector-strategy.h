@@ -7,9 +7,11 @@
 
 #include "../../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 
+class IRInjectorMap;
+
 class VariableIRInjectorStrategy {
 public:
-    void inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder);
+    void inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap);
 };
 
 #endif //JETLANG_VARIABLE_IR_INJECTOR_STRATEGY_H
