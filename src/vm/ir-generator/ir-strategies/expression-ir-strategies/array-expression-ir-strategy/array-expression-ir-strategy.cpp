@@ -8,10 +8,10 @@
 #include "../../../../ir-type/ir-array-type.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto elementValues = std::vector<IRExpressionNode*>();
     for (auto element : *node->getElements()) {
-        elementValues.push_back(irGenerator->generateFor(element, scope, irModule));
+        elementValues.push_back(irGenerator->generateFor(element, scope, irModule, irOperationType));
     }
     auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());

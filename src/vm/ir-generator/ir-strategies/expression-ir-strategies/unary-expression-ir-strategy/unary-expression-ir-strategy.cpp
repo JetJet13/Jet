@@ -8,8 +8,8 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irModule);
+IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
+    auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irModule, irOperationType);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     if (node->getUnaryOperatorNode()->isPlus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(

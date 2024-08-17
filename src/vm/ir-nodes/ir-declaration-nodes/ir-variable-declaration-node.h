@@ -20,6 +20,7 @@ public:
     IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression);
     std::string getVariableName();
     llvm::Value* getValue();
+    IRInstructionNode* getIRValue();
     IRExpressionNode* getIRExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;

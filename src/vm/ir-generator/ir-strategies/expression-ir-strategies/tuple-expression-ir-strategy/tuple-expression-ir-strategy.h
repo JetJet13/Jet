@@ -12,7 +12,7 @@
 
 class TupleExpressionIRStrategy {
 public:
-    IRTupleExpressionNode* generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRTupleExpressionNode* generate(ASTTupleExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
 };
 
 #endif //JETLANG_TUPLE_EXPRESSION_IR_STRATEGY_H

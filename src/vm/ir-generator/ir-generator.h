@@ -52,6 +52,7 @@
 #include "../ir-type/ir-array-pointer-type.h"
 #include "../ir-nodes/ir-declaration-nodes/ir-declaration-node.h"
 #include "../ir-injector/ir-injector.h"
+#include "../types/ir-operation-type.h"
 
 class IRGenerator {
 private:
@@ -64,7 +65,7 @@ public:
     IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, llvm::Function* irFunction);
-    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, IROperationType irOperationType);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRType* generateTypeFor(llvm::Constant* constant);
     IRType* generateTypeFor(TypeSignature* typeSignature);

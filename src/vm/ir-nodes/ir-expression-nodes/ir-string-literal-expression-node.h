@@ -6,11 +6,11 @@
 #define JETLANG_IR_STRING_LITERAL_EXPRESSION_NODE_H
 
 #include <llvm/IR/Value.h>
-#include "ir-expression-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../../ir-type/ir-pointer-type.h"
 #include "../ir-literal-nodes/ir-string-literal-node.h"
 #include "../../ir-type/ir-array-pointer-type.h"
+#include "ir-expression-node.h"
 
 class IRStringLiteralExpressionNode : public IRExpressionNode {
 private:
@@ -24,8 +24,9 @@ public:
     IRArrayPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     llvm::Constant* getValue() override;
-    IRInstructionNode* getSourceArrayAllocation();
-    IRInstructionNode* getArrayPointerAllocation();
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
+    IRInstructionNode* getSourceAggregateAllocation();
+    IRInstructionNode* getAggregatePointerAllocation();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

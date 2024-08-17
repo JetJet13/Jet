@@ -17,6 +17,7 @@ private:
 public:
     IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue);
     IRInstructionNode* getIRValue();
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;
     IRPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;

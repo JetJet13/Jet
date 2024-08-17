@@ -9,8 +9,8 @@
 #include <llvm/IR/Constants.h>
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "../ir-instruction-node.h"
-#include "ir-expression-node.h"
 #include "../../ir-type/ir-array-pointer-type.h"
+#include "ir-expression-node.h"
 
 
 class IRArrayExpressionNode : public IRExpressionNode {
@@ -24,8 +24,9 @@ public:
     IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();
-    IRInstructionNode* getSourceArrayAllocation();
-    IRInstructionNode* getArrayPointerAllocation();
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
+    IRInstructionNode* getSourceAggregateAllocation();
+    IRInstructionNode* getAggregatePointerAllocation();
     IRArrayPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     unsigned long size();

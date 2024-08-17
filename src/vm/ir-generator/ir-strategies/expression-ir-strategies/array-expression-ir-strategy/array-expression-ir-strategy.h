@@ -12,7 +12,7 @@
 
 class ArrayExpressionIRStrategy {
 public:
-    IRArrayExpressionNode* generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRArrayExpressionNode* generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
 };
 
 #endif //JETLANG_ARRAY_EXPRESSION_IR_STRATEGY_H

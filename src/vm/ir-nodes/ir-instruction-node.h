@@ -23,8 +23,9 @@ public:
     explicit IRInstructionNode(llvm::GlobalVariable* irValue);
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
-    IRInstructionNode* getParentAllocation();
+    std::optional<IRInstructionNode*> getParentAllocation();
     IRInstructionNode* getChildAllocationAtIndex(unsigned long index);
+    void setParentAllocation(IRInstructionNode* parentAllocation);
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
     IRPointerType* getIRType();

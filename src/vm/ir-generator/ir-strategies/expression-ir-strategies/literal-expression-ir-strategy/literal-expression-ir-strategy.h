@@ -12,7 +12,7 @@
 
 class LiteralExpressionIRStrategy {
 public:
-    IRExpressionNode* generate(ASTLiteralExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRExpressionNode* generate(ASTLiteralExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
 };
 
 #endif //JETLANG_LITERAL_EXPRESSION_IR_STRATEGY_H

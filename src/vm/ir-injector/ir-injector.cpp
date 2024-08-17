@@ -20,6 +20,6 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement) {
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression) {
-    _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap);
+void IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType) {
+    _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap, irOperationType);
 }

@@ -18,6 +18,10 @@ IRInstructionNode* IRIdentifierExpressionNode::getIRValue() {
     return _irValue;
 }
 
+std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getSourceAllocation() {
+    return _irValue;
+}
+
 IRPointerType* IRIdentifierExpressionNode::getIRType() {
     return _irValue->getIRType();
 }

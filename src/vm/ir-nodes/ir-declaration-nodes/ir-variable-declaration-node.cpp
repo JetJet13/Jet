@@ -24,6 +24,10 @@ llvm::Value* IRVariableDeclarationNode::getValue() {
     return _irValue->getValue();
 }
 
+IRInstructionNode* IRVariableDeclarationNode::getIRValue() {
+    return _irValue;
+}
+
 IRExpressionNode* IRVariableDeclarationNode::getIRExpression() {
     return _irExpression;
 }

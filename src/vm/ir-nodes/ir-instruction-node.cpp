@@ -44,11 +44,8 @@ llvm::Value* IRInstructionNode::getValue() {
     return _irValue;
 }
 
-IRInstructionNode* IRInstructionNode::getParentAllocation() {
-    if (_parentAllocation) {
-        return _parentAllocation.value();
-    }
-    throw std::logic_error("instruction does not have a source allocation");
+std::optional<IRInstructionNode*> IRInstructionNode::getParentAllocation() {
+    return _parentAllocation;
 }
 
 llvm::Type* IRInstructionNode::getAllocatedType() {
@@ -60,6 +57,10 @@ llvm::Type* IRInstructionNode::getAllocatedType() {
 
 IRInstructionNode* IRInstructionNode::getChildAllocationAtIndex(unsigned long index) {
     return _childAllocations[index];
+}
+
+void IRInstructionNode::setParentAllocation(IRInstructionNode* parentAllocation) {
+    _parentAllocation = parentAllocation;
 }
 
 llvm::MaybeAlign IRInstructionNode::getAlignment() {

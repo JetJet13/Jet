@@ -17,6 +17,7 @@
 #include "ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.h"
 #include "ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h"
+#include "../types/ir-operation-type.h"
 
 
 class IRInjectorMap {

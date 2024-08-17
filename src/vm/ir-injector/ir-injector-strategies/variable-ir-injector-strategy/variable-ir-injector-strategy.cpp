@@ -7,6 +7,13 @@
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap) {
     builder->get()->Insert(irVariableDeclaration->getValue(), irVariableDeclaration->getVariableName());
-    auto irExpressionValue = irInjectorMap->getInjector(irVariableDeclaration->getIRExpression()->getTypeSignature())->inject(irVariableDeclaration->getIRExpression(), builder, irInjectorMap);
+    auto irExpressionValue = irInjectorMap->getInjector(irVariableDeclaration->getIRExpression()->getTypeSignature())
+        ->inject(
+            irVariableDeclaration->getIRExpression(),
+            builder,
+            irInjectorMap,
+            IR_COPY_ASSIGNMENT_OP
+        );
+
     builder->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
 }

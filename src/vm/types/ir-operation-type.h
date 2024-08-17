@@ -1,0 +1,13 @@
+//
+// Created by Johny Georges on 2024-08-17.
+//
+
+#ifndef JETLANG_IR_OPERATION_TYPE_H
+#define JETLANG_IR_OPERATION_TYPE_H
+typedef enum {
+    IR_COPY_ASSIGNMENT_OP,
+    IR_REF_ASSIGNMENT_OP,
+    IR_FUNCTION_ARGUMENT_OP,
+    IR_OPERAND_OP
+} IROperationType;
+#endif //JETLANG_IR_OPERATION_TYPE_H

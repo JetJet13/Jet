@@ -12,7 +12,7 @@
 
 class IdentifierExpressionIRStrategy {
 public:
-    IRExpressionNode* generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRLookupTable* scope, IRModuleNode* irModule);
+    IRExpressionNode* generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
 };
 
 #endif //JETLANG_IDENTIFIER_EXPRESSION_IR_STRATEGY_H

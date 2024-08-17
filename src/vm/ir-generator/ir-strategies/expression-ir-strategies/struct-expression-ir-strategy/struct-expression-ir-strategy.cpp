@@ -6,11 +6,11 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     auto structValues = std::vector<IRExpressionNode*>();
     for (auto keyValuePair : node->getKeyValuePairs()) {
-        auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irModule);
+        auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irModule, irOperationType);
         structValues.push_back(irNode);
     }
     auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));

@@ -5,6 +5,10 @@
 #include "ir-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
+std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocation() {
+    return {};
+}
+
 llvm::Type* IRExpressionNode::getType() {
     return this->getValue()->getType();
 }
