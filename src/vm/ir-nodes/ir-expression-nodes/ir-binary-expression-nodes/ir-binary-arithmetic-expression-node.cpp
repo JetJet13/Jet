@@ -4,18 +4,17 @@
 
 #include "ir-binary-arithmetic-expression-node.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation) {
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
     _type = type;
-    _sourceAllocation = sourceAllocation;
 }
 
 //llvm::Value * IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
 //                                                                    IRInjectorMap *injectorMap) {
-//    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
+//    auto allocation = builder->get()->Insert(_parentAllocation->getValue());
 //
 //    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
 //    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
@@ -32,8 +31,12 @@ llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRBinaryArithmeticExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
+IRExpressionNode* IRBinaryArithmeticExpressionNode::getLeftNode() {
+    return _irLeftNode;
+}
+
+IRExpressionNode* IRBinaryArithmeticExpressionNode::getRightNode() {
+    return _irRightNode;
 }
 
 IRType* IRBinaryArithmeticExpressionNode::getIRType() {

@@ -9,12 +9,11 @@ IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpress
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irModule);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irModule);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
     return new IRLogicalExpressionNode(node, llvm::BinaryOperator::Create(
             this->determineOperatorIR(node->getLogicalOperator()),
             leftExpressionIr->getValue(),
             rightExpressionIr->getValue()
-    ), irType, leftExpressionIr, rightExpressionIr, sourceAllocation);
+    ), irType, leftExpressionIr, rightExpressionIr);
 }
 
 llvm::Instruction::BinaryOps LogicalExpressionIRStrategy::determineOperatorIR(ASTLogicalOperatorNode *node) {

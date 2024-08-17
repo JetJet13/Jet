@@ -8,6 +8,7 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
 #include "../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
+#include "../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 
 class IRInjectorMap;
 

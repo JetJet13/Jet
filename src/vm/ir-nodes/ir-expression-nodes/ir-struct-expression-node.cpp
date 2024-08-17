@@ -11,10 +11,6 @@ IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode,
     _type = type;
 }
 
-//llvm::Value * IRStructExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-//    return injectorMap->getStructInjector()->inject(this, builder);
-//}
-
 IRType* IRStructExpressionNode::getIRType() {
     return _type;
 }
@@ -34,19 +30,6 @@ llvm::Value* IRStructExpressionNode::getValue() {
 std::vector<IRExpressionNode*>* IRStructExpressionNode::getValues() {
     return &_irValues;
 }
-
-std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() {
-    return _irValue;
-}
-
-std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
-    return _irValues[index]->getSourceAllocation();
-}
-
-std::optional<IRInstructionNode*> IRStructExpressionNode::getRootAllocationAtIndex(unsigned long index) {
-    return _irValues[index]->getRootAllocation();
-}
-
 
 IRNodeType IRStructExpressionNode::getNodeType() {
     return IR_STRUCT_EXPRESSION_NODE;

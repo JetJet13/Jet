@@ -11,23 +11,22 @@
 IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irModule);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
     if (node->getUnaryOperatorNode()->isPlus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 llvm::ConstantInt::get(**context, llvm::APInt(32, 1)),
                 expressionIr->getValue()
-        ), expressionIr, irType, sourceAllocation);
+        ), expressionIr, irType);
     } else if (node->getUnaryOperatorNode()->isMinus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 llvm::ConstantInt::get(**context, llvm::APInt(32, -1, true)),
                 expressionIr->getValue()
-        ), expressionIr, irType, sourceAllocation);
+        ), expressionIr, irType);
     } else {
         return new IRUnaryNegateExpressionNode(node, llvm::UnaryOperator::Create(
                 llvm::Instruction::UnaryOps::FNeg,
                 expressionIr->getValue()
-        ), expressionIr, irType, sourceAllocation);
+        ), expressionIr, irType);
     }
 }

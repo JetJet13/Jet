@@ -19,9 +19,8 @@ private:
     unsigned long _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
     IRType* _irType;
-    std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType);
     IRExpressionNode* getSource();
     std::string* getTargetKey();
     llvm::Constant* getIRTargetKeyIndex();
@@ -30,7 +29,6 @@ public:
     TypeSignature* getTypeSignature() override;
     IRType* getTargetIRType();
     llvm::Value* getValue() override;
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

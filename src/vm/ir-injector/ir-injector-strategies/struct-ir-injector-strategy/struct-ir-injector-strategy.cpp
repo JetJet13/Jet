@@ -21,7 +21,7 @@ llvm::Value* StructIRInjectorStrategy::inject(IRStructExpressionNode* irExpressi
     for (int i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
         auto irIndex = builder->get()->getInt32(i);
-        auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getSourceAllocation().value()->getAllocatedType(), structExpressionAllocation, { zeroIndex, irIndex });
+        auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getType(), structExpressionAllocation, { zeroIndex, irIndex });
         auto irExpressionValue = irInjectorMap->getInjector(irExpressionAtIndex->getTypeSignature())->inject(irExpressionAtIndex, builder, irInjectorMap);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }

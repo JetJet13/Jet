@@ -12,22 +12,3 @@ llvm::Type* IRExpressionNode::getType() {
 llvm::Type* IRExpressionNode::getTypeAtIndex(unsigned long index) {
     return this->getValue()->getType();
 }
-
-std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocationAtIndex(unsigned long index) {
-    if (this->getSourceAllocation()) {
-        return this->getSourceAllocation().value()->getSourceAllocationAtIndex(index);
-    }
-    return {};
-}
-
-std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocation() {
-    return {};
-}
-
-std::optional<IRInstructionNode*> IRExpressionNode::getRootAllocationAtIndex(unsigned long index) {
-    return {};
-}
-
-std::optional<IRInstructionNode*> IRExpressionNode::getRootAllocation() {
-    return this->getSourceAllocation();
-}

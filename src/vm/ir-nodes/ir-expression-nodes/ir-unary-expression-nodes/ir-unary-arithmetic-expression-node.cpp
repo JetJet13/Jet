@@ -4,25 +4,15 @@
 
 #include "ir-unary-arithmetic-expression-node.h"
 
-IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation) {
+IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
     _type = type;
-    _sourceAllocation = sourceAllocation;
 }
-
-//llvm::Value * IRUnaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-//                                                                   IRInjectorMap *injectorMap) {
-//    return builder->get()->Insert(_irValue);
-//}
 
 llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getValue() {
     return _irValue;
-}
-
-std::optional<IRInstructionNode*> IRUnaryArithmeticExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
 }
 
 IRType* IRUnaryArithmeticExpressionNode::getIRType() {
@@ -38,7 +28,7 @@ IRNodeType IRUnaryArithmeticExpressionNode::getNodeType() {
 }
 
 std::string IRUnaryArithmeticExpressionNode::toString() {
-    return "IR_UNARY_EXPRESSION_NODE";
+    return "IR_UNARY_ARITHMETIC_EXPRESSION_NODE";
 }
 
 void IRUnaryArithmeticExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {

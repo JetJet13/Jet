@@ -16,11 +16,9 @@ private:
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irExpression;
     IRType* _type;
-    IRInstructionNode* _sourceAllocation;
 public:
-    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation);
+    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
     llvm::BinaryOperator* getValue() override;
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;

@@ -3,6 +3,7 @@
 //
 
 #include "array-ir-injector-strategy.h"
+#include "../../ir-injector-map.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap) {
@@ -22,10 +23,10 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression
         auto elementExpression = irExpression->getValues()->at(i);
         auto irIndex = builder->get()->getInt32(i);
         auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getSourceArrayAllocation()->getAllocatedType(), irExpression->getSourceArrayAllocation()->getValue(), { zeroIndex, irIndex });
-//        auto irExpressionValue = elementExpression->insertSelfIntoBlock(builder, _irInjectorMap);
-//        builder->get()->CreateStore(irExpressionValue, pointer);
+        auto irExpressionValue = irInjectorMap->getInjector(elementExpression->getTypeSignature())->inject(elementExpression, builder, irInjectorMap);
+        builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    return ArrayIRInjectorHelper::injectArrayPointer(builder, irExpression->getIRType(), irExpression->getArrayPointerAllocation());
+    return ArrayIRInjectorHelper::injectArrayPointer(builder, irExpression->getIRType(), numElements, irExpression->getSourceArrayAllocation(), irExpression->getArrayPointerAllocation());
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap) {

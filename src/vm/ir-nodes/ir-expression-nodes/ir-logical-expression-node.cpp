@@ -4,28 +4,13 @@
 
 #include "ir-logical-expression-node.h"
 
-IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRInstructionNode* sourceAllocation) {
+IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
     _node = astNode;
     _irValue = irValue;
     _type = type;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
-    _sourceAllocation = sourceAllocation;
 }
-
-//llvm::Value * IRLogicalExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-//                                                           IRInjectorMap *injectorMap) {
-//    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
-//    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
-//    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
-//
-//    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
-//    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
-//
-//    auto result = builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
-//    builder->get()->CreateStore(result, allocation);
-//    return allocation;
-//}
 
 IRType* IRLogicalExpressionNode::getIRType() {
     return _type;
@@ -39,8 +24,12 @@ llvm::BinaryOperator* IRLogicalExpressionNode::getValue() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRLogicalExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
+IRExpressionNode* IRLogicalExpressionNode::getLeftNode() {
+    return _irLeftNode;
+}
+
+IRExpressionNode* IRLogicalExpressionNode::getRightNode() {
+    return _irRightNode;
 }
 
 IRNodeType IRLogicalExpressionNode::getNodeType() {

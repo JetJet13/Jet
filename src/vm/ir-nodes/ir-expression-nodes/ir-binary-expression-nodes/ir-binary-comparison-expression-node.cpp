@@ -4,35 +4,24 @@
 
 #include "ir-binary-comparison-expression-node.h"
 
-IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRInstructionNode* sourceAllocation) {
+IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
     _type = type;
-    _sourceAllocation = sourceAllocation;
 }
-
-//llvm::Value * IRBinaryComparisonExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-//                                                                    IRInjectorMap *injectorMap) {
-//    auto allocation = builder->get()->Insert(_sourceAllocation->getValue());
-//    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
-//    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
-//
-//    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
-//    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
-//
-//    auto result = builder->get()->CreateCmp(_irValue->getPredicate(), leftNodeValue, rightNodeValue);
-//    builder->get()->CreateStore(result, allocation);
-//    return allocation;
-//}
 
 llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRBinaryComparisonExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
+IRExpressionNode* IRBinaryComparisonExpressionNode::getLeftNode() {
+    return _irLeftNode;
+}
+
+IRExpressionNode* IRBinaryComparisonExpressionNode::getRightNode() {
+    return _irRightNode;
 }
 
 IRType* IRBinaryComparisonExpressionNode::getIRType() {

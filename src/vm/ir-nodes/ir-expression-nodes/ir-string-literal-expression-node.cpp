@@ -12,10 +12,6 @@ IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(ASTLiteralExpressio
     _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
 }
 
-//llvm::Value* IRStringLiteralExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-//    return injectorMap->getStringInjector()->inject(this, builder);
-//}
-
 IRArrayPointerType* IRStringLiteralExpressionNode::getIRType() {
     return _irArrayPointerType;
 }
@@ -26,14 +22,6 @@ TypeSignature* IRStringLiteralExpressionNode::getTypeSignature() {
 
 llvm::Constant* IRStringLiteralExpressionNode::getValue() {
     return _irValue->getConstantIRValue();
-}
-
-std::optional<IRInstructionNode*> IRStringLiteralExpressionNode::getSourceAllocation() {
-    return _arrayPointerSourceAllocation;
-}
-
-std::optional<IRInstructionNode*> IRStringLiteralExpressionNode::getRootAllocation() {
-    return _sourceAllocation;
 }
 
 IRInstructionNode* IRStringLiteralExpressionNode::getSourceArrayAllocation() {

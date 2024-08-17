@@ -7,6 +7,7 @@
 
 #include "../../ir-nodes/ir-instruction-node.h"
 #include "../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
+#include "../../ir-type/ir-array-pointer-type.h"
 
 class IRInstructionNodeFactory {
 public:
@@ -15,7 +16,7 @@ public:
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode);
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode, IRInstructionNode* sourceInstructionNode);
     static IRInstructionNode* create(IRPointerType* irType);
-    static IRInstructionNode* create(IRPointerType* irType, std::vector<IRExpressionNode*>* childExpressions);
+    static IRInstructionNode* create(IRPointerType* irType, llvm::Type* elementType, llvm::LoadInst* numElements);
     static IRInstructionNode* create(IRPointerType* irType, IRInstructionNode* sourceAllocation);
     static IRInstructionNode* create(IRPointerType* irType, std::string name);
     static IRInstructionNode* create(IRPointerType* irType, std::string name, std::optional<IRInstructionNode*> sourceAllocation);

@@ -13,6 +13,6 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
         auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irModule);
         structValues.push_back(irNode);
     }
-    auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), &structValues);
+    auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
     return new IRStructExpressionNode(node, structAllocation, irType, structValues);
 }

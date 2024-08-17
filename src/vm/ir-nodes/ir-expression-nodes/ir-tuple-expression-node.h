@@ -25,7 +25,6 @@ public:
     llvm::Value* getValue() override;
     unsigned long size();
     std::vector<IRExpressionNode*>* getValues();
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;

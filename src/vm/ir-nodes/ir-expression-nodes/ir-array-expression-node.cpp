@@ -12,20 +12,12 @@ IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRIns
     _type = type;
 }
 
-//llvm::Value* IRArrayExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-//    return injectorMap->getArrayInjector()->inject(this, builder);
-//}
-
 llvm::Value* IRArrayExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
 std::vector<IRExpressionNode*>* IRArrayExpressionNode::getValues() {
     return &_irValues;
-}
-
-std::optional<IRInstructionNode*> IRArrayExpressionNode::getSourceAllocation() {
-    return _irValue;
 }
 
 IRInstructionNode* IRArrayExpressionNode::getSourceArrayAllocation() {

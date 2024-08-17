@@ -24,8 +24,6 @@ public:
     IRArrayPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     llvm::Constant* getValue() override;
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
-    std::optional<IRInstructionNode*> getRootAllocation() override;
     IRInstructionNode* getSourceArrayAllocation();
     IRInstructionNode* getArrayPointerAllocation();
     IRNodeType getNodeType() override;

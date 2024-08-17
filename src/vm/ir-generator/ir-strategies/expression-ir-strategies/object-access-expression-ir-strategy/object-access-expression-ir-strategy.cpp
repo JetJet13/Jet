@@ -17,8 +17,7 @@ IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::ObjectAccessExpr
             sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(sourceType->getIRTypeForKey(targetKey)));
         } else {
             // todo: figure out how to create source allocation for source array of struct expression field.
-            sourceAllocation = IRInstructionNodeFactory::create(sourceValue->getSourceAllocationAtIndex(targetIndex).value());
         }
     }
-    return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
+    return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType);
 }

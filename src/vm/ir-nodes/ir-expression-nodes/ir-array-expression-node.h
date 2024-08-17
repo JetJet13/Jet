@@ -24,7 +24,6 @@ public:
     IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRInstructionNode* getSourceArrayAllocation();
     IRInstructionNode* getArrayPointerAllocation();
     IRArrayPointerType* getIRType() override;

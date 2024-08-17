@@ -5,51 +5,50 @@
 #include "ir-instruction-node.h"
 #include <utility>
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation) {
     _irValue = irValue;
     _irType = irType;
-    _sourceAllocation = sourceAllocation;
-    _childSourceAllocations = std::vector<IRInstructionNode*>();
+    _parentAllocation = parentAllocation;
+    _childAllocations = std::vector<IRInstructionNode*>();
 }
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations) {
     _irValue = irValue;
     _irType = irType;
-    _sourceAllocation = sourceAllocation;
-    _childSourceAllocations = std::move(childSourceAllocations);
+    _parentAllocation = parentAllocation;
+    _childAllocations = std::move(childAllocations);
 }
 
-IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childSourceAllocations) {
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations) {
     _irValue = irValue;
     _irType = irType;
-    _sourceAllocation = {};
-    _childSourceAllocations = std::move(childSourceAllocations);
+    _parentAllocation = {};
+    _childAllocations = std::move(childAllocations);
 }
 
 IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType) {
     _irValue = irValue;
     _irType = irType;
-    _sourceAllocation = {};
-    _childSourceAllocations = std::vector<IRInstructionNode*>();
+    _parentAllocation = {};
+    _childAllocations = std::vector<IRInstructionNode*>();
 }
 
 IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue) {
     _irValue = irValue;
     _irType = IRPointerType::create(irValue);
-    _sourceAllocation = {};
-    _childSourceAllocations = std::vector<IRInstructionNode*>();
+    _parentAllocation = {};
+    _childAllocations = std::vector<IRInstructionNode*>();
 }
 
 llvm::Value* IRInstructionNode::getValue() {
     return _irValue;
 }
 
-IRInstructionNode* IRInstructionNode::getSourceAllocation() {
-    if (_sourceAllocation) {
-        return _sourceAllocation.value();
+IRInstructionNode* IRInstructionNode::getParentAllocation() {
+    if (_parentAllocation) {
+        return _parentAllocation.value();
     }
-//    throw std::logic_error("instruction does not have a source allocation");
-    return this;
+    throw std::logic_error("instruction does not have a source allocation");
 }
 
 llvm::Type* IRInstructionNode::getAllocatedType() {
@@ -59,8 +58,8 @@ llvm::Type* IRInstructionNode::getAllocatedType() {
     return llvm::cast<llvm::GlobalVariable>(_irValue)->getValueType();
 }
 
-IRInstructionNode* IRInstructionNode::getSourceAllocationAtIndex(unsigned long index) {
-    return _childSourceAllocations[index];
+IRInstructionNode* IRInstructionNode::getChildAllocationAtIndex(unsigned long index) {
+    return _childAllocations[index];
 }
 
 llvm::MaybeAlign IRInstructionNode::getAlignment() {

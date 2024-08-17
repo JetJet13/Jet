@@ -34,7 +34,6 @@ std::pair<TypeSource, IRInjectorStrategy*> IRInjectorMap::insert(TypeSource type
 
 IRInjectorStrategy* IRInjectorMap::getInjector(TypeSignature* typeSignature) {
     auto injector = _injectorMap.find(typeSignature->getTypeTarget());
-    Logger::log("injectorMap", _injectorMap.size());
     if (injector == _injectorMap.end()) {
         typeSignature->print();
         throw std::invalid_argument("unable to find injector for type signature: " + std::to_string(typeSignature->getTypeTarget()));

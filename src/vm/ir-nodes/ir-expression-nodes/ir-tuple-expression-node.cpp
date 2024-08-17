@@ -11,10 +11,6 @@ IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, IRIns
     _type = type;
 }
 
-//llvm::Value* IRTupleExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>>* builder, IRInjectorMap* injectorMap) {
-//    return injectorMap->getTupleInjector()->inject(this, builder);
-//}
-
 llvm::Value* IRTupleExpressionNode::getValue() {
     return _irValue->getValue();
 }
@@ -25,10 +21,6 @@ unsigned long IRTupleExpressionNode::size() {
 
 std::vector<IRExpressionNode*>* IRTupleExpressionNode::getValues() {
     return &_irValues;
-}
-
-std::optional<IRInstructionNode*> IRTupleExpressionNode::getSourceAllocation() {
-    return _irValue;
 }
 
 IRType* IRTupleExpressionNode::getIRType() {

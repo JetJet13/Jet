@@ -6,30 +6,29 @@
 #include "ir-global-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
     _irTargetKeyIndex = irTargetKeyIndex;
     _targetKeyIndex = targetKeyIndex;
     _irType = irType;
-    _sourceAllocation = sourceAllocation;
 }
 
 //llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
 //        return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
 //
-//    if (_sourceAllocation) {
-//        builder->get()->Insert(_sourceAllocation.value()->getValue());
+//    if (_parentAllocation) {
+//        builder->get()->Insert(_parentAllocation.value()->getValue());
 //    }
 //    if (this->getTargetIRType()->isArrayPointerType()) {
 //        auto sourceAllocation = _irSource->getRootAllocationAtIndex(_targetKeyIndex).value();
 //        IRCopyArraySupportFunction::insertSelfIntoBlock(
 //                builder,
 //                sourceAllocation,
-//                _sourceAllocation.value());
+//                _parentAllocation.value());
 //        auto arrayPointerType = (IRArrayPointerType*)this->getTargetIRType();
-//        auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(sourceAllocation, _sourceAllocation.value());
+//        auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(sourceAllocation, _parentAllocation.value());
 //        return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, arrayPointerType, arrayPointerTypeAllocation);
 //    }
 //
@@ -43,10 +42,10 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
 //    if (_irSource->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
 //        auto loadedValue = builder->get()->CreateLoad(this->getTargetIRType()->getType(), pointer);
 //        if (_irType->isArrayPointerType()) {
-//            builder->get()->CreateStore(loadedValue, _sourceAllocation.value()->getValue());
+//            builder->get()->CreateStore(loadedValue, _parentAllocation.value()->getValue());
 //            auto arrayPointerType = (IRArrayPointerType*)_irType;
 //            auto arrayPointerTypeAllocation = builder->get()->CreateAlloca(arrayPointerType->getType());
-//            return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, arrayPointerType, _sourceAllocation.value(), arrayPointerTypeAllocation);
+//            return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, arrayPointerType, _parentAllocation.value(), arrayPointerTypeAllocation);
 //        } else {
 //            return loadedValue;
 //        }
@@ -85,10 +84,6 @@ IRType* IRObjectAccessExpressionNode::getTargetIRType() {
 
 llvm::Value* IRObjectAccessExpressionNode::getValue() {
     return _irSource->getValue();
-}
-
-std::optional<IRInstructionNode*> IRObjectAccessExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
 }
 
 IRNodeType IRObjectAccessExpressionNode::getNodeType() {

@@ -12,19 +12,19 @@
 class IRInstructionNode : public IRNode {
 private:
     llvm::Value* _irValue;
-    std::optional<IRInstructionNode*> _sourceAllocation;
-    std::vector<IRInstructionNode*> _childSourceAllocations;
+    std::optional<IRInstructionNode*> _parentAllocation;
+    std::vector<IRInstructionNode*> _childAllocations;
     IRPointerType* _irType;
 public:
-    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* sourceAllocation, std::vector<IRInstructionNode*> childSourceAllocations);
-    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation);
-    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childSourceAllocations);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType);
     explicit IRInstructionNode(llvm::GlobalVariable* irValue);
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
-    IRInstructionNode* getSourceAllocation();
-    IRInstructionNode* getSourceAllocationAtIndex(unsigned long index);
+    IRInstructionNode* getParentAllocation();
+    IRInstructionNode* getChildAllocationAtIndex(unsigned long index);
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
     IRPointerType* getIRType();

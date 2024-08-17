@@ -14,10 +14,6 @@ class IRExpressionNode : public IRNode {
 public:
     virtual llvm::Type* getType();
     virtual llvm::Type* getTypeAtIndex(unsigned long index);
-    virtual std::optional<IRInstructionNode*> getSourceAllocationAtIndex(unsigned long index);
-    virtual std::optional<IRInstructionNode*> getRootAllocationAtIndex(unsigned long index);
-    virtual std::optional<IRInstructionNode*> getSourceAllocation();
-    virtual std::optional<IRInstructionNode*> getRootAllocation();
     virtual llvm::Value* getValue() = 0;
     virtual IRType* getIRType() = 0;
     virtual TypeSignature* getTypeSignature() = 0;

@@ -16,11 +16,9 @@ private:
     llvm::UnaryOperator* _irValue;
     IRExpressionNode* _irExpression;
     IRType* _type;
-    IRInstructionNode* _sourceAllocation;
 public:
-    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type, IRInstructionNode* sourceAllocation);
+    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
     llvm::UnaryOperator* getValue() override;
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;

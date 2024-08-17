@@ -18,16 +18,12 @@ IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressio
 //    auto loadIrIndexValue = builder->get()->CreateLoad(_irIndex->getType(), irIndexValue);
 //    auto zeroIndex = builder->get()->getInt32(0);
 //    auto pointerToElement = builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
-////    Logger::log("irIndexAsInt->getZExtValue()", irIndexAsInt->getSExtValue());
+//    Logger::log("irIndexAsInt->getZExtValue()", irIndexAsInt->getSExtValue());
 //    return pointerToElement;
 //}
 
 llvm::Value* IRArrayAccessExpressionNode::getValue() {
     return _irSource->getValue();
-}
-
-std::optional<IRInstructionNode*> IRArrayAccessExpressionNode::getSourceAllocation() {
-    return _irSource->getSourceAllocation();
 }
 
 IRType* IRArrayAccessExpressionNode::getIRType() {

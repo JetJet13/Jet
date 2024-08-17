@@ -10,20 +10,12 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
     _irValue = irValue;
 }
 
-//llvm::Value* IRIdentifierExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-//    return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
-//}
-
 llvm::Value* IRIdentifierExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getSourceAllocation() {
-    return _irValue->getSourceAllocation();
-}
-
-std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getRootAllocation() {
-    return _irValue->getSourceAllocation()->getSourceAllocation();
+IRInstructionNode* IRIdentifierExpressionNode::getIRValue() {
+    return _irValue;
 }
 
 IRPointerType* IRIdentifierExpressionNode::getIRType() {
