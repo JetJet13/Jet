@@ -207,6 +207,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h
         types/ir-operation-type.h
+        ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h
 )
 
 target_link_libraries(jet-vm

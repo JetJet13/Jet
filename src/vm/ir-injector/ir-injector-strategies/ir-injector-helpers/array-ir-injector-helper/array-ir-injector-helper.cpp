@@ -15,7 +15,7 @@ llvm::LoadInst* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::
     builder->get()->CreateStore(loadedNumElements, intPointer);
     auto arrayPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), { zeroIndex, pointerIndex });
     auto firstElementPointer = builder->get()->CreateInBoundsGEP(arrayPointerAllocation->getParentAllocation().value()->getAllocatedType(),
-                                                                 arrayPointerAllocation->getParentAllocation().value()->getValue(), {zeroIndex, zeroIndex });
+                                                                 arrayPointerAllocation->getParentAllocation().value()->getValue(), { zeroIndex, zeroIndex });
     builder->get()->CreateStore(firstElementPointer, arrayPointer);
     return builder->get()->CreateLoad(arrayPointerAllocation->getAllocatedType(), arrayPointerAllocation->getValue());
 }
@@ -50,7 +50,7 @@ llvm::LoadInst* ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(IRIde
     auto loadedNumElements = builder->get()->CreateLoad(arrayPointerType->getNumElementsType(), intPointer);
     auto destinationAllocation = IRInstructionNodeFactory::create(irExpression->getIRType(), arrayPointerType->getElementType(), loadedNumElements);
     builder->get()->Insert(destinationAllocation->getValue());
-    ArrayIRInjectorHelper::injectArrayCopy(builder, irExpression->getSourceAllocation().value(), destinationAllocation);
+    ArrayIRInjectorHelper::injectArrayCopy(builder, irExpression->getSourceAllocation().value()->getParentAllocation().value(), destinationAllocation);
     auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(irExpression->getIRType(), destinationAllocation);
     return ArrayIRInjectorHelper::injectArrayPointer(builder, arrayPointerType, loadedNumElements, arrayPointerTypeAllocation);
 }
