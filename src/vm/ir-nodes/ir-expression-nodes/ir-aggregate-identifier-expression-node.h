@@ -17,17 +17,19 @@ class IRAggregateIdentifierExpressionNode : public IRExpressionNode {
 private:
     ASTIdentifierExpressionNode* _node;
     IRInstructionNode* _arrayAllocation;
-    IRInstructionNode* _arrayPointerSourceAllocation;
+    IRInstructionNode* _arrayPointerAllocation;
     llvm::GetElementPtrInst* _intPointer;
     llvm::LoadInst* _loadedNumElements;
+    IRInstructionNode* _sourceAllocation;
     IRArrayPointerType* _type;
 public:
-    IRAggregateIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type);
+    IRAggregateIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type);
     llvm::GetElementPtrInst* getIntPointer();
     llvm::LoadInst* getLoadedNumElements();
     llvm::Value* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
-    IRInstructionNode* getSourceAggregateAllocation();
+    IRInstructionNode* getAggregateSourceAllocation();
+    IRInstructionNode* getAggregateAllocation();
     IRInstructionNode* getAggregatePointerAllocation();
     IRArrayPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;

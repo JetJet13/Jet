@@ -31,5 +31,6 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
     auto intPointer = llvm::GetElementPtrInst::Create(arrayPointerType->getType(), allocation->getValue(), { zeroIndex, intIndex });
     auto loadedNumElements = new llvm::LoadInst(arrayPointerType->getNumElementsType(), intPointer, "", false, DataAlignmentGenerator::generate(intIndex->getType()));
     auto destinationAllocation = IRInstructionNodeFactory::create(allocation->getIRType(), arrayPointerType->getElementType(), loadedNumElements);
-    return new IRAggregateIdentifierExpressionNode(node, destinationAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
+    auto aggregatePointerAllocation = IRInstructionNodeFactory::create(allocation, destinationAllocation);
+    return new IRAggregateIdentifierExpressionNode(node, destinationAllocation, aggregatePointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
 }

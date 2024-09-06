@@ -9,8 +9,8 @@
 llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
         return this->inject((IRArrayExpressionNode*)irExpression, builder, irInjectorMap, irOperationType);
-    } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType);
+    } else if (irExpression->is(IR_AGGREGATE_IDENTIFIER_EXPRESSION_NODE)) {
+        return this->inject((IRAggregateIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType);
     }
     throw std::logic_error("ArrayIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -32,6 +32,6 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression
                                                      irExpression->getAggregatePointerAllocation());
 }
 
-llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
+llvm::Value* ArrayIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder);
 }

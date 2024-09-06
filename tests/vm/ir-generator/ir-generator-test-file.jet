@@ -77,6 +77,7 @@ let myStructCopy = myStruct;
 let myArrayCopy = myArray;
 let strCopy = str;
 let secondStrCopy = strCopy;
+let arrayOfArraysCopy = myArrayOfArrays;
 let arrAccess = myArray[1];
 const arrIndex = 1;
 // let otherArrAccess = myArray[arrIndex];

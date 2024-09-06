@@ -4,13 +4,14 @@
 
 #include "ir-aggregate-identifier-expression-node.h"
 
-IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type) {
+IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type) {
     _node = node;
     _arrayAllocation = irAllocation;
-    _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
+    _arrayPointerAllocation = arrayPointerSourceAllocation;
     _intPointer = intPointer;
     _loadedNumElements = loadedNumElements;
     _type = type;
+    _sourceAllocation = sourceAllocation;
 }
 
 llvm::GetElementPtrInst* IRAggregateIdentifierExpressionNode::getIntPointer() {
@@ -30,12 +31,16 @@ std::optional<IRInstructionNode*> IRAggregateIdentifierExpressionNode::getSource
     return _arrayAllocation;
 }
 
-IRInstructionNode* IRAggregateIdentifierExpressionNode::getSourceAggregateAllocation() {
+IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateSourceAllocation() {
+    return _sourceAllocation->getParentAllocation().value();
+}
+
+IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateAllocation() {
     return _arrayAllocation;
 }
 
 IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregatePointerAllocation() {
-    return _arrayPointerSourceAllocation;
+    return _arrayPointerAllocation;
 }
 
 IRArrayPointerType* IRAggregateIdentifierExpressionNode::getIRType() {

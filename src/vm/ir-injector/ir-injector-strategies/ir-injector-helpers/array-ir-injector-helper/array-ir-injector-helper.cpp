@@ -42,15 +42,14 @@ void ArrayIRInjectorHelper::injectArrayCopy(std::unique_ptr<llvm::IRBuilder<>>* 
             sourceAllocation->getSizeInBytes());
 }
 
-llvm::LoadInst* ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+llvm::LoadInst* ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
+    Logger::log("injectArrayFromIdentifierExpression", irExpression->toString());
+    builder->get()->Insert(irExpression->getIntPointer());
+    builder->get()->Insert(irExpression->getLoadedNumElements());
+    builder->get()->Insert(irExpression->getAggregateAllocation()->getValue());
+    Logger::log("injectArrayFromIdentifierExpression - done insertions");
+    ArrayIRInjectorHelper::injectArrayCopy(builder, irExpression->getAggregateSourceAllocation(), irExpression->getAggregateAllocation());
+    Logger::log("injectArrayFromIdentifierExpression - done array copy");
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType()->getSourceType();
-    auto zeroIndex = builder->get()->getInt32(0);
-    auto intIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());
-    auto intPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), irExpression->getValue(), { zeroIndex, intIndex });
-    auto loadedNumElements = builder->get()->CreateLoad(arrayPointerType->getNumElementsType(), intPointer);
-    auto destinationAllocation = IRInstructionNodeFactory::create(irExpression->getIRType(), arrayPointerType->getElementType(), loadedNumElements);
-    builder->get()->Insert(destinationAllocation->getValue());
-    ArrayIRInjectorHelper::injectArrayCopy(builder, irExpression->getSourceAllocation().value()->getParentAllocation().value(), destinationAllocation);
-    auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(irExpression->getIRType(), destinationAllocation);
-    return ArrayIRInjectorHelper::injectArrayPointer(builder, arrayPointerType, loadedNumElements, arrayPointerTypeAllocation);
+    return ArrayIRInjectorHelper::injectArrayPointer(builder, arrayPointerType, irExpression->getLoadedNumElements(), irExpression->getAggregatePointerAllocation());
 }
