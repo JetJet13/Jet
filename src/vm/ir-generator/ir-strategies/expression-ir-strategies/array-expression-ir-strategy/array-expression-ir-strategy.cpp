@@ -10,8 +10,14 @@
 
 IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto elementValues = std::vector<IRExpressionNode*>();
+    auto elementValueSourceAllocations = std::vector<IRInstructionNode*>();
     for (auto element : *node->getElements()) {
-        elementValues.push_back(irGenerator->generateFor(element, scope, irModule, irOperationType));
+        auto elementIrExpression = irGenerator->generateFor(element, scope, irModule, irOperationType);
+        elementValues.push_back(elementIrExpression);
+        if (elementIrExpression->getSourceAllocation()) {
+            elementValueSourceAllocations.push_back(elementIrExpression->getSourceAllocation().value());
+        }
+
     }
     auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
@@ -22,7 +28,8 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
             AddressSpaceGenerator::generate(arrayElementIrType),
             nullptr,
             DataAlignmentGenerator::generate(arrayElementIrType)),
-            irGenerator->generatePointerType(arrayType)
+        irGenerator->generatePointerType(arrayType),
+        elementValueSourceAllocations
     );
     auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), arrayAllocation);
     return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerSourceAllocation, elementValues, irType);

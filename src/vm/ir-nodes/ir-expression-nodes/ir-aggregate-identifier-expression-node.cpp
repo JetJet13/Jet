@@ -32,6 +32,9 @@ std::optional<IRInstructionNode*> IRAggregateIdentifierExpressionNode::getSource
 }
 
 IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateSourceAllocation() {
+    if (_sourceAllocation->getParentAllocation().value()->getParentAllocation()) {
+        return _sourceAllocation->getParentAllocation().value()->getParentAllocation().value();
+    }
     return _sourceAllocation->getParentAllocation().value();
 }
 

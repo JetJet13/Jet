@@ -5,6 +5,7 @@
 #include "array-ir-injector-strategy.h"
 #include "../../ir-injector-map.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
@@ -29,9 +30,9 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression
     }
     return ArrayIRInjectorHelper::injectArrayPointer(builder, irExpression->getIRType(), numElements,
                                                      irExpression->getSourceAggregateAllocation(),
-                                                     irExpression->getAggregatePointerAllocation());
+                                                     irExpression->getAggregatePointerAllocation())->getValue();
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-   return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder);
+    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder)->getValue();
 }

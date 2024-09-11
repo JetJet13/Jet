@@ -46,7 +46,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType) {
                     DataAlignmentGenerator::generate(irType->getSourceType())), irType);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, llvm::Type* elementType, llvm::LoadInst* numElements) {
+IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, llvm::Type* elementType, llvm::Value* numElements) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
                     elementType,

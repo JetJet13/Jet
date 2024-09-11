@@ -21,7 +21,7 @@ std::vector<IRExpressionNode*>* IRArrayExpressionNode::getValues() {
 }
 
 std::optional<IRInstructionNode*> IRArrayExpressionNode::getSourceAllocation() {
-    return _irValue;
+    return _arrayPointerSourceAllocation;
 }
 
 IRInstructionNode* IRArrayExpressionNode::getSourceAggregateAllocation() {

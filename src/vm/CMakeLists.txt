@@ -209,6 +209,8 @@ add_library(jet-vm
         types/ir-operation-type.h
         ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h
+        ir-nodes/ir-load-instruction-node.cpp
+        ir-nodes/ir-load-instruction-node.h
 )
 
 target_link_libraries(jet-vm

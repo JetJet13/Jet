@@ -24,13 +24,12 @@ IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressi
 }
 
 IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateForAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
-    // todo: create new expression type and add array source and array pointer allocations
     auto arrayPointerType = (IRArrayPointerType*)allocation->getIRType()->getSourceType();
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto intIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto intPointer = llvm::GetElementPtrInst::Create(arrayPointerType->getType(), allocation->getValue(), { zeroIndex, intIndex });
     auto loadedNumElements = new llvm::LoadInst(arrayPointerType->getNumElementsType(), intPointer, "", false, DataAlignmentGenerator::generate(intIndex->getType()));
     auto destinationAllocation = IRInstructionNodeFactory::create(allocation->getIRType(), arrayPointerType->getElementType(), loadedNumElements);
-    auto aggregatePointerAllocation = IRInstructionNodeFactory::create(allocation, destinationAllocation);
-    return new IRAggregateIdentifierExpressionNode(node, destinationAllocation, aggregatePointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
+    auto pointerAllocation = IRInstructionNodeFactory::create(allocation, destinationAllocation);
+    return new IRAggregateIdentifierExpressionNode(node, destinationAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
 }

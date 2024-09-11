@@ -24,6 +24,7 @@ public:
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
     std::optional<IRInstructionNode*> getParentAllocation();
+    std::vector<IRInstructionNode*>* getChildAllocations();
     IRInstructionNode* getChildAllocationAtIndex(unsigned long index);
     void setParentAllocation(IRInstructionNode* parentAllocation);
     llvm::MaybeAlign getAlignment();

@@ -22,11 +22,11 @@ llvm::Value* StringIRInjectorStrategy::inject(IRStringLiteralExpressionNode* irE
     builder->get()->CreateStore(irExpression->getValue(), arrayAllocation);
     return ArrayIRInjectorHelper::injectArrayPointer(builder, irExpression->getIRType(), irExpression->getValue()->getType()->getArrayNumElements(),
                                                      irExpression->getSourceAggregateAllocation(),
-                                                     irExpression->getAggregatePointerAllocation());
+                                                     irExpression->getAggregatePointerAllocation())->getValue();
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder);
+    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder)->getValue();
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {

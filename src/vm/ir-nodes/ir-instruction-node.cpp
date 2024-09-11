@@ -48,6 +48,10 @@ std::optional<IRInstructionNode*> IRInstructionNode::getParentAllocation() {
     return _parentAllocation;
 }
 
+std::vector<IRInstructionNode*>* IRInstructionNode::getChildAllocations() {
+    return &_childAllocations;
+}
+
 llvm::Type* IRInstructionNode::getAllocatedType() {
     if (llvm::isa<llvm::AllocaInst>(_irValue)) {
         return llvm::cast<llvm::AllocaInst>(_irValue)->getAllocatedType();
