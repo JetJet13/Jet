@@ -25,7 +25,7 @@ llvm::Constant* IRStringLiteralExpressionNode::getValue() {
 }
 
 std::optional<IRInstructionNode*> IRStringLiteralExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
+    return _arrayPointerSourceAllocation;
 }
 
 IRInstructionNode* IRStringLiteralExpressionNode::getSourceAggregateAllocation() {

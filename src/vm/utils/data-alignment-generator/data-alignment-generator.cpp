@@ -27,7 +27,7 @@ llvm::Align DataAlignmentGenerator::generate(IRType* type) {
     if (type->isStructType()) {
         unsigned long largestSize = 0;
         for (unsigned long i = 0; i < type->getType()->getStructNumElements(); i++) {
-            auto structElementSize = ((IRStructType*)type)->getIRTypeForKey(i)->getSizeInBytes();
+            auto structElementSize = ((IRStructType *) type)->getIRTypeByIndex(i)->getSizeInBytes();
             if (structElementSize > largestSize) {
                 largestSize = structElementSize;
             }

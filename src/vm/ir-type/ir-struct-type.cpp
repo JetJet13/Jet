@@ -15,12 +15,25 @@ llvm::StructType* IRStructType::getType() {
     return _type;
 }
 
+unsigned long IRStructType::size() {
+    return _type->getNumElements();
+}
+
 uint64_t IRStructType::getSizeInBytes() {
     uint64_t totalSize = 0;
     for (auto keyType : _keyTypeMap) {
         totalSize += keyType.second->getSizeInBytes();
     }
     return totalSize;
+}
+
+std::string IRStructType::getKeyForIndex(unsigned long index) {
+    for (const auto& keyValue : _keyIndexMap) {
+        if (keyValue.second == index) {
+            return keyValue.first;
+        }
+    }
+    throw std::logic_error("no key found for index: " + std::to_string(index));
 }
 
 unsigned long IRStructType::getIndexForKey(std::string key) {
@@ -45,13 +58,13 @@ IRType* IRStructType::getIRTypeForKey(std::string key) {
     }
 }
 
-IRType* IRStructType::getIRTypeForKey(unsigned long indexAsKey) {
+IRType* IRStructType::getIRTypeByIndex(unsigned long index) {
     for (auto keyValue : _keyIndexMap) {
-        if (keyValue.second == indexAsKey) {
+        if (keyValue.second == index) {
             return this->getIRTypeForKey(keyValue.first);
         }
     }
-    throw std::logic_error("no type found for index: " + indexAsKey);
+    throw std::logic_error("no type found for index: " + std::to_string(index));
 }
 
 void IRStructType::replaceIRTypeAtKey(std::string key, IRType* newIRType) {

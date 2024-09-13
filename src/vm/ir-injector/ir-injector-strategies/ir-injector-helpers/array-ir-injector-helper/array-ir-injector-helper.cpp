@@ -6,7 +6,6 @@
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-type/ir-array-type.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
     builder->get()->Insert(arrayPointerAllocation->getValue());
@@ -38,7 +37,6 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* sourceArrayPointerAllocation) {
     auto arrayPointerType = (IRArrayPointerType*)sourceArrayPointerAllocation->getIRType()->getSourceType();
     if (!sourceArrayPointerAllocation->getParentAllocation().value()->getChildAllocations()->empty()) {
-        Logger::log("is array type");
         // initialize
         auto arrayAllocation = sourceArrayPointerAllocation->getParentAllocation().value();
         auto arrayType = (IRArrayType*)arrayAllocation->getIRType()->getSourceType();
@@ -86,12 +84,9 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayFromIdentifierExpressio
         ArrayIRInjectorHelper::injectArrayCopy(builder, irExpression->getAggregateSourceAllocation(), irExpression->getAggregateAllocation());
     } else {
         auto numElements = irExpression->getAggregateSourceAllocation()->getChildAllocations()->size();
-        Logger::log("numElements", numElements);
-        irExpression->getAggregateSourceAllocation()->getIRType()->print();
         auto zeroIndex = builder->get()->getInt32(0);
         for (int i = 0; i < numElements; ++i) {
             auto childAllocation = irExpression->getAggregateSourceAllocation()->getChildAllocations()->at(i);
-            childAllocation->getIRType()->getSourceType()->print();
             auto irIndex = builder->get()->getInt32(i);
             auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getAggregateAllocation()->getAllocatedType(),
                                                              irExpression->getAggregateAllocation()->getValue(), { zeroIndex, irIndex });

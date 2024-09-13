@@ -22,6 +22,7 @@ public:
     IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues);
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
     unsigned long size();
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();

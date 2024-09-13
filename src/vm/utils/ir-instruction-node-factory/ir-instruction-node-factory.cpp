@@ -3,6 +3,8 @@
 //
 
 #include "ir-instruction-node-factory.h"
+
+#include <utility>
 #include "../address-space-generator/address-space-generator.h"
 #include "../data-alignment-generator/data-alignment-generator.h"
 
@@ -44,6 +46,15 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType) {
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
                     DataAlignmentGenerator::generate(irType->getSourceType())), irType);
+}
+
+IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap) {
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getSourceType()->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irType->getSourceType())), irType, std::move(childAllocationMap));
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, llvm::Type* elementType, llvm::Value* numElements) {

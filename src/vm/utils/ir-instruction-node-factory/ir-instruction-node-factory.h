@@ -16,6 +16,7 @@ public:
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode);
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode, IRInstructionNode* sourceInstructionNode);
     static IRInstructionNode* create(IRPointerType* irType);
+    static IRInstructionNode* create(IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     static IRInstructionNode* create(IRPointerType* irType, llvm::Type* elementType, llvm::Value* numElements);
     static IRInstructionNode* create(IRPointerType* irType, IRInstructionNode* sourceAllocation);
     static IRInstructionNode* create(IRPointerType* irType, std::string name);

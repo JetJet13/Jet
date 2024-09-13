@@ -19,6 +19,10 @@ TypeSignature* IRStructExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() {
+    return _irValue;
+}
+
 unsigned long IRStructExpressionNode::size() {
     return _irValues.size();
 }

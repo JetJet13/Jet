@@ -10,6 +10,7 @@ IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* i
     _irType = irType;
     _parentAllocation = parentAllocation;
     _childAllocations = std::vector<IRInstructionNode*>();
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
 }
 
 IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations) {
@@ -17,6 +18,7 @@ IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* i
     _irType = irType;
     _parentAllocation = parentAllocation;
     _childAllocations = std::move(childAllocations);
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
 }
 
 IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations) {
@@ -24,6 +26,15 @@ IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* i
     _irType = irType;
     _parentAllocation = {};
     _childAllocations = std::move(childAllocations);
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
+}
+
+IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap) {
+    _irValue = irValue;
+    _irType = irType;
+    _parentAllocation = {};
+    _childAllocations = std::vector<IRInstructionNode*>();
+    _childAllocationMap = std::move(childAllocationMap);
 }
 
 IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType) {
@@ -31,6 +42,7 @@ IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* i
     _irType = irType;
     _parentAllocation = {};
     _childAllocations = std::vector<IRInstructionNode*>();
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
 }
 
 IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue) {
@@ -38,6 +50,7 @@ IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue) {
     _irType = IRPointerType::create(irValue);
     _parentAllocation = {};
     _childAllocations = std::vector<IRInstructionNode*>();
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
 }
 
 llvm::Value* IRInstructionNode::getValue() {
@@ -59,8 +72,17 @@ llvm::Type* IRInstructionNode::getAllocatedType() {
     return llvm::cast<llvm::GlobalVariable>(_irValue)->getValueType();
 }
 
-IRInstructionNode* IRInstructionNode::getChildAllocationAtIndex(unsigned long index) {
-    return _childAllocations[index];
+bool IRInstructionNode::hasChildAllocationMap() {
+    return !_childAllocationMap.empty();
+}
+
+IRInstructionNode* IRInstructionNode::getChildAllocationForKey(std::string key) {
+    auto result = _childAllocationMap.find(key);
+    if (result == _childAllocationMap.end()) {
+        throw std::invalid_argument("no child allocation found for key: " + key);
+    } else {
+        return result->second;
+    }
 }
 
 void IRInstructionNode::setParentAllocation(IRInstructionNode* parentAllocation) {

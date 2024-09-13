@@ -49,7 +49,7 @@ const myStruct = {
  character: 'c',
  str: "Hello World!",
  // identifier: foo,
- // array: [1,2,3],
+ array: [1,2,3],
  arrAccess: myArray[0],
  obj: {
     test: 100,

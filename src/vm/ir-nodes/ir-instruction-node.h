@@ -5,6 +5,7 @@
 #ifndef JETLANG_IR_INSTRUCTION_NODE_H
 #define JETLANG_IR_INSTRUCTION_NODE_H
 
+#include <unordered_map>
 #include "ir-node.h"
 #include "../ir-type/ir-type.h"
 #include "../ir-type/ir-pointer-type.h"
@@ -14,18 +15,21 @@ private:
     llvm::Value* _irValue;
     std::optional<IRInstructionNode*> _parentAllocation;
     std::vector<IRInstructionNode*> _childAllocations;
+    std::unordered_map<std::string, IRInstructionNode*> _childAllocationMap;
     IRPointerType* _irType;
 public:
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
+    IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType);
     explicit IRInstructionNode(llvm::GlobalVariable* irValue);
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
     std::optional<IRInstructionNode*> getParentAllocation();
     std::vector<IRInstructionNode*>* getChildAllocations();
-    IRInstructionNode* getChildAllocationAtIndex(unsigned long index);
+    bool hasChildAllocationMap();
+    IRInstructionNode* getChildAllocationForKey(std::string key);
     void setParentAllocation(IRInstructionNode* parentAllocation);
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
