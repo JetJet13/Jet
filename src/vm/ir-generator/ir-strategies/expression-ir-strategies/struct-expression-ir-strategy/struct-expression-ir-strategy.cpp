@@ -14,9 +14,8 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
         auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irModule, irOperationType);
         structValues.push_back(irNode);
         if (irNode->getSourceAllocation()) {
-            Logger::log("irNode->getSourceAllocation()");
             structValueSourceAllocationMap.insert(
-                std::pair(keyValuePair->getKey()->getId() ,irNode->getSourceAllocation().value())
+                std::pair(keyValuePair->getKey()->getId() , irNode->getSourceAllocation().value())
             );
         }
     }

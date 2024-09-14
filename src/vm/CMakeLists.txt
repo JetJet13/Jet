@@ -211,6 +211,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h
         ir-nodes/ir-load-instruction-node.cpp
         ir-nodes/ir-load-instruction-node.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h
 )
 
 target_link_libraries(jet-vm

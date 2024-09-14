@@ -28,7 +28,7 @@ llvm::Value* IRAggregateIdentifierExpressionNode::getValue() {
 
 
 std::optional<IRInstructionNode*> IRAggregateIdentifierExpressionNode::getSourceAllocation() {
-    return _arrayAllocation;
+    return _arrayPointerAllocation;
 }
 
 IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateSourceAllocation() {

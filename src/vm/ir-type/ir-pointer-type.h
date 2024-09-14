@@ -15,6 +15,7 @@ private:
     std::optional<IRType*> _sourceType;
 public:
     static IRPointerType* create(llvm::GlobalVariable* globalVariable);
+    static IRPointerType* create(IRType* type);
     IRPointerType(llvm::PointerType* type, IRType* sourceType);
     explicit IRPointerType(llvm::PointerType* type);
     llvm::PointerType* getType() override;

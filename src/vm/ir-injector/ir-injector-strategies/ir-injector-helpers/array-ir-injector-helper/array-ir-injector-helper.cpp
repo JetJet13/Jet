@@ -6,6 +6,8 @@
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-type/ir-array-type.h"
+#include "../struct-ir-injector-helper/struct-ir-injector-helper.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
     builder->get()->Insert(arrayPointerAllocation->getValue());
@@ -36,6 +38,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* sourceArrayPointerAllocation) {
     auto arrayPointerType = (IRArrayPointerType*)sourceArrayPointerAllocation->getIRType()->getSourceType();
+
     if (!sourceArrayPointerAllocation->getParentAllocation().value()->getChildAllocations()->empty()) {
         // initialize
         auto arrayAllocation = sourceArrayPointerAllocation->getParentAllocation().value();
@@ -50,9 +53,13 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr
             auto irIndex = builder->get()->getInt32(i);
             auto pointer = builder->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(),
                                                              destinationAllocation->getValue(), { zeroIndex, irIndex });
-            builder->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(builder, childAllocation)->getValue(), pointer);
+            if (childAllocation->getIRType()->isStructType()) {
+                builder->get()->CreateStore(StructIRInjectorHelper::injectStruct(builder, childAllocation)->getValue(), pointer);
+            } else {
+                builder->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(builder, childAllocation)->getValue(), pointer);
+            }
         }
-        auto pointerAllocation = IRInstructionNodeFactory::create(new IRPointerType(llvm::PointerType::get(arrayPointerType->getType(), 0), arrayPointerType), destinationAllocation);
+        auto pointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType), destinationAllocation);
         return ArrayIRInjectorHelper::injectArrayPointer(builder, arrayPointerType, numElements, destinationAllocation, pointerAllocation);
     }
 
@@ -60,7 +67,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr
     auto intIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());
     auto intPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceArrayPointerAllocation->getValue(), { zeroIndex, intIndex });
     auto loadedNumElements = builder->get()->CreateLoad(arrayPointerType->getNumElementsType(), intPointer);
-    auto destinationAllocation = IRInstructionNodeFactory::create(sourceArrayPointerAllocation->getIRType(), arrayPointerType->getElementType(), loadedNumElements);
+    auto destinationAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType->getElementIRType()), loadedNumElements);
     builder->get()->Insert(destinationAllocation->getValue());
     ArrayIRInjectorHelper::injectArrayCopy(builder, sourceArrayPointerAllocation->getParentAllocation().value(), destinationAllocation);
     auto pointerAllocation = IRInstructionNodeFactory::create(sourceArrayPointerAllocation, destinationAllocation);

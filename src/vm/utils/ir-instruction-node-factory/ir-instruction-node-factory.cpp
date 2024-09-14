@@ -57,10 +57,10 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     DataAlignmentGenerator::generate(irType->getSourceType())), irType, std::move(childAllocationMap));
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, llvm::Type* elementType, llvm::Value* numElements) {
+IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, llvm::Value* numElements) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
-                    elementType,
+                    irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     numElements,
                     DataAlignmentGenerator::generate(irType->getSourceType())), irType);

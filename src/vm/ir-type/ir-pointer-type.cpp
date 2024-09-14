@@ -9,6 +9,10 @@ IRPointerType* IRPointerType::create(llvm::GlobalVariable* globalVariable) {
     return new IRPointerType(globalVariable->getType(), new IRType(globalVariable->getValueType()));
 }
 
+IRPointerType* IRPointerType::create(IRType* type) {
+    return new IRPointerType(llvm::PointerType::get(type->getType(), 0), type);
+}
+
 IRPointerType::IRPointerType(llvm::PointerType* type, IRType* sourceType) : IRType(type) {
     _type = type;
     _sourceType = sourceType;

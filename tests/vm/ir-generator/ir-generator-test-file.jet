@@ -48,7 +48,7 @@ const myStruct = {
  world: true,
  character: 'c',
  str: "Hello World!",
- // identifier: foo,
+ identifier: foo,
  array: [1,2,3],
  arrAccess: myArray[0],
  obj: {
@@ -84,6 +84,7 @@ let threeLevelsDeepCopy = threeLevelsDeep;
 const arrIndex = 1;
 // let otherArrAccess = myArray[arrIndex];
 // let copyStringFromArray = mySecondArray[1];
+const structArray = [ { hello: "world" }, { hello: "foo" } ];
 
 func testFunc(x: int) int {
     return x + 1;
