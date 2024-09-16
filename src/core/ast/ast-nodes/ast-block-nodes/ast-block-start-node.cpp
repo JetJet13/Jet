@@ -12,7 +12,7 @@
 
 ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_STRUCT_MODE ||
-        (prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE }))) {
+        (prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_COMMA_NODE }))) {
         return new ASTStructStartNode(_lexeme);
     }
 

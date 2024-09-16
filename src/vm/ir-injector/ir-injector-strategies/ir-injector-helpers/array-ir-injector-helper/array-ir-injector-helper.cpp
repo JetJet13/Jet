@@ -97,7 +97,11 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayFromIdentifierExpressio
             auto irIndex = builder->get()->getInt32(i);
             auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getAggregateAllocation()->getAllocatedType(),
                                                              irExpression->getAggregateAllocation()->getValue(), { zeroIndex, irIndex });
-            builder->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(builder, childAllocation)->getValue(), pointer);
+            if (childAllocation->getIRType()->getSourceType()->isStructType()) {
+                builder->get()->CreateStore(StructIRInjectorHelper::injectStruct(builder, childAllocation)->getValue(), pointer);
+            } else {
+                builder->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(builder, childAllocation)->getValue(), pointer);
+            }
         }
     }
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType()->getSourceType();

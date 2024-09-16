@@ -87,6 +87,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vecto
         _recognizeStack.pop();
         _recognizeStack.top()->push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
     } else if (reducedNode->is(AST_COLON_BASE_NODE) && _modeStack.top() == SA_STRUCT_MODE) {
+        Logger::log("reduced node is colon and mode is struct_mode, merging recognizeStack with scope stack");
         auto scopeAsStack = _scopeStack.top().convertToStack();
         auto newRecognizeStack = std::move(StackMerger<ASTNode*>::merge(&scopeAsStack, _recognizeStack.top()));
         _scopeStack.pop();
@@ -102,7 +103,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vecto
             _scopeStack.top().add(reducedNode);
         }
     } else {
-        Logger::log("pushing node to stack:", reducedNode->toString());
+        Logger::log("pushing node to recognize stack:", reducedNode->toString());
         _recognizeStack.top()->push(reducedNode);
     }
 
@@ -116,7 +117,7 @@ void SyntaxAnalyzer::popFromStack() {
     if (_recognizeStack.top()->empty()) {
         throw std::logic_error("stack is empty. Nothing to pop.");
     }
-    Logger::log("popping from stack...");
+    Logger::log("popping from recognize stack...");
     _handle.prepend(_recognizeStack.top()->top());
     _recognizeStack.top()->pop();
 }

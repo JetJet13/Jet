@@ -84,8 +84,8 @@ let threeLevelsDeepCopy = threeLevelsDeep;
 const arrIndex = 1;
 // let otherArrAccess = myArray[arrIndex];
 // let copyStringFromArray = mySecondArray[1];
-const structArray = [ { hello: "world" }, { hello: "foo" } ];
-
+const structArray = [ { hello: "world", flag: true }, { hello: "foo", flag: false } ];
+const structArrayCopy = structArray;
 func testFunc(x: int) int {
     return x + 1;
 }
