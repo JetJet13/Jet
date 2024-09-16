@@ -43,7 +43,7 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irE
             { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() }
     );
     builder->get()->Insert(pointer);
-    return builder->get()->CreateLoad(irExpression->getType(), pointer);
+    return builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {

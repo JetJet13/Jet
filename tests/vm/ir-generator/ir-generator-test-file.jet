@@ -86,6 +86,8 @@ const arrIndex = 1;
 // let copyStringFromArray = mySecondArray[1];
 const structArray = [ { hello: "world", flag: true }, { hello: "foo", flag: false } ];
 const structArrayCopy = structArray;
+const enumArray = [ MyEnum.Uno, MyEnum.Dos ];
+
 func testFunc(x: int) int {
     return x + 1;
 }

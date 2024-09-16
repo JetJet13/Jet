@@ -22,6 +22,7 @@ public:
     bool isBoolType();
     virtual bool isArrayType();
     virtual bool isStructType();
+    virtual bool isEnumType();
     virtual bool isPointerType();
     virtual bool isArrayPointerType();
     bool isFunctionType();

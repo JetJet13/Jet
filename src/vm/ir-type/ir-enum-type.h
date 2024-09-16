@@ -11,6 +11,7 @@ class IREnumType : public IRStructType {
     using IRStructType::IRStructType;
 public:
     llvm::Type* getValueType();
+    bool isEnumType() override;
 };
 
 #endif //JETLANG_IR_ENUM_TYPE_H

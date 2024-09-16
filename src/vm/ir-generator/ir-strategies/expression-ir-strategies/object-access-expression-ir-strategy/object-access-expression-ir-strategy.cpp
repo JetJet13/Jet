@@ -11,13 +11,11 @@ IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::ObjectAccessExpr
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    std::optional<IRInstructionNode*> sourceAllocation = {};
+    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
     if (irType->isArrayPointerType()) {
-        if (sourceValue->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
-            sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(sourceType->getIRTypeForKey(targetKey)));
-        } else {
-            // todo: figure out how to create source allocation for source array of struct expression field.
-        }
+        sourceAllocation->setParentAllocation(
+            IRInstructionNodeFactory::create(irGenerator->generatePointerType(sourceType->getIRTypeByIndex(targetIndex)))
+        );
     }
-    return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType);
+    return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
 }

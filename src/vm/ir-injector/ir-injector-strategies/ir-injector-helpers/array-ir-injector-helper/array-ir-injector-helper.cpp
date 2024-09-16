@@ -7,7 +7,6 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-type/ir-array-type.h"
 #include "../struct-ir-injector-helper/struct-ir-injector-helper.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
     builder->get()->Insert(arrayPointerAllocation->getValue());
@@ -24,6 +23,21 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayAllocation, IRInstructionNode* arrayPointerAllocation) {
+    builder->get()->Insert(arrayPointerAllocation->getValue());
+    auto zeroIndex = builder->get()->getInt32(0);
+    auto intIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());
+    auto pointerIndex = builder->get()->getInt32(arrayPointerType->getPointerIndex());
+    auto intPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), { zeroIndex, intIndex });
+    builder->get()->CreateStore(builder->get()->getInt32(numElements), intPointer);
+    auto arrayPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), { zeroIndex, pointerIndex });
+    auto firstElementPointer = builder->get()->CreateInBoundsGEP(arrayAllocation->getAllocatedType(), arrayAllocation->getValue(), { zeroIndex, zeroIndex });
+    builder->get()->CreateStore(firstElementPointer, arrayPointer);
+    return new IRLoadInstructionNode(builder->get()->CreateLoad(arrayPointerAllocation->getAllocatedType(), arrayPointerAllocation->getValue()), arrayPointerAllocation);
+}
+
+IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayPointerAllocation) {
+    auto arrayAllocation = arrayPointerAllocation->getParentAllocation().value();
+    builder->get()->Insert(arrayAllocation->getValue());
     builder->get()->Insert(arrayPointerAllocation->getValue());
     auto zeroIndex = builder->get()->getInt32(0);
     auto intIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());

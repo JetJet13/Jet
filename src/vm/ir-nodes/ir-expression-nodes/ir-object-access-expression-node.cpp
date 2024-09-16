@@ -6,13 +6,14 @@
 #include "ir-global-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, IRInstructionNode* sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
     _irTargetKeyIndex = irTargetKeyIndex;
     _targetKeyIndex = targetKeyIndex;
     _irType = irType;
+    _sourceAllocation = sourceAllocation;
 }
 
 //llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
@@ -53,6 +54,10 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
 //
 //    return builder->get()->CreateLoad(this->getTargetIRType()->getType(), pointer);
 //}
+
+std::optional<IRInstructionNode*> IRObjectAccessExpressionNode::getSourceAllocation() {
+    return _sourceAllocation;
+}
 
 IRExpressionNode* IRObjectAccessExpressionNode::getSource() {
     return _irSource;

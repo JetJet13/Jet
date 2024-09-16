@@ -54,6 +54,10 @@ bool IRType::isStructType() {
     return false;
 }
 
+bool IRType::isEnumType() {
+    return false;
+}
+
 bool IRType::isPointerType() {
     return false;
 }

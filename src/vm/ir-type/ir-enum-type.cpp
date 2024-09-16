@@ -7,3 +7,7 @@
 llvm::Type* IREnumType::getValueType() {
     return this->getType()->getStructElementType(0);
 }
+
+bool IREnumType::isEnumType() {
+    return true;
+}

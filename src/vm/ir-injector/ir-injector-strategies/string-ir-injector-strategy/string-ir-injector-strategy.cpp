@@ -4,6 +4,9 @@
 
 #include "string-ir-injector-strategy.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
     if (irExpression->is(IR_STRING_LITERAL_EXPRESSION_NODE)) {
@@ -30,33 +33,28 @@ llvm::Value* StringIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNod
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-//    builder->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
-    auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
-    return builder->get()->CreateAlloca(arrayPointerType->getType());
-
-    if (irExpression->getSource()->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
+    auto arrayAllocation = irExpression->getSourceAllocation().value()->getParentAllocation().value();
+    builder->get()->Insert(arrayAllocation->getValue());
+    if (irExpression->getSource()->getIRType()->getSourceType()->isEnumType()) {
+        auto type = irExpression->getSource()->getIRType()->getSourceType()->getType()->getStructElementType(irExpression->getTargetKeyIndex());
         auto pointer = llvm::GetElementPtrInst::CreateInBounds(
-                irExpression->getSource()->getIRType()->getSourceType()->getType(),
+                irExpression->getSource()->getType(),
                 irExpression->getSource()->getValue(),
-                {builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex()}
+                { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() }
         );
         builder->get()->Insert(pointer);
-        auto loadedValue = builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-//        builder->get()->CreateStore(loadedValue, irExpression->getSourceAllocation().value()->getValue());
-//        auto arrayPointerTypeAllocation = builder->get()->CreateAlloca(arrayPointerType->getType());
-//        return ArrayIRInjectorHelper::injectArrayPointer(
-//                builder,
-//                arrayPointerType,
-//                irExpression->getSource()->,
-//                arrayPointerTypeAllocation
-//        );
+        auto loaded = builder->get()->CreateLoad(type, pointer);
+        builder->get()->CreateStore(loaded, arrayAllocation->getValue());
+        return ArrayIRInjectorHelper::injectArrayPointer(
+                builder,
+                (IRArrayPointerType*)irExpression->getIRType(),
+                type->getArrayNumElements(),
+                arrayAllocation,
+                irExpression->getSourceAllocation().value())->getValue();
     }
 
-//    auto sourceAllocation = irExpression->getSource()->getRootAllocationAtIndex(irExpression->getTargetKeyIndex()).value();
-//    ArrayIRInjectorHelper::injectArrayCopy(
-//            builder,
-//            sourceAllocation,
-//            irExpression->getSourceAllocation().value());
-//    auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(sourceAllocation, irExpression->getRootAllocation().value());
-//    return ArrayIRInjectorHelper::injectArrayPointer(builder, arrayPointerType, arrayPointerTypeAllocation);
+    return ArrayIRInjectorHelper::injectArrayPointer(
+        builder,
+        irExpression->getSource()->getSourceAllocation().value()->getParentAllocation().value()->getChildAllocationForKey(*irExpression->getTargetKey())
+    )->getValue();
 }
