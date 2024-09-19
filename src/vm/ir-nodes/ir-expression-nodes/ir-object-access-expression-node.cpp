@@ -16,44 +16,9 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
     _sourceAllocation = sourceAllocation;
 }
 
-//llvm::Value * IRObjectAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *injectorMap) {
-//        return injectorMap->getInjector(_node->getTypeSignature())->inject(this, builder);
-//
-//    if (_parentAllocation) {
-//        builder->get()->Insert(_parentAllocation.value()->getValue());
-//    }
-//    if (this->getTargetIRType()->isArrayPointerType()) {
-//        auto sourceAllocation = _irSource->getRootAllocationAtIndex(_targetKeyIndex).value();
-//        IRCopyArraySupportFunction::insertSelfIntoBlock(
-//                builder,
-//                sourceAllocation,
-//                _parentAllocation.value());
-//        auto arrayPointerType = (IRArrayPointerType*)this->getTargetIRType();
-//        auto arrayPointerTypeAllocation = IRInstructionNodeFactory::create(sourceAllocation, _parentAllocation.value());
-//        return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, arrayPointerType, arrayPointerTypeAllocation);
-//    }
-//
-//    auto pointer = llvm::GetElementPtrInst::CreateInBounds(
-//            _irSource->getIRType()->getSourceType()->getType(),
-//            _irSource->getValue(),
-//            { builder->get()->getInt32(0), _irTargetKeyIndex }
-//    );
-//    builder->get()->Insert(pointer);
-//
-//    if (_irSource->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
-//        auto loadedValue = builder->get()->CreateLoad(this->getTargetIRType()->getType(), pointer);
-//        if (_irType->isArrayPointerType()) {
-//            builder->get()->CreateStore(loadedValue, _parentAllocation.value()->getValue());
-//            auto arrayPointerType = (IRArrayPointerType*)_irType;
-//            auto arrayPointerTypeAllocation = builder->get()->CreateAlloca(arrayPointerType->getType());
-//            return IRArrayPointerSupportFunction::insertSelfIntoBlock(builder, arrayPointerType, _parentAllocation.value(), arrayPointerTypeAllocation);
-//        } else {
-//            return loadedValue;
-//        }
-//    }
-//
-//    return builder->get()->CreateLoad(this->getTargetIRType()->getType(), pointer);
-//}
+ASTObjectAccessExpressionNode* IRObjectAccessExpressionNode::getNode() {
+    return _node;
+}
 
 std::optional<IRInstructionNode*> IRObjectAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;

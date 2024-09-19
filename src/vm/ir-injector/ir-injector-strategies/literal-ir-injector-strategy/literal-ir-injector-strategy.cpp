@@ -4,6 +4,8 @@
 
 #include "literal-ir-injector-strategy.h"
 #include "../../ir-injector-map.h"
+#include "../../../../shared/utils/logger/logger.h"
+#include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
     if (irExpression->is(IR_LITERAL_EXPRESSION_NODE)) {
@@ -37,13 +39,10 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExp
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(
-            irExpression->getSource()->getType(),
-            irExpression->getSource()->getValue(),
-            { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() }
-    );
-    builder->get()->Insert(pointer);
-    return builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
+    // todo: get this to work for nested structs.
+    auto source = StructIRInjectorHelper::extractNestedStruct(builder, irExpression);
+    builder->get()->Insert(source);
+    return builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), source);
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {

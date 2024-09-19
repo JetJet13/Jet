@@ -76,6 +76,7 @@ let structAccess = myStruct.world;
 let structWord = myStruct.str;
 let myStructCopy = myStruct;
 let myArrayCopy = myArray;
+let nestedStructValue = myStruct.obj.nest.value;
 let strCopy = str;
 let secondStrCopy = strCopy;
 let arrayOfArraysCopy = myArrayOfArrays;
