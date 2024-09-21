@@ -8,6 +8,7 @@
 #include "../ir-injector-strategy.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-array-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 
 
 class ArrayIRInjectorStrategy : public IRInjectorStrategy {
@@ -16,6 +17,7 @@ public:
     llvm::Value* inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) override;
     llvm::Value* inject(IRArrayExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType);
     llvm::Value* inject(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType);
+    llvm::Value* inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType);
 };
 
 #endif //JETLANG_ARRAY_IR_INJECTOR_STRATEGY_H

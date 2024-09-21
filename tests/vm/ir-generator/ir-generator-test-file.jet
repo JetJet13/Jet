@@ -57,7 +57,8 @@ const myStruct = {
         value: true,
         nestedString: "mars",
         nestedEnum: MyEnum.Uno,
-        otherNestedNum: OtherEnum.First
+        otherNestedNum: OtherEnum.First,
+        nestedArray: [55, 66, 77]
     }
  },
  binary: 1 + 2,
@@ -79,8 +80,10 @@ let structAccess = myStruct.world;
 let structWord = myStruct.str;
 let myStructCopy = myStruct;
 let myArrayCopy = myArray;
+let myStructArrayCopy = myStruct.array;
 let nestedStructValue = myStruct.obj.nest.value;
 let nestedStructString = myStruct.obj.nest.nestedString;
+let nestedStructArray = myStruct.obj.nest.nestedArray;
 let strCopy = str;
 let secondStrCopy = strCopy;
 let arrayOfArraysCopy = myArrayOfArrays;
