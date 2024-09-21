@@ -13,6 +13,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRExpressionNode* irExpression, st
         return this->inject((IRStructExpressionNode*)irExpression, builder, irInjectorMap, irOperationType);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType);
+    } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
+        return this->inject((IRObjectAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType);
     }
     throw std::logic_error("StructIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -35,5 +37,13 @@ llvm::Value* StructIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
     return StructIRInjectorHelper::injectStruct(
         builder,
         irExpression->getSourceAllocation().value()->getParentAllocation().value()
+    )->getValue();
+}
+
+llvm::Value* StructIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
+    auto loadedSourceAllocation = StructIRInjectorHelper::extractNestedStructAllocation(irExpression);
+    return StructIRInjectorHelper::injectStruct(
+            builder,
+            loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())
     )->getValue();
 }
