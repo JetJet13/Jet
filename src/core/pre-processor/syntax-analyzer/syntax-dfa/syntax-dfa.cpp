@@ -337,6 +337,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, AST_STRUCT_KEY_VALUE_NODE)))

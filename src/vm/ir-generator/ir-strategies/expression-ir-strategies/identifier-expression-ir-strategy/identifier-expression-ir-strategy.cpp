@@ -11,7 +11,6 @@
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
 
     auto allocation = scope->find(node->getIdentifierNode()->getId());
-    Logger::log("IdentifierExpressionIRStrategy", node->getIdentifierNode()->getId());
     if (allocation && allocation.value()->getIRType()->getSourceType()->isArrayPointerType()) {
         return this->generateForAggregate(node, allocation.value(), context, irGenerator, scope, irModule, irOperationType);
     } else if (allocation) {
@@ -21,7 +20,8 @@ IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressi
     auto globalVariable = scope->findGlobalVariable(node->getIdentifierNode()->getId()).value();
     return new IRGlobalIdentifierExpressionNode(
             node,
-            globalVariable
+            globalVariable,
+            IRInstructionNodeFactory::create(globalVariable->getValue())
     );
 }
 

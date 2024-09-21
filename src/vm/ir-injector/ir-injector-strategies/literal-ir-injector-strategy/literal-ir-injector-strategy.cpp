@@ -39,10 +39,7 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExp
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-    // todo: get this to work for nested structs.
-    auto source = StructIRInjectorHelper::extractNestedStruct(builder, irExpression);
-    builder->get()->Insert(source);
-    return builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), source);
+    return StructIRInjectorHelper::extractNestedStruct(builder, irExpression)->getValue();
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {

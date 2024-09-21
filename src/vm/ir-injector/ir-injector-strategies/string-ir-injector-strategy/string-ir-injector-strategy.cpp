@@ -5,7 +5,6 @@
 #include "string-ir-injector-strategy.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
-#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/logger/logger.h"
 
 llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
@@ -33,9 +32,9 @@ llvm::Value* StringIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNod
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-    auto arrayAllocation = irExpression->getSourceAllocation().value()->getParentAllocation().value();
-    builder->get()->Insert(arrayAllocation->getValue());
     if (irExpression->getSource()->getIRType()->getSourceType()->isEnumType()) {
+        auto arrayAllocation = irExpression->getSourceAllocation().value()->getParentAllocation().value();
+        builder->get()->Insert(arrayAllocation->getValue());
         auto type = irExpression->getSource()->getIRType()->getSourceType()->getType()->getStructElementType(irExpression->getTargetKeyIndex());
         auto pointer = llvm::GetElementPtrInst::CreateInBounds(
                 irExpression->getSource()->getType(),
@@ -52,9 +51,9 @@ llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irEx
                 arrayAllocation,
                 irExpression->getSourceAllocation().value())->getValue();
     }
-
+    auto loadedSourceAllocation = StructIRInjectorHelper::extractNestedStructAllocation(irExpression);
     return ArrayIRInjectorHelper::injectArrayPointer(
         builder,
-        irExpression->getSource()->getSourceAllocation().value()->getParentAllocation().value()->getChildAllocationForKey(*irExpression->getTargetKey())
+        loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())
     )->getValue();
 }

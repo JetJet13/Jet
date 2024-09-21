@@ -36,6 +36,7 @@ public:
     IRPointerType* getIRType();
     IRNodeType getNodeType() override;
     std::string toString() override;
+    void printChildAllocations();
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 

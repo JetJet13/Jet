@@ -3,6 +3,7 @@
 //
 
 #include "ir-instruction-node.h"
+#include "../../shared/utils/logger/logger.h"
 #include <utility>
 
 IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation) {
@@ -111,6 +112,15 @@ IRNodeType IRInstructionNode::getNodeType() {
 std::string IRInstructionNode::toString() {
     return "IR_ALLOCATION_NODE";
 }
+
+void IRInstructionNode::printChildAllocations() {
+    Logger::log("--------CHILD_ALLOCATIONS--------");
+    for (auto childAllocation : _childAllocationMap) {
+        Logger::log(childAllocation.first);
+    }
+    Logger::log("---------------------------------");
+}
+
 
 void IRInstructionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
     _irValue->print(**stream);
