@@ -28,9 +28,9 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
             AddressSpaceGenerator::generate(arrayElementIrType),
             nullptr,
             DataAlignmentGenerator::generate(arrayElementIrType)),
-        irGenerator->generatePointerType(arrayType),
+        irGenerator->generateIrPointerType(arrayType),
         elementValueSourceAllocations
     );
-    auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), arrayAllocation);
+    auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
     return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerSourceAllocation, elementValues, irType);
 }

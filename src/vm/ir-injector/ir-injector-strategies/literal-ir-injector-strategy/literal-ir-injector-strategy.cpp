@@ -35,7 +35,7 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRLiteralExpressionNode* irExpres
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-    return builder->get()->CreateLoad(irExpression->getType(), irExpression->getValue());
+    return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue());
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
@@ -84,5 +84,25 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRLogicalExpressionNode* irExpres
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
-    return irExpression->getValue();
+    auto irSourceValue = irExpression->getSourceExpression()->getValue();
+    auto irSourceType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
+    auto irIndexValue = irInjectorMap->getInjector(irExpression->getIndexExpression()->getTypeSignature())->inject(irExpression->getIndexExpression(), builder, irInjectorMap, irOperationType);
+    builder->get()->CreateCall(irExpression->getArrayAccessFunction(), { irIndexValue, irSourceValue });
+    auto zeroIndex = builder->get()->getInt32(0);
+    auto pointerIndex = builder->get()->getInt32(irSourceType->getPointerIndex());
+    auto pointer = builder->get()->CreateInBoundsGEP(
+            irExpression->getSourceExpression()->getIRType()->getSourceType()->getType(),
+            irExpression->getSourceExpression()->getValue(),
+            { zeroIndex, pointerIndex }
+    );
+    auto loadedPointer = builder->get()->CreateLoad(pointer->getType(), pointer);
+    auto pointerAtIndex = builder->get()->CreateInBoundsGEP(
+        irExpression->getIRType()->getSourceType()->getType(),
+        loadedPointer,
+        { irIndexValue }
+    );
+    return builder->get()->CreateLoad(
+        irExpression->getIRType()->getSourceType()->getType(),
+        pointerAtIndex
+    );
 }

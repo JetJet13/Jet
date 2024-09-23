@@ -37,7 +37,6 @@
 #include "ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
-#include "../../shared/utils/logger/logger.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -187,16 +186,24 @@ IRType* IRGenerator::generateVoidType() {
     return new IRType(llvm::Type::getVoidTy(*_context));
 }
 
-IRPointerType* IRGenerator::generatePointerType() {
+IRPointerType* IRGenerator::generateIrPointerType() {
     return new IRPointerType(llvm::PointerType::get(*_context, 0));
 }
 
-IRPointerType* IRGenerator::generatePointerType(IRType* type) {
+IRPointerType* IRGenerator::generateIrPointerType(IRType* type) {
     return new IRPointerType(llvm::PointerType::get(type->getType(), 0), type);
+}
+
+llvm::PointerType* IRGenerator::generatePointerType() {
+    return llvm::PointerType::get(*_context, 0);
 }
 
 llvm::PointerType* IRGenerator::generatePointerType(llvm::Type* type) {
     return llvm::PointerType::get(type, 0);
+}
+
+llvm::IntegerType* IRGenerator::generateIntType() {
+    return llvm::IntegerType::get(*_context, 32);
 }
 
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList) {

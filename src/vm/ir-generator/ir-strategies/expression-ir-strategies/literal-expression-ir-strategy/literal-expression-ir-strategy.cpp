@@ -11,8 +11,9 @@ IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode
     auto irLiteralNode = irGenerator->generateFor(node->getLiteralNode(), scope, irModule);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
     if (irLiteralNode->is(IR_STRING_LITERAL_NODE)) {
-        auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irLiteralNode->getIRType()));
-        auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), sourceAllocation);
+        auto sourceAllocation = IRInstructionNodeFactory::create(
+                irGenerator->generateIrPointerType(irLiteralNode->getIRType()));
+        auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), sourceAllocation);
         return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, (IRArrayPointerType*)irType,  sourceAllocation, arrayPointerSourceAllocation);
     }
     return new IRLiteralExpressionNode(node, irLiteralNode, irType);

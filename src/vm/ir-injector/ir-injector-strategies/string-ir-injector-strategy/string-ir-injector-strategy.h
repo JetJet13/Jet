@@ -11,6 +11,7 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-array-access-expression-node.h"
 
 
 class StringIRInjectorStrategy : public IRInjectorStrategy {
@@ -20,6 +21,7 @@ public:
     llvm::Value* inject(IRStringLiteralExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType);
     llvm::Value* inject(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType);
     llvm::Value* inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType);
+    llvm::Value* inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType);
 };
 
 #endif //JETLANG_STRING_IR_INJECTOR_STRATEGY_H

@@ -74,9 +74,11 @@ public:
     IRStructType* generateTypeFor(StructTypeSignature* typeSignature);
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature);
     IRType* generateVoidType();
-    IRPointerType* generatePointerType();
-    IRPointerType* generatePointerType(IRType* type);
+    IRPointerType* generateIrPointerType();
+    IRPointerType* generateIrPointerType(IRType* type);
+    llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
+    llvm::IntegerType* generateIntType();
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);
     llvm::Constant* generateIntConstant(int integer);
@@ -85,6 +87,7 @@ public:
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
+    void generateArrayAccessUtilFunction(IRModuleNode* irModuleNode);
     IRInjector* getInjector();
 };
 

@@ -5,22 +5,21 @@
 #include "ir-array-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, llvm::Function* arrayAccessFunction) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
     _type = type;
+    _arrayAccessFunction = arrayAccessFunction;
 }
 
-//llvm::Value * IRArrayAccessExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-//                                                               IRInjectorMap *injectorMap) {
-//    auto irIndexValue = _irIndex->insertSelfIntoBlock(builder, injectorMap);
-//    auto loadIrIndexValue = builder->get()->CreateLoad(_irIndex->getType(), irIndexValue);
-//    auto zeroIndex = builder->get()->getInt32(0);
-//    auto pointerToElement = builder->get()->CreateInBoundsGEP(_irSource->getType(), _irSource->getValue(), { zeroIndex, irIndexValue });
-//    Logger::log("irIndexAsInt->getZExtValue()", irIndexAsInt->getSExtValue());
-//    return pointerToElement;
-//}
+IRExpressionNode* IRArrayAccessExpressionNode::getSourceExpression() {
+    return _irSource;
+}
+
+IRExpressionNode* IRArrayAccessExpressionNode::getIndexExpression() {
+    return _irIndex;
+}
 
 llvm::Value* IRArrayAccessExpressionNode::getValue() {
     return _irSource->getValue();
@@ -28,6 +27,10 @@ llvm::Value* IRArrayAccessExpressionNode::getValue() {
 
 IRType* IRArrayAccessExpressionNode::getIRType() {
     return _type;
+}
+
+llvm::Function* IRArrayAccessExpressionNode::getArrayAccessFunction() {
+    return _arrayAccessFunction;
 }
 
 TypeSignature* IRArrayAccessExpressionNode::getTypeSignature() {

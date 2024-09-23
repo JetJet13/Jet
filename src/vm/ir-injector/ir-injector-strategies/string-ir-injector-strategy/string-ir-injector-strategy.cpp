@@ -57,3 +57,7 @@ llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irEx
         loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())
     )->getValue();
 }
+
+llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType) {
+
+}

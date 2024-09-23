@@ -12,10 +12,11 @@ IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::ObjectAccessExpr
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
-    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
+    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
     if (irType->isArrayPointerType()) {
         sourceAllocation->setParentAllocation(
-            IRInstructionNodeFactory::create(irGenerator->generatePointerType(sourceType->getIRTypeByIndex(targetIndex)))
+            IRInstructionNodeFactory::create(
+                    irGenerator->generateIrPointerType(sourceType->getIRTypeByIndex(targetIndex)))
         );
     }
     return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);

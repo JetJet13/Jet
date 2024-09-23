@@ -19,6 +19,6 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
             );
         }
     }
-    auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType), structValueSourceAllocationMap);
+    auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), structValueSourceAllocationMap);
     return new IRStructExpressionNode(node, structAllocation, irType, structValues);
 }

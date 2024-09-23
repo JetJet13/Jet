@@ -5,7 +5,7 @@
 #include "enum-type-signature-ir-strategy.h"
 
 IRPointerType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
-    return irGenerator->generatePointerType();
+    return irGenerator->generateIrPointerType();
 }
 
 IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::vector<llvm::Constant*> enumValues, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {

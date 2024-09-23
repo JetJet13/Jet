@@ -6,12 +6,11 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
 
     auto allocation = scope->find(node->getIdentifierNode()->getId());
-    if (allocation && allocation.value()->getIRType()->getSourceType()->isArrayPointerType()) {
+    if (irOperationType == IR_COPY_ASSIGNMENT_OP && allocation && allocation.value()->getIRType()->getSourceType()->isArrayPointerType()) {
         return this->generateForAggregate(node, allocation.value(), context, irGenerator, scope, irModule, irOperationType);
     } else if (allocation) {
         return new IRIdentifierExpressionNode(node, allocation.value());

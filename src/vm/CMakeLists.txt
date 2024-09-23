@@ -213,6 +213,8 @@ add_library(jet-vm
         ir-nodes/ir-load-instruction-node.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h
+        ir-generator/ir-util-functions/array-access-ir-function/array-access-ir-function.cpp
+        ir-generator/ir-util-functions/array-access-ir-function/array-access-ir-function.h
 )
 
 target_link_libraries(jet-vm

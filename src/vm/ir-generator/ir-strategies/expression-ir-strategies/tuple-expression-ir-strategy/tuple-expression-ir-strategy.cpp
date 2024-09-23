@@ -13,7 +13,7 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
         tupleValues.push_back(irNode);
     }
 
-    auto tupleAllocation = IRInstructionNodeFactory::create(irGenerator->generatePointerType(irType));
+    auto tupleAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 
     return new IRTupleExpressionNode(
             node,

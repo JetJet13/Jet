@@ -9,5 +9,5 @@ IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* a
     if (arrayElementType->isPointerType()) {
         return irGenerator->generateArrayElementType((IRPointerType*)arrayElementType);
     }
-    return irGenerator->generateArrayElementType(irGenerator->generatePointerType(arrayElementType));
+    return irGenerator->generateArrayElementType(irGenerator->generateIrPointerType(arrayElementType));
 }

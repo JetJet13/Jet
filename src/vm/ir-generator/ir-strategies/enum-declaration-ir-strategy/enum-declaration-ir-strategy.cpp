@@ -30,7 +30,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
     );
     auto globalVariableEnum = new IRGlobalVariableNode(
             globalVariable,
-            irGenerator->generatePointerType(enumType)
+            irGenerator->generateIrPointerType(enumType)
     );
     scope->insertGlobalVariable(node->getId(), globalVariableEnum);
     return new IREnumDeclarationNode(
