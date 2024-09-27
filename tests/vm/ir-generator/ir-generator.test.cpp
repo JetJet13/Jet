@@ -37,6 +37,7 @@ TEST_CASE( "should create expected vm code" ) {
     auto irInjector = new IRInjector();
     auto irGenerator = IRGenerator(irInjector);
     auto irModule = irGenerator.generateModule(filePath);
+    irGenerator.initModule(irModule);
     auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
     auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
     auto irLookupTable = IRLookupTable();
@@ -46,7 +47,7 @@ TEST_CASE( "should create expected vm code" ) {
         Logger::log("generating IR for node", node->toString(), node->getId());
         auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule);
         Logger::log("done generating IR for node", node->toString(), node->getId());
-        irInjector->inject(irMainFunctionBlock, value);
+        irInjector->inject(irMainFunctionBlock, value, irModule);
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }

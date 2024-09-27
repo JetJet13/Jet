@@ -27,7 +27,8 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
         new IRFunctionParameterDeclarationNode(
             new llvm::Argument(arrayIndexAccessType),
             arrayIndexAccessParameterAllocation
-        )
+        ),
+        irModuleNode
     );
 
     auto arrayPointerParamAllocationType = irGenerator->generateIrPointerType(new IRType(arrayPointerType));
@@ -37,7 +38,8 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
             new IRFunctionParameterDeclarationNode(
                 new llvm::Argument(arrayPointerType),
                 arrayPointerParameterAllocation
-            )
+            ),
+            irModuleNode
     );
 
 }

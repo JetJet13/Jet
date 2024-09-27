@@ -13,9 +13,9 @@ IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTy
         return new IRType(llvm::IntegerType::get(**context, 8));
     } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto charType = llvm::IntegerType::get(**context, 8);
-        return irGenerator->generateArrayElementType(
-            irGenerator->generatePointerType(charType),
-            new IRType(charType)
+        return irGenerator->generateArrayPointerType(
+                irGenerator->generatePointerType(charType),
+                new IRType(charType)
         );
     } else {
         return new IRType(llvm::IntegerType::get(**context, 1));

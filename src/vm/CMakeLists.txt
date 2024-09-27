@@ -215,6 +215,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h
         ir-generator/ir-util-functions/array-access-ir-function/array-access-ir-function.cpp
         ir-generator/ir-util-functions/array-access-ir-function/array-access-ir-function.h
+        ir-generator/ir-util-functions/copy-string-ir-function/copy-string-ir-function.cpp
+        ir-generator/ir-util-functions/copy-string-ir-function/copy-string-ir-function.h
 )
 
 target_link_libraries(jet-vm

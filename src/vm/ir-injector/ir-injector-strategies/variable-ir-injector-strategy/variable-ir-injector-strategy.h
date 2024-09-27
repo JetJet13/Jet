@@ -6,12 +6,13 @@
 #define JETLANG_VARIABLE_IR_INJECTOR_STRATEGY_H
 
 #include "../../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
+#include "../../../ir-nodes/ir-module-node.h"
 
 class IRInjectorMap;
 
 class VariableIRInjectorStrategy {
 public:
-    void inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap);
+    void inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_VARIABLE_IR_INJECTOR_STRATEGY_H

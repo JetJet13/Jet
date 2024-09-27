@@ -37,6 +37,8 @@
 #include "ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
+#include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -206,6 +208,10 @@ llvm::IntegerType* IRGenerator::generateIntType() {
     return llvm::IntegerType::get(*_context, 32);
 }
 
+llvm::IntegerType* IRGenerator::generateCharType() {
+    return llvm::IntegerType::get(*_context, 8);
+}
+
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList) {
     return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, &_context, this);
 }
@@ -218,14 +224,14 @@ llvm::Constant* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
 }
 
-IRArrayPointerType* IRGenerator::generateArrayElementType(IRPointerType* irPointerType) {
+IRArrayPointerType* IRGenerator::generateArrayPointerType(IRPointerType* irPointerType) {
     return new IRArrayPointerType(llvm::StructType::get(*_context, {
         llvm::IntegerType::get(*_context, 32),
         irPointerType->getType()
     }), irPointerType->getSourceType());
 }
 
-IRArrayPointerType* IRGenerator::generateArrayElementType(llvm::PointerType* pointerType, IRType* arrayElementType) {
+IRArrayPointerType* IRGenerator::generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType) {
     return new IRArrayPointerType(llvm::StructType::get(*_context, {
             llvm::IntegerType::get(*_context, 32),
             pointerType
@@ -237,7 +243,16 @@ IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
 }
 
 IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
-    return new IRModuleNode(new llvm::Module(moduleName, *_context));
+    return new IRModuleNode(
+        new llvm::Module(moduleName, *_context),
+        ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
+        CopyStringIRFunction::getCopyStringIRFunctionName()
+    );
+}
+
+void IRGenerator::initModule(IRModuleNode* irModule) {
+    ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
+    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

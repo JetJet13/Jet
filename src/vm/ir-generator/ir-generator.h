@@ -79,15 +79,16 @@ public:
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
+    llvm::IntegerType* generateCharType();
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);
     llvm::Constant* generateIntConstant(int integer);
-    IRArrayPointerType* generateArrayElementType(IRPointerType* irPointerType);
-    IRArrayPointerType* generateArrayElementType(llvm::PointerType* pointerType, IRType* arrayElementType);
+    IRArrayPointerType* generateArrayPointerType(IRPointerType* irPointerType);
+    IRArrayPointerType* generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType);
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRModuleNode* generateModule(std::string moduleName);
+    void initModule(IRModuleNode* irModule);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
-    void generateArrayAccessUtilFunction(IRModuleNode* irModuleNode);
     IRInjector* getInjector();
 };
 

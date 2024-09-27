@@ -8,18 +8,18 @@ IRInjector::IRInjector() {
     _irInjectorMap = IRInjectorMap();
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration) {
+void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule) {
     if (irDeclaration->is(IR_VARIABLE_DECLARATION_NODE)) {
-        _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap);
+        _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule);
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement) {
+void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule) {
     if (irStatement->is(IR_FUNCTION_RETURN_EXPRESSION_NODE)) {
         _irInjectorMap.getFunctionReturnInjector()->inject((IRFunctionReturnExpressionNode*)irStatement, irBlock->getBuilder());
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType) {
-    _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap, irOperationType);
+void IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule) {
+    _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap, irOperationType, irModule);
 }

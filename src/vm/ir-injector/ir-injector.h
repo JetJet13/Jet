@@ -14,9 +14,9 @@ private:
     IRInjectorMap _irInjectorMap;
 public:
     IRInjector();
-    void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration);
-    void inject(IRBlockNode* irBlock, IRStatementNode* irStatement);
-    void inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType);
+    void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule);
+    void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule);
+    void inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_IR_INJECTOR_H

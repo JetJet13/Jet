@@ -5,12 +5,12 @@
 #include "ir-array-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, llvm::Function* arrayAccessFunction) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
     _type = type;
-    _arrayAccessFunction = arrayAccessFunction;
+    _sourceAllocation = sourceAllocation;
 }
 
 IRExpressionNode* IRArrayAccessExpressionNode::getSourceExpression() {
@@ -21,16 +21,16 @@ IRExpressionNode* IRArrayAccessExpressionNode::getIndexExpression() {
     return _irIndex;
 }
 
+std::optional<IRInstructionNode*> IRArrayAccessExpressionNode::getSourceAllocation() {
+    return _sourceAllocation;
+}
+
 llvm::Value* IRArrayAccessExpressionNode::getValue() {
     return _irSource->getValue();
 }
 
 IRType* IRArrayAccessExpressionNode::getIRType() {
     return _type;
-}
-
-llvm::Function* IRArrayAccessExpressionNode::getArrayAccessFunction() {
-    return _arrayAccessFunction;
 }
 
 TypeSignature* IRArrayAccessExpressionNode::getTypeSignature() {

@@ -7,7 +7,7 @@
 IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType());
     if (arrayElementType->isPointerType()) {
-        return irGenerator->generateArrayElementType((IRPointerType*)arrayElementType);
+        return irGenerator->generateArrayPointerType((IRPointerType *) arrayElementType);
     }
-    return irGenerator->generateArrayElementType(irGenerator->generateIrPointerType(arrayElementType));
+    return irGenerator->generateArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
 }

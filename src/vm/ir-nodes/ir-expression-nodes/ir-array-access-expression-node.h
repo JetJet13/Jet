@@ -17,14 +17,14 @@ private:
     IRExpressionNode* _irSource;
     IRExpressionNode* _irIndex;
     IRType* _type;
-    llvm::Function* _arrayAccessFunction;
+    std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, llvm::Function* arrayAccessFunction);
+    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation);
     IRExpressionNode* getSourceExpression();
     IRExpressionNode* getIndexExpression();
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;
     IRType* getIRType() override;
-    llvm::Function* getArrayAccessFunction();
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

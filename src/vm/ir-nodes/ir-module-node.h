@@ -10,9 +10,13 @@
 class IRModuleNode {
 private:
     llvm::Module* _irValue;
+    std::string _arrayAccessFunctionName;
+    std::string _copyStringFunctionName;
 public:
-    IRModuleNode(llvm::Module* irValue);
+    IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName);
     llvm::Module* getModule();
+    llvm::Function* getArrayAccessFunction();
+    llvm::Function* getCopyStringFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H
