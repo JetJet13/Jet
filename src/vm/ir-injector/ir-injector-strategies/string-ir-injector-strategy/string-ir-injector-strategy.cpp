@@ -7,6 +7,7 @@
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 llvm::Value * StringIRInjectorStrategy::inject(IRExpressionNode *irExpression,
                                                std::unique_ptr<llvm::IRBuilder<>> *builder,
@@ -18,6 +19,8 @@ llvm::Value * StringIRInjectorStrategy::inject(IRExpressionNode *irExpression,
         return this->inject((IRAggregateIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRObjectAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
+        return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("StringIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -64,5 +67,36 @@ llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irEx
 
 llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     // todo: create allocation 'alloc i8, i32 %loadedInt' and set as parent allocation to irExpression;
-    irExpression->getSourceAllocation().value()->setParentAllocation();
+    auto elementIrType = ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType();
+    auto indexValue = irInjectorMap->getInjector(irExpression->getIndexExpression()->getTypeSignature())->inject(irExpression->getIndexExpression(), builder, irInjectorMap, irOperationType, irModule);
+    irExpression->getSourceExpression()->getValue()->print(llvm::outs());
+    builder->get()->CreateCall(irModule->getArrayAccessFunction(), { indexValue, irExpression->getSourceExpression()->getValue() });
+    auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
+    auto zeroIndex = builder->get()->getInt32(0);
+    auto numElementsIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());
+    auto pointerIndex = builder->get()->getInt32(arrayPointerType->getPointerIndex());
+    auto pointerToFirstElement = builder->get()->CreateInBoundsGEP(
+        arrayPointerType->getType(),
+        irExpression->getSourceExpression()->getValue(),
+        { zeroIndex,  pointerIndex }
+    );
+    auto loadedPointerToFirstElement = builder->get()->CreateLoad(arrayPointerType->getPointerType(), pointerToFirstElement);
+    auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(arrayPointerType->getPointerType(), loadedPointerToFirstElement, { indexValue });
+    auto loadedPointerToIndexedElement = builder->get()->CreateLoad(arrayPointerType->getType(), pointerToIndexedElement);
+    auto numElementsPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), loadedPointerToIndexedElement, { zeroIndex, numElementsIndex });
+    auto loadedNumElements = builder->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
+    auto destinationAllocation = builder->get()->CreateAlloca(elementIrType->getType(), loadedNumElements);
+    irExpression->getSourceAllocation().value()->setParentAllocation(
+        IRInstructionNodeFactory::create(
+            destinationAllocation,
+            IRPointerType::create(elementIrType)
+        )
+    );
+    builder->get()->CreateCall(irModule->getCopyStringFunction(), { destinationAllocation, loadedPointerToIndexedElement });
+    return ArrayIRInjectorHelper::injectArrayPointer(
+        builder,
+        arrayPointerType,
+        loadedNumElements,
+        irExpression->getSourceAllocation().value()
+    )->getValue();
 }
