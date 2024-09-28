@@ -18,6 +18,10 @@ llvm::Value * ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression,
         return this->inject((IRAggregateIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRObjectAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
+        return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
+        return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("ArrayIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -49,5 +53,28 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExp
     return ArrayIRInjectorHelper::injectArrayPointer(
             builder,
             loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())
+    )->getValue();
+}
+
+llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    if (irOperationType == IR_OPERAND_OP) {
+        return irExpression->getValue();
+    }
+    throw std::logic_error("cannot inject array from IRIdentifierExpressionNode. It must be IRAggregateIdentifierExpressionNode");
+}
+
+llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    irInjectorMap->getInjector(irExpression->getSourceExpression()->getTypeSignature())->inject(irExpression->getSourceExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+    auto loadedPointerToIndexedElement = ArrayIRInjectorHelper::extractNestedArrayAllocation(builder, irExpression, irInjectorMap, irModule);
+    if (irOperationType == IR_OPERAND_OP) {
+        return loadedPointerToIndexedElement;
+    }
+    return ArrayIRInjectorHelper::injectArrayCopy(
+            builder,
+            (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType(),
+            ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType(),
+            irModule,
+            loadedPointerToIndexedElement,
+            irExpression->getSourceAllocation().value()
     )->getValue();
 }

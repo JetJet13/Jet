@@ -9,6 +9,9 @@
 #include "../../../../ir-nodes/ir-instruction-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h"
 #include "../../../../ir-nodes/ir-load-instruction-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-array-access-expression-node.h"
+#include "../../../../ir-nodes/ir-module-node.h"
+#include "../../../ir-injector-map.h"
 
 class ArrayIRInjectorHelper {
 public:
@@ -17,7 +20,9 @@ public:
     static IRLoadInstructionNode* injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayPointerAllocation);
     static IRLoadInstructionNode* injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* sourceArrayPointerAllocation);
     static void injectArrayCopy(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* sourceAllocation, IRInstructionNode* destinationAllocation);
+    static IRLoadInstructionNode* injectArrayCopy(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, IRType* elementType, IRModuleNode* irModule, llvm::Value* sourceArray, IRInstructionNode* arrayPointerAllocation);
     static IRLoadInstructionNode* injectArrayFromIdentifierExpression(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder);
+    static llvm::Value* extractNestedArrayAllocation(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayAccessExpressionNode* irExpression, IRInjectorMap* irInjectorMap, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_ARRAY_IR_INJECTOR_HELPER_H

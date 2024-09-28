@@ -66,37 +66,16 @@ llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irEx
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    // todo: create allocation 'alloc i8, i32 %loadedInt' and set as parent allocation to irExpression;
     auto elementIrType = ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType();
-    auto indexValue = irInjectorMap->getInjector(irExpression->getIndexExpression()->getTypeSignature())->inject(irExpression->getIndexExpression(), builder, irInjectorMap, irOperationType, irModule);
-    irExpression->getSourceExpression()->getValue()->print(llvm::outs());
-    builder->get()->CreateCall(irModule->getArrayAccessFunction(), { indexValue, irExpression->getSourceExpression()->getValue() });
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
-    auto zeroIndex = builder->get()->getInt32(0);
-    auto numElementsIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());
-    auto pointerIndex = builder->get()->getInt32(arrayPointerType->getPointerIndex());
-    auto pointerToFirstElement = builder->get()->CreateInBoundsGEP(
-        arrayPointerType->getType(),
-        irExpression->getSourceExpression()->getValue(),
-        { zeroIndex,  pointerIndex }
-    );
-    auto loadedPointerToFirstElement = builder->get()->CreateLoad(arrayPointerType->getPointerType(), pointerToFirstElement);
-    auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(arrayPointerType->getPointerType(), loadedPointerToFirstElement, { indexValue });
-    auto loadedPointerToIndexedElement = builder->get()->CreateLoad(arrayPointerType->getType(), pointerToIndexedElement);
-    auto numElementsPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), loadedPointerToIndexedElement, { zeroIndex, numElementsIndex });
-    auto loadedNumElements = builder->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
-    auto destinationAllocation = builder->get()->CreateAlloca(elementIrType->getType(), loadedNumElements);
-    irExpression->getSourceAllocation().value()->setParentAllocation(
-        IRInstructionNodeFactory::create(
-            destinationAllocation,
-            IRPointerType::create(elementIrType)
-        )
-    );
-    builder->get()->CreateCall(irModule->getCopyStringFunction(), { destinationAllocation, loadedPointerToIndexedElement });
-    return ArrayIRInjectorHelper::injectArrayPointer(
-        builder,
-        arrayPointerType,
-        loadedNumElements,
-        irExpression->getSourceAllocation().value()
+    auto loadedPointerToIndexedElement = ArrayIRInjectorHelper::extractNestedArrayAllocation(builder, irExpression, irInjectorMap, irModule);
+    return ArrayIRInjectorHelper::injectArrayCopy(
+            builder,
+            arrayPointerType,
+            elementIrType,
+            irModule,
+            loadedPointerToIndexedElement,
+            irExpression->getSourceAllocation().value()
     )->getValue();
+
 }
