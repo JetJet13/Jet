@@ -144,17 +144,32 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(std::unique_ptr<ll
 }
 
 llvm::Value* ArrayIRInjectorHelper::extractNestedArrayAllocation(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayAccessExpressionNode* irExpression, IRInjectorMap* irInjectorMap, IRModuleNode* irModule) {
-    auto indexValue = irInjectorMap->getInjector(irExpression->getIndexExpression()->getTypeSignature())->inject(irExpression->getIndexExpression(), builder,irInjectorMap, IR_OPERAND_OP, irModule);
     auto sourceExpression = irExpression->getSourceExpression();
-    auto arrayPointerType = (IRArrayPointerType*)sourceExpression->getIRType()->getSourceType();
-    auto zeroIndex = builder->get()->getInt32(0);
-    auto pointerIndex = builder->get()->getInt32(arrayPointerType->getPointerIndex());
-    auto pointerToFirstElement = builder->get()->CreateInBoundsGEP(
-            arrayPointerType->getType(),
-            sourceExpression->getValue(),
-            { zeroIndex,  pointerIndex }
-    );
-    auto loadedPointerToFirstElement = builder->get()->CreateLoad(arrayPointerType->getPointerType(), pointerToFirstElement);
-    auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(arrayPointerType->getPointerType(), loadedPointerToFirstElement, { indexValue });
-    return builder->get()->CreateLoad(arrayPointerType->getType(), pointerToIndexedElement);
+    auto sourceAccessExpressions = std::vector<IRExpressionNode*> { irExpression->getSourceExpression() };
+    auto indexExpressions = std::vector<IRExpressionNode*> { irExpression->getIndexExpression() };
+    while (sourceExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
+        auto arrayAccessSourceExpression = (IRArrayAccessExpressionNode*)sourceExpression;
+        sourceExpression = arrayAccessSourceExpression->getSourceExpression();
+        sourceAccessExpressions.insert(sourceAccessExpressions.begin(), sourceExpression);
+        indexExpressions.insert(indexExpressions.begin(), arrayAccessSourceExpression->getIndexExpression());
+    }
+
+    llvm::Value* loadedPointerToIndexedElement = sourceAccessExpressions[0]->getValue();
+    for (int i = 0; i < sourceAccessExpressions.size(); ++i) {
+        auto source = sourceAccessExpressions[i];
+        auto index = indexExpressions[i];
+        auto indexValue = irInjectorMap->getInjector(index->getTypeSignature())->inject(index, builder, irInjectorMap, IR_OPERAND_OP, irModule);
+        auto arrayPointerType = (IRArrayPointerType*)source->getIRType()->getSourceType();
+        auto zeroIndex = builder->get()->getInt32(0);
+        auto pointerIndex = builder->get()->getInt32(arrayPointerType->getPointerIndex());
+        auto pointerToFirstElement = builder->get()->CreateInBoundsGEP(
+                arrayPointerType->getType(),
+                loadedPointerToIndexedElement,
+                { zeroIndex,  pointerIndex }
+        );
+        auto loadedPointerToFirstElement = builder->get()->CreateLoad(arrayPointerType->getPointerType(), pointerToFirstElement);
+        auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(arrayPointerType->getPointerType(), loadedPointerToFirstElement, { indexValue });
+        loadedPointerToIndexedElement = builder->get()->CreateLoad(arrayPointerType->getType(), pointerToIndexedElement);
+    }
+    return loadedPointerToIndexedElement;
 }
