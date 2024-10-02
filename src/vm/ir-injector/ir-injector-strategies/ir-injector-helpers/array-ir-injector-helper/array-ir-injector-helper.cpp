@@ -5,7 +5,6 @@
 #include "array-ir-injector-helper.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../../ir-type/ir-array-type.h"
 #include "../struct-ir-injector-helper/struct-ir-injector-helper.h"
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
@@ -146,17 +145,20 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(std::unique_ptr<ll
 llvm::Value* ArrayIRInjectorHelper::extractNestedArrayAllocation(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayAccessExpressionNode* irExpression, IRInjectorMap* irInjectorMap, IRModuleNode* irModule) {
     auto sourceExpression = irExpression->getSourceExpression();
     auto sourceAccessExpressions = std::vector<IRExpressionNode*> { irExpression->getSourceExpression() };
+    auto sourceTypes = std::vector<IRType*> { irExpression->getIRType() };
     auto indexExpressions = std::vector<IRExpressionNode*> { irExpression->getIndexExpression() };
     while (sourceExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
         auto arrayAccessSourceExpression = (IRArrayAccessExpressionNode*)sourceExpression;
         sourceExpression = arrayAccessSourceExpression->getSourceExpression();
         sourceAccessExpressions.insert(sourceAccessExpressions.begin(), sourceExpression);
+        sourceTypes.insert(sourceTypes.begin(), arrayAccessSourceExpression->getIRType());
         indexExpressions.insert(indexExpressions.begin(), arrayAccessSourceExpression->getIndexExpression());
     }
 
     llvm::Value* loadedPointerToIndexedElement = sourceAccessExpressions[0]->getValue();
     for (int i = 0; i < sourceAccessExpressions.size(); ++i) {
         auto source = sourceAccessExpressions[i];
+        auto sourceType = sourceTypes[i];
         auto index = indexExpressions[i];
         auto indexValue = irInjectorMap->getInjector(index->getTypeSignature())->inject(index, builder, irInjectorMap, IR_OPERAND_OP, irModule);
         auto arrayPointerType = (IRArrayPointerType*)source->getIRType()->getSourceType();
@@ -169,7 +171,7 @@ llvm::Value* ArrayIRInjectorHelper::extractNestedArrayAllocation(std::unique_ptr
         );
         auto loadedPointerToFirstElement = builder->get()->CreateLoad(arrayPointerType->getPointerType(), pointerToFirstElement);
         auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(arrayPointerType->getPointerType(), loadedPointerToFirstElement, { indexValue });
-        loadedPointerToIndexedElement = builder->get()->CreateLoad(arrayPointerType->getType(), pointerToIndexedElement);
+        loadedPointerToIndexedElement = builder->get()->CreateLoad(sourceType->getType(), pointerToIndexedElement);
     }
     return loadedPointerToIndexedElement;
 }

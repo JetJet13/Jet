@@ -7,12 +7,8 @@
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-llvm::Value * StringIRInjectorStrategy::inject(IRExpressionNode *irExpression,
-                                               std::unique_ptr<llvm::IRBuilder<>> *builder,
-                                               IRInjectorMap *irInjectorMap,
-                                               IROperationType irOperationType, IRModuleNode *irModule) {
+llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_STRING_LITERAL_EXPRESSION_NODE)) {
         return this->inject((IRStringLiteralExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_AGGREGATE_IDENTIFIER_EXPRESSION_NODE)) {

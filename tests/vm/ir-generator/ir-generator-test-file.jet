@@ -100,6 +100,8 @@ let copyNestedString = twoLevelStrings[0][1];
 const structArray = [ { hello: "world", flag: true }, { hello: "foo", flag: false } ];
 const structArrayCopy = structArray;
 const enumArray = [ MyEnum.Uno, MyEnum.Dos ];
+const structArrayAccessFlag = structArray[0].flag;
+const structArrayAccessString = structArray[1].hello;
 
 func testFunc(x: int) int {
     return x + 1;

@@ -10,11 +10,12 @@
 #include "../../../../ir-nodes/ir-instruction-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
+#include "../../../ir-injector-map.h"
 
 class StructIRInjectorHelper {
 public:
     static IRLoadInstructionNode* injectStruct(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* structAllocation);
-    static IRLoadInstructionNode* extractNestedStruct(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRObjectAccessExpressionNode* irExpression);
+    static llvm::Value* extractNestedValueFromStruct(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRObjectAccessExpressionNode* irExpression, IRInjectorMap* irInjectorMap, IRModuleNode* irModule);
     static IRInstructionNode* extractNestedStructAllocation(IRObjectAccessExpressionNode* irExpression);
 };
 

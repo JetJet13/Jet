@@ -50,6 +50,9 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     auto loadedSourceAllocation = StructIRInjectorHelper::extractNestedStructAllocation(irExpression);
+    if (irOperationType == IR_OPERAND_OP) {
+        return loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())->getValue();
+    }
     return ArrayIRInjectorHelper::injectArrayPointer(
             builder,
             loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())

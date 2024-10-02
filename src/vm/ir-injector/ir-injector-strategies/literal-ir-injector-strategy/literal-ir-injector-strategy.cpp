@@ -42,7 +42,7 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExp
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    return StructIRInjectorHelper::extractNestedStruct(builder, irExpression)->getValue();
+    return StructIRInjectorHelper::extractNestedValueFromStruct(builder, irExpression, irInjectorMap, irModule);
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
