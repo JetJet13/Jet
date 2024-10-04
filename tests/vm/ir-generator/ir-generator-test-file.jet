@@ -102,6 +102,33 @@ const structArrayCopy = structArray;
 const enumArray = [ MyEnum.Uno, MyEnum.Dos ];
 const structArrayAccessFlag = structArray[0].flag;
 const structArrayAccessString = structArray[1].hello;
+const structArrayMix = [
+    [
+        {
+            nest: [ "fin" ]
+        }
+    ],
+    [   {
+            nest: [ "mixing" ]
+        }
+    ]
+];
+const structArrayMixAccess = structArrayMix[1][0].nest[0];
+const structArrayMixNest = structArrayMix[1][0].nest;
+const combo = [
+    {
+        structure: {
+            foo: {
+                bar: [
+                    [100],
+                    [200]
+                ]
+            }
+        }
+    }
+];
+const finalArrayStructMix = combo[0].structure.foo.bar[0][1];
+
 
 func testFunc(x: int) int {
     return x + 1;

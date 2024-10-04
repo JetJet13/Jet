@@ -67,7 +67,6 @@ llvm::Value* StructIRInjectorHelper::extractNestedValueFromStruct(std::unique_pt
         expression = objectAccessExpression->getSource();
     }
     auto rootAllocation = expression->getSourceAllocation().value()->getParentAllocation().value();
-    rootAllocation->getValue()->print(llvm::outs());
     auto loadedAllocation = rootAllocation;
     for (auto targetKey : targetKeys) {
         loadedAllocation = loadedAllocation->getChildAllocationForKey(targetKey);
