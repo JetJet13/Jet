@@ -21,6 +21,10 @@ IRExpressionNode* IRArrayAccessExpressionNode::getIndexExpression() {
     return _irIndex;
 }
 
+ASTArrayAccessExpressionNode* IRArrayAccessExpressionNode::getNode() {
+    return _node;
+}
+
 std::optional<IRInstructionNode*> IRArrayAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }

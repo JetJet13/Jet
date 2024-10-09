@@ -22,6 +22,7 @@ public:
     IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation);
     IRExpressionNode* getSourceExpression();
     IRExpressionNode* getIndexExpression();
+    ASTArrayAccessExpressionNode* getNode();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;
     IRType* getIRType() override;

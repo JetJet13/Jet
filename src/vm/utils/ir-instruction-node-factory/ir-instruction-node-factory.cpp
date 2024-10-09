@@ -77,6 +77,17 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, IRIns
             sourceAllocation);
 }
 
+IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, IRInstructionNode* sourceAllocation) {
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irType->getSourceType())),
+            IRPointerType::create(irType),
+            sourceAllocation);
+}
+
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::string name) {
     return new IRInstructionNode(
             new llvm::AllocaInst(

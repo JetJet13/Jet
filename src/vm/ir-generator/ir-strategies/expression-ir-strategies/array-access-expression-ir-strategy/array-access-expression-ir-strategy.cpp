@@ -5,6 +5,7 @@
 #include "array-access-expression-ir-strategy.h"
 #include "../../../ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRArrayAccessExpressionNode* ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(ASTArrayAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto sourceValue = irGenerator->generateFor(node->getSource(), scope, irModule, IR_OPERAND_OP);

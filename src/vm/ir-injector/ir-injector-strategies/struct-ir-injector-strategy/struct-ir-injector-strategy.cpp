@@ -40,27 +40,34 @@ llvm::Value* StructIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
     if (irOperationType == IR_OPERAND_OP) {
         return irExpression->getSourceAllocation().value()->getParentAllocation().value()->getValue();
     }
-    return StructIRInjectorHelper::injectStruct(
-        builder,
-        irExpression->getSourceAllocation().value()->getParentAllocation().value()
-    )->getValue();
+    return StructIRInjectorHelper::injectStructCopy(
+            builder,
+            irExpression->getSourceAllocation().value()->getParentAllocation().value(),
+            irModule
+    );
 }
 
 llvm::Value* StructIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    auto loadedSourceAllocation = StructIRInjectorHelper::extractNestedStructAllocation(irExpression);
+    auto loadedSourceAllocation = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
     if (irOperationType == IR_OPERAND_OP) {
-        return loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())->getValue();
+        auto pointer = llvm::GetElementPtrInst::CreateInBounds(loadedSourceAllocation->getType(), loadedSourceAllocation, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
+        builder->get()->Insert(pointer);
+        return builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
     }
-    return StructIRInjectorHelper::injectStruct(
+    return StructIRInjectorHelper::injectStructCopy(
             builder,
-            loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())
-    )->getValue();
+            (IRStructType*)irExpression->getSource()->getIRType(),
+            loadedSourceAllocation,
+            irModule
+    );
 }
 
 llvm::Value* StructIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    auto loadedPointerToIndexedElement = ArrayIRInjectorHelper::extractNestedArrayAllocation(builder, irExpression, irInjectorMap, irModule);
     if (irOperationType == IR_OPERAND_OP) {
-        return loadedPointerToIndexedElement;
+        auto loadedPointerToIndexedElement = irInjectorMap->getInjector(irExpression->getSourceExpression()->getTypeSignature())->inject(irExpression->getSourceExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+        auto indexValue = irInjectorMap->getInjector(irExpression->getIndexExpression()->getTypeSignature())->inject(irExpression->getIndexExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+        auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
+        return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
     throw std::logic_error("StructIRInjectorStrategy not implemented for IRArrayAccessExpressionNode + irOperationType");
 }

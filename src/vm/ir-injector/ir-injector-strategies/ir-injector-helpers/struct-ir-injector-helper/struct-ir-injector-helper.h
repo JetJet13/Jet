@@ -14,9 +14,8 @@
 
 class StructIRInjectorHelper {
 public:
-    static IRLoadInstructionNode* injectStruct(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* structAllocation);
-    static llvm::Value* extractNestedValueFromStruct(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRObjectAccessExpressionNode* irExpression, IRInjectorMap* irInjectorMap, IRModuleNode* irModule);
-    static IRInstructionNode* extractNestedStructAllocation(IRObjectAccessExpressionNode* irExpression);
+    static llvm::Value* injectStructCopy(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* structAllocation, IRModuleNode* irModule);
+    static llvm::Value* injectStructCopy(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRStructType* irStructType, llvm::Value* structSource, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_STRUCT_IR_INJECTOR_HELPER_H

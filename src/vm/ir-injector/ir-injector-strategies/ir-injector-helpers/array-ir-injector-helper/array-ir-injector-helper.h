@@ -14,15 +14,13 @@
 #include "../../../ir-injector-map.h"
 
 class ArrayIRInjectorHelper {
-public:
+private:
     static IRLoadInstructionNode* injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation);
+public:
     static IRLoadInstructionNode* injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayAllocation, IRInstructionNode* arrayPointerAllocation);
-    static IRLoadInstructionNode* injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayPointerAllocation);
-    static IRLoadInstructionNode* injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* sourceArrayPointerAllocation);
-    static void injectArrayCopy(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* sourceAllocation, IRInstructionNode* destinationAllocation);
+    static IRLoadInstructionNode* injectArrayPointer(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInstructionNode* sourceArrayPointerAllocation, IRModuleNode* irModule);
     static IRLoadInstructionNode* injectArrayCopy(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayPointerType* arrayPointerType, IRType* elementType, IRModuleNode* irModule, llvm::Value* sourceArray, IRInstructionNode* arrayPointerAllocation);
-    static IRLoadInstructionNode* injectArrayFromIdentifierExpression(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder);
-    static llvm::Value* extractNestedArrayAllocation(std::unique_ptr<llvm::IRBuilder<>>*  builder, IRArrayAccessExpressionNode* irExpression, IRInjectorMap* irInjectorMap, IRModuleNode* irModule);
+    static IRLoadInstructionNode* injectArrayFromIdentifierExpression(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_ARRAY_IR_INJECTOR_HELPER_H

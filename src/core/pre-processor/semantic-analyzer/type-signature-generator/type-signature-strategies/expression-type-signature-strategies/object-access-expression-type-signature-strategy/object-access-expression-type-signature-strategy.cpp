@@ -6,21 +6,12 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../../../../../type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
-#include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), scope);
     if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
         objectAccessExpression->setTypeSignature(structSource->getTypeSignatureForKey(
-            objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
-        ));
-        return;
-    } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
-        auto arraySource = (ArrayTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
-        auto structElementType = (StructTypeSignature*)arraySource->getElementType();
-        objectAccessExpression->setTypeSignature(structElementType->getTypeSignatureForKey(
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
         ));
         return;

@@ -45,7 +45,7 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder)->getValue();
+    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, builder, irModule)->getValue();
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
@@ -68,36 +68,35 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExp
                 type->getArrayNumElements(),
                 arrayAllocation,
                 irExpression->getSourceAllocation().value())->getValue();
-    } else if (irExpression->getSource()->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
+    } else if (irOperationType == IR_COPY_ASSIGNMENT_OP) {
         auto arrayAccessAllocation = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
         auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
         builder->get()->Insert(pointer);
         auto loadedPointerToIndexedElement = builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
         return ArrayIRInjectorHelper::injectArrayCopy(builder, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+    } else {
+        auto loadedPointerToIndexedElement = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+        auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
+        return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
-
-    auto loadedSourceAllocation = StructIRInjectorHelper::extractNestedStructAllocation(irExpression);
-    if (irOperationType == IR_OPERAND_OP) {
-        return loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())->getValue();
-    }
-    return ArrayIRInjectorHelper::injectArrayPointer(
-            builder,
-            loadedSourceAllocation->getChildAllocationForKey(*irExpression->getTargetKey())
-    )->getValue();
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irOperationType == IR_OPERAND_OP) {
-        return irExpression->getValue();
+        auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType()->getSourceType();
+        auto pointerIndex = builder->get()->getInt32(arrayPointerType->getPointerIndex());
+        auto pointerToFirstElement = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), irExpression->getValue(), { builder->get()->getInt32(0), pointerIndex });
+        return builder->get()->CreateLoad(arrayPointerType->getElementType(), pointerToFirstElement);
     }
     throw std::logic_error("cannot inject array from IRIdentifierExpressionNode. It must be IRAggregateIdentifierExpressionNode");
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    irInjectorMap->getInjector(irExpression->getSourceExpression()->getTypeSignature())->inject(irExpression->getSourceExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
-    auto loadedPointerToIndexedElement = ArrayIRInjectorHelper::extractNestedArrayAllocation(builder, irExpression, irInjectorMap, irModule);
+    auto loadedPointerToIndexedElement = irInjectorMap->getInjector(irExpression->getSourceExpression()->getTypeSignature())->inject(irExpression->getSourceExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
     if (irOperationType == IR_OPERAND_OP) {
-        return loadedPointerToIndexedElement;
+        auto indexValue = irInjectorMap->getInjector(irExpression->getIndexExpression()->getTypeSignature())->inject(irExpression->getIndexExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+        auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
+        return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
     return ArrayIRInjectorHelper::injectArrayCopy(
             builder,
