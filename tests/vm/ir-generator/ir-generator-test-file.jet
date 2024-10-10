@@ -74,6 +74,8 @@ const negTwoPointFive = -2.5;
 const notTen = !10;
 const notTwentyPointFive = !20.5;
 const myTuple = tuple { 1, "hi", false };
+const tupleAccess = myTuple.0;
+const tupleAccessString = myTuple.1;
 const otherFoo = 5;
 let bar = "hello world";
 let magic = MyEnum.Uno;
@@ -103,21 +105,21 @@ const enumArray = [ MyEnum.Uno, MyEnum.Dos ];
 const structArrayAccessFlag = structArray[0].flag;
 const structArrayAccessString = structArray[1].hello;
 const structArrayMix = [
-    [
-        {
-            nest: [ "fin" ]
-        }
-    ],
-    [   {
-            nest: [ "mixing" ]
-        }
-    ]
+   [
+      {
+         nest: [ "fin" ]
+    }
+],
+[   {
+         nest: [ "mixing" ]
+    }
+   ]
 ];
 const structArrayMixAccess = structArrayMix[1][0].nest[0];
 const structArrayMixNest = structArrayMix[1][0].nest;
 const combo = [
     {
-        structure: {
+       structure: {
             foo: {
                 bar: [
                     [100],
@@ -128,6 +130,7 @@ const combo = [
     }
 ];
 const finalArrayStructMix = combo[0].structure.foo.bar[1][0];
+const heavyTuple = tuple { [1,2,4], [ ["heavy"], ["duty"] ], { foo: { deep: ["john smith"] } } };
 
 
 func testFunc(x: int) int {

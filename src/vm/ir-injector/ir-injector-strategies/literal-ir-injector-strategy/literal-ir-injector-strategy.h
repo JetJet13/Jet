@@ -16,6 +16,7 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-array-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-negate-expression-node.h"
 #include "../../../ir-nodes/ir-module-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.h"
 
 class LiteralIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -32,6 +33,7 @@ public:
     llvm::Value* inject(IRUnaryNegateExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
     llvm::Value* inject(IRLogicalExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
     llvm::Value* inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
+    llvm::Value* inject(IRTupleAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
 };
 
 #endif //JETLANG_LITERAL_IR_INJECTOR_STRATEGY_H

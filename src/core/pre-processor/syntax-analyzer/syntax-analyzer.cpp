@@ -217,6 +217,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: TUPLE_LIST_MODE");
             _modeStack.push(SA_TUPLE_LIST_MODE);
             break;
+        case AST_LEFT_BRACKET_NODE:
+            Logger::log("pushing mode: ARRAY_LIST_MODE");
+            _modeStack.push(SA_ARRAY_LIST_MODE);
+            break;
         case AST_IF_NODE:
         case AST_ELSE_IF_NODE:
         case AST_WHILE_NODE:
@@ -226,6 +230,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             break;
         case AST_BLOCK_NODE:
         case AST_STRUCT_EXPRESSION_NODE:
+        case AST_RIGHT_BRACKET_NODE:
         case AST_FUNCTION_PARAMETER_LIST_NODE:
         case AST_FUNCTION_ARGUMENT_LIST_NODE:
         case AST_ENUM_KEY_VALUE_LIST_NODE:

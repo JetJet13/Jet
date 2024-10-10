@@ -18,6 +18,7 @@
 #include "ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -39,6 +40,7 @@
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
+#include "../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -105,6 +107,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
     } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate((ASTObjectAccessExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
+    } else if (node->is(AST_TUPLE_ACCESS_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate((ASTTupleAccessExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }

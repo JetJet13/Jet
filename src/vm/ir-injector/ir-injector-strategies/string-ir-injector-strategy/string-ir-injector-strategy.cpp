@@ -17,6 +17,8 @@ llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode *irExpression, st
         return this->inject((IRObjectAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
+        return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("StringIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -74,4 +76,13 @@ llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExp
             loadedPointerToIndexedElement,
             irExpression->getSourceAllocation().value()
     )->getValue();
+}
+
+llvm::Value* StringIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
+    auto arrayAccessAllocation = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
+    builder->get()->Insert(pointer);
+    auto loadedPointerToIndexedElement = builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
+    return ArrayIRInjectorHelper::injectArrayCopy(builder, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
 }

@@ -5,7 +5,6 @@
 #include "struct-ir-injector-strategy.h"
 #include "../../ir-injector-map.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 
 llvm::Value* StructIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {

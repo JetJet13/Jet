@@ -10,7 +10,6 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-module-node.h"
 
-
 class TupleIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 public:

@@ -20,6 +20,7 @@ void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayE
     }
 
     for (auto element : *arrayExpression->getElements()) {
+        Logger::log("element", element->toString());
         strategyMap->assignTypeSignatureFor(element, scope);
     }
 

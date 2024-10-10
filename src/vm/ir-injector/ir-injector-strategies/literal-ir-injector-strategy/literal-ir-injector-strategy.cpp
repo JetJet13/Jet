@@ -6,7 +6,6 @@
 #include "../../ir-injector-map.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
-#include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
 llvm::Value * LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression,
                                                 std::unique_ptr<llvm::IRBuilder<>> *builder,
@@ -30,6 +29,8 @@ llvm::Value * LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression,
         return this->inject((IRLogicalExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
+        return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("LiteralIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -123,4 +124,11 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irEx
         irExpression->getIRType()->getSourceType()->getType(),
         pointerAtIndex
     );
+}
+
+llvm::Value* LiteralIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    auto sourceAllocation = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), sourceAllocation, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
+    builder->get()->Insert(pointer);
+    return builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
 }

@@ -217,6 +217,10 @@ add_library(jet-vm
         ir-generator/ir-util-functions/array-access-ir-function/array-access-ir-function.h
         ir-generator/ir-util-functions/copy-string-ir-function/copy-string-ir-function.cpp
         ir-generator/ir-util-functions/copy-string-ir-function/copy-string-ir-function.h
+        ir-generator/ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.h
 )
 
 target_link_libraries(jet-vm

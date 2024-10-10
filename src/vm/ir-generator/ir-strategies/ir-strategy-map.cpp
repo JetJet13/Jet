@@ -159,6 +159,10 @@ ObjectAccessExpressionIRStrategy* IRStrategyMap::getObjectAccessExpressionIRStra
     return _objectAccessExpressionIRStrategy;
 }
 
+TupleAccessExpressionIRStrategy* IRStrategyMap::getTupleAccessExpressionIRStrategy() {
+    return _tupleAccessExpressionIRStrategy;
+}
+
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
     return _arrayTypeSignatureIRStrategy;
 }
