@@ -44,12 +44,7 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(std::unique_ptr<llvm::IRBu
         auto loadedPointerToStructValue = builder->get()->CreateLoad(irTypeAtIndex->getType(), pointerToStructValue);
         if (irTypeAtIndex->isArrayPointerType()) {
             auto arrayPointerType = (IRArrayPointerType*)irTypeAtIndex;
-            auto intIndex = builder->get()->getInt32(arrayPointerType->getNumElementsIndex());
-            auto intPointer = builder->get()->CreateInBoundsGEP(arrayPointerType->getType(), loadedPointerToStructValue, { zeroIndex, intIndex });
-            auto loadedNumElements = builder->get()->CreateLoad(arrayPointerType->getNumElementsType(), intPointer);
-            auto arrayAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType->getElementIRType()), loadedNumElements);
-            builder->get()->Insert(arrayAllocation->getValue());
-            auto arrayPointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType), arrayAllocation);
+            auto arrayPointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType));
             auto loadedArrayPointer = ArrayIRInjectorHelper::injectArrayCopy(builder, arrayPointerType, arrayPointerType->getElementIRType(), irModule, loadedPointerToStructValue, arrayPointerAllocation);
             builder->get()->CreateStore(loadedArrayPointer->getValue(), destinationPointer);
         } else if (irTypeAtIndex->isStructType()) {
@@ -57,9 +52,7 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(std::unique_ptr<llvm::IRBu
             auto loadedNestedStruct = StructIRInjectorHelper::injectStructCopy(builder, irStructTypeAtIndex, loadedPointerToStructValue, irModule);
             builder->get()->CreateStore(loadedNestedStruct, destinationPointer);
         } else {
-            auto elementPointer = builder->get()->CreateInBoundsGEP(irStructType->getType(), structSource, { zeroIndex, index });
-            auto loadedValue = builder->get()->CreateLoad(irTypeAtIndex->getType(), elementPointer);
-            builder->get()->CreateStore(loadedValue, destinationPointer);
+            builder->get()->CreateStore(loadedPointerToStructValue, destinationPointer);
         }
     }
     return builder->get()->CreateLoad(destinationAllocation->getAllocatedType(), destinationAllocation);

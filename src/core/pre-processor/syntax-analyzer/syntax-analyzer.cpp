@@ -57,7 +57,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
     this->prepHandleForRecognizer();
-    _handle.print();
+//    _handle.print();
     return _recognizer->recognize(&_handle);
 }
 
@@ -230,7 +230,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             break;
         case AST_BLOCK_NODE:
         case AST_STRUCT_EXPRESSION_NODE:
-        case AST_RIGHT_BRACKET_NODE:
+        case AST_ARRAY_NODE:
         case AST_FUNCTION_PARAMETER_LIST_NODE:
         case AST_FUNCTION_ARGUMENT_LIST_NODE:
         case AST_ENUM_KEY_VALUE_LIST_NODE:

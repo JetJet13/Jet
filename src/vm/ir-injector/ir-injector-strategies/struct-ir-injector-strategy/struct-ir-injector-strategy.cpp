@@ -16,6 +16,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRExpressionNode *irExpression, st
         return this->inject((IRObjectAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
+        return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("StructIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -69,4 +71,19 @@ llvm::Value* StructIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExp
         return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
     throw std::logic_error("StructIRInjectorStrategy not implemented for IRArrayAccessExpressionNode + irOperationType");
+}
+
+llvm::Value* StructIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    auto loadedSourceAllocation = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+    if (irOperationType == IR_OPERAND_OP) {
+        auto pointer = llvm::GetElementPtrInst::CreateInBounds(loadedSourceAllocation->getType(), loadedSourceAllocation, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
+        builder->get()->Insert(pointer);
+        return builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
+    }
+    return StructIRInjectorHelper::injectStructCopy(
+            builder,
+            (IRStructType*)irExpression->getSource()->getIRType(),
+            loadedSourceAllocation,
+            irModule
+    );
 }

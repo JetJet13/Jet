@@ -30,7 +30,8 @@ void FileReader::close() {
 std::optional<char> FileReader::peek() {
     auto peekCharacter = _fileStream.peek();
     if (_fileStream.fail()) {
-        Logger::log("fileStream failed");
+        Logger::log("fileStream failed", _fileStream.failbit, _fileStream.bad(), _fileStream.badbit);
+
         _fileStream.clear();
         peekCharacter = _fileStream.peek();
     }

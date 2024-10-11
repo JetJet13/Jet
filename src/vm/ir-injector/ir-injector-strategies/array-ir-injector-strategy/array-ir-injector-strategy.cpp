@@ -7,11 +7,8 @@
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
-#include "../../../ir-nodes/ir-module-node.h"
 
-llvm::Value * ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression,
-                                              std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap,
-                                              IROperationType irOperationType, IRModuleNode *irModule) {
+llvm::Value * ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
         return this->inject((IRArrayExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_AGGREGATE_IDENTIFIER_EXPRESSION_NODE)) {
@@ -22,6 +19,8 @@ llvm::Value * ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression,
         return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
+        return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("ArrayIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -106,4 +105,19 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpr
             loadedPointerToIndexedElement,
             irExpression->getSourceAllocation().value()
     )->getValue();
+}
+
+llvm::Value* ArrayIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
+    if (irOperationType == IR_COPY_ASSIGNMENT_OP) {
+        auto arrayAccessAllocation = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+        auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
+        builder->get()->Insert(pointer);
+        auto loadedPointerToIndexedElement = builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
+        return ArrayIRInjectorHelper::injectArrayCopy(builder, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+    } else {
+        auto loadedPointerToIndexedElement = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+        auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
+        return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
+    }
 }

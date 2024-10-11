@@ -131,7 +131,13 @@ const combo = [
 ];
 const finalArrayStructMix = combo[0].structure.foo.bar[1][0];
 const heavyTuple = tuple { [1,2,4], [ ["heavy"], ["duty"] ], { foo: { deep: ["john smith"] } } };
-
+const heavyTupleAccess = heavyTuple.2.foo.deep[0];
+const heavyTupleStructCopy = heavyTuple.2.foo;
+const heavyTupleArrayCopy = heavyTuple.0[0];
+const anotherTuple = tuple { tuple { 1, true, "hi" }, 7, false };
+const anotherTupleAccess = anotherTuple.0.0;
+const copyNestedTuple = anotherTuple.0;
+const copyAnotherTuple = anotherTuple;
 
 func testFunc(x: int) int {
     return x + 1;
