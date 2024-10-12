@@ -16,6 +16,7 @@ public:
     IRBlockNode(llvm::BasicBlock* irValue);
     llvm::BasicBlock* getBlock();
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
+    void addVoidReturn();
 };
 
 #endif //JETLANG_IR_BLOCK_NODE_H

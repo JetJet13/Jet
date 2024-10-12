@@ -64,13 +64,13 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode*
 
     auto irLeftNodeValue = irInjectorMap->getInjector(irExpression->getLeftNode()->getTypeSignature())->inject(
             irExpression->getLeftNode(), builder, irInjectorMap, irOperationType, irModule);
-    auto leftNodeValue = builder->get()->CreateLoad(irExpression->getLeftNode()->getIRType()->getType(), irLeftNodeValue);
+
 
     auto irRightNodeValue = irInjectorMap->getInjector(irExpression->getRightNode()->getTypeSignature())->inject(
             irExpression->getRightNode(), builder, irInjectorMap, irOperationType, irModule);
-    auto rightNodeValue = builder->get()->CreateLoad(irExpression->getRightNode()->getIRType()->getType(), irRightNodeValue);
 
-    return builder->get()->CreateBinOp(irExpression->getValue()->getOpcode(), leftNodeValue, rightNodeValue);
+
+    return builder->get()->CreateBinOp(irExpression->getValue()->getOpcode(), irLeftNodeValue, irRightNodeValue);
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryComparisonExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {

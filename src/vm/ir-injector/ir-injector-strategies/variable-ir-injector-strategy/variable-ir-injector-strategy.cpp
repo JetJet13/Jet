@@ -2,6 +2,7 @@
 // Created by Johny Georges on 2024-08-15.
 //
 
+#include "llvm/IR/IntrinsicInst.h"
 #include "variable-ir-injector-strategy.h"
 #include "../../ir-injector-map.h"
 
@@ -15,4 +16,5 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
                     IR_COPY_ASSIGNMENT_OP, irModule);
 
     builder->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
+    builder->get()->CreateCall(irModule->getPrintFunction(), { irExpressionValue  });
 }

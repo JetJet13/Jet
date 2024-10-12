@@ -12,11 +12,13 @@ private:
     llvm::Module* _irValue;
     std::string _arrayAccessFunctionName;
     std::string _copyStringFunctionName;
+    std::string _printFunctionName;
 public:
-    IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName);
+    IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName, std::string printFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyStringFunction();
+    llvm::Function* getPrintFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

@@ -1,0 +1,3 @@
+const foo = 50;
+const bar = 20;
+const mars = foo + bar;

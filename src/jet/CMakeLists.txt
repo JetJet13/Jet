@@ -6,7 +6,7 @@ find_package(LLVM CONFIG)
 include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
 link_directories(${LLVM_LIBRARY_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
-llvm_map_components_to_libnames(llvm_libs support core irreader irprinter)
+llvm_map_components_to_libnames(llvm_libs support core irreader irprinter ${LLVM_TARGETS_TO_BUILD})
 
 set(CMAKE_EXE_LINKER_FLAGS "-lc++")
 add_executable(jet ./main.cpp)

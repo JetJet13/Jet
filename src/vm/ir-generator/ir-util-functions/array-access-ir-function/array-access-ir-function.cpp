@@ -41,5 +41,5 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
             ),
             irModuleNode
     );
-
+    functionBlock->addVoidReturn();
 }

@@ -16,3 +16,7 @@ llvm::BasicBlock* IRBlockNode::getBlock() {
 std::unique_ptr<llvm::IRBuilder<>>* IRBlockNode::getBuilder() {
     return &_builder;
 }
+
+void IRBlockNode::addVoidReturn() {
+    _builder.get()->CreateRet(_builder.get()->getInt32(0));
+}

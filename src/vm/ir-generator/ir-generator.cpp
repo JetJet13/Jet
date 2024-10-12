@@ -41,6 +41,7 @@
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
+#include "ir-util-functions/print-ir-function/print-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -250,13 +251,15 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
     return new IRModuleNode(
         new llvm::Module(moduleName, *_context),
         ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
-        CopyStringIRFunction::getCopyStringIRFunctionName()
+        CopyStringIRFunction::getCopyStringIRFunctionName(),
+        PrintIRFunction::getPrintIRFunctionName()
     );
 }
 
 void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
+    PrintIRFunction::generatePrintFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

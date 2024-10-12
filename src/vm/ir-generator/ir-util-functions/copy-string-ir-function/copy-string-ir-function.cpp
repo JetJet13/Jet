@@ -37,4 +37,5 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
         ),
         irModuleNode
     );
+    functionBlock->addVoidReturn();
 }

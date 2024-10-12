@@ -180,8 +180,6 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h
         ir-type/ir-array-pointer-type.cpp
         ir-type/ir-array-pointer-type.h
-        ir-generator/ir-strategies/support-function-ir-strategies/copy-array-support-function-ir-strategy/copy-array-support-function-ir-strategy.cpp
-        ir-generator/ir-strategies/support-function-ir-strategies/copy-array-support-function-ir-strategy/copy-array-support-function-ir-strategy.h
         ir-type/ir-array-type.cpp
         ir-type/ir-array-type.h
         ir-injector/ir-injector-strategies/ir-injector-strategy.cpp
@@ -221,6 +219,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h
         ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.h
+        ir-generator/ir-util-functions/print-ir-function/print-ir-function.cpp
+        ir-generator/ir-util-functions/print-ir-function/print-ir-function.h
 )
 
 target_link_libraries(jet-vm
