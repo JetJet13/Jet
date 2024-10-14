@@ -98,37 +98,7 @@ int main (int argc, const char* argv[]) {
         dest.flush();
 
         Logger::log("Wrote ", Filename, "\n");
-        Logger::log("Time to create an executable");
 
-
-        // Path to the executable
-
-        // Path to clang (e.g. /usr/local/bin/clang)
-        auto clangPath = llvm::sys::findProgramByName("clang");
-
-        // Arguments to pass to the clang driver:
-        //    clang getinmemory.c -lcurl -v
-        std::vector<const char *> args;
-        args.push_back(clangPath.get().c_str());
-        args.push_back(Filename);
-        args.push_back("-l");
-        args.push_back("curl");
-
-        auto diagnosticOptions = llvm::IntrusiveRefCntPtr(new clang::DiagnosticOptions());
-        auto diagClient = clang::TextDiagnosticPrinter(llvm::errs(), diagnosticOptions.get());
-        auto diagnosticId = llvm::IntrusiveRefCntPtr(new clang::DiagnosticIDs(clang::DiagnosticIDs()));
-        auto diagnostics = clang::DiagnosticsEngine(diagnosticId, diagnosticOptions);
-        auto driver = clang::driver::Driver(args[0], TargetTriple, diagnostics, "main-jet.exe");
-
-        // Create the set of actions to perform
-        auto compiler = driver.BuildCompilation(args);
-
-        // Carry out the actions
-        clang::SmallVector<std::pair<int, const clang::driver::Command *>, 4> FailingCommands;
-        if (compiler) {
-            driver.ExecuteCompilation(*compiler, FailingCommands);
-        }
-        Logger::log("Executable created...exiting");
     } else {
         Logger::log("too many arguments..exiting");
     }

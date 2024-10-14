@@ -16,5 +16,9 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
                     IR_COPY_ASSIGNMENT_OP, irModule);
 
     builder->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
-    builder->get()->CreateCall(irModule->getPrintFunction(), { irExpressionValue  });
+    // this print function call will cause a segmentation fault since the first param
+    // of the print function is an i8 ptr so add support for a built-in function: 'print' that handles this.
+    // for ref: https://cplusplus.com/reference/cstdio/printf/
+    // $ ld ./cmake-build-debug-jet-lang-toolchain/src/jet/main-jet-test-file-output.o -o main-jet.exe  -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -lSystem
+    builder->get()->CreateCall(irModule->getPrintFunction(), { irExpressionValue });
 }

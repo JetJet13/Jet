@@ -263,9 +263,9 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
-    auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(*_context), {});
+    auto functionType = llvm::FunctionType::get(llvm::Type::getInt32Ty(*_context), {});
     return new IRFunctionNode(
-        llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, functionName, irModuleNode->getModule())
+        llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, functionName, irModuleNode->getModule())
     );
 }
 
