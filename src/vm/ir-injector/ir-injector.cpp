@@ -23,3 +23,7 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
 void IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule) {
     _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap, irOperationType, irModule);
 }
+
+llvm::Value* IRInjector::injectRawString(IRBlockNode* irBlock, std::string rawString, IRArrayPointerType* stringPointerType, IRModuleNode* irModule) {
+    return _irInjectorMap.getStringInjector()->inject(rawString, stringPointerType, irBlock->getBuilder(), &_irInjectorMap, IR_OPERAND_OP, irModule);
+}

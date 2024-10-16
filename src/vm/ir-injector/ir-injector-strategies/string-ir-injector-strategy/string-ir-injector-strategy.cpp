@@ -7,6 +7,7 @@
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_STRING_LITERAL_EXPRESSION_NODE)) {
@@ -85,4 +86,12 @@ llvm::Value* StringIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExp
     builder->get()->Insert(pointer);
     auto loadedPointerToIndexedElement = builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
     return ArrayIRInjectorHelper::injectArrayCopy(builder, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+}
+
+llvm::Value* StringIRInjectorStrategy::inject(std::string rawString, IRArrayPointerType* stringPointerType, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    auto stringAllocation = builder->get()->CreateAlloca(stringPointerType->getElementType(), rawString.size());
+    auto sourceAllocation = IRInstructionNodeFactory::create(stringAllocation, IRPointerType::create(stringPointerType->getElementIRType()));
+    auto arrayPointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(stringPointerType));
+    arrayPointerAllocation->setParentAllocation(sourceAllocation);
+    return ArrayIRInjectorHelper::injectArrayPointer(builder, stringPointerType, rawString.size(), sourceAllocation, arrayPointerAllocation)->getValue();
 }

@@ -21,7 +21,7 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
     irGenerator->getInjector()->inject(
         functionBlock,
         new IRFunctionParameterDeclarationNode(
-            new llvm::Argument(pointerType->getType()),
+            function->getArg(0),
             destinationParameterAllocation
         ),
         irModuleNode
