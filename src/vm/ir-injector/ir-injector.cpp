@@ -11,6 +11,8 @@ IRInjector::IRInjector() {
 void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule) {
     if (irDeclaration->is(IR_VARIABLE_DECLARATION_NODE)) {
         _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule);
+    } else if (irDeclaration->is(IR_FUNCTION_PARAMETER_DECLARATION_NODE)) {
+        _irInjectorMap.getFunctionParameterInjector()->inject((IRFunctionParameterDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule);
     }
 }
 

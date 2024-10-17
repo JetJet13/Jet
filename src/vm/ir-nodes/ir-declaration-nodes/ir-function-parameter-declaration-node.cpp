@@ -9,10 +9,13 @@ IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Arg
     _irValue = irValue;
 }
 
-//void IRFunctionParameterDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder) {
-//    builder->get()->Insert(_irValue->getValue());
-//    builder->get()->CreateStore(_argument, _irValue->getValue());
-//}
+llvm::Argument* IRFunctionParameterDeclarationNode::getArgument() {
+    return _argument;
+}
+
+IRInstructionNode* IRFunctionParameterDeclarationNode::getAllocation() {
+    return _irValue;
+}
 
 IRNodeType IRFunctionParameterDeclarationNode::getNodeType() {
     return IR_FUNCTION_PARAMETER_DECLARATION_NODE;

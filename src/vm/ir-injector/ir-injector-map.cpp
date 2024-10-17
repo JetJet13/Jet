@@ -65,6 +65,10 @@ VariableIRInjectorStrategy* IRInjectorMap::getVariableInjector() {
     return _variableIRInjector;
 }
 
+FunctionParameterIRInjectorStrategy* IRInjectorMap::getFunctionParameterInjector() {
+    return _functionParameterIRInjector;
+}
+
 FunctionReturnIRInjectorStrategy* IRInjectorMap::getFunctionReturnInjector() {
     return _functionReturnIRInjector;
 }

@@ -25,7 +25,7 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
     irGenerator->getInjector()->inject(
         functionBlock,
         new IRFunctionParameterDeclarationNode(
-            new llvm::Argument(arrayIndexAccessType),
+            function->getArg(0),
             arrayIndexAccessParameterAllocation
         ),
         irModuleNode
@@ -36,7 +36,7 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
     irGenerator->getInjector()->inject(
             functionBlock,
             new IRFunctionParameterDeclarationNode(
-                new llvm::Argument(arrayPointerType),
+                function->getArg(1),
                 arrayPointerParameterAllocation
             ),
             irModuleNode

@@ -32,7 +32,7 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
     irGenerator->getInjector()->inject(
         functionBlock,
         new IRFunctionParameterDeclarationNode(
-            new llvm::Argument(arrayPointerType->getType()),
+            function->getArg(1),
             arrayPointerParameterAllocation
         ),
         irModuleNode

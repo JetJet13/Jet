@@ -17,6 +17,8 @@ private:
     IRInstructionNode* _irValue;
 public:
     IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue);
+    llvm::Argument* getArgument();
+    IRInstructionNode* getAllocation();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

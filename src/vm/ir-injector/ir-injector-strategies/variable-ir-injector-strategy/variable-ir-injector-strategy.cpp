@@ -2,7 +2,6 @@
 // Created by Johny Georges on 2024-08-15.
 //
 
-#include "llvm/IR/IntrinsicInst.h"
 #include "variable-ir-injector-strategy.h"
 #include "../../ir-injector-map.h"
 
@@ -20,5 +19,7 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
     // of the print function is an i8 ptr so add support for a built-in function: 'print' that handles this.
     // for ref: https://cplusplus.com/reference/cstdio/printf/
     // $ ld ./cmake-build-debug-jet-lang-toolchain/src/jet/main-jet-test-file-output.o -o main-jet.exe  -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -lSystem
-    //    builder->get()->CreateCall(irModule->getPrintFunction(), { irExpressionValue });
+    if (irVariableDeclaration->getIRExpression()->getIRType()->isIntegerType()) {
+        builder->get()->CreateCall(irModule->getPrintFunction(), { irExpressionValue });
+    }
 }

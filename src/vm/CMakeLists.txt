@@ -221,6 +221,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.h
         ir-generator/ir-util-functions/print-ir-function/print-ir-function.cpp
         ir-generator/ir-util-functions/print-ir-function/print-ir-function.h
+        ir-injector/ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm
