@@ -223,6 +223,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/print-ir-function/print-ir-function.h
         ir-injector/ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h
+        ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.cpp
+        ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h
 )
 
 target_link_libraries(jet-vm

@@ -14,7 +14,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto intType = irGenerator->generateIntType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { llvm::PointerType::get(**context, 1) }, true));
     auto functionType = llvm::FunctionType::get(intType, { intType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto formatString = std::vector<char> { '%', 'd', '\n', '\0' };

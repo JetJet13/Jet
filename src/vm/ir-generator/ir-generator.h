@@ -89,6 +89,7 @@ public:
     IRModuleNode* generateModule(std::string moduleName);
     void initModule(IRModuleNode* irModule);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
+    IRModuleNode* generateUtilInternalModule();
     IRInjector* getInjector();
 };
 

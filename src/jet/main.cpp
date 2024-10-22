@@ -3,6 +3,7 @@
 //
 
 
+#include "llvm/Linker/Linker.h"
 #include "main.h"
 #include "../core/lexeme/lexeme.h"
 #include "../shared/utils/logger/logger.h"
@@ -36,6 +37,11 @@ int main (int argc, const char* argv[]) {
         auto irGenerator = IRGenerator(irInjector);
         auto irModule = irGenerator.generateModule(filePath);
         irGenerator.initModule(irModule);
+        llvm::Linker::linkModules(
+                *irModule->getModule(),
+                std::unique_ptr<llvm::Module>(irGenerator.generateUtilInternalModule()->getModule())
+        );
+        Logger::log("Done linking util internal module");
         auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
         auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
         auto irLookupTable = IRLookupTable();

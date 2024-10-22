@@ -52,7 +52,6 @@
 #include "reducer-strategies/try-block-reducer-strategy/try-block-reducer-strategy.h"
 #include "reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.h"
 #include "reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.h"
-#include "reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h"
 #include "reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.h"

@@ -410,8 +410,6 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-end-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h
         ast/ast-nodes/ast-type-nodes/ast-type-node-factory.cpp
         ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.cpp
         ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h

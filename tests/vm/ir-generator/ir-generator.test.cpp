@@ -2,6 +2,7 @@
 // Created by Johny Georges on 2024-06-13.
 //
 
+#include "llvm/Linker/Linker.h"
 #include <ostream>
 #include <memory>
 #include <catch2/catch_all.hpp>
@@ -14,8 +15,8 @@
 #include "resources/file-equality-checker/file-equality-checker.h"
 #include "../../../src/core/pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h"
 #include "../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
-#include "../../../src/vm/ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 #include "../../../src/vm/ir-injector/ir-injector.h"
+#include "../../../src/vm/ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
 
 TEST_CASE( "should create expected vm code" ) {
     std::string filePath = "./ir-generator-test-file.jet";
@@ -41,6 +42,10 @@ TEST_CASE( "should create expected vm code" ) {
     auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
     auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
     auto irLookupTable = IRLookupTable();
+    llvm::Linker::linkModules(
+        *irModule->getModule(),
+        std::unique_ptr<llvm::Module>(irGenerator.generateUtilInternalModule()->getModule())
+    );
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *fileNodeResult->getBody()) {

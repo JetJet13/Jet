@@ -42,6 +42,7 @@
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
+#include "ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -259,7 +260,6 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
 void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
-    PrintIRFunction::generatePrintFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
@@ -267,6 +267,10 @@ IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRM
     return new IRFunctionNode(
         llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, functionName, irModuleNode->getModule())
     );
+}
+
+IRModuleNode* IRGenerator::generateUtilInternalModule() {
+    return IRUtilInternalModule::generate(this, &_context);
 }
 
 IRInjector* IRGenerator::getInjector() {

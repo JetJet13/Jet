@@ -15,7 +15,6 @@
 #include "ast-node-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.h"
 #include "ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.h"
 #include "ast-node-id-strategies/identifier-expression-id-strategy/identifier-expression-id-strategy.h"
-#include "../../../../shared/utils/logger/logger.h"
 #include "ast-node-id-strategies/import-many-by-wildcard-module-declaration-id-strategy/import-many-by-wildcard-module-declaration-id-strategy.h"
 #include "ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.h"
 
