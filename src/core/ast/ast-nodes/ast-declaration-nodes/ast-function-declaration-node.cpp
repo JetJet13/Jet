@@ -6,29 +6,27 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTFunctionBlockNode* content) {
-    _functionKeyword = functionKeyword;
-    _name = name;
+ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionDefinitionNode* functionDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword) {
+    _functionDefinition = functionDefinition;
     _block = content;
-    _returnType = returnType;
-    _parameters = parameters;
-    _children.push_back(_functionKeyword);
-    _children.push_back(_name);
+    _exportKeyword = exportKeyword;
+    _children.push_back(_functionDefinition);
     _children.push_back(_block);
-    _children.push_back(_returnType);
-    _children.push_back(_parameters);
+    if (_exportKeyword) {
+        _children.push_back(_exportKeyword.value());
+    }
 }
 
 ASTFunctionParameterListNode* ASTFunctionDeclarationNode::getParameters() {
-    return _parameters;
+    return _functionDefinition->getParameters();
 }
 
 ASTFunctionNameNode* ASTFunctionDeclarationNode::getName() {
-    return _name;
+    return _functionDefinition->getName();
 }
 
 ASTTypeNode* ASTFunctionDeclarationNode::getReturnType() {
-    return _returnType;
+    return _functionDefinition->getReturnType();
 }
 
 ASTFunctionBlockNode* ASTFunctionDeclarationNode::getBlock() {
@@ -36,7 +34,7 @@ ASTFunctionBlockNode* ASTFunctionDeclarationNode::getBlock() {
 }
 
 unsigned long ASTFunctionDeclarationNode::numParameters() {
-    return _parameters->numParameters();
+    return _functionDefinition->numParameters();
 }
 
 void ASTFunctionDeclarationNode::setTypeSignature(FunctionTypeSignature* typeSignature) {
@@ -48,7 +46,7 @@ FunctionTypeSignature* ASTFunctionDeclarationNode::getTypeSignature() {
 }
 
 Position* ASTFunctionDeclarationNode::getStartPosition() {
-    return _functionKeyword->getStartPosition();
+    return _functionDefinition->getStartPosition();
 }
 
 Position* ASTFunctionDeclarationNode::getEndPosition() {
@@ -77,18 +75,21 @@ bool ASTFunctionDeclarationNode::isSameAs(ASTNode *other) {
 
 void ASTFunctionDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _name->print();
-    _parameters->print();
-    _returnType->print();
+    if (_exportKeyword) {
+        _exportKeyword.value()->print();
+    }
+    _functionDefinition->print();
     _block->print();
     Logger::log("----------");
 }
 
 std::string ASTFunctionDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_functionKeyword)
-    ->addWithWhitespace(_name)
-    ->addWithWhitespace(_parameters)
-    ->addWithWhitespace(_block);
+    if (_exportKeyword) {
+        sourceCodeBuilder.add(_exportKeyword.value())->addWithWhitespace(_functionDefinition);
+    } else {
+        sourceCodeBuilder.add(_functionDefinition);
+    }
+    sourceCodeBuilder.addWithWhitespace(_block);
     return sourceCodeBuilder.build();
 }

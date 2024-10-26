@@ -6,23 +6,25 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(ASTProcedureNode* procedureKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
-    _procedureKeyword = procedureKeyword;
-    _name = name;
+ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(ASTProcedureDefinitionNode* procedureDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword) {
+    _procedureDefinition = procedureDefinition;
     _block = content;
-    _parameters = parameters;
-    _children.push_back(_name);
+    _exportKeyword = exportKeyword;
+    _children.push_back(_procedureDefinition);
     _children.push_back(_block);
-    _children.push_back(_parameters);
+
+    if (_exportKeyword) {
+        _children.push_back(_exportKeyword.value());
+    }
 
 }
 
 ASTFunctionParameterListNode* ASTProcedureDeclarationNode::getParameters() {
-    return _parameters;
+    return _procedureDefinition->getParameters();
 }
 
 ASTFunctionNameNode* ASTProcedureDeclarationNode::getName() {
-    return _name;
+    return _procedureDefinition->getName();
 }
 
 ASTFunctionBlockNode* ASTProcedureDeclarationNode::getBlock() {
@@ -30,7 +32,7 @@ ASTFunctionBlockNode* ASTProcedureDeclarationNode::getBlock() {
 }
 
 unsigned long ASTProcedureDeclarationNode::numParameters() {
-    return _parameters->numParameters();
+    return _procedureDefinition->numParameters();
 }
 
 void ASTProcedureDeclarationNode::setTypeSignature(ProcedureTypeSignature* typeSignature) {
@@ -42,7 +44,7 @@ ProcedureTypeSignature* ASTProcedureDeclarationNode::getTypeSignature() {
 }
 
 Position* ASTProcedureDeclarationNode::getStartPosition() {
-    return _procedureKeyword->getStartPosition();
+    return _procedureDefinition->getStartPosition();
 }
 
 Position* ASTProcedureDeclarationNode::getEndPosition() {
@@ -70,17 +72,20 @@ bool ASTProcedureDeclarationNode::isSameAs(ASTNode *other) {
 
 void ASTProcedureDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _name->print();
-    _parameters->print();
+    if (_exportKeyword) {
+        _exportKeyword.value()->print();
+    }
     _block->print();
     Logger::log("----------");
 }
 
 std::string ASTProcedureDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_procedureKeyword)
-    ->addWithWhitespace(_name)
-    ->addWithWhitespace(_parameters)
-    ->addWithWhitespace(_block);
+    if (_exportKeyword) {
+        sourceCodeBuilder.add(_exportKeyword.value())->addWithWhitespace(_procedureDefinition);
+    } else {
+        sourceCodeBuilder.add(_procedureDefinition);
+    }
+    sourceCodeBuilder.addWithWhitespace(_block);
     return sourceCodeBuilder.build();
 }

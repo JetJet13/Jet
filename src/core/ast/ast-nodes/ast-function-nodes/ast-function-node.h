@@ -9,7 +9,8 @@
 #include "../../../lexeme/lexeme.h"
 #include "../ast-symbol-node.h"
 #include "../../types/ast-node-type.h"
-
+// create a new 'function definition' ast-node to get exports to work
+// function keyword + function name + function parameters + function return type
 class ASTFunctionNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 public:

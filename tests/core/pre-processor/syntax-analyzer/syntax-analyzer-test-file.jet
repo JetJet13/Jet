@@ -444,3 +444,11 @@ class MyClass {
     }
 
 }
+
+export const exportedVariable = 100;
+export func exportedFunction(x: int) int {
+    return x + 5;
+}
+export proc exportedProcedure(x: int) {
+    const y = 1;
+}

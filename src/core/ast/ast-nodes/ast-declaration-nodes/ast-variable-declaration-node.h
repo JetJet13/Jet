@@ -11,16 +11,19 @@
 #include "../ast-variable-nodes/ast-variable-type-node.h"
 #include "../ast-variable-nodes/ast-variable-init-node.h"
 #include "ast-declaration-node.h"
+#include "../ast-export-node.h"
 
 class ASTVariableDeclarationNode : public ASTDeclarationNode {
 private:
     ASTVariableInitNode* _varInit;
     ASTExpressionNode* _initializer;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::optional<ASTExportNode*> _exportKeyword = {};
 public:
-    explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer);
+    explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, std::optional<ASTExportNode*> exportKeyword = {});
     ASTVariableInitNode* getVarInitNode();
     ASTExpressionNode* getInitializerNode();
+    bool isExportable();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

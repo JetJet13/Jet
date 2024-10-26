@@ -91,6 +91,7 @@ public:
     bool isStatic();
     bool isConstructor();
     bool isNew();
+    bool isExport();
     bool isThis();
     SymbolType getType();
     bool isSameAs(Symbol* symbol);

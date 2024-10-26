@@ -24,7 +24,7 @@ std::optional<DFANode*> SyntaxDfa::findStartNode(std::optional<ASTNode*> astNode
 
 void SyntaxDfa::init() {
 
-    DFANode* varDeclaration = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_DECLARATION_NODE, AST_VARIABLE_DECLARATION_NODE);
+    DFANode* varDeclaration = DFANodeFactory::Once::create(AST_VARIABLE_DECLARATION_NODE);
     DFANode* varInit = DFANodeFactory::Once::create(AST_VARIABLE_INIT_NODE);
     DFANode* varType = DFANodeFactory::Once::create(AST_VARIABLE_TYPE_NODE);
     DFANode* varDefinition = DFANodeFactory::Once::create(AST_VARIABLE_DEFINITION_NODE);
@@ -47,7 +47,8 @@ void SyntaxDfa::init() {
     DFANode* typeColon = DFANodeFactory::Once::create(AST_TYPE_COLON_NODE);
     DFANode* structColon = DFANodeFactory::Once::create(AST_STRUCT_COLON_NODE);
     DFANode* period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
-    DFANode* functionDeclaration = DFANodeFactory::Once::createWithTarget(AST_FUNCTION_DECLARATION_NODE, AST_FUNCTION_DECLARATION_NODE);
+    DFANode* functionDeclaration = DFANodeFactory::Once::create(AST_FUNCTION_DECLARATION_NODE);
+    DFANode* functionDefinition = DFANodeFactory::Once::create(AST_FUNCTION_DEFINITION_NODE);
     DFANode* functionKeyword = DFANodeFactory::Once::create(AST_FUNCTION_NODE);
     DFANode* functionName = DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE);
     DFANode* functionCall = DFANodeFactory::Once::create(AST_FUNCTION_CALL_NODE);
@@ -58,7 +59,8 @@ void SyntaxDfa::init() {
     DFANode* functionReturn = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_NODE);
     DFANode* functionReturnExpression = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_EXPRESSION_NODE);
     DFANode* functionInvocationExpression = DFANodeFactory::Once::create(AST_FUNCTION_INVOCATION_EXPRESSION_NODE);
-    DFANode* procedureDeclaration = DFANodeFactory::Once::createWithTarget(AST_PROCEDURE_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE);
+    DFANode* procedureDeclaration = DFANodeFactory::Once::create(AST_PROCEDURE_DECLARATION_NODE);
+    DFANode* procedureDefinition = DFANodeFactory::Once::create(AST_PROCEDURE_DEFINITION_NODE);
     DFANode* procedureKeyword = DFANodeFactory::Once::create(AST_PROCEDURE_NODE);
     DFANode* type = DFANodeFactory::Once::create(AST_TYPE_NODE);
     DFANode* varAssignment = DFANodeFactory::Once::create(AST_VARIABLE_ASSIGNMENT_NODE);
@@ -162,7 +164,7 @@ void SyntaxDfa::init() {
     DFANode* newClassInstance = DFANodeFactory::Once::create(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE);
     DFANode* classMethodDefinition = DFANodeFactory::Once::create(AST_CLASS_METHOD_DEFINITION_NODE);
     DFANode* classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
-
+    DFANode* exportKeyword = DFANodeFactory::Once::create(AST_EXPORT_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -349,7 +351,14 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_TARGET_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE)));
 
     functionKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({AST_FUNCTION_NAME_NODE, AST_TYPE_PARAMETER_LIST_START_NODE });
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_FUNCTION_NAME_NODE, AST_TYPE_PARAMETER_LIST_START_NODE });
+
+    functionDefinition
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_FUNCTION_DECLARATION_NODE)
+    ));
 
     functionName
     ->markAlwaysReduceSelf();
@@ -435,6 +444,13 @@ void SyntaxDfa::init() {
 
     procedureKeyword
     ->reduceSelfWhenNextNodeIsOneOf({AST_FUNCTION_NAME_NODE, AST_TYPE_PARAMETER_LIST_START_NODE });
+
+    procedureDefinition
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_PROCEDURE_DECLARATION_NODE)
+    ));
 
     enumKeyword
     ->markAlwaysReduceSelf();
@@ -801,7 +817,6 @@ void SyntaxDfa::init() {
             )
     ));
 
-
     fromKeyword
     ->markAlwaysReduceSelf();
 
@@ -916,7 +931,17 @@ void SyntaxDfa::init() {
                             DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_METHOD_DECLARATION_NODE)
                         ))
             ))
-        ));
+        )
+    );
+
+    varInit
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE });
+
+    exportKeyword
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(varInit))
+    ->addTransition(DFATransitionFactory::create(functionDefinition))
+    ->addTransition(DFATransitionFactory::create(procedureDefinition));
 
 
     _dfa
@@ -972,6 +997,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(structKeyValue)
     ->insertStartNode(block)
     ->insertStartNode(functionDeclaration)
+    ->insertStartNode(functionDefinition)
     ->insertStartNode(functionKeyword)
     ->insertStartNode(functionName)
     ->insertStartNode(functionCall)
@@ -982,6 +1008,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(functionReturn)
     ->insertStartNode(functionReturnExpression)
     ->insertStartNode(procedureDeclaration)
+    ->insertStartNode(procedureDefinition)
     ->insertStartNode(procedureKeyword)
     ->insertStartNode(enumDeclaration)
     ->insertStartNode(enumKeyword)
@@ -1075,6 +1102,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(newKeyword)
     ->insertStartNode(newClassInstance)
     ->insertStartNode(classMethodDefinition)
+    ->insertStartNode(exportKeyword)
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
@@ -1179,14 +1207,11 @@ void SyntaxDfa::initFunction(DFANode* functionNode) {
                                                     DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE)
                                                         ->addTransition(
                                                                 DFATransitionFactory::create(
-                                                                    DFANodeFactory::Once::create(AST_TYPE_NODE)
-                                                                        ->addTransition(
-                                                                            DFATransitionFactory::create(
-                                                                                DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_FUNCTION_DECLARATION_NODE)
-                                                                        ))
+                                                                    DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_FUNCTION_DEFINITION_NODE)
+                                                                )
                                                         ))
                                                     ))
-                    )
+
             );
 }
 
@@ -1201,11 +1226,7 @@ void SyntaxDfa::initProcedure(DFANode* procedureNode) {
                             DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE)
                                     ->addTransition(
                                             DFATransitionFactory::create(
-                                                    DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE)
-                                                    ->addTransition(
-                                                            DFATransitionFactory::create(
-                                                                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_PROCEDURE_DECLARATION_NODE)
-                                                            ))
+                                                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_PARAMETER_LIST_NODE, AST_PROCEDURE_DEFINITION_NODE)
                                             ))
                     )
             );

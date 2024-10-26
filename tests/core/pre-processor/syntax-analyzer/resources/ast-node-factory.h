@@ -105,11 +105,15 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-colon-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-definition-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-export-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-procedure-nodes/ast-procedure-definition-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
         return new Lexeme(new Token(symbol, symbol->toString()));
     }
+    static ASTExportNode* exportKeyword = new ASTExportNode(createLexeme(SymbolFactory::createExportSymbol()));
     static ASTBlockStartNode* blockStart = new ASTBlockStartNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTBlockEndNode* blockEnd = new ASTBlockEndNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTStructStartNode* structStart = new ASTStructStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
@@ -342,6 +346,12 @@ namespace ASTNodeFactory {
             ASTNodeFactory::typeColon,
             ASTNodeFactory::idType
     );
+    static ASTFunctionDefinitionNode* createFunctionDefinition(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType) {
+        return new ASTFunctionDefinitionNode(ASTNodeFactory::functionKeyword, name, parameters, returnType);
+    }
+    static ASTProcedureDefinitionNode* createProcedureDefinition(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters) {
+        return new ASTProcedureDefinitionNode(ASTNodeFactory::procedureKeyword, name, parameters);
+    }
     static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
             new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
             ASTNodeFactory::assignment

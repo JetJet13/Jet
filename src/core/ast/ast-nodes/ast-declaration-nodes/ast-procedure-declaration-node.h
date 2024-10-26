@@ -8,6 +8,7 @@
 #include <vector>
 #include "../ast-node.h"
 #include "../ast-identifier-node.h"
+#include "../ast-export-node.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-function-nodes/ast-function-name-node.h"
@@ -15,16 +16,16 @@
 #include "ast-declaration-node.h"
 #include "../ast-procedure-nodes/ast-procedure-node.h"
 #include "../../../type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
+#include "../ast-procedure-nodes/ast-procedure-definition-node.h"
 
 class ASTProcedureDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTProcedureNode* _procedureKeyword;
-    ASTFunctionNameNode* _name;
-    ASTFunctionParameterListNode* _parameters;
+    ASTProcedureDefinitionNode* _procedureDefinition;
     ASTFunctionBlockNode* _block;
+    std::optional<ASTExportNode*> _exportKeyword = {};
     ProcedureTypeSignature* _typeSignature = new ProcedureTypeSignature();
 public:
-    explicit ASTProcedureDeclarationNode(ASTProcedureNode* procedureKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
+    explicit ASTProcedureDeclarationNode(ASTProcedureDefinitionNode* _procedureDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword = {});
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
     ASTFunctionBlockNode* getBlock();

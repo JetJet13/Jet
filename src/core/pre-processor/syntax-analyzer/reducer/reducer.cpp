@@ -88,12 +88,13 @@
 #include "reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.h"
 #include "reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h"
 #include "reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.h"
-#include "../../../../shared/utils/logger/logger.h"
 #include "reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.h"
 #include "reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.h"
 #include "reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.h"
 #include "reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.h"
 #include "reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.h"
+#include "reducer-strategies/function-definition-reducer-strategy/function-definition-reducer-strategy.h"
+#include "reducer-strategies/procedure-definition-reducer-strategy/procedure-definition-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -117,10 +118,12 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, new ObjectAccessExpressionReducerStrategy());
     this->addStrategy(AST_FUNCTION_DECLARATION_NODE, new FunctionDeclarationReducerStrategy());
+    this->addStrategy(AST_FUNCTION_DEFINITION_NODE, new FunctionDefinitionReducerStrategy());
     this->addStrategy(AST_FUNCTION_PARAMETER_LIST_NODE, new FunctionParameterListReducerStrategy());
     this->addStrategy(AST_FUNCTION_PARAMETER_NODE, new FunctionParameterReducerStrategy());
     this->addStrategy(AST_FUNCTION_RETURN_EXPRESSION_NODE, new FunctionReturnExpressionReducerStrategy());
     this->addStrategy(AST_PROCEDURE_DECLARATION_NODE, new ProcedureDeclarationReducerStrategy());
+    this->addStrategy(AST_PROCEDURE_DEFINITION_NODE, new ProcedureDefinitionReducerStrategy());
     this->addStrategy(AST_FUNCTION_ARGUMENT_LIST_NODE, new FunctionArgumentListReducerStrategy());
     this->addStrategy(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, new FunctionInvocationExpressionReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_NODE, new VariableAssignmentReducerStrategy());

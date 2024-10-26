@@ -302,4 +302,8 @@ namespace SymbolFactory {
     Symbol* createNewSymbol()  {
         return new Symbol(SYM_NEW, "new");
     }
+
+    Symbol* createExportSymbol()  {
+        return new Symbol(SYM_EXPORT, "export");
+    }
 }

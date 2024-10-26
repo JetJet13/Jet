@@ -8,6 +8,7 @@
 #include <vector>
 #include "../ast-node.h"
 #include "../ast-identifier-node.h"
+#include "../ast-export-node.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
@@ -16,17 +17,16 @@
 #include "ast-declaration-node.h"
 #include "../ast-function-nodes/ast-function-node.h"
 #include "../../../type-signature/invocable-type-signature/function-type-signature/function-type-signature.h"
+#include "../ast-function-nodes/ast-function-definition-node.h"
 
 class ASTFunctionDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTFunctionNode* _functionKeyword;
-    ASTFunctionNameNode* _name;
-    ASTFunctionParameterListNode* _parameters;
-    ASTTypeNode* _returnType;
+    ASTFunctionDefinitionNode* _functionDefinition;
     ASTFunctionBlockNode* _block;
+    std::optional<ASTExportNode*> _exportKeyword = {};
     FunctionTypeSignature* _typeSignature = new FunctionTypeSignature();
 public:
-    explicit ASTFunctionDeclarationNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType, ASTFunctionBlockNode* content);
+    explicit ASTFunctionDeclarationNode(ASTFunctionDefinitionNode* functionDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword = {});
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
     ASTTypeNode* getReturnType();

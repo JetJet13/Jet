@@ -7,13 +7,18 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer) {
+ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, std::optional<ASTExportNode*> exportKeyword) {
     _varInit = varInit;
     _initializer = initializer;
+    _exportKeyword = exportKeyword;
     _varInit->setParentNode(this);
     _initializer->setParentNode(this);
     _children.push_back(_varInit);
     _children.push_back(_initializer);
+    if (_exportKeyword) {
+        _children.push_back(_exportKeyword.value());
+    }
+
 }
 
 ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {
@@ -22,6 +27,10 @@ ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {
 
 ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
+}
+
+bool ASTVariableDeclarationNode::isExportable() {
+    return _exportKeyword.has_value();
 }
 
 void ASTVariableDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {
@@ -52,13 +61,21 @@ bool ASTVariableDeclarationNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
+
     auto otherNode = (ASTVariableDeclarationNode*)other;
+    if (!this->isExportable() && otherNode->isExportable() || this->isExportable() && !otherNode->isExportable()) {
+        return false;
+    }
+
     return this->getVarInitNode()->isSameAs(otherNode->getVarInitNode()) &&
            this->getInitializerNode()->isSameAs(otherNode->getInitializerNode());
 }
 
 void ASTVariableDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
+    if (_exportKeyword) {
+        _exportKeyword.value()->print();
+    }
     _varInit->print();
     _initializer->print();
     Logger::log("----------");
@@ -66,7 +83,12 @@ void ASTVariableDeclarationNode::print() {
 
 std::string ASTVariableDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_varInit)
-    ->addWithWhitespace(_initializer);
+    if (_exportKeyword) {
+        sourceCodeBuilder.add(_exportKeyword.value())
+        ->addWithWhitespace(_initializer);
+    } else {
+        sourceCodeBuilder.addWithWhitespace(_varInit);
+    }
+    sourceCodeBuilder.addWithWhitespace(_initializer);
     return sourceCodeBuilder.build();
 }

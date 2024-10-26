@@ -6,15 +6,20 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
 
 ASTNode* FunctionDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() != 5) {
-        throw std::invalid_argument("unable to reduce to function declaration since nodes list is not of size 5");
+    if (nodes.size() != 2 && nodes.size() != 3) {
+        throw std::invalid_argument("unable to reduce to function declaration since nodes list is not of size 2 or 3");
+    }
+
+    if (nodes.size() == 2) {
+        return new ASTFunctionDeclarationNode(
+                (ASTFunctionDefinitionNode*)nodes[0],
+                (ASTFunctionBlockNode*)nodes[1]
+        );
     }
 
     return new ASTFunctionDeclarationNode(
-            (ASTFunctionNode*)nodes[0],
-            (ASTFunctionNameNode*)nodes[1],
-            (ASTFunctionParameterListNode*)nodes[2],
-            (ASTTypeNode*)nodes[3],
-            (ASTFunctionBlockNode*)nodes[4]
+            (ASTFunctionDefinitionNode*)nodes[1],
+            (ASTFunctionBlockNode*)nodes[2],
+            (ASTExportNode*)nodes[0]
     );
 }

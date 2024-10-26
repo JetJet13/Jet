@@ -317,6 +317,10 @@ bool Symbol::isNew() {
     return _type == SYM_NEW;
 }
 
+bool Symbol::isExport() {
+    return _type == SYM_EXPORT;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }

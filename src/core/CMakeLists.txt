@@ -1036,6 +1036,18 @@ add_library(jet-core
         type-signature/aggregate-type-signature.h
         ast/ast-nodes/ast-expression-nodes/ast-aggregate-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-aggregate-expression-node.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/import-type-signature-strategy/import-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/import-type-signature-strategy/import-type-signature-strategy.h
+        ast/ast-nodes/ast-export-node.cpp
+        ast/ast-nodes/ast-export-node.h
+        ast/ast-nodes/ast-function-nodes/ast-function-definition-node.cpp
+        ast/ast-nodes/ast-function-nodes/ast-function-definition-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-definition-reducer-strategy/function-definition-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-definition-reducer-strategy/function-definition-reducer-strategy.h
+        ast/ast-nodes/ast-procedure-nodes/ast-procedure-definition-node.cpp
+        ast/ast-nodes/ast-procedure-nodes/ast-procedure-definition-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-definition-reducer-strategy/procedure-definition-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-definition-reducer-strategy/procedure-definition-reducer-strategy.h
 
 )
 
