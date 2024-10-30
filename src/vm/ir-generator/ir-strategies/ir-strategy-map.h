@@ -25,6 +25,8 @@ class FunctionParameterListIRStrategy;
 class FunctionReturnExpressionIRStrategy;
 class ProcedureDeclarationIRStrategy;
 class EnumDeclarationIRStrategy;
+class ModuleDeclarationIRStrategy;
+class ImportSingleModuleDeclarationIRStrategy;
 class ObjectAccessExpressionIRStrategy;
 class TupleAccessExpressionIRStrategy;
 // Type Signature IR Strategies
@@ -42,6 +44,7 @@ class StructTypeSignatureIRStrategy;
 class TupleTypeSignatureIRStrategy;
 class VoidTypeSignatureIRStrategy;
 class EnumAccessTypeSignatureIRStrategy;
+class ModuleTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -65,6 +68,8 @@ private:
     FunctionReturnExpressionIRStrategy* _functionReturnExpressionIRStrategy;
     ProcedureDeclarationIRStrategy* _procedureDeclarationIRStrategy;
     EnumDeclarationIRStrategy* _enumDeclarationIRStrategy;
+    ModuleDeclarationIRStrategy* _moduleDeclarationIRStrategy;
+    ImportSingleModuleDeclarationIRStrategy* _importSingleModuleDeclarationIRStrategy;
     ObjectAccessExpressionIRStrategy* _objectAccessExpressionIRStrategy;
     TupleAccessExpressionIRStrategy* _tupleAccessExpressionIRStrategy;
     // Type Signature IR Strategies
@@ -80,6 +85,7 @@ private:
     StructTypeSignatureIRStrategy* _structTypeSignatureIRStrategy;
     TupleTypeSignatureIRStrategy* _tupleTypeSignatureIRStrategy;
     EnumAccessTypeSignatureIRStrategy* _enumAccessTypeSignatureIRStrategy;
+    ModuleTypeSignatureIRStrategy* _moduleTypeSignatureStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -102,6 +108,8 @@ public:
     FunctionReturnExpressionIRStrategy* getFunctionReturnExpressionIRStrategy();
     ProcedureDeclarationIRStrategy* getProcedureDeclarationIRStrategy();
     EnumDeclarationIRStrategy* getEnumDeclarationIRStrategy();
+    ModuleDeclarationIRStrategy* getModuleDeclarationIRStrategy();
+    ImportSingleModuleDeclarationIRStrategy* getImportSingleModuleDeclarationIRStrategy();
     ObjectAccessExpressionIRStrategy* getObjectAccessExpressionIRStrategy();
     TupleAccessExpressionIRStrategy* getTupleAccessExpressionIRStrategy();
     // Type Signature IR Strategies
@@ -117,7 +125,7 @@ public:
     StructTypeSignatureIRStrategy* getStructTypeSignatureIRStrategy();
     TupleTypeSignatureIRStrategy* getTupleTypeSignatureIRStrategy();
     EnumAccessTypeSignatureIRStrategy* getEnumAccessTypeSignatureIRStrategy();
-
+    ModuleTypeSignatureIRStrategy* getModuleTypeSignatureIRStrategy();
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H

@@ -6,8 +6,9 @@
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ast-traverser/ast-traverser.h"
 
-SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph) {
+SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph, SyntaxAnalyzer* syntaxAnalyzer) {
     _dependencyGraph = dependencyGraph;
+    _syntaxAnalyzer = syntaxAnalyzer;
     _typeSignatureGenerator = new TypeSignatureGenerator(
         new TypeSignatureStrategyProvider()
     );
@@ -15,10 +16,24 @@ SemanticAnalyzer::SemanticAnalyzer(DependencyGraph* dependencyGraph) {
 
 TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
     auto typeCheckerResult = TypeCheckerResult();
+    this->resolveModuleImports(fileNode, fileScope, &typeCheckerResult);
     this->generateInitialTypeSignaturesFor(fileNode, fileScope);
     this->generateDeclarationTypeSignaturesFor(fileNode, fileScope);
     this->runTypeChecker(fileNode, &typeCheckerResult);
     return typeCheckerResult;
+}
+
+void SemanticAnalyzer::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult* typeCheckerResult) {
+    for (auto node : *fileNode->getBody()) {
+        if (node->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
+            auto filePath = fileNode->getPathDirectory().append(
+                    ((ASTImportSingleModuleDeclarationNode*)node)->getPath()->getImportPath()->getValue());
+            Logger::log("filePath", filePath);
+            auto importFile = this->_syntaxAnalyzer->analyze(filePath);
+            auto importModuleTypeCheckerResult = this->analyze(importFile, new TypeSignatureLookupTable());
+            typeCheckerResult->combine(importModuleTypeCheckerResult);
+        }
+    }
 }
 
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
@@ -27,7 +42,7 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, T
             scope->insert(
                     node->getId(),
                     _typeSignatureGenerator
-                            ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*) node)
+                    ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*) node)
             );
         }
     }

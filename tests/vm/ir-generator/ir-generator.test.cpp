@@ -30,7 +30,7 @@ TEST_CASE( "should create expected vm code" ) {
     auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
     auto dependencyGraph = new DependencyGraph();
     auto typeSignatureLookupTable = new TypeSignatureLookupTable();
-    auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph);
+    auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph, &syntaxAnalyzer);
     auto typeCheckerResult = semanticAnalyzer.analyze(fileNodeResult, typeSignatureLookupTable);
     typeSignatureLookupTable->dump();
     typeCheckerResult.print();

@@ -2745,17 +2745,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {182, new ASTModuleDeclarationNode(
                 ASTNodeFactory::moduleKeyword,
-                ASTNodeFactory::moduleName,
-                ASTNodeFactory::createModuleList()
+                ASTNodeFactory::moduleName
         )},
         {183, new ASTModuleDeclarationNode(
                 ASTNodeFactory::moduleKeyword,
-                ASTNodeFactory::moduleName,
-                ASTNodeFactory::createModuleList({
-                     ASTNodeFactory::moduleNormalItem,
-                     ASTNodeFactory::moduleAliasItem,
-                     ASTNodeFactory::moduleSpreadItem
-                })
+                ASTNodeFactory::moduleName
         )},
         {184, new ASTUseSingleModuleDeclarationNode(
                 ASTNodeFactory::useKeyword,

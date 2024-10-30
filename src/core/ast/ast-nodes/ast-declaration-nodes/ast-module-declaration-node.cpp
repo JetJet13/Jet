@@ -6,20 +6,23 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name, ASTModuleListNode* items) {
+ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name) {
     _moduleKeyword = moduleKeyword;
     _name = name;
-    _items = items;
     _children.push_back(_name);
-    _children.push_back(_items);
 }
 
-ASTModuleListNode* ASTModuleDeclarationNode::getItems() {
-    return _items;
-}
 
 ASTModuleNameNode* ASTModuleDeclarationNode::getName() {
     return _name;
+}
+
+void ASTModuleDeclarationNode::setTypeSignature(ModuleTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+ModuleTypeSignature* ASTModuleDeclarationNode::getTypeSignature() {
+    return _typeSignature;
 }
 
 Position* ASTModuleDeclarationNode::getStartPosition() {
@@ -27,7 +30,7 @@ Position* ASTModuleDeclarationNode::getStartPosition() {
 }
 
 Position* ASTModuleDeclarationNode::getEndPosition() {
-    return _items->getEndPosition();
+    return _moduleKeyword->getEndPosition();
 }
 
 ASTNodeType ASTModuleDeclarationNode::getNodeType() {
@@ -44,21 +47,18 @@ bool ASTModuleDeclarationNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTModuleDeclarationNode*)other;
 
-    return  this->getName()->isSameAs(otherNode->getName()) &&
-            this->getItems()->isSameAs(otherNode->getItems());
+    return  this->getName()->isSameAs(otherNode->getName());
 }
 
 void ASTModuleDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _name->print();
-    _items->print();
     Logger::log("----------");
 }
 
 std::string ASTModuleDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_moduleKeyword)
-    ->addWithWhitespace(_name)
-    ->addWithWhitespace(_items);
+    ->addWithWhitespace(_name);
     return sourceCodeBuilder.build();
 }

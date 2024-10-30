@@ -54,6 +54,8 @@
 #include "for-statement-type-signature-strategy/for-statement-type-signature-strategy.h"
 #include "condition-type-signature-strategy/condition-type-signature-strategy.h"
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
+#include "import-type-signature-strategy/import-type-signature-strategy.h"
+#include "module-type-signature-strategy/module-type-signature-strategy.h"
 
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
@@ -64,10 +66,15 @@ TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
 void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
     auto typeSignatureScope = scope.value_or(new TypeSignatureLookupTable());
     switch (node->getNodeType()) {
+        case AST_MODULE_DECLARATION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getModuleTypeSignatureStrategy()
+                    ->assign((ASTModuleDeclarationNode*) node, typeSignatureScope, this);
+            break;
         case AST_ENUM_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getEnumTypeSignatureStrategy()
-                    ->assign((ASTEnumDeclarationNode *) node, this);
+                    ->assign((ASTEnumDeclarationNode*) node, this);
             break;
         case AST_VARIABLE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
@@ -350,6 +357,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getIfStatementTypeSignatureStrategy()
                     ->assign((ASTIfStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getImportTypeSignatureStrategy()
+                    ->assignAndAddToScope((ASTImportSingleModuleDeclarationNode*)node, typeSignatureScope, this);
             break;
         default:
             throw std::logic_error("type signature strategy not setup for node: " + node->toString());

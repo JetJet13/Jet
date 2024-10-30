@@ -3,7 +3,6 @@
 //
 
 #include "ast-module-node.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 ASTNodeType ASTModuleNode::getNodeType() {
     return AST_MODULE_NODE;

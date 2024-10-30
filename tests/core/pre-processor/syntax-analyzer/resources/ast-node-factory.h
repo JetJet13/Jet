@@ -664,13 +664,6 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::createTypeParameterList({ elementType })
         ));
     }
-    static ASTModuleListNode* createModuleList(std::vector<ASTModuleListItemNode*> items = {}) {
-        return new ASTModuleListNode(
-            ASTNodeFactory::moduleListStart,
-            items,
-            ASTNodeFactory::moduleListEnd
-        );
-    }
     static ASTImportModuleListNode* createImportModuleList(std::vector<ASTImportModuleListItemNode*> items = {}) {
         return new ASTImportModuleListNode(
                 ASTNodeFactory::importModuleListStart,

@@ -225,6 +225,18 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h
         ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.cpp
         ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h
+        ir-type/ir-module-type.cpp
+        ir-type/ir-module-type.h
+        ir-nodes/ir-declaration-nodes/ir-module-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-module-declaration-node.h
+        ir-generator/ir-strategies/module-declaration-ir-strategy/module-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/module-declaration-ir-strategy/module-declaration-ir-strategy.h
+        ir-generator/ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h
+        ir-nodes/ir-declaration-nodes/ir-import-single-module-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-import-single-module-declaration-node.h
 )
 
 target_link_libraries(jet-vm

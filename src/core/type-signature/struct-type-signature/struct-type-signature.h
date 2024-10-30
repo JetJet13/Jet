@@ -6,7 +6,6 @@
 #define JETLANG_STRUCT_TYPE_SIGNATURE_H
 
 #include "../types/type-signature-map/type-signature-map.h"
-#include "struct-key-value-type-signature/struct-key-value-type-signature.h"
 #include "../aggregate-type-signature.h"
 
 class StructTypeSignature : public AggregateTypeSignature<TypeSignature> {

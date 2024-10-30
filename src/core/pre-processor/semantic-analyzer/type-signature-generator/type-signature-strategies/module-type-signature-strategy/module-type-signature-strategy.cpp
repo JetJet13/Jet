@@ -1,0 +1,8 @@
+//
+// Created by Johny Georges on 2024-10-29.
+//
+
+#include "module-type-signature-strategy.h"
+
+void ModuleTypeSignatureStrategy::assign(ASTModuleDeclarationNode* moduleDeclarationNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+}

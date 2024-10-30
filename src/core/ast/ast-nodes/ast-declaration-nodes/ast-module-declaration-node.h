@@ -10,16 +10,18 @@
 #include "../ast-module-nodes/ast-module-list-node.h"
 #include "ast-declaration-node.h"
 #include "../ast-module-nodes/ast-module-node.h"
+#include "../../../type-signature/module-type-signature/module-type-signature.h"
 
 class ASTModuleDeclarationNode : public ASTDeclarationNode {
 private:
     ASTModuleNode* _moduleKeyword;
     ASTModuleNameNode* _name;
-    ASTModuleListNode* _items;
+    ModuleTypeSignature* _typeSignature = new ModuleTypeSignature();
 public:
-    explicit ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name, ASTModuleListNode* items);
-    ASTModuleListNode* getItems();
+    explicit ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name);
     ASTModuleNameNode* getName();
+    void setTypeSignature(ModuleTypeSignature* typeSignature);
+    ModuleTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

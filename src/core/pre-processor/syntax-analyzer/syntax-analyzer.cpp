@@ -51,7 +51,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         }
         numLoops++;
     }
-    return this->buildFileNode(fileScope);
+    return this->buildFileNode(fileScope, filePath);
 }
 
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
@@ -167,8 +167,9 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
     }
 }
 
-ASTFileNode* SyntaxAnalyzer::buildFileNode(std::vector<ASTNode*> fileScope) {
-    auto fileNode = new ASTFileNode(std::move(fileScope));
+ASTFileNode* SyntaxAnalyzer::buildFileNode(std::vector<ASTNode*> fileScope, std::string filePath) {
+    auto fileNode = new ASTFileNode(std::move(fileScope), filePath);
+    fileNode->hoistTypes({ AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_ENUM_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_FUNCTION_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_CLASS_DECLARATION_NODE });

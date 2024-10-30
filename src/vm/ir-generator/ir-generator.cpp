@@ -25,6 +25,8 @@
 #include "ir-strategies/function-return-expression-ir-strategy/function-return-expression-ir-strategy.h"
 #include "ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h"
 #include "ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
+#include "ir-strategies/module-declaration-ir-strategy/module-declaration-ir-strategy.h"
+#include "ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
@@ -37,6 +39,7 @@
 #include "ir-strategies/type-signature-ir-strategies/struct-type-signature-ir-strategy/struct-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
@@ -80,6 +83,10 @@ IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTa
         return this->_irStrategyMap.getProcedureDeclarationIRStrategy()->generate((ASTProcedureDeclarationNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_ENUM_DECLARATION_NODE)) {
         return this->_irStrategyMap.getEnumDeclarationIRStrategy()->generate((ASTEnumDeclarationNode*)node, &_context, this, scope, irModuleNode);
+    } else if (node->is(AST_MODULE_DECLARATION_NODE)) {
+        return this->_irStrategyMap.getModuleDeclarationIRStrategy()->generate((ASTModuleDeclarationNode*)node, &_context, this, scope, irModuleNode);
+    } else if (node->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
+        return this->_irStrategyMap.getImportSingleModuleDeclarationIRStrategy()->generate((ASTImportSingleModuleDeclarationNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
@@ -162,6 +169,8 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
             return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*)typeSignature, &_context, this);
         case TUPLE_TYPE_SOURCE:
             return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
+        case MODULE_TYPE_SOURCE:
+            return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*)typeSignature, &_context, this);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:

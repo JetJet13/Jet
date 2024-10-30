@@ -120,7 +120,6 @@ void SyntaxDfa::init() {
     DFANode* arrayType = DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_NODE, AST_ARRAY_TYPE_NODE);
     DFANode* arrayTypeKeyword = DFANodeFactory::Once::create(AST_ARRAY_TYPE_KEYWORD_NODE);
     DFANode* moduleKeyword = DFANodeFactory::Once::create(AST_MODULE_NODE);
-    DFANode* moduleName = DFANodeFactory::Once::create(AST_MODULE_NAME_NODE);
     DFANode* moduleSpread = DFANodeFactory::Once::create(AST_MODULE_SPREAD_NODE);
     DFANode* moduleListNormalItem = DFANodeFactory::Once::create(AST_MODULE_LIST_NORMAL_ITEM_NODE);
     DFANode* moduleListAliasItem = DFANodeFactory::Once::create(AST_MODULE_LIST_ALIAS_ITEM_NODE);
@@ -681,21 +680,9 @@ void SyntaxDfa::init() {
     ));
 
     moduleKeyword
-    ->markAlwaysReduceSelf()
     ->addTransition(
         DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_MODULE_NAME_NODE)
-            ->addTransition(DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_MODULE_LIST_NODE, AST_MODULE_DECLARATION_NODE)))
-    ));
-
-    moduleName
-    ->markAlwaysReduceSelf()
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_AS_NODE)
-                ->addTransition(DFATransitionFactory::create(
-                        DFANodeFactory::Once::createWithTarget(AST_MODULE_ALIAS_NAME_NODE, AST_MODULE_LIST_ALIAS_ITEM_NODE)))
+            DFANodeFactory::Once::createWithTarget(AST_MODULE_NAME_NODE, AST_MODULE_DECLARATION_NODE)
     ));
 
     moduleSpread
@@ -1060,7 +1047,6 @@ void SyntaxDfa::init() {
     ->insertStartNode(arrayType)
     ->insertStartNode(arrayTypeKeyword)
     ->insertStartNode(moduleKeyword)
-    ->insertStartNode(moduleName)
     ->insertStartNode(moduleSpread)
     ->insertStartNode(moduleListNormalItem)
     ->insertStartNode(moduleListAliasItem)

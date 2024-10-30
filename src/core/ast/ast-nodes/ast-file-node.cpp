@@ -5,12 +5,17 @@
 #include "ast-file-node.h"
 #include "../types/source-code-builder/source-code-builder.h"
 
-ASTFileNode::ASTFileNode(std::vector<ASTNode*> body) {
+ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path) {
     _body = body;
+    _path = std::filesystem::path(path);
 }
 
 void ASTFileNode::append(ASTNode *node) {
     _body.push_back(node);
+}
+
+std::string ASTFileNode::getPathDirectory() {
+    return _path.relative_path().remove_filename();
 }
 
 void ASTFileNode::hoistTypes(const std::vector<ASTNodeType> astNodeTypes) {

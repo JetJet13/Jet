@@ -24,6 +24,8 @@
 #include "./function-return-expression-ir-strategy/function-return-expression-ir-strategy.h"
 #include "./procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h"
 #include "./enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
+#include "./module-declaration-ir-strategy/module-declaration-ir-strategy.h"
+#include "./import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
@@ -36,6 +38,7 @@
 #include "./type-signature-ir-strategies/struct-type-signature-ir-strategy/struct-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 
 
 IRStrategyMap::IRStrategyMap() {
@@ -59,6 +62,8 @@ IRStrategyMap::IRStrategyMap() {
     _functionReturnExpressionIRStrategy = new FunctionReturnExpressionIRStrategy();
     _procedureDeclarationIRStrategy = new ProcedureDeclarationIRStrategy();
     _enumDeclarationIRStrategy = new EnumDeclarationIRStrategy();
+    _moduleDeclarationIRStrategy = new ModuleDeclarationIRStrategy();
+    _importSingleModuleDeclarationIRStrategy = new ImportSingleModuleDeclarationIRStrategy();
     _objectAccessExpressionIRStrategy = new ObjectAccessExpressionIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
@@ -73,6 +78,7 @@ IRStrategyMap::IRStrategyMap() {
     _structTypeSignatureIRStrategy = new StructTypeSignatureIRStrategy();
     _tupleTypeSignatureIRStrategy = new TupleTypeSignatureIRStrategy();
     _enumAccessTypeSignatureIRStrategy = new EnumAccessTypeSignatureIRStrategy();
+    _moduleTypeSignatureStrategy = new ModuleTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -155,6 +161,14 @@ EnumDeclarationIRStrategy* IRStrategyMap::getEnumDeclarationIRStrategy() {
     return _enumDeclarationIRStrategy;
 }
 
+ModuleDeclarationIRStrategy* IRStrategyMap::getModuleDeclarationIRStrategy() {
+    return _moduleDeclarationIRStrategy;
+}
+
+ImportSingleModuleDeclarationIRStrategy* IRStrategyMap::getImportSingleModuleDeclarationIRStrategy() {
+    return _importSingleModuleDeclarationIRStrategy;
+}
+
 ObjectAccessExpressionIRStrategy* IRStrategyMap::getObjectAccessExpressionIRStrategy() {
     return _objectAccessExpressionIRStrategy;
 }
@@ -209,4 +223,8 @@ TupleTypeSignatureIRStrategy* IRStrategyMap::getTupleTypeSignatureIRStrategy() {
 
 EnumAccessTypeSignatureIRStrategy* IRStrategyMap::getEnumAccessTypeSignatureIRStrategy() {
     return _enumAccessTypeSignatureIRStrategy;
+}
+
+ModuleTypeSignatureIRStrategy* IRStrategyMap::getModuleTypeSignatureIRStrategy() {
+    return _moduleTypeSignatureStrategy;
 }

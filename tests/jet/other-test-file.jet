@@ -1,0 +1,3 @@
+module MyOtherModule
+
+export const bigNumber = 999;

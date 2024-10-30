@@ -12,16 +12,19 @@
 #include "types/ast-node-type-signature-result.h"
 #include "type-checker/type-checker.h"
 #include "type-checker/types/type-checker-result/type-checker-result.h"
+#include "../syntax-analyzer/syntax-analyzer.h"
 
 class SemanticAnalyzer {
 private:
     DependencyGraph* _dependencyGraph;
+    SyntaxAnalyzer* _syntaxAnalyzer;
     TypeSignatureGenerator* _typeSignatureGenerator;
+    void resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult* typeCheckerResult);
     void generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
     void generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
     void runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults);
 public:
-    SemanticAnalyzer(DependencyGraph* dependencyGraph);
+    SemanticAnalyzer(DependencyGraph* dependencyGraph, SyntaxAnalyzer* syntaxAnalyzer);
     TypeCheckerResult analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
 };
 

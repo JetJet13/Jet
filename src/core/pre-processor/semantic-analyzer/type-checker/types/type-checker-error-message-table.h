@@ -156,10 +156,12 @@ namespace TypeCheckerErrorMessageTable {
     static std::string NewClassInstanceNotClassType(ASTNode* node) {
       return "cannot instantiate new class instance since type is not a class type \n" + node->toSourceCode();
     }
-
     static std::string VariableNamesNotUnique(ASTNode* node) {
       return "variable name must be unique \n" + node->toSourceCode();
-    } 
+    }
+    static std::string InvalidSingleImportModuleName(ASTNode* node) {
+        return "imported module name is invalid \n" + node->toSourceCode();
+    }
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

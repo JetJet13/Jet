@@ -52,6 +52,8 @@
 #include "for-statement-type-signature-strategy/for-statement-type-signature-strategy.h"
 #include "condition-type-signature-strategy/condition-type-signature-strategy.h"
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
+#include "import-type-signature-strategy/import-type-signature-strategy.h"
+#include "module-type-signature-strategy/module-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 
@@ -107,6 +109,8 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _whileStatementTypeSignatureStrategy = new WhileStatementTypeSignatureStrategy();
     _tryStatementTypeSignatureStrategy = new TryStatementTypeSignatureStrategy();
     _ifStatementTypeSignatureStrategy = new IfStatementTypeSignatureStrategy();
+    _importTypeSignatureStrategy = new ImportTypeSignatureStrategy();
+    _moduleTypeSignatureStrategy = new ModuleTypeSignatureStrategy();
 }
 
 
@@ -307,4 +311,10 @@ TryStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTryStatementType
 }
 IfStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getIfStatementTypeSignatureStrategy() {
     return this->_ifStatementTypeSignatureStrategy;
+}
+ImportTypeSignatureStrategy* TypeSignatureStrategyMap::getImportTypeSignatureStrategy() {
+    return this->_importTypeSignatureStrategy;
+}
+ModuleTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleTypeSignatureStrategy() {
+    return this->_moduleTypeSignatureStrategy;
 }

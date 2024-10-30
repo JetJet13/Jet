@@ -1048,6 +1048,14 @@ add_library(jet-core
         ast/ast-nodes/ast-procedure-nodes/ast-procedure-definition-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-definition-reducer-strategy/procedure-definition-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-definition-reducer-strategy/procedure-definition-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/import-single-module-type-checker-policy/import-single-module-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/import-single-module-type-checker-policy/import-single-module-type-checker-policy.h
+        type-signature/module-type-signature/module-type-signature.cpp
+        type-signature/module-type-signature/module-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-type-signature-strategy/module-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-type-signature-strategy/module-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.h
 
 )
 

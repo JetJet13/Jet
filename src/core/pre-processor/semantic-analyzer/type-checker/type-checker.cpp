@@ -38,6 +38,8 @@
 #include "policies/expressions/tuple-access-expression-type-checker-policy/tuple-access-expression-type-checker-policy.h"
 #include "policies/expressions/tuple-expression-type-checker-policy/tuple-expression-type-checker-policy.h"
 #include "policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.h"
+#include "policies/import-single-module-type-checker-policy/import-single-module-type-checker-policy.h"
+#include "policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -148,6 +150,12 @@ namespace TypeChecker {
                 UnaryExpressionTypeCheckerPolicy::apply((ASTUnaryExpressionNode*)node, typeCheckerResult);
                 break;
             case AST_LITERAL_EXPRESSION_NODE:
+                break;
+            case AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE:
+                ImportSingleModuleTypeCheckerPolicy::apply((ASTImportSingleModuleDeclarationNode*)node, typeCheckerResult);
+                break;
+            case AST_MODULE_DECLARATION_NODE:
+                ModuleDeclarationTypeCheckerPolicy::apply((ASTModuleDeclarationNode*)node, typeCheckerResult);
                 break;
             default:
                 throw std::logic_error("no type-checker policy found for " + node->toString());

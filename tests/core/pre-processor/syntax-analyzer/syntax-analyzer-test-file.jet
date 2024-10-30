@@ -363,13 +363,8 @@ const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: CustomType = "custom-type";
 
-module MyModule {}
-
-module GlobalModule {
-    MyModule,
-    ThirdModule as MyThirdModule,
-    ...FourthModule
-}
+module MyModule
+module MySecondModule
 
 use MyPackage from "my-package";
 import GlobalModule from "./global-module.jet";

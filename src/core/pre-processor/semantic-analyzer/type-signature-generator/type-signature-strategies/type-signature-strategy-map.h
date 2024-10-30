@@ -5,6 +5,7 @@
 #ifndef JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H
 #define JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H
 
+
 // forward declaration to prevent
 // circular dependency error
 class ArrayAccessExpressionTypeSignatureStrategy;
@@ -58,6 +59,8 @@ class ForStatementTypeSignatureStrategy;
 class WhileStatementTypeSignatureStrategy;
 class TryStatementTypeSignatureStrategy;
 class IfStatementTypeSignatureStrategy;
+class ImportTypeSignatureStrategy;
+class ModuleTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -112,6 +115,8 @@ private:
     WhileStatementTypeSignatureStrategy* _whileStatementTypeSignatureStrategy;
     TryStatementTypeSignatureStrategy* _tryStatementTypeSignatureStrategy;
     IfStatementTypeSignatureStrategy* _ifStatementTypeSignatureStrategy;
+    ImportTypeSignatureStrategy* _importTypeSignatureStrategy;
+    ModuleTypeSignatureStrategy* _moduleTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
@@ -165,6 +170,8 @@ public:
     WhileStatementTypeSignatureStrategy* getWhileStatementTypeSignatureStrategy();
     TryStatementTypeSignatureStrategy* getTryStatementTypeSignatureStrategy();
     IfStatementTypeSignatureStrategy* getIfStatementTypeSignatureStrategy();
+    ImportTypeSignatureStrategy* getImportTypeSignatureStrategy();
+    ModuleTypeSignatureStrategy* getModuleTypeSignatureStrategy();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H

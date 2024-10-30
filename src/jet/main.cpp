@@ -26,7 +26,7 @@ int main (int argc, const char* argv[]) {
         auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
         auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
         auto fileNode = syntaxAnalyzer.analyze(filePath);
-        auto semanticAnalyzer = SemanticAnalyzer(new DependencyGraph());
+        auto semanticAnalyzer = SemanticAnalyzer(new DependencyGraph(), &syntaxAnalyzer);
         auto typeCheckerResult = semanticAnalyzer.analyze(fileNode, new TypeSignatureLookupTable());
         if (!typeCheckerResult.ok()) {
             Logger::log("type check failed");

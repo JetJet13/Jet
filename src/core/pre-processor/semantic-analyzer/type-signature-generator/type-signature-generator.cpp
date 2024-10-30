@@ -4,6 +4,7 @@
 
 #include "type-signature-generator.h"
 #include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
+#include "../../../type-signature/module-type-signature/module-type-signature.h"
 
 TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider) {
     _typeSignatureStrategyProvider = typeSignatureStrategyProvider;
@@ -19,6 +20,8 @@ TypeSignature* TypeSignatureGenerator::generateInitialTypeSignatureForTypeDeclar
             return new EnumTypeSignature();
         case AST_CLASS_DECLARATION_NODE:
             return new ClassTypeSignature();
+        case AST_MODULE_DECLARATION_NODE:
+            return new ModuleTypeSignature();
         default:
             return new UnknownTypeSignature();
     }

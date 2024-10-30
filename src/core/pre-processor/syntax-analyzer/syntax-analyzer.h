@@ -53,7 +53,7 @@ private:
     void accept();
     void error();
     void prepHandleForRecognizer();
-    ASTFileNode* buildFileNode(std::vector<ASTNode*> fileScope);
+    ASTFileNode* buildFileNode(std::vector<ASTNode*> fileScope, std::string filePath);
     void updateModeIfNecessary(ASTNodeType astNodeType);
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);

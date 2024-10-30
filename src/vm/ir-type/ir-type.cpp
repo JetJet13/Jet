@@ -58,6 +58,10 @@ bool IRType::isEnumType() {
     return false;
 }
 
+bool IRType::isModuleType() {
+    return false;
+}
+
 bool IRType::isPointerType() {
     return false;
 }

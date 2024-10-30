@@ -1,0 +1,17 @@
+//
+// Created by Johny Georges on 2024-10-29.
+//
+
+#ifndef JETLANG_MODULE_DECLARATION_IR_STRATEGY_H
+#define JETLANG_MODULE_DECLARATION_IR_STRATEGY_H
+
+#include <llvm/IR/Value.h>
+#include "../../ir-generator.h"
+#include "../../../ir-nodes/ir-declaration-nodes/ir-module-declaration-node.h"
+
+class ModuleDeclarationIRStrategy {
+public:
+    IRModuleDeclarationNode* generate(ASTModuleDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+};
+
+#endif //JETLANG_MODULE_DECLARATION_IR_STRATEGY_H
