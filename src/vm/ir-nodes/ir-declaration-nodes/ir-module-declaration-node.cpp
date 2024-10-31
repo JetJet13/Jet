@@ -4,8 +4,9 @@
 
 #include "ir-module-declaration-node.h"
 
-IRModuleDeclarationNode::IRModuleDeclarationNode(ASTModuleDeclarationNode* node) {
+IRModuleDeclarationNode::IRModuleDeclarationNode(ASTModuleDeclarationNode* node, std::vector<IRNode*> exports) {
     _node = node;
+    _exports = exports;
 }
 
 IRNodeType IRModuleDeclarationNode::getNodeType() {

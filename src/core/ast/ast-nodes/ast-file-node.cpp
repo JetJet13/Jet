@@ -5,9 +5,10 @@
 #include "ast-file-node.h"
 #include "../types/source-code-builder/source-code-builder.h"
 
-ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path) {
+ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path, std::optional<ASTModuleDeclarationNode*> module) {
     _body = body;
     _path = std::filesystem::path(path);
+    _module = module;
 }
 
 void ASTFileNode::append(ASTNode *node) {
@@ -28,6 +29,21 @@ void ASTFileNode::hoistTypes(const std::vector<ASTNodeType> astNodeTypes) {
         }
     }
     _body = newContent;
+}
+
+void ASTFileNode::setupModuleIfNecessary() {
+    if (!_module) {
+        return;
+    }
+    for (auto node : _body) {
+        if (node->isExportable()) {
+            _module.value()->addExportedDeclaration(node);
+        }
+    }
+}
+
+std::optional<ASTModuleDeclarationNode*> ASTFileNode::getModule() {
+    return _module;
 }
 
 std::vector<ASTNode*>* ASTFileNode::getBody() {

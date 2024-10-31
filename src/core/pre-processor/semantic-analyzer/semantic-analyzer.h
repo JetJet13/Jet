@@ -22,6 +22,7 @@ private:
     void resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult* typeCheckerResult);
     void generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
     void generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
+    void generateTypeSignatureForModule(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
     void runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults);
 public:
     SemanticAnalyzer(DependencyGraph* dependencyGraph, SyntaxAnalyzer* syntaxAnalyzer);

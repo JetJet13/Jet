@@ -10,17 +10,21 @@
 #include "ast-node.h"
 #include "ast-block-nodes/ast-block-node.h"
 #include "ast-declaration-nodes/ast-import-single-module-declaration-node.h"
+#include "ast-declaration-nodes/ast-module-declaration-node.h"
 
 class ASTFileNode : public ASTNode {
 private:
     std::filesystem::path _path;
     std::vector<ASTImportSingleModuleDeclarationNode*> _imports;
     std::vector<ASTNode*> _body;
+    std::optional<ASTModuleDeclarationNode*> _module = {};
 public:
-    ASTFileNode(std::vector<ASTNode*> body, std::string path);
+    ASTFileNode(std::vector<ASTNode*> body, std::string path, std::optional<ASTModuleDeclarationNode*> module = {});
     void append(ASTNode* node);
     std::string getPathDirectory();
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
+    void setupModuleIfNecessary();
+    std::optional<ASTModuleDeclarationNode*> getModule();
     std::vector<ASTNode*>* getBody();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

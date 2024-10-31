@@ -56,6 +56,10 @@ std::vector<ASTNode*> ASTNode::getChildren() {
     return _children;
 }
 
+bool ASTNode::isExportable() {
+    return false;
+}
+
 unsigned int ASTNode::getPriority() {
     return _priority;
 }

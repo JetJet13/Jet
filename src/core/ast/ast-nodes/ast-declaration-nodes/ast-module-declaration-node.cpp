@@ -17,6 +17,14 @@ ASTModuleNameNode* ASTModuleDeclarationNode::getName() {
     return _name;
 }
 
+std::vector<ASTNode*>* ASTModuleDeclarationNode::getExports() {
+    return &_exportedDeclarations;
+}
+
+void ASTModuleDeclarationNode::addExportedDeclaration(ASTNode* declarationNode) {
+    _exportedDeclarations.push_back(declarationNode);
+}
+
 void ASTModuleDeclarationNode::setTypeSignature(ModuleTypeSignature* typeSignature) {
     _typeSignature = typeSignature;
 }

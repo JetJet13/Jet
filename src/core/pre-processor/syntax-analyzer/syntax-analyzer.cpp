@@ -24,7 +24,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
 }
 
 ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
-    auto fileScope = std::vector<ASTNode*>();
+    auto fileScope = new FileScope();
     _recognizeStack.push(new std::stack<ASTNode*>());
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
@@ -36,7 +36,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         auto recognizerResult = this->recognizeHandle();
         if (recognizerResult->reduce()) {
             this->updateModeIfNecessary(recognizerResult->getTargetAstNodeType());
-            this->reduceHandle(recognizerResult, &fileScope);
+            this->reduceHandle(recognizerResult, fileScope);
         } else if (recognizerResult->pop()) {
             this->popFromStack();
         } else if (recognizerResult->shift()){
@@ -72,7 +72,7 @@ void SyntaxAnalyzer::shift() {
     }
 }
 
-void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vector<ASTNode*>* fileScope) {
+void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope* fileScope) {
     Logger::log("reduce");
     Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
@@ -94,10 +94,12 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, std::vecto
         _recognizeStack.pop();
         _recognizeStack.push(newRecognizeStack);
         _recognizeStack.top()->push(reducedNode);
+    } else if (reducedNode->is(AST_MODULE_DECLARATION_NODE)) {
+        fileScope->setModule((ASTModuleDeclarationNode*)reducedNode);
     } else if (ASTNodeUtils::isStatementNode(reducedNode)) {
         if (_scopeStack.empty()) {
             Logger::log("pushing node to file scope:", reducedNode->toString());
-            fileScope->push_back(reducedNode);
+            fileScope->addToScope(reducedNode);
         } else {
             Logger::log("pushing node to latest scope node:", reducedNode->toString());
             _scopeStack.top().add(reducedNode);
@@ -167,12 +169,13 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
     }
 }
 
-ASTFileNode* SyntaxAnalyzer::buildFileNode(std::vector<ASTNode*> fileScope, std::string filePath) {
-    auto fileNode = new ASTFileNode(std::move(fileScope), filePath);
+ASTFileNode* SyntaxAnalyzer::buildFileNode(FileScope* fileScope, std::string filePath) {
+    auto fileNode = new ASTFileNode(std::move(fileScope->getScope()), filePath, fileScope->getModule());
     fileNode->hoistTypes({ AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_ENUM_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_FUNCTION_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_CLASS_DECLARATION_NODE });
+    fileNode->setupModuleIfNecessary();
     return fileNode;
 }
 

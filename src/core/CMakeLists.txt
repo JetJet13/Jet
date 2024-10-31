@@ -1056,6 +1056,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-type-signature-strategy/module-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.h
+        pre-processor/syntax-analyzer/file-scope/file-scope.cpp
+        pre-processor/syntax-analyzer/file-scope/file-scope.h
 
 )
 

@@ -28,6 +28,14 @@ std::optional<IRInstructionNode*> IRLookupTable::find(std::string key) {
     }
 }
 
+std::optional<IRNode*> IRLookupTable::findAcrossScopes(std::string key) {
+    auto result = this->find(key);
+    if (result) {
+        return result;
+    }
+    return this->findGlobalVariable(key);
+}
+
 IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, IRGlobalVariableNode* value) {
     _globalScope.insert(std::pair<std::string, IRGlobalVariableNode*>(key, value));
     return this;

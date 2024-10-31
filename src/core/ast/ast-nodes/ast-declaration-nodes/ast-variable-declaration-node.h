@@ -23,7 +23,7 @@ public:
     explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, std::optional<ASTExportNode*> exportKeyword = {});
     ASTVariableInitNode* getVarInitNode();
     ASTExpressionNode* getInitializerNode();
-    bool isExportable();
+    bool isExportable() override;
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

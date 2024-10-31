@@ -13,8 +13,9 @@
 class IRModuleDeclarationNode : public IRDeclarationNode {
 private:
     ASTModuleDeclarationNode* _node;
+    std::vector<IRNode*> _exports;
 public:
-    IRModuleDeclarationNode(ASTModuleDeclarationNode* node);
+    IRModuleDeclarationNode(ASTModuleDeclarationNode* node, std::vector<IRNode*> exports);
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

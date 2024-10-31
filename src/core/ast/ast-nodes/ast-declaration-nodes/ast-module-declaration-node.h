@@ -17,9 +17,12 @@ private:
     ASTModuleNode* _moduleKeyword;
     ASTModuleNameNode* _name;
     ModuleTypeSignature* _typeSignature = new ModuleTypeSignature();
+    std::vector<ASTNode*> _exportedDeclarations = std::vector<ASTNode*>();
 public:
     explicit ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name);
     ASTModuleNameNode* getName();
+    std::vector<ASTNode*>* getExports();
+    void addExportedDeclaration(ASTNode* declarationNode);
     void setTypeSignature(ModuleTypeSignature* typeSignature);
     ModuleTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

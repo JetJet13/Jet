@@ -19,6 +19,7 @@ TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignature
     this->resolveModuleImports(fileNode, fileScope, &typeCheckerResult);
     this->generateInitialTypeSignaturesFor(fileNode, fileScope);
     this->generateDeclarationTypeSignaturesFor(fileNode, fileScope);
+    this->generateTypeSignatureForModule(fileNode, fileScope);
     this->runTypeChecker(fileNode, &typeCheckerResult);
     return typeCheckerResult;
 }
@@ -54,6 +55,12 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNod
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
             fileScope->find(node->getId())->copyFrom(node->getTypeSignature());
         }
+    }
+}
+
+void SemanticAnalyzer::generateTypeSignatureForModule(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
+    if (fileNode->getModule()) {
+        _typeSignatureGenerator->assignTypeSignatureFor(fileNode->getModule().value(), fileScope);
     }
 }
 

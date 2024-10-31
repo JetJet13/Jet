@@ -5,4 +5,7 @@
 #include "module-type-signature-strategy.h"
 
 void ModuleTypeSignatureStrategy::assign(ASTModuleDeclarationNode* moduleDeclarationNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    for (auto exportedNode : *moduleDeclarationNode->getExports()) {
+        moduleDeclarationNode->getTypeSignature()->addKeyValuePair(exportedNode->getId(), scope->find(exportedNode->getId()));
+    }
 }

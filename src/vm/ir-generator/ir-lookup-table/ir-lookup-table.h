@@ -20,6 +20,7 @@ public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
     IRLookupTable* insert(std::string key, IRInstructionNode* value);
     std::optional<IRInstructionNode*> find(std::string key);
+    std::optional<IRNode*> findAcrossScopes(std::string key);
     IRLookupTable* insertGlobalVariable(std::string key, IRGlobalVariableNode* value);
     std::optional<IRGlobalVariableNode*> findGlobalVariable(std::string key);
     void dump();
