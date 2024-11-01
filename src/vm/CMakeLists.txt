@@ -237,6 +237,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h
         ir-nodes/ir-declaration-nodes/ir-import-single-module-declaration-node.cpp
         ir-nodes/ir-declaration-nodes/ir-import-single-module-declaration-node.h
+        ir-injector/ir-injector-strategies/module-ir-injector-strategy/module-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/module-ir-injector-strategy/module-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

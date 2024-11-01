@@ -5,9 +5,10 @@
 #include "ast-file-node.h"
 #include "../types/source-code-builder/source-code-builder.h"
 
-ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path, std::optional<ASTModuleDeclarationNode*> module) {
+ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path, std::vector<ASTImportSingleModuleDeclarationNode*> imports, std::optional<ASTModuleDeclarationNode*> module) {
     _body = body;
     _path = std::filesystem::path(path);
+    _imports = imports;
     _module = module;
 }
 

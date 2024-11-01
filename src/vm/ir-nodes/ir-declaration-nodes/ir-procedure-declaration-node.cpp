@@ -11,6 +11,10 @@ IRProcedureDeclarationNode::IRProcedureDeclarationNode(ASTProcedureDeclarationNo
     _irBlock = irBlock;
 }
 
+llvm::Value* IRProcedureDeclarationNode::getValue() {
+    return _irValue;
+}
+
 IRNodeType IRProcedureDeclarationNode::getNodeType() {
     return IR_PROCEDURE_DECLARATION_NODE;
 }

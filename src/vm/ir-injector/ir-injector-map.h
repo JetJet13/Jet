@@ -19,6 +19,7 @@
 #include "ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h"
 #include "../types/ir-operation-type.h"
 #include "ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h"
+#include "ir-injector-strategies/module-ir-injector-strategy/module-ir-injector-strategy.h"
 
 
 class IRInjectorMap {
@@ -30,6 +31,7 @@ private:
     StructIRInjectorStrategy* _structIRInjector;
     TupleIRInjectorStrategy* _tupleIRInjector;
     VariableIRInjectorStrategy* _variableIRInjector;
+    ModuleIRInjectorStrategy* _moduleIRInjector;
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
     void init();
@@ -42,6 +44,7 @@ public:
     LiteralIRInjectorStrategy* getLiteralInjector();
     TupleIRInjectorStrategy* getTupleInjector();
     VariableIRInjectorStrategy* getVariableInjector();
+    ModuleIRInjectorStrategy* getModuleInjector();
     FunctionParameterIRInjectorStrategy* getFunctionParameterInjector();
     FunctionReturnIRInjectorStrategy* getFunctionReturnInjector();
     IRInjectorStrategy* getInjector(TypeSignature* typeSignature);

@@ -17,6 +17,7 @@ private:
     IRInstructionNode* _irValue;
 public:
     IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue);
+    llvm::Value* getValue() override;
     llvm::Argument* getArgument();
     IRInstructionNode* getAllocation();
     IRNodeType getNodeType() override;

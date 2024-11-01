@@ -19,7 +19,7 @@ private:
 public:
     IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression);
     std::string getVariableName();
-    llvm::Value* getValue();
+    llvm::Value* getValue() override;
     IRInstructionNode* getIRValue();
     IRExpressionNode* getIRExpression();
     IRNodeType getNodeType() override;

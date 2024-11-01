@@ -19,7 +19,7 @@ private:
     std::vector<ASTNode*> _body;
     std::optional<ASTModuleDeclarationNode*> _module = {};
 public:
-    ASTFileNode(std::vector<ASTNode*> body, std::string path, std::optional<ASTModuleDeclarationNode*> module = {});
+    ASTFileNode(std::vector<ASTNode*> body, std::string path, std::vector<ASTImportSingleModuleDeclarationNode*> imports, std::optional<ASTModuleDeclarationNode*> module = {});
     void append(ASTNode* node);
     std::string getPathDirectory();
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);

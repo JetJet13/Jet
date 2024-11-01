@@ -4,17 +4,19 @@
 
 #include "module-type-signature-ir-strategy.h"
 
-IRPointerType* ModuleTypeSignatureIRStrategy::generate(ModuleTypeSignature* moduleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
-    return irGenerator->generateIrPointerType();
-}
 
-IRModuleType* ModuleTypeSignatureIRStrategy::generate(ModuleTypeSignature* moduleTypeSignature, std::vector<llvm::Value*> values, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
-    auto enumPropertyTypes = std::vector<llvm::Type*>();
+IRModuleType* ModuleTypeSignatureIRStrategy::generate(ModuleTypeSignature* moduleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+    auto moduleExportTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
-    for (int i = 0; i < moduleTypeSignature->getKeyValuePairs()->size(); ++i) {
-        // todo - implement
+    for (auto keyValue : moduleTypeSignature->getKeyValuePairs()->getKeyValues()) {
+        auto irType = irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature());
+        moduleExportTypes.push_back(irType->getType());
+        keyIndexMap.insert(
+            std::pair(keyValue.first, moduleTypeSignature->getKeyValuePairs()->findKeyIndex(keyValue.first))
+        );
+        keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
 
-    return new IRModuleType(llvm::StructType::get(**context, enumPropertyTypes), keyIndexMap, keyTypeMap);
+    return new IRModuleType(llvm::StructType::get(**context, moduleExportTypes), keyIndexMap, keyTypeMap);
 }

@@ -8,6 +8,11 @@ IRImportSingleModuleDeclarationNode::IRImportSingleModuleDeclarationNode(ASTImpo
     _node = node;
 }
 
+llvm::Value* IRImportSingleModuleDeclarationNode::getValue() {
+    // todo - fix;
+    return nullptr;
+}
+
 IRNodeType IRImportSingleModuleDeclarationNode::getNodeType() {
     return IR_IMPORT_SINGLE_MODULE_DECLARATION_NODE;
 }

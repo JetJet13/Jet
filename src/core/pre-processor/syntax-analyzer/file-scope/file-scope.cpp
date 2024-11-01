@@ -21,3 +21,11 @@ void FileScope::setModule(ASTModuleDeclarationNode* node) {
 std::optional<ASTModuleDeclarationNode*> FileScope::getModule() {
     return _module;
 }
+
+void FileScope::addImport(ASTImportSingleModuleDeclarationNode* node) {
+    _imports.push_back(node);
+}
+
+std::vector<ASTImportSingleModuleDeclarationNode*> FileScope::getImports() {
+    return _imports;
+}

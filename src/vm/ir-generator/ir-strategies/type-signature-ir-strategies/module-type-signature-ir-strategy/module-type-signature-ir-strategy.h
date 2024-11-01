@@ -14,8 +14,7 @@
 
 class ModuleTypeSignatureIRStrategy {
 public:
-    IRPointerType* generate(ModuleTypeSignature* moduleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
-    IRModuleType* generate(ModuleTypeSignature* moduleTypeSignature, std::vector<llvm::Value*> values, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRModuleType* generate(ModuleTypeSignature* moduleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_MODULE_TYPE_SIGNATURE_IR_STRATEGY_H

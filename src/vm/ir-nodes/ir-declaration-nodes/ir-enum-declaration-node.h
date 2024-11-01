@@ -16,6 +16,7 @@ private:
     IRGlobalVariableNode* _irValue;
 public:
     IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlobalVariableNode* irValue);
+    llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

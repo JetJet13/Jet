@@ -13,6 +13,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, 
         _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule);
     } else if (irDeclaration->is(IR_FUNCTION_PARAMETER_DECLARATION_NODE)) {
         _irInjectorMap.getFunctionParameterInjector()->inject((IRFunctionParameterDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule);
+    } else if (irDeclaration->is(IR_MODULE_DECLARATION_NODE)) {
+        _irInjectorMap.getModuleInjector()->inject((IRModuleDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule);
     }
 }
 

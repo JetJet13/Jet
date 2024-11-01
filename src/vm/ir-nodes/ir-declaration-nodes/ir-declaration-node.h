@@ -7,6 +7,9 @@
 
 #include "../ir-node.h"
 
-class IRDeclarationNode : public IRNode {};
+class IRDeclarationNode : public IRNode {
+public:
+    virtual llvm::Value* getValue() = 0;
+};
 
 #endif //JETLANG_IR_DECLARATION_NODE_H

@@ -9,6 +9,10 @@ IREnumDeclarationNode::IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlo
     _irValue = irValue;
 }
 
+llvm::Value* IREnumDeclarationNode::getValue() {
+    return _irValue->getValue();
+}
+
 IRNodeType IREnumDeclarationNode::getNodeType() {
     return IR_ENUM_DECLARATION_NODE;
 }

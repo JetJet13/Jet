@@ -9,6 +9,10 @@ IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Arg
     _irValue = irValue;
 }
 
+llvm::Value* IRFunctionParameterDeclarationNode::getValue() {
+    return _irValue->getValue();
+}
+
 llvm::Argument* IRFunctionParameterDeclarationNode::getArgument() {
     return _argument;
 }

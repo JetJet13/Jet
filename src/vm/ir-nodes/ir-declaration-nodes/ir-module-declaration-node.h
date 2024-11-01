@@ -9,13 +9,20 @@
 #include "ir-declaration-node.h"
 #include "../ir-global-variable-node.h"
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
+#include "../../ir-type/ir-module-type.h"
 
 class IRModuleDeclarationNode : public IRDeclarationNode {
 private:
     ASTModuleDeclarationNode* _node;
-    std::vector<IRNode*> _exports;
+    IRInstructionNode* _allocation;
+    IRModuleType* _type;
+    std::vector<IRDeclarationNode*> _exports;
 public:
-    IRModuleDeclarationNode(ASTModuleDeclarationNode* node, std::vector<IRNode*> exports);
+    IRModuleDeclarationNode(ASTModuleDeclarationNode* node, IRInstructionNode* allocation, IRModuleType* type, std::vector<IRDeclarationNode*> exports);
+    IRInstructionNode* getAllocation();
+    IRModuleType* getIRType();
+    std::vector<IRDeclarationNode*>* getExports();
+    llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

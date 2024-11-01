@@ -11,6 +11,10 @@ IRFunctionDeclarationNode::IRFunctionDeclarationNode(ASTFunctionDeclarationNode*
     _irBlock = irBlock;
 }
 
+llvm::Value* IRFunctionDeclarationNode::getValue() {
+    return _irValue;
+}
+
 IRNodeType IRFunctionDeclarationNode::getNodeType() {
     return IR_FUNCTION_DECLARATION_NODE;
 }

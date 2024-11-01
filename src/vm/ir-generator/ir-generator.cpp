@@ -199,6 +199,10 @@ IRStructType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature) {
     return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
 }
 
+IRModuleType* IRGenerator::generateTypeFor(ModuleTypeSignature* typeSignature) {
+    return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*)typeSignature, &_context, this);
+}
+
 IRType* IRGenerator::generateVoidType() {
     return new IRType(llvm::Type::getVoidTy(*_context));
 }

@@ -13,7 +13,7 @@ private:
     TypeSignatureMap<TypeSignature> _keyValuePairs;
 public:
     ModuleTypeSignature();
-    explicit ModuleTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs);
+    ModuleTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs);
     TypeSignatureMap<TypeSignature>* getKeyValuePairs() override;
     TypeSignature* getTypeSignatureForKey(std::string key) override;
     TypeSignature* getTypeSignatureAtIndex(unsigned long index) override;

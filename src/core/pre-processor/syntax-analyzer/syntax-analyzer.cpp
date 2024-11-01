@@ -94,6 +94,8 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope*
         _recognizeStack.pop();
         _recognizeStack.push(newRecognizeStack);
         _recognizeStack.top()->push(reducedNode);
+    } else if (reducedNode->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
+        fileScope->addImport((ASTImportSingleModuleDeclarationNode*)reducedNode);
     } else if (reducedNode->is(AST_MODULE_DECLARATION_NODE)) {
         fileScope->setModule((ASTModuleDeclarationNode*)reducedNode);
     } else if (ASTNodeUtils::isStatementNode(reducedNode)) {
@@ -170,7 +172,7 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
 }
 
 ASTFileNode* SyntaxAnalyzer::buildFileNode(FileScope* fileScope, std::string filePath) {
-    auto fileNode = new ASTFileNode(std::move(fileScope->getScope()), filePath, fileScope->getModule());
+    auto fileNode = new ASTFileNode(std::move(fileScope->getScope()), filePath, fileScope->getImports(), fileScope->getModule());
     fileNode->hoistTypes({ AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_ENUM_DECLARATION_NODE });
     fileNode->hoistTypes({ AST_FUNCTION_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE });

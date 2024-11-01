@@ -15,6 +15,7 @@ private:
     ASTImportSingleModuleDeclarationNode* _node;
 public:
     IRImportSingleModuleDeclarationNode(ASTImportSingleModuleDeclarationNode* node);
+    llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
