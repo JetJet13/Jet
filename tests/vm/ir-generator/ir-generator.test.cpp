@@ -13,10 +13,11 @@
 #include "../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../../../src/vm/ir-generator/ir-generator.h"
 #include "resources/file-equality-checker/file-equality-checker.h"
-#include "../../../src/core/pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h"
+#include "../../../src/core/pre-processor/semantic-analyzer/dependency-graph/pre-processor-map.h"
 #include "../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 #include "../../../src/vm/ir-injector/ir-injector.h"
 #include "../../../src/vm/ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
+#include "../../../src/core/pre-processor/pre-processor.h"
 
 TEST_CASE( "should create expected vm code" ) {
     std::string filePath = "./ir-generator-test-file.jet";
@@ -26,15 +27,13 @@ TEST_CASE( "should create expected vm code" ) {
     auto tokenTable = new TokenTable();
     auto reservedKeywords = new ReservedKeywords();
     auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
-    auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-    auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
-    auto dependencyGraph = new DependencyGraph();
-    auto typeSignatureLookupTable = new TypeSignatureLookupTable();
-    auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph, &syntaxAnalyzer);
-    auto typeCheckerResult = semanticAnalyzer.analyze(fileNodeResult, typeSignatureLookupTable);
-    typeSignatureLookupTable->dump();
-    typeCheckerResult.print();
-    REQUIRE(typeCheckerResult.ok());
+    auto syntaxAnalyzer = new SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
+    auto semanticAnalyzer = new SemanticAnalyzer();
+    auto preprocessor = new PreProcessor(syntaxAnalyzer, semanticAnalyzer);
+    auto jetFileResult = preprocessor->process(filePath);
+    jetFileResult->getScope()->dump();
+    jetFileResult->getTypeCheckerResult()->printErrors();
+    REQUIRE(jetFileResult->getTypeCheckerResult()->ok());
     auto irInjector = new IRInjector();
     auto irGenerator = IRGenerator(irInjector);
     auto irModule = irGenerator.generateModule(filePath);
@@ -48,7 +47,7 @@ TEST_CASE( "should create expected vm code" ) {
     );
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
-    for (auto node : *fileNodeResult->getBody()) {
+    for (auto node : *jetFileResult->getFile()->getBody()) {
         Logger::log("generating IR for node", node->toString(), node->getId());
         auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule);
         Logger::log("done generating IR for node", node->toString(), node->getId(), "..now injecting");

@@ -670,8 +670,8 @@ add_library(jet-core
         type-signature/class-type-signature/class-type-signature.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.h
-        pre-processor/semantic-analyzer/dependency-graph/dependency-graph.cpp
-        pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h
+        pre-processor/pre-processor-map/pre-processor-map.cpp
+        pre-processor/pre-processor-map/pre-processor-map.h
         ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h
         pre-processor/semantic-analyzer/semantic-analyzer.cpp
@@ -1058,6 +1058,12 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.h
         pre-processor/syntax-analyzer/file-scope/file-scope.cpp
         pre-processor/syntax-analyzer/file-scope/file-scope.h
+        pre-processor/pre-processor.cpp
+        pre-processor/pre-processor.h
+        jet-file/jet-file.cpp
+        jet-file/jet-file.h
+        jet-file/jet-file-id-generator/jet-file-id-generator.cpp
+        jet-file/jet-file-id-generator/jet-file-id-generator.h
 
 )
 

@@ -58,7 +58,7 @@ private:
     void updateModeIfNecessary(ASTNodeType astNodeType);
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
-    ASTFileNode* analyze(std::string &filePath);
+    FileScope* analyze(std::string &filePath);
 };
 
 #endif //JETLANG_SYNTAX_ANALYZER_H

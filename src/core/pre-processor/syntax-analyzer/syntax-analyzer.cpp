@@ -23,7 +23,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
     _lexicalAnalyzer = lexicalAnalyzer;
 }
 
-ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
+FileScope* SyntaxAnalyzer::analyze(std::string &filePath) {
     auto fileScope = new FileScope();
     _recognizeStack.push(new std::stack<ASTNode*>());
     _modeStack.push(SA_NORMAL_MODE);
@@ -51,7 +51,7 @@ ASTFileNode* SyntaxAnalyzer::analyze(std::string &filePath) {
         }
         numLoops++;
     }
-    return this->buildFileNode(fileScope, filePath);
+    return fileScope;
 }
 
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {

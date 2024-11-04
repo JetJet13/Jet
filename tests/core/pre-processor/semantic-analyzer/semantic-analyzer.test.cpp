@@ -8,7 +8,7 @@
 #include "../../../../src/core/pre-processor/lexical-analyzer/lexical-analyzer.h"
 #include "../../../../src/shared/utils/logger/logger.h"
 #include "../../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
-#include "../../../../src/core/pre-processor/semantic-analyzer/dependency-graph/dependency-graph.h"
+#include "../../../../src/core/pre-processor/semantic-analyzer/dependency-graph/pre-processor-map.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 #include "resources/type-signature-factory.h"
@@ -502,16 +502,17 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto reservedKeywords = new ReservedKeywords();
     auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
     auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-    auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
-    auto dependencyGraph = new DependencyGraph();
+    auto fileScope = syntaxAnalyzer.analyze(filePath);
+    auto dependencyGraph = new PreProcessorMap();
     auto typeSignatureLookupTable = new TypeSignatureLookupTable();
-    auto semanticAnalyzer = SemanticAnalyzer(dependencyGraph, &syntaxAnalyzer);
-    auto typeCheckerResult = semanticAnalyzer.analyze(fileNodeResult, typeSignatureLookupTable);
+    auto semanticAnalyzer = SemanticAnalyzer();
+    auto fileNode = new ASTFileNode(fileScope->getScope(), filePath, fileScope->getImports(), fileScope->getModule());
+    auto typeCheckerResult = semanticAnalyzer.analyze(fileNode, typeSignatureLookupTable);
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
     for (int i = 0; i < 121; i++) {
-        auto declaration = fileNodeResult->getBody()->at(i);
+        auto declaration = fileNode->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("ID -", declaration->getId());
@@ -520,6 +521,6 @@ TEST_CASE( "should print the expected type signatures" ) {
         REQUIRE(typeSignature->isEqualTo(expectedTypeSignatures[i + 1]));
         Logger::log("====================================");
     }
-    typeCheckerResult.print();
+    typeCheckerResult.printErrors();
     REQUIRE(typeCheckerResult.ok());
 }

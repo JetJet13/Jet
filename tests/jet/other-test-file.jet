@@ -1,3 +1,5 @@
 module MyOtherModule
 
-export const bigNumber = 999;
+export func myOtherFunction() int {
+    return 5;
+}

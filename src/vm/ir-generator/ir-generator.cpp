@@ -261,6 +261,10 @@ IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry", irFunction));
 }
 
+IRBlockNode* IRGenerator::generateBasicBlock() {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry"));
+}
+
 IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
     return new IRModuleNode(
         new llvm::Module(moduleName, *_context),

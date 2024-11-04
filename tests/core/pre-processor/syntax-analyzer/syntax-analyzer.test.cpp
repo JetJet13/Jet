@@ -3190,11 +3190,11 @@ auto tokenTable = new TokenTable();
 auto reservedKeywords = new ReservedKeywords();
 auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-auto fileNodeResult = syntaxAnalyzer.analyze(filePath);
+auto fileScope = syntaxAnalyzer.analyze(filePath);
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileNodeResult->getBody()->size() == 193);
+REQUIRE(fileScope->getScope().size() == 193);
     for (int i = 0; i < 193; i++) {
-        auto declaration = fileNodeResult->getBody()->at(i);
+        auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();
         auto result = declaration->isSameAs(expectedNodes[i + 1]);

@@ -17,7 +17,6 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Value.h"
-#include "llvm/IR/IRBuilder.h"
 #include "ir-lookup-table/ir-lookup-table.h"
 #include "../../core/ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
@@ -89,6 +88,7 @@ public:
     IRArrayPointerType* generateArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType);
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
+    IRBlockNode* generateBasicBlock();
     IRModuleNode* generateModule(std::string moduleName);
     void initModule(IRModuleNode* irModule);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);

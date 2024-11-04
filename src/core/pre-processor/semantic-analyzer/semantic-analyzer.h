@@ -5,7 +5,6 @@
 #ifndef JETLANG_SEMANTIC_ANALYZER_H
 #define JETLANG_SEMANTIC_ANALYZER_H
 
-#include "dependency-graph/dependency-graph.h"
 #include "../../ast/ast-nodes/ast-file-node.h"
 #include "type-signature-lookup-table/type-signature-lookup-table.h"
 #include "type-signature-generator/type-signature-generator.h"
@@ -16,16 +15,13 @@
 
 class SemanticAnalyzer {
 private:
-    DependencyGraph* _dependencyGraph;
-    SyntaxAnalyzer* _syntaxAnalyzer;
     TypeSignatureGenerator* _typeSignatureGenerator;
-    void resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult* typeCheckerResult);
     void generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
     void generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
     void generateTypeSignatureForModule(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
     void runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults);
 public:
-    SemanticAnalyzer(DependencyGraph* dependencyGraph, SyntaxAnalyzer* syntaxAnalyzer);
+    SemanticAnalyzer();
     TypeCheckerResult analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
 };
 

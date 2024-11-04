@@ -12,21 +12,6 @@ IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpr
     _type = type;
 }
 
-//llvm::Value * IRBinaryArithmeticExpressionNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder,
-//                                                                    IRInjectorMap *injectorMap) {
-//    auto allocation = builder->get()->Insert(_parentAllocation->getValue());
-//
-//    auto irLeftNodeValue = _irLeftNode->insertSelfIntoBlock(builder, injectorMap);
-//    auto leftNodeValue = builder->get()->CreateLoad(_irLeftNode->getIRType()->getType(), irLeftNodeValue);
-//
-//    auto irRightNodeValue = _irRightNode->insertSelfIntoBlock(builder, injectorMap);
-//    auto rightNodeValue = builder->get()->CreateLoad(_irRightNode->getIRType()->getType(), irRightNodeValue);
-//
-//    auto result = builder->get()->CreateBinOp(_irValue->getOpcode(), leftNodeValue, rightNodeValue);
-//    builder->get()->CreateStore(result, allocation);
-//    return allocation;
-//}
-
 llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }

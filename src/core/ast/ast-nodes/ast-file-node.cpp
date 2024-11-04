@@ -16,6 +16,10 @@ void ASTFileNode::append(ASTNode *node) {
     _body.push_back(node);
 }
 
+std::filesystem::path* ASTFileNode::getPath() {
+    return &_path;
+}
+
 std::string ASTFileNode::getPathDirectory() {
     return _path.relative_path().remove_filename();
 }
@@ -45,6 +49,10 @@ void ASTFileNode::setupModuleIfNecessary() {
 
 std::optional<ASTModuleDeclarationNode*> ASTFileNode::getModule() {
     return _module;
+}
+
+std::vector<ASTImportSingleModuleDeclarationNode*>* ASTFileNode::getImports() {
+    return &_imports;
 }
 
 std::vector<ASTNode*>* ASTFileNode::getBody() {

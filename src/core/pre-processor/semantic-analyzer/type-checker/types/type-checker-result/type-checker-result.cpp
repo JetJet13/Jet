@@ -33,7 +33,7 @@ TypeCheckerResult* TypeCheckerResult::combine(TypeCheckerResult other) {
     return this;
 }
 
-void TypeCheckerResult::print() {
+void TypeCheckerResult::printErrors() {
     for (const auto& error : _errors) {
         Logger::log("TYPE_CHECKER_ERROR - ", error);
     }

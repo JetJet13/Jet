@@ -21,10 +21,12 @@ private:
 public:
     ASTFileNode(std::vector<ASTNode*> body, std::string path, std::vector<ASTImportSingleModuleDeclarationNode*> imports, std::optional<ASTModuleDeclarationNode*> module = {});
     void append(ASTNode* node);
+    std::filesystem::path* getPath();
     std::string getPathDirectory();
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     void setupModuleIfNecessary();
     std::optional<ASTModuleDeclarationNode*> getModule();
+    std::vector<ASTImportSingleModuleDeclarationNode*>* getImports();
     std::vector<ASTNode*>* getBody();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

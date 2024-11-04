@@ -12,6 +12,8 @@
 #include "../core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 #include "../vm/ir-generator/ir-generator.h"
+#include "../core/pre-processor/pre-processor.h"
+#include "../vm/vm.h"
 
 
 int main (int argc, const char* argv[]) {
@@ -24,37 +26,17 @@ int main (int argc, const char* argv[]) {
         auto tokenTable = new TokenTable();
         auto reservedKeywords = new ReservedKeywords();
         auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
-        auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-        auto fileNode = syntaxAnalyzer.analyze(filePath);
-        auto semanticAnalyzer = SemanticAnalyzer(new DependencyGraph(), &syntaxAnalyzer);
-        auto typeCheckerResult = semanticAnalyzer.analyze(fileNode, new TypeSignatureLookupTable());
-        if (!typeCheckerResult.ok()) {
-            Logger::log("type check failed");
-            typeCheckerResult.print();
-            return EXIT_STATUS_GENERIC_ERROR;
-        }
+        auto syntaxAnalyzer = new SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
+        auto semanticAnalyzer = new SemanticAnalyzer();
+        auto preprocessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
+        auto jetFile = preprocessor.process(filePath);
         auto irInjector = new IRInjector();
-        auto irGenerator = IRGenerator(irInjector);
-        auto irModule = irGenerator.generateModule(filePath);
-        irGenerator.initModule(irModule);
-        llvm::Linker::linkModules(
-                *irModule->getModule(),
-                std::unique_ptr<llvm::Module>(irGenerator.generateUtilInternalModule()->getModule())
-        );
-        Logger::log("Done linking util internal module");
-        auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
-        auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
-        auto irLookupTable = IRLookupTable();
-        for (auto node : *fileNode->getBody()) {
-            irInjector->inject(
-                irMainFunctionBlock,
-                irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule),
-                irModule
-            );
-        }
-        irMainFunctionBlock->addVoidReturn();
+        auto irGenerator = new IRGenerator(irInjector);
+        auto vm = VM(irGenerator, irInjector);
+        auto irJetFile = vm.compileMain(jetFile);
+
         Logger::log("IR Generation & Injection is done.");
-        irModule->getModule()->print(llvm::outs(), nullptr);
+        irJetFile->getModule()->getModule()->print(llvm::outs(), nullptr);
         // Initialize the target registry etc.
         llvm::InitializeAllTargetInfos();
         llvm::InitializeAllTargets();
@@ -81,7 +63,7 @@ int main (int argc, const char* argv[]) {
         auto TheTargetMachine =
                 Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
 
-        irModule->getModule()->setDataLayout(TheTargetMachine->createDataLayout());
+        irJetFile->getModule()->getModule()->setDataLayout(TheTargetMachine->createDataLayout());
 
         auto Filename = "main-jet-test-file-output.o";
         std::error_code EC;
@@ -100,7 +82,7 @@ int main (int argc, const char* argv[]) {
             return 1;
         }
 
-        pass.run(*irModule->getModule());
+        pass.run(*irJetFile->getModule()->getModule());
         dest.flush();
 
         Logger::log("Wrote ", Filename, "\n");

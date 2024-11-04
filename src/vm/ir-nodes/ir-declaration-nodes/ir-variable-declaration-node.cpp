@@ -9,12 +9,6 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
     _irValue = irValue;
     _irExpression = irExpression;
 }
-//
-//void IRVariableDeclarationNode::insertSelfIntoBlock(std::unique_ptr<llvm::IRBuilder<>> *builder) {
-//    builder->get()->Insert(_irValue->getValue(), _node->getId());
-//    auto irExpressionValue = _irExpression->insertSelfIntoBlock(builder, injectorMap);
-//    builder->get()->CreateStore(irExpressionValue, _irValue->getValue());
-//}
 
 std::string IRVariableDeclarationNode::getVariableName() {
     return _node->getId();
