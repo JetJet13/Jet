@@ -447,3 +447,5 @@ export func exportedFunction(x: int) int {
 export proc exportedProcedure(x: int) {
     const y = 1;
 }
+
+GlobalModule::print("hello world");

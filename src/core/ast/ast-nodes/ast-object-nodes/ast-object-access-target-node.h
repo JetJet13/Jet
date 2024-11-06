@@ -5,7 +5,6 @@
 #ifndef JETLANG_AST_OBJECT_ACCESS_TARGET_NODE_H
 #define JETLANG_AST_OBJECT_ACCESS_TARGET_NODE_H
 
-#include "../../../lexeme/lexeme.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 
 class ASTObjectAccessTargetNode : public ASTNode {

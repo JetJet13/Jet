@@ -95,6 +95,9 @@
 #include "reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.h"
 #include "reducer-strategies/function-definition-reducer-strategy/function-definition-reducer-strategy.h"
 #include "reducer-strategies/procedure-definition-reducer-strategy/procedure-definition-reducer-strategy.h"
+#include "reducer-strategies/module-access-expression-reducer-strategy/module-access-expression-reducer-strategy.h"
+#include "reducer-strategies/module-access-source-reducer-strategy/module-access-source-reducer-strategy.h"
+#include "reducer-strategies/module-access-target-reducer-strategy/module-access-target-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -117,6 +120,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, new ObjectAccessExpressionReducerStrategy());
+    this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, new ModuleAccessExpressionReducerStrategy());
     this->addStrategy(AST_FUNCTION_DECLARATION_NODE, new FunctionDeclarationReducerStrategy());
     this->addStrategy(AST_FUNCTION_DEFINITION_NODE, new FunctionDefinitionReducerStrategy());
     this->addStrategy(AST_FUNCTION_PARAMETER_LIST_NODE, new FunctionParameterListReducerStrategy());
@@ -138,6 +142,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TUPLE_ACCESS_EXPRESSION_NODE, new TupleAccessExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_SOURCE_NODE, new ObjectAccessSourceReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_TARGET_NODE, new ObjectAccessTargetReducerStrategy());
+    this->addStrategy(AST_MODULE_ACCESS_SOURCE_NODE, new ModuleAccessSourceReducerStrategy());
+    this->addStrategy(AST_MODULE_ACCESS_TARGET_NODE, new ModuleAccessTargetReducerStrategy());
     this->addStrategy(AST_CONTROL_FLOW_CONDITION_NODE, new ControlFlowConditionReducerStrategy());
     this->addStrategy(AST_IF_BLOCK_NODE, new IfBlockReducerStrategy());
     this->addStrategy(AST_ELSE_IF_BLOCK_NODE, new ElseIfBlockReducerStrategy());

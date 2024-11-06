@@ -5,9 +5,7 @@
 #ifndef JETLANG_AST_OBJECT_ACCESS_SOURCE_NODE_H
 #define JETLANG_AST_OBJECT_ACCESS_SOURCE_NODE_H
 
-#include "../../../lexeme/lexeme.h"
-#include "../ast-expression-nodes/ast-aggregate-expression-node.h"
-#include "../../../type-signature/aggregate-type-signature.h"
+#include "../ast-expression-nodes/ast-expression-node.h"
 
 class ASTObjectAccessSourceNode : public ASTNode {
 private:

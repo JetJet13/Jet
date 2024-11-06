@@ -108,6 +108,9 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-definition-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-export-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-procedure-nodes/ast-procedure-definition-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-access-source-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-access-target-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -161,6 +164,13 @@ namespace ASTNodeFactory {
     );
     static ASTImportSpreadNode* importSpread = new ASTImportSpreadNode(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
+    );
+    static ASTModuleAccessSourceNode* moduleAccessSource = new ASTModuleAccessSourceNode(ASTNodeFactory::idExpression);
+    static ASTModuleAccessTargetNode* moduleAccessTarget = new ASTModuleAccessTargetNode(ASTNodeFactory::idExpression);
+    static ASTModuleAccessExpressionNode* moduleAccessExpression = new ASTModuleAccessExpressionNode(
+            ASTNodeFactory::moduleAccessSource,
+            ASTNodeFactory::moduleAccess,
+            ASTNodeFactory::moduleAccessTarget
     );
     static ASTColonBaseNode* colon = new ASTColonBaseNode(createLexeme(SymbolFactory::createColonSymbol()));
     static ASTStructColonNode* structColon = new ASTStructColonNode(createLexeme(SymbolFactory::createColonSymbol()));

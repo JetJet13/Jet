@@ -1064,6 +1064,18 @@ add_library(jet-core
         jet-file/jet-file.h
         jet-file/jet-file-id-generator/jet-file-id-generator.cpp
         jet-file/jet-file-id-generator/jet-file-id-generator.h
+        ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-access-source-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-access-source-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-access-target-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-access-target-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-source-reducer-strategy/module-access-source-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-source-reducer-strategy/module-access-source-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-target-reducer-strategy/module-access-target-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-target-reducer-strategy/module-access-target-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-expression-reducer-strategy/module-access-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-expression-reducer-strategy/module-access-expression-reducer-strategy.h
 
 )
 

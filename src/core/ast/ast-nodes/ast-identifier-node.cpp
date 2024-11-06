@@ -21,6 +21,8 @@
 #include "ast-class-nodes/ast-class-property-name-node.h"
 #include "ast-class-nodes/ast-class-method-name-node.h"
 #include "ast-class-nodes/ast-class-method-call-node.h"
+#include "ast-module-nodes/ast-module-access-target-node.h"
+#include "ast-module-nodes/ast-module-access-source-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -36,7 +38,11 @@ std::string ASTIdentifierNode::getValue(TokenTable* tokenTable) {
     );
 }
 
-ASTNode * ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_PERIOD_NODE, AST_MODULE_ACCESS_NODE })) {
+        return this;
+    }
+
     if (prevNode && prevNode.value()->is(AST_CLASS_ACCESS_NODE)) {
         if (nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
             return new ASTClassMethodCallNode(this->getLexeme(), this->getId());

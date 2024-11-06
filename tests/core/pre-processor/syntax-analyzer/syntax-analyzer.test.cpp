@@ -43,6 +43,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -3180,6 +3181,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 }),
                 ASTNodeFactory::exportKeyword
+        )},
+        {194, new ASTExpressionStatementNode(
+                new ASTFunctionInvocationExpressionNode(
+                        ASTNodeFactory::moduleAccessExpression,
+                        ASTNodeFactory::createFunctionArgumentList({
+                            new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                        })
+                )
         )},
 
 };

@@ -8,7 +8,6 @@
 #include "../../../../src/core/pre-processor/lexical-analyzer/lexical-analyzer.h"
 #include "../../../../src/shared/utils/logger/logger.h"
 #include "../../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
-#include "../../../../src/core/pre-processor/semantic-analyzer/dependency-graph/pre-processor-map.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 #include "resources/type-signature-factory.h"
@@ -503,7 +502,6 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
     auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
     auto fileScope = syntaxAnalyzer.analyze(filePath);
-    auto dependencyGraph = new PreProcessorMap();
     auto typeSignatureLookupTable = new TypeSignatureLookupTable();
     auto semanticAnalyzer = SemanticAnalyzer();
     auto fileNode = new ASTFileNode(fileScope->getScope(), filePath, fileScope->getImports(), fileScope->getModule());
