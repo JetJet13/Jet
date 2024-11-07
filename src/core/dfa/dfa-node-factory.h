@@ -18,7 +18,6 @@ namespace DFANodeFactory {
         static DFANode* createWithTarget(ASTNodeType astNodeType, ASTNodeType targetAstNodeType) {
             return new DFANode(astNodeType, DFA_OCCURRENCE_ONCE, targetAstNodeType);
         }
-        static DFANode* identifier = Once::create(AST_IDENTIFIER_NODE);
 
     }
     namespace OnceOrMore {

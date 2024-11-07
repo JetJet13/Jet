@@ -28,7 +28,9 @@ void SyntaxDfa::init() {
     DFANode* varInit = DFANodeFactory::Once::create(AST_VARIABLE_INIT_NODE);
     DFANode* varType = DFANodeFactory::Once::create(AST_VARIABLE_TYPE_NODE);
     DFANode* varDefinition = DFANodeFactory::Once::create(AST_VARIABLE_DEFINITION_NODE);
+    DFANode* identifier = DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE);
     DFANode* identifierExpression = DFANodeFactory::Once::create(AST_IDENTIFIER_EXPRESSION_NODE);
+    DFANode* callableIdentifierExpression = DFANodeFactory::Once::create(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE);
     DFANode* literalExpression = DFANodeFactory::Once::create(AST_LITERAL_EXPRESSION_NODE);
     DFANode* arrayAccessExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_EXPRESSION_NODE);
     DFANode* arrayExpression = DFANodeFactory::Once::create(AST_ARRAY_EXPRESSION_NODE);
@@ -241,10 +243,14 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CURRY_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)));
 
+    identifier
+    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, { AST_GROUP_START_NODE }));
+
+
     identifierExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
-          AST_UNARY_OPERATOR_NODE,
-          AST_PERIOD_NODE
+        AST_UNARY_OPERATOR_NODE,
+        AST_PERIOD_NODE
     })
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
     ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_TARGET_NODE, { AST_PERIOD_NODE }))
@@ -259,6 +265,10 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(structColon))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_ASSIGNMENT_NODE)));
+
+    callableIdentifierExpression
+    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE }))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE)));
 
 
     literalExpression
@@ -383,11 +393,6 @@ void SyntaxDfa::init() {
 
     functionName
     ->markAlwaysReduceSelf();
-
-    functionCall
-    ->markAlwaysReduceSelf()
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE)));
 
     functionParameter
     ->markAlwaysReduceSelf();
@@ -971,13 +976,14 @@ void SyntaxDfa::init() {
     ->insertStartNode(varAssignment)
     ->insertStartNode(assignmentOperator)
     ->insertStartNode(varAssignmentStatement)
-    ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE))
+    ->insertStartNode(identifier)
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_STRING_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_CHAR_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_BOOLEAN_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(identifierExpression)
+    ->insertStartNode(callableIdentifierExpression)
     ->insertStartNode(literalExpression)
     ->insertStartNode(structExpression)
     ->insertStartNode(objectAccessExpression)

@@ -19,14 +19,13 @@
 
 class ASTFunctionInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
-    // todo - re-work this to support ast-expression-nodes as _function type
-    ASTFunctionCallNode* _function;
+    ASTExpressionNode* _function;
     ASTFunctionArgumentListNode* _arguments;
     FunctionInvocationTypeSignature* _typeSignature = new FunctionInvocationTypeSignature();
 public:
-    explicit ASTFunctionInvocationExpressionNode(ASTFunctionCallNode* name, ASTFunctionArgumentListNode* arguments);
+    explicit ASTFunctionInvocationExpressionNode(ASTExpressionNode* function, ASTFunctionArgumentListNode* arguments);
     ASTFunctionArgumentListNode* getArguments();
-    ASTFunctionCallNode* getName();
+    ASTExpressionNode* getFunction();
     unsigned long numArguments();
     void setTypeSignature(FunctionInvocationTypeSignature* functionInvocationTypeSignature);
     FunctionInvocationTypeSignature* getTypeSignature() override;

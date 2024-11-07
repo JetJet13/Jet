@@ -17,6 +17,7 @@
 #include "ast-node-id-strategies/identifier-expression-id-strategy/identifier-expression-id-strategy.h"
 #include "ast-node-id-strategies/import-many-by-wildcard-module-declaration-id-strategy/import-many-by-wildcard-module-declaration-id-strategy.h"
 #include "ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.h"
+#include "ast-node-id-strategies/module-access-expression-id-strategy/module-access-expression-id-strategy.h"
 
 ASTNodeIdAssignor::ASTNodeIdAssignor(TokenTable* tokenTable) {
     _tokenTable = tokenTable;
@@ -27,12 +28,14 @@ ASTNodeIdAssignor::ASTNodeIdAssignor(TokenTable* tokenTable) {
 void ASTNodeIdAssignor::initStrategies() {
     this->addStrategy(AST_IDENTIFIER_NODE, new IdentifierIdStrategy(_tokenTable));
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));
+    this->addStrategy(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));
     this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_CLASS_DECLARATION_NODE, new ClassDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_ENUM_DECLARATION_NODE, new EnumDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_FUNCTION_DECLARATION_NODE, new FunctionDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_PROCEDURE_DECLARATION_NODE, new ProcedureDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_MODULE_DECLARATION_NODE, new ModuleDeclarationIdStrategy(_tokenTable));
+    this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, new ModuleAccessExpressionIdStrategy(_tokenTable));
     this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, new ImportSingleModuleDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, new UseSingleModuleDeclarationIdStrategy(_tokenTable));
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationIdStrategy(_tokenTable));

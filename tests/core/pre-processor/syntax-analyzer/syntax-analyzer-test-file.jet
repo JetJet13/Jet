@@ -449,3 +449,5 @@ export proc exportedProcedure(x: int) {
 }
 
 GlobalModule::print("hello world");
+
+const andLogicBangId = !flag && true;

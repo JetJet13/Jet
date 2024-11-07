@@ -11,7 +11,7 @@ ASTNode* FunctionInvocationExpressionReducerStrategy::execute(std::vector<ASTNod
     }
 
     return new ASTFunctionInvocationExpressionNode(
-            (ASTFunctionCallNode*)nodes[0],
+            (ASTExpressionNode*)nodes[0],
             (ASTFunctionArgumentListNode*)nodes[1]
     );
 }

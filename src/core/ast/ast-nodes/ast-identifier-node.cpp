@@ -63,10 +63,6 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTFunctionNameNode(this->getLexeme(), this->getId());
     }
 
-    if (nextNode && nextNode.value()->isOneOf({ AST_GROUP_START_NODE, AST_FUNCTION_ARGUMENT_LIST_START_NODE })) {
-        return new ASTFunctionCallNode(this->getLexeme(), this->getId());
-    }
-
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {
         return new ASTEnumNameNode(this->getLexeme(), this->getId());
     }

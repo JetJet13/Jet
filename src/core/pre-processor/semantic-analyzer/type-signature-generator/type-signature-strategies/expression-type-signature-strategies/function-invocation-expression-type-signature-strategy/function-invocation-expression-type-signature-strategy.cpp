@@ -7,7 +7,7 @@
 
 void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto functionTypeSignature = typeSignatureLookupTable->find(
-            functionInvocationExpression->getName()->getId()
+            functionInvocationExpression->getFunction()->getId()
     );
 
     if (functionTypeSignature->isInvocable()) {

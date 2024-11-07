@@ -5,12 +5,12 @@
 #include "ast-module-access-source-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleAccessSourceNode::ASTModuleAccessSourceNode(ASTExpressionNode* source) {
+ASTModuleAccessSourceNode::ASTModuleAccessSourceNode(ASTIdentifierExpressionNode* source) {
     _source = source;
     _children.push_back(_source);
 }
 
-ASTExpressionNode* ASTModuleAccessSourceNode::getSource() {
+ASTIdentifierExpressionNode* ASTModuleAccessSourceNode::getSource() {
     return _source;
 }
 

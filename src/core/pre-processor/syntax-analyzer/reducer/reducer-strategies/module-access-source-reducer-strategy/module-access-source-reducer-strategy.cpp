@@ -11,6 +11,6 @@ ASTNode* ModuleAccessSourceReducerStrategy::execute(std::vector<ASTNode*> nodes)
     }
 
     return new ASTModuleAccessSourceNode(
-            (ASTExpressionNode*)nodes[0]
+            (ASTIdentifierExpressionNode*)nodes[0]
     );
 }

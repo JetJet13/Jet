@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionInvocationExpressionNode::ASTFunctionInvocationExpressionNode(ASTFunctionCallNode* function, ASTFunctionArgumentListNode* arguments) {
+ASTFunctionInvocationExpressionNode::ASTFunctionInvocationExpressionNode(ASTExpressionNode* function, ASTFunctionArgumentListNode* arguments) {
     _function = function;
     _arguments = arguments;
     _children.push_back(_function);
@@ -17,7 +17,7 @@ ASTFunctionArgumentListNode* ASTFunctionInvocationExpressionNode::getArguments()
     return _arguments;
 }
 
-ASTFunctionCallNode* ASTFunctionInvocationExpressionNode::getName() {
+ASTExpressionNode* ASTFunctionInvocationExpressionNode::getFunction() {
     return _function;
 }
 
@@ -55,7 +55,7 @@ bool ASTFunctionInvocationExpressionNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTFunctionInvocationExpressionNode*)other;
 
-    return  this->getName()->isSameAs(otherNode->getName()) &&
+    return  this->getFunction()->isSameAs(otherNode->getFunction()) &&
             this->getArguments()->isSameAs(otherNode->getArguments());
 }
 

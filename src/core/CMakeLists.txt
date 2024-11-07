@@ -1076,6 +1076,12 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-target-reducer-strategy/module-access-target-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-expression-reducer-strategy/module-access-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-expression-reducer-strategy/module-access-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/module-access-expression-id-strategy/module-access-expression-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/module-access-expression-id-strategy/module-access-expression-id-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/callable-identifier-expression-reducer-strategy/callable-identifier-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/callable-identifier-expression-reducer-strategy/callable-identifier-expression-reducer-strategy.h
 
 )
 

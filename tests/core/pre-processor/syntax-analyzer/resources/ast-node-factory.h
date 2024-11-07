@@ -25,7 +25,6 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-call-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.h"
@@ -303,9 +302,6 @@ namespace ASTNodeFactory {
             createLexeme(SymbolFactory::createProcedureSymbol())
     );
     static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
-            createLexeme(SymbolFactory::createIdentifierSymbol())
-    );
-    static ASTFunctionCallNode* functionCall =  new ASTFunctionCallNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
     static ASTFunctionReturnNode* functionReturn =  new ASTFunctionReturnNode(
