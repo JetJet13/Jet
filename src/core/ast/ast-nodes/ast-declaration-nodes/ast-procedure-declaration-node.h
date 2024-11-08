@@ -30,6 +30,7 @@ public:
     ASTFunctionNameNode* getName();
     ASTFunctionBlockNode* getBlock();
     unsigned long numParameters();
+    bool isExportable() override;
     void setTypeSignature(ProcedureTypeSignature* typeSignature);
     ProcedureTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

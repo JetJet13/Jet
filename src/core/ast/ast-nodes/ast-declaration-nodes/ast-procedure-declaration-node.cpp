@@ -35,6 +35,10 @@ unsigned long ASTProcedureDeclarationNode::numParameters() {
     return _procedureDefinition->numParameters();
 }
 
+bool ASTProcedureDeclarationNode::isExportable() {
+    return _exportKeyword.has_value();
+}
+
 void ASTProcedureDeclarationNode::setTypeSignature(ProcedureTypeSignature* typeSignature) {
     _typeSignature = typeSignature;
 }

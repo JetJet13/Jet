@@ -32,6 +32,7 @@ public:
     ASTTypeNode* getReturnType();
     ASTFunctionBlockNode* getBlock();
     unsigned long numParameters();
+    bool isExportable() override;
     void setTypeSignature(FunctionTypeSignature* typeSignature);
     FunctionTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

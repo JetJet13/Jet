@@ -4,6 +4,7 @@
 
 #include "ast-file-node.h"
 #include "../types/source-code-builder/source-code-builder.h"
+#include "../../../shared/utils/logger/logger.h"
 
 ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path, std::vector<ASTImportSingleModuleDeclarationNode*> imports, std::optional<ASTModuleDeclarationNode*> module) {
     _body = body;

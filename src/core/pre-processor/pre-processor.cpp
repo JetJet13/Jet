@@ -28,20 +28,28 @@ JetFile* PreProcessor::process(std::string filePath) {
     }
     auto fileNode = this->buildFile(filePath, _syntaxAnalyzer->analyze(filePath));
     auto typeSignatureScope = new TypeSignatureLookupTable();
+    this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);
     if (!typeCheckerResult.ok()) {
         typeCheckerResult.printErrors();
         throw std::logic_error("type checker has errors: " + filePath);
     }
-    auto jetFile = new JetFile(fileNode, typeSignatureScope, typeCheckerResult);
-    this->resolveModuleImports(jetFile);
-    return jetFile;
+    return new JetFile(fileNode, typeSignatureScope, typeCheckerResult);
 }
 
-void PreProcessor::resolveModuleImports(JetFile* jetFile) {
-    for (auto node : *jetFile->getFile()->getImports()) {
-        auto filePath = jetFile->getFile()->getPathDirectory().append(
+void PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+    for (auto node : *fileNode->getImports()) {
+        auto filePath = fileNode->getPathDirectory().append(
                 node->getPath()->getImportPath()->getValue());
-        jetFile->addImportedFile(this->process(filePath));
+        auto jetFile = this->process(filePath);
+        if (!jetFile->isModule()) {
+            throw std::logic_error("cannot import a file that is not a module: " + jetFile->getId());
+        }
+        auto module = jetFile->getFile()->getModule().value();
+        scope->insert(module->getId(), module->getTypeSignature());
+        for (auto moduleExport : *module->getExports()) {
+            auto key = module->getId() + "::" + moduleExport->getId();
+            scope->insert(key, moduleExport->getTypeSignature());
+        }
     }
 }

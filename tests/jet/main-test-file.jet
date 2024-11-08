@@ -3,3 +3,4 @@ import MyOtherModule from "./other-test-file.jet";
 const foo = 500;
 const bar = 200;
 const mars = foo + bar;
+const myValue = MyOtherModule::myOtherFunction();

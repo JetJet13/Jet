@@ -26,6 +26,7 @@
 #include "expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
@@ -80,6 +81,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _tupleAccessExpressionTypeSignatureStrategy = new TupleAccessExpressionTypeSignatureStrategy();
     _tupleExpressionTypeSignatureStrategy = new TupleExpressionTypeSignatureStrategy();
     _unaryExpressionTypeSignatureStrategy = new UnaryExpressionTypeSignatureStrategy();
+    _moduleAccessExpressionTypeSignatureStrategy = new ModuleAccessExpressionTypeSignatureStrategy();
     _typeTypeSignatureStrategy = new TypeTypeSignatureStrategy();
     _primitiveTypeTypeSignatureStrategy = new PrimitiveTypeTypeSignatureStrategy();
     _customTypeTypeSignatureStrategy = new CustomTypeTypeSignatureStrategy();
@@ -200,6 +202,10 @@ TupleExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleExpressi
 
 UnaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getUnaryExpressionTypeSignatureStrategy() {
     return this->_unaryExpressionTypeSignatureStrategy;
+}
+
+ModuleAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessExpressionTypeSignatureStrategy() {
+    return this->_moduleAccessExpressionTypeSignatureStrategy;
 }
 
 TypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTypeTypeSignatureStrategy() {

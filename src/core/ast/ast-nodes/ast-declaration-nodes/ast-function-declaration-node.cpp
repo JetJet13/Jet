@@ -37,6 +37,10 @@ unsigned long ASTFunctionDeclarationNode::numParameters() {
     return _functionDefinition->numParameters();
 }
 
+bool ASTFunctionDeclarationNode::isExportable() {
+    return _exportKeyword.has_value();
+}
+
 void ASTFunctionDeclarationNode::setTypeSignature(FunctionTypeSignature* typeSignature) {
     _typeSignature = typeSignature;
 }

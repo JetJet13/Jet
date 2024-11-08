@@ -10,12 +10,12 @@ void ModuleDeclarationIdStrategy::assign(ASTNode* node) {
     moduleDeclarationNode->setId(
             _tokenTable->getIdentifier(
                     moduleDeclarationNode
-                            ->getName()
-                            ->getIdentifier()
-                            ->getLexeme()
-                ->getToken()
-                ->getValueId()
-                .value()
+                    ->getName()
+                    ->getIdentifier()
+                    ->getLexeme()
+                    ->getToken()
+                    ->getValueId()
+                    .value()
             )
     );
 }

@@ -30,6 +30,7 @@ class ThisExpressionTypeSignatureStrategy;
 class TupleAccessExpressionTypeSignatureStrategy;
 class TupleExpressionTypeSignatureStrategy;
 class UnaryExpressionTypeSignatureStrategy;
+class ModuleAccessExpressionTypeSignatureStrategy;
 class TypeTypeSignatureStrategy;
 class PrimitiveTypeTypeSignatureStrategy;
 class CustomTypeTypeSignatureStrategy;
@@ -86,6 +87,7 @@ private:
     TupleAccessExpressionTypeSignatureStrategy* _tupleAccessExpressionTypeSignatureStrategy;
     TupleExpressionTypeSignatureStrategy* _tupleExpressionTypeSignatureStrategy;
     UnaryExpressionTypeSignatureStrategy* _unaryExpressionTypeSignatureStrategy;
+    ModuleAccessExpressionTypeSignatureStrategy* _moduleAccessExpressionTypeSignatureStrategy;
     TypeTypeSignatureStrategy* _typeTypeSignatureStrategy;
     PrimitiveTypeTypeSignatureStrategy* _primitiveTypeTypeSignatureStrategy;
     CustomTypeTypeSignatureStrategy* _customTypeTypeSignatureStrategy;
@@ -141,6 +143,7 @@ public:
     TupleAccessExpressionTypeSignatureStrategy* getTupleAccessExpressionTypeSignatureStrategy();
     TupleExpressionTypeSignatureStrategy* getTupleExpressionTypeSignatureStrategy();
     UnaryExpressionTypeSignatureStrategy* getUnaryExpressionTypeSignatureStrategy();
+    ModuleAccessExpressionTypeSignatureStrategy* getModuleAccessExpressionTypeSignatureStrategy();
     TypeTypeSignatureStrategy* getTypeTypeSignatureStrategy();
     PrimitiveTypeTypeSignatureStrategy* getPrimitiveTypeTypeSignatureStrategy();
     CustomTypeTypeSignatureStrategy* getCustomTypeTypeSignatureStrategy();

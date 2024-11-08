@@ -1082,6 +1082,8 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/callable-identifier-expression-reducer-strategy/callable-identifier-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/callable-identifier-expression-reducer-strategy/callable-identifier-expression-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h
 
 )
 
