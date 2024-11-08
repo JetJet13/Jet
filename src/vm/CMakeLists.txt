@@ -243,6 +243,10 @@ add_library(jet-vm
         vm.h
         ir-jet-file/ir-jet-file.cpp
         ir-jet-file/ir-jet-file.h
+        ir-generator/ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h
 )
 
 target_link_libraries(jet-vm

@@ -54,6 +54,7 @@
 #include "../ir-injector/ir-injector.h"
 #include "../types/ir-operation-type.h"
 #include "../ir-type/ir-module-type.h"
+#include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-node.h"
 
 class IRGenerator {
 private:
@@ -67,6 +68,7 @@ public:
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, llvm::Function* irFunction);
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, IROperationType irOperationType);
+    IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, IROperationType irOperationType);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
     IRType* generateTypeFor(llvm::Constant* constant);
     IRType* generateTypeFor(TypeSignature* typeSignature);
