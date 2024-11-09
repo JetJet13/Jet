@@ -8,6 +8,14 @@
 #include "jet-file-id-generator/jet-file-id-generator.h"
 #include "../../shared/utils/logger/logger.h"
 
+JetFile::JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult, std::vector<JetFile*> importedJetFiles) {
+    _astFileNode = astFileNode;
+    _fileScope = fileScope;
+    _typeCheckerResult = std::move(typeCheckerResult);
+    _importedJetFiles = importedJetFiles;
+    _id = JetFileIdGenerator::generate(astFileNode->getPath());
+}
+
 JetFile::JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult) {
     _astFileNode = astFileNode;
     _fileScope = fileScope;

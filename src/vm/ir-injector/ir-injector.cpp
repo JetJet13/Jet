@@ -20,7 +20,7 @@ void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, 
 
 void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule) {
     if (irStatement->is(IR_FUNCTION_RETURN_EXPRESSION_NODE)) {
-        _irInjectorMap.getFunctionReturnInjector()->inject((IRFunctionReturnExpressionNode*)irStatement, irBlock->getBuilder());
+        _irInjectorMap.getFunctionReturnInjector()->inject((IRFunctionReturnExpressionNode*)irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule);
     }
 }
 

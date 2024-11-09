@@ -9,6 +9,10 @@ IRFunctionReturnExpressionNode::IRFunctionReturnExpressionNode(ASTFunctionReturn
     _irExpression = irExpression;
 }
 
+IRExpressionNode* IRFunctionReturnExpressionNode::getReturnExpression() {
+    return _irExpression;
+}
+
 IRNodeType IRFunctionReturnExpressionNode::getNodeType() {
     return IR_FUNCTION_RETURN_EXPRESSION_NODE;
 }

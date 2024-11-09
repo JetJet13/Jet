@@ -17,6 +17,7 @@ private:
     IRExpressionNode* _irExpression;
 public:
     IRFunctionReturnExpressionNode(ASTFunctionReturnExpressionNode* node, IRExpressionNode* irExpression);
+    IRExpressionNode* getReturnExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

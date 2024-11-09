@@ -3,7 +3,9 @@
 //
 
 #include "function-return-ir-injector-strategy.h"
+#include "../../ir-injector-map.h"
 
-void FunctionReturnIRInjectorStrategy::inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder) {
-
+void FunctionReturnIRInjectorStrategy::inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule) {
+    auto returnValue = irInjectorMap->getInjector(irFunctionReturnExpression->getReturnExpression()->getTypeSignature())->inject(irFunctionReturnExpression->getReturnExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
+    builder->get()->CreateRet(returnValue);
 }

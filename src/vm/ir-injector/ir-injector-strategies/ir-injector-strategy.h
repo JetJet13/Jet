@@ -16,8 +16,7 @@ class IRInjectorMap;
 
 class IRInjectorStrategy {
 public:
-    virtual llvm::Value *
-    inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) = 0;
+    virtual llvm::Value* inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) = 0;
 };
 
 #endif //JETLANG_IR_INJECTOR_STRATEGY_H

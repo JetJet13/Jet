@@ -18,7 +18,7 @@ private:
     SyntaxAnalyzer* _syntaxAnalyzer;
     SemanticAnalyzer* _semanticAnalyzer;
     ASTFileNode* buildFile(std::string filePath, FileScope* fileScope);
-    void resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
+    std::vector<JetFile*> resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
 public:
     PreProcessor(SyntaxAnalyzer* syntaxAnalyzer, SemanticAnalyzer* semanticAnalyzer);
     JetFile* process(std::string filePath);

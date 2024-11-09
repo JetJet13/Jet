@@ -3,6 +3,7 @@
 //
 
 #include "vm.h"
+#include "../shared/utils/logger/logger.h"
 
 VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
     _irGenerator = irGenerator;
@@ -57,5 +58,8 @@ void VM::linkJetFiles(IRJetFile* source, IRJetFile* destination) {
             *destination->getModule()->getModule(),
             std::unique_ptr<llvm::Module>(source->getModule()->getModule())
     );
+    for (auto exportedDeclaration : *source->getFile()->getFile()->getModule().value()->getExports()) {
+        auto exportedFunction = destination->getModule()->getModule()->getFunction(exportedDeclaration->getId());
+        exportedFunction->setName(source->getFile()->getFile()->getModule().value()->getId() + "." + exportedDeclaration->getId());
+    }
 }
-

@@ -6,12 +6,10 @@
 
 IRFunctionInvocationExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto function = irModule->getModule()->getFunction(node->getFunction()->getId());
-    auto arguments = std::vector<llvm::Value*>();
+    auto arguments = std::vector<IRExpressionNode*>();
     for (auto argument : *node->getArguments()->getArguments()) {
-        auto irNode = irGenerator->generateFor(argument, scope, irModule, IR_FUNCTION_ARGUMENT_OP);
-        arguments.push_back(irNode->getValue());
+        arguments.push_back(irGenerator->generateFor(argument, scope, irModule, IR_FUNCTION_ARGUMENT_OP));
     }
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType());
-    auto functionCall = llvm::CallInst::Create(function->getFunctionType(), function, arguments);
-    return new IRFunctionInvocationExpressionNode(node, functionCall, irType);
+    return new IRFunctionInvocationExpressionNode(node, function, arguments, irType);
 }

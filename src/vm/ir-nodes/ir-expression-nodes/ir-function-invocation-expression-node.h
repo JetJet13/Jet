@@ -14,11 +14,13 @@
 class IRFunctionInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTFunctionInvocationExpressionNode* _node;
-    llvm::CallInst* _irFunctionCall;
+    llvm::Function* _irFunction;
+    std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
 public:
-    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::CallInst* irFunctionCall, IRType* type);
-    llvm::Value* getValue() override;
+    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Function* irFunction, std::vector<IRExpressionNode*> arguments, IRType* type);
+    std::vector<IRExpressionNode*>* getIRArguments();
+    llvm::Function* getValue() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;

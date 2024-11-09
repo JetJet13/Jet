@@ -6,10 +6,13 @@
 #define JETLANG_FUNCTION_RETURN_IR_INJECTOR_STRATEGY_H
 
 #include "../../../ir-nodes/ir-statement-nodes/ir-function-return-expression-node.h"
+#include "../../../ir-nodes/ir-module-node.h"
+
+class IRInjectorMap;
 
 class FunctionReturnIRInjectorStrategy {
 public:
-    void inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder);
+    void inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap *irInjectorMap, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_FUNCTION_RETURN_IR_INJECTOR_STRATEGY_H

@@ -18,7 +18,7 @@ void ModuleAccessExpressionIdStrategy::assign(ASTNode* node) {
                     ->getValueId()
                     .value()
             )
-            + "::"
+            + "."
             + _tokenTable->getIdentifier(
                     moduleAccessExpression
                     ->getTarget()

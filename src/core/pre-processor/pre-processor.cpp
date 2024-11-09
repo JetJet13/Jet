@@ -28,16 +28,17 @@ JetFile* PreProcessor::process(std::string filePath) {
     }
     auto fileNode = this->buildFile(filePath, _syntaxAnalyzer->analyze(filePath));
     auto typeSignatureScope = new TypeSignatureLookupTable();
-    this->resolveModuleImports(fileNode, typeSignatureScope);
+    auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);
     if (!typeCheckerResult.ok()) {
         typeCheckerResult.printErrors();
         throw std::logic_error("type checker has errors: " + filePath);
     }
-    return new JetFile(fileNode, typeSignatureScope, typeCheckerResult);
+    return new JetFile(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);
 }
 
-void PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+std::vector<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+    auto importedJetFiles = std::vector<JetFile*>();
     for (auto node : *fileNode->getImports()) {
         auto filePath = fileNode->getPathDirectory().append(
                 node->getPath()->getImportPath()->getValue());
@@ -48,8 +49,10 @@ void PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLook
         auto module = jetFile->getFile()->getModule().value();
         scope->insert(module->getId(), module->getTypeSignature());
         for (auto moduleExport : *module->getExports()) {
-            auto key = module->getId() + "::" + moduleExport->getId();
+            auto key = module->getId() + "." + moduleExport->getId();
             scope->insert(key, moduleExport->getTypeSignature());
         }
+        importedJetFiles.push_back(jetFile);
     }
+    return importedJetFiles;
 }

@@ -17,6 +17,7 @@ private:
     TypeCheckerResult _typeCheckerResult;
     std::vector<JetFile*> _importedJetFiles;
 public:
+    JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult, std::vector<JetFile*> importedJetFiles);
     JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult);
     std::string getId();
     ASTFileNode* getFile();
