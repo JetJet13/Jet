@@ -10,6 +10,7 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 
 class TupleIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -18,6 +19,7 @@ public:
     llvm::Value* inject(IRTupleExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
     llvm::Value* inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
     llvm::Value* inject(IRTupleAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
+    llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule);
 };
 
 #endif //JETLANG_TUPLE_IR_INJECTOR_STRATEGY_H

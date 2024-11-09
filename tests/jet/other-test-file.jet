@@ -1,5 +1,15 @@
 module MyOtherModule
 
-export func myOtherFunction() int {
-    return 5;
+export func myOtherFunction(x: int) int {
+    return x + 5;
 }
+
+export func myStringFunction() string {
+    return "hello world";
+}
+
+export func myTupleFunction() tuple<int, boolean, int> {
+    return tuple { 1, false, 10 };
+}
+
+const otherValue = myOtherFunction(3);

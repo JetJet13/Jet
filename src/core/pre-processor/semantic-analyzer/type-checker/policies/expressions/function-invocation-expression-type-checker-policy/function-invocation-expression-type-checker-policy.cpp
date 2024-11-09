@@ -16,22 +16,24 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
             typeCheckerResult
         );
 
-        TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
+        auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes()->size(),
             functionInvocationExpression->getArguments()->numArguments(),
-            TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments(functionInvocationExpression->getArguments()),
-            TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments(functionInvocationExpression->getArguments()),
+            TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(functionInvocationExpression),
+            TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(functionInvocationExpression),
             typeCheckerResult
         );
 
+        if (!argumentListCountResultOk) {
+            return;
+        }
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes(),
             functionInvocationExpression->getArguments(),
-            TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(functionInvocationExpression),
+            TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(functionInvocationExpression),
             typeCheckerResult
         );
-
     }
 }

@@ -40,6 +40,10 @@ bool ParameterListItemTypeSignature::isEqualTo(TypeSignature* otherType) {
             this->getTypeSignature()->isEqualTo(other->getTypeSignature());
 }
 
+bool ParameterListItemTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    return _type->isEquivalentTo(otherType);
+}
+
 void ParameterListItemTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     Logger::log("NAME - ", _name);

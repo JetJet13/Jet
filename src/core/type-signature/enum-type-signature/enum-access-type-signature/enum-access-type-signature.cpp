@@ -37,6 +37,9 @@ bool EnumAccessTypeSignature::isEquivalentTo(TypeSignature* otherType) {
     if (otherType->typeSourceIs(ENUM_TYPE_SOURCE)){
         auto enumTypeSignature = (EnumTypeSignature*)otherType;
         return this->getEnum()->isEqualTo(enumTypeSignature);
+    } else if (otherType->typeSourceIs(ENUM_ACCESS_TYPE_SOURCE)){
+        auto enumAccessTypeSignature = (EnumAccessTypeSignature*)otherType;
+        return this->getEnum()->isEqualTo(enumAccessTypeSignature->getEnum());
     }
     return this->isEqualTo(otherType);
 }

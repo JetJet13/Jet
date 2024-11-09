@@ -6,6 +6,7 @@
 #include "../../ir-injector-map.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 
 llvm::Value* TupleIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_TUPLE_EXPRESSION_NODE)) {
@@ -14,6 +15,8 @@ llvm::Value* TupleIRInjectorStrategy::inject(IRExpressionNode *irExpression, std
         return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
+        return this->inject((IRFunctionInvocationExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("TupleIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -25,12 +28,12 @@ llvm::Value* TupleIRInjectorStrategy::inject(IRTupleExpressionNode* irExpression
     for (int i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
         auto irIndex = builder->get()->getInt32(i);
-        auto pointer = builder->get()->CreateInBoundsGEP(tupleExpressionAllocation->getType(), tupleExpressionAllocation, { zeroIndex, irIndex });
+        auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getIRType()->getType(), tupleExpressionAllocation, { zeroIndex, irIndex });
         auto irExpressionValue = irInjectorMap->getInjector(irExpressionAtIndex->getTypeSignature())->inject(
                 irExpressionAtIndex, builder, irInjectorMap, irOperationType, irModule);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    return tupleExpressionAllocation;
+    return builder->get()->CreateLoad(irExpression->getIRType()->getType(), tupleExpressionAllocation);
 }
 
 llvm::Value* TupleIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
@@ -46,7 +49,6 @@ llvm::Value* TupleIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpre
 }
 
 llvm::Value* TupleIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    Logger::log("TupleIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression", irOperationType);
     auto irStructType = (IRStructType*)irExpression->getIRType();
     if (irOperationType == IR_COPY_ASSIGNMENT_OP) {
         auto tupleAllocation = irInjectorMap->getInjector(irExpression->getSource()->getTypeSignature())->inject(irExpression->getSource(), builder, irInjectorMap, IR_OPERAND_OP, irModule);
@@ -59,4 +61,8 @@ llvm::Value* TupleIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpr
         auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
         return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
+}
+
+llvm::Value* TupleIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    return FunctionInvocationIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule);
 }

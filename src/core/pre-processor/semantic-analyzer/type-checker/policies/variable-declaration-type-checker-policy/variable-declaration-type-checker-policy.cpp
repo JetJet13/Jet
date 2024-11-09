@@ -5,6 +5,7 @@
 #include "variable-declaration-type-checker-policy.h"
 #include "../../types/type-checker-error-message-table.h"
 #include "../../../../../../shared/utils/logger/logger.h"
+#include "../../type-checker.h"
 
 namespace VariableDeclarationTypeCheckerPolicy {
     void apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
@@ -30,5 +31,7 @@ namespace VariableDeclarationTypeCheckerPolicy {
                     variableDeclarationNode
             ));
         }
+
+        TypeChecker::applyPolicyTo(variableDeclarationNode->getInitializerNode(), typeCheckerResult);
     }
 }

@@ -8,6 +8,7 @@
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 
 llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_STRING_LITERAL_EXPRESSION_NODE)) {
@@ -20,6 +21,8 @@ llvm::Value* StringIRInjectorStrategy::inject(IRExpressionNode *irExpression, st
         return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
+        return this->inject((IRFunctionInvocationExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("StringIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -94,4 +97,8 @@ llvm::Value* StringIRInjectorStrategy::inject(std::string rawString, IRArrayPoin
     auto arrayPointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(stringPointerType));
     arrayPointerAllocation->setParentAllocation(sourceAllocation);
     return ArrayIRInjectorHelper::injectArrayPointer(builder, stringPointerType, rawString.size(), sourceAllocation, arrayPointerAllocation)->getValue();
+}
+
+llvm::Value* StringIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    return FunctionInvocationIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule);
 }

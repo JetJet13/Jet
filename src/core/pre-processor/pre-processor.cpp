@@ -40,8 +40,7 @@ JetFile* PreProcessor::process(std::string filePath) {
 std::vector<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
     auto importedJetFiles = std::vector<JetFile*>();
     for (auto node : *fileNode->getImports()) {
-        auto filePath = fileNode->getPathDirectory().append(
-                node->getPath()->getImportPath()->getValue());
+        auto filePath = fileNode->getPathDirectory().append(node->getPath()->getImportPath()->getValue());
         auto jetFile = this->process(filePath);
         if (!jetFile->isModule()) {
             throw std::logic_error("cannot import a file that is not a module: " + jetFile->getId());

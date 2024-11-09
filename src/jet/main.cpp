@@ -3,7 +3,6 @@
 //
 
 
-#include "llvm/Linker/Linker.h"
 #include "main.h"
 #include "../core/lexeme/lexeme.h"
 #include "../shared/utils/logger/logger.h"
@@ -30,6 +29,10 @@ int main (int argc, const char* argv[]) {
         auto semanticAnalyzer = new SemanticAnalyzer();
         auto preprocessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
         auto jetFile = preprocessor.process(filePath);
+        if (!jetFile->getTypeCheckerResult()->ok()) {
+            jetFile->getTypeCheckerResult()->printErrors();
+            throw std::logic_error("type check errors found");
+        }
         auto irInjector = new IRInjector();
         auto irGenerator = new IRGenerator(irInjector);
         auto vm = VM(irGenerator, irInjector);

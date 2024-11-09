@@ -19,13 +19,13 @@ private:
     ASTTupleExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    IRType* _type;
+    IRStructType* _type;
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
     llvm::Value* getValue() override;
     unsigned long size();
     std::vector<IRExpressionNode*>* getValues();
-    IRType* getIRType() override;
+    IRStructType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

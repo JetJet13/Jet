@@ -12,7 +12,7 @@
 
 class MatchArgumentListCountWithParameterListCountTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(unsigned long numParameters, unsigned long numArguments, std::string notEnoughArgumentsMessage, std::string tooManyArgumentsMessage, TypeCheckerResult* typeCheckerResult);
+    bool enforce(unsigned long numParameters, unsigned long numArguments, std::string notEnoughArgumentsMessage, std::string tooManyArgumentsMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

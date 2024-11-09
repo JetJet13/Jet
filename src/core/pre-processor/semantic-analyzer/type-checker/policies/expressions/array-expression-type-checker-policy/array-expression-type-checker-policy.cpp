@@ -5,6 +5,7 @@
 #include "array-expression-type-checker-policy.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../types/type-checker-error-message-table.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace ArrayExpressionTypeCheckerPolicy {
     void apply(ASTArrayExpressionNode* arrayExpression, TypeCheckerResult* typeCheckerResult) {
@@ -18,6 +19,10 @@ namespace ArrayExpressionTypeCheckerPolicy {
         );
 
         for (auto element : *arrayExpression->getElements()) {
+            Logger::log("!!--!!");
+            arrayExpression->getTypeSignature()->getElementType()->print();
+            Logger::log("!!!!!!");
+            element->getTypeSignature()->print();
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 arrayExpression->getTypeSignature()->getElementType(),

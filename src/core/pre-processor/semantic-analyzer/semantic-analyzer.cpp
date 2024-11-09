@@ -51,6 +51,7 @@ void SemanticAnalyzer::generateTypeSignatureForModule(ASTFileNode* fileNode, Typ
 
 void SemanticAnalyzer::runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults) {
     for (auto node : *fileNode->getBody()) {
+        node->print();
         TypeChecker::applyPolicyTo(node, typeCheckerResults);
     }
 }

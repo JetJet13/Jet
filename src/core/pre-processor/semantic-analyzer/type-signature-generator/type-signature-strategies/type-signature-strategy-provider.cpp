@@ -190,7 +190,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
         case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
                     ->getFunctionInvocationExpressionTypeSignatureStrategy()
-                    ->assign((ASTFunctionInvocationExpressionNode *) node, typeSignatureScope);
+                    ->assign((ASTFunctionInvocationExpressionNode *) node, typeSignatureScope, this);
             break;
         case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

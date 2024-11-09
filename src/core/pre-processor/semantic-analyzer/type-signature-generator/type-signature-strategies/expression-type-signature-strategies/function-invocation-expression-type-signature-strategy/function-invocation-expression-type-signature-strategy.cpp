@@ -3,13 +3,19 @@
 //
 
 #include "function-invocation-expression-type-signature-strategy.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 
-void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
+void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto functionTypeSignature = typeSignatureLookupTable->find(
             functionInvocationExpression->getFunction()->getId()
     );
+    for (auto argument : *functionInvocationExpression->getArguments()->getArguments()) {
+        strategyMap->assignTypeSignatureFor(argument->getArgument(), typeSignatureLookupTable);
+    }
     if (functionTypeSignature->isInvocable()) {
+        Logger::log("function type signature is invocable");
+        functionTypeSignature->print();
         functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature(
             (InvocableTypeSignature*)functionTypeSignature)
         );

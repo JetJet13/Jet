@@ -7,6 +7,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
+#include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_LITERAL_EXPRESSION_NODE)) {
@@ -134,11 +135,5 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irEx
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
-    auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-            irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule)
-        );
-    }
-    return builder->get()->CreateCall(irExpression->getValue(), arguments);
+    return FunctionInvocationIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule);
 }

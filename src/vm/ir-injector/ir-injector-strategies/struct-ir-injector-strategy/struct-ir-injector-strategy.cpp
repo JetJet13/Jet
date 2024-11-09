@@ -6,6 +6,7 @@
 #include "../../ir-injector-map.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
+#include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 
 llvm::Value* StructIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_STRUCT_EXPRESSION_NODE)) {
@@ -18,6 +19,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRExpressionNode *irExpression, st
         return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
+        return this->inject((IRFunctionInvocationExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("StructIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -29,12 +32,12 @@ llvm::Value* StructIRInjectorStrategy::inject(IRStructExpressionNode* irExpressi
     for (int i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
         auto irIndex = builder->get()->getInt32(i);
-        auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getType(), structExpressionAllocation, { zeroIndex, irIndex });
-        auto irExpressionValue = irInjectorMap->getInjector(irExpressionAtIndex->getTypeSignature())->inject(
-                irExpressionAtIndex, builder, irInjectorMap, irOperationType, irModule);
+        auto pointer = builder->get()->CreateInBoundsGEP(irExpression->getIRType()->getType(), structExpressionAllocation, { zeroIndex, irIndex });
+        auto irExpressionValue = irInjectorMap->getInjector(irExpressionAtIndex->getTypeSignature())
+                ->inject(irExpressionAtIndex, builder, irInjectorMap, irOperationType, irModule);
         builder->get()->CreateStore(irExpressionValue, pointer);
     }
-    return builder->get()->CreateLoad(structExpressionAllocation->getType(), structExpressionAllocation);
+    return builder->get()->CreateLoad(irExpression->getIRType()->getType(), structExpressionAllocation);
 }
 
 llvm::Value* StructIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
@@ -86,4 +89,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExp
             loadedSourceAllocation,
             irModule
     );
+}
+
+llvm::Value* StructIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    return FunctionInvocationIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule);
 }

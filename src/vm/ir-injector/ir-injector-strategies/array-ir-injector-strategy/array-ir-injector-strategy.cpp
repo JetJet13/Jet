@@ -7,6 +7,7 @@
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
+#include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 
 llvm::Value * ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
@@ -21,6 +22,8 @@ llvm::Value * ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, st
         return this->inject((IRArrayAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRTupleAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
+        return this->inject((IRFunctionInvocationExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     }
     throw std::logic_error("ArrayIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -120,4 +123,8 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpr
         auto pointerToIndexedElement = builder->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
         return builder->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
+}
+
+llvm::Value* ArrayIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    return FunctionInvocationIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule);
 }
