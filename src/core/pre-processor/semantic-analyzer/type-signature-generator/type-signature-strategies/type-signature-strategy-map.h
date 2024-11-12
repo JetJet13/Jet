@@ -62,6 +62,7 @@ class TryStatementTypeSignatureStrategy;
 class IfStatementTypeSignatureStrategy;
 class ImportTypeSignatureStrategy;
 class ModuleTypeSignatureStrategy;
+class LambdaExpressionScopeParameterTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -88,6 +89,7 @@ private:
     TupleExpressionTypeSignatureStrategy* _tupleExpressionTypeSignatureStrategy;
     UnaryExpressionTypeSignatureStrategy* _unaryExpressionTypeSignatureStrategy;
     ModuleAccessExpressionTypeSignatureStrategy* _moduleAccessExpressionTypeSignatureStrategy;
+    LambdaExpressionScopeParameterTypeSignatureStrategy* _lambdaExpressionScopeParameterTypeSignatureStrategy;
     TypeTypeSignatureStrategy* _typeTypeSignatureStrategy;
     PrimitiveTypeTypeSignatureStrategy* _primitiveTypeTypeSignatureStrategy;
     CustomTypeTypeSignatureStrategy* _customTypeTypeSignatureStrategy;
@@ -144,6 +146,7 @@ public:
     TupleExpressionTypeSignatureStrategy* getTupleExpressionTypeSignatureStrategy();
     UnaryExpressionTypeSignatureStrategy* getUnaryExpressionTypeSignatureStrategy();
     ModuleAccessExpressionTypeSignatureStrategy* getModuleAccessExpressionTypeSignatureStrategy();
+    LambdaExpressionScopeParameterTypeSignatureStrategy* getLambdaExpressionScopeParameterTypeSignatureStrategy();
     TypeTypeSignatureStrategy* getTypeTypeSignatureStrategy();
     PrimitiveTypeTypeSignatureStrategy* getPrimitiveTypeTypeSignatureStrategy();
     CustomTypeTypeSignatureStrategy* getCustomTypeTypeSignatureStrategy();

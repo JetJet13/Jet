@@ -35,6 +35,7 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-type-signature-strategy.h"
+#include "lambda-expression-scope-parameter-type-signature-strategy/lambda-expression-scope-parameter-type-signature-strategy.h"
 #include "variable-type-signature-strategy/variable-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-property-type-signature-strategy/class-property-type-signature-strategy.h"
@@ -372,4 +373,8 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
         default:
             throw std::logic_error("type signature strategy not setup for node: " + node->toString());
     }
+}
+
+StructTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope) {
+    return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(scope);
 }

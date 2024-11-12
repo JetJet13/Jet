@@ -249,6 +249,14 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.h
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h
+        ir-generator/ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h
+        ir-type/ir-lambda-type.cpp
+        ir-type/ir-lambda-type.h
 )
 
 target_link_libraries(jet-vm

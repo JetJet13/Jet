@@ -29,6 +29,20 @@ TypeSignature* TypeSignatureLookupTable::find(std::string key) {
     }
 }
 
+std::unordered_map<std::string, TypeSignature*> TypeSignatureLookupTable::getLookupTable() {
+    auto lookupTable = std::unordered_map<std::string, TypeSignature*>();
+    if (_outerScope) {
+        auto outerScopeLookupTable = _outerScope.value()->getLookupTable();
+        for (auto keyValue : outerScopeLookupTable) {
+            lookupTable.insert(std::pair(keyValue.first, keyValue.second));
+        }
+    }
+    for (auto keyValue : _typeSignatureLookupTable) {
+        lookupTable.insert(std::pair(keyValue.first, keyValue.second));
+    }
+    return lookupTable;
+}
+
 void TypeSignatureLookupTable::dump() {
     Logger::log("======== TypeSignatureLookupTable DUMP ========");
     for (auto keyValue : _typeSignatureLookupTable) {

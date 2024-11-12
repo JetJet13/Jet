@@ -31,6 +31,7 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
+#include "lambda-expression-scope-parameter-type-signature-strategy/lambda-expression-scope-parameter-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-type-signature-strategy.h"
 #include "variable-type-signature-strategy/variable-type-signature-strategy.h"
@@ -82,6 +83,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _tupleExpressionTypeSignatureStrategy = new TupleExpressionTypeSignatureStrategy();
     _unaryExpressionTypeSignatureStrategy = new UnaryExpressionTypeSignatureStrategy();
     _moduleAccessExpressionTypeSignatureStrategy = new ModuleAccessExpressionTypeSignatureStrategy();
+    _lambdaExpressionScopeParameterTypeSignatureStrategy = new LambdaExpressionScopeParameterTypeSignatureStrategy();
     _typeTypeSignatureStrategy = new TypeTypeSignatureStrategy();
     _primitiveTypeTypeSignatureStrategy = new PrimitiveTypeTypeSignatureStrategy();
     _customTypeTypeSignatureStrategy = new CustomTypeTypeSignatureStrategy();
@@ -206,6 +208,10 @@ UnaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getUnaryExpressi
 
 ModuleAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessExpressionTypeSignatureStrategy() {
     return this->_moduleAccessExpressionTypeSignatureStrategy;
+}
+
+LambdaExpressionScopeParameterTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaExpressionScopeParameterTypeSignatureStrategy() {
+    return this->_lambdaExpressionScopeParameterTypeSignatureStrategy;
 }
 
 TypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTypeTypeSignatureStrategy() {

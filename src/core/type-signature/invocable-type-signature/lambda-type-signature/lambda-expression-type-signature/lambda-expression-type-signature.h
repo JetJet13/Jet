@@ -9,14 +9,17 @@
 #include "../../../type-signature.h"
 #include "../../../parameter-list-type-signature/parameter-list-type-signature.h"
 #include "../../invocable-type-signature.h"
+#include "../../../struct-type-signature/struct-type-signature.h"
 
 class LambdaExpressionTypeSignature : public InvocableTypeSignature {
 private:
     ParameterListTypeSignature* _parameterList;
+    StructTypeSignature* _scopeParameter;
     TypeSignature* _returnType;
 public:
     LambdaExpressionTypeSignature();
-    LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, std::optional<TypeSignature*> returnType = {});
+    LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, StructTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType = {});
+    StructTypeSignature* getScopeParameter();
     ParameterListTypeSignature* getParameterList();
     std::vector<TypeSignature*>* getParameterTypes() override;
     TypeSignature* getReturnType() override;

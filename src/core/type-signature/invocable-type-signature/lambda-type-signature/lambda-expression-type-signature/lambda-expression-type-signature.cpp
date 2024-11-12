@@ -8,16 +8,22 @@
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
+    _scopeParameter = new StructTypeSignature();
     _returnType = new VoidTypeSignature();
 }
 
-LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, std::optional<TypeSignature*> returnType) {
+LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, StructTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType) {
     _parameterList = parameterList;
+    _scopeParameter = scopeParameter;
     if (returnType) {
         _returnType = returnType.value();
     } else {
         _returnType = new VoidTypeSignature();
     }
+}
+
+StructTypeSignature* LambdaExpressionTypeSignature::getScopeParameter() {
+    return _scopeParameter;
 }
 
 ParameterListTypeSignature* LambdaExpressionTypeSignature::getParameterList() {
@@ -47,12 +53,14 @@ bool LambdaExpressionTypeSignature::isEqualTo(TypeSignature* otherType) {
 
     auto other = (LambdaExpressionTypeSignature*)otherType;
     return this->getParameterList()->isEqualTo(other->getParameterList()) &&
+           this->getScopeParameter()->isEqualTo(other->getScopeParameter()) &&
            this->getReturnType()->isEqualTo(other->getReturnType());
 }
 
 void LambdaExpressionTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameterList->print();
+    _scopeParameter->print();
     _returnType->print();
     Logger::log("----------");
 }

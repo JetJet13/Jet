@@ -26,6 +26,7 @@
 #include "../../../../type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.h"
 #include "../../type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.h"
 #include "../../../../ast/ast-nodes/ast-statement-nodes/ast-statement-node.h"
+#include "../../../../type-signature/struct-type-signature/struct-type-signature.h"
 
 
 class TypeSignatureStrategyProvider {
@@ -35,6 +36,7 @@ private:
 public:
     TypeSignatureStrategyProvider();
     void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
+    StructTypeSignature* generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope);
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

@@ -22,6 +22,7 @@ void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatA
     strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getParameters(), &scope);
     lambdaWithFatArrowExpression->setTypeSignature(new LambdaExpressionTypeSignature(
             lambdaWithFatArrowExpression->getParameters()->getTypeSignature(),
+            strategyMap->generateLambdaExpressionScopeParameter(typeSignatureLookupTable),
             returnType
     ));
 }

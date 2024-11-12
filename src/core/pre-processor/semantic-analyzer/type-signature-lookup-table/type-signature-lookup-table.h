@@ -21,6 +21,7 @@ public:
     explicit TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope = {});
     TypeSignatureLookupTable* insert(std::string key, TypeSignature* typeSignature);
     TypeSignature* find(std::string key);
+    std::unordered_map<std::string, TypeSignature*> getLookupTable();
     void dump();
 };
 
