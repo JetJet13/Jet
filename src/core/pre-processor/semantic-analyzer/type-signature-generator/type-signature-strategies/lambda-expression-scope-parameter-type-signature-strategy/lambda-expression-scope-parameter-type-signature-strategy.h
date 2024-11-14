@@ -9,11 +9,11 @@
 #include "../../../type-signature-lookup-table/type-signature-lookup-table.h"
 #include "../type-signature-strategy-provider.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
-#include "../../../../../type-signature/struct-type-signature/struct-type-signature.h"
+#include "../../../../../type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.h"
 
 class LambdaExpressionScopeParameterTypeSignatureStrategy {
 public:
-    StructTypeSignature* create(TypeSignatureLookupTable* scope);
+    ParameterListItemTypeSignature* create(TypeSignatureLookupTable* scope);
 };
 
 

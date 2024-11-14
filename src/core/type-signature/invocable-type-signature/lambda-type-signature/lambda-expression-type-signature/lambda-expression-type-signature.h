@@ -14,12 +14,12 @@
 class LambdaExpressionTypeSignature : public InvocableTypeSignature {
 private:
     ParameterListTypeSignature* _parameterList;
-    StructTypeSignature* _scopeParameter;
+    ParameterListItemTypeSignature* _scopeParameter;
     TypeSignature* _returnType;
 public:
     LambdaExpressionTypeSignature();
-    LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, StructTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType = {});
-    StructTypeSignature* getScopeParameter();
+    LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, ParameterListItemTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType = {});
+    ParameterListItemTypeSignature* getScopeParameter();
     ParameterListTypeSignature* getParameterList();
     std::vector<TypeSignature*>* getParameterTypes() override;
     TypeSignature* getReturnType() override;

@@ -6,3 +6,4 @@ const mars = foo + bar;
 const myValue = MyOtherModule::myOtherFunction(11);
 const myStruct = { a: 1, b: "hi", c: false };
 const myTuple = MyOtherModule::myTupleFunction();
+const myLambda = (z: int) int { return z + 1; };

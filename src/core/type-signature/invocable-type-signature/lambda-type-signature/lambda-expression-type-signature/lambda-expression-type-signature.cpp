@@ -8,11 +8,11 @@
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
-    _scopeParameter = new StructTypeSignature();
+    _scopeParameter = new ParameterListItemTypeSignature("scope", new StructTypeSignature());
     _returnType = new VoidTypeSignature();
 }
 
-LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, StructTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType) {
+LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, ParameterListItemTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType) {
     _parameterList = parameterList;
     _scopeParameter = scopeParameter;
     if (returnType) {
@@ -22,7 +22,7 @@ LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSi
     }
 }
 
-StructTypeSignature* LambdaExpressionTypeSignature::getScopeParameter() {
+ParameterListItemTypeSignature* LambdaExpressionTypeSignature::getScopeParameter() {
     return _scopeParameter;
 }
 

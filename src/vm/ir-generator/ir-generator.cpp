@@ -20,6 +20,7 @@
 #include "ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -121,6 +122,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate((ASTTupleAccessExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
     } else if (node->is(AST_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate((ASTFunctionInvocationExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
+    } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaExpressionNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
@@ -166,7 +169,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
             return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate((FunctionTypeSignature*)typeSignature, &_context, this);
         case PROCEDURE_TYPE_SOURCE:
             return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate((ProcedureTypeSignature*)typeSignature, &_context, this);
-        case LAMBDA_TYPE_SOURCE:
+        case LAMBDA_EXPRESSION_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((LambdaExpressionTypeSignature*)typeSignature, &_context, this);
         case FUNCTION_LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((FunctionLambdaTypeSignature*)typeSignature, &_context, this);

@@ -14,7 +14,11 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
     auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
-    // todo - insert logic here to inject lambda scope parameter
+
+    auto lambdaScopeParameterType = irGenerator->generateParameterType(node->getTypeSignature()->getScopeParameter());
+    auto argument = new llvm::Argument(lambdaScopeParameterType->getType(), lambdaScopeParameterType->getName(), irFunction, 0);
+    functionParameterList->addScopeParameter(new IRFunctionParameterNode(argument, lambdaScopeParameterType));
+
     for (int i = 0; i < functionType->getNumParams(); ++i) {
         auto parameter = functionType->params()[i];
         auto formalParameter = functionParameterList->getParameters()->at(i);

@@ -12,11 +12,10 @@
 
 class IRFunctionParameterNode : public IRNode {
 private:
-    ASTFunctionParameterNode* _node;
     llvm::Argument* _irValue;
     IRParameterType* _parameterType;
 public:
-    IRFunctionParameterNode(ASTFunctionParameterNode* node, llvm::Argument* irValue, IRParameterType* parameterType);
+    IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType);
     llvm::Argument* getArgument();
     IRParameterType* getParameterType();
     IRNodeType getNodeType() override;

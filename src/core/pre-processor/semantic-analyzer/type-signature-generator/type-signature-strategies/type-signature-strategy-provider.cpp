@@ -375,6 +375,6 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
     }
 }
 
-StructTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope) {
+ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope) {
     return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(scope);
 }

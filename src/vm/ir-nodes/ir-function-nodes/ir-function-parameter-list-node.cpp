@@ -9,6 +9,10 @@ IRFunctionParameterListNode::IRFunctionParameterListNode(ASTFunctionParameterLis
     _parameters = parameters;
 }
 
+void IRFunctionParameterListNode::addScopeParameter(IRFunctionParameterNode* parameter) {
+    _parameters.insert(_parameters.begin(), parameter);
+}
+
 std::vector<IRFunctionParameterNode*>* IRFunctionParameterListNode::getParameters() {
     return &_parameters;
 }

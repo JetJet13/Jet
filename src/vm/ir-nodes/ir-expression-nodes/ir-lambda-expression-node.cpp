@@ -25,11 +25,11 @@ TypeSignature* IRLambdaExpressionNode::getTypeSignature() {
 }
 
 IRNodeType IRLambdaExpressionNode::getNodeType() {
-    return IR_FUNCTION_DECLARATION_NODE;
+    return IR_LAMBDA_EXPRESSION_NODE;
 }
 
 std::string IRLambdaExpressionNode::toString() {
-    return "IR_FUNCTION_DECLARATION_NODE";
+    return "IR_LAMBDA_EXPRESSION_NODE";
 }
 
 void IRLambdaExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {

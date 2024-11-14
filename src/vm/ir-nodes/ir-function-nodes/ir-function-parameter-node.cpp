@@ -4,8 +4,7 @@
 
 #include "ir-function-parameter-node.h"
 
-IRFunctionParameterNode::IRFunctionParameterNode(ASTFunctionParameterNode* node, llvm::Argument* irValue, IRParameterType* parameterType) {
-    _node = node;
+IRFunctionParameterNode::IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType) {
     _irValue = irValue;
     _parameterType = parameterType;
 }
