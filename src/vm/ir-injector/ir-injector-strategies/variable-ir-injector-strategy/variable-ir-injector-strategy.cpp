@@ -9,7 +9,7 @@
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule) {
     builder->get()->Insert(irVariableDeclaration->getValue(), irVariableDeclaration->getVariableName());
-    if (irVariableDeclaration->getIRExpression()->is(IR_LAMBDA_EXPRESSION_NODE)) {
+    if (irVariableDeclaration->getIRExpression()->isOneOf({ IR_LAMBDA_EXPRESSION_NODE, IR_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE })) {
         ((IRLambdaExpressionNode*)irVariableDeclaration->getIRExpression())->getValue()->setName(irVariableDeclaration->getVariableName());
     } else {
         auto irExpressionValue = irInjectorMap->getInjector(irVariableDeclaration->getIRExpression()->getTypeSignature())

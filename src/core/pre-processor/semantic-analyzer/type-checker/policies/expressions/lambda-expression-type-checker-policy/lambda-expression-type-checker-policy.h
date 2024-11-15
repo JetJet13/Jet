@@ -7,9 +7,11 @@
 
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
+#include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h"
 
 namespace LambdaExpressionTypeCheckerPolicy {
     void apply(ASTLambdaExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(ASTLambdaWithFatArrowExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_LAMBDA_EXPRESSION_TYPE_CHECKER_POLICY_H

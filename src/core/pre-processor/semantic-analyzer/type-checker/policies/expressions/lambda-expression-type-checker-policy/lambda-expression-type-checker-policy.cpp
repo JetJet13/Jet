@@ -47,4 +47,16 @@ namespace LambdaExpressionTypeCheckerPolicy {
             );
         }
     }
+    void apply(ASTLambdaWithFatArrowExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult) {
+        TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
+                ->enforce(
+                    lambdaExpression,
+                    TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression),
+                    TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression),
+                    TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression),
+                    typeCheckerResult
+                );
+        TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(lambdaExpression->getReturnExpression()->getExpression(), typeCheckerResult);
+    }
 }

@@ -7,3 +7,10 @@ const myValue = MyOtherModule::myOtherFunction(11);
 const myStruct = { a: 1, b: "hi", c: false };
 const myTuple = MyOtherModule::myTupleFunction();
 const myLambda = (z: int) int { return z + 1; };
+const myFatArrowLambda = (a: boolean) => a && false;
+const myProcLambda = () { const procedureString = "hi there" };
+const callMyLambda = myLambda(100);
+
+proc MyProcedure() {
+    const mino = "foo bar";
+}

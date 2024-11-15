@@ -70,7 +70,6 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode*
     auto irRightNodeValue = irInjectorMap->getInjector(irExpression->getRightNode()->getTypeSignature())->inject(
             irExpression->getRightNode(), builder, irInjectorMap, irOperationType, irModule);
 
-
     return builder->get()->CreateBinOp(irExpression->getValue()->getOpcode(), irLeftNodeValue, irRightNodeValue);
 }
 
@@ -78,13 +77,10 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryComparisonExpressionNode*
 
     auto irLeftNodeValue = irInjectorMap->getInjector(irExpression->getLeftNode()->getTypeSignature())->inject(
             irExpression->getLeftNode(), builder, irInjectorMap, irOperationType, irModule);
-    auto leftNodeValue = builder->get()->CreateLoad(irExpression->getLeftNode()->getIRType()->getType(), irLeftNodeValue);
 
     auto irRightNodeValue = irInjectorMap->getInjector(irExpression->getRightNode()->getTypeSignature())->inject(
             irExpression->getRightNode(), builder, irInjectorMap, irOperationType, irModule);
-    auto rightNodeValue = builder->get()->CreateLoad(irExpression->getRightNode()->getIRType()->getType(), irRightNodeValue);
-
-    return builder->get()->CreateCmp(irExpression->getValue()->getPredicate(), leftNodeValue, rightNodeValue);
+    return builder->get()->CreateCmp(irExpression->getValue()->getPredicate(), irLeftNodeValue, irRightNodeValue);
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRUnaryArithmeticExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
@@ -99,13 +95,11 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRLogicalExpressionNode* irExpres
 
     auto irLeftNodeValue = irInjectorMap->getInjector(irExpression->getLeftNode()->getTypeSignature())->inject(
             irExpression->getLeftNode(), builder, irInjectorMap, irOperationType, irModule);
-    auto leftNodeValue = builder->get()->CreateLoad(irExpression->getLeftNode()->getIRType()->getType(), irLeftNodeValue);
 
     auto irRightNodeValue = irInjectorMap->getInjector(irExpression->getRightNode()->getTypeSignature())->inject(
             irExpression->getRightNode(), builder, irInjectorMap, irOperationType, irModule);
-    auto rightNodeValue = builder->get()->CreateLoad(irExpression->getRightNode()->getIRType()->getType(), irRightNodeValue);
 
-    return builder->get()->CreateBinOp(irExpression->getValue()->getOpcode(), leftNodeValue, rightNodeValue);
+    return builder->get()->CreateBinOp(irExpression->getValue()->getOpcode(), irLeftNodeValue, irRightNodeValue);
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {

@@ -55,6 +55,7 @@
 #include "../types/ir-operation-type.h"
 #include "../ir-type/ir-module-type.h"
 #include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-node.h"
+#include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 
 class IRGenerator {
 private:

@@ -124,6 +124,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate((ASTFunctionInvocationExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
     } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaExpressionNode*)node, &_context, this, scope, irModuleNode);
+    } else if (node->is(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaWithFatArrowExpressionNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
@@ -135,15 +137,16 @@ IRExpressionNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, IRLook
 IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     switch (node->getNodeType()) {
         case AST_INT_LITERAL_NODE:
-            return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode*)node, &_context);;
+            return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode *) node, &_context);;
         case AST_FLOAT_LITERAL_NODE:
-            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode*)node, &_context);
+            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode *) node, &_context);
         case AST_CHAR_LITERAL_NODE:
-            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode*)node, &_context);
+            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode *) node, &_context);
         case AST_STRING_LITERAL_NODE:
-            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode*)node, &_context, this);
+            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode *) node, &_context,
+                                                                         this);
         case AST_BOOLEAN_LITERAL_NODE:
-            return _irStrategyMap.getBoolLiteralIRStrategy()->generate((ASTBooleanLiteralNode*)node, &_context);
+            return _irStrategyMap.getBoolLiteralIRStrategy()->generate((ASTBooleanLiteralNode *) node, &_context);
         default:
             throw std::logic_error("unknown literal node");
     }

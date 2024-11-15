@@ -257,6 +257,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h
         ir-type/ir-lambda-type.cpp
         ir-type/ir-lambda-type.h
+        ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h
 )
 
 target_link_libraries(jet-vm

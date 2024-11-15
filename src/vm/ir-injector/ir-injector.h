@@ -16,7 +16,7 @@ public:
     IRInjector();
     void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule);
     void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule);
-    void inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule);
+    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule);
     llvm::Value* injectRawString(IRBlockNode* irBlock, std::string rawString, IRArrayPointerType* stringPointerType, IRModuleNode* irModule);
 };
 

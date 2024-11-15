@@ -3,9 +3,6 @@
 //
 
 #include "binary-expression-ir-strategy.h"
-#include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h"
-#include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.h"
-#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irModule, irOperationType);

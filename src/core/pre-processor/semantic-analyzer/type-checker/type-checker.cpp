@@ -125,6 +125,9 @@ namespace TypeChecker {
             case AST_LAMBDA_EXPRESSION_NODE:
                 LambdaExpressionTypeCheckerPolicy::apply((ASTLambdaExpressionNode*)node, typeCheckerResult);
                 break;
+            case AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE:
+                LambdaExpressionTypeCheckerPolicy::apply((ASTLambdaWithFatArrowExpressionNode*)node, typeCheckerResult);
+                break;
             case AST_LOGICAL_EXPRESSION_NODE:
                 LogicalExpressionTypeCheckerPolicy::apply((ASTLogicalExpressionNode*)node, typeCheckerResult);
                 break;
