@@ -24,10 +24,18 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
     }
 }
 
+void IRInjector::inject(IRParameterType* scopeParameter, IRModuleNode* irModule) {
+    _irInjectorMap.getFunctionScopeParameterInjector()->inject(scopeParameter, irModule);
+}
+
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule) {
     return _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap, irOperationType, irModule);
 }
 
 llvm::Value* IRInjector::injectRawString(IRBlockNode* irBlock, std::string rawString, IRArrayPointerType* stringPointerType, IRModuleNode* irModule) {
     return _irInjectorMap.getStringInjector()->inject(rawString, stringPointerType, irBlock->getBuilder(), &_irInjectorMap, IR_OPERAND_OP, irModule);
+}
+
+void IRInjector::injectVoidReturnType(IRBlockNode* irBlock) {
+    irBlock->getBuilder()->get()->CreateRet(irBlock->getBuilder()->get()->getInt32(0));
 }

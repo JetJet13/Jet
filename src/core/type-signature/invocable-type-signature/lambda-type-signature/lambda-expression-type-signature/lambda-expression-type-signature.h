@@ -20,6 +20,7 @@ public:
     LambdaExpressionTypeSignature();
     LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, ParameterListItemTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType = {});
     ParameterListItemTypeSignature* getScopeParameter();
+    bool isScopeParameterNecessary();
     ParameterListTypeSignature* getParameterList();
     std::vector<TypeSignature*>* getParameterTypes() override;
     TypeSignature* getReturnType() override;

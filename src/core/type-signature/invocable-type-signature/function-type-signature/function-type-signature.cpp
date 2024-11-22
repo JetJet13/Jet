@@ -16,7 +16,6 @@ FunctionTypeSignature::FunctionTypeSignature(ParameterListTypeSignature* paramet
     _returnType = returnType;
 }
 
-
 ParameterListTypeSignature* FunctionTypeSignature::getParameterList() {
     return _parameterList;
 }

@@ -38,6 +38,6 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
             irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, scope, irModule), irModule);
         }
     }
-    functionBlock->getBuilder()->get()->CreateRet(irGenerator->generateIntConstant(0));
+    irGenerator->getInjector()->injectVoidReturnType(functionBlock);
     return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock);
 }

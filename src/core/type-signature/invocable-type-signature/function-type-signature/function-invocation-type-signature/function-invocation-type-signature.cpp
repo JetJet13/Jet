@@ -48,6 +48,9 @@ bool FunctionInvocationTypeSignature::isEqualTo(TypeSignature* otherType) {
 
 void FunctionInvocationTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
+    for (auto parameter : *_invocableTypeSignature->getParameterTypes()) {
+        parameter->print();
+    }
     _invocableTypeSignature->getReturnType()->print();
     Logger::log("----------");
 }

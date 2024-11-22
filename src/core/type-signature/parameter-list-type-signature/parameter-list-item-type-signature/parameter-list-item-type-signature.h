@@ -7,12 +7,14 @@
 
 #include <vector>
 #include "../../type-signature.h"
+#include "../../struct-type-signature/struct-type-signature.h"
 
 class ParameterListItemTypeSignature : public TypeSignature {
 private:
     std::string _name;
     TypeSignature* _type;
 public:
+    static ParameterListItemTypeSignature* createScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature = {});
     ParameterListItemTypeSignature(std::string name, TypeSignature* type);
     std::string getName();
     TypeSignature* getTypeSignature();

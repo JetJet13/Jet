@@ -14,6 +14,10 @@ StructTypeSignature::StructTypeSignature(TypeSignatureMap<TypeSignature> keyValu
     _keyValuePairs = keyValuePairs;
 }
 
+bool StructTypeSignature::isEmpty() {
+    return _keyValuePairs.size() == 0;
+}
+
 TypeSignatureMap<TypeSignature>* StructTypeSignature::getKeyValuePairs() {
     return &_keyValuePairs;
 }

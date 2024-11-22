@@ -60,6 +60,10 @@ bool ASTNode::isExportable() {
     return false;
 }
 
+bool ASTNode::isGlobal() {
+    return false;
+}
+
 unsigned int ASTNode::getPriority() {
     return _priority;
 }

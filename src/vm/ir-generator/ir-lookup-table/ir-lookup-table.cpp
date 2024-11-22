@@ -11,6 +11,14 @@ IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
     _outerScope = outerScope;
 }
 
+std::unordered_map<std::string, IRGlobalVariableNode*> IRLookupTable::getGlobalScope() {
+    return _globalScope;
+}
+
+void IRLookupTable::inheritGlobalScope(IRLookupTable* otherScope) {
+    _globalScope = otherScope->getGlobalScope();
+}
+
 IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) {
     _scope.insert(std::pair<std::string, IRInstructionNode*>(key, value));
     return this;

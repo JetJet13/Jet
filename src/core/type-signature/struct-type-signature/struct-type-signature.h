@@ -14,6 +14,7 @@ private:
 public:
     StructTypeSignature();
     StructTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs);
+    bool isEmpty();
     TypeSignatureMap<TypeSignature>* getKeyValuePairs() override;
     TypeSignature* getTypeSignatureForKey(std::string key) override;
     TypeSignature* getTypeSignatureAtIndex(unsigned long index) override;

@@ -29,8 +29,16 @@ ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
 }
 
+void ASTVariableDeclarationNode::markAsGlobal() {
+    _isGlobal = true;
+}
+
 bool ASTVariableDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
+}
+
+bool ASTVariableDeclarationNode::isGlobal() {
+    return _isGlobal;
 }
 
 void ASTVariableDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {

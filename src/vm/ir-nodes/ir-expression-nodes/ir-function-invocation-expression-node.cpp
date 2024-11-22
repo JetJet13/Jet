@@ -24,7 +24,7 @@ IRType* IRFunctionInvocationExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRFunctionInvocationExpressionNode::getTypeSignature() {
+FunctionInvocationTypeSignature* IRFunctionInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

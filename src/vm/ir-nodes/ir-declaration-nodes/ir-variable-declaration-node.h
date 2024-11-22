@@ -9,6 +9,7 @@
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../ir-expression-nodes/ir-expression-node.h"
 #include "ir-declaration-node.h"
+#include "../ir-global-variable-node.h"
 #include "../ir-instruction-node.h"
 
 class IRVariableDeclarationNode : public IRDeclarationNode {
@@ -16,8 +17,9 @@ private:
     ASTVariableDeclarationNode* _node;
     IRInstructionNode* _irValue;
     IRExpressionNode* _irExpression;
+    std::optional<IRGlobalVariableNode*> _irGlobalVariable;
 public:
-    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression);
+    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRGlobalVariableNode*> irGlobalVariable = {});
     std::string getVariableName();
     llvm::Value* getValue() override;
     IRInstructionNode* getIRValue();

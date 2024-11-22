@@ -9,8 +9,14 @@ const myTuple = MyOtherModule::myTupleFunction();
 const myLambda = (z: int) int { return z + 1; };
 const myFatArrowLambda = (a: boolean) => a && false;
 const myProcLambda = () { const procedureString = "hi there" };
-const callMyLambda = myLambda(100);
+const myLambdaValue = myLambda(2);
 
 proc MyProcedure() {
     const mino = "foo bar";
+    const mook = foo + 1000;
+}
+
+proc MyLambdaProcedure() {
+    const x = 5;
+    const lambda = (y: int) => x + y + 10;
 }

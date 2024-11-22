@@ -22,7 +22,7 @@ public:
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Function* getValue() override;
     IRType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    FunctionInvocationTypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

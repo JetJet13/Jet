@@ -5,6 +5,7 @@
 #include "ast-file-node.h"
 #include "../types/source-code-builder/source-code-builder.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "ast-declaration-nodes/ast-variable-declaration-node.h"
 
 ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path, std::vector<ASTImportSingleModuleDeclarationNode*> imports, std::optional<ASTModuleDeclarationNode*> module) {
     _body = body;
@@ -23,6 +24,14 @@ std::filesystem::path* ASTFileNode::getPath() {
 
 std::string ASTFileNode::getPathDirectory() {
     return _path.relative_path().remove_filename();
+}
+
+void ASTFileNode::markGlobalVariables() {
+    for (auto content: _body) {
+        if (content->is(AST_VARIABLE_DECLARATION_NODE)) {
+            ((ASTVariableDeclarationNode*)content)->markAsGlobal();
+        }
+    }
 }
 
 void ASTFileNode::hoistTypes(const std::vector<ASTNodeType> astNodeTypes) {

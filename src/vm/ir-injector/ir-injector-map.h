@@ -20,6 +20,7 @@
 #include "../types/ir-operation-type.h"
 #include "ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h"
 #include "ir-injector-strategies/module-ir-injector-strategy/module-ir-injector-strategy.h"
+#include "ir-injector-strategies/function-scope-parameter-ir-injector-strategy/function-scope-parameter-ir-injector-strategy.h"
 
 
 class IRInjectorMap {
@@ -34,6 +35,7 @@ private:
     ModuleIRInjectorStrategy* _moduleIRInjector;
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
+    FunctionScopeParameterIRInjectorStrategy* _functionScopeParameterIRInjector;
     void init();
     std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
@@ -47,6 +49,7 @@ public:
     ModuleIRInjectorStrategy* getModuleInjector();
     FunctionParameterIRInjectorStrategy* getFunctionParameterInjector();
     FunctionReturnIRInjectorStrategy* getFunctionReturnInjector();
+    FunctionScopeParameterIRInjectorStrategy* getFunctionScopeParameterInjector();
     IRInjectorStrategy* getInjector(TypeSignature* typeSignature);
 };
 

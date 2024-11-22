@@ -34,6 +34,7 @@ public:
     virtual std::vector<ASTNode*> getChildren();
     virtual ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode);
     virtual bool isExportable();
+    virtual bool isGlobal();
     bool is(ASTNodeType astNodeType);
     bool isOneOf(std::vector<ASTNodeType> astNodeTypes);
     bool isSameNodeTypeAs(ASTNode* other);

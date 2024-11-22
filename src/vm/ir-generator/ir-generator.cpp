@@ -42,10 +42,10 @@
 #include "ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
-#include "../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
 #include "ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
 
@@ -184,6 +184,8 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
             return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
         case MODULE_TYPE_SOURCE:
             return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*)typeSignature, &_context, this);
+        case POINTER_TYPE_SOURCE:
+            return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature*)typeSignature, &_context, this);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
@@ -244,8 +246,8 @@ llvm::IntegerType* IRGenerator::generateCharType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
-IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList) {
-    return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, &_context, this);
+IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList, std::optional<ParameterListItemTypeSignature*> scopeParameter) {
+    return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, &_context, this, scopeParameter);
 }
 
 IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignature* parameter) {

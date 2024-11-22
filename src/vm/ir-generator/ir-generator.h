@@ -85,7 +85,7 @@ public:
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
     llvm::IntegerType* generateCharType();
-    IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList);
+    IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter);
     llvm::Constant* generateIntConstant(int integer);
     IRArrayPointerType* generateArrayPointerType(IRPointerType* irPointerType);

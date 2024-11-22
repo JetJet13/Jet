@@ -171,16 +171,6 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
     }
 }
 
-ASTFileNode* SyntaxAnalyzer::buildFileNode(FileScope* fileScope, std::string filePath) {
-    auto fileNode = new ASTFileNode(std::move(fileScope->getScope()), filePath, fileScope->getImports(), fileScope->getModule());
-    fileNode->hoistTypes({ AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE });
-    fileNode->hoistTypes({ AST_ENUM_DECLARATION_NODE });
-    fileNode->hoistTypes({ AST_FUNCTION_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE });
-    fileNode->hoistTypes({ AST_CLASS_DECLARATION_NODE });
-    fileNode->setupModuleIfNecessary();
-    return fileNode;
-}
-
 void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
     switch (astNodeType) {
         case AST_BLOCK_START_NODE:

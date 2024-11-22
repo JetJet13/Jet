@@ -4,6 +4,7 @@
 
 #include "procedure-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../struct-type-signature/struct-type-signature.h"
 
 ProcedureTypeSignature::ProcedureTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
@@ -16,6 +17,7 @@ ProcedureTypeSignature::ProcedureTypeSignature(ParameterListTypeSignature* param
 ParameterListTypeSignature* ProcedureTypeSignature::getParameterList() {
     return _parameterList;
 }
+
 
 std::vector<TypeSignature*>* ProcedureTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();

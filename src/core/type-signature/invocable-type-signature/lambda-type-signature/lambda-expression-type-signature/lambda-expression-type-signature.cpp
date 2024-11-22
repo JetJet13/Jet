@@ -26,6 +26,10 @@ ParameterListItemTypeSignature* LambdaExpressionTypeSignature::getScopeParameter
     return _scopeParameter;
 }
 
+bool LambdaExpressionTypeSignature::isScopeParameterNecessary() {
+    return !((StructTypeSignature*)_scopeParameter->getTypeSignature())->isEmpty();
+}
+
 ParameterListTypeSignature* LambdaExpressionTypeSignature::getParameterList() {
     return _parameterList;
 }

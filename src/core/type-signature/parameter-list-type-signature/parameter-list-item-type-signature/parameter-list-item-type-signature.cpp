@@ -5,6 +5,10 @@
 #include "parameter-list-item-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
+ParameterListItemTypeSignature* ParameterListItemTypeSignature::createScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature) {
+    return new ParameterListItemTypeSignature("jet.lambda.scope", scopeTypeSignature.value_or(new StructTypeSignature()));
+}
+
 ParameterListItemTypeSignature::ParameterListItemTypeSignature(std::string name, TypeSignature* type) {
     _name = name;
     _type = type;

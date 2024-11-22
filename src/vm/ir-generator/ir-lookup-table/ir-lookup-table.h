@@ -18,6 +18,8 @@ private:
     std::optional<IRLookupTable*> _outerScope;
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
+    std::unordered_map<std::string, IRGlobalVariableNode*> getGlobalScope();
+    void inheritGlobalScope(IRLookupTable* otherScope);
     IRLookupTable* insert(std::string key, IRInstructionNode* value);
     std::optional<IRInstructionNode*> find(std::string key);
     std::optional<IRNode*> findAcrossScopes(std::string key);

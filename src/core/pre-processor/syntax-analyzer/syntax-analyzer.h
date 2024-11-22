@@ -54,7 +54,6 @@ private:
     void accept();
     void error();
     void prepHandleForRecognizer();
-    ASTFileNode* buildFileNode(FileScope* fileScope, std::string filePath);
     void updateModeIfNecessary(ASTNodeType astNodeType);
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);

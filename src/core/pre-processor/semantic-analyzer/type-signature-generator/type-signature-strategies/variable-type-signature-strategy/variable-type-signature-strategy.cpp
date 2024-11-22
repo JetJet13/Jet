@@ -15,5 +15,10 @@ void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNo
     if (variableDeclaration->getTypeSignature()->isUnknown()) {
         variableDeclaration->setTypeSignature(variableDeclaration->getInitializerNode()->getTypeSignature());
     }
-    scope->insert(variableDeclaration->getId(), variableDeclaration->getTypeSignature());
+
+    if (variableDeclaration->isGlobal()) {
+        scope->insertGlobal(variableDeclaration->getId(), variableDeclaration->getTypeSignature());
+    } else {
+        scope->insert(variableDeclaration->getId(), variableDeclaration->getTypeSignature());
+    }
 }

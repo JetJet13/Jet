@@ -23,6 +23,7 @@ public:
     void append(ASTNode* node);
     std::filesystem::path* getPath();
     std::string getPathDirectory();
+    void markGlobalVariables();
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     void setupModuleIfNecessary();
     std::optional<ASTModuleDeclarationNode*> getModule();

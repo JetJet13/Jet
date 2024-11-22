@@ -16,11 +16,14 @@
 class TypeSignatureLookupTable {
 private:
     std::unordered_map<std::string, TypeSignature*> _typeSignatureLookupTable;
+    std::unordered_map<std::string, TypeSignature*> _globalTypeSignatureLookupTable;
     std::optional<TypeSignatureLookupTable*> _outerScope;
 public:
     explicit TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope = {});
     TypeSignatureLookupTable* insert(std::string key, TypeSignature* typeSignature);
+    TypeSignatureLookupTable* insertGlobal(std::string key, TypeSignature* typeSignature);
     TypeSignature* find(std::string key);
+    TypeSignature* findGlobal(std::string key);
     std::unordered_map<std::string, TypeSignature*> getLookupTable();
     void dump();
 };

@@ -11,6 +11,8 @@ namespace VariableDeclarationTypeCheckerPolicy {
     void apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto varTypeSignature = variableDeclarationNode->getTypeSignature();
         auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
+        varTypeSignature->print();
+        initializerTypeSignature->print();
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             varTypeSignature,

@@ -3,7 +3,6 @@
 //
 
 #include "enum-declaration-ir-strategy.h"
-#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto structValues = std::vector<llvm::Constant*>();

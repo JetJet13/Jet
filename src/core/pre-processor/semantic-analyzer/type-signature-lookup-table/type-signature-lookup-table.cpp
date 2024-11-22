@@ -17,12 +17,26 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, Type
     return this;
 }
 
+TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobal(std::string key, TypeSignature* typeSignature) {
+    _globalTypeSignatureLookupTable.insert(std::pair<std::string, TypeSignature*>(key, typeSignature));
+    return this;
+}
+
 TypeSignature* TypeSignatureLookupTable::find(std::string key) {
     auto result = _typeSignatureLookupTable.find(key);
     if (result == _typeSignatureLookupTable.end()) {
         if (_outerScope) {
             return _outerScope.value()->find(key);
         }
+        return this->findGlobal(key);
+    } else {
+        return result->second;
+    }
+}
+
+TypeSignature* TypeSignatureLookupTable::findGlobal(std::string key) {
+    auto result = _globalTypeSignatureLookupTable.find(key);
+    if (result == _globalTypeSignatureLookupTable.end()) {
         return new UnknownTypeSignature();
     } else {
         return result->second;
@@ -31,12 +45,6 @@ TypeSignature* TypeSignatureLookupTable::find(std::string key) {
 
 std::unordered_map<std::string, TypeSignature*> TypeSignatureLookupTable::getLookupTable() {
     auto lookupTable = std::unordered_map<std::string, TypeSignature*>();
-    if (_outerScope) {
-        auto outerScopeLookupTable = _outerScope.value()->getLookupTable();
-        for (auto keyValue : outerScopeLookupTable) {
-            lookupTable.insert(std::pair(keyValue.first, keyValue.second));
-        }
-    }
     for (auto keyValue : _typeSignatureLookupTable) {
         lookupTable.insert(std::pair(keyValue.first, keyValue.second));
     }
