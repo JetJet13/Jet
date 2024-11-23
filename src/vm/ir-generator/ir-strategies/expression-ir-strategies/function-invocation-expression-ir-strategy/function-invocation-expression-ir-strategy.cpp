@@ -4,6 +4,7 @@
 
 #include "function-invocation-expression-ir-strategy.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRFunctionInvocationExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto function = irModule->getModule()->getFunction(node->getFunction()->getId());
@@ -14,9 +15,16 @@ IRFunctionInvocationExpressionNode* FunctionInvocationExpressionIRStrategy::gene
     }
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType());
 
-    auto lambdaScopeArgument = std::optional<llvm::Value*>();
+    auto lambdaScopeArgument = std::optional<IRInstructionNode*>();
     if (node->getFunction()->getTypeSignature()->typeSourceIs(LAMBDA_EXPRESSION_TYPE_SOURCE)) {
-        // todo - finish implementing the lambda scope argument
+        auto lambdaTypeSignature = (LambdaExpressionTypeSignature*)node->getFunction()->getTypeSignature();
+        auto lambdaScopeTypeSignature = (StructTypeSignature*)lambdaTypeSignature->getScopeParameter()->getTypeSignature();
+        auto childAllocations = std::unordered_map<std::string, IRInstructionNode*>();
+        for (const auto& keyValue : lambdaScopeTypeSignature->getKeyValuePairs()->getKeyValues()) {
+            childAllocations[keyValue.first] = scope->find(keyValue.first).value();
+        }
+        auto irLambdaScopeType = irGenerator->generateTypeFor(lambdaTypeSignature->getScopeParameter()->getTypeSignature());
+        lambdaScopeArgument = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irLambdaScopeType), childAllocations);
     }
 
     return new IRFunctionInvocationExpressionNode(node, function, arguments, irType, lambdaScopeArgument);

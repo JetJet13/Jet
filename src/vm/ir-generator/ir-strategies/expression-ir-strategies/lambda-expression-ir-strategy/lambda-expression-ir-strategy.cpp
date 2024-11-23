@@ -73,7 +73,6 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                 ), irGenerator->generateIrPointerType(irParamType));
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule);
-        // todo - this works, but we need to refactor this so we can re-use it for lambda-expressions
         if (formalParameter->getParameterType()->getName() == typeSignature->getScopeParameter()->getName()) {
             auto scopeParameterIrType = (IRStructType*)formalParameter->getParameterType()->getIRType();
             auto scopeParameterTypeSignature = (StructTypeSignature*)typeSignature->getScopeParameter()->getTypeSignature();

@@ -5,7 +5,7 @@
 #include "ir-function-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Function* irFunction, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<llvm::Value*> lambdaScopeArgument) {
+IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Function* irFunction, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> lambdaScopeArgument) {
     _node = node;
     _irFunction = irFunction;
     _arguments = arguments;
@@ -13,7 +13,7 @@ IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFuncti
     _lambdaScopeArgument = lambdaScopeArgument;
 }
 
-std::optional<llvm::Value*> IRFunctionInvocationExpressionNode::getLambdaScopeArgument() {
+std::optional<IRInstructionNode*> IRFunctionInvocationExpressionNode::getLambdaScopeArgument() {
     return _lambdaScopeArgument;
 }
 
