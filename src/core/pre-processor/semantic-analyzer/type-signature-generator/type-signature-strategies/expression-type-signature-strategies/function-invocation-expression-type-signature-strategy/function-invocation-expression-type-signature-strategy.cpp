@@ -14,8 +14,7 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvoca
         strategyMap->assignTypeSignatureFor(argument->getArgument(), typeSignatureLookupTable);
     }
     if (functionTypeSignature->isInvocable()) {
-        Logger::log("function type signature is invocable");
-        functionTypeSignature->print();
+        functionInvocationExpression->getFunction()->setTypeSignature(functionTypeSignature);
         functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature(
             (InvocableTypeSignature*)functionTypeSignature)
         );

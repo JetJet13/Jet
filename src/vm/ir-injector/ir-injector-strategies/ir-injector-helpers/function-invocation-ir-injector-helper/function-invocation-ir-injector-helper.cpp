@@ -7,10 +7,10 @@
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule) {
     auto arguments = std::vector<llvm::Value*>();
+    if (irExpression->getLambdaScopeArgument()) {
+        arguments.push_back(irExpression->getLambdaScopeArgument().value());
+    }
     for (auto argument : *irExpression->getIRArguments()) {
-        Logger::log("!!---!!");
-        irExpression->getTypeSignature()->print();
-        Logger::log("FunctionInvocationIRInjectorHelper", argument->toString());
         arguments.push_back(
                 irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule)
         );

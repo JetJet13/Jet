@@ -14,6 +14,8 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h"
 
 class LambdaExpressionIRStrategy {
+private:
+    void setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRModuleNode* irModule);
 public:
     IRLambdaExpressionNode* generate(ASTLambdaExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
     IRLambdaWithFatArrowExpressionNode* generate(ASTLambdaWithFatArrowExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);

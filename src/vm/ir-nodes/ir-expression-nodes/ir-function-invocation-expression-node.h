@@ -17,8 +17,10 @@ private:
     llvm::Function* _irFunction;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
+    std::optional<llvm::Value*> _lambdaScopeArgument;
 public:
-    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Function* irFunction, std::vector<IRExpressionNode*> arguments, IRType* type);
+    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Function* irFunction, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<llvm::Value*> lambdaScopeArgument = {});
+    std::optional<llvm::Value*> getLambdaScopeArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Function* getValue() override;
     IRType* getIRType() override;

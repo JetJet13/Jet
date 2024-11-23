@@ -20,7 +20,7 @@ void IRLookupTable::inheritGlobalScope(IRLookupTable* otherScope) {
 }
 
 IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) {
-    _scope.insert(std::pair<std::string, IRInstructionNode*>(key, value));
+    _scope[key] = value;
     return this;
 }
 
@@ -45,7 +45,7 @@ std::optional<IRNode*> IRLookupTable::findAcrossScopes(std::string key) {
 }
 
 IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, IRGlobalVariableNode* value) {
-    _globalScope.insert(std::pair<std::string, IRGlobalVariableNode*>(key, value));
+    _globalScope[key] = value;
     return this;
 }
 

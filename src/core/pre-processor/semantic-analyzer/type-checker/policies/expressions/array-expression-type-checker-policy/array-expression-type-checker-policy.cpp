@@ -19,10 +19,6 @@ namespace ArrayExpressionTypeCheckerPolicy {
         );
 
         for (auto element : *arrayExpression->getElements()) {
-            Logger::log("!!--!!");
-            arrayExpression->getTypeSignature()->getElementType()->print();
-            Logger::log("!!!!!!");
-            element->getTypeSignature()->print();
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 arrayExpression->getTypeSignature()->getElementType(),

@@ -19,28 +19,7 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
-    if (node->getTypeSignature()->isScopeParameterNecessary()) {
-        auto lambdaScopeParameterType = irGenerator->generateParameterType(node->getTypeSignature()->getScopeParameter());
-        auto argument = new llvm::Argument(lambdaScopeParameterType->getType(), lambdaScopeParameterType->getName(), irFunction, 0);
-        functionParameterList->addScopeParameter(new IRFunctionParameterNode(argument, lambdaScopeParameterType));
-    }
-
-
-    for (int i = 0; i < functionType->getNumParams(); ++i) {
-        auto parameter = functionType->params()[i];
-        auto formalParameter = functionParameterList->getParameters()->at(i);
-        auto irParamType = formalParameter->getParameterType()->getIRType();
-        auto functionParameterAllocation = new IRInstructionNode(
-                new llvm::AllocaInst(
-                        parameter,
-                        AddressSpaceGenerator::generate(irParamType),
-                        nullptr,
-                        DataAlignmentGenerator::generate(irParamType)
-                ), irGenerator->generateIrPointerType(irParamType));
-
-        lambdaScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule);
-    }
+    this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, irModule);
 
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
@@ -66,12 +45,21 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
-    if (node->getTypeSignature()->isScopeParameterNecessary()) {
-        auto lambdaScopeParameterType = irGenerator->generateParameterType(node->getTypeSignature()->getScopeParameter());
+    this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, irModule);
+
+    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, irModule, IR_OPERAND_OP);
+    auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, IR_OPERAND_OP, irModule);
+    functionBlock->getBuilder()->get()->CreateRet(irReturnExpressionValue);
+    return new IRLambdaWithFatArrowExpressionNode(node, irFunction, functionParameterList, functionBlock, new IRLambdaType(irFunction->getFunctionType()));
+}
+
+void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRModuleNode* irModule) {
+    if (typeSignature->isScopeParameterNecessary()) {
+        auto lambdaScopeParameterType = irGenerator->generateParameterType(typeSignature->getScopeParameter());
         auto argument = new llvm::Argument(lambdaScopeParameterType->getType(), lambdaScopeParameterType->getName(), irFunction, 0);
         functionParameterList->addScopeParameter(new IRFunctionParameterNode(argument, lambdaScopeParameterType));
     }
-
+    auto functionType = irFunction->getFunctionType();
     for (int i = 0; i < functionType->getNumParams(); ++i) {
         auto parameter = functionType->params()[i];
         auto formalParameter = functionParameterList->getParameters()->at(i);
@@ -83,13 +71,12 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
                         nullptr,
                         DataAlignmentGenerator::generate(irParamType)
                 ), irGenerator->generateIrPointerType(irParamType));
-
-        lambdaScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
+        scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule);
-    // todo - this works, but we need to refactor this so we can re-use it for lambda-expressions
-        if (formalParameter->getParameterType()->getName() == node->getTypeSignature()->getScopeParameter()->getName()) {
+        // todo - this works, but we need to refactor this so we can re-use it for lambda-expressions
+        if (formalParameter->getParameterType()->getName() == typeSignature->getScopeParameter()->getName()) {
             auto scopeParameterIrType = (IRStructType*)formalParameter->getParameterType()->getIRType();
-            auto scopeParameterTypeSignature = (StructTypeSignature*)node->getTypeSignature()->getScopeParameter()->getTypeSignature();
+            auto scopeParameterTypeSignature = (StructTypeSignature*)typeSignature->getScopeParameter()->getTypeSignature();
             auto zeroIndex = irGenerator->generateIntConstant(0);
             for (const auto& keyValue : scopeParameterTypeSignature->getKeyValuePairs()->getKeyValues()) {
                 auto underlyingType = ((PointerTypeSignature*)keyValue.second)->getUnderlyingType();
@@ -97,21 +84,16 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
                 auto index = irGenerator->generateIntConstant(scopeParameterIrType->getIndexForKey(keyValue.first));
                 auto irType = scopeParameterIrType->getIRTypeForKey(keyValue.first);
                 auto pointerToValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(scopeParameterIrType->getType(), functionParameterAllocation->getValue(), { zeroIndex, index });
-                auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getType(), nullptr, keyValue.first);
+                auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getType(), nullptr, "scope." + keyValue.first);
                 functionBlock->getBuilder()->get()->CreateStore(
-                    functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
-                    allocation
+                        functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
+                        allocation
                 );
-                lambdaScope->insert(
-                    keyValue.first,
-                    IRInstructionNodeFactory::create(allocation, irGenerator->generateIrPointerType(underlyingIrType))
+                scope->insert(
+                        keyValue.first,
+                        IRInstructionNodeFactory::create(allocation, irGenerator->generateIrPointerType(underlyingIrType))
                 );
             }
         }
     }
-
-    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, irModule, IR_OPERAND_OP);
-    auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, IR_OPERAND_OP, irModule);
-    functionBlock->getBuilder()->get()->CreateRet(irReturnExpressionValue);
-    return new IRLambdaWithFatArrowExpressionNode(node, irFunction, functionParameterList, functionBlock, new IRLambdaType(irFunction->getFunctionType()));
 }

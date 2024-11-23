@@ -29,7 +29,6 @@ void ClassPropertyAssignmentStatementTypeSignatureStrategy::assign(ASTClassPrope
                     ->getId()
     );
     if (propertyTypeSignature) {
-        propertyTypeSignature.value()->print();
         classPropertyAssignmentStatementNode->getPropertyAssignment()->setTypeSignature(propertyTypeSignature.value()->getType());
         return;
     }

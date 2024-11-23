@@ -13,6 +13,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRExpressionNode *irExpression, st
         return this->inject((IRStructExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
+    } else if (irExpression->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
+        return this->inject((IRGlobalIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRObjectAccessExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
@@ -42,11 +44,26 @@ llvm::Value* StructIRInjectorStrategy::inject(IRStructExpressionNode* irExpressi
 
 llvm::Value* StructIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
     if (irOperationType == IR_OPERAND_OP) {
-        return irExpression->getSourceAllocation().value()->getParentAllocation().value()->getValue();
+        return irExpression->getValue();
     }
     return StructIRInjectorHelper::injectStructCopy(
             builder,
-            irExpression->getSourceAllocation().value()->getParentAllocation().value(),
+            (IRStructType*)irExpression->getIRType()->getSourceType(),
+            irExpression->getValue(),
+            irModule
+    );
+}
+
+llvm::Value* StructIRInjectorStrategy::inject(IRGlobalIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule) {
+    auto loadedStruct = builder->get()->CreateLoad(irExpression->getValue()->getValueType(), irExpression->getValue());
+    if (irOperationType == IR_OPERAND_OP) {
+        return loadedStruct;
+    }
+
+    return StructIRInjectorHelper::injectStructCopy(
+            builder,
+            (IRStructType*)irExpression->getSourceAllocation().value()->getIRType()->getSourceType(),
+            loadedStruct,
             irModule
     );
 }

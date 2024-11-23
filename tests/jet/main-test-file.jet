@@ -17,6 +17,7 @@ proc MyProcedure() {
 }
 
 proc MyLambdaProcedure() {
-    const x = 5;
-    const lambda = (y: int) => x + y + 10;
+    const x = { a: 60 };
+    const lambda = (y: int) => myStruct.a + x.a + y + 10;
+    const result = lambda(10);
 }
