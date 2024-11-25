@@ -14,13 +14,11 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
     lambdaScope->inheritGlobalScope(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature());
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
-    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irModule->getModule());
+    auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, irModule);
-
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
             irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, lambdaScope, irModule), irModule);
@@ -40,13 +38,11 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
     lambdaScope->inheritGlobalScope(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature());
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
-    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irModule->getModule());
+    auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, irModule);
-
     auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, irModule, IR_OPERAND_OP);
     auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, IR_OPERAND_OP, irModule);
     functionBlock->getBuilder()->get()->CreateRet(irReturnExpressionValue);

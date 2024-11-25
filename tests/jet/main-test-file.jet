@@ -8,8 +8,18 @@ const myStruct = { a: 1, b: "hi", c: false };
 const myTuple = MyOtherModule::myTupleFunction();
 const myLambda = (z: int) int { return z + 1; };
 const myFatArrowLambda = (a: boolean) => a && false;
-const myProcLambda = () { const procedureString = "hi there" };
+const myProcLambda = () { const procedureString = "hi there"; };
+const parentLambda = () {
+    const x = { a: 10 };
+    const nestedLambda = (y: int) int {
+        const z = 100;
+        const tripleNestedLambda = (z: int) => x.a + y + z;
+        return myStruct.a + tripleNestedLambda(15) + 10;
+    };
+    const result = nestedLambda(10);
+};
 const myLambdaValue = myLambda(2);
+
 
 proc MyProcedure() {
     const mino = "foo bar";
@@ -18,6 +28,4 @@ proc MyProcedure() {
 
 proc MyLambdaProcedure() {
     const x = { a: 60 };
-    const lambda = (y: int) => myStruct.a + x.a + y + 10;
-    const result = lambda(10);
 }

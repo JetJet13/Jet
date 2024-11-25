@@ -38,6 +38,7 @@ bool PointerTypeSignature::isEquivalentTo(TypeSignature* otherType) {
 }
 
 void PointerTypeSignature::print() {
-    Logger::log(this->toString());
+    Logger::log(this->toString(), "(");
     this->_underlyingType->print();
+    Logger::log(")");
 }

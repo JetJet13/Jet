@@ -3,7 +3,6 @@
 //
 
 #include "identifier-expression-ir-strategy.h"
-#include "../../../../ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 

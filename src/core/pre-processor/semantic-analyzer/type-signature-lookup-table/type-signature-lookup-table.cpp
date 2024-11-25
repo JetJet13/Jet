@@ -45,8 +45,13 @@ TypeSignature* TypeSignatureLookupTable::findGlobal(std::string key) {
 
 std::unordered_map<std::string, TypeSignature*> TypeSignatureLookupTable::getLookupTable() {
     auto lookupTable = std::unordered_map<std::string, TypeSignature*>();
+    if (_outerScope) {
+        for (auto keyValue : _outerScope.value()->getLookupTable()) {
+            lookupTable[keyValue.first] = keyValue.second;
+        }
+    }
     for (auto keyValue : _typeSignatureLookupTable) {
-        lookupTable.insert(std::pair(keyValue.first, keyValue.second));
+        lookupTable[keyValue.first] = keyValue.second;
     }
     return lookupTable;
 }

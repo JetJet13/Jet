@@ -66,6 +66,9 @@ void IRLookupTable::dump() {
     for (auto keyValue : _scope) {
         Logger::log("KEY - ", keyValue.first);
     }
+    for (auto keyValue : _globalScope) {
+        Logger::log("GLOBAL KEY - ", keyValue.first);
+    }
     if (_outerScope) {
         _outerScope.value()->dump();
     }

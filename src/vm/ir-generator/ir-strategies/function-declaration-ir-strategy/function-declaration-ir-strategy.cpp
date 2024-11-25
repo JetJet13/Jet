@@ -8,11 +8,13 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 
 IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+    auto functionScope = new IRLookupTable();
+    functionScope->inheritGlobalScope(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature());
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irModule->getModule());
-    auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irModule, irFunction);
+    auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irModule, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     for (int i = 0; i < functionType->getNumParams(); ++i) {
@@ -27,15 +29,15 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
                 DataAlignmentGenerator::generate(irParamType)
         ), irGenerator->generateIrPointerType(irParamType));
 
-        scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
+        functionScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule);
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, scope, irModule), irModule);
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, functionScope, irModule), irModule);
         } else if (ASTNodeUtils::isStatementNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, scope, irModule), irModule);
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, functionScope, irModule), irModule);
         }
     }
     return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock);
