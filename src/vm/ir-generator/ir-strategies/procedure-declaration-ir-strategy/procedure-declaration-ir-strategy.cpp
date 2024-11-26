@@ -6,6 +6,7 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../utils/address-space-generator/address-space-generator.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto procedureScope = new IRLookupTable();

@@ -21,6 +21,7 @@
 #include "ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
+#include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -48,6 +49,7 @@
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
 #include "ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
+#include "../../shared/utils/logger/logger.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -72,6 +74,8 @@ IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNo
 IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
     if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getFunctionReturnExpressionIRStrategy()->generate((ASTFunctionReturnExpressionNode*)node, &_context, this, scope, irModuleNode);
+    } else if (node->is(AST_EXPRESSION_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getExpressionStatementIRStrategy()->generate((ASTExpressionStatementNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }

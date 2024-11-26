@@ -16,9 +16,9 @@ class LambdaTypeSignatureIRStrategy {
 private:
     std::vector<llvm::Type*> generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, std::optional<TypeSignature*> lambdaScopeParameter = {});
 public:
-    IRFunctionType* generate(FunctionLambdaTypeSignature* functionLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRPointerType* generate(FunctionLambdaTypeSignature* functionLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
     IRFunctionType* generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
-    IRFunctionType* generate(ProcedureLambdaTypeSignature* procedureLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRPointerType* generate(ProcedureLambdaTypeSignature* procedureLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_LAMBDA_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -3,6 +3,7 @@
 //
 
 #include "function-parameter-list-ir-strategy.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFunctionParameterListNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, llvm::Function* irFunction) {
     auto functionParameters = std::vector<IRFunctionParameterNode*>();

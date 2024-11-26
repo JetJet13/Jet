@@ -9,20 +9,23 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
 #include "ir-expression-node.h"
 #include "../ir-instruction-node.h"
+#include "../../ir-type/ir-function-type.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
 
 class IRFunctionInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTFunctionInvocationExpressionNode* _node;
-    llvm::Function* _irFunction;
+    llvm::Value* _irFunction;
+    IRFunctionType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
     std::optional<IRInstructionNode*> _lambdaScopeArgument;
 public:
-    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Function* irFunction, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> lambdaScopeArgument = {});
+    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRFunctionType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> lambdaScopeArgument = {});
     std::optional<IRInstructionNode*> getLambdaScopeArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
-    llvm::Function* getValue() override;
+    llvm::Value* getValue() override;
+    IRFunctionType* getFunctionIRType();
     IRType* getIRType() override;
     FunctionInvocationTypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;

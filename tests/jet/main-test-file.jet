@@ -13,7 +13,8 @@ const parentLambda = () {
     const x = { a: 10 };
     const nestedLambda = (y: int) int {
         const z = 100;
-        const tripleNestedLambda = (z: int) => x.a + y + z;
+        const scopedLambda = () => 199;
+        const tripleNestedLambda = (z: int) => x.a + y + z + scopedLambda();
         return myStruct.a + tripleNestedLambda(15) + 10;
     };
     const result = nestedLambda(10);
@@ -24,8 +25,10 @@ const myLambdaValue = myLambda(2);
 proc MyProcedure() {
     const mino = "foo bar";
     const mook = foo + 1000;
+    const myFooLambda = (z: int) => z + mook + 20;
+    // uncomment to work on this: MyLambdaParamProcedure(myFooLambda);
 }
 
-proc MyLambdaProcedure() {
-    const x = { a: 60 };
+proc MyLambdaParamProcedure(fooLambda: func<int> => int) {
+    const result = fooLambda(10);
 }

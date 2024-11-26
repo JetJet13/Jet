@@ -265,6 +265,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/function-scope-parameter-ir-strategy/function-scope-parameter-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h
+        ir-generator/ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-expression-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-expression-statement-node.h
 )
 
 target_link_libraries(jet-vm

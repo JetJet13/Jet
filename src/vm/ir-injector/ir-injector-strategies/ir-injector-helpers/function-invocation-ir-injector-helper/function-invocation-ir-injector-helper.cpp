@@ -26,5 +26,5 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
                 irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule)
         );
     }
-    return builder->get()->CreateCall(irExpression->getValue(), arguments);
+    return builder->get()->CreateCall(irExpression->getFunctionIRType()->getType(), irExpression->getValue(), arguments);
 }
