@@ -50,6 +50,10 @@ bool IRType::isArrayPointerType() {
     return false;
 }
 
+bool IRType::isFunctionParameterType() {
+    return false;
+}
+
 bool IRType::isStructType() {
     return false;
 }

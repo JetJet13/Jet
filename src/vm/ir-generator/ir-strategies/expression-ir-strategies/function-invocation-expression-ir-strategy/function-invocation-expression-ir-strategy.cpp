@@ -5,6 +5,7 @@
 #include "function-invocation-expression-ir-strategy.h"
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../ir-type/ir-function-parameter-type.h"
 
 IRFunctionInvocationExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto lambdaScopeArgument = std::optional<IRInstructionNode*>();
@@ -28,10 +29,9 @@ IRFunctionInvocationExpressionNode* FunctionInvocationExpressionIRStrategy::gene
     auto irFunctionType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature());
     if (node->getFunction()->getTypeSignature()->isOneOf({ FUNCTION_LAMBDA_TYPE_SOURCE, PROCEDURE_LAMBDA_TYPE_SOURCE })) {
         auto function = scope->find(node->getFunction()->getId()).value()->getValue();
-        auto pointerIRFunctionType = (IRPointerType*)irFunctionType;
-        return new IRFunctionInvocationExpressionNode(node, function, (IRFunctionType*)pointerIRFunctionType->getSourceType(), arguments, irReturnType, lambdaScopeArgument);
+        return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, lambdaScopeArgument);
     } else {
         auto function = irModule->getModule()->getFunction(node->getFunction()->getId());
-        return new IRFunctionInvocationExpressionNode(node, function, (IRFunctionType*)irFunctionType, arguments, irReturnType, lambdaScopeArgument);
+        return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, lambdaScopeArgument);
     }
 }

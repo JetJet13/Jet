@@ -269,6 +269,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h
         ir-nodes/ir-statement-nodes/ir-expression-statement-node.cpp
         ir-nodes/ir-statement-nodes/ir-expression-statement-node.h
+        ir-type/ir-function-parameter-type.cpp
+        ir-type/ir-function-parameter-type.h
 )
 
 target_link_libraries(jet-vm

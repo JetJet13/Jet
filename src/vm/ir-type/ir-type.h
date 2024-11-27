@@ -26,6 +26,7 @@ public:
     virtual bool isModuleType();
     virtual bool isPointerType();
     virtual bool isArrayPointerType();
+    virtual bool isFunctionParameterType();
     bool isFunctionType();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
