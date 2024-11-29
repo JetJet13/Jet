@@ -9,8 +9,8 @@ llvm_map_components_to_libnames(llvm_libs support core irreader irprinter)
 add_library(jet-vm
         ./ir-generator/ir-generator.cpp
         ./ir-generator/ir-generator.h
-        ./ir-generator/ir-lookup-table/ir-lookup-table.cpp
-        ./ir-generator/ir-lookup-table/ir-lookup-table.h
+        ir-lookup-table/ir-lookup-table.cpp
+        ir-lookup-table/ir-lookup-table.h
         ir-generator/ir-strategies/literal-ir-strategies/int-literal-ir-strategy/int-literal-ir-strategy.cpp
         ir-generator/ir-strategies/literal-ir-strategies/int-literal-ir-strategy/int-literal-ir-strategy.h
         ir-generator/ir-strategies/literal-ir-strategies/float-literal-ir-strategy/float-literal-ir-strategy.cpp
@@ -249,8 +249,6 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h
-        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.h
         ir-nodes/ir-expression-nodes/ir-lambda-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h
         ir-generator/ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.cpp
@@ -259,8 +257,6 @@ add_library(jet-vm
         ir-type/ir-lambda-type.h
         ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h
-        ir-injector/ir-injector-strategies/function-scope-parameter-ir-injector-strategy/function-scope-parameter-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/function-scope-parameter-ir-injector-strategy/function-scope-parameter-ir-injector-strategy.h
         ir-generator/ir-strategies/function-scope-parameter-ir-strategy/function-scope-parameter-ir-strategy.cpp
         ir-generator/ir-strategies/function-scope-parameter-ir-strategy/function-scope-parameter-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.cpp
@@ -271,6 +267,8 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-expression-statement-node.h
         ir-type/ir-function-parameter-type.cpp
         ir-type/ir-function-parameter-type.h
+        ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h
 )
 
 target_link_libraries(jet-vm

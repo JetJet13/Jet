@@ -8,17 +8,16 @@
 #include "../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../ir-nodes/ir-block-node.h"
 #include "./ir-injector-map.h"
+#include "../ir-lookup-table/ir-lookup-table.h"
 
 class IRInjector {
 private:
     IRInjectorMap _irInjectorMap;
 public:
     IRInjector();
-    void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule);
-    void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule);
-    void inject(IRParameterType* scopeParameter, IRModuleNode* irModule);
-    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule);
-    llvm::Value* injectRawString(IRBlockNode* irBlock, std::string rawString, IRArrayPointerType* stringPointerType, IRModuleNode* irModule);
+    void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
 };
 

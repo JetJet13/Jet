@@ -5,7 +5,7 @@
 #include "module-ir-injector-strategy.h"
 #include "../../ir-injector-map.h"
 
-void ModuleIRInjectorStrategy::inject(IRModuleDeclarationNode* irModuleDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule) {
+void ModuleIRInjectorStrategy::inject(IRModuleDeclarationNode* irModuleDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule, IRLookupTable* scope) {
     builder->get()->Insert(irModuleDeclaration->getAllocation()->getValue());
     auto numElements = irModuleDeclaration->getExports()->size();
     auto zeroIndex = builder->get()->getInt32(0);

@@ -17,7 +17,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Value.h"
-#include "ir-lookup-table/ir-lookup-table.h"
+#include "../ir-lookup-table/ir-lookup-table.h"
 #include "../../core/ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
 #include "../../core/ast/ast-nodes/ast-literal-nodes/ast-literal-node.h"

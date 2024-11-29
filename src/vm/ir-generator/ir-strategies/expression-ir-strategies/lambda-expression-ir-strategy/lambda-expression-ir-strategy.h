@@ -8,7 +8,6 @@
 #include <llvm/IR/Value.h>
 #include "../../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h"
 #include "../../../ir-generator.h"
-#include "../../../ir-lookup-table/ir-lookup-table.h"
 #include "../../../../ir-nodes/ir-module-node.h"
 #include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h"

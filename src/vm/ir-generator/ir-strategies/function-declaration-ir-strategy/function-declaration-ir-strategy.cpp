@@ -30,14 +30,14 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
         ), irGenerator->generateIrPointerType(irParamType));
 
         functionScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule);
+        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule, functionScope);
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, functionScope, irModule), irModule);
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, functionScope, irModule), irModule, functionScope);
         } else if (ASTNodeUtils::isStatementNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, functionScope, irModule), irModule);
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, functionScope, irModule), irModule, functionScope);
         }
     }
     return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock);

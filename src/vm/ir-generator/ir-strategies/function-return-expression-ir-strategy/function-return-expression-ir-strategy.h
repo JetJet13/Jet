@@ -7,7 +7,6 @@
 
 #include <llvm/IR/Value.h>
 #include "../../ir-generator.h"
-#include "../../ir-lookup-table/ir-lookup-table.h"
 #include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-function-return-expression-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-function-return-expression-node.h"
 

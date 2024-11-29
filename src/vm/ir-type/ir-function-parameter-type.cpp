@@ -43,6 +43,14 @@ IRPointerType* IRFunctionParameterType::getIRFunctionPointer() {
     return _irFunctionPointer;
 }
 
+std::string IRFunctionParameterType::getFunctionParameterName(std::string parameterName) {
+    return parameterName + ".function";
+}
+
+std::string IRFunctionParameterType::getFunctionScopeArgumentParameterName(std::string parameterName) {
+    return parameterName + ".scopeArgument";
+}
+
 uint64_t IRFunctionParameterType::getSizeInBytes() {
     return 8;
 }

@@ -8,7 +8,6 @@
 #include <llvm/IR/Value.h>
 #include "../../../../core/ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../../ir-generator.h"
-#include "../../ir-lookup-table/ir-lookup-table.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 
 class VariableDeclarationIRStrategy {

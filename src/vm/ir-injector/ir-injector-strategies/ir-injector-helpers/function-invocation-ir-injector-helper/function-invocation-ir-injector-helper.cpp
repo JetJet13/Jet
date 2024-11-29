@@ -4,13 +4,12 @@
 
 #include "function-invocation-ir-injector-helper.h"
 #include "../../../../../shared/utils/logger/logger.h"
-#include "../../../../ir-type/ir-function-parameter-type.h"
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(
-                irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule)
+                irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
         );
     }
 
@@ -29,28 +28,25 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         arguments.push_back(lambdaScopeAllocation);
     }
 
-    if (irExpression->getFunctionIRType()->isFunctionParameterType()) {
-        auto irFunctionParameterType = (IRFunctionParameterType*)irExpression->getFunctionIRType();
-        auto zeroIndex = builder->get()->getInt32(0);
-        auto functionIndex = builder->get()->getInt32(irFunctionParameterType->getFunctionIndex());
-        auto functionPointer = builder->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), irExpression->getValue(), { zeroIndex, functionIndex });
-        auto loadedFunctionPointer = builder->get()->CreateLoad(irFunctionParameterType->getIRFunctionPointer()->getType(), functionPointer);
-
-        auto functionScopeArgumentIndex = builder->get()->getInt32(irFunctionParameterType->getFunctionScopeArgumentIndex());
-        auto functionScopeArgumentPointer = builder->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), irExpression->getValue(), { zeroIndex, functionScopeArgumentIndex });
-        auto loadedFunctionScopeArgumentPointer = builder->get()->CreateLoad(irFunctionParameterType->getFunctionScopeArgumentType(), functionScopeArgumentPointer);
-        arguments.push_back(loadedFunctionScopeArgumentPointer);
-
-        return builder->get()->CreateCall(
-                irFunctionParameterType->getFunctionType(),
-                loadedFunctionPointer,
-                arguments
-        );
-    }
-
     return builder->get()->CreateCall(
         llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
         irExpression->getValue(),
         arguments
+    );
+}
+
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionParameterInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto arguments = std::vector<llvm::Value*>();
+    for (auto argument : *irExpression->getIRArguments()) {
+        arguments.push_back(
+                irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
+        );
+    }
+
+    arguments.push_back(irExpression->getFunctionScopeArgument());
+    return builder->get()->CreateCall(
+            irExpression->getFunctionIRType()->getFunctionType(),
+            irExpression->getFunction(),
+            arguments
     );
 }

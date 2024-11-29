@@ -11,6 +11,7 @@ VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
 }
 
 IRJetFile* VM::compile(JetFile* jetFile) {
+    auto irLookupTable = IRLookupTable();
     auto irModule = _irGenerator->generateModule(jetFile->getId());
     _irGenerator->initModule(irModule);
     auto irJetFile = new IRJetFile(jetFile, irModule);
@@ -19,13 +20,12 @@ IRJetFile* VM::compile(JetFile* jetFile) {
     }
     auto irMainFunction = _irGenerator->generateEmptyFunction(jetFile->getFile()->getPath()->filename().string(), irModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
-    auto irLookupTable = IRLookupTable();
     for (auto node : *jetFile->getFile()->getBody()) {
-        irModule->getModule(),
         _irInjector->inject(
                 irMainFunctionBlock,
                 _irGenerator->generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule),
-                irModule
+                irModule,
+                &irLookupTable
         );
     }
     irMainFunctionBlock->addVoidReturn();
@@ -33,6 +33,7 @@ IRJetFile* VM::compile(JetFile* jetFile) {
 }
 
 IRJetFile* VM::compileMain(JetFile* jetFile) {
+    auto irLookupTable = IRLookupTable();
     auto irModule = _irGenerator->generateModule(jetFile->getId());
     _irGenerator->initModule(irModule);
     auto irJetFile = new IRJetFile(jetFile, irModule);
@@ -41,12 +42,12 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
     }
     auto irMainFunction = _irGenerator->generateEmptyFunction("main", irModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
-    auto irLookupTable = IRLookupTable();
     for (auto node : *jetFile->getFile()->getBody()) {
         _irInjector->inject(
                 irMainFunctionBlock,
                 _irGenerator->generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule),
-                irModule
+                irModule,
+                &irLookupTable
         );
     }
     irMainFunctionBlock->addVoidReturn();

@@ -26,6 +26,8 @@ public:
     llvm::FunctionType* getFunctionType();
     IRFunctionType* getIRFunctionType();
     IRPointerType* getIRFunctionPointer();
+    std::string getFunctionParameterName(std::string parameterName);
+    std::string getFunctionScopeArgumentParameterName(std::string parameterName);
     uint64_t getSizeInBytes() override;
 };
 

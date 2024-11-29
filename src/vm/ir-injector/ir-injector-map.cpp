@@ -14,7 +14,6 @@ IRInjectorMap::IRInjectorMap() {
     _tupleIRInjector = new TupleIRInjectorStrategy();
     _variableIRInjector = new VariableIRInjectorStrategy();
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
-    _functionScopeParameterIRInjector = new FunctionScopeParameterIRInjectorStrategy();
     this->init();
 }
 
@@ -76,8 +75,4 @@ FunctionParameterIRInjectorStrategy* IRInjectorMap::getFunctionParameterInjector
 
 FunctionReturnIRInjectorStrategy* IRInjectorMap::getFunctionReturnInjector() {
     return _functionReturnIRInjector;
-}
-
-FunctionScopeParameterIRInjectorStrategy* IRInjectorMap::getFunctionScopeParameterInjector() {
-    return _functionScopeParameterIRInjector;
 }

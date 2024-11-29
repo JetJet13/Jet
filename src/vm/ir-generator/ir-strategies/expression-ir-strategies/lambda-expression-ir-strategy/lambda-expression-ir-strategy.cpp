@@ -21,9 +21,9 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
     this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, irModule);
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, lambdaScope, irModule), irModule);
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, lambdaScope, irModule), irModule, lambdaScope);
         } else if (ASTNodeUtils::isStatementNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, lambdaScope, irModule), irModule);
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, lambdaScope, irModule), irModule, lambdaScope);
         }
     }
 
@@ -44,7 +44,7 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
 
     this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, irModule);
     auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, irModule, IR_OPERAND_OP);
-    auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, IR_OPERAND_OP, irModule);
+    auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, IR_OPERAND_OP, irModule, lambdaScope);
     functionBlock->getBuilder()->get()->CreateRet(irReturnExpressionValue);
     return new IRLambdaWithFatArrowExpressionNode(node, irFunction, functionParameterList, functionBlock, new IRLambdaType(irFunction->getFunctionType()));
 }
@@ -68,7 +68,7 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                         DataAlignmentGenerator::generate(irParamType)
                 ), irGenerator->generateIrPointerType(irParamType));
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule);
+        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule, scope);
         if (formalParameter->getParameterType()->getName() == typeSignature->getScopeParameter()->getName()) {
             auto scopeParameterIrType = (IRStructType*)formalParameter->getParameterType()->getIRType();
             auto scopeParameterTypeSignature = (StructTypeSignature*)typeSignature->getScopeParameter()->getTypeSignature();

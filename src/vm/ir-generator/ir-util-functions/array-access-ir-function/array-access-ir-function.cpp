@@ -19,7 +19,7 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
     auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(**context), { arrayIndexAccessType, arrayPointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, ArrayAccessIRFunction::getArrayAccessIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-
+    auto irLookupTable = new IRLookupTable();
     auto arrayIndexAccessParamAllocationType = irGenerator->generateIrPointerType(new IRType(arrayIndexAccessType));
     auto arrayIndexAccessParameterAllocation = IRInstructionNodeFactory::create(arrayIndexAccessParamAllocationType);
     irGenerator->getInjector()->inject(
@@ -28,7 +28,8 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
             function->getArg(0),
             arrayIndexAccessParameterAllocation
         ),
-        irModuleNode
+        irModuleNode,
+        irLookupTable
     );
 
     auto arrayPointerParamAllocationType = irGenerator->generateIrPointerType(new IRType(arrayPointerType));
@@ -39,7 +40,8 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
                 function->getArg(1),
                 arrayPointerParameterAllocation
             ),
-            irModuleNode
+            irModuleNode,
+            irLookupTable
     );
     functionBlock->addVoidReturn();
 }

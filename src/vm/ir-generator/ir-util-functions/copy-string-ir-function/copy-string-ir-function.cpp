@@ -16,7 +16,7 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
     auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(**context), { pointerType->getType(), arrayPointerType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStringIRFunction::getCopyStringIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-
+    auto irLookupTable = new IRLookupTable();
     auto destinationParameterAllocation = IRInstructionNodeFactory::create(pointerType);
     irGenerator->getInjector()->inject(
         functionBlock,
@@ -24,7 +24,8 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
             function->getArg(0),
             destinationParameterAllocation
         ),
-        irModuleNode
+        irModuleNode,
+        irLookupTable
     );
 
     auto arrayPointerParamAllocationType = irGenerator->generateIrPointerType(arrayPointerType);
@@ -35,7 +36,8 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
             function->getArg(1),
             arrayPointerParameterAllocation
         ),
-        irModuleNode
+        irModuleNode,
+        irLookupTable
     );
     functionBlock->addVoidReturn();
 }

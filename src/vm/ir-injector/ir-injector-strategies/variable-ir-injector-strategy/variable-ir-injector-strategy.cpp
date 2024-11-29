@@ -7,7 +7,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h"
 
-void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule) {
+void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irVariableDeclaration->getIRExpression()->isOneOf({ IR_LAMBDA_EXPRESSION_NODE, IR_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE })) {
         ((IRLambdaExpressionNode*)irVariableDeclaration->getIRExpression())->getValue()->setName(irVariableDeclaration->getVariableName());
     } else {
@@ -17,7 +17,7 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
                         irVariableDeclaration->getIRExpression(),
                         builder,
                         irInjectorMap,
-                        IR_COPY_ASSIGNMENT_OP, irModule);
+                        IR_COPY_ASSIGNMENT_OP, irModule, scope);
 
         builder->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
     }

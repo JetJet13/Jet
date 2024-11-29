@@ -14,7 +14,8 @@
 
 class FunctionInvocationIRInjectorHelper {
 public:
-    static llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule);
+    static llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope);
+    static llvm::Value* inject(IRFunctionParameterInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_FUNCTION_INVOCATION_IR_INJECTOR_HELPER_H
