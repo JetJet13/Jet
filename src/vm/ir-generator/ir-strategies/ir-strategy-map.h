@@ -49,6 +49,7 @@ class VoidTypeSignatureIRStrategy;
 class EnumAccessTypeSignatureIRStrategy;
 class ModuleTypeSignatureIRStrategy;
 class PointerTypeSignatureIRStrategy;
+class FunctionInvocationTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -94,6 +95,7 @@ private:
     EnumAccessTypeSignatureIRStrategy* _enumAccessTypeSignatureIRStrategy;
     ModuleTypeSignatureIRStrategy* _moduleTypeSignatureStrategy;
     PointerTypeSignatureIRStrategy* _pointerTypeSignatureStrategy;
+    FunctionInvocationTypeSignatureIRStrategy* _functionInvocationTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -138,6 +140,7 @@ public:
     EnumAccessTypeSignatureIRStrategy* getEnumAccessTypeSignatureIRStrategy();
     ModuleTypeSignatureIRStrategy* getModuleTypeSignatureIRStrategy();
     PointerTypeSignatureIRStrategy* getPointerTypeSignatureIRStrategy();
+    FunctionInvocationTypeSignatureIRStrategy* getFunctionInvocationTypeSignatureIRStrategy();
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H

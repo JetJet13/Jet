@@ -32,4 +32,5 @@ void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lamb
         returnType
     ));
     strategyMap->assignTypeSignatureFor(lambdaExpression->getBlock(), &scope);
+
 }

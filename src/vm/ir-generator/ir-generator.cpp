@@ -44,6 +44,7 @@
 #include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
@@ -190,6 +191,8 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
             return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*)typeSignature, &_context, this);
         case POINTER_TYPE_SOURCE:
             return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature*)typeSignature, &_context, this);
+        case FUNCTION_INVOCATION_TYPE_SOURCE:
+            return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate((FunctionInvocationTypeSignature*)typeSignature, &_context, this);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:

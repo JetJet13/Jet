@@ -8,6 +8,7 @@
 #include "../../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../core/type-signature/pointer-type-signature/pointer-type-signature.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto lambdaScope = new IRLookupTable();
@@ -79,7 +80,7 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                 auto index = irGenerator->generateIntConstant(scopeParameterIrType->getIndexForKey(keyValue.first));
                 auto irType = scopeParameterIrType->getIRTypeForKey(keyValue.first);
                 auto pointerToValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(scopeParameterIrType->getType(), functionParameterAllocation->getValue(), { zeroIndex, index });
-                auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getType(), nullptr, "scope." + keyValue.first);
+                auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getType(), nullptr, keyValue.first);
                 functionBlock->getBuilder()->get()->CreateStore(
                         functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
                         allocation
@@ -88,6 +89,19 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                         keyValue.first,
                         IRInstructionNodeFactory::create(allocation, irGenerator->generateIrPointerType(underlyingIrType))
                 );
+                if (underlyingIrType->isFunctionParameterType()) {
+                    auto loadedAllocation = functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), allocation);
+                    auto irFunctionParameterType = (IRFunctionParameterType*)underlyingIrType;
+                    auto functionIndex = irGenerator->generateIntConstant(irFunctionParameterType->getFunctionIndex());
+                    auto pointerToFunctionPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), loadedAllocation, { zeroIndex, functionIndex });
+                    auto loadedFunctionPointer = functionBlock->getBuilder()->get()->CreateLoad(irFunctionParameterType->getIRFunctionPointer()->getType(), pointerToFunctionPointer, irFunctionParameterType->getFunctionParameterName(keyValue.first));
+                    scope->insert(irFunctionParameterType->getFunctionParameterName(keyValue.first), new IRLoadInstructionNode(loadedFunctionPointer, functionParameterAllocation));
+
+                    auto functionScopeArgumentIndex = functionBlock->getBuilder()->get()->getInt32(irFunctionParameterType->getFunctionScopeArgumentIndex());
+                    auto pointerToFunctionScopeArgumentPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), loadedAllocation, { zeroIndex, functionScopeArgumentIndex });
+                    auto loadedFunctionScopeArgumentPointer = functionBlock->getBuilder()->get()->CreateLoad(irFunctionParameterType->getIRFunctionPointer()->getType(), pointerToFunctionScopeArgumentPointer, irFunctionParameterType->getFunctionScopeArgumentParameterName(keyValue.first));
+                    scope->insert(irFunctionParameterType->getFunctionScopeArgumentParameterName(keyValue.first), new IRLoadInstructionNode(loadedFunctionScopeArgumentPointer, functionParameterAllocation));
+                }
             }
         }
     }

@@ -31,4 +31,23 @@ proc MyProcedure() {
 
 proc MyLambdaParamProcedure(fooLambda: func<int> => int) {
     const result = fooLambda(10);
+    const innerLambda = () int {
+        const opo = "hi";
+        const fooLambda = 1;
+        const innerNestedLambda = () => fooLambda;
+        return innerNestedLambda();
+    };
+    const lambdaResult = innerLambda();
+}
+
+func MyLambdaParamFunction(fooLambda: func<int> => int) boolean {
+    const result = fooLambda(10);
+    const innerLambda = () int {
+        const opo = "hi";
+        const fooLambda = 1;
+        const innerNestedLambda = () => fooLambda;
+        return innerNestedLambda();
+    };
+    const lambdaResult = innerLambda();
+    return false; // fix issue for duplicate lambda names in generated IR (they need to be namespaced)
 }

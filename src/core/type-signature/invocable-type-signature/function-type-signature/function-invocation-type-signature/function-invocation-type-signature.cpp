@@ -46,6 +46,10 @@ bool FunctionInvocationTypeSignature::isEqualTo(TypeSignature* otherType) {
     return this->getFunctionType()->isEqualTo(other->getFunctionType());
 }
 
+bool FunctionInvocationTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    return this->getReturnType()->isEquivalentTo(otherType->getTargetTypeSignature());
+}
+
 void FunctionInvocationTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     for (auto parameter : *_invocableTypeSignature->getParameterTypes()) {

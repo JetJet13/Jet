@@ -3,6 +3,7 @@
 //
 
 #include "variable-type-signature-strategy.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
