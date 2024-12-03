@@ -4,6 +4,7 @@
 
 #include "function-invocation-ir-injector-helper.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../ir-type/ir-lambda-type.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
@@ -13,19 +14,23 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         );
     }
 
-    if (irExpression->getLambdaScopeArgument()) {
-        auto lambdaScopeArgument = irExpression->getLambdaScopeArgument().value();
-        auto lambdaScopeAllocation = builder->get()->Insert(lambdaScopeArgument->getValue());
-        auto irLambdaScopeType = (IRStructType*)lambdaScopeArgument->getIRType()->getSourceType();
+    if (irExpression->getFunctionIRType()->isLambdaType()) {
+        auto irLambdaType = (IRLambdaType*)irExpression->getFunctionIRType();
         auto zeroIndex = builder->get()->getInt32(0);
-        for (int i = 0; i < irLambdaScopeType->size(); ++i) {
-            auto index = builder->get()->getInt32(i);
-            auto key = irLambdaScopeType->getKeyForIndex(i);
-            auto allocationForKey = lambdaScopeArgument->getChildAllocationForKey(key);
-            auto pointer = builder->get()->CreateGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, { zeroIndex, index });
-            builder->get()->CreateStore(allocationForKey->getValue(), pointer);
+        auto lambdaIndex = builder->get()->getInt32(irLambdaType->getLambdaVariableType()->getFunctionIndex());
+        auto lambdaPointer = builder->get()->CreateInBoundsGEP(irLambdaType->getLambdaVariableType()->getType(), irExpression->getValue(), { zeroIndex, lambdaIndex });
+        auto loadedLambda = builder->get()->CreateLoad(irLambdaType->getFunctionPointerType(), lambdaPointer);
+        if (irLambdaType->getLambdaScopeType()) {
+            auto lambdaScopeArgumentIndex = builder->get()->getInt32(irLambdaType->getLambdaVariableType()->getFunctionScopeArgumentIndex());
+            auto lambdaScopeArgumentPointer = builder->get()->CreateInBoundsGEP(irLambdaType->getLambdaVariableType()->getType(), irExpression->getValue(), { zeroIndex, lambdaScopeArgumentIndex });
+            auto loadedLambdaScopeArgument = builder->get()->CreateLoad(irLambdaType->getLambdaScopeType().value()->getType(), lambdaScopeArgumentPointer);
+            arguments.push_back(loadedLambdaScopeArgument);
         }
-        arguments.push_back(lambdaScopeAllocation);
+        return builder->get()->CreateCall(
+                irLambdaType->getType(),
+                loadedLambda,
+                arguments
+        );
     }
 
     return builder->get()->CreateCall(

@@ -27,7 +27,8 @@ public:
     virtual bool isPointerType();
     virtual bool isArrayPointerType();
     virtual bool isFunctionParameterType();
-    bool isFunctionType();
+    virtual bool isLambdaType();
+    virtual bool isFunctionType();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
     bool isLessThan(IRType* otherValue);

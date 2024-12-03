@@ -54,6 +54,10 @@ bool IRType::isFunctionParameterType() {
     return false;
 }
 
+bool IRType::isLambdaType() {
+    return false;
+}
+
 bool IRType::isStructType() {
     return false;
 }

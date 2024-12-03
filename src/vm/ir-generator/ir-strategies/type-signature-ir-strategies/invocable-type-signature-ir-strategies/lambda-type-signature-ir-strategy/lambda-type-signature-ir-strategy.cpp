@@ -20,25 +20,35 @@ IRFunctionParameterType* LambdaTypeSignatureIRStrategy::generate(FunctionLambdaT
     return new IRFunctionParameterType(llvm::StructType::get(**context, { irFunction->getType(), irFunctionScopeArgumentType->getType() }), irFunction);
 }
 
-IRFunctionType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRLambdaType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto returnType = irGenerator->generateTypeFor(lambdaExpressionTypeSignature->getReturnType());
+    auto lambdaScopeIrType = std::optional<IRType*>();
+    if (lambdaExpressionTypeSignature->isScopeParameterNecessary()) {
+        lambdaScopeIrType = irGenerator->generateTypeFor(lambdaExpressionTypeSignature->getScopeParameter()->getTypeSignature());
+    }
     auto parameterTypes = this->generateParameterTypes(
             lambdaExpressionTypeSignature->getParameterTypes(),
             irGenerator,
-            lambdaExpressionTypeSignature->isScopeParameterNecessary()
-            ? lambdaExpressionTypeSignature->getScopeParameter()->getTypeSignature()
-            : std::optional<TypeSignature*>());
-    return new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false));
+            lambdaScopeIrType);
+    auto functionType = llvm::FunctionType::get(returnType->getType(), parameterTypes, false);
+    auto irFunction = IRPointerType::create(new IRFunctionType(functionType));
+    auto irFunctionScopeArgumentType = irGenerator->generateIrPointerType();
+    return new IRLambdaType(
+        functionType,
+        irFunction,
+        new IRFunctionParameterType(llvm::StructType::get(**context, { irFunction->getType(), irFunctionScopeArgumentType->getType() }), irFunction),
+        lambdaScopeIrType
+    );
 }
 
-std::vector<llvm::Type*> LambdaTypeSignatureIRStrategy::generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, std::optional<TypeSignature*> lambdaScopeParameter) {
+std::vector<llvm::Type*> LambdaTypeSignatureIRStrategy::generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, std::optional<IRType*> lambdaScopeParameter) {
     auto parameterTypes = std::vector<llvm::Type*>();
     for (auto parameterType : *parameterTypeSignatures) {
         auto parameter = irGenerator->generateTypeFor(parameterType);
         parameterTypes.push_back(parameter->getType());
     }
     if (lambdaScopeParameter) {
-        parameterTypes.push_back(irGenerator->generateTypeFor(lambdaScopeParameter.value())->getType());
+        parameterTypes.push_back(lambdaScopeParameter.value()->getType());
     }
     return parameterTypes;
 }

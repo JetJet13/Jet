@@ -9,45 +9,11 @@ const myTuple = MyOtherModule::myTupleFunction();
 const myLambda = (z: int) int { return z + 1; };
 const myFatArrowLambda = (a: boolean) => a && false;
 const myProcLambda = () { const procedureString = "hi there"; };
-const parentLambda = () {
-    const x = { a: 10 };
-    const nestedLambda = (y: int) int {
-        const z = 100;
-        const scopedLambda = () => 199;
-        const tripleNestedLambda = (z: int) => x.a + y + z + scopedLambda();
-        return myStruct.a + tripleNestedLambda(15) + 10;
-    };
-    const result = nestedLambda(10);
-};
 const myLambdaValue = myLambda(2);
 
 
-proc MyProcedure() {
-    const mino = "foo bar";
-    const mook = foo + 1000;
-    const myFooLambda = (z: int) => z + mook + 20;
-    // uncomment to work on this: MyLambdaParamProcedure(myFooLambda);
-}
-
-proc MyLambdaParamProcedure(fooLambda: func<int> => int) {
-    const result = fooLambda(10);
-    const innerLambda = () int {
-        const opo = "hi";
-        const fooLambda = 1;
-        const innerNestedLambda = () => fooLambda;
-        return innerNestedLambda();
-    };
-    const lambdaResult = innerLambda();
-}
-
-func MyLambdaParamFunction(fooLambda: func<int> => int) boolean {
-    const result = fooLambda(10);
-    const innerLambda = () int {
-        const opo = "hi";
-        const fooLambda = 1;
-        const innerNestedLambda = () => fooLambda;
-        return innerNestedLambda();
-    };
-    const lambdaResult = innerLambda();
-    return false; // fix issue for duplicate lambda names in generated IR (they need to be namespaced)
+proc SimpleProc() {
+    const simple = 50;
+    const simpleLambda = () => 50;
+    const pen = simpleLambda();
 }

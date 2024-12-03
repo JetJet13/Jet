@@ -16,11 +16,11 @@ llvm::Function* IRLambdaExpressionNode::getValue() {
     return _irValue;
 }
 
-IRType* IRLambdaExpressionNode::getIRType() {
+IRLambdaType* IRLambdaExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRLambdaExpressionNode::getTypeSignature() {
+LambdaExpressionTypeSignature* IRLambdaExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

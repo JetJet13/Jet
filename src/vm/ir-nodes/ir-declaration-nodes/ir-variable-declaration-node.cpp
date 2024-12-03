@@ -19,6 +19,10 @@ llvm::Value* IRVariableDeclarationNode::getValue() {
     return _irValue->getValue();
 }
 
+llvm::Type* IRVariableDeclarationNode::getAllocatedType() {
+    return _irValue->getAllocatedType();
+}
+
 IRInstructionNode* IRVariableDeclarationNode::getIRValue() {
     return _irValue;
 }

@@ -22,8 +22,8 @@ private:
 public:
     IRLambdaExpressionNode(ASTLambdaExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type);
     llvm::Function* getValue() override;
-    IRType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    IRLambdaType* getIRType() override;
+    LambdaExpressionTypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
