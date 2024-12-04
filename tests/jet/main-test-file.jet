@@ -12,8 +12,16 @@ const myProcLambda = () { const procedureString = "hi there"; };
 const myLambdaValue = myLambda(2);
 
 
-proc SimpleProc() {
+proc SimpleProc(fooLambda: func<int> => int) {
     const simple = 50;
     const simpleLambda = () => 50;
-    const pen = simpleLambda();
+    const anotherLambda = () => simple + simpleLambda() + fooLambda();
+    const pen = anotherLambda();
+}
+
+func SimpleFunc(fooLambda: func<int> => int) int {
+    const simple = 50;
+    const simpleLambda = () => 50;
+    const anotherLambda = () => simple + simpleLambda() + fooLambda();
+    return anotherLambda();
 }

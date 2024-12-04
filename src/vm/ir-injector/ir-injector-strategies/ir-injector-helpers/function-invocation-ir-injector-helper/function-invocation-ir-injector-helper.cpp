@@ -33,6 +33,24 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         );
     }
 
+    if (irExpression->getFunctionIRType()->isFunctionParameterType()) {
+        auto irFunctionParameterType = (IRFunctionParameterType*)irExpression->getFunctionIRType();
+        auto zeroIndex = builder->get()->getInt32(0);
+        auto functionIndex = builder->get()->getInt32(irFunctionParameterType->getFunctionIndex());
+        auto functionPointer = builder->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), irExpression->getValue(), { zeroIndex, functionIndex });
+        auto loadedFunctionParameter = builder->get()->CreateLoad(irFunctionParameterType->getIRFunctionPointer()->getType(), functionPointer);
+
+        auto functionScopeArgumentIndex = builder->get()->getInt32(irFunctionParameterType->getFunctionScopeArgumentIndex());
+        auto functionScopeArgumentPointer = builder->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), irExpression->getValue(), { zeroIndex, functionScopeArgumentIndex });
+        auto loadedFunctionScopeArgument = builder->get()->CreateLoad(irFunctionParameterType->getFunctionScopeArgumentType(), functionScopeArgumentPointer);
+        arguments.push_back(loadedFunctionScopeArgument);
+        return builder->get()->CreateCall(
+                irFunctionParameterType->getFunctionType(),
+                loadedFunctionParameter,
+                arguments
+        );
+    }
+
     return builder->get()->CreateCall(
         llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
         irExpression->getValue(),

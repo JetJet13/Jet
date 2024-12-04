@@ -13,14 +13,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
 
     auto irFunctionType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature());
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType());
-    if (irFunctionType->isFunctionParameterType()) {
-        auto irFunctionParameterType = (IRFunctionParameterType*)irFunctionType;
-        auto function = scope->findLoaded(irFunctionParameterType->getFunctionParameterName(node->getFunction()->getId())).value()->getValue();
-        auto functionScopeArgument = scope->findLoaded(irFunctionParameterType->getFunctionScopeArgumentParameterName(node->getFunction()->getId())).value()->getValue();
-        return new IRFunctionParameterInvocationExpressionNode(node, function, functionScopeArgument, irFunctionParameterType, arguments, irReturnType);
-    }
-
-    if (irFunctionType->isLambdaType()) {
+    if (irFunctionType->isFunctionParameterType() || irFunctionType->isLambdaType()) {
         auto function = scope->find(node->getFunction()->getId()).value()->getValue();
         return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType);
     }

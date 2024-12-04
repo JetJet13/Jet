@@ -89,33 +89,6 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                         keyValue.first,
                         IRInstructionNodeFactory::create(allocation, irGenerator->generateIrPointerType(underlyingIrType))
                 );
-                if (underlyingIrType->isFunctionParameterType()) {
-                    auto loadedAllocation = functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), allocation);
-                    auto irFunctionParameterType = (IRFunctionParameterType*)underlyingIrType;
-                    auto functionIndex = irGenerator->generateIntConstant(irFunctionParameterType->getFunctionIndex());
-                    auto pointerToFunctionPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), loadedAllocation, { zeroIndex, functionIndex });
-                    auto loadedFunctionPointer = functionBlock->getBuilder()->get()->CreateLoad(irFunctionParameterType->getIRFunctionPointer()->getType(), pointerToFunctionPointer, irFunctionParameterType->getFunctionParameterName(keyValue.first));
-                    scope->insert(irFunctionParameterType->getFunctionParameterName(keyValue.first), new IRLoadInstructionNode(loadedFunctionPointer, functionParameterAllocation));
-
-                    auto functionScopeArgumentIndex = functionBlock->getBuilder()->get()->getInt32(irFunctionParameterType->getFunctionScopeArgumentIndex());
-                    auto pointerToFunctionScopeArgumentPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(irFunctionParameterType->getType(), loadedAllocation, { zeroIndex, functionScopeArgumentIndex });
-                    auto loadedFunctionScopeArgumentPointer = functionBlock->getBuilder()->get()->CreateLoad(irFunctionParameterType->getIRFunctionPointer()->getType(), pointerToFunctionScopeArgumentPointer, irFunctionParameterType->getFunctionScopeArgumentParameterName(keyValue.first));
-                    scope->insert(irFunctionParameterType->getFunctionScopeArgumentParameterName(keyValue.first), new IRLoadInstructionNode(loadedFunctionScopeArgumentPointer, functionParameterAllocation));
-                }
-                if (underlyingIrType->isLambdaType()) {
-                    throw std::logic_error("scope parameter is lambda type!");
-//                    auto loadedAllocation = functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), allocation);
-//                    auto irLambdaType = (IRLambdaType*)underlyingIrType;
-//                    auto functionIndex = irGenerator->generateIntConstant(irLambdaType->getFunctionIndex());
-//                    auto pointerToFunctionPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(irLambdaType->getType(), loadedAllocation, {zeroIndex, functionIndex });
-//                    auto loadedFunctionPointer = functionBlock->getBuilder()->get()->CreateLoad(irLambdaType->getIRFunctionPointer()->getType(), pointerToFunctionPointer, irLambdaType->getFunctionParameterName(keyValue.first));
-//                    scope->insert(irLambdaType->getFunctionParameterName(keyValue.first), new IRLoadInstructionNode(loadedFunctionPointer, functionParameterAllocation));
-//
-//                    auto functionScopeArgumentIndex = functionBlock->getBuilder()->get()->getInt32(irLambdaType->getFunctionScopeArgumentIndex());
-//                    auto pointerToFunctionScopeArgumentPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(irLambdaType->getType(), loadedAllocation, {zeroIndex, functionScopeArgumentIndex });
-//                    auto loadedFunctionScopeArgumentPointer = functionBlock->getBuilder()->get()->CreateLoad(irLambdaType->getIRFunctionPointer()->getType(), pointerToFunctionScopeArgumentPointer, irLambdaType->getFunctionScopeArgumentParameterName(keyValue.first));
-//                    scope->insert(irLambdaType->getFunctionScopeArgumentParameterName(keyValue.first), new IRLoadInstructionNode(loadedFunctionScopeArgumentPointer, functionParameterAllocation));
-                }
             }
         }
     }
