@@ -22,7 +22,7 @@ private:
 public:
     IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type);
     llvm::Function* getValue() override;
-    IRType* getIRType() override;
+    IRLambdaType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

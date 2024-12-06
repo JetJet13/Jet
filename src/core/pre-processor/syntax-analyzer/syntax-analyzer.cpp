@@ -86,6 +86,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope*
         _scopeStack.pop();
         _recognizeStack.pop();
         _recognizeStack.top()->push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
+        _modeStack.pop();
     } else if (reducedNode->is(AST_COLON_BASE_NODE) && _modeStack.top() == SA_STRUCT_MODE) {
         Logger::log("reduced node is colon and mode is struct_mode, merging recognizeStack with scope stack");
         auto scopeAsStack = _scopeStack.top().convertToStack();

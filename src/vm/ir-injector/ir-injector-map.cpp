@@ -13,6 +13,7 @@ IRInjectorMap::IRInjectorMap() {
     _structIRInjector = new StructIRInjectorStrategy();
     _tupleIRInjector = new TupleIRInjectorStrategy();
     _variableIRInjector = new VariableIRInjectorStrategy();
+    _lambdaIRInjector = new LambdaIRInjectorStrategy();
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
     this->init();
 }
@@ -26,6 +27,7 @@ void IRInjectorMap::init() {
     _injectorMap.insert(this->insert(BOOL_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(CHAR_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
+    _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
 }
 
 std::pair<TypeSource, IRInjectorStrategy*> IRInjectorMap::insert(TypeSource typeSignature, IRInjectorStrategy* injector) {
@@ -67,6 +69,10 @@ VariableIRInjectorStrategy* IRInjectorMap::getVariableInjector() {
 
 ModuleIRInjectorStrategy* IRInjectorMap::getModuleInjector() {
     return _moduleIRInjector;
+}
+
+LambdaIRInjectorStrategy* IRInjectorMap::getLambdaInjector() {
+    return _lambdaIRInjector;
 }
 
 FunctionParameterIRInjectorStrategy* IRInjectorMap::getFunctionParameterInjector() {

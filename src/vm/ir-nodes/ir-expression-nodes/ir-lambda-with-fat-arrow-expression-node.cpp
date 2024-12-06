@@ -16,7 +16,7 @@ llvm::Function* IRLambdaWithFatArrowExpressionNode::getValue() {
     return _irValue;
 }
 
-IRType* IRLambdaWithFatArrowExpressionNode::getIRType() {
+IRLambdaType* IRLambdaWithFatArrowExpressionNode::getIRType() {
     return _type;
 }
 

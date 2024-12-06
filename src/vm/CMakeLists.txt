@@ -271,6 +271,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

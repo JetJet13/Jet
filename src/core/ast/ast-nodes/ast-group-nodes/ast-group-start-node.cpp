@@ -16,6 +16,10 @@ ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
         return new ASTFunctionParameterListStartNode(this->getLexeme());
     }
 
+    if (nextNode && nextNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_END_NODE })) {
+        return new ASTFunctionParameterListStartNode(this->getLexeme());
+    }
+
     if ((!prevNode ||
         prevNode && prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_FUNCTION_RETURN_NODE, AST_LAMBDA_EXPRESSION_FAT_ARROW_NODE })) &&
         nextNode && nextNode.value()->is(AST_GROUP_END_NODE)) {
