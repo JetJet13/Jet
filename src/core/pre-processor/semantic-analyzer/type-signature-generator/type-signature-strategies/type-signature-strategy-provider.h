@@ -37,6 +37,7 @@ public:
     TypeSignatureStrategyProvider();
     void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
     ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope);
+    ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

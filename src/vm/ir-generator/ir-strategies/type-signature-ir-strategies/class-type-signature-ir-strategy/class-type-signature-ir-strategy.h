@@ -8,10 +8,11 @@
 #include <llvm/IR/Value.h>
 #include "../../../ir-generator.h"
 #include "../../../../../core/type-signature/class-type-signature/class-type-signature.h"
+#include "../../../../ir-type/ir-class-type.h"
 
 class ClassTypeSignatureIRStrategy {
 public:
-    IRStructType* generate(ClassTypeSignature* classTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRClassType* generate(ClassTypeSignature* classTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_IR_STRATEGY_H

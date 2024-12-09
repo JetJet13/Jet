@@ -40,6 +40,7 @@
 #include "../../core/type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../core/type-signature/tuple-type-signature/tuple-type-signature.h"
 #include "../../core/type-signature/module-type-signature/module-type-signature.h"
+#include "../../core/type-signature/class-type-signature/class-type-signature.h"
 #include "../ir-type/ir-enum-type.h"
 #include "../ir-type/ir-pointer-type.h"
 #include "../ir-type/ir-function-type.h"
@@ -54,6 +55,7 @@
 #include "../ir-injector/ir-injector.h"
 #include "../types/ir-operation-type.h"
 #include "../ir-type/ir-module-type.h"
+#include "../ir-type/ir-class-type.h"
 #include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-node.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 
@@ -78,6 +80,7 @@ public:
     IRStructType* generateTypeFor(StructTypeSignature* typeSignature);
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature);
     IRModuleType* generateTypeFor(ModuleTypeSignature* typeSignature);
+    IRClassType* generateTypeFor(ClassTypeSignature* typeSignature);
     IRType* generateVoidType();
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
@@ -96,7 +99,6 @@ public:
     void initModule(IRModuleNode* irModule);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
     IRModuleNode* generateUtilInternalModule();
-
     IRInjector* getInjector();
 };
 

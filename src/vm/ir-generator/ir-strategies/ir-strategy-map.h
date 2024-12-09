@@ -32,6 +32,7 @@ class TupleAccessExpressionIRStrategy;
 class FunctionInvocationExpressionIRStrategy;
 class LambdaExpressionIRStrategy;
 class ExpressionStatementIRStrategy;
+
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
 class LiteralTypeSignatureIRStrategy;

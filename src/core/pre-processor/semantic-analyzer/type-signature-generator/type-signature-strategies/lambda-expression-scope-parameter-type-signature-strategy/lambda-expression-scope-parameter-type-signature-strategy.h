@@ -11,7 +11,7 @@
 
 class LambdaExpressionScopeParameterTypeSignatureStrategy {
 public:
-    ParameterListItemTypeSignature* create(TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    ParameterListItemTypeSignature* create(TypeSignatureLookupTable* scope);
 };
 
 

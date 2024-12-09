@@ -10,6 +10,11 @@ ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
     _properties = TypeSignatureMap<ClassPropertyTypeSignature>();
     _methods = TypeSignatureMap<ClassMethodTypeSignature>();
+    _classScopeParameter = ParameterListItemTypeSignature::createClassScopeParameter();
+}
+
+ParameterListItemTypeSignature* ClassTypeSignature::getClassScopeParameter() {
+    return _classScopeParameter;
 }
 
 TypeSignatureMap<ClassConstructorTypeSignature>* ClassTypeSignature::getConstructors() {
@@ -37,6 +42,10 @@ ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassProper
 ClassTypeSignature* ClassTypeSignature::addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature) {
     _methods.insert(key, classMethodTypeSignature);
     return this;
+}
+
+void ClassTypeSignature::setClassScopeParameter(ParameterListItemTypeSignature* classScopeParameter) {
+    _classScopeParameter = classScopeParameter;
 }
 
 std::string ClassTypeSignature::toString() {

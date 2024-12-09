@@ -3,10 +3,9 @@
 //
 
 #include "lambda-expression-scope-parameter-type-signature-strategy.h"
-#include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../type-signature/pointer-type-signature/pointer-type-signature.h"
 
-ParameterListItemTypeSignature* LambdaExpressionScopeParameterTypeSignatureStrategy::create(TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+ParameterListItemTypeSignature* LambdaExpressionScopeParameterTypeSignatureStrategy::create(TypeSignatureLookupTable* scope) {
     auto scopeParameterTypeSignature = new StructTypeSignature();
     for (auto keyValue : scope->getLookupTable()) {
         // we don't want to inject functions into the scope parameter since functions are global

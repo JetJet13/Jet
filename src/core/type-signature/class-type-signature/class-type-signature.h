@@ -18,14 +18,17 @@ private:
     TypeSignatureMap<ClassConstructorTypeSignature> _constructors;
     TypeSignatureMap<ClassPropertyTypeSignature> _properties;
     TypeSignatureMap<ClassMethodTypeSignature> _methods;
+    ParameterListItemTypeSignature* _classScopeParameter;
 public:
     ClassTypeSignature();
+    ParameterListItemTypeSignature* getClassScopeParameter();
     TypeSignatureMap<ClassConstructorTypeSignature>* getConstructors();
     TypeSignatureMap<ClassPropertyTypeSignature>* getProperties();
     TypeSignatureMap<ClassMethodTypeSignature>* getMethods();
     ClassTypeSignature* addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature);
     ClassTypeSignature* addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature);
     ClassTypeSignature* addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);
+    void setClassScopeParameter(ParameterListItemTypeSignature* classScopeParameter);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

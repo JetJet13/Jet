@@ -29,6 +29,7 @@ public:
     virtual bool isFunctionParameterType();
     virtual bool isLambdaType();
     virtual bool isFunctionType();
+    virtual bool isClassType();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
     bool isLessThan(IRType* otherValue);

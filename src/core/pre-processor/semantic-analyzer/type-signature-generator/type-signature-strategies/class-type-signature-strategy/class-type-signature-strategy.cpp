@@ -11,6 +11,8 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
     auto classTypeSignature = new ClassTypeSignature();
     auto classScope = TypeSignatureLookupTable(scope);
     this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
+    classTypeSignature->setClassScopeParameter(strategyMap->generateClassScopeParameter(classTypeSignature));
+
     this->assignConstructorTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     this->assignMethodTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     node->setTypeSignature(classTypeSignature);

@@ -1088,6 +1088,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/lambda-expression-scope-parameter-type-signature-strategy/lambda-expression-scope-parameter-type-signature-strategy.h
         type-signature/pointer-type-signature/pointer-type-signature.cpp
         type-signature/pointer-type-signature/pointer-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.h
 
 )
 

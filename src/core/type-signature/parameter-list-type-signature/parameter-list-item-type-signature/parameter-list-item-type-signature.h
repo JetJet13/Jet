@@ -15,6 +15,7 @@ private:
     TypeSignature* _type;
 public:
     static ParameterListItemTypeSignature* createScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature = {});
+    static ParameterListItemTypeSignature* createClassScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature = {});
     ParameterListItemTypeSignature(std::string name, TypeSignature* type);
     std::string getName();
     TypeSignature* getTypeSignature();

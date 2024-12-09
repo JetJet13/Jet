@@ -206,23 +206,27 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
 }
 
 IRArrayPointerType* IRGenerator::generateTypeFor(ArrayTypeSignature* typeSignature) {
-    return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, &_context, this);
+    return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
 }
 
 IREnumType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues) {
-    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, enumValues, &_context, this);
+    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(typeSignature, enumValues, &_context, this);
 }
 
 IRStructType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature) {
-    return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*)typeSignature, &_context, this);
+    return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
 }
 
 IRStructType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature) {
-    return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, &_context, this);
+    return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
 }
 
 IRModuleType* IRGenerator::generateTypeFor(ModuleTypeSignature* typeSignature) {
-    return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*)typeSignature, &_context, this);
+    return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
+}
+
+IRClassType* IRGenerator::generateTypeFor(ClassTypeSignature* typeSignature) {
+    return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(typeSignature, &_context, this);
 }
 
 IRType* IRGenerator::generateVoidType() {

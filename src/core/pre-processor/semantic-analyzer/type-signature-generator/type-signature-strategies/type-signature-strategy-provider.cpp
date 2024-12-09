@@ -42,6 +42,7 @@
 #include "class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h"
 #include "function-type-signature-strategy/function-type-signature-strategy.h"
@@ -376,5 +377,9 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
 }
 
 ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope) {
-    return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(scope, this);
+    return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(scope);
+}
+
+ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateClassScopeParameter(ClassTypeSignature* classTypeSignature) {
+    return this->_typeSignatureStrategyMap->getClassScopeParameterTypeSignatureStrategy()->create(classTypeSignature);
 }

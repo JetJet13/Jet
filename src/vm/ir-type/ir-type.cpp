@@ -78,6 +78,10 @@ bool IRType::isFunctionType() {
     return _type->isFunctionTy();
 }
 
+bool IRType::isClassType() {
+    return false;
+}
+
 bool IRType::isEqual(IRType* otherValue) {
     if (this->isIntegerType() && otherValue->isIntegerType()) {
         return this->getType()->getIntegerBitWidth() == otherValue->getType()->getIntegerBitWidth();

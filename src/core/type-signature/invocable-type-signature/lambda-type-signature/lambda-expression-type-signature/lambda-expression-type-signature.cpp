@@ -8,7 +8,7 @@
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
-    _scopeParameter = new ParameterListItemTypeSignature("scope", new StructTypeSignature());
+    _scopeParameter = ParameterListItemTypeSignature::createScopeParameter();
     _returnType = new VoidTypeSignature();
 }
 

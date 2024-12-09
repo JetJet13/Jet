@@ -3,8 +3,6 @@
 //
 
 #include "ir-function-node.h"
-#include "../ir-block-node.h"
-#include <llvm/IR/GlobalIFunc.h>
 
 IRFunctionNode::IRFunctionNode(llvm::Function* irValue) {
     _irValue = irValue;

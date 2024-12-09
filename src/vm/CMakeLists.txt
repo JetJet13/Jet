@@ -273,6 +273,16 @@ add_library(jet-vm
         ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.h
+        ir-type/ir-class-type.cpp
+        ir-type/ir-class-type.h
+        ir-nodes/ir-declaration-nodes/ir-class-declaration-node.cpp
+        ir-nodes/ir-declaration-nodes/ir-class-declaration-node.h
+        ir-nodes/ir-class-nodes/ir-class-constructor-node.cpp
+        ir-nodes/ir-class-nodes/ir-class-constructor-node.h
+        ir-nodes/ir-class-nodes/ir-class-method-node.cpp
+        ir-nodes/ir-class-nodes/ir-class-method-node.h
+        ir-generator/ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

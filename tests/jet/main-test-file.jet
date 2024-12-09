@@ -11,7 +11,6 @@ const myFatArrowLambda = (a: boolean) => a && false;
 const myProcLambda = () { const procedureString = "hi there"; };
 const myLambdaValue = myLambda(2);
 
-
 proc SimpleProc(fooLambda: func<int> => int) {
     const simple = 50;
     const simpleLambda = () => 50;
@@ -24,4 +23,14 @@ func SimpleFunc(fooLambda: func<int> => int) int {
     const simpleLambda = () => 50;
     const anotherLambda = (x: int, y: func<int> => int) => x + y(88) + simple + simpleLambda() + fooLambda();
     return anotherLambda(20, (z: int) => z + 2) + anotherLambda(20, (z: int) { return z + 2; });
+}
+
+class MyClass {
+
+
+    constructor(a: int) {
+
+    }
+
+
 }
