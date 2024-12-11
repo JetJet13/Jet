@@ -29,6 +29,7 @@ public:
     ClassTypeSignature* addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature);
     ClassTypeSignature* addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);
     void setClassScopeParameter(ParameterListItemTypeSignature* classScopeParameter);
+    bool isClassScopeParameterNecessary();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

@@ -12,24 +12,28 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
 
     auto irClassConstructors = std::vector<IRClassConstructorNode*>();
     for (auto constructor : *node->getBlock()->getConstructors()) {
-        irClassConstructors.push_back(this->generate(constructor, context, irGenerator, scope, irModule));
+        irClassConstructors.push_back(this->generate(constructor, context, irGenerator, scope, irModule, irClassType));
     }
 
     auto irClassMethods = std::vector<IRClassMethodNode*>();
     for (auto method : *node->getBlock()->getMethods()) {
-        irClassMethods.push_back(this->generate(method, context, irGenerator, scope, irModule));
+        irClassMethods.push_back(this->generate(method, context, irGenerator, scope, irModule, irClassType));
     }
     return new IRClassDeclarationNode(node, irClassType, irClassConstructors, irClassMethods);
 }
 
-IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRClassType* irClassType) {
     auto constructorScope = new IRLookupTable();
     constructorScope->inheritGlobalScope(scope);
-    auto constructorTypeNode = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto constructorTypeNode = irClassType->getIRTypeForConstructor(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(constructorTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), constructorScope, irModule, irFunction);
+    if (irClassType->getClassScopeParameterType()) {
+        auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
+        functionParameterList->addScopeParameter(new IRFunctionParameterNode(argument, irClassType->getClassScopeParameterType().value()));
+    }
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     for (int i = 0; i < functionType->getNumParams(); ++i) {
@@ -58,14 +62,18 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
     return new IRClassConstructorNode(irFunction);
 }
 
-IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRClassType* irClassType) {
     auto methodScope = new IRLookupTable();
     methodScope->inheritGlobalScope(scope);
-    auto methodTypeNode = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irModule, irFunction);
+    if (irClassType->getClassScopeParameterType()) {
+        auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
+        functionParameterList->addScopeParameter(new IRFunctionParameterNode(argument, irClassType->getClassScopeParameterType().value()));
+    }
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     for (int i = 0; i < functionType->getNumParams(); ++i) {

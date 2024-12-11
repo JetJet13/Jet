@@ -12,11 +12,14 @@
 class IRClassType : public IRType {
 private:
     IRStructType* _classProperties;
-    IRParameterType* _classScopeType;
+    std::optional<IRParameterType*> _classScopeType;
     std::unordered_map<std::string, IRFunctionType*> _classConstructors;
     std::unordered_map<std::string, IRFunctionType*> _classMethods;
 public:
-    IRClassType(IRStructType* classProperties, IRParameterType* classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods);
+    IRClassType(IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods);
+    std::optional<IRParameterType*> getClassScopeParameterType();
+    std::optional<IRFunctionType*> getIRTypeForConstructor(std::string constructorId);
+    std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
     llvm::Type* getValueType();
     bool isClassType() override;
 };

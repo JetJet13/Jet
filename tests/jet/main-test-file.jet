@@ -27,10 +27,14 @@ func SimpleFunc(fooLambda: func<int> => int) int {
 
 class MyClass {
 
+    public a: int = 5;
 
     constructor(a: int) {
 
     }
 
+    public getA() int {
+        return this.a;
+    }
 
 }

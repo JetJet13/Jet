@@ -30,6 +30,7 @@
 #include "./enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
 #include "./module-declaration-ir-strategy/module-declaration-ir-strategy.h"
 #include "./import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
+#include "./class-declaration-ir-strategy/class-declaration-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
@@ -74,6 +75,8 @@ IRStrategyMap::IRStrategyMap() {
     _functionInvocationExpressionIRStrategy = new FunctionInvocationExpressionIRStrategy();
     _lambdaExpressionIRStrategy = new LambdaExpressionIRStrategy();
     _expressionStatementIRStrategy = new ExpressionStatementIRStrategy();
+    _classDeclarationIRStrategy = new ClassDeclarationIRStrategy();
+
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
     _classTypeSignatureIRStrategy = new ClassTypeSignatureIRStrategy();
@@ -197,6 +200,10 @@ LambdaExpressionIRStrategy* IRStrategyMap::getLambdaExpressionIRStrategy() {
 
 ExpressionStatementIRStrategy* IRStrategyMap::getExpressionStatementIRStrategy() {
     return _expressionStatementIRStrategy;
+}
+
+ClassDeclarationIRStrategy* IRStrategyMap::getClassDeclarationIRStrategy() {
+    return _classDeclarationIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

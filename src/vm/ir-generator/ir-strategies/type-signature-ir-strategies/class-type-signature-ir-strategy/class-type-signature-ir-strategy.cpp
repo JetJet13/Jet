@@ -3,12 +3,14 @@
 //
 
 #include "class-type-signature-ir-strategy.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (auto keyValue : classTypeSignature->getProperties()->getKeyValues()) {
+        Logger::log("key value", keyValue.first, keyValue.second->getType()->getTargetTypeSignature()->toString());
         auto irType = irGenerator->generateTypeFor(keyValue.second->getType()->getTargetTypeSignature());
         classPropertyTypes.push_back(irType->getType());
         keyIndexMap.insert(
@@ -21,20 +23,26 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     auto constructorReturnType = irGenerator->generateVoidType()->getType();
     auto classConstructors = std::unordered_map<std::string, IRFunctionType*>();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
-        auto constructorParameters = irGenerator->generateParameterList(keyValue.second->getParameterList(), classTypeSignature->getClassScopeParameter());
+        auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
+        ? irGenerator->generateParameterList(keyValue.second->getParameterList(), classTypeSignature->getClassScopeParameter())
+        : irGenerator->generateParameterList(keyValue.second->getParameterList());
         classConstructors[keyValue.first] = new IRFunctionType(llvm::FunctionType::get(constructorReturnType, constructorParameters->getParameterTypes(), false));
     }
 
     auto classMethods = std::unordered_map<std::string, IRFunctionType*>();
     for (auto keyValue : classTypeSignature->getMethods()->getKeyValues()) {
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType());
-        auto methodParameters = irGenerator->generateParameterList(keyValue.second->getParameters(), classTypeSignature->getClassScopeParameter());
+        auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
+                ? irGenerator->generateParameterList(keyValue.second->getParameters(), classTypeSignature->getClassScopeParameter())
+                : irGenerator->generateParameterList(keyValue.second->getParameters());
         classMethods[keyValue.first] = new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false));
     }
 
     return new IRClassType(
             classProperties,
-            irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter()),
+            classTypeSignature->isClassScopeParameterNecessary()
+            ? irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter())
+            : std::optional<IRParameterType*>(),
             classConstructors,
             classMethods
     );

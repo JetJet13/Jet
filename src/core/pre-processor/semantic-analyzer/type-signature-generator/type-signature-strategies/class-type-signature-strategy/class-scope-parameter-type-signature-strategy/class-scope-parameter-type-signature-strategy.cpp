@@ -7,7 +7,7 @@
 ParameterListItemTypeSignature* ClassScopeParameterTypeSignatureStrategy::create(ClassTypeSignature* classTypeSignature) {
     auto scopeParameterTypeSignature = new StructTypeSignature();
     for (const auto& keyValue : classTypeSignature->getProperties()->getKeyValues()) {
-        scopeParameterTypeSignature->addKeyValuePair(keyValue.first, keyValue.second);
+        scopeParameterTypeSignature->addKeyValuePair(keyValue.first, keyValue.second->getType()->getTargetTypeSignature());
     }
     return ParameterListItemTypeSignature::createClassScopeParameter(scopeParameterTypeSignature);
 }

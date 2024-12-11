@@ -48,6 +48,10 @@ void ClassTypeSignature::setClassScopeParameter(ParameterListItemTypeSignature* 
     _classScopeParameter = classScopeParameter;
 }
 
+bool ClassTypeSignature::isClassScopeParameterNecessary() {
+    return !((StructTypeSignature*)_classScopeParameter->getTypeSignature())->isEmpty();
+}
+
 std::string ClassTypeSignature::toString() {
     return "CLASS_TYPE_SIGNATURE";
 }

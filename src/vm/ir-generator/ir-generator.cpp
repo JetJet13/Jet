@@ -30,6 +30,7 @@
 #include "ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
 #include "ir-strategies/module-declaration-ir-strategy/module-declaration-ir-strategy.h"
 #include "ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
+#include "ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
@@ -94,6 +95,8 @@ IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTa
         return this->_irStrategyMap.getModuleDeclarationIRStrategy()->generate((ASTModuleDeclarationNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
         return this->_irStrategyMap.getImportSingleModuleDeclarationIRStrategy()->generate((ASTImportSingleModuleDeclarationNode*)node, &_context, this, scope, irModuleNode);
+    } else if (node->is(AST_CLASS_DECLARATION_NODE)) {
+        return this->_irStrategyMap.getClassDeclarationIRStrategy()->generate((ASTClassDeclarationNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
@@ -200,6 +203,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
         case BOOL_LITERAL_TYPE_SOURCE:
             return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature*)typeSignature, &_context, this);
         default:
+            Logger::log("UH OH");
             typeSignature->print();
             throw std::logic_error("unable to generate llvm type for type-signature " + typeSignature->toString());
     }

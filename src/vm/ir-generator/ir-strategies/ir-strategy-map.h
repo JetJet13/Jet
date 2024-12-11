@@ -32,6 +32,7 @@ class TupleAccessExpressionIRStrategy;
 class FunctionInvocationExpressionIRStrategy;
 class LambdaExpressionIRStrategy;
 class ExpressionStatementIRStrategy;
+class ClassDeclarationIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -81,6 +82,8 @@ private:
     FunctionInvocationExpressionIRStrategy* _functionInvocationExpressionIRStrategy;
     LambdaExpressionIRStrategy* _lambdaExpressionIRStrategy;
     ExpressionStatementIRStrategy* _expressionStatementIRStrategy;
+    ClassDeclarationIRStrategy* _classDeclarationIRStrategy;
+
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
     LiteralTypeSignatureIRStrategy* _literalTypeSignatureIRStrategy;
@@ -126,6 +129,7 @@ public:
     FunctionInvocationExpressionIRStrategy* getFunctionInvocationExpressionIRStrategy();
     LambdaExpressionIRStrategy* getLambdaExpressionIRStrategy();
     ExpressionStatementIRStrategy* getExpressionStatementIRStrategy();
+    ClassDeclarationIRStrategy* getClassDeclarationIRStrategy();
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
     LiteralTypeSignatureIRStrategy* getLiteralTypeSignatureIRStrategy();
