@@ -21,6 +21,7 @@
 #include "./expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
+#include "./expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
@@ -76,6 +77,7 @@ IRStrategyMap::IRStrategyMap() {
     _lambdaExpressionIRStrategy = new LambdaExpressionIRStrategy();
     _expressionStatementIRStrategy = new ExpressionStatementIRStrategy();
     _classDeclarationIRStrategy = new ClassDeclarationIRStrategy();
+    _classPropertyAccessExpressionIRStrategy = new ClassPropertyAccessExpressionIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
@@ -204,6 +206,10 @@ ExpressionStatementIRStrategy* IRStrategyMap::getExpressionStatementIRStrategy()
 
 ClassDeclarationIRStrategy* IRStrategyMap::getClassDeclarationIRStrategy() {
     return _classDeclarationIRStrategy;
+}
+
+ClassPropertyAccessExpressionIRStrategy* IRStrategyMap::getClassPropertyAccessExpressionIRStrategy() {
+    return _classPropertyAccessExpressionIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

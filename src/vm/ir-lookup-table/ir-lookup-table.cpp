@@ -83,6 +83,10 @@ std::optional<IRGlobalVariableNode*> IRLookupTable::findGlobalVariable(std::stri
     }
 }
 
+std::optional<IRInstructionNode*> IRLookupTable::getClassScope() {
+    return this->find("jet.class.scope");
+}
+
 void IRLookupTable::dump() {
     Logger::log("======== IRLookupTable DUMP ========");
     for (auto keyValue : _scope) {

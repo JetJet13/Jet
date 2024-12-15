@@ -22,7 +22,8 @@ ASTNode * ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNo
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_EXPRESSION_NODE,
-            AST_TUPLE_ACCESS_NODE
+            AST_TUPLE_ACCESS_NODE,
+            AST_CLASS_PROPERTY_ACCESS_NODE
     };
     if (prevNode && prevNode.value()->isOneOf(minusOperatorPrevNodes)) {
         return new ASTBinaryOperatorNode(_lexeme);

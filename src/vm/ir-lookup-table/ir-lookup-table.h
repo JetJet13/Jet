@@ -29,6 +29,7 @@ public:
     std::optional<IRNode*> findAcrossScopes(std::string key);
     IRLookupTable* insertGlobalVariable(std::string key, IRGlobalVariableNode* value);
     std::optional<IRGlobalVariableNode*> findGlobalVariable(std::string key);
+    std::optional<IRInstructionNode*> getClassScope();
     void dump();
 };
 

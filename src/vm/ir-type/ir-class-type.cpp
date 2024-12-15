@@ -37,6 +37,10 @@ llvm::Type* IRClassType::getValueType() {
     return this->getType()->getStructElementType(0);
 }
 
+IRStructType* IRClassType::getClassProperties() {
+    return _classProperties;
+}
+
 bool IRClassType::isClassType() {
     return true;
 }

@@ -283,6 +283,10 @@ add_library(jet-vm
         ir-nodes/ir-class-nodes/ir-class-method-node.h
         ir-generator/ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.cpp
         ir-generator/ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h
 )
 
 target_link_libraries(jet-vm

@@ -28,13 +28,14 @@ func SimpleFunc(fooLambda: func<int> => int) int {
 class MyClass {
 
     public a: int = 5;
+    private b = { x: 10, y: 0, z: 97 };
 
     constructor(a: int) {
 
     }
 
     public getA() int {
-        return this.a;
+        return this.a + this.b.x;
     }
 
 }

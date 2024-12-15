@@ -21,6 +21,7 @@ public:
     std::optional<IRFunctionType*> getIRTypeForConstructor(std::string constructorId);
     std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
     llvm::Type* getValueType();
+    IRStructType* getClassProperties();
     bool isClassType() override;
 };
 
