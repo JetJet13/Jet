@@ -5,6 +5,7 @@
 #include "class-declaration-id-strategy.h"
 #include "../../../../../../shared/utils/to-string/to-string.h"
 #include "../../../../../ast/ast-nodes/ast-type-nodes/ast-custom-type-node.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     auto classDeclarationNode = (ASTClassDeclarationNode*)node;
@@ -28,6 +29,8 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     auto astNode = astTraverser.next();
     while (astNode) {
         if (astNode.value()->isOneOf({ AST_THIS_EXPRESSION_NODE, AST_THIS_TYPE_NODE, AST_THIS_NODE })) {
+            Logger::log("found this", classDeclarationNode->getId());
+            astNode.value()->print();
             astNode.value()->setId(classDeclarationNode->getId());
         } else if (astNode.value()->is(AST_CUSTOM_TYPE_NODE)) {
             auto customTypeName = _tokenTable->getIdentifier(

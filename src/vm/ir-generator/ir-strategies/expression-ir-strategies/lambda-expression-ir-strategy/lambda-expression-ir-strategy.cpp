@@ -8,7 +8,6 @@
 #include "../../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../core/type-signature/pointer-type-signature/pointer-type-signature.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto lambdaScope = new IRLookupTable();

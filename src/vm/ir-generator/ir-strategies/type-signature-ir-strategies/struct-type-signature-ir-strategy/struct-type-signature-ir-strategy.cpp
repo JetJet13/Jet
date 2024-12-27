@@ -10,7 +10,7 @@ IRStructType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* struc
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (auto keyValue : structTypeSignature->getKeyValuePairs()->getKeyValues()) {
-        auto irType = irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature());
+        auto irType = irGenerator->generateTypeFor(keyValue.second);
         structPropertyTypes.push_back(irType->getType());
         keyIndexMap.insert(
             std::pair(keyValue.first, structTypeSignature->getKeyValuePairs()->findKeyIndex(keyValue.first))

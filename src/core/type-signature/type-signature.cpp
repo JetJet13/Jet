@@ -58,3 +58,7 @@ TypeSignature* TypeSignature::getTargetTypeSignature() {
 bool TypeSignature::isEquivalentTo(TypeSignature* otherType) {
     return this->isEqualTo(otherType);
 }
+
+TypeSignature* TypeSignature::convertToVariableTypeSignature() {
+    return this;
+}

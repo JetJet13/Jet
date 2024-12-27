@@ -22,6 +22,10 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(ASTClassDeclara
 
 void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     for (auto classProperty : *classDeclarationNode->getBlock()->getProperties()) {
+        if (classProperty->getTypeSignature()->getType()->isInvocable()) {
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassPropertyInvocable(classProperty));
+        }
+
         if (classProperty->getInitializer()) {
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
@@ -36,10 +40,6 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     auto classPropertyNames = std::vector<ASTIdentifierNode*>();
-    for (auto classProperty : *classDeclarationNode->getBlock()->getProperties()) {
-
-    }
-
     TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
     ->enforce(
         &classPropertyNames,

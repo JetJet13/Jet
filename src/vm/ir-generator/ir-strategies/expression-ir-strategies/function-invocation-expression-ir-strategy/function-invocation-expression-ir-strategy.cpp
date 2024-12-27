@@ -3,7 +3,6 @@
 //
 
 #include "function-invocation-expression-ir-strategy.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto arguments = std::vector<IRExpressionNode*>();

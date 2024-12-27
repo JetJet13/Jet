@@ -9,6 +9,7 @@
 #include "../../../ir-type/ir-array-pointer-type.h"
 #include "../../../ir-nodes/ir-instruction-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-array-access-expression-node.h"
@@ -30,6 +31,7 @@ public:
     llvm::Value* inject(std::string rawString, IRArrayPointerType* stringPointerType, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRFunctionParameterInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_STRING_IR_INJECTOR_STRATEGY_H

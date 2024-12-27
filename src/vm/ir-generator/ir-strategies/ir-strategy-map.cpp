@@ -22,6 +22,7 @@
 #include "./expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
 #include "./expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
+#include "./expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
@@ -47,6 +48,7 @@
 #include "./type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
     _intLiteralIRStrategy = new IntLiteralIRStrategy();
@@ -94,6 +96,7 @@ IRStrategyMap::IRStrategyMap() {
     _moduleTypeSignatureStrategy = new ModuleTypeSignatureIRStrategy();
     _pointerTypeSignatureStrategy = new PointerTypeSignatureIRStrategy();
     _functionInvocationTypeSignatureIRStrategy = new FunctionInvocationTypeSignatureIRStrategy();
+    _classMethodTypeSignatureIRStrategy = new ClassMethodTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -212,6 +215,10 @@ ClassPropertyAccessExpressionIRStrategy* IRStrategyMap::getClassPropertyAccessEx
     return _classPropertyAccessExpressionIRStrategy;
 }
 
+ClassMethodInvocationExpressionIRStrategy* IRStrategyMap::getClassMethodInvocationExpressionIRStrategy() {
+    return _classMethodInvocationExpressionIRStrategy;
+}
+
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
     return _arrayTypeSignatureIRStrategy;
 }
@@ -270,4 +277,8 @@ PointerTypeSignatureIRStrategy* IRStrategyMap::getPointerTypeSignatureIRStrategy
 
 FunctionInvocationTypeSignatureIRStrategy* IRStrategyMap::getFunctionInvocationTypeSignatureIRStrategy() {
     return _functionInvocationTypeSignatureIRStrategy;
+}
+
+ClassMethodTypeSignatureIRStrategy* IRStrategyMap::getClassMethodTypeSignatureIRStrategy() {
+    return _classMethodTypeSignatureIRStrategy;
 }

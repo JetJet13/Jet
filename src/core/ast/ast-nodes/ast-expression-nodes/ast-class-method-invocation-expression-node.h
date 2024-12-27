@@ -26,6 +26,7 @@ public:
     explicit ASTClassMethodInvocationExpressionNode(ASTClassAccessNode* classAccess, ASTClassMethodCallNode* name, ASTFunctionArgumentListNode* arguments);
     ASTFunctionArgumentListNode* getArguments();
     ASTClassMethodCallNode* getName();
+    ASTClassAccessNode* getClassAccess();
     unsigned long numArguments();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

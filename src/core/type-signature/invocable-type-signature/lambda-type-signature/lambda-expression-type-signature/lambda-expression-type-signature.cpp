@@ -5,6 +5,8 @@
 #include "lambda-expression-type-signature.h"
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../void-type-signature/void-type-signature.h"
+#include "../procedure-lambda-type-signature/procedure-lambda-type-signature.h"
+#include "../function-lambda-type-signature/function-lambda-type-signature.h"
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
     _parameterList = new ParameterListTypeSignature();
@@ -59,6 +61,13 @@ bool LambdaExpressionTypeSignature::isEqualTo(TypeSignature* otherType) {
     return this->getParameterList()->isEqualTo(other->getParameterList()) &&
            this->getScopeParameter()->isEqualTo(other->getScopeParameter()) &&
            this->getReturnType()->isEqualTo(other->getReturnType());
+}
+
+TypeSignature* LambdaExpressionTypeSignature::convertToVariableTypeSignature() {
+    if (this->_returnType->isVoid()) {
+        return new ProcedureLambdaTypeSignature(this->getParameterTypes());
+    }
+    return new FunctionLambdaTypeSignature(this->getParameterTypes(), this->getReturnType());
 }
 
 void LambdaExpressionTypeSignature::print() {

@@ -10,6 +10,7 @@ ASTClassMethodInvocationExpressionNode::ASTClassMethodInvocationExpressionNode(A
     _classAccess = classAccess;
     _method = method;
     _arguments = arguments;
+    _children.push_back(_classAccess);
     _children.push_back(_method);
     _children.push_back(_arguments);
 }
@@ -20,6 +21,10 @@ ASTFunctionArgumentListNode* ASTClassMethodInvocationExpressionNode::getArgument
 
 ASTClassMethodCallNode* ASTClassMethodInvocationExpressionNode::getName() {
     return _method;
+}
+
+ASTClassAccessNode* ASTClassMethodInvocationExpressionNode::getClassAccess() {
+    return _classAccess;
 }
 
 unsigned long ASTClassMethodInvocationExpressionNode::numArguments() {

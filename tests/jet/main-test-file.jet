@@ -29,13 +29,18 @@ class MyClass {
 
     public a: int = 5;
     public b = { x: 10, y: 0, z: 97 };
+    private c = tuple { 1, 2, 3 };
+    // private d = () => 20; illegal, since they're equivalent to class methods
 
     constructor(a: int) {
 
     }
 
-    public getA() int {
-        return this.a + this.b.x;
+    public getA(callback: func<> => int) int {
+        return this.a + this.b.x + this.c.2 + callback() + this.compute();
     }
 
+    private compute() int {
+        return this.getA(() => 5); // todo: lambda scope must include class scope argument
+    }
 }

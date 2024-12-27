@@ -21,12 +21,13 @@ private:
     IRType* _irType;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRClassPropertyAccessExpressionNode(ASTClassPropertyAccessExpressionNode* node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType);
+    IRClassPropertyAccessExpressionNode(ASTClassPropertyAccessExpressionNode* node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
     ASTClassPropertyAccessExpressionNode* getNode();
     IRInstructionNode* getSource();
     std::string* getTargetKey();
     llvm::Constant* getIRTargetKeyIndex();
     unsigned long getTargetKeyIndex();
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRType* getTargetIRType();

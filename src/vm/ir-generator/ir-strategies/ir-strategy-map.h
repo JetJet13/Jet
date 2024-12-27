@@ -34,6 +34,7 @@ class LambdaExpressionIRStrategy;
 class ExpressionStatementIRStrategy;
 class ClassDeclarationIRStrategy;
 class ClassPropertyAccessExpressionIRStrategy;
+class ClassMethodInvocationExpressionIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -53,6 +54,7 @@ class EnumAccessTypeSignatureIRStrategy;
 class ModuleTypeSignatureIRStrategy;
 class PointerTypeSignatureIRStrategy;
 class FunctionInvocationTypeSignatureIRStrategy;
+class ClassMethodTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -85,6 +87,7 @@ private:
     ExpressionStatementIRStrategy* _expressionStatementIRStrategy;
     ClassDeclarationIRStrategy* _classDeclarationIRStrategy;
     ClassPropertyAccessExpressionIRStrategy* _classPropertyAccessExpressionIRStrategy;
+    ClassMethodInvocationExpressionIRStrategy* _classMethodInvocationExpressionIRStrategy;
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -102,6 +105,7 @@ private:
     ModuleTypeSignatureIRStrategy* _moduleTypeSignatureStrategy;
     PointerTypeSignatureIRStrategy* _pointerTypeSignatureStrategy;
     FunctionInvocationTypeSignatureIRStrategy* _functionInvocationTypeSignatureIRStrategy;
+    ClassMethodTypeSignatureIRStrategy* _classMethodTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -133,6 +137,7 @@ public:
     ExpressionStatementIRStrategy* getExpressionStatementIRStrategy();
     ClassDeclarationIRStrategy* getClassDeclarationIRStrategy();
     ClassPropertyAccessExpressionIRStrategy* getClassPropertyAccessExpressionIRStrategy();
+    ClassMethodInvocationExpressionIRStrategy* getClassMethodInvocationExpressionIRStrategy();
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
@@ -150,6 +155,7 @@ public:
     ModuleTypeSignatureIRStrategy* getModuleTypeSignatureIRStrategy();
     PointerTypeSignatureIRStrategy* getPointerTypeSignatureIRStrategy();
     FunctionInvocationTypeSignatureIRStrategy* getFunctionInvocationTypeSignatureIRStrategy();
+    ClassMethodTypeSignatureIRStrategy* getClassMethodTypeSignatureIRStrategy();
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H

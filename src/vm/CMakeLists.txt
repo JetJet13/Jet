@@ -257,8 +257,6 @@ add_library(jet-vm
         ir-type/ir-lambda-type.h
         ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h
-        ir-generator/ir-strategies/function-scope-parameter-ir-strategy/function-scope-parameter-ir-strategy.cpp
-        ir-generator/ir-strategies/function-scope-parameter-ir-strategy/function-scope-parameter-ir-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h
         ir-generator/ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.cpp
@@ -287,6 +285,12 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h
         ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h
+        ir-generator/ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-class-method-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-class-method-invocation-expression-node.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

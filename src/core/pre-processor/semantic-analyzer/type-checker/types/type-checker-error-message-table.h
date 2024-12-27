@@ -80,7 +80,10 @@ namespace TypeCheckerErrorMessageTable {
     } 
     static std::string ClassPropertyInitializerTypeMismatch(ASTNode* node) {
       return "type of initial value for class property does not match class property type \n" + node->toSourceCode();
-    } 
+    }
+    static std::string ClassPropertyInvocable(ASTNode* node) {
+        return "class property cannot be invocable. Convert to class method instead \n" + node->toSourceCode();
+    }
     static std::string ClassPropertyNamesNotUnique(ASTNode* node) {
       return "class property names must be unique \n" + node->toSourceCode();
     } 

@@ -14,7 +14,7 @@ void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNo
     strategyMap->assignTypeSignatureFor(variableDeclaration->getInitializerNode(), scope);
 
     if (variableDeclaration->getTypeSignature()->isUnknown()) {
-        variableDeclaration->setTypeSignature(variableDeclaration->getInitializerNode()->getTypeSignature());
+        variableDeclaration->setTypeSignature(variableDeclaration->getInitializerNode()->getTypeSignature()->convertToVariableTypeSignature());
     }
 
     if (variableDeclaration->isGlobal()) {

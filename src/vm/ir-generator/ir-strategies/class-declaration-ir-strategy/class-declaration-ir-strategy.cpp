@@ -9,10 +9,14 @@
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature());
-
+    
     auto irClassConstructors = std::vector<IRClassConstructorNode*>();
     for (auto constructor : *node->getBlock()->getConstructors()) {
         irClassConstructors.push_back(this->generate(constructor, context, irGenerator, scope, irModule, irClassType));
+    }
+
+    for (auto method : *node->getBlock()->getMethods()) {
+        this->declareMethod(method, context, irGenerator, scope, irModule, irClassType);
     }
 
     auto irClassMethods = std::vector<IRClassMethodNode*>();
@@ -103,4 +107,11 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
         irGenerator->getInjector()->injectVoidReturnType(functionBlock);
     }
     return new IRClassMethodNode(irFunction);
+}
+
+void ClassDeclarationIRStrategy::declareMethod(ASTClassMethodDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRClassType* irClassType) {
+    auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
+    auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
+    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
+    llvm::Function::Create(functionType, linkage, 0, node->getId(), irModule->getModule());
 }

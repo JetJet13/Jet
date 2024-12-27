@@ -8,7 +8,7 @@ void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode*
     TypeSignature* classPropertyType = new UnknownTypeSignature();
     if (classPropertyDeclaration->getInitializer()) {
         strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getInitializer().value(), scope);
-        classPropertyType = classPropertyDeclaration->getInitializer().value()->getTypeSignature();
+        classPropertyType = classPropertyDeclaration->getInitializer().value()->getTypeSignature()->convertToVariableTypeSignature();
     }
 
     if (classPropertyDeclaration->getType()) {

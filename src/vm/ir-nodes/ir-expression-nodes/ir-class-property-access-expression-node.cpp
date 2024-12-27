@@ -5,13 +5,14 @@
 #include "ir-class-property-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRClassPropertyAccessExpressionNode::IRClassPropertyAccessExpressionNode(ASTClassPropertyAccessExpressionNode* node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType) {
+IRClassPropertyAccessExpressionNode::IRClassPropertyAccessExpressionNode(ASTClassPropertyAccessExpressionNode* node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
     _irTargetKeyIndex = irTargetKeyIndex;
     _targetKeyIndex = targetKeyIndex;
     _irType = irType;
+    _sourceAllocation = sourceAllocation;
 }
 
 ASTClassPropertyAccessExpressionNode* IRClassPropertyAccessExpressionNode::getNode() {
@@ -32,6 +33,10 @@ llvm::Constant* IRClassPropertyAccessExpressionNode::getIRTargetKeyIndex() {
 
 unsigned long IRClassPropertyAccessExpressionNode::getTargetKeyIndex() {
     return _targetKeyIndex;
+}
+
+std::optional<IRInstructionNode*> IRClassPropertyAccessExpressionNode::getSourceAllocation() {
+    return _sourceAllocation;
 }
 
 IRType* IRClassPropertyAccessExpressionNode::getIRType() {

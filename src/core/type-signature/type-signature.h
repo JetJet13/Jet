@@ -24,6 +24,7 @@ public:
     virtual TypeSource getTypeTarget();
     virtual TypeSignature* getTargetTypeSignature();
     virtual bool isEquivalentTo(TypeSignature* otherType);
+    virtual TypeSignature* convertToVariableTypeSignature();
     virtual std::string toString() = 0;
     virtual TypeSource getTypeSource() = 0;
     virtual bool isEqualTo(TypeSignature* otherType) = 0;

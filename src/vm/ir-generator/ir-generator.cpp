@@ -22,6 +22,7 @@
 #include "ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
@@ -47,6 +48,7 @@
 #include "ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 #include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
@@ -137,6 +139,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaWithFatArrowExpressionNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getClassPropertyAccessExpressionIRStrategy()->generate((ASTClassPropertyAccessExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
+    } else if (node->is(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate((ASTClassMethodInvocationExpressionNode*)node, &_context, this, scope, irModuleNode, irOperationType);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
@@ -199,6 +203,8 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature) {
             return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature*)typeSignature, &_context, this);
         case FUNCTION_INVOCATION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate((FunctionInvocationTypeSignature*)typeSignature, &_context, this);
+        case CLASS_METHOD_TYPE_SOURCE:
+            return _irStrategyMap.getClassMethodTypeSignatureIRStrategy()->generate((ClassMethodTypeSignature*)typeSignature, &_context, this);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
