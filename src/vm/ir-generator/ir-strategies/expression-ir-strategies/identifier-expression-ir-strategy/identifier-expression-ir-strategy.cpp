@@ -5,9 +5,10 @@
 #include "identifier-expression-ir-strategy.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
-
+    Logger::log("identifier", node->getId(), node->getTypeSignature()->toString());
     auto allocation = scope->find(node->getIdentifierNode()->getId());
     if (irOperationType == IR_COPY_ASSIGNMENT_OP && allocation && allocation.value()->getIRType()->getSourceType()->isArrayPointerType()) {
         return this->generateForAggregate(node, allocation.value(), context, irGenerator, scope, irModule, irOperationType);

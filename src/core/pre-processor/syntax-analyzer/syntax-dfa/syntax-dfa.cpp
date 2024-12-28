@@ -161,7 +161,7 @@ void SyntaxDfa::init() {
     DFANode* classPropertyDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_DECLARATION_NODE, AST_CLASS_PROPERTY_DECLARATION_NODE);
     DFANode* classPropertyAccess = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_NODE);
     DFANode* classPropertyAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ASSIGNMENT_NODE);
-    DFANode* classMethodInvocation = DFANodeFactory::Once::create(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE);
+    DFANode* classMethodInvocationExpression = DFANodeFactory::Once::create(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE);
     DFANode* constructorKeyword = DFANodeFactory::Once::create(AST_CONSTRUCTOR_NODE);
     DFANode* classConstructorDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, AST_CLASS_CONSTRUCTOR_DECLARATION_NODE);
     DFANode* classAccess = DFANodeFactory::Once::create(AST_CLASS_ACCESS_NODE);
@@ -349,6 +349,14 @@ void SyntaxDfa::init() {
        AST_UNARY_OPERATOR_NODE
     })
     ->markAlwaysReduceSelf()
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addTransition(DFATransitionFactory::create(logicalOperator))
+    ->addTransition(DFATransitionFactory::create(binaryOperator));
+
+    classMethodInvocationExpression
+    ->backtrackWhenLastReducedNodeIsOneOf({
+        AST_UNARY_OPERATOR_NODE
+    })
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator));
@@ -1142,7 +1150,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(classPropertyAccessExpression)
     ->insertStartNode(classPropertyAssignment)
     ->insertStartNode(classMethodCall)
-    ->insertStartNode(classMethodInvocation)
+    ->insertStartNode(classMethodInvocationExpression)
     ->insertStartNode(constructorKeyword)
     ->insertStartNode(classConstructorDeclaration)
     ->insertStartNode(newKeyword)

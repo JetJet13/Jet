@@ -25,6 +25,15 @@ func SimpleFunc(fooLambda: func<int> => int) int {
     return anotherLambda(20, (z: int) => z + 2) + anotherLambda(20, (z: int) { return z + 2; });
 }
 
+func LambdaVarTest(test: func<> => int) int {
+    return 5 + test();
+}
+
+func FooVarTest() int {
+    const fooLambdaTest = () => 25;
+    return LambdaVarTest(fooLambdaTest);
+}
+
 class MyClass {
 
     public a: int = 5;
@@ -41,6 +50,7 @@ class MyClass {
     }
 
     private compute() int {
-        return this.getA(() => 5); // todo: lambda scope must include class scope argument
+        const computeLambda = () => 5;
+        return this.getA(() => 20) + this.getA(computeLambda);
     }
 }

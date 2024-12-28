@@ -9,17 +9,19 @@
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = new ClassTypeSignature();
-    auto classScope = TypeSignatureLookupTable(scope);
+    node->setTypeSignature(classTypeSignature);
+    scope->insertGlobal(node->getId(), node->getTypeSignature());
+
+    auto classScope = TypeSignatureLookupTable();
+    classScope.inheritGlobalScope(scope);
+
     this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     classTypeSignature->setClassScopeParameter(strategyMap->generateClassScopeParameter(classTypeSignature));
 
     this->assignConstructorTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     this->assignMethodTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
-    node->setTypeSignature(classTypeSignature);
-    scope->insert(node->getId(), node->getTypeSignature());
-    classScope.insert(node->getId(), node->getTypeSignature());
-    this->assignConstructorBlocksTypeSignature(node, &classScope, strategyMap);
-    this->assignMethodBlocksTypeSignature(node, &classScope, strategyMap);
+    this->assignConstructorBlocksTypeSignature(node, &classScope, classTypeSignature, strategyMap);
+    this->assignMethodBlocksTypeSignature(node, &classScope, classTypeSignature, strategyMap);
 }
 
 void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
@@ -64,18 +66,30 @@ void ClassTypeSignatureStrategy::assignMethodTypeSignatures(ASTClassDeclarationN
     }
 }
 
-void ClassTypeSignatureStrategy::assignConstructorBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignConstructorBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto constructor : *node->getBlock()->getConstructors()) {
-        auto constructorScope = TypeSignatureLookupTable(scope);
+        auto constructorScope = TypeSignatureLookupTable();
+        constructorScope.inheritGlobalScope(scope);
+        constructorScope.insert(classTypeSignature->getClassScopeParameter()->getName(), classTypeSignature->getClassScopeParameter()->getTypeSignature());
         strategyMap->assignTypeSignatureFor(constructor->getParameters(), &constructorScope);
+        for (auto parameter : constructor->getParameters()->getParameters()) {
+            constructorScope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
+        }
         strategyMap->assignTypeSignatureFor(constructor->getBlock(), &constructorScope);
     }
 }
 
-void ClassTypeSignatureStrategy::assignMethodBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignMethodBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto method : *node->getBlock()->getMethods()) {
-        auto methodScope = TypeSignatureLookupTable(scope);
+        auto methodScope = TypeSignatureLookupTable();
+        methodScope.inheritGlobalScope(scope);
+        methodScope.insert(classTypeSignature->getClassScopeParameter()->getName(), classTypeSignature->getClassScopeParameter()->getTypeSignature());
         strategyMap->assignTypeSignatureFor(method->getParameters(), &methodScope);
+        for (auto parameter : method->getParameters()->getParameters()) {
+            methodScope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
+        }
         strategyMap->assignTypeSignatureFor(method->getBlock(), &methodScope);
+        Logger::log("method scope");
+        methodScope.dump();
     }
 }

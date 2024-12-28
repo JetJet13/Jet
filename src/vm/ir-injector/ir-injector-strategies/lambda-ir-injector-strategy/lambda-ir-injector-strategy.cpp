@@ -5,12 +5,18 @@
 #include "lambda-ir-injector-strategy.h"
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>* builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
-    if (irExpression->is(IR_LAMBDA_EXPRESSION_NODE)) {
+    if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
+        return this->inject((IRIdentifierExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule, scope);
+    } else if (irExpression->is(IR_LAMBDA_EXPRESSION_NODE)) {
         return this->inject((IRLambdaExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)) {
         return this->inject((IRLambdaWithFatArrowExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule, scope);
     }
     throw std::logic_error("LambdaIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
+}
+
+llvm::Value* LambdaIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+    return irExpression->getValue();
 }
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>* builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {

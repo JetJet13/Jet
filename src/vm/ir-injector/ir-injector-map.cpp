@@ -27,6 +27,8 @@ void IRInjectorMap::init() {
     _injectorMap.insert(this->insert(BOOL_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(CHAR_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
+    _injectorMap.insert(this->insert(FUNCTION_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
+    _injectorMap.insert(this->insert(PROCEDURE_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
 }
 

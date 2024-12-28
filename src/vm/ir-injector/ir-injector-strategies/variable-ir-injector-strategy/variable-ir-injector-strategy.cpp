@@ -18,7 +18,6 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
                     IR_COPY_ASSIGNMENT_OP, irModule, scope);
 
     builder->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
-
     // $ ld ./cmake-build-debug-jet-lang-toolchain/src/jet/main-jet-test-file-output.o -o main-jet.exe  -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -lSystem
 //    if (irVariableDeclaration->getIRExpression()->getIRType()->isIntegerType()) {
 //        builder->get()->CreateCall(irModule->getPrintFunction(), { irExpressionValue });

@@ -76,13 +76,12 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionParameterInvoc
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
-    arguments.push_back(irExpression->getClassScopeArgument()->getValue());
     for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(
                 irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
         );
     }
-
+    arguments.push_back(irExpression->getClassScopeArgument()->getValue());
     return builder->get()->CreateCall(
             llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
             irExpression->getValue(),

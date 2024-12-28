@@ -16,7 +16,7 @@ void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(ASTClassMethod
 
     classMethodInvocationExpression->getName()->setTypeSignature(classMethodTypeSignature.value());
     for (auto argument : *classMethodInvocationExpression->getArguments()->getArguments()) {
-        strategyMap->assignTypeSignatureFor(argument->getArgument());
+        strategyMap->assignTypeSignatureFor(argument->getArgument(), scope);
     }
     auto classMethodReturnType = (classMethodTypeSignature.value())->getReturnType();
     classMethodInvocationExpression->setTypeSignature(classMethodReturnType);

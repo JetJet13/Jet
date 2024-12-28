@@ -5,7 +5,8 @@
 #include "function-type-signature-strategy.h"
 
 void FunctionTypeSignatureStrategy::assign(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto functionScope = TypeSignatureLookupTable(scope);
+    auto functionScope = TypeSignatureLookupTable();
+    functionScope.inheritGlobalScope(scope);
     strategyMap->assignTypeSignatureFor(functionDeclaration->getParameters(), &functionScope);
     strategyMap->assignTypeSignatureFor(functionDeclaration->getReturnType(), &functionScope);
     strategyMap->assignTypeSignatureFor(functionDeclaration->getBlock(), &functionScope);
@@ -13,4 +14,5 @@ void FunctionTypeSignatureStrategy::assign(ASTFunctionDeclarationNode* functionD
             functionDeclaration->getParameters()->getTypeSignature(),
             functionDeclaration->getReturnType()->getTypeSignature()
     ));
+    scope->insertGlobal(functionDeclaration->getId(), functionDeclaration->getTypeSignature());
 }

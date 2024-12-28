@@ -56,11 +56,20 @@ std::unordered_map<std::string, TypeSignature*> TypeSignatureLookupTable::getLoo
     return lookupTable;
 }
 
+std::unordered_map<std::string, TypeSignature*> TypeSignatureLookupTable::getGlobalScope() {
+    return _globalTypeSignatureLookupTable;
+}
+
+void TypeSignatureLookupTable::inheritGlobalScope(TypeSignatureLookupTable* otherScope) {
+    _globalTypeSignatureLookupTable = otherScope->getGlobalScope();
+}
+
 void TypeSignatureLookupTable::dump() {
     Logger::log("======== TypeSignatureLookupTable DUMP ========");
     for (auto keyValue : _typeSignatureLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
     }
+    Logger::log("======== OUTER SCOPE DUMP ========");
     if (_outerScope) {
         _outerScope.value()->dump();
     }

@@ -25,6 +25,8 @@ public:
     TypeSignature* find(std::string key);
     TypeSignature* findGlobal(std::string key);
     std::unordered_map<std::string, TypeSignature*> getLookupTable();
+    std::unordered_map<std::string, TypeSignature*> getGlobalScope();
+    void inheritGlobalScope(TypeSignatureLookupTable* otherScope);
     void dump();
 };
 

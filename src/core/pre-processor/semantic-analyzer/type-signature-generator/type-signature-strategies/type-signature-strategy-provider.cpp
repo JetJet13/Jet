@@ -59,6 +59,7 @@
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
