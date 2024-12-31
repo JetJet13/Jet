@@ -8,6 +8,7 @@
 
 // forward declaration to prevent
 // circular dependency error
+class ArgumentListTypeSignatureStrategy;
 class ArrayAccessExpressionTypeSignatureStrategy;
 class ArrayExpressionTypeSignatureStrategy;
 class BinaryExpressionTypeSignatureStrategy;
@@ -67,6 +68,7 @@ class ClassScopeParameterTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
+    ArgumentListTypeSignatureStrategy* _argumentListTypeSignatureStrategy;
     ArrayAccessExpressionTypeSignatureStrategy* _arrayAccessExpressionTypeSignatureStrategy;
     ArrayExpressionTypeSignatureStrategy* _arrayExpressionTypeSignatureStrategy;
     BinaryExpressionTypeSignatureStrategy* _binaryExpressionTypeSignatureStrategy;
@@ -125,6 +127,7 @@ private:
     ModuleTypeSignatureStrategy* _moduleTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
+    ArgumentListTypeSignatureStrategy* getArgumentListTypeSignatureStrategy();
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
     ArrayExpressionTypeSignatureStrategy* getArrayExpressionTypeSignatureStrategy();
     BinaryExpressionTypeSignatureStrategy* getBinaryExpressionTypeSignatureStrategy();

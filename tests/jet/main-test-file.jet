@@ -42,7 +42,7 @@ class MyClass {
     // private d = () => 20; illegal, since they're equivalent to class methods
 
     constructor(a: int) {
-
+        const constructorLambda = () => 200;
     }
 
     public getA(callback: func<> => int) int {
@@ -50,7 +50,9 @@ class MyClass {
     }
 
     private compute() int {
-        const computeLambda = () => 5;
+        const computeLambda = () => this.a + 5;
         return this.getA(() => 20) + this.getA(computeLambda);
     }
 }
+
+const myClassInstance = new MyClass(5);

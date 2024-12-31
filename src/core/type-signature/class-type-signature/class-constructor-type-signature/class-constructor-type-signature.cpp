@@ -25,6 +25,22 @@ TypeSource ClassConstructorTypeSignature::getTypeSource() {
     return CLASS_CONSTRUCTOR_TYPE_SOURCE;
 }
 
+bool ClassConstructorTypeSignature::matchArguments(std::vector<TypeSignature*>* argumentTypeSignatures) {
+    if (_parameterList->numParameters() != argumentTypeSignatures->size()) {
+        Logger::log("parameter list size mismatch", _parameterList->numParameters(), argumentTypeSignatures->size());
+        return false;
+    }
+
+    for (int i = 0; i < _parameterList->numParameters(); ++i) {
+        if (!_parameterList->getParameterTypes()->at(i)->isEquivalentTo(argumentTypeSignatures->at(i))) {
+            Logger::log("parameter type mismatch", _parameterList->getParameterTypes()->at(i)->toString(), argumentTypeSignatures->at(i)->toString());
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool ClassConstructorTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;

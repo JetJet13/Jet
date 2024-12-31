@@ -4,6 +4,8 @@
 
 #include "parameter-list-type-singature-strategy.h"
 
+// todo: add function argument list type signature strategy
+
 void ParameterListTypeSignatureStrategy::assign(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto parameters = std::vector<ParameterListItemTypeSignature*>();
 

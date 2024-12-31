@@ -1090,6 +1090,10 @@ add_library(jet-core
         type-signature/pointer-type-signature/pointer-type-signature.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.h
+        type-signature/argument-list-type-signature/argument-list-type-signature.cpp
+        type-signature/argument-list-type-signature/argument-list-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/argument-list-type-signature-strategy/argument-list-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/argument-list-type-signature-strategy/argument-list-type-signature-strategy.h
 
 )
 

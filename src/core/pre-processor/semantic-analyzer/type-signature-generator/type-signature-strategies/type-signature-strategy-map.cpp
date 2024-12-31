@@ -59,8 +59,10 @@
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
+#include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
+    _argumentListTypeSignatureStrategy = new ArgumentListTypeSignatureStrategy();
     _arrayAccessExpressionTypeSignatureStrategy = new ArrayAccessExpressionTypeSignatureStrategy();
     _arrayExpressionTypeSignatureStrategy = new ArrayExpressionTypeSignatureStrategy();
     _binaryExpressionTypeSignatureStrategy = new BinaryExpressionTypeSignatureStrategy();
@@ -119,6 +121,9 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _moduleTypeSignatureStrategy = new ModuleTypeSignatureStrategy();
 }
 
+ArgumentListTypeSignatureStrategy* TypeSignatureStrategyMap::getArgumentListTypeSignatureStrategy() {
+    return this->_argumentListTypeSignatureStrategy;
+}
 
 ArrayAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessExpressionTypeSignatureStrategy() {
     return this->_arrayAccessExpressionTypeSignatureStrategy;

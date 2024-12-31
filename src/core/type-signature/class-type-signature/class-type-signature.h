@@ -30,6 +30,7 @@ public:
     ClassTypeSignature* addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);
     void setClassScopeParameter(ParameterListItemTypeSignature* classScopeParameter);
     bool isClassScopeParameterNecessary();
+    std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

@@ -14,9 +14,9 @@ public:
     bool typeTargetIs(TypeSource other);
     bool typeSourceIs(TypeSource other);
     bool isOneOf(std::vector<TypeSource> typeSources);
-    bool isUnknown();
-    bool isInvalid();
-    bool isVoid();
+    virtual bool isUnknown();
+    virtual bool isInvalid();
+    virtual bool isVoid();
     bool isUnknownOrInvalidOrVoid();
     virtual bool isLiteral();
     virtual bool isInvocable();

@@ -291,6 +291,14 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-class-method-invocation-expression-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h
+        ir-type/ir-class-instance-type.cpp
+        ir-type/ir-class-instance-type.h
 )
 
 target_link_libraries(jet-vm

@@ -10,12 +10,20 @@
 
 class ClassInstanceTypeSignature : public TypeSignature {
 private:
-    ClassTypeSignature* _classTypeSignature;
+    std::optional<ClassTypeSignature*> _classTypeSignature;
+    std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> _constructorInfo;
 public:
-    ClassInstanceTypeSignature(ClassTypeSignature* classTypeSignature);
+    ClassInstanceTypeSignature();
+    ClassInstanceTypeSignature(ClassTypeSignature* classTypeSignature, std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> constructorInfo = {});
+    ClassTypeSignature* getClassTypeSignature();
+    ClassConstructorTypeSignature* getConstructorTypeSignature();
+    bool hasConstructorInfo();
+    std::string getConstructorId();
+    void setConstructorInfo(std::pair<std::string, ClassConstructorTypeSignature*> constructorInfo);
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;
+    bool isInvalid() override;
     void print() override;
 };
 

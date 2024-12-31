@@ -1,0 +1,58 @@
+//
+// Created by Johny Georges on 2024-12-31.
+//
+
+#include "argument-list-type-signature.h"
+#include "../../../shared/utils/logger/logger.h"
+
+ArgumentListTypeSignature::ArgumentListTypeSignature() {
+    _argumentTypes = std::vector<TypeSignature*>();
+}
+
+ArgumentListTypeSignature::ArgumentListTypeSignature(std::vector<TypeSignature*> argumentTypes) {
+    _argumentTypes = argumentTypes;
+}
+
+std::vector<TypeSignature*>* ArgumentListTypeSignature::getArgumentTypes() {
+    return &_argumentTypes;
+}
+
+unsigned long ArgumentListTypeSignature::numParameters() {
+    return _argumentTypes.size();
+}
+
+std::string ArgumentListTypeSignature::toString() {
+    return "ARGUMENT_LIST_TYPE_SIGNATURE";
+}
+
+TypeSource ArgumentListTypeSignature::getTypeSource() {
+    return ARGUMENT_LIST_TYPE_SOURCE;
+}
+
+bool ArgumentListTypeSignature::isEqualTo(TypeSignature *otherType) {
+    if (this->getTypeSource() != otherType->getTypeSource()) {
+        return false;
+    }
+
+    auto other = (ArgumentListTypeSignature*)otherType;
+    auto otherArgumentTypes = other->getArgumentTypes();
+    if (this->numParameters() != other->numParameters()) {
+        return false;
+    }
+
+    for (int i = 0; i < this->numParameters(); i++) {
+        if (!_argumentTypes[i]->isEqualTo(otherArgumentTypes->at(i))) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void ArgumentListTypeSignature::print() {
+    Logger::log("----------", this->toString(), "----------");
+    for (auto argument : _argumentTypes) {
+        argument->print();
+    }
+    Logger::log("----------");
+}

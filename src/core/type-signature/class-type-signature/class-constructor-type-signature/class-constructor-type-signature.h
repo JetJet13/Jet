@@ -18,6 +18,7 @@ public:
     ParameterListTypeSignature* getParameterList();
     std::string toString() override;
     TypeSource getTypeSource() override;
+    bool matchArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
     bool isEqualTo(TypeSignature *otherType) override;
     void print() override;
 };

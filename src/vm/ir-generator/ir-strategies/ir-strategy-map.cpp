@@ -23,6 +23,7 @@
 #include "./expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
 #include "./expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
+#include "./expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
@@ -36,6 +37,7 @@
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/enum-type-signature-ir-strategy/enum-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/lambda-type-signature-ir-strategy/lambda-type-signature-ir-strategy.h"
@@ -80,6 +82,8 @@ IRStrategyMap::IRStrategyMap() {
     _expressionStatementIRStrategy = new ExpressionStatementIRStrategy();
     _classDeclarationIRStrategy = new ClassDeclarationIRStrategy();
     _classPropertyAccessExpressionIRStrategy = new ClassPropertyAccessExpressionIRStrategy();
+    _classMethodInvocationExpressionIRStrategy = new ClassMethodInvocationExpressionIRStrategy();
+    _newClassInstanceExpressionIRStrategy = new NewClassInstanceExpressionIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
@@ -97,6 +101,7 @@ IRStrategyMap::IRStrategyMap() {
     _pointerTypeSignatureStrategy = new PointerTypeSignatureIRStrategy();
     _functionInvocationTypeSignatureIRStrategy = new FunctionInvocationTypeSignatureIRStrategy();
     _classMethodTypeSignatureIRStrategy = new ClassMethodTypeSignatureIRStrategy();
+    _classInstanceTypeSignatureIRStrategy = new ClassInstanceTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -219,6 +224,10 @@ ClassMethodInvocationExpressionIRStrategy* IRStrategyMap::getClassMethodInvocati
     return _classMethodInvocationExpressionIRStrategy;
 }
 
+NewClassInstanceExpressionIRStrategy* IRStrategyMap::getNewClassInstanceExpressionIRStrategy() {
+    return _newClassInstanceExpressionIRStrategy;
+}
+
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
     return _arrayTypeSignatureIRStrategy;
 }
@@ -281,4 +290,8 @@ FunctionInvocationTypeSignatureIRStrategy* IRStrategyMap::getFunctionInvocationT
 
 ClassMethodTypeSignatureIRStrategy* IRStrategyMap::getClassMethodTypeSignatureIRStrategy() {
     return _classMethodTypeSignatureIRStrategy;
+}
+
+ClassInstanceTypeSignatureIRStrategy* IRStrategyMap::getClassInstanceTypeSignatureIRStrategy() {
+    return _classInstanceTypeSignatureIRStrategy;
 }

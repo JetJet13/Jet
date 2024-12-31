@@ -59,7 +59,7 @@
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
-#include "../../../../../shared/utils/logger/logger.h"
+#include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
 
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
@@ -195,6 +195,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
                     ->getFunctionInvocationExpressionTypeSignatureStrategy()
                     ->assign((ASTFunctionInvocationExpressionNode *) node, typeSignatureScope, this);
             break;
+        case AST_FUNCTION_ARGUMENT_LIST_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getArgumentListTypeSignatureStrategy()
+                    ->assign((ASTFunctionArgumentListNode*) node, typeSignatureScope, this);
+            break;
         case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
                     ->getFunctionReturnExpressionTypeSignatureStrategy()
@@ -233,7 +238,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
         case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
                     ->getNewClassInstanceExpressionTypeSignatureStrategy()
-                    ->assign((ASTNewClassInstanceExpressionNode *) node, typeSignatureScope);
+                    ->assign((ASTNewClassInstanceExpressionNode *) node, typeSignatureScope, this);
             break;
         case AST_OBJECT_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

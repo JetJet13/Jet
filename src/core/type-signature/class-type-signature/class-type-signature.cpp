@@ -52,6 +52,16 @@ bool ClassTypeSignature::isClassScopeParameterNecessary() {
     return !((StructTypeSignature*)_classScopeParameter->getTypeSignature())->isEmpty();
 }
 
+std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeSignature::findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures) {
+    for (auto constructor : _constructors.getKeyValues()) {
+        if (constructor.second->matchArguments(argumentTypeSignatures)) {
+            return std::pair(constructor.first, constructor.second);
+        }
+        Logger::log("constructor did not match", constructor.first);
+    }
+    return {};
+}
+
 std::string ClassTypeSignature::toString() {
     return "CLASS_TYPE_SIGNATURE";
 }

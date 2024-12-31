@@ -6,15 +6,23 @@
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
-    auto customTypeSignature = typeSignatureLookupTable->find(
+void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+    auto typeSignature = typeSignatureLookupTable->find(
             newClassInstanceExpression
             ->getClassName()
             ->getId()
     );
-    if (customTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
-        newClassInstanceExpression->setTypeSignature(new ClassInstanceTypeSignature((ClassTypeSignature*)customTypeSignature));
+    strategyMap->assignTypeSignatureFor(newClassInstanceExpression->getArguments(), typeSignatureLookupTable);
+    if (typeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
+        auto classTypeSignature = (ClassTypeSignature*)typeSignature;
+        newClassInstanceExpression->setTypeSignature(
+                new ClassInstanceTypeSignature(
+                        classTypeSignature,
+                        classTypeSignature->findConstructorForArguments(newClassInstanceExpression->getArguments()->getTypeSignature()->getArgumentTypes()))
+                );
     } else {
-        newClassInstanceExpression->setTypeSignature(new UnknownTypeSignature());
+        newClassInstanceExpression->setTypeSignature(new ClassInstanceTypeSignature());
     }
+
+
 }

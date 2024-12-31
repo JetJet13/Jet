@@ -39,6 +39,14 @@ ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addArgument(ASTFunctio
     return this;
 }
 
+ArgumentListTypeSignature* ASTFunctionArgumentListNode::getTypeSignature() {
+    return _typeSignature;
+}
+
+void ASTFunctionArgumentListNode::setTypeSignature(ArgumentListTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
 Position* ASTFunctionArgumentListNode::getStartPosition() {
     return _functionArgumentListStartNode->getStartPosition();
 }

@@ -159,6 +159,9 @@ namespace TypeCheckerErrorMessageTable {
     static std::string NewClassInstanceNotClassType(ASTNode* node) {
       return "cannot instantiate new class instance since type is not a class type \n" + node->toSourceCode();
     }
+    static std::string NewClassInstanceNoMatchingConstructor(ASTNode* node) {
+        return "cannot instantiate new class instance since no constructor found for arguments provided \n" + node->toSourceCode();
+    }
     static std::string VariableNamesNotUnique(ASTNode* node) {
       return "variable name must be unique \n" + node->toSourceCode();
     }
