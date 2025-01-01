@@ -17,7 +17,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
         }
     }
 
-    auto enumType = irGenerator->generateTypeFor(node->getTypeSignature(), structValues);
+    auto enumType = irGenerator->generateTypeFor(node->getTypeSignature(), structValues, scope);
     auto structType = enumType->getType();
     auto globalVariable = new llvm::GlobalVariable(
             *irModule->getModule(),

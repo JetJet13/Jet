@@ -16,7 +16,7 @@
 
 class ClassInstanceTypeSignatureIRStrategy {
 public:
-    IRClassInstanceType* generate(ClassInstanceTypeSignature* classInstanceTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRClassInstanceType* generate(ClassInstanceTypeSignature* classInstanceTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_CLASS_INSTANCE_TYPE_SIGNATURE_IR_STRATEGY_H

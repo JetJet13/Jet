@@ -4,7 +4,7 @@
 
 #include "literal-type-signature-ir-strategy.h"
 
-IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
         return new IRType(llvm::IntegerType::get(**context, 32));
     } else if (literalTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {

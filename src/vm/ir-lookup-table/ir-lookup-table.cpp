@@ -10,6 +10,7 @@ IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
     _scope = std::unordered_map<std::string, IRInstructionNode*>();
     _loadedScope = std::unordered_map<std::string, IRLoadInstructionNode*>();
     _outerScope = outerScope;
+    _typeScope = std::unordered_map<std::string, IRType*>();
 }
 
 std::unordered_map<std::string, IRGlobalVariableNode*> IRLookupTable::getGlobalScope() {
@@ -27,6 +28,11 @@ IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) 
 
 IRLookupTable* IRLookupTable::insert(std::string key, IRLoadInstructionNode* value) {
     _loadedScope[key] = value;
+    return this;
+}
+
+IRLookupTable* IRLookupTable::insert(std::string key, IRType* value) {
+    _typeScope[key] = value;
     return this;
 }
 
@@ -64,6 +70,18 @@ std::optional<IRNode*> IRLookupTable::findAcrossScopes(std::string key) {
         return loadedResult;
     }
     return this->findGlobalVariable(key);
+}
+
+std::optional<IRType*> IRLookupTable::findType(std::string key) {
+    auto result = _typeScope.find(key);
+    if (result == _typeScope.end()) {
+        if (_outerScope) {
+            return _outerScope.value()->findType(key);
+        }
+        return {};
+    } else {
+        return result->second;
+    }
 }
 
 IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, IRGlobalVariableNode* value) {

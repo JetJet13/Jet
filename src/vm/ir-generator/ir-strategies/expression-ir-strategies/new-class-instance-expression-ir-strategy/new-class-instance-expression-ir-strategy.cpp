@@ -10,7 +10,7 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
         arguments.push_back(irGenerator->generateFor(argument, scope, irModule, IR_FUNCTION_ARGUMENT_OP));
     }
 
-    auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature()->getClassTypeSignature());
+    auto irClassType = (IRClassType*)scope->findType(node->getClassName()->getId()).value();
     auto irConstructorType = irClassType->getIRTypeForConstructor(node->getTypeSignature()->getConstructorId());
 
     auto function = irModule->getModule()->getFunction(node->getTypeSignature()->getConstructorId());

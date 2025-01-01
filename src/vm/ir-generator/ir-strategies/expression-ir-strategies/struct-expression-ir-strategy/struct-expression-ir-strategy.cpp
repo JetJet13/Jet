@@ -7,7 +7,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     auto structValues = std::vector<IRExpressionNode*>();
     auto structValueSourceAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
     for (auto keyValuePair : node->getKeyValuePairs()) {

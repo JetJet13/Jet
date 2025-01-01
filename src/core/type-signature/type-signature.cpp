@@ -4,6 +4,14 @@
 
 #include "type-signature.h"
 
+std::string TypeSignature::getId() {
+    return _id;
+}
+
+void TypeSignature::setId(std::string id) {
+    _id = id;
+}
+
 bool TypeSignature::typeTargetIs(TypeSource other) {
     return this->getTypeTarget() == other;
 }

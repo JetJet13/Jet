@@ -10,8 +10,8 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
         arguments.push_back(irGenerator->generateFor(argument, scope, irModule, IR_FUNCTION_ARGUMENT_OP));
     }
 
-    auto irFunctionType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature());
-    auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType());
+    auto irFunctionType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope);
+    auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType(), scope);
     if (irFunctionType->isFunctionParameterType() || irFunctionType->isLambdaType()) {
         auto function = scope->find(node->getFunction()->getId()).value()->getValue();
         return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType);

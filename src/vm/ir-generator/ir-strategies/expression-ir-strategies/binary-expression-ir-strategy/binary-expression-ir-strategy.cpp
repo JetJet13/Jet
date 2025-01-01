@@ -7,7 +7,7 @@
 IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irModule, irOperationType);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irModule, irOperationType);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     if (node->getBinaryOperator()->isArithmetic()) {
         return new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 this->determineArithmeticOperatorIR(node->getBinaryOperator()),

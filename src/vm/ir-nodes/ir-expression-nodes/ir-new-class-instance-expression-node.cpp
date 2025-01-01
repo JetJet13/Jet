@@ -5,7 +5,7 @@
 #include "ir-new-class-instance-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRType* type) {
+IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassType* type) {
     _node = node;
     _irConstructor = irConstructor;
     _irConstructorType = irConstructorType;
@@ -21,11 +21,15 @@ llvm::Value* IRNewClassInstanceExpressionNode::getValue() {
     return _irConstructor;
 }
 
-IRType* IRNewClassInstanceExpressionNode::getConstructorIRType() {
+IRFunctionType* IRNewClassInstanceExpressionNode::getConstructorIRType() {
     return _irConstructorType;
 }
 
-IRType* IRNewClassInstanceExpressionNode::getIRType() {
+llvm::Value* IRNewClassInstanceExpressionNode::getConstructorFunction() {
+    return _irConstructor;
+}
+
+IRClassType* IRNewClassInstanceExpressionNode::getIRType() {
     return _type;
 }
 
@@ -34,11 +38,11 @@ ClassInstanceTypeSignature* IRNewClassInstanceExpressionNode::getTypeSignature()
 }
 
 IRNodeType IRNewClassInstanceExpressionNode::getNodeType() {
-    return IR_FUNCTION_INVOCATION_EXPRESSION_NODE;
+    return IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE;
 }
 
 std::string IRNewClassInstanceExpressionNode::toString() {
-    return "IR_FUNCTION_INVOCATION_EXPRESSION_NODE";
+    return "IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE";
 }
 
 void IRNewClassInstanceExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {

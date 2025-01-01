@@ -11,7 +11,7 @@
 
 class ParameterTypeSignatureIRStrategy {
 public:
-    IRParameterType* generate(ParameterListItemTypeSignature* parameterListItemTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRParameterType* generate(ParameterListItemTypeSignature* parameterListItemTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_PARAMETER_TYPE_SIGNATURE_IR_STRATEGY_H

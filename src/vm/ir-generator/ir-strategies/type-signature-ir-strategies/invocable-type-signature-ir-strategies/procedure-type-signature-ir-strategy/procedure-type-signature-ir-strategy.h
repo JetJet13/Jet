@@ -12,7 +12,7 @@
 
 class ProcedureTypeSignatureIRStrategy {
 public:
-    IRFunctionType* generate(ProcedureTypeSignature* procedureTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRFunctionType* generate(ProcedureTypeSignature* procedureTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_PROCEDURE_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -299,6 +299,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h
         ir-type/ir-class-instance-type.cpp
         ir-type/ir-class-instance-type.h
+        ir-injector/ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

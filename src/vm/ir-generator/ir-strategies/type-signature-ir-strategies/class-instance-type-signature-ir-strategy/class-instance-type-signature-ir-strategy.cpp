@@ -4,9 +4,10 @@
 
 #include "class-instance-type-signature-ir-strategy.h"
 
-IRClassInstanceType* ClassInstanceTypeSignatureIRStrategy::generate(ClassInstanceTypeSignature* classInstanceTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRClassInstanceType* ClassInstanceTypeSignatureIRStrategy::generate(ClassInstanceTypeSignature* classInstanceTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+    auto irClassType = (IRClassType*)scope->findType(classInstanceTypeSignature->getClassTypeSignature()->getId()).value();
     return new IRClassInstanceType(
-        irGenerator->generateTypeFor(classInstanceTypeSignature->getClassTypeSignature()),
-        (IRFunctionType*)irGenerator->generateTypeFor(classInstanceTypeSignature->getConstructorTypeSignature())
+        irClassType,
+        irClassType->getIRTypeForConstructor(classInstanceTypeSignature->getConstructorId()).value()
     );
 }

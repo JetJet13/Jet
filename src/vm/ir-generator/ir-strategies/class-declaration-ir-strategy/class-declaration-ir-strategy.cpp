@@ -8,7 +8,7 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     
     auto irClassConstructors = std::vector<IRClassConstructorNode*>();
     for (auto constructor : *node->getBlock()->getConstructors()) {

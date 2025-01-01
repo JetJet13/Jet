@@ -15,6 +15,7 @@ IRInjectorMap::IRInjectorMap() {
     _variableIRInjector = new VariableIRInjectorStrategy();
     _lambdaIRInjector = new LambdaIRInjectorStrategy();
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
+    _newClassInstanceIRInjectorStrategy = new NewClassInstanceIRInjectorStrategy();
     this->init();
 }
 
@@ -30,6 +31,7 @@ void IRInjectorMap::init() {
     _injectorMap.insert(this->insert(FUNCTION_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(PROCEDURE_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
+    _injectorMap.insert(this->insert(CLASS_INSTANCE_TYPE_SOURCE, _newClassInstanceIRInjectorStrategy));
 }
 
 std::pair<TypeSource, IRInjectorStrategy*> IRInjectorMap::insert(TypeSource typeSignature, IRInjectorStrategy* injector) {
@@ -83,4 +85,8 @@ FunctionParameterIRInjectorStrategy* IRInjectorMap::getFunctionParameterInjector
 
 FunctionReturnIRInjectorStrategy* IRInjectorMap::getFunctionReturnInjector() {
     return _functionReturnIRInjector;
+}
+
+NewClassInstanceIRInjectorStrategy* IRInjectorMap::getNewClassInstanceInjector() {
+    return _newClassInstanceIRInjectorStrategy;
 }

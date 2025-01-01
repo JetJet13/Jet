@@ -4,13 +4,13 @@
 
 #include "tuple-type-signature-ir-strategy.h"
 
-IRStructType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRStructType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
     auto tupleElementTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (int i = 0; i < tupleTypeSignature->size(); ++i) {
         auto tupleElement = tupleTypeSignature->getTypeSignatureAtIndex(i);
-        auto tupleElementIrType = irGenerator->generateTypeFor(tupleElement);
+        auto tupleElementIrType = irGenerator->generateTypeFor(tupleElement, scope);
         tupleElementTypes.push_back(tupleElementIrType->getType());
         auto key = std::to_string(i);
         keyIndexMap.insert(std::pair(key, i));

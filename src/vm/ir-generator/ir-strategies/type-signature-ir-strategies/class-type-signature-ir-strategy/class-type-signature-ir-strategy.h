@@ -12,7 +12,7 @@
 
 class ClassTypeSignatureIRStrategy {
 public:
-    IRClassType* generate(ClassTypeSignature* classTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRClassType* generate(ClassTypeSignature* classTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_IR_STRATEGY_H

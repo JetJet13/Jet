@@ -10,7 +10,7 @@ IRTupleAccessExpressionNode* TupleAccessExpressionIRStrategy::generate(ASTTupleA
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irModule, irOperationType);
     auto sourceType = (IRStructType*)sourceValue->getIRType()->getSourceType();
     auto targetIndex = node->getIndex()->getIndexValue();
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
     if (irType->isArrayPointerType()) {
         sourceAllocation->setParentAllocation(

@@ -8,7 +8,7 @@
 IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpressionNode* node, std::unique_ptr<llvm::LLVMContext>*, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irModule, irOperationType);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irModule, irOperationType);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     return new IRLogicalExpressionNode(node, llvm::BinaryOperator::Create(
             this->determineOperatorIR(node->getLogicalOperator()),
             leftExpressionIr->getValue(),

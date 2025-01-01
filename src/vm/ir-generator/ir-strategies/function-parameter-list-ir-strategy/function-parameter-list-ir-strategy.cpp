@@ -10,7 +10,7 @@ IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFuncti
     auto functionParameters = std::vector<IRFunctionParameterNode*>();
     for (int i = 0; i < node->getParameters().size(); ++i) {
         auto parameter = node->getParameters()[i];
-        auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature());
+        auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature(), scope);
         auto argument = new llvm::Argument(parameterType->getType(), parameterType->getName(), irFunction, i);
         functionParameters.push_back(
             new IRFunctionParameterNode(argument, parameterType)

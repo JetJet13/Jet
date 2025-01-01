@@ -7,7 +7,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
-    auto typeSignature = typeSignatureLookupTable->find(
+    auto typeSignature = typeSignatureLookupTable->findGlobal(
             newClassInstanceExpression
             ->getClassName()
             ->getId()

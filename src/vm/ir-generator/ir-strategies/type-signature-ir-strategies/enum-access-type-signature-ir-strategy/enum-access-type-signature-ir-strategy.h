@@ -13,7 +13,7 @@
 
 class EnumAccessTypeSignatureIRStrategy {
 public:
-    IRType* generate(EnumAccessTypeSignature* enumAccessTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator);
+    IRType* generate(EnumAccessTypeSignature* enumAccessTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
 };
 
 #endif //JETLANG_ENUM_ACCESS_TYPE_SIGNATURE_IR_STRATEGY_H

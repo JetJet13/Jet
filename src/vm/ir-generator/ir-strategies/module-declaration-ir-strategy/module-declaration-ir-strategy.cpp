@@ -7,7 +7,7 @@
 
 IRModuleDeclarationNode* ModuleDeclarationIRStrategy::generate(ASTModuleDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto exports = std::vector<IRDeclarationNode*>();
-    auto moduleIrType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto moduleIrType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     for (auto exportedNode : *node->getExports()) {
         auto irNode = scope->findAcrossScopes(exportedNode->getId());
         if (irNode) {

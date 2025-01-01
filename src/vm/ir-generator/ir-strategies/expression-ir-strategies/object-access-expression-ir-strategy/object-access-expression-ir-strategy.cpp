@@ -11,7 +11,7 @@ IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObje
     auto sourceType = (IRStructType*)sourceValue->getIRType()->getSourceType();
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
     if (irType->isArrayPointerType()) {
         sourceAllocation->setParentAllocation(

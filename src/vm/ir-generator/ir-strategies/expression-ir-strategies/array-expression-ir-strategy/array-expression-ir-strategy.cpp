@@ -19,8 +19,8 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
         }
 
     }
-    auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType());
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature());
+    auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType(), scope);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), elementValues.size()), arrayElementIrType);
     auto arrayAllocation = new IRInstructionNode(
         new llvm::AllocaInst(

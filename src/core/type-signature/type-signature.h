@@ -10,7 +10,11 @@
 #include "types/type-source.h"
 
 class TypeSignature {
+private:
+    std::string _id;
 public:
+    std::string getId();
+    void setId(std::string id);
     bool typeTargetIs(TypeSource other);
     bool typeSourceIs(TypeSource other);
     bool isOneOf(std::vector<TypeSource> typeSources);

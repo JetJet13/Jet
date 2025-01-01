@@ -12,8 +12,8 @@ IRClassMethodInvocationExpressionNode* ClassMethodInvocationExpressionIRStrategy
         arguments.push_back(irGenerator->generateFor(argument, scope, irModule, IR_FUNCTION_ARGUMENT_OP));
     }
 
-    auto irFunctionType = irGenerator->generateTypeFor(node->getName()->getTypeSignature());
-    auto irReturnType = irGenerator->generateTypeFor(node->getName()->getTypeSignature()->getReturnType());
+    auto irFunctionType = irGenerator->generateTypeFor(node->getName()->getTypeSignature(), scope);
+    auto irReturnType = irGenerator->generateTypeFor(node->getName()->getTypeSignature()->getReturnType(), scope);
     auto function = irModule->getModule()->getFunction(node->getName()->getId());
     return new IRClassMethodInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, scope->getClassScope().value());
 }

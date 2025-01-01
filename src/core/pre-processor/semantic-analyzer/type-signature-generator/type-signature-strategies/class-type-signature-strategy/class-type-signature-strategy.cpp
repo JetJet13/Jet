@@ -9,6 +9,7 @@
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = new ClassTypeSignature();
+    classTypeSignature->setId(node->getId());
     node->setTypeSignature(classTypeSignature);
     scope->insertGlobal(node->getId(), node->getTypeSignature());
 
