@@ -9,7 +9,7 @@
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
-    
+    scope->insert(node->getId(), irClassType);
     auto irClassConstructors = std::vector<IRClassConstructorNode*>();
     for (auto constructor : *node->getBlock()->getConstructors()) {
         irClassConstructors.push_back(this->generate(constructor, context, irGenerator, scope, irModule, irClassType));
@@ -28,7 +28,7 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
 
 IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRClassType* irClassType) {
     auto constructorScope = new IRLookupTable();
-    constructorScope->inheritGlobalScope(scope);
+    constructorScope->inherit(scope);
     auto constructorTypeNode = irClassType->getIRTypeForConstructor(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(constructorTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
@@ -68,7 +68,7 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
 
 IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRClassType* irClassType) {
     auto methodScope = new IRLookupTable();
-    methodScope->inheritGlobalScope(scope);
+    methodScope->inherit(scope);
     auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;

@@ -3,6 +3,7 @@
 //
 
 #include "lambda-ir-injector-strategy.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>* builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {

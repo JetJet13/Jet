@@ -1,0 +1,17 @@
+//
+// Created by Johny Georges on 2025-01-02.
+//
+
+#include "class-property-assignment-statement-ir-strategy.h"
+#include "../../../../shared/utils/logger/logger.h"
+
+IRStatementNode* ClassPropertyAssignmentStatementIRStrategy::generate(ASTClassPropertyAssignmentStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+    auto irClassType = (IRClassType*)scope->findType(node->getPropertyAssignment()->getClassAccess()->getThis()->getId()).value();
+    auto propertyName = node->getPropertyAssignment()->getProperty()->getId();
+    return new IRClassPropertyAssignmentStatementNode(
+            node,
+            irGenerator->generateFor(node->getExpression(), scope, irModule, IR_OPERAND_OP),
+            propertyName,
+            irClassType->getClassProperties()->getIndexForKey(propertyName)
+    );
+}

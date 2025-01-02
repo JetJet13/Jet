@@ -3,11 +3,12 @@
 //
 
 #include "class-scope-parameter-type-signature-strategy.h"
+#include "../../../../../../type-signature/pointer-type-signature/pointer-type-signature.h"
 
 ParameterListItemTypeSignature* ClassScopeParameterTypeSignatureStrategy::create(ClassTypeSignature* classTypeSignature) {
     auto scopeParameterTypeSignature = new StructTypeSignature();
     for (const auto& keyValue : classTypeSignature->getProperties()->getKeyValues()) {
         scopeParameterTypeSignature->addKeyValuePair(keyValue.first, keyValue.second->getType());
     }
-    return ParameterListItemTypeSignature::createClassScopeParameter(scopeParameterTypeSignature);
+    return ParameterListItemTypeSignature::createClassScopeParameter(new PointerTypeSignature(scopeParameterTypeSignature));
 }

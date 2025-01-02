@@ -22,6 +22,7 @@
 #include "ir-injector-strategies/module-ir-injector-strategy/module-ir-injector-strategy.h"
 #include "ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.h"
 #include "ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.h"
 
 
 class IRInjectorMap {
@@ -38,6 +39,7 @@ private:
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
     NewClassInstanceIRInjectorStrategy* _newClassInstanceIRInjectorStrategy;
+    ClassPropertyAssignmentIRInjectorStrategy* _classPropertyAssignmentIRInjectorStrategy;
     void init();
     std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
@@ -52,7 +54,7 @@ public:
     LambdaIRInjectorStrategy* getLambdaInjector();
     FunctionParameterIRInjectorStrategy* getFunctionParameterInjector();
     FunctionReturnIRInjectorStrategy* getFunctionReturnInjector();
-    NewClassInstanceIRInjectorStrategy* getNewClassInstanceInjector();
+    ClassPropertyAssignmentIRInjectorStrategy* getClassPropertyAssignmentIRInjectorStrategy();
     IRInjectorStrategy* getInjector(TypeSignature* typeSignature);
 };
 

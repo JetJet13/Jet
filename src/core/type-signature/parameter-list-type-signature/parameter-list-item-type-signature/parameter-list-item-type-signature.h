@@ -8,6 +8,7 @@
 #include <vector>
 #include "../../type-signature.h"
 #include "../../struct-type-signature/struct-type-signature.h"
+#include "../../pointer-type-signature/pointer-type-signature.h"
 
 class ParameterListItemTypeSignature : public TypeSignature {
 private:
@@ -15,7 +16,7 @@ private:
     TypeSignature* _type;
 public:
     static ParameterListItemTypeSignature* createScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature = {});
-    static ParameterListItemTypeSignature* createClassScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature = {});
+    static ParameterListItemTypeSignature* createClassScopeParameter(std::optional<PointerTypeSignature*> scopeTypeSignature = {});
     ParameterListItemTypeSignature(std::string name, TypeSignature* type);
     std::string getName();
     TypeSignature* getTypeSignature();

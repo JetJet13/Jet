@@ -14,7 +14,7 @@ private:
     std::string _id;
 public:
     std::string getId();
-    void setId(std::string id);
+    TypeSignature* setId(std::string id);
     bool typeTargetIs(TypeSource other);
     bool typeSourceIs(TypeSource other);
     bool isOneOf(std::vector<TypeSource> typeSources);

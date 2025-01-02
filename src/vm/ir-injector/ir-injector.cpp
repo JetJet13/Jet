@@ -20,7 +20,9 @@ void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, 
 
 void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule, IRLookupTable* scope) {
     if (irStatement->is(IR_FUNCTION_RETURN_EXPRESSION_NODE)) {
-        _irInjectorMap.getFunctionReturnInjector()->inject((IRFunctionReturnExpressionNode*)irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+        _irInjectorMap.getFunctionReturnInjector()->inject((IRFunctionReturnExpressionNode *) irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+    } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
+        _irInjectorMap.getClassPropertyAssignmentIRInjectorStrategy()->inject((IRClassPropertyAssignmentStatementNode*)irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
     }
 }
 

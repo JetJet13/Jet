@@ -9,8 +9,8 @@ ParameterListItemTypeSignature* ParameterListItemTypeSignature::createScopeParam
     return new ParameterListItemTypeSignature("jet.lambda.scope", scopeTypeSignature.value_or(new StructTypeSignature()));
 }
 
-ParameterListItemTypeSignature* ParameterListItemTypeSignature::createClassScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature) {
-    return new ParameterListItemTypeSignature("jet.class.scope", scopeTypeSignature.value_or(new StructTypeSignature()));
+ParameterListItemTypeSignature* ParameterListItemTypeSignature::createClassScopeParameter(std::optional<PointerTypeSignature*> scopeTypeSignature) {
+    return new ParameterListItemTypeSignature("jet.class.scope", scopeTypeSignature.value_or(new PointerTypeSignature(new StructTypeSignature())));
 }
 
 ParameterListItemTypeSignature::ParameterListItemTypeSignature(std::string name, TypeSignature* type) {

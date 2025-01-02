@@ -49,7 +49,9 @@ void ClassTypeSignature::setClassScopeParameter(ParameterListItemTypeSignature* 
 }
 
 bool ClassTypeSignature::isClassScopeParameterNecessary() {
-    return !((StructTypeSignature*)_classScopeParameter->getTypeSignature())->isEmpty();
+    auto classScopeTypeSignature = (PointerTypeSignature*)_classScopeParameter->getTypeSignature();
+    auto classScopeUnderlyingTypeSignature = (StructTypeSignature*)classScopeTypeSignature->getUnderlyingType();
+    return !classScopeUnderlyingTypeSignature->isEmpty();
 }
 
 std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeSignature::findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures) {

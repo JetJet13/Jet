@@ -39,10 +39,12 @@ class MyClass {
     public a: int = 5;
     public b = { x: 10, y: 0, z: 97 };
     private c = tuple { 1, 2, 3 };
+    private d: int;
     // private d = () => 20; illegal, since they're equivalent to class methods
 
-    constructor(a: int) {
+    constructor(dValue: int) {
         const constructorLambda = () => 200;
+        //this.d = dValue;
     }
 
     public getA(callback: func<> => int) int {

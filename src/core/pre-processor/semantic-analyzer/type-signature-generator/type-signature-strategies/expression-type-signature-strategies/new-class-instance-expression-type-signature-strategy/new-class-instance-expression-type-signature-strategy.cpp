@@ -3,11 +3,10 @@
 //
 
 #include "new-class-instance-expression-type-signature-strategy.h"
-#include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
-    auto typeSignature = typeSignatureLookupTable->findGlobal(
+    auto typeSignature = typeSignatureLookupTable->find(
             newClassInstanceExpression
             ->getClassName()
             ->getId()

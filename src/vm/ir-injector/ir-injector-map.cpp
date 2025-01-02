@@ -16,6 +16,7 @@ IRInjectorMap::IRInjectorMap() {
     _lambdaIRInjector = new LambdaIRInjectorStrategy();
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
     _newClassInstanceIRInjectorStrategy = new NewClassInstanceIRInjectorStrategy();
+    _classPropertyAssignmentIRInjectorStrategy = new ClassPropertyAssignmentIRInjectorStrategy();
     this->init();
 }
 
@@ -87,6 +88,6 @@ FunctionReturnIRInjectorStrategy* IRInjectorMap::getFunctionReturnInjector() {
     return _functionReturnIRInjector;
 }
 
-NewClassInstanceIRInjectorStrategy* IRInjectorMap::getNewClassInstanceInjector() {
-    return _newClassInstanceIRInjectorStrategy;
+ClassPropertyAssignmentIRInjectorStrategy* IRInjectorMap::getClassPropertyAssignmentIRInjectorStrategy() {
+    return _classPropertyAssignmentIRInjectorStrategy;
 }

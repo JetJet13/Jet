@@ -22,7 +22,8 @@ private:
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
     std::unordered_map<std::string, IRGlobalVariableNode*> getGlobalScope();
-    void inheritGlobalScope(IRLookupTable* otherScope);
+    std::unordered_map<std::string, IRType*> getTypeScope();
+    void inherit(IRLookupTable* otherScope);
     IRLookupTable* insert(std::string key, IRInstructionNode* value);
     IRLookupTable* insert(std::string key, IRLoadInstructionNode* value);
     IRLookupTable* insert(std::string key, IRType* value);

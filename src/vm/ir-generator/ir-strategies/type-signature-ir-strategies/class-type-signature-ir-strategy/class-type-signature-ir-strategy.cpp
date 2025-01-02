@@ -37,7 +37,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         classMethods[keyValue.first] = new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false));
     }
 
-    auto irClassType = new IRClassType(
+    return new IRClassType(
             classProperties,
             classTypeSignature->isClassScopeParameterNecessary()
             ? irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope)
@@ -45,7 +45,4 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
             classConstructors,
             classMethods
     );
-    Logger::log("classTypeSignature->getId()", classTypeSignature->getId());
-    scope->insert(classTypeSignature->getId(), irClassType);
-    return irClassType;
 }

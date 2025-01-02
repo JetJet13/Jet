@@ -11,7 +11,7 @@
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto lambdaScope = new IRLookupTable();
-    lambdaScope->inheritGlobalScope(scope);
+    lambdaScope->inherit(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irModule->getModule());
@@ -35,7 +35,7 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
 
 IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaWithFatArrowExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto lambdaScope = new IRLookupTable();
-    lambdaScope->inheritGlobalScope(scope);
+    lambdaScope->inherit(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irModule->getModule());

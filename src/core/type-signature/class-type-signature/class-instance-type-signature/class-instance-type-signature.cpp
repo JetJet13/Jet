@@ -12,11 +12,6 @@ ClassInstanceTypeSignature::ClassInstanceTypeSignature() {
 
 ClassInstanceTypeSignature::ClassInstanceTypeSignature(ClassTypeSignature* classTypeSignature, std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> constructorInfo) {
     _classTypeSignature = classTypeSignature;
-    if (constructorInfo) {
-        Logger::log("CONSTRUCTOR INFO");
-    } else {
-        Logger::log("NO CONSTRUCTOR INFO");
-    }
     _constructorInfo = constructorInfo;
 }
 

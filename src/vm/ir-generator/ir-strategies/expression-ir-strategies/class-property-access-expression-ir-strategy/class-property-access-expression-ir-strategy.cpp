@@ -8,7 +8,8 @@
 
 IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::generate(ASTClassPropertyAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto classScope = scope->getClassScope().value();
-    auto sourceType = (IRStructType*)classScope->getIRType()->getSourceType();
+    auto sourceType = (IRStructType*)classScope->getIRType()->getSourceType()->getSourceType();
+    sourceType->print();
     auto targetKey = node->getPropertyAccess()->getPropertyName()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);

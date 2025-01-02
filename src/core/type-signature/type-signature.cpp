@@ -8,8 +8,9 @@ std::string TypeSignature::getId() {
     return _id;
 }
 
-void TypeSignature::setId(std::string id) {
+TypeSignature* TypeSignature::setId(std::string id) {
     _id = id;
+    return this;
 }
 
 bool TypeSignature::typeTargetIs(TypeSource other) {

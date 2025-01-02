@@ -25,10 +25,10 @@ TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignature
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
     for (auto node : *fileNode->getBody()) {
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
-            scope->insert(
+            scope->insertGlobal(
                     node->getId(),
                     _typeSignatureGenerator
-                    ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*) node)
+                    ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*)node)
             );
         }
     }

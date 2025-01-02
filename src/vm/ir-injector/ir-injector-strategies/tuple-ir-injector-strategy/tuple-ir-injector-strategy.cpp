@@ -7,6 +7,7 @@
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
+#include "../ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h"
 
 llvm::Value* TupleIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_TUPLE_EXPRESSION_NODE)) {
@@ -77,9 +78,7 @@ llvm::Value* TupleIRInjectorStrategy::inject(IRFunctionParameterInvocationExpres
 
 llvm::Value* TupleIRInjectorStrategy::inject(IRClassPropertyAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto allocation = builder->get()->CreateAlloca(irExpression->getTargetIRType()->getType());
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), irExpression->getValue(), { builder->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
-    builder->get()->Insert(pointer);
-    auto loadedStruct = builder->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
+    auto loadedStruct = ClassPropertyAccessIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule, scope);
     builder->get()->CreateStore(loadedStruct, allocation);
     return allocation;
 }

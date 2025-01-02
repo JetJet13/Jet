@@ -73,5 +73,9 @@ void TypeSignatureLookupTable::dump() {
     if (_outerScope) {
         _outerScope.value()->dump();
     }
+    Logger::log("======== GLOBAL SCOPE DUMP ========");
+    for (auto keyValue : _globalTypeSignatureLookupTable) {
+        Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
+    }
     Logger::log("===============================================");
 }

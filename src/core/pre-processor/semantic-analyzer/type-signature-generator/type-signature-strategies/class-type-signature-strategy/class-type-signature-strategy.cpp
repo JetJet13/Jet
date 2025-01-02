@@ -5,17 +5,13 @@
 #include "class-type-signature-strategy.h"
 #include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
-#include "../../../../../../shared/utils/logger/logger.h"
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto classTypeSignature = new ClassTypeSignature();
-    classTypeSignature->setId(node->getId());
+    auto classTypeSignature = (ClassTypeSignature*)scope->find(node->getId());
     node->setTypeSignature(classTypeSignature);
-    scope->insertGlobal(node->getId(), node->getTypeSignature());
 
     auto classScope = TypeSignatureLookupTable();
     classScope.inheritGlobalScope(scope);
-
     this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     classTypeSignature->setClassScopeParameter(strategyMap->generateClassScopeParameter(classTypeSignature));
 
@@ -90,7 +86,5 @@ void ClassTypeSignatureStrategy::assignMethodBlocksTypeSignature(ASTClassDeclara
             methodScope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
         }
         strategyMap->assignTypeSignatureFor(method->getBlock(), &methodScope);
-        Logger::log("method scope");
-        methodScope.dump();
     }
 }

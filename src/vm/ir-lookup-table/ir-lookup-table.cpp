@@ -17,8 +17,13 @@ std::unordered_map<std::string, IRGlobalVariableNode*> IRLookupTable::getGlobalS
     return _globalScope;
 }
 
-void IRLookupTable::inheritGlobalScope(IRLookupTable* otherScope) {
+std::unordered_map<std::string, IRType*> IRLookupTable::getTypeScope() {
+    return _typeScope;
+}
+
+void IRLookupTable::inherit(IRLookupTable* otherScope) {
     _globalScope = otherScope->getGlobalScope();
+    _typeScope = otherScope->getTypeScope();
 }
 
 IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) {

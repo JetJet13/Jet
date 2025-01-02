@@ -301,6 +301,14 @@ add_library(jet-vm
         ir-type/ir-class-instance-type.h
         ir-injector/ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h
+        ir-generator/ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-class-property-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-class-property-assignment-statement-node.h
+        ir-injector/ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h
 )
 
 target_link_libraries(jet-vm

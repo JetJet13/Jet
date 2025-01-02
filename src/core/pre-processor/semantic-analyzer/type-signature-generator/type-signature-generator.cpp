@@ -13,17 +13,17 @@ TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* ty
 TypeSignature* TypeSignatureGenerator::generateInitialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node) {
     switch (node->getNodeType()) {
         case AST_FUNCTION_DECLARATION_NODE:
-            return new FunctionTypeSignature();
+            return (new FunctionTypeSignature())->setId(node->getId());
         case AST_PROCEDURE_DECLARATION_NODE:
-            return new ProcedureTypeSignature();
+            return (new ProcedureTypeSignature())->setId(node->getId());
         case AST_ENUM_DECLARATION_NODE:
-            return new EnumTypeSignature();
+            return (new EnumTypeSignature())->setId(node->getId());;
         case AST_CLASS_DECLARATION_NODE:
-            return new ClassTypeSignature();
+            return (new ClassTypeSignature())->setId(node->getId());;
         case AST_MODULE_DECLARATION_NODE:
-            return new ModuleTypeSignature();
+            return (new ModuleTypeSignature())->setId(node->getId());;
         default:
-            return new UnknownTypeSignature();
+            return (new UnknownTypeSignature())->setId(node->getId());;
     }
 }
 
