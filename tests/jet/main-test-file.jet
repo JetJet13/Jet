@@ -44,7 +44,7 @@ class MyClass {
 
     constructor(dValue: int) {
         const constructorLambda = () => 200;
-        //this.d = dValue;
+        this.d = dValue;
     }
 
     public getA(callback: func<> => int) int {
@@ -53,6 +53,7 @@ class MyClass {
 
     private compute() int {
         const computeLambda = () => this.a + 5;
+        this.a = 20 + 5;
         return this.getA(() => 20) + this.getA(computeLambda);
     }
 }

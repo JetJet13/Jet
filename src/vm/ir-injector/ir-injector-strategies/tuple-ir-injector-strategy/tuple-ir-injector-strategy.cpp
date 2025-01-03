@@ -78,7 +78,8 @@ llvm::Value* TupleIRInjectorStrategy::inject(IRFunctionParameterInvocationExpres
 
 llvm::Value* TupleIRInjectorStrategy::inject(IRClassPropertyAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto allocation = builder->get()->CreateAlloca(irExpression->getTargetIRType()->getType());
-    auto loadedStruct = ClassPropertyAccessIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule, scope);
+    auto loadedStruct = ClassPropertyAccessIRInjectorHelper::inject(irExpression, builder, irInjectorMap,
+                                                                    irModule, scope);
     builder->get()->CreateStore(loadedStruct, allocation);
     return allocation;
 }

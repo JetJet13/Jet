@@ -114,6 +114,9 @@ llvm::Value* StringIRInjectorStrategy::inject(IRFunctionParameterInvocationExpre
 
 llvm::Value* StringIRInjectorStrategy::inject(IRClassPropertyAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
-    auto loadedPointerToIndexedElement = ClassPropertyAccessIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule, scope);
+    auto loadedPointerToIndexedElement = ClassPropertyAccessIRInjectorHelper::inject(irExpression,
+                                                                                     builder,
+                                                                                     irInjectorMap,
+                                                                                     irModule, scope);
     return ArrayIRInjectorHelper::injectArrayCopy(builder, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
 }

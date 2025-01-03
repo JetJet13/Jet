@@ -150,7 +150,8 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRGlobalIdentifierExpressionNode*
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRClassPropertyAccessExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    return ClassPropertyAccessIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule, scope);
+    return ClassPropertyAccessIRInjectorHelper::inject(irExpression, builder, irInjectorMap, irModule,
+                                                       scope);
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRClassMethodInvocationExpressionNode* irExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
