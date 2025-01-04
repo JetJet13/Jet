@@ -54,6 +54,10 @@ bool ClassTypeSignature::isClassScopeParameterNecessary() {
     return !classScopeUnderlyingTypeSignature->isEmpty();
 }
 
+std::string ClassTypeSignature::getPreConstructorName() {
+    return this->getId() + ".pre.constructor";
+}
+
 std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeSignature::findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures) {
     for (auto constructor : _constructors.getKeyValues()) {
         if (constructor.second->matchArguments(argumentTypeSignatures)) {

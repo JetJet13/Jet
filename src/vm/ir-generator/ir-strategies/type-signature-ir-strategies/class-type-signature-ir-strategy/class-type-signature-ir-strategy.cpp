@@ -43,6 +43,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
             ? irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope)
             : std::optional<IRParameterType*>(),
             classConstructors,
-            classMethods
+            classMethods,
+            classTypeSignature->getPreConstructorName()
     );
 }

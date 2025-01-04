@@ -20,6 +20,7 @@ public:
     static IRInstructionNode* create(IRPointerType* irType, llvm::Value* numElements);
     static IRInstructionNode* create(IRPointerType* irType, IRInstructionNode* sourceAllocation);
     static IRInstructionNode* create(IRType* irType, IRInstructionNode* sourceAllocation);
+    static IRInstructionNode* create(IRType* irType);
     static IRInstructionNode* create(IRPointerType* irType, std::string name);
     static IRInstructionNode* create(IRPointerType* irType, std::string name, std::optional<IRInstructionNode*> sourceAllocation);
 };

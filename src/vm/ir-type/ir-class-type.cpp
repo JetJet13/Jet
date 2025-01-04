@@ -6,11 +6,12 @@
 
 #include <utility>
 
-IRClassType::IRClassType(IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods) : IRType(*this) {
+IRClassType::IRClassType(IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::string preConstructorName) : IRType(*this) {
     _classProperties = classProperties;
     _classScopeType = classScopeType;
     _classConstructors = std::move(classConstructors);
     _classMethods = std::move(classMethods);
+    _preConstructorName = std::move(preConstructorName);
 }
 
 std::optional<IRParameterType*> IRClassType::getClassScopeParameterType() {
@@ -39,6 +40,10 @@ llvm::Type* IRClassType::getValueType() {
 
 IRStructType* IRClassType::getClassProperties() {
     return _classProperties;
+}
+
+std::string IRClassType::getPreConstructorName() {
+    return _preConstructorName;
 }
 
 bool IRClassType::isClassType() {

@@ -40,7 +40,8 @@ class MyClass {
     public b = { x: 10, y: 0, z: 97 };
     private c = tuple { 1, 2, 3 };
     private d: int;
-    // private d = () => 20; illegal, since they're equivalent to class methods
+    private e = this.computeValueForE();
+    // private lambda = () => 20; illegal, since they're equivalent to class methods
 
     constructor(dValue: int) {
         const constructorLambda = () => 200;
@@ -55,6 +56,10 @@ class MyClass {
         const computeLambda = () => this.a + 5;
         this.a = 20 + 5;
         return this.getA(() => 20) + this.getA(computeLambda);
+    }
+
+    private computeValueForE() int {
+        return 19;
     }
 }
 

@@ -6,10 +6,14 @@
 #include "../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../utils/address-space-generator/address-space-generator.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
     scope->insert(node->getId(), irClassType);
+
+    this->generatePreConstructor(node, context, irGenerator, scope, irModule, irClassType);
+
     auto irClassConstructors = std::vector<IRClassConstructorNode*>();
     for (auto constructor : *node->getBlock()->getConstructors()) {
         irClassConstructors.push_back(this->generate(constructor, context, irGenerator, scope, irModule, irClassType));
@@ -24,6 +28,36 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
         irClassMethods.push_back(this->generate(method, context, irGenerator, scope, irModule, irClassType));
     }
     return new IRClassDeclarationNode(node, irClassType, irClassConstructors, irClassMethods);
+}
+
+void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRClassType* irClassType) {
+    if (!irClassType->getClassScopeParameterType()) {
+        return;
+    }
+    auto functionType = llvm::FunctionType::get(
+            llvm::Type::getVoidTy(**context),
+            { irClassType->getClassScopeParameterType().value()->getType() },
+            false
+    );
+    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
+    auto irFunction = llvm::Function::Create(functionType, linkage, 0, irClassType->getPreConstructorName(), irModule->getModule());
+    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
+
+    auto classScopeParameterAllocation = IRInstructionNodeFactory::create(irClassType->getClassScopeParameterType().value()->getIRType());
+    irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(0), classScopeParameterAllocation), irModule, scope);
+    auto zeroIndex = irGenerator->generateIntConstant(0);
+    auto loadedClassScopeParameter = functionBlock->getBuilder()->get()->CreateLoad(classScopeParameterAllocation->getIRType()->getSourceType()->getSourceType()->getType(), classScopeParameterAllocation->getValue());
+    for (auto property : *node->getBlock()->getProperties()) {
+        if (property->getInitializer()) {
+            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), scope, irModule, IR_OPERAND_OP);
+            auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, IR_OPERAND_OP, irModule, scope);
+            auto propertyIndex = irGenerator->generateIntConstant(irClassType->getClassProperties()->getIndexForKey(property->getId()));
+            auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(loadedClassScopeParameter->getType(), irExpression->getValue(), { zeroIndex, propertyIndex });
+            functionBlock->getBuilder()->get()->Insert(pointerToProperty);
+            functionBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointerToProperty);
+        }
+    }
+    functionBlock->getBuilder()->get()->CreateRet(irGenerator->generateIntConstant(0));
 }
 
 IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRClassType* irClassType) {
