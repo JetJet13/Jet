@@ -3,6 +3,7 @@
 //
 
 #include "class-property-type-signature-strategy.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {;
     TypeSignature* classPropertyType = new UnknownTypeSignature();

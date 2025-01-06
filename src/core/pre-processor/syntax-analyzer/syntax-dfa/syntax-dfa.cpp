@@ -1195,59 +1195,65 @@ void SyntaxDfa::initVarDefinition(DFANode* varDefinition) {
 }
 
 void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
-
     varInitNode
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_TUPLE_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LAMBDA_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, targetNodeType)))
-    ->addTransition(
-            DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, targetNodeType)));
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_STRUCT_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_TUPLE_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_LAMBDA_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_BINARY_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, targetNodeType)));
+
 
 
 }
