@@ -8,6 +8,11 @@ IRInjector::IRInjector() {
     _irInjectorMap = IRInjectorMap();
 }
 
+void IRInjector::inject(IRBlockNode* irBlock, IRNode* irNode, IRModuleNode* irModule, IRLookupTable* scope) {
+    this->inject(irBlock, (IRDeclarationNode*)irNode, irModule, scope);
+    this->inject(irBlock, (IRStatementNode*)irNode, irModule, scope);
+}
+
 void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule, IRLookupTable* scope) {
     if (irDeclaration->is(IR_VARIABLE_DECLARATION_NODE)) {
         _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);

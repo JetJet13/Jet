@@ -23,7 +23,7 @@ IRJetFile* VM::compile(JetFile* jetFile) {
     for (auto node : *jetFile->getFile()->getBody()) {
         _irInjector->inject(
                 irMainFunctionBlock,
-                _irGenerator->generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule),
+                _irGenerator->generateFor(node, &irLookupTable, irModule),
                 irModule,
                 &irLookupTable
         );
@@ -45,7 +45,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
     for (auto node : *jetFile->getFile()->getBody()) {
         _irInjector->inject(
                 irMainFunctionBlock,
-                _irGenerator->generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule),
+                _irGenerator->generateFor(node, &irLookupTable, irModule),
                 irModule,
                 &irLookupTable
         );

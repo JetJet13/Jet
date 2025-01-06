@@ -26,6 +26,7 @@
 #include "./expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
+#include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -86,6 +87,7 @@ IRStrategyMap::IRStrategyMap() {
     _classMethodInvocationExpressionIRStrategy = new ClassMethodInvocationExpressionIRStrategy();
     _newClassInstanceExpressionIRStrategy = new NewClassInstanceExpressionIRStrategy();
     _classPropertyAssignmentStatementIRStrategy = new ClassPropertyAssignmentStatementIRStrategy();
+    _variableAssignmentStatementIRStrategy = new VariableAssignmentStatementIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
@@ -232,6 +234,10 @@ NewClassInstanceExpressionIRStrategy* IRStrategyMap::getNewClassInstanceExpressi
 
 ClassPropertyAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyAssignmentStatementIRStrategy() {
     return _classPropertyAssignmentStatementIRStrategy;
+}
+
+VariableAssignmentStatementIRStrategy* IRStrategyMap::getVariableAssignmentStatementIRStrategy() {
+    return _variableAssignmentStatementIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

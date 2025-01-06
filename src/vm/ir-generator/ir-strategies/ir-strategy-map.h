@@ -37,6 +37,7 @@ class ClassPropertyAccessExpressionIRStrategy;
 class ClassMethodInvocationExpressionIRStrategy;
 class NewClassInstanceExpressionIRStrategy;
 class ClassPropertyAssignmentStatementIRStrategy;
+class VariableAssignmentStatementIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -93,6 +94,7 @@ private:
     ClassMethodInvocationExpressionIRStrategy* _classMethodInvocationExpressionIRStrategy;
     NewClassInstanceExpressionIRStrategy* _newClassInstanceExpressionIRStrategy;
     ClassPropertyAssignmentStatementIRStrategy* _classPropertyAssignmentStatementIRStrategy;
+    VariableAssignmentStatementIRStrategy* _variableAssignmentStatementIRStrategy;
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -146,6 +148,7 @@ public:
     ClassMethodInvocationExpressionIRStrategy* getClassMethodInvocationExpressionIRStrategy();
     NewClassInstanceExpressionIRStrategy* getNewClassInstanceExpressionIRStrategy();
     ClassPropertyAssignmentStatementIRStrategy* getClassPropertyAssignmentStatementIRStrategy();
+    VariableAssignmentStatementIRStrategy* getVariableAssignmentStatementIRStrategy();
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();

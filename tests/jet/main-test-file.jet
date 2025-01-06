@@ -10,6 +10,8 @@ const myLambda = (z: int) int { return z + 1; };
 const myFatArrowLambda = (a: boolean) => a && false;
 const myProcLambda = () { const procedureString = "hi there"; };
 const myLambdaValue = myLambda(2);
+let tempFoo = 10;
+tempFoo = 20;
 
 proc SimpleProc(fooLambda: func<int> => int) {
     const simple = 50;

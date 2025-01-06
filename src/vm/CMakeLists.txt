@@ -309,6 +309,10 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h
+        ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.h
+        ir-generator/ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h
 )
 
 target_link_libraries(jet-vm
