@@ -313,6 +313,8 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.h
         ir-generator/ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.cpp
         ir-generator/ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h
+        ir-injector/ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

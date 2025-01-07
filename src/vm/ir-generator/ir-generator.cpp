@@ -72,7 +72,6 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
 }
 
 IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode) {
-    Logger::log("generating IR for", node->toString());
     if (ASTNodeUtils::isDeclarationNode(node)) {
         return this->generateFor((ASTDeclarationNode*)node, scope, irModuleNode);
     } else if (ASTNodeUtils::isStatementNode(node)) {

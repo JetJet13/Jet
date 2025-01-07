@@ -28,6 +28,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
         _irInjectorMap.getFunctionReturnInjector()->inject((IRFunctionReturnExpressionNode *) irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         _irInjectorMap.getClassPropertyAssignmentIRInjectorStrategy()->inject((IRClassPropertyAssignmentStatementNode*)irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+    } else if (irStatement->is(IR_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
+        _irInjectorMap.getVariableAssignmentIRInjectorStrategy()->inject((IRVariableAssignmentStatementNode*)irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
     }
 }
 

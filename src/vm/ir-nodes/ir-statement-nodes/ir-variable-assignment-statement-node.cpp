@@ -13,7 +13,7 @@ std::string IRVariableAssignmentStatementNode::getVariableName() {
     return _node->getVariableAssignment()->getIdentifierNode()->getId();
 }
 
-IRExpressionNode* IRVariableAssignmentStatementNode::getExpression() {
+IRExpressionNode* IRVariableAssignmentStatementNode::getIRExpression() {
     return _irExpression;
 }
 

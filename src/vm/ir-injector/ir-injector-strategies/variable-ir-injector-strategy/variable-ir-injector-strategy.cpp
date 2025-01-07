@@ -5,7 +5,6 @@
 #include "variable-ir-injector-strategy.h"
 #include "../../ir-injector-map.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h"
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope) {
 

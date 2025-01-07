@@ -91,3 +91,7 @@ FunctionReturnIRInjectorStrategy* IRInjectorMap::getFunctionReturnInjector() {
 ClassPropertyAssignmentIRInjectorStrategy* IRInjectorMap::getClassPropertyAssignmentIRInjectorStrategy() {
     return _classPropertyAssignmentIRInjectorStrategy;
 }
+
+VariableAssignmentIRInjectorStrategy* IRInjectorMap::getVariableAssignmentIRInjectorStrategy() {
+    return _variableAssignmentIRInjectorStrategy;
+}

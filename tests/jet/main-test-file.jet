@@ -13,6 +13,14 @@ const myLambdaValue = myLambda(2);
 let tempFoo = 10;
 tempFoo = 20;
 
+func TempFunction(x: int) int {
+    let t = 100;
+    t = 54;
+    return x + t;
+}
+
+const tempResult = TempFunction(tempFoo);
+
 proc SimpleProc(fooLambda: func<int> => int) {
     const simple = 50;
     const simpleLambda = () => 50;

@@ -12,6 +12,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
     functionScope->inherit(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), functionScope);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
+
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irModule->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irModule, irFunction);
