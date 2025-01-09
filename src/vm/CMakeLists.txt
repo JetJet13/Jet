@@ -315,6 +315,12 @@ add_library(jet-vm
         ir-generator/ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h
         ir-injector/ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h
+        ir-generator/ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-else-node.cpp
+        ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-else-node.h
 )
 
 target_link_libraries(jet-vm

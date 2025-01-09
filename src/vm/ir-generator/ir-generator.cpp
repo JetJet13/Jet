@@ -312,6 +312,18 @@ IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry", irFunction));
 }
 
+IRBlockNode* IRGenerator::generateIfBlock() {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "ifcont"));
+}
+
+IRBlockNode* IRGenerator::generateIfThenBlock() {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "then"));
+}
+
+IRBlockNode* IRGenerator::generateIfElseBlock() {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "else"));
+}
+
 IRBlockNode* IRGenerator::generateBasicBlock() {
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry"));
 }

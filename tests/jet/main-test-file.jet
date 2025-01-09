@@ -75,3 +75,9 @@ class MyClass {
 }
 
 const myClassInstance = new MyClass(5);
+
+if 5 > 0 {
+    FooVarTest();
+} else {
+    TempFunction(10);
+}
