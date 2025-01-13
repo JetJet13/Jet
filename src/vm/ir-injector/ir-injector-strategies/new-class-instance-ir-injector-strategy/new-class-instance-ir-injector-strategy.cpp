@@ -3,31 +3,30 @@
 //
 
 #include "new-class-instance-ir-injector-strategy.h"
-#include "../../ir-injector-map.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode *irExpression, std::unique_ptr<llvm::IRBuilder<>> *builder, IRInjectorMap *irInjectorMap, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
-        return this->inject((IRNewClassInstanceExpressionNode*)irExpression, builder, irInjectorMap, irOperationType, irModule, scope);
+        return this->inject((IRNewClassInstanceExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     }
     throw std::logic_error("NewClassInstanceIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
 
-llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irNewClassInstanceExpressionNode, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto classInstanceAllocation = builder->get()->CreateAlloca(irNewClassInstanceExpressionNode->getIRType()->getClassProperties()->getType());
+llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irNewClassInstanceExpressionNode, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
+    auto classInstanceAllocation = irBlock->getBuilder()->get()->CreateAlloca(irNewClassInstanceExpressionNode->getIRType()->getClassProperties()->getType());
     auto preConstructorFunction = irModule->getModule()->getFunction(irNewClassInstanceExpressionNode->getIRType()->getPreConstructorName());
-    builder->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
+    irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
 
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irNewClassInstanceExpressionNode->getIRArguments()) {
-        arguments.push_back(irInjectorMap->getInjector(argument->getTypeSignature())->inject(argument, builder, irInjectorMap, IR_FUNCTION_ARGUMENT_OP, irModule, scope));
+        arguments.push_back(irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope));
     }
     arguments.push_back(classInstanceAllocation);
-    builder->get()->CreateCall(
+    irBlock->getBuilder()->get()->CreateCall(
             irNewClassInstanceExpressionNode->getConstructorIRType()->getType(),
             irNewClassInstanceExpressionNode->getConstructorFunction(),
             arguments
     );
 
-    return builder->get()->CreateLoad(classInstanceAllocation->getAllocatedType(), classInstanceAllocation);
+    return irBlock->getBuilder()->get()->CreateLoad(classInstanceAllocation->getAllocatedType(), classInstanceAllocation);
 }

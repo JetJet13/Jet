@@ -3,3 +3,7 @@
 //
 
 #include "ir-statement-node.h"
+
+bool IRStatementNode::isStatement() {
+    return true;
+}

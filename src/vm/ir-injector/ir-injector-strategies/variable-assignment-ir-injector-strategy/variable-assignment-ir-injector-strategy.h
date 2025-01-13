@@ -6,15 +6,14 @@
 #define JETLANG_VARIABLE_ASSIGNMENT_IR_INJECTOR_STRATEGY_H
 
 #include "../../../ir-lookup-table/ir-lookup-table.h"
-#include "../../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.h"
-
-class IRInjectorMap;
+#include "../../../ir-nodes/ir-block-node.h"
+#include "../../ir-injector.h"
 
 class VariableAssignmentIRInjectorStrategy {
 public:
-    void inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
 };
 
 

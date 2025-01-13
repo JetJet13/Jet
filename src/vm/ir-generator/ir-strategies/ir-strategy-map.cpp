@@ -36,6 +36,7 @@
 #include "./module-declaration-ir-strategy/module-declaration-ir-strategy.h"
 #include "./import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "./class-declaration-ir-strategy/class-declaration-ir-strategy.h"
+#include "./if-statement-ir-strategy/if-statement-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
@@ -88,6 +89,7 @@ IRStrategyMap::IRStrategyMap() {
     _newClassInstanceExpressionIRStrategy = new NewClassInstanceExpressionIRStrategy();
     _classPropertyAssignmentStatementIRStrategy = new ClassPropertyAssignmentStatementIRStrategy();
     _variableAssignmentStatementIRStrategy = new VariableAssignmentStatementIRStrategy();
+    _ifStatementIRStrategy = new IfStatementIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
@@ -238,6 +240,10 @@ ClassPropertyAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyAssig
 
 VariableAssignmentStatementIRStrategy* IRStrategyMap::getVariableAssignmentStatementIRStrategy() {
     return _variableAssignmentStatementIRStrategy;
+}
+
+IfStatementIRStrategy* IRStrategyMap::getIfStatementIRStrategy() {
+    return _ifStatementIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

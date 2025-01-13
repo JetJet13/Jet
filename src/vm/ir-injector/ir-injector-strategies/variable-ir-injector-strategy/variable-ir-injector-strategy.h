@@ -8,12 +8,12 @@
 #include "../../../ir-lookup-table/ir-lookup-table.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 #include "../../../ir-nodes/ir-module-node.h"
+#include "../../ir-injector.h"
 
-class IRInjectorMap;
 
 class VariableIRInjectorStrategy {
 public:
-    void inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_VARIABLE_IR_INJECTOR_STRATEGY_H

@@ -15,3 +15,11 @@ bool IRNode::isOneOf(std::vector<IRNodeType> irNodeTypes) {
             irNodeTypes.end(),
             this->getNodeType()) != irNodeTypes.end();
 }
+
+bool IRNode::isDeclaration() {
+    return false;
+}
+
+bool IRNode::isStatement() {
+    return false;
+}

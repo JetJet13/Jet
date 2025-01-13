@@ -8,6 +8,8 @@
 #include "../ir-node.h"
 
 class IRStatementNode : public IRNode {
+public:
+    bool isStatement() override;
 };
 
 #endif //JETLANG_IR_STATEMENT_NODE_H

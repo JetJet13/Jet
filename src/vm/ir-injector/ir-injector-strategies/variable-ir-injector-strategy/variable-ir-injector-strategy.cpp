@@ -3,20 +3,17 @@
 //
 
 #include "variable-ir-injector-strategy.h"
-#include "../../ir-injector-map.h"
-#include "../../../../shared/utils/logger/logger.h"
 
-void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule, IRLookupTable* scope) {
+void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
 
-    builder->get()->Insert(irVariableDeclaration->getValue(), irVariableDeclaration->getVariableName());
-    auto irExpressionValue = irInjectorMap->getInjector(irVariableDeclaration->getIRExpression()->getTypeSignature())
+    irBlock->getBuilder()->get()->Insert(irVariableDeclaration->getValue(), irVariableDeclaration->getVariableName());
+    auto irExpressionValue = irInjector
             ->inject(
+                    irBlock,
                     irVariableDeclaration->getIRExpression(),
-                    builder,
-                    irInjectorMap,
                     IR_COPY_ASSIGNMENT_OP, irModule, scope);
 
-    builder->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
+    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
     // $ ld ./cmake-build-debug-jet-lang-toolchain/src/jet/main-jet-test-file-output.o -o main-jet.exe  -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -lSystem
 //    if (irVariableDeclaration->getIRExpression()->getIRType()->isIntegerType()) {
 //        builder->get()->CreateCall(irModule->getPrintFunction(), { irExpressionValue });

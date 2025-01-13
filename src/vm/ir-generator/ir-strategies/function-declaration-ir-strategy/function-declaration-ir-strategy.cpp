@@ -4,8 +4,8 @@
 
 #include "function-declaration-ir-strategy.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
-#include "../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../utils/address-space-generator/address-space-generator.h"
+#include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 
 IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto functionScope = new IRLookupTable();
@@ -31,15 +31,11 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
         ), irGenerator->generateIrPointerType(irParamType));
 
         functionScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule, functionScope);
+        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        if (ASTNodeUtils::isDeclarationNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, functionScope, irModule), irModule, functionScope);
-        } else if (ASTNodeUtils::isStatementNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, functionScope, irModule), irModule, functionScope);
-        }
+        functionBlock->insert(irGenerator->generateFor(statement, functionScope, irModule));
     }
-    return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock);
+    return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock, functionScope);
 }

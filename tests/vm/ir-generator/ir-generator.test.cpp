@@ -47,11 +47,8 @@ TEST_CASE( "should create expected vm code" ) {
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *jetFileResult->getFile()->getBody()) {
-        Logger::log("generating IR for node", node->toString(), node->getId());
         auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule);
-        Logger::log("done generating IR for node", node->toString(), node->getId(), "..now injecting");
         irInjector->inject(irMainFunctionBlock, value, irModule);
-        Logger::log("done injecting IR for node", node->toString(), node->getId());
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }

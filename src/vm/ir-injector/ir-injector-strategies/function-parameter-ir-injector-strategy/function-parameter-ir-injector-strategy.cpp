@@ -3,10 +3,8 @@
 //
 
 #include "function-parameter-ir-injector-strategy.h"
-#include "../../ir-injector-map.h"
-#include "../../../ir-type/ir-function-parameter-type.h"
 
-void FunctionParameterIRInjectorStrategy::inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode *irModule) {
-    builder->get()->Insert(irFunctionParameterDeclaration->getAllocation()->getValue());
-    builder->get()->CreateStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue());
+void FunctionParameterIRInjectorStrategy::inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlock->getBuilder()->get()->Insert(irFunctionParameterDeclaration->getAllocation()->getValue());
+    irBlock->getBuilder()->get()->CreateStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue());
 }

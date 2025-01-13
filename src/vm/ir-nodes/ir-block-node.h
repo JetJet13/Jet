@@ -7,14 +7,18 @@
 
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/BasicBlock.h"
+#include "ir-node.h"
 
 class IRBlockNode {
 private:
     llvm::BasicBlock* _irValue;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
+    std::vector<IRNode*> _body;
 public:
     IRBlockNode(llvm::BasicBlock* irValue);
     llvm::BasicBlock* getBlock();
+    std::vector<IRNode*>* getBody();
+    void insert(IRNode* irNode);
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
     void addVoidReturn();
 };

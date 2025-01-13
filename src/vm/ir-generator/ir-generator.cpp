@@ -27,6 +27,7 @@
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
+#include "ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -89,6 +90,8 @@ IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable*
         return this->_irStrategyMap.getClassPropertyAssignmentStatementIRStrategy()->generate((ASTClassPropertyAssignmentStatementNode*)node, &_context, this, scope, irModuleNode);
     } else if (node->is(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getVariableAssignmentStatementIRStrategy()->generate((ASTVariableAssignmentStatementNode*)node, &_context, this, scope, irModuleNode);
+    } else if (node->is(AST_IF_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getIfStatementIRStrategy()->generate((ASTIfStatementNode*)node, &_context, this, scope, irModuleNode);
     }
     throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }
@@ -312,16 +315,16 @@ IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry", irFunction));
 }
 
-IRBlockNode* IRGenerator::generateIfBlock() {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "ifcont"));
-}
-
 IRBlockNode* IRGenerator::generateIfThenBlock() {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "then"));
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "if.then"));
 }
 
 IRBlockNode* IRGenerator::generateIfElseBlock() {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "else"));
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "if.else"));
+}
+
+IRBlockNode* IRGenerator::generateIfEndBlock() {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "if.end"));
 }
 
 IRBlockNode* IRGenerator::generateBasicBlock() {

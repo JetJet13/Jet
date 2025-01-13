@@ -13,10 +13,10 @@
 class IRIfStatementNode : public IRStatementNode {
 private:
     ASTIfStatementNode* _node;
-    std::vector<IRIfElseNode*> _ifElseNodes;
+    IRIfElseNode* _ifElseNode;
 public:
-    IRIfStatementNode(ASTIfStatementNode* node, std::vector<IRIfElseNode*> ifElseNodes);
-    std::vector<IRIfElseNode*>* getIfElseNodes();
+    IRIfStatementNode(ASTIfStatementNode* node, IRIfElseNode* ifElseNode);
+    IRIfElseNode* getIfElseNode();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

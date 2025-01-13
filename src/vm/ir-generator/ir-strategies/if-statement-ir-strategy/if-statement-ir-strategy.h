@@ -12,6 +12,8 @@
 #include "../../../../core/ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 
 class IfStatementIRStrategy {
+private:
+    IRBlockNode* setupBlock(IRBlockNode* irBlockNode, ASTControlFlowBlockNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRBlockNode* irEndBlockNode);
 public:
     IRStatementNode* generate(ASTIfStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
 };

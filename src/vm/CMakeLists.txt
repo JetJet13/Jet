@@ -184,8 +184,6 @@ add_library(jet-vm
         ir-type/ir-array-type.h
         ir-injector/ir-injector-strategies/ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ir-injector-strategy.h
-        ir-injector/ir-injector-map.cpp
-        ir-injector/ir-injector-map.h
         ir-injector/ir-injector-strategies/string-ir-injector-strategy/string-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/string-ir-injector-strategy/string-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/array-ir-injector-strategy/array-ir-injector-strategy.cpp
@@ -321,6 +319,12 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.h
         ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-else-node.cpp
         ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-else-node.h
+        ir-injector/ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

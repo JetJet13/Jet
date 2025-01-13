@@ -7,6 +7,7 @@
 
 #include <llvm/IR/Value.h>
 #include "../../../ir-generator.h"
+#include "../../../../../core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 
 class FunctionInvocationTypeSignatureIRStrategy {
 public:

@@ -4,13 +4,13 @@
 
 #include "ir-if-statement-node.h"
 
-IRIfStatementNode::IRIfStatementNode(ASTIfStatementNode* node, std::vector<IRIfElseNode*> ifElseNodes) {
+IRIfStatementNode::IRIfStatementNode(ASTIfStatementNode* node, IRIfElseNode* ifElseNode) {
     _node = node;
-    _ifElseNodes = std::vector<IRIfElseNode*>();
+    _ifElseNode = ifElseNode;
 }
 
-std::vector<IRIfElseNode*>* IRIfStatementNode::getIfElseNodes() {
-    return &_ifElseNodes;
+IRIfElseNode* IRIfStatementNode::getIfElseNode() {
+    return _ifElseNode;
 }
 
 IRNodeType IRIfStatementNode::getNodeType() {
@@ -22,7 +22,5 @@ std::string IRIfStatementNode::toString() {
 }
 
 void IRIfStatementNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    for (auto ifElseNode : _ifElseNodes) {
-        ifElseNode->print(stream);
-    }
+    _ifElseNode->print(stream);
 }

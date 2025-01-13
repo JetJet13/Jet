@@ -4,8 +4,8 @@
 
 #include "procedure-declaration-ir-strategy.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
-#include "../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../utils/address-space-generator/address-space-generator.h"
+#include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 
 IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto procedureScope = new IRLookupTable();
@@ -29,16 +29,11 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
                 DataAlignmentGenerator::generate(irParamType)
             ), irGenerator->generateIrPointerType(irParamType));
         procedureScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irModule, procedureScope);
+        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        if (ASTNodeUtils::isDeclarationNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*) statement, procedureScope, irModule), irModule, procedureScope);
-        } else if (ASTNodeUtils::isStatementNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, procedureScope, irModule), irModule, procedureScope);
-        }
+            functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irModule));
     }
-    irGenerator->getInjector()->injectVoidReturnType(functionBlock);
-    return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock);
+    return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, procedureScope);
 }

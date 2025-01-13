@@ -7,12 +7,51 @@
 
 #include "../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../ir-nodes/ir-block-node.h"
-#include "./ir-injector-map.h"
 #include "../ir-lookup-table/ir-lookup-table.h"
+#include "../ir-nodes/ir-module-node.h"
+#include "../ir-nodes/ir-declaration-nodes/ir-declaration-node.h"
+#include "../ir-nodes/ir-statement-nodes/ir-statement-node.h"
+#include "../types/ir-operation-type.h"
+
+class IRInjectorStrategy;
+class StringIRInjectorStrategy;
+class LiteralIRInjectorStrategy;
+class ArrayIRInjectorStrategy;
+class StructIRInjectorStrategy;
+class TupleIRInjectorStrategy;
+class VariableIRInjectorStrategy;
+class ModuleIRInjectorStrategy;
+class LambdaIRInjectorStrategy;
+class FunctionParameterIRInjectorStrategy;
+class FunctionReturnIRInjectorStrategy;
+class NewClassInstanceIRInjectorStrategy;
+class ClassPropertyAssignmentIRInjectorStrategy;
+class VariableAssignmentIRInjectorStrategy;
+class IfStatementIRInjectorStrategy;
+class ProcedureDeclarationIRInjectorStrategy;
+class FunctionDeclarationIRInjectorStrategy;
 
 class IRInjector {
 private:
-    IRInjectorMap _irInjectorMap;
+    std::unordered_map<TypeSource, IRInjectorStrategy*, std::hash<int>> _injectorMap;
+    StringIRInjectorStrategy* _stringIRInjector;
+    LiteralIRInjectorStrategy* _literalIRInjector;
+    ArrayIRInjectorStrategy* _arrayIRInjector;
+    StructIRInjectorStrategy* _structIRInjector;
+    TupleIRInjectorStrategy* _tupleIRInjector;
+    VariableIRInjectorStrategy* _variableIRInjector;
+    ModuleIRInjectorStrategy* _moduleIRInjector;
+    LambdaIRInjectorStrategy* _lambdaIRInjector;
+    FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
+    FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
+    NewClassInstanceIRInjectorStrategy* _newClassInstanceIRInjectorStrategy;
+    ClassPropertyAssignmentIRInjectorStrategy* _classPropertyAssignmentIRInjectorStrategy;
+    VariableAssignmentIRInjectorStrategy* _variableAssignmentIRInjectorStrategy;
+    IfStatementIRInjectorStrategy* _ifStatementIRInjectorStrategy;
+    ProcedureDeclarationIRInjectorStrategy* _procedureDeclarationIRInjectorStrategy;
+    FunctionDeclarationIRInjectorStrategy* _functionDeclarationIRInjectorStrategy;
+    void init();
+    std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
     IRInjector();
     void inject(IRBlockNode* irBlock, IRNode* irNode, IRModuleNode* irModule, IRLookupTable* scope);

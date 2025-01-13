@@ -3,3 +3,7 @@
 //
 
 #include "ir-declaration-node.h"
+
+bool IRDeclarationNode::isDeclaration() {
+    return true;
+}

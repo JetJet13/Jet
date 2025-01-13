@@ -3,18 +3,17 @@
 //
 
 #include "class-property-assignment-ir-injector-strategy.h"
-#include "../../ir-injector-map.h"
 
-void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignmentStatementNode* irClassPropertyAssignmentStatementNode, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto irExpressionValue = irInjectorMap->getInjector(irClassPropertyAssignmentStatementNode->getExpression()->getTypeSignature())->inject(irClassPropertyAssignmentStatementNode->getExpression(), builder, irInjectorMap, IR_OPERAND_OP, irModule, scope);
+void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignmentStatementNode* irClassPropertyAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
+    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), IR_OPERAND_OP, irModule, scope);
     auto classScopeParameter = scope->getClassScope().value();
-    auto zeroIndex = builder->get()->getInt32(0);
-    auto propertyIndex = builder->get()->getInt32(irClassPropertyAssignmentStatementNode->getPropertyIndex());
+    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+    auto propertyIndex = irBlock->getBuilder()->get()->getInt32(irClassPropertyAssignmentStatementNode->getPropertyIndex());
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(
         classScopeParameter->getIRType()->getSourceType()->getSourceType()->getType(),
         classScopeParameter->getValue(),
         { zeroIndex, propertyIndex }
     );
-    builder->get()->Insert(pointer);
-    builder->get()->CreateStore(irExpressionValue, pointer);
+    irBlock->getBuilder()->get()->Insert(pointer);
+    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
 }

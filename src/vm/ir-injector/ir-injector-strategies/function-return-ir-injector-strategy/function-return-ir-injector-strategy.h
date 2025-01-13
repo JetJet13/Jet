@@ -8,12 +8,12 @@
 #include "../../../ir-lookup-table/ir-lookup-table.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-function-return-expression-node.h"
 #include "../../../ir-nodes/ir-module-node.h"
-
-class IRInjectorMap;
+#include "../../../ir-nodes/ir-block-node.h"
+#include "../../ir-injector.h"
 
 class FunctionReturnIRInjectorStrategy {
 public:
-    void inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap *irInjectorMap, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_FUNCTION_RETURN_IR_INJECTOR_STRATEGY_H

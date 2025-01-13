@@ -3,38 +3,104 @@
 //
 
 #include "ir-injector.h"
+#include "ir-injector-strategies/ir-injector-strategy.h"
+#include "ir-injector-strategies/string-ir-injector-strategy/string-ir-injector-strategy.h"
+#include "ir-injector-strategies/literal-ir-injector-strategy/literal-ir-injector-strategy.h"
+#include "ir-injector-strategies/array-ir-injector-strategy/array-ir-injector-strategy.h"
+#include "ir-injector-strategies/struct-ir-injector-strategy/struct-ir-injector-strategy.h"
+#include "ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.h"
+#include "ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.h"
+#include "ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h"
+#include "ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h"
+#include "ir-injector-strategies/module-ir-injector-strategy/module-ir-injector-strategy.h"
+#include "ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.h"
+#include "ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.h"
+#include "ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h"
+#include "ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h"
+
 
 IRInjector::IRInjector() {
-    _irInjectorMap = IRInjectorMap();
+    _injectorMap = std::unordered_map<TypeSource, IRInjectorStrategy*, std::hash<int>>();
+    _stringIRInjector = new StringIRInjectorStrategy();
+    _literalIRInjector = new LiteralIRInjectorStrategy();
+    _arrayIRInjector = new ArrayIRInjectorStrategy();
+    _structIRInjector = new StructIRInjectorStrategy();
+    _tupleIRInjector = new TupleIRInjectorStrategy();
+    _variableIRInjector = new VariableIRInjectorStrategy();
+    _lambdaIRInjector = new LambdaIRInjectorStrategy();
+    _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
+    _newClassInstanceIRInjectorStrategy = new NewClassInstanceIRInjectorStrategy();
+    _classPropertyAssignmentIRInjectorStrategy = new ClassPropertyAssignmentIRInjectorStrategy();
+    _ifStatementIRInjectorStrategy = new IfStatementIRInjectorStrategy();
+    _procedureDeclarationIRInjectorStrategy = new ProcedureDeclarationIRInjectorStrategy();
+    _functionDeclarationIRInjectorStrategy = new FunctionDeclarationIRInjectorStrategy();
+    this->init();
 }
 
+void IRInjector::init() {
+    _injectorMap.insert(this->insert(ARRAY_TYPE_SOURCE, _arrayIRInjector));
+    _injectorMap.insert(this->insert(STRUCT_TYPE_SOURCE, _structIRInjector));
+    _injectorMap.insert(this->insert(STRING_LITERAL_TYPE_SOURCE, _stringIRInjector));
+    _injectorMap.insert(this->insert(INT_LITERAL_TYPE_SOURCE, _literalIRInjector));
+    _injectorMap.insert(this->insert(FLOAT_LITERAL_TYPE_SOURCE, _literalIRInjector));
+    _injectorMap.insert(this->insert(BOOL_LITERAL_TYPE_SOURCE, _literalIRInjector));
+    _injectorMap.insert(this->insert(CHAR_LITERAL_TYPE_SOURCE, _literalIRInjector));
+    _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
+    _injectorMap.insert(this->insert(FUNCTION_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
+    _injectorMap.insert(this->insert(PROCEDURE_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
+    _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
+    _injectorMap.insert(this->insert(CLASS_INSTANCE_TYPE_SOURCE, _newClassInstanceIRInjectorStrategy));
+}
+
+std::pair<TypeSource, IRInjectorStrategy*> IRInjector::insert(TypeSource typeSignature, IRInjectorStrategy* injector) {
+    return std::pair { typeSignature, injector };
+}
+
+
 void IRInjector::inject(IRBlockNode* irBlock, IRNode* irNode, IRModuleNode* irModule, IRLookupTable* scope) {
-    this->inject(irBlock, (IRDeclarationNode*)irNode, irModule, scope);
-    this->inject(irBlock, (IRStatementNode*)irNode, irModule, scope);
+    if (irNode->isDeclaration()) {
+        this->inject(irBlock, (IRDeclarationNode*)irNode, irModule, scope);
+    } else if (irNode->isStatement()) {
+        this->inject(irBlock, (IRStatementNode*)irNode, irModule, scope);
+    }
 }
 
 void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule, IRLookupTable* scope) {
     if (irDeclaration->is(IR_VARIABLE_DECLARATION_NODE)) {
-        _irInjectorMap.getVariableInjector()->inject((IRVariableDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+        _variableIRInjector->inject((IRVariableDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
     } else if (irDeclaration->is(IR_FUNCTION_PARAMETER_DECLARATION_NODE)) {
-        _irInjectorMap.getFunctionParameterInjector()->inject((IRFunctionParameterDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule);
+        _functionParameterIRInjector->inject((IRFunctionParameterDeclarationNode*)irDeclaration, irBlock, this, irModule);
     } else if (irDeclaration->is(IR_MODULE_DECLARATION_NODE)) {
-        _irInjectorMap.getModuleInjector()->inject((IRModuleDeclarationNode*)irDeclaration, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+        _moduleIRInjector->inject((IRModuleDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+    } else if (irDeclaration->is(IR_PROCEDURE_DECLARATION_NODE)) {
+        _procedureDeclarationIRInjectorStrategy->inject((IRProcedureDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+    } else if (irDeclaration->is(IR_FUNCTION_DECLARATION_NODE)) {
+        _functionDeclarationIRInjectorStrategy->inject((IRFunctionDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
     }
 }
 
 void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule, IRLookupTable* scope) {
     if (irStatement->is(IR_FUNCTION_RETURN_EXPRESSION_NODE)) {
-        _irInjectorMap.getFunctionReturnInjector()->inject((IRFunctionReturnExpressionNode *) irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+        _functionReturnIRInjector->inject((IRFunctionReturnExpressionNode *) irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
-        _irInjectorMap.getClassPropertyAssignmentIRInjectorStrategy()->inject((IRClassPropertyAssignmentStatementNode*)irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+        _classPropertyAssignmentIRInjectorStrategy->inject((IRClassPropertyAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
-        _irInjectorMap.getVariableAssignmentIRInjectorStrategy()->inject((IRVariableAssignmentStatementNode*)irStatement, irBlock->getBuilder(), &_irInjectorMap, irModule, scope);
+        _variableAssignmentIRInjectorStrategy->inject((IRVariableAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_IF_STATEMENT_NODE)) {
+        _ifStatementIRInjectorStrategy->inject((IRIfStatementNode*)irStatement, irBlock, this, irModule, scope);
     }
 }
 
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
-    return _irInjectorMap.getInjector(irExpression->getTypeSignature())->inject(irExpression, irBlock->getBuilder(), &_irInjectorMap, irOperationType, irModule, scope);
+    auto injector = _injectorMap.find(irExpression->getTypeSignature()->getTypeTarget());
+    if (injector == _injectorMap.end()) {
+        irExpression->getTypeSignature()->print();
+        throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getTypeSignature()->getTypeTarget()));
+    }
+    return injector->second->inject(irExpression, irBlock, this, irOperationType, irModule, scope);
 }
 
 void IRInjector::injectVoidReturnType(IRBlockNode* irBlock) {

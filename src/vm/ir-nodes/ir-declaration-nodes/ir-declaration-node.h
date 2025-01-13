@@ -10,6 +10,7 @@
 class IRDeclarationNode : public IRNode {
 public:
     virtual llvm::Value* getValue() = 0;
+    bool isDeclaration() override;
 };
 
 #endif //JETLANG_IR_DECLARATION_NODE_H

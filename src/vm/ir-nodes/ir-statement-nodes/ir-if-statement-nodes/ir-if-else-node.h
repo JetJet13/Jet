@@ -13,11 +13,16 @@ private:
     IRExpressionNode* _condition;
     IRBlockNode* _thenBlock;
     IRBlockNode* _elseBlock;
+    IRBlockNode* _endBlock;
+    std::optional<IRIfElseNode*> _next;
 public:
-    IRIfElseNode(IRExpressionNode* condition, IRBlockNode* thenBlock, IRBlockNode* elseBlock);
+    IRIfElseNode(IRExpressionNode* condition, IRBlockNode* thenBlock, IRBlockNode* elseBlock, IRBlockNode* endBlock, std::optional<IRIfElseNode*> next = {});
     IRExpressionNode* getExpression();
     IRBlockNode* getThenBlock();
     IRBlockNode* getElseBlock();
+    IRBlockNode* getEndBlock();
+    void setNext(IRIfElseNode* next);
+    std::optional<IRIfElseNode*> getNext();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

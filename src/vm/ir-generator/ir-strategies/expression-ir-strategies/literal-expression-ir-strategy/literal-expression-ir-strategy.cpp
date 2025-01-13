@@ -4,6 +4,8 @@
 
 #include "literal-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-literal-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h"
 
 IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto irLiteralNode = irGenerator->generateFor(node->getLiteralNode(), scope, irModule);

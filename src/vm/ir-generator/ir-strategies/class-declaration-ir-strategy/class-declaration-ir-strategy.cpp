@@ -7,6 +7,7 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);

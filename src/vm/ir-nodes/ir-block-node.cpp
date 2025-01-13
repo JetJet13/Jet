@@ -13,6 +13,14 @@ llvm::BasicBlock* IRBlockNode::getBlock() {
     return _irValue;
 }
 
+std::vector<IRNode*>* IRBlockNode::getBody() {
+    return &_body;
+}
+
+void IRBlockNode::insert(IRNode* irNode) {
+    _body.push_back(irNode);
+}
+
 std::unique_ptr<llvm::IRBuilder<>>* IRBlockNode::getBuilder() {
     return &_builder;
 }

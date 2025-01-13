@@ -94,9 +94,9 @@ public:
     IRArrayPointerType* generateArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType);
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
-    IRBlockNode* generateIfBlock();
     IRBlockNode* generateIfThenBlock();
     IRBlockNode* generateIfElseBlock();
+    IRBlockNode* generateIfEndBlock();
     IRBlockNode* generateBasicBlock();
     IRModuleNode* generateModule(std::string moduleName);
     void initModule(IRModuleNode* irModule);

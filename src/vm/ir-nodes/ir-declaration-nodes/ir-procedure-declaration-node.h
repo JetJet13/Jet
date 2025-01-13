@@ -10,6 +10,7 @@
 #include "../ir-function-nodes/ir-function-parameter-list-node.h"
 #include "ir-declaration-node.h"
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
+#include "../../ir-lookup-table/ir-lookup-table.h"
 
 class IRProcedureDeclarationNode : public IRDeclarationNode {
 private:
@@ -17,8 +18,12 @@ private:
     llvm::Function* _irValue;
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
+    IRLookupTable* _scope;
 public:
-    IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock);
+    IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLookupTable* scope);
+    IRFunctionParameterListNode* getParameters();
+    IRBlockNode* getBlock();
+    IRLookupTable* getScope();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

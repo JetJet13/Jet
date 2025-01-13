@@ -4,6 +4,7 @@
 
 #include "class-property-assignment-statement-ir-strategy.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../../ir-nodes/ir-statement-nodes/ir-class-property-assignment-statement-node.h"
 
 IRStatementNode* ClassPropertyAssignmentStatementIRStrategy::generate(ASTClassPropertyAssignmentStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
     auto irClassType = (IRClassType*)scope->findType(node->getPropertyAssignment()->getClassAccess()->getThis()->getId()).value();

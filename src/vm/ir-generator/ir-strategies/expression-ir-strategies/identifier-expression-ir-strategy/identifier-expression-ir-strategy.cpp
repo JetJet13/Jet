@@ -5,6 +5,8 @@
 #include "identifier-expression-ir-strategy.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
     auto allocation = scope->find(node->getIdentifierNode()->getId());

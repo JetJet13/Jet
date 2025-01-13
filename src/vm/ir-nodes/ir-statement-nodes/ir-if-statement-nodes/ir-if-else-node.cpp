@@ -4,10 +4,12 @@
 
 #include "ir-if-else-node.h"
 
-IRIfElseNode::IRIfElseNode(IRExpressionNode* condition, IRBlockNode* thenBlock, IRBlockNode* elseBlock) {
+IRIfElseNode::IRIfElseNode(IRExpressionNode* condition, IRBlockNode* thenBlock, IRBlockNode* elseBlock, IRBlockNode* endBlock, std::optional<IRIfElseNode*> next) {
     _condition = condition;
     _thenBlock = thenBlock;
     _elseBlock = elseBlock;
+    _endBlock = endBlock;
+    _next = next;
 }
 
 IRExpressionNode* IRIfElseNode::getExpression() {
@@ -20,6 +22,18 @@ IRBlockNode* IRIfElseNode::getThenBlock() {
 
 IRBlockNode* IRIfElseNode::getElseBlock() {
     return _elseBlock;
+}
+
+IRBlockNode* IRIfElseNode::getEndBlock() {
+    return _endBlock;
+}
+
+void IRIfElseNode::setNext(IRIfElseNode* next) {
+    _next = next;
+}
+
+std::optional<IRIfElseNode*> IRIfElseNode::getNext() {
+    return _next;
 }
 
 IRNodeType IRIfElseNode::getNodeType() {

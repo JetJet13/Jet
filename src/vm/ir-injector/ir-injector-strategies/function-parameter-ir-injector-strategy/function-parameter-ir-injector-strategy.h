@@ -7,12 +7,12 @@
 
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
-
-class IRInjectorMap;
+#include "../../../ir-nodes/ir-block-node.h"
+#include "../../ir-injector.h"
 
 class FunctionParameterIRInjectorStrategy {
 public:
-    void inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, std::unique_ptr<llvm::IRBuilder<>>*  builder, IRInjectorMap* irInjectorMap, IRModuleNode* irModule);
+    void inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_FUNCTION_PARAMETER_IR_INJECTOR_STRATEGY_H

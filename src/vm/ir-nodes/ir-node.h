@@ -16,6 +16,8 @@ class IRNode {
 public:
     bool is(IRNodeType irNodeType);
     bool isOneOf(std::vector<IRNodeType> irNodeTypes);
+    virtual bool isDeclaration();
+    virtual bool isStatement();
     virtual IRNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
     virtual void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) = 0;
