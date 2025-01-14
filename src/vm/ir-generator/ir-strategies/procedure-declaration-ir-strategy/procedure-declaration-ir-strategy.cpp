@@ -7,14 +7,14 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 
-IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto procedureScope = new IRLookupTable();
     procedureScope->inherit(scope);
-    auto procedureTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), procedureScope);
+    auto procedureTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), procedureScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(procedureTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irModule->getModule());
-    auto functionParameterList = irGenerator->generateFor(node->getParameters(), procedureScope, irModule, irFunction);
+    auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
+    auto functionParameterList = irGenerator->generateFor(node->getParameters(), procedureScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     for (int i = 0; i < functionType->getNumParams(); ++i) {
@@ -33,7 +33,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-            functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irModule));
+            functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irContext));
     }
     return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, procedureScope);
 }

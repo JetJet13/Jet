@@ -4,6 +4,6 @@
 
 #include "pointer-type-signature-ir-strategy.h"
 
-IRPointerType* PointerTypeSignatureIRStrategy::generate(PointerTypeSignature* pointerTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    return IRPointerType::create(irGenerator->generateTypeFor(pointerTypeSignature->getUnderlyingType(), scope));
+IRPointerType* PointerTypeSignatureIRStrategy::generate(PointerTypeSignature* pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    return IRPointerType::create(irGenerator->generateTypeFor(pointerTypeSignature->getUnderlyingType(), scope, irContext));
 }

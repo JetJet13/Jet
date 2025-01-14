@@ -12,7 +12,7 @@
 
 class StructExpressionIRStrategy {
 public:
-    IRStructExpressionNode* generate(ASTStructExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
+    IRStructExpressionNode* generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };
 
 #endif //JETLANG_STRUCT_EXPRESSION_IR_STRATEGY_H

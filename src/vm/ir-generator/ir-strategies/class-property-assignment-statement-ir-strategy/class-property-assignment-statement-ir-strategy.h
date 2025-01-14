@@ -11,7 +11,7 @@
 
 class ClassPropertyAssignmentStatementIRStrategy {
 public:
-    IRStatementNode* generate(ASTClassPropertyAssignmentStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRStatementNode* generate(ASTClassPropertyAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

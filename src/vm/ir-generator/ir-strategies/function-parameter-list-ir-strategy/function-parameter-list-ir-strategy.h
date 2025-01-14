@@ -10,7 +10,7 @@
 
 class FunctionParameterListIRStrategy {
 public:
-    IRFunctionParameterListNode* generate(ASTFunctionParameterListNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, llvm::Function* irFunction);
+    IRFunctionParameterListNode* generate(ASTFunctionParameterListNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
 };
 
 #endif //JETLANG_FUNCTION_PARAMETER_LIST_IR_STRATEGY_H

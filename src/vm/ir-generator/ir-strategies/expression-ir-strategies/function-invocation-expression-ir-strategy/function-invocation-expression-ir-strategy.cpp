@@ -4,19 +4,19 @@
 
 #include "function-invocation-expression-ir-strategy.h"
 
-IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
+IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto arguments = std::vector<IRExpressionNode*>();
     for (auto argument : *node->getArguments()->getArguments()) {
-        arguments.push_back(irGenerator->generateFor(argument, scope, irModule, IR_FUNCTION_ARGUMENT_OP));
+        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, IR_FUNCTION_ARGUMENT_OP));
     }
 
-    auto irFunctionType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope);
-    auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType(), scope);
+    auto irFunctionType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope, irContext);
+    auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType(), scope, irContext);
     if (irFunctionType->isFunctionParameterType() || irFunctionType->isLambdaType()) {
         auto function = scope->find(node->getFunction()->getId()).value()->getValue();
         return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType);
     }
 
-    auto function = irModule->getModule()->getFunction(node->getFunction()->getId());
+    auto function = irContext->getModule()->getFunction(node->getFunction()->getId());
     return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType);
 }

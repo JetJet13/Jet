@@ -12,7 +12,7 @@
 
 class VariableDeclarationIRStrategy {
 public:
-    IRVariableDeclarationNode* generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRVariableDeclarationNode* generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_IR_STRATEGY_H

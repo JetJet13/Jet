@@ -4,6 +4,6 @@
 
 #include "function-invocation-type-signature-ir-strategy.h"
 
-IRType* FunctionInvocationTypeSignatureIRStrategy::generate(FunctionInvocationTypeSignature* functionInvocationTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    return irGenerator->generateTypeFor(functionInvocationTypeSignature->getReturnType(), scope);
+IRType* FunctionInvocationTypeSignatureIRStrategy::generate(FunctionInvocationTypeSignature* functionInvocationTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    return irGenerator->generateTypeFor(functionInvocationTypeSignature->getReturnType(), scope, irContext);
 }

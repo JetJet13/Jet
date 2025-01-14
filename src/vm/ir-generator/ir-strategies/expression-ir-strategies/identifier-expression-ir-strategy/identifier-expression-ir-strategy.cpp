@@ -8,10 +8,10 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 
-IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
+IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto allocation = scope->find(node->getIdentifierNode()->getId());
     if (irOperationType == IR_COPY_ASSIGNMENT_OP && allocation && allocation.value()->getIRType()->getSourceType()->isArrayPointerType()) {
-        return this->generateForAggregate(node, allocation.value(), context, irGenerator, scope, irModule, irOperationType);
+        return this->generateForAggregate(node, allocation.value(), irGenerator, scope, irContext, irOperationType);
     } else if (allocation) {
         return new IRIdentifierExpressionNode(node, allocation.value());
     }
@@ -24,7 +24,7 @@ IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressi
     );
 }
 
-IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateForAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
+IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateForAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto arrayPointerType = (IRArrayPointerType*)allocation->getIRType()->getSourceType();
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto intIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());

@@ -15,11 +15,11 @@
 
 class LambdaTypeSignatureIRStrategy {
 private:
-    std::vector<llvm::Type*> generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, std::optional<IRType*> lambdaScopeParameter = {});
+    std::vector<llvm::Type*> generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<IRType*> lambdaScopeParameter = {});
 public:
-    IRFunctionParameterType* generate(FunctionLambdaTypeSignature* functionLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
-    IRFunctionParameterType* generate(ProcedureLambdaTypeSignature* procedureLambdaTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
-    IRLambdaType* generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRFunctionParameterType* generate(FunctionLambdaTypeSignature* functionLambdaTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRFunctionParameterType* generate(ProcedureLambdaTypeSignature* procedureLambdaTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRLambdaType* generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_LAMBDA_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -5,6 +5,6 @@
 #include "variable-assignment-statement-ir-strategy.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.h"
 
-IRStatementNode* VariableAssignmentStatementIRStrategy::generate(ASTVariableAssignmentStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    return new IRVariableAssignmentStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irModule, IR_OPERAND_OP));
+IRStatementNode* VariableAssignmentStatementIRStrategy::generate(ASTVariableAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    return new IRVariableAssignmentStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_OP));
 }

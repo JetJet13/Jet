@@ -11,7 +11,7 @@
 
 class ModuleDeclarationIRStrategy {
 public:
-    IRModuleDeclarationNode* generate(ASTModuleDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRModuleDeclarationNode* generate(ASTModuleDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_MODULE_DECLARATION_IR_STRATEGY_H

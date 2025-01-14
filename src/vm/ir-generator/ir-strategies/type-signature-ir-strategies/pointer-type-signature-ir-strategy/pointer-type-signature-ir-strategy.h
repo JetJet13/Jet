@@ -11,7 +11,7 @@
 
 class PointerTypeSignatureIRStrategy {
 public:
-    IRPointerType* generate(PointerTypeSignature* pointerTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRPointerType* generate(PointerTypeSignature* pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_POINTER_TYPE_SIGNATURE_IR_STRATEGY_H

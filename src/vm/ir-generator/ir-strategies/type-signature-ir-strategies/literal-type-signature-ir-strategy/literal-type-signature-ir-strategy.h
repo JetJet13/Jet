@@ -11,7 +11,7 @@
 
 class LiteralTypeSignatureIRStrategy {
 public:
-    IRType* generate(LiteralTypeSignature* literalTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRType* generate(LiteralTypeSignature* literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_IR_STRATEGY_H

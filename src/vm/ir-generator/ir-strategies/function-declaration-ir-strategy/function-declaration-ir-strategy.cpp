@@ -7,15 +7,15 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 
-IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto functionScope = new IRLookupTable();
     functionScope->inherit(scope);
-    auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), functionScope);
+    auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), functionScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
 
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irModule->getModule());
-    auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irModule, irFunction);
+    auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irContext->getModule());
+    auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     for (int i = 0; i < functionType->getNumParams(); ++i) {
@@ -35,7 +35,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        functionBlock->insert(irGenerator->generateFor(statement, functionScope, irModule));
+        functionBlock->insert(irGenerator->generateFor(statement, functionScope, irContext));
     }
     return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock, functionScope);
 }

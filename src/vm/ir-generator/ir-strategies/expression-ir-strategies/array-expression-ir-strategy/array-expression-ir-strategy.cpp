@@ -8,19 +8,19 @@
 #include "../../../../ir-type/ir-array-type.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
+IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto elementValues = std::vector<IRExpressionNode*>();
     auto elementValueSourceAllocations = std::vector<IRInstructionNode*>();
     for (auto element : *node->getElements()) {
-        auto elementIrExpression = irGenerator->generateFor(element, scope, irModule, irOperationType);
+        auto elementIrExpression = irGenerator->generateFor(element, scope, irContext, irOperationType);
         elementValues.push_back(elementIrExpression);
         if (elementIrExpression->getSourceAllocation()) {
             elementValueSourceAllocations.push_back(elementIrExpression->getSourceAllocation().value());
         }
 
     }
-    auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType(), scope);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
+    auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType(), scope, irContext);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), elementValues.size()), arrayElementIrType);
     auto arrayAllocation = new IRInstructionNode(
         new llvm::AllocaInst(

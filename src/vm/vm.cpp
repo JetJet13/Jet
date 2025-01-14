@@ -4,6 +4,7 @@
 
 #include "vm.h"
 #include "../shared/utils/logger/logger.h"
+#include "ir-nodes/ir-context.h"
 
 VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
     _irGenerator = irGenerator;
@@ -20,10 +21,11 @@ IRJetFile* VM::compile(JetFile* jetFile) {
     }
     auto irMainFunction = _irGenerator->generateEmptyFunction(jetFile->getFile()->getPath()->filename().string(), irModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
+    auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irModule);
     for (auto node : *jetFile->getFile()->getBody()) {
         _irInjector->inject(
                 irMainFunctionBlock,
-                _irGenerator->generateFor(node, &irLookupTable, irModule),
+                _irGenerator->generateFor(node, &irLookupTable, irContext),
                 irModule,
                 &irLookupTable
         );
@@ -42,10 +44,11 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
     }
     auto irMainFunction = _irGenerator->generateEmptyFunction("main", irModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
+    auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irModule);
     for (auto node : *jetFile->getFile()->getBody()) {
         _irInjector->inject(
                 irMainFunctionBlock,
-                _irGenerator->generateFor(node, &irLookupTable, irModule),
+                _irGenerator->generateFor(node, &irLookupTable, irContext),
                 irModule,
                 &irLookupTable
         );

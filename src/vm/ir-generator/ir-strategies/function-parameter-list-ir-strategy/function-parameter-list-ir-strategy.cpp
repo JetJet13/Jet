@@ -6,11 +6,11 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../ir-type/ir-function-parameter-type.h"
 
-IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFunctionParameterListNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, llvm::Function* irFunction) {
+IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFunctionParameterListNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction) {
     auto functionParameters = std::vector<IRFunctionParameterNode*>();
     for (int i = 0; i < node->getParameters().size(); ++i) {
         auto parameter = node->getParameters()[i];
-        auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature(), scope);
+        auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature(), scope, irContext);
         auto argument = new llvm::Argument(parameterType->getType(), parameterType->getName(), irFunction, i);
         functionParameters.push_back(
             new IRFunctionParameterNode(argument, parameterType)

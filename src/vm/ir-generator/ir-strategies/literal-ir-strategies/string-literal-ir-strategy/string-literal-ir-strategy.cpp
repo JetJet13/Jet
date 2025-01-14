@@ -9,13 +9,13 @@
 #include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator) {
+IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* node, IRGenerator* irGenerator, IRContext* irContext) {
     auto chars = std::vector<llvm::Constant*>();
 
     for (auto character : node->getValue()) {
-        chars.push_back(llvm::ConstantInt::get(**context, llvm::APInt(CHAR_BIT, character)));
+        chars.push_back(llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(CHAR_BIT, character)));
     }
-    auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**context));
+    auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**irContext->getContext()));
     auto stringArrayType = new IRArrayType(
         llvm::ArrayType::get(
             charIrType->getType(),

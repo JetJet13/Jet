@@ -14,7 +14,7 @@
 
 class UnaryExpressionIRStrategy {
 public:
-    IRUnaryExpressionNode* generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
+    IRUnaryExpressionNode* generate(ASTUnaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };
 
 #endif //JETLANG_UNARY_EXPRESSION_IR_STRATEGY_H

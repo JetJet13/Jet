@@ -12,7 +12,7 @@
 
 class ImportSingleModuleDeclarationIRStrategy {
 public:
-    IRImportSingleModuleDeclarationNode* generate(ASTImportSingleModuleDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRImportSingleModuleDeclarationNode* generate(ASTImportSingleModuleDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_IMPORT_SINGLE_MODULE_DECLARATION_IR_STRATEGY_H

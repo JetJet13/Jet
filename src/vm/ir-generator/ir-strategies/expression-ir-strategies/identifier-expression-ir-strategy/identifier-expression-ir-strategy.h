@@ -13,9 +13,9 @@
 
 class IdentifierExpressionIRStrategy {
 private:
-    IRAggregateIdentifierExpressionNode* generateForAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
+    IRAggregateIdentifierExpressionNode* generateForAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 public:
-    IRExpressionNode* generate(ASTIdentifierExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
+    IRExpressionNode* generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };
 
 #endif //JETLANG_IDENTIFIER_EXPRESSION_IR_STRATEGY_H

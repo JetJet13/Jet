@@ -8,10 +8,11 @@
 #include <llvm/IR/Value.h>
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
 #include "../../../../ir-nodes/ir-literal-nodes/ir-bool-literal-node.h"
+#include "../../../../ir-nodes/ir-context.h"
 
 class BoolLiteralIRStrategy {
 public:
-    IRBoolLiteralNode* generate(ASTBooleanLiteralNode* node, std::unique_ptr<llvm::LLVMContext> *context);
+    IRBoolLiteralNode* generate(ASTBooleanLiteralNode* node, IRContext* irContext);
 };
 
 #endif //JETLANG_BOOL_LITERAL_IR_STRATEGY_H

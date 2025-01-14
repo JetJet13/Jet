@@ -12,7 +12,7 @@
 
 class ArrayTypeSignatureIRStrategy {
 public:
-    IRArrayPointerType* generate(ArrayTypeSignature* arrayTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRArrayPointerType* generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_ARRAY_TYPE_SIGNATURE_IR_STRATEGY_H

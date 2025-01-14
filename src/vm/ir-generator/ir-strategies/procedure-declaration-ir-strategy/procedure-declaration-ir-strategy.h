@@ -11,7 +11,7 @@
 
 class ProcedureDeclarationIRStrategy {
 public:
-    IRProcedureDeclarationNode* generate(ASTProcedureDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRProcedureDeclarationNode* generate(ASTProcedureDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_PROCEDURE_DECLARATION_IR_STRATEGY_H

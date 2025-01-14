@@ -5,6 +5,6 @@
 #include "expression-statement-ir-strategy.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-expression-statement-node.h"
 
-IRStatementNode* ExpressionStatementIRStrategy::generate(ASTExpressionStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    return new IRExpressionStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irModule, IR_OPERAND_OP));
+IRStatementNode* ExpressionStatementIRStrategy::generate(ASTExpressionStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    return new IRExpressionStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_OP));
 }

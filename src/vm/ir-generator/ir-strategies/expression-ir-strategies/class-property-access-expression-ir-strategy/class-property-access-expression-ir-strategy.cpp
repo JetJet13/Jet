@@ -6,13 +6,13 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::generate(ASTClassPropertyAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
+IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::generate(ASTClassPropertyAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto classScope = scope->getClassScope().value();
     auto sourceType = (IRStructType*)classScope->getIRType()->getSourceType()->getSourceType();
     sourceType->print();
     auto targetKey = node->getPropertyAccess()->getPropertyName()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
     if (irType->isArrayPointerType()) {
         sourceAllocation->setParentAllocation(

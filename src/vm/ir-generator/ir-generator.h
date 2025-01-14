@@ -58,6 +58,7 @@
 #include "../ir-type/ir-class-type.h"
 #include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-node.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
+#include "../ir-nodes/ir-context.h"
 
 class IRGenerator {
 private:
@@ -66,21 +67,21 @@ private:
     IRInjector* _irInjector;
 public:
     explicit IRGenerator(IRInjector* irInjector);
-    IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
-    IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
-    IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
-    IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, llvm::Function* irFunction);
-    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, IROperationType irOperationType);
-    IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode, IROperationType irOperationType);
-    IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRModuleNode* irModuleNode);
+    IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
+    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
     IRType* generateTypeFor(llvm::Constant* constant);
-    IRType* generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope);
-    IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope);
-    IREnumType* generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope);
-    IRStructType* generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope);
-    IRStructType* generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope);
-    IRModuleType* generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope);
-    IRClassType* generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope);
+    IRType* generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IREnumType* generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext);
+    IRStructType* generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRStructType* generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRModuleType* generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRClassType* generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateVoidType();
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
@@ -88,16 +89,17 @@ public:
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
     llvm::IntegerType* generateCharType();
-    IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
-    IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope);
+    IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
+    IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::Constant* generateIntConstant(int integer);
     IRArrayPointerType* generateArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType);
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
-    IRBlockNode* generateIfThenBlock();
-    IRBlockNode* generateIfElseBlock();
-    IRBlockNode* generateIfEndBlock();
+    IRBlockNode* generateIfThenBlock(IRContext* irContext);
+    IRBlockNode* generateIfElseBlock(IRContext* irContext);
+    IRBlockNode* generateIfEndBlock(IRContext* irContext);
     IRBlockNode* generateBasicBlock();
+    IRContext* generateContext(IRBlockNode* irBlock, IRModuleNode* irModule);
     IRModuleNode* generateModule(std::string moduleName);
     void initModule(IRModuleNode* irModule);
     IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);

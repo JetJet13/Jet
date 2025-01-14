@@ -4,11 +4,11 @@
 
 #include "enum-type-signature-ir-strategy.h"
 
-IRPointerType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRPointerType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     return irGenerator->generateIrPointerType();
 }
 
-IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::vector<llvm::Constant*> enumValues, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::vector<llvm::Constant*> enumValues, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto enumPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
@@ -20,5 +20,5 @@ IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSig
         keyTypeMap.insert(std::pair(enumKey, enumPropertyType));
     }
 
-    return new IREnumType(llvm::StructType::get(**context, enumPropertyTypes), keyIndexMap, keyTypeMap);
+    return new IREnumType(llvm::StructType::get(**irContext->getContext(), enumPropertyTypes), keyIndexMap, keyTypeMap);
 }

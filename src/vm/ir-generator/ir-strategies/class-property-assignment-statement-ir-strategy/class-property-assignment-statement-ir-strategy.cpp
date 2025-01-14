@@ -6,12 +6,12 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-class-property-assignment-statement-node.h"
 
-IRStatementNode* ClassPropertyAssignmentStatementIRStrategy::generate(ASTClassPropertyAssignmentStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRStatementNode* ClassPropertyAssignmentStatementIRStrategy::generate(ASTClassPropertyAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = (IRClassType*)scope->findType(node->getPropertyAssignment()->getClassAccess()->getThis()->getId()).value();
     auto propertyName = node->getPropertyAssignment()->getProperty()->getId();
     return new IRClassPropertyAssignmentStatementNode(
             node,
-            irGenerator->generateFor(node->getExpression(), scope, irModule, IR_OPERAND_OP),
+            irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_OP),
             propertyName,
             irClassType->getClassProperties()->getIndexForKey(propertyName)
     );

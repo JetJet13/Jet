@@ -5,6 +5,6 @@
 #include <llvm/ADT/APFloat.h>
 #include "float-literal-ir-strategy.h"
 
-IRFloatLiteralNode* FloatLiteralIRStrategy::generate(ASTFloatLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context) {
-    return new IRFloatLiteralNode(node, llvm::ConstantFP::get(**context, llvm::APFloat(node->getValue())));
+IRFloatLiteralNode* FloatLiteralIRStrategy::generate(ASTFloatLiteralNode* node, IRContext* irContext) {
+    return new IRFloatLiteralNode(node, llvm::ConstantFP::get(**irContext->getContext(), llvm::APFloat(node->getValue())));
 }

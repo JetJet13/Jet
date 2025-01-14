@@ -12,7 +12,7 @@
 
 class VariableAssignmentStatementIRStrategy {
 public:
-    IRStatementNode* generate(ASTVariableAssignmentStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRStatementNode* generate(ASTVariableAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_VARIABLE_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

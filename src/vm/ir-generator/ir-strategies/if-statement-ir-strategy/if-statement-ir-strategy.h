@@ -13,9 +13,9 @@
 
 class IfStatementIRStrategy {
 private:
-    IRBlockNode* setupBlock(IRBlockNode* irBlockNode, ASTControlFlowBlockNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IRBlockNode* irEndBlockNode);
+    IRBlockNode* setupBlock(IRBlockNode* irBlockNode, ASTControlFlowBlockNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 public:
-    IRStatementNode* generate(ASTIfStatementNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRStatementNode* generate(ASTIfStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_IF_STATEMENT_IR_STRATEGY_H

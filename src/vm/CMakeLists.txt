@@ -325,6 +325,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h
+        ir-nodes/ir-context.cpp
+        ir-nodes/ir-context.h
 )
 
 target_link_libraries(jet-vm

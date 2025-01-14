@@ -5,12 +5,12 @@
 #include "module-type-signature-ir-strategy.h"
 
 
-IRModuleType* ModuleTypeSignatureIRStrategy::generate(ModuleTypeSignature* moduleTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
+IRModuleType* ModuleTypeSignatureIRStrategy::generate(ModuleTypeSignature* moduleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto moduleExportTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (auto keyValue : moduleTypeSignature->getKeyValuePairs()->getKeyValues()) {
-        auto irType = irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature(), scope);
+        auto irType = irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature(), scope, irContext);
         moduleExportTypes.push_back(irType->getType());
         keyIndexMap.insert(
             std::pair(keyValue.first, moduleTypeSignature->getKeyValuePairs()->findKeyIndex(keyValue.first))
@@ -18,5 +18,5 @@ IRModuleType* ModuleTypeSignatureIRStrategy::generate(ModuleTypeSignature* modul
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
 
-    return new IRModuleType(llvm::StructType::get(**context, moduleExportTypes), keyIndexMap, keyTypeMap);
+    return new IRModuleType(llvm::StructType::get(**irContext->getContext(), moduleExportTypes), keyIndexMap, keyTypeMap);
 }

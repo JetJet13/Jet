@@ -6,11 +6,11 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRTupleAccessExpressionNode* TupleAccessExpressionIRStrategy::generate(ASTTupleAccessExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
-    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irModule, irOperationType);
+IRTupleAccessExpressionNode* TupleAccessExpressionIRStrategy::generate(ASTTupleAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperationType);
     auto sourceType = (IRStructType*)sourceValue->getIRType()->getSourceType();
     auto targetIndex = node->getIndex()->getIndexValue();
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
     if (irType->isArrayPointerType()) {
         sourceAllocation->setParentAllocation(

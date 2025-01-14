@@ -14,10 +14,10 @@
 
 class LambdaExpressionIRStrategy {
 private:
-    void setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRModuleNode* irModule);
+    void setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRContext* irContext);
 public:
-    IRLambdaExpressionNode* generate(ASTLambdaExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
-    IRLambdaWithFatArrowExpressionNode* generate(ASTLambdaWithFatArrowExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule);
+    IRLambdaExpressionNode* generate(ASTLambdaExpressionNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRLambdaWithFatArrowExpressionNode* generate(ASTLambdaWithFatArrowExpressionNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_LAMBDA_EXPRESSION_IR_STRATEGY_H

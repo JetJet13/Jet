@@ -11,10 +11,11 @@
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h"
 #include "../../../../ir-nodes/ir-literal-nodes/ir-float-literal-node.h"
 #include "../../../../ir-nodes/ir-module-node.h"
+#include "../../../../ir-nodes/ir-context.h"
 
 class FloatLiteralIRStrategy {
 public:
-    IRFloatLiteralNode* generate(ASTFloatLiteralNode* node, std::unique_ptr<llvm::LLVMContext>*);
+    IRFloatLiteralNode* generate(ASTFloatLiteralNode* node, IRContext* irContext);
 };
 
 #endif //JETLANG_FLOAT_LITERAL_IR_STRATEGY_H

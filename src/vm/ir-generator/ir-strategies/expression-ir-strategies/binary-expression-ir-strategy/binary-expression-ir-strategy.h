@@ -15,7 +15,7 @@ private:
     llvm::Instruction::BinaryOps determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode);
     llvm::CmpInst::Predicate determineComparatorPredicate(ASTBinaryOperatorNode* operatorNode);
 public:
-    IRBinaryExpressionNode* generate(ASTBinaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
+    IRBinaryExpressionNode* generate(ASTBinaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_IR_STRATEGY_H

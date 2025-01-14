@@ -6,6 +6,6 @@
 #include <llvm/IR/Constants.h>
 #include "int-literal-ir-strategy.h"
 
-IRIntLiteralNode* IntLiteralIRStrategy::generate(ASTIntLiteralNode* node, std::unique_ptr<llvm::LLVMContext>* context) {
-    return new IRIntLiteralNode(node, llvm::ConstantInt::get(**context, llvm::APInt(32, node->getValue())));
+IRIntLiteralNode* IntLiteralIRStrategy::generate(ASTIntLiteralNode* node, IRContext* irContext) {
+    return new IRIntLiteralNode(node, llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(32, node->getValue())));
 }

@@ -4,8 +4,8 @@
 
 #include "class-method-type-signature-ir-strategy.h"
 
-IRFunctionType* ClassMethodTypeSignatureIRStrategy::generate(ClassMethodTypeSignature* classMethodTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope) {
-    auto returnType = irGenerator->generateTypeFor(classMethodTypeSignature->getReturnType(), scope);
-    auto parameterTypes = irGenerator->generateParameterList(classMethodTypeSignature->getParameters(), scope);
+IRFunctionType* ClassMethodTypeSignatureIRStrategy::generate(ClassMethodTypeSignature* classMethodTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto returnType = irGenerator->generateTypeFor(classMethodTypeSignature->getReturnType(), scope, irContext);
+    auto parameterTypes = irGenerator->generateParameterList(classMethodTypeSignature->getParameters(), scope, irContext);
     return new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false));
 }

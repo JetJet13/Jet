@@ -8,19 +8,19 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType) {
-    auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irModule, irOperationType);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
+IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+    auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperationType);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (node->getUnaryOperatorNode()->isPlus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
-                llvm::ConstantInt::get(**context, llvm::APInt(32, 1)),
+                llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(32, 1)),
                 expressionIr->getValue()
         ), expressionIr, irType);
     } else if (node->getUnaryOperatorNode()->isMinus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
-                llvm::ConstantInt::get(**context, llvm::APInt(32, -1, true)),
+                llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(32, -1, true)),
                 expressionIr->getValue()
         ), expressionIr, irType);
     } else {

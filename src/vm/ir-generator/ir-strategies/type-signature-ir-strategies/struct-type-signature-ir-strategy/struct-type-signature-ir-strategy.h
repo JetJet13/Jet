@@ -11,7 +11,7 @@
 
 class StructTypeSignatureIRStrategy {
 public:
-    IRStructType* generate(StructTypeSignature* structTypeSignature, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope);
+    IRStructType* generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_STRUCT_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -12,7 +12,7 @@
 
 class NewClassInstanceExpressionIRStrategy {
 public:
-    IRNewClassInstanceExpressionNode* generate(ASTNewClassInstanceExpressionNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule, IROperationType irOperationType);
+    IRNewClassInstanceExpressionNode* generate(ASTNewClassInstanceExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };
 
 

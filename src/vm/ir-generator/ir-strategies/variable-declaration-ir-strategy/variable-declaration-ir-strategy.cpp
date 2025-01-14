@@ -7,9 +7,9 @@
 #include "../../../ir-type/ir-lambda-type.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
-    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irModule, IR_COPY_ASSIGNMENT_OP);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
+IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irContext, IR_COPY_ASSIGNMENT_OP);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = IRInstructionNodeFactory::create(
             irGenerator->generateIrPointerType(irType), node->getId(), irExpression->getSourceAllocation()
     );
@@ -18,7 +18,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     if (node->isGlobal() && !node->getTypeSignature()->isInvocable()) {
         auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
         auto globalVariable = new llvm::GlobalVariable(
-                *irModule->getModule(),
+                *irContext->getModule(),
                 variableAllocation->getAllocatedType(),
                 false,
                 linkage,

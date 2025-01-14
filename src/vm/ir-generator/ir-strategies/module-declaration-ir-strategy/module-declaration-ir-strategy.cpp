@@ -5,9 +5,9 @@
 #include "module-declaration-ir-strategy.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRModuleDeclarationNode* ModuleDeclarationIRStrategy::generate(ASTModuleDeclarationNode* node, std::unique_ptr<llvm::LLVMContext>* context, IRGenerator* irGenerator, IRLookupTable* scope, IRModuleNode* irModule) {
+IRModuleDeclarationNode* ModuleDeclarationIRStrategy::generate(ASTModuleDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto exports = std::vector<IRDeclarationNode*>();
-    auto moduleIrType = irGenerator->generateTypeFor(node->getTypeSignature(), scope);
+    auto moduleIrType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     for (auto exportedNode : *node->getExports()) {
         auto irNode = scope->findAcrossScopes(exportedNode->getId());
         if (irNode) {
