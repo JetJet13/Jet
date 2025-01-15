@@ -110,11 +110,15 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-access-source-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-access-target-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-dref-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-ref-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
         return new Lexeme(new Token(symbol, symbol->toString()));
     }
+    static ASTDrefNode* drefKeyword = new ASTDrefNode(createLexeme(SymbolFactory::createDrefSymbol()));
+    static ASTRefNode* refKeyword = new ASTRefNode(createLexeme(SymbolFactory::createRefSymbol()));
     static ASTExportNode* exportKeyword = new ASTExportNode(createLexeme(SymbolFactory::createExportSymbol()));
     static ASTBlockStartNode* blockStart = new ASTBlockStartNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTBlockEndNode* blockEnd = new ASTBlockEndNode(createLexeme(SymbolFactory::createIdentifierSymbol()));

@@ -105,6 +105,8 @@ void ReservedKeywords::init() {
     this->add("constructor", SymbolFactory::createConstructorSymbol());
     this->add("new", SymbolFactory::createNewSymbol());
     this->add("export", SymbolFactory::createExportSymbol());
+    this->add("ref", SymbolFactory::createRefSymbol());
+    this->add("dref", SymbolFactory::createDrefSymbol());
 
     this->initKeywordSymbolList();
 }

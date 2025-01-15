@@ -306,4 +306,12 @@ namespace SymbolFactory {
     Symbol* createExportSymbol()  {
         return new Symbol(SYM_EXPORT, "export");
     }
+
+    Symbol* createRefSymbol()  {
+        return new Symbol(SYM_REF, "ref");
+    }
+
+    Symbol* createDrefSymbol()  {
+        return new Symbol(SYM_DREF, "dref");
+    }
 }

@@ -92,6 +92,8 @@ public:
     bool isConstructor();
     bool isNew();
     bool isExport();
+    bool isRef();
+    bool isDref();
     bool isThis();
     SymbolType getType();
     bool isSameAs(Symbol* symbol);

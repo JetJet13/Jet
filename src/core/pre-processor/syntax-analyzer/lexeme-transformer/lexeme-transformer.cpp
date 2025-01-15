@@ -63,6 +63,8 @@
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-new-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../ast/ast-nodes/ast-export-node.h"
+#include "../../../ast/ast-nodes/ast-ref-node.h"
+#include "../../../ast/ast-nodes/ast-dref-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -198,6 +200,10 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTNewNode(lexeme);
     } else if (symbol->isExport()) {
         return new ASTExportNode(lexeme);
+    } else if (symbol->isRef()) {
+        return new ASTRefNode(lexeme);
+    } else if (symbol->isDref()) {
+        return new ASTDrefNode(lexeme);
     } else if (symbol->isThis()) {
         return new ASTThisNode(lexeme);
     } else {

@@ -321,6 +321,14 @@ bool Symbol::isExport() {
     return _type == SYM_EXPORT;
 }
 
+bool Symbol::isRef() {
+    return _type == SYM_REF;
+}
+
+bool Symbol::isDref() {
+    return _type == SYM_DREF;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }

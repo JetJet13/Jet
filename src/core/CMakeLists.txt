@@ -1094,6 +1094,14 @@ add_library(jet-core
         type-signature/argument-list-type-signature/argument-list-type-signature.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/argument-list-type-signature-strategy/argument-list-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/argument-list-type-signature-strategy/argument-list-type-signature-strategy.h
+        ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h
+        ast/ast-nodes/ast-ref-node.cpp
+        ast/ast-nodes/ast-ref-node.h
+        ast/ast-nodes/ast-dref-node.cpp
+        ast/ast-nodes/ast-dref-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h
 
 )
 
