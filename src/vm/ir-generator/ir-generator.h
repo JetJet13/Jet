@@ -95,6 +95,7 @@ public:
     IRArrayPointerType* generateArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType);
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
+    IRBlockNode* generateIfBlock(IRContext* irContext);
     IRBlockNode* generateIfThenBlock(IRContext* irContext);
     IRBlockNode* generateIfElseBlock(IRContext* irContext);
     IRBlockNode* generateIfEndBlock(IRContext* irContext);

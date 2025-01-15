@@ -17,7 +17,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
     auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
-
+    auto irFunctionContext = irContext->clone(functionBlock);
     for (int i = 0; i < functionType->getNumParams(); ++i) {
         auto parameter = functionType->params()[i];
         auto formalParameter = functionParameterList->getParameters()->at(i);
@@ -35,7 +35,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        functionBlock->insert(irGenerator->generateFor(statement, functionScope, irContext));
+        functionBlock->insert(irGenerator->generateFor(statement, functionScope, irFunctionContext));
     }
     return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock, functionScope);
 }

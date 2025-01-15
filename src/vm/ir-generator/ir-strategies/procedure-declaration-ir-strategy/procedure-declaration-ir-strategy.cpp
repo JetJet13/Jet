@@ -16,7 +16,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), procedureScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
-
+    auto irFunctionContext = irContext->clone(functionBlock);
     for (int i = 0; i < functionType->getNumParams(); ++i) {
         auto parameter = functionType->params()[i];
         auto formalParameter = functionParameterList->getParameters()->at(i);
@@ -33,7 +33,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-            functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irContext));
+            functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irFunctionContext));
     }
     return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, procedureScope);
 }

@@ -11,13 +11,15 @@
 class IRIfElseNode : public IRNode {
 private:
     IRExpressionNode* _condition;
+    IRBlockNode* _ifBlock;
     IRBlockNode* _thenBlock;
     IRBlockNode* _elseBlock;
     IRBlockNode* _endBlock;
     std::optional<IRIfElseNode*> _next;
 public:
-    IRIfElseNode(IRExpressionNode* condition, IRBlockNode* thenBlock, IRBlockNode* elseBlock, IRBlockNode* endBlock, std::optional<IRIfElseNode*> next = {});
+    IRIfElseNode(IRExpressionNode* condition, IRBlockNode* ifBlock, IRBlockNode* thenBlock, IRBlockNode* elseBlock, IRBlockNode* endBlock, std::optional<IRIfElseNode*> next = {});
     IRExpressionNode* getExpression();
+    IRBlockNode* getIfBlock();
     IRBlockNode* getThenBlock();
     IRBlockNode* getElseBlock();
     IRBlockNode* getEndBlock();

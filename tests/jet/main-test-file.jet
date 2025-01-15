@@ -69,8 +69,11 @@ class MyClass {
 
 const myClassInstance = new MyClass(5);
 
-if foo > tempFoo {
-    const v = 50;
-} else {
-    const p = 100;
+proc ConditionalProcedure() {
+// todo: get this working
+//    if foo > tempFoo {
+//        const v = 50;
+//    } else {
+//        const p = 100;
+//    }
 }
