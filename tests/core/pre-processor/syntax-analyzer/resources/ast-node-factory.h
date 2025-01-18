@@ -112,6 +112,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-dref-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-ref-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -165,15 +166,24 @@ namespace ASTNodeFactory {
     static ASTIdentifierExpressionNode* idExpression = new ASTIdentifierExpressionNode(
         new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
+    static ASTCallableIdentifierExpressionNode* callableIdExpression = new ASTCallableIdentifierExpressionNode(
+            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+    );
     static ASTImportSpreadNode* importSpread = new ASTImportSpreadNode(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
     );
     static ASTModuleAccessSourceNode* moduleAccessSource = new ASTModuleAccessSourceNode(ASTNodeFactory::idExpression);
     static ASTModuleAccessTargetNode* moduleAccessTarget = new ASTModuleAccessTargetNode(ASTNodeFactory::idExpression);
+    static ASTModuleAccessTargetNode* callableModuleAccessTarget = new ASTModuleAccessTargetNode(ASTNodeFactory::callableIdExpression);
     static ASTModuleAccessExpressionNode* moduleAccessExpression = new ASTModuleAccessExpressionNode(
             ASTNodeFactory::moduleAccessSource,
             ASTNodeFactory::moduleAccess,
             ASTNodeFactory::moduleAccessTarget
+    );
+    static ASTModuleAccessExpressionNode* callableModuleAccessExpression = new ASTModuleAccessExpressionNode(
+            ASTNodeFactory::moduleAccessSource,
+            ASTNodeFactory::moduleAccess,
+            ASTNodeFactory::callableModuleAccessTarget
     );
     static ASTColonBaseNode* colon = new ASTColonBaseNode(createLexeme(SymbolFactory::createColonSymbol()));
     static ASTStructColonNode* structColon = new ASTStructColonNode(createLexeme(SymbolFactory::createColonSymbol()));

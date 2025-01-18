@@ -129,13 +129,8 @@ func returnFour() int {
  return 4;
 }
 
-{
-    let hello = "world";
-    hello = "no!";
-    {
-        const nestedBlock = "nested block!";
-        hello = "magic!";
-    }
+func returnFourX(x: int, y: int) int {
+ return 4 + x + y;
 }
 
 proc anotherOne(num: int) {

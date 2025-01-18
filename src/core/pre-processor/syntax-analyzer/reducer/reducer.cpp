@@ -99,6 +99,8 @@
 #include "reducer-strategies/module-access-source-reducer-strategy/module-access-source-reducer-strategy.h"
 #include "reducer-strategies/module-access-target-reducer-strategy/module-access-target-reducer-strategy.h"
 #include "reducer-strategies/callable-identifier-expression-reducer-strategy/callable-identifier-expression-reducer-strategy.h"
+#include "reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.h"
+#include "reducer-strategies/dref-expression-strategy/dref-expression-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -202,6 +204,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, new NewClassInstanceExpressionReducerStrategy());
     this->addStrategy(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, new ClassPropertyAccessExpressionReducerStrategy());
     this->addStrategy(AST_THIS_EXPRESSION_NODE, new ThisExpressionReducerStrategy());
+    this->addStrategy(AST_REF_EXPRESSION_NODE, new RefExpressionReducerStrategy());
+    this->addStrategy(AST_DREF_EXPRESSION_NODE, new DrefExpressionReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

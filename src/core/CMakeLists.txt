@@ -1102,6 +1102,10 @@ add_library(jet-core
         ast/ast-nodes/ast-dref-node.h
         ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/dref-expression-strategy/dref-expression-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/dref-expression-strategy/dref-expression-strategy.h
 
 )
 

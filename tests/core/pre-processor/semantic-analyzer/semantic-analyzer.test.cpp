@@ -324,6 +324,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature({
                         new ParameterListItemTypeSignature("x", colorEnumTypeSignature)
                     }),
+                    TypeSignatureFactory::createLambdaScopeParameter(),
                     colorEnumTypeSignature
             )},
             {92, new LambdaExpressionTypeSignature(
@@ -331,26 +332,31 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                        new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
                        new ParameterListItemTypeSignature("y", TypeSignatureFactory::intLiteral),
                     }),
+                    TypeSignatureFactory::createLambdaScopeParameter(),
                     TypeSignatureFactory::boolLiteral
             )},
             {93, new LambdaExpressionTypeSignature(
                     new ParameterListTypeSignature({
                         new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
                     }),
+                    TypeSignatureFactory::createLambdaScopeParameter(),
                     TypeSignatureFactory::intLiteral
             )},
             {94, new LambdaExpressionTypeSignature(
                     new ParameterListTypeSignature({
                         new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
                     }),
+                    TypeSignatureFactory::createLambdaScopeParameter(),
                     new LambdaExpressionTypeSignature(
                             new ParameterListTypeSignature({
                                 new ParameterListItemTypeSignature("y", TypeSignatureFactory::intLiteral),
                             }),
+                            TypeSignatureFactory::createLambdaScopeParameter(),
                             new LambdaExpressionTypeSignature(
                                 new ParameterListTypeSignature({
                                     new ParameterListItemTypeSignature("z", TypeSignatureFactory::intLiteral),
                                 }),
+                                TypeSignatureFactory::createLambdaScopeParameter(),
                                 TypeSignatureFactory::intLiteral
                             ))
             )},
@@ -446,15 +452,18 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             )},
             {103, new LambdaExpressionTypeSignature(
                     new ParameterListTypeSignature(),
+                    TypeSignatureFactory::createLambdaScopeParameter(),
                     TypeSignatureFactory::intLiteral
             )},
             {104, new LambdaExpressionTypeSignature(
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral)
-                    })
+                    }),
+                    TypeSignatureFactory::createLambdaScopeParameter()
             )},
             {105, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature()
+                    new ParameterListTypeSignature(),
+                    TypeSignatureFactory::createLambdaScopeParameter()
             )},
             {106, TypeSignatureFactory::intLiteral},
             {107, TypeSignatureFactory::floatLiteral},

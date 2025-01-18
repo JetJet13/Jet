@@ -18,7 +18,9 @@ namespace TypeSignatureFactory {
     static CharLiteralTypeSignature* charLiteral = new CharLiteralTypeSignature();
     static StringLiteralTypeSignature* stringLiteral = new StringLiteralTypeSignature();
     static BoolLiteralTypeSignature* boolLiteral = new BoolLiteralTypeSignature();
-
+    static ParameterListItemTypeSignature* createLambdaScopeParameter() {
+        return ParameterListItemTypeSignature::createScopeParameter();
+    }
     static ParameterListItemTypeSignature* createIntParameter(std::string name) {
         return new ParameterListItemTypeSignature(name, TypeSignatureFactory::intLiteral);
     }

@@ -39,6 +39,7 @@ TEST_CASE( "should create expected vm code" ) {
     irGenerator.initModule(irModule);
     auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
     auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
+    auto irContext = irGenerator.generateContext(irMainFunctionBlock, irModule);
     auto irLookupTable = IRLookupTable();
     llvm::Linker::linkModules(
         *irModule->getModule(),
@@ -47,8 +48,8 @@ TEST_CASE( "should create expected vm code" ) {
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *jetFileResult->getFile()->getBody()) {
-        auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irModule);
-        irInjector->inject(irMainFunctionBlock, value, irModule);
+        auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irContext);
+        irInjector->inject(irMainFunctionBlock, value, irModule, &irLookupTable);
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }
