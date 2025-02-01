@@ -1106,6 +1106,14 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/dref-expression-strategy/dref-expression-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/dref-expression-strategy/dref-expression-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/ref-expression-type-checker-policy/ref-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/ref-expression-type-checker-policy/ref-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.h
 
 )
 

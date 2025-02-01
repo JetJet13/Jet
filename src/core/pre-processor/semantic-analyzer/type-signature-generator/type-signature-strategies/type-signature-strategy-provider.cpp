@@ -27,6 +27,8 @@
 #include "expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
@@ -274,6 +276,16 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getModuleAccessExpressionTypeSignatureStrategy()
                     ->assign((ASTModuleAccessExpressionNode*) node, typeSignatureScope, this);
+            break;
+        case AST_REF_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getRefExpressionTypeSignatureStrategy()
+                    ->assign((ASTRefExpressionNode*) node, typeSignatureScope, this);
+            break;
+        case AST_DREF_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getDrefExpressionTypeSignatureStrategy()
+                    ->assign((ASTDrefExpressionNode*) node, typeSignatureScope, this);
             break;
         case AST_PUBLIC_NODE:
         case AST_PROTECTED_NODE:

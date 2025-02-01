@@ -27,6 +27,8 @@
 #include "expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
@@ -86,6 +88,8 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _tupleExpressionTypeSignatureStrategy = new TupleExpressionTypeSignatureStrategy();
     _unaryExpressionTypeSignatureStrategy = new UnaryExpressionTypeSignatureStrategy();
     _moduleAccessExpressionTypeSignatureStrategy = new ModuleAccessExpressionTypeSignatureStrategy();
+    _refExpressionTypeSignatureStrategy = new RefExpressionTypeSignatureStrategy();
+    _drefExpressionTypeSignatureStrategy = new DrefExpressionTypeSignatureStrategy();
     _lambdaExpressionScopeParameterTypeSignatureStrategy = new LambdaExpressionScopeParameterTypeSignatureStrategy();
     _classScopeParameterTypeSignatureStrategy = new ClassScopeParameterTypeSignatureStrategy();
     _typeTypeSignatureStrategy = new TypeTypeSignatureStrategy();
@@ -215,6 +219,14 @@ UnaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getUnaryExpressi
 
 ModuleAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessExpressionTypeSignatureStrategy() {
     return this->_moduleAccessExpressionTypeSignatureStrategy;
+}
+
+RefExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getRefExpressionTypeSignatureStrategy() {
+    return this->_refExpressionTypeSignatureStrategy;
+}
+
+DrefExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getDrefExpressionTypeSignatureStrategy() {
+    return this->_drefExpressionTypeSignatureStrategy;
 }
 
 LambdaExpressionScopeParameterTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaExpressionScopeParameterTypeSignatureStrategy() {

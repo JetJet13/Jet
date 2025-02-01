@@ -320,43 +320,37 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature(),
                     TypeSignatureFactory::stringLiteral
             )},
-            {91, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature({
-                        new ParameterListItemTypeSignature("x", colorEnumTypeSignature)
-                    }),
-                    TypeSignatureFactory::createLambdaScopeParameter(),
+            {91, new FunctionLambdaTypeSignature(
+                    {
+                        colorEnumTypeSignature
+                    },
                     colorEnumTypeSignature
             )},
-            {92, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
-                       new ParameterListItemTypeSignature("y", TypeSignatureFactory::intLiteral),
-                    }),
-                    TypeSignatureFactory::createLambdaScopeParameter(),
+            {92, new FunctionLambdaTypeSignature(
+                    {
+                       TypeSignatureFactory::intLiteral,
+                       TypeSignatureFactory::intLiteral,
+                    },
                     TypeSignatureFactory::boolLiteral
             )},
-            {93, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature({
-                        new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
-                    }),
-                    TypeSignatureFactory::createLambdaScopeParameter(),
+            {93, new FunctionLambdaTypeSignature(
+                    {
+                        TypeSignatureFactory::intLiteral,
+                    },
                     TypeSignatureFactory::intLiteral
             )},
-            {94, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature({
-                        new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral),
-                    }),
-                    TypeSignatureFactory::createLambdaScopeParameter(),
-                    new LambdaExpressionTypeSignature(
-                            new ParameterListTypeSignature({
-                                new ParameterListItemTypeSignature("y", TypeSignatureFactory::intLiteral),
-                            }),
-                            TypeSignatureFactory::createLambdaScopeParameter(),
-                            new LambdaExpressionTypeSignature(
-                                new ParameterListTypeSignature({
-                                    new ParameterListItemTypeSignature("z", TypeSignatureFactory::intLiteral),
-                                }),
-                                TypeSignatureFactory::createLambdaScopeParameter(),
+            {94, new FunctionLambdaTypeSignature(
+                    {
+                        TypeSignatureFactory::intLiteral,
+                    },
+                    new FunctionLambdaTypeSignature(
+                            {
+                                TypeSignatureFactory::intLiteral,
+                            },
+                            new FunctionLambdaTypeSignature(
+                                {
+                                    TypeSignatureFactory::intLiteral,
+                                },
                                 TypeSignatureFactory::intLiteral
                             ))
             )},
@@ -450,21 +444,16 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                    }),
                     TypeSignatureFactory::boolLiteral
             )},
-            {103, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature(),
-                    TypeSignatureFactory::createLambdaScopeParameter(),
+            {103, new FunctionLambdaTypeSignature(
+                    {},
                     TypeSignatureFactory::intLiteral
             )},
-            {104, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature("x", TypeSignatureFactory::intLiteral)
-                    }),
-                    TypeSignatureFactory::createLambdaScopeParameter()
+            {104, new ProcedureLambdaTypeSignature(
+                    {
+                       TypeSignatureFactory::intLiteral
+                    }
             )},
-            {105, new LambdaExpressionTypeSignature(
-                    new ParameterListTypeSignature(),
-                    TypeSignatureFactory::createLambdaScopeParameter()
-            )},
+            {105, new ProcedureLambdaTypeSignature({})},
             {106, TypeSignatureFactory::intLiteral},
             {107, TypeSignatureFactory::floatLiteral},
             {108, TypeSignatureFactory::charLiteral},
@@ -521,11 +510,16 @@ TEST_CASE( "should print the expected type signatures" ) {
     for (int i = 0; i < 121; i++) {
         auto declaration = fileNode->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
+        auto expectedTypeSignature = expectedTypeSignatures[i + 1];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("ID -", declaration->getId());
         typeSignature->print();
-        Logger::log("RESULT =", typeSignature->isEqualTo(expectedTypeSignatures[i + 1]));
-        REQUIRE(typeSignature->isEqualTo(expectedTypeSignatures[i + 1]));
+        auto result = typeSignature->isEqualTo(expectedTypeSignature);
+        Logger::log("RESULT =", result);
+        if (!result) {
+            expectedTypeSignature->print();
+        }
+        REQUIRE(typeSignature->isEqualTo(expectedTypeSignature));
         Logger::log("====================================");
     }
     typeCheckerResult.printErrors();

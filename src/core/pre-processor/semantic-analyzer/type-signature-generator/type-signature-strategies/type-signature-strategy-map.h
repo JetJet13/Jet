@@ -32,6 +32,8 @@ class TupleAccessExpressionTypeSignatureStrategy;
 class TupleExpressionTypeSignatureStrategy;
 class UnaryExpressionTypeSignatureStrategy;
 class ModuleAccessExpressionTypeSignatureStrategy;
+class RefExpressionTypeSignatureStrategy;
+class DrefExpressionTypeSignatureStrategy;
 class TypeTypeSignatureStrategy;
 class PrimitiveTypeTypeSignatureStrategy;
 class CustomTypeTypeSignatureStrategy;
@@ -92,6 +94,8 @@ private:
     TupleExpressionTypeSignatureStrategy* _tupleExpressionTypeSignatureStrategy;
     UnaryExpressionTypeSignatureStrategy* _unaryExpressionTypeSignatureStrategy;
     ModuleAccessExpressionTypeSignatureStrategy* _moduleAccessExpressionTypeSignatureStrategy;
+    RefExpressionTypeSignatureStrategy* _refExpressionTypeSignatureStrategy;
+    DrefExpressionTypeSignatureStrategy* _drefExpressionTypeSignatureStrategy;
     LambdaExpressionScopeParameterTypeSignatureStrategy* _lambdaExpressionScopeParameterTypeSignatureStrategy;
     ClassScopeParameterTypeSignatureStrategy* _classScopeParameterTypeSignatureStrategy;
     TypeTypeSignatureStrategy* _typeTypeSignatureStrategy;
@@ -151,6 +155,8 @@ public:
     TupleExpressionTypeSignatureStrategy* getTupleExpressionTypeSignatureStrategy();
     UnaryExpressionTypeSignatureStrategy* getUnaryExpressionTypeSignatureStrategy();
     ModuleAccessExpressionTypeSignatureStrategy* getModuleAccessExpressionTypeSignatureStrategy();
+    RefExpressionTypeSignatureStrategy* getRefExpressionTypeSignatureStrategy();
+    DrefExpressionTypeSignatureStrategy* getDrefExpressionTypeSignatureStrategy();
     LambdaExpressionScopeParameterTypeSignatureStrategy* getLambdaExpressionScopeParameterTypeSignatureStrategy();
     ClassScopeParameterTypeSignatureStrategy* getClassScopeParameterTypeSignatureStrategy();
     TypeTypeSignatureStrategy* getTypeTypeSignatureStrategy();

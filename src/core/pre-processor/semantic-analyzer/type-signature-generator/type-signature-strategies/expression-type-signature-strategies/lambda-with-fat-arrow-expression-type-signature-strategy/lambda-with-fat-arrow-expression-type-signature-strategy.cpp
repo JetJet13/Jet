@@ -11,15 +11,17 @@ void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatA
         scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
     }
 
+    strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getParameters(), &scope);
+    strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnExpression(), &scope);
+
     auto returnType = std::optional<TypeSignature*>();
     if (lambdaWithFatArrowExpression->getReturnType()) {
         strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnType().value(), &scope);
         returnType = lambdaWithFatArrowExpression->getReturnType().value()->getTypeSignature();
     } else {
-        strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnExpression(), &scope);
         returnType = lambdaWithFatArrowExpression->getReturnExpression()->getTypeSignature();
     }
-    strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getParameters(), &scope);
+
     lambdaWithFatArrowExpression->setTypeSignature(new LambdaExpressionTypeSignature(
             lambdaWithFatArrowExpression->getParameters()->getTypeSignature(),
             strategyMap->generateLambdaExpressionScopeParameter(typeSignatureLookupTable),

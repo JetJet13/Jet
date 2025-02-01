@@ -40,6 +40,8 @@
 #include "policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.h"
 #include "policies/import-single-module-type-checker-policy/import-single-module-type-checker-policy.h"
 #include "policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.h"
+#include "policies/expressions/ref-expression-type-checker-policy/ref-expression-type-checker-policy.h"
+#include "policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -151,6 +153,12 @@ namespace TypeChecker {
                 break;
             case AST_UNARY_EXPRESSION_NODE:
                 UnaryExpressionTypeCheckerPolicy::apply((ASTUnaryExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_REF_EXPRESSION_NODE:
+                RefExpressionTypeCheckerPolicy::apply((ASTRefExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_DREF_EXPRESSION_NODE:
+                DrefExpressionTypeCheckerPolicy::apply((ASTDrefExpressionNode*)node, typeCheckerResult);
                 break;
             case AST_LITERAL_EXPRESSION_NODE:
                 break;

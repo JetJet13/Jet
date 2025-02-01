@@ -197,7 +197,7 @@ const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: Color = Color.Red;
 
-const preDefinedClassInstance = new MyClass();
+const preDefinedClassInstance = new MyClass(5);
 
 class OtherClass {
     public myIntOne: MyClass;
@@ -220,7 +220,7 @@ class MyClass {
     private static const mickTwoStatic: boolean = true;
     private static const mickThreeStatic = true;
 
-    private initMyClass = new MyClass();
+    private initMyClass = new MyClass(5);
     private myClassProp: MyClass;
     private otherClass: OtherClass = new OtherClass();
 
@@ -242,7 +242,7 @@ class MyClass {
     }
 
     protected static doSomething(other: MyClass) MyClass {
-        return new MyClass();
+        return new MyClass(40);
     }
 
     private static doSomethingElse() MyClass {

@@ -64,10 +64,14 @@ bool LambdaExpressionTypeSignature::isEqualTo(TypeSignature* otherType) {
 }
 
 TypeSignature* LambdaExpressionTypeSignature::convertToVariableTypeSignature() {
-    if (this->_returnType->isVoid()) {
-        return new ProcedureLambdaTypeSignature(this->getParameterTypes());
+    auto parameterTypes = std::vector<TypeSignature*>();
+    for (auto parameter : *this->getParameterTypes()) {
+        parameterTypes.push_back(parameter->convertToVariableTypeSignature());
     }
-    return new FunctionLambdaTypeSignature(this->getParameterTypes(), this->getReturnType());
+    if (this->_returnType->isVoid()) {
+        return new ProcedureLambdaTypeSignature(parameterTypes);
+    }
+    return new FunctionLambdaTypeSignature(parameterTypes, this->getReturnType()->convertToVariableTypeSignature());
 }
 
 void LambdaExpressionTypeSignature::print() {
