@@ -974,59 +974,45 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {90, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createStructExpression({
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::intExpression),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::floatExpression),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::trueExpression),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::charExpression),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::stringExpression),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::idExpression),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::createArrayExpression({
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::floatExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::charExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::stringExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::createArrayExpression({
                                                      ASTNodeFactory::intExpression,
                                                      ASTNodeFactory::intExpression,
                                                      ASTNodeFactory::intExpression
                                              })),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              new ASTArrayAccessExpressionNode(
+                    ASTNodeFactory::createStructKeyValue(new ASTArrayAccessExpressionNode(
                                                       ASTNodeFactory::idExpression,
                                                       ASTNodeFactory::arrayAccessInt
                                               )),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
-                                              ASTNodeFactory::createStructExpression({
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::createStructExpression({
+                                                  ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
                                                   ASTNodeFactory::createStructKeyValue(
-                                                      ASTNodeFactory::idExpression,
-                                                      ASTNodeFactory::intExpression
-                                                  ),
-                                                  ASTNodeFactory::createStructKeyValue(
-                                                          ASTNodeFactory::idExpression,
                                                           ASTNodeFactory::createStructExpression({
                                                               ASTNodeFactory::createStructKeyValue(
-                                                                      ASTNodeFactory::idExpression,
-                                                                      ASTNodeFactory::trueExpression
+                                                                ASTNodeFactory::trueExpression
                                                               )
                                                           })
                                                   ),
                                               })
                     ),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(
                                               new ASTBinaryExpressionNode(
                                                       ASTNodeFactory::intExpression,
                                                       ASTNodeFactory::plus,
                                                       ASTNodeFactory::intExpression
                                               )),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(
                                               new ASTLogicalExpressionNode(
                                                       ASTNodeFactory::trueExpression,
                                                       ASTNodeFactory::andOperator,
                                                       ASTNodeFactory::falseExpression
                                               )),
-                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::idExpression,
+                    ASTNodeFactory::createStructKeyValue(
                                               new ASTUnaryExpressionNode(
                                                       ASTNodeFactory::bang,
                                                       ASTNodeFactory::idExpression
@@ -1071,11 +1057,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createArrayExpression({
                     ASTNodeFactory::createStructExpression({
                         ASTNodeFactory::createStructKeyValue(
-                                ASTNodeFactory::idExpression,
                                 ASTNodeFactory::stringExpression
                         ),
                         ASTNodeFactory::createStructKeyValue(
-                                ASTNodeFactory::idExpression,
                                 ASTNodeFactory::intExpression
                         ),
                     })
@@ -1096,31 +1080,25 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             ASTNodeFactory::constInit,
             ASTNodeFactory::createStructExpression({
                 ASTNodeFactory::createStructKeyValue(
-                    ASTNodeFactory::idExpression,
                     ASTNodeFactory::createArrayExpression({
                            ASTNodeFactory::createStructExpression({
                                ASTNodeFactory::createStructKeyValue(
-                                       ASTNodeFactory::idExpression,
                                        ASTNodeFactory::stringExpression
                                ),
                                ASTNodeFactory::createStructKeyValue(
-                                       ASTNodeFactory::idExpression,
                                        ASTNodeFactory::intExpression
                                ),
                            })
                    })
                 ),
                 ASTNodeFactory::createStructKeyValue(
-                        ASTNodeFactory::idExpression,
                         ASTNodeFactory::createArrayExpression({
                            ASTNodeFactory::createArrayExpression({
                               ASTNodeFactory::createStructExpression({
                                   ASTNodeFactory::createStructKeyValue(
-                                          ASTNodeFactory::idExpression,
                                           ASTNodeFactory::stringExpression
                                   ),
                                   ASTNodeFactory::createStructKeyValue(
-                                          ASTNodeFactory::idExpression,
                                           ASTNodeFactory::intExpression
                                   ),
                               })
@@ -1418,14 +1396,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {117, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTTupleExpressionNode(
-                        ASTNodeFactory::tupleKeyword,
-                        ASTNodeFactory::createTupleList({
-                             new ASTTupleItemNode(ASTNodeFactory::stringExpression),
-                             new ASTTupleItemNode(ASTNodeFactory::intExpression),
-                             new ASTTupleItemNode(ASTNodeFactory::intExpression)
-                        })
-                )
+                ASTNodeFactory::createTupleExpression({
+                  ASTNodeFactory::stringExpression,
+                  ASTNodeFactory::intExpression,
+                  ASTNodeFactory::intExpression
+                })
         )},
         {118, new ASTExpressionStatementNode(
                 ASTNodeFactory::createTupleAccessExpression(
@@ -2735,13 +2710,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::intType
                     })
                 ),
-                new ASTTupleExpressionNode(
-                    ASTNodeFactory::tupleKeyword,
-                    ASTNodeFactory::createTupleList({
-                         new ASTTupleItemNode(ASTNodeFactory::intExpression),
-                         new ASTTupleItemNode(ASTNodeFactory::intExpression)
-                    })
-                )
+                ASTNodeFactory::createTupleExpression({
+                    ASTNodeFactory::intExpression,
+                    ASTNodeFactory::intExpression
+                })
         )},
         {181, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::idType),
@@ -3179,6 +3151,142 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
+        {192, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLogicalExpressionNode(
+                    ASTNodeFactory::bangId,
+                    ASTNodeFactory::andOperator,
+                    ASTNodeFactory::trueExpression
+                )
+        )},
+        {193, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::intExpression)
+        )},
+        {194, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::floatExpression)
+        )},
+        {195, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::stringExpression)
+        )},
+        {196, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::trueExpression)
+        )},
+        {197, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::charExpression)
+        )},
+        {198, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::createArrayExpression({
+                  ASTNodeFactory::intExpression,
+                  ASTNodeFactory::intExpression,
+                  ASTNodeFactory::intExpression
+                }))
+        )},
+        {199, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::createStructExpression({
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression)
+                }))
+        )},
+        {200, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::createTupleExpression({
+                    ASTNodeFactory::stringExpression,
+                    ASTNodeFactory::trueExpression,
+                    ASTNodeFactory::intExpression
+                }))
+        )},
+        {201, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(ASTNodeFactory::idExpression)
+        )},
+        {202, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(
+                    ASTNodeFactory::createObjectAccessExpression(
+                        ASTNodeFactory::objectAccessSourceId,
+                        ASTNodeFactory::objectAccessTargetId
+                    )
+                )
+        )},
+        {203, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(
+                    new ASTArrayAccessExpressionNode(
+                        ASTNodeFactory::idExpression,
+                        ASTNodeFactory::arrayAccessInt
+                    )
+                )
+        )},
+        {204, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(
+                    ASTNodeFactory::createTupleAccessExpression(
+                        ASTNodeFactory::objectAccessSourceId,
+                        ASTNodeFactory::tupleAccess
+                    )
+                )
+        )},
+        {205, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createArrayExpression({
+                  ASTNodeFactory::refIntExpression,
+                  ASTNodeFactory::refIntExpression,
+                  ASTNodeFactory::refIntExpression
+               })
+        )},
+        {206, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createStructExpression({
+                   ASTNodeFactory::createStructKeyValue(ASTNodeFactory::refIntExpression),
+                   ASTNodeFactory::createStructKeyValue(ASTNodeFactory::refCharExpression)
+               })
+        )},
+        {207, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createTupleExpression({
+                    ASTNodeFactory::refStringExpression,
+                    ASTNodeFactory::refTrueExpression,
+                    ASTNodeFactory::refIntExpression
+                })
+        )},
+        {208, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createDrefExpression(ASTNodeFactory::idExpression)
+        )},
+        {209, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createDrefExpression(
+                    ASTNodeFactory::createObjectAccessExpression(
+                        ASTNodeFactory::objectAccessSourceId,
+                        ASTNodeFactory::objectAccessTargetId
+                    )
+                )
+        )},
+        {210, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createDrefExpression(
+                    new ASTArrayAccessExpressionNode(
+                        ASTNodeFactory::idExpression,
+                        ASTNodeFactory::arrayAccessInt
+                    )
+                )
+        )},
+        {211, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createDrefExpression(
+                    ASTNodeFactory::createTupleAccessExpression(
+                        ASTNodeFactory::objectAccessSourceId,
+                        ASTNodeFactory::tupleAccess
+                    )
+                )
+        )},
 
 };
 
@@ -3200,6 +3308,7 @@ auto expectedImportDeclarations = std::vector {
 };
 Logger::log("===== TEST LOGS =====");
 REQUIRE(fileScope->getModule().value()->isSameAs(expectedModuleDeclaration) == true);
+REQUIRE(fileScope->getImports().size() == 1);
 for (int i = 0; i < 1; i++) {
     auto importDeclaration = fileScope->getImports()[i];
     importDeclaration->print();
@@ -3210,8 +3319,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 192);
-    for (int i = 0; i < 191; i++) {
+REQUIRE(fileScope->getScope().size() == 211);
+    for (int i = 0; i < 211; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

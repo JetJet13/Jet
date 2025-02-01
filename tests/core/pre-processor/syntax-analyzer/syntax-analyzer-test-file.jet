@@ -359,7 +359,6 @@ const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: CustomType = "custom-type";
 
 module MyModule
-module MySecondModule
 
 use MyPackage from "my-package";
 import GlobalModule from "./global-module.jet";
@@ -446,3 +445,24 @@ export proc exportedProcedure(x: int) {
 GlobalModule::print("hello world");
 
 const andLogicBangId = !flag && true;
+
+const rInt = ref 1;
+const rFloat = ref 1.5;
+const rString = ref "hi there";
+const rBool = ref true;
+const rChar = ref 'x';
+const rArray = ref [1,2,3];
+const rStruct = ref { a: 1, b: true };
+const rTuple = ref tuple { "hi", true, 0 };
+const rId = ref foo;
+const rId = ref foo.bar;
+const rId = ref myArray[0];
+const rId = ref myTuple.0;
+const refsArray = [ ref 0, ref 1, ref 2 ];
+const refsStruct = { a: ref 1, b: ref 'Z' };
+const refsTuple = tuple { ref "hi", ref true, ref 0 };
+
+const dereferenceId = dref foo;
+const dereferenceId = dref foo.bar;
+const dereferenceId = dref myArray[0];
+const dereferenceId = dref myTuple.0;

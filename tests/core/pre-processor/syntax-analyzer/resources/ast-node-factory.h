@@ -113,6 +113,9 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-dref-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-ref-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -372,6 +375,18 @@ namespace ASTNodeFactory {
     static ASTProcedureDefinitionNode* createProcedureDefinition(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters) {
         return new ASTProcedureDefinitionNode(ASTNodeFactory::procedureKeyword, name, parameters);
     }
+    static ASTRefExpressionNode* createRefExpression(ASTExpressionNode* expression) {
+        return new ASTRefExpressionNode(ASTNodeFactory::refKeyword, expression);
+    }
+    static ASTDrefExpressionNode* createDrefExpression(ASTExpressionNode* expression) {
+        return new ASTDrefExpressionNode(ASTNodeFactory::drefKeyword, expression);
+    }
+    static ASTRefExpressionNode* refIntExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::intExpression);
+    static ASTRefExpressionNode* refFloatExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::floatExpression);
+    static ASTRefExpressionNode* refStringExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::stringExpression);
+    static ASTRefExpressionNode* refCharExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::charExpression);
+    static ASTRefExpressionNode* refTrueExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::trueExpression);
+    static ASTRefExpressionNode* refFalseExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::falseExpression);
     static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
             new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
             ASTNodeFactory::assignment
@@ -541,9 +556,9 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::rightBracket
         );
     }
-    static ASTStructKeyValueNode* createStructKeyValue(ASTIdentifierExpressionNode* key, ASTExpressionNode* value) {
+    static ASTStructKeyValueNode* createStructKeyValue(ASTExpressionNode* value) {
         return new ASTStructKeyValueNode(
-                key,
+                ASTNodeFactory::idExpression,
                 ASTNodeFactory::structColon,
                 value
         );
@@ -627,12 +642,18 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::functionArgumentListEnd
         );
     }
-    static ASTTupleListNode* createTupleList(std::vector<ASTTupleItemNode*> items = {}) {
-        return new ASTTupleListNode(
+    static ASTTupleExpressionNode* createTupleExpression(std::vector<ASTExpressionNode*> expressions = {}) {
+        auto tupleItems = std::vector<ASTTupleItemNode*>();
+        for (auto expression : expressions) {
+            tupleItems.push_back(new ASTTupleItemNode(expression));
+        }
+        return new ASTTupleExpressionNode(
+                ASTNodeFactory::tupleKeyword,
+                new ASTTupleListNode(
                 ASTNodeFactory::tupleListStart,
-                items,
+                tupleItems,
                 ASTNodeFactory::tupleListEnd
-        );
+        ));
     }
     static ASTTypeParameterListNode* createTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
         return new ASTTypeParameterListNode(ASTNodeFactory::typeParameterListStart, items, ASTNodeFactory::typeParameterListEnd);
