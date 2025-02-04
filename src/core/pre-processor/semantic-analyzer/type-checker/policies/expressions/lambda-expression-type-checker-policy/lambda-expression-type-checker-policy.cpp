@@ -6,6 +6,7 @@
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../type-checker.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace LambdaExpressionTypeCheckerPolicy {
     void apply(ASTLambdaExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult) {
@@ -18,8 +19,13 @@ namespace LambdaExpressionTypeCheckerPolicy {
             typeCheckerResult
         );
         TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(lambdaExpression->getBlock(), typeCheckerResult);
-        if (lambdaExpression->getReturnType() && lambdaExpression->getTypeSignature()->getReturnType()) {
+        if (lambdaExpression->getTypeSignature()->getReturnType()->isVoid()) {
+            TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
+                    lambdaExpression->getBlock(),
+                    TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression),
+                    typeCheckerResult
+            );
+        } else {
             TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
             ->enforce(
                 lambdaExpression->getTypeSignature()->getReturnType(),
@@ -39,13 +45,8 @@ namespace LambdaExpressionTypeCheckerPolicy {
                 TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression),
                 typeCheckerResult
             );
-        } else {
-            TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
-                lambdaExpression->getBlock(),
-                TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression),
-                typeCheckerResult
-            );
         }
+        TypeChecker::applyPolicyTo(lambdaExpression->getBlock(), typeCheckerResult);
     }
     void apply(ASTLambdaWithFatArrowExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult) {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()

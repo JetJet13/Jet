@@ -5,6 +5,7 @@
 #include <utility>
 #include "class-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "class-instance-type-signature/class-instance-type-signature.h"
 
 ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
@@ -74,6 +75,14 @@ std::string ClassTypeSignature::toString() {
 
 TypeSource ClassTypeSignature::getTypeSource() {
     return CLASS_TYPE_SOURCE;
+}
+
+bool ClassTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)){
+        auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
+        return this->isEqualTo(classInstanceTypeSignature->getClassTypeSignature());
+    }
+    return this->isEqualTo(otherType);
 }
 
 bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {

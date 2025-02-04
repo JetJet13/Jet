@@ -22,6 +22,7 @@ public:
     void setConstructorInfo(std::pair<std::string, ClassConstructorTypeSignature*> constructorInfo);
     std::string toString() override;
     TypeSource getTypeSource() override;
+    bool isEquivalentTo(TypeSignature *otherType) override;
     bool isEqualTo(TypeSignature *otherType) override;
     bool isInvalid() override;
     void print() override;

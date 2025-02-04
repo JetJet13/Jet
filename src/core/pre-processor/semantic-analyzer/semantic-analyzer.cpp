@@ -23,14 +23,23 @@ TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignature
 
 
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+    auto typeDeclarations = std::vector<ASTDeclarationNode*>();
     for (auto node : *fileNode->getBody()) {
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
-            scope->insertGlobal(
-                    node->getId(),
-                    _typeSignatureGenerator
-                    ->generateInitialTypeSignatureForTypeDeclaration((ASTDeclarationNode*)node)
-            );
+            typeDeclarations.push_back((ASTDeclarationNode*)node);
         }
+    }
+
+    for (auto declarationNode : typeDeclarations) {
+        scope->insertGlobal(
+                declarationNode->getId(),
+                _typeSignatureGenerator
+                ->generateInitialTypeSignatureForTypeDeclaration(declarationNode)
+        );
+    }
+
+    for (auto declarationNode : typeDeclarations) {
+        _typeSignatureGenerator->assignPartialTypeSignatureForTypeDeclaration(declarationNode, scope);
     }
 }
 

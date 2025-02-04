@@ -394,6 +394,23 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
     }
 }
 
+void TypeSignatureStrategyProvider::assignPartialTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
+    auto typeSignatureScope = scope.value_or(new TypeSignatureLookupTable());
+    switch (node->getNodeType()) {
+//        case AST_FUNCTION_DECLARATION_NODE:
+//            return (new FunctionTypeSignature())->setId(node->getId());
+//        case AST_PROCEDURE_DECLARATION_NODE:
+//            return (new ProcedureTypeSignature())->setId(node->getId());
+//        case AST_ENUM_DECLARATION_NODE:
+//            return (new EnumTypeSignature())->setId(node->getId());
+        case AST_CLASS_DECLARATION_NODE:
+            _typeSignatureStrategyMap->getClassTypeSignatureStrategy()->assignPartial((ASTClassDeclarationNode*)node, typeSignatureScope, this);
+//        case AST_MODULE_DECLARATION_NODE:
+//            return (new ModuleTypeSignature())->setId(node->getId());
+//            return (new UnknownTypeSignature())->setId(node->getId());
+    }
+}
+
 ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope) {
     return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(scope);
 }

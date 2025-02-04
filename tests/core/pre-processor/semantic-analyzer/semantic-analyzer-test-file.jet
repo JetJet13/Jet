@@ -197,7 +197,7 @@ const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: Color = Color.Red;
 
-const preDefinedClassInstance = new MyClass(5);
+const preDefinedClassInstance = new MyClass(987);
 
 class OtherClass {
     public myIntOne: MyClass;

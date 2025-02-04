@@ -10,9 +10,7 @@ void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode*
     if (classPropertyDeclaration->getInitializer()) {
         strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getInitializer().value(), scope);
         classPropertyType = classPropertyDeclaration->getInitializer().value()->getTypeSignature()->convertToVariableTypeSignature();
-    }
-
-    if (classPropertyDeclaration->getType()) {
+    } else if (classPropertyDeclaration->getType()) {
         strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getType().value(), scope);
         classPropertyType = classPropertyDeclaration->getType().value()->getTypeSignature();
     }

@@ -43,6 +43,17 @@ TypeSource ClassInstanceTypeSignature::getTypeSource() {
     return CLASS_INSTANCE_TYPE_SOURCE;
 }
 
+bool ClassInstanceTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    if (otherType->typeSourceIs(CLASS_TYPE_SOURCE)){
+        auto classTypeSignature = (ClassTypeSignature*)otherType;
+        return this->getClassTypeSignature()->isEqualTo(classTypeSignature);
+    } else if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)){
+        auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
+        return this->getClassTypeSignature()->isEqualTo(classInstanceTypeSignature->getClassTypeSignature());
+    }
+    return this->isEqualTo(otherType);
+}
+
 bool ClassInstanceTypeSignature::isEqualTo(TypeSignature* otherType) {
     return this->getTypeSource() == otherType->getTypeSource();
 }

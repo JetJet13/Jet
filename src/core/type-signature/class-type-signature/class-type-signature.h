@@ -34,6 +34,7 @@ public:
     std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
     std::string toString() override;
     TypeSource getTypeSource() override;
+    bool isEquivalentTo(TypeSignature *otherType) override;
     bool isEqualTo(TypeSignature *otherType) override;
     void copyFrom(TypeSignature* otherType) override;
     void print() override;

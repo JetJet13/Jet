@@ -12,13 +12,20 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
 
     auto classScope = TypeSignatureLookupTable();
     classScope.inheritGlobalScope(scope);
-    this->assignMethodTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
-    this->assignConstructorTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
     classTypeSignature->setClassScopeParameter(strategyMap->generateClassScopeParameter(classTypeSignature));
 
     this->assignConstructorBlocksTypeSignature(node, &classScope, classTypeSignature, strategyMap);
     this->assignMethodBlocksTypeSignature(node, &classScope, classTypeSignature, strategyMap);
+}
+
+void ClassTypeSignatureStrategy::assignPartial(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    auto classTypeSignature = (ClassTypeSignature*)scope->find(node->getId());
+    auto classScope = TypeSignatureLookupTable();
+    classScope.inheritGlobalScope(scope);
+
+    this->assignMethodTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
+    this->assignConstructorTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
 }
 
 void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {

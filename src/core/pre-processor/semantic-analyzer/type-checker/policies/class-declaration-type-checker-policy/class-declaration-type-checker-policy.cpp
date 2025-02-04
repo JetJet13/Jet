@@ -27,6 +27,9 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
         }
 
         if (classProperty->getInitializer()) {
+            Logger::log("Class property initializer", classProperty->getId());
+            classProperty->getTypeSignature()->getType()->print();
+            classProperty->getInitializer().value()->getTypeSignature()->print();
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 classProperty->getTypeSignature()->getType(),

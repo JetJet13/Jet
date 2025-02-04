@@ -17,14 +17,18 @@ TypeSignature* TypeSignatureGenerator::generateInitialTypeSignatureForTypeDeclar
         case AST_PROCEDURE_DECLARATION_NODE:
             return (new ProcedureTypeSignature())->setId(node->getId());
         case AST_ENUM_DECLARATION_NODE:
-            return (new EnumTypeSignature())->setId(node->getId());;
+            return (new EnumTypeSignature())->setId(node->getId());
         case AST_CLASS_DECLARATION_NODE:
-            return (new ClassTypeSignature())->setId(node->getId());;
+            return (new ClassTypeSignature())->setId(node->getId());
         case AST_MODULE_DECLARATION_NODE:
-            return (new ModuleTypeSignature())->setId(node->getId());;
+            return (new ModuleTypeSignature())->setId(node->getId());
         default:
-            return (new UnknownTypeSignature())->setId(node->getId());;
+            return (new UnknownTypeSignature())->setId(node->getId());
     }
+}
+
+void TypeSignatureGenerator::assignPartialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope) {
+    _typeSignatureStrategyProvider->assignPartialTypeSignatureFor(node, scope);
 }
 
 void  TypeSignatureGenerator::assignTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope) {
