@@ -466,3 +466,7 @@ const dereferenceId = dref foo;
 const dereferenceId = dref foo.bar;
 const dereferenceId = dref myArray[0];
 const dereferenceId = dref myTuple.0;
+
+func refParamsTest(x: ref<int>, y: ref<boolean>, z: ref<arr<int>>) ref<int> {
+    return ref 5;
+}

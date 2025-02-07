@@ -6,16 +6,16 @@
 #define JETLANG_AST_REF_EXPRESSION_NODE_H
 
 #include "ast-expression-node.h"
-#include "../ast-ref-node.h"
+#include "../ast-base-nodes/ast-ref-base-node.h"
 
 class ASTRefExpressionNode : public ASTExpressionNode {
 private:
     ASTExpressionNode* _expression;
-    ASTRefNode* _refNode;
+    ASTRefBaseNode* _refNode;
 public:
-    ASTRefExpressionNode(ASTRefNode* refNode, ASTExpressionNode* astExpressionNode);
+    ASTRefExpressionNode(ASTRefBaseNode* refNode, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
-    ASTRefNode* getRefNode();
+    ASTRefBaseNode* getRefNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

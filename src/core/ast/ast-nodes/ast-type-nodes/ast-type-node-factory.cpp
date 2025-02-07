@@ -36,6 +36,10 @@ namespace ASTTypeNodeFactory {
         return new ASTTypeNode(arrayTypeNode);
     }
 
+    ASTTypeNode* createRefTypeNode(ASTRefTypeNode* refTypeNode) {
+        return new ASTTypeNode(refTypeNode);
+    }
+
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode) {
         return new ASTTypeNode(new ASTThisTypeNode(thisNode));
     }

@@ -50,6 +50,7 @@ void SyntaxDfa::init() {
     DFANode* structColon = DFANodeFactory::Once::create(AST_STRUCT_COLON_NODE);
     DFANode* period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
     DFANode* refKeyword = DFANodeFactory::Once::create(AST_REF_NODE);
+    DFANode* refTypeKeyword = DFANodeFactory::Once::create(AST_REF_TYPE_KEYWORD_NODE);
     DFANode* drefKeyword = DFANodeFactory::Once::create(AST_DREF_NODE);
     DFANode* refExpression = DFANodeFactory::Once::create(AST_REF_EXPRESSION_NODE);
     DFANode* drefExpression = DFANodeFactory::Once::create(AST_DREF_EXPRESSION_NODE);
@@ -509,6 +510,13 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE, AST_REF_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_THIS_EXPRESSION_NODE, AST_REF_EXPRESSION_NODE)));
 
+    refTypeKeyword
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_PARAMETER_LIST_START_NODE })
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_REF_TYPE_NODE)
+    ));
+
     drefKeyword
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_DREF_EXPRESSION_NODE)))
@@ -757,7 +765,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     typeParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_ARRAY_TYPE_KEYWORD_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_ARRAY_TYPE_KEYWORD_NODE, AST_REF_TYPE_KEYWORD_NODE });
 
     functionLambdaTypeParameterList
     ->addTransition(DFATransitionFactory::create(
@@ -1224,6 +1232,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(classMethod)
     ->insertStartNode(exportKeyword)
     ->insertStartNode(refKeyword)
+    ->insertStartNode(refTypeKeyword)
     ->insertStartNode(drefKeyword)
     ->insertStartNode(refExpression)
     ->insertStartNode(drefExpression)

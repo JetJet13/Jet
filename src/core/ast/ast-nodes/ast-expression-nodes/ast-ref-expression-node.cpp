@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTRefExpressionNode::ASTRefExpressionNode(ASTRefNode* refNode, ASTExpressionNode* astExpressionNode) {
+ASTRefExpressionNode::ASTRefExpressionNode(ASTRefBaseNode* refNode, ASTExpressionNode* astExpressionNode) {
     _refNode = refNode;
     _expression = astExpressionNode;
     _children.push_back(_refNode);
@@ -18,7 +18,7 @@ ASTExpressionNode* ASTRefExpressionNode::getExpressionNode() {
     return _expression;
 }
 
-ASTRefNode* ASTRefExpressionNode::getRefNode() {
+ASTRefBaseNode* ASTRefExpressionNode::getRefNode() {
     return _refNode;
 }
 

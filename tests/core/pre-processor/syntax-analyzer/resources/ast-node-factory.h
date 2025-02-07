@@ -111,7 +111,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-access-target-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-dref-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-ref-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-base-nodes/ast-ref-base-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
@@ -122,7 +122,7 @@ namespace ASTNodeFactory {
         return new Lexeme(new Token(symbol, symbol->toString()));
     }
     static ASTDrefNode* drefKeyword = new ASTDrefNode(createLexeme(SymbolFactory::createDrefSymbol()));
-    static ASTRefNode* refKeyword = new ASTRefNode(createLexeme(SymbolFactory::createRefSymbol()));
+    static ASTRefBaseNode* refKeyword = new ASTRefBaseNode(createLexeme(SymbolFactory::createRefSymbol()));
     static ASTExportNode* exportKeyword = new ASTExportNode(createLexeme(SymbolFactory::createExportSymbol()));
     static ASTBlockStartNode* blockStart = new ASTBlockStartNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTBlockEndNode* blockEnd = new ASTBlockEndNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
@@ -312,6 +312,7 @@ namespace ASTNodeFactory {
     static ASTTypeNode* arrayType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
     static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()), "id");
     static ASTTypeNode* thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
+
     static ASTFunctionNode* functionKeyword =  new ASTFunctionNode(
             createLexeme(SymbolFactory::createFunctionSymbol())
     );
@@ -369,6 +370,13 @@ namespace ASTNodeFactory {
             ASTNodeFactory::typeColon,
             ASTNodeFactory::idType
     );
+    static ASTFunctionParameterNode* createFunctionParameter(ASTTypeNode* typeNode) {
+        return new ASTFunctionParameterNode(
+                ASTNodeFactory::idExpression,
+                ASTNodeFactory::typeColon,
+                typeNode
+        );
+    }
     static ASTFunctionDefinitionNode* createFunctionDefinition(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType) {
         return new ASTFunctionDefinitionNode(ASTNodeFactory::functionKeyword, name, parameters, returnType);
     }
@@ -704,6 +712,13 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::arrayTypeKeyword,
                 ASTNodeFactory::createTypeParameterList({ elementType })
         ));
+    }
+    static ASTTypeNode* createRefType(ASTTypeNode* refType) {
+        return ASTTypeNodeFactory::createRefTypeNode(
+                new ASTRefTypeNode(
+                    ASTNodeFactory::refKeyword,
+                    ASTNodeFactory::createTypeParameterList({ refType })
+                ));
     }
     static ASTImportModuleListNode* createImportModuleList(std::vector<ASTImportModuleListItemNode*> items = {}) {
         return new ASTImportModuleListNode(

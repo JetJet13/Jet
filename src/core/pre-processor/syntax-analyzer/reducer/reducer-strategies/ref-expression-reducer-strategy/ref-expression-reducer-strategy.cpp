@@ -7,7 +7,7 @@
 
 ASTNode* RefExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     return new ASTRefExpressionNode(
-            (ASTRefNode*)nodes[0],
+            (ASTRefBaseNode*)nodes[0],
             (ASTExpressionNode*)nodes[1]
     );
 }

@@ -18,7 +18,7 @@ Lexeme* ASTLessThanBaseNode::getLexeme() {
 ASTNode * ASTLessThanBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode,
                                                     std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_ARRAY_TYPE_KEYWORD_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_ARRAY_TYPE_KEYWORD_NODE, AST_REF_TYPE_KEYWORD_NODE })) {
         return new ASTTypeParameterListStartNode(this->getLexeme());
     }
 

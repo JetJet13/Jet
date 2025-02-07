@@ -14,6 +14,7 @@
 #include "../ast-class-nodes/ast-this-node.h"
 #include "ast-procedure-type-node.h"
 #include "ast-function-type-node.h"
+#include "ast-ref-type-node.h"
 
 namespace ASTTypeNodeFactory {
     ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id);
@@ -23,6 +24,7 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createFunctionTypeNode(ASTFunctionTypeNode* functionTypeNode);
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode);
     ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
+    ASTTypeNode* createRefTypeNode(ASTRefTypeNode* refTypeNode);
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);
 }
 
