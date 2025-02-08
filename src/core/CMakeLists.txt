@@ -1122,6 +1122,8 @@ add_library(jet-core
         ast/ast-nodes/ast-ref-node.h
         ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h
 
 )
 

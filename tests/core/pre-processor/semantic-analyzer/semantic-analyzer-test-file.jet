@@ -313,6 +313,42 @@ func withFinally() int {
     }
 }
 
+const emptyArray: arr<int> = [];
+
+
+const foo = { bar : 'a' };
+const myArray = [10, 20, 30];
+const rInt = ref 1;
+const rFloat = ref 1.5;
+const rString = ref "hi there";
+const rBool = ref true;
+const rChar = ref 'x';
+const rArray = ref [1,2,3];
+const rStruct = ref { a: 1, b: true };
+const rTuple = ref tuple { "hi", true, 0 };
+const rId = ref foo;
+const rIdChar = ref foo.bar;
+const rArrayAccess = ref myArray[0];
+const rTupleAccess = ref myTuple.0;
+const refsArray = [ ref 0, ref 1, ref 2 ];
+const refsStruct = { a: ref 1, b: ref 'Z' };
+const refsTuple = tuple { ref "hi", ref true, ref 0 };
+
+const dereferenceStruct = dref foo;
+const dereferenceChar = dref foo.bar;
+const dereferenceInt = dref myArray[0];
+const dereferenceString = dref myTuple.0;
+
+func refParamsTest(x: ref<int>, y: ref<boolean>, z: ref<arr<int>>) ref<int> {
+    return ref 5;
+}
+
+const rTypeId: ref<char> = rIdChar;
+const lambdaArrowRef = (x: ref<int>) => x + 1;
+const lambdaRef = (x: ref<int>) ref<int> {
+    return ref (x + 1);
+};
+
 if intWithType == 5 {
     const nope = "hello";
 }
@@ -343,5 +379,3 @@ for i in array {
 while true {
     const anotherVar = true;
 }
-
-const emptyArray: arr<int> = [];

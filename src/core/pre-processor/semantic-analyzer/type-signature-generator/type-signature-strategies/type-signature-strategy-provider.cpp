@@ -32,6 +32,7 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
@@ -146,6 +147,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getTupleTypeTypeSignatureStrategy()
                     ->assign((ASTTupleTypeNode *) node, typeSignatureScope, this);
+            break;
+        case AST_REF_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getRefTypeTypeSignatureStrategy()
+                    ->assign((ASTRefTypeNode *) node, typeSignatureScope, this);
             break;
         case AST_FUNCTION_TYPE_NODE:
             this->_typeSignatureStrategyMap

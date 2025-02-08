@@ -470,3 +470,9 @@ const dereferenceId = dref myTuple.0;
 func refParamsTest(x: ref<int>, y: ref<boolean>, z: ref<arr<int>>) ref<int> {
     return ref 5;
 }
+
+const rTypeId: ref<int> = rId;
+const lambdaArrowRef = (x: ref<int>) => x + 1;
+const lambdaRef = (x: ref<int>) ref<int> {
+    return ref (x + 1);
+};

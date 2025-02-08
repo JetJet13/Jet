@@ -18,6 +18,11 @@ namespace TypeSignatureFactory {
     static CharLiteralTypeSignature* charLiteral = new CharLiteralTypeSignature();
     static StringLiteralTypeSignature* stringLiteral = new StringLiteralTypeSignature();
     static BoolLiteralTypeSignature* boolLiteral = new BoolLiteralTypeSignature();
+    static PointerTypeSignature* refIntLiteral = new PointerTypeSignature(new IntLiteralTypeSignature());
+    static PointerTypeSignature* refFloatLiteral = new PointerTypeSignature(new FloatLiteralTypeSignature());
+    static PointerTypeSignature* refCharLiteral = new PointerTypeSignature(new CharLiteralTypeSignature());
+    static PointerTypeSignature* refStringLiteral = new PointerTypeSignature(new StringLiteralTypeSignature());
+    static PointerTypeSignature* refBoolLiteral = new PointerTypeSignature(new BoolLiteralTypeSignature());
     static ParameterListItemTypeSignature* createLambdaScopeParameter() {
         return ParameterListItemTypeSignature::createScopeParameter();
     }
@@ -35,6 +40,24 @@ namespace TypeSignatureFactory {
     }
     static ParameterListItemTypeSignature* createBoolParameter(std::string name) {
         return new ParameterListItemTypeSignature(name, TypeSignatureFactory::boolLiteral);
+    }
+    static ParameterListItemTypeSignature* createRefIntParameter(std::string name) {
+        return new ParameterListItemTypeSignature(name, TypeSignatureFactory::refIntLiteral);
+    }
+    static ParameterListItemTypeSignature* createRefFloatParameter(std::string name) {
+        return new ParameterListItemTypeSignature(name, TypeSignatureFactory::refFloatLiteral);
+    }
+    static ParameterListItemTypeSignature* createRefCharParameter(std::string name) {
+        return new ParameterListItemTypeSignature(name, TypeSignatureFactory::refCharLiteral);
+    }
+    static ParameterListItemTypeSignature* createRefStringParameter(std::string name) {
+        return new ParameterListItemTypeSignature(name, TypeSignatureFactory::refStringLiteral);
+    }
+    static ParameterListItemTypeSignature* createRefBoolParameter(std::string name) {
+        return new ParameterListItemTypeSignature(name, TypeSignatureFactory::refBoolLiteral);
+    }
+    static ParameterListItemTypeSignature* createParameter(std::string name, TypeSignature* typeSignature) {
+        return new ParameterListItemTypeSignature(name, typeSignature);
     }
 
     static AccessModifierTypeSignature* publicAccess = new AccessModifierTypeSignature(PUBLIC_ACCESS_MODIFIER_TYPE);

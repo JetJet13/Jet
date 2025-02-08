@@ -42,6 +42,7 @@ class TupleTypeTypeSignatureStrategy;
 class FunctionTypeTypeSignatureStrategy;
 class ProcedureTypeTypeSignatureStrategy;
 class ThisTypeTypeSignatureStrategy;
+class RefTypeTypeSignatureStrategy;
 class EnumKeyValueTypeSignatureStrategy;
 class EnumTypeSignatureStrategy;
 class VariableTypeSignatureStrategy;
@@ -103,6 +104,7 @@ private:
     CustomTypeTypeSignatureStrategy* _customTypeTypeSignatureStrategy;
     ArrayTypeTypeSignatureStrategy* _arrayTypeTypeSignatureStrategy;
     TupleTypeTypeSignatureStrategy* _tupleTypeTypeSignatureStrategy;
+    RefTypeTypeSignatureStrategy* _refTypeTypeSignatureStrategy;
     FunctionTypeTypeSignatureStrategy* _functionTypeTypeSignatureStrategy;
     ProcedureTypeTypeSignatureStrategy* _procedureTypeTypeSignatureStrategy;
     ThisTypeTypeSignatureStrategy* _thisTypeTypeSignatureStrategy;
@@ -164,6 +166,7 @@ public:
     CustomTypeTypeSignatureStrategy* getCustomTypeTypeSignatureStrategy();
     ArrayTypeTypeSignatureStrategy* getArrayTypeTypeSignatureStrategy();
     TupleTypeTypeSignatureStrategy* getTupleTypeTypeSignatureStrategy();
+    RefTypeTypeSignatureStrategy* getRefTypeTypeSignatureStrategy();
     FunctionTypeTypeSignatureStrategy* getFunctionTypeTypeSignatureStrategy();
     ProcedureTypeTypeSignatureStrategy* getProcedureTypeTypeSignatureStrategy();
     ThisTypeTypeSignatureStrategy* getThisTypeTypeSignatureStrategy();

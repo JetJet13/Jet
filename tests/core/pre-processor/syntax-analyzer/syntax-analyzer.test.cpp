@@ -3304,6 +3304,46 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 })
         )},
+        {213, new ASTVariableDeclarationNode(
+                ASTNodeFactory::createConstInitWithType(ASTNodeFactory::createRefType(ASTNodeFactory::intType)),
+                ASTNodeFactory::idExpression
+        )},
+        {214, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLambdaWithFatArrowExpressionNode(
+                        ASTNodeFactory::createFunctionParameterList({
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::createRefType(ASTNodeFactory::intType))
+                        }),
+                        new ASTLambdaReturnExpressionNode(
+                            ASTNodeFactory::lambdaFatArrow,
+                            new ASTBinaryExpressionNode(
+                                ASTNodeFactory::idExpression,
+                                ASTNodeFactory::plus,
+                                ASTNodeFactory::intExpression
+                            )
+                        )
+                )
+        )},
+        {215, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTLambdaExpressionNode(
+                    ASTNodeFactory::createFunctionParameterList({
+                        ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::createRefType(ASTNodeFactory::intType)),
+                    }),
+                    ASTNodeFactory::createFunctionBlock({
+                        new ASTFunctionReturnExpressionNode(
+                            ASTNodeFactory::functionReturn,
+                            ASTNodeFactory::createRefExpression(
+                                new ASTBinaryExpressionNode(
+                                    ASTNodeFactory::idExpression,
+                                    ASTNodeFactory::plus,
+                                    ASTNodeFactory::intExpression
+                            ))
+                        )
+                    }),
+                    ASTNodeFactory::createRefType(ASTNodeFactory::intType)
+                )
+        )},
 
 };
 
@@ -3336,8 +3376,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 212);
-    for (int i = 0; i < 212; i++) {
+REQUIRE(fileScope->getScope().size() == 215);
+    for (int i = 0; i < 215; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

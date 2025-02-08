@@ -21,6 +21,10 @@ TypeSource PointerTypeSignature::getTypeSource() {
     return POINTER_TYPE_SOURCE;
 }
 
+TypeSource PointerTypeSignature::getTypeTarget() {
+    return this->_underlyingType->getTypeTarget();
+}
+
 bool PointerTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;

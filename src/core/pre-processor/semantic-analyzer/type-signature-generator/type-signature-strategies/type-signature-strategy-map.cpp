@@ -32,6 +32,7 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
 #include "lambda-expression-scope-parameter-type-signature-strategy/lambda-expression-scope-parameter-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
@@ -97,6 +98,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _customTypeTypeSignatureStrategy = new CustomTypeTypeSignatureStrategy();
     _arrayTypeTypeSignatureStrategy = new ArrayTypeTypeSignatureStrategy();
     _tupleTypeTypeSignatureStrategy = new TupleTypeTypeSignatureStrategy();
+    _refTypeTypeSignatureStrategy = new RefTypeTypeSignatureStrategy();
     _functionTypeTypeSignatureStrategy = new FunctionTypeTypeSignatureStrategy();
     _procedureTypeTypeSignatureStrategy = new ProcedureTypeTypeSignatureStrategy();
     _thisTypeTypeSignatureStrategy = new ThisTypeTypeSignatureStrategy();
@@ -255,6 +257,10 @@ ArrayTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayTypeTypeSignat
 
 TupleTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleTypeTypeSignatureStrategy() {
     return this->_tupleTypeTypeSignatureStrategy;
+}
+
+RefTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getRefTypeTypeSignatureStrategy() {
+    return this->_refTypeTypeSignatureStrategy;
 }
 
 FunctionTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getFunctionTypeTypeSignatureStrategy() {
