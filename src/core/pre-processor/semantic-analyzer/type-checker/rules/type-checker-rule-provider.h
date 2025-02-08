@@ -17,6 +17,8 @@
 #include "type-checker-rules/return-type-signature-type-checker-rule/return-type-signature-type-checker-rule.h"
 #include "type-checker-rules/match-argument-list-count-with-parameter-list-count-type-checker-rule/match-argument-list-count-with-parameter-list-count-type-checker-rule.h"
 #include "type-checker-rules/argument-list-type-signature-mismatch-type-checker-rule/argument-list-type-signature-mismatch-type-checker-rule.h"
+#include "type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.h"
+#include "type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h"
 
 class TypeCheckerRuleProvider {
 private:
@@ -32,6 +34,8 @@ private:
     static ReturnTypeSignatureTypeCheckerRule* _returnTypeSignatureTypeCheckerRule;
     static MatchArgumentListCountWithParameterListCountTypeCheckerRule* _matchArgumentListCountWithParameterListCountTypeCheckerRule;
     static ArgumentListTypeSignatureMismatchTypeCheckerRule* _argumentListTypeSignatureMismatchTypeCheckerRule;
+    static DrefTypeSignatureTypeCheckerRule* _drefTypeSignatureTypeCheckerRule;
+    static RefTypeSignatureTypeCheckerRule* _refTypeSignatureTypeCheckerRule;
 public:
     static NoReturnExpressionTypeCheckerRule* getNoReturnExpressionTypeCheckerRule();
     static RequiredReturnExpressionTypeCheckerRule* getRequiredReturnExpressionTypeCheckerRule();
@@ -45,6 +49,8 @@ public:
     static ReturnTypeSignatureTypeCheckerRule* getReturnTypeSignatureTypeCheckerRule();
     static MatchArgumentListCountWithParameterListCountTypeCheckerRule* getMatchArgumentListCountWithParameterListCountTypeCheckerRule();
     static ArgumentListTypeSignatureMismatchTypeCheckerRule* getArgumentListTypeSignatureMismatchTypeCheckerRule();
+    static DrefTypeSignatureTypeCheckerRule* getDrefTypeSignatureTypeCheckerRule();
+    static RefTypeSignatureTypeCheckerRule* getRefTypeSignatureTypeCheckerRule();
 };
 
 #endif //JETLANG_TYPE_CHECKER_RULE_PROVIDER_H

@@ -12,7 +12,7 @@ ASTNode* RefTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
 
     return ASTTypeNodeFactory::createRefTypeNode(
             new ASTRefTypeNode(
-                (ASTRefBaseNode*)nodes[0],
+                (ASTRefTypeKeywordNode*)nodes[0],
                 (ASTTypeParameterListNode*)nodes[1]
             )
     );

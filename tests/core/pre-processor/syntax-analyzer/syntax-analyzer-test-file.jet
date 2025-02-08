@@ -476,3 +476,5 @@ const lambdaArrowRef = (x: ref<int>) => x + 1;
 const lambdaRef = (x: ref<int>) ref<int> {
     return ref (x + 1);
 };
+
+const refArrayRaw = ref [ 50, 60, 70 ];

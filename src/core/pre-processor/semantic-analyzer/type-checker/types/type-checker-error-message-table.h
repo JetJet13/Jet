@@ -168,6 +168,12 @@ namespace TypeCheckerErrorMessageTable {
     static std::string InvalidSingleImportModuleName(ASTNode* node) {
         return "imported module name is invalid \n" + node->toSourceCode();
     }
+    static std::string DrefExpressionTypeInvalid(ASTNode* node) {
+        return "dref expression does not have type ref/pointer  \n" + node->toSourceCode();
+    }
+    static std::string RefExpressionTypeInvalid(ASTNode* node) {
+        return "ref expression cannot have type ref/pointer  \n" + node->toSourceCode();
+    }
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

@@ -3344,6 +3344,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createRefType(ASTNodeFactory::intType)
                 )
         )},
+        {216, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createRefExpression(
+                    ASTNodeFactory::createArrayExpression({
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::intExpression,
+                        ASTNodeFactory::intExpression
+                    })
+                )
+        )},
 
 };
 
@@ -3376,8 +3386,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 215);
-    for (int i = 0; i < 215; i++) {
+REQUIRE(fileScope->getScope().size() == 216);
+    for (int i = 0; i < 216; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

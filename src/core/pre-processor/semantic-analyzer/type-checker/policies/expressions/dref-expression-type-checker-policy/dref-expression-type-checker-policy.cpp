@@ -10,14 +10,19 @@
 namespace DrefExpressionTypeCheckerPolicy {
     void apply(ASTDrefExpressionNode* drefExpression, TypeCheckerResult* typeCheckerResult) {
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        drefExpression->getTypeSignature(),
-                        TypeCheckerErrorMessageTable::ExpressionTypeUnknown(drefExpression),
-                        TypeCheckerErrorMessageTable::ExpressionTypeInvalid(drefExpression),
-                        TypeCheckerErrorMessageTable::ExpressionTypeVoid(drefExpression),
-                        typeCheckerResult
-                );
-
+        ->enforce(
+            drefExpression->getTypeSignature(),
+            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(drefExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(drefExpression),
+            TypeCheckerErrorMessageTable::ExpressionTypeVoid(drefExpression),
+            typeCheckerResult
+        );
+        TypeCheckerRuleProvider::getDrefTypeSignatureTypeCheckerRule()
+        ->enforce(
+            drefExpression->getExpressionNode()->getTypeSignature(),
+            TypeCheckerErrorMessageTable::DrefExpressionTypeInvalid(drefExpression),
+            typeCheckerResult
+        );
         TypeChecker::applyPolicyTo(drefExpression->getExpressionNode(), typeCheckerResult);
     }
 }

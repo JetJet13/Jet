@@ -3,7 +3,13 @@
 //
 
 #include "pointer-type-signature.h"
+#include "../unknown-type-signature/unknown-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
+
+
+PointerTypeSignature::PointerTypeSignature() {
+    _underlyingType = new UnknownTypeSignature();
+}
 
 PointerTypeSignature::PointerTypeSignature(TypeSignature* underlyingType) {
     _underlyingType = underlyingType;

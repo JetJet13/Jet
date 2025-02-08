@@ -11,6 +11,7 @@ class PointerTypeSignature : public TypeSignature {
 private:
     TypeSignature* _underlyingType;
 public:
+    PointerTypeSignature();
     PointerTypeSignature(TypeSignature* underlyingType);
     TypeSignature* getUnderlyingType();
     std::string toString() override;

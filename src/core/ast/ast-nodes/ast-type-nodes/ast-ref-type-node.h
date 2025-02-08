@@ -10,14 +10,14 @@
 #include "ast-type-parameter-list-node.h"
 #include "../ast-array-nodes/ast-array-node.h"
 #include "../ast-array-nodes/ast-array-type-keyword-node.h"
-#include "../ast-base-nodes/ast-ref-base-node.h"
+#include "ast-ref-type-keyword-node.h"
 
 class ASTRefTypeNode : public ASTTypeBaseNode {
 private:
-    ASTRefBaseNode* _ref;
+    ASTRefTypeKeywordNode* _ref;
     ASTTypeParameterListNode* _typeParameterList;
 public:
-    ASTRefTypeNode(ASTRefBaseNode* refNode, ASTTypeParameterListNode* typeParameterList);
+    ASTRefTypeNode(ASTRefTypeKeywordNode* refNode, ASTTypeParameterListNode* typeParameterList);
     ASTTypeNode* getRefType();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -6,5 +6,10 @@
 
 void DrefExpressionTypeSignatureStrategy::assign(ASTDrefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
-    node->setTypeSignature(node->getExpressionNode()->getTypeSignature());
+    if (node->getExpressionNode()->getTypeSignature()->typeSourceIs(POINTER_TYPE_SOURCE)) {
+        auto pointerTypeSignature = (PointerTypeSignature*)node->getExpressionNode()->getTypeSignature();
+        node->setTypeSignature(pointerTypeSignature->getUnderlyingType());
+    } else {
+        node->setTypeSignature(new UnknownTypeSignature());
+    }
 }

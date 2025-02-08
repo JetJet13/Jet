@@ -116,13 +116,16 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-ref-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
         return new Lexeme(new Token(symbol, symbol->toString()));
     }
     static ASTDrefNode* drefKeyword = new ASTDrefNode(createLexeme(SymbolFactory::createDrefSymbol()));
-    static ASTRefBaseNode* refKeyword = new ASTRefBaseNode(createLexeme(SymbolFactory::createRefSymbol()));
+    static ASTRefNode* refKeyword = new ASTRefNode(createLexeme(SymbolFactory::createRefSymbol()));
+    static ASTRefTypeKeywordNode* refTypeKeyword = new ASTRefTypeKeywordNode(createLexeme(SymbolFactory::createRefSymbol()));
     static ASTExportNode* exportKeyword = new ASTExportNode(createLexeme(SymbolFactory::createExportSymbol()));
     static ASTBlockStartNode* blockStart = new ASTBlockStartNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTBlockEndNode* blockEnd = new ASTBlockEndNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
@@ -716,7 +719,7 @@ namespace ASTNodeFactory {
     static ASTTypeNode* createRefType(ASTTypeNode* refType) {
         return ASTTypeNodeFactory::createRefTypeNode(
                 new ASTRefTypeNode(
-                    ASTNodeFactory::refKeyword,
+                    ASTNodeFactory::refTypeKeyword,
                     ASTNodeFactory::createTypeParameterList({ refType })
                 ));
     }

@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTRefExpressionNode::ASTRefExpressionNode(ASTRefBaseNode* refNode, ASTExpressionNode* astExpressionNode) {
+ASTRefExpressionNode::ASTRefExpressionNode(ASTRefNode* refNode, ASTExpressionNode* astExpressionNode) {
     _refNode = refNode;
     _expression = astExpressionNode;
     _children.push_back(_refNode);
@@ -18,8 +18,16 @@ ASTExpressionNode* ASTRefExpressionNode::getExpressionNode() {
     return _expression;
 }
 
-ASTRefBaseNode* ASTRefExpressionNode::getRefNode() {
+ASTRefNode* ASTRefExpressionNode::getRefNode() {
     return _refNode;
+}
+
+PointerTypeSignature* ASTRefExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
+void ASTRefExpressionNode::setTypeSignature(PointerTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
 }
 
 Position* ASTRefExpressionNode::getStartPosition() {

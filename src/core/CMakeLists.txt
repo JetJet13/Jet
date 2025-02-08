@@ -1124,6 +1124,10 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h
 
 )
 

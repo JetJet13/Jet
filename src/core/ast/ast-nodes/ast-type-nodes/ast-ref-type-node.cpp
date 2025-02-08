@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTRefTypeNode::ASTRefTypeNode(ASTRefBaseNode* refNode, ASTTypeParameterListNode* typeParameterList) {
+ASTRefTypeNode::ASTRefTypeNode(ASTRefTypeKeywordNode* refNode, ASTTypeParameterListNode* typeParameterList) {
     _ref = refNode;
     _typeParameterList = typeParameterList;
     _children.push_back(_ref);
