@@ -1,5 +1,6 @@
 import MyOtherModule from "./other-test-file.jet";
 
+const myArray = [1, 2, 3];
 const foo = 500;
 
 let tempFoo = 10;

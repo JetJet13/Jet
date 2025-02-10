@@ -14,6 +14,7 @@
 class IdentifierExpressionIRStrategy {
 private:
     IRAggregateIdentifierExpressionNode* generateForAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRAggregateIdentifierExpressionNode* generateForGlobalAggregate(ASTIdentifierExpressionNode* node, IRGlobalVariableNode* irGlobalVariable, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 public:
     IRExpressionNode* generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };

@@ -12,10 +12,12 @@
 class IRGlobalVariableNode : public IRNode {
 private:
     llvm::GlobalVariable* _irValue;
+    std::optional<llvm::GlobalVariable*> _source;
     IRPointerType* _type;
 public:
-    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type);
+    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type, std::optional<llvm::GlobalVariable*> source = {});
     llvm::GlobalVariable* getValue();
+    llvm::GlobalVariable* getSource();
     IRPointerType* getIRType();
     IRNodeType getNodeType() override;
     std::string toString() override;

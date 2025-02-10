@@ -8,15 +8,13 @@
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 
-llvm::Value * ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector *irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector *irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
         return this->inject((IRArrayExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_AGGREGATE_IDENTIFIER_EXPRESSION_NODE)) {
         return this->inject((IRAggregateIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
-    } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRArrayAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
@@ -81,16 +79,6 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExp
         auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
         return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
-}
-
-llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irOperationType == IR_OPERAND_OP) {
-        auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType()->getSourceType();
-        auto pointerIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getPointerIndex());
-        auto pointerToFirstElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), irExpression->getValue(), { irBlock->getBuilder()->get()->getInt32(0), pointerIndex });
-        return irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getElementType(), pointerToFirstElement);
-    }
-    throw std::logic_error("cannot inject array from IRIdentifierExpressionNode. It must be IRAggregateIdentifierExpressionNode");
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {

@@ -39,6 +39,8 @@ class NewClassInstanceExpressionIRStrategy;
 class ClassPropertyAssignmentStatementIRStrategy;
 class VariableAssignmentStatementIRStrategy;
 class IfStatementIRStrategy;
+class RefExpressionIRStrategy;
+class DrefExpressionIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -53,7 +55,6 @@ class ParameterListTypeSignatureIRStrategy;
 class ParameterTypeSignatureIRStrategy;
 class StructTypeSignatureIRStrategy;
 class TupleTypeSignatureIRStrategy;
-class VoidTypeSignatureIRStrategy;
 class EnumAccessTypeSignatureIRStrategy;
 class ModuleTypeSignatureIRStrategy;
 class PointerTypeSignatureIRStrategy;
@@ -97,6 +98,8 @@ private:
     ClassPropertyAssignmentStatementIRStrategy* _classPropertyAssignmentStatementIRStrategy;
     VariableAssignmentStatementIRStrategy* _variableAssignmentStatementIRStrategy;
     IfStatementIRStrategy* _ifStatementIRStrategy;
+    RefExpressionIRStrategy* _refExpressionIRStrategy;
+    DrefExpressionIRStrategy* _drefExpressionIRStrategy;
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -152,6 +155,8 @@ public:
     ClassPropertyAssignmentStatementIRStrategy* getClassPropertyAssignmentStatementIRStrategy();
     VariableAssignmentStatementIRStrategy* getVariableAssignmentStatementIRStrategy();
     IfStatementIRStrategy* getIfStatementIRStrategy();
+    RefExpressionIRStrategy* getRefExpressionIRStrategy();
+    DrefExpressionIRStrategy* getDrefExpressionIRStrategy();
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();

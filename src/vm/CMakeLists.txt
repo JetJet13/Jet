@@ -327,6 +327,12 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h
         ir-nodes/ir-context.cpp
         ir-nodes/ir-context.h
+        ir-generator/ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-ref-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-ref-expression-node.h
+        ir-generator/ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

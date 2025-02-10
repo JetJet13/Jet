@@ -24,6 +24,8 @@
 #include "ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
@@ -154,6 +156,10 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate((ASTClassMethodInvocationExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate((ASTNewClassInstanceExpressionNode*)node,  this, scope, irContext, irOperationType);
+    } else if (node->is(AST_REF_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate((ASTRefExpressionNode*)node,  this, scope, irContext, irOperationType);
+    } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate((ASTDrefExpressionNode*)node,  this, scope, irContext, irOperationType);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
@@ -254,6 +260,10 @@ IRModuleType* IRGenerator::generateTypeFor(ModuleTypeSignature* typeSignature, I
 
 IRClassType* IRGenerator::generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+}
+
+IRPointerType* IRGenerator::generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+    return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
 IRType* IRGenerator::generateVoidType() {

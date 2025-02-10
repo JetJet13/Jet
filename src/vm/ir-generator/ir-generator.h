@@ -82,6 +82,7 @@ public:
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRModuleType* generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRClassType* generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRPointerType* generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateVoidType();
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
