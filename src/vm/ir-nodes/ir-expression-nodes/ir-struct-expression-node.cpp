@@ -4,14 +4,14 @@
 
 #include "ir-struct-expression-node.h"
 
-IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues) {
+IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues) {
     _node = astNode;
     _irValue = irValue;
     _irValues = irValues;
     _type = type;
 }
 
-IRType* IRStructExpressionNode::getIRType() {
+IRStructType* IRStructExpressionNode::getIRType() {
     return _type;
 }
 

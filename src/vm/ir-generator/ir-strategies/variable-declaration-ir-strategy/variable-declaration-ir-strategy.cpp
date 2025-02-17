@@ -14,7 +14,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
             irGenerator->generateIrPointerType(irType), node->getId(), irExpression->getSourceAllocation()
     );
 
-    auto irGlobalVariable = std::optional<IRGlobalVariableNode*>();
+    auto irGlobalVariable = std::optional<IRInstructionNode*>();
     if (node->isGlobal() && !node->getTypeSignature()->isInvocable()) {
         auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
         auto globalVariable = new llvm::GlobalVariable(
@@ -26,23 +26,11 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
                 node->getId()
         );
 
-        auto parentGlobalVariable = std::optional<llvm::GlobalVariable*>();
-        if (variableAllocation->getParentAllocation()) {
-            // todo: refactor array ir-generator/ir-injector strategy
-            // get rid of need of referencing array/string source allocation when copying array/string values (e.g. [3 x i32])
-            // instead leverage function like jet.copy.string to copy source allocation
-            // using only the array pointer allocation { i32, ptr }
-            parentGlobalVariable = new llvm::GlobalVariable(
-                    *irContext->getModule(),
-                    variableAllocation->getParentAllocation().value()->getAllocatedType(),
-                    false,
-                    linkage,
-                    nullptr,
-                    "parent." + node->getId()
-            );
-        }
-
-        irGlobalVariable = new IRGlobalVariableNode(globalVariable, variableAllocation->getIRType(), parentGlobalVariable);
+        irGlobalVariable = IRInstructionNodeFactory::create(
+                globalVariable,
+                variableAllocation->getIRType(),
+                irExpression->getSourceAllocation()
+        );
         scope->insertGlobalVariable(node->getId(), irGlobalVariable.value());
     } else {
         scope->insert(node->getId(), variableAllocation);

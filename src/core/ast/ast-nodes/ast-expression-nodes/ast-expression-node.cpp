@@ -6,6 +6,14 @@
 #include "../ast-function-nodes/ast-function-argument-node.h"
 #include "../ast-tuple-nodes/ast-tuple-item-node.h"
 
+void ASTExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+}
+
+bool ASTExpressionNode::isGlobal() {
+    return _isGlobal;
+}
+
 void ASTExpressionNode::setTypeSignature(TypeSignature* typeSignature) {
     _typeSignature = typeSignature;
 }

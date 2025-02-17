@@ -9,6 +9,7 @@
 #include "../ir-instruction-node.h"
 #include "../../ir-type/ir-pointer-type.h"
 #include "../../../core/type-signature/type-signature.h"
+#include "../ir-global-variable-node.h"
 
 class IRExpressionNode : public IRNode {
 public:

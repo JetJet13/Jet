@@ -31,6 +31,7 @@ ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
 
 void ASTVariableDeclarationNode::markAsGlobal() {
     _isGlobal = true;
+    _initializer->markAsGlobal();
 }
 
 bool ASTVariableDeclarationNode::isExportable() {

@@ -16,6 +16,7 @@ public:
     ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
     ASTUnaryOperatorNode* getUnaryOperatorNode();
+    void markAsGlobal() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

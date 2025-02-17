@@ -29,6 +29,7 @@
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
+#include "./array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -91,6 +92,7 @@ IRStrategyMap::IRStrategyMap() {
     _newClassInstanceExpressionIRStrategy = new NewClassInstanceExpressionIRStrategy();
     _classPropertyAssignmentStatementIRStrategy = new ClassPropertyAssignmentStatementIRStrategy();
     _variableAssignmentStatementIRStrategy = new VariableAssignmentStatementIRStrategy();
+    _arrayAccessAssignmentStatementIRStrategy = new ArrayAccessAssignmentStatementIRStrategy();
     _ifStatementIRStrategy = new IfStatementIRStrategy();
     _refExpressionIRStrategy = new RefExpressionIRStrategy();
     _drefExpressionIRStrategy = new DrefExpressionIRStrategy();
@@ -244,6 +246,10 @@ ClassPropertyAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyAssig
 
 VariableAssignmentStatementIRStrategy* IRStrategyMap::getVariableAssignmentStatementIRStrategy() {
     return _variableAssignmentStatementIRStrategy;
+}
+
+ArrayAccessAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessAssignmentStatementIRStrategy() {
+    return _arrayAccessAssignmentStatementIRStrategy;
 }
 
 IfStatementIRStrategy* IRStrategyMap::getIfStatementIRStrategy() {

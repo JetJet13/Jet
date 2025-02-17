@@ -18,6 +18,7 @@ public:
     ASTExpressionNode* getLeftNode();
     ASTExpressionNode* getRightNode();
     ASTBinaryOperatorNode* getBinaryOperator();
+    void markAsGlobal() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

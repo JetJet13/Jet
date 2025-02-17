@@ -18,6 +18,7 @@ public:
     ASTRefExpressionNode(ASTRefNode* refNode, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
     ASTRefNode* getRefNode();
+    void markAsGlobal() override;
     PointerTypeSignature* getTypeSignature() override;
     void setTypeSignature(PointerTypeSignature* typeSignature);
     Position* getStartPosition() override;

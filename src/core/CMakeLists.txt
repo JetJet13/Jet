@@ -1128,6 +1128,18 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h
+        ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.h
+        ast/ast-nodes/ast-array-nodes/ast-array-access-assignment-node.cpp
+        ast/ast-nodes/ast-array-nodes/ast-array-access-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-assignment-reducer-strategy/array-access-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-assignment-reducer-strategy/array-access-assignment-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.h
 
 )
 

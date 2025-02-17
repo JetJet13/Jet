@@ -27,6 +27,12 @@ ASTLogicalOperatorNode* ASTLogicalExpressionNode::getLogicalOperator() {
     return _logicalOperator;
 }
 
+void ASTLogicalExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _leftNode->markAsGlobal();
+    _rightNode->markAsGlobal();
+}
+
 Position* ASTLogicalExpressionNode::getStartPosition() {
     return _leftNode->getStartPosition();
 }

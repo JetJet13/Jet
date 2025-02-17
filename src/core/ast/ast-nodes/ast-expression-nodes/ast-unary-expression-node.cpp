@@ -18,6 +18,11 @@ ASTExpressionNode* ASTUnaryExpressionNode::getExpressionNode() {
     return _expression;
 }
 
+void ASTUnaryExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _expression->markAsGlobal();
+}
+
 ASTUnaryOperatorNode* ASTUnaryExpressionNode::getUnaryOperatorNode() {
     return _unaryOperator;
 }

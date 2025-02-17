@@ -13,6 +13,8 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRB
         return this->inject((IRArrayExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_AGGREGATE_IDENTIFIER_EXPRESSION_NODE)) {
         return this->inject((IRAggregateIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+    } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
+        return this->inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
@@ -39,6 +41,7 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression
         auto irExpressionValue = irInjector->inject(irBlock, elementExpression, irOperationType, irModule, scope);
         irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
     }
+
     return ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), numElements,
                                                      irExpression->getSourceAggregateAllocation(),
                                                      irExpression->getAggregatePointerAllocation())->getValue();
@@ -48,9 +51,13 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode
     return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, irBlock, irModule)->getValue();
 }
 
+llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+    return irExpression->getValue();
+}
+
 llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
-    if (irExpression->getSource()->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
+    if (irExpression->getSource()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         auto arrayAllocation = irExpression->getSourceAllocation().value()->getParentAllocation().value();
         irBlock->getBuilder()->get()->Insert(arrayAllocation->getValue());
         auto type = irExpression->getSource()->getIRType()->getSourceType()->getType()->getStructElementType(irExpression->getTargetKeyIndex());

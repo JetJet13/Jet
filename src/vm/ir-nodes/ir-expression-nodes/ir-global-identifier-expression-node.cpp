@@ -4,18 +4,17 @@
 
 #include "ir-global-identifier-expression-node.h"
 
-IRGlobalIdentifierExpressionNode::IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRGlobalVariableNode* irValue, IRInstructionNode* sourceAllocation) {
+IRGlobalIdentifierExpressionNode::IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue) {
     _node = node;
     _irValue = irValue;
-    _sourceAllocation = sourceAllocation;
 }
 
 std::optional<IRInstructionNode*> IRGlobalIdentifierExpressionNode::getSourceAllocation() {
-    return _sourceAllocation;
+    return _irValue->getParentAllocation();
 }
 
 llvm::GlobalVariable* IRGlobalIdentifierExpressionNode::getValue() {
-    return _irValue->getValue();
+    return (llvm::GlobalVariable*)_irValue->getValue();
 }
 
 IRPointerType* IRGlobalIdentifierExpressionNode::getIRType() {
@@ -27,7 +26,7 @@ TypeSignature* IRGlobalIdentifierExpressionNode::getTypeSignature() {
 }
 
 llvm::Type* IRGlobalIdentifierExpressionNode::getType() {
-    return _irValue->getValue()->getValueType();
+    return _irValue->getAllocatedType();
 }
 
 llvm::Type* IRGlobalIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {

@@ -36,6 +36,11 @@ unsigned long ASTArrayExpressionNode::size() {
     return _array->getElements()->size();
 }
 
+void ASTArrayExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _array->markElementsAsGlobal();
+}
+
 Position* ASTArrayExpressionNode::getStartPosition() {
     return _array->getStartPosition();
 }

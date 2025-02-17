@@ -13,9 +13,9 @@
 class IREnumDeclarationNode : public IRDeclarationNode {
 private:
     ASTEnumDeclarationNode* _node;
-    IRGlobalVariableNode* _irValue;
+    IRInstructionNode* _irValue;
 public:
-    IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlobalVariableNode* irValue);
+    IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRInstructionNode* irValue);
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

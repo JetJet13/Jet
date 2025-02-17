@@ -23,6 +23,11 @@ public:
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* irType);
+    IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations);
+    IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation);
+    IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
+    IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
+    IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType);
     explicit IRInstructionNode(llvm::GlobalVariable* irValue);
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();

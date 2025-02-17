@@ -12,6 +12,13 @@ IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* global
     return new IRInstructionNode(globalVariable);
 }
 
+IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
+    return new IRInstructionNode(
+            globalVariable,
+            irType,
+            sourceAllocation);
+}
+
 IRInstructionNode* IRInstructionNodeFactory::create(llvm::AllocaInst* allocaInst, IRPointerType* irType) {
     return new IRInstructionNode(allocaInst, irType);
 }
@@ -75,6 +82,17 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, IRIns
                     DataAlignmentGenerator::generate(irType->getSourceType())),
             irType,
             sourceAllocation);
+}
+
+IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations) {
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getSourceType()->getType(),
+                    AddressSpaceGenerator::generate(irType->getSourceType()),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irType->getSourceType())),
+            irType,
+            childAllocations);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, IRInstructionNode* sourceAllocation) {

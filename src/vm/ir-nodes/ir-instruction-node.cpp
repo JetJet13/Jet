@@ -46,6 +46,46 @@ IRInstructionNode::IRInstructionNode(llvm::AllocaInst* irValue, IRPointerType* i
     _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
 }
 
+IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation) {
+    _irValue = irValue;
+    _irType = irType;
+    _parentAllocation = parentAllocation;
+    _childAllocations = std::vector<IRInstructionNode*>();
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
+}
+
+IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations) {
+    _irValue = irValue;
+    _irType = irType;
+    _parentAllocation = parentAllocation;
+    _childAllocations = std::move(childAllocations);
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
+}
+
+IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations) {
+    _irValue = irValue;
+    _irType = irType;
+    _parentAllocation = {};
+    _childAllocations = std::move(childAllocations);
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
+}
+
+IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap) {
+    _irValue = irValue;
+    _irType = irType;
+    _parentAllocation = {};
+    _childAllocations = std::vector<IRInstructionNode*>();
+    _childAllocationMap = std::move(childAllocationMap);
+}
+
+IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue, IRPointerType* irType) {
+    _irValue = irValue;
+    _irType = irType;
+    _parentAllocation = {};
+    _childAllocations = std::vector<IRInstructionNode*>();
+    _childAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
+}
+
 IRInstructionNode::IRInstructionNode(llvm::GlobalVariable* irValue) {
     _irValue = irValue;
     _irType = IRPointerType::create(irValue);

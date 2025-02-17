@@ -102,6 +102,8 @@
 #include "reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.h"
 #include "reducer-strategies/dref-expression-strategy/dref-expression-strategy.h"
 #include "reducer-strategies/ref-type-reducer-strategy/ref-type-reducer-strategy.h"
+#include "reducer-strategies/array-access-assignment-reducer-strategy/array-access-assignment-reducer-strategy.h"
+#include "reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -121,6 +123,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ARRAY_NODE, new ArrayNodeReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_EXPRESSION_NODE, new ArrayAccessExpressionReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_NODE, new ArrayAccessReducerStrategy());
+    this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_NODE, new ArrayAccessAssignmentReducerStrategy());
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
@@ -137,6 +140,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, new FunctionInvocationExpressionReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_NODE, new VariableAssignmentReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, new VariableAssignmentStatementReducerStrategy());
+    this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, new ArrayAccessAssignmentStatementReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_NODE, new EnumKeyReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_VALUE_NODE, new EnumKeyValueReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_VALUE_LIST_NODE, new EnumKeyValueListReducerStrategy());

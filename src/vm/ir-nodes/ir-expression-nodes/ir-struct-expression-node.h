@@ -17,10 +17,10 @@ private:
     ASTStructExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    IRType* _type;
+    IRStructType* _type;
 public:
-    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRType* type, std::vector<IRExpressionNode*> irValues);
-    IRType* getIRType() override;
+    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
+    IRStructType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     unsigned long size();

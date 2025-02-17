@@ -33,6 +33,12 @@ ASTArrayNode* ASTArrayNode::addElement(ASTExpressionNode* element) {
     return this;
 }
 
+void ASTArrayNode::markElementsAsGlobal() {
+    for (int i = 0; i < _elements->size(); ++i) {
+        _elements->at(i)->markAsGlobal();
+    }
+}
+
 ASTLeftBracketNode* ASTArrayNode::getLeftBracket() {
     return _leftBracket;
 }

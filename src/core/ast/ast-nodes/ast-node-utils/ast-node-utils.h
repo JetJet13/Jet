@@ -51,6 +51,7 @@ namespace ASTNodeUtils {
         switch (node->getNodeType()) {
             case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
+            case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             case AST_IF_STATEMENT_NODE:
             case AST_WHILE_STATEMENT_NODE:
             case AST_FOR_STATEMENT_NODE:

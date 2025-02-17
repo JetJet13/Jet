@@ -27,6 +27,7 @@ class FunctionReturnIRInjectorStrategy;
 class NewClassInstanceIRInjectorStrategy;
 class ClassPropertyAssignmentIRInjectorStrategy;
 class VariableAssignmentIRInjectorStrategy;
+class ArrayAccessAssignmentIRInjectorStrategy;
 class IfStatementIRInjectorStrategy;
 class ProcedureDeclarationIRInjectorStrategy;
 class FunctionDeclarationIRInjectorStrategy;
@@ -47,6 +48,7 @@ private:
     NewClassInstanceIRInjectorStrategy* _newClassInstanceIRInjectorStrategy;
     ClassPropertyAssignmentIRInjectorStrategy* _classPropertyAssignmentIRInjectorStrategy;
     VariableAssignmentIRInjectorStrategy* _variableAssignmentIRInjectorStrategy;
+    ArrayAccessAssignmentIRInjectorStrategy* _arrayAccessAssignmentIRInjectorStrategy;
     IfStatementIRInjectorStrategy* _ifStatementIRInjectorStrategy;
     ProcedureDeclarationIRInjectorStrategy* _procedureDeclarationIRInjectorStrategy;
     FunctionDeclarationIRInjectorStrategy* _functionDeclarationIRInjectorStrategy;

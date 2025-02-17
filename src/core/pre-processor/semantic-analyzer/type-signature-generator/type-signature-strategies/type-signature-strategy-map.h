@@ -5,7 +5,6 @@
 #ifndef JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H
 #define JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H
 
-
 // forward declaration to prevent
 // circular dependency error
 class ArgumentListTypeSignatureStrategy;
@@ -68,6 +67,7 @@ class ImportTypeSignatureStrategy;
 class ModuleTypeSignatureStrategy;
 class LambdaExpressionScopeParameterTypeSignatureStrategy;
 class ClassScopeParameterTypeSignatureStrategy;
+class ArrayAccessAssignmentStatementTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -131,6 +131,7 @@ private:
     IfStatementTypeSignatureStrategy* _ifStatementTypeSignatureStrategy;
     ImportTypeSignatureStrategy* _importTypeSignatureStrategy;
     ModuleTypeSignatureStrategy* _moduleTypeSignatureStrategy;
+    ArrayAccessAssignmentStatementTypeSignatureStrategy* _arrayAccessAssignmentStatementTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArgumentListTypeSignatureStrategy* getArgumentListTypeSignatureStrategy();
@@ -184,6 +185,7 @@ public:
     LiteralTypeSignatureStrategy* getLiteralTypeSignatureStrategy();
     AccessModifierTypeSignatureStrategy* getAccessModifierTypeSignatureStrategy();
     VariableAssignmentStatementTypeSignatureStrategy* getVariableAssignmentStatementTypeSignatureStrategy();
+    ArrayAccessAssignmentStatementTypeSignatureStrategy* getArrayAccessAssignmentStatementTypeSignatureStrategy();
     BlockTypeSignatureStrategy* getBlockTypeSignatureStrategy();
     ExpressionStatementTypeSignatureStrategy* getExpressionStatementTypeSignatureStrategy();
     ConditionTypeSignatureStrategy* getConditionTypeSignatureStrategy();

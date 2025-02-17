@@ -20,6 +20,11 @@ ASTExpressionNode* ASTFunctionReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
+void ASTFunctionReturnExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _returnExpression->markAsGlobal();
+}
+
 Position* ASTFunctionReturnExpressionNode::getStartPosition() {
     return _returnNode->getStartPosition();
 }

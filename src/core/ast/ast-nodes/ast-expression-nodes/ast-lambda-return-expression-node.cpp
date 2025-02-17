@@ -16,6 +16,11 @@ ASTLambdaExpressionFatArrowNode* ASTLambdaReturnExpressionNode::getFatArrowNode(
     return _fatArrowNode;
 }
 
+void ASTLambdaReturnExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _returnExpression->markAsGlobal();
+}
+
 ASTExpressionNode* ASTLambdaReturnExpressionNode::getExpression() {
     return _returnExpression;
 }

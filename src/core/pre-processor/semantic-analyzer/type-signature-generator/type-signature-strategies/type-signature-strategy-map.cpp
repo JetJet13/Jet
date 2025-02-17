@@ -63,6 +63,7 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
+#include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _argumentListTypeSignatureStrategy = new ArgumentListTypeSignatureStrategy();
@@ -125,6 +126,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _ifStatementTypeSignatureStrategy = new IfStatementTypeSignatureStrategy();
     _importTypeSignatureStrategy = new ImportTypeSignatureStrategy();
     _moduleTypeSignatureStrategy = new ModuleTypeSignatureStrategy();
+    _arrayAccessAssignmentStatementTypeSignatureStrategy = new ArrayAccessAssignmentStatementTypeSignatureStrategy();
 }
 
 ArgumentListTypeSignatureStrategy* TypeSignatureStrategyMap::getArgumentListTypeSignatureStrategy() {
@@ -329,6 +331,10 @@ AccessModifierTypeSignatureStrategy* TypeSignatureStrategyMap::getAccessModifier
 
 VariableAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getVariableAssignmentStatementTypeSignatureStrategy() {
     return this->_variableAssignmentStatementTypeSignatureStrategy;
+}
+
+ArrayAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessAssignmentStatementTypeSignatureStrategy() {
+    return this->_arrayAccessAssignmentStatementTypeSignatureStrategy;
 }
 
 BlockTypeSignatureStrategy* TypeSignatureStrategyMap::getBlockTypeSignatureStrategy() {

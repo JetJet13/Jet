@@ -333,6 +333,12 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-ref-expression-node.h
         ir-generator/ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h
+        ir-generator/ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-array-access-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-array-access-assignment-statement-node.h
+        ir-injector/ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

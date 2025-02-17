@@ -61,6 +61,7 @@ class PointerTypeSignatureIRStrategy;
 class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
 class ClassInstanceTypeSignatureIRStrategy;
+class ArrayAccessAssignmentStatementIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -100,6 +101,7 @@ private:
     IfStatementIRStrategy* _ifStatementIRStrategy;
     RefExpressionIRStrategy* _refExpressionIRStrategy;
     DrefExpressionIRStrategy* _drefExpressionIRStrategy;
+    ArrayAccessAssignmentStatementIRStrategy* _arrayAccessAssignmentStatementIRStrategy;
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -154,6 +156,7 @@ public:
     NewClassInstanceExpressionIRStrategy* getNewClassInstanceExpressionIRStrategy();
     ClassPropertyAssignmentStatementIRStrategy* getClassPropertyAssignmentStatementIRStrategy();
     VariableAssignmentStatementIRStrategy* getVariableAssignmentStatementIRStrategy();
+    ArrayAccessAssignmentStatementIRStrategy* getArrayAccessAssignmentStatementIRStrategy();
     IfStatementIRStrategy* getIfStatementIRStrategy();
     RefExpressionIRStrategy* getRefExpressionIRStrategy();
     DrefExpressionIRStrategy* getDrefExpressionIRStrategy();

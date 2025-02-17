@@ -12,10 +12,13 @@
 
 class ASTExpressionNode : public ASTNode {
 protected:
+    bool _isGlobal;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
     ASTNode* baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
 public:
     virtual void setTypeSignature(TypeSignature* typeSignature);
+    virtual void markAsGlobal();
+    bool isGlobal() override;
     TypeSignature* getTypeSignature() override;
     ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;

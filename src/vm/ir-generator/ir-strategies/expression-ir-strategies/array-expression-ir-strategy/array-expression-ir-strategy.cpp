@@ -17,20 +17,44 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
         if (elementIrExpression->getSourceAllocation()) {
             elementValueSourceAllocations.push_back(elementIrExpression->getSourceAllocation().value());
         }
-
     }
     auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType(), scope, irContext);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), elementValues.size()), arrayElementIrType);
-    auto arrayAllocation = new IRInstructionNode(
-        new llvm::AllocaInst(
-            arrayType->getType(),
-            AddressSpaceGenerator::generate(arrayElementIrType),
-            nullptr,
-            DataAlignmentGenerator::generate(arrayElementIrType)),
-        irGenerator->generateIrPointerType(arrayType),
-        elementValueSourceAllocations
-    );
-    auto arrayPointerSourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
-    return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerSourceAllocation, elementValues, irType);
+    auto arrayAllocation = node->isGlobal()
+            ? new IRInstructionNode(
+                new llvm::GlobalVariable(
+                    *irContext->getModule(),
+                    arrayType->getType(),
+                    true,
+                    llvm::GlobalValue::InternalLinkage,
+                    nullptr
+                ),
+                irGenerator->generateIrPointerType(arrayType),
+                elementValueSourceAllocations
+            )
+            : new IRInstructionNode(
+                new llvm::AllocaInst(
+                    arrayType->getType(),
+                    AddressSpaceGenerator::generate(arrayElementIrType),
+                    nullptr,
+                    DataAlignmentGenerator::generate(arrayElementIrType)
+                ),
+                irGenerator->generateIrPointerType(arrayType),
+                elementValueSourceAllocations
+        );
+    auto arrayPointerAllocation = node->isGlobal()
+            ? new IRInstructionNode(
+                new llvm::GlobalVariable(
+                        *irContext->getModule(),
+                        irType->getType(),
+                        true,
+                        llvm::GlobalValue::InternalLinkage,
+                        nullptr
+                ),
+                irGenerator->generateIrPointerType(irType),
+                arrayAllocation
+            )
+            : IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
+    return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerAllocation, elementValues, irType);
 }

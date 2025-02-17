@@ -13,10 +13,9 @@
 class IRGlobalIdentifierExpressionNode : public IRExpressionNode {
 private:
     ASTIdentifierExpressionNode* _node;
-    IRGlobalVariableNode* _irValue;
-    IRInstructionNode* _sourceAllocation;
+    IRInstructionNode* _irValue;
 public:
-    IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRGlobalVariableNode* irValue, IRInstructionNode* sourceAllocation);
+    IRGlobalIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue);
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::GlobalVariable* getValue() override;
     IRPointerType* getIRType() override;

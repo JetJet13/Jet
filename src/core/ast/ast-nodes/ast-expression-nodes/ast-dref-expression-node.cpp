@@ -22,6 +22,11 @@ ASTDrefNode* ASTDrefExpressionNode::getDrefNode() {
     return _drefNode;
 }
 
+void ASTDrefExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _expression->markAsGlobal();
+}
+
 Position* ASTDrefExpressionNode::getStartPosition() {
     return _drefNode->getStartPosition();
 }

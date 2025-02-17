@@ -12,12 +12,21 @@
 class IRGlobalVariableNode : public IRNode {
 private:
     llvm::GlobalVariable* _irValue;
-    std::optional<llvm::GlobalVariable*> _source;
+    std::optional<IRGlobalVariableNode*> _parentGlobalVariable;
+    std::vector<IRGlobalVariableNode*> _childGlobalVariables;
+    std::unordered_map<std::string, IRGlobalVariableNode*> _childGlobalVariableMap;
     IRPointerType* _type;
 public:
-    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type, std::optional<llvm::GlobalVariable*> source = {});
+    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::vector<IRGlobalVariableNode*> childGlobalVariables);
+    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* irType, std::unordered_map<std::string, IRGlobalVariableNode*> childGlobalVariableMap);
+    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type, IRGlobalVariableNode* parentGlobalVariable);
+    IRGlobalVariableNode(llvm::GlobalVariable* irValue, IRPointerType* type);
+
     llvm::GlobalVariable* getValue();
-    llvm::GlobalVariable* getSource();
+    std::optional<IRGlobalVariableNode*> getParent();
+    std::vector<IRGlobalVariableNode*>* getChildGlobalVariables();
+    bool hasChildGlobalVariableMap();
+    IRGlobalVariableNode* getChildGlobalVariableForKey(std::string key);
     IRPointerType* getIRType();
     IRNodeType getNodeType() override;
     std::string toString() override;

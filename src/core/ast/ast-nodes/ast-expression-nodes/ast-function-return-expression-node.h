@@ -16,6 +16,7 @@ public:
     ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* returnExpression);
     ASTFunctionReturnNode* getReturnNode();
     ASTExpressionNode* getExpression();
+    void markAsGlobal() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

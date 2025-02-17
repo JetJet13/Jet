@@ -22,6 +22,11 @@ ASTRefNode* ASTRefExpressionNode::getRefNode() {
     return _refNode;
 }
 
+void ASTRefExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _expression->markAsGlobal();
+}
+
 PointerTypeSignature* ASTRefExpressionNode::getTypeSignature() {
     return _typeSignature;
 }

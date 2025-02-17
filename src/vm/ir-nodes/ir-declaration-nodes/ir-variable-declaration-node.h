@@ -17,14 +17,15 @@ private:
     ASTVariableDeclarationNode* _node;
     IRInstructionNode* _irValue;
     IRExpressionNode* _irExpression;
-    std::optional<IRGlobalVariableNode*> _irGlobalVariable;
+    std::optional<IRInstructionNode*> _irGlobalVariable;
 public:
-    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRGlobalVariableNode*> irGlobalVariable = {});
+    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRInstructionNode*> irGlobalVariable = {});
     std::string getVariableName();
     llvm::Value* getValue() override;
     llvm::Type* getAllocatedType();
     IRInstructionNode* getIRValue();
     IRExpressionNode* getIRExpression();
+    std::optional<IRInstructionNode*> getGlobalVariable();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

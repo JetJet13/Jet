@@ -12,6 +12,7 @@
 class IRInstructionNodeFactory {
 public:
     static IRInstructionNode* create(llvm::GlobalVariable* globalVariable);
+    static IRInstructionNode* create(llvm::GlobalVariable* globalVariable, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation);
     static IRInstructionNode* create(llvm::AllocaInst* allocaInst, IRPointerType* irType);
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode);
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode, IRInstructionNode* sourceInstructionNode);
@@ -19,6 +20,7 @@ public:
     static IRInstructionNode* create(IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     static IRInstructionNode* create(IRPointerType* irType, llvm::Value* numElements);
     static IRInstructionNode* create(IRPointerType* irType, IRInstructionNode* sourceAllocation);
+    static IRInstructionNode* create(IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
     static IRInstructionNode* create(IRType* irType, IRInstructionNode* sourceAllocation);
     static IRInstructionNode* create(IRType* irType);
     static IRInstructionNode* create(IRPointerType* irType, std::string name);

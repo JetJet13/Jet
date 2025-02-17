@@ -4,7 +4,7 @@
 
 #include "ir-enum-declaration-node.h"
 
-IREnumDeclarationNode::IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRGlobalVariableNode* irValue) {
+IREnumDeclarationNode::IREnumDeclarationNode(ASTEnumDeclarationNode* node, IRInstructionNode* irValue) {
     _node = node;
     _irValue = irValue;
 }

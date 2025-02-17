@@ -27,7 +27,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
             llvm::ConstantStruct::get(structType, structValues),
             node->getId()
     );
-    auto globalVariableEnum = new IRGlobalVariableNode(
+    auto globalVariableEnum = new IRInstructionNode(
             globalVariable,
             irGenerator->generateIrPointerType(enumType)
     );
