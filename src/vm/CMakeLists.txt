@@ -339,6 +339,8 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-array-access-assignment-statement-node.h
         ir-injector/ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/enum-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/enum-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

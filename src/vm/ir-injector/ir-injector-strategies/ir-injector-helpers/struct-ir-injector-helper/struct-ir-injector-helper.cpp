@@ -40,7 +40,7 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRSt
         auto irTypeAtIndex = irStructType->getIRTypeByIndex(i);
         auto index = irBlock->getBuilder()->get()->getInt32(i);
         auto destinationPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(), destinationAllocation, { zeroIndex, index });
-        auto pointerToStructValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(structSource->getType(), structSource, { zeroIndex, index });
+        auto pointerToStructValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(irStructType->getType(), structSource, { zeroIndex, index });
         auto loadedPointerToStructValue = irBlock->getBuilder()->get()->CreateLoad(irTypeAtIndex->getType(), pointerToStructValue);
         if (irTypeAtIndex->isArrayPointerType()) {
             auto arrayPointerType = (IRArrayPointerType*)irTypeAtIndex;

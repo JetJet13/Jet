@@ -49,6 +49,7 @@ llvm::Value* StructIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
     if (irOperationType == IR_OPERAND_OP) {
         return irExpression->getValue();
     }
+
     return StructIRInjectorHelper::injectStructCopy(
             irBlock,
             (IRStructType*)irExpression->getIRType()->getSourceType(),
@@ -87,10 +88,12 @@ llvm::Value* StructIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irEx
 }
 
 llvm::Value* StructIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irOperationType == IR_OPERAND_OP) {
         auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_OP, irModule, scope);
         auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
         auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
+    if (irOperationType == IR_ASSIGNMENT_OP) {
+        return pointerToIndexedElement;
+    } else if (irOperationType == IR_OPERAND_OP) {
         return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
     throw std::logic_error("StructIRInjectorStrategy not implemented for IRArrayAccessExpressionNode + irOperationType");

@@ -22,6 +22,7 @@ class TupleIRInjectorStrategy;
 class VariableIRInjectorStrategy;
 class ModuleIRInjectorStrategy;
 class LambdaIRInjectorStrategy;
+class EnumIRInjectorStrategy;
 class FunctionParameterIRInjectorStrategy;
 class FunctionReturnIRInjectorStrategy;
 class NewClassInstanceIRInjectorStrategy;
@@ -43,6 +44,7 @@ private:
     VariableIRInjectorStrategy* _variableIRInjector;
     ModuleIRInjectorStrategy* _moduleIRInjector;
     LambdaIRInjectorStrategy* _lambdaIRInjector;
+    EnumIRInjectorStrategy* _enumIRInjectorStrategy;
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
     NewClassInstanceIRInjectorStrategy* _newClassInstanceIRInjectorStrategy;

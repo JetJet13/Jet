@@ -8,7 +8,7 @@
 void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
         strategyMap->assignTypeSignatureFor(variableDeclaration->getVarInitNode()->getTypeNode().value(), scope);
-        variableDeclaration->setTypeSignature(variableDeclaration->getVarInitNode()->getTypeNode().value()->getTypeSignature());
+        variableDeclaration->setTypeSignature(variableDeclaration->getVarInitNode()->getTypeNode().value()->getTypeSignature()->convertToVariableTypeSignature());
     }
 
     strategyMap->assignTypeSignatureFor(variableDeclaration->getInitializerNode(), scope);

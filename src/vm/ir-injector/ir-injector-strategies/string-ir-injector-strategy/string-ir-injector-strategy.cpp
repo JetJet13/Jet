@@ -4,7 +4,6 @@
 
 #include "string-ir-injector-strategy.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
-#include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
@@ -76,6 +75,12 @@ llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExp
     auto elementIrType = ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType();
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_OP, irModule, scope);
+    if (irOperationType == IR_ASSIGNMENT_OP) {
+        auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
+        auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
+        return pointerToIndexedElement;
+    }
+
     return ArrayIRInjectorHelper::injectArrayCopy(
             irBlock,
             arrayPointerType,

@@ -57,7 +57,7 @@ FileScope* SyntaxAnalyzer::analyze(std::string &filePath) {
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
     this->prepHandleForRecognizer();
-    _handle.print();
+//    _handle.print();
     return _recognizer->recognize(&_handle);
 }
 

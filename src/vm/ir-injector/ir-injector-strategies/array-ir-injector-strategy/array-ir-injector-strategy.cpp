@@ -90,19 +90,25 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExp
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_OP, irModule, scope);
-    if (irOperationType == IR_OPERAND_OP) {
-        auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
-        auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
+    if (irOperationType == IR_COPY_ASSIGNMENT_OP) {
+        return ArrayIRInjectorHelper::injectArrayCopy(
+                irBlock,
+                (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType(),
+                ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType(),
+                irModule,
+                loadedPointerToIndexedElement,
+                irExpression->getSourceAllocation().value()
+        )->getValue();
+    }
+
+    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
+    auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
+    if (irOperationType == IR_ASSIGNMENT_OP) {
+        return pointerToIndexedElement;
+    } else if (irOperationType == IR_OPERAND_OP) {
         return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
-    return ArrayIRInjectorHelper::injectArrayCopy(
-            irBlock,
-            (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType(),
-            ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType(),
-            irModule,
-            loadedPointerToIndexedElement,
-            irExpression->getSourceAllocation().value()
-    )->getValue();
+    throw std::logic_error("ArrayIRInjectorStrategy not implemented for IRArrayAccessExpressionNode + irOperationType");
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {

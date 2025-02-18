@@ -118,7 +118,6 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irEx
             loadedPointerToFirstElement,
             { indexValue }
     );
-    // todo: move to injector helper function and invoke where necessary
     if (irOperationType == IR_ASSIGNMENT_OP) {
         return pointerAtIndex;
     }
