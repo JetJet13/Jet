@@ -19,6 +19,7 @@ private:
     IRPointerType* _irType;
 public:
     IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irValue, IRPointerType* irType);
+    void markAsGlobal() override;
     IRExpressionNode* getExpression();
     IRPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;

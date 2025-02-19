@@ -12,7 +12,11 @@
 #include "../ir-global-variable-node.h"
 
 class IRExpressionNode : public IRNode {
+protected:
+    bool _isGlobal;
 public:
+    virtual void markAsGlobal();
+    bool isGlobal();
     virtual std::optional<IRInstructionNode*> getSourceAllocation();
     virtual llvm::Type* getType();
     virtual llvm::Type* getTypeAtIndex(unsigned long index);

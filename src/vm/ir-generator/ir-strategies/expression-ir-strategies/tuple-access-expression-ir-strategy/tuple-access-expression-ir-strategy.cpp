@@ -11,12 +11,6 @@ IRTupleAccessExpressionNode* TupleAccessExpressionIRStrategy::generate(ASTTupleA
     auto sourceType = (IRStructType*)sourceValue->getIRType()->getSourceType();
     auto targetIndex = node->getIndex()->getIndexValue();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-    if (irType->isArrayPointerType()) {
-        sourceAllocation->setParentAllocation(
-                IRInstructionNodeFactory::create(
-                        irGenerator->generateIrPointerType(sourceType->getIRTypeByIndex(targetIndex)))
-        );
-    }
+    auto sourceAllocation = IRInstructionNodeFactory::create(sourceType);
     return new IRTupleAccessExpressionNode(node, sourceValue, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
 }

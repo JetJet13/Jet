@@ -23,6 +23,7 @@ private:
     IRType* _type;
 public:
     IRFunctionParameterInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, llvm::Value* irFunctionScopeArgument, IRFunctionParameterType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type);
+    void markAsGlobal() override;
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Value* getValue() override;
     llvm::Value* getFunction();

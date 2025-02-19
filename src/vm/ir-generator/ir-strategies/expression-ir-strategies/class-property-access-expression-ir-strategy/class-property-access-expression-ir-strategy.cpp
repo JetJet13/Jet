@@ -14,11 +14,5 @@ IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::ge
     auto targetIndex = sourceType->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-    if (irType->isArrayPointerType()) {
-        sourceAllocation->setParentAllocation(
-                IRInstructionNodeFactory::create(
-                        irGenerator->generateIrPointerType(sourceType->getIRTypeByIndex(targetIndex)))
-        );
-    }
     return new IRClassPropertyAccessExpressionNode(node, classScope, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
 }

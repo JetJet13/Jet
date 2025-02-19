@@ -22,6 +22,7 @@ private:
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
     IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    void markAsGlobal() override;
     ASTObjectAccessExpressionNode* getNode();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRExpressionNode* getSource();

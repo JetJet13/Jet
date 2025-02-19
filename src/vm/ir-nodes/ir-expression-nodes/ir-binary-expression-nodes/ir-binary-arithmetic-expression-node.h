@@ -18,6 +18,7 @@ private:
     IRType* _type;
 public:
     IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
+    void markAsGlobal() override;
     llvm::BinaryOperator* getValue() override;
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();

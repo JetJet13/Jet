@@ -22,6 +22,7 @@ private:
     IRClassType* _type;
 public:
     IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassType* type);
+    void markAsGlobal() override;
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Value* getValue() override;
     IRFunctionType* getConstructorIRType();

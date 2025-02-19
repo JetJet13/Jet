@@ -18,6 +18,7 @@ private:
     IRType* _type;
 public:
     IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
+    void markAsGlobal() override;
     llvm::BinaryOperator* getValue() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

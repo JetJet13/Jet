@@ -57,25 +57,7 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpre
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
-    if (irExpression->getSource()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        auto arrayAllocation = irExpression->getSourceAllocation().value()->getParentAllocation().value();
-        irBlock->getBuilder()->get()->Insert(arrayAllocation->getValue());
-        auto type = irExpression->getSource()->getIRType()->getSourceType()->getType()->getStructElementType(irExpression->getTargetKeyIndex());
-        auto pointer = llvm::GetElementPtrInst::CreateInBounds(
-                irExpression->getSource()->getType(),
-                irExpression->getSource()->getValue(),
-                { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() }
-        );
-        irBlock->getBuilder()->get()->Insert(pointer);
-        auto loaded = irBlock->getBuilder()->get()->CreateLoad(type, pointer);
-        irBlock->getBuilder()->get()->CreateStore(loaded, arrayAllocation->getValue());
-        return ArrayIRInjectorHelper::injectArrayPointer(
-                irBlock,
-                irArrayPointerType,
-                type->getArrayNumElements(),
-                arrayAllocation,
-                irExpression->getSourceAllocation().value())->getValue();
-    } else if (irOperationType == IR_COPY_ASSIGNMENT_OP) {
+    if (irOperationType == IR_COPY_ASSIGNMENT_OP) {
         auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
         auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
         irBlock->getBuilder()->get()->Insert(pointer);

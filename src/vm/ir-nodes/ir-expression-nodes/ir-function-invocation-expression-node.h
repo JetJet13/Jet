@@ -22,6 +22,7 @@ private:
     std::optional<IRInstructionNode*> _lambdaScopeArgument;
 public:
     IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> lambdaScopeArgument = {});
+    void markAsGlobal() override;
     std::optional<IRInstructionNode*> getLambdaScopeArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Value* getValue() override;

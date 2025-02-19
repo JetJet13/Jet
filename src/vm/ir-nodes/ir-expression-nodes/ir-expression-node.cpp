@@ -5,6 +5,14 @@
 #include "ir-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
+void IRExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+}
+
+bool IRExpressionNode::isGlobal() {
+    return _isGlobal;
+}
+
 std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocation() {
     return {};
 }

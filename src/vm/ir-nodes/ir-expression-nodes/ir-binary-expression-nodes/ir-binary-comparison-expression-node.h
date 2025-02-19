@@ -18,6 +18,7 @@ private:
     IRType* _type;
 public:
     IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
+    void markAsGlobal() override;
     llvm::CmpInst* getValue() override;
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();

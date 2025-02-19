@@ -18,6 +18,7 @@ private:
     IRType* _type;
 public:
     IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
+    void markAsGlobal() override;
     llvm::UnaryOperator* getValue() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

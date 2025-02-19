@@ -54,16 +54,6 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExp
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irExpression->getSource()->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
-        auto pointer = llvm::GetElementPtrInst::CreateInBounds(
-                irExpression->getSource()->getType(),
-                irExpression->getSource()->getValue(),
-                { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() }
-        );
-        irBlock->getBuilder()->get()->Insert(pointer);
-        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-    }
-
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);

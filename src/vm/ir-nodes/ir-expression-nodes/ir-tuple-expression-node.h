@@ -22,6 +22,7 @@ private:
     IRStructType* _type;
 public:
     IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
+    void markAsGlobal() override;
     llvm::Value* getValue() override;
     unsigned long size();
     std::vector<IRExpressionNode*>* getValues();

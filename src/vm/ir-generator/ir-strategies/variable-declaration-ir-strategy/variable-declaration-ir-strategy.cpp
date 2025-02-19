@@ -31,6 +31,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
                 variableAllocation->getIRType(),
                 irExpression->getSourceAllocation()
         );
+        irExpression->markAsGlobal();
         scope->insertGlobalVariable(node->getId(), irGlobalVariable.value());
     } else {
         scope->insert(node->getId(), variableAllocation);
