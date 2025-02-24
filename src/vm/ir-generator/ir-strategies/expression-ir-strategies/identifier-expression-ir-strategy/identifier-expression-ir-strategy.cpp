@@ -26,7 +26,11 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
     auto loadedNumElements = new llvm::LoadInst(arrayPointerType->getNumElementsType(), intPointer, "", false, DataAlignmentGenerator::generate(intIndex->getType()));
     auto destinationAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType->getElementIRType()), loadedNumElements);
     auto pointerAllocation = IRInstructionNodeFactory::create(allocation, destinationAllocation);
-    return new IRAggregateIdentifierExpressionNode(node, destinationAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
+    auto irAggregateIdentifierExpressionNode = new IRAggregateIdentifierExpressionNode(node, destinationAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
+    if (node->isGlobal()) {
+        irAggregateIdentifierExpressionNode->markAsGlobal();
+    }
+    return irAggregateIdentifierExpressionNode;
 }
 
 IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateForGlobalAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
@@ -58,5 +62,9 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
     );
     auto pointerAllocation = IRInstructionNodeFactory::create(allocation, mallocAllocation);
     pointerAllocation->markAsGlobal();
-    return new IRAggregateIdentifierExpressionNode(node, mallocAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
+    auto irAggregateIdentifierExpressionNode = new IRAggregateIdentifierExpressionNode(node, mallocAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
+    if (node->isGlobal()) {
+        irAggregateIdentifierExpressionNode->markAsGlobal();
+    }
+    return irAggregateIdentifierExpressionNode;
 }

@@ -1,5 +1,7 @@
 const myArray = [1,2,3];
 let copyArray = myArray;
+const myNestedArray = [[10,20], [30,40]];
+const copyNestedArray = myNestedArray;
 
 proc test() {
     const localArray = [9, 8, 7];

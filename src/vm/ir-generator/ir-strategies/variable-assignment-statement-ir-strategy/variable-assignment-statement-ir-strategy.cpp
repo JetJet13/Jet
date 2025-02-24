@@ -4,7 +4,14 @@
 
 #include "variable-assignment-statement-ir-strategy.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IRStatementNode* VariableAssignmentStatementIRStrategy::generate(ASTVariableAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    return new IRVariableAssignmentStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irContext, node->isGlobal() ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP));
+    auto isGlobal = scope->findGlobalVariable(node->getVariableAssignment()->getIdentifierNode()->getId()).has_value();
+    if (isGlobal) {
+        node->getExpression()->markAsGlobal();
+        Logger::log("marked variable assignment statement expression as global");
+    }
+    auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, isGlobal ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP);
+    return new IRVariableAssignmentStatementNode(node, irExpression);
 }

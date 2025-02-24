@@ -49,7 +49,7 @@ llvm::Type* IRArrayPointerType::getElementType() {
 }
 
 uint64_t IRArrayPointerType::getSizeInBytes() {
-    return 5;
+    return 6;
 }
 
 bool IRArrayPointerType::isArrayPointerType() {
