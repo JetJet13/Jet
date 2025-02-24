@@ -90,6 +90,8 @@ public:
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
     llvm::IntegerType* generateCharType();
+    llvm::IntegerType* generateMallocSizeType();
+    IRType* generateMallocSizeIRType();
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::Constant* generateIntConstant(int integer);

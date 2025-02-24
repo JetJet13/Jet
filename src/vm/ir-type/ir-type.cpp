@@ -21,6 +21,8 @@ uint64_t IRType::getSizeInBytes() {
         return 1;
     } else if (this->isIntegerType() || this->isFloatType()) {
         return 4;
+    } else if (this->isPointerType()) {
+        return 1;
     } else {
         return 0;
     }

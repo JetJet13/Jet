@@ -6,5 +6,5 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.h"
 
 IRStatementNode* VariableAssignmentStatementIRStrategy::generate(ASTVariableAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    return new IRVariableAssignmentStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_OP));
+    return new IRVariableAssignmentStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irContext, node->isGlobal() ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP));
 }

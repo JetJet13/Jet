@@ -13,6 +13,13 @@ IRFunctionParameterInvocationExpressionNode::IRFunctionParameterInvocationExpres
     _type = type;
 }
 
+void IRFunctionParameterInvocationExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto argument : _arguments) {
+        argument->markAsGlobal();
+    }
+}
+
 std::vector<IRExpressionNode*>* IRFunctionParameterInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }

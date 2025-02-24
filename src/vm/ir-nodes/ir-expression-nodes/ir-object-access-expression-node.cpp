@@ -3,7 +3,6 @@
 //
 
 #include "ir-object-access-expression-node.h"
-#include "ir-global-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
 IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
@@ -14,6 +13,11 @@ IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpres
     _targetKeyIndex = targetKeyIndex;
     _irType = irType;
     _sourceAllocation = sourceAllocation;
+}
+
+void IRObjectAccessExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irSource->markAsGlobal();
 }
 
 ASTObjectAccessExpressionNode* IRObjectAccessExpressionNode::getNode() {

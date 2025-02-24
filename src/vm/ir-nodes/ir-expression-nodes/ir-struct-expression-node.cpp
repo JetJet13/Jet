@@ -11,6 +11,13 @@ IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode,
     _type = type;
 }
 
+void IRStructExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto irValue : _irValues) {
+        irValue->markAsGlobal();
+    }
+}
+
 IRStructType* IRStructExpressionNode::getIRType() {
     return _type;
 }

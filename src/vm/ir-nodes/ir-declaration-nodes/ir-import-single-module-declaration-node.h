@@ -7,7 +7,6 @@
 
 #include <llvm/IR/Instructions.h>
 #include "ir-declaration-node.h"
-#include "../ir-global-variable-node.h"
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h"
 
 class IRImportSingleModuleDeclarationNode : public IRDeclarationNode {

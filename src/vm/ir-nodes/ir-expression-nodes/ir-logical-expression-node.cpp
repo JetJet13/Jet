@@ -12,6 +12,12 @@ IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNo
     _irRightNode = irRightNode;
 }
 
+void IRLogicalExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irLeftNode->markAsGlobal();
+    _irRightNode->markAsGlobal();
+}
+
 IRType* IRLogicalExpressionNode::getIRType() {
     return _type;
 }

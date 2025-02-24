@@ -14,18 +14,7 @@ IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (irLiteralNode->is(IR_STRING_LITERAL_NODE)) {
         auto stringLiteral = (IRStringLiteralNode*)irLiteralNode;
-        auto arrayAllocation = node->isGlobal()
-                               ? new IRInstructionNode(
-                        new llvm::GlobalVariable(
-                                *irContext->getModule(),
-                                stringLiteral->getType(),
-                                true,
-                                llvm::GlobalValue::InternalLinkage,
-                                nullptr
-                        ),
-                        irGenerator->generateIrPointerType(stringLiteral->getIRType())
-                )
-               : new IRInstructionNode(
+        auto arrayAllocation = new IRInstructionNode(
                     new llvm::AllocaInst(
                         irLiteralNode->getIRType()->getType(),
                         AddressSpaceGenerator::generate(stringLiteral->getIRType()->getElementType()),
@@ -34,19 +23,7 @@ IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode
                     ),
                     irGenerator->generateIrPointerType(irLiteralNode->getIRType())
                );
-        auto arrayPointerAllocation = node->isGlobal()
-                  ? new IRInstructionNode(
-                        new llvm::GlobalVariable(
-                            *irContext->getModule(),
-                            irType->getType(),
-                            true,
-                            llvm::GlobalValue::InternalLinkage,
-                            nullptr
-                        ),
-                        irGenerator->generateIrPointerType(irType),
-                        arrayAllocation
-                )
-                : IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
+        auto arrayPointerAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
         return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, (IRArrayPointerType*)irType, arrayAllocation, arrayPointerAllocation);
     }
     return new IRLiteralExpressionNode(node, irLiteralNode, irType);

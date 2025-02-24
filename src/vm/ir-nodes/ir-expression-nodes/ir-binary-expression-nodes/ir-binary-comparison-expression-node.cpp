@@ -12,6 +12,12 @@ IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpr
     _type = type;
 }
 
+void IRBinaryComparisonExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irLeftNode->markAsGlobal();
+    _irRightNode->markAsGlobal();
+}
+
 llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {
     return _irValue;
 }

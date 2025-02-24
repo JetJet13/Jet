@@ -8,7 +8,8 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irContext, IR_COPY_ASSIGNMENT_OP);
+    auto operation = node->isGlobal() ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP;
+    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irContext, operation);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = IRInstructionNodeFactory::create(
             irGenerator->generateIrPointerType(irType), node->getId(), irExpression->getSourceAllocation()
@@ -31,7 +32,9 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
                 variableAllocation->getIRType(),
                 irExpression->getSourceAllocation()
         );
+        variableAllocation->markAsGlobal();
         irExpression->markAsGlobal();
+        irGlobalVariable.value()->markAsGlobal();
         scope->insertGlobalVariable(node->getId(), irGlobalVariable.value());
     } else {
         scope->insert(node->getId(), variableAllocation);

@@ -160,12 +160,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h
         ir-generator/ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h
-        ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h
         ir-nodes/ir-instruction-node.cpp
         ir-nodes/ir-instruction-node.h
-        ir-nodes/ir-global-variable-node.cpp
-        ir-nodes/ir-global-variable-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h
         utils/ir-instruction-node-factory/ir-instruction-node-factory.cpp
@@ -341,6 +337,16 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/enum-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/enum-ir-injector-strategy.h
+        ir-generator/ir-util-functions/malloc-ir-function/malloc-ir-function.cpp
+        ir-generator/ir-util-functions/malloc-ir-function/malloc-ir-function.h
+        ir-generator/ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.cpp
+        ir-generator/ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h
+        ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.cpp
+        ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h
+        ir-nodes/ir-expression-nodes/ir-global-array-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-global-array-expression-node.h
+        ir-generator/ir-strategies/expression-ir-strategies/global-array-expression-ir-strategy/global-array-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/global-array-expression-ir-strategy/global-array-expression-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

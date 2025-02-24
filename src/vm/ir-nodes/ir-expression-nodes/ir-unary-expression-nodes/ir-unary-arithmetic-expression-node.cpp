@@ -11,6 +11,11 @@ IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpress
     _type = type;
 }
 
+void IRUnaryArithmeticExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irExpression->markAsGlobal();
+}
+
 llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }

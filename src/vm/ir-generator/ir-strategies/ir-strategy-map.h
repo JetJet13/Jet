@@ -62,6 +62,7 @@ class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
 class ClassInstanceTypeSignatureIRStrategy;
 class ArrayAccessAssignmentStatementIRStrategy;
+class GlobalArrayExpressionIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -102,6 +103,7 @@ private:
     RefExpressionIRStrategy* _refExpressionIRStrategy;
     DrefExpressionIRStrategy* _drefExpressionIRStrategy;
     ArrayAccessAssignmentStatementIRStrategy* _arrayAccessAssignmentStatementIRStrategy;
+    GlobalArrayExpressionIRStrategy* _globalArrayExpressionIRStrategy;
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -160,6 +162,7 @@ public:
     IfStatementIRStrategy* getIfStatementIRStrategy();
     RefExpressionIRStrategy* getRefExpressionIRStrategy();
     DrefExpressionIRStrategy* getDrefExpressionIRStrategy();
+    GlobalArrayExpressionIRStrategy* getGlobalArrayExpressionIRStrategy();
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();

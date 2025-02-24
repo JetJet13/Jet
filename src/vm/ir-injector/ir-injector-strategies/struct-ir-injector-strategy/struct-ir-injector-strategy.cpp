@@ -13,8 +13,6 @@ llvm::Value* StructIRInjectorStrategy::inject(IRExpressionNode *irExpression, IR
         return this->inject((IRStructExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         return this->inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
-    } else if (irExpression->is(IR_GLOBAL_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->inject((IRGlobalIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
@@ -54,20 +52,6 @@ llvm::Value* StructIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
             irBlock,
             (IRStructType*)irExpression->getIRType()->getSourceType(),
             irExpression->getValue(),
-            irModule
-    );
-}
-
-llvm::Value* StructIRInjectorStrategy::inject(IRGlobalIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto loadedStruct = irBlock->getBuilder()->get()->CreateLoad(irExpression->getValue()->getValueType(), irExpression->getValue());
-    if (irOperationType == IR_OPERAND_OP) {
-        return loadedStruct;
-    }
-
-    return StructIRInjectorHelper::injectStructCopy(
-            irBlock,
-            (IRStructType*)irExpression->getSourceAllocation().value()->getIRType()->getSourceType(),
-            loadedStruct,
             irModule
     );
 }

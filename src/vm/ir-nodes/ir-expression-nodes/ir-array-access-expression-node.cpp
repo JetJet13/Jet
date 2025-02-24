@@ -13,6 +13,12 @@ IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressio
     _sourceAllocation = sourceAllocation;
 }
 
+void IRArrayAccessExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irSource->markAsGlobal();
+    _irIndex->markAsGlobal();
+}
+
 IRExpressionNode* IRArrayAccessExpressionNode::getSourceExpression() {
     return _irSource;
 }

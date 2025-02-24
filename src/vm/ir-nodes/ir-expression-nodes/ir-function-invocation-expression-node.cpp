@@ -14,6 +14,13 @@ IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFuncti
     _lambdaScopeArgument = lambdaScopeArgument;
 }
 
+void IRFunctionInvocationExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto argument : _arguments) {
+        argument->markAsGlobal();
+    }
+}
+
 std::optional<IRInstructionNode*> IRFunctionInvocationExpressionNode::getLambdaScopeArgument() {
     return _lambdaScopeArgument;
 }

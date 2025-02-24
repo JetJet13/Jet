@@ -3,7 +3,6 @@
 //
 
 #include "ir-tuple-access-expression-node.h"
-#include "ir-global-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
 IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(ASTTupleAccessExpressionNode* node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
@@ -13,6 +12,11 @@ IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(ASTTupleAccessExpressio
     _targetKeyIndex = targetKeyIndex;
     _irType = irType;
     _sourceAllocation = sourceAllocation;
+}
+
+void IRTupleAccessExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irSource->markAsGlobal();
 }
 
 std::optional<IRInstructionNode*> IRTupleAccessExpressionNode::getSourceAllocation() {

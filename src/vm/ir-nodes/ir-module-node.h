@@ -13,12 +13,18 @@ private:
     std::string _arrayAccessFunctionName;
     std::string _copyStringFunctionName;
     std::string _printFunctionName;
+    std::string _mallocFunctionName;
+    std::string _mallocFreeFunctionName;
+    std::string _mallocSizeFunctionName;
 public:
-    IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName, std::string printFunctionName);
+    IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyStringFunction();
     llvm::Function* getPrintFunction();
+    llvm::Function* getMallocFunction();
+    llvm::Function* getMallocFreeFunction();
+    llvm::Function* getMallocSizeFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

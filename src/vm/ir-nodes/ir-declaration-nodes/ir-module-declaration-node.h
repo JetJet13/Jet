@@ -7,9 +7,9 @@
 
 #include <llvm/IR/Instructions.h>
 #include "ir-declaration-node.h"
-#include "../ir-global-variable-node.h"
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
 #include "../../ir-type/ir-module-type.h"
+#include "../ir-instruction-node.h"
 
 class IRModuleDeclarationNode : public IRDeclarationNode {
 private:

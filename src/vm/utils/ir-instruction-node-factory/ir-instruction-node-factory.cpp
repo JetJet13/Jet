@@ -9,7 +9,7 @@
 #include "../data-alignment-generator/data-alignment-generator.h"
 
 IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable) {
-    return new IRInstructionNode(globalVariable);
+    return new IRInstructionNode(globalVariable, IRPointerType::create(globalVariable));
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
@@ -19,8 +19,12 @@ IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* global
             sourceAllocation);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::AllocaInst* allocaInst, IRPointerType* irType) {
-    return new IRInstructionNode(allocaInst, irType);
+IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType) {
+    return new IRInstructionNode(irValue, irType);
+}
+
+IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations) {
+    return new IRInstructionNode(irValue, irType, childAllocations);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInstructionNode) {

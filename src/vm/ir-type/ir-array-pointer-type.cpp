@@ -9,6 +9,7 @@ IRArrayPointerType::IRArrayPointerType(llvm::StructType* type, IRType* arrayElem
     _arrayElementType = arrayElementType;
     _numElementsIndex = 0;
     _pointerIndex = 1;
+    _allocIndex = 2;
 }
 
 llvm::StructType* IRArrayPointerType::getType() {
@@ -23,12 +24,20 @@ unsigned int IRArrayPointerType::getPointerIndex() const {
     return _pointerIndex;
 }
 
+unsigned int IRArrayPointerType::getAllocIndex() const {
+    return _allocIndex;
+}
+
 llvm::Type* IRArrayPointerType::getNumElementsType() {
     return _type->getStructElementType(0);
 }
 
 llvm::PointerType* IRArrayPointerType::getPointerType() {
     return llvm::cast<llvm::PointerType>(_type->getStructElementType(1));
+}
+
+llvm::PointerType* IRArrayPointerType::getAllocType() {
+    return llvm::cast<llvm::PointerType>(_type->getStructElementType(2));
 }
 
 IRType* IRArrayPointerType::getElementIRType() {

@@ -12,6 +12,13 @@ IRArrayExpressionNode::IRArrayExpressionNode(ASTArrayExpressionNode* node, IRIns
     _type = type;
 }
 
+void IRArrayExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto irElement : _irValues) {
+        irElement->markAsGlobal();
+    }
+}
+
 llvm::Value* IRArrayExpressionNode::getValue() {
     return _irValue->getValue();
 }

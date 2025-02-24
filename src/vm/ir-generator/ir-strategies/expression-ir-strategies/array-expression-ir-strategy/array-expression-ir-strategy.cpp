@@ -21,40 +21,24 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType(), scope, irContext);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), elementValues.size()), arrayElementIrType);
-    auto arrayAllocation = node->isGlobal()
-            ? new IRInstructionNode(
-                new llvm::GlobalVariable(
-                    *irContext->getModule(),
-                    arrayType->getType(),
-                    true,
-                    llvm::GlobalValue::InternalLinkage,
-                    nullptr
-                ),
-                irGenerator->generateIrPointerType(arrayType),
-                elementValueSourceAllocations
-            )
-            : new IRInstructionNode(
-                new llvm::AllocaInst(
-                    arrayType->getType(),
-                    AddressSpaceGenerator::generate(arrayElementIrType),
-                    nullptr,
-                    DataAlignmentGenerator::generate(arrayElementIrType)
-                ),
-                irGenerator->generateIrPointerType(arrayType),
-                elementValueSourceAllocations
+    auto arrayAllocation = new IRInstructionNode(
+            new llvm::AllocaInst(
+                arrayType->getType(),
+                AddressSpaceGenerator::generate(arrayElementIrType),
+                nullptr,
+                DataAlignmentGenerator::generate(arrayElementIrType)
+            ),
+            irGenerator->generateIrPointerType(arrayType),
+            elementValueSourceAllocations
+    );
+    if (node->isGlobal()) {
+        auto mallocPointer = llvm::CallInst::Create(
+                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+                irContext->getIRModule()->getMallocFunction(),
+                { irGenerator->generateIntConstant(arrayType->getSizeInBytes()) },
+                ""
         );
-    auto arrayPointerAllocation = node->isGlobal()
-            ? new IRInstructionNode(
-                new llvm::GlobalVariable(
-                        *irContext->getModule(),
-                        irType->getType(),
-                        true,
-                        llvm::GlobalValue::InternalLinkage,
-                        nullptr
-                ),
-                irGenerator->generateIrPointerType(irType),
-                arrayAllocation
-            )
-            : IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
+    }
+    auto arrayPointerAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
     return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerAllocation, elementValues, irType);
 }

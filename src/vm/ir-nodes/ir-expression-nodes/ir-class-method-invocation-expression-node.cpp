@@ -14,6 +14,13 @@ IRClassMethodInvocationExpressionNode::IRClassMethodInvocationExpressionNode(AST
     _classScopeArgument = classScopeArgument;
 }
 
+void IRClassMethodInvocationExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto argument : _arguments) {
+        argument->markAsGlobal();
+    }
+}
+
 IRInstructionNode* IRClassMethodInvocationExpressionNode::getClassScopeArgument() {
     return _classScopeArgument;
 }

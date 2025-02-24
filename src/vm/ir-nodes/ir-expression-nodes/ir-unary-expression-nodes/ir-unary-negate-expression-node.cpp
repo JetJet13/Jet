@@ -11,6 +11,11 @@ IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode*
     _type = type;
 }
 
+void IRUnaryNegateExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irExpression->markAsGlobal();
+}
+
 llvm::UnaryOperator* IRUnaryNegateExpressionNode::getValue() {
     return _irValue;
 }

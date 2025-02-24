@@ -13,6 +13,13 @@ IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(ASTNewClassIn
     _type = type;
 }
 
+void IRNewClassInstanceExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto argument : _arguments) {
+        argument->markAsGlobal();
+    }
+}
+
 std::vector<IRExpressionNode*>* IRNewClassInstanceExpressionNode::getIRArguments() {
     return &_arguments;
 }

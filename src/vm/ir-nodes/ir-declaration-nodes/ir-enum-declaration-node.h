@@ -8,7 +8,7 @@
 #include <llvm/IR/Instructions.h>
 #include "ir-declaration-node.h"
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
-#include "../ir-global-variable-node.h"
+#include "../ir-instruction-node.h"
 
 class IREnumDeclarationNode : public IRDeclarationNode {
 private:

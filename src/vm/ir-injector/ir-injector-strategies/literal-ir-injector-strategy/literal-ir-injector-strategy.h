@@ -18,7 +18,6 @@
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
-#include "../../../ir-nodes/ir-expression-nodes/ir-global-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-class-method-invocation-expression-node.h"
@@ -40,7 +39,6 @@ public:
     llvm::Value* inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRFunctionParameterInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRGlobalIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRClassMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
 };

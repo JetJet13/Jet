@@ -11,6 +11,13 @@ IRTupleExpressionNode::IRTupleExpressionNode(ASTTupleExpressionNode* node, IRIns
     _type = type;
 }
 
+void IRTupleExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto irValue : _irValues) {
+        irValue->markAsGlobal();
+    }
+}
+
 llvm::Value* IRTupleExpressionNode::getValue() {
     return _irValue->getValue();
 }

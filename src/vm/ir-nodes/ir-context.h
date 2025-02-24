@@ -14,8 +14,10 @@ private:
     std::unique_ptr<llvm::LLVMContext>* _context;
     IRBlockNode* _irBlock;
     IRModuleNode* _irModule;
+    llvm::DataLayout* _dataLayout;
 public:
     IRContext(IRBlockNode* irBlock, IRModuleNode* irModule, std::unique_ptr<llvm::LLVMContext>* context);
+    llvm::DataLayout* getDataLayout();
     std::unique_ptr<llvm::LLVMContext>* getContext();
     IRBlockNode* getIRBlock();
     IRModuleNode* getIRModule();

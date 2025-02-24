@@ -12,6 +12,12 @@ IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpr
     _type = type;
 }
 
+void IRBinaryArithmeticExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irLeftNode->markAsGlobal();
+    _irRightNode->markAsGlobal();
+}
+
 llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }

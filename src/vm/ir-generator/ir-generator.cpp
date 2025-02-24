@@ -12,6 +12,7 @@
 #include "ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/global-array-expression-ir-strategy/global-array-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
@@ -63,6 +64,9 @@
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
 #include "ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
 #include "../../shared/utils/logger/logger.h"
+#include "ir-util-functions/malloc-ir-function/malloc-ir-function.h"
+#include "ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h"
+#include "ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -131,6 +135,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node,  this, scope, irContext, irOperationType);
+    } else if (node->is(AST_ARRAY_EXPRESSION_NODE) && node->isGlobal()) {
+        return this->_irStrategyMap.getGlobalArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
@@ -197,43 +203,60 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case VOID_TYPE_SOURCE:
             return this->generateVoidType();
         case ARRAY_TYPE_SOURCE:
-            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature *) typeSignature,
+                                                                              this, scope, irContext);
         case CLASS_TYPE_SOURCE:
-            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature *) typeSignature,
+                                                                              this, scope, irContext);
         case ENUM_TYPE_SOURCE:
-            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature *) typeSignature, this,
+                                                                             scope, irContext);
         case ENUM_ACCESS_TYPE_SOURCE:
-            return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate((EnumAccessTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate(
+                    (EnumAccessTypeSignature *) typeSignature, this, scope, irContext);
         case FUNCTION_TYPE_SOURCE:
-            return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate((FunctionTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate(
+                    (FunctionTypeSignature *) typeSignature, this, scope, irContext);
         case PROCEDURE_TYPE_SOURCE:
-            return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate((ProcedureTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate(
+                    (ProcedureTypeSignature *) typeSignature, this, scope, irContext);
         case LAMBDA_EXPRESSION_TYPE_SOURCE:
-            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((LambdaExpressionTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
+                    (LambdaExpressionTypeSignature *) typeSignature, this, scope, irContext);
         case FUNCTION_LAMBDA_TYPE_SOURCE:
-            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((FunctionLambdaTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
+                    (FunctionLambdaTypeSignature *) typeSignature, this, scope, irContext);
         case PROCEDURE_LAMBDA_TYPE_SOURCE:
-            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate((ProcedureLambdaTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
+                    (ProcedureLambdaTypeSignature *) typeSignature, this, scope, irContext);
         case STRUCT_TYPE_SOURCE:
-            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature *) typeSignature,
+                                                                               this, scope, irContext);
         case TUPLE_TYPE_SOURCE:
-            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature *) typeSignature,
+                                                                              this, scope, irContext);
         case MODULE_TYPE_SOURCE:
-            return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature *) typeSignature,
+                                                                               this, scope, irContext);
         case POINTER_TYPE_SOURCE:
-            return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature *) typeSignature,
+                                                                                this, scope, irContext);
         case FUNCTION_INVOCATION_TYPE_SOURCE:
-            return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate((FunctionInvocationTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate(
+                    (FunctionInvocationTypeSignature *) typeSignature, this, scope, irContext);
         case CLASS_METHOD_TYPE_SOURCE:
-            return _irStrategyMap.getClassMethodTypeSignatureIRStrategy()->generate((ClassMethodTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getClassMethodTypeSignatureIRStrategy()->generate(
+                    (ClassMethodTypeSignature *) typeSignature, this, scope, irContext);
         case CLASS_INSTANCE_TYPE_SOURCE:
-            return _irStrategyMap.getClassInstanceTypeSignatureIRStrategy()->generate((ClassInstanceTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getClassInstanceTypeSignatureIRStrategy()->generate(
+                    (ClassInstanceTypeSignature *) typeSignature, this, scope, irContext);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
         case STRING_LITERAL_TYPE_SOURCE:
         case BOOL_LITERAL_TYPE_SOURCE:
-            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature*)typeSignature, this, scope, irContext);
+            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature *) typeSignature,
+                                                                                this, scope, irContext);
         default:
             Logger::log("UH OH");
             typeSignature->print();
@@ -297,6 +320,14 @@ llvm::IntegerType* IRGenerator::generateCharType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
+llvm::IntegerType* IRGenerator::generateMallocSizeType() {
+    return llvm::IntegerType::get(*_context, 64);
+}
+
+IRType* IRGenerator::generateMallocSizeIRType() {
+    return new IRType(this->generateMallocSizeType());
+}
+
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter) {
     return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, this, scope, irContext, scopeParameter);
 }
@@ -312,13 +343,15 @@ llvm::Constant* IRGenerator::generateIntConstant(int integer) {
 IRArrayPointerType* IRGenerator::generateArrayPointerType(IRPointerType* irPointerType) {
     return new IRArrayPointerType(llvm::StructType::get(*_context, {
         llvm::IntegerType::get(*_context, 32),
-        irPointerType->getType()
+        irPointerType->getType(),
+        irPointerType->getType(),
     }), irPointerType->getSourceType());
 }
 
 IRArrayPointerType* IRGenerator::generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType) {
     return new IRArrayPointerType(llvm::StructType::get(*_context, {
             llvm::IntegerType::get(*_context, 32),
+            pointerType,
             pointerType
     }), arrayElementType);
 }
@@ -356,13 +389,19 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
         new llvm::Module(moduleName, *_context),
         ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
         CopyStringIRFunction::getCopyStringIRFunctionName(),
-        PrintIRFunction::getPrintIRFunctionName()
+        PrintIRFunction::getPrintIRFunctionName(),
+        MallocIRFunction::getMallocIRFunctionName(),
+        MallocFreeIRFunction::getMallocFreeIRFunctionName(),
+        MallocSizeIRFunction::getMallocSizeIRFunctionName()
     );
 }
 
 void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
+    MallocIRFunction::generateMallocFunction(this, &_context, irModule);
+    MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
+    MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

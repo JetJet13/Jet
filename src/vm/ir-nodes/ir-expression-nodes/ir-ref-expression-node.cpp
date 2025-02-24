@@ -10,6 +10,11 @@ IRRefExpressionNode::IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressio
     _irType = irType;
 }
 
+void IRRefExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    _irExpression->markAsGlobal();
+}
+
 IRExpressionNode* IRRefExpressionNode::getExpression() {
     return _irExpression;
 }

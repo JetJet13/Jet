@@ -9,7 +9,6 @@
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../ir-expression-nodes/ir-expression-node.h"
 #include "ir-declaration-node.h"
-#include "../ir-global-variable-node.h"
 #include "../ir-instruction-node.h"
 
 class IRVariableDeclarationNode : public IRDeclarationNode {

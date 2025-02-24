@@ -81,14 +81,6 @@ llvm::Value* StringIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExp
     return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
 }
 
-llvm::Value* StringIRInjectorStrategy::inject(std::string rawString, IRArrayPointerType* stringPointerType, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto stringAllocation = irBlock->getBuilder()->get()->CreateAlloca(stringPointerType->getElementType(), rawString.size());
-    auto sourceAllocation = IRInstructionNodeFactory::create(stringAllocation, IRPointerType::create(stringPointerType->getElementIRType()));
-    auto arrayPointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(stringPointerType));
-    arrayPointerAllocation->setParentAllocation(sourceAllocation);
-    return ArrayIRInjectorHelper::injectArrayPointer(irBlock, stringPointerType, rawString.size(), sourceAllocation, arrayPointerAllocation)->getValue();
-}
-
 llvm::Value* StringIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     return FunctionInvocationIRInjectorHelper::inject(irExpression, irBlock, irInjector, irModule, scope);
 }
