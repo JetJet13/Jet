@@ -6,12 +6,13 @@
 #include "../../../ir-type/ir-array-pointer-type.h"
 
 void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
+    auto operation = globalVariable.has_value() ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP;
     auto irExpressionValue = irInjector
             ->inject(
                     irBlock,
                     irVariableAssignmentStatement->getIRExpression(),
-                    IR_OPERAND_OP, irModule, scope);
-    auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
+                    operation, irModule, scope);
     if (globalVariable) {
         auto loadedAlloc = std::optional<llvm::LoadInst*>();
         if (globalVariable.value()->getIRType()->getSourceType()->isArrayPointerType()) {

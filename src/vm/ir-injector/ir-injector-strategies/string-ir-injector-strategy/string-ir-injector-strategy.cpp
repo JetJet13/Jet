@@ -40,7 +40,7 @@ llvm::Value* StringIRInjectorStrategy::inject(IRStringLiteralExpressionNode* irE
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, irBlock, irModule)->getValue();
+    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, irBlock, irModule, irOperationType)->getValue();
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -49,7 +49,7 @@ llvm::Value* StringIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irEx
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
     auto loadedPointerToIndexedElement = irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value(), irOperationType)->getValue();
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -68,7 +68,8 @@ llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExp
             elementIrType,
             irModule,
             loadedPointerToIndexedElement,
-            irExpression->getSourceAllocation().value()
+            irExpression->getSourceAllocation().value(),
+            irOperationType
     )->getValue();
 }
 
@@ -78,7 +79,7 @@ llvm::Value* StringIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExp
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
     auto loadedPointerToIndexedElement = irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value(), irOperationType)->getValue();
 }
 
 llvm::Value* StringIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -95,5 +96,5 @@ llvm::Value* StringIRInjectorStrategy::inject(IRClassPropertyAccessExpressionNod
                                                                                      irBlock,
                                                                                      irInjector,
                                                                                      irModule, scope);
-    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value(), irOperationType)->getValue();
 }

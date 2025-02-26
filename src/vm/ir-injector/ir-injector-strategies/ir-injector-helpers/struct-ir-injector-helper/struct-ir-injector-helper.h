@@ -14,8 +14,8 @@
 
 class StructIRInjectorHelper {
 public:
-    static llvm::Value* injectStructCopy(IRBlockNode* irBlock, IRInstructionNode* structAllocation, IRModuleNode* irModule);
-    static llvm::Value* injectStructCopy(IRBlockNode* irBlock, IRStructType* irStructType, llvm::Value* structSource, IRModuleNode* irModule);
+    static llvm::Value* injectStructCopy(IRBlockNode* irBlock, IRInstructionNode* structAllocation, IRModuleNode* irModule, IROperationType irOperationType);
+    static llvm::Value* injectStructCopy(IRBlockNode* irBlock, IRStructType* irStructType, llvm::Value* structSource, IRModuleNode* irModule, IROperationType irOperationType);
 };
 
 #endif //JETLANG_STRUCT_IR_INJECTOR_HELPER_H

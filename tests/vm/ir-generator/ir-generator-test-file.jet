@@ -1,5 +1,6 @@
 const myArray = [1,2,3];
 let copyArray = myArray;
+let secondCopyArray = copyArray;
 const myNestedArray = [[10,20], [30,40]];
 const copyNestedArray = myNestedArray;
 

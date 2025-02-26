@@ -11,8 +11,6 @@
 llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector *irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
         return this->inject((IRArrayExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
-    } else if (irExpression->is(IR_GLOBAL_ARRAY_EXPRESSION_NODE)) {
-        return this->inject((IRGlobalArrayExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_AGGREGATE_IDENTIFIER_EXPRESSION_NODE)) {
         return this->inject((IRAggregateIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
@@ -49,26 +47,8 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayExpressionNode* irExpression
                                                      irExpression->getAggregatePointerAllocation())->getValue();
 }
 
-llvm::Value* ArrayIRInjectorStrategy::inject(IRGlobalArrayExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    irBlock->getBuilder()->get()->Insert(irExpression->getSourceAggregateAllocation()->getValue());
-    auto numElements = irExpression->size();
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
-    for (int i = 0; i < numElements; ++i) {
-        auto elementExpression = irExpression->getValues()->at(i);
-        auto irIndex = irBlock->getBuilder()->get()->getInt32(i);
-        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceAggregateAllocation()->getAllocatedType(),
-                                                                       irExpression->getSourceAggregateAllocation()->getValue(), { zeroIndex, irIndex });
-        auto irExpressionValue = irInjector->inject(irBlock, elementExpression, irOperationType, irModule, scope);
-        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
-    }
-
-    return ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), numElements,
-                                                     irExpression->getSourceAggregateAllocation(),
-                                                     irExpression->getAggregatePointerAllocation())->getValue();
-}
-
 llvm::Value* ArrayIRInjectorStrategy::inject(IRAggregateIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, irBlock, irModule)->getValue();
+    return ArrayIRInjectorHelper::injectArrayFromIdentifierExpression(irExpression, irBlock, irModule, irOperationType)->getValue();
 }
 
 llvm::Value* ArrayIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -82,7 +62,7 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExp
         auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
         irBlock->getBuilder()->get()->Insert(pointer);
         auto loadedPointerToIndexedElement = irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-        return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+        return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value(), irOperationType)->getValue();
     } else {
         auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
         auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
@@ -99,7 +79,8 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpr
                 ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType(),
                 irModule,
                 loadedPointerToIndexedElement,
-                irExpression->getSourceAllocation().value()
+                irExpression->getSourceAllocation().value(),
+                irOperationType
         )->getValue();
     }
 
@@ -120,7 +101,7 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpr
         auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
         irBlock->getBuilder()->get()->Insert(pointer);
         auto loadedPointerToIndexedElement = irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-        return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value())->getValue();
+        return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value(), irOperationType)->getValue();
     } else {
         auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
         auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });

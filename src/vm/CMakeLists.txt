@@ -343,10 +343,6 @@ add_library(jet-vm
         ir-generator/ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h
         ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.cpp
         ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h
-        ir-nodes/ir-expression-nodes/ir-global-array-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-global-array-expression-node.h
-        ir-generator/ir-strategies/expression-ir-strategies/global-array-expression-ir-strategy/global-array-expression-ir-strategy.cpp
-        ir-generator/ir-strategies/expression-ir-strategies/global-array-expression-ir-strategy/global-array-expression-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

@@ -5,8 +5,8 @@
 #include "array-expression-ir-strategy.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../utils/address-space-generator/address-space-generator.h"
-#include "../../../../ir-type/ir-array-type.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto elementValues = std::vector<IRExpressionNode*>();
@@ -22,23 +22,28 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), elementValues.size()), arrayElementIrType);
     auto arrayAllocation = new IRInstructionNode(
-            new llvm::AllocaInst(
-                arrayType->getType(),
-                AddressSpaceGenerator::generate(arrayElementIrType),
-                nullptr,
-                DataAlignmentGenerator::generate(arrayElementIrType)
-            ),
+            this->generateArrayAllocation(arrayType, arrayElementIrType, irGenerator, irContext, irOperationType),
             irGenerator->generateIrPointerType(arrayType),
             elementValueSourceAllocations
     );
-    if (node->isGlobal()) {
-        auto mallocPointer = llvm::CallInst::Create(
+    auto arrayPointerAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
+    return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerAllocation, elementValues, irType);
+}
+
+llvm::Value* ArrayExpressionIRStrategy::generateArrayAllocation(IRArrayType* irArrayType, IRType* arrayElementIrType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+    if (irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP) {
+        Logger::log("generateArrayAllocation IR_COPY_GLOBAL_ASSIGNMENT_OP");
+        return llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateIntConstant(arrayType->getSizeInBytes()) },
+                { irGenerator->generateIntConstant(irArrayType->getSizeInBytes()) },
                 ""
         );
     }
-    auto arrayPointerAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
-    return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerAllocation, elementValues, irType);
+    return new llvm::AllocaInst(
+            irArrayType->getType(),
+            AddressSpaceGenerator::generate(arrayElementIrType),
+            nullptr,
+            DataAlignmentGenerator::generate(arrayElementIrType)
+    );
 }

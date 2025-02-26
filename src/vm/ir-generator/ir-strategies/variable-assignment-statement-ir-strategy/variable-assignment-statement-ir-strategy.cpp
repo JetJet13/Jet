@@ -8,10 +8,6 @@
 
 IRStatementNode* VariableAssignmentStatementIRStrategy::generate(ASTVariableAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto isGlobal = scope->findGlobalVariable(node->getVariableAssignment()->getIdentifierNode()->getId()).has_value();
-    if (isGlobal) {
-        node->getExpression()->markAsGlobal();
-        Logger::log("marked variable assignment statement expression as global");
-    }
     auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, isGlobal ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP);
     return new IRVariableAssignmentStatementNode(node, irExpression);
 }

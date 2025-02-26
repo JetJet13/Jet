@@ -52,7 +52,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
             irBlock,
             (IRStructType*)irExpression->getIRType()->getSourceType(),
             irExpression->getValue(),
-            irModule
+            irModule,
+            irOperationType
     );
 }
 
@@ -67,7 +68,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irEx
             irBlock,
             (IRStructType*)irExpression->getSource()->getIRType(),
             loadedSourceAllocation,
-            irModule
+            irModule,
+            irOperationType
     );
 }
 
@@ -94,7 +96,8 @@ llvm::Value* StructIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irExp
             irBlock,
             (IRStructType*)irExpression->getSource()->getIRType(),
             loadedSourceAllocation,
-            irModule
+            irModule,
+            irOperationType
     );
 }
 

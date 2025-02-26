@@ -26,11 +26,7 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
     auto loadedNumElements = new llvm::LoadInst(arrayPointerType->getNumElementsType(), intPointer, "", false, DataAlignmentGenerator::generate(intIndex->getType()));
     auto destinationAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType->getElementIRType()), loadedNumElements);
     auto pointerAllocation = IRInstructionNodeFactory::create(allocation, destinationAllocation);
-    auto irAggregateIdentifierExpressionNode = new IRAggregateIdentifierExpressionNode(node, destinationAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
-    if (node->isGlobal()) {
-        irAggregateIdentifierExpressionNode->markAsGlobal();
-    }
-    return irAggregateIdentifierExpressionNode;
+    return new IRAggregateIdentifierExpressionNode(node, destinationAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
 }
 
 IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateForGlobalAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
@@ -44,8 +40,8 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
                     irContext->getIRModule()->getMallocSizeFunction()->getFunctionType(),
                     irContext->getIRModule()->getMallocSizeFunction(),
                     {
-                            loadedNumElements,
-                            irGenerator->generateIntConstant(arrayPointerType->getElementIRType()->getSizeInBytes())
+                        loadedNumElements,
+                        irGenerator->generateIntConstant(arrayPointerType->getElementIRType()->getSizeInBytes())
                     },
                     ""
             ),
@@ -61,10 +57,5 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
             IRPointerType::create(irGenerator->generateMallocSizeIRType())
     );
     auto pointerAllocation = IRInstructionNodeFactory::create(allocation, mallocAllocation);
-    pointerAllocation->markAsGlobal();
-    auto irAggregateIdentifierExpressionNode = new IRAggregateIdentifierExpressionNode(node, mallocAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
-    if (node->isGlobal()) {
-        irAggregateIdentifierExpressionNode->markAsGlobal();
-    }
-    return irAggregateIdentifierExpressionNode;
+    return new IRAggregateIdentifierExpressionNode(node, mallocAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);
 }

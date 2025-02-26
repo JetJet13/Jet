@@ -16,14 +16,12 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-block-node.h"
-#include "../../../ir-nodes/ir-expression-nodes/ir-global-array-expression-node.h"
 
 class ArrayIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
     llvm::Value* inject(IRArrayExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRGlobalArrayExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRAggregateIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);

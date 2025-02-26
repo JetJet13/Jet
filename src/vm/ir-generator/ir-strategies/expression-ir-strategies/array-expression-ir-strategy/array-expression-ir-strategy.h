@@ -9,8 +9,11 @@
 #include "../../../ir-generator.h"
 #include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-array-expression-node.h"
+#include "../../../../ir-type/ir-array-type.h"
 
 class ArrayExpressionIRStrategy {
+private:
+    llvm::Value* generateArrayAllocation(IRArrayType* irArrayType, IRType* arrayElementIrType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
 public:
     IRArrayExpressionNode* generate(ASTArrayExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };
