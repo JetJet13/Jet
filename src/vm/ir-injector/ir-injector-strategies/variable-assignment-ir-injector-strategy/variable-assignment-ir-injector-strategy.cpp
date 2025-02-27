@@ -4,6 +4,7 @@
 
 #include "variable-assignment-ir-injector-strategy.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
@@ -14,26 +15,20 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                     irVariableAssignmentStatement->getIRExpression(),
                     operation, irModule, scope);
     if (globalVariable) {
-        auto loadedAlloc = std::optional<llvm::LoadInst*>();
-        if (globalVariable.value()->getIRType()->getSourceType()->isArrayPointerType()) {
-            auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
-            auto arrayPointerType = (IRArrayPointerType*)globalVariable.value()->getIRType()->getSourceType();
-            auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
-            auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), globalVariable.value()->getValue(), { zeroIndex, allocIndex });
-            loadedAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), allocPointer);
-        }
+        auto mallocsToFree = std::vector<llvm::LoadInst*>();
+        this->getMallocsToFree(&mallocsToFree, globalVariable.value(), irBlock, irInjector, irModule, scope);
         irBlock->getBuilder()->get()->CreateStore(
             irExpressionValue,
             globalVariable.value()->getValue()
         );
 
-        if (loadedAlloc) {
-            // free the old malloc after assigning the global variable
+        for (auto mallocToFree : mallocsToFree) {
+            // free the old mallocs after assigning the global variable
             // it's new value
             irBlock->getBuilder()->get()->CreateCall(
                     irModule->getMallocFreeFunction()->getFunctionType(),
                     irModule->getMallocFreeFunction(),
-                    { loadedAlloc.value() }
+                    { mallocToFree }
             );
         }
     } else {
@@ -41,5 +36,22 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
             irExpressionValue,
             scope->find(irVariableAssignmentStatement->getVariableName()).value()->getValue()
         );
+    }
+}
+
+void VariableAssignmentIRInjectorStrategy::getMallocsToFree(std::vector<llvm::LoadInst*>* mallocsToFree, IRInstructionNode* allocation, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
+    if (allocation->getIRType()->getSourceType()->isArrayPointerType()) {
+        auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+        auto arrayPointerType = (IRArrayPointerType*)allocation->getIRType()->getSourceType();
+        auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
+        auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), allocation->getValue(), {zeroIndex, allocIndex });
+        mallocsToFree->push_back(irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), allocPointer));
+        if (arrayPointerType->getElementIRType()->getSourceType()->isStructType()) {
+            auto allocPointerAllocation = IRInstructionNodeFactory::create(allocPointer, IRPointerType::create(arrayPointerType->getElementIRType()->getSourceType()));
+            this->getMallocsToFree(mallocsToFree, allocPointerAllocation, irBlock, irInjector, irModule, scope);
+        } else if (arrayPointerType->getElementIRType()->getSourceType()->isArrayPointerType()) {
+            auto allocPointerAllocation = IRInstructionNodeFactory::create(allocPointer, IRPointerType::create(arrayPointerType->getElementIRType()->getSourceType()));
+            this->getMallocsToFree(mallocsToFree, allocPointerAllocation, irBlock, irInjector, irModule, scope);
+        }
     }
 }

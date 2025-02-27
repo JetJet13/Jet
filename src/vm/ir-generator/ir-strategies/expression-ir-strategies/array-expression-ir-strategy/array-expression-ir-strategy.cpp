@@ -32,7 +32,6 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
 
 llvm::Value* ArrayExpressionIRStrategy::generateArrayAllocation(IRArrayType* irArrayType, IRType* arrayElementIrType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
     if (irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP) {
-        Logger::log("generateArrayAllocation IR_COPY_GLOBAL_ASSIGNMENT_OP");
         return llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),

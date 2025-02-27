@@ -2,11 +2,13 @@ const myArray = [1,2,3];
 let copyArray = myArray;
 let secondCopyArray = copyArray;
 const myNestedArray = [[10,20], [30,40]];
-const copyNestedArray = myNestedArray;
+let copyNestedArray = myNestedArray;
 
 proc test() {
     const localArray = [9, 8, 7];
     copyArray = localArray;
     const localCopyFromGlobalArray = myArray;
     const localCopyFromLocalArray = localArray;
+    const localNestedArray = [[15], [30], [45]];
+    copyNestedArray = localNestedArray;
 }
