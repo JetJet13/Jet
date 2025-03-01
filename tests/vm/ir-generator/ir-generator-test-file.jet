@@ -9,6 +9,6 @@ proc test() {
     copyArray = localArray;
     const localCopyFromGlobalArray = myArray;
     const localCopyFromLocalArray = localArray;
-    const localNestedArray = [[15], [30], [45]];
+    const localNestedArray = [[15, 16], [30, 31], [45, 46]];
     copyNestedArray = localNestedArray;
 }

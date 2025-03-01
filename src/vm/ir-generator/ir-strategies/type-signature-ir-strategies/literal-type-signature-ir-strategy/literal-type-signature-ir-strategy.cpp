@@ -13,10 +13,7 @@ IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTy
         return new IRType(llvm::IntegerType::get(**irContext->getContext(), 8));
     } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto charType = llvm::IntegerType::get(**irContext->getContext(), 8);
-        return irGenerator->generateArrayPointerType(
-                irGenerator->generatePointerType(charType),
-                new IRType(charType)
-        );
+        return irGenerator->generateIrArrayPointerType(new IRType(charType));
     } else {
         return new IRType(llvm::IntegerType::get(**irContext->getContext(), 1));
     }

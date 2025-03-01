@@ -12,7 +12,7 @@ std::string CopyStringIRFunction::getCopyStringIRFunctionName() {
 
 void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType(new IRType(irGenerator->generateCharType()));
-    auto arrayPointerType = irGenerator->generateArrayPointerType(pointerType);
+    auto arrayPointerType = irGenerator->generateIrArrayPointerType(pointerType);
     auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(**context), { pointerType->getType(), arrayPointerType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStringIRFunction::getCopyStringIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);

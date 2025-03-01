@@ -59,6 +59,7 @@
 #include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-node.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 #include "../ir-nodes/ir-context.h"
+#include "../ir-type/ir-malloc-array-type.h"
 
 class IRGenerator {
 private:
@@ -91,12 +92,15 @@ public:
     llvm::IntegerType* generateIntType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generateMallocSizeType();
+    llvm::StructType* generateMallocArrayType();
+    IRMallocArrayType* generateIrMallocArrayType();
     IRType* generateMallocSizeIRType();
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::Constant* generateIntConstant(int integer);
-    IRArrayPointerType* generateArrayPointerType(IRPointerType* irPointerType);
-    IRArrayPointerType* generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType);
+    IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
+    IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
+    llvm::StructType* generateArrayPointerType();
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRBlockNode* generateIfBlock(IRContext* irContext);
     IRBlockNode* generateIfThenBlock(IRContext* irContext);

@@ -7,7 +7,7 @@
 IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType(), scope, irContext);
     if (arrayElementType->isPointerType()) {
-        return irGenerator->generateArrayPointerType((IRPointerType *) arrayElementType);
+        return irGenerator->generateIrArrayPointerType((IRPointerType *) arrayElementType);
     }
-    return irGenerator->generateArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
+    return irGenerator->generateIrArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
 }

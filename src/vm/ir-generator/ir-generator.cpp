@@ -66,6 +66,9 @@
 #include "ir-util-functions/malloc-ir-function/malloc-ir-function.h"
 #include "ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h"
 #include "ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h"
+#include "ir-util-functions/malloc-array-enqueue-ir-function/malloc-array-enqueue-ir-function.h"
+#include "ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.h"
+#include "ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -321,6 +324,14 @@ llvm::IntegerType* IRGenerator::generateMallocSizeType() {
     return llvm::IntegerType::get(*_context, 64);
 }
 
+llvm::StructType* IRGenerator::generateMallocArrayType() {
+    return llvm::StructType::get(*_context, { this->generateIntType(), this->generateArrayPointerType() }, false);
+}
+
+IRMallocArrayType* IRGenerator::generateIrMallocArrayType() {
+    return new IRMallocArrayType(this->generateMallocArrayType());
+}
+
 IRType* IRGenerator::generateMallocSizeIRType() {
     return new IRType(this->generateMallocSizeType());
 }
@@ -337,20 +348,21 @@ llvm::Constant* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
 }
 
-IRArrayPointerType* IRGenerator::generateArrayPointerType(IRPointerType* irPointerType) {
-    return new IRArrayPointerType(llvm::StructType::get(*_context, {
-        llvm::IntegerType::get(*_context, 32),
-        irPointerType->getType(),
-        irPointerType->getType(),
-    }), irPointerType->getSourceType());
+IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRPointerType* irPointerType) {
+    return new IRArrayPointerType(this->generateArrayPointerType(), irPointerType->getSourceType());
 }
 
-IRArrayPointerType* IRGenerator::generateArrayPointerType(llvm::PointerType* pointerType, IRType* arrayElementType) {
-    return new IRArrayPointerType(llvm::StructType::get(*_context, {
+IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElementType) {
+    return new IRArrayPointerType(this->generateArrayPointerType(), arrayElementType);
+}
+
+llvm::StructType* IRGenerator::generateArrayPointerType() {
+    auto pointerType = this->generatePointerType();
+    return llvm::StructType::get(*_context, {
             llvm::IntegerType::get(*_context, 32),
             pointerType,
             pointerType
-    }), arrayElementType);
+    });
 }
 
 IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
@@ -399,6 +411,9 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocIRFunction::generateMallocFunction(this, &_context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
+    MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(this, &_context, irModule);
+    MallocArrayPopIRFunction::generateMallocArrayPopFunction(this, &_context, irModule);
+    MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
