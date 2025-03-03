@@ -69,6 +69,7 @@
 #include "ir-util-functions/malloc-array-enqueue-ir-function/malloc-array-enqueue-ir-function.h"
 #include "ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.h"
 #include "ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h"
+#include "ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -385,8 +386,36 @@ IRBlockNode* IRGenerator::generateIfEndBlock(IRContext* irContext) {
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, "if.end", irContext->getFunction()));
 }
 
+IRBlockNode* IRGenerator::generateWhileConditionBlock(IRContext* irContext) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "while.condition", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateWhileBodyBlock(IRContext* irContext) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "while.body", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateWhileEndBlock(IRContext* irContext) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "while.end", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateForLoopConditionBlock(IRContext* irContext) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "for.loop.condition", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateForLoopBodyBlock(IRContext* irContext) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "for.loop.body", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateForLoopEndBlock(IRContext* irContext) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "for.loop.end", irContext->getFunction()));
+}
+
 IRBlockNode* IRGenerator::generateBasicBlock() {
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry"));
+}
+
+IRBlockNode* IRGenerator::generateBasicBlock(std::string label, IRContext* irContext) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, label, irContext->getFunction()));
 }
 
 IRContext* IRGenerator::generateContext(IRBlockNode* irBlock, IRModuleNode* irModule) {
@@ -401,7 +430,11 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
         PrintIRFunction::getPrintIRFunctionName(),
         MallocIRFunction::getMallocIRFunctionName(),
         MallocFreeIRFunction::getMallocFreeIRFunctionName(),
-        MallocSizeIRFunction::getMallocSizeIRFunctionName()
+        MallocSizeIRFunction::getMallocSizeIRFunctionName(),
+        MallocArrayPopIRFunction::getMallocArrayPopIRFunctionName(),
+        MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName(),
+        MallocArrayEnqueueIRFunction::getMallocArrayEnqueueIRFunctionName(),
+        MallocFreeArrayIRFunction::getMallocFreeArrayIRFunctionName()
     );
 }
 
@@ -414,6 +447,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(this, &_context, irModule);
     MallocArrayPopIRFunction::generateMallocArrayPopFunction(this, &_context, irModule);
     MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
+    MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

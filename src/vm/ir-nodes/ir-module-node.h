@@ -16,8 +16,22 @@ private:
     std::string _mallocFunctionName;
     std::string _mallocFreeFunctionName;
     std::string _mallocSizeFunctionName;
+    std::string _mallocArrayPopFunctionName;
+    std::string _mallocArrayPushFunctionName;
+    std::string _mallocArrayEnqueueFunctionName;
+    std::string _mallocFreeArrayFunctionName;
 public:
-    IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName);
+    IRModuleNode(llvm::Module* irValue,
+                 std::string arrayAccessFunctionName,
+                 std::string copyStringFunctionName,
+                 std::string printFunctionName,
+                 std::string mallocFunctionName,
+                 std::string mallocFreeFunctionName,
+                 std::string mallocSizeFunctionName,
+                 std::string mallocArrayPopFunctionName,
+                 std::string mallocArrayPushFunctionName,
+                 std::string mallocArrayEnqueueFunctionName,
+                 std::string mallocFreeArrayFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyStringFunction();
@@ -25,6 +39,10 @@ public:
     llvm::Function* getMallocFunction();
     llvm::Function* getMallocFreeFunction();
     llvm::Function* getMallocSizeFunction();
+    llvm::Function* getMallocArrayPopFunction();
+    llvm::Function* getMallocArrayPushFunction();
+    llvm::Function* getMallocArrayEnqueueFunction();
+    llvm::Function* getMallocFreeArrayFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

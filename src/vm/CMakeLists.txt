@@ -351,6 +351,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h
         ir-generator/ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.cpp
         ir-generator/ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.h
+        ir-generator/ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.cpp
+        ir-generator/ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h
 )
 
 target_link_libraries(jet-vm

@@ -4,7 +4,7 @@
 
 #include "ir-module-node.h"
 
-IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName) {
+IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyStringFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string mallocArrayPopFunctionName, std::string mallocArrayPushFunctionName, std::string mallocArrayEnqueueFunctionName, std::string mallocFreeArrayFunctionName) {
     _irValue = irValue;
     _arrayAccessFunctionName = arrayAccessFunctionName;
     _copyStringFunctionName = copyStringFunctionName;
@@ -12,6 +12,10 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _mallocFunctionName = mallocFunctionName;
     _mallocFreeFunctionName = mallocFreeFunctionName;
     _mallocSizeFunctionName = mallocSizeFunctionName;
+    _mallocArrayPopFunctionName = mallocArrayPopFunctionName;
+    _mallocArrayPushFunctionName = mallocArrayPushFunctionName;
+    _mallocArrayEnqueueFunctionName = mallocArrayEnqueueFunctionName;
+    _mallocFreeArrayFunctionName = mallocFreeArrayFunctionName;
 }
 
 llvm::Module* IRModuleNode::getModule() {
@@ -40,4 +44,20 @@ llvm::Function* IRModuleNode::getMallocFreeFunction() {
 
 llvm::Function* IRModuleNode::getMallocSizeFunction() {
     return _irValue->getFunction(_mallocSizeFunctionName);
+}
+
+llvm::Function* IRModuleNode::getMallocArrayPopFunction() {
+    return _irValue->getFunction(_mallocArrayPopFunctionName);
+}
+
+llvm::Function* IRModuleNode::getMallocArrayPushFunction() {
+    return _irValue->getFunction(_mallocArrayPushFunctionName);
+}
+
+llvm::Function* IRModuleNode::getMallocArrayEnqueueFunction() {
+    return _irValue->getFunction(_mallocArrayEnqueueFunctionName);
+}
+
+llvm::Function* IRModuleNode::getMallocFreeArrayFunction() {
+    return _irValue->getFunction(_mallocFreeArrayFunctionName);
 }

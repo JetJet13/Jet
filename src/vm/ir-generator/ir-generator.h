@@ -106,7 +106,14 @@ public:
     IRBlockNode* generateIfThenBlock(IRContext* irContext);
     IRBlockNode* generateIfElseBlock(IRContext* irContext);
     IRBlockNode* generateIfEndBlock(IRContext* irContext);
+    IRBlockNode* generateWhileConditionBlock(IRContext* irContext);
+    IRBlockNode* generateWhileBodyBlock(IRContext* irContext);
+    IRBlockNode* generateWhileEndBlock(IRContext* irContext);
+    IRBlockNode* generateForLoopConditionBlock(IRContext* irContext);
+    IRBlockNode* generateForLoopBodyBlock(IRContext* irContext);
+    IRBlockNode* generateForLoopEndBlock(IRContext* irContext);
     IRBlockNode* generateBasicBlock();
+    IRBlockNode* generateBasicBlock(std::string label, IRContext* irContext);
     IRContext* generateContext(IRBlockNode* irBlock, IRModuleNode* irModule);
     IRModuleNode* generateModule(std::string moduleName);
     void initModule(IRModuleNode* irModule);

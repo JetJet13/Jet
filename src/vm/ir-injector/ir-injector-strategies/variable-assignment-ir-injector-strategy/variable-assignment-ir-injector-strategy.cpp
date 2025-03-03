@@ -32,18 +32,18 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
 }
 
 void VariableAssignmentIRInjectorStrategy::freeOldMallocs(llvm::LoadInst* oldValue, IRInstructionNode* allocation, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto allocPointers = std::vector<llvm::Value*>();
     if (allocation->getIRType()->getSourceType()->isArrayPointerType()) {
-        auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
-        auto arrayPointerType = (IRArrayPointerType*)allocation->getIRType()->getSourceType();
-        auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
-        auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), oldValue, { zeroIndex, allocIndex });
-        auto irType = arrayPointerType;
+        auto levels = 0;
+        auto irType = allocation->getIRType()->getSourceType();
         while (irType->isArrayPointerType()) {
-            allocPointers.push_back(allocPointer);
-            allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), allocPointer, { zeroIndex, allocIndex });
-            irType = (IRArrayPointerType*)irType->getElementIRType();
+            levels++;
+            auto arrayPointerType = (IRArrayPointerType*)irType;
+            irType = arrayPointerType->getElementIRType();
         }
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getMallocFreeArrayFunction()->getFunctionType(),
+                irModule->getMallocFreeArrayFunction(),
+                { oldValue }
+        );
     }
-    Logger::log("alloc pointers", allocPointers.size());
 }
