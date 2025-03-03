@@ -159,3 +159,18 @@ enum OtherEnum {
     Second = "second",
     Third = "third"
 }
+
+const anotherArray = [1,2,3];
+let copyAnotherArray = anotherArray;
+let secondCopyAnotherArray = copyAnotherArray;
+const myNestedOtherArray = [[10,20], [30,40]];
+let copyNestedOtherArray = myNestedOtherArray;
+
+proc test() {
+    const localArray = [9, 8, 7];
+    copyAnotherArray = localArray;
+    const localCopyFromGlobalArray = anotherArray;
+    const localCopyFromLocalArray = localArray;
+    const localNestedArray = [[15, 16], [30, 31], [45, 46]];
+    copyNestedOtherArray = localNestedArray;
+}
