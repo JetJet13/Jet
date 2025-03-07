@@ -4,8 +4,7 @@
 
 #include "variable-assignment-ir-injector-strategy.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
-#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../../shared/utils/logger/logger.h"
+#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
@@ -17,16 +16,25 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                     operation, irModule, scope);
     if (globalVariable) {
         auto oldGlobalVariableValue = irBlock->getBuilder()->get()->CreateLoad(globalVariable.value()->getAllocatedType(), globalVariable.value()->getValue());
-        irBlock->getBuilder()->get()->CreateStore(
+        auto globalVariableIrType = globalVariable.value()->getIRType()->getSourceType();
+        irBlock->getBuilder()->get()->CreateMemCpy(
+                globalVariable.value()->getValue(),
+                DataAlignmentGenerator::generate(globalVariableIrType),
                 newVariableValue,
-                globalVariable.value()->getValue()
+                DataAlignmentGenerator::generate(globalVariableIrType),
+                globalVariableIrType->getSizeInBytes()
         );
         this->freeOldMallocs(oldGlobalVariableValue, globalVariable.value(), irBlock, irInjector, irModule, scope);
 
     } else {
-        irBlock->getBuilder()->get()->CreateStore(
+        auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
+        auto variableIrType = variable->getIRType()->getSourceType();
+        irBlock->getBuilder()->get()->CreateMemCpy(
+                variable->getValue(),
+                DataAlignmentGenerator::generate(variableIrType),
                 newVariableValue,
-                scope->find(irVariableAssignmentStatement->getVariableName()).value()->getValue()
+                DataAlignmentGenerator::generate(variableIrType),
+                variableIrType->getSizeInBytes()
         );
     }
 }

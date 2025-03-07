@@ -77,7 +77,7 @@ llvm::Value* StructIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExp
         auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_OP, irModule, scope);
         auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
         auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
-    if (irOperationType == IR_ASSIGNMENT_OP) {
+    if (irOperationType == IR_COPY_REASSIGNMENT_OP) {
         return pointerToIndexedElement;
     } else if (irOperationType == IR_OPERAND_OP) {
         return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);

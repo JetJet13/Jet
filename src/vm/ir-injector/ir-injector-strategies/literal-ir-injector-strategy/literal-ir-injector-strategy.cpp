@@ -14,9 +14,9 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, I
     if (irExpression->is(IR_LITERAL_EXPRESSION_NODE)) {
         return this->inject((IRLiteralExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_identifierExpressionInjector.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        return this->inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_objectAccessExpressionInjector.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_BINARY_ARITHMETIC_EXPRESSION_NODE)) {
         return this->inject((IRBinaryArithmeticExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_BINARY_COMPARISON_EXPRESSION_NODE)) {
@@ -39,6 +39,8 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, I
         return this->inject((IRClassPropertyAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)) {
         return this->inject((IRClassMethodInvocationExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+    } else if (irExpression->is(IR_REF_EXPRESSION_NODE)) {
+        return this->inject((IRRefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     }
     throw std::logic_error("LiteralIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -47,22 +49,9 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRLiteralExpressionNode* irExpres
     return irExpression->getValue();
 }
 
-llvm::Value* LiteralIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue());
-}
-
-llvm::Value* LiteralIRInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
-    irBlock->getBuilder()->get()->Insert(pointer);
-    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-}
-
 llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
 
     auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), irOperationType, irModule, scope);
-
-
     auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), irOperationType, irModule, scope);
 
     return irBlock->getBuilder()->get()->CreateBinOp(irExpression->getValue()->getOpcode(), irLeftNodeValue, irRightNodeValue);
@@ -71,7 +60,6 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryArithmeticExpressionNode*
 llvm::Value* LiteralIRInjectorStrategy::inject(IRBinaryComparisonExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
 
     auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), irOperationType, irModule, scope);
-
     auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), irOperationType, irModule, scope);
     return irBlock->getBuilder()->get()->CreateCmp(irExpression->getValue()->getPredicate(), irLeftNodeValue, irRightNodeValue);
 }
@@ -85,11 +73,8 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRUnaryNegateExpressionNode* irEx
 }
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRLogicalExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-
     auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), irOperationType, irModule, scope);
-
     auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), irOperationType, irModule, scope);
-
     return irBlock->getBuilder()->get()->CreateBinOp(irExpression->getValue()->getOpcode(), irLeftNodeValue, irRightNodeValue);
 }
 
@@ -106,7 +91,7 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irEx
             loadedPointerToFirstElement,
             { indexValue }
     );
-    if (irOperationType == IR_ASSIGNMENT_OP) {
+    if (irOperationType == IR_COPY_REASSIGNMENT_OP) {
         return pointerAtIndex;
     }
     return irBlock->getBuilder()->get()->CreateLoad(
@@ -119,6 +104,9 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRTupleAccessExpressionNode* irEx
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
+    if (irOperationType == IR_REF_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+        return pointer;
+    }
     return irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
 }
 
@@ -136,4 +124,28 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRClassPropertyAccessExpressionNo
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRClassMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     return FunctionInvocationIRInjectorHelper::inject(irExpression, irBlock, irInjector, irModule, scope);
+}
+
+llvm::Value* LiteralIRInjectorStrategy::inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto irValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
+    if (llvm::isa<llvm::PointerType>(irValue->getType())) {
+        return irValue;
+    }
+    if (irOperationType == IR_REF_ASSIGNMENT_OP) {
+        auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getType());
+        irBlock->getBuilder()->get()->CreateStore(irValue, allocation);
+        return allocation;
+    } else if (irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+        auto globalVariable = new llvm::GlobalVariable(
+                irExpression->getType(),
+                false,
+                llvm::GlobalValue::InternalLinkage
+        );
+        irModule->getModule()->insertGlobalVariable(globalVariable);
+
+        irBlock->getBuilder()->get()->CreateStore(irValue, globalVariable);
+        return globalVariable;
+    }
+    Logger::log("invalid IR Operation TYPE", irOperationType);
+    throw std::logic_error("invalid ir operation type for injecting literal ref expression");
 }

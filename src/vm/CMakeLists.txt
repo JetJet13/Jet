@@ -353,6 +353,14 @@ add_library(jet-vm
         ir-generator/ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.h
         ir-generator/ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.cpp
         ir-generator/ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/ref-ir-injector-helper/ref-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/ref-ir-injector-helper/ref-ir-injector-helper.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-identifier-expression-injector-strategy/literal-ir-identifier-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-identifier-expression-injector-strategy/literal-ir-identifier-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-object-access-expression-injector-strategy/literal-ir-object-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-object-access-expression-injector-strategy/literal-ir-object-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-expression-injector-strategy/literal-ir-binary-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-expression-injector-strategy/literal-ir-binary-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

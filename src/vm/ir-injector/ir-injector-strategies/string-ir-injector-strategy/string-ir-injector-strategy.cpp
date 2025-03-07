@@ -56,7 +56,7 @@ llvm::Value* StringIRInjectorStrategy::inject(IRArrayAccessExpressionNode* irExp
     auto elementIrType = ((IRArrayPointerType*)irExpression->getIRType()->getSourceType())->getElementIRType();
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_OP, irModule, scope);
-    if (irOperationType == IR_ASSIGNMENT_OP) {
+    if (irOperationType == IR_COPY_REASSIGNMENT_OP) {
         auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
         auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
         return pointerToIndexedElement;

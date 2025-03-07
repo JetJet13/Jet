@@ -8,7 +8,8 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto operation = node->isGlobal() ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP;
+    auto operation = this->determineOperationType(node);
+    Logger::log("IS AST_REF_EXPRESSION_NODE", node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE), operation);
     auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irContext, operation);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = IRInstructionNodeFactory::create(
@@ -41,4 +42,11 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     }
 
     return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGlobalVariable);
+}
+
+IROperationType VariableDeclarationIRStrategy::determineOperationType(ASTVariableDeclarationNode* node) {
+    if (node->isGlobal()) {
+        return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? IR_REF_GLOBAL_ASSIGNMENT_OP : IR_COPY_GLOBAL_ASSIGNMENT_OP;
+    }
+    return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? IR_REF_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP;
 }

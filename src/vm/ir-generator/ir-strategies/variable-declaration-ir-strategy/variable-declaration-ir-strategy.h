@@ -11,6 +11,8 @@
 #include "../../../ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.h"
 
 class VariableDeclarationIRStrategy {
+private:
+    IROperationType determineOperationType(ASTVariableDeclarationNode* node);
 public:
     IRVariableDeclarationNode* generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
