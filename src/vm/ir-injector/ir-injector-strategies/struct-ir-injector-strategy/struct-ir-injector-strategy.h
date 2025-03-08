@@ -16,19 +16,24 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-block-node.h"
+#include "strategies/struct-ir-struct-expression-injector-strategy/struct-ir-struct-expression-injector-strategy.h"
+#include "strategies/struct-ir-identifier-expression-injector-strategy/struct-ir-identifier-expression-injector-strategy.h"
+#include "strategies/struct-ir-object-access-expression-injector-strategy/struct-ir-object-access-expression-injector-strategy.h"
+#include "strategies/struct-ir-array-access-expression-injector-strategy/struct-ir-array-access-expression-injector-strategy.h"
+#include "strategies/struct-ir-tuple-access-expression-injector-strategy/struct-ir-tuple-access-expression-injector-strategy.h"
+#include "strategies/struct-ir-class-property-access-expression-injector-strategy/struct-ir-class-property-access-expression-injector-strategy.h"
 
 class StructIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
+private:
+    StructIRStructExpressionInjectorStrategy _structIRStructExpressionInjectorStrategy = StructIRStructExpressionInjectorStrategy();
+    StructIRIdentifierExpressionInjectorStrategy _structIRIdentifierExpressionInjectorStrategy = StructIRIdentifierExpressionInjectorStrategy();
+    StructIRObjectAccessExpressionInjectorStrategy _structIRObjectAccessExpressionInjectorStrategy = StructIRObjectAccessExpressionInjectorStrategy();
+    StructIRArrayAccessExpressionInjectorStrategy _structIRArrayAccessExpressionInjectorStrategy = StructIRArrayAccessExpressionInjectorStrategy();
+    StructIRTupleAccessExpressionInjectorStrategy _structIRTupleAccessExpressionInjectorStrategy = StructIRTupleAccessExpressionInjectorStrategy();
+    StructIRClassPropertyAccessExpressionInjectorStrategy _structIRClassPropertyAccessExpressionInjectorStrategy = StructIRClassPropertyAccessExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
-    llvm::Value* inject(IRStructExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRFunctionParameterInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_STRUCT_IR_INJECTOR_STRATEGY_H

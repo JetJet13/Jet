@@ -16,19 +16,20 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-block-node.h"
+#include "strategies/array-ir-array-expression-injector-strategy/array-ir-array-expression-injector-strategy.h"
+#include "strategies/array-ir-object-access-expression-injector-strategy/array-ir-object-access-expression-injector-strategy.h"
+#include "strategies/array-ir-array-access-expression-injector-strategy/array-ir-array-access-expression-injector-strategy.h"
+#include "strategies/array-ir-tuple-access-expression-injector-strategy/array-ir-tuple-access-expression-injector-strategy.h"
 
 class ArrayIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
+private:
+    ArrayIRArrayExpressionInjectorStrategy _arrayIRArrayExpressionInjectorStrategy = ArrayIRArrayExpressionInjectorStrategy();
+    ArrayIRObjectAccessExpressionInjectorStrategy _arrayIRObjectAccessExpressionInjectorStrategy = ArrayIRObjectAccessExpressionInjectorStrategy();
+    ArrayIRArrayAccessExpressionInjectorStrategy _arrayIRArrayAccessExpressionInjectorStrategy = ArrayIRArrayAccessExpressionInjectorStrategy();
+    ArrayIRTupleAccessExpressionInjectorStrategy _arrayIRTupleAccessExpressionInjectorStrategy = ArrayIRTupleAccessExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
-    llvm::Value* inject(IRArrayExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRAggregateIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRFunctionParameterInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_ARRAY_IR_INJECTOR_STRATEGY_H

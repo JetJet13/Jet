@@ -8,12 +8,12 @@ llvm::Value* LiteralIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierE
     switch (irOperationType) {
         case IR_REF_ASSIGNMENT_OP:
         case IR_REF_GLOBAL_ASSIGNMENT_OP:
-            return LiteralIRIdentifierExpressionInjectorStrategy::injectRef(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+            return this->injectRef(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
         case IR_COPY_ASSIGNMENT_OP:
         case IR_COPY_GLOBAL_ASSIGNMENT_OP:
-            return LiteralIRIdentifierExpressionInjectorStrategy::injectCopy(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+            return this->injectCopy(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
         default:
-            return LiteralIRIdentifierExpressionInjectorStrategy::injectOperand(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+            return this->injectOperand(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     }
 }
 

@@ -359,8 +359,58 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-identifier-expression-injector-strategy/literal-ir-identifier-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-object-access-expression-injector-strategy/literal-ir-object-access-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-object-access-expression-injector-strategy/literal-ir-object-access-expression-injector-strategy.h
-        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-expression-injector-strategy/literal-ir-binary-expression-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-expression-injector-strategy/literal-ir-binary-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-arithmetic-expression-injector-strategy/literal-ir-binary-arithmetic-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-arithmetic-expression-injector-strategy/literal-ir-binary-arithmetic-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-comparison-expression-injector-strategy/literal-ir-binary-comparison-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-comparison-expression-injector-strategy/literal-ir-binary-comparison-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-unary-arithmetic-expression-injector-strategy/literal-ir-unary-arithmetic-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-unary-arithmetic-expression-injector-strategy/literal-ir-unary-arithmetic-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-unary-negate-expression-injector-strategy/literal-ir-unary-negate-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-unary-negate-expression-injector-strategy/literal-ir-unary-negate-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-logical-expression-injector-strategy/literal-ir-logical-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-logical-expression-injector-strategy/literal-ir-logical-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-array-access-expression-injector-strategy/literal-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-array-access-expression-injector-strategy/literal-ir-array-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-tuple-access-expression-injector-strategy/literal-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-tuple-access-expression-injector-strategy/literal-ir-tuple-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-array-expression-injector-strategy/array-ir-array-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-array-expression-injector-strategy/array-ir-array-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-object-access-expression-injector-strategy/array-ir-object-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-object-access-expression-injector-strategy/array-ir-object-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-array-access-expression-injector-strategy/array-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-array-access-expression-injector-strategy/array-ir-array-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-tuple-access-expression-injector-strategy/array-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-tuple-access-expression-injector-strategy/array-ir-tuple-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-string-literal-expression-injector-strategy/string-ir-string-literal-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-string-literal-expression-injector-strategy/string-ir-string-literal-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-object-access-expression-injector-strategy/string-ir-object-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-object-access-expression-injector-strategy/string-ir-object-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-array-access-expression-injector-strategy/string-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-array-access-expression-injector-strategy/string-ir-array-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-tuple-access-expression-injector-strategy/string-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-tuple-access-expression-injector-strategy/string-ir-tuple-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-class-property-access-expression-injector-strategy/string-ir-class-property-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-class-property-access-expression-injector-strategy/string-ir-class-property-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-struct-expression-injector-strategy/struct-ir-struct-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-struct-expression-injector-strategy/struct-ir-struct-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-identifier-expression-injector-strategy/struct-ir-identifier-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-identifier-expression-injector-strategy/struct-ir-identifier-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-object-access-expression-injector-strategy/struct-ir-object-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-object-access-expression-injector-strategy/struct-ir-object-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-array-access-expression-injector-strategy/struct-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-array-access-expression-injector-strategy/struct-ir-array-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-tuple-access-expression-injector-strategy/struct-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-tuple-access-expression-injector-strategy/struct-ir-tuple-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-class-property-access-expression-injector-strategy/struct-ir-class-property-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-class-property-access-expression-injector-strategy/struct-ir-class-property-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-tuple-expression-injector-strategy/tuple-ir-tuple-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-tuple-expression-injector-strategy/tuple-ir-tuple-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-identifier-expression-injector-strategy/tuple-ir-identifier-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-identifier-expression-injector-strategy/tuple-ir-identifier-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-tuple-access-expression-injector-strategy/tuple-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-tuple-access-expression-injector-strategy/tuple-ir-tuple-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-class-property-access-expression-injector-strategy/tuple-ir-class-property-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-class-property-access-expression-injector-strategy/tuple-ir-class-property-access-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm
