@@ -9,6 +9,7 @@
 #include "ir-injector-strategies/array-ir-injector-strategy/array-ir-injector-strategy.h"
 #include "ir-injector-strategies/struct-ir-injector-strategy/struct-ir-injector-strategy.h"
 #include "ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.h"
+#include "ir-injector-strategies/pointer-ir-injector-strategy/pointer-ir-injector-strategy.h"
 #include "ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h"
@@ -31,6 +32,7 @@ IRInjector::IRInjector() {
     _arrayIRInjector = new ArrayIRInjectorStrategy();
     _structIRInjector = new StructIRInjectorStrategy();
     _tupleIRInjector = new TupleIRInjectorStrategy();
+    _pointerIRInjector = new PointerIRInjectorStrategy();
     _variableIRInjector = new VariableIRInjectorStrategy();
     _lambdaIRInjector = new LambdaIRInjectorStrategy();
     _enumIRInjectorStrategy = new EnumIRInjectorStrategy();
@@ -54,6 +56,7 @@ void IRInjector::init() {
     _injectorMap.insert(this->insert(BOOL_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(CHAR_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
+    _injectorMap.insert(this->insert(POINTER_TYPE_SOURCE, _pointerIRInjector));
     _injectorMap.insert(this->insert(FUNCTION_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(PROCEDURE_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
@@ -103,10 +106,10 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
 }
 
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto injector = _injectorMap.find(irExpression->getTypeSignature()->getTypeTarget());
+    auto injector = _injectorMap.find(irExpression->getInjectorTypeSource());
     if (injector == _injectorMap.end()) {
         irExpression->getTypeSignature()->print();
-        throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getTypeSignature()->getTypeTarget()));
+        throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getInjectorTypeSource()));
     }
     return injector->second->inject(irExpression, irBlock, this, irOperationType, irModule, scope);
 }

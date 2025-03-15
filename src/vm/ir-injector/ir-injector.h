@@ -19,6 +19,7 @@ class LiteralIRInjectorStrategy;
 class ArrayIRInjectorStrategy;
 class StructIRInjectorStrategy;
 class TupleIRInjectorStrategy;
+class PointerIRInjectorStrategy;
 class VariableIRInjectorStrategy;
 class ModuleIRInjectorStrategy;
 class LambdaIRInjectorStrategy;
@@ -41,6 +42,7 @@ private:
     ArrayIRInjectorStrategy* _arrayIRInjector;
     StructIRInjectorStrategy* _structIRInjector;
     TupleIRInjectorStrategy* _tupleIRInjector;
+    PointerIRInjectorStrategy* _pointerIRInjector;
     VariableIRInjectorStrategy* _variableIRInjector;
     ModuleIRInjectorStrategy* _moduleIRInjector;
     LambdaIRInjectorStrategy* _lambdaIRInjector;

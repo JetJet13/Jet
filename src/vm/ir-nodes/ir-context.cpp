@@ -8,6 +8,7 @@ IRContext::IRContext(IRBlockNode* irBlock, IRModuleNode* irModule, std::unique_p
     _irBlock = irBlock;
     _irModule = irModule;
     _context = context;
+    _irScope = IRScope();
     _dataLayout = new llvm::DataLayout(_irModule->getModule());
 }
 
@@ -25,6 +26,10 @@ IRBlockNode* IRContext::getIRBlock() {
 
 IRModuleNode* IRContext::getIRModule() {
     return _irModule;
+}
+
+IRScope* IRContext::getIRScope() {
+    return &_irScope;
 }
 
 llvm::Module* IRContext::getModule() {

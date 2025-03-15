@@ -175,9 +175,37 @@ proc AnotherTest() {
     copyNestedOtherArray = localNestedArray;
 }
 
-const refInt = ref 5;
 const refIntById = ref hundred;
-const refBinary = ref (hundred + 6);
-const refLogical = ref (true && false);
-const addRefs = ref hundred + refInt;
 const refStructProp = ref myStruct.f;
+const refTupleProp = ref myTuple.0;
+
+proc A(num: int) {
+    const myValue = B(num);
+}
+
+func B(num: int) ref<int> {
+    const xLambda = () {
+        const x = 10;
+        return ref x;
+    };
+
+    const yLambda = () {
+        const y = 20;
+        return ref 20;
+    };
+
+    const zLambda = () {
+        const z = 30;
+        return ref z;
+    };
+    if num > 5 {
+        return C(xLambda);
+    } else if num > 20 {
+        return C(yLambda);
+    }
+    return C(zLambda);
+}
+
+func C(l: func<> => ref<int>) ref<int> {
+    return l();
+}

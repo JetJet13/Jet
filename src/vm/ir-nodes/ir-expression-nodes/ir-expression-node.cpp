@@ -13,6 +13,14 @@ bool IRExpressionNode::isGlobal() {
     return _isGlobal;
 }
 
+TypeSource IRExpressionNode::getInjectorTypeSource() {
+    auto typeSignature = this->getTypeSignature();
+    if (typeSignature->typeSourceIs(POINTER_TYPE_SOURCE)) {
+        return POINTER_TYPE_SOURCE;
+    }
+    return typeSignature->getTypeTarget();
+}
+
 std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocation() {
     return {};
 }

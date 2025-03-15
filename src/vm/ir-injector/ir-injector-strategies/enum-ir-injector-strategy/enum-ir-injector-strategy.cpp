@@ -8,11 +8,7 @@
 
 llvm::Value* EnumIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return irExpression->getValue();
     }
     throw std::logic_error("EnumIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
-}
-
-llvm::Value* EnumIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    return irExpression->getValue();
 }

@@ -8,12 +8,14 @@
 #include "llvm/IR/LLVMContext.h"
 #include "ir-block-node.h"
 #include "ir-module-node.h"
+#include "../ir-scope/ir-scope.h"
 
 class IRContext {
 private:
     std::unique_ptr<llvm::LLVMContext>* _context;
     IRBlockNode* _irBlock;
     IRModuleNode* _irModule;
+    IRScope _irScope;
     llvm::DataLayout* _dataLayout;
 public:
     IRContext(IRBlockNode* irBlock, IRModuleNode* irModule, std::unique_ptr<llvm::LLVMContext>* context);
@@ -21,6 +23,7 @@ public:
     std::unique_ptr<llvm::LLVMContext>* getContext();
     IRBlockNode* getIRBlock();
     IRModuleNode* getIRModule();
+    IRScope* getIRScope();
     llvm::Module* getModule();
     llvm::Function* getFunction();
     IRContext* clone(IRBlockNode* irBlock);
