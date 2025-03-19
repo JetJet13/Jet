@@ -11,6 +11,8 @@
 #include "../../../../../ir-nodes/ir-expression-nodes/ir-ref-expression-node.h"
 
 class PointerIRRefExpressionInjectorStrategy {
+private:
+    llvm::Value* injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
 public:
     llvm::Value* inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
 };

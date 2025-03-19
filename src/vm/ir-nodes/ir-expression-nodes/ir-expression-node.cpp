@@ -3,7 +3,6 @@
 //
 
 #include "ir-expression-node.h"
-#include "../../../shared/utils/logger/logger.h"
 
 void IRExpressionNode::markAsGlobal() {
     _isGlobal = true;

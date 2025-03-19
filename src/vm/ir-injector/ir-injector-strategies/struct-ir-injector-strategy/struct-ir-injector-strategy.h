@@ -22,6 +22,7 @@
 #include "strategies/struct-ir-array-access-expression-injector-strategy/struct-ir-array-access-expression-injector-strategy.h"
 #include "strategies/struct-ir-tuple-access-expression-injector-strategy/struct-ir-tuple-access-expression-injector-strategy.h"
 #include "strategies/struct-ir-class-property-access-expression-injector-strategy/struct-ir-class-property-access-expression-injector-strategy.h"
+#include "strategies/struct-ir-dref-expression-injector-strategy/struct-ir-dref-expression-injector-strategy.h"
 
 class StructIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -32,6 +33,7 @@ private:
     StructIRArrayAccessExpressionInjectorStrategy _structIRArrayAccessExpressionInjectorStrategy = StructIRArrayAccessExpressionInjectorStrategy();
     StructIRTupleAccessExpressionInjectorStrategy _structIRTupleAccessExpressionInjectorStrategy = StructIRTupleAccessExpressionInjectorStrategy();
     StructIRClassPropertyAccessExpressionInjectorStrategy _structIRClassPropertyAccessExpressionInjectorStrategy = StructIRClassPropertyAccessExpressionInjectorStrategy();
+    StructIRDrefExpressionInjectorStrategy _structIRDrefExpressionInjectorStrategy = StructIRDrefExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
 };

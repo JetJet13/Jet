@@ -3,7 +3,10 @@
 //
 
 #include "dref-expression-ir-strategy.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-dref-expression-node.h"
 
 IRExpressionNode* DrefExpressionIRStrategy::generate(ASTDrefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    return irGenerator->generateFor(node->getExpressionNode(), scope, irContext, IR_COPY_ASSIGNMENT_OP);
+    auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperationType);
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    return new IRDrefExpressionNode(node, irExpressionNode, irType);
 }

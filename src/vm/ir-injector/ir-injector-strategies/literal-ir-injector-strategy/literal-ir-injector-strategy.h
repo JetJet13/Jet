@@ -32,6 +32,7 @@
 #include "strategies/literal-ir-logical-expression-injector-strategy/literal-ir-logical-expression-injector-strategy.h"
 #include "strategies/literal-ir-array-access-expression-injector-strategy/literal-ir-array-access-expression-injector-strategy.h"
 #include "strategies/literal-ir-tuple-access-expression-injector-strategy/literal-ir-tuple-access-expression-injector-strategy.h"
+#include "strategies/literal-ir-dref-expression-injector-strategy/literal-ir-dref-expression-injector-strategy.h"
 
 class LiteralIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -45,6 +46,7 @@ private:
     LiteralIRLogicalExpressionInjectorStrategy _logicalExpressionInjector = LiteralIRLogicalExpressionInjectorStrategy();
     LiteralIRArrayAccessExpressionInjectorStrategy _arrayAccessExpressionInjector = LiteralIRArrayAccessExpressionInjectorStrategy();
     LiteralIRTupleAccessExpressionInjectorStrategy _tupleAccessExpressionInjector = LiteralIRTupleAccessExpressionInjectorStrategy();
+    LiteralIRDrefExpressionInjectorStrategy _literalIRDrefExpressionInjectorStrategy = LiteralIRDrefExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
 };

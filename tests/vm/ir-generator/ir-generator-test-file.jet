@@ -178,6 +178,19 @@ proc AnotherTest() {
 const refIntById = ref hundred;
 const refStructProp = ref myStruct.f;
 const refTupleProp = ref myTuple.0;
+const refInt = ref 5;
+const refBinary = ref (10 + 50);
+const refLogical = ref (10 > hundred);
+const refString = ref "Hello World!";
+const refFloat = ref 2.34;
+const refBool = ref true;
+const refChar = ref 'x';
+const refStruct = ref { foo: 120, bar: true };
+const refTuple = ref tuple { 100, 200, true };
+const refArray = ref ['a', 'b', 'c'];
+const drefInt = dref refIntById;
+const drefStruct = dref refStruct;
+const drefArray = dref refArray;
 
 proc A(num: int) {
     const myValue = B(num);

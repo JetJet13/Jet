@@ -415,6 +415,16 @@ add_library(jet-vm
         ir-scope/ir-scope.h
         ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-ref-expression-injector-strategy/pointer-ir-ref-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-ref-expression-injector-strategy/pointer-ir-ref-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-identifier-expression-injector-strategy/pointer-ir-identifier-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-identifier-expression-injector-strategy/pointer-ir-identifier-expression-injector-strategy.h
+        ir-nodes/ir-expression-nodes/ir-dref-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-dref-expression-node.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-dref-expression-injector-strategy/literal-ir-dref-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-dref-expression-injector-strategy/literal-ir-dref-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-dref-expression-injector-strategy/struct-ir-dref-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-dref-expression-injector-strategy/struct-ir-dref-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-dref-expression-injector-strategy/array-ir-dref-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-dref-expression-injector-strategy/array-ir-dref-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

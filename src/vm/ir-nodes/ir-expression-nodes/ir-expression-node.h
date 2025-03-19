@@ -12,11 +12,11 @@
 
 class IRExpressionNode : public IRNode {
 protected:
-    bool _isGlobal;
+    bool _isGlobal = false;
 public:
     virtual void markAsGlobal();
     bool isGlobal();
-    TypeSource getInjectorTypeSource();
+    virtual TypeSource getInjectorTypeSource();
     virtual std::optional<IRInstructionNode*> getSourceAllocation();
     virtual llvm::Type* getType();
     virtual llvm::Type* getTypeAtIndex(unsigned long index);
