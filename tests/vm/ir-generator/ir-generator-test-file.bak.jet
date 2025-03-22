@@ -166,11 +166,60 @@ let secondCopyAnotherArray = copyAnotherArray;
 const myNestedOtherArray = [[10,20], [30,40]];
 let copyNestedOtherArray = myNestedOtherArray;
 
-proc test() {
+proc AnotherTest() {
     const localArray = [9, 8, 7];
     copyAnotherArray = localArray;
     const localCopyFromGlobalArray = anotherArray;
     const localCopyFromLocalArray = localArray;
-    const localNestedArray = [[15, 16], [30, 31], [45, 46]];
+    const localNestedArray = [ [15, 16], [30, 31], [45, 46] ];
     copyNestedOtherArray = localNestedArray;
+}
+
+const refIntById = ref hundred;
+const refStructProp = ref myStruct.f;
+const refTupleProp = ref myTuple.0;
+const refInt = ref 5;
+const refBinary = ref (10 + 50);
+const refLogical = ref (10 > hundred);
+const refString = ref "Hello World!";
+const refFloat = ref 2.34;
+const refBool = ref true;
+const refChar = ref 'x';
+const refStruct = ref { foo: 120, bar: true };
+const refTuple = ref tuple { 100, 200, true };
+const refArray = ref ['a', 'b', 'c'];
+const drefInt = dref refIntById;
+const drefStruct = dref refStruct;
+const drefArray = dref refArray;
+const copyDrefStruct = drefStruct;
+
+proc A(num: int) {
+    const myValue = B(num);
+}
+
+func B(num: int) ref<int> {
+    const xLambda = () {
+        const x = 10;
+        return ref x;
+    };
+
+    const yLambda = () {
+        const y = 20;
+        return ref 20;
+    };
+
+    const zLambda = () {
+        const z = 30;
+        return ref z;
+    };
+    if num > 5 {
+        return C(xLambda);
+    } else if num > 20 {
+        return C(yLambda);
+    }
+    return C(zLambda);
+}
+
+func C(l: func<> => ref<int>) ref<int> {
+    return l();
 }

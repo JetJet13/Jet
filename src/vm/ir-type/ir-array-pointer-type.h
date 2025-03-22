@@ -26,6 +26,7 @@ public:
     llvm::PointerType* getAllocType();
     IRType* getElementIRType();
     llvm::Type* getElementType();
+    unsigned long getNumLevels();
     uint64_t getSizeInBytes() override;
     bool isArrayPointerType() override;
 };

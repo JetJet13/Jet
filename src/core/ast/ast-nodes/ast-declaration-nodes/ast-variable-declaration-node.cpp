@@ -31,7 +31,11 @@ ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
 
 void ASTVariableDeclarationNode::markAsGlobal() {
     _isGlobal = true;
-    _initializer->markAsGlobal();
+}
+
+void ASTVariableDeclarationNode::markAsReferenced() {
+    _isReferenced = true;
+    _initializer->markAsReferenced();
 }
 
 bool ASTVariableDeclarationNode::isExportable() {
@@ -40,6 +44,10 @@ bool ASTVariableDeclarationNode::isExportable() {
 
 bool ASTVariableDeclarationNode::isGlobal() {
     return _isGlobal;
+}
+
+bool ASTVariableDeclarationNode::isReferenced() {
+    return _isReferenced;
 }
 
 void ASTVariableDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {

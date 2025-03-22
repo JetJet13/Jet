@@ -33,9 +33,9 @@ ASTArrayNode* ASTArrayNode::addElement(ASTExpressionNode* element) {
     return this;
 }
 
-void ASTArrayNode::markElementsAsGlobal() {
+void ASTArrayNode::markElementsAsReferenced() {
     for (int i = 0; i < _elements->size(); ++i) {
-        _elements->at(i)->markAsGlobal();
+        _elements->at(i)->markAsReferenced();
     }
 }
 

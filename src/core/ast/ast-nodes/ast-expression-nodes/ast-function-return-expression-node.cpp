@@ -20,9 +20,9 @@ ASTExpressionNode* ASTFunctionReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
-void ASTFunctionReturnExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _returnExpression->markAsGlobal();
+void ASTFunctionReturnExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _returnExpression->markAsReferenced();
 }
 
 Position* ASTFunctionReturnExpressionNode::getStartPosition() {

@@ -7,6 +7,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../ir-type/ir-array-type.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
     irBlock->getBuilder()->get()->Insert(arrayPointerAllocation->getValue());
@@ -113,7 +114,11 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayFromIdentifierExpressio
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType()->getSourceType();
     auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, irExpression->getLoadedNumElements(), irModule, irOperationType);
     irExpression->getAggregatePointerAllocation()->setParentAllocation(destinationAllocation);
-    if (irExpression->getAggregateSourceAllocation()->getChildAllocations()->empty()) {
+    if (!irExpression->getSourceAllocation().value()->getParentAllocation()) {
+        // todo: load the parent allocation from the source allocation (which is array pointer type)
+        // check how many levels the source allocation has
+        // deep copy each level
+    } else if (irExpression->getAggregateSourceAllocation()->getChildAllocations()->empty()) {
         irBlock->getBuilder()->get()->CreateCall(irModule->getCopyStringFunction(), { destinationAllocation->getValue(), irExpression->getSourceAllocation().value()->getValue() });
         return ArrayIRInjectorHelper::injectArrayPointer(
                 irBlock,

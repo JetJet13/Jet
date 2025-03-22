@@ -24,7 +24,7 @@ public:
     ArrayTypeSignature* getTypeSignature() override;
     void setTypeSignature(ArrayTypeSignature* arrayTypeSignature);
     unsigned long size();
-    void markAsGlobal() override;
+    void markAsReferenced() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

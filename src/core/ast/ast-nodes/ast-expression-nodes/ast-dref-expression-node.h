@@ -16,7 +16,7 @@ public:
     ASTDrefExpressionNode(ASTDrefNode* drefNode, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
     ASTDrefNode* getDrefNode();
-    void markAsGlobal() override;
+    void markAsReferenced() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

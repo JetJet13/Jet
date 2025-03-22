@@ -792,8 +792,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h
-        pre-processor/semantic-analyzer/ast-traverser/ast-traverser.cpp
-        pre-processor/semantic-analyzer/ast-traverser/ast-traverser.h
+        ast-traverser/ast-traverser.cpp
+        ast-traverser/ast-traverser.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.cpp
@@ -1140,6 +1140,12 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.h
+        post-processor/post-processor.cpp
+        post-processor/post-processor.h
+        post-processor/ref-analyzer/ref-analyzer.cpp
+        post-processor/ref-analyzer/ref-analyzer.h
+        ast-lookup-table/ast-lookup-table.cpp
+        ast-lookup-table/ast-lookup-table.h
 
 )
 

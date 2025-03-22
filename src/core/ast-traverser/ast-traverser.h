@@ -7,7 +7,7 @@
 
 #include <stack>
 #include <optional>
-#include "../../../ast/ast-nodes/ast-node.h"
+#include "../ast/ast-nodes/ast-node.h"
 
 class ASTTraverser {
 private:

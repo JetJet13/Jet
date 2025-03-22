@@ -27,6 +27,10 @@ IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPoin
     return new IRInstructionNode(irValue, irType, childAllocations);
 }
 
+IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType, IRInstructionNode* sourceInstructionNode) {
+    return new IRInstructionNode(irValue, irType, sourceInstructionNode);
+}
+
 IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInstructionNode) {
     return new IRInstructionNode(
             new llvm::AllocaInst(

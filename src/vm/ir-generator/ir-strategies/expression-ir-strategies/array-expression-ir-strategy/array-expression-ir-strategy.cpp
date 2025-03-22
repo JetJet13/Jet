@@ -22,16 +22,16 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), elementValues.size()), arrayElementIrType);
     auto arrayAllocation = new IRInstructionNode(
-            this->generateArrayAllocation(arrayType, arrayElementIrType, irGenerator, irContext, irOperationType),
+            this->generateArrayAllocation(node, arrayType, arrayElementIrType, irGenerator, irContext, irOperationType),
             irGenerator->generateIrPointerType(arrayType),
             elementValueSourceAllocations
     );
-    auto arrayPointerAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
+    auto arrayPointerAllocation = this->generateArrayPointerAllocation(node, arrayType, arrayAllocation, irGenerator, irContext, irOperationType);
     return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerAllocation, elementValues, irType);
 }
 
-llvm::Value* ArrayExpressionIRStrategy::generateArrayAllocation(IRArrayType* irArrayType, IRType* arrayElementIrType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
-    if (irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+llvm::Value* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayExpressionNode* node, IRArrayType* irArrayType, IRType* arrayElementIrType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
         return llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
@@ -45,4 +45,21 @@ llvm::Value* ArrayExpressionIRStrategy::generateArrayAllocation(IRArrayType* irA
             nullptr,
             DataAlignmentGenerator::generate(arrayElementIrType)
     );
+}
+
+IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(ASTArrayExpressionNode* node, IRArrayType* irArrayType, IRInstructionNode* arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+        return IRInstructionNodeFactory::create(
+                llvm::CallInst::Create(
+                    irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+                    irContext->getIRModule()->getMallocFunction(),
+                    { irGenerator->generateIntConstant(irArrayType->getSizeInBytes()) },
+                    ""
+                ),
+                irGenerator->generateIrPointerType(irArrayType),
+                arrayAllocation
+        );
+    }
+    return IRInstructionNodeFactory::create(
+            irGenerator->generateIrPointerType(irArrayType), arrayAllocation);
 }

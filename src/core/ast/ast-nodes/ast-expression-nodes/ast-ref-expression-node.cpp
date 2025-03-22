@@ -22,9 +22,9 @@ ASTRefNode* ASTRefExpressionNode::getRefNode() {
     return _refNode;
 }
 
-void ASTRefExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _expression->markAsGlobal();
+void ASTRefExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _expression->markAsReferenced();
 }
 
 PointerTypeSignature* ASTRefExpressionNode::getTypeSignature() {

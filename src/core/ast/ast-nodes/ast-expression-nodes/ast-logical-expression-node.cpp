@@ -27,10 +27,10 @@ ASTLogicalOperatorNode* ASTLogicalExpressionNode::getLogicalOperator() {
     return _logicalOperator;
 }
 
-void ASTLogicalExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _leftNode->markAsGlobal();
-    _rightNode->markAsGlobal();
+void ASTLogicalExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _leftNode->markAsReferenced();
+    _rightNode->markAsReferenced();
 }
 
 Position* ASTLogicalExpressionNode::getStartPosition() {

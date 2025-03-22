@@ -25,9 +25,9 @@ ASTLambdaReturnExpressionNode* ASTLambdaWithFatArrowExpressionNode::getReturnExp
     return _returnExpression;
 }
 
-void ASTLambdaWithFatArrowExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _returnExpression->markAsGlobal();
+void ASTLambdaWithFatArrowExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _returnExpression->markAsReferenced();
 }
 
 std::optional<ASTTypeNode*> ASTLambdaWithFatArrowExpressionNode::getReturnType() {

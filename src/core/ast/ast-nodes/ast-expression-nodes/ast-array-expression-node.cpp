@@ -36,9 +36,9 @@ unsigned long ASTArrayExpressionNode::size() {
     return _array->getElements()->size();
 }
 
-void ASTArrayExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _array->markElementsAsGlobal();
+void ASTArrayExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _array->markElementsAsReferenced();
 }
 
 Position* ASTArrayExpressionNode::getStartPosition() {

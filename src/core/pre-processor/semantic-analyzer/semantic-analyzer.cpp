@@ -4,7 +4,6 @@
 
 #include "semantic-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
-#include "ast-traverser/ast-traverser.h"
 
 SemanticAnalyzer::SemanticAnalyzer() {
     _typeSignatureGenerator = new TypeSignatureGenerator(

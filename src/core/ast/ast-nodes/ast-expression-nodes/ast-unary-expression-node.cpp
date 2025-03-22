@@ -18,9 +18,9 @@ ASTExpressionNode* ASTUnaryExpressionNode::getExpressionNode() {
     return _expression;
 }
 
-void ASTUnaryExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _expression->markAsGlobal();
+void ASTUnaryExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _expression->markAsReferenced();
 }
 
 ASTUnaryOperatorNode* ASTUnaryExpressionNode::getUnaryOperatorNode() {

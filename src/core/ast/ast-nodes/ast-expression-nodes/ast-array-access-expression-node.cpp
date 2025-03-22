@@ -21,10 +21,10 @@ ASTArrayAccessNode* ASTArrayAccessExpressionNode::getIndex() {
     return _arrayAccess;
 }
 
-void ASTArrayAccessExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _source->markAsGlobal();
-    _arrayAccess->getIndex()->markAsGlobal();
+void ASTArrayAccessExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _source->markAsReferenced();
+    _arrayAccess->getIndex()->markAsReferenced();
 }
 
 Position* ASTArrayAccessExpressionNode::getStartPosition() {

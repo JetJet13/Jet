@@ -15,6 +15,7 @@ public:
     static IRInstructionNode* create(llvm::GlobalVariable* globalVariable, IRPointerType* irType, std::optional<IRInstructionNode*> sourceAllocation);
     static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType);
     static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
+    static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, IRInstructionNode* sourceInstructionNode);
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode);
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode, IRInstructionNode* sourceInstructionNode);
     static IRInstructionNode* create(IRPointerType* irType);

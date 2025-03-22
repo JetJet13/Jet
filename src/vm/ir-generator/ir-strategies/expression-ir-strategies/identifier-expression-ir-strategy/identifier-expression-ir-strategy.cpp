@@ -35,23 +35,20 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
     auto intIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto intPointer = llvm::GetElementPtrInst::Create(arrayPointerType->getType(), allocation->getValue(), { zeroIndex, intIndex });
     auto loadedNumElements = new llvm::LoadInst(arrayPointerType->getNumElementsType(), intPointer, "", false, DataAlignmentGenerator::generate(intIndex->getType()));
-    auto mallocSizeAllocation = IRInstructionNodeFactory::create(
-            llvm::CallInst::Create(
-                    irContext->getIRModule()->getMallocSizeFunction()->getFunctionType(),
-                    irContext->getIRModule()->getMallocSizeFunction(),
-                    {
-                        loadedNumElements,
-                        irGenerator->generateIntConstant(arrayPointerType->getElementIRType()->getSizeInBytes())
-                    },
-                    ""
-            ),
-            IRPointerType::create(irGenerator->generateMallocSizeIRType())
+    auto mallocSize = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocSizeFunction()->getFunctionType(),
+            irContext->getIRModule()->getMallocSizeFunction(),
+            {
+                    loadedNumElements,
+                    irGenerator->generateIntConstant(arrayPointerType->getElementIRType()->getSizeInBytes())
+            },
+            ""
     );
     auto mallocAllocation = IRInstructionNodeFactory::create(
             llvm::CallInst::Create(
                     irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                     irContext->getIRModule()->getMallocFunction(),
-                    { mallocSizeAllocation->getValue() },
+                    { mallocSize },
                     ""
             ),
             IRPointerType::create(irGenerator->generateMallocSizeIRType())

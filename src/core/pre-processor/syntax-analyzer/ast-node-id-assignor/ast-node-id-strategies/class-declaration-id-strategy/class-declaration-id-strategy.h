@@ -11,7 +11,6 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
-#include "../../../../semantic-analyzer/ast-traverser/ast-traverser.h"
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.h"
 
 class ClassDeclarationIdStrategy : public ASTNodeIdStrategy {

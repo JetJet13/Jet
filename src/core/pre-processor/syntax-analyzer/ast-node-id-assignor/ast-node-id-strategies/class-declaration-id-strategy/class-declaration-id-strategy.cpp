@@ -6,6 +6,7 @@
 #include "../../../../../../shared/utils/to-string/to-string.h"
 #include "../../../../../ast/ast-nodes/ast-type-nodes/ast-custom-type-node.h"
 #include "../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../ast-traverser/ast-traverser.h"
 
 void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     auto classDeclarationNode = (ASTClassDeclarationNode*)node;

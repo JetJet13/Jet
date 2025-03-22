@@ -41,17 +41,11 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
 
 void VariableAssignmentIRInjectorStrategy::freeOldMallocs(llvm::LoadInst* oldValue, IRInstructionNode* allocation, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     if (allocation->getIRType()->getSourceType()->isArrayPointerType()) {
-        auto levels = 0;
-        auto irType = allocation->getIRType()->getSourceType();
-        while (irType->isArrayPointerType()) {
-            levels++;
-            auto arrayPointerType = (IRArrayPointerType*)irType;
-            irType = arrayPointerType->getElementIRType();
-        }
+        auto arrayPointerType = (IRArrayPointerType*)allocation->getIRType()->getSourceType();
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getMallocFreeArrayFunction()->getFunctionType(),
                 irModule->getMallocFreeArrayFunction(),
-                { oldValue }
+                { irBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumLevels()), oldValue }
         );
     }
 }

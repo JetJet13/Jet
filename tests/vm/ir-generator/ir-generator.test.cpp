@@ -17,6 +17,7 @@
 #include "../../../src/vm/ir-injector/ir-injector.h"
 #include "../../../src/vm/ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
 #include "../../../src/core/pre-processor/pre-processor.h"
+#include "../../../src/core/post-processor/post-processor.h"
 
 TEST_CASE( "should create expected vm code" ) {
     std::string filePath = "./ir-generator-test-file.jet";
@@ -28,11 +29,13 @@ TEST_CASE( "should create expected vm code" ) {
     auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
     auto syntaxAnalyzer = new SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
     auto semanticAnalyzer = new SemanticAnalyzer();
-    auto preprocessor = new PreProcessor(syntaxAnalyzer, semanticAnalyzer);
-    auto jetFileResult = preprocessor->process(filePath);
+    auto preProcessor = new PreProcessor(syntaxAnalyzer, semanticAnalyzer);
+    auto jetFileResult = preProcessor->process(filePath);
     jetFileResult->getScope()->dump();
     jetFileResult->getTypeCheckerResult()->printErrors();
     REQUIRE(jetFileResult->getTypeCheckerResult()->ok());
+    auto postProcessor = PostProcessor();
+    postProcessor.process(jetFileResult);
     auto irInjector = new IRInjector();
     auto irGenerator = IRGenerator(irInjector);
     auto irModule = irGenerator.generateModule(filePath);

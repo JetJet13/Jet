@@ -24,7 +24,7 @@ public:
     ASTFunctionParameterListNode* getParameters();
     ASTLambdaReturnExpressionNode* getReturnExpression();
     std::optional<ASTTypeNode*> getReturnType();
-    void markAsGlobal() override;
+    void markAsReferenced() override;
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
     LambdaExpressionTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

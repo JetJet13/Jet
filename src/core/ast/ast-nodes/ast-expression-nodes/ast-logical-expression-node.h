@@ -18,7 +18,7 @@ public:
     ASTExpressionNode* getLeftNode();
     ASTExpressionNode* getRightNode();
     ASTLogicalOperatorNode* getLogicalOperator();
-    void markAsGlobal() override;
+    void markAsReferenced() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

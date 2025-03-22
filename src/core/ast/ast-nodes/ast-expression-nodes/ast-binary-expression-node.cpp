@@ -28,10 +28,10 @@ ASTBinaryOperatorNode* ASTBinaryExpressionNode::getBinaryOperator() {
     return _binaryOperator;
 }
 
-void ASTBinaryExpressionNode::markAsGlobal() {
-    _isGlobal = true;
-    _leftNode->markAsGlobal();
-    _rightNode->markAsGlobal();
+void ASTBinaryExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _leftNode->markAsReferenced();
+    _rightNode->markAsReferenced();
 }
 
 Position* ASTBinaryExpressionNode::getStartPosition() {

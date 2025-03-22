@@ -21,7 +21,7 @@ public:
     explicit ASTArrayNode(ASTLeftBracketNode* leftBracket, ASTRightBracketNode* rightBracket);
     explicit ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpressionNode*> elements, ASTRightBracketNode* rightBracket);
     ASTArrayNode* addElement(ASTExpressionNode* element);
-    void markElementsAsGlobal();
+    void markElementsAsReferenced();
     ASTLeftBracketNode* getLeftBracket();
     ASTRightBracketNode* getRightBracket();
     std::optional<ASTExpressionNode*> getFirstElement();

@@ -32,6 +32,9 @@ std::optional<IRInstructionNode*> IRAggregateIdentifierExpressionNode::getSource
 }
 
 IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateSourceAllocation() {
+    if (!_sourceAllocation->getParentAllocation()) {
+        throw std::logic_error("source allocation has no parent allocation");
+    }
     if (_sourceAllocation->getParentAllocation().value()->getParentAllocation()) {
         return _sourceAllocation->getParentAllocation().value()->getParentAllocation().value();
     }

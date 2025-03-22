@@ -13,6 +13,7 @@
 #include "../vm/ir-generator/ir-generator.h"
 #include "../core/pre-processor/pre-processor.h"
 #include "../vm/vm.h"
+#include "../core/post-processor/post-processor.h"
 
 
 int main (int argc, const char* argv[]) {
@@ -27,12 +28,14 @@ int main (int argc, const char* argv[]) {
         auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
         auto syntaxAnalyzer = new SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
         auto semanticAnalyzer = new SemanticAnalyzer();
-        auto preprocessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
-        auto jetFile = preprocessor.process(filePath);
+        auto preProcessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
+        auto jetFile = preProcessor.process(filePath);
         if (!jetFile->getTypeCheckerResult()->ok()) {
             jetFile->getTypeCheckerResult()->printErrors();
             throw std::logic_error("type check errors found");
         }
+        auto postProcessor = PostProcessor();
+        postProcessor.process(jetFile);
         auto irInjector = new IRInjector();
         auto irGenerator = new IRGenerator(irInjector);
         auto vm = VM(irGenerator, irInjector);

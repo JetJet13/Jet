@@ -48,6 +48,17 @@ llvm::Type* IRArrayPointerType::getElementType() {
     return _arrayElementType->getType();
 }
 
+unsigned long IRArrayPointerType::getNumLevels() {
+    auto levels = 0;
+    auto irType = _arrayElementType;
+    while (irType->isArrayPointerType()) {
+        levels++;
+        auto arrayPointerType = (IRArrayPointerType*)irType;
+        irType = arrayPointerType->getElementIRType();
+    }
+    return levels;
+}
+
 uint64_t IRArrayPointerType::getSizeInBytes() {
     return 6;
 }
