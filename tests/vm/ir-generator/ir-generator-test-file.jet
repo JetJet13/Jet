@@ -1,3 +1,4 @@
+const refString = ref "hello world";
 const refStruct = ref { foo: 120, bar: true };
 const refArray = ref ['a', 'b', 'c'];
 const drefStruct = dref refStruct;
@@ -5,9 +6,14 @@ const drefArray = dref refArray;
 
 proc testRef() {
     const x = 5;
-    const y = [1, 2, 5];
     const refX = ref x;
+
+    const y = [1, 2, 5];
     const refY = ref y;
+
     const z = [ [7], [8], [9] ];
     const refZ = ref z;
+
+    const b = "John Smith";
+    const refB = ref b;
 }

@@ -44,14 +44,16 @@ IRAggregateIdentifierExpressionNode* IdentifierExpressionIRStrategy::generateFor
             },
             ""
     );
+    auto malloc = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+            irContext->getIRModule()->getMallocFunction(),
+            { mallocSize },
+            ""
+    );
     auto mallocAllocation = IRInstructionNodeFactory::create(
-            llvm::CallInst::Create(
-                    irContext->getIRModule()->getMallocFunction()->getFunctionType(),
-                    irContext->getIRModule()->getMallocFunction(),
-                    { mallocSize },
-                    ""
-            ),
-            IRPointerType::create(irGenerator->generateMallocSizeIRType())
+            new llvm::BitCastInst(malloc, arrayPointerType->getElementType()),
+            irGenerator->generateIrPointerType(arrayPointerType->getElementIRType()),
+            { malloc, mallocSize }
     );
     auto pointerAllocation = IRInstructionNodeFactory::create(allocation, mallocAllocation);
     return new IRAggregateIdentifierExpressionNode(node, mallocAllocation, pointerAllocation, allocation, intPointer, loadedNumElements, arrayPointerType);

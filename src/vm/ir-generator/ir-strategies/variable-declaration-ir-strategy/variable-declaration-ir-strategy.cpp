@@ -50,13 +50,17 @@ IROperationType VariableDeclarationIRStrategy::determineOperationType(ASTVariabl
 
 IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRExpressionNode* irExpression, IRContext* irContext) {
     if (node->isReferenced() && !node->isGlobal()) {
-        return IRInstructionNodeFactory::create(
-            llvm::CallInst::Create(
+        auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
                 { irGenerator->generateIntConstant(irType->getSizeInBytes()) },
                 ""
-        ), irGenerator->generateIrPointerType(irType));
+        );
+        return IRInstructionNodeFactory::create(
+            new llvm::BitCastInst(malloc, irType->getType()),
+            irGenerator->generateIrPointerType(irType),
+            { malloc }
+        );
     }
     return IRInstructionNodeFactory::create(
             irGenerator->generateIrPointerType(irType), node->getId(), irExpression->getSourceAllocation()

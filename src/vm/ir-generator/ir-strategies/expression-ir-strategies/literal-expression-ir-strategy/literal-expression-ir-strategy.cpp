@@ -10,29 +10,34 @@ IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (irLiteralNode->is(IR_STRING_LITERAL_NODE)) {
         auto stringLiteral = (IRStringLiteralNode*)irLiteralNode;
-        auto arrayAllocation = new IRInstructionNode(
-                this->generateArrayAllocation(stringLiteral, irGenerator, irContext, irOperationType),
-                irGenerator->generateIrPointerType(irLiteralNode->getIRType())
-        );
+        auto arrayAllocation = this->generateArrayAllocation(stringLiteral, irGenerator, irContext, irOperationType);
         auto arrayPointerAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
         return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, (IRArrayPointerType*)irType, arrayAllocation, arrayPointerAllocation);
     }
     return new IRLiteralExpressionNode(node, irLiteralNode, irType);
 }
 
-llvm::Value* LiteralExpressionIRStrategy::generateArrayAllocation(IRStringLiteralNode* irStringLiteralNode, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+IRInstructionNode* LiteralExpressionIRStrategy::generateArrayAllocation(IRStringLiteralNode* irStringLiteralNode, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
     if (irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
-        return llvm::CallInst::Create(
+        auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
                 { irGenerator->generateIntConstant(irStringLiteralNode->getIRType()->getSizeInBytes()) },
                 ""
         );
+        return IRInstructionNodeFactory::create(
+                new llvm::BitCastInst(malloc, irStringLiteralNode->getIRType()->getType()),
+                irGenerator->generateIrPointerType(irStringLiteralNode->getIRType()),
+                { malloc }
+        );
     }
-    return new llvm::AllocaInst(
-            irStringLiteralNode->getType(),
-            AddressSpaceGenerator::generate(irStringLiteralNode->getIRType()->getElementType()),
-            nullptr,
-            DataAlignmentGenerator::generate(irStringLiteralNode->getIRType()->getElementType())
+    return IRInstructionNodeFactory::create(
+            new llvm::AllocaInst(
+                    irStringLiteralNode->getType(),
+                    AddressSpaceGenerator::generate(irStringLiteralNode->getIRType()->getElementType()),
+                    nullptr,
+                    DataAlignmentGenerator::generate(irStringLiteralNode->getIRType()->getElementType())
+            ),
+            irGenerator->generateIrPointerType(irStringLiteralNode->getIRType())
     );
 }
