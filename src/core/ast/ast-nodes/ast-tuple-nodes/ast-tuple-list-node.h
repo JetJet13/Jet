@@ -20,6 +20,7 @@ public:
     ASTTupleListNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd);
     ASTTupleListNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, ASTTupleListEndNode* tupleListEnd);
     std::vector<ASTTupleItemNode*> getItems();
+    void markAsReferenced();
     unsigned long numItems();
     ASTTupleListNode* addItem(ASTTupleItemNode* item);
     Position* getStartPosition() override;

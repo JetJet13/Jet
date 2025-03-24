@@ -25,6 +25,12 @@ std::vector<ASTTupleItemNode*> ASTTupleListNode::getItems() {
     return _items;
 }
 
+void ASTTupleListNode::markAsReferenced() {
+    for (auto item : _items) {
+        item->getItem()->markAsReferenced();
+    }
+}
+
 unsigned long ASTTupleListNode::numItems() {
     return _items.size();
 }

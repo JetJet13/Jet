@@ -21,6 +21,7 @@ private:
 public:
     ASTTupleExpressionNode(ASTTupleNode* tupleKeyword, ASTTupleListNode* tupleList);
     ASTTupleListNode* getTupleList();
+    void markAsReferenced() override;
     TupleTypeSignature* getTypeSignature() override;
     void setTypeSignature(TupleTypeSignature* tupleTypeSignature);
     Position* getStartPosition() override;

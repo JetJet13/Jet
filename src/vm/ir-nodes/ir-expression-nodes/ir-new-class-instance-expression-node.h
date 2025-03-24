@@ -20,9 +20,11 @@ private:
     IRFunctionType* _irConstructorType;
     std::vector<IRExpressionNode*> _arguments;
     IRClassType* _type;
+    IRInstructionNode* _classInstanceAllocation;
 public:
-    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassType* type);
+    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassType* type, IRInstructionNode* classInstanceAllocation);
     void markAsGlobal() override;
+    IRInstructionNode* getClassInstanceAllocation();
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Value* getValue() override;
     IRFunctionType* getConstructorIRType();

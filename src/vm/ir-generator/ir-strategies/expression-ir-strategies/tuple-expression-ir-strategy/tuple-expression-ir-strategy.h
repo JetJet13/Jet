@@ -11,6 +11,8 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-tuple-expression-node.h"
 
 class TupleExpressionIRStrategy {
+private:
+    IRInstructionNode* generateTupleAllocation(ASTTupleExpressionNode* node, IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
 public:
     IRTupleExpressionNode* generate(ASTTupleExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };

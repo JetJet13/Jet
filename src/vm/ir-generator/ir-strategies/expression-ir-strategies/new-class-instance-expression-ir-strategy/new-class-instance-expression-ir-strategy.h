@@ -11,6 +11,8 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.h"
 
 class NewClassInstanceExpressionIRStrategy {
+private:
+    IRInstructionNode* generateClassInstanceAllocation(ASTNewClassInstanceExpressionNode* node, IRClassType* irClassType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
 public:
     IRNewClassInstanceExpressionNode* generate(ASTNewClassInstanceExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };

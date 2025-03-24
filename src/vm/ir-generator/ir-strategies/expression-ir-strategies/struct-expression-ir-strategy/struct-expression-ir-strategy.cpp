@@ -19,6 +19,28 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
             );
         }
     }
-    auto structAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), structValueSourceAllocationMap);
-    return new IRStructExpressionNode(node, structAllocation, irType, structValues);
+    return new IRStructExpressionNode(
+            node,
+            this->generateStructAllocation(node, irType, structValueSourceAllocationMap, irGenerator, irContext, irOperationType),
+            irType,
+            structValues
+    );
+}
+
+IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(ASTStructExpressionNode* node, IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+        auto malloc = llvm::CallInst::Create(
+                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+                irContext->getIRModule()->getMallocFunction(),
+                { irGenerator->generateIntConstant(irType->getSizeInBytes()) },
+                ""
+        );
+        return IRInstructionNodeFactory::create(
+                new llvm::BitCastInst(malloc, irType->getType()),
+                irGenerator->generateIrPointerType(irType),
+                { malloc },
+                std::move(structValueSourceAllocationMap)
+        );
+    }
+    return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), std::move(structValueSourceAllocationMap));
 }

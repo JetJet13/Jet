@@ -4,6 +4,7 @@
 
 #include "new-class-instance-ir-injector-strategy.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
@@ -13,7 +14,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpr
 }
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irNewClassInstanceExpressionNode, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto classInstanceAllocation = irBlock->getBuilder()->get()->CreateAlloca(irNewClassInstanceExpressionNode->getIRType()->getClassProperties()->getType());
+    auto classInstanceAllocation = InstructionIRInjectorHelper::inject(irNewClassInstanceExpressionNode->getClassInstanceAllocation(), irBlock);
     auto preConstructorFunction = irModule->getModule()->getFunction(irNewClassInstanceExpressionNode->getIRType()->getPreConstructorName());
     irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
 
@@ -28,5 +29,8 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
             arguments
     );
 
-    return irBlock->getBuilder()->get()->CreateLoad(classInstanceAllocation->getAllocatedType(), classInstanceAllocation);
+    return irBlock->getBuilder()->get()->CreateLoad(
+        irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getAllocatedType(),
+        classInstanceAllocation
+    );
 }

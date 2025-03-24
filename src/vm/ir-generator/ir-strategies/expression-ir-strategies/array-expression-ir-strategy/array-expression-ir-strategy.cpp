@@ -58,12 +58,12 @@ IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(AST
                 ""
         );
         return IRInstructionNodeFactory::create(
-                new llvm::BitCastInst(malloc, irArrayType->getType()),
-                irGenerator->generateIrPointerType(irArrayType),
+                new llvm::BitCastInst(malloc, irArrayPointerType->getType()),
+                irGenerator->generateIrPointerType(irArrayPointerType),
                 { malloc },
                 arrayAllocation
         );
     }
     return IRInstructionNodeFactory::create(
-            irGenerator->generateIrPointerType(irArrayType), arrayAllocation);
+            irGenerator->generateIrPointerType(irArrayPointerType), arrayAllocation);
 }

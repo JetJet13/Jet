@@ -17,6 +17,11 @@ ASTTupleListNode* ASTTupleExpressionNode::getTupleList() {
     return _tupleList;
 }
 
+void ASTTupleExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    _tupleList->markAsReferenced();
+}
+
 TupleTypeSignature* ASTTupleExpressionNode::getTypeSignature() {
     return _typeSignature;
 }

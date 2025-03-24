@@ -13,12 +13,27 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
         tupleValues.push_back(irNode);
     }
 
-    auto tupleAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-
     return new IRTupleExpressionNode(
             node,
-            tupleAllocation,
+            this->generateTupleAllocation(node, irType, irGenerator, irContext, irOperationType),
             irType,
             tupleValues
     );
+}
+
+IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(ASTTupleExpressionNode* node, IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+        auto malloc = llvm::CallInst::Create(
+                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+                irContext->getIRModule()->getMallocFunction(),
+                { irGenerator->generateIntConstant(irType->getSizeInBytes()) },
+                ""
+        );
+        return IRInstructionNodeFactory::create(
+                new llvm::BitCastInst(malloc, irType->getType()),
+                irGenerator->generateIrPointerType(irType),
+                { malloc }
+        );
+    }
+    return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

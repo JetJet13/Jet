@@ -43,6 +43,13 @@ StructTypeSignature* ASTStructExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
+void ASTStructExpressionNode::markAsReferenced() {
+    _isReferenced = true;
+    for (auto keyValuePair : _keyValuePairs) {
+        keyValuePair->getValue()->markAsReferenced();
+    }
+}
+
 void ASTStructExpressionNode::setTypeSignature(StructTypeSignature* structTypeSignature) {
     _typeSignature = structTypeSignature;
 }

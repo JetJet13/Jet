@@ -26,6 +26,7 @@ public:
     ASTStructKeyValueNode* getKeyValuePairAt(unsigned long index);
     ASTStructExpressionNode* addKeyValuePair(ASTStructKeyValueNode* keyValuePair);
     StructTypeSignature* getTypeSignature() override;
+    void markAsReferenced() override;
     void setTypeSignature(StructTypeSignature* structTypeSignature);
     unsigned long size();
     Position* getStartPosition() override;

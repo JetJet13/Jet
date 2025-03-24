@@ -11,6 +11,8 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-struct-expression-node.h"
 
 class StructExpressionIRStrategy {
+private:
+    IRInstructionNode* generateStructAllocation(ASTStructExpressionNode* node, IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
 public:
     IRStructExpressionNode* generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };
