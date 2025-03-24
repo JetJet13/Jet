@@ -3,9 +3,10 @@
 //
 
 #include "module-ir-injector-strategy.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ModuleIRInjectorStrategy::inject(IRModuleDeclarationNode* irModuleDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
-    irBlock->getBuilder()->get()->Insert(irModuleDeclaration->getAllocation()->getValue());
+    InstructionIRInjectorHelper::inject(irModuleDeclaration->getAllocation(), irBlock);
     auto numElements = irModuleDeclaration->getExports()->size();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     for (int i = 0; i < numElements; ++i) {

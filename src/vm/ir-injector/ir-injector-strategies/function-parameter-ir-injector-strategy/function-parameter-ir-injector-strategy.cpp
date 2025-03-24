@@ -3,8 +3,9 @@
 //
 
 #include "function-parameter-ir-injector-strategy.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void FunctionParameterIRInjectorStrategy::inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule) {
-    irBlock->getBuilder()->get()->Insert(irFunctionParameterDeclaration->getAllocation()->getValue());
+    InstructionIRInjectorHelper::inject(irFunctionParameterDeclaration->getAllocation(), irBlock);
     irBlock->getBuilder()->get()->CreateStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue());
 }

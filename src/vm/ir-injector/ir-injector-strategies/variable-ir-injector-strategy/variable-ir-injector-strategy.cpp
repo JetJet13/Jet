@@ -3,9 +3,10 @@
 //
 
 #include "variable-ir-injector-strategy.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    irBlock->getBuilder()->get()->Insert(irVariableDeclaration->getValue(), irVariableDeclaration->getVariableName());
+    InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
     auto operation = this->determineOperationType(irVariableDeclaration);
     auto irExpressionValue = irInjector
             ->inject(

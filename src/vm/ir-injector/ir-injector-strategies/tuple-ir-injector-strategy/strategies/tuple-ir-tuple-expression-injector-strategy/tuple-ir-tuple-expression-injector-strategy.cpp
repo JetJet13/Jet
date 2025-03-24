@@ -3,9 +3,10 @@
 //
 
 #include "tuple-ir-tuple-expression-injector-strategy.h"
+#include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(IRTupleExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto tupleExpressionAllocation = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+    auto tupleExpressionAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto numElements = irExpression->size();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     for (int i = 0; i < numElements; ++i) {

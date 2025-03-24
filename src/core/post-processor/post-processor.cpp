@@ -16,7 +16,7 @@ void PostProcessor::process(JetFile* file) {
             scope->insertGlobalVariable(node->getId(), globalVariable);
             _refAnalyzer.analyze(globalVariable, scope);
         } else if (node->isOneOf({ AST_FUNCTION_DECLARATION_NODE, AST_PROCEDURE_DECLARATION_NODE })) {
-            auto childScope = new ASTLookupTable(scope);
+            auto childScope = new ASTLookupTable();
             childScope->inherit(scope);
             scope->insertChildScope(node->getId(), childScope);
             _refAnalyzer.analyze((ASTDeclarationNode*)node, childScope);

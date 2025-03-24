@@ -13,6 +13,7 @@
 class IRInstructionNode : public IRNode {
 private:
     llvm::Value* _irValue;
+    std::vector<llvm::Value*> _ancestorValues;
     std::optional<IRInstructionNode*> _parentAllocation;
     std::vector<IRInstructionNode*> _childAllocations;
     std::unordered_map<std::string, IRInstructionNode*> _childAllocationMap;
@@ -21,13 +22,16 @@ private:
 public:
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation);
+    IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::optional<IRInstructionNode*> parentAllocation);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
+    IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType);
     bool isGlobal();
     void markAsGlobal();
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
+    std::vector<llvm::Value*>* getAncestorValues();
     std::optional<IRInstructionNode*> getParentAllocation();
     std::vector<IRInstructionNode*>* getChildAllocations();
     bool hasChildAllocationMap();

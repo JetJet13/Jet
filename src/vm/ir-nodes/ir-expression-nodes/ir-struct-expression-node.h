@@ -26,6 +26,7 @@ public:
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     unsigned long size();
     llvm::Value* getValue() override;
+    IRInstructionNode* getIRValue();
     std::vector<IRExpressionNode*>* getValues();
     IRNodeType getNodeType() override;
     std::string toString() override;

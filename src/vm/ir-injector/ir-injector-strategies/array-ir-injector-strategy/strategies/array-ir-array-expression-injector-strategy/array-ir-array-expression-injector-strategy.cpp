@@ -4,9 +4,10 @@
 
 #include "array-ir-array-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(IRArrayExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    irBlock->getBuilder()->get()->Insert(irExpression->getSourceAggregateAllocation()->getValue());
+    InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     auto numElements = irExpression->size();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     for (int i = 0; i < numElements; ++i) {

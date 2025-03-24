@@ -26,6 +26,10 @@ unsigned long IRTupleExpressionNode::size() {
     return _irValues.size();
 }
 
+IRInstructionNode* IRTupleExpressionNode::getIRValue() {
+    return _irValue;
+}
+
 std::vector<IRExpressionNode*>* IRTupleExpressionNode::getValues() {
     return &_irValues;
 }

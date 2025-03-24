@@ -25,6 +25,7 @@ public:
     void markAsGlobal() override;
     llvm::Value* getValue() override;
     unsigned long size();
+    IRInstructionNode* getIRValue();
     std::vector<IRExpressionNode*>* getValues();
     IRStructType* getIRType() override;
     TypeSignature* getTypeSignature() override;

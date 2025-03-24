@@ -8,4 +8,6 @@ proc testRef() {
     const y = [1, 2, 5];
     const refX = ref x;
     const refY = ref y;
+    const z = [ [7], [8], [9] ];
+    const refZ = ref z;
 }

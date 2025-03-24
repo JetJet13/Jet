@@ -5,11 +5,11 @@
 #include "struct-ir-injector-helper.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../array-ir-injector-helper/array-ir-injector-helper.h"
-#include "../../../../../shared/utils/logger/logger.h"
+#include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRInstructionNode* structAllocation, IRModuleNode* irModule, IROperationType irOperationType) {
     auto destinationAllocation = IRInstructionNodeFactory::create(structAllocation);
-    irBlock->getBuilder()->get()->Insert(destinationAllocation->getValue());
+    InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
     auto irStructType = (IRStructType*)structAllocation->getIRType()->getSourceType();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     for (int i = 0; i < irStructType->size(); ++i) {

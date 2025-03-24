@@ -7,10 +7,10 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../ir-type/ir-array-type.h"
-#include "../../../../../shared/utils/logger/logger.h"
+#include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
-    irBlock->getBuilder()->get()->Insert(arrayPointerAllocation->getValue());
+    InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     auto intIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumElementsIndex());
     auto pointerIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getPointerIndex());
@@ -52,7 +52,7 @@ IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irB
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayAllocation, IRInstructionNode* arrayPointerAllocation) {
-    irBlock->getBuilder()->get()->Insert(arrayPointerAllocation->getValue());
+    InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     auto intIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumElementsIndex());
     auto pointerIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getPointerIndex());
@@ -76,7 +76,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
         auto arrayType = (IRArrayType*)arrayAllocation->getIRType()->getSourceType();
         auto numElements = arrayType->getType()->getNumElements();
         auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, irBlock->getBuilder()->get()->getInt32(numElements), irModule, irOperationType);
-        irBlock->getBuilder()->get()->Insert(destinationAllocation->getValue());
+        InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
         // iterate over each child allocation and 'injectArrayPointer'
         auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
         for (int i = 0; i < numElements; ++i) {
@@ -99,7 +99,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
     auto intPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceArrayPointerAllocation->getValue(), { zeroIndex, intIndex });
     auto loadedNumElements = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), intPointer);
     auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule, irOperationType);
-    irBlock->getBuilder()->get()->Insert(destinationAllocation->getValue());
+    InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
     auto arrayPointerAllocation = IRInstructionNodeFactory::create(sourceArrayPointerAllocation, destinationAllocation);
     auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceArrayPointerAllocation->getValue(), { zeroIndex, allocIndex });
     auto loadedArrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);

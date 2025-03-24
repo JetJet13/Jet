@@ -38,6 +38,10 @@ llvm::Value* IRStructExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
+IRInstructionNode* IRStructExpressionNode::getIRValue() {
+    return _irValue;
+}
+
 std::vector<IRExpressionNode*>* IRStructExpressionNode::getValues() {
     return &_irValues;
 }
