@@ -429,6 +429,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h
         ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-dref-expression-injector-strategy/string-ir-dref-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-dref-expression-injector-strategy/string-ir-dref-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/pointer-ir-injector-helper/pointer-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/pointer-ir-injector-helper/pointer-ir-injector-helper.h
 )
 
 target_link_libraries(jet-vm

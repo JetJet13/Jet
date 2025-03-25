@@ -17,11 +17,18 @@ proc testRef() {
     const b = "John Smith";
     const refB = ref b;
 
-    const s = { a: true, nest: { b: 100, c: false, d: [8, 9] } };
+    const s = { a: true, nest: { b: 100, c: false, d: [8, 9] }, r: ref 90, ra: ref [10, 20], rs: ref { foo: 'q', bar: true } };
     const refS = ref s;
     const copyS = s;
+    const drefS = dref refS;
+    const copyDrefS = drefS;
 
     const t = tuple { true, 200, 'c', tuple { [4, 6], true } };
     const refT = ref t;
     const copyT = t;
+
+    const ry = [ ref 10, ref 20 ];
+    const refRy = ref ry;
+    const drefRy = dref refRy;
+    const copyRy = ry;
 }

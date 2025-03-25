@@ -46,7 +46,7 @@ IRInstructionNode* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayEx
             nullptr,
             DataAlignmentGenerator::generate(arrayElementIrType)
     );
-    return IRInstructionNodeFactory::create(arrayAllocation, irGenerator->generateIrPointerType(irArrayType));
+    return IRInstructionNodeFactory::create(arrayAllocation, irGenerator->generateIrPointerType(irArrayType), std::move(childAllocations));
 }
 
 IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(ASTArrayExpressionNode* node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRInstructionNode* arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {

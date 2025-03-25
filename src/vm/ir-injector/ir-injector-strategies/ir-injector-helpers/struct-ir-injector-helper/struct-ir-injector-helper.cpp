@@ -6,6 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../pointer-ir-injector-helper/pointer-ir-injector-helper.h"
 
 llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRInstructionNode* structAllocation, IRModuleNode* irModule, IROperationType irOperationType) {
     auto destinationAllocation = IRInstructionNodeFactory::create(structAllocation);
@@ -24,6 +25,11 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRIn
             auto nestedStructAllocation = structAllocation->getChildAllocationForKey(irStructType->getKeyForIndex(i));
             auto loadedNestedStruct = StructIRInjectorHelper::injectStructCopy(irBlock, nestedStructAllocation, irModule, irOperationType);
             irBlock->getBuilder()->get()->CreateStore(loadedNestedStruct, destinationPointer);
+        } else if (irTypeAtIndex->isPointerType()) {
+            auto pointerAllocation = structAllocation->getChildAllocationForKey(irStructType->getKeyForIndex(i));
+            auto elementPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irStructType->getType(), structAllocation->getValue(), { zeroIndex, index });
+            auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, (IRPointerType*)irTypeAtIndex, elementPointer, pointerAllocation, irModule, irOperationType);
+            irBlock->getBuilder()->get()->CreateStore(loadedPointer, destinationPointer);
         } else {
             auto elementPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irStructType->getType(), structAllocation->getValue(), { zeroIndex, index });
             auto loadedValue = irBlock->getBuilder()->get()->CreateLoad(irTypeAtIndex->getType(), elementPointer);
@@ -48,9 +54,13 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRSt
             auto loadedArrayPointer = ArrayIRInjectorHelper::injectArrayCopy(irBlock, arrayPointerType, arrayPointerType->getElementIRType(), irModule, loadedPointerToStructValue, arrayPointerAllocation, irOperationType);
             irBlock->getBuilder()->get()->CreateStore(loadedArrayPointer->getValue(), destinationPointer);
         } else if (irTypeAtIndex->isStructType()) {
-            auto irStructTypeAtIndex = (IRStructType*)irTypeAtIndex;
-            auto loadedNestedStruct = StructIRInjectorHelper::injectStructCopy(irBlock, irStructTypeAtIndex, loadedPointerToStructValue, irModule, irOperationType);
+            auto structType = (IRStructType*)irTypeAtIndex;
+            auto loadedNestedStruct = StructIRInjectorHelper::injectStructCopy(irBlock, structType, loadedPointerToStructValue, irModule, irOperationType);
             irBlock->getBuilder()->get()->CreateStore(loadedNestedStruct, destinationPointer);
+        } else if (irTypeAtIndex->isPointerType()) {
+            auto pointerType = (IRPointerType*)irTypeAtIndex;
+            auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, loadedPointerToStructValue, irModule, irOperationType);
+            irBlock->getBuilder()->get()->CreateStore(loadedPointer, destinationPointer);
         } else {
             irBlock->getBuilder()->get()->CreateStore(loadedPointerToStructValue, destinationPointer);
         }
