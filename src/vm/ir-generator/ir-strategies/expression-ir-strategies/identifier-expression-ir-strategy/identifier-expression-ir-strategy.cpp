@@ -10,8 +10,14 @@
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto allocation = scope->findAcrossScopes(node->getIdentifierNode()->getId());
     if (irOperationType == IR_COPY_ASSIGNMENT_OP && allocation.value()->getIRType()->getSourceType()->isArrayPointerType()) {
+        if (!allocation.value()->getParentAllocation()) {
+            throw std::logic_error("id has no parent allocation " + node->getIdentifierNode()->getId());
+        }
         return this->generateForAggregate(node, allocation.value(), irGenerator, scope, irContext, irOperationType);
     } else if (irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP && allocation.value()->getIRType()->getSourceType()->isArrayPointerType()) {
+        if (!allocation.value()->getParentAllocation()) {
+            throw std::logic_error("id has no parent allocation " + node->getIdentifierNode()->getId());
+        }
         return this->generateForGlobalAggregate(node, allocation.value(), irGenerator, scope, irContext, irOperationType);
     }
     return new IRIdentifierExpressionNode(node, allocation.value());

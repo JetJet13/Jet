@@ -9,7 +9,6 @@
 #include "../../../../ir-type/ir-array-type.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../pointer-ir-injector-helper/pointer-ir-injector-helper.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
     InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
@@ -90,7 +89,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
                 irBlock->getBuilder()->get()->CreateStore(StructIRInjectorHelper::injectStructCopy(irBlock, childAllocation, irModule, irOperationType), pointer);
             } else if (childAllocation->getIRType()->getSourceType()->isPointerType()) {
                 auto pointerType = (IRPointerType*)childAllocation->getIRType()->getSourceType();
-                irBlock->getBuilder()->get()->CreateStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, pointer, childAllocation, irModule, irOperationType), pointer);
+                irBlock->getBuilder()->get()->CreateStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, childAllocation, irModule, irOperationType), pointer);
             } else {
                 irBlock->getBuilder()->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(irBlock, childAllocation, irModule, irOperationType)->getValue(), pointer);
             }
@@ -137,7 +136,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayFromIdentifierExpressio
                 irBlock->getBuilder()->get()->CreateStore(StructIRInjectorHelper::injectStructCopy(irBlock, childAllocation, irModule, irOperationType), pointer);
             } else if (childAllocation->getIRType()->getSourceType()->isPointerType()) {
                 auto pointerType = (IRPointerType*)childAllocation->getIRType()->getSourceType();
-                irBlock->getBuilder()->get()->CreateStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, pointer, childAllocation, irModule, irOperationType), pointer);
+                irBlock->getBuilder()->get()->CreateStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, childAllocation, irModule, irOperationType), pointer);
             } else {
                 irBlock->getBuilder()->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(irBlock, childAllocation, irModule, irOperationType)->getValue(), pointer);
             }

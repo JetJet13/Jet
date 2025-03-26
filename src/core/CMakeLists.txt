@@ -1146,6 +1146,8 @@ add_library(jet-core
         post-processor/ref-analyzer/ref-analyzer.h
         ast-lookup-table/ast-lookup-table.cpp
         ast-lookup-table/ast-lookup-table.h
+        ast/ast-nodes/ast-sref-node.cpp
+        ast/ast-nodes/ast-sref-node.h
 
 )
 

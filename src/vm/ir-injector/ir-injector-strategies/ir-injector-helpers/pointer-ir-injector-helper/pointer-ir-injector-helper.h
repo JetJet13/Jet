@@ -10,7 +10,7 @@
 
 class PointerIRInjectorHelper {
 public:
-    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IROperationType irOperationType);
+    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IROperationType irOperationType);
     static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, IRModuleNode* irModule, IROperationType irOperationType);
 };
 

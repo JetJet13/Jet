@@ -59,7 +59,8 @@ IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(AST
         return IRInstructionNodeFactory::create(
             new llvm::BitCastInst(malloc, irType->getType()),
             irGenerator->generateIrPointerType(irType),
-            { malloc }
+            { malloc },
+            irExpression->getSourceAllocation()
         );
     }
     return IRInstructionNodeFactory::create(

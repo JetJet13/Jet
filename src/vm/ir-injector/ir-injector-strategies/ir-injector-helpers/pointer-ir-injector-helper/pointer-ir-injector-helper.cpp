@@ -6,6 +6,7 @@
 #include "../array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 // what are the semantics of copying a pointer?
 // A. are you creating a new pointer that points to the source pointer's value?
@@ -19,7 +20,7 @@
 // const myStruct = { a: 1, b: ref [3, 5] };
 // const myOtherStruct = myStruct where { b: sref myStruct.b };
 
-llvm::Value* PointerIRInjectorHelper::injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IROperationType irOperationType) {
+llvm::Value* PointerIRInjectorHelper::injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IROperationType irOperationType) {
     // todo: implement answer above
     auto newValueAllocation = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getSourceType()->getType());
     auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getType());
@@ -30,7 +31,7 @@ llvm::Value* PointerIRInjectorHelper::injectPointerCopy(IRBlockNode* irBlock, IR
         auto loadedNestedStruct = StructIRInjectorHelper::injectStructCopy(irBlock, sourceValueAllocation, irModule, irOperationType);
         irBlock->getBuilder()->get()->CreateStore(loadedNestedStruct, newValueAllocation);
     } else {
-        auto loadedValue = irBlock->getBuilder()->get()->CreateLoad(irPointerType->getSourceType()->getType(), sourcePointer);
+        auto loadedValue = InstructionIRInjectorHelper::injectLoad(sourceValueAllocation, irBlock);
         irBlock->getBuilder()->get()->CreateStore(loadedValue, newValueAllocation);
     }
     irBlock->getBuilder()->get()->CreateStore(newValueAllocation, newPointer);
@@ -38,7 +39,7 @@ llvm::Value* PointerIRInjectorHelper::injectPointerCopy(IRBlockNode* irBlock, IR
 }
 
 llvm::Value* PointerIRInjectorHelper::injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, IRModuleNode* irModule, IROperationType irOperationType) {
-    auto loadedValue = irBlock->getBuilder()->get()->CreateLoad(irPointerType->getSourceType()->getType(), sourcePointer);
+    auto loadedValue = InstructionIRInjectorHelper::injectLoad(irPointerType, sourcePointer, irBlock);
     auto newValueAllocation = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getSourceType()->getType());
     auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getType());
     if (irPointerType->getSourceType()->isArrayPointerType()) {

@@ -17,7 +17,7 @@ public:
     static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues);
     static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
     static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::vector<IRInstructionNode*> childAllocations);
-    static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, IRInstructionNode* sourceInstructionNode);
+    static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::optional<IRInstructionNode*> sourceAllocation);
     static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     static IRInstructionNode* create(llvm::Value* irValue, IRPointerType* irType, IRInstructionNode* sourceInstructionNode);
     static IRInstructionNode* create(IRInstructionNode* otherInstructionNode);

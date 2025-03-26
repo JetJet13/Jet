@@ -35,8 +35,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPoin
     return new IRInstructionNode(irValue, irType, ancestorValues, childAllocations);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, IRInstructionNode* sourceInstructionNode) {
-    return new IRInstructionNode(irValue, irType, ancestorValues, sourceInstructionNode);
+IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::optional<IRInstructionNode*> sourceAllocation) {
+    return new IRInstructionNode(irValue, irType, ancestorValues, sourceAllocation);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap) {

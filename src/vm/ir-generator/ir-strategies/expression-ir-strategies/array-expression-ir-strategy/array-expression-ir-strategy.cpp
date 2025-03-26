@@ -22,6 +22,9 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), node->getElements()->size()), arrayElementIrType);
     auto arrayAllocation = this->generateArrayAllocation(node, irType, arrayType, arrayElementIrType, elementValueSourceAllocations, irGenerator, irContext, irOperationType);
     auto arrayPointerAllocation = this->generateArrayPointerAllocation(node, irType, arrayType, arrayAllocation, irGenerator, irContext, irOperationType);
+    if (!arrayPointerAllocation->getParentAllocation()) {
+        throw std::logic_error("arrayPointerAllocation has no parent allocation");
+    }
     return new IRArrayExpressionNode(node, arrayAllocation, arrayPointerAllocation, elementValues, irType);
 }
 

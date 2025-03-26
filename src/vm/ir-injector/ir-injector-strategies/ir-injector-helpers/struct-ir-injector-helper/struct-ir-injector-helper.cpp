@@ -27,8 +27,7 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRIn
             irBlock->getBuilder()->get()->CreateStore(loadedNestedStruct, destinationPointer);
         } else if (irTypeAtIndex->isPointerType()) {
             auto pointerAllocation = structAllocation->getChildAllocationForKey(irStructType->getKeyForIndex(i));
-            auto elementPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irStructType->getType(), structAllocation->getValue(), { zeroIndex, index });
-            auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, (IRPointerType*)irTypeAtIndex, elementPointer, pointerAllocation, irModule, irOperationType);
+            auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, (IRPointerType*)irTypeAtIndex, pointerAllocation, irModule, irOperationType);
             irBlock->getBuilder()->get()->CreateStore(loadedPointer, destinationPointer);
         } else {
             auto elementPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irStructType->getType(), structAllocation->getValue(), { zeroIndex, index });

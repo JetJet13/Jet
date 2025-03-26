@@ -13,6 +13,8 @@
 class InstructionIRInjectorHelper {
 public:
     static llvm::Value* inject(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name = "");
+    static llvm::Value* injectLoad(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name = "");
+    static llvm::Value* injectLoad(IRPointerType* irPointerType, llvm::Value* sourcePointer, IRBlockNode* irBlock, std::string name = "");
 };
 
 #endif //JETLANG_INSTRUCTION_IR_INJECTOR_HELPER_H

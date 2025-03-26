@@ -10,6 +10,7 @@ proc testRef() {
 
     const y = [1, 2, 5];
     const refY = ref y;
+    const copyY = y;
 
     const z = [ [7], [8], [9] ];
     const refZ = ref z;
@@ -31,4 +32,6 @@ proc testRef() {
     const refRy = ref ry;
     const drefRy = dref refRy;
     const copyRy = ry;
+
+    const drx = [ dref refX ];
 }

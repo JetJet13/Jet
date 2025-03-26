@@ -17,12 +17,15 @@ private:
     ASTRefExpressionNode* _node;
     IRExpressionNode* _irExpression;
     IRPointerType* _irType;
+    IRInstructionNode* _irValue;
 public:
-    IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irValue, IRPointerType* irType);
+    IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRPointerType* irType, IRInstructionNode* irValue);
     void markAsGlobal() override;
     IRExpressionNode* getExpression();
+    IRInstructionNode* getIRValue();
     IRPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

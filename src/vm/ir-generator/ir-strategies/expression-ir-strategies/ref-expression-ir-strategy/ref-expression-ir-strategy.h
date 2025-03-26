@@ -11,6 +11,8 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-ref-expression-node.h"
 
 class RefExpressionIRStrategy {
+private:
+    IRInstructionNode* generateAllocation(ASTRefExpressionNode* node, IRPointerType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
 public:
     IRRefExpressionNode* generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };

@@ -3,12 +3,19 @@
 //
 
 #include "pointer-ir-ref-expression-injector-strategy.h"
+#include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* PointerIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->getExpression()->isOneOf({ IR_IDENTIFIER_EXPRESSION_NODE, IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
-        return irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
+        auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
+        auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
+        irBlock->getBuilder()->get()->CreateStore(value, allocation);
+        return allocation;
     }
-    return this->injectRawValue(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+    auto value = this->injectRawValue(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+    auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
+    irBlock->getBuilder()->get()->CreateStore(value, allocation);
+    return allocation;
 }
 
 llvm::Value* PointerIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -24,7 +31,7 @@ llvm::Value* PointerIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpress
         return globalVariable;
     }
 
-    auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getType());
+    auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getExpression()->getType());
     irBlock->getBuilder()->get()->CreateStore(rawValue, allocation);
     return allocation;
 }
