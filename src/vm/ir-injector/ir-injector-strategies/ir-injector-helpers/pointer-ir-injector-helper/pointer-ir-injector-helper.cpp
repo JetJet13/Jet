@@ -8,20 +8,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-// what are the semantics of copying a pointer?
-// A. are you creating a new pointer that points to the source pointer's value?
-// B. are you creating a new pointer to a copy of the source pointer's value?
-//
-// ANSWER
-// =======
-// B is the way to go, but we need to introduce a new keyword: sref to represent a shared reference
-// otherwise, there won't be a way to create shared references
-// e.g. const x = sref y; where y must have type ref<?>.
-// const myStruct = { a: 1, b: ref [3, 5] };
-// const myOtherStruct = myStruct where { b: sref myStruct.b };
-
 llvm::Value* PointerIRInjectorHelper::injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IROperationType irOperationType) {
-    // todo: implement answer above
     auto newValueAllocation = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getSourceType()->getType());
     auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getType());
     if (irPointerType->getSourceType()->isArrayPointerType()) {
