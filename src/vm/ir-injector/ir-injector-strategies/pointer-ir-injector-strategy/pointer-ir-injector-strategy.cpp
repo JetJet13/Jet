@@ -9,6 +9,8 @@ llvm::Value* PointerIRInjectorStrategy::inject(IRExpressionNode *irExpression, I
         return this->_pointerIRRefExpressionInjectorStrategy.inject((IRRefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         return this->_pointerIRIdentifierExpressionInjectorStrategy.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+    } else if (irExpression->is(IR_SREF_EXPRESSION_NODE)) {
+        return this->_pointerIRSrefExpressionInjectorStrategy.inject((IRSrefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     }
     throw std::logic_error("PointerIRInjectorStrategy - invalid ir expression with pointer type");
 }

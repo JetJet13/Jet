@@ -18,10 +18,12 @@ private:
     ASTDrefExpressionNode* _node;
     IRExpressionNode* _irExpression;
     IRType* _irType;
+    IRInstructionNode* _irValue;
 public:
-    IRDrefExpressionNode(ASTDrefExpressionNode* node, IRExpressionNode* irValue, IRType* irType);
+    IRDrefExpressionNode(ASTDrefExpressionNode* node, IRExpressionNode* irExpression, IRType* irType, IRInstructionNode* irValue);
     void markAsGlobal() override;
     IRExpressionNode* getExpression();
+    IRInstructionNode* getIRValue();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     llvm::Value* getValue() override;

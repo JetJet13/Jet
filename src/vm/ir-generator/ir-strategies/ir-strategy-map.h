@@ -41,6 +41,7 @@ class VariableAssignmentStatementIRStrategy;
 class IfStatementIRStrategy;
 class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
+class SrefExpressionIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -101,6 +102,7 @@ private:
     IfStatementIRStrategy* _ifStatementIRStrategy;
     RefExpressionIRStrategy* _refExpressionIRStrategy;
     DrefExpressionIRStrategy* _drefExpressionIRStrategy;
+    SrefExpressionIRStrategy* _srefExpressionIRStrategy;
     ArrayAccessAssignmentStatementIRStrategy* _arrayAccessAssignmentStatementIRStrategy;
 
     // Type Signature IR Strategies
@@ -160,6 +162,7 @@ public:
     IfStatementIRStrategy* getIfStatementIRStrategy();
     RefExpressionIRStrategy* getRefExpressionIRStrategy();
     DrefExpressionIRStrategy* getDrefExpressionIRStrategy();
+    SrefExpressionIRStrategy* getSrefExpressionIRStrategy();
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();

@@ -7,10 +7,13 @@ const drefArray = dref refArray;
 proc testRef() {
     const x = 5;
     const refX = ref x;
+    const srefX = sref refX;
 
     const y = [1, 2, 5];
     const refY = ref y;
     const copyY = y;
+    const srefY = sref refY;
+    const doubleRefY = ref y;
 
     const z = [ [7], [8], [9] ];
     const refZ = ref z;

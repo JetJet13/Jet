@@ -27,6 +27,14 @@ void ASTSrefExpressionNode::markAsReferenced() {
     _expression->markAsReferenced();
 }
 
+PointerTypeSignature* ASTSrefExpressionNode::getTypeSignature() {
+    return _typeSignature;
+}
+
+void ASTSrefExpressionNode::setTypeSignature(PointerTypeSignature* typeSignature) {
+    _typeSignature = typeSignature;
+}
+
 Position* ASTSrefExpressionNode::getStartPosition() {
     return _srefNode->getStartPosition();
 }

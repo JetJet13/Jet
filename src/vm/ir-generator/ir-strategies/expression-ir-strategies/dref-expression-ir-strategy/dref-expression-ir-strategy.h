@@ -10,6 +10,8 @@
 #include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
 
 class DrefExpressionIRStrategy {
+private:
+    IRInstructionNode* generateAllocation(ASTDrefExpressionNode* node, IRType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
 public:
     IRExpressionNode* generate(ASTDrefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };

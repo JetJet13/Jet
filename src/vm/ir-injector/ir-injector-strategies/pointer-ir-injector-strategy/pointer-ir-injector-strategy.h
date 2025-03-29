@@ -10,12 +10,14 @@
 #include "../../../ir-nodes/ir-block-node.h"
 #include "strategies/pointer-ir-ref-expression-injector-strategy/pointer-ir-ref-expression-injector-strategy.h"
 #include "strategies/pointer-ir-identifier-expression-injector-strategy/pointer-ir-identifier-expression-injector-strategy.h"
+#include "strategies/pointer-ir-sref-expression-injector-strategy/pointer-ir-sref-expression-injector-strategy.h"
 
 class PointerIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 private:
     PointerIRRefExpressionInjectorStrategy _pointerIRRefExpressionInjectorStrategy = PointerIRRefExpressionInjectorStrategy();
     PointerIRIdentifierExpressionInjectorStrategy _pointerIRIdentifierExpressionInjectorStrategy = PointerIRIdentifierExpressionInjectorStrategy();
+    PointerIRSrefExpressionInjectorStrategy _pointerIRSrefExpressionInjectorStrategy = PointerIRSrefExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
 };

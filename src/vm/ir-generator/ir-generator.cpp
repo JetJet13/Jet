@@ -26,6 +26,7 @@
 #include "ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
@@ -170,6 +171,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getRefExpressionIRStrategy()->generate((ASTRefExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate((ASTDrefExpressionNode*)node,  this, scope, irContext, irOperationType);
+    } else if (node->is(AST_SREF_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getSrefExpressionIRStrategy()->generate((ASTSrefExpressionNode*)node,  this, scope, irContext, irOperationType);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }

@@ -26,6 +26,7 @@
 #include "./expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
 #include "./expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "./expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
+#include "./expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
@@ -96,6 +97,7 @@ IRStrategyMap::IRStrategyMap() {
     _ifStatementIRStrategy = new IfStatementIRStrategy();
     _refExpressionIRStrategy = new RefExpressionIRStrategy();
     _drefExpressionIRStrategy = new DrefExpressionIRStrategy();
+    _srefExpressionIRStrategy = new SrefExpressionIRStrategy();
 
     _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
@@ -262,6 +264,10 @@ RefExpressionIRStrategy* IRStrategyMap::getRefExpressionIRStrategy() {
 
 DrefExpressionIRStrategy* IRStrategyMap::getDrefExpressionIRStrategy() {
     return _drefExpressionIRStrategy;
+}
+
+SrefExpressionIRStrategy* IRStrategyMap::getSrefExpressionIRStrategy() {
+    return _srefExpressionIRStrategy;
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {

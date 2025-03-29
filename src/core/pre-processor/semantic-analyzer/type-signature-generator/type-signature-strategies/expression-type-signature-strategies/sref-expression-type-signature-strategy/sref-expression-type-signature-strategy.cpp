@@ -7,8 +7,8 @@
 void SrefExpressionTypeSignatureStrategy::assign(ASTSrefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
     if (node->getExpressionNode()->getTypeSignature()->typeSourceIs(POINTER_TYPE_SOURCE)) {
-        node->setTypeSignature(node->getExpressionNode()->getTypeSignature());
+        node->setTypeSignature((PointerTypeSignature*)node->getExpressionNode()->getTypeSignature());
     } else {
-        node->setTypeSignature(new UnknownTypeSignature());
+        node->setTypeSignature(new PointerTypeSignature());
     }
 }
