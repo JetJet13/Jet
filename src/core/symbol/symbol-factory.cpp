@@ -314,4 +314,8 @@ namespace SymbolFactory {
     Symbol* createDrefSymbol()  {
         return new Symbol(SYM_DREF, "dref");
     }
+
+    Symbol* createSrefSymbol()  {
+        return new Symbol(SYM_SREF, "sref");
+    }
 }

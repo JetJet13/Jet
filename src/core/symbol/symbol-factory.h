@@ -86,6 +86,7 @@ namespace SymbolFactory {
     Symbol* createExportSymbol();
     Symbol* createRefSymbol();
     Symbol* createDrefSymbol();
+    Symbol* createSrefSymbol();
 }
 
 

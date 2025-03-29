@@ -3,7 +3,6 @@
 //
 
 #include "ref-expression-type-signature-strategy.h"
-#include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 void RefExpressionTypeSignatureStrategy::assign(ASTRefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);

@@ -80,6 +80,7 @@ typedef enum {
     SYM_EXPORT,
     SYM_REF,
     SYM_DREF,
+    SYM_SREF,
     SYM_THIS,
     SYM_MALFORMED
 } SymbolType;

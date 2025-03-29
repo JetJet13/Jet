@@ -104,6 +104,7 @@
 #include "reducer-strategies/ref-type-reducer-strategy/ref-type-reducer-strategy.h"
 #include "reducer-strategies/array-access-assignment-reducer-strategy/array-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/sref-expression-reducer-strategy/sref-expression-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -211,13 +212,13 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_THIS_EXPRESSION_NODE, new ThisExpressionReducerStrategy());
     this->addStrategy(AST_REF_EXPRESSION_NODE, new RefExpressionReducerStrategy());
     this->addStrategy(AST_DREF_EXPRESSION_NODE, new DrefExpressionReducerStrategy());
+    this->addStrategy(AST_SREF_EXPRESSION_NODE, new SrefExpressionReducerStrategy());
     this->addStrategy(AST_REF_TYPE_NODE, new RefTypeReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {
     _strategies.insert(std::pair<ASTNodeType, ReducerStrategy*>(astNodeType, reducerStrategy));
 }
-
 
 ASTNode* Reducer::reduce(Handle handle, RecognizerResult* recognizerResult) {
     if (handle.isEmpty()) {

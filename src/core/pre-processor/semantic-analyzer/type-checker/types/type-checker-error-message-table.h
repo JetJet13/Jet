@@ -171,6 +171,9 @@ namespace TypeCheckerErrorMessageTable {
     static std::string DrefExpressionTypeInvalid(ASTNode* node) {
         return "dref expression does not have type ref/pointer  \n" + node->toSourceCode();
     }
+    static std::string SrefExpressionTypeInvalid(ASTNode* node) {
+        return "sref expression does not have type ref/pointer  \n" + node->toSourceCode();
+    }
     static std::string RefExpressionTypeInvalid(ASTNode* node) {
         return "ref expression cannot have type ref/pointer  \n" + node->toSourceCode();
     }

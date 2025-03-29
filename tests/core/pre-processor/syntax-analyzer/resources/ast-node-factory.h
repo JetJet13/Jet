@@ -118,12 +118,15 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-ref-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-sref-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-sref-expression-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
         return new Lexeme(new Token(symbol, symbol->toString()));
     }
     static ASTDrefNode* drefKeyword = new ASTDrefNode(createLexeme(SymbolFactory::createDrefSymbol()));
+    static ASTSrefNode* srefKeyword = new ASTSrefNode(createLexeme(SymbolFactory::createSrefSymbol()));
     static ASTRefNode* refKeyword = new ASTRefNode(createLexeme(SymbolFactory::createRefSymbol()));
     static ASTRefTypeKeywordNode* refTypeKeyword = new ASTRefTypeKeywordNode(createLexeme(SymbolFactory::createRefSymbol()));
     static ASTExportNode* exportKeyword = new ASTExportNode(createLexeme(SymbolFactory::createExportSymbol()));
@@ -391,6 +394,9 @@ namespace ASTNodeFactory {
     }
     static ASTDrefExpressionNode* createDrefExpression(ASTExpressionNode* expression) {
         return new ASTDrefExpressionNode(ASTNodeFactory::drefKeyword, expression);
+    }
+    static ASTSrefExpressionNode* createSrefExpression(ASTExpressionNode* expression) {
+        return new ASTSrefExpressionNode(ASTNodeFactory::srefKeyword, expression);
     }
     static ASTRefExpressionNode* refIntExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::intExpression);
     static ASTRefExpressionNode* refFloatExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::floatExpression);

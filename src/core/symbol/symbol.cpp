@@ -329,6 +329,10 @@ bool Symbol::isDref() {
     return _type == SYM_DREF;
 }
 
+bool Symbol::isSref() {
+    return _type == SYM_SREF;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }

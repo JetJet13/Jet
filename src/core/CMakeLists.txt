@@ -1148,6 +1148,16 @@ add_library(jet-core
         ast-lookup-table/ast-lookup-table.h
         ast/ast-nodes/ast-sref-node.cpp
         ast/ast-nodes/ast-sref-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-sref-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-sref-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/sref-expression-reducer-strategy/sref-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/sref-expression-reducer-strategy/sref-expression-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/sref-expression-type-checker-policy/sref-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/sref-expression-type-checker-policy/sref-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/sref-type-checker-rule/sref-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/sref-type-checker-rule/sref-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.h
 
 )
 

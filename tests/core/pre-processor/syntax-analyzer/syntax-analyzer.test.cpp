@@ -3354,6 +3354,37 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
+        {217, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createSrefExpression(ASTNodeFactory::idExpression)
+        )},
+        {218, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createSrefExpression(
+                        ASTNodeFactory::createObjectAccessExpression(
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::objectAccessTargetId
+                        )
+                )
+        )},
+        {219, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createSrefExpression(
+                        new ASTArrayAccessExpressionNode(
+                                ASTNodeFactory::idExpression,
+                                ASTNodeFactory::arrayAccessInt
+                        )
+                )
+        )},
+        {220, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createSrefExpression(
+                        ASTNodeFactory::createTupleAccessExpression(
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::tupleAccess
+                        )
+                )
+        )},
 
 };
 
@@ -3386,8 +3417,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 216);
-    for (int i = 0; i < 216; i++) {
+REQUIRE(fileScope->getScope().size() == 220);
+    for (int i = 0; i < 220; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

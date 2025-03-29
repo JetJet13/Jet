@@ -94,6 +94,7 @@ public:
     bool isExport();
     bool isRef();
     bool isDref();
+    bool isSref();
     bool isThis();
     SymbolType getType();
     bool isSameAs(Symbol* symbol);
