@@ -154,7 +154,10 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(IRBlockNode* irBlo
     auto loadedNumElements = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
     auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule, irOperationType);
     arrayPointerAllocation->setParentAllocation(destinationAllocation);
-    irBlock->getBuilder()->get()->CreateCall(irModule->getCopyStringFunction(), { destinationAllocation->getValue(), sourceArray });
+    auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
+    auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceArray, { zeroIndex, allocIndex });
+    auto loadedAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), allocPointer);
+    irBlock->getBuilder()->get()->CreateCall(irModule->getCopyStringFunction(), { destinationAllocation->getValue(), loadedAlloc });
     return ArrayIRInjectorHelper::injectArrayPointer(
             irBlock,
             arrayPointerType,

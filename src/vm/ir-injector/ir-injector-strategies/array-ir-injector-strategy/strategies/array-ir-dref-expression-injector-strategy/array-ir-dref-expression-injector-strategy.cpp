@@ -3,13 +3,13 @@
 //
 
 #include "array-ir-dref-expression-injector-strategy.h"
-#include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../../ir-type/ir-array-pointer-type.h"
+#include "../../../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
 llvm::Value* ArrayIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
     auto irPointerValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
     auto loadedPointer = irBlock->getBuilder()->get()->CreateLoad(irExpression->getExpression()->getIRType()->getType(), irPointerValue);
     auto loadedValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), loadedPointer);
-    auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
-    irBlock->getBuilder()->get()->CreateStore(loadedValue, allocation);
-    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRValue()->getAllocatedType(), allocation);
+    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedValue, irExpression->getIRValue(), irOperationType)->getValue();
 }
