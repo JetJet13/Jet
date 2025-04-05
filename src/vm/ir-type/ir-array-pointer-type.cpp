@@ -8,7 +8,7 @@ IRArrayPointerType::IRArrayPointerType(llvm::StructType* type, IRType* arrayElem
     _type = type;
     _arrayElementType = arrayElementType;
     _numElementsIndex = 0;
-    _pointerIndex = 1;
+    _depthIndex = 1;
     _allocIndex = 2;
 }
 
@@ -20,8 +20,8 @@ unsigned int IRArrayPointerType::getNumElementsIndex() const {
     return _numElementsIndex;
 }
 
-unsigned int IRArrayPointerType::getPointerIndex() const {
-    return _pointerIndex;
+unsigned int IRArrayPointerType::getDepthIndex() const {
+    return _depthIndex;
 }
 
 unsigned int IRArrayPointerType::getAllocIndex() const {
@@ -30,10 +30,6 @@ unsigned int IRArrayPointerType::getAllocIndex() const {
 
 llvm::Type* IRArrayPointerType::getNumElementsType() {
     return _type->getStructElementType(0);
-}
-
-llvm::PointerType* IRArrayPointerType::getPointerType() {
-    return llvm::cast<llvm::PointerType>(_type->getStructElementType(1));
 }
 
 llvm::PointerType* IRArrayPointerType::getAllocType() {
@@ -48,19 +44,19 @@ llvm::Type* IRArrayPointerType::getElementType() {
     return _arrayElementType->getType();
 }
 
-unsigned long IRArrayPointerType::getNumLevels() {
-    auto levels = 0;
+unsigned long IRArrayPointerType::getDepth() {
+    auto depth = 1;
     auto irType = _arrayElementType;
     while (irType->isArrayPointerType()) {
-        levels++;
+        depth++;
         auto arrayPointerType = (IRArrayPointerType*)irType;
         irType = arrayPointerType->getElementIRType();
     }
-    return levels;
+    return depth;
 }
 
 uint64_t IRArrayPointerType::getSizeInBytes() {
-    return 6;
+    return 9;
 }
 
 bool IRArrayPointerType::isArrayPointerType() {

@@ -10,27 +10,24 @@ std::string MallocFreeArrayIRFunction::getMallocFreeArrayIRFunctionName() {
 
 void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto mallocArrayType = irGenerator->generateIrMallocArrayType();
-    auto arrayPointerType = irGenerator->generateIrArrayPointerType(mallocArrayType);
+    auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();
     auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto levelIndex = irGenerator->generateIntConstant(0);
-    auto arrayIndex = irGenerator->generateIntConstant(1);
+    auto arrayIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
-    auto firstElementIndex = irGenerator->generateIntConstant(arrayPointerType->getPointerIndex());
+    auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { intType, pointerType }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType }, false);
 
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocFreeArrayIRFunction::getMallocFreeArrayIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto levels = function->getArg(0);
     auto pointerToRootArray = functionBlock->getBuilder()->get()->CreateAlloca(pointerType);
-    functionBlock->getBuilder()->get()->CreateStore(function->getArg(1), pointerToRootArray);
+    functionBlock->getBuilder()->get()->CreateStore(function->getArg(0), pointerToRootArray);
     auto loadedRootArray = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), pointerToRootArray);
-    auto mallocRootArray = functionBlock->getBuilder()->get()->CreateAlloca(mallocArrayType->getType());
-    auto levelPointerForMallocRootArray = functionBlock->getBuilder()->get()->CreateInBoundsGEP(mallocRootArray->getAllocatedType(), mallocRootArray, { zeroIndex, levelIndex });
-    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), levelPointerForMallocRootArray);
+    auto pointerToRootArrayDepth = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), loadedRootArray, { zeroIndex, depthIndex });
+    auto rootArrayDepth = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToRootArrayDepth);
+    auto mallocRootArray = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     auto arrayPointerForMallocRootArray = functionBlock->getBuilder()->get()->CreateInBoundsGEP(mallocRootArray->getAllocatedType(), mallocRootArray, { zeroIndex, arrayIndex });
     functionBlock->getBuilder()->get()->CreateStore(loadedRootArray, arrayPointerForMallocRootArray);
 
@@ -38,16 +35,15 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
     auto queueMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateIntConstant(mallocArrayType->getSizeInBytes())  });
-    auto queueMallocBitCast = functionBlock->getBuilder()->get()->CreateBitCast(queueMalloc, mallocArrayType->getType());
+            { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())  });
+    auto queueMallocBitCast = functionBlock->getBuilder()->get()->CreateBitCast(queueMalloc, arrayPointerType->getType());
     auto loadedMallocRootArray = functionBlock->getBuilder()->get()->CreateLoad(mallocRootArray->getAllocatedType(), mallocRootArray);
     functionBlock->getBuilder()->get()->CreateStore(loadedMallocRootArray, queueMallocBitCast);
     auto queue = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType(), nullptr, "queue");
     auto numElementsPointerForQueue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(queue->getAllocatedType(), queue, { zeroIndex, numElementsIndex });
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), numElementsPointerForQueue);
-    auto firstElementPointerForQueue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(queue->getAllocatedType(), queue, { zeroIndex, firstElementIndex });
-    auto firstElementInQueue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(mallocArrayType->getType(), queueMallocBitCast, { zeroIndex, zeroIndex });
-    functionBlock->getBuilder()->get()->CreateStore(firstElementInQueue, firstElementPointerForQueue);
+    auto depthForQueue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(queue->getAllocatedType(), queue, { zeroIndex, depthIndex });
+    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), depthForQueue);
     auto allocPointerForQueue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(queue->getAllocatedType(), queue, { zeroIndex, allocIndex });
     functionBlock->getBuilder()->get()->CreateStore(queueMallocBitCast, allocPointerForQueue);
 
@@ -61,9 +57,8 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
     auto stack = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType(), nullptr, "stack");
     auto numElementsPointerForStack = functionBlock->getBuilder()->get()->CreateInBoundsGEP(stack->getAllocatedType(), stack, { zeroIndex, numElementsIndex });
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), numElementsPointerForStack);
-    auto firstElementPointerForStack = functionBlock->getBuilder()->get()->CreateInBoundsGEP(stack->getAllocatedType(), stack, { zeroIndex, firstElementIndex });
-    auto firstElementInStack = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), stackMallocBitCast, { zeroIndex, zeroIndex });
-    functionBlock->getBuilder()->get()->CreateStore(firstElementInStack, firstElementPointerForStack);
+    auto depthPointerForStack = functionBlock->getBuilder()->get()->CreateInBoundsGEP(stack->getAllocatedType(), stack, { zeroIndex, depthIndex });
+    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), depthPointerForStack);
     auto allocPointerForStack = functionBlock->getBuilder()->get()->CreateInBoundsGEP(stack->getAllocatedType(), stack, { zeroIndex, allocIndex });
     functionBlock->getBuilder()->get()->CreateStore(stackMallocBitCast, allocPointerForStack);
 
@@ -71,9 +66,9 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
     auto stackCounter = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "stackCounter");
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), stackCounter);
 
-    // current level counter
-    auto currentLevel = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "currentLevel");
-    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), currentLevel);
+    // current depth counter
+    auto currentDepth = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "currentDepth");
+    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), currentDepth);
 
     // while loop
     auto whileLoopConditionBlock = irGenerator->generateWhileConditionBlock(irContext);
@@ -82,11 +77,11 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
     functionBlock->getBuilder()->get()->CreateBr(whileLoopConditionBlock->getBlock());
 
     // while condition block
-    auto currentLevelValue = whileLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, currentLevel);
-    auto isCurrentLevelLessThanLevels = whileLoopConditionBlock->getBuilder()->get()->CreateICmp(
+    auto currentDepthValue = whileLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, currentDepth);
+    auto isCurrentDepthLessThanRootDepth = whileLoopConditionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
-            currentLevelValue,
-            levels
+            currentDepthValue,
+            rootArrayDepth
     );
     auto loadedNumQueueElements = whileLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointerForQueue);
     auto isQueueNotEmpty = whileLoopConditionBlock->getBuilder()->get()->CreateICmp(
@@ -96,25 +91,24 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
     );
     auto whileCondition = whileLoopConditionBlock->getBuilder()->get()->CreateBinOp(
             llvm::BinaryOperator::And,
-            isCurrentLevelLessThanLevels,
+            isCurrentDepthLessThanRootDepth,
             isQueueNotEmpty
     );
     whileLoopConditionBlock->getBuilder()->get()->CreateCondBr(whileCondition, whileLoopBodyBlock->getBlock(), whileLoopEndBlock->getBlock());
 
     // while body block
     auto whileBody = whileLoopBodyBlock->getBuilder()->get();
-    auto nodePointer = whileBody->CreateInBoundsGEP(arrayPointerType->getType(), queue, { zeroIndex, firstElementIndex });
-    auto loadedNode = whileBody->CreateLoad(mallocArrayType->getType(), nodePointer);
+    auto nodePointer = whileBody->CreateInBoundsGEP(arrayPointerType->getType(), queue, { zeroIndex, allocIndex, zeroIndex });
+    auto loadedNode = whileBody->CreateLoad(arrayPointerType->getType(), nodePointer);
     whileBody->CreateCall(
             irModuleNode->getMallocArrayPopFunction()->getFunctionType(),
             irModuleNode->getMallocArrayPopFunction(),
             { queue }
     );
-    auto nodeLevelPointer = whileBody->CreateInBoundsGEP(mallocArrayType->getType(), loadedNode, { zeroIndex, levelIndex });
-    auto loadedNodeLevel = whileBody->CreateLoad(intType, nodeLevelPointer);
-    whileBody->CreateStore(loadedNodeLevel, currentLevel);
-    auto nodeArrayPointer = whileBody->CreateInBoundsGEP(mallocArrayType->getType(), loadedNode, { zeroIndex, arrayIndex });
-    auto loadedNodeArray = whileBody->CreateLoad(arrayPointerType->getType(), nodeArrayPointer);
+    auto nodeDepthPointer = whileBody->CreateInBoundsGEP(arrayPointerType->getType(), loadedNode, { zeroIndex, depthIndex });
+    auto loadedNodeDepth = whileBody->CreateLoad(intType, nodeDepthPointer);
+    whileBody->CreateStore(loadedNodeDepth, currentDepth);
+    auto loadedNodeArray = whileBody->CreateLoad(arrayPointerType->getType(), nodePointer);
     auto nodeArrayNumElementsPointer = whileBody->CreateInBoundsGEP(arrayPointerType->getType(), loadedNodeArray, { zeroIndex, numElementsIndex });
     auto loadedNodeArrayNumElements = whileBody->CreateLoad(intType, nodeArrayNumElementsPointer);
     auto forLoopIndex = whileBody->CreateAlloca(intType, nullptr, "forLoopIndex");
@@ -137,14 +131,11 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
 
     // for loop body (inside while block)
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
-    auto arrayElementPointer = forLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), loadedNodeArray, { zeroIndex, firstElementIndex, forLoopIndexValue });
+    auto arrayElementPointer = forLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), loadedNodeArray, { zeroIndex, allocIndex, forLoopIndexValue });
     auto loadedArrayElement = forLoopBody->CreateLoad(arrayPointerType->getType(), arrayElementPointer, "arrayElement");
-    auto arrayElementLevel = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, loadedNodeLevel, irGenerator->generateIntConstant(1), "arrayElementLevel");
-    auto newNode = forLoopBody->CreateAlloca(mallocArrayType->getType(), nullptr, "newNode");
-    auto levelPointerForNewNode = forLoopBody->CreateInBoundsGEP(newNode->getAllocatedType(), newNode, { zeroIndex, levelIndex });
-    forLoopBody->CreateStore(arrayElementLevel, levelPointerForNewNode);
-    auto arrayPointerForNewNode = forLoopBody->CreateInBoundsGEP(newNode->getAllocatedType(), newNode, { zeroIndex, arrayIndex });
-    forLoopBody->CreateStore(loadedArrayElement, arrayPointerForNewNode);
+    auto arrayElementDepth = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, loadedNodeDepth, irGenerator->generateIntConstant(1), "arrayElementDepth");
+    auto newNode = forLoopBody->CreateAlloca(arrayPointerType->getType(), nullptr, "newNode");
+    forLoopBody->CreateStore(loadedArrayElement, newNode);
     forLoopBody->CreateCall(
             irModuleNode->getMallocArrayEnqueueFunction()->getFunctionType(),
             irModuleNode->getMallocArrayEnqueueFunction(),
@@ -192,7 +183,7 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
 
     // stack for loop body
     auto stackForLoopBody = stackForLoopBodyBlock->getBuilder()->get();
-    auto stackElementPointer = stackForLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), stack, { zeroIndex, firstElementIndex, stackForLoopIndexValue });
+    auto stackElementPointer = stackForLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), stack, { zeroIndex, allocIndex, stackForLoopIndexValue });
     auto loadedStackElement = stackForLoopBody->CreateLoad(arrayPointerType->getType(), stackElementPointer, "stackArrayElement");
     stackForLoopBody->CreateCall(
             irModuleNode->getMallocArrayPopFunction()->getFunctionType(),

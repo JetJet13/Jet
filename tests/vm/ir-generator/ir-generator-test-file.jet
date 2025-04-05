@@ -38,3 +38,16 @@ proc testRef() {
 
     const drx = [ dref refX ];
 }
+
+func foobar() int {
+    const a = [1, 2, 3];
+    return a[0] + 1;
+}
+
+
+func foobar3(x: int) arr<ref<int>> {
+    const p = 100;
+    const q = 200;
+    const a = [ [ref p], [ref q] ];
+    return a[x];
+}

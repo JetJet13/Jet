@@ -22,9 +22,10 @@ void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irG
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto firstElementPointerIndex = irGenerator->generateIntConstant(arrayPointerType->getPointerIndex());
+    auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
+    auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, zeroIndex });
+    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     auto loadedNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto newNumElements = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, loadedNumElements, irGenerator->generateIntConstant(1));
     auto newElement = functionBlock->getBuilder()->get()->CreateAlloca(pointerType->getType());
@@ -64,11 +65,10 @@ void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irG
             DataAlignmentGenerator::generate(mallocArrayType),
             oldArraySize
     );
-    auto stackNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, zeroIndex });
+    auto stackNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     functionBlock->getBuilder()->get()->CreateStore(newNumElements, stackNumElementsPointer);
-    auto stackFirstElementPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, firstElementPointerIndex });
-    auto stackFirstElement = functionBlock->getBuilder()->get()->CreateInBoundsGEP(newArrayMallocBitCast->getType(), newArrayMallocBitCast, { zeroIndex, zeroIndex });
-    functionBlock->getBuilder()->get()->CreateStore(stackFirstElement, stackFirstElementPointer);
+    auto stackNumLevelsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
+    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(arrayPointerType->getDepth()), stackNumLevelsPointer);
     auto stackAllocPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     functionBlock->getBuilder()->get()->CreateStore(newArrayMallocBitCast, stackAllocPointer);
     functionBlock->addVoidReturn();

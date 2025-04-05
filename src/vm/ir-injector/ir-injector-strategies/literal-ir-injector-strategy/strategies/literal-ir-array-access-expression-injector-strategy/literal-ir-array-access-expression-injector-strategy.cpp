@@ -20,13 +20,11 @@ llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(I
     auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_OP, irModule, scope);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
-    auto pointerIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getPointerIndex());
-    auto pointerToFirstElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceValue, { zeroIndex, pointerIndex });
-    auto loadedPointerToFirstElement = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getPointerType(), pointerToFirstElement);
+    auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
     auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
     return irBlock->getBuilder()->get()->CreateInBoundsGEP(
-            arrayPointerType->getPointerType(),
-            loadedPointerToFirstElement,
-            { indexValue }
+            arrayPointerType->getAllocType(),
+            sourceValue,
+            { zeroIndex, allocIndex, indexValue }
     );
 }

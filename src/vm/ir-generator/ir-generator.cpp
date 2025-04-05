@@ -361,11 +361,10 @@ IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElement
 }
 
 llvm::StructType* IRGenerator::generateArrayPointerType() {
-    auto pointerType = this->generatePointerType();
     return llvm::StructType::get(*_context, {
             llvm::IntegerType::get(*_context, 32),
-            pointerType,
-            pointerType
+            llvm::IntegerType::get(*_context, 32),
+            this->generatePointerType()
     });
 }
 

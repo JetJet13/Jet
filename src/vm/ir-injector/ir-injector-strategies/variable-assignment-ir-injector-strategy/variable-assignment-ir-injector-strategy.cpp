@@ -45,7 +45,7 @@ void VariableAssignmentIRInjectorStrategy::freeOldMallocs(llvm::LoadInst* oldVal
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getMallocFreeArrayFunction()->getFunctionType(),
                 irModule->getMallocFreeArrayFunction(),
-                { irBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumLevels()), oldValue }
+                {irBlock->getBuilder()->get()->getInt32(arrayPointerType->getDepth()), oldValue }
         );
     }
 }

@@ -22,7 +22,8 @@ void MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(IRGenerato
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocArrayEnqueueIRFunction::getMallocArrayEnqueueIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto firstElementPointerIndex = irGenerator->generateIntConstant(arrayPointerType->getPointerIndex());
+    auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
+    auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, zeroIndex });
     auto loadedNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
@@ -63,11 +64,10 @@ void MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(IRGenerato
     auto newElementIndex = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, newNumElements, irGenerator->generateIntConstant(1));
     auto newElementPointer = functionBlock->getBuilder()->get()->CreateGEP(newArrayMallocBitCast->getType(), newArrayMallocBitCast, { zeroIndex, newElementIndex });
     functionBlock->getBuilder()->get()->CreateStore(loadedNewElement, newElementPointer);
-    auto queueNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, zeroIndex });
+    auto queueNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     functionBlock->getBuilder()->get()->CreateStore(newNumElements, queueNumElementsPointer);
-    auto queueFirstElementPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, firstElementPointerIndex });
-    auto queueFirstElement = functionBlock->getBuilder()->get()->CreateInBoundsGEP(newArrayMallocBitCast->getType(), newArrayMallocBitCast, { zeroIndex, zeroIndex });
-    functionBlock->getBuilder()->get()->CreateStore(queueFirstElement, queueFirstElementPointer);
+    auto queueNumLevelsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
+    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(arrayPointerType->getDepth()), queueNumLevelsPointer);
     auto queueAllocPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     functionBlock->getBuilder()->get()->CreateStore(newArrayMallocBitCast, queueAllocPointer);
     functionBlock->addVoidReturn();

@@ -29,7 +29,7 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
 }
 
 IRInstructionNode* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayExpressionNode* node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRType* arrayElementIrType, std::vector<IRInstructionNode*> childAllocations, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
-    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+//    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
@@ -42,18 +42,18 @@ IRInstructionNode* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayEx
                 { malloc },
                 std::move(childAllocations)
         );
-    }
-    auto arrayAllocation = new llvm::AllocaInst(
-            irArrayType->getType(),
-            AddressSpaceGenerator::generate(arrayElementIrType),
-            nullptr,
-            DataAlignmentGenerator::generate(arrayElementIrType)
-    );
-    return IRInstructionNodeFactory::create(arrayAllocation, irGenerator->generateIrPointerType(irArrayType), std::move(childAllocations));
+//    }
+//    auto arrayAllocation = new llvm::AllocaInst(
+//            irArrayType->getType(),
+//            AddressSpaceGenerator::generate(arrayElementIrType),
+//            nullptr,
+//            DataAlignmentGenerator::generate(arrayElementIrType)
+//    );
+//    return IRInstructionNodeFactory::create(arrayAllocation, irGenerator->generateIrPointerType(irArrayType), std::move(childAllocations));
 }
 
 IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(ASTArrayExpressionNode* node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRInstructionNode* arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
-    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+//    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
@@ -66,7 +66,7 @@ IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(AST
                 { malloc },
                 arrayAllocation
         );
-    }
-    return IRInstructionNodeFactory::create(
-            irGenerator->generateIrPointerType(irArrayPointerType), arrayAllocation);
+//    }
+//    return IRInstructionNodeFactory::create(
+//            irGenerator->generateIrPointerType(irArrayPointerType), arrayAllocation);
 }

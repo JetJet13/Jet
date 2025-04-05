@@ -6,10 +6,14 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* PointerIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irExpression->getExpression()->isOneOf({ IR_IDENTIFIER_EXPRESSION_NODE, IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
+    if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
         auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
         irBlock->getBuilder()->get()->CreateStore(value, allocation);
+        return allocation;
+    } else if (irExpression->getExpression()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
+        auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
+        irBlock->getBuilder()->get()->CreateStore(irExpression->getExpression()->getValue(), allocation);
         return allocation;
     }
     auto value = this->injectRawValue(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
