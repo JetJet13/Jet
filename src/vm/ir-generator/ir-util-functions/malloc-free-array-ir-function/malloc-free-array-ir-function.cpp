@@ -133,7 +133,6 @@ void MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(IRGenerator* irG
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
     auto arrayElementPointer = forLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), loadedNodeArray, { zeroIndex, allocIndex, forLoopIndexValue });
     auto loadedArrayElement = forLoopBody->CreateLoad(arrayPointerType->getType(), arrayElementPointer, "arrayElement");
-    auto arrayElementDepth = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, loadedNodeDepth, irGenerator->generateIntConstant(1), "arrayElementDepth");
     auto newNode = forLoopBody->CreateAlloca(arrayPointerType->getType(), nullptr, "newNode");
     forLoopBody->CreateStore(loadedArrayElement, newNode);
     forLoopBody->CreateCall(

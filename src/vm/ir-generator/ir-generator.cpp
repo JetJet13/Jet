@@ -71,6 +71,7 @@
 #include "ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.h"
 #include "ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h"
 #include "ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h"
+#include "ir-util-functions/copy-array-ir-function/copy-array-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -428,6 +429,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
     return new IRModuleNode(
         new llvm::Module(moduleName, *_context),
         ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
+        CopyArrayIRFunction::getCopyArrayIRFunctionName(),
         CopyStringIRFunction::getCopyStringIRFunctionName(),
         PrintIRFunction::getPrintIRFunctionName(),
         MallocIRFunction::getMallocIRFunctionName(),

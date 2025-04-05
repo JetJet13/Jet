@@ -11,6 +11,7 @@ class IRModuleNode {
 private:
     llvm::Module* _irValue;
     std::string _arrayAccessFunctionName;
+    std::string _copyArrayFunctionName;
     std::string _copyStringFunctionName;
     std::string _printFunctionName;
     std::string _mallocFunctionName;
@@ -23,6 +24,7 @@ private:
 public:
     IRModuleNode(llvm::Module* irValue,
                  std::string arrayAccessFunctionName,
+                 std::string copyArrayFunctionName,
                  std::string copyStringFunctionName,
                  std::string printFunctionName,
                  std::string mallocFunctionName,
@@ -34,6 +36,7 @@ public:
                  std::string mallocFreeArrayFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
+    llvm::Function* getCopyArrayFunction();
     llvm::Function* getCopyStringFunction();
     llvm::Function* getPrintFunction();
     llvm::Function* getMallocFunction();

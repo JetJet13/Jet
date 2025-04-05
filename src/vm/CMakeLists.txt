@@ -437,6 +437,10 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-sref-expression-node.h
         ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-sref-expression-injector-strategy/pointer-ir-sref-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-sref-expression-injector-strategy/pointer-ir-sref-expression-injector-strategy.h
+        ir-generator/ir-util-functions/copy-array-ir-function/copy-array-ir-function.cpp
+        ir-generator/ir-util-functions/copy-array-ir-function/copy-array-ir-function.h
+        ir-generator/ir-util-functions/copy-pointer-ir-function/copy-pointer-ir-function.cpp
+        ir-generator/ir-util-functions/copy-pointer-ir-function/copy-pointer-ir-function.h
 )
 
 target_link_libraries(jet-vm
