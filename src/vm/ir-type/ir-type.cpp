@@ -3,6 +3,8 @@
 //
 
 #include "ir-type.h"
+#include "../ir-nodes/ir-instruction-node.h"
+#include "../../shared/utils/logger/logger.h"
 
 IRType::IRType(llvm::Type* type) {
     _type = type;
@@ -26,6 +28,22 @@ uint64_t IRType::getSizeInBytes() {
     } else {
         return 0;
     }
+}
+
+void IRType::setValue(IRInstructionNode* value) {
+    _value = value;
+}
+
+IRInstructionNode* IRType::getValue() {
+    if (!_value) {
+        this->print();
+        throw std::logic_error("ir type has no value");
+    }
+    return _value.value();
+}
+
+bool IRType::hasValue() {
+    return _value.has_value();
 }
 
 bool IRType::isCharType() {
@@ -81,6 +99,10 @@ bool IRType::isFunctionType() {
 }
 
 bool IRType::isClassType() {
+    return false;
+}
+
+bool IRType::isTypeValueType() {
     return false;
 }
 

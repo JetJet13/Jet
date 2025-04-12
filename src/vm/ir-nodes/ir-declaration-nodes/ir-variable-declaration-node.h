@@ -22,6 +22,7 @@ public:
     std::string getVariableName();
     llvm::Value* getValue() override;
     llvm::Type* getAllocatedType();
+    IRType* getAllocatedIRType();
     IRInstructionNode* getIRValue();
     IRExpressionNode* getIRExpression();
     std::optional<IRInstructionNode*> getGlobalVariable();

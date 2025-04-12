@@ -14,6 +14,7 @@ class IRInstructionNode : public IRNode {
 private:
     llvm::Value* _irValue;
     std::vector<llvm::Value*> _ancestorValues;
+    std::vector<llvm::Value*> _descendentValues;
     std::optional<IRInstructionNode*> _parentAllocation;
     std::vector<IRInstructionNode*> _childAllocations;
     std::unordered_map<std::string, IRInstructionNode*> _childAllocationMap;
@@ -26,6 +27,7 @@ public:
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues);
+    IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::vector<llvm::Value*> descendentValues);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::vector<llvm::Value*> ancestorValues, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType);
@@ -34,6 +36,7 @@ public:
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
     std::vector<llvm::Value*>* getAncestorValues();
+    std::vector<llvm::Value*>* getDescendentValues();
     std::optional<IRInstructionNode*> getParentAllocation();
     std::vector<IRInstructionNode*>* getChildAllocations();
     bool hasChildAllocationMap();

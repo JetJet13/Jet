@@ -60,6 +60,7 @@
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 #include "../ir-nodes/ir-context.h"
 #include "../ir-type/ir-malloc-array-type.h"
+#include "../ir-type/ir-type-value-type.h"
 
 class IRGenerator {
 private:
@@ -92,9 +93,11 @@ public:
     llvm::IntegerType* generateIntType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generateMallocSizeType();
-    llvm::StructType* generateMallocArrayType();
-    IRMallocArrayType* generateIrMallocArrayType();
-    IRType* generateMallocSizeIRType();
+    IRTypeValueType* generateIrTypeValueType();
+    llvm::AllocaInst* generateIrTypeValueTypeAllocation();
+    llvm::AllocaInst* generateAllocation(IRType* irType);
+    llvm::StoreInst* generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType);
+    llvm::LoadInst* generateLoadInstruction(llvm::Value* pointer, IRType* irType);
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::Constant* generateIntConstant(int integer);

@@ -329,16 +329,38 @@ llvm::IntegerType* IRGenerator::generateMallocSizeType() {
     return llvm::IntegerType::get(*_context, 64);
 }
 
-llvm::StructType* IRGenerator::generateMallocArrayType() {
-    return llvm::StructType::get(*_context, { this->generateIntType(), this->generateArrayPointerType() }, false);
+IRTypeValueType* IRGenerator::generateIrTypeValueType() {
+    auto intType = this->generateIntType();
+    auto pointerType = this->generatePointerType();
+    auto type = llvm::StructType::get(*_context, { intType, intType, intType, pointerType });
+    return new IRTypeValueType(type);
 }
 
-IRMallocArrayType* IRGenerator::generateIrMallocArrayType() {
-    return new IRMallocArrayType(this->generateMallocArrayType());
+llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
+    auto irTypeValueType= this->generateIrTypeValueType();
+    return new llvm::AllocaInst(
+            irTypeValueType->getType(),
+            AddressSpaceGenerator::generate(irTypeValueType),
+            nullptr,
+            DataAlignmentGenerator::generate(irTypeValueType)
+    );
 }
 
-IRType* IRGenerator::generateMallocSizeIRType() {
-    return new IRType(this->generateMallocSizeType());
+llvm::AllocaInst* IRGenerator::generateAllocation(IRType* irType) {
+    return new llvm::AllocaInst(
+            irType->getType(),
+            AddressSpaceGenerator::generate(irType),
+            nullptr,
+            DataAlignmentGenerator::generate(irType)
+    );
+}
+
+llvm::StoreInst* IRGenerator::generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType) {
+    return new llvm::StoreInst(value, pointer, false, DataAlignmentGenerator::generate(irType));
+}
+
+llvm::LoadInst* IRGenerator::generateLoadInstruction(llvm::Value* pointer, IRType* irType) {
+    return new llvm::LoadInst(irType->getType(), pointer, "", false, DataAlignmentGenerator::generate(irType));
 }
 
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter) {

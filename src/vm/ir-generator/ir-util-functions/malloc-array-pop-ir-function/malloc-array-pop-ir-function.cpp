@@ -11,9 +11,7 @@ std::string MallocArrayPopIRFunction::getMallocArrayPopIRFunctionName() {
 
 void MallocArrayPopIRFunction::generateMallocArrayPopFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto mallocArrayType = irGenerator->generateIrMallocArrayType();
-    auto arrayPointerType = irGenerator->generateIrArrayPointerType(mallocArrayType);
-    auto pointerType = irGenerator->generateIrPointerType();
+    auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(),
                                                 { irGenerator->generatePointerType(arrayPointerType->getType()) },
                                                 false);
@@ -32,7 +30,7 @@ void MallocArrayPopIRFunction::generateMallocArrayPopFunction(IRGenerator* irGen
             irModuleNode->getMallocSizeFunction(),
             {
                 newNumElements,
-                irGenerator->generateIntConstant(mallocArrayType->getSizeInBytes())
+                irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
             }
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
@@ -43,12 +41,12 @@ void MallocArrayPopIRFunction::generateMallocArrayPopFunction(IRGenerator* irGen
     auto pointerToSecondElementInOldArray = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex, irGenerator->generateIntConstant(1) });
     functionBlock->getBuilder()->get()->CreateMemCpy(
             newArrayMalloc,
-            DataAlignmentGenerator::generate(mallocArrayType),
+            DataAlignmentGenerator::generate(arrayPointerType),
             pointerToSecondElementInOldArray,
-            DataAlignmentGenerator::generate(mallocArrayType),
+            DataAlignmentGenerator::generate(arrayPointerType),
             newArraySize
     );
-    auto newArrayMallocBitCast = functionBlock->getBuilder()->get()->CreateBitCast(newArrayMalloc, mallocArrayType->getType());
+    auto newArrayMallocBitCast = functionBlock->getBuilder()->get()->CreateBitCast(newArrayMalloc, arrayPointerType->getType());
 
     auto queueNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     functionBlock->getBuilder()->get()->CreateStore(newNumElements, queueNumElementsPointer);

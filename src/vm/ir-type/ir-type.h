@@ -8,14 +8,21 @@
 #include <llvm/IR/Type.h>
 #include <llvm/IR/DerivedTypes.h>
 
+// forward declaration
+class IRInstructionNode;
+
 class IRType {
 protected:
     llvm::Type* _type;
+    std::optional<IRInstructionNode*> _value;
 public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
     virtual IRType* getSourceType();
     virtual uint64_t getSizeInBytes();
+    void setValue(IRInstructionNode* value);
+    IRInstructionNode* getValue();
+    bool hasValue();
     bool isCharType();
     bool isIntegerType();
     bool isFloatType();
@@ -30,6 +37,7 @@ public:
     virtual bool isLambdaType();
     virtual bool isFunctionType();
     virtual bool isClassType();
+    virtual bool isTypeValueType();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
     bool isLessThan(IRType* otherValue);

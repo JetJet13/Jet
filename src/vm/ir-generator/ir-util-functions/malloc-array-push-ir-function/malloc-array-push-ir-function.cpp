@@ -11,12 +11,11 @@ std::string MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName() {
 
 void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto mallocArrayType = irGenerator->generateIrMallocArrayType();
-    auto arrayPointerType = irGenerator->generateIrArrayPointerType(mallocArrayType);
+    auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(),
                                                 { irGenerator->generatePointerType(arrayPointerType->getType()),
-                                                  irGenerator->generatePointerType(mallocArrayType->getType())
+                                                  irGenerator->generatePointerType(arrayPointerType->getType())
                                                 },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName(), irModuleNode->getModule());
@@ -35,7 +34,7 @@ void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irG
             irModuleNode->getMallocSizeFunction(),
             {
                     loadedNumElements,
-                    irGenerator->generateIntConstant(mallocArrayType->getSizeInBytes())
+                    irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
             }
     );
     auto newArraySize = functionBlock->getBuilder()->get()->CreateCall(
@@ -43,7 +42,7 @@ void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irG
             irModuleNode->getMallocSizeFunction(),
             {
                     newNumElements,
-                    irGenerator->generateIntConstant(mallocArrayType->getSizeInBytes())
+                    irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
             }
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
@@ -51,8 +50,8 @@ void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irG
             irModuleNode->getMallocFunction(),
             { newArraySize }
     );
-    auto newArrayMallocBitCast = functionBlock->getBuilder()->get()->CreateBitCast(newArrayMalloc, mallocArrayType->getType());
-    auto loadedNewElement = functionBlock->getBuilder()->get()->CreateLoad(mallocArrayType->getType(), newElement);
+    auto newArrayMallocBitCast = functionBlock->getBuilder()->get()->CreateBitCast(newArrayMalloc, arrayPointerType->getType());
+    auto loadedNewElement = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), newElement);
     auto newElementIndex = functionBlock->getBuilder()->get()->getInt32(0);
     auto newElementPointer = functionBlock->getBuilder()->get()->CreateGEP(newArrayMallocBitCast->getType(), newArrayMallocBitCast, { zeroIndex, newElementIndex });
     functionBlock->getBuilder()->get()->CreateStore(loadedNewElement, newElementPointer);
@@ -60,9 +59,9 @@ void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irG
     auto pointerToOldArray = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     functionBlock->getBuilder()->get()->CreateMemCpy(
             newArrayMallocWithFirstElementOffset,
-            DataAlignmentGenerator::generate(mallocArrayType),
+            DataAlignmentGenerator::generate(arrayPointerType),
             pointerToOldArray,
-            DataAlignmentGenerator::generate(mallocArrayType),
+            DataAlignmentGenerator::generate(arrayPointerType),
             oldArraySize
     );
     auto stackNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });

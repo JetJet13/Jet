@@ -12,6 +12,7 @@
 class StructTypeSignatureIRStrategy {
 public:
     IRStructType* generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRInstructionNode* generateTypeValue(IRStructType* irType, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_STRUCT_TYPE_SIGNATURE_IR_STRATEGY_H

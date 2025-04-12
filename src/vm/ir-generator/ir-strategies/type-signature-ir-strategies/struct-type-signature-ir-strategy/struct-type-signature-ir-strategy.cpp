@@ -4,6 +4,7 @@
 
 #include "struct-type-signature-ir-strategy.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../types/ir-type-id.h"
 
 IRStructType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
@@ -17,5 +18,25 @@ IRStructType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* struc
         );
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
-    return new IRStructType(llvm::StructType::get(**irContext->getContext(), structPropertyTypes), keyIndexMap, keyTypeMap);
+    auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), structPropertyTypes), keyIndexMap, keyTypeMap);
+    structType->setValue(this->generateTypeValue(structType, irGenerator));
+    return structType;
+}
+
+IRInstructionNode* StructTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator) {
+    auto irTypeValueType = irGenerator->generateIrTypeValueType();
+    auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
+    auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT),
+            irGenerator->generateIntConstant(irType->getSizeInBytes()),
+            irGenerator->generateIntConstant(irType->size()),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
+    });
+    auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
+    return new IRInstructionNode(
+            typeValueTypeAllocation,
+            irGenerator->generateIrPointerType(irTypeValueType),
+            {},
+            { storeInstruction }
+    );
 }

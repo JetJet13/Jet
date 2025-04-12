@@ -23,6 +23,10 @@ llvm::Type* IRVariableDeclarationNode::getAllocatedType() {
     return _irValue->getAllocatedType();
 }
 
+IRType* IRVariableDeclarationNode::getAllocatedIRType() {
+    return _irValue->getIRType()->getSourceType();
+}
+
 IRInstructionNode* IRVariableDeclarationNode::getIRValue() {
     return _irValue;
 }

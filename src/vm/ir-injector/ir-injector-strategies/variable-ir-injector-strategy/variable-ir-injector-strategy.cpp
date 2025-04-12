@@ -7,6 +7,7 @@
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
+    irInjector->inject(irBlock, irVariableDeclaration->getAllocatedIRType());
     auto operation = this->determineOperationType(irVariableDeclaration);
     auto irExpressionValue = irInjector
             ->inject(

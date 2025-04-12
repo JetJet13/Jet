@@ -33,6 +33,7 @@ class ArrayAccessAssignmentIRInjectorStrategy;
 class IfStatementIRInjectorStrategy;
 class ProcedureDeclarationIRInjectorStrategy;
 class FunctionDeclarationIRInjectorStrategy;
+class TypeValueIRInjectorStrategy;
 
 class IRInjector {
 private:
@@ -56,6 +57,7 @@ private:
     IfStatementIRInjectorStrategy* _ifStatementIRInjectorStrategy;
     ProcedureDeclarationIRInjectorStrategy* _procedureDeclarationIRInjectorStrategy;
     FunctionDeclarationIRInjectorStrategy* _functionDeclarationIRInjectorStrategy;
+    TypeValueIRInjectorStrategy* _typeValueIRInjectorStrategy;
     void init();
     std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
@@ -63,6 +65,7 @@ public:
     void inject(IRBlockNode* irBlock, IRNode* irNode, IRModuleNode* irModule, IRLookupTable* scope);
     void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule, IRLookupTable* scope);
     void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRBlockNode* irBlock, IRType* irType);
     llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
 };

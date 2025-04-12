@@ -8,7 +8,14 @@ llvm::Value* InstructionIRInjectorHelper::inject(IRInstructionNode* irInstructio
     for (auto ancestorValue : *irInstruction->getAncestorValues()) {
         irBlock->getBuilder()->get()->Insert(ancestorValue);
     }
-    return irBlock->getBuilder()->get()->Insert(irInstruction->getValue(), name);
+
+    auto value = irBlock->getBuilder()->get()->Insert(irInstruction->getValue(), name);
+
+    for (auto descendentValue : *irInstruction->getDescendentValues()) {
+        irBlock->getBuilder()->get()->Insert(descendentValue);
+    }
+
+    return value;
 }
 
 llvm::Value* InstructionIRInjectorHelper::injectLoad(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name) {
