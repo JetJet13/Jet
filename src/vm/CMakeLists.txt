@@ -446,6 +446,12 @@ add_library(jet-vm
         ir-type/ir-type-value-type.h
         ir-injector/ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.h
+        ir-generator/ir-util-functions/memcpy-ir-function/memcpy-ir-function.cpp
+        ir-generator/ir-util-functions/memcpy-ir-function/memcpy-ir-function.h
+        ir-generator/ir-util-functions/copy-value-ir-function/copy-value-ir-function.cpp
+        ir-generator/ir-util-functions/copy-value-ir-function/copy-value-ir-function.h
+        ir-generator/ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.cpp
+        ir-generator/ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.h
 )
 
 target_link_libraries(jet-vm

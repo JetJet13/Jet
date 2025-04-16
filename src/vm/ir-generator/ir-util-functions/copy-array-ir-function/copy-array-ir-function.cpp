@@ -15,12 +15,13 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto arrayIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType, typeValueType->getType() }, false);
 
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyArrayIRFunction::getCopyArrayIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -57,16 +58,16 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
 
     auto depthOneBlock = irGenerator->generateIfThenBlock(irContext);
     auto sourceArrayAllocation = depthOneBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), loadedSourceArray, { zeroIndex, allocIndex });
-    // todo: to perform a proper copy, we need to know what type of the array element type is
-    // because that will decide how to copy. we'll need to represent types as values and then
-    // add a new parameter to this function that will indicate what the type is.
-    // We'll also need a parameter to determine the alignment
-    depthOneBlock->getBuilder()->get()->CreateMemCpy(
-            sourceArrayAllocation,
-            llvm::Align(4), // fixme
-            malloc,
-            llvm::Align(4),
-            mallocSize
+
+    depthOneBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getMemcpyFunction()->getFunctionType(),
+            irContext->getIRModule()->getMemcpyFunction(),
+            {
+                malloc,
+                sourceArrayAllocation,
+                mallocSize
+            },
+            ""
     );
     depthOneBlock->getBuilder()->get()->CreateStore(malloc, destinationArrayAllocPointer);
     depthOneBlock->getBuilder()->get()->CreateRet(
@@ -89,13 +90,13 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto forLoopIndex = functionLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
     functionLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
 
-    // for loop (inside while block)
+    // for loop
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
     functionLoopPrepBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
-    // for loop condition (inside while block)
+    // for loop condition
     auto forLoopIndexValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex);
     auto isForLoopIndexLessThanNumElements = forLoopConditionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
@@ -104,7 +105,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     );
     forLoopConditionBlock->getBuilder()->get()->CreateCondBr(isForLoopIndexLessThanNumElements, forLoopBodyBlock->getBlock(), forLoopEndBlock->getBlock());
 
-    // for loop body (inside while block)
+    // for loop body
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
     auto arrayElementPointer = forLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), loadedSourceArray, { zeroIndex, allocIndex, forLoopIndexValue }, "arrayElement");
     auto copiedArrayElement = forLoopBody->CreateCall(
@@ -119,7 +120,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     forLoopBody->CreateStore(forLoopIndex, newForLoopIndexValue);
     forLoopBody->CreateBr(forLoopConditionBlock->getBlock());
 
-    // for loop end (inside while block)
+    // for loop end
     forLoopEndBlock->getBuilder()->get()->CreateBr(functionLoopEndBlock->getBlock());
 
     functionLoopEndBlock->getBuilder()->get()->CreateRet(

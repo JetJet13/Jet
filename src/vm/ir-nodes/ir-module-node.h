@@ -12,6 +12,9 @@ private:
     llvm::Module* _irValue;
     std::string _arrayAccessFunctionName;
     std::string _copyArrayFunctionName;
+    std::string _copyPointerFunctionName;
+    std::string _copyStructFunctionName;
+    std::string _copyValueFunctionName;
     std::string _copyStringFunctionName;
     std::string _printFunctionName;
     std::string _mallocFunctionName;
@@ -21,10 +24,14 @@ private:
     std::string _mallocArrayPushFunctionName;
     std::string _mallocArrayEnqueueFunctionName;
     std::string _mallocFreeArrayFunctionName;
+    std::string _memcpyFunctionName;
 public:
     IRModuleNode(llvm::Module* irValue,
                  std::string arrayAccessFunctionName,
                  std::string copyArrayFunctionName,
+                 std::string copyPointerFunctionName,
+                std::string copyStructFunctionName,
+                std::string copyValueFunctionName,
                  std::string copyStringFunctionName,
                  std::string printFunctionName,
                  std::string mallocFunctionName,
@@ -33,10 +40,14 @@ public:
                  std::string mallocArrayPopFunctionName,
                  std::string mallocArrayPushFunctionName,
                  std::string mallocArrayEnqueueFunctionName,
-                 std::string mallocFreeArrayFunctionName);
+                 std::string mallocFreeArrayFunctionName,
+                 std::string memcpyFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
+    llvm::Function* getCopyPointerFunction();
+    llvm::Function* getCopyStructFunction();
+    llvm::Function* getCopyValueFunction();
     llvm::Function* getCopyStringFunction();
     llvm::Function* getPrintFunction();
     llvm::Function* getMallocFunction();
@@ -46,6 +57,7 @@ public:
     llvm::Function* getMallocArrayPushFunction();
     llvm::Function* getMallocArrayEnqueueFunction();
     llvm::Function* getMallocFreeArrayFunction();
+    llvm::Function* getMemcpyFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

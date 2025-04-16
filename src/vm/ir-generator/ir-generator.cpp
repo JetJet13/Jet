@@ -72,6 +72,7 @@
 #include "ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h"
 #include "ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h"
 #include "ir-util-functions/copy-array-ir-function/copy-array-ir-function.h"
+#include "ir-util-functions/memcpy-ir-function/memcpy-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -460,7 +461,8 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
         MallocArrayPopIRFunction::getMallocArrayPopIRFunctionName(),
         MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName(),
         MallocArrayEnqueueIRFunction::getMallocArrayEnqueueIRFunctionName(),
-        MallocFreeArrayIRFunction::getMallocFreeArrayIRFunctionName()
+        MallocFreeArrayIRFunction::getMallocFreeArrayIRFunctionName(),
+        MemcpyIRFunction::getMemcpyIRFunctionName()
     );
 }
 
@@ -474,6 +476,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocArrayPopIRFunction::generateMallocArrayPopFunction(this, &_context, irModule);
     MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
     MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(this, &_context, irModule);
+    MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
