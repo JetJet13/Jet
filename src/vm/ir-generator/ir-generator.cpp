@@ -73,6 +73,9 @@
 #include "ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h"
 #include "ir-util-functions/copy-array-ir-function/copy-array-ir-function.h"
 #include "ir-util-functions/memcpy-ir-function/memcpy-ir-function.h"
+#include "ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.h"
+#include "ir-util-functions/copy-value-ir-function/copy-value-ir-function.h"
+#include "ir-util-functions/copy-pointer-ir-function/copy-pointer-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -453,6 +456,9 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
         new llvm::Module(moduleName, *_context),
         ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
         CopyArrayIRFunction::getCopyArrayIRFunctionName(),
+        CopyPointerIRFunction::getCopyPointerIRFunctionName(),
+        CopyStructIRFunction::getCopyStructIRFunctionName(),
+        CopyValueIRFunction::getCopyValueIRFunctionName(),
         CopyStringIRFunction::getCopyStringIRFunctionName(),
         PrintIRFunction::getPrintIRFunctionName(),
         MallocIRFunction::getMallocIRFunctionName(),
@@ -468,7 +474,6 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
 
 void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
-    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
     MallocIRFunction::generateMallocFunction(this, &_context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
@@ -477,6 +482,11 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
     MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(this, &_context, irModule);
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
+    CopyArrayIRFunction::generateCopyArrayFunction(this, &_context, irModule);
+    CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
+    CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
+    CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
+    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
