@@ -13,14 +13,14 @@ private:
     llvm::StructType* _type;
     unsigned int _idIndex;
     unsigned int _sizeInBytesIndex;
-    unsigned int _numElementsIndex;
+    unsigned int _numTypesIndex;
     unsigned int _allocIndex;
 public:
     explicit IRTypeValueType(llvm::StructType* type);
     llvm::StructType* getType() override;
     [[nodiscard]] unsigned int getIdIndex() const;
     [[nodiscard]] unsigned int getSizeInBytesIndex() const;
-    [[nodiscard]] unsigned int getNumElementsIndex() const;
+    [[nodiscard]] unsigned int getNumTypesIndex() const;
     [[nodiscard]] unsigned int getAllocIndex() const;
     llvm::PointerType* getAllocType();
     uint64_t getSizeInBytes() override;

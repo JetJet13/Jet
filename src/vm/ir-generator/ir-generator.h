@@ -92,12 +92,11 @@ public:
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
     llvm::IntegerType* generateCharType();
+    llvm::IntegerType* generatePointerIntType();
     llvm::IntegerType* generateMallocSizeType();
     IRTypeValueType* generateIrTypeValueType();
     llvm::AllocaInst* generateIrTypeValueTypeAllocation();
-    llvm::AllocaInst* generateAllocation(IRType* irType);
     llvm::StoreInst* generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType);
-    llvm::LoadInst* generateLoadInstruction(llvm::Value* pointer, IRType* irType);
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::Constant* generateIntConstant(int integer);

@@ -8,7 +8,7 @@ IRTypeValueType::IRTypeValueType(llvm::StructType* type) : IRType(type) {
     _type = type;
     _idIndex = 0;
     _sizeInBytesIndex = 1;
-    _numElementsIndex = 2;
+    _numTypesIndex = 2;
     _allocIndex = 3;
 }
 
@@ -24,8 +24,8 @@ unsigned int IRTypeValueType::getSizeInBytesIndex() const {
     return _sizeInBytesIndex;
 }
 
-unsigned int IRTypeValueType::getNumElementsIndex() const {
-    return _numElementsIndex;
+unsigned int IRTypeValueType::getNumTypesIndex() const {
+    return _numTypesIndex;
 }
 
 unsigned int IRTypeValueType::getAllocIndex() const {

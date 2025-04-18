@@ -329,6 +329,10 @@ llvm::IntegerType* IRGenerator::generateCharType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
+llvm::IntegerType* IRGenerator::generatePointerIntType() {
+    return llvm::IntegerType::get(*_context, 8);
+}
+
 llvm::IntegerType* IRGenerator::generateMallocSizeType() {
     return llvm::IntegerType::get(*_context, 64);
 }
@@ -350,21 +354,8 @@ llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
     );
 }
 
-llvm::AllocaInst* IRGenerator::generateAllocation(IRType* irType) {
-    return new llvm::AllocaInst(
-            irType->getType(),
-            AddressSpaceGenerator::generate(irType),
-            nullptr,
-            DataAlignmentGenerator::generate(irType)
-    );
-}
-
 llvm::StoreInst* IRGenerator::generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType) {
     return new llvm::StoreInst(value, pointer, false, DataAlignmentGenerator::generate(irType));
-}
-
-llvm::LoadInst* IRGenerator::generateLoadInstruction(llvm::Value* pointer, IRType* irType) {
-    return new llvm::LoadInst(irType->getType(), pointer, "", false, DataAlignmentGenerator::generate(irType));
 }
 
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter) {
