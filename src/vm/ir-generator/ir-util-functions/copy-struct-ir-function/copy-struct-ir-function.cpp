@@ -25,8 +25,8 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     auto numTypesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(2), { zeroIndex, numTypesIndex });
     auto loadedNumTypes = functionBlock->getBuilder()->get()->CreateLoad(intType, numTypesPointer);
 
-    auto structByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "structByteOffset");
-    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), structByteOffset);
+    auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
+    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
 
     auto forLoopIndex = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
@@ -51,7 +51,7 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     auto loadedTypeValueAllocAtIndex = forLoopBody->CreateLoad(pointerType->getType(), pointerToTypeValueAllocAtIndex);
     auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), loadedTypeValueAllocAtIndex, { forLoopIndexValue });
     auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
-    auto structByteOffsetValue = forLoopBody->CreateLoad(intType, structByteOffset);
+    auto structByteOffsetValue = forLoopBody->CreateLoad(intType, elementByteOffset);
 
     auto destinationPointerAtIndex = forLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), function->getArg(0), { structByteOffsetValue });
     auto sourcePointerAtIndex = forLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), function->getArg(1), { structByteOffsetValue });
@@ -64,7 +64,7 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     auto sizeInBytesAtIndexPointer = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueAtIndex, { zeroIndex, sizeInBytesIndex });
     auto loadedSizeInBytesAtIndex = forLoopBody->CreateLoad(intType, sizeInBytesAtIndexPointer);
     auto newStructByteOffsetValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, loadedSizeInBytesAtIndex);
-    forLoopBody->CreateStore(structByteOffset, newStructByteOffsetValue);
+    forLoopBody->CreateStore(elementByteOffset, newStructByteOffsetValue);
 
     auto newForLoopIndexValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
     forLoopBody->CreateStore(forLoopIndex, newForLoopIndexValue);
