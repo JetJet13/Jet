@@ -12,6 +12,7 @@
 class CopyPointerIRFunction {
 public:
     static std::string getCopyPointerIRFunctionName();
+    static void declareCopyPointerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generateCopyPointerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
 };
 

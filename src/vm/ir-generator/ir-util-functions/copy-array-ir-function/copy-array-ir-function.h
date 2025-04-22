@@ -12,6 +12,7 @@
 class CopyArrayIRFunction {
 public:
     static std::string getCopyArrayIRFunctionName();
+    static void declareCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generateCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
 };
 

@@ -464,6 +464,13 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
 }
 
 void IRGenerator::initModule(IRModuleNode* irModule) {
+    // declare (if necessary)
+    CopyValueIRFunction::declareCopyValueFunction(this, &_context, irModule);
+    CopyArrayIRFunction::declareCopyArrayFunction(this, &_context, irModule);
+    CopyPointerIRFunction::declareCopyPointerFunction(this, &_context, irModule);
+    CopyStructIRFunction::declareCopyStructFunction(this, &_context, irModule);
+
+    // generate (add function body)
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
     MallocIRFunction::generateMallocFunction(this, &_context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);

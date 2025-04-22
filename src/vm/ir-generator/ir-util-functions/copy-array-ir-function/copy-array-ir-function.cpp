@@ -11,6 +11,13 @@ std::string CopyArrayIRFunction::getCopyArrayIRFunctionName() {
     return "jet.copy.array";
 }
 
+void CopyArrayIRFunction::declareCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto pointerType = irGenerator->generateIrPointerType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
+    auto functionType = llvm::FunctionType::get(pointerType->getType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyArrayIRFunction::getCopyArrayIRFunctionName(), irModuleNode->getModule());
+}
+
 void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
@@ -21,8 +28,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
 
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType, pointerType, typeValueType->getType() }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyArrayIRFunction::getCopyArrayIRFunctionName(), irModuleNode->getModule());
+    auto function = irModuleNode->getCopyArrayFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto pointerToSourceArrayNumElements = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, numElementsIndex });

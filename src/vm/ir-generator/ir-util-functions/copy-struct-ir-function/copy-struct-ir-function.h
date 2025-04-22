@@ -12,6 +12,7 @@
 class CopyStructIRFunction {
 public:
     static std::string getCopyStructIRFunctionName();
+    static void declareCopyStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generateCopyStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
 };
 
