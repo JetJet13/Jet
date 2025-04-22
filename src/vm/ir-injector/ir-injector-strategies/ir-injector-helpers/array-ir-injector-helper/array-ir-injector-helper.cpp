@@ -25,31 +25,6 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
     return new IRLoadInstructionNode(irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getAllocatedType(), arrayPointerAllocation->getValue()), arrayPointerAllocation);
 }
 
-IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, IRModuleNode* irModule, IROperationType irOperationType) {
-//    if (irOperationType != IR_COPY_GLOBAL_ASSIGNMENT_OP) {
-//        return IRInstructionNodeFactory::create(
-//                irBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getElementType(), loadedNumElements),
-//                IRPointerType::create(arrayPointerType->getElementIRType())
-//        );
-//    }
-    auto elementTypeSize = irBlock->getBuilder()->get()->getInt32(
-            arrayPointerType->getElementIRType()->getSizeInBytes()
-    );
-    auto mallocSize = irBlock->getBuilder()->get()->CreateCall(
-            irModule->getMallocSizeFunction(),
-            { loadedNumElements, elementTypeSize }
-    );
-    auto malloc = irBlock->getBuilder()->get()->CreateCall(
-            irModule->getMallocFunction(),
-            { mallocSize }
-    );
-
-    return IRInstructionNodeFactory::create(
-            malloc,
-            IRPointerType::create(arrayPointerType->getElementIRType())
-    );
-}
-
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayAllocation, IRInstructionNode* arrayPointerAllocation) {
     InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);

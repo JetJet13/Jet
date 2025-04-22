@@ -24,7 +24,16 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectA
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
     auto loadedPointerToIndexedElement = irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
-    return ArrayIRInjectorHelper::injectArrayCopy(irBlock, irArrayPointerType, irArrayPointerType->getElementIRType(), irModule, loadedPointerToIndexedElement, irExpression->getSourceAllocation().value(), irOperationType)->getValue();
+    auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
+    irBlock->getBuilder()->get()->CreateCall(
+            irModule->getCopyValueFunction(),
+            {
+                    irExpression->getSourceAllocation().value()->getValue(),
+                    loadedPointerToIndexedElement,
+                    typeValue
+            }
+    );
+    return irExpression->getSourceAllocation().value()->getValue();
 }
 
 llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectRef(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {

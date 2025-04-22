@@ -12,9 +12,6 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h"
 
 class IdentifierExpressionIRStrategy {
-private:
-    IRAggregateIdentifierExpressionNode* generateForAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
-    IRAggregateIdentifierExpressionNode* generateForGlobalAggregate(ASTIdentifierExpressionNode* node, IRInstructionNode* allocation, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 public:
     IRExpressionNode* generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };

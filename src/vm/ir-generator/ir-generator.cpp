@@ -470,7 +470,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     CopyPointerIRFunction::declareCopyPointerFunction(this, &_context, irModule);
     CopyStructIRFunction::declareCopyStructFunction(this, &_context, irModule);
 
-    // generate (add function body)
+    // generate
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
     MallocIRFunction::generateMallocFunction(this, &_context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
