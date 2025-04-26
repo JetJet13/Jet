@@ -32,12 +32,12 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRArrayPointerType* irArrayPoin
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructType* irStructType, IRBlockNode* irBlock) {
     auto irStructTypeValue = InstructionIRInjectorHelper::inject(irStructType->getValue(), irBlock);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
-    auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irStructType->getValue()->getIRType()->getType(), irStructType->size());
+    auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irStructType->getValue()->getIRType()->getType(), irBlock->getBuilder()->get()->getInt32(irStructType->size()));
     for (int i = 0; i < irStructType->size(); ++i) {
         auto index = irBlock->getBuilder()->get()->getInt32(i);
         auto irTypeAtIndex = irStructType->getIRTypeByIndex(i);
         auto irTypeAtIndexValue = this->inject(irTypeAtIndex, irBlock);
-        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex, index });
+        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { index });
         irBlock->getBuilder()->get()->CreateStore(irTypeAtIndexValue, pointer);
     }
     auto irTypeValueType = (IRTypeValueType*)irStructType->getValue()->getIRType()->getSourceType();

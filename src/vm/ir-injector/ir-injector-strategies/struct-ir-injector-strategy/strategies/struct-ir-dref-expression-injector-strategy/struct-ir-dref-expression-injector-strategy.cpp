@@ -15,6 +15,6 @@ llvm::Value* StructIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNode
             (IRStructType*)irExpression->getIRType(),
             loadedValue,
             irModule,
-            irOperationType
+            irInjector
     );
 }

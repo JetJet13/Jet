@@ -24,7 +24,7 @@ llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectCopy(IRIdentifie
             (IRStructType*)irExpression->getIRType()->getSourceType(),
             irExpression->getValue(),
             irModule,
-            irOperationType
+            irInjector
     );
 }
 

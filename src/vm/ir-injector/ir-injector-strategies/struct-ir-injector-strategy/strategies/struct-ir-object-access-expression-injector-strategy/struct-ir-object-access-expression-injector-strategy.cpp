@@ -25,7 +25,7 @@ llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObject
             (IRStructType*)irExpression->getSource()->getIRType(),
             loadedSourceAllocation,
             irModule,
-            irOperationType
+            irInjector
     );
 }
 

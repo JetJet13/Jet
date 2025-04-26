@@ -223,3 +223,51 @@ func B(num: int) ref<int> {
 func C(l: func<> => ref<int>) ref<int> {
     return l();
 }
+
+proc testRef() {
+    const x = 5;
+    const refX = ref x;
+    const srefX = sref refX;
+
+    const y = [1, 2, 5];
+    const refY = ref y;
+    const copyY = y;
+    const srefY = sref refY;
+    const doubleRefY = ref y;
+
+    const z = [ [7], [8], [9] ];
+    const refZ = ref z;
+
+    const b = "John Smith";
+    const refB = ref b;
+
+    const s = { a: true, nest: { b: 100, c: false, d: [8, 9] }, r: ref 90, ra: ref [10, 20], rs: ref { foo: 'q', bar: true } };
+    const refS = ref s;
+    const copyS = s;
+    const drefS = dref refS;
+    const copyDrefS = drefS;
+
+    const t = tuple { true, 200, 'c', tuple { [4, 6], true } };
+    const refT = ref t;
+    const copyT = t;
+
+    const ry = [ ref 10, ref 20 ];
+    const refRy = ref ry;
+    const drefRy = dref refRy;
+    const copyRy = ry;
+
+    const drx = [ dref refX ];
+}
+
+func foobar() int {
+    const a = [1, 2, 3];
+    return a[0] + 1;
+}
+
+
+func foobar3(x: int) arr<ref<int>> {
+    const p = 100;
+    const q = 200;
+    const a = [ [ref p], [ref q] ];
+    return a[x];
+}

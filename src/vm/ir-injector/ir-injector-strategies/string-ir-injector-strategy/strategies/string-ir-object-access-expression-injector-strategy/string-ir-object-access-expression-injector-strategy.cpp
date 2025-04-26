@@ -3,6 +3,7 @@
 //
 
 #include "string-ir-object-access-expression-injector-strategy.h"
+#include "../../../../../ir-type/ir-array-pointer-type.h"
 
 llvm::Value* StringIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();

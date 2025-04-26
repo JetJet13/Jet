@@ -20,7 +20,7 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRB
     } else if (irExpression->is(IR_DREF_EXPRESSION_NODE)) {
         return this->_arrayIRDrefExpressionInjectorStrategy.inject((IRDrefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return irExpression->getValue();
+        return this->_arrayIRIdentifierExpressionInjectorStrategy.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_PARAMETER_INVOCATION_EXPRESSION_NODE)) {

@@ -9,9 +9,11 @@
 #include "../../../ir-injector.h"
 
 class PointerIRInjectorHelper {
+private:
+    static IRInstructionNode* injectPointerSourceAllocation(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourceValue, IRModuleNode* irModule);
 public:
-    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IROperationType irOperationType);
-    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, IRModuleNode* irModule, IROperationType irOperationType);
+    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IRInjector* irInjector);
+    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, IRModuleNode* irModule, IRInjector* irInjector);
 };
 
 #endif //JETLANG_POINTER_IR_INJECTOR_HELPER_H

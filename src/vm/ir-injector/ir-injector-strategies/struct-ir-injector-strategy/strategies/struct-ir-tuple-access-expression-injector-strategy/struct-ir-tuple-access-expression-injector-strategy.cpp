@@ -22,7 +22,7 @@ llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAc
             (IRStructType*)irExpression->getSource()->getIRType(),
             loadedSourceAllocation,
             irModule,
-            irOperationType
+            irInjector
     );
 }
 
