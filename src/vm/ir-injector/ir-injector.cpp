@@ -108,6 +108,9 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
 }
 
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {
+    if (irType->getValue()->isInserted()) {
+        return irType->getValue()->getValue();
+    }
     return _typeValueIRInjectorStrategy->inject(irType, irBlock);
 }
 

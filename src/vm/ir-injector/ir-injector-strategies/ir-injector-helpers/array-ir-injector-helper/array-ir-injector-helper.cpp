@@ -118,3 +118,21 @@ IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irB
             IRPointerType::create(arrayPointerType->getElementIRType())
     );
 }
+
+IRInstructionNode* ArrayIRInjectorHelper::injectArrayPointerAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, IRModuleNode* irModule) {
+    auto arrayAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule);
+    auto malloc = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            { irBlock->getBuilder()->get()->getInt32(arrayPointerType->getSizeInBytes()) }
+    );
+    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+    auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
+    auto arrayPointerAllocation = irBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType());
+    auto pointerToArrayAllocation = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation, { zeroIndex, allocIndex });
+    irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), pointerToArrayAllocation);
+    return IRInstructionNodeFactory::create(
+            arrayPointerAllocation,
+            IRPointerType::create(arrayPointerType->getElementIRType()),
+            arrayAllocation
+    );
+}

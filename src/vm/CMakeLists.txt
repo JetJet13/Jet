@@ -454,6 +454,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.h
         ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-identifier-expression-injector-strategy/array-ir-identifier-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-identifier-expression-injector-strategy/array-ir-identifier-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-identifier-expression-injector-strategy/string-ir-identifier-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-identifier-expression-injector-strategy/string-ir-identifier-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

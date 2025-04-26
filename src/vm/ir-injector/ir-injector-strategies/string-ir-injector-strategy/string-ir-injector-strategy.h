@@ -24,6 +24,7 @@
 #include "strategies/string-ir-tuple-access-expression-injector-strategy/string-ir-tuple-access-expression-injector-strategy.h"
 #include "strategies/string-ir-class-property-access-expression-injector-strategy/string-ir-class-property-access-expression-injector-strategy.h"
 #include "strategies/string-ir-dref-expression-injector-strategy/string-ir-dref-expression-injector-strategy.h"
+#include "strategies/string-ir-identifier-expression-injector-strategy/string-ir-identifier-expression-injector-strategy.h"
 
 
 class StringIRInjectorStrategy : public IRInjectorStrategy {
@@ -34,6 +35,7 @@ private:
     StringIRArrayAccessExpressionInjectorStrategy _stringIRArrayAccessExpressionInjectorStrategy = StringIRArrayAccessExpressionInjectorStrategy();
     StringIRTupleAccessExpressionInjectorStrategy _stringIRTupleAccessExpressionInjectorStrategy = StringIRTupleAccessExpressionInjectorStrategy();
     StringIRDrefExpressionInjectorStrategy _stringIRDrefExpressionInjectorStrategy = StringIRDrefExpressionInjectorStrategy();
+    StringIRIdentifierExpressionInjectorStrategy _stringIRIdentifierExpressionInjectorStrategy = StringIRIdentifierExpressionInjectorStrategy();
     StringIRClassPropertyAccessExpressionInjectorStrategy _stringIRClassPropertyAccessExpressionInjectorStrategy = StringIRClassPropertyAccessExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;

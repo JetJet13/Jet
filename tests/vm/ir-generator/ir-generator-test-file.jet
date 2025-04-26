@@ -10,4 +10,14 @@ proc testArrays() {
 
     const refTestArray = ref testArray;
     const copyRefTestArray = refTestArray;
+
+    const testString = "Hello World";
+    const copyTestString = testString;
+
+    const refTestString = ref testString;
+    const copyRefTestString = refTestString;
+
+    const copyStructArray = testStruct.b;
+    const secondCopyStructArray = testStruct.b;
+    const refStructArray = ref testStruct.b;
 }

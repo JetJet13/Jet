@@ -33,12 +33,13 @@ llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAcc
                 indexValue
             });
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
+    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     irBlock->getBuilder()->get()->CreateCall(
-            irModule->getCopyValueFunction(),
+            irModule->getCopyArrayFunction(),
             {
                     irExpression->getSourceAllocation().value()->getValue(),
                     pointerToIndexedElement,
-                    typeValue
+                    loadedTypeValue
             }
     );
     return irExpression->getSourceAllocation().value()->getValue();

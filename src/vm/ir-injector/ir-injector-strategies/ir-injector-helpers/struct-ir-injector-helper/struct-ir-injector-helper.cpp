@@ -4,7 +4,6 @@
 
 #include "struct-ir-injector-helper.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../pointer-ir-injector-helper/pointer-ir-injector-helper.h"
 
@@ -19,12 +18,14 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRIn
         auto destinationPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(), destinationAllocation->getValue(), { zeroIndex, index });
         if (irTypeAtIndex->isArrayPointerType()) {
             auto arrayPointerAllocation = structAllocation->getChildAllocationForKey(irStructType->getKeyForIndex(i));
+            auto typeValue = irInjector->inject(irBlock, irTypeAtIndex);
+            auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irTypeAtIndex->getValue()->getAllocatedType(), typeValue);
             irBlock->getBuilder()->get()->CreateCall(
-                    irModule->getCopyValueFunction(),
+                    irModule->getCopyArrayFunction(),
                     {
-                            destinationPointer,
-                            arrayPointerAllocation->getValue(),
-                            irTypeAtIndex->getValue()->getValue()
+                        destinationPointer,
+                        arrayPointerAllocation->getValue(),
+                        loadedTypeValue
                     }
             );
         } else if (irTypeAtIndex->isStructType()) {
@@ -54,12 +55,14 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRSt
         auto pointerToStructValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(irStructType->getType(), structSource, { zeroIndex, index });
         auto loadedPointerToStructValue = irBlock->getBuilder()->get()->CreateLoad(irTypeAtIndex->getType(), pointerToStructValue);
         if (irTypeAtIndex->isArrayPointerType()) {
+            auto typeValue = irInjector->inject(irBlock, irTypeAtIndex);
+            auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irTypeAtIndex->getValue()->getAllocatedType(), typeValue);
             irBlock->getBuilder()->get()->CreateCall(
-                    irModule->getCopyValueFunction(),
+                    irModule->getCopyArrayFunction(),
                     {
-                            destinationPointer,
-                            pointerToStructValue,
-                            irTypeAtIndex->getValue()->getValue()
+                        destinationPointer,
+                        pointerToStructValue,
+                        loadedTypeValue
                     }
             );
         } else if (irTypeAtIndex->isStructType()) {

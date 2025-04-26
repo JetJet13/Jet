@@ -12,12 +12,13 @@ llvm::Value* StringIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcce
     irBlock->getBuilder()->get()->Insert(pointer);
     auto loadedPointerToIndexedElement = irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
+    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     irBlock->getBuilder()->get()->CreateCall(
-            irModule->getCopyValueFunction(),
+            irModule->getCopyArrayFunction(),
             {
                     irExpression->getSourceAllocation().value()->getValue(),
                     loadedPointerToIndexedElement,
-                    typeValue
+                    loadedTypeValue
             }
     );
     return irExpression->getSourceAllocation().value()->getValue();

@@ -123,6 +123,13 @@ void IRInstructionNode::markAsGlobal() {
     }
 }
 
+bool IRInstructionNode::isInserted() {
+    if (llvm::isa<llvm::Instruction>(_irValue)) {
+        return llvm::cast<llvm::Instruction>(_irValue)->getParent() != nullptr;
+    }
+    return _irValue->getType();
+}
+
 llvm::Value* IRInstructionNode::getValue() {
     return _irValue;
 }
