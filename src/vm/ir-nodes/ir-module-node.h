@@ -16,6 +16,11 @@ private:
     std::string _copyStructFunctionName;
     std::string _copyValueFunctionName;
     std::string _copyStringFunctionName;
+    std::string _freeArrayFunctionName;
+    std::string _freePointerFunctionName;
+    std::string _freeStructFunctionName;
+    std::string _freeValueFunctionName;
+    std::string _freeStringFunctionName;
     std::string _printFunctionName;
     std::string _mallocFunctionName;
     std::string _mallocFreeFunctionName;
@@ -30,9 +35,14 @@ public:
                  std::string arrayAccessFunctionName,
                  std::string copyArrayFunctionName,
                  std::string copyPointerFunctionName,
-                std::string copyStructFunctionName,
-                std::string copyValueFunctionName,
+                 std::string copyStructFunctionName,
+                 std::string copyValueFunctionName,
                  std::string copyStringFunctionName,
+                 std::string freeArrayFunctionName,
+                 std::string freePointerFunctionName,
+                 std::string freeStructFunctionName,
+                 std::string freeValueFunctionName,
+                 std::string freeStringFunctionName,
                  std::string printFunctionName,
                  std::string mallocFunctionName,
                  std::string mallocFreeFunctionName,
@@ -49,6 +59,11 @@ public:
     llvm::Function* getCopyStructFunction();
     llvm::Function* getCopyValueFunction();
     llvm::Function* getCopyStringFunction();
+    llvm::Function* getFreeArrayFunction();
+    llvm::Function* getFreePointerFunction();
+    llvm::Function* getFreeStructFunction();
+    llvm::Function* getFreeValueFunction();
+    llvm::Function* getFreeStringFunction();
     llvm::Function* getPrintFunction();
     llvm::Function* getMallocFunction();
     llvm::Function* getMallocFreeFunction();

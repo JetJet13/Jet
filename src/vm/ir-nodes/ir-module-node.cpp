@@ -4,7 +4,7 @@
 
 #include "ir-module-node.h"
 
-IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string mallocArrayPopFunctionName, std::string mallocArrayPushFunctionName, std::string mallocArrayEnqueueFunctionName, std::string mallocFreeArrayFunctionName, std::string memcpyFunctionName) {
+IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string mallocArrayPopFunctionName, std::string mallocArrayPushFunctionName, std::string mallocArrayEnqueueFunctionName, std::string mallocFreeArrayFunctionName, std::string memcpyFunctionName) {
     _irValue = irValue;
     _arrayAccessFunctionName = arrayAccessFunctionName;
     _copyArrayFunctionName = copyArrayFunctionName;
@@ -12,6 +12,11 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _copyStructFunctionName = copyStructFunctionName;
     _copyValueFunctionName = copyValueFunctionName;
     _copyStringFunctionName = copyStringFunctionName;
+    _freeArrayFunctionName = freeArrayFunctionName;
+    _freePointerFunctionName = freePointerFunctionName;
+    _freeStructFunctionName = freeStructFunctionName;
+    _freeValueFunctionName = freeValueFunctionName;
+    _freeStringFunctionName = freeStringFunctionName;
     _printFunctionName = printFunctionName;
     _mallocFunctionName = mallocFunctionName;
     _mallocFreeFunctionName = mallocFreeFunctionName;
@@ -49,6 +54,26 @@ llvm::Function* IRModuleNode::getCopyValueFunction() {
 
 llvm::Function* IRModuleNode::getCopyStringFunction() {
     return _irValue->getFunction(_copyStringFunctionName);
+}
+
+llvm::Function* IRModuleNode::getFreeArrayFunction() {
+    return _irValue->getFunction(_freeArrayFunctionName);
+}
+
+llvm::Function* IRModuleNode::getFreePointerFunction() {
+    return _irValue->getFunction(_freePointerFunctionName);
+}
+
+llvm::Function* IRModuleNode::getFreeStructFunction() {
+    return _irValue->getFunction(_freeStructFunctionName);
+}
+
+llvm::Function* IRModuleNode::getFreeValueFunction() {
+    return _irValue->getFunction(_freeValueFunctionName);
+}
+
+llvm::Function* IRModuleNode::getFreeStringFunction() {
+    return _irValue->getFunction(_freeStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintFunction() {
