@@ -19,6 +19,7 @@ private:
     std::optional<IRInstructionNode*> _irGlobalVariable;
 public:
     IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRInstructionNode*> irGlobalVariable = {});
+    bool requiresFreeing();
     std::string getVariableName();
     llvm::Value* getValue() override;
     llvm::Type* getAllocatedType();

@@ -25,7 +25,7 @@ public:
     unsigned long getIndexForKey(unsigned long key);
     IRType* getIRTypeForKey(std::string key);
     IRType* getIRTypeByIndex(unsigned long index);
-    void replaceIRTypeAtKey(std::string key, IRType* newIRType);
+    bool containsTypeThatRequiresFreeing() override;
     bool isStructType() override;
     virtual void print() override;
 };

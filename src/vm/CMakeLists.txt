@@ -345,8 +345,6 @@ add_library(jet-vm
         ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h
         ir-generator/ir-util-functions/malloc-array-enqueue-ir-function/malloc-array-enqueue-ir-function.cpp
         ir-generator/ir-util-functions/malloc-array-enqueue-ir-function/malloc-array-enqueue-ir-function.h
-        ir-type/ir-malloc-array-type.cpp
-        ir-type/ir-malloc-array-type.h
         ir-generator/ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.cpp
         ir-generator/ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h
         ir-generator/ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.cpp
@@ -462,6 +460,10 @@ add_library(jet-vm
         ir-generator/ir-util-functions/free-struct-ir-function/free-struct-ir-function.h
         ir-generator/ir-util-functions/free-pointer-ir-function/free-pointer-ir-function.cpp
         ir-generator/ir-util-functions/free-pointer-ir-function/free-pointer-ir-function.h
+        ir-generator/ir-util-functions/free-array-ir-function/free-array-ir-function.cpp
+        ir-generator/ir-util-functions/free-array-ir-function/free-array-ir-function.h
+        ir-generator/ir-util-functions/free-string-ir-function/free-string-ir-function.cpp
+        ir-generator/ir-util-functions/free-string-ir-function/free-string-ir-function.h
 )
 
 target_link_libraries(jet-vm

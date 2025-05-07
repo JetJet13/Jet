@@ -59,7 +59,6 @@
 #include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-node.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 #include "../ir-nodes/ir-context.h"
-#include "../ir-type/ir-malloc-array-type.h"
 #include "../ir-type/ir-type-value-type.h"
 
 class IRGenerator {

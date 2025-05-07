@@ -20,3 +20,7 @@ IRFunctionType* IRClassInstanceType::getIRConstructorType() {
 llvm::StructType* IRClassInstanceType::getType() {
     return _irClassType->getClassProperties()->getType();
 }
+
+bool IRClassInstanceType::containsTypeThatRequiresFreeing() {
+    return _irClassType->containsTypeThatRequiresFreeing();
+}

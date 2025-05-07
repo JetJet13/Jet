@@ -12,6 +12,10 @@ bool IRExpressionNode::isGlobal() {
     return _isGlobal;
 }
 
+bool IRExpressionNode::requiresFreeing() {
+    return this->getIRType()->containsTypeThatRequiresFreeing();
+}
+
 TypeSource IRExpressionNode::getInjectorTypeSource() {
     auto typeSignature = this->getTypeSignature();
     if (typeSignature->typeSourceIs(POINTER_TYPE_SOURCE)) {

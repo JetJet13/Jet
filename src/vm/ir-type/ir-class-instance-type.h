@@ -17,6 +17,7 @@ public:
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();
     llvm::StructType* getType() override;
+    bool containsTypeThatRequiresFreeing() override;
 };
 
 #endif //JETLANG_IR_CLASS_INSTANCE_TYPE_H

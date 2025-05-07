@@ -21,7 +21,7 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
 
-    auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(**context), { pointerType, pointerType }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStringIRFunction::getCopyStringIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);

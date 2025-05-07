@@ -16,6 +16,7 @@ protected:
 public:
     virtual void markAsGlobal();
     bool isGlobal();
+    bool requiresFreeing();
     virtual TypeSource getInjectorTypeSource();
     virtual std::optional<IRInstructionNode*> getSourceAllocation();
     virtual llvm::Type* getType();

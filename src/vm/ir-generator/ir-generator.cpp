@@ -76,6 +76,11 @@
 #include "ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.h"
 #include "ir-util-functions/copy-value-ir-function/copy-value-ir-function.h"
 #include "ir-util-functions/copy-pointer-ir-function/copy-pointer-ir-function.h"
+#include "ir-util-functions/free-value-ir-function/free-value-ir-function.h"
+#include "ir-util-functions/free-array-ir-function/free-array-ir-function.h"
+#include "ir-util-functions/free-pointer-ir-function/free-pointer-ir-function.h"
+#include "ir-util-functions/free-struct-ir-function/free-struct-ir-function.h"
+#include "ir-util-functions/free-string-ir-function/free-string-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -451,6 +456,11 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
         CopyStructIRFunction::getCopyStructIRFunctionName(),
         CopyValueIRFunction::getCopyValueIRFunctionName(),
         CopyStringIRFunction::getCopyStringIRFunctionName(),
+        FreeArrayIRFunction::getFreeArrayIRFunctionName(),
+        FreePointerIRFunction::getFreePointerIRFunctionName(),
+        FreeStructIRFunction::getFreeStructIRFunctionName(),
+        FreeValueIRFunction::getFreeValueIRFunctionName(),
+        FreeStringIRFunction::getFreeStringIRFunctionName(),
         PrintIRFunction::getPrintIRFunctionName(),
         MallocIRFunction::getMallocIRFunctionName(),
         MallocFreeIRFunction::getMallocFreeIRFunctionName(),
@@ -469,6 +479,11 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     CopyArrayIRFunction::declareCopyArrayFunction(this, &_context, irModule);
     CopyPointerIRFunction::declareCopyPointerFunction(this, &_context, irModule);
     CopyStructIRFunction::declareCopyStructFunction(this, &_context, irModule);
+    FreeValueIRFunction::declareFreeValueFunction(this, &_context, irModule);
+    FreeArrayIRFunction::declareFreeArrayFunction(this, &_context, irModule);
+    FreePointerIRFunction::declareFreePointerFunction(this, &_context, irModule);
+    FreeStructIRFunction::declareFreeStructFunction(this, &_context, irModule);
+    FreeStringIRFunction::declareFreeStringFunction(this, &_context, irModule);
 
     // generate
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
@@ -485,6 +500,11 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
     CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
+    FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
+    FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
+    FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
+    FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
+    FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

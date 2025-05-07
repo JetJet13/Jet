@@ -11,6 +11,10 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
     _irGlobalVariable = irGlobalVariable;
 }
 
+bool IRVariableDeclarationNode::requiresFreeing() {
+    return this->_irExpression->requiresFreeing();
+}
+
 std::string IRVariableDeclarationNode::getVariableName() {
     return _node->getId();
 }

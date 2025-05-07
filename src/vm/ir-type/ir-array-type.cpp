@@ -25,6 +25,10 @@ uint64_t IRArrayType::getSizeInBytes() {
     return _type->getNumElements() * _arrayElementType->getSizeInBytes();
 }
 
+bool IRArrayType::containsTypeThatRequiresFreeing() {
+    return true;
+}
+
 bool IRArrayType::isArrayType() {
     return true;
 }

@@ -22,6 +22,7 @@ public:
     uint64_t getSizeInBytes() override;
     IRType* getSourceType() override;
     void setSourceType(IRType* type);
+    bool containsTypeThatRequiresFreeing() override;
     bool isPointerType() override;
     virtual void print() override;
 };

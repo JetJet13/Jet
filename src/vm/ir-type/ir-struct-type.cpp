@@ -67,8 +67,13 @@ IRType* IRStructType::getIRTypeByIndex(unsigned long index) {
     throw std::logic_error("no type found for index: " + std::to_string(index));
 }
 
-void IRStructType::replaceIRTypeAtKey(std::string key, IRType* newIRType) {
-    this->_keyTypeMap.insert(std::pair<std::string, IRType*>(key, newIRType));
+bool IRStructType::containsTypeThatRequiresFreeing() {
+    for (auto keyValue : _keyTypeMap) {
+        if (keyValue.second->containsTypeThatRequiresFreeing()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool IRStructType::isStructType() {

@@ -49,3 +49,7 @@ std::string IRClassType::getPreConstructorName() {
 bool IRClassType::isClassType() {
     return true;
 }
+
+bool IRClassType::containsTypeThatRequiresFreeing() {
+    return _classProperties->containsTypeThatRequiresFreeing();
+}

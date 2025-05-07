@@ -32,6 +32,8 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+    auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
+    auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
     auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { zeroIndex, typeValueIdIndex });
@@ -74,7 +76,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), arrayIfThenBlock->getBlock());
+    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), stringIfBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeStructFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeStructFunction(),
@@ -84,9 +86,24 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             }
     );
 
+    auto isValueTypeString = stringIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            typeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRING)
+    );
+    stringIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeString, stringIfThenBlock->getBlock(), endBlock->getBlock());
+    stringIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getFreeStringFunction()->getFunctionType(),
+            irContext->getIRModule()->getFreeStringFunction(),
+            {
+                function->getArg(0)
+            }
+    );
+
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
     endBlock->addVoidReturn();
 }

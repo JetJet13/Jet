@@ -38,6 +38,7 @@ public:
     virtual bool isFunctionType();
     virtual bool isClassType();
     virtual bool isTypeValueType();
+    virtual bool containsTypeThatRequiresFreeing();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
     bool isLessThan(IRType* otherValue);

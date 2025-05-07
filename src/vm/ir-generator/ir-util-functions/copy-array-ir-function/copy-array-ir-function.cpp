@@ -3,7 +3,6 @@
 //
 
 #include "copy-array-ir-function.h"
-#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 

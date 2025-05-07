@@ -25,6 +25,7 @@ public:
     IRStructType* getClassProperties();
     std::string getPreConstructorName();
     bool isClassType() override;
+    bool containsTypeThatRequiresFreeing() override;
 };
 
 #endif //JETLANG_IR_CLASS_TYPE_H

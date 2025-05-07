@@ -59,6 +59,10 @@ uint64_t IRArrayPointerType::getSizeInBytes() {
     return 9;
 }
 
+bool IRArrayPointerType::containsTypeThatRequiresFreeing() {
+    return true;
+}
+
 bool IRArrayPointerType::isArrayPointerType() {
     return true;
 }

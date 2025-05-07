@@ -16,7 +16,7 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
     auto arrayIndexAccessType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = llvm::StructType::get(**context, { arrayIndexAccessType, pointerType });
-    auto functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(**context), { arrayIndexAccessType, arrayPointerType }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { arrayIndexAccessType, arrayPointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, ArrayAccessIRFunction::getArrayAccessIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irLookupTable = new IRLookupTable();

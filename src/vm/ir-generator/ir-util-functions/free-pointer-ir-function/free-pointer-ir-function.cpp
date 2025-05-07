@@ -33,11 +33,10 @@ void FreePointerIRFunction::generateFreePointerFunction(IRGenerator* irGenerator
             irContext->getIRModule()->getFreeValueFunction(),
             { loadedUnderlyingSourcePointer, loadedUnderlyingType }
     );
-
     functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFreeFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFreeFunction(),
-            { function->getArg(0) }
+            { loadedUnderlyingSourcePointer }
     );
 
     functionBlock->addVoidReturn();

@@ -27,6 +27,7 @@ public:
     llvm::Type* getElementType();
     unsigned long getDepth();
     uint64_t getSizeInBytes() override;
+    bool containsTypeThatRequiresFreeing() override;
     bool isArrayPointerType() override;
 };
 
