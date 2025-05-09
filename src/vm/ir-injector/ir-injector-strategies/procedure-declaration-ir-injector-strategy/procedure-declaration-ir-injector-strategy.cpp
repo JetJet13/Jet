@@ -8,6 +8,19 @@ void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* 
     for (auto statement : *irProcedureDeclaration->getBlock()->getBody()) {
         irInjector->inject(irProcedureDeclaration->getBlock(), statement, irModule, irProcedureDeclaration->getScope());
     }
+    for (auto variableToFree: *irProcedureDeclaration->getBlock()->getVariablesToFree()) {
+        auto typeValue = irInjector->inject(irProcedureDeclaration->getBlock(), variableToFree->getAllocatedIRType());
+        auto loadedTypeValue = irProcedureDeclaration->getBlock()->getBuilder()->get()->CreateLoad(
+                variableToFree->getAllocatedIRType()->getValue()->getAllocatedType(), typeValue);
+        irProcedureDeclaration->getBlock()->getBuilder()->get()->CreateCall(
+                irModule->getFreeValueFunction()->getFunctionType(),
+                irModule->getFreeValueFunction(),
+                {
+                        variableToFree->getValue(),
+                        loadedTypeValue
+                }
+        );
+    }
     auto procedureReturn = irProcedureDeclaration->getBlock()->getBuilder()->get()->getInt32(0);
     irProcedureDeclaration->getBlock()->getBuilder()->get()->CreateRet(procedureReturn);
 }

@@ -21,3 +21,10 @@ proc testArrays() {
     const secondCopyStructArray = testStruct.b;
     const refStructArray = ref testStruct.b;
 }
+
+func testCleanup() int {
+    const x = [1, 2, 4];
+    const y = 5;
+    const refY = ref y;
+    return 5;
+}
