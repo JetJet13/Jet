@@ -12,6 +12,7 @@ struct IRTypeIdMap {
     int LITERAL;
     int STRING;
     int POINTER;
+    int REF;
     int STRUCT;
     int ARRAY;
 };
@@ -24,6 +25,7 @@ const IRTypeIdMap IR_TYPE_ID = {
         .LITERAL = 500,
         .STRING = 501,
         .POINTER = 1000,
+        .REF = 1001,
         .STRUCT = 2000,
         .ARRAY = 3000
 };

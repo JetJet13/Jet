@@ -55,6 +55,7 @@
 #include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
@@ -227,33 +228,36 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
                                                                              scope, irContext);
         case ENUM_ACCESS_TYPE_SOURCE:
             return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate(
-                    (EnumAccessTypeSignature *) typeSignature, this, scope, irContext);
+                    (EnumAccessTypeSignature*) typeSignature, this, scope, irContext);
         case FUNCTION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate(
-                    (FunctionTypeSignature *) typeSignature, this, scope, irContext);
+                    (FunctionTypeSignature*) typeSignature, this, scope, irContext);
         case PROCEDURE_TYPE_SOURCE:
             return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate(
-                    (ProcedureTypeSignature *) typeSignature, this, scope, irContext);
+                    (ProcedureTypeSignature*) typeSignature, this, scope, irContext);
         case LAMBDA_EXPRESSION_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    (LambdaExpressionTypeSignature *) typeSignature, this, scope, irContext);
+                    (LambdaExpressionTypeSignature*) typeSignature, this, scope, irContext);
         case FUNCTION_LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    (FunctionLambdaTypeSignature *) typeSignature, this, scope, irContext);
+                    (FunctionLambdaTypeSignature*) typeSignature, this, scope, irContext);
         case PROCEDURE_LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    (ProcedureLambdaTypeSignature *) typeSignature, this, scope, irContext);
+                    (ProcedureLambdaTypeSignature*) typeSignature, this, scope, irContext);
         case STRUCT_TYPE_SOURCE:
-            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature *) typeSignature,
+            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*) typeSignature,
                                                                                this, scope, irContext);
         case TUPLE_TYPE_SOURCE:
-            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature *) typeSignature,
+            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*) typeSignature,
                                                                               this, scope, irContext);
         case MODULE_TYPE_SOURCE:
-            return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature *) typeSignature,
+            return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*) typeSignature,
                                                                                this, scope, irContext);
         case POINTER_TYPE_SOURCE:
-            return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature *) typeSignature,
+            return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature*) typeSignature,
+                                                                                this, scope, irContext);
+        case REF_TYPE_SOURCE:
+            return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate((RefTypeSignature*)typeSignature,
                                                                                 this, scope, irContext);
         case FUNCTION_INVOCATION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate(
@@ -306,6 +310,10 @@ IRPointerType* IRGenerator::generateTypeFor(PointerTypeSignature* typeSignature,
     return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
+IRRefType* IRGenerator::generateTypeFor(RefTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+    return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+}
+
 IRType* IRGenerator::generateVoidType() {
     return new IRType(llvm::Type::getVoidTy(*_context));
 }
@@ -316,6 +324,12 @@ IRPointerType* IRGenerator::generateIrPointerType() {
 
 IRPointerType* IRGenerator::generateIrPointerType(IRType* type) {
     return new IRPointerType(llvm::PointerType::get(type->getType(), 0), type);
+}
+
+IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
+    auto pointerType = this->generatePointerType();
+    auto type = llvm::StructType::get(*_context, { pointerType, pointerType });
+    return new IRRefType(type, new IRType(this->generateIntType()), underlyingIRType);
 }
 
 llvm::PointerType* IRGenerator::generatePointerType() {

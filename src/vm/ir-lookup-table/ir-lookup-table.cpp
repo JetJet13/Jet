@@ -106,6 +106,29 @@ std::optional<IRInstructionNode*> IRLookupTable::getClassScope() {
     return this->find("jet.class.scope");
 }
 
+std::vector<IRInstructionNode*> IRLookupTable::getAllInstructionsToFree() {
+    auto instructionsToFree = this->getInstructionsToFree();
+    if (_outerScope) {
+        auto outerInstructionsToFree = _outerScope.value()->getAllInstructionsToFree();
+        instructionsToFree.insert(
+            instructionsToFree.end(),
+            outerInstructionsToFree.begin(),
+            outerInstructionsToFree.end()
+        );
+    }
+    return instructionsToFree;
+}
+
+std::vector<IRInstructionNode*> IRLookupTable::getInstructionsToFree() {
+    auto instructionsToFree = std::vector<IRInstructionNode*>();
+    for (auto keyValue : _scope) {
+        if (keyValue.second->requiresFreeing()) {
+            instructionsToFree.push_back(keyValue.second);
+        }
+    }
+    return instructionsToFree;
+}
+
 void IRLookupTable::dump() {
     Logger::log("======== IRLookupTable DUMP ========");
     for (auto keyValue : _scope) {

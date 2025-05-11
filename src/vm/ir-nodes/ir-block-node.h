@@ -16,12 +16,11 @@ private:
     llvm::BasicBlock* _irValue;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
     std::vector<IRNode*> _body;
-    std::vector<IRVariableDeclarationNode*> _variablesToFree;
 public:
     IRBlockNode(llvm::BasicBlock* irValue);
+    bool hasReturnStatement();
     llvm::BasicBlock* getBlock();
     std::vector<IRNode*>* getBody();
-    std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
     void insert(IRNode* irNode);
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
     void addVoidReturn();

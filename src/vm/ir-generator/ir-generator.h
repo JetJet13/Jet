@@ -60,6 +60,8 @@
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 #include "../ir-nodes/ir-context.h"
 #include "../ir-type/ir-type-value-type.h"
+#include "../ir-type/ir-ref-type.h"
+#include "../../core/type-signature/ref-type-signature/ref-type-signature.h"
 
 class IRGenerator {
 private:
@@ -84,9 +86,11 @@ public:
     IRModuleType* generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRClassType* generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRPointerType* generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRRefType* generateTypeFor(RefTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateVoidType();
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
+    IRRefType* generateIrRefType(IRType* type);
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();

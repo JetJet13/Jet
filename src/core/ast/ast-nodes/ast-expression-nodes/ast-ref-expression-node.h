@@ -6,21 +6,21 @@
 #define JETLANG_AST_REF_EXPRESSION_NODE_H
 
 #include "ast-expression-node.h"
-#include "../../../type-signature/pointer-type-signature/pointer-type-signature.h"
 #include "../ast-ref-node.h"
+#include "../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 class ASTRefExpressionNode : public ASTExpressionNode {
 private:
     ASTExpressionNode* _expression;
     ASTRefNode* _refNode;
-    PointerTypeSignature* _typeSignature = new PointerTypeSignature();
+    RefTypeSignature* _typeSignature = new RefTypeSignature();
 public:
     ASTRefExpressionNode(ASTRefNode* refNode, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
     ASTRefNode* getRefNode();
     void markAsReferenced() override;
-    PointerTypeSignature* getTypeSignature() override;
-    void setTypeSignature(PointerTypeSignature* typeSignature);
+    RefTypeSignature* getTypeSignature() override;
+    void setTypeSignature(RefTypeSignature* typeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

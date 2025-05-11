@@ -56,6 +56,7 @@
 #include "./type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 
@@ -113,6 +114,7 @@ IRStrategyMap::IRStrategyMap() {
     _enumAccessTypeSignatureIRStrategy = new EnumAccessTypeSignatureIRStrategy();
     _moduleTypeSignatureStrategy = new ModuleTypeSignatureIRStrategy();
     _pointerTypeSignatureStrategy = new PointerTypeSignatureIRStrategy();
+    _refTypeSignatureStrategy = new RefTypeSignatureIRStrategy();
     _functionInvocationTypeSignatureIRStrategy = new FunctionInvocationTypeSignatureIRStrategy();
     _classMethodTypeSignatureIRStrategy = new ClassMethodTypeSignatureIRStrategy();
     _classInstanceTypeSignatureIRStrategy = new ClassInstanceTypeSignatureIRStrategy();
@@ -324,6 +326,10 @@ ModuleTypeSignatureIRStrategy* IRStrategyMap::getModuleTypeSignatureIRStrategy()
 
 PointerTypeSignatureIRStrategy* IRStrategyMap::getPointerTypeSignatureIRStrategy() {
     return _pointerTypeSignatureStrategy;
+}
+
+RefTypeSignatureIRStrategy* IRStrategyMap::getRefTypeSignatureIRStrategy() {
+    return _refTypeSignatureStrategy;
 }
 
 FunctionInvocationTypeSignatureIRStrategy* IRStrategyMap::getFunctionInvocationTypeSignatureIRStrategy() {

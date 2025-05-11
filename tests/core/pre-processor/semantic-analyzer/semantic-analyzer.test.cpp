@@ -505,10 +505,10 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {127, TypeSignatureFactory::refStringLiteral},
             {128, TypeSignatureFactory::refBoolLiteral},
             {129, TypeSignatureFactory::refCharLiteral},
-            {130, new PointerTypeSignature(
+            {130, new RefTypeSignature(
                     new ArrayTypeSignature(TypeSignatureFactory::intLiteral)
             )},
-            {131, new PointerTypeSignature(
+            {131, new RefTypeSignature(
                     new StructTypeSignature(
                         TypeSignatureMap({
                             std::pair("a", TypeSignatureFactory::intLiteral),
@@ -516,14 +516,14 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                         })
                     )
             )},
-            {132, new PointerTypeSignature(
+            {132, new RefTypeSignature(
                     new TupleTypeSignature({
                         TypeSignatureFactory::stringLiteral,
                         TypeSignatureFactory::boolLiteral,
                         TypeSignatureFactory::intLiteral
                     })
             )},
-            {133, new PointerTypeSignature(
+            {133, new RefTypeSignature(
                     new StructTypeSignature(
                         TypeSignatureMap({
                             std::pair("bar", TypeSignatureFactory::charLiteral),
@@ -561,7 +561,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                         TypeSignatureFactory::createRefBoolParameter("y"),
                         TypeSignatureFactory::createParameter(
                             "z",
-                            new PointerTypeSignature(
+                            new RefTypeSignature(
                                 new ArrayTypeSignature(TypeSignatureFactory::intLiteral)
                             )
                         )
@@ -581,19 +581,19 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     },
                     TypeSignatureFactory::refIntLiteral
             )},
-            {148, new PointerTypeSignature(
+            {148, new RefTypeSignature(
                     new ArrayTypeSignature(TypeSignatureFactory::intLiteral)
             )},
-            {149, new PointerTypeSignature(
+            {149, new RefTypeSignature(
                     new StructTypeSignature(
                         TypeSignatureMap({
                             std::pair("bar", TypeSignatureFactory::charLiteral),
                         })
                     )
             )},
-            {150, new PointerTypeSignature(TypeSignatureFactory::charLiteral)},
-            {151, new PointerTypeSignature(TypeSignatureFactory::intLiteral)},
-            {152, new PointerTypeSignature(TypeSignatureFactory::stringLiteral)},
+            {150, new RefTypeSignature(TypeSignatureFactory::charLiteral)},
+            {151, new RefTypeSignature(TypeSignatureFactory::intLiteral)},
+            {152, new RefTypeSignature(TypeSignatureFactory::stringLiteral)},
     };
 }
 

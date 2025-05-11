@@ -3,12 +3,13 @@
 //
 
 #include "sref-expression-type-signature-strategy.h"
+#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 void SrefExpressionTypeSignatureStrategy::assign(ASTSrefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
-    if (node->getExpressionNode()->getTypeSignature()->typeSourceIs(POINTER_TYPE_SOURCE)) {
-        node->setTypeSignature((PointerTypeSignature*)node->getExpressionNode()->getTypeSignature());
+    if (node->getExpressionNode()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        node->setTypeSignature((RefTypeSignature*)node->getExpressionNode()->getTypeSignature());
     } else {
-        node->setTypeSignature(new PointerTypeSignature());
+        node->setTypeSignature(new RefTypeSignature());
     }
 }

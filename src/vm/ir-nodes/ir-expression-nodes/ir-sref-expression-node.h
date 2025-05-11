@@ -8,21 +8,21 @@
 #include <llvm/IR/Value.h>
 #include "ir-expression-node.h"
 #include "../ir-literal-nodes/ir-literal-node.h"
-#include "../../ir-type/ir-pointer-type.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-sref-expression-node.h"
+#include "../../ir-type/ir-ref-type.h"
 
 class IRSrefExpressionNode : public IRExpressionNode {
 private:
     ASTSrefExpressionNode* _node;
     IRExpressionNode* _irExpression;
-    IRPointerType* _irType;
+    IRRefType* _irType;
     IRInstructionNode* _irValue;
 public:
-    IRSrefExpressionNode(ASTSrefExpressionNode* node, IRExpressionNode* irExpression, IRPointerType* irType, IRInstructionNode* irValue);
+    IRSrefExpressionNode(ASTSrefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue);
     void markAsGlobal() override;
     IRExpressionNode* getExpression();
     IRInstructionNode* getIRValue();
-    IRPointerType* getIRType() override;
+    IRRefType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;

@@ -8,11 +8,11 @@
 #include "../type-checker-rule.h"
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-node.h"
-#include "../../../../../../type-signature/pointer-type-signature/pointer-type-signature.h"
+#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 class RefTypeSignatureTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(PointerTypeSignature* typeSignature, std::string invalidMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(RefTypeSignature* typeSignature, std::string invalidMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

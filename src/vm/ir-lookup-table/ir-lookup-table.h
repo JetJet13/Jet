@@ -33,6 +33,8 @@ public:
     IRLookupTable* insertGlobalVariable(std::string key, IRInstructionNode* value);
     std::optional<IRInstructionNode*> findGlobalVariable(std::string key);
     std::optional<IRInstructionNode*> getClassScope();
+    std::vector<IRInstructionNode*> getAllInstructionsToFree();
+    std::vector<IRInstructionNode*> getInstructionsToFree();
     void dump();
 };
 

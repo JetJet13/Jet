@@ -1158,6 +1158,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/sref-type-checker-rule/sref-type-checker-rule.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.h
+        type-signature/ref-type-signature/ref-type-signature.cpp
+        type-signature/ref-type-signature/ref-type-signature.h
 
 )
 

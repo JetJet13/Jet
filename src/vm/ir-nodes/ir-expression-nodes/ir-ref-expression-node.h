@@ -11,19 +11,20 @@
 #include "../ir-literal-nodes/ir-literal-node.h"
 #include "../../ir-type/ir-pointer-type.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
+#include "../../ir-type/ir-ref-type.h"
 
 class IRRefExpressionNode : public IRExpressionNode {
 private:
     ASTRefExpressionNode* _node;
     IRExpressionNode* _irExpression;
-    IRPointerType* _irType;
+    IRRefType* _irType;
     IRInstructionNode* _irValue;
 public:
-    IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRPointerType* irType, IRInstructionNode* irValue);
+    IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue);
     void markAsGlobal() override;
     IRExpressionNode* getExpression();
     IRInstructionNode* getIRValue();
-    IRPointerType* getIRType() override;
+    IRRefType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;

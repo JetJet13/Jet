@@ -10,6 +10,7 @@
 #include "ir-injector-strategies/struct-ir-injector-strategy/struct-ir-injector-strategy.h"
 #include "ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.h"
 #include "ir-injector-strategies/pointer-ir-injector-strategy/pointer-ir-injector-strategy.h"
+#include "ir-injector-strategies/ref-ir-injector-strategy/ref-ir-injector-strategy.h"
 #include "ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.h"
@@ -34,6 +35,7 @@ IRInjector::IRInjector() {
     _structIRInjector = new StructIRInjectorStrategy();
     _tupleIRInjector = new TupleIRInjectorStrategy();
     _pointerIRInjector = new PointerIRInjectorStrategy();
+    _refIRInjector = new RefIRInjectorStrategy();
     _variableIRInjector = new VariableIRInjectorStrategy();
     _lambdaIRInjector = new LambdaIRInjectorStrategy();
     _enumIRInjectorStrategy = new EnumIRInjectorStrategy();
@@ -59,6 +61,7 @@ void IRInjector::init() {
     _injectorMap.insert(this->insert(CHAR_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
     _injectorMap.insert(this->insert(POINTER_TYPE_SOURCE, _pointerIRInjector));
+    _injectorMap.insert(this->insert(REF_TYPE_SOURCE, _refIRInjector));
     _injectorMap.insert(this->insert(FUNCTION_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(PROCEDURE_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));

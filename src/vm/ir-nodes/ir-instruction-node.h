@@ -46,6 +46,7 @@ public:
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
     IRPointerType* getIRType();
+    bool requiresFreeing();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void printChildAllocations();

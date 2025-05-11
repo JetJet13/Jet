@@ -39,5 +39,6 @@ typedef enum {
     UNKNOWN_TYPE_SOURCE,
     VOID_TYPE_SOURCE,
     POINTER_TYPE_SOURCE,
+    REF_TYPE_SOURCE,
 } TypeSource;
 #endif //JETLANG_TYPE_SOURCE_H

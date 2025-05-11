@@ -11,7 +11,7 @@
 
 class SrefExpressionIRStrategy {
 private:
-    IRInstructionNode* generateAllocation(ASTSrefExpressionNode* node, IRPointerType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
+    IRInstructionNode* generateAllocation(ASTSrefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
 public:
     IRExpressionNode* generate(ASTSrefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
 };

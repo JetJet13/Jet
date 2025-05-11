@@ -11,6 +11,7 @@
 #include "../../../../../src/core/type-signature/literal-type-signature/string-literal-type-signature.h"
 #include "../../../../../src/core/type-signature/literal-type-signature/bool-literal-type-signature.h"
 #include "../../../../../src/core/type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.h"
+#include "../../../../../src/core/type-signature/ref-type-signature/ref-type-signature.h"
 
 namespace TypeSignatureFactory {
     static IntLiteralTypeSignature* intLiteral = new IntLiteralTypeSignature();
@@ -18,11 +19,11 @@ namespace TypeSignatureFactory {
     static CharLiteralTypeSignature* charLiteral = new CharLiteralTypeSignature();
     static StringLiteralTypeSignature* stringLiteral = new StringLiteralTypeSignature();
     static BoolLiteralTypeSignature* boolLiteral = new BoolLiteralTypeSignature();
-    static PointerTypeSignature* refIntLiteral = new PointerTypeSignature(new IntLiteralTypeSignature());
-    static PointerTypeSignature* refFloatLiteral = new PointerTypeSignature(new FloatLiteralTypeSignature());
-    static PointerTypeSignature* refCharLiteral = new PointerTypeSignature(new CharLiteralTypeSignature());
-    static PointerTypeSignature* refStringLiteral = new PointerTypeSignature(new StringLiteralTypeSignature());
-    static PointerTypeSignature* refBoolLiteral = new PointerTypeSignature(new BoolLiteralTypeSignature());
+    static RefTypeSignature* refIntLiteral = new RefTypeSignature(new IntLiteralTypeSignature());
+    static RefTypeSignature* refFloatLiteral = new RefTypeSignature(new FloatLiteralTypeSignature());
+    static RefTypeSignature* refCharLiteral = new RefTypeSignature(new CharLiteralTypeSignature());
+    static RefTypeSignature* refStringLiteral = new RefTypeSignature(new StringLiteralTypeSignature());
+    static RefTypeSignature* refBoolLiteral = new RefTypeSignature(new BoolLiteralTypeSignature());
     static ParameterListItemTypeSignature* createLambdaScopeParameter() {
         return ParameterListItemTypeSignature::createScopeParameter();
     }

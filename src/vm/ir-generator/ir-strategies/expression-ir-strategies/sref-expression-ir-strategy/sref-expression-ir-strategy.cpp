@@ -16,7 +16,7 @@ IRExpressionNode* SrefExpressionIRStrategy::generate(ASTSrefExpressionNode* node
     return new IRSrefExpressionNode(node, irExpressionNode, irType, allocation);
 }
 
-IRInstructionNode* SrefExpressionIRStrategy::generateAllocation(ASTSrefExpressionNode* node, IRPointerType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+IRInstructionNode* SrefExpressionIRStrategy::generateAllocation(ASTSrefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
     if (node->isReferenced()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),

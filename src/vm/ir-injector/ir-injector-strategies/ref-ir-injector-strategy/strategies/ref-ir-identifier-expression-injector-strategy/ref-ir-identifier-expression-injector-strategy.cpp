@@ -1,0 +1,23 @@
+//
+// Created by Johny Georges on 2025-05-10.
+//
+
+#include "ref-ir-identifier-expression-injector-strategy.h"
+#include "../../../../../ir-type/ir-array-pointer-type.h"
+
+llvm::Value* RefIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+    // todo: cleanup to work with ref type { ptr, ptr }
+    if (irExpression->getIRType()->getSourceType()->getSourceType()->isArrayPointerType() &&
+        (irOperationType == IR_COPY_ASSIGNMENT_OP || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP)) {
+        auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType()->getSourceType()->getSourceType();
+        auto loadedUnderlyingPointer = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), irExpression->getValue());
+        auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
+        auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
+        auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
+        irBlock->getBuilder()->get()->CreateCall(irModule->getCopyArrayFunction(), { destinationPointerAllocation, loadedUnderlyingPointer, loadedTypeValue });
+        auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());
+        irBlock->getBuilder()->get()->CreateStore(destinationPointerAllocation, newPointer);
+        return newPointer;
+    }
+    return irExpression->getValue();
+}

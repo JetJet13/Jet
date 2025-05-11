@@ -106,6 +106,10 @@ bool IRType::isTypeValueType() {
     return false;
 }
 
+bool IRType::isRefType() {
+    return false;
+}
+
 bool IRType::containsTypeThatRequiresFreeing() {
     return false;
 }

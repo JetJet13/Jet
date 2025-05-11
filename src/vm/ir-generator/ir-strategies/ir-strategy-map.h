@@ -59,6 +59,7 @@ class TupleTypeSignatureIRStrategy;
 class EnumAccessTypeSignatureIRStrategy;
 class ModuleTypeSignatureIRStrategy;
 class PointerTypeSignatureIRStrategy;
+class RefTypeSignatureIRStrategy;
 class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
 class ClassInstanceTypeSignatureIRStrategy;
@@ -120,6 +121,7 @@ private:
     EnumAccessTypeSignatureIRStrategy* _enumAccessTypeSignatureIRStrategy;
     ModuleTypeSignatureIRStrategy* _moduleTypeSignatureStrategy;
     PointerTypeSignatureIRStrategy* _pointerTypeSignatureStrategy;
+    RefTypeSignatureIRStrategy* _refTypeSignatureStrategy;
     FunctionInvocationTypeSignatureIRStrategy* _functionInvocationTypeSignatureIRStrategy;
     ClassMethodTypeSignatureIRStrategy* _classMethodTypeSignatureIRStrategy;
     ClassInstanceTypeSignatureIRStrategy* _classInstanceTypeSignatureIRStrategy;
@@ -179,6 +181,7 @@ public:
     EnumAccessTypeSignatureIRStrategy* getEnumAccessTypeSignatureIRStrategy();
     ModuleTypeSignatureIRStrategy* getModuleTypeSignatureIRStrategy();
     PointerTypeSignatureIRStrategy* getPointerTypeSignatureIRStrategy();
+    RefTypeSignatureIRStrategy* getRefTypeSignatureIRStrategy();
     FunctionInvocationTypeSignatureIRStrategy* getFunctionInvocationTypeSignatureIRStrategy();
     ClassMethodTypeSignatureIRStrategy* getClassMethodTypeSignatureIRStrategy();
     ClassInstanceTypeSignatureIRStrategy* getClassInstanceTypeSignatureIRStrategy();

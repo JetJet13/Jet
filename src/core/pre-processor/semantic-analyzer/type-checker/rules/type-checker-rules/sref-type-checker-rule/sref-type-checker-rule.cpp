@@ -6,7 +6,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void SrefTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, std::string invalidMessage, TypeCheckerResult* typeCheckerResult) {
-    if (!typeSignature->typeSourceIs(POINTER_TYPE_SOURCE)) {
+    if (!typeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
         typeCheckerResult->addError(invalidMessage);
     }
 }

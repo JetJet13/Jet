@@ -3,12 +3,13 @@
 //
 
 #include "dref-expression-type-signature-strategy.h"
+#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 void DrefExpressionTypeSignatureStrategy::assign(ASTDrefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
-    if (node->getExpressionNode()->getTypeSignature()->typeSourceIs(POINTER_TYPE_SOURCE)) {
-        auto pointerTypeSignature = (PointerTypeSignature*)node->getExpressionNode()->getTypeSignature();
-        node->setTypeSignature(pointerTypeSignature->getUnderlyingType());
+    if (node->getExpressionNode()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        auto refTypeSignature = (RefTypeSignature*)node->getExpressionNode()->getTypeSignature();
+        node->setTypeSignature(refTypeSignature->getUnderlyingType());
     } else {
         node->setTypeSignature(new UnknownTypeSignature());
     }

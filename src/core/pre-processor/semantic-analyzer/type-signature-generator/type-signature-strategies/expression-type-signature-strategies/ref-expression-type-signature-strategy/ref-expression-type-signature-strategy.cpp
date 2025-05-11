@@ -7,9 +7,9 @@
 void RefExpressionTypeSignatureStrategy::assign(ASTRefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
     if (node->getExpressionNode()->getTypeSignature()->isUnknownOrInvalidOrVoid()) {
-        node->setTypeSignature(new PointerTypeSignature());
+        node->setTypeSignature(new RefTypeSignature());
         return;
     }
 
-    node->setTypeSignature(new PointerTypeSignature(node->getExpressionNode()->getTypeSignature()));
+    node->setTypeSignature(new RefTypeSignature(node->getExpressionNode()->getTypeSignature()));
 }

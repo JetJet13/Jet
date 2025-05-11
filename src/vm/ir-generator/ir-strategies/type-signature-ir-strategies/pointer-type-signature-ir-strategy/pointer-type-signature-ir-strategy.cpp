@@ -6,7 +6,8 @@
 #include "../../../../types/ir-type-id.h"
 
 IRPointerType* PointerTypeSignatureIRStrategy::generate(PointerTypeSignature* pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto irPointerType = IRPointerType::create(irGenerator->generateTypeFor(pointerTypeSignature->getUnderlyingType(), scope, irContext));
+    auto underlyingIRType = irGenerator->generateTypeFor(pointerTypeSignature->getUnderlyingType(), scope, irContext);
+    auto irPointerType = IRPointerType::create(irGenerator->generateIrRefType(underlyingIRType));
     irPointerType->setValue(this->generateTypeValue(irPointerType, irGenerator));
     return irPointerType;
 }

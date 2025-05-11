@@ -8,19 +8,20 @@
 #include "ast-expression-node.h"
 #include "../ast-sref-node.h"
 #include "../../../type-signature/pointer-type-signature/pointer-type-signature.h"
+#include "../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 class ASTSrefExpressionNode : public ASTExpressionNode {
 private:
     ASTExpressionNode* _expression;
     ASTSrefNode* _srefNode;
-    PointerTypeSignature* _typeSignature = new PointerTypeSignature();
+    RefTypeSignature* _typeSignature = new RefTypeSignature();
 public:
     ASTSrefExpressionNode(ASTSrefNode* srefNode, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
     ASTSrefNode* getSrefNode();
     void markAsReferenced() override;
-    PointerTypeSignature* getTypeSignature() override;
-    void setTypeSignature(PointerTypeSignature* typeSignature);
+    RefTypeSignature* getTypeSignature() override;
+    void setTypeSignature(RefTypeSignature* typeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

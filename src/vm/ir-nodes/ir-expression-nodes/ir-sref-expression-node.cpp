@@ -5,7 +5,7 @@
 #include "ir-sref-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRSrefExpressionNode::IRSrefExpressionNode(ASTSrefExpressionNode* node, IRExpressionNode* irExpression, IRPointerType* irType, IRInstructionNode* irValue) {
+IRSrefExpressionNode::IRSrefExpressionNode(ASTSrefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue) {
     _node = node;
     _irExpression = irExpression;
     _irType = irType;
@@ -25,7 +25,7 @@ IRInstructionNode* IRSrefExpressionNode::getIRValue() {
     return _irValue;
 }
 
-IRPointerType* IRSrefExpressionNode::getIRType() {
+IRRefType* IRSrefExpressionNode::getIRType() {
     return _irType;
 }
 

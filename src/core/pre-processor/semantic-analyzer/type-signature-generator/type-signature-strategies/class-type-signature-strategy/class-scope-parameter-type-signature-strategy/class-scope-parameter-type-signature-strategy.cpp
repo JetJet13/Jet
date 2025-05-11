@@ -3,7 +3,6 @@
 //
 
 #include "class-scope-parameter-type-signature-strategy.h"
-#include "../../../../../../type-signature/pointer-type-signature/pointer-type-signature.h"
 
 ParameterListItemTypeSignature* ClassScopeParameterTypeSignatureStrategy::create(ClassTypeSignature* classTypeSignature) {
     auto scopeParameterTypeSignature = new StructTypeSignature();

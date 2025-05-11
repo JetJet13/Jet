@@ -18,8 +18,8 @@ bool IRExpressionNode::requiresFreeing() {
 
 TypeSource IRExpressionNode::getInjectorTypeSource() {
     auto typeSignature = this->getTypeSignature();
-    if (typeSignature->typeSourceIs(POINTER_TYPE_SOURCE)) {
-        return POINTER_TYPE_SOURCE;
+    if (typeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
+        return REF_TYPE_SOURCE;
     }
     return typeSignature->getTypeTarget();
 }
