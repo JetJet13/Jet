@@ -476,6 +476,12 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-ref-expression-injector-strategy/ref-ir-ref-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-identifier-expression-injector-strategy/ref-ir-identifier-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-identifier-expression-injector-strategy/ref-ir-identifier-expression-injector-strategy.h
+        ir-generator/ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.cpp
+        ir-generator/ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.h
+        ir-generator/ir-util-functions/free-ref-ir-function/free-ref-ir-function.cpp
+        ir-generator/ir-util-functions/free-ref-ir-function/free-ref-ir-function.h
+        ir-generator/ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.cpp
+        ir-generator/ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h
 )
 
 target_link_libraries(jet-vm

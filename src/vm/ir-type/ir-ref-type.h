@@ -23,7 +23,7 @@ public:
     llvm::PointerType* getRefValueType();
     llvm::PointerType* getRefCounterType();
     IRType* getRefCounterIRType();
-    IRType* getRefIRType();
+    IRType* getRefValueIRType();
     uint64_t getSizeInBytes() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isRefType() override;

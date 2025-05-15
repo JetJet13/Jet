@@ -4,7 +4,7 @@
 
 #include "ir-module-node.h"
 
-IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string mallocArrayPopFunctionName, std::string mallocArrayPushFunctionName, std::string mallocArrayEnqueueFunctionName, std::string mallocFreeArrayFunctionName, std::string memcpyFunctionName) {
+IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string printFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string mallocArrayPopFunctionName, std::string mallocArrayPushFunctionName, std::string mallocArrayEnqueueFunctionName, std::string mallocFreeArrayFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName) {
     _irValue = irValue;
     _arrayAccessFunctionName = arrayAccessFunctionName;
     _copyArrayFunctionName = copyArrayFunctionName;
@@ -12,11 +12,13 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _copyStructFunctionName = copyStructFunctionName;
     _copyValueFunctionName = copyValueFunctionName;
     _copyStringFunctionName = copyStringFunctionName;
+    _copyRefFunctionName = copyRefFunctionName;
     _freeArrayFunctionName = freeArrayFunctionName;
     _freePointerFunctionName = freePointerFunctionName;
     _freeStructFunctionName = freeStructFunctionName;
     _freeValueFunctionName = freeValueFunctionName;
     _freeStringFunctionName = freeStringFunctionName;
+    _freeRefFunctionName = freeRefFunctionName;
     _printFunctionName = printFunctionName;
     _mallocFunctionName = mallocFunctionName;
     _mallocFreeFunctionName = mallocFreeFunctionName;
@@ -26,6 +28,7 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _mallocArrayEnqueueFunctionName = mallocArrayEnqueueFunctionName;
     _mallocFreeArrayFunctionName = mallocFreeArrayFunctionName;
     _memcpyFunctionName = memcpyFunctionName;
+    _setupSrefFunctionName = setupSrefFunctionName;
 }
 
 llvm::Module* IRModuleNode::getModule() {
@@ -56,6 +59,10 @@ llvm::Function* IRModuleNode::getCopyStringFunction() {
     return _irValue->getFunction(_copyStringFunctionName);
 }
 
+llvm::Function* IRModuleNode::getCopyRefFunction() {
+    return _irValue->getFunction(_copyRefFunctionName);
+}
+
 llvm::Function* IRModuleNode::getFreeArrayFunction() {
     return _irValue->getFunction(_freeArrayFunctionName);
 }
@@ -75,6 +82,11 @@ llvm::Function* IRModuleNode::getFreeValueFunction() {
 llvm::Function* IRModuleNode::getFreeStringFunction() {
     return _irValue->getFunction(_freeStringFunctionName);
 }
+
+llvm::Function* IRModuleNode::getFreeRefFunction() {
+    return _irValue->getFunction(_freeRefFunctionName);
+}
+
 
 llvm::Function* IRModuleNode::getPrintFunction() {
     return _irValue->getFunction(_printFunctionName);
@@ -110,4 +122,8 @@ llvm::Function* IRModuleNode::getMallocFreeArrayFunction() {
 
 llvm::Function* IRModuleNode::getMemcpyFunction() {
     return _irValue->getFunction(_memcpyFunctionName);
+}
+
+llvm::Function* IRModuleNode::getSetupSrefFunction() {
+    return _irValue->getFunction(_setupSrefFunctionName);
 }

@@ -31,6 +31,8 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     auto literalIfThenBlock = irGenerator->generateIfThenBlock(irContext, "literal.");
     auto pointerIfBlock = irGenerator->generateIfBlock(irContext, "pointer.");
     auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
+    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
+    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
@@ -64,14 +66,30 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.POINTER)
     );
-    pointerIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, pointerIfThenBlock->getBlock(), structIfBlock->getBlock());
+    pointerIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, pointerIfThenBlock->getBlock(), refIfBlock->getBlock());
     pointerIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getCopyPointerFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyPointerFunction(),
             {
-                    function->getArg(0),
-                    function->getArg(1),
-                    function->getArg(2)
+                function->getArg(0),
+                function->getArg(1),
+                function->getArg(2)
+            }
+    );
+
+    auto isValueTypeRef = pointerIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            typeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.REF)
+    );
+    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
+    refIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getCopyRefFunction()->getFunctionType(),
+            irContext->getIRModule()->getCopyRefFunction(),
+            {
+                function->getArg(0),
+                function->getArg(1),
+                function->getArg(2)
             }
     );
 
@@ -85,9 +103,9 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
             irContext->getIRModule()->getCopyStructFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyStructFunction(),
             {
-                    function->getArg(0),
-                    function->getArg(1),
-                    function->getArg(2)
+                function->getArg(0),
+                function->getArg(1),
+                function->getArg(2)
             }
     );
 
@@ -95,14 +113,15 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
             irContext->getIRModule()->getCopyArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyArrayFunction(),
             {
-                    function->getArg(0),
-                    function->getArg(1),
-                    function->getArg(2)
+                function->getArg(0),
+                function->getArg(1),
+                function->getArg(2)
             }
     );
 
     literalIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 

@@ -37,7 +37,7 @@ IRType* IRRefType::getRefCounterIRType() {
     return _refCounterIRType;
 }
 
-IRType* IRRefType::getRefIRType() {
+IRType* IRRefType::getRefValueIRType() {
     return _refIRType;
 }
 
