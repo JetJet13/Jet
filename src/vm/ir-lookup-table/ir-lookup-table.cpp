@@ -123,6 +123,7 @@ std::vector<IRInstructionNode*> IRLookupTable::getInstructionsToFree() {
     auto instructionsToFree = std::vector<IRInstructionNode*>();
     for (auto keyValue : _scope) {
         if (keyValue.second->requiresFreeing()) {
+            Logger::log("FREEING", keyValue.first);
             instructionsToFree.push_back(keyValue.second);
         }
     }

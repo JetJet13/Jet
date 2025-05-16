@@ -46,7 +46,7 @@ uint64_t IRRefType::getSizeInBytes() {
 }
 
 bool IRRefType::containsTypeThatRequiresFreeing() {
-    return _refIRType->containsTypeThatRequiresFreeing();
+    return true;
 }
 
 bool IRRefType::isRefType() {

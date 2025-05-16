@@ -6,10 +6,12 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* RefIRSrefExpressionInjectorStrategy::inject(IRSrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    // todo: cleanup to work with ref type { ptr, ptr }
-    auto pointerToPointerValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
-    auto loadedPointerToValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getExpression()->getIRType()->getType(), pointerToPointerValue);
+    auto pointerToRef = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
-    irBlock->getBuilder()->get()->CreateStore(loadedPointerToValue, allocation);
+    irBlock->getBuilder()->get()->CreateCall(
+            irModule->getSetupSrefFunction()->getFunctionType(),
+            irModule->getSetupSrefFunction(),
+            { allocation, pointerToRef }
+    );
     return allocation;
 }

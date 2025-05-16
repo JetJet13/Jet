@@ -9,12 +9,11 @@
 llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(IRArrayExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     auto numElements = irExpression->size();
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     for (int i = 0; i < numElements; ++i) {
         auto elementExpression = irExpression->getValues()->at(i);
         auto irIndex = irBlock->getBuilder()->get()->getInt32(i);
-        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceAggregateAllocation()->getAllocatedType(),
-                                                                       irExpression->getSourceAggregateAllocation()->getValue(), { zeroIndex, irIndex });
+        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRType()->getElementType(),
+                                                                       irExpression->getSourceAggregateAllocation()->getValue(), { irIndex });
         auto irExpressionValue = irInjector->inject(irBlock, elementExpression, irOperationType, irModule, scope);
         irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
     }

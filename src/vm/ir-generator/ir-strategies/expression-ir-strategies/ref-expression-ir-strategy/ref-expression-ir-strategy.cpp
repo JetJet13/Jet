@@ -21,8 +21,7 @@ IRInstructionNode* RefExpressionIRStrategy::generateAllocation(ASTRefExpressionN
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateIntConstant(irType->getSizeInBytes()) },
-                ""
+                { irGenerator->generateIntConstant(irType->getSizeInBytes()) }
         );
         return IRInstructionNodeFactory::create(
                 new llvm::BitCastInst(malloc, irType->getType()),

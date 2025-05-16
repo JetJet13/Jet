@@ -482,6 +482,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/free-ref-ir-function/free-ref-ir-function.h
         ir-generator/ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.cpp
         ir-generator/ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h
+        ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.cpp
+        ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h
 )
 
 target_link_libraries(jet-vm

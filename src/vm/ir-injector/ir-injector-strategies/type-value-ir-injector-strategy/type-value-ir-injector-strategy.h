@@ -11,12 +11,14 @@
 #include "../../../ir-nodes/ir-block-node.h"
 #include "../../ir-injector.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
+#include "../../../ir-type/ir-ref-type.h"
 
 class TypeValueIRInjectorStrategy {
 private:
     llvm::Value* inject(IRArrayPointerType* irArrayPointerType, IRBlockNode* irBlock);
     llvm::Value* inject(IRStructType* irStructType, IRBlockNode* irBlock);
-    llvm::Value* inject(IRPointerType* irArrayPointerType, IRBlockNode* irBlock);
+    llvm::Value* inject(IRPointerType* irPointerType, IRBlockNode* irBlock);
+    llvm::Value* inject(IRRefType* irRefType, IRBlockNode* irBlock);
 public:
     llvm::Value* inject(IRType* irType, IRBlockNode* irBlock);
 };

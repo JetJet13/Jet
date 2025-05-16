@@ -85,6 +85,7 @@
 #include "ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.h"
 #include "ir-util-functions/free-ref-ir-function/free-ref-ir-function.h"
 #include "ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h"
+#include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -489,7 +490,8 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
         MallocArrayEnqueueIRFunction::getMallocArrayEnqueueIRFunctionName(),
         MallocFreeArrayIRFunction::getMallocFreeArrayIRFunctionName(),
         MemcpyIRFunction::getMemcpyIRFunctionName(),
-        SetupSrefIRFunction::getSetupSrefIRFunctionName()
+        SetupSrefIRFunction::getSetupSrefIRFunctionName(),
+        SetupRefIRFunction::getSetupRefIRFunctionName()
     );
 }
 
@@ -512,24 +514,25 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocIRFunction::generateMallocFunction(this, &_context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
-    MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(this, &_context, irModule);
-    MallocArrayPopIRFunction::generateMallocArrayPopFunction(this, &_context, irModule);
-    MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
-    MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(this, &_context, irModule);
+//    MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(this, &_context, irModule);
+//    MallocArrayPopIRFunction::generateMallocArrayPopFunction(this, &_context, irModule);
+//    MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
+//    MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(this, &_context, irModule);
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
-    SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
-    CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
-    CopyArrayIRFunction::generateCopyArrayFunction(this, &_context, irModule);
-    CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
-    CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
-    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
-    CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
-    FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
-    FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
-    FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
-    FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
-    FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
-    FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
+//    SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
+//    SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
+//    CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
+//    CopyArrayIRFunction::generateCopyArrayFunction(this, &_context, irModule);
+//    CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
+//    CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
+//    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
+//    CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
+//    FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
+//    FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
+//    FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
+//    FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
+//    FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
+//    FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

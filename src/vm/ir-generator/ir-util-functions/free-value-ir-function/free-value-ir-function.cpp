@@ -30,6 +30,8 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
     auto pointerIfBlock = irGenerator->generateIfBlock(irContext, "pointer.");
     auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
+    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
+    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
@@ -61,13 +63,28 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.POINTER)
     );
-    pointerIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, pointerIfThenBlock->getBlock(), structIfBlock->getBlock());
+    pointerIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, pointerIfThenBlock->getBlock(), refIfBlock->getBlock());
     pointerIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreePointerFunction()->getFunctionType(),
             irContext->getIRModule()->getFreePointerFunction(),
             {
                     function->getArg(0),
                     function->getArg(1)
+            }
+    );
+
+    auto isValueTypeRef = refIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            typeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.REF)
+    );
+    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
+    refIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getFreeRefFunction()->getFunctionType(),
+            irContext->getIRModule()->getFreeRefFunction(),
+            {
+                function->getArg(0),
+                function->getArg(1)
             }
     );
 
@@ -102,6 +119,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
 
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 

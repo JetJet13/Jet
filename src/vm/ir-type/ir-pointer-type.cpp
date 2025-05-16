@@ -43,7 +43,10 @@ void IRPointerType::setSourceType(IRType* type) {
 }
 
 bool IRPointerType::containsTypeThatRequiresFreeing() {
-    return true;
+    if (_sourceType) {
+        return _sourceType.value()->containsTypeThatRequiresFreeing();
+    }
+    return false;
 }
 
 bool IRPointerType::isPointerType() {

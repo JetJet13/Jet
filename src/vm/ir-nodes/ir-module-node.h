@@ -33,6 +33,7 @@ private:
     std::string _mallocFreeArrayFunctionName;
     std::string _memcpyFunctionName;
     std::string _setupSrefFunctionName;
+    std::string _setupRefFunctionName;
 public:
     IRModuleNode(llvm::Module* irValue,
                  std::string arrayAccessFunctionName,
@@ -57,7 +58,8 @@ public:
                  std::string mallocArrayEnqueueFunctionName,
                  std::string mallocFreeArrayFunctionName,
                  std::string memcpyFunctionName,
-                 std::string setupSrefFunctionName);
+                 std::string setupSrefFunctionName,
+                 std::string setupRefFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
@@ -82,6 +84,7 @@ public:
     llvm::Function* getMallocFreeArrayFunction();
     llvm::Function* getMemcpyFunction();
     llvm::Function* getSetupSrefFunction();
+    llvm::Function* getSetupRefFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H
