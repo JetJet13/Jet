@@ -1,0 +1,8 @@
+//
+// Created by Johny Georges on 2025-05-16.
+//
+
+#ifndef JETLANG_SETUP_REF_IR_FUNCTION_H
+#define JETLANG_SETUP_REF_IR_FUNCTION_H
+
+#endif //JETLANG_SETUP_REF_IR_FUNCTION_H
