@@ -7,7 +7,7 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 std::string FreeArrayIRFunction::getFreeArrayIRFunctionName() {
-    return "jet.copy.array";
+    return "jet.free.array";
 }
 
 void FreeArrayIRFunction::declareFreeArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {

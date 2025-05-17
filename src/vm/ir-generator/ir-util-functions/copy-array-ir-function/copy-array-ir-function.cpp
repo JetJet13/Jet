@@ -45,8 +45,10 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
     auto typeValueAllocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
 
-    auto pointerToElementTypeValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(2), { zeroIndex, typeValueAllocIndex });
-    auto elementTypeValue = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), pointerToElementTypeValue);
+    auto typeValueAllocation = functionBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType());
+    functionBlock->getBuilder()->get()->CreateStore(function->getArg(2), typeValueAllocation);
+    auto pointerToElementTypeValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAllocation, { zeroIndex, typeValueAllocIndex });
+    auto elementTypeValue = functionBlock->getBuilder()->get()->CreateLoad(pointerType, pointerToElementTypeValue);
     auto pointerToElementTypeValueSizeInBytes = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), elementTypeValue, { zeroIndex, typeValueSizeInBytesIndex });
     auto elementSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueSizeInBytes, "elementTypeSizeInBytes");
     auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), elementTypeValue, { zeroIndex, typeValueIdIndex });
@@ -105,9 +107,9 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
             irContext->getIRModule()->getMemcpyFunction()->getFunctionType(),
             irContext->getIRModule()->getMemcpyFunction(),
             {
-                    malloc,
-                    loadedSourceArrayAllocation,
-                    mallocSize
+                malloc,
+                loadedSourceArrayAllocation,
+                mallocSize
             }
     );
     depthOneTypeLiteralTrueBlock->getBuilder()->get()->CreateBr(depthOneTypeLiteralEndBlock->getBlock());
@@ -156,7 +158,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
 
 
 
-    auto destinationArray = depthNForLoopPrepBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType());
+    auto destinationArray = depthNForLoopPrepBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType()->getPointerTo());
 
     auto forLoopIndex = depthNForLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
     depthNForLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);

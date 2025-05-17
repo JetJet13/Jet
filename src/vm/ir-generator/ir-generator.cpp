@@ -356,8 +356,21 @@ llvm::IntegerType* IRGenerator::generatePointerIntType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
-llvm::IntegerType* IRGenerator::generateMallocSizeType() {
+llvm::IntegerType* IRGenerator::generateInt64Type() {
     return llvm::IntegerType::get(*_context, 64);
+}
+
+IRInstructionNode* IRGenerator::generateIRTypeValueFor(IRType* irType) {
+    if (irType->isRefType()) {
+        return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue((IRRefType*)irType, this);
+    } else if (irType->isStructType()) {
+        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue((IRStructType*)irType, this);
+    } else if (irType->isArrayPointerType()) {
+        return this->_irStrategyMap.getArrayTypeSignatureIRStrategy()->generateTypeValue((IRArrayPointerType*)irType, this);
+    } else if (irType->isPointerType()) {
+        return this->_irStrategyMap.getPointerTypeSignatureIRStrategy()->generateTypeValue((IRPointerType*)irType, this);
+    }
+    throw std::logic_error("unable to generate type value for ir type");
 }
 
 IRTypeValueType* IRGenerator::generateIrTypeValueType() {
@@ -391,6 +404,10 @@ IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignatu
 
 llvm::Constant* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
+}
+
+llvm::Constant* IRGenerator::generateInt64Constant(int integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
 
 IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRPointerType* irPointerType) {
@@ -519,14 +536,14 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
 //    MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
 //    MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(this, &_context, irModule);
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
-//    SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
-//    SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
-//    CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
-//    CopyArrayIRFunction::generateCopyArrayFunction(this, &_context, irModule);
-//    CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
-//    CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
-//    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
-//    CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
+    SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
+    SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
+    CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
+    CopyArrayIRFunction::generateCopyArrayFunction(this, &_context, irModule);
+    CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
+    CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
+    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
+    CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
 //    FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
 //    FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
 //    FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);

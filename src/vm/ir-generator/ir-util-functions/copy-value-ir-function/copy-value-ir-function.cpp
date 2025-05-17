@@ -37,10 +37,11 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
-
-    auto pointerToElementTypeValueSizeInBytes = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(2), { zeroIndex, typeValueSizeInBytesIndex });
+    auto typeValueAllocation = functionBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType());
+    functionBlock->getBuilder()->get()->CreateStore(function->getArg(2), typeValueAllocation);
+    auto pointerToElementTypeValueSizeInBytes = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAllocation, { zeroIndex, typeValueSizeInBytesIndex });
     auto typeSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueSizeInBytes, "valueTypeSizeInBytes");
-    auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(2), { zeroIndex, typeValueIdIndex });
+    auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAllocation, { zeroIndex, typeValueIdIndex });
     auto typeValueId = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueId, "valueTypeId");
 
     functionBlock->getBuilder()->get()->CreateBr(literalIfBlock->getBlock());
@@ -77,7 +78,7 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
             }
     );
 
-    auto isValueTypeRef = pointerIfBlock->getBuilder()->get()->CreateICmp(
+    auto isValueTypeRef = refIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.REF)
@@ -125,5 +126,5 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
-    endBlock->addVoidReturn();
+    endBlock->getBuilder()->get()->CreateRet(function->getArg(0));
 }

@@ -29,12 +29,12 @@ void CopyRefIRFunction::generateCopyRefFunction(IRGenerator* irGenerator, std::u
     auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
     auto refValueIndex = irGenerator->generateIntConstant(refType->getRefValueIndex());
     auto refCounterIndex = irGenerator->generateIntConstant(refType->getRefCounterIndex());
-    auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(2), { zeroIndex, allocIndex });
-    auto loadedRefValueType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
+    auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), {typeValueType->getAllocIndex() });
     auto pointerToRefValuePointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(1), { zeroIndex, refValueIndex });
     auto loadedPointerToRefValue = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefValuePointer);
-    auto underlyingTypeSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), loadedRefValueType, { zeroIndex, sizeInBytesIndex });
+    auto underlyingTypeSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), underlyingTypePointer, {zeroIndex, sizeInBytesIndex });
     auto loadedUnderlyingTypeSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, underlyingTypeSizeInBytesPointer);
+    auto loadedUnderlyingType =  functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
     auto refValueMalloc= functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
@@ -43,7 +43,7 @@ void CopyRefIRFunction::generateCopyRefFunction(IRGenerator* irGenerator, std::u
     functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getCopyValueFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyValueFunction(),
-            { refValueMalloc, loadedPointerToRefValue, loadedRefValueType }
+            { refValueMalloc, loadedPointerToRefValue, loadedUnderlyingType }
     );
     auto refCounterMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFunction()->getFunctionType(),

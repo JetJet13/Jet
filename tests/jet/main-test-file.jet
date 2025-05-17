@@ -42,38 +42,37 @@ proc mainX() {
     const mainArray = [1, 2, 4];
 }
 
-// todo: needs fixing.
-// class MyClass {
-//     public a: int = 5;
-//     public b = { x: 10, y: 0, z: 97 };
-//     private c = tuple { 1, 2, 3 };
-//     private d: int;
-//     private e = this.computeValueForE();
-//     private f = this.a + 40;
-//     // private lambda = () => 20; illegal, since they're equivalent to class methods
+class MyClass {
+    public a: int = 5;
+    public b = { x: 10, y: 0, z: 97 };
+    private c = tuple { 1, 2, 3 };
+    private d: int;
+    private e = this.computeValueForE();
+    private f = this.a + 40;
+    // private lambda = () => 20; illegal, since they're equivalent to class methods
 
-//     constructor(dValue: int) {
-//         const constructorLambda = () => 200;
-//         this.d = dValue;
-//         this.e = this.computeValueForE();
-//     }
+    constructor(dValue: int) {
+        const constructorLambda = () => 200;
+        this.d = dValue;
+        this.e = this.computeValueForE();
+    }
 
-//     public getA(callback: func<> => int) int {
-//         return this.a + this.b.x + this.c.2 + callback() + this.compute();
-//     }
+    public getA(callback: func<> => int) int {
+        return this.a + this.b.x + this.c.2 + callback() + this.compute();
+    }
 
-//     private compute() int {
-//         const computeLambda = () => this.a + 5;
-//         this.a = 20 + 5;
-//         return this.getA(() => 20) + this.getA(computeLambda);
-//     }
+    private compute() int {
+        const computeLambda = () => this.a + 5;
+        this.a = 20 + 5;
+        return this.getA(() => 20) + this.getA(computeLambda);
+    }
 
-//     private computeValueForE() int {
-//         return 19;
-//     }
-// }
+    private computeValueForE() int {
+        return 19;
+    }
+}
 
-// const myClassInstance = new MyClass(5);
+const myClassInstance = new MyClass(5);
 
 proc ConditionalProcedure() {
 // todo: get this working

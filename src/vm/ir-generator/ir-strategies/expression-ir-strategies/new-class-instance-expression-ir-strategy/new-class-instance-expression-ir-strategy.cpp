@@ -35,7 +35,7 @@ IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAl
                 ""
         );
         return IRInstructionNodeFactory::create(
-                new llvm::BitCastInst(malloc, irType->getType()),
+                new llvm::BitCastInst(malloc, irType->getType()->getPointerTo()),
                 irGenerator->generateIrPointerType(irType),
                 { malloc }
         );

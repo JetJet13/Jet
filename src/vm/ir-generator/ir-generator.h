@@ -96,13 +96,15 @@ public:
     llvm::IntegerType* generateIntType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generatePointerIntType();
-    llvm::IntegerType* generateMallocSizeType();
+    llvm::IntegerType* generateInt64Type();
+    IRInstructionNode* generateIRTypeValueFor(IRType* irType);
     IRTypeValueType* generateIrTypeValueType();
     llvm::AllocaInst* generateIrTypeValueTypeAllocation();
     llvm::StoreInst* generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType);
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::Constant* generateIntConstant(int integer);
+    llvm::Constant* generateInt64Constant(int integer);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
     llvm::StructType* generateArrayPointerType();

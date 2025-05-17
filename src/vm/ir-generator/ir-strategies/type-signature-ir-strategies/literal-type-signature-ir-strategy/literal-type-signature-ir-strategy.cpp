@@ -9,31 +9,31 @@
 IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 32));
-        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
+        irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(llvm::ConstantFP::get(**irContext->getContext(), llvm::APFloat(0.0))->getType());
-        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
+        irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(CHAR_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 8));
-        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
+        irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(BOOL_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 1));
-        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
+        irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     } else {
         auto charType = llvm::IntegerType::get(**irContext->getContext(), 8);
         auto irCharType = new IRType(charType);
-        irCharType->setValue(this->generateTypeValue(irCharType, irGenerator, irContext));
+        irCharType->setValue(this->generateTypeValue(irCharType, irGenerator));
         auto irType = irGenerator->generateIrArrayPointerType(irCharType);
-        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
+        irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     }
 }
 
-IRInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = this->generateInitialTypeValue(irType, irTypeValueType, irGenerator);

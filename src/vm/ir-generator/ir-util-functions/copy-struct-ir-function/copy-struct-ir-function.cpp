@@ -26,11 +26,8 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
 
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
-    auto numTypesIndex = irGenerator->generateIntConstant(typeValueType->getNumTypesIndex());
-    auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
 
-    auto numTypesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(2), { zeroIndex, numTypesIndex });
-    auto loadedNumTypes = functionBlock->getBuilder()->get()->CreateLoad(intType, numTypesPointer);
+    auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), {typeValueType->getNumTypesIndex() });
 
     auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
@@ -48,15 +45,14 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     auto isForLoopIndexLessThanNumElements = forLoopConditionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
             forLoopIndexValue,
-            loadedNumTypes
+            numTypes
     );
     forLoopConditionBlock->getBuilder()->get()->CreateCondBr(isForLoopIndexLessThanNumElements, forLoopBodyBlock->getBlock(), forLoopEndBlock->getBlock());
 
     // for loop body
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
-    auto pointerToTypeValueAllocAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), function->getArg(2), { zeroIndex, allocIndex });
-    auto loadedTypeValueAllocAtIndex = forLoopBody->CreateLoad(pointerType->getType(), pointerToTypeValueAllocAtIndex);
-    auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), loadedTypeValueAllocAtIndex, { forLoopIndexValue });
+    auto typeValueAlloc = forLoopBody->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
+    auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueAlloc, { forLoopIndexValue });
     auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
     auto structByteOffsetValue = forLoopBody->CreateLoad(intType, elementByteOffset);
 
@@ -68,13 +64,12 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
             { destinationPointerAtIndex, sourcePointerAtIndex, typeValueAtIndex }
     );
 
-    auto sizeInBytesAtIndexPointer = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueAtIndex, { zeroIndex, sizeInBytesIndex });
-    auto loadedSizeInBytesAtIndex = forLoopBody->CreateLoad(intType, sizeInBytesAtIndexPointer);
-    auto newStructByteOffsetValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, loadedSizeInBytesAtIndex);
-    forLoopBody->CreateStore(elementByteOffset, newStructByteOffsetValue);
+    auto sizeInBytesAtIndex = forLoopBody->CreateExtractValue(typeValueAtIndex, { typeValueType->getSizeInBytesIndex() });
+    auto newStructByteOffsetValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, sizeInBytesAtIndex);
+    forLoopBody->CreateStore(newStructByteOffsetValue, elementByteOffset);
 
     auto newForLoopIndexValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
-    forLoopBody->CreateStore(forLoopIndex, newForLoopIndexValue);
+    forLoopBody->CreateStore(newForLoopIndexValue, forLoopIndex);
     forLoopBody->CreateBr(forLoopConditionBlock->getBlock());
 
     // for loop end

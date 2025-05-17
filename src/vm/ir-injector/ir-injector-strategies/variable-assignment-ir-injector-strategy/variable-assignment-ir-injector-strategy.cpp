@@ -24,7 +24,11 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                 DataAlignmentGenerator::generate(globalVariableIrType),
                 globalVariableIrType->getSizeInBytes()
         );
-        this->freeOldMallocs(oldGlobalVariableValue, globalVariable.value(), irBlock, irInjector, irModule, scope);
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getFreeValueFunction()->getFunctionType(),
+                irModule->getFreeValueFunction(),
+                { oldGlobalVariableValue }
+        );
 
     } else {
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
@@ -35,17 +39,6 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                 newVariableValue,
                 DataAlignmentGenerator::generate(variableIrType),
                 variableIrType->getSizeInBytes()
-        );
-    }
-}
-
-void VariableAssignmentIRInjectorStrategy::freeOldMallocs(llvm::LoadInst* oldValue, IRInstructionNode* allocation, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
-    if (allocation->getIRType()->getSourceType()->isArrayPointerType()) {
-        auto arrayPointerType = (IRArrayPointerType*)allocation->getIRType()->getSourceType();
-        irBlock->getBuilder()->get()->CreateCall(
-                irModule->getMallocFreeArrayFunction()->getFunctionType(),
-                irModule->getMallocFreeArrayFunction(),
-                {irBlock->getBuilder()->get()->getInt32(arrayPointerType->getDepth()), oldValue }
         );
     }
 }

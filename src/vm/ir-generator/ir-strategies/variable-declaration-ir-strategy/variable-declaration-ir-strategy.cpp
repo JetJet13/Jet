@@ -62,9 +62,9 @@ IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(AST
             irGenerator->generateIrPointerType(irType),
             { malloc },
             irExpression->getSourceAllocation()
-        );
+        )->markIsFreeable();
     }
     return IRInstructionNodeFactory::create(
             irGenerator->generateIrPointerType(irType), node->getId(), irExpression->getSourceAllocation()
-    );
+    )->markIsFreeable();
 }

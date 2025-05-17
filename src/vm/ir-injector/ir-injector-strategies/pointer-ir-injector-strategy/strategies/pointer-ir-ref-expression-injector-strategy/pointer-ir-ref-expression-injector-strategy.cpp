@@ -9,18 +9,18 @@ llvm::Value* PointerIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode*
     if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
         auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
-        auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(value, irExpression->getIRType()->getType());
+        auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(value, irExpression->getIRType()->getType()->getPointerTo());
         irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
         return allocation;
     } else if (irExpression->getExpression()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
-        auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(irExpression->getExpression()->getValue(), irExpression->getIRType()->getType());
+        auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(irExpression->getExpression()->getValue(), irExpression->getIRType()->getType()->getPointerTo());
         irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
         return allocation;
     }
     auto value = this->injectRawValue(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
-    auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(value, irExpression->getIRType()->getType());
+    auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(value, irExpression->getIRType()->getType()->getPointerTo());
     irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
     return allocation;
 }

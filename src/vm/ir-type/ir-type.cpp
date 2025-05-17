@@ -62,6 +62,10 @@ bool IRType::isBoolType() {
     return _type->isIntegerTy(1);
 }
 
+bool IRType::isLiteralType() {
+    return this->isIntegerType() || this->isFloatType() || this->isBoolType() || this->isCharType();
+}
+
 bool IRType::isArrayType() {
     return false;
 }

@@ -9,13 +9,13 @@ void FunctionReturnIRInjectorStrategy::inject(IRFunctionReturnExpressionNode* ir
     for (auto instructionToFree: scope->getAllInstructionsToFree()) {
         auto typeValue = irInjector->inject(irBlock, instructionToFree->getIRType()->getSourceType());
         auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(
-                instructionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue);
+            instructionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue);
             irBlock->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction()->getFunctionType(),
                 irModule->getFreeValueFunction(),
                 {
-                        instructionToFree->getValue(),
-                        loadedTypeValue
+                    instructionToFree->getValue(),
+                    loadedTypeValue
                 }
         );
     }

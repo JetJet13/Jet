@@ -27,6 +27,7 @@ public:
     bool isIntegerType();
     bool isFloatType();
     bool isBoolType();
+    bool isLiteralType();
     virtual bool isArrayType();
     virtual bool isStructType();
     virtual bool isEnumType();

@@ -127,7 +127,7 @@ IRInstructionNode* ArrayIRInjectorHelper::injectArrayPointerAllocation(IRBlockNo
     );
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
-    auto arrayPointerAllocation = irBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType());
+    auto arrayPointerAllocation = irBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType()->getPointerTo());
     auto pointerToArrayAllocation = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation, { zeroIndex, allocIndex });
     irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), pointerToArrayAllocation);
     return IRInstructionNodeFactory::create(

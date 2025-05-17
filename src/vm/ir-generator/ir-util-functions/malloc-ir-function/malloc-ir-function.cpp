@@ -11,7 +11,7 @@ std::string MallocIRFunction::getMallocIRFunctionName() {
 void MallocIRFunction::generateMallocFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
-    auto mallocSizeType = irGenerator->generateMallocSizeType();
+    auto mallocSizeType = irGenerator->generateInt64Type();
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { mallocSizeType }, false);
     auto malloc = irModuleNode->getModule()->getOrInsertFunction("malloc", functionType);
     auto raise = irModuleNode->getModule()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
