@@ -17,11 +17,7 @@ void CopyValueIRFunction::declareCopyValueFunction(IRGenerator* irGenerator, std
 }
 
 void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    auto intType = irGenerator->generateIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
-    auto typeValueSizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
 
     auto function = irModuleNode->getCopyValueFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -37,12 +33,8 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
-    auto typeValueAllocation = functionBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType());
-    functionBlock->getBuilder()->get()->CreateStore(function->getArg(2), typeValueAllocation);
-    auto pointerToElementTypeValueSizeInBytes = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAllocation, { zeroIndex, typeValueSizeInBytesIndex });
-    auto typeSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueSizeInBytes, "valueTypeSizeInBytes");
-    auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAllocation, { zeroIndex, typeValueIdIndex });
-    auto typeValueId = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueId, "valueTypeId");
+    auto typeSizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "valueTypeSizeInBytes");
+    auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getIdIndex() }, "valueTypeId");
 
     functionBlock->getBuilder()->get()->CreateBr(literalIfBlock->getBlock());
 

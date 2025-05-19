@@ -46,7 +46,7 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     freeValueIfBlock->getBuilder()->get()->CreateCondBr(isLastRef, freeValueIfThenBlock->getBlock(), freeValueElseBlock->getBlock());
 
 
-    auto underlyingTypePointer = freeValueIfThenBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { zeroIndex, allocIndex });
+    auto underlyingTypePointer = freeValueIfThenBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
     auto loadedUnderlyingType = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
     auto pointerToRefValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refValueIndex });
     auto refValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefValuePointer);

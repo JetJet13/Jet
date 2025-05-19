@@ -43,12 +43,8 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
 
     auto typeValueSizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
     auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
-    auto typeValueAllocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
 
-    auto typeValueAllocation = functionBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType());
-    functionBlock->getBuilder()->get()->CreateStore(function->getArg(2), typeValueAllocation);
-    auto pointerToElementTypeValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAllocation, { zeroIndex, typeValueAllocIndex });
-    auto elementTypeValue = functionBlock->getBuilder()->get()->CreateLoad(pointerType, pointerToElementTypeValue);
+    auto elementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
     auto pointerToElementTypeValueSizeInBytes = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), elementTypeValue, { zeroIndex, typeValueSizeInBytesIndex });
     auto elementSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueSizeInBytes, "elementTypeSizeInBytes");
     auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), elementTypeValue, { zeroIndex, typeValueIdIndex });

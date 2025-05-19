@@ -38,8 +38,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
-    auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { zeroIndex, typeValueIdIndex });
-    auto typeValueId = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueId, "valueTypeId");
+    auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getIdIndex() });
 
     functionBlock->getBuilder()->get()->CreateBr(arrayIfBlock->getBlock());
 

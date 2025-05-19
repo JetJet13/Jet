@@ -5,6 +5,7 @@
 #include "free-array-ir-function.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
+#include "../../../types/ir-type-id.h"
 
 std::string FreeArrayIRFunction::getFreeArrayIRFunctionName() {
     return "jet.free.array";
@@ -37,10 +38,8 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
 
     auto typeValueSizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
     auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
-    auto typeValueAllocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
 
-    auto pointerToElementTypeValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { zeroIndex, typeValueAllocIndex });
-    auto elementTypeValue = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), pointerToElementTypeValue);
+    auto elementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
     auto pointerToElementTypeValueSizeInBytes = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), elementTypeValue, { zeroIndex, typeValueSizeInBytesIndex });
     auto elementSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToElementTypeValueSizeInBytes, "elementTypeSizeInBytes");
     auto pointerToElementTypeValueId = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), elementTypeValue, { zeroIndex, typeValueIdIndex });
@@ -74,7 +73,7 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     auto isElementTypeLiteral = depthOneBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
             elementTypeValueId,
-            irGenerator->generateIntConstant(5)
+            irGenerator->generateIntConstant(IR_TYPE_ID.LITERAL)
     );
     depthOneBlock->getBuilder()->get()->CreateCondBr(isElementTypeLiteral, depthOneTypeLiteralTrueBlock->getBlock(), depthOneTypeLiteralFalseBlock->getBlock());
 
@@ -107,10 +106,11 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     auto depthOneForLoopBody = depthOneForLoopBodyBlock->getBuilder()->get();
     auto elementByteOffsetValue = depthOneForLoopBody->CreateLoad(intType, elementByteOffset);
     auto elementPointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), loadedSourceArrayAllocation, {elementByteOffsetValue });
+    auto loadedElementTypeValue = depthOneForLoopBody->CreateLoad(typeValueType->getType(), elementTypeValue);
     depthOneForLoopBody->CreateCall(
             irContext->getIRModule()->getFreeValueFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeValueFunction(),
-            { elementPointerAtIndex, elementTypeValue }
+            { elementPointerAtIndex, loadedElementTypeValue }
     );
     depthOneForLoopBody->CreateCall(
             irContext->getIRModule()->getMallocFreeFunction()->getFunctionType(),
@@ -126,16 +126,15 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     depthOneForLoopBody->CreateBr(depthOneForLoopConditionBlock->getBlock());
 
     // depth 1 for loop end
-    depthOneForLoopEndBlock->getBuilder()->get()->CreateBr(depthOneTypeLiteralEndBlock->getBlock());
-
-    // is element type literal end block
-    depthOneForLoopBody->CreateCall(
+    depthOneForLoopEndBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFreeFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFreeFunction(),
             { function->getArg(0) }
     );
-    depthOneTypeLiteralEndBlock->addVoidReturn();
+    depthOneForLoopEndBlock->getBuilder()->get()->CreateBr(depthOneTypeLiteralEndBlock->getBlock());
 
+    // is element type literal end block
+    depthOneTypeLiteralEndBlock->addVoidReturn();
 
     auto forLoopIndex = depthNForLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
     depthNForLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
@@ -167,7 +166,7 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     depthNForLoopBody->CreateBr(depthNForLoopConditionBlock->getBlock());
 
     // depth N for loop end
-    depthNForLoopBody->CreateCall(
+    depthNForLoopEndBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction()->getFunctionType(),
             irModuleNode->getMallocFreeFunction(),
             { function->getArg(0) }

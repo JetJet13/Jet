@@ -22,21 +22,13 @@ void FreePointerIRFunction::generateFreePointerFunction(IRGenerator* irGenerator
     auto function = irModuleNode->getFreePointerFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
-    auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { zeroIndex, allocIndex });
-    auto loadedUnderlyingType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
+    auto underlyingType = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
     auto loadedUnderlyingSourcePointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), function->getArg(0));
 
     functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeValueFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeValueFunction(),
-            { loadedUnderlyingSourcePointer, loadedUnderlyingType }
-    );
-    functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocFreeFunction()->getFunctionType(),
-            irContext->getIRModule()->getMallocFreeFunction(),
-            { loadedUnderlyingSourcePointer }
+            { loadedUnderlyingSourcePointer, underlyingType }
     );
 
     functionBlock->addVoidReturn();

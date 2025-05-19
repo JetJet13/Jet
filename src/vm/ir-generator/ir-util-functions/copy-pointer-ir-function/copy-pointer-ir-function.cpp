@@ -25,13 +25,9 @@ void CopyPointerIRFunction::generateCopyPointerFunction(IRGenerator* irGenerator
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
-    auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
 
-    auto typeValueAllocation = functionBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType());
-    functionBlock->getBuilder()->get()->CreateStore(function->getArg(2), typeValueAllocation);
-    auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAllocation, { zeroIndex, allocIndex });
-    auto loadedUnderlyingTypePointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), underlyingTypePointer);
-    auto underlyingTypeSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), loadedUnderlyingTypePointer, { zeroIndex, sizeInBytesIndex });
+    auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
+    auto underlyingTypeSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), underlyingTypePointer, { zeroIndex, sizeInBytesIndex });
     auto loadedUnderlyingTypeSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, underlyingTypeSizeInBytesPointer);
     auto mallocSize = functionBlock->getBuilder()->get()->CreateZExt(loadedUnderlyingTypeSizeInBytes, irGenerator->generateInt64Type());
     auto malloc = functionBlock->getBuilder()->get()->CreateCall(
@@ -40,7 +36,7 @@ void CopyPointerIRFunction::generateCopyPointerFunction(IRGenerator* irGenerator
             { mallocSize }
     );
     auto destinationValuePointer = functionBlock->getBuilder()->get()->CreateBitCast(malloc, pointerType->getType());
-    auto loadedUnderlyingType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), loadedUnderlyingTypePointer);
+    auto loadedUnderlyingType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
     auto loadedUnderlyingSourcePointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), function->getArg(1));
     functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getCopyValueFunction()->getFunctionType(),

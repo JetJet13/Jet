@@ -544,12 +544,12 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
     CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
-//    FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
-//    FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
-//    FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
-//    FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
-//    FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
-//    FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
+    FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
+    FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
+    FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
+    FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
+    FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
+    FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

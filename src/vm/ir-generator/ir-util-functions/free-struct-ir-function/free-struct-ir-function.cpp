@@ -31,8 +31,7 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
     auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
     auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
 
-    auto numTypesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { zeroIndex, numTypesIndex });
-    auto loadedNumTypes = functionBlock->getBuilder()->get()->CreateLoad(intType, numTypesPointer);
+    auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getNumTypesIndex() });
 
     auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
@@ -53,16 +52,13 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
     auto isForLoopIndexLessThanNumElements = forLoopConditionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
             forLoopIndexValue,
-            loadedNumTypes
+            numTypes
     );
     forLoopConditionBlock->getBuilder()->get()->CreateCondBr(isForLoopIndexLessThanNumElements, forLoopBodyBlock->getBlock(), forLoopEndBlock->getBlock());
 
     // for loop body
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
-    auto pointerToTypeValueAllocAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { zeroIndex, allocIndex });
-    auto loadedTypeValueAllocAtIndex = forLoopBody->CreateLoad(pointerType->getType(), pointerToTypeValueAllocAtIndex);
-    auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), loadedTypeValueAllocAtIndex, { forLoopIndexValue });
-    auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
+    auto typeValueAtIndex = forLoopBody->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
     auto pointerToTypeValueIdAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueAtIndex, { zeroIndex, typeValueIdIndex });
     auto typeValueIdAtIndex = forLoopBody->CreateLoad(intType, pointerToTypeValueIdAtIndex, "valueTypeIdAtIndex");
     auto structByteOffsetValue = forLoopBody->CreateLoad(intType, elementByteOffset);
@@ -77,20 +73,21 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
 
     forLoopBody->CreateCondBr(isValueTypeLiteral, isValueNotFreeableThenBlock->getBlock(), isValueNotFreeableElseBlock->getBlock());
     isValueNotFreeableThenBlock->getBuilder()->get()->CreateBr(isValueNotFreeableEndBlock->getBlock());
+    auto loadedTypeValueAtIndex = isValueNotFreeableElseBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), typeValueAtIndex);
     isValueNotFreeableElseBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeValueFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeValueFunction(),
-            { pointerAtIndex, typeValueAtIndex }
+            { pointerAtIndex, loadedTypeValueAtIndex }
     );
     isValueNotFreeableElseBlock->getBuilder()->get()->CreateBr(isValueNotFreeableEndBlock->getBlock());
 
     auto sizeInBytesAtIndexPointer = isValueNotFreeableEndBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), typeValueAtIndex, { zeroIndex, sizeInBytesIndex });
     auto loadedSizeInBytesAtIndex = isValueNotFreeableEndBlock->getBuilder()->get()->CreateLoad(intType, sizeInBytesAtIndexPointer);
     auto newStructByteOffsetValue = isValueNotFreeableEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, loadedSizeInBytesAtIndex);
-    isValueNotFreeableEndBlock->getBuilder()->get()->CreateStore(elementByteOffset, newStructByteOffsetValue);
+    isValueNotFreeableEndBlock->getBuilder()->get()->CreateStore(newStructByteOffsetValue, elementByteOffset);
 
     auto newForLoopIndexValue = isValueNotFreeableEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
-    isValueNotFreeableEndBlock->getBuilder()->get()->CreateStore(forLoopIndex, newForLoopIndexValue);
+    isValueNotFreeableEndBlock->getBuilder()->get()->CreateStore(newForLoopIndexValue, forLoopIndex);
     isValueNotFreeableEndBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
     // for loop end
