@@ -25,6 +25,7 @@
 #include "ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.h"
+#include "ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.h"
 
 
 IRInjector::IRInjector() {
@@ -48,6 +49,7 @@ IRInjector::IRInjector() {
     _procedureDeclarationIRInjectorStrategy = new ProcedureDeclarationIRInjectorStrategy();
     _functionDeclarationIRInjectorStrategy = new FunctionDeclarationIRInjectorStrategy();
     _typeValueIRInjectorStrategy = new TypeValueIRInjectorStrategy();
+    _blockIRInjectorStrategy = new BlockIRInjectorStrategy();
     this->init();
 }
 
@@ -108,6 +110,10 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
     } else if (irStatement->is(IR_IF_STATEMENT_NODE)) {
         _ifStatementIRInjectorStrategy->inject((IRIfStatementNode*)irStatement, irBlock, this, irModule, scope);
     }
+}
+
+void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, IRModuleNode* irModule, IRLookupTable* scope) {
+    _blockIRInjectorStrategy->inject(irNode, irBlock, this, irModule, scope);
 }
 
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {

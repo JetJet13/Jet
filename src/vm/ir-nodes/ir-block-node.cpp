@@ -3,6 +3,7 @@
 //
 
 #include "ir-block-node.h"
+#include "../../shared/utils/logger/logger.h"
 
 IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue) {
     _irValue = irValue;
@@ -14,6 +15,10 @@ bool IRBlockNode::hasReturnStatement() {
         return false;
     }
     return _body.back()->is(IR_FUNCTION_RETURN_EXPRESSION_NODE);
+}
+
+bool IRBlockNode::hasBranchStatement() {
+    return llvm::isa<llvm::BranchInst>(_irValue->back());
 }
 
 llvm::BasicBlock* IRBlockNode::getBlock() {
@@ -34,4 +39,41 @@ std::unique_ptr<llvm::IRBuilder<>>* IRBlockNode::getBuilder() {
 
 void IRBlockNode::addVoidReturn() {
     _builder.get()->CreateRet(_builder.get()->getInt32(0));
+}
+
+void IRBlockNode::createSuccessor() {
+    auto newBlock = new IRBlockNode(
+        llvm::BasicBlock::Create(this->getBlock()->getContext(), "", this->getBlock()->getParent())
+    );
+    newBlock->setParentBlock(this);
+    _successors.push_back(newBlock);
+}
+
+std::vector<IRBlockNode*>* IRBlockNode::getSuccessors() {
+    return &_successors;
+}
+
+void IRBlockNode::addSuccessor(IRBlockNode* successorIrBlock) {
+    _successors.push_back(successorIrBlock);
+    successorIrBlock->setParentBlock(this);
+    auto successorsOfSuccessorIrBlock = successorIrBlock->getSuccessors();
+    for (int i = 0; i < successorsOfSuccessorIrBlock->size(); ++i) {
+        _successors.push_back(successorsOfSuccessorIrBlock->at(i));
+        successorsOfSuccessorIrBlock->at(i)->setParentBlock(this);
+    }
+}
+
+IRBlockNode* IRBlockNode::getLastSuccessorOrSelf() {
+    if (_successors.empty()) {
+        return this;
+    }
+    return _successors.back();
+}
+
+std::optional<IRBlockNode*> IRBlockNode::getParentBlock() {
+    return _parentBlock;
+}
+
+void IRBlockNode::setParentBlock(IRBlockNode* parentIRBlock) {
+    _parentBlock = parentIRBlock;
 }

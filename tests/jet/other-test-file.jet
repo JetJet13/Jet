@@ -11,5 +11,3 @@ export func myStringFunction() string {
 export func myTupleFunction() tuple<int, boolean, int> {
     return tuple { 1, false, 10 };
 }
-
-const otherValue = myOtherFunction(3);

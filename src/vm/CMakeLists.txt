@@ -484,6 +484,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h
         ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.cpp
         ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h
+        ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

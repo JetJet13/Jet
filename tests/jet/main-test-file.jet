@@ -1,4 +1,4 @@
-// import MyOtherModule from "./other-test-file.jet";
+import MyOtherModule from "./other-test-file.jet";
 
 const myArray = [1, 2, 3];
 const foo = 500;
@@ -75,10 +75,19 @@ class MyClass {
 const myClassInstance = new MyClass(5);
 
 proc ConditionalProcedure() {
-// todo: get this working
-//    if foo > tempFoo {
-//        const v = 50;
-//    } else {
-//        const p = 100;
-//    }
+   if foo > tempFoo {
+        const v = 50;
+        if foo > 10 {
+            const x = 'h';
+            if foo > 5 {
+                const bar = 999;
+            }
+        }
+
+        if tempFoo > 10 {
+            const q = 294;
+        }
+   } else {
+        const p = 100;
+   }
 }

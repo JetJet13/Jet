@@ -531,6 +531,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocIRFunction::generateMallocFunction(this, &_context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
+    // todo: repurpose these functions to do push, pull, enqueue, dequeue operations on arrays
 //    MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(this, &_context, irModule);
 //    MallocArrayPopIRFunction::generateMallocArrayPopFunction(this, &_context, irModule);
 //    MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);

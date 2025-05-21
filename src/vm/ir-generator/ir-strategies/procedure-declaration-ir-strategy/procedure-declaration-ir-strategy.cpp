@@ -27,13 +27,15 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
                 AddressSpaceGenerator::generate(irParamType),
                 nullptr,
                 DataAlignmentGenerator::generate(irParamType)
-            ), irGenerator->generateIrPointerType(irParamType));
+            ),
+            irGenerator->generateIrPointerType(irParamType)
+        );
         procedureScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-            functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irFunctionContext));
+        functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irFunctionContext));
     }
     return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, procedureScope);
 }

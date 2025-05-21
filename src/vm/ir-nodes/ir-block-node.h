@@ -16,14 +16,23 @@ private:
     llvm::BasicBlock* _irValue;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
     std::vector<IRNode*> _body;
+    std::vector<IRBlockNode*> _successors;
+    std::optional<IRBlockNode*> _parentBlock;
 public:
     IRBlockNode(llvm::BasicBlock* irValue);
     bool hasReturnStatement();
+    bool hasBranchStatement();
     llvm::BasicBlock* getBlock();
     std::vector<IRNode*>* getBody();
     void insert(IRNode* irNode);
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
     void addVoidReturn();
+    void createSuccessor();
+    std::vector<IRBlockNode*>* getSuccessors();
+    void addSuccessor(IRBlockNode* successorIrBlock);
+    IRBlockNode* getLastSuccessorOrSelf();
+    std::optional<IRBlockNode*> getParentBlock();
+    void setParentBlock(IRBlockNode* parentIRBlock);
 };
 
 #endif //JETLANG_IR_BLOCK_NODE_H
