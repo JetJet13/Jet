@@ -2,19 +2,20 @@
 // Created by Johny Georges on 2024-03-29.
 //
 
-#ifndef JETLANG_AST_FOR_VARIABLE_NODE_H
-#define JETLANG_AST_FOR_VARIABLE_NODE_H
+#ifndef JETLANG_AST_FOR_IN_SOURCE_NODE_H
+#define JETLANG_AST_FOR_IN_SOURCE_NODE_H
 
 #include "../../../lexeme/lexeme.h"
-#include "../ast-expression-nodes/ast-identifier-expression-node.h"
+#include "../ast-identifier-node.h"
+#include "../ast-expression-nodes/ast-expression-node.h"
 
-class ASTForVariableNode : public ASTNode {
+class ASTForInSourceNode : public ASTNode {
 private:
-    ASTIdentifierExpressionNode* _variable;
+    ASTExpressionNode* _source;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
-    ASTForVariableNode(ASTIdentifierExpressionNode* variable);
-    ASTIdentifierExpressionNode* getVariable();
+    explicit ASTForInSourceNode(ASTExpressionNode* source);
+    ASTExpressionNode* getSource();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
@@ -26,4 +27,4 @@ public:
     std::string toSourceCode() override;
 };
 
-#endif //JETLANG_AST_FOR_VARIABLE_NODE_H
+#endif //JETLANG_AST_FOR_IN_SOURCE_NODE_H

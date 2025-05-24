@@ -15,7 +15,7 @@
 #include "policies/class-declaration-type-checker-policy/class-declaration-type-checker-policy.h"
 #include "policies/if-statement-type-checker-policy/if-statement-type-checker-policy.h"
 #include "policies/try-statement-type-checker-policy/try-statement-type-checker-policy.h"
-#include "policies/for-statement-type-checker-policy/for-statement-type-checker-policy.h"
+#include "policies/for-in-statement-type-checker-policy/for-in-statement-type-checker-policy.h"
 #include "policies/while-statement-type-checker-policy/while-statement-type-checker-policy.h"
 #include "policies/control-flow-block-type-checker-policy/control-flow-block-type-checker-policy.h"
 #include "policies/control-flow-condition-type-checker-policy/control-flow-condition-type-checker-policy.h"
@@ -87,8 +87,8 @@ namespace TypeChecker {
             case AST_TRY_STATEMENT_NODE:
                 TryStatementTypeCheckerPolicy::apply((ASTTryStatementNode*)node, typeCheckerResult);
                 break;
-            case AST_FOR_STATEMENT_NODE:
-                ForStatementTypeCheckerPolicy::apply((ASTForStatementNode*)node, typeCheckerResult);
+            case AST_FOR_IN_STATEMENT_NODE:
+                ForInStatementTypeCheckerPolicy::apply((ASTForInStatementNode*)node, typeCheckerResult);
                 break;
             case AST_WHILE_STATEMENT_NODE:
                 WhileStatementTypeCheckerPolicy::apply((ASTWhileStatementNode*)node, typeCheckerResult);

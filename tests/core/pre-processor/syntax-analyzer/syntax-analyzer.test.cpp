@@ -23,7 +23,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-function-lambda-type-parameter-list-node.h"
@@ -1794,7 +1794,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 })
         )},
-        {136, new ASTForStatementNode(
+        {136, new ASTForInStatementNode(
                 ASTNodeFactory::forKeyword,
                 ASTNodeFactory::forVariable,
                 ASTNodeFactory::forInKeyword,
@@ -1806,11 +1806,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 })
         )},
-        {137, new ASTForStatementNode(
+        {137, new ASTForInStatementNode(
                 ASTNodeFactory::forKeyword,
                 ASTNodeFactory::forVariable,
                 ASTNodeFactory::forInKeyword,
-                new ASTForSourceNode(
+                new ASTForInSourceNode(
                     new ASTFunctionInvocationExpressionNode(
                         ASTNodeFactory::callableIdExpression,
                         ASTNodeFactory::createFunctionArgumentList({

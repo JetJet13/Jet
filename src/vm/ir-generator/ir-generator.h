@@ -119,6 +119,10 @@ public:
     IRBlockNode* generateForLoopConditionBlock(IRContext* irContext, std::string prefix = "");
     IRBlockNode* generateForLoopBodyBlock(IRContext* irContext, std::string prefix = "");
     IRBlockNode* generateForLoopEndBlock(IRContext* irContext, std::string prefix = "");
+    IRBlockNode* generateForInBlock(IRContext* irContext, std::string prefix = "");
+    IRBlockNode* generateForInSetupBlock(IRContext* irContext, std::string prefix = "");
+    IRBlockNode* generateForInBodyBlock(IRContext* irContext, std::string prefix = "");
+    IRBlockNode* generateForInEndBlock(IRContext* irContext, std::string prefix = "");
     IRBlockNode* generateBasicBlock();
     IRBlockNode* generateBasicBlock(std::string label, IRContext* irContext);
     IRContext* generateContext(IRBlockNode* irBlock, IRModuleNode* irModule);

@@ -11,7 +11,7 @@
 #include "../../../../../../ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
-#include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h"
+#include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 
 
@@ -22,7 +22,7 @@ public:
     void enforce(ASTFunctionBlockNode* functionBlockNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
     void enforce(ASTIfStatementNode* ifStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
     void enforce(ASTTryStatementNode* tryStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTForStatementNode* forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTForInStatementNode* forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
     void enforce(ASTWhileStatementNode* whileStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;

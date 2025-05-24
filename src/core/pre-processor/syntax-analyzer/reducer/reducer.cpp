@@ -42,9 +42,9 @@
 #include "reducer-strategies/else-if-reducer-strategy/else-if-reducer-strategy.h"
 #include "reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.h"
 #include "reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.h"
-#include "reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.h"
-#include "reducer-strategies/for-variable-reducer-strategy/for-variable-reducer-strategy.h"
-#include "reducer-strategies/for-source-reducer-strategy/for-source-reducer-strategy.h"
+#include "reducer-strategies/for-in-statement-reducer-strategy/for-in-statement-reducer-strategy.h"
+#include "reducer-strategies/for-in-variable-reducer-strategy/for-in-variable-reducer-strategy.h"
+#include "reducer-strategies/for-in-source-reducer-strategy/for-in-source-reducer-strategy.h"
 #include "reducer-strategies/if-statement-reducer-strategy/if-statement-reducer-strategy.h"
 #include "reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.h"
 #include "reducer-strategies/finally-block-reducer-strategy/finally-block-reducer-strategy.h"
@@ -161,9 +161,9 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ELSE_IF_NODE, new ElseIfReducerStrategy());
     this->addStrategy(AST_IF_STATEMENT_NODE, new IfStatementReducerStrategy());
     this->addStrategy(AST_WHILE_STATEMENT_NODE, new WhileStatementReducerStrategy());
-    this->addStrategy(AST_FOR_VARIABLE_NODE, new ForVariableReducerStrategy());
-    this->addStrategy(AST_FOR_SOURCE_NODE, new ForSourceReducerStrategy());
-    this->addStrategy(AST_FOR_STATEMENT_NODE, new ForStatementReducerStrategy());
+    this->addStrategy(AST_FOR_IN_VARIABLE_NODE, new ForInVariableReducerStrategy());
+    this->addStrategy(AST_FOR_IN_SOURCE_NODE, new ForInSourceReducerStrategy());
+    this->addStrategy(AST_FOR_IN_STATEMENT_NODE, new ForInStatementReducerStrategy());
     this->addStrategy(AST_TRY_STATEMENT_NODE, new TryStatementReducerStrategy());
     this->addStrategy(AST_TRY_BLOCK_NODE, new TryBlockReducerStrategy());
     this->addStrategy(AST_CATCH_BLOCK_NODE, new CatchBlockReducerStrategy());

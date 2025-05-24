@@ -54,7 +54,7 @@ namespace ASTNodeUtils {
             case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             case AST_IF_STATEMENT_NODE:
             case AST_WHILE_STATEMENT_NODE:
-            case AST_FOR_STATEMENT_NODE:
+            case AST_FOR_IN_STATEMENT_NODE:
             case AST_EXPRESSION_STATEMENT_NODE:
             case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
             case AST_BLOCK_NODE:

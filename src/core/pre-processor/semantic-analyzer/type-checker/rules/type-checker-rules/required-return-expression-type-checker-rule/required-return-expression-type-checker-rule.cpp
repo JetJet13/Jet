@@ -33,7 +33,7 @@ void RequiredReturnExpressionTypeCheckerRule::enforce(ASTTryStatementNode* trySt
 
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(ASTForStatementNode* forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(ASTForInStatementNode* forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(forStatementNode->getBlock()->getContents(), returnType, typeCheckerResult);
 }
 
@@ -66,8 +66,8 @@ void RequiredReturnExpressionTypeCheckerRule::checkNode(std::vector<ASTNode*>* n
             this->enforce((ASTIfStatementNode*)statement, returnType, typeCheckerResult);
         } else if (statement->is(AST_TRY_STATEMENT_NODE)) {
             this->enforce((ASTTryStatementNode*)statement, returnType, typeCheckerResult);
-        } else if (statement->is(AST_FOR_STATEMENT_NODE)) {
-            this->enforce((ASTForStatementNode*)statement, returnType, typeCheckerResult);
+        } else if (statement->is(AST_FOR_IN_STATEMENT_NODE)) {
+            this->enforce((ASTForInStatementNode*)statement, returnType, typeCheckerResult);
         } else if (statement->is(AST_WHILE_STATEMENT_NODE)) {
             this->enforce((ASTWhileStatementNode*)statement, returnType, typeCheckerResult);
         }

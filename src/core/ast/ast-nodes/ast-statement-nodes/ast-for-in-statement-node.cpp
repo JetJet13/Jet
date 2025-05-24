@@ -2,11 +2,11 @@
 // Created by Johny Georges on 2024-03-29.
 //
 
-#include "ast-for-statement-node.h"
+#include "ast-for-in-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTForStatementNode::ASTForStatementNode(ASTForNode* forKeyword, ASTForVariableNode* variable, ASTForInNode* inKeyword, ASTForSourceNode* source, ASTControlFlowBlockNode* block) {
+ASTForInStatementNode::ASTForInStatementNode(ASTForNode* forKeyword, ASTForInVariableNode* variable, ASTForInNode* inKeyword, ASTForInSourceNode* source, ASTControlFlowBlockNode* block) {
     _forKeyword = forKeyword;
     _variable = variable;
     _inKeyword = inKeyword;
@@ -19,46 +19,46 @@ ASTForStatementNode::ASTForStatementNode(ASTForNode* forKeyword, ASTForVariableN
     _children.push_back(_block);
 }
 
-ASTForVariableNode* ASTForStatementNode::getVariable() {
+ASTForInVariableNode* ASTForInStatementNode::getVariable() {
     return _variable;
 }
 
-ASTForSourceNode* ASTForStatementNode::getSource() {
+ASTForInSourceNode* ASTForInStatementNode::getSource() {
     return _source;
 }
 
-ASTControlFlowBlockNode* ASTForStatementNode::getBlock() {
+ASTControlFlowBlockNode* ASTForInStatementNode::getBlock() {
     return _block;
 }
 
-Position* ASTForStatementNode::getStartPosition() {
+Position* ASTForInStatementNode::getStartPosition() {
     return _forKeyword->getStartPosition();
 }
 
-Position* ASTForStatementNode::getEndPosition() {
+Position* ASTForInStatementNode::getEndPosition() {
     return _block->getEndPosition();
 }
 
-ASTNodeType ASTForStatementNode::getNodeType() {
-    return AST_FOR_STATEMENT_NODE;
+ASTNodeType ASTForInStatementNode::getNodeType() {
+    return AST_FOR_IN_STATEMENT_NODE;
 }
 
-std::string ASTForStatementNode::toString() {
-    return "FOR_STATEMENT";
+std::string ASTForInStatementNode::toString() {
+    return "FOR_IN_STATEMENT";
 }
 
-bool ASTForStatementNode::isSameAs(ASTNode *other) {
+bool ASTForInStatementNode::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTForStatementNode*)other;
+    auto otherNode = (ASTForInStatementNode*)other;
 
     return  this->getVariable()->isSameAs(otherNode->getVariable()) &&
             this->getSource()->isSameAs(otherNode->getSource()) &&
             this->getBlock()->isSameAs(otherNode->getBlock());
 }
 
-void ASTForStatementNode::print() {
+void ASTForInStatementNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _variable->print();
     _source->print();
@@ -66,7 +66,7 @@ void ASTForStatementNode::print() {
     Logger::log("----------");
 }
 
-std::string ASTForStatementNode::toSourceCode() {
+std::string ASTForInStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_forKeyword)
     ->addWithWhitespace(_variable)

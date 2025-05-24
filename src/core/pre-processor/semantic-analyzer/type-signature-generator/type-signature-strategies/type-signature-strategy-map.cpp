@@ -56,7 +56,7 @@
 #include "if-statement-type-signature-strategy/if-statement-type-signature-strategy.h"
 #include "try-statement-type-signature-strategy/try-statement-type-signature-strategy.h"
 #include "while-statement-type-signature-strategy/while-statement-type-signature-strategy.h"
-#include "for-statement-type-signature-strategy/for-statement-type-signature-strategy.h"
+#include "for-in-statement-type-signature-strategy/for-in-statement-type-signature-strategy.h"
 #include "condition-type-signature-strategy/condition-type-signature-strategy.h"
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
@@ -122,7 +122,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _blockTypeSignatureStrategy = new BlockTypeSignatureStrategy();
     _expressionStatementTypeSignatureStrategy = new ExpressionStatementTypeSignatureStrategy();
     _conditionTypeSignatureStrategy = new ConditionTypeSignatureStrategy();
-    _forStatementTypeSignatureStrategy = new ForStatementTypeSignatureStrategy();
+    _forStatementTypeSignatureStrategy = new ForInStatementTypeSignatureStrategy();
     _whileStatementTypeSignatureStrategy = new WhileStatementTypeSignatureStrategy();
     _tryStatementTypeSignatureStrategy = new TryStatementTypeSignatureStrategy();
     _ifStatementTypeSignatureStrategy = new IfStatementTypeSignatureStrategy();
@@ -353,7 +353,7 @@ ExpressionStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getExpressio
 ConditionTypeSignatureStrategy* TypeSignatureStrategyMap::getConditionTypeSignatureStrategy() {
     return this->_conditionTypeSignatureStrategy;
 }
-ForStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getForStatementTypeSignatureStrategy() {
+ForInStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getForStatementTypeSignatureStrategy() {
     return this->_forStatementTypeSignatureStrategy;
 }
 WhileStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getWhileStatementTypeSignatureStrategy() {

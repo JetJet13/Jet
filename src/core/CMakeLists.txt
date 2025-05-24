@@ -343,18 +343,18 @@ add_library(jet-core
         ast/ast-nodes/ast-control-flow-nodes/ast-for-node.h
         ast/ast-nodes/ast-control-flow-nodes/ast-for-in-node.cpp
         ast/ast-nodes/ast-control-flow-nodes/ast-for-in-node.h
-        ast/ast-nodes/ast-control-flow-nodes/ast-for-variable-node.cpp
-        ast/ast-nodes/ast-control-flow-nodes/ast-for-variable-node.h
-        ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.cpp
-        ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.h
-        ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.cpp
-        ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-variable-reducer-strategy/for-variable-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-variable-reducer-strategy/for-variable-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-source-reducer-strategy/for-source-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-source-reducer-strategy/for-source-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-statement-reducer-strategy/for-statement-reducer-strategy.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.h
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-in-source-node.cpp
+        ast/ast-nodes/ast-control-flow-nodes/ast-for-in-source-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-variable-reducer-strategy/for-in-variable-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-variable-reducer-strategy/for-in-variable-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-source-reducer-strategy/for-in-source-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-source-reducer-strategy/for-in-source-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-statement-reducer-strategy/for-in-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-statement-reducer-strategy/for-in-statement-reducer-strategy.h
         ast/ast-nodes/ast-control-flow-nodes/ast-break-node.cpp
         ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h
         ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.cpp
@@ -875,8 +875,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/block-type-signature-strategy/block-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/while-statement-type-signature-strategy/while-statement-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/while-statement-type-signature-strategy/while-statement-type-signature-strategy.h
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/for-statement-type-signature-strategy/for-statement-type-signature-strategy.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/for-statement-type-signature-strategy/for-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/for-in-statement-type-signature-strategy/for-in-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/for-in-statement-type-signature-strategy/for-in-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.cpp
@@ -928,8 +928,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/if-statement-type-checker-policy/if-statement-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/try-statement-type-checker-policy/try-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/try-statement-type-checker-policy/try-statement-type-checker-policy.h
-        pre-processor/semantic-analyzer/type-checker/policies/for-statement-type-checker-policy/for-statement-type-checker-policy.cpp
-        pre-processor/semantic-analyzer/type-checker/policies/for-statement-type-checker-policy/for-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/for-in-statement-type-checker-policy/for-in-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/for-in-statement-type-checker-policy/for-in-statement-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/while-statement-type-checker-policy/while-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/while-statement-type-checker-policy/while-statement-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/control-flow-block-type-checker-policy/control-flow-block-type-checker-policy.cpp

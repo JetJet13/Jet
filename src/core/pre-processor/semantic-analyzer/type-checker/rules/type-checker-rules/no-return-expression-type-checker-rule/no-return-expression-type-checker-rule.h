@@ -10,7 +10,7 @@
 #include "../../../../../../ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
-#include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-for-statement-node.h"
+#include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 
 class NoReturnExpressionTypeCheckerRule : public TypeCheckerRule {
@@ -20,7 +20,7 @@ public:
     void enforce(ASTFunctionBlockNode* functionBlockNode, std::string message, TypeCheckerResult* typeCheckerResult);
     void enforce(ASTIfStatementNode* ifStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
     void enforce(ASTTryStatementNode* tryStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTForStatementNode* forStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTForInStatementNode* forStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
     void enforce(ASTWhileStatementNode* whileStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;

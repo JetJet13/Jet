@@ -2,29 +2,29 @@
 // Created by Johny Georges on 2024-03-29.
 //
 
-#ifndef JETLANG_AST_FOR_STATEMENT_NODE_H
-#define JETLANG_AST_FOR_STATEMENT_NODE_H
+#ifndef JETLANG_AST_FOR_IN_STATEMENT_NODE_H
+#define JETLANG_AST_FOR_IN_STATEMENT_NODE_H
 
 #include <vector>
 #include "./ast-statement-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "../ast-control-flow-nodes/ast-for-variable-node.h"
-#include "../ast-control-flow-nodes/ast-for-source-node.h"
+#include "../ast-control-flow-nodes/ast-for-in-variable-node.h"
+#include "../ast-control-flow-nodes/ast-for-in-source-node.h"
 #include "../ast-control-flow-nodes/ast-control-flow-block-node.h"
 #include "../ast-control-flow-nodes/ast-for-node.h"
 #include "../ast-control-flow-nodes/ast-for-in-node.h"
 
-class ASTForStatementNode : public ASTStatementNode {
+class ASTForInStatementNode : public ASTStatementNode {
 private:
     ASTForNode* _forKeyword;
-    ASTForVariableNode* _variable;
+    ASTForInVariableNode* _variable;
     ASTForInNode* _inKeyword;
-    ASTForSourceNode* _source;
+    ASTForInSourceNode* _source;
     ASTControlFlowBlockNode* _block;
 public:
-    explicit ASTForStatementNode(ASTForNode* forKeyword, ASTForVariableNode* variable, ASTForInNode* inKeyword, ASTForSourceNode* source, ASTControlFlowBlockNode* block);
-    ASTForVariableNode* getVariable();
-    ASTForSourceNode* getSource();
+    explicit ASTForInStatementNode(ASTForNode* forKeyword, ASTForInVariableNode* variable, ASTForInNode* inKeyword, ASTForInSourceNode* source, ASTControlFlowBlockNode* block);
+    ASTForInVariableNode* getVariable();
+    ASTForInSourceNode* getSource();
     ASTControlFlowBlockNode* getBlock();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
@@ -35,4 +35,4 @@ public:
     std::string toSourceCode() override;
 };
 
-#endif //JETLANG_AST_FOR_STATEMENT_NODE_H
+#endif //JETLANG_AST_FOR_IN_STATEMENT_NODE_H

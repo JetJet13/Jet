@@ -101,3 +101,10 @@ proc WhileProcedure() {
         x = x + 1;
     }
 }
+
+proc ForInProcedure() {
+    const myArray = [1, 2, 3, 4, 5];
+    for num in myArray {
+        const x = 1012 + num;
+    }
+}

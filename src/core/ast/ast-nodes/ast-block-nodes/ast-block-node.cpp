@@ -60,7 +60,7 @@ ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, 
         return new ASTFunctionBlockNode(_blockStartNode, _contents, _blockEndNode);
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_CONTROL_FLOW_CONDITION_NODE, AST_ELSE_NODE, AST_FOR_SOURCE_NODE, AST_TRY_NODE, AST_CATCH_NODE, AST_CATCH_ERROR_VARIABLE_NODE, AST_FINALLY_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({AST_CONTROL_FLOW_CONDITION_NODE, AST_ELSE_NODE, AST_FOR_IN_SOURCE_NODE, AST_TRY_NODE, AST_CATCH_NODE, AST_CATCH_ERROR_VARIABLE_NODE, AST_FINALLY_NODE })) {
         return new ASTControlFlowBlockNode(_blockStartNode, _contents, _blockEndNode);
     }
 

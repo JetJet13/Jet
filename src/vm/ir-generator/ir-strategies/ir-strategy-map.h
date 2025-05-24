@@ -40,6 +40,7 @@ class ClassPropertyAssignmentStatementIRStrategy;
 class VariableAssignmentStatementIRStrategy;
 class IfStatementIRStrategy;
 class WhileStatementIRStrategy;
+class ForInStatementIRStrategy;
 class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
 class SrefExpressionIRStrategy;
@@ -103,6 +104,7 @@ private:
     VariableAssignmentStatementIRStrategy* _variableAssignmentStatementIRStrategy;
     IfStatementIRStrategy* _ifStatementIRStrategy;
     WhileStatementIRStrategy* _whileStatementIRStrategy;
+    ForInStatementIRStrategy* _forInStatementIRStrategy;
     RefExpressionIRStrategy* _refExpressionIRStrategy;
     DrefExpressionIRStrategy* _drefExpressionIRStrategy;
     SrefExpressionIRStrategy* _srefExpressionIRStrategy;
@@ -165,6 +167,7 @@ public:
     ArrayAccessAssignmentStatementIRStrategy* getArrayAccessAssignmentStatementIRStrategy();
     IfStatementIRStrategy* getIfStatementIRStrategy();
     WhileStatementIRStrategy* getWhileStatementIRStrategy();
+    ForInStatementIRStrategy* getForInStatementIRStrategy();
     RefExpressionIRStrategy* getRefExpressionIRStrategy();
     DrefExpressionIRStrategy* getDrefExpressionIRStrategy();
     SrefExpressionIRStrategy* getSrefExpressionIRStrategy();

@@ -28,8 +28,8 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-variable-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-source-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-for-in-source-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-break-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
@@ -429,10 +429,10 @@ namespace ASTNodeFactory {
     static ASTObjectAccessTargetNode* objectAccessTargetId = new ASTObjectAccessTargetNode(
             ASTNodeFactory::idExpression
     );
-    static ASTForVariableNode* forVariable = new ASTForVariableNode(
+    static ASTForInVariableNode* forVariable = new ASTForInVariableNode(
             ASTNodeFactory::idExpression
     );
-    static ASTForSourceNode* forSourceId = new ASTForSourceNode(
+    static ASTForInSourceNode* forSourceId = new ASTForInSourceNode(
             ASTNodeFactory::idExpression
     );
     static ASTBreakNode* breakStatement = new ASTBreakNode(

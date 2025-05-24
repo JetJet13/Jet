@@ -63,8 +63,8 @@ namespace TypeCheckerErrorMessageTable {
     static std::string ControlFlowConditionNotBool(ASTNode* node) {
       return "condition must evaluate to true or false \n" + node->toSourceCode();
     } 
-    static std::string ForStatementSourceNotIterable(ASTNode* node) {
-      return "source of for-loop is not iterable \n" + node->toSourceCode();
+    static std::string ForInStatementSourceNotIterable(ASTNode* node) {
+      return "source of for-in loop is not iterable \n" + node->toSourceCode();
     } 
     static std::string ClassPropertyTypeUnknown(ASTNode* node) {
       return "class property type is unknown \n" + node->toSourceCode();

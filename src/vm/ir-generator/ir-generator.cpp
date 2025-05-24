@@ -33,6 +33,7 @@
 #include "ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
 #include "ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.h"
 #include "ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.h"
+#include "ir-strategies/for-in-statement-ir-strategy/for-in-statement-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -124,6 +125,8 @@ IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable*
         return this->_irStrategyMap.getIfStatementIRStrategy()->generate((ASTIfStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_WHILE_STATEMENT_NODE)) {
         return this->_irStrategyMap.getWhileStatementIRStrategy()->generate((ASTWhileStatementNode*)node,  this, scope, irContext);
+    } else if (node->is(AST_FOR_IN_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getForInStatementIRStrategy()->generate((ASTForInStatementNode*)node,  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }
@@ -472,6 +475,22 @@ IRBlockNode* IRGenerator::generateForLoopBodyBlock(IRContext* irContext, std::st
 
 IRBlockNode* IRGenerator::generateForLoopEndBlock(IRContext* irContext, std::string prefix) {
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.end", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateForInBlock(IRContext* irContext, std::string prefix) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateForInSetupBlock(IRContext* irContext, std::string prefix) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.setup", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateForInBodyBlock(IRContext* irContext, std::string prefix) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.body", irContext->getFunction()));
+}
+
+IRBlockNode* IRGenerator::generateForInEndBlock(IRContext* irContext, std::string prefix) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.end", irContext->getFunction()));
 }
 
 IRBlockNode* IRGenerator::generateBasicBlock() {

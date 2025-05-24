@@ -240,7 +240,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_MODULE_LIST_NODE:
         case AST_IMPORT_MODULE_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
-        case AST_FOR_SOURCE_NODE:
+        case AST_FOR_IN_SOURCE_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();
             break;

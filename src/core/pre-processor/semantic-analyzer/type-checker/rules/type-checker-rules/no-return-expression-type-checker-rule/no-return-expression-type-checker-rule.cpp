@@ -33,7 +33,7 @@ void NoReturnExpressionTypeCheckerRule::enforce(ASTTryStatementNode* tryStatemen
 
 }
 
-void NoReturnExpressionTypeCheckerRule::enforce(ASTForStatementNode* forStatementNode, std::string message, TypeCheckerResult* typeCheckerResult) {
+void NoReturnExpressionTypeCheckerRule::enforce(ASTForInStatementNode* forStatementNode, std::string message, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(forStatementNode->getBlock()->getContents(), message, typeCheckerResult);
 }
 
@@ -66,8 +66,8 @@ void NoReturnExpressionTypeCheckerRule::checkNode(std::vector<ASTNode*>* nodes, 
             this->enforce((ASTIfStatementNode*)statement, message, typeCheckerResult);
         } else if (statement->is(AST_TRY_STATEMENT_NODE)) {
             this->enforce((ASTTryStatementNode*)statement, message, typeCheckerResult);
-        } else if (statement->is(AST_FOR_STATEMENT_NODE)) {
-            this->enforce((ASTForStatementNode*)statement, message, typeCheckerResult);
+        } else if (statement->is(AST_FOR_IN_STATEMENT_NODE)) {
+            this->enforce((ASTForInStatementNode*)statement, message, typeCheckerResult);
         } else if (statement->is(AST_WHILE_STATEMENT_NODE)) {
             this->enforce((ASTWhileStatementNode*)statement, message, typeCheckerResult);
         }

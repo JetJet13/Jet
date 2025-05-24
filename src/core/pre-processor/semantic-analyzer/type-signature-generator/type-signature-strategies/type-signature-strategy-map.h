@@ -60,7 +60,7 @@ class VariableAssignmentStatementTypeSignatureStrategy;
 class BlockTypeSignatureStrategy;
 class ExpressionStatementTypeSignatureStrategy;
 class ConditionTypeSignatureStrategy;
-class ForStatementTypeSignatureStrategy;
+class ForInStatementTypeSignatureStrategy;
 class WhileStatementTypeSignatureStrategy;
 class TryStatementTypeSignatureStrategy;
 class IfStatementTypeSignatureStrategy;
@@ -127,7 +127,7 @@ private:
     BlockTypeSignatureStrategy* _blockTypeSignatureStrategy;
     ExpressionStatementTypeSignatureStrategy* _expressionStatementTypeSignatureStrategy;
     ConditionTypeSignatureStrategy* _conditionTypeSignatureStrategy;
-    ForStatementTypeSignatureStrategy* _forStatementTypeSignatureStrategy;
+    ForInStatementTypeSignatureStrategy* _forStatementTypeSignatureStrategy;
     WhileStatementTypeSignatureStrategy* _whileStatementTypeSignatureStrategy;
     TryStatementTypeSignatureStrategy* _tryStatementTypeSignatureStrategy;
     IfStatementTypeSignatureStrategy* _ifStatementTypeSignatureStrategy;
@@ -192,7 +192,7 @@ public:
     BlockTypeSignatureStrategy* getBlockTypeSignatureStrategy();
     ExpressionStatementTypeSignatureStrategy* getExpressionStatementTypeSignatureStrategy();
     ConditionTypeSignatureStrategy* getConditionTypeSignatureStrategy();
-    ForStatementTypeSignatureStrategy* getForStatementTypeSignatureStrategy();
+    ForInStatementTypeSignatureStrategy* getForStatementTypeSignatureStrategy();
     WhileStatementTypeSignatureStrategy* getWhileStatementTypeSignatureStrategy();
     TryStatementTypeSignatureStrategy* getTryStatementTypeSignatureStrategy();
     IfStatementTypeSignatureStrategy* getIfStatementTypeSignatureStrategy();

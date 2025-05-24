@@ -13,35 +13,13 @@ std::string ArrayAccessIRFunction::getArrayAccessIRFunctionName() {
 // this function should return void and only check if the index is within bounds.
 // The IR Strategies will be responsible for creating pointer instances for the corresponding index.
 void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    // todo: complete this function.
     auto arrayIndexAccessType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = llvm::StructType::get(**context, { arrayIndexAccessType, pointerType });
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { arrayIndexAccessType, arrayPointerType }, false);
+    auto functionType = llvm::FunctionType::get(pointerType, { arrayIndexAccessType, arrayPointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, ArrayAccessIRFunction::getArrayAccessIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irLookupTable = new IRLookupTable();
-    auto arrayIndexAccessParamAllocationType = irGenerator->generateIrPointerType(new IRType(arrayIndexAccessType));
-    auto arrayIndexAccessParameterAllocation = IRInstructionNodeFactory::create(arrayIndexAccessParamAllocationType);
-    irGenerator->getInjector()->inject(
-        functionBlock,
-        new IRFunctionParameterDeclarationNode(
-            function->getArg(0),
-            arrayIndexAccessParameterAllocation
-        ),
-        irModuleNode,
-        irLookupTable
-    );
-
-    auto arrayPointerParamAllocationType = irGenerator->generateIrPointerType(new IRType(arrayPointerType));
-    auto arrayPointerParameterAllocation = IRInstructionNodeFactory::create(arrayPointerParamAllocationType);
-    irGenerator->getInjector()->inject(
-            functionBlock,
-            new IRFunctionParameterDeclarationNode(
-                function->getArg(1),
-                arrayPointerParameterAllocation
-            ),
-            irModuleNode,
-            irLookupTable
-    );
-    functionBlock->addVoidReturn();
+    auto pointerToValueAtIndex = functionBlock->getBuilder()->get()->CreateAlloca(irGenerator->generateIntType());
+    functionBlock->getBuilder()->get()->CreateRet(pointerToValueAtIndex);
 }
