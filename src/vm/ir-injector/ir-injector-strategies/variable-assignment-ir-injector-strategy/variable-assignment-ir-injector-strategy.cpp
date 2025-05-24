@@ -32,13 +32,9 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
 
     } else {
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
-        auto variableIrType = variable->getIRType()->getSourceType();
-        irBlock->getBuilder()->get()->CreateMemCpy(
-                variable->getValue(),
-                DataAlignmentGenerator::generate(variableIrType),
-                newVariableValue,
-                DataAlignmentGenerator::generate(variableIrType),
-                variableIrType->getSizeInBytes()
+        irBlock->getBuilder()->get()->CreateStore(
+            newVariableValue,
+            variable->getValue()
         );
     }
 }

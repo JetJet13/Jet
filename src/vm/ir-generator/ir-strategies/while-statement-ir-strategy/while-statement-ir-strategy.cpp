@@ -1,0 +1,23 @@
+//
+// Created by Johny Georges on 2025-05-24.
+//
+
+#include "while-statement-ir-strategy.h"
+#include "../../../ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h"
+
+IRStatementNode* WhileStatementIRStrategy::generate(ASTWhileStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto whileConditionIRExpression = irGenerator->generateFor(node->getCondition()->getCondition(), scope, irContext, IR_OPERAND_OP);
+    auto whileConditionBlock = irGenerator->generateWhileConditionBlock(irContext);
+    auto whileBodyBlock = irGenerator->generateWhileBodyBlock(irContext);
+    this->setupBlock(whileBodyBlock, node->getBlock(), irGenerator, scope, irContext);
+    auto endBlock = irGenerator->generateWhileEndBlock(irContext);
+    return new IRWhileStatementNode(node, whileConditionIRExpression, whileConditionBlock, whileBodyBlock, endBlock);
+}
+
+IRBlockNode* WhileStatementIRStrategy::setupBlock(IRBlockNode* irBlockNode, ASTControlFlowBlockNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto blockScope = new IRLookupTable(scope);
+    for (auto statement : *node->getContents()) {
+        irBlockNode->insert(irGenerator->generateFor(statement, blockScope, irContext));
+    }
+    return irBlockNode;
+}

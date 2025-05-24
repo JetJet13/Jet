@@ -81,6 +81,8 @@ proc ConditionalProcedure() {
             const x = 'h';
             if foo > 5 {
                 const bar = 999;
+            } else if foo == 0 {
+                const nestedBar = 84;
             }
         }
 
@@ -90,4 +92,12 @@ proc ConditionalProcedure() {
    } else {
         const p = 100;
    }
+}
+
+proc WhileProcedure() {
+    let x = 10;
+    while x < 100 {
+        const y = 55;
+        x = x + 1;
+    }
 }

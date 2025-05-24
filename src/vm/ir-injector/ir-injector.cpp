@@ -22,6 +22,7 @@
 #include "ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.h"
+#include "ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.h"
@@ -46,6 +47,7 @@ IRInjector::IRInjector() {
     _arrayAccessAssignmentIRInjectorStrategy = new ArrayAccessAssignmentIRInjectorStrategy();
     _classPropertyAssignmentIRInjectorStrategy = new ClassPropertyAssignmentIRInjectorStrategy();
     _ifStatementIRInjectorStrategy = new IfStatementIRInjectorStrategy();
+    _whileStatementIRInjectorStrategy = new WhileStatementIRInjectorStrategy();
     _procedureDeclarationIRInjectorStrategy = new ProcedureDeclarationIRInjectorStrategy();
     _functionDeclarationIRInjectorStrategy = new FunctionDeclarationIRInjectorStrategy();
     _typeValueIRInjectorStrategy = new TypeValueIRInjectorStrategy();
@@ -109,6 +111,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
         _arrayAccessAssignmentIRInjectorStrategy->inject((IRArrayAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_IF_STATEMENT_NODE)) {
         _ifStatementIRInjectorStrategy->inject((IRIfStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_WHILE_STATEMENT_NODE)) {
+        _whileStatementIRInjectorStrategy->inject((IRWhileStatementNode*)irStatement, irBlock, this, irModule, scope);
     }
 }
 

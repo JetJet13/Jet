@@ -7,8 +7,6 @@
 
 #include <llvm/IR/Value.h>
 #include "../../ir-generator.h"
-#include "../../../ir-nodes/ir-declaration-nodes/ir-function-declaration-node.h"
-#include "../../../../core/ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h"
 #include "../../../../core/ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 
 class IfStatementIRStrategy {

@@ -41,6 +41,7 @@
 #include "./import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "./class-declaration-ir-strategy/class-declaration-ir-strategy.h"
 #include "./if-statement-ir-strategy/if-statement-ir-strategy.h"
+#include "./while-statement-ir-strategy/while-statement-ir-strategy.h"
 #include "./type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
@@ -96,6 +97,7 @@ IRStrategyMap::IRStrategyMap() {
     _variableAssignmentStatementIRStrategy = new VariableAssignmentStatementIRStrategy();
     _arrayAccessAssignmentStatementIRStrategy = new ArrayAccessAssignmentStatementIRStrategy();
     _ifStatementIRStrategy = new IfStatementIRStrategy();
+    _whileStatementIRStrategy = new WhileStatementIRStrategy();
     _refExpressionIRStrategy = new RefExpressionIRStrategy();
     _drefExpressionIRStrategy = new DrefExpressionIRStrategy();
     _srefExpressionIRStrategy = new SrefExpressionIRStrategy();
@@ -258,6 +260,10 @@ ArrayAccessAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessAssignmen
 
 IfStatementIRStrategy* IRStrategyMap::getIfStatementIRStrategy() {
     return _ifStatementIRStrategy;
+}
+
+WhileStatementIRStrategy* IRStrategyMap::getWhileStatementIRStrategy() {
+    return _whileStatementIRStrategy;
 }
 
 RefExpressionIRStrategy* IRStrategyMap::getRefExpressionIRStrategy() {

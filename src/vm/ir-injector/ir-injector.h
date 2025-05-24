@@ -32,6 +32,7 @@ class ClassPropertyAssignmentIRInjectorStrategy;
 class VariableAssignmentIRInjectorStrategy;
 class ArrayAccessAssignmentIRInjectorStrategy;
 class IfStatementIRInjectorStrategy;
+class WhileStatementIRInjectorStrategy;
 class ProcedureDeclarationIRInjectorStrategy;
 class FunctionDeclarationIRInjectorStrategy;
 class TypeValueIRInjectorStrategy;
@@ -58,6 +59,7 @@ private:
     VariableAssignmentIRInjectorStrategy* _variableAssignmentIRInjectorStrategy;
     ArrayAccessAssignmentIRInjectorStrategy* _arrayAccessAssignmentIRInjectorStrategy;
     IfStatementIRInjectorStrategy* _ifStatementIRInjectorStrategy;
+    WhileStatementIRInjectorStrategy* _whileStatementIRInjectorStrategy;
     ProcedureDeclarationIRInjectorStrategy* _procedureDeclarationIRInjectorStrategy;
     FunctionDeclarationIRInjectorStrategy* _functionDeclarationIRInjectorStrategy;
     TypeValueIRInjectorStrategy* _typeValueIRInjectorStrategy;

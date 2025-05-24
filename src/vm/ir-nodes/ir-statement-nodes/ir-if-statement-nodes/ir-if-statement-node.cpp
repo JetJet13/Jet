@@ -13,14 +13,6 @@ IRIfElseNode* IRIfStatementNode::getIfElseNode() {
     return _ifElseNode;
 }
 
-std::optional<IRBlockNode*> IRIfStatementNode::getParentBlock() {
-    return _parentBlock;
-}
-
-void IRIfStatementNode::setParentBlock(IRBlockNode* parentIRBlock) {
-    _parentBlock = parentIRBlock;
-}
-
 IRNodeType IRIfStatementNode::getNodeType() {
     return IR_IF_STATEMENT_NODE;
 }

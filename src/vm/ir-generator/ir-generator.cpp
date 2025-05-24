@@ -32,6 +32,7 @@
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
 #include "ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.h"
+#include "ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.h"
 #include "ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -86,6 +87,7 @@
 #include "ir-util-functions/free-ref-ir-function/free-ref-ir-function.h"
 #include "ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h"
 #include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
+#include "../../core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -120,6 +122,8 @@ IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable*
         return this->_irStrategyMap.getArrayAccessAssignmentStatementIRStrategy()->generate((ASTArrayAccessAssignmentStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_IF_STATEMENT_NODE)) {
         return this->_irStrategyMap.getIfStatementIRStrategy()->generate((ASTIfStatementNode*)node,  this, scope, irContext);
+    } else if (node->is(AST_WHILE_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getWhileStatementIRStrategy()->generate((ASTWhileStatementNode*)node,  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }

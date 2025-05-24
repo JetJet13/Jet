@@ -486,6 +486,12 @@ add_library(jet-vm
         ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h
         ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.h
+        ir-generator/ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h
+        ir-injector/ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm
