@@ -13,7 +13,6 @@ std::string ArrayAccessIRFunction::getArrayAccessIRFunctionName() {
 // this function should return void and only check if the index is within bounds.
 // The IR Strategies will be responsible for creating pointer instances for the corresponding index.
 void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    // todo: complete this function.
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());

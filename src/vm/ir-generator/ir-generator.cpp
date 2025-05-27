@@ -89,6 +89,7 @@
 #include "ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h"
 #include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
+#include "ir-util-functions/range-ir-function/range-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -522,6 +523,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
         FreeStringIRFunction::getFreeStringIRFunctionName(),
         FreeRefIRFunction::getFreeRefIRFunctionName(),
         PrintIRFunction::getPrintIRFunctionName(),
+        RangeIRFunction::getRangeIRFunctionName(),
         MallocIRFunction::getMallocIRFunctionName(),
         MallocFreeIRFunction::getMallocFreeIRFunctionName(),
         MallocSizeIRFunction::getMallocSizeIRFunctionName(),
@@ -574,6 +576,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
     FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
+    RangeIRFunction::generateRangeFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

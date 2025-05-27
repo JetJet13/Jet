@@ -102,6 +102,19 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(IRBlockNode* irBlo
     );
 }
 
+void ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* numElements, llvm::Value* arrayPointerAllocation, llvm::Value* arrayAllocation) {
+    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+    auto numElementsIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumElementsIndex());
+    auto depthIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getDepthIndex());
+    auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
+    auto numElementsPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation, { zeroIndex, numElementsIndex });
+    irBlock->getBuilder()->get()->CreateStore(numElements, numElementsPointer);
+    auto depthPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation, { zeroIndex, depthIndex });
+    irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt32(arrayPointerType->getDepth()), depthPointer);
+    auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation, { zeroIndex, allocIndex });
+    irBlock->getBuilder()->get()->CreateStore(arrayAllocation, allocPointer);
+}
+
 IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, IRModuleNode* irModule) {
     auto elementTypeSize = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getElementIRType()->getSizeInBytes());
     auto mallocSize = irBlock->getBuilder()->get()->CreateCall(

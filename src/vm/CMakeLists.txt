@@ -498,6 +498,8 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.h
         ir-injector/ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.h
+        ir-generator/ir-util-functions/range-ir-function/range-ir-function.cpp
+        ir-generator/ir-util-functions/range-ir-function/range-ir-function.h
 )
 
 target_link_libraries(jet-vm
