@@ -30,10 +30,11 @@ private:
     std::string _mallocFunctionName;
     std::string _mallocFreeFunctionName;
     std::string _mallocSizeFunctionName;
-    std::string _mallocArrayPopFunctionName;
-    std::string _mallocArrayPushFunctionName;
-    std::string _mallocArrayEnqueueFunctionName;
-    std::string _mallocFreeArrayFunctionName;
+    std::string _arrayPopFunctionName;
+    std::string _arrayPushFunctionName;
+    std::string _arrayConcatFunctionName;
+    std::string _arrayHeadFunctionName;
+    std::string _arrayLastFunctionName;
     std::string _memcpyFunctionName;
     std::string _setupSrefFunctionName;
     std::string _setupRefFunctionName;
@@ -59,10 +60,11 @@ public:
                  std::string mallocFunctionName,
                  std::string mallocFreeFunctionName,
                  std::string mallocSizeFunctionName,
-                 std::string mallocArrayPopFunctionName,
-                 std::string mallocArrayPushFunctionName,
-                 std::string mallocArrayEnqueueFunctionName,
-                 std::string mallocFreeArrayFunctionName,
+                 std::string arrayPopFunctionName,
+                 std::string arrayPushFunctionName,
+                 std::string arrayConcatFunctionName,
+                 std::string arrayHeadFunctionName,
+                 std::string arrayLastFunctionName,
                  std::string memcpyFunctionName,
                  std::string setupSrefFunctionName,
                  std::string setupRefFunctionName);
@@ -87,10 +89,11 @@ public:
     llvm::Function* getMallocFunction();
     llvm::Function* getMallocFreeFunction();
     llvm::Function* getMallocSizeFunction();
-    llvm::Function* getMallocArrayPopFunction();
-    llvm::Function* getMallocArrayPushFunction();
-    llvm::Function* getMallocArrayEnqueueFunction();
-    llvm::Function* getMallocFreeArrayFunction();
+    llvm::Function* getArrayPopFunction();
+    llvm::Function* getArrayPushFunction();
+    llvm::Function* getArrayConcatFunction();
+    llvm::Function* getArrayHeadFunction();
+    llvm::Function* getArrayLastFunction();
     llvm::Function* getMemcpyFunction();
     llvm::Function* getSetupSrefFunction();
     llvm::Function* getSetupRefFunction();

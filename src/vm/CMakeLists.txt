@@ -343,14 +343,12 @@ add_library(jet-vm
         ir-generator/ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h
         ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.cpp
         ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h
-        ir-generator/ir-util-functions/malloc-array-enqueue-ir-function/malloc-array-enqueue-ir-function.cpp
-        ir-generator/ir-util-functions/malloc-array-enqueue-ir-function/malloc-array-enqueue-ir-function.h
-        ir-generator/ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.cpp
-        ir-generator/ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h
-        ir-generator/ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.cpp
-        ir-generator/ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.h
-        ir-generator/ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.cpp
-        ir-generator/ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h
+        ir-generator/ir-util-functions/array-shift-ir-function/array-shift-ir-function.cpp
+        ir-generator/ir-util-functions/array-shift-ir-function/array-shift-ir-function.h
+        ir-generator/ir-util-functions/array-pop-ir-function/array-pop-ir-function.cpp
+        ir-generator/ir-util-functions/array-pop-ir-function/array-pop-ir-function.h
+        ir-generator/ir-util-functions/array-push-ir-function/array-push-ir-function.cpp
+        ir-generator/ir-util-functions/array-push-ir-function/array-push-ir-function.h
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-identifier-expression-injector-strategy/literal-ir-identifier-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-identifier-expression-injector-strategy/literal-ir-identifier-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-object-access-expression-injector-strategy/literal-ir-object-access-expression-injector-strategy.cpp
@@ -500,6 +498,12 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.h
         ir-generator/ir-util-functions/range-ir-function/range-ir-function.cpp
         ir-generator/ir-util-functions/range-ir-function/range-ir-function.h
+        ir-generator/ir-util-functions/array-head-ir-function/array-head-ir-function.cpp
+        ir-generator/ir-util-functions/array-head-ir-function/array-head-ir-function.h
+        ir-generator/ir-util-functions/array-last-ir-function/array-last-ir-function.cpp
+        ir-generator/ir-util-functions/array-last-ir-function/array-last-ir-function.h
+        ir-generator/ir-util-functions/array-concat-ir-function/array-concat-ir-function.cpp
+        ir-generator/ir-util-functions/array-concat-ir-function/array-concat-ir-function.h
 )
 
 target_link_libraries(jet-vm

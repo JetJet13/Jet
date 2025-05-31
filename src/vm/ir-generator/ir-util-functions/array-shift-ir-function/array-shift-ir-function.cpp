@@ -2,14 +2,14 @@
 // Created by Johny Georges on 2025-03-01.
 //
 
-#include "malloc-array-enqueue-ir-function.h"
+#include "array-shift-ir-function.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-std::string MallocArrayEnqueueIRFunction::getMallocArrayEnqueueIRFunctionName() {
+std::string ArrayShiftIRFunction::getArrayShiftIRFunctionName() {
     return "jet.malloc.array.enqueue";
 }
 
-void MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayShiftIRFunction::generateArrayShiftFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
@@ -18,7 +18,8 @@ void MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(IRGenerato
                                                   irGenerator->generatePointerType(arrayPointerType->getType())
                                                 },
                                                 false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocArrayEnqueueIRFunction::getMallocArrayEnqueueIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
+                                           ArrayShiftIRFunction::getArrayShiftIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());

@@ -49,15 +49,15 @@ void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::uni
             )
     );
     isStepNegativeIfElseBlock->getBuilder()->get()->CreateRet(
-            isStepNegativeIfElseBlock->getBuilder()->get()->CreateCall(
-                    irModuleNode->getRange3pFunction()->getFunctionType(),
-                    irModuleNode->getRange3pFunction(),
-                    {
-                            irGenerator->generateIntConstant(0),
-                            function->getArg(0),
-                            irGenerator->generateIntConstant(1)
-                    }
-            )
+        isStepNegativeIfElseBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getRange3pFunction()->getFunctionType(),
+            irModuleNode->getRange3pFunction(),
+            {
+                irGenerator->generateIntConstant(0),
+                function->getArg(0),
+                irGenerator->generateIntConstant(1)
+            }
+        )
     );
 }
 
@@ -146,6 +146,7 @@ void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::uni
             forLoopEndBlock,
             arrayPointerType,
             numElements,
+            irGenerator->generateIntConstant(1),
             arrayPointerAllocation,
             arrayAllocation
     );
@@ -285,6 +286,7 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
             forLoopEndBlock,
             arrayPointerType,
             numElements,
+            irGenerator->generateIntConstant(1),
             arrayPointerAllocation,
             arrayAllocation
     );

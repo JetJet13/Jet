@@ -70,10 +70,8 @@
 #include "ir-util-functions/malloc-ir-function/malloc-ir-function.h"
 #include "ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h"
 #include "ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h"
-#include "ir-util-functions/malloc-array-enqueue-ir-function/malloc-array-enqueue-ir-function.h"
-#include "ir-util-functions/malloc-array-push-ir-function/malloc-array-push-ir-function.h"
-#include "ir-util-functions/malloc-array-pop-ir-function/malloc-array-pop-ir-function.h"
-#include "ir-util-functions/malloc-free-array-ir-function/malloc-free-array-ir-function.h"
+#include "ir-util-functions/array-push-ir-function/array-push-ir-function.h"
+#include "ir-util-functions/array-pop-ir-function/array-pop-ir-function.h"
 #include "ir-util-functions/copy-array-ir-function/copy-array-ir-function.h"
 #include "ir-util-functions/memcpy-ir-function/memcpy-ir-function.h"
 #include "ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.h"
@@ -90,6 +88,9 @@
 #include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
 #include "../../core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 #include "ir-util-functions/range-ir-function/range-ir-function.h"
+#include "ir-util-functions/array-concat-ir-function/array-concat-ir-function.h"
+#include "ir-util-functions/array-head-ir-function/array-head-ir-function.h"
+#include "ir-util-functions/array-last-ir-function/array-last-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -508,34 +509,35 @@ IRContext* IRGenerator::generateContext(IRBlockNode* irBlock, IRModuleNode* irMo
 
 IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
     return new IRModuleNode(
-        new llvm::Module(moduleName, *_context),
-        ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
-        CopyArrayIRFunction::getCopyArrayIRFunctionName(),
-        CopyPointerIRFunction::getCopyPointerIRFunctionName(),
-        CopyStructIRFunction::getCopyStructIRFunctionName(),
-        CopyValueIRFunction::getCopyValueIRFunctionName(),
-        CopyStringIRFunction::getCopyStringIRFunctionName(),
-        CopyRefIRFunction::getCopyRefIRFunctionName(),
-        FreeArrayIRFunction::getFreeArrayIRFunctionName(),
-        FreePointerIRFunction::getFreePointerIRFunctionName(),
-        FreeStructIRFunction::getFreeStructIRFunctionName(),
-        FreeValueIRFunction::getFreeValueIRFunctionName(),
-        FreeStringIRFunction::getFreeStringIRFunctionName(),
-        FreeRefIRFunction::getFreeRefIRFunctionName(),
-        PrintIRFunction::getPrintIRFunctionName(),
-        RangeIRFunction::getRange1pIRFunctionName(),
-        RangeIRFunction::getRange2pIRFunctionName(),
-        RangeIRFunction::getRange3pIRFunctionName(),
-        MallocIRFunction::getMallocIRFunctionName(),
-        MallocFreeIRFunction::getMallocFreeIRFunctionName(),
-        MallocSizeIRFunction::getMallocSizeIRFunctionName(),
-        MallocArrayPopIRFunction::getMallocArrayPopIRFunctionName(),
-        MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName(),
-        MallocArrayEnqueueIRFunction::getMallocArrayEnqueueIRFunctionName(),
-        MallocFreeArrayIRFunction::getMallocFreeArrayIRFunctionName(),
-        MemcpyIRFunction::getMemcpyIRFunctionName(),
-        SetupSrefIRFunction::getSetupSrefIRFunctionName(),
-        SetupRefIRFunction::getSetupRefIRFunctionName()
+            new llvm::Module(moduleName, *_context),
+            ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
+            CopyArrayIRFunction::getCopyArrayIRFunctionName(),
+            CopyPointerIRFunction::getCopyPointerIRFunctionName(),
+            CopyStructIRFunction::getCopyStructIRFunctionName(),
+            CopyValueIRFunction::getCopyValueIRFunctionName(),
+            CopyStringIRFunction::getCopyStringIRFunctionName(),
+            CopyRefIRFunction::getCopyRefIRFunctionName(),
+            FreeArrayIRFunction::getFreeArrayIRFunctionName(),
+            FreePointerIRFunction::getFreePointerIRFunctionName(),
+            FreeStructIRFunction::getFreeStructIRFunctionName(),
+            FreeValueIRFunction::getFreeValueIRFunctionName(),
+            FreeStringIRFunction::getFreeStringIRFunctionName(),
+            FreeRefIRFunction::getFreeRefIRFunctionName(),
+            PrintIRFunction::getPrintIRFunctionName(),
+            RangeIRFunction::getRange1pIRFunctionName(),
+            RangeIRFunction::getRange2pIRFunctionName(),
+            RangeIRFunction::getRange3pIRFunctionName(),
+            MallocIRFunction::getMallocIRFunctionName(),
+            MallocFreeIRFunction::getMallocFreeIRFunctionName(),
+            MallocSizeIRFunction::getMallocSizeIRFunctionName(),
+            ArrayPopIRFunction::getArrayPopIRFunctionName(),
+            ArrayPushIRFunction::getArrayPushIRFunctionName(),
+            ArrayConcatIRFunction::getArrayConcatIRFunctionName(),
+            ArrayHeadIRFunction::getArrayHeadIRFunctionName(),
+            ArrayLastIRFunction::getArrayLastIRFunctionName(),
+            MemcpyIRFunction::getMemcpyIRFunctionName(),
+            SetupSrefIRFunction::getSetupSrefIRFunctionName(),
+            SetupRefIRFunction::getSetupRefIRFunctionName()
     );
 }
 
@@ -581,6 +583,9 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     RangeIRFunction::generateRange3pFunction(this, &_context, irModule);
     RangeIRFunction::generateRange2pFunction(this, &_context, irModule);
     RangeIRFunction::generateRange1pFunction(this, &_context, irModule);
+    ArrayConcatIRFunction::generateArrayConcatFunction(this, &_context, irModule);
+    ArrayHeadIRFunction::generateArrayHeadFunction(this, &_context, irModule);
+    ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

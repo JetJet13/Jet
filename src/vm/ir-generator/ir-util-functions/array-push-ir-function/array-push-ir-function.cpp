@@ -2,23 +2,25 @@
 // Created by Johny Georges on 2025-03-01.
 //
 
-#include "malloc-array-push-ir-function.h"
+#include "array-push-ir-function.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-std::string MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName() {
-    return "jet.malloc.array.push";
+std::string ArrayPushIRFunction::getArrayPushIRFunctionName() {
+    return "jet.array.push";
 }
 
-void MallocArrayPushIRFunction::generateMallocArrayPushFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayPushIRFunction::generateArrayPushFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(),
-                                                { irGenerator->generatePointerType(arrayPointerType->getType()),
-                                                  irGenerator->generatePointerType(arrayPointerType->getType())
+                                                {
+                                                    irGenerator->generatePointerType(arrayPointerType->getType()),
+                                                    irGenerator->generatePointerType(arrayPointerType->getType())
                                                 },
                                                 false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocArrayPushIRFunction::getMallocArrayPushIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
+                                           ArrayPushIRFunction::getArrayPushIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
