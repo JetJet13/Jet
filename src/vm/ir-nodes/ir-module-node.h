@@ -25,6 +25,8 @@ private:
     std::string _freeRefFunctionName;
     std::string _printFunctionName;
     std::string _range1pFunctionName;
+    std::string _range2pFunctionName;
+    std::string _range3pFunctionName;
     std::string _mallocFunctionName;
     std::string _mallocFreeFunctionName;
     std::string _mallocSizeFunctionName;
@@ -52,6 +54,8 @@ public:
                  std::string freeRefFunctionName,
                  std::string printFunctionName,
                  std::string range1pFunctionName,
+                 std::string range2pFunctionName,
+                 std::string range3pFunctionName,
                  std::string mallocFunctionName,
                  std::string mallocFreeFunctionName,
                  std::string mallocSizeFunctionName,
@@ -78,6 +82,8 @@ public:
     llvm::Function* getFreeRefFunction();
     llvm::Function* getPrintFunction();
     llvm::Function* getRange1pFunction();
+    llvm::Function* getRange2pFunction();
+    llvm::Function* getRange3pFunction();
     llvm::Function* getMallocFunction();
     llvm::Function* getMallocFreeFunction();
     llvm::Function* getMallocSizeFunction();
