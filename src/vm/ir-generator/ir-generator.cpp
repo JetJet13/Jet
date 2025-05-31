@@ -578,9 +578,9 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
     FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
-    RangeIRFunction::generateRange1pFunction(this, &_context, irModule);
-    RangeIRFunction::generateRange2pFunction(this, &_context, irModule);
     RangeIRFunction::generateRange3pFunction(this, &_context, irModule);
+    RangeIRFunction::generateRange2pFunction(this, &_context, irModule);
+    RangeIRFunction::generateRange1pFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
