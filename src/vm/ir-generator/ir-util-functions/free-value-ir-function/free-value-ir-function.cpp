@@ -17,10 +17,7 @@ void FreeValueIRFunction::declareFreeValueFunction(IRGenerator* irGenerator, std
 }
 
 void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    auto intType = irGenerator->generateIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
 
     auto function = irModuleNode->getFreeValueFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);

@@ -108,3 +108,4 @@ proc ForInProcedure() {
         const x = 1012 + num;
     }
 }
+

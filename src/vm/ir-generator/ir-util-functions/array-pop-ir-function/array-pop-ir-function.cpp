@@ -5,6 +5,8 @@
 #include "array-pop-ir-function.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
+// todo: implement pop function once optional type is ready since
+// we cannot guarantee a returned value.
 std::string ArrayPopIRFunction::getArrayPopIRFunctionName() {
     return "jet.array.pop";
 }
@@ -66,5 +68,5 @@ void ArrayPopIRFunction::generateArrayPopFunction(IRGenerator* irGenerator, std:
     auto queueAllocPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     functionBlock->getBuilder()->get()->CreateStore(newArrayMallocBitCast, queueAllocPointer);
     // todo: complete this. Remember to create a new array with 1 less element
-    //    functionBlock->getBuilder()->get()->CreateRet(loadedLastElement);
+
 }

@@ -35,6 +35,7 @@ private:
     std::string _arrayConcatFunctionName;
     std::string _arrayHeadFunctionName;
     std::string _arrayLastFunctionName;
+    std::string _arrayDropFunctionName;
     std::string _memcpyFunctionName;
     std::string _setupSrefFunctionName;
     std::string _setupRefFunctionName;
@@ -65,6 +66,7 @@ public:
                  std::string arrayConcatFunctionName,
                  std::string arrayHeadFunctionName,
                  std::string arrayLastFunctionName,
+                 std::string arrayDropFunctionName,
                  std::string memcpyFunctionName,
                  std::string setupSrefFunctionName,
                  std::string setupRefFunctionName);
@@ -94,6 +96,7 @@ public:
     llvm::Function* getArrayConcatFunction();
     llvm::Function* getArrayHeadFunction();
     llvm::Function* getArrayLastFunction();
+    llvm::Function* getArrayDropFunction();
     llvm::Function* getMemcpyFunction();
     llvm::Function* getSetupSrefFunction();
     llvm::Function* getSetupRefFunction();

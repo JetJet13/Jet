@@ -18,7 +18,6 @@ void FreeStructIRFunction::declareFreeStructFunction(IRGenerator* irGenerator, s
 
 void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto pointerType = irGenerator->generateIrPointerType(new IRType(irGenerator->generateCharType()));
     auto typeValueType = irGenerator->generateIrTypeValueType();
 
     auto function = irModuleNode->getFreeStructFunction();
@@ -27,8 +26,6 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
 
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
-    auto numTypesIndex = irGenerator->generateIntConstant(typeValueType->getNumTypesIndex());
-    auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
     auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
 
     auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getNumTypesIndex() });

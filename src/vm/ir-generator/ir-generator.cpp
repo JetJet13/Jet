@@ -91,6 +91,7 @@
 #include "ir-util-functions/array-concat-ir-function/array-concat-ir-function.h"
 #include "ir-util-functions/array-head-ir-function/array-head-ir-function.h"
 #include "ir-util-functions/array-last-ir-function/array-last-ir-function.h"
+#include "ir-util-functions/array-drop-ir-function/array-drop-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -535,6 +536,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             ArrayConcatIRFunction::getArrayConcatIRFunctionName(),
             ArrayHeadIRFunction::getArrayHeadIRFunctionName(),
             ArrayLastIRFunction::getArrayLastIRFunctionName(),
+            ArrayDropIRFunction::getArrayDropIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName()
@@ -586,6 +588,8 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayConcatIRFunction::generateArrayConcatFunction(this, &_context, irModule);
     ArrayHeadIRFunction::generateArrayHeadFunction(this, &_context, irModule);
     ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);
+    ArrayDropIRFunction::generateArrayDropFunction(this, &_context, irModule);
+    ArrayPushIRFunction::generateArrayPushFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

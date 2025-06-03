@@ -504,6 +504,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/array-last-ir-function/array-last-ir-function.h
         ir-generator/ir-util-functions/array-concat-ir-function/array-concat-ir-function.cpp
         ir-generator/ir-util-functions/array-concat-ir-function/array-concat-ir-function.h
+        ir-generator/ir-util-functions/array-drop-ir-function/array-drop-ir-function.cpp
+        ir-generator/ir-util-functions/array-drop-ir-function/array-drop-ir-function.h
 )
 
 target_link_libraries(jet-vm
