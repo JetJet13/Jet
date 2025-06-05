@@ -30,9 +30,7 @@ void ArrayPushIRFunction::generateArrayPushFunction(IRGenerator* irGenerator, st
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
-    auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
-    auto sizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(2), { zeroIndex, sizeInBytesIndex });
-    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, sizeInBytesPointer);
+    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "sizeInBytes");
     auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
@@ -42,16 +40,16 @@ void ArrayPushIRFunction::generateArrayPushFunction(IRGenerator* irGenerator, st
             irModuleNode->getMallocSizeFunction()->getFunctionType(),
             irModuleNode->getMallocSizeFunction(),
             {
-                    oldNumElements,
-                    sizeInBytes
+                oldNumElements,
+                sizeInBytes
             }
     );
     auto newArraySize = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction()->getFunctionType(),
             irModuleNode->getMallocSizeFunction(),
             {
-                    newNumElements,
-                    sizeInBytes
+                newNumElements,
+                sizeInBytes
             }
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(

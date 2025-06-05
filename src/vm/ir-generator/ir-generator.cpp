@@ -3,6 +3,8 @@
 //
 
 #include "ir-generator.h"
+#include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "../../core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 #include "ir-strategies/literal-ir-strategies/int-literal-ir-strategy/int-literal-ir-strategy.h"
 #include "ir-strategies/literal-ir-strategies/float-literal-ir-strategy/float-literal-ir-strategy.h"
 #include "ir-strategies/literal-ir-strategies/char-literal-ir-strategy/char-literal-ir-strategy.h"
@@ -61,7 +63,6 @@
 #include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
-#include "../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
@@ -86,12 +87,13 @@
 #include "ir-util-functions/free-ref-ir-function/free-ref-ir-function.h"
 #include "ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h"
 #include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
-#include "../../core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 #include "ir-util-functions/range-ir-function/range-ir-function.h"
 #include "ir-util-functions/array-concat-ir-function/array-concat-ir-function.h"
 #include "ir-util-functions/array-head-ir-function/array-head-ir-function.h"
 #include "ir-util-functions/array-last-ir-function/array-last-ir-function.h"
 #include "ir-util-functions/array-drop-ir-function/array-drop-ir-function.h"
+#include "ir-util-functions/array-drop-last-ir-function/array-drop-last-ir-function.h"
+
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -102,6 +104,7 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
     _context = std::make_unique<llvm::LLVMContext>();
     _irStrategyMap = IRStrategyMap();
     _irInjector = irInjector;
+
 }
 
 IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
@@ -537,6 +540,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             ArrayHeadIRFunction::getArrayHeadIRFunctionName(),
             ArrayLastIRFunction::getArrayLastIRFunctionName(),
             ArrayDropIRFunction::getArrayDropIRFunctionName(),
+            ArrayDropLastIRFunction::getArrayDropLastIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName()
@@ -589,6 +593,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayHeadIRFunction::generateArrayHeadFunction(this, &_context, irModule);
     ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);
     ArrayDropIRFunction::generateArrayDropFunction(this, &_context, irModule);
+    ArrayDropLastIRFunction::generateArrayDropLastFunction(this, &_context, irModule);
     ArrayPushIRFunction::generateArrayPushFunction(this, &_context, irModule);
 }
 
