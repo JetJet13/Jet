@@ -508,6 +508,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/array-drop-ir-function/array-drop-ir-function.h
         ir-generator/ir-util-functions/array-drop-last-ir-function/array-drop-last-ir-function.cpp
         ir-generator/ir-util-functions/array-drop-last-ir-function/array-drop-last-ir-function.h
+        ir-generator/ir-util-functions/array-tail-ir-function/array-tail-ir-function.cpp
+        ir-generator/ir-util-functions/array-tail-ir-function/array-tail-ir-function.h
 )
 
 target_link_libraries(jet-vm

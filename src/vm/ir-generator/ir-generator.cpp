@@ -93,7 +93,7 @@
 #include "ir-util-functions/array-last-ir-function/array-last-ir-function.h"
 #include "ir-util-functions/array-drop-ir-function/array-drop-ir-function.h"
 #include "ir-util-functions/array-drop-last-ir-function/array-drop-last-ir-function.h"
-
+#include "ir-util-functions/array-tail-ir-function/array-tail-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -541,6 +541,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             ArrayLastIRFunction::getArrayLastIRFunctionName(),
             ArrayDropIRFunction::getArrayDropIRFunctionName(),
             ArrayDropLastIRFunction::getArrayDropLastIRFunctionName(),
+            ArrayTailIRFunction::getArrayTailIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName()
@@ -594,6 +595,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);
     ArrayDropIRFunction::generateArrayDropFunction(this, &_context, irModule);
     ArrayDropLastIRFunction::generateArrayDropLastFunction(this, &_context, irModule);
+    ArrayTailIRFunction::generateArrayTailFunction(this, &_context, irModule);
     ArrayPushIRFunction::generateArrayPushFunction(this, &_context, irModule);
 }
 
