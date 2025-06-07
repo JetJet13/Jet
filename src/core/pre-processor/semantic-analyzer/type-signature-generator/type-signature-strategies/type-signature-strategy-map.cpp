@@ -8,6 +8,7 @@
 #include "expression-type-signature-strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/class-method-invocation-expression-type-signature-strategy/class-method-invocation-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/class-property-expression-type-signature-strategy/class-property-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/curry-expression-type-signature-strategy/curry-expression-type-signature-strategy.h"
@@ -71,6 +72,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _arrayAccessExpressionTypeSignatureStrategy = new ArrayAccessExpressionTypeSignatureStrategy();
     _arrayExpressionTypeSignatureStrategy = new ArrayExpressionTypeSignatureStrategy();
     _binaryExpressionTypeSignatureStrategy = new BinaryExpressionTypeSignatureStrategy();
+    _concatExpressionTypeSignatureStrategy = new ConcatExpressionTypeSignatureStrategy();
     _classMethodInvocationExpressionTypeSignatureStrategy = new ClassMethodInvocationExpressionTypeSignatureStrategy();
     _classPropertyAccessExpressionTypeSignatureStrategy = new ClassPropertyAccessExpressionTypeSignatureStrategy();
     _classPropertyAssignmentStatementTypeSignatureStrategy = new ClassPropertyAssignmentStatementTypeSignatureStrategy();
@@ -145,6 +147,10 @@ ArrayExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayExpressi
 
 BinaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getBinaryExpressionTypeSignatureStrategy() {
     return this->_binaryExpressionTypeSignatureStrategy;
+}
+
+ConcatExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getConcatExpressionTypeSignatureStrategy() {
+    return this->_concatExpressionTypeSignatureStrategy;
 }
 
 ClassMethodInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getClassMethodInvocationExpressionTypeSignatureStrategy() {

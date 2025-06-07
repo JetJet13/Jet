@@ -1166,6 +1166,10 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-concat-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.h
 
 )
 

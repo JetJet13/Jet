@@ -8,6 +8,7 @@
 #include "expression-type-signature-strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/class-method-invocation-expression-type-signature-strategy/class-method-invocation-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/class-property-expression-type-signature-strategy/class-property-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/curry-expression-type-signature-strategy/curry-expression-type-signature-strategy.h"
@@ -174,6 +175,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getBinaryExpressionTypeSignatureStrategy()
                     ->assign((ASTBinaryExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_CONCAT_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getConcatExpressionTypeSignatureStrategy()
+                    ->assign((ASTConcatExpressionNode*) node, typeSignatureScope, this);
             break;
         case AST_ARRAY_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

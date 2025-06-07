@@ -11,6 +11,7 @@ class ArgumentListTypeSignatureStrategy;
 class ArrayAccessExpressionTypeSignatureStrategy;
 class ArrayExpressionTypeSignatureStrategy;
 class BinaryExpressionTypeSignatureStrategy;
+class ConcatExpressionTypeSignatureStrategy;
 class ClassMethodInvocationExpressionTypeSignatureStrategy;
 class ClassPropertyAccessExpressionTypeSignatureStrategy;
 class ClassPropertyAssignmentStatementTypeSignatureStrategy;
@@ -76,6 +77,7 @@ private:
     ArrayAccessExpressionTypeSignatureStrategy* _arrayAccessExpressionTypeSignatureStrategy;
     ArrayExpressionTypeSignatureStrategy* _arrayExpressionTypeSignatureStrategy;
     BinaryExpressionTypeSignatureStrategy* _binaryExpressionTypeSignatureStrategy;
+    ConcatExpressionTypeSignatureStrategy* _concatExpressionTypeSignatureStrategy;
     ClassMethodInvocationExpressionTypeSignatureStrategy* _classMethodInvocationExpressionTypeSignatureStrategy;
     ClassPropertyAccessExpressionTypeSignatureStrategy* _classPropertyAccessExpressionTypeSignatureStrategy;
     ClassPropertyAssignmentStatementTypeSignatureStrategy* _classPropertyAssignmentStatementTypeSignatureStrategy;
@@ -140,6 +142,7 @@ public:
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
     ArrayExpressionTypeSignatureStrategy* getArrayExpressionTypeSignatureStrategy();
     BinaryExpressionTypeSignatureStrategy* getBinaryExpressionTypeSignatureStrategy();
+    ConcatExpressionTypeSignatureStrategy* getConcatExpressionTypeSignatureStrategy();
     ClassMethodInvocationExpressionTypeSignatureStrategy* getClassMethodInvocationExpressionTypeSignatureStrategy();
     ClassPropertyAccessExpressionTypeSignatureStrategy* getClassPropertyAccessExpressionTypeSignatureStrategy();
     ClassPropertyAssignmentStatementTypeSignatureStrategy* getClassPropertyAssignmentStatementTypeSignatureStrategy();
