@@ -179,6 +179,8 @@ void SyntaxDfa::init() {
     DFANode* classMethodDefinition = DFANodeFactory::Once::create(AST_CLASS_METHOD_DEFINITION_NODE);
     DFANode* classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
     DFANode* exportKeyword = DFANodeFactory::Once::create(AST_EXPORT_NODE);
+    DFANode* concatOperator = DFANodeFactory::Once::create(AST_CONCAT_NODE);
+    DFANode* concatExpression = DFANodeFactory::Once::create(AST_CONCAT_EXPRESSION_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -268,6 +270,24 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_SREF_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_UNARY_EXPRESSION_NODE)));
 
+    concatOperator
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LITERAL_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CONCAT_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CURRY_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_REF_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_DREF_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_SREF_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, AST_CONCAT_EXPRESSION_NODE)));
+
+
     identifier
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, { AST_GROUP_START_NODE }));
 
@@ -286,6 +306,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_VARIABLE_NODE, {AST_FOR_NODE }, {AST_FOR_IN_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(typeColon))
     ->addTransition(DFATransitionFactory::create(structColon))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
@@ -302,10 +323,12 @@ void SyntaxDfa::init() {
     })
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
-    ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator));
 
     arrayExpression
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)));
 
     arrayAccessExpression
@@ -316,6 +339,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(period));
 
     objectAccessExpression
@@ -329,6 +353,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(period));
 
     moduleAccessExpression
@@ -342,6 +367,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(period));
 
     binaryExpression
@@ -351,8 +377,12 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf()
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
-    ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator));
 
+    concatExpression
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(concatOperator));
 
     logicalExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
@@ -378,7 +408,8 @@ void SyntaxDfa::init() {
     })
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
-    ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator));
 
     refExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
@@ -386,7 +417,8 @@ void SyntaxDfa::init() {
     })
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
-    ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator));
 
     drefExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
@@ -394,7 +426,8 @@ void SyntaxDfa::init() {
     })
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
-    ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator));
 
     srefExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
@@ -402,7 +435,8 @@ void SyntaxDfa::init() {
     })
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
-    ->addTransition(DFATransitionFactory::create(binaryOperator));
+    ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator));
 
     arrayBase
     ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_ARRAY_ACCESS_NODE, {AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_NODE, AST_ARRAY_EXPRESSION_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_MODULE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CURRY_EXPRESSION_NODE, AST_TUPLE_ACCESS_NODE, AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_ARGUMENT_LIST_NODE }))
@@ -575,6 +609,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(period))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_CURRY_EXPRESSION_NODE)));
@@ -589,6 +624,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(period))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_CURRY_EXPRESSION_NODE)));
@@ -656,6 +692,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(period));
 
     type
@@ -1072,6 +1109,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(period));
 
     classPropertyInit
@@ -1115,7 +1153,6 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(functionDefinition))
     ->addTransition(DFATransitionFactory::create(procedureDefinition));
 
-
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -1147,6 +1184,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(tupleAccessExpression)
     ->insertStartNode(lambdaExpression)
     ->insertStartNode(lambdaWithFatArrowExpression)
+    ->insertStartNode(concatExpression)
     ->insertStartNode(DFANodeFactory::Once::create(AST_GROUP_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_END_NODE)->markAlwaysReduceSelf())
@@ -1296,7 +1334,15 @@ void SyntaxDfa::init() {
                           AST_UNARY_EXPRESSION_NODE,
                           AST_LITERAL_EXPRESSION_NODE,
                           AST_IDENTIFIER_EXPRESSION_NODE
-                      }))
+    }))
+    ->insertStartNode(DFANodeFactory::Once::create(AST_CONCAT_NODE)
+                      ->markAlwaysReduceSelf()
+                      ->backtrackWhenLastReducedNodeIsOneOf({
+                            AST_LITERAL_EXPRESSION_NODE,
+                            AST_IDENTIFIER_EXPRESSION_NODE,
+                            AST_ARRAY_EXPRESSION_NODE,
+                            AST_CONCAT_EXPRESSION_NODE
+    }))
     ->insertStartNode(DFANodeFactory::Once::create(logicalOperator->getNodeType())
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
@@ -1304,7 +1350,7 @@ void SyntaxDfa::init() {
                           AST_UNARY_EXPRESSION_NODE,
                           AST_LITERAL_EXPRESSION_NODE,
                           AST_IDENTIFIER_EXPRESSION_NODE
-                      }));
+  }));
 }
 
 void SyntaxDfa::initVarDefinition(DFANode* varDefinition) {
@@ -1372,6 +1418,9 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_CONCAT_EXPRESSION_NODE, targetNodeType)))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, targetNodeType)))

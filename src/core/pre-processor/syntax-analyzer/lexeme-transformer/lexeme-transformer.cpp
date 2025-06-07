@@ -66,6 +66,7 @@
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-ref-base-node.h"
 #include "../../../ast/ast-nodes/ast-dref-node.h"
 #include "../../../ast/ast-nodes/ast-sref-node.h"
+#include "../../../ast/ast-nodes/ast-concat-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -207,6 +208,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTDrefNode(lexeme);
     } else if (symbol->isSref()) {
         return new ASTSrefNode(lexeme);
+    } else if (symbol->isConcat()) {
+        return new ASTConcatNode(lexeme);
     } else if (symbol->isThis()) {
         return new ASTThisNode(lexeme);
     } else {

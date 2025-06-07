@@ -108,6 +108,7 @@ void ReservedKeywords::init() {
     this->add("ref", SymbolFactory::createRefSymbol());
     this->add("dref", SymbolFactory::createDrefSymbol());
     this->add("sref", SymbolFactory::createSrefSymbol());
+    this->add("++", SymbolFactory::createConcatSymbol());
 
     this->initKeywordSymbolList();
 }

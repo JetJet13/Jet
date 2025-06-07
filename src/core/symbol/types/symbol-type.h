@@ -81,6 +81,7 @@ typedef enum {
     SYM_REF,
     SYM_DREF,
     SYM_SREF,
+    SYM_CONCAT,
     SYM_THIS,
     SYM_MALFORMED
 } SymbolType;

@@ -183,6 +183,16 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 }
                 return new Token(isCharacterReservedKeyword.value());
 
+        } else if (nextChar && reservedKeyword->isPlus()) {
+            std::string term;
+            term += character.value();
+            term += nextChar.value();
+            auto isConcatOperator = _reservedKeywords->match(term);
+            if (isConcatOperator) {
+                _fileReader.advance();
+                return new Token(isConcatOperator.value());
+            }
+            return new Token(isCharacterReservedKeyword.value());
         } else if (nextChar &&
                     (reservedKeyword->isEqual() ||
                      reservedKeyword->isGreaterThan() ||
@@ -339,6 +349,16 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             }
             return new Token(isCharacterReservedKeyword.value());
 
+        }  else if (nextChar && reservedKeyword->isPlus()) {
+            std::string term;
+            term += character.value();
+            term += nextChar.value();
+            auto isConcatOperator = _reservedKeywords->match(term);
+            if (isConcatOperator) {
+                _fileReader.advance();
+                return new Token(isConcatOperator.value());
+            }
+            return new Token(isCharacterReservedKeyword.value());
         } else if (nextChar &&
                    (reservedKeyword->isEqual() ||
                     reservedKeyword->isGreaterThan() ||

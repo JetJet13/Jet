@@ -120,6 +120,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-sref-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-sref-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-concat-expression-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -256,6 +257,7 @@ namespace ASTNodeFactory {
     static ASTUnaryOperatorNode* bang = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createBangSymbol()));
     static ASTLogicalOperatorNode* andOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol()));
     static ASTLogicalOperatorNode* orOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol()));
+    static ASTConcatNode* concatOperator = new ASTConcatNode(createLexeme(SymbolFactory::createConcatSymbol()));
     static ASTUnaryExpressionNode* bangTrue = new ASTUnaryExpressionNode(
             ASTNodeFactory::bang,
             ASTNodeFactory::trueExpression
@@ -397,6 +399,9 @@ namespace ASTNodeFactory {
     }
     static ASTSrefExpressionNode* createSrefExpression(ASTExpressionNode* expression) {
         return new ASTSrefExpressionNode(ASTNodeFactory::srefKeyword, expression);
+    }
+    static ASTConcatExpressionNode* createConcatExpression(ASTExpressionNode* leftExpression, ASTExpressionNode* rightExpression) {
+        return new ASTConcatExpressionNode(leftExpression, ASTNodeFactory::concatOperator, rightExpression);
     }
     static ASTRefExpressionNode* refIntExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::intExpression);
     static ASTRefExpressionNode* refFloatExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::floatExpression);

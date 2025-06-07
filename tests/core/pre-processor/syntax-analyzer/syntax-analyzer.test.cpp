@@ -3385,6 +3385,45 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
+        {221, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createConcatExpression(
+                        ASTNodeFactory::stringExpression,
+                        ASTNodeFactory::stringExpression
+                )
+        )},
+        {222, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createConcatExpression(
+                    ASTNodeFactory::stringExpression,
+                    ASTNodeFactory::createConcatExpression(
+                        ASTNodeFactory::stringExpression,
+                        ASTNodeFactory::stringExpression
+                    )
+                )
+        )},
+        {223, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createConcatExpression(
+                        ASTNodeFactory::idExpression,
+                        ASTNodeFactory::idExpression
+                )
+        )},
+        {224, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createConcatExpression(
+                    ASTNodeFactory::createArrayExpression(
+                        {
+                            ASTNodeFactory::intExpression,
+                            ASTNodeFactory::intExpression,
+                        }),
+                    ASTNodeFactory::createArrayExpression(
+                        {
+                            ASTNodeFactory::intExpression,
+                            ASTNodeFactory::intExpression,
+                        })
+                )
+        )},
 
 };
 
@@ -3417,8 +3456,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 220);
-    for (int i = 0; i < 220; i++) {
+REQUIRE(fileScope->getScope().size() == 224);
+    for (int i = 0; i < 224; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

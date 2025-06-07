@@ -318,4 +318,8 @@ namespace SymbolFactory {
     Symbol* createSrefSymbol()  {
         return new Symbol(SYM_SREF, "sref");
     }
+
+    Symbol* createConcatSymbol()  {
+        return new Symbol(SYM_CONCAT, "++");
+    }
 }

@@ -333,6 +333,10 @@ bool Symbol::isSref() {
     return _type == SYM_SREF;
 }
 
+bool Symbol::isConcat() {
+    return _type == SYM_CONCAT;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }

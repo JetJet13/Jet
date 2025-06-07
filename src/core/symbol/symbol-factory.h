@@ -87,6 +87,7 @@ namespace SymbolFactory {
     Symbol* createRefSymbol();
     Symbol* createDrefSymbol();
     Symbol* createSrefSymbol();
+    Symbol* createConcatSymbol();
 }
 
 
