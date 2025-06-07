@@ -2,15 +2,15 @@
 // Created by Johny Georges on 2025-03-01.
 //
 
-#include "array-push-ir-function.h"
+#include "array-append-ir-function.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
-std::string ArrayPushIRFunction::getArrayPushIRFunctionName() {
-    return "jet.array.push";
+std::string ArrayAppendIRFunction::getArrayAppendIRFunctionName() {
+    return "jet.array.append";
 }
 
-void ArrayPushIRFunction::generateArrayPushFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
@@ -24,7 +24,7 @@ void ArrayPushIRFunction::generateArrayPushFunction(IRGenerator* irGenerator, st
                                                 },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayPushIRFunction::getArrayPushIRFunctionName(), irModuleNode->getModule());
+                                           ArrayAppendIRFunction::getArrayAppendIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
@@ -72,19 +72,10 @@ void ArrayPushIRFunction::generateArrayPushFunction(IRGenerator* irGenerator, st
             irModuleNode->getMemcpyFunction(),
             { newElementPointer, function->getArg(1), sizeInBytes }
     );
-    auto arrayPointerAllocationForOldArray = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
-    ArrayIRInjectorHelper::injectArrayPointer(
-            functionBlock,
-            arrayPointerType,
-            oldNumElements,
-            depth,
-            arrayPointerAllocationForOldArray,
-            loadedPointerToOldArray
-    );
     functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getFreeArrayFunction()->getFunctionType(),
-            irModuleNode->getFreeArrayFunction(),
-            { arrayPointerAllocationForOldArray, function->getArg(2) }
+            irModuleNode->getMallocFreeFunction()->getFunctionType(),
+            irModuleNode->getMallocFreeFunction(),
+            { loadedPointerToOldArray }
     );
     functionBlock->getBuilder()->get()->CreateStore(newNumElements, numElementsPointer);
     functionBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);

@@ -71,8 +71,6 @@
 #include "ir-util-functions/malloc-ir-function/malloc-ir-function.h"
 #include "ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h"
 #include "ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h"
-#include "ir-util-functions/array-push-ir-function/array-push-ir-function.h"
-#include "ir-util-functions/array-pop-ir-function/array-pop-ir-function.h"
 #include "ir-util-functions/copy-array-ir-function/copy-array-ir-function.h"
 #include "ir-util-functions/memcpy-ir-function/memcpy-ir-function.h"
 #include "ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.h"
@@ -94,6 +92,10 @@
 #include "ir-util-functions/array-drop-ir-function/array-drop-ir-function.h"
 #include "ir-util-functions/array-drop-last-ir-function/array-drop-last-ir-function.h"
 #include "ir-util-functions/array-tail-ir-function/array-tail-ir-function.h"
+#include "ir-util-functions/array-append-ir-function/array-append-ir-function.h"
+#include "ir-util-functions/array-prepend-ir-function/array-prepend-ir-function.h"
+#include "ir-util-functions/array-take-ir-function/array-take-ir-function.h"
+#include "ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -534,14 +536,16 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             MallocIRFunction::getMallocIRFunctionName(),
             MallocFreeIRFunction::getMallocFreeIRFunctionName(),
             MallocSizeIRFunction::getMallocSizeIRFunctionName(),
-            ArrayPopIRFunction::getArrayPopIRFunctionName(),
-            ArrayPushIRFunction::getArrayPushIRFunctionName(),
+            ArrayAppendIRFunction::getArrayAppendIRFunctionName(),
+            ArrayPrependIRFunction::getArrayPrependIRFunctionName(),
             ArrayConcatIRFunction::getArrayConcatIRFunctionName(),
             ArrayHeadIRFunction::getArrayHeadIRFunctionName(),
             ArrayLastIRFunction::getArrayLastIRFunctionName(),
             ArrayDropIRFunction::getArrayDropIRFunctionName(),
             ArrayDropLastIRFunction::getArrayDropLastIRFunctionName(),
             ArrayTailIRFunction::getArrayTailIRFunctionName(),
+            ArrayTakeIRFunction::getArrayTakeIRFunctionName(),
+            ArrayTakeLastIRFunction::getArrayTakeLastIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName()
@@ -567,11 +571,6 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocIRFunction::generateMallocFunction(this, &_context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
-    // todo: repurpose these functions to do push, pull, enqueue, dequeue operations on arrays
-//    MallocArrayEnqueueIRFunction::generateMallocArrayEnqueueFunction(this, &_context, irModule);
-//    MallocArrayPopIRFunction::generateMallocArrayPopFunction(this, &_context, irModule);
-//    MallocArrayPushIRFunction::generateMallocArrayPushFunction(this, &_context, irModule);
-//    MallocFreeArrayIRFunction::generateMallocFreeArrayFunction(this, &_context, irModule);
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
     SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
@@ -596,7 +595,10 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayDropIRFunction::generateArrayDropFunction(this, &_context, irModule);
     ArrayDropLastIRFunction::generateArrayDropLastFunction(this, &_context, irModule);
     ArrayTailIRFunction::generateArrayTailFunction(this, &_context, irModule);
-    ArrayPushIRFunction::generateArrayPushFunction(this, &_context, irModule);
+    ArrayAppendIRFunction::generateArrayAppendFunction(this, &_context, irModule);
+    ArrayPrependIRFunction::generateArrayPrependFunction(this, &_context, irModule);
+    ArrayTakeIRFunction::generateArrayTakeFunction(this, &_context, irModule);
+    ArrayTakeLastIRFunction::generateArrayTakeLastFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
