@@ -10,6 +10,7 @@
 #include "./literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
 #include "./expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.h"
 #include "./expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
+#include "./expression-ir-strategies/concat-expression-ir-strategy/concat-expression-ir-strategy.h"
 #include "./expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "./expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
 #include "./expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.h"
@@ -70,6 +71,7 @@ IRStrategyMap::IRStrategyMap() {
     _boolLiteralIRStrategy = new BoolLiteralIRStrategy();
     _literalExpressionIRStrategy = new LiteralExpressionIRStrategy();
     _binaryExpressionIRStrategy = new BinaryExpressionIRStrategy();
+    _concatExpressionIRStrategy = new ConcatExpressionIRStrategy();
     _logicalExpressionIRStrategy = new LogicalExpressionIRStrategy();
     _arrayExpressionIRStrategy = new ArrayExpressionIRStrategy();
     _structExpressionIRStrategy = new StructExpressionIRStrategy();
@@ -150,6 +152,10 @@ LiteralExpressionIRStrategy* IRStrategyMap::getLiteralExpressionIRStrategy() {
 
 BinaryExpressionIRStrategy* IRStrategyMap::getBinaryExpressionIRStrategy() {
     return _binaryExpressionIRStrategy;
+}
+
+ConcatExpressionIRStrategy* IRStrategyMap::getConcatExpressionIRStrategy() {
+    return _concatExpressionIRStrategy;
 }
 
 LogicalExpressionIRStrategy* IRStrategyMap::getLogicalExpressionIRStrategy() {

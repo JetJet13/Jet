@@ -12,6 +12,7 @@ class StringLiteralIRStrategy;
 class BoolLiteralIRStrategy;
 class LiteralExpressionIRStrategy;
 class BinaryExpressionIRStrategy;
+class ConcatExpressionIRStrategy;
 class LogicalExpressionIRStrategy;
 class ArrayExpressionIRStrategy;
 class ArrayAccessExpressionIRStrategy;
@@ -76,6 +77,7 @@ private:
     BoolLiteralIRStrategy* _boolLiteralIRStrategy;
     LiteralExpressionIRStrategy* _literalExpressionIRStrategy;
     BinaryExpressionIRStrategy* _binaryExpressionIRStrategy;
+    ConcatExpressionIRStrategy* _concatExpressionIRStrategy;
     LogicalExpressionIRStrategy* _logicalExpressionIRStrategy;
     ArrayExpressionIRStrategy* _arrayExpressionIRStrategy;
     ArrayAccessExpressionIRStrategy* _arrayAccessExpressionIRStrategy;
@@ -138,6 +140,7 @@ public:
     BoolLiteralIRStrategy* getBoolLiteralIRStrategy();
     LiteralExpressionIRStrategy* getLiteralExpressionIRStrategy();
     BinaryExpressionIRStrategy* getBinaryExpressionIRStrategy();
+    ConcatExpressionIRStrategy* getConcatExpressionIRStrategy();
     LogicalExpressionIRStrategy* getLogicalExpressionIRStrategy();
     ArrayExpressionIRStrategy* getArrayExpressionIRStrategy();
     ArrayAccessExpressionIRStrategy* getArrayAccessExpressionIRStrategy();

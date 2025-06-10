@@ -109,3 +109,12 @@ proc ForInProcedure() {
     }
 }
 
+proc ConcatProcedure() {
+    const concatStrings = "hello" ++ "world";
+    const tripleConcatString = "hello" ++ "world" ++ "!";
+    const string1 = "foo";
+    const string2 = "bar";
+    const concatIds = string1 ++ string2;
+    const concatArrays = [1,2] ++ [3,4];
+}
+

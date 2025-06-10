@@ -22,6 +22,7 @@
 #include "strategies/array-ir-tuple-access-expression-injector-strategy/array-ir-tuple-access-expression-injector-strategy.h"
 #include "strategies/array-ir-dref-expression-injector-strategy/array-ir-dref-expression-injector-strategy.h"
 #include "strategies/array-ir-identifier-expression-injector-strategy/array-ir-identifier-expression-injector-strategy.h"
+#include "strategies/array-ir-concat-expression-injector-strategy/array-ir-concat-expression-injector-strategy.h"
 
 class ArrayIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -32,6 +33,7 @@ private:
     ArrayIRTupleAccessExpressionInjectorStrategy _arrayIRTupleAccessExpressionInjectorStrategy = ArrayIRTupleAccessExpressionInjectorStrategy();
     ArrayIRDrefExpressionInjectorStrategy _arrayIRDrefExpressionInjectorStrategy = ArrayIRDrefExpressionInjectorStrategy();
     ArrayIRIdentifierExpressionInjectorStrategy _arrayIRIdentifierExpressionInjectorStrategy = ArrayIRIdentifierExpressionInjectorStrategy();
+    ArrayIRConcatExpressionInjectorStrategy _arrayIRConcatExpressionInjectorStrategy = ArrayIRConcatExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
 };

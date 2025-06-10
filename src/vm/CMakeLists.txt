@@ -512,6 +512,14 @@ add_library(jet-vm
         ir-generator/ir-util-functions/array-take-ir-function/array-take-ir-function.h
         ir-generator/ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.cpp
         ir-generator/ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.h
+        ir-generator/ir-strategies/expression-ir-strategies/concat-expression-ir-strategy/concat-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/concat-expression-ir-strategy/concat-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-concat-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-concat-expression-node.h
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-concat-expression-injector-strategy/array-ir-concat-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-concat-expression-injector-strategy/array-ir-concat-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-concat-expression-injector-strategy/string-ir-concat-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-concat-expression-injector-strategy/string-ir-concat-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

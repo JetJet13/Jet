@@ -12,6 +12,7 @@
 #include "ir-strategies/literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/concat-expression-ir-strategy/concat-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.h"
@@ -167,6 +168,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate((ASTLiteralExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_BINARY_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node,  this, scope, irContext, irOperationType);
+    } else if (node->is(AST_CONCAT_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate((ASTConcatExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
