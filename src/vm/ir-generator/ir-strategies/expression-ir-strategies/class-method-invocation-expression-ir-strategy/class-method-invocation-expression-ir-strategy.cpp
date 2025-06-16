@@ -3,7 +3,6 @@
 //
 
 #include "class-method-invocation-expression-ir-strategy.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRClassMethodInvocationExpressionNode* ClassMethodInvocationExpressionIRStrategy::generate(ASTClassMethodInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto arguments = std::vector<IRExpressionNode*>();

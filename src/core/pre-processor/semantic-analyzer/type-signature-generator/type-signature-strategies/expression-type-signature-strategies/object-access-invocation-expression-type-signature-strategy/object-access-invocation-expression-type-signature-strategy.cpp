@@ -8,6 +8,9 @@
 
 void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), scope);
+    for (auto argument : *objectAccessInvocationExpression->getArguments()->getArguments()) {
+        strategyMap->assignTypeSignatureFor(argument->getArgument(), scope);
+    }
     if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
         objectAccessInvocationExpression->setTypeSignature(structSource->getTypeSignatureForKey(

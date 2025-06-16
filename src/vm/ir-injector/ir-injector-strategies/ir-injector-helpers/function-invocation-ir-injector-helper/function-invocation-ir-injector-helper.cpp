@@ -88,3 +88,20 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationE
             arguments
     );
 }
+
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto arguments = std::vector<llvm::Value*>();
+    for (auto argument : *irExpression->getIRArguments()) {
+        arguments.push_back(
+            irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
+        );
+    }
+    arguments.push_back(irExpression->getIRArrayValue()->getValue());
+    auto typeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getSourceType());
+    arguments.push_back(typeValue);
+    return irBlock->getBuilder()->get()->CreateCall(
+            llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
+            irExpression->getValue(),
+            arguments
+    );
+}

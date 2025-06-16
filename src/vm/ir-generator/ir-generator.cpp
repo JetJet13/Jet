@@ -21,6 +21,7 @@
 #include "ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/object-access-invocation-expression-ir-strategy/object-access-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
@@ -97,6 +98,7 @@
 #include "ir-util-functions/array-prepend-ir-function/array-prepend-ir-function.h"
 #include "ir-util-functions/array-take-ir-function/array-take-ir-function.h"
 #include "ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.h"
+#include "ir-prototypes/ir-array-prototype-map.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -186,6 +188,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate((ASTObjectAccessExpressionNode*)node,  this, scope, irContext, irOperationType);
+    } else if (node->is(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getObjectAccessInvocationExpressionIRStrategy()->generate((ASTObjectAccessInvocationExpressionNode*)node, this, scope, irContext, irOperationType);
     } else if (node->is(AST_TUPLE_ACCESS_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate((ASTTupleAccessExpressionNode*)node,  this, scope, irContext, irOperationType);
     } else if (node->is(AST_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
@@ -352,6 +356,14 @@ IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
     auto pointerType = this->generatePointerType();
     auto type = llvm::StructType::get(*_context, { pointerType, pointerType });
     return new IRRefType(type, new IRType(this->generateIntType()), underlyingIRType);
+}
+
+std::string IRGenerator::getArrayPrototypeFunctionName(std::string id) {
+    return ArrayPrototypeMap::getIRName(id);
+}
+
+IRFunctionType* IRGenerator::generateFunctionIrType(llvm::FunctionType* functionType) {
+    return new IRFunctionType(functionType);
 }
 
 llvm::PointerType* IRGenerator::generatePointerType() {

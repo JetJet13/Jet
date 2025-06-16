@@ -31,7 +31,6 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "sizeInBytes");
     auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
-    auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto newNumElements = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, oldNumElements, irGenerator->generateIntConstant(1));

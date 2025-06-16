@@ -24,7 +24,9 @@ public:
     ASTObjectAccessExpressionNode* getObjectAccess();
     ASTObjectAccessSourceNode* getSource();
     ASTObjectAccessTargetNode* getTarget();
+    std::string getName();
     unsigned long numArguments();
+    bool isArrayPrototypeInvocation();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

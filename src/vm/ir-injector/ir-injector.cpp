@@ -24,6 +24,7 @@
 #include "ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.h"
+#include "ir-injector-strategies/expression-statement-ir-injector-strategy/expression-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.h"
@@ -50,6 +51,7 @@ IRInjector::IRInjector() {
     _ifStatementIRInjectorStrategy = new IfStatementIRInjectorStrategy();
     _whileStatementIRInjectorStrategy = new WhileStatementIRInjectorStrategy();
     _forInStatementIRInjectorStrategy = new ForInStatementIRInjectorStrategy();
+    _expressionStatementIRInjectorStrategy = new ExpressionStatementIRInjectorStrategy();
     _procedureDeclarationIRInjectorStrategy = new ProcedureDeclarationIRInjectorStrategy();
     _functionDeclarationIRInjectorStrategy = new FunctionDeclarationIRInjectorStrategy();
     _typeValueIRInjectorStrategy = new TypeValueIRInjectorStrategy();
@@ -117,6 +119,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
         _whileStatementIRInjectorStrategy->inject((IRWhileStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_FOR_IN_STATEMENT_NODE)) {
         _forInStatementIRInjectorStrategy->inject((IRForInStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_EXPRESSION_STATEMENT_NODE)) {
+        _expressionStatementIRInjectorStrategy->inject((IRExpressionStatementNode*)irStatement, irBlock, this, irModule, scope);
     }
 }
 

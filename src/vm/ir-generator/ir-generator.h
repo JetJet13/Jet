@@ -88,9 +88,12 @@ public:
     IRPointerType* generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRRefType* generateTypeFor(RefTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateVoidType();
+    IRFunctionType* generateIRFunctionType(llvm::Function* irFunction);
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
     IRRefType* generateIrRefType(IRType* type);
+    std::string getArrayPrototypeFunctionName(std::string id);
+    IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();

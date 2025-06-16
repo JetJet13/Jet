@@ -19,6 +19,7 @@
 #include "./expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
 #include "./expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
 #include "./expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h"
+#include "./expression-ir-strategies/object-access-invocation-expression-ir-strategy/object-access-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
@@ -88,6 +89,7 @@ IRStrategyMap::IRStrategyMap() {
     _moduleDeclarationIRStrategy = new ModuleDeclarationIRStrategy();
     _importSingleModuleDeclarationIRStrategy = new ImportSingleModuleDeclarationIRStrategy();
     _objectAccessExpressionIRStrategy = new ObjectAccessExpressionIRStrategy();
+    _objectAccessInvocationExpressionIRStrategy = new ObjectAccessInvocationExpressionIRStrategy();
     _tupleAccessExpressionIRStrategy = new TupleAccessExpressionIRStrategy();
     _functionInvocationExpressionIRStrategy = new FunctionInvocationExpressionIRStrategy();
     _lambdaExpressionIRStrategy = new LambdaExpressionIRStrategy();
@@ -220,6 +222,10 @@ ImportSingleModuleDeclarationIRStrategy* IRStrategyMap::getImportSingleModuleDec
 
 ObjectAccessExpressionIRStrategy* IRStrategyMap::getObjectAccessExpressionIRStrategy() {
     return _objectAccessExpressionIRStrategy;
+}
+
+ObjectAccessInvocationExpressionIRStrategy* IRStrategyMap::getObjectAccessInvocationExpressionIRStrategy() {
+    return _objectAccessInvocationExpressionIRStrategy;
 }
 
 TupleAccessExpressionIRStrategy* IRStrategyMap::getTupleAccessExpressionIRStrategy() {

@@ -12,11 +12,13 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-method-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.h"
 
 class FunctionInvocationIRInjectorHelper {
 public:
     static llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
     static llvm::Value* inject(IRClassMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
+    static llvm::Value* inject(IRArrayPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
     static llvm::Value* inject(IRFunctionParameterInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
 };
 

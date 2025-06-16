@@ -520,6 +520,15 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-concat-expression-injector-strategy/array-ir-concat-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-concat-expression-injector-strategy/string-ir-concat-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-concat-expression-injector-strategy/string-ir-concat-expression-injector-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/object-access-invocation-expression-ir-strategy/object-access-invocation-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/object-access-invocation-expression-ir-strategy/object-access-invocation-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.h
+        ir-generator/ir-prototypes/ir-array-prototype-map.cpp
+        ir-generator/ir-prototypes/ir-array-prototype-map.h
+        types/ir-array-prototype-function.h
+        ir-injector/ir-injector-strategies/expression-statement-ir-injector-strategy/expression-statement-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/expression-statement-ir-injector-strategy/expression-statement-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

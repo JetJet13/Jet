@@ -29,8 +29,16 @@ ASTObjectAccessTargetNode* ASTObjectAccessInvocationExpressionNode::getTarget() 
     return _objectAccess->getTarget();
 }
 
+std::string ASTObjectAccessInvocationExpressionNode::getName() {
+    return _objectAccess->getTarget()->getTarget()->getIdentifierNode()->getId();
+}
+
 unsigned long ASTObjectAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
+}
+
+bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
+    return this->getSource()->getSource()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE);
 }
 
 Position* ASTObjectAccessInvocationExpressionNode::getStartPosition() {

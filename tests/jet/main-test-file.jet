@@ -118,3 +118,16 @@ proc ConcatProcedure() {
     const concatArrays = [1,2] ++ [3,4];
 }
 
+proc ArrayPrototypeProcedure() {
+    const concatArrays = [1,2] ++ [3,4];
+    const protoTake = concatArrays.take(1);
+    const protoTakeLast = concatArrays.take(1);
+    const protoDrop = concatArrays.drop(1);
+    const protoDropLast = concatArrays.dropLast(1);
+    const protoHead = concatArrays.head();
+    const protoLast = concatArrays.last();
+    const protoTail = concatArrays.tail();
+    concatArrays.append(1);
+    concatArrays.prepend(2);
+}
+

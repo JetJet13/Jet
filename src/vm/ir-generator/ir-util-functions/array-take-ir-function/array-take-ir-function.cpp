@@ -15,7 +15,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(pointerType->getType(),
-                                                { pointerType->getType(), intType, typeValueType->getType() },
+                                                { intType, pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            ArrayTakeIRFunction::getArrayTakeIRFunctionName(), irModuleNode->getModule());
@@ -33,11 +33,11 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "sizeInBytes");
-    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
+    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, depthIndex });
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
+    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, numElementsIndex });
     auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
-    auto takeNumElements = function->getArg(1);
+    auto takeNumElements = function->getArg(0);
     functionBlock->getBuilder()->get()->CreateBr(isNumElementsZeroIfBlock->getBlock());
 
     // isNumElementsZeroIfBlock
@@ -87,7 +87,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getCopyArrayFunction()->getFunctionType(),
             irModuleNode->getCopyArrayFunction(),
-            { arrayPointerAllocationForFullCopy, function->getArg(0), function->getArg(2) }
+            { arrayPointerAllocationForFullCopy, function->getArg(1), function->getArg(2) }
     );
     isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForFullCopy);
 
@@ -105,7 +105,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
             irModuleNode->getMallocFunction(),
             { takeArraySize }
     );
-    auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
+    auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, allocIndex });
     auto loadedPointerToArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToArray);
     successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction()->getFunctionType(),
@@ -130,7 +130,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction()->getFunctionType(),
             irModuleNode->getMallocFreeFunction(),
-            { takeArrayMalloc, function->getArg(1) }
+            { takeArrayMalloc, function->getArg(0) }
     );
     successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeCopy);
 }
