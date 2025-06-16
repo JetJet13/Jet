@@ -1170,6 +1170,16 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.h
+        ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-invocation-expression-reducer-strategy/object-access-invocation-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-invocation-expression-reducer-strategy/object-access-invocation-expression-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-prototype-type-signature-map/array-prototype-type-signature-map.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-prototype-type-signature-map/array-prototype-type-signature-map.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.h
 
 )
 

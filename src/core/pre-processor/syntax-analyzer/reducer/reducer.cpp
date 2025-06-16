@@ -106,6 +106,7 @@
 #include "reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/sref-expression-reducer-strategy/sref-expression-reducer-strategy.h"
 #include "reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.h"
+#include "reducer-strategies/object-access-invocation-expression-reducer-strategy/object-access-invocation-expression-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -130,6 +131,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, new ObjectAccessExpressionReducerStrategy());
+    this->addStrategy(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, new ObjectAccessInvocationExpressionReducerStrategy());
     this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, new ModuleAccessExpressionReducerStrategy());
     this->addStrategy(AST_FUNCTION_DECLARATION_NODE, new FunctionDeclarationReducerStrategy());
     this->addStrategy(AST_FUNCTION_DEFINITION_NODE, new FunctionDefinitionReducerStrategy());

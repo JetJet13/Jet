@@ -44,6 +44,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -3424,6 +3425,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
+        {225, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTObjectAccessInvocationExpressionNode(
+                    ASTNodeFactory::createObjectAccessExpression(
+                        ASTNodeFactory::objectAccessSourceId,
+                        ASTNodeFactory::objectAccessTargetCallableId
+                     ),
+                    ASTNodeFactory::createFunctionArgumentList({
+                       new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                    })
+                )
+        )},
 
 };
 
@@ -3456,8 +3469,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 224);
-    for (int i = 0; i < 224; i++) {
+REQUIRE(fileScope->getScope().size() == 225);
+    for (int i = 0; i < 225; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

@@ -487,3 +487,4 @@ const tripleConcatString = "hello" ++ "world" ++ "!";
 const concatIds = concatStrings ++ tripleConcatString;
 const concatArrays = [1,2] ++ [3,4];
 
+const protoTake = concatArrays.take(1);

@@ -22,6 +22,7 @@
 #include "expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/new-class-instance-expression-type-signature-strategy/new-class-instance-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/object-access-expression-type-signature-strategy/object-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.h"
@@ -71,6 +72,7 @@
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
     _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
     _literalTypeSignatureLookupTable = LiteralTypeSignatureLookupTable();
+    _arrayPrototypeSignatureMap = ArrayPrototypeTypeSignatureMap();
 }
 
 void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
@@ -261,6 +263,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
                     ->getObjectAccessExpressionTypeSignatureStrategy()
                     ->assign((ASTObjectAccessExpressionNode *) node, typeSignatureScope, this);
             break;
+        case AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getObjectAccessInvocationExpressionTypeSignatureStrategy()
+                    ->assign((ASTObjectAccessInvocationExpressionNode*) node, typeSignatureScope, this);
+            break;
         case AST_STRUCT_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
                     ->getStructExpressionTypeSignatureStrategy()
@@ -441,4 +448,8 @@ ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateLambdaExp
 
 ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateClassScopeParameter(ClassTypeSignature* classTypeSignature) {
     return this->_typeSignatureStrategyMap->getClassScopeParameterTypeSignatureStrategy()->create(classTypeSignature);
+}
+
+std::optional<FunctionTypeSignature*> TypeSignatureStrategyProvider::findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType) {
+    return _arrayPrototypeSignatureMap.find(id, elementType);
 }

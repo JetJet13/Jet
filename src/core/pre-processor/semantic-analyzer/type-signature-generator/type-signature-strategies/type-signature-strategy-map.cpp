@@ -66,6 +66,7 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
 #include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
+#include "expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _argumentListTypeSignatureStrategy = new ArgumentListTypeSignatureStrategy();
@@ -87,6 +88,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _logicalExpressionTypeSignatureStrategy = new LogicalExpressionTypeSignatureStrategy();
     _newClassInstanceExpressionTypeSignatureStrategy = new NewClassInstanceExpressionTypeSignatureStrategy();
     _objectAccessExpressionTypeSignatureStrategy = new ObjectAccessExpressionTypeSignatureStrategy();
+    _objectAccessInvocationExpressionTypeSignatureStrategy = new ObjectAccessInvocationExpressionTypeSignatureStrategy();
     _structExpressionTypeSignatureStrategy = new StructExpressionTypeSignatureStrategy();
     _thisExpressionTypeSignatureStrategy = new ThisExpressionTypeSignatureStrategy();
     _tupleAccessExpressionTypeSignatureStrategy = new TupleAccessExpressionTypeSignatureStrategy();
@@ -207,6 +209,10 @@ NewClassInstanceExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getNe
 
 ObjectAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessExpressionTypeSignatureStrategy() {
     return this->_objectAccessExpressionTypeSignatureStrategy;
+}
+
+ObjectAccessInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessInvocationExpressionTypeSignatureStrategy() {
+    return this->_objectAccessInvocationExpressionTypeSignatureStrategy;
 }
 
 StructExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getStructExpressionTypeSignatureStrategy() {

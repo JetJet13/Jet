@@ -26,6 +26,7 @@ class LiteralExpressionTypeSignatureStrategy;
 class LogicalExpressionTypeSignatureStrategy;
 class NewClassInstanceExpressionTypeSignatureStrategy;
 class ObjectAccessExpressionTypeSignatureStrategy;
+class ObjectAccessInvocationExpressionTypeSignatureStrategy;
 class StructExpressionTypeSignatureStrategy;
 class ThisExpressionTypeSignatureStrategy;
 class TupleAccessExpressionTypeSignatureStrategy;
@@ -92,6 +93,7 @@ private:
     LogicalExpressionTypeSignatureStrategy* _logicalExpressionTypeSignatureStrategy;
     NewClassInstanceExpressionTypeSignatureStrategy* _newClassInstanceExpressionTypeSignatureStrategy;
     ObjectAccessExpressionTypeSignatureStrategy* _objectAccessExpressionTypeSignatureStrategy;
+    ObjectAccessInvocationExpressionTypeSignatureStrategy* _objectAccessInvocationExpressionTypeSignatureStrategy;
     StructExpressionTypeSignatureStrategy* _structExpressionTypeSignatureStrategy;
     ThisExpressionTypeSignatureStrategy* _thisExpressionTypeSignatureStrategy;
     TupleAccessExpressionTypeSignatureStrategy* _tupleAccessExpressionTypeSignatureStrategy;
@@ -157,6 +159,7 @@ public:
     LogicalExpressionTypeSignatureStrategy* getLogicalExpressionTypeSignatureStrategy();
     NewClassInstanceExpressionTypeSignatureStrategy* getNewClassInstanceExpressionTypeSignatureStrategy();
     ObjectAccessExpressionTypeSignatureStrategy* getObjectAccessExpressionTypeSignatureStrategy();
+    ObjectAccessInvocationExpressionTypeSignatureStrategy* getObjectAccessInvocationExpressionTypeSignatureStrategy();
     StructExpressionTypeSignatureStrategy* getStructExpressionTypeSignatureStrategy();
     ThisExpressionTypeSignatureStrategy* getThisExpressionTypeSignatureStrategy();
     TupleAccessExpressionTypeSignatureStrategy* getTupleAccessExpressionTypeSignatureStrategy();

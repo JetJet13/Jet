@@ -434,6 +434,9 @@ namespace ASTNodeFactory {
     static ASTObjectAccessTargetNode* objectAccessTargetId = new ASTObjectAccessTargetNode(
             ASTNodeFactory::idExpression
     );
+    static ASTObjectAccessTargetNode* objectAccessTargetCallableId = new ASTObjectAccessTargetNode(
+            ASTNodeFactory::callableIdExpression
+    );
     static ASTForInVariableNode* forVariable = new ASTForInVariableNode(
             ASTNodeFactory::idExpression
     );

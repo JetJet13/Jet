@@ -7,12 +7,8 @@
 
 #include <vector>
 #include "../ast-node.h"
-#include "../ast-function-nodes/ast-function-parameter-list-node.h"
-#include "../ast-type-nodes/ast-type-node.h"
-#include "../ast-function-nodes/ast-function-name-node.h"
-#include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-function-nodes/ast-function-argument-list-node.h"
-#include "../ast-function-nodes/ast-function-call-node.h"
+#include "../ast-type-nodes/ast-type-node.h"
 #include "ast-callable-expression-node.h"
 #include "../ast-class-nodes/ast-class-method-call-node.h"
 #include "../ast-class-nodes/ast-class-access-node.h"
