@@ -11,8 +11,7 @@
 #include "../ast-import-nodes/ast-import-module-list-start-node.h"
 
 ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-    if (mode == SA_STRUCT_MODE ||
-        (prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_COMMA_NODE, AST_REF_NODE }))) {
+    if (prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_COMMA_NODE, AST_REF_NODE })) {
         return new ASTStructStartNode(_lexeme);
     }
 

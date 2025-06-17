@@ -488,3 +488,9 @@ const concatIds = concatStrings ++ tripleConcatString;
 const concatArrays = [1,2] ++ [3,4];
 
 const protoTake = concatArrays.take(1);
+const lambdaStruct = {
+    foo: (x: int) => x + 10,
+    bar: () => 100,
+    foo2: (x: int) int { return x + 5; }
+};
+const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };

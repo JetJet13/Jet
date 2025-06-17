@@ -11,7 +11,7 @@ void StructExpressionTypeSignatureStrategy::assign(ASTStructExpressionNode* stru
         strategyMap->assignTypeSignatureFor(keyValuePair->getValue(), scope);
         structTypeSignature->addKeyValuePair(
                 keyValuePair->getKey()->getIdentifierNode()->getId(),
-                keyValuePair->getValue()->getTypeSignature()
+                keyValuePair->getValue()->getTypeSignature()->convertToVariableTypeSignature()
         );
     }
 

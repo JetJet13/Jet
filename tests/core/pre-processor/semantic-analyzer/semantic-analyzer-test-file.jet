@@ -371,6 +371,12 @@ const protoLast = concatArrays.last();
 const protoTail = concatArrays.tail();
 const protoAppend = concatArrays.append(1);
 const protoPrepend = concatArrays.prepend(2);
+const lambdaStruct = {
+    foo: (x: int) => x + 10,
+    bar: () => 100,
+    foo2: (x: int) int { return x + 5; }
+};
+const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
 
 if intWithType == 5 {
     const nope = "hello";

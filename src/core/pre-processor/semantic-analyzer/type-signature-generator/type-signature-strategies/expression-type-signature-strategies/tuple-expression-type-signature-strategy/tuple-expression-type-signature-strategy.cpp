@@ -9,7 +9,7 @@ void TupleExpressionTypeSignatureStrategy::assign(ASTTupleExpressionNode* node, 
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto tupleItem : node->getTupleList()->getItems()) {
         strategyMap->assignTypeSignatureFor(tupleItem->getItem(), scope);
-        typeSignatures->push_back(tupleItem->getItem()->getTypeSignature());
+        typeSignatures->push_back(tupleItem->getItem()->getTypeSignature()->convertToVariableTypeSignature());
     }
     node->setTypeSignature(new TupleTypeSignature(typeSignatures));
 }

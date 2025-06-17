@@ -3437,6 +3437,110 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
+        {226, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createStructExpression({
+                   ASTNodeFactory::createStructKeyValue(
+                           new ASTLambdaWithFatArrowExpressionNode(
+                                   ASTNodeFactory::createFunctionParameterList(
+                                           {
+                                               ASTNodeFactory::createFunctionParameter(
+                                                   ASTNodeFactory::idExpression,
+                                                   ASTNodeFactory::intType
+                                               )
+                                           }
+                                   ),
+                                   new ASTLambdaReturnExpressionNode(
+                                           ASTNodeFactory::lambdaFatArrow,
+                                           new ASTBinaryExpressionNode(
+                                                   ASTNodeFactory::idExpression,
+                                                   ASTNodeFactory::plus,
+                                                   ASTNodeFactory::intExpression
+                                           )
+                                   )
+                           )
+                   ),
+                   ASTNodeFactory::createStructKeyValue(
+                           new ASTLambdaWithFatArrowExpressionNode(
+                                   ASTNodeFactory::createFunctionParameterList(),
+                                   new ASTLambdaReturnExpressionNode(
+                                           ASTNodeFactory::lambdaFatArrow,
+                                           ASTNodeFactory::intExpression
+                                   )
+                           )
+                   ),
+                   ASTNodeFactory::createStructKeyValue(
+                           new ASTLambdaExpressionNode(
+                                   ASTNodeFactory::createFunctionParameterList({
+                                       ASTNodeFactory::createFunctionParameter(
+                                               ASTNodeFactory::idExpression,
+                                               ASTNodeFactory::intType
+                                       )
+                                   }),
+                                   ASTNodeFactory::createFunctionBlock({
+                                       new ASTFunctionReturnExpressionNode(
+                                           ASTNodeFactory::functionReturn,
+                                           new ASTBinaryExpressionNode(
+                                               ASTNodeFactory::idExpression,
+                                               ASTNodeFactory::plus,
+                                               ASTNodeFactory::intExpression
+                                           )
+                                       )
+                                   }),
+                                   ASTNodeFactory::intType
+                           )
+                   )
+               })
+        )},
+        {227, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createTupleExpression({
+                   new ASTLambdaWithFatArrowExpressionNode(
+                       ASTNodeFactory::createFunctionParameterList(
+                               {
+                                       ASTNodeFactory::createFunctionParameter(
+                                               ASTNodeFactory::idExpression,
+                                               ASTNodeFactory::intType
+                                       )
+                               }
+                       ),
+                       new ASTLambdaReturnExpressionNode(
+                               ASTNodeFactory::lambdaFatArrow,
+                               new ASTBinaryExpressionNode(
+                                       ASTNodeFactory::idExpression,
+                                       ASTNodeFactory::plus,
+                                       ASTNodeFactory::intExpression
+                               )
+                       )
+                   ),
+                   new ASTLambdaWithFatArrowExpressionNode(
+                       ASTNodeFactory::createFunctionParameterList(),
+                       new ASTLambdaReturnExpressionNode(
+                           ASTNodeFactory::lambdaFatArrow,
+                           ASTNodeFactory::intExpression
+                       )
+                   ),
+                   new ASTLambdaExpressionNode(
+                       ASTNodeFactory::createFunctionParameterList({
+                           ASTNodeFactory::createFunctionParameter(
+                               ASTNodeFactory::idExpression,
+                               ASTNodeFactory::intType
+                           )
+                       }),
+                       ASTNodeFactory::createFunctionBlock({
+                           new ASTFunctionReturnExpressionNode(
+                               ASTNodeFactory::functionReturn,
+                               new ASTBinaryExpressionNode(
+                                   ASTNodeFactory::idExpression,
+                                   ASTNodeFactory::plus,
+                                   ASTNodeFactory::intExpression
+                               )
+                           )
+                       }),
+                       ASTNodeFactory::intType
+                   )
+           })
+        )},
 
 };
 
@@ -3469,8 +3573,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 225);
-    for (int i = 0; i < 225; i++) {
+REQUIRE(fileScope->getScope().size() == 227);
+    for (int i = 0; i < 227; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

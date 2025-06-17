@@ -18,6 +18,11 @@ FunctionLambdaTypeSignature::FunctionLambdaTypeSignature(std::vector<TypeSignatu
     _returnType = returnType;
 }
 
+FunctionLambdaTypeSignature::FunctionLambdaTypeSignature(TypeSignature* returnType) {
+    _parameterTypes = new std::vector<TypeSignature*>();
+    _returnType = returnType;
+}
+
 std::vector<TypeSignature*>* FunctionLambdaTypeSignature::getParameterTypes() {
     return _parameterTypes;
 }

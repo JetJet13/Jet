@@ -16,6 +16,7 @@ private:
 public:
     FunctionLambdaTypeSignature(std::vector<TypeSignature*>* parameterTypes, TypeSignature* returnType);
     FunctionLambdaTypeSignature(std::vector<TypeSignature*> parameterTypes, TypeSignature* returnType);
+    FunctionLambdaTypeSignature(TypeSignature* returnType);
     std::vector<TypeSignature*>* getParameterTypes() override;
     TypeSignature* getReturnType() override;
     std::string toString() override;

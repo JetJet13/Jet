@@ -30,7 +30,11 @@ FileScope* SyntaxAnalyzer::analyze(std::string &filePath) {
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
     while (true) {
-        if (numLoops == 10000) {
+        if (numLoops == 12000) {
+            while (!_recognizeStack.top()->empty()) {
+                Logger::log("node in recognizeStack", _recognizeStack.top()->top()->toString());
+                _recognizeStack.top()->pop();
+            }
             throw std::logic_error("too many loops!");
         }
         auto recognizerResult = this->recognizeHandle();

@@ -237,7 +237,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                         TypeSignatureMap({
                              std::pair("hello", TypeSignatureFactory::stringLiteral),
                              std::pair("test", TypeSignatureFactory::intLiteral),
-                         })
+                        })
                     )
             )},
             {74, TypeSignatureFactory::stringLiteral},
@@ -600,7 +600,6 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {156, TypeSignatureFactory::stringLiteral},
             {157, TypeSignatureFactory::stringLiteral},
             {158, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-
             {159, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
             {160, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
             {161, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
@@ -610,6 +609,43 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {165, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
             {166, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
             {167, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
+            {168, new StructTypeSignature(
+                    TypeSignatureMap({
+                        std::pair("foo", new FunctionLambdaTypeSignature(
+                                {
+                                    TypeSignatureFactory::intLiteral,
+                                },
+                                TypeSignatureFactory::intLiteral
+                        )),
+                        std::pair("bar", new FunctionLambdaTypeSignature(
+                                TypeSignatureFactory::intLiteral
+                        )),
+                        std::pair("foo2", new FunctionLambdaTypeSignature(
+                                {
+                                    TypeSignatureFactory::intLiteral,
+                                },
+                                TypeSignatureFactory::intLiteral
+                        )),
+                    })
+                    )
+            },
+            {169, new TupleTypeSignature({
+                         new FunctionLambdaTypeSignature(
+                                 {
+                                     TypeSignatureFactory::intLiteral,
+                                 },
+                                 TypeSignatureFactory::intLiteral
+                         ),
+                         new FunctionLambdaTypeSignature(
+                                 TypeSignatureFactory::intLiteral
+                         ),
+                         new FunctionLambdaTypeSignature(
+                                 {
+                                     TypeSignatureFactory::intLiteral,
+                                 },
+                                 TypeSignatureFactory::intLiteral
+                         )
+            })},
     };
 }
 
@@ -627,7 +663,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
-    for (int i = 0; i < 159; i++) {
+    for (int i = 0; i < 169; i++) {
         auto declaration = fileNode->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         auto expectedTypeSignature = expectedTypeSignatures[i + 1];
