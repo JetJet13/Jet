@@ -30,6 +30,7 @@ class ObjectAccessInvocationExpressionTypeSignatureStrategy;
 class StructExpressionTypeSignatureStrategy;
 class ThisExpressionTypeSignatureStrategy;
 class TupleAccessExpressionTypeSignatureStrategy;
+class TupleAccessInvocationExpressionTypeSignatureStrategy;
 class TupleExpressionTypeSignatureStrategy;
 class UnaryExpressionTypeSignatureStrategy;
 class ModuleAccessExpressionTypeSignatureStrategy;
@@ -97,6 +98,7 @@ private:
     StructExpressionTypeSignatureStrategy* _structExpressionTypeSignatureStrategy;
     ThisExpressionTypeSignatureStrategy* _thisExpressionTypeSignatureStrategy;
     TupleAccessExpressionTypeSignatureStrategy* _tupleAccessExpressionTypeSignatureStrategy;
+    TupleAccessInvocationExpressionTypeSignatureStrategy* _tupleAccessInvocationExpressionTypeSignatureStrategy;
     TupleExpressionTypeSignatureStrategy* _tupleExpressionTypeSignatureStrategy;
     UnaryExpressionTypeSignatureStrategy* _unaryExpressionTypeSignatureStrategy;
     ModuleAccessExpressionTypeSignatureStrategy* _moduleAccessExpressionTypeSignatureStrategy;
@@ -163,6 +165,7 @@ public:
     StructExpressionTypeSignatureStrategy* getStructExpressionTypeSignatureStrategy();
     ThisExpressionTypeSignatureStrategy* getThisExpressionTypeSignatureStrategy();
     TupleAccessExpressionTypeSignatureStrategy* getTupleAccessExpressionTypeSignatureStrategy();
+    TupleAccessInvocationExpressionTypeSignatureStrategy* getTupleAccessInvocationExpressionTypeSignatureStrategy();
     TupleExpressionTypeSignatureStrategy* getTupleExpressionTypeSignatureStrategy();
     UnaryExpressionTypeSignatureStrategy* getUnaryExpressionTypeSignatureStrategy();
     ModuleAccessExpressionTypeSignatureStrategy* getModuleAccessExpressionTypeSignatureStrategy();

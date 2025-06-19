@@ -31,6 +31,7 @@ class ImportSingleModuleDeclarationIRStrategy;
 class ObjectAccessExpressionIRStrategy;
 class ObjectAccessInvocationExpressionIRStrategy;
 class TupleAccessExpressionIRStrategy;
+class TupleAccessInvocationExpressionIRStrategy;
 class FunctionInvocationExpressionIRStrategy;
 class LambdaExpressionIRStrategy;
 class ExpressionStatementIRStrategy;
@@ -97,6 +98,7 @@ private:
     ObjectAccessExpressionIRStrategy* _objectAccessExpressionIRStrategy;
     ObjectAccessInvocationExpressionIRStrategy* _objectAccessInvocationExpressionIRStrategy;
     TupleAccessExpressionIRStrategy* _tupleAccessExpressionIRStrategy;
+    TupleAccessInvocationExpressionIRStrategy* _tupleAccessInvocationExpressionIRStrategy;
     FunctionInvocationExpressionIRStrategy* _functionInvocationExpressionIRStrategy;
     LambdaExpressionIRStrategy* _lambdaExpressionIRStrategy;
     ExpressionStatementIRStrategy* _expressionStatementIRStrategy;
@@ -161,6 +163,7 @@ public:
     ObjectAccessExpressionIRStrategy* getObjectAccessExpressionIRStrategy();
     ObjectAccessInvocationExpressionIRStrategy* getObjectAccessInvocationExpressionIRStrategy();
     TupleAccessExpressionIRStrategy* getTupleAccessExpressionIRStrategy();
+    TupleAccessInvocationExpressionIRStrategy* getTupleAccessInvocationExpressionIRStrategy();
     FunctionInvocationExpressionIRStrategy* getFunctionInvocationExpressionIRStrategy();
     LambdaExpressionIRStrategy* getLambdaExpressionIRStrategy();
     ExpressionStatementIRStrategy* getExpressionStatementIRStrategy();

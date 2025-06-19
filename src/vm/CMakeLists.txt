@@ -529,6 +529,8 @@ add_library(jet-vm
         types/ir-array-prototype-function.h
         ir-injector/ir-injector-strategies/expression-statement-ir-injector-strategy/expression-statement-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/expression-statement-ir-injector-strategy/expression-statement-ir-injector-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/tuple-access-invocation-expression-ir-strategy/tuple-access-invocation-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/tuple-access-invocation-expression-ir-strategy/tuple-access-invocation-expression-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

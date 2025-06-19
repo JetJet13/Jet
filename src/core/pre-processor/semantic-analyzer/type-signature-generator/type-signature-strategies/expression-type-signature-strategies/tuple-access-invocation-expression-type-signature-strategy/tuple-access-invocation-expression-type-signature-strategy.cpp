@@ -1,0 +1,22 @@
+//
+// Created by Johny Georges on 2025-06-18.
+//
+
+#include "tuple-access-invocation-expression-type-signature-strategy.h"
+#include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
+#include "../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
+
+void TupleAccessInvocationExpressionTypeSignatureStrategy::assign(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getSource()->getSource(), scope);
+    for (auto argument : *tupleAccessInvocationExpression->getArguments()->getArguments()) {
+        strategyMap->assignTypeSignatureFor(argument->getArgument(), scope);
+    }
+    if (tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(TUPLE_TYPE_SOURCE)) {
+        auto tupleSource = (TupleTypeSignature*)tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
+        tupleAccessInvocationExpression->setTypeSignature(tupleSource->getTypeSignatureAtIndex(
+            tupleAccessInvocationExpression->getIndex()->getIndexValue())
+        );
+        return;
+    }
+    tupleAccessInvocationExpression->setTypeSignature(new InvalidTypeSignature());
+}

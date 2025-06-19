@@ -38,6 +38,14 @@ func SimpleFunc(fooLambda: func<int> => int) int {
     return anotherLambda(20, (z: int) => z + 2) + anotherLambda(20, (z: int) { return z + 2; });
 }
 
+proc LambdaProc() {
+    const lambdaStruct = {
+        foo: (x: int) => x + 10,
+        bar: () => 100,
+        foo2: (x: int) int { return x + 5; }
+    };
+}
+
 proc mainX() {
     const mainArray = [1, 2, 4];
 }
@@ -131,3 +139,9 @@ proc ArrayPrototypeProcedure() {
     concatArrays.prepend(2);
 }
 
+func tupleTest() int {
+    const myTuple = tuple { 1, 2, true };
+    const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
+    const lambdaTupleCall = lambdaTuple.1();
+    return myTuple.1;
+}

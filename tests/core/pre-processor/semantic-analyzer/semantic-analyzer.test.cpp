@@ -646,6 +646,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                                  TypeSignatureFactory::intLiteral
                          )
             })},
+            {170, TypeSignatureFactory::intLiteral}
     };
 }
 

@@ -26,6 +26,7 @@
 #include "expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/tuple-access-invocation-expression-type-signature-strategy/tuple-access-invocation-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
@@ -282,6 +283,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getTupleAccessExpressionTypeSignatureStrategy()
                     ->assign((ASTTupleAccessExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getTupleAccessInvocationExpressionTypeSignatureStrategy()
+                    ->assign((ASTTupleAccessInvocationExpressionNode*) node, typeSignatureScope, this);
             break;
         case AST_TUPLE_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

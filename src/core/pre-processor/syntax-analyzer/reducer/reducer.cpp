@@ -107,6 +107,7 @@
 #include "reducer-strategies/sref-expression-reducer-strategy/sref-expression-reducer-strategy.h"
 #include "reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.h"
 #include "reducer-strategies/object-access-invocation-expression-reducer-strategy/object-access-invocation-expression-reducer-strategy.h"
+#include "reducer-strategies/tuple-access-invocation-expression-reducer-strategy/tuple-access-invocation-expression-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -153,6 +154,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TUPLE_LIST_NODE, new TupleListReducerStrategy());
     this->addStrategy(AST_TUPLE_EXPRESSION_NODE, new TupleExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_ACCESS_EXPRESSION_NODE, new TupleAccessExpressionReducerStrategy());
+    this->addStrategy(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, new TupleAccessInvocationExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_SOURCE_NODE, new ObjectAccessSourceReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_TARGET_NODE, new ObjectAccessTargetReducerStrategy());
     this->addStrategy(AST_MODULE_ACCESS_SOURCE_NODE, new ModuleAccessSourceReducerStrategy());

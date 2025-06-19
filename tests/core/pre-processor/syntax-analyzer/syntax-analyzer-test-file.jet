@@ -494,3 +494,4 @@ const lambdaStruct = {
     foo2: (x: int) int { return x + 5; }
 };
 const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
+const lambdaTupleCall = lambdaTuple.1();

@@ -45,6 +45,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -3541,6 +3542,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                    )
            })
         )},
+        {228, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                new ASTTupleAccessInvocationExpressionNode(
+                        ASTNodeFactory::createTupleAccessExpression(
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::tupleAccess
+                        ),
+                        ASTNodeFactory::createFunctionArgumentList()
+                )
+        )},
 
 };
 
@@ -3573,8 +3584,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 227);
-    for (int i = 0; i < 227; i++) {
+REQUIRE(fileScope->getScope().size() == 228);
+    for (int i = 0; i < 228; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

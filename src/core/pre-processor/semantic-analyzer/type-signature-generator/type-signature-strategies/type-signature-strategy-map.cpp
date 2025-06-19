@@ -25,6 +25,7 @@
 #include "expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/tuple-access-invocation-expression-type-signature-strategy/tuple-access-invocation-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
@@ -92,6 +93,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _structExpressionTypeSignatureStrategy = new StructExpressionTypeSignatureStrategy();
     _thisExpressionTypeSignatureStrategy = new ThisExpressionTypeSignatureStrategy();
     _tupleAccessExpressionTypeSignatureStrategy = new TupleAccessExpressionTypeSignatureStrategy();
+    _tupleAccessInvocationExpressionTypeSignatureStrategy = new TupleAccessInvocationExpressionTypeSignatureStrategy();
     _tupleExpressionTypeSignatureStrategy = new TupleExpressionTypeSignatureStrategy();
     _unaryExpressionTypeSignatureStrategy = new UnaryExpressionTypeSignatureStrategy();
     _moduleAccessExpressionTypeSignatureStrategy = new ModuleAccessExpressionTypeSignatureStrategy();
@@ -225,6 +227,10 @@ ThisExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getThisExpression
 
 TupleAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessExpressionTypeSignatureStrategy() {
     return this->_tupleAccessExpressionTypeSignatureStrategy;
+}
+
+TupleAccessInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessInvocationExpressionTypeSignatureStrategy() {
+    return this->_tupleAccessInvocationExpressionTypeSignatureStrategy;
 }
 
 TupleExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleExpressionTypeSignatureStrategy() {

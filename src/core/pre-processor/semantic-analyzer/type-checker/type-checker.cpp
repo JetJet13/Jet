@@ -46,6 +46,7 @@
 #include "policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.h"
 #include "policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.h"
 #include "policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.h"
+#include "policies/expressions/tuple-access-invocation-expression-type-checker-policy/tuple-access-invocation-expression-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -160,6 +161,9 @@ namespace TypeChecker {
                 break;
             case AST_TUPLE_ACCESS_EXPRESSION_NODE:
                 TupleAccessExpressionTypeCheckerPolicy::apply((ASTTupleAccessExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE:
+                TupleAccessInvocationExpressionTypeCheckerPolicy::apply((ASTTupleAccessInvocationExpressionNode*)node, typeCheckerResult);
                 break;
             case AST_TUPLE_EXPRESSION_NODE:
                 TupleExpressionTypeCheckerPolicy::apply((ASTTupleExpressionNode*)node, typeCheckerResult);

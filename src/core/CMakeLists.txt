@@ -1180,6 +1180,14 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-prototype-type-signature-map/array-prototype-type-signature-map.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.h
+        ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-invocation-expression-reducer-strategy/tuple-access-invocation-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-invocation-expression-reducer-strategy/tuple-access-invocation-expression-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-access-invocation-expression-type-signature-strategy/tuple-access-invocation-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-access-invocation-expression-type-signature-strategy/tuple-access-invocation-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-invocation-expression-type-checker-policy/tuple-access-invocation-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-invocation-expression-type-checker-policy/tuple-access-invocation-expression-type-checker-policy.h
 
 )
 
