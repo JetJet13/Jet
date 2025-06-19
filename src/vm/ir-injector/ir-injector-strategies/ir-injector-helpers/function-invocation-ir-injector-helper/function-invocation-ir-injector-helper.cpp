@@ -3,8 +3,8 @@
 //
 
 #include "function-invocation-ir-injector-helper.h"
-#include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../ir-type/ir-lambda-type.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
@@ -102,6 +102,27 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     return irBlock->getBuilder()->get()->CreateCall(
             llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
             irExpression->getValue(),
+            arguments
+    );
+}
+
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto arguments = std::vector<llvm::Value*>();
+    for (auto argument : *irExpression->getIRArguments()) {
+        arguments.push_back(
+                irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
+        );
+    }
+    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+    auto pointerToLambda = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRTupleAccessExpression()->getSource()->getSourceAllocation().value()->getAllocatedType(), irExpression->getIRTupleAccessExpression()->getValue(), { zeroIndex, irExpression->getIRTupleAccessExpression()->getIRTargetKeyIndex() });
+    auto irFunctionParameterType = (IRFunctionParameterType*)irExpression->getFunctionIRType();
+    auto loadedLambdaAtIndex = irBlock->getBuilder()->get()->CreateLoad(irFunctionParameterType->getType(), pointerToLambda);
+    auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionIndex() });
+    auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionScopeArgumentIndex() });
+    arguments.push_back(lambdaScopeArgument);
+    return irBlock->getBuilder()->get()->CreateCall(
+            irFunctionParameterType->getFunctionType(),
+            lambda,
             arguments
     );
 }
