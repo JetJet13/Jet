@@ -14,14 +14,14 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     }
 
     if (node->isArrayPrototypeInvocation()) {
-        auto irArrayExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, IR_OPERAND_OP);
+        auto irArrayExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, IR_OPERAND_VALUE_OP);
         auto function = irContext->getModule()->getFunction(irGenerator->getArrayPrototypeFunctionName(node->getName()));
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         return new IRArrayPrototypeInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, irArrayExpression);
     }
 
-    auto irExpression = (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, IR_OPERAND_OP);
+    auto irExpression = (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, IR_OPERAND_VALUE_OP);
     auto irFunctionType = irExpression->getTargetIRType();
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     return new IRObjectAccessInvocationExpressionNode(node, irExpression, irFunctionType, arguments, irReturnType);

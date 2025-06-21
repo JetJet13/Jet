@@ -16,7 +16,7 @@ llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccess
 }
 
 llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
+    auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_VALUE_OP, irModule, scope);
     return StructIRInjectorHelper::injectStructCopy(
             irBlock,
             (IRStructType*)irExpression->getSource()->getIRType(),
@@ -27,8 +27,11 @@ llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAc
 }
 
 llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::injectOperand(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_OP, irModule, scope);
+    auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(loadedSourceAllocation->getType(), loadedSourceAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
-    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
+    if (irOperationType == IR_OPERAND_VALUE_OP) {
+        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
+    }
+    return pointer;
 }

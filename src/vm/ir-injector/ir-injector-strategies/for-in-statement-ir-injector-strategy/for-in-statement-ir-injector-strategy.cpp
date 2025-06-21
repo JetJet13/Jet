@@ -17,7 +17,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto numElementsIndex = setupBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumElementsIndex());
 
     // setup
-    auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), IR_OPERAND_OP, irModule, scope);
+    auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto numElementsPointer = setupBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceValue, { zero, numElementsIndex }, "forInNumElemPtr");
     auto indexAllocation = setupBlock->getBuilder()->get()->Insert(irForInStatement->getIndex()->getValue(), "forInIndex");
     setupBlock->getBuilder()->get()->CreateStore(zero, indexAllocation);

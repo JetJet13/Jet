@@ -6,7 +6,7 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h"
 
 IRStatementNode* WhileStatementIRStrategy::generate(ASTWhileStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto whileConditionIRExpression = irGenerator->generateFor(node->getCondition()->getCondition(), scope, irContext, IR_OPERAND_OP);
+    auto whileConditionIRExpression = irGenerator->generateFor(node->getCondition()->getCondition(), scope, irContext, IR_OPERAND_VALUE_OP);
     auto whileConditionBlock = irGenerator->generateWhileConditionBlock(irContext);
     auto whileBodyBlock = irGenerator->generateWhileBodyBlock(irContext);
     this->setupBlock(whileBodyBlock, node->getBlock(), irGenerator, scope, irContext);

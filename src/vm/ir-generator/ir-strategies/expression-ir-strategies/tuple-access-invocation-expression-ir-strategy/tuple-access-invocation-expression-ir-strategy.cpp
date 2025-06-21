@@ -12,7 +12,7 @@ IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(ASTTupleAc
         arguments.push_back(irGenerator->generateFor(argument, scope, irContext, IR_FUNCTION_ARGUMENT_OP));
     }
 
-    auto irExpression = (IRTupleAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, IR_OPERAND_OP);
+    auto irExpression = (IRTupleAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, IR_OPERAND_VALUE_OP);
     auto irFunctionType = irExpression->getTargetIRType();
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     return new IRTupleAccessInvocationExpressionNode(node, irExpression, irFunctionType, arguments, irReturnType);

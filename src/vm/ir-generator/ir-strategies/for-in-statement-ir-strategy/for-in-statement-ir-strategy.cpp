@@ -7,7 +7,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRStatementNode* ForInStatementIRStrategy::generate(ASTForInStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto sourceIRExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, IR_OPERAND_OP);
+    auto sourceIRExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, IR_OPERAND_VALUE_OP);
     auto index = IRInstructionNodeFactory::create(new IRType(irGenerator->generateIntType()));
     auto variableIrType = irGenerator->generateTypeFor(node->getVariable()->getTypeSignature(), scope, irContext);
     auto variable = IRInstructionNodeFactory::create(variableIrType);

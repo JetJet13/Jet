@@ -7,7 +7,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRRefExpressionNode* RefExpressionIRStrategy::generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperationType);
+    auto irExpressionNode = irGenerator->generateForRef(node->getExpressionNode(), scope, irContext, irOperationType);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto allocation = this->generateAllocation(node, irType, irGenerator, irContext, irOperationType);
     if (irExpressionNode->getSourceAllocation()) {

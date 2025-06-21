@@ -7,7 +7,7 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.h"
 
 IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto ifConditionIRExpression = irGenerator->generateFor(node->getIfBlock()->getCondition()->getCondition(), scope, irContext, IR_OPERAND_OP);
+    auto ifConditionIRExpression = irGenerator->generateFor(node->getIfBlock()->getCondition()->getCondition(), scope, irContext, IR_OPERAND_VALUE_OP);
     auto ifConditionBlock = irGenerator->generateIfBlock(irContext);
     auto thenBlock = irGenerator->generateIfThenBlock(irContext);
     this->setupBlock(thenBlock, node->getIfBlock()->getBlock(), irGenerator, scope, irContext);
@@ -20,7 +20,7 @@ IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGen
     auto ifNode = new IRIfElseNode(ifConditionIRExpression, ifConditionBlock, thenBlock, elseBlock, endBlock);
     auto currentIfNode = ifNode;
     for (auto elseIf : *node->getElseIfBlocks()) {
-        auto elseIfConditionIRExpression = irGenerator->generateFor(elseIf->getCondition()->getCondition(), scope, irContext, IR_OPERAND_OP);
+        auto elseIfConditionIRExpression = irGenerator->generateFor(elseIf->getCondition()->getCondition(), scope, irContext, IR_OPERAND_VALUE_OP);
         auto elseIfNode = new IRIfElseNode(
             elseIfConditionIRExpression,
             irGenerator->generateIfBlock(irContext),

@@ -11,7 +11,7 @@ IRStatementNode* ClassPropertyAssignmentStatementIRStrategy::generate(ASTClassPr
     auto propertyName = node->getPropertyAssignment()->getProperty()->getId();
     return new IRClassPropertyAssignmentStatementNode(
             node,
-            irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_OP),
+            irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_VALUE_OP),
             propertyName,
             irClassType->getClassProperties()->getIndexForKey(propertyName)
     );

@@ -17,11 +17,11 @@ llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAcces
 }
 
 llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_OP, irModule, scope);
+    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
     auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
-    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_OP, irModule, scope);
+    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
     return irBlock->getBuilder()->get()->CreateInBoundsGEP(
             arrayPointerType->getAllocType(),
             sourceValue,

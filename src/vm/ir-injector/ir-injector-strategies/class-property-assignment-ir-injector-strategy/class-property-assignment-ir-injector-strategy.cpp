@@ -5,7 +5,7 @@
 #include "class-property-assignment-ir-injector-strategy.h"
 
 void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignmentStatementNode* irClassPropertyAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), IR_OPERAND_OP, irModule, scope);
+    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto classScopeParameter = scope->getClassScope().value();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
     auto propertyIndex = irBlock->getBuilder()->get()->getInt32(irClassPropertyAssignmentStatementNode->getPropertyIndex());

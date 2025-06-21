@@ -7,6 +7,7 @@
 #include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 #include "../ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
+#include "../ir-injector-helpers/ref-array-access-ir-injector-helper/ref-array-access-ir-injector-helper.h"
 
 llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_LITERAL_EXPRESSION_NODE)) {
@@ -31,6 +32,8 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, I
         return this->_tupleAccessExpressionInjector.inject((IRTupleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_DREF_EXPRESSION_NODE)) {
         return this->_literalIRDrefExpressionInjectorStrategy.inject((IRDrefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+    } else if (irExpression->is(IR_REF_ARRAY_ACCESS_EXPRESSION_NODE)) {
+        return RefArrayAccessIRInjectorHelper::inject((IRRefArrayAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_PARAMETER_INVOCATION_EXPRESSION_NODE)) {

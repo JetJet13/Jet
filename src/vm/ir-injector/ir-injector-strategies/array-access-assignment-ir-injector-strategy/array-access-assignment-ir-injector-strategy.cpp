@@ -13,9 +13,9 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStat
             );
     auto irExpressionValue = irInjector
             ->inject(
-                irBlock,
-                irArrayAccessAssignmentStatement->getIRExpression(),
-                IR_OPERAND_OP, irModule, scope
+                    irBlock,
+                    irArrayAccessAssignmentStatement->getIRExpression(),
+                    IR_OPERAND_VALUE_OP, irModule, scope
             );
     irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irAssignmentValue);
 }

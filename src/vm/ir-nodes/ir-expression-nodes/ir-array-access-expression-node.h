@@ -10,9 +10,8 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h"
 #include "ir-expression-node.h"
 
-
 class IRArrayAccessExpressionNode : public IRExpressionNode {
-private:
+protected:
     ASTArrayAccessExpressionNode* _node;
     IRExpressionNode* _irSource;
     IRExpressionNode* _irIndex;

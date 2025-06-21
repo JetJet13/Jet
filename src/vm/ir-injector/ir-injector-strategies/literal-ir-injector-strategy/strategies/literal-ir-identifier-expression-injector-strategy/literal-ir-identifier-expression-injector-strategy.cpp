@@ -26,5 +26,8 @@ llvm::Value* LiteralIRIdentifierExpressionInjectorStrategy::injectRef(IRIdentifi
 }
 
 llvm::Value* LiteralIRIdentifierExpressionInjectorStrategy::injectOperand(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue());
+    if (irOperationType == IR_OPERAND_VALUE_OP) {
+        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue());
+    }
+    return irExpression->getValue();
 }

@@ -6,5 +6,5 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-expression-statement-node.h"
 
 IRStatementNode* ExpressionStatementIRStrategy::generate(ASTExpressionStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    return new IRExpressionStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_OP));
+    return new IRExpressionStatementNode(node, irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_VALUE_OP));
 }

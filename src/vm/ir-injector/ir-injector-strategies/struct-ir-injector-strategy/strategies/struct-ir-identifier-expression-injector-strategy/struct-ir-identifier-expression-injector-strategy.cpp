@@ -33,5 +33,8 @@ llvm::Value* StructIRIdentifierExpressionInjectorStrategy::injectRef(IRIdentifie
 }
 
 llvm::Value* StructIRIdentifierExpressionInjectorStrategy::injectOperand(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+    if (irOperationType == IR_OPERAND_VALUE_OP) {
+        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue());
+    }
     return irExpression->getValue();
 }

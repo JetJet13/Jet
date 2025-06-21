@@ -5,6 +5,6 @@
 #include "function-return-expression-ir-strategy.h"
 
 IRFunctionReturnExpressionNode* FunctionReturnExpressionIRStrategy::generate(ASTFunctionReturnExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto irExpressionNode = irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_OP);
+    auto irExpressionNode = irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_VALUE_OP);
     return new IRFunctionReturnExpressionNode(node, irExpressionNode);
 }

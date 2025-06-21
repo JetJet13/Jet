@@ -96,9 +96,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
             irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
         );
     }
-    arguments.push_back(irExpression->getIRArrayValue()->getValue());
+    auto arrayValue = irInjector->inject(irBlock, irExpression->getIRArrayValue(), IR_OPERAND_VALUE_OP, irModule, scope);
+    arguments.push_back(arrayValue);
     auto typeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getSourceType());
-    arguments.push_back(typeValue);
+    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRArrayValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue);
+    arguments.push_back(loadedTypeValue);
     return irBlock->getBuilder()->get()->CreateCall(
             llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
             irExpression->getValue(),

@@ -8,8 +8,8 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 IRArrayAccessExpressionNode* ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(ASTArrayAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    auto sourceValue = irGenerator->generateFor(node->getSource(), scope, irContext, IR_OPERAND_OP);
-    auto indexValue = irGenerator->generateFor(node->getIndex()->getIndex(), scope, irContext, IR_OPERAND_OP);
+    auto sourceValue = irGenerator->generateFor(node->getSource(), scope, irContext, IR_OPERAND_VALUE_OP);
+    auto indexValue = irGenerator->generateFor(node->getIndex()->getIndex(), scope, irContext, IR_OPERAND_VALUE_OP);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
     return new IRArrayAccessExpressionNode(node, sourceValue, indexValue, irType, sourceAllocation);

@@ -141,9 +141,15 @@ proc ArrayPrototypeProcedure() {
 }
 
 func tupleTest(tupArg: tuple<func<int> => int, func<> => int, func<int> => int>) int {
-    const myTuple = tuple { 1, 2, true };
+    const myTuple = tuple { 1, 2, true, [7,7,7] };
     const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
     const lambdaTupleCall = lambdaTuple.1();
     const argLambdaTupleCall = tupArg.0(2);
+    const sevens = myTuple.3.take(2);
     return myTuple.1;
+}
+
+proc ArrayRefAccessProcedure() {
+    const myArray = [4, 3, 2];
+    const refTest = ref myArray[0];
 }
