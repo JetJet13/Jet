@@ -44,6 +44,7 @@ proc LambdaProc() {
         bar: () => 100,
         foo2: (x: int) int { return x + 5; }
     };
+    const xBar = lambdaStruct.bar();
 }
 
 proc mainX() {
@@ -139,9 +140,10 @@ proc ArrayPrototypeProcedure() {
     concatArrays.prepend(2);
 }
 
-func tupleTest() int {
+func tupleTest(tupArg: tuple<func<int> => int, func<> => int, func<int> => int>) int {
     const myTuple = tuple { 1, 2, true };
     const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
     const lambdaTupleCall = lambdaTuple.1();
+    const argLambdaTupleCall = tupArg.0(2);
     return myTuple.1;
 }

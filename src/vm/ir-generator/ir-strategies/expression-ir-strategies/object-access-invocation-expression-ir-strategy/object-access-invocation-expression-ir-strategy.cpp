@@ -4,7 +4,8 @@
 
 #include "object-access-invocation-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.h"
-#include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h"
 
 IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto arguments = std::vector<IRExpressionNode*>();
@@ -20,6 +21,9 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
         return new IRArrayPrototypeInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, irArrayExpression);
     }
 
-    // todo - add support for struct lambda's and other prototypes
-    throw std::logic_error("ObjectAccessInvocationExpressionIRStrategy failed");
+    auto irExpression = (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, IR_OPERAND_OP);
+    auto irFunctionType = irExpression->getTargetIRType();
+    auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    return new IRObjectAccessInvocationExpressionNode(node, irExpression, irFunctionType, arguments, irReturnType);
+
 }

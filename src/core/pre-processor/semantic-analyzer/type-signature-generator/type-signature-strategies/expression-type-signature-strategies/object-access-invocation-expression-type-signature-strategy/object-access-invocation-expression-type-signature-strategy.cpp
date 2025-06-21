@@ -11,11 +11,12 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
     for (auto argument : *objectAccessInvocationExpression->getArguments()->getArguments()) {
         strategyMap->assignTypeSignatureFor(argument->getArgument(), scope);
     }
+    strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getObjectAccess(), scope);
     if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
         objectAccessInvocationExpression->setTypeSignature(structSource->getTypeSignatureForKey(
                 objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
-        ));
+        )->getTargetTypeSignature());
         return;
     } else if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
         auto arraySource = (ArrayTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();

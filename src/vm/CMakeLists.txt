@@ -533,6 +533,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/tuple-access-invocation-expression-ir-strategy/tuple-access-invocation-expression-ir-strategy.h
         ir-nodes/ir-expression-nodes/ir-tuple-access-invocation-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-tuple-access-invocation-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h
 )
 
 target_link_libraries(jet-vm
