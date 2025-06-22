@@ -27,7 +27,6 @@
 #include "./expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
-#include "./expression-ir-strategies/ref-array-access-expression-ir-strategy/ref-array-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "./expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "./expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h"
@@ -107,7 +106,6 @@ IRStrategyMap::IRStrategyMap() {
     _ifStatementIRStrategy = new IfStatementIRStrategy();
     _whileStatementIRStrategy = new WhileStatementIRStrategy();
     _forInStatementIRStrategy = new ForInStatementIRStrategy();
-    _refArrayAccessExpressionIRStrategy = new RefArrayAccessExpressionIRStrategy();
     _refExpressionIRStrategy = new RefExpressionIRStrategy();
     _drefExpressionIRStrategy = new DrefExpressionIRStrategy();
     _srefExpressionIRStrategy = new SrefExpressionIRStrategy();
@@ -290,10 +288,6 @@ WhileStatementIRStrategy* IRStrategyMap::getWhileStatementIRStrategy() {
 
 ForInStatementIRStrategy* IRStrategyMap::getForInStatementIRStrategy() {
     return _forInStatementIRStrategy;
-}
-
-RefArrayAccessExpressionIRStrategy* IRStrategyMap::getRefArrayAccessExpressionIRStrategy() {
-    return _refArrayAccessExpressionIRStrategy;
 }
 
 RefExpressionIRStrategy* IRStrategyMap::getRefExpressionIRStrategy() {

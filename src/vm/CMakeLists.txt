@@ -535,14 +535,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-tuple-access-invocation-expression-node.h
         ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h
-        ir-nodes/ir-expression-nodes/ir-ref-array-access-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-ref-array-access-expression-node.h
-        ir-generator/ir-strategies/expression-ir-strategies/ref-array-access-expression-ir-strategy/ref-array-access-expression-ir-strategy.cpp
-        ir-generator/ir-strategies/expression-ir-strategies/ref-array-access-expression-ir-strategy/ref-array-access-expression-ir-strategy.h
-        ir-type/ir-ref-array-access-type.cpp
-        ir-type/ir-ref-array-access-type.h
-        ir-injector/ir-injector-strategies/ir-injector-helpers/ref-array-access-ir-injector-helper/ref-array-access-ir-injector-helper.cpp
-        ir-injector/ir-injector-strategies/ir-injector-helpers/ref-array-access-ir-injector-helper/ref-array-access-ir-injector-helper.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/dref-ir-injector-helper/dref-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/dref-ir-injector-helper/dref-ir-injector-helper.h
 )
 
 target_link_libraries(jet-vm

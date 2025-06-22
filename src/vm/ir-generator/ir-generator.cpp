@@ -29,7 +29,6 @@
 #include "ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
-#include "ir-strategies/expression-ir-strategies/ref-array-access-expression-ir-strategy/ref-array-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h"
@@ -216,13 +215,6 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getSrefExpressionIRStrategy()->generate((ASTSrefExpressionNode*)node,  this, scope, irContext, irOperationType);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
-}
-
-IRExpressionNode* IRGenerator::generateForRef(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getRefArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node,  this, scope, irContext, irOperationType);
-    }
-    return this->generateFor(node, scope, irContext, irOperationType);
 }
 
 IRExpressionNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
@@ -462,17 +454,6 @@ IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElement
 llvm::StructType* IRGenerator::generateArrayPointerType() {
     return llvm::StructType::get(*_context, {
             llvm::IntegerType::get(*_context, 32),
-            llvm::IntegerType::get(*_context, 32),
-            this->generatePointerType()
-    });
-}
-
-IRRefArrayAccessType* IRGenerator::generateIrRefArrayAccessType(IRType* arrayElementType) {
-    return new IRRefArrayAccessType(this->generateRefArrayAccessType(), arrayElementType);
-}
-
-llvm::StructType* IRGenerator::generateRefArrayAccessType() {
-    return llvm::StructType::get(*_context, {
             llvm::IntegerType::get(*_context, 32),
             this->generatePointerType()
     });

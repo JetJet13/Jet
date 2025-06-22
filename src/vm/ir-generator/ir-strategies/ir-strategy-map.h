@@ -44,7 +44,6 @@ class VariableAssignmentStatementIRStrategy;
 class IfStatementIRStrategy;
 class WhileStatementIRStrategy;
 class ForInStatementIRStrategy;
-class RefArrayAccessExpressionIRStrategy;
 class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
 class SrefExpressionIRStrategy;
@@ -112,7 +111,6 @@ private:
     IfStatementIRStrategy* _ifStatementIRStrategy;
     WhileStatementIRStrategy* _whileStatementIRStrategy;
     ForInStatementIRStrategy* _forInStatementIRStrategy;
-    RefArrayAccessExpressionIRStrategy* _refArrayAccessExpressionIRStrategy;
     RefExpressionIRStrategy* _refExpressionIRStrategy;
     DrefExpressionIRStrategy* _drefExpressionIRStrategy;
     SrefExpressionIRStrategy* _srefExpressionIRStrategy;
@@ -179,7 +177,6 @@ public:
     IfStatementIRStrategy* getIfStatementIRStrategy();
     WhileStatementIRStrategy* getWhileStatementIRStrategy();
     ForInStatementIRStrategy* getForInStatementIRStrategy();
-    RefArrayAccessExpressionIRStrategy* getRefArrayAccessExpressionIRStrategy();
     RefExpressionIRStrategy* getRefExpressionIRStrategy();
     DrefExpressionIRStrategy* getDrefExpressionIRStrategy();
     SrefExpressionIRStrategy* getSrefExpressionIRStrategy();

@@ -62,7 +62,6 @@
 #include "../ir-type/ir-type-value-type.h"
 #include "../ir-type/ir-ref-type.h"
 #include "../../core/type-signature/ref-type-signature/ref-type-signature.h"
-#include "../ir-type/ir-ref-array-access-type.h"
 
 class IRGenerator {
 private:
@@ -76,7 +75,6 @@ public:
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
-    IRExpressionNode* generateForRef(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
     IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
     IRType* generateTypeFor(llvm::Constant* constant);
@@ -113,8 +111,6 @@ public:
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
     llvm::StructType* generateArrayPointerType();
-    IRRefArrayAccessType* generateIrRefArrayAccessType(IRType* arrayElementType);
-    llvm::StructType* generateRefArrayAccessType();
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRBlockNode* generateIfBlock(IRContext* irContext, std::string prefix = "");
     IRBlockNode* generateIfThenBlock(IRContext* irContext, std::string prefix = "");

@@ -6,7 +6,6 @@ const foo = 500;
 let tempFoo = 10;
 tempFoo = 20;
 
-
 func TempFunction(x: int) int {
     let t = 100;
     t = 54;
@@ -147,9 +146,4 @@ func tupleTest(tupArg: tuple<func<int> => int, func<> => int, func<int> => int>)
     const argLambdaTupleCall = tupArg.0(2);
     const sevens = myTuple.3.take(2);
     return myTuple.1;
-}
-
-proc ArrayRefAccessProcedure() {
-    const myArray = [4, 3, 2];
-    const refTest = ref myArray[0];
 }
