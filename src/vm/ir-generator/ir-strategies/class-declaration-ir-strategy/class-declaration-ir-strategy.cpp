@@ -134,7 +134,7 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
 
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*) statement, methodScope, irContext), irContext->getIRModule(), methodScope);
+            irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTDeclarationNode*)statement, methodScope, irContext), irContext->getIRModule(), methodScope);
         } else if (ASTNodeUtils::isStatementNode(statement)) {
             irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, methodScope, irContext), irContext->getIRModule(), methodScope);
         }
