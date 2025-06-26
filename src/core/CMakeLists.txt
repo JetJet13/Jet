@@ -1188,6 +1188,36 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-access-invocation-expression-type-signature-strategy/tuple-access-invocation-expression-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-invocation-expression-type-checker-policy/tuple-access-invocation-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-invocation-expression-type-checker-policy/tuple-access-invocation-expression-type-checker-policy.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-name-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-name-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-definition-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-definition-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-property-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-property-node.h
+        type-signature/interface-property-type-signature/interface-property-type-signature.cpp
+        type-signature/interface-property-type-signature/interface-property-type-signature.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-start-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-start-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-end-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-end-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-property-list-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-property-list-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-definition-reducer-strategy/interface-definition-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-definition-reducer-strategy/interface-definition-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-property-reducer-strategy/interface-property-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-property-reducer-strategy/interface-property-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-property-list-reducer-strategy/interface-property-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-property-list-reducer-strategy/interface-property-list-reducer-strategy.h
+        ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.cpp
+        ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.h
+        ast/ast-nodes/ast-type-declaration-nodes/ast-type-declaration-node.cpp
+        ast/ast-nodes/ast-type-declaration-nodes/ast-type-declaration-node.h
+        type-signature/interface-type-signature/interface-type-signature.cpp
+        type-signature/interface-type-signature/interface-type-signature.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-type-declaration-reducer-strategy/interface-type-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-type-declaration-reducer-strategy/interface-type-declaration-reducer-strategy.h
 
 )
 

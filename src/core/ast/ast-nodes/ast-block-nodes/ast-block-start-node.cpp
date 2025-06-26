@@ -9,6 +9,7 @@
 #include "../ast-control-flow-nodes/ast-control-flow-start-node.h"
 #include "../ast-module-nodes/ast-module-list-start-node.h"
 #include "../ast-import-nodes/ast-import-module-list-start-node.h"
+#include "../ast-interface-nodes/ast-interface-start-node.h"
 
 ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_COMMA_NODE, AST_REF_NODE })) {
@@ -21,6 +22,10 @@ ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
 
     if (prevNode && prevNode.value()->isOneOf({ AST_TUPLE_NODE })) {
         return new ASTTupleListStartNode(_lexeme);
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_INTERFACE_NAME_NODE })) {
+        return new ASTInterfaceStartNode(_lexeme);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_MODULE_NAME_NODE })) {

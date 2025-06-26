@@ -8,6 +8,7 @@
 #include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
 #include "../ast-module-nodes/ast-module-list-end-node.h"
 #include "../ast-import-nodes/ast-import-module-list-end-node.h"
+#include "../ast-interface-nodes/ast-interface-end-node.h"
 
 ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                                 SyntaxAnalyzerMode mode) {
@@ -21,6 +22,10 @@ ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNod
 
     if (mode == SA_TUPLE_LIST_MODE) {
         return new ASTTupleListEndNode(_lexeme);
+    }
+
+    if (mode == SA_INTERFACE_MODE) {
+        return new ASTInterfaceEndNode(_lexeme);
     }
 
     if (mode == SA_MODULE_LIST_MODE) {

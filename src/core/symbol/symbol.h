@@ -96,6 +96,7 @@ public:
     bool isDref();
     bool isSref();
     bool isConcat();
+    bool isInterface();
     bool isThis();
     SymbolType getType();
     bool isSameAs(Symbol* symbol);

@@ -3,8 +3,6 @@
 //
 
 #include "ast-function-name-node.h"
-#include "../../../../shared/utils/logger/logger.h"
-
 
 ASTNodeType ASTFunctionNameNode::getNodeType() {
     return AST_FUNCTION_NAME_NODE;

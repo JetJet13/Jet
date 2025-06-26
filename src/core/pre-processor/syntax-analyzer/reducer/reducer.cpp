@@ -108,6 +108,10 @@
 #include "reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.h"
 #include "reducer-strategies/object-access-invocation-expression-reducer-strategy/object-access-invocation-expression-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-invocation-expression-reducer-strategy/tuple-access-invocation-expression-reducer-strategy.h"
+#include "reducer-strategies/interface-definition-reducer-strategy/interface-definition-reducer-strategy.h"
+#include "reducer-strategies/interface-property-reducer-strategy/interface-property-reducer-strategy.h"
+#include "reducer-strategies/interface-property-list-reducer-strategy/interface-property-list-reducer-strategy.h"
+#include "reducer-strategies/interface-type-declaration-reducer-strategy/interface-type-declaration-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -220,6 +224,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_SREF_EXPRESSION_NODE, new SrefExpressionReducerStrategy());
     this->addStrategy(AST_CONCAT_EXPRESSION_NODE, new ConcatExpressionReducerStrategy());
     this->addStrategy(AST_REF_TYPE_NODE, new RefTypeReducerStrategy());
+    this->addStrategy(AST_INTERFACE_DEFINITION_NODE, new InterfaceDefinitionReducerStrategy());
+    this->addStrategy(AST_INTERFACE_PROPERTY_NODE, new InterfacePropertyReducerStrategy());
+    this->addStrategy(AST_INTERFACE_PROPERTY_LIST_NODE, new InterfacePropertyListReducerStrategy());
+    this->addStrategy(AST_INTERFACE_TYPE_DECLARATION_NODE, new InterfaceTypeDeclarationReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

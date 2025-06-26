@@ -322,4 +322,8 @@ namespace SymbolFactory {
     Symbol* createConcatSymbol()  {
         return new Symbol(SYM_CONCAT, "++");
     }
+
+    Symbol* createInterfaceSymbol()  {
+        return new Symbol(SYM_INTERFACE, "interface");
+    }
 }

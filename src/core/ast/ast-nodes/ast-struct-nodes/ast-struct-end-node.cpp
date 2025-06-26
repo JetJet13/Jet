@@ -3,7 +3,6 @@
 //
 
 #include "ast-struct-end-node.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 ASTNodeType ASTStructEndNode::getNodeType() {
     return AST_STRUCT_END_NODE;

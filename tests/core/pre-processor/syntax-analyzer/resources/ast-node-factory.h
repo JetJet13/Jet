@@ -121,6 +121,10 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-sref-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-sref-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-concat-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-start-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-end-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -258,6 +262,7 @@ namespace ASTNodeFactory {
     static ASTLogicalOperatorNode* andOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol()));
     static ASTLogicalOperatorNode* orOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol()));
     static ASTConcatNode* concatOperator = new ASTConcatNode(createLexeme(SymbolFactory::createConcatSymbol()));
+    static ASTInterfaceNode* interfaceKeyword = new ASTInterfaceNode(createLexeme(SymbolFactory::createInterfaceSymbol()));
     static ASTUnaryExpressionNode* bangTrue = new ASTUnaryExpressionNode(
             ASTNodeFactory::bang,
             ASTNodeFactory::trueExpression
@@ -559,6 +564,11 @@ namespace ASTNodeFactory {
     static ASTConstNode* constKeyword = new ASTConstNode(
             createLexeme(SymbolFactory::createConstSymbol())
     );
+    static ASTInterfaceNameNode* interfaceName =  new ASTInterfaceNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTInterfaceStartNode* interfaceStart = new ASTInterfaceStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static ASTInterfaceEndNode* interfaceEnd = new ASTInterfaceEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
     static ASTArrayNode* createArray(std::vector<ASTExpressionNode*> elements) {
         return new ASTArrayNode(
             ASTNodeFactory::leftBracket,

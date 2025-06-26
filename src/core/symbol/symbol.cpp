@@ -337,6 +337,10 @@ bool Symbol::isConcat() {
     return _type == SYM_CONCAT;
 }
 
+bool Symbol::isInterface() {
+    return _type == SYM_INTERFACE;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }

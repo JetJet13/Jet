@@ -23,6 +23,7 @@
 #include "ast-class-nodes/ast-class-method-call-node.h"
 #include "ast-module-nodes/ast-module-access-target-node.h"
 #include "ast-module-nodes/ast-module-access-source-node.h"
+#include "ast-interface-nodes/ast-interface-name-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -61,6 +62,10 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
 
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE })) {
         return new ASTFunctionNameNode(this->getLexeme(), this->getId());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_INTERFACE_NODE })) {
+        return new ASTInterfaceNameNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {
