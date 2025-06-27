@@ -183,6 +183,13 @@ void SyntaxDfa::init() {
     DFANode* exportKeyword = DFANodeFactory::Once::create(AST_EXPORT_NODE);
     DFANode* concatOperator = DFANodeFactory::Once::create(AST_CONCAT_NODE);
     DFANode* concatExpression = DFANodeFactory::Once::create(AST_CONCAT_EXPRESSION_NODE);
+    DFANode* interfaceKeyword = DFANodeFactory::Once::create(AST_INTERFACE_NODE);
+    DFANode* interfaceName = DFANodeFactory::Once::create(AST_INTERFACE_NAME_NODE);
+    DFANode* interfaceDefinition = DFANodeFactory::Once::create(AST_INTERFACE_DEFINITION_NODE);
+    DFANode* interfacePropertyName = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_NAME_NODE);
+    DFANode* interfaceProperty = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_NODE);
+    DFANode* interfacePropertyList = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_LIST_NODE);
+    DFANode* interfaceColon = DFANodeFactory::Once::create(AST_INTERFACE_COLON_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -1208,7 +1215,27 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(varInit))
     ->addTransition(DFATransitionFactory::create(functionDefinition))
-    ->addTransition(DFATransitionFactory::create(procedureDefinition));
+    ->addTransition(DFATransitionFactory::create(procedureDefinition))
+    ->addTransition(DFATransitionFactory::create(interfaceDefinition));
+
+    interfaceKeyword
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INTERFACE_NAME_NODE, AST_INTERFACE_DEFINITION_NODE)));
+
+    interfaceDefinition
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INTERFACE_PROPERTY_LIST_NODE, AST_INTERFACE_TYPE_DECLARATION_NODE)));
+
+    interfaceColon
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_INTERFACE_PROPERTY_NAME_NODE })
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_INTERFACE_PROPERTY_NODE)));
+
+    interfacePropertyName
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(interfaceColon));
+
+    interfaceProperty
+    ->markAlwaysReduceSelf();
 
     _dfa
     ->insertStartNode(varDeclaration)
@@ -1386,6 +1413,15 @@ void SyntaxDfa::init() {
     ->insertStartNode(refExpression)
     ->insertStartNode(drefExpression)
     ->insertStartNode(srefExpression)
+    ->insertStartNode(interfaceKeyword)
+    ->insertStartNode(interfaceName)
+    ->insertStartNode(interfaceDefinition)
+    ->insertStartNode(interfaceProperty)
+    ->insertStartNode(interfacePropertyName)
+    ->insertStartNode(interfaceColon)
+    ->insertStartNode(interfacePropertyList)
+    ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({

@@ -14,6 +14,7 @@ namespace ASTNodeUtils {
             case AST_PROCEDURE_DECLARATION_NODE:
             case AST_ENUM_DECLARATION_NODE:
             case AST_CLASS_DECLARATION_NODE:
+            case AST_INTERFACE_TYPE_DECLARATION_NODE:
                 return true;
             default:
                 return false;
@@ -26,6 +27,7 @@ namespace ASTNodeUtils {
             case AST_FUNCTION_DECLARATION_NODE:
             case AST_PROCEDURE_DECLARATION_NODE:
             case AST_ENUM_DECLARATION_NODE:
+            case AST_INTERFACE_TYPE_DECLARATION_NODE:
             case AST_MODULE_DECLARATION_NODE:
             case AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE:
             case AST_USE_SINGLE_MODULE_DECLARATION_NODE:

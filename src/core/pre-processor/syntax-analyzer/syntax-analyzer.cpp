@@ -206,6 +206,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: ENUM_KEY_VALUE_LIST_MODE");
             _modeStack.push(SA_ENUM_KEY_VALUE_LIST_MODE);
             break;
+        case AST_INTERFACE_START_NODE:
+            Logger::log("pushing mode: INTERFACE_MODE");
+            _modeStack.push(SA_INTERFACE_MODE);
+            break;
         case AST_MODULE_LIST_START_NODE:
             Logger::log("pushing mode: MODULE_LIST_MODE");
             _modeStack.push(SA_MODULE_LIST_MODE);
@@ -243,6 +247,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_TUPLE_LIST_NODE:
         case AST_MODULE_LIST_NODE:
         case AST_IMPORT_MODULE_LIST_NODE:
+        case AST_INTERFACE_PROPERTY_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_IN_SOURCE_NODE:
             Logger::log("popping mode:", _modeStack.top());

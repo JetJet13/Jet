@@ -24,7 +24,7 @@ ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
         return new ASTTupleListStartNode(_lexeme);
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_INTERFACE_NAME_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_INTERFACE_DEFINITION_NODE })) {
         return new ASTInterfaceStartNode(_lexeme);
     }
 

@@ -1218,6 +1218,10 @@ add_library(jet-core
         type-signature/interface-type-signature/interface-type-signature.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-type-declaration-reducer-strategy/interface-type-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-type-declaration-reducer-strategy/interface-type-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-property-name-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-property-name-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-interface-colon-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-interface-colon-node.h
 
 )
 

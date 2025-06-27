@@ -7,12 +7,12 @@
 
 ASTNode* InterfacePropertyReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 3) {
-        throw std::invalid_argument("unable to reduce to interface property since nodes list is not of size 3 or 1");
+        throw std::invalid_argument("unable to reduce to interface property since nodes list is not of size 3");
     }
 
     return new ASTInterfacePropertyNode(
-            (ASTIdentifierExpressionNode*)nodes[0],
-            (ASTTypeColonNode*)nodes[1],
+            (ASTInterfacePropertyNameNode*)nodes[0],
+            (ASTInterfaceColonNode*)nodes[1],
             (ASTTypeNode*)nodes[2]
     );
 }

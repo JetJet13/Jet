@@ -495,3 +495,15 @@ const lambdaStruct = {
 };
 const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
 const lambdaTupleCall = lambdaTuple.1();
+
+interface MyInterface {
+    foo: int,
+    bar: boolean,
+    hello: func<> => string,
+}
+
+export interface MyOtherInterface {
+    foo: int,
+    bar: boolean,
+    hello: func<> => string,
+}

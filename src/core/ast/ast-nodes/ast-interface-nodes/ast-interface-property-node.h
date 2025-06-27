@@ -11,18 +11,19 @@
 #include "../../types/ast-node-type.h"
 #include "../ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
-#include "../ast-type-nodes/ast-type-colon-node.h"
 #include "../../../type-signature/interface-property-type-signature/interface-property-type-signature.h"
+#include "ast-interface-property-name-node.h"
+#include "ast-interface-colon-node.h"
 
 class ASTInterfacePropertyNode : public ASTNode {
 private:
-    ASTIdentifierExpressionNode* _identifier;
-    ASTTypeColonNode* _colon;
+    ASTInterfacePropertyNameNode* _name;
+    ASTInterfaceColonNode* _colon;
     ASTTypeNode* _type;
     InterfacePropertyTypeSignature* _typeSignature = new InterfacePropertyTypeSignature("_", new UnknownTypeSignature());
 public:
-    ASTInterfacePropertyNode(ASTIdentifierExpressionNode* identifier, ASTTypeColonNode* colon, ASTTypeNode* type);
-    ASTIdentifierExpressionNode* getIdentifier();
+    ASTInterfacePropertyNode(ASTInterfacePropertyNameNode* name, ASTInterfaceColonNode* colon, ASTTypeNode* type);
+    ASTInterfacePropertyNameNode* getName();
     ASTTypeNode* getType();
     void setTypeSignature(InterfacePropertyTypeSignature* typeSignature);
     InterfacePropertyTypeSignature* getTypeSignature() override;

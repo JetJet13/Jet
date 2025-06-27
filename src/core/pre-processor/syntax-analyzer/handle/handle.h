@@ -28,6 +28,7 @@ public:
     bool isFunctionParameterListEnclosed();
     bool isFunctionArgumentListEnclosed();
     bool isEnumKeyValueListEnclosed();
+    bool isInterfacePropertyListEnclosed();
     bool isTupleListEnclosed();
     bool isModuleListEnclosed();
     bool isImportModuleListEnclosed();

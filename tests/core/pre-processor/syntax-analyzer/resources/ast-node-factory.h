@@ -125,6 +125,10 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-start-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-end-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-definition-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-property-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-property-list-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-property-name-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -567,8 +571,30 @@ namespace ASTNodeFactory {
     static ASTInterfaceNameNode* interfaceName =  new ASTInterfaceNameNode(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
+    static ASTInterfaceDefinitionNode* interfaceDefinition =  new ASTInterfaceDefinitionNode(
+            ASTNodeFactory::interfaceKeyword,
+            ASTNodeFactory::interfaceName
+    );
     static ASTInterfaceStartNode* interfaceStart = new ASTInterfaceStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
     static ASTInterfaceEndNode* interfaceEnd = new ASTInterfaceEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static ASTInterfaceColonNode* interfaceColon = new ASTInterfaceColonNode(createLexeme(SymbolFactory::createColonSymbol()));
+    static ASTInterfacePropertyNameNode* interfacePropertyName = new ASTInterfacePropertyNameNode(
+            createLexeme(SymbolFactory::createIdentifierSymbol())
+    );
+    static ASTInterfacePropertyNode* createInterfaceProperty(ASTTypeNode* type) {
+        return new ASTInterfacePropertyNode(
+            ASTNodeFactory::interfacePropertyName,
+            ASTNodeFactory::interfaceColon,
+            type
+        );
+    }
+    static ASTInterfacePropertyListNode* createInterfacePropertyList(std::vector<ASTInterfacePropertyNode*> properties) {
+        return new ASTInterfacePropertyListNode(
+                ASTNodeFactory::interfaceStart,
+                properties,
+                ASTNodeFactory::interfaceEnd
+        );
+    }
     static ASTArrayNode* createArray(std::vector<ASTExpressionNode*> elements) {
         return new ASTArrayNode(
             ASTNodeFactory::leftBracket,

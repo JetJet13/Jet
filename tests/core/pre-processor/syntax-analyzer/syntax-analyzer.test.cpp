@@ -46,6 +46,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -3552,6 +3553,27 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::createFunctionArgumentList()
                 )
         )},
+        {229, new ASTInterfaceTypeDeclarationNode(
+                ASTNodeFactory::interfaceDefinition,
+                ASTNodeFactory::createInterfacePropertyList({
+                    ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::intType),
+                    ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::booleanType),
+                    ASTNodeFactory::createInterfaceProperty(
+                        ASTNodeFactory::createFunctionType(ASTNodeFactory::stringType)
+                    ),
+                })
+        )},
+        {230, new ASTInterfaceTypeDeclarationNode(
+                ASTNodeFactory::interfaceDefinition,
+                ASTNodeFactory::createInterfacePropertyList({
+                        ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::intType),
+                        ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::booleanType),
+                        ASTNodeFactory::createInterfaceProperty(
+                            ASTNodeFactory::createFunctionType(ASTNodeFactory::stringType)
+                        ),
+                }),
+                ASTNodeFactory::exportKeyword
+        )},
 
 };
 
@@ -3584,8 +3606,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 228);
-    for (int i = 0; i < 228; i++) {
+REQUIRE(fileScope->getScope().size() == 230);
+    for (int i = 0; i < 230; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         declaration->print();

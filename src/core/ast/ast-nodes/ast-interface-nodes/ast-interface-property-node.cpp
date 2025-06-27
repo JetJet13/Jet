@@ -6,17 +6,17 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTInterfacePropertyNode::ASTInterfacePropertyNode(ASTIdentifierExpressionNode* identifier, ASTTypeColonNode* colon, ASTTypeNode* type) {
-    _identifier = identifier;
+ASTInterfacePropertyNode::ASTInterfacePropertyNode(ASTInterfacePropertyNameNode* name, ASTInterfaceColonNode* colon, ASTTypeNode* type) {
+    _name = name;
     _colon = colon;
     _type = type;
-    _children.push_back(_identifier);
+    _children.push_back(_name);
     _children.push_back(_colon);
     _children.push_back(_type);
 }
 
-ASTIdentifierExpressionNode* ASTInterfacePropertyNode::getIdentifier() {
-    return _identifier;
+ASTInterfacePropertyNameNode* ASTInterfacePropertyNode::getName() {
+    return _name;
 }
 
 ASTTypeNode* ASTInterfacePropertyNode::getType() {
@@ -32,7 +32,7 @@ InterfacePropertyTypeSignature* ASTInterfacePropertyNode::getTypeSignature() {
 }
 
 Position* ASTInterfacePropertyNode::getStartPosition() {
-    return _identifier->getStartPosition();
+    return _name->getStartPosition();
 }
 
 Position* ASTInterfacePropertyNode::getEndPosition() {
@@ -52,20 +52,20 @@ bool ASTInterfacePropertyNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTInterfacePropertyNode*)other;
-    return this->getIdentifier()->isSameAs(otherNode->getIdentifier()) &&
+    return this->getName()->isSameAs(otherNode->getName()) &&
            this->getType()->isSameAs(otherNode->getType());
 }
 
 void ASTInterfacePropertyNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _identifier->print();
+    _name->print();
     _type->print();
     Logger::log("----------");
 }
 
 std::string ASTInterfacePropertyNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_identifier)
+    sourceCodeBuilder.add(_name)
     ->add(_colon)
     ->addWithWhitespace(_type);
     return sourceCodeBuilder.build();

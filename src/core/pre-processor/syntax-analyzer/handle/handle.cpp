@@ -94,6 +94,13 @@ bool Handle::isEnumKeyValueListEnclosed() {
     return this->first().value()->is(AST_ENUM_KEY_VALUE_LIST_START_NODE) && this->last().value()->is(AST_ENUM_KEY_VALUE_LIST_END_NODE);
 }
 
+bool Handle::isInterfacePropertyListEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_INTERFACE_START_NODE) && this->last().value()->is(AST_INTERFACE_END_NODE);
+}
+
 bool Handle::isTupleListEnclosed() {
     if (_handle.size() < 2) {
         return false;

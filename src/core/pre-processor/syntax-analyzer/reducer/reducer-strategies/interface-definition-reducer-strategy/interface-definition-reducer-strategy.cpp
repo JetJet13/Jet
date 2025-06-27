@@ -6,8 +6,8 @@
 #include "../../../../../ast/ast-nodes/ast-interface-nodes/ast-interface-definition-node.h"
 
 ASTNode* InterfaceDefinitionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() != 4) {
-        throw std::invalid_argument("unable to reduce to interface definition since nodes list is not of size 4");
+    if (nodes.size() != 2) {
+        throw std::invalid_argument("unable to reduce to interface definition since nodes list is not of size 2");
     }
 
     return new ASTInterfaceDefinitionNode(

@@ -30,6 +30,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_FUNCTION_ARGUMENT_LIST_NODE);
     } else if (handle->isEnumKeyValueListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ENUM_KEY_VALUE_LIST_NODE);
+    } else if (handle->isInterfacePropertyListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_INTERFACE_PROPERTY_LIST_NODE);
     } else if (handle->isTupleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     } else if (handle->isModuleListEnclosed()) {
@@ -110,6 +112,8 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
            AST_RIGHT_BRACKET_NODE,
            AST_GROUP_END_NODE,
            AST_STRUCT_END_NODE,
+           AST_INTERFACE_PROPERTY_LIST_NODE,
+           AST_INTERFACE_END_NODE,
            AST_FUNCTION_BLOCK_NODE,
            AST_FUNCTION_PARAMETER_LIST_END_NODE,
            AST_FUNCTION_ARGUMENT_LIST_END_NODE,
@@ -138,6 +142,7 @@ bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optiona
         lastReducedNode.value()->isOneOf({
                                                  AST_BLOCK_NODE,
                                                  AST_ENUM_KEY_VALUE_LIST_NODE,
+                                                 AST_INTERFACE_PROPERTY_LIST_NODE,
                                                  AST_MODULE_LIST_NODE,
                                                  AST_IMPORT_MODULE_LIST_NODE,
                                                  AST_ELSE_BLOCK_NODE,
