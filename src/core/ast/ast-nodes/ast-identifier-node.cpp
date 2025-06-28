@@ -25,6 +25,7 @@
 #include "ast-module-nodes/ast-module-access-source-node.h"
 #include "ast-interface-nodes/ast-interface-name-node.h"
 #include "ast-interface-nodes/ast-interface-property-name-node.h"
+#include "ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -123,6 +124,10 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
 
     if (mode == SA_INTERFACE_MODE) {
         return new ASTInterfacePropertyNameNode(this->getLexeme(), this->getId());
+    }
+
+    if (mode == SA_STRUCT_TYPE_MODE) {
+        return new ASTStructTypeKeyNode(this->getLexeme(), this->getId());
     }
 
     if (mode == SA_TYPE_PARAMETER_LIST_MODE) {

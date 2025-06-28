@@ -1222,6 +1222,22 @@ add_library(jet-core
         ast/ast-nodes/ast-interface-nodes/ast-interface-property-name-node.h
         ast/ast-nodes/ast-interface-nodes/ast-interface-colon-node.cpp
         ast/ast-nodes/ast-interface-nodes/ast-interface-colon-node.h
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-start-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-start-node.h
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-end-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-end-node.h
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-colon-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-colon-node.h
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-node.h
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-value-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-value-node.h
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-reducer-strategy/struct-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-reducer-strategy/struct-type-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-key-value-reducer-strategy/struct-type-key-value-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-key-value-reducer-strategy/struct-type-key-value-reducer-strategy.h
 
 )
 

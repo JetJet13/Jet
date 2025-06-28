@@ -190,6 +190,9 @@ void SyntaxDfa::init() {
     DFANode* interfaceProperty = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_NODE);
     DFANode* interfacePropertyList = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_LIST_NODE);
     DFANode* interfaceColon = DFANodeFactory::Once::create(AST_INTERFACE_COLON_NODE);
+    DFANode* structTypeKey = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_NODE);
+    DFANode* structTypeKeyValue = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_VALUE_NODE);
+    DFANode* structTypeColon = DFANodeFactory::Once::create(AST_STRUCT_TYPE_COLON_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -1237,6 +1240,19 @@ void SyntaxDfa::init() {
     interfaceProperty
     ->markAlwaysReduceSelf();
 
+    structTypeColon
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_STRUCT_TYPE_KEY_NODE })
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_STRUCT_TYPE_KEY_VALUE_NODE)));
+
+    structTypeKey
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(structTypeColon));
+
+    structTypeKeyValue
+    ->markAlwaysReduceSelf();
+
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -1420,8 +1436,13 @@ void SyntaxDfa::init() {
     ->insertStartNode(interfacePropertyName)
     ->insertStartNode(interfaceColon)
     ->insertStartNode(interfacePropertyList)
+    ->insertStartNode(structTypeColon)
+    ->insertStartNode(structTypeKey)
+    ->insertStartNode(structTypeKeyValue)
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_STRUCT_TYPE_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_STRUCT_TYPE_END_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({

@@ -3,7 +3,6 @@
 //
 
 #include "ast-struct-start-node.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 ASTNodeType ASTStructStartNode::getNodeType() {
     return AST_STRUCT_START_NODE;

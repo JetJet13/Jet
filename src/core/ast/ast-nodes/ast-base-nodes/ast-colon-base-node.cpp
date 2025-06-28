@@ -6,6 +6,7 @@
 #include "../ast-type-nodes/ast-type-colon-node.h"
 #include "../ast-struct-nodes/ast-struct-colon-node.h"
 #include "../ast-interface-nodes/ast-interface-colon-node.h"
+#include "../ast-type-nodes/ast-struct-type-nodes/ast-struct-type-colon-node.h"
 
 ASTNode* ASTColonBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE ||
@@ -20,6 +21,10 @@ ASTNode* ASTColonBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNod
 
     if (mode == SA_INTERFACE_MODE) {
         return new ASTInterfaceColonNode(_lexeme);
+    }
+
+    if (mode == SA_STRUCT_TYPE_MODE) {
+        return new ASTStructTypeColonNode(_lexeme);
     }
     return this;
 }

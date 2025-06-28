@@ -595,6 +595,10 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::interfaceEnd
         );
     }
+    static ASTStructTypeStartNode* structTypeStart = new ASTStructTypeStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static ASTStructTypeEndNode* structTypeEnd = new ASTStructTypeEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static ASTStructTypeKeyNode* structTypeKey = new ASTStructTypeKeyNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static ASTStructTypeColonNode* structTypeColon = new ASTStructTypeColonNode(createLexeme(SymbolFactory::createColonSymbol()));
     static ASTArrayNode* createArray(std::vector<ASTExpressionNode*> elements) {
         return new ASTArrayNode(
             ASTNodeFactory::leftBracket,
@@ -738,6 +742,20 @@ namespace ASTNodeFactory {
                     ASTNodeFactory::createTypeParameterList(items)
                 )
         );
+    }
+    static ASTStructTypeKeyValueNode* createStructTypeKeyValue(ASTTypeNode* type) {
+        return new ASTStructTypeKeyValueNode(
+                ASTNodeFactory::structTypeKey,
+                ASTNodeFactory::structTypeColon,
+                type
+        );
+    }
+    static ASTTypeNode* createStructType(std::vector<ASTStructTypeKeyValueNode*> items = {}) {
+        return ASTTypeNodeFactory::createStructTypeNode(new ASTStructTypeNode(
+                ASTNodeFactory::structTypeStart,
+                items,
+                ASTNodeFactory::structTypeEnd
+        ));
     }
     static ASTTypeNode* createFunctionType(std::vector<ASTTypeNode*> items, ASTTypeNode* returnType) {
         return ASTTypeNodeFactory::createFunctionTypeNode(new ASTFunctionTypeNode(

@@ -25,6 +25,7 @@ public:
     bool isGroupEnclosed();
     bool isArrayEnclosed();
     bool isStructEnclosed();
+    bool isStructTypeEnclosed();
     bool isFunctionParameterListEnclosed();
     bool isFunctionArgumentListEnclosed();
     bool isEnumKeyValueListEnclosed();

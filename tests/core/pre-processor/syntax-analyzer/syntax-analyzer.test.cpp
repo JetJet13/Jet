@@ -3561,6 +3561,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createInterfaceProperty(
                         ASTNodeFactory::createFunctionType(ASTNodeFactory::stringType)
                     ),
+                    ASTNodeFactory::createInterfaceProperty(
+                        ASTNodeFactory::createStructType({
+                             ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                             ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                        })
+                    ),
                 })
         )},
         {230, new ASTInterfaceTypeDeclarationNode(
@@ -3571,8 +3577,41 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::createInterfaceProperty(
                             ASTNodeFactory::createFunctionType(ASTNodeFactory::stringType)
                         ),
+                        ASTNodeFactory::createInterfaceProperty(
+                            ASTNodeFactory::createStructType({
+                                ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                                ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                            })
+                        ),
+                        ASTNodeFactory::createInterfaceProperty(
+                                ASTNodeFactory::createFunctionType(
+                                    {
+                                        ASTNodeFactory::createStructType({
+                                            ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                                            ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                                        }),
+                                        ASTNodeFactory::createStructType({
+                                             ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::booleanType),
+                                             ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::charType),
+                                        })
+                                    },
+                                    ASTNodeFactory::stringType
+                                )
+                        ),
                 }),
                 ASTNodeFactory::exportKeyword
+        )},
+        {231, new ASTVariableDeclarationNode(
+                ASTNodeFactory::createConstInitWithType(
+                    ASTNodeFactory::createStructType({
+                         ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::booleanType),
+                         ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::charType),
+                     })
+                ),
+                ASTNodeFactory::createStructExpression({
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression),
+                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::charExpression),
+                })
         )},
 
 };
@@ -3606,14 +3645,16 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 230);
-    for (int i = 0; i < 230; i++) {
+REQUIRE(fileScope->getScope().size() == 231);
+    for (int i = 0; i < 231; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
+        Logger::log("----ACTUAL----");
         declaration->print();
         auto result = declaration->isSameAs(expectedNodes[i + 1]);
         Logger::log("RESULT =", result);
         if (!result) {
+            Logger::log("----EXPECTED----");
             expectedNodes[i + 1]->print();
         }
         REQUIRE(result == true);
