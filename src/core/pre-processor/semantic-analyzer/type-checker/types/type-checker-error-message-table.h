@@ -177,6 +177,18 @@ namespace TypeCheckerErrorMessageTable {
     static std::string RefExpressionTypeInvalid(ASTNode* node) {
         return "ref expression cannot have type ref/pointer  \n" + node->toSourceCode();
     }
+    static std::string InterfacePropertyTypeUnknown(ASTNode* node) {
+        return "interface property type is unknown \n" + node->toSourceCode();
+    }
+    static std::string InterfacePropertyTypeInvalid(ASTNode* node) {
+        return "interface property type is invalid \n" + node->toSourceCode();
+    }
+    static std::string InterfacePropertyTypeVoid(ASTNode* node) {
+        return "interface property type cannot be void \n" + node->toSourceCode();
+    }
+    static std::string InterfacePropertyNamesNotUnique(ASTNode* node) {
+        return "interface property names must be unique \n" + node->toSourceCode();
+    }
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

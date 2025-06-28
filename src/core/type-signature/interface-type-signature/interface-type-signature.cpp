@@ -5,6 +5,7 @@
 #include "interface-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 #include "../unknown-type-signature/unknown-type-signature.h"
+#include "../struct-type-signature/struct-type-signature.h"
 
 InterfaceTypeSignature::InterfaceTypeSignature() {
     _properties = TypeSignatureMap<TypeSignature>();
@@ -57,6 +58,16 @@ bool InterfaceTypeSignature::isEqualTo(TypeSignature* otherType) {
 
     auto other = (InterfaceTypeSignature*)otherType;
     return this->getKeyValuePairs()->isEqualTo(other->getKeyValuePairs());
+}
+
+bool InterfaceTypeSignature::isEquivalentTo(TypeSignature *otherType) {
+    if (otherType->typeSourceIs(STRUCT_TYPE_SOURCE)){
+        auto structTypeSignature = (StructTypeSignature*)otherType;
+        auto result = this->getKeyValuePairs()->isEquivalentTo(structTypeSignature->getKeyValuePairs());
+        Logger::log("InterfaceTypeSignature::isEquivalentTo result", result);
+        return result;
+    }
+    return this->isEqualTo(otherType);
 }
 
 void InterfaceTypeSignature::print() {

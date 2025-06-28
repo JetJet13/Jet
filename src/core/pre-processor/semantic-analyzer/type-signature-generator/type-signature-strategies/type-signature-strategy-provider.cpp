@@ -35,6 +35,7 @@
 #include "expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
@@ -67,6 +68,8 @@
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
+#include "interface-type-signature-strategy/interface-type-signature-strategy.h"
+#include "interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
 
 
@@ -124,6 +127,16 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
                     ->getFunctionTypeSignatureStrategy()
                     ->assign((ASTFunctionDeclarationNode *) node, typeSignatureScope, this);
             break;
+        case AST_INTERFACE_TYPE_DECLARATION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getInterfaceTypeSignatureStrategy()
+                    ->assign((ASTInterfaceTypeDeclarationNode*) node, typeSignatureScope, this);
+            break;
+        case AST_INTERFACE_PROPERTY_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getInterfacePropertyTypeSignatureStrategy()
+                    ->assign((ASTInterfacePropertyNode*) node, typeSignatureScope, this);
+            break;
         case AST_TYPE_NODE:
             this->_typeSignatureStrategyMap
                     ->getTypeTypeSignatureStrategy()
@@ -148,6 +161,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getArrayTypeTypeSignatureStrategy()
                     ->assign((ASTArrayTypeNode *) node, typeSignatureScope, this);
+            break;
+        case AST_STRUCT_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getStructTypeTypeSignatureStrategy()
+                    ->assign((ASTStructTypeNode *) node, typeSignatureScope, this);
             break;
         case AST_TUPLE_TYPE_NODE:
             this->_typeSignatureStrategyMap

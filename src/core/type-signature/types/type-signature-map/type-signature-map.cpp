@@ -81,6 +81,24 @@ bool TypeSignatureMap<T>::isEqualTo(TypeSignatureMap<T>* other) {
 }
 
 template<class T>
+bool TypeSignatureMap<T>::isEquivalentTo(TypeSignatureMap<T>* other) {
+    if (this->size() != other->size()) {
+        return false;
+    }
+
+    for (const auto& type : _typeSignatureMap) {
+        if (!other->find(type.first)) {
+            return false;
+        }
+
+        if (!other->find(type.first).value()->isEquivalentTo(type.second)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template<class T>
 std::vector<std::pair<std::string, T*>> TypeSignatureMap<T>::getKeyValues() {
     auto keyValues = std::vector<std::pair<std::string, T*>>();
     for (auto key : _typeSignatureKeyList) {

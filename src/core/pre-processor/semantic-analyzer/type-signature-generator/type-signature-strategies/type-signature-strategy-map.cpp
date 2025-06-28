@@ -34,6 +34,7 @@
 #include "expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
@@ -63,6 +64,8 @@
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
+#include "interface-type-signature-strategy/interface-type-signature-strategy.h"
+#include "interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
@@ -106,6 +109,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _primitiveTypeTypeSignatureStrategy = new PrimitiveTypeTypeSignatureStrategy();
     _customTypeTypeSignatureStrategy = new CustomTypeTypeSignatureStrategy();
     _arrayTypeTypeSignatureStrategy = new ArrayTypeTypeSignatureStrategy();
+    _structTypeTypeSignatureStrategy = new StructTypeTypeSignatureStrategy();
     _tupleTypeTypeSignatureStrategy = new TupleTypeTypeSignatureStrategy();
     _refTypeTypeSignatureStrategy = new RefTypeTypeSignatureStrategy();
     _functionTypeTypeSignatureStrategy = new FunctionTypeTypeSignatureStrategy();
@@ -134,6 +138,8 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _ifStatementTypeSignatureStrategy = new IfStatementTypeSignatureStrategy();
     _importTypeSignatureStrategy = new ImportTypeSignatureStrategy();
     _moduleTypeSignatureStrategy = new ModuleTypeSignatureStrategy();
+    _interfaceTypeSignatureStrategy = new InterfaceTypeSignatureStrategy();
+    _interfacePropertyTypeSignatureStrategy = new InterfacePropertyTypeSignatureStrategy();
     _arrayAccessAssignmentStatementTypeSignatureStrategy = new ArrayAccessAssignmentStatementTypeSignatureStrategy();
 }
 
@@ -281,6 +287,10 @@ ArrayTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayTypeTypeSignat
     return this->_arrayTypeTypeSignatureStrategy;
 }
 
+StructTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getStructTypeTypeSignatureStrategy() {
+    return this->_structTypeTypeSignatureStrategy;
+}
+
 TupleTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleTypeTypeSignatureStrategy() {
     return this->_tupleTypeTypeSignatureStrategy;
 }
@@ -388,4 +398,10 @@ ImportTypeSignatureStrategy* TypeSignatureStrategyMap::getImportTypeSignatureStr
 }
 ModuleTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleTypeSignatureStrategy() {
     return this->_moduleTypeSignatureStrategy;
+}
+InterfaceTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfaceTypeSignatureStrategy() {
+    return this->_interfaceTypeSignatureStrategy;
+}
+InterfacePropertyTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfacePropertyTypeSignatureStrategy() {
+    return this->_interfacePropertyTypeSignatureStrategy;
 }

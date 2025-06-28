@@ -20,6 +20,7 @@
 #include "../../../../src/core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
+#include "../../../../src/core/type-signature/interface-type-signature/interface-type-signature.h"
 
 auto colorEnumTypeSignature = new EnumTypeSignature(
         TypeSignatureFactory::stringLiteral,
@@ -31,6 +32,30 @@ auto colorEnumTypeSignature = new EnumTypeSignature(
 
 auto otherClassTypeSignature = new ClassTypeSignature();
 auto myClassTypeSignature = new ClassTypeSignature();
+auto myInterfaceTypeSignature = new InterfaceTypeSignature(
+        TypeSignatureMap<TypeSignature>({
+            std::pair("foo", TypeSignatureFactory::intLiteral),
+            std::pair("bar", TypeSignatureFactory::boolLiteral),
+            std::pair("hello", new FunctionLambdaTypeSignature(TypeSignatureFactory::stringLiteral)),
+            std::pair("structure", new StructTypeSignature(TypeSignatureMap<TypeSignature>({
+                                           std::pair("a", TypeSignatureFactory::intLiteral),
+                                           std::pair("b", TypeSignatureFactory::intLiteral),
+                                    })
+            )),
+            std::pair("bye", new FunctionLambdaTypeSignature({
+                                 new StructTypeSignature(TypeSignatureMap<TypeSignature>({
+                                     std::pair("a", TypeSignatureFactory::intLiteral),
+                                     std::pair("b", TypeSignatureFactory::intLiteral),
+                                 })),
+                                 new StructTypeSignature(TypeSignatureMap<TypeSignature>({
+                                     std::pair("c", TypeSignatureFactory::boolLiteral),
+                                     std::pair("d", TypeSignatureFactory::charLiteral),
+                                 })),
+                                },
+                                TypeSignatureFactory::stringLiteral
+            )),
+            std::pair("myClassInstance", myClassTypeSignature),
+        }));
 
 std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
 
@@ -646,7 +671,35 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                                  TypeSignatureFactory::intLiteral
                          )
             })},
-            {170, TypeSignatureFactory::intLiteral}
+            {170, TypeSignatureFactory::intLiteral},
+            {171, myInterfaceTypeSignature},
+            {172, new StructTypeSignature(
+                        TypeSignatureMap<TypeSignature>({
+                            std::pair("a", TypeSignatureFactory::boolLiteral),
+                            std::pair("c", TypeSignatureFactory::charLiteral),
+                        })
+                    )
+            },
+            {173, myInterfaceTypeSignature},
+            {174, new ProcedureTypeSignature(
+                    new ParameterListTypeSignature({
+                       new ParameterListItemTypeSignature(
+                           "myStruct",
+                           new StructTypeSignature(
+                                   TypeSignatureMap<TypeSignature>({
+                                        std::pair("a", TypeSignatureFactory::boolLiteral),
+                                        std::pair("b", new StructTypeSignature(
+                                                TypeSignatureMap<TypeSignature>({
+                                                    std::pair("foo", TypeSignatureFactory::intLiteral),
+                                                    std::pair("bar", TypeSignatureFactory::boolLiteral),
+                                                })
+                                        )),
+                                   })
+                           )
+                       )
+                   })
+            )},
+
     };
 }
 
@@ -664,7 +717,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
-    for (int i = 0; i < 169; i++) {
+    for (int i = 0; i < 173; i++) {
         auto declaration = fileNode->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         auto expectedTypeSignature = expectedTypeSignatures[i + 1];

@@ -3598,6 +3598,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     ASTNodeFactory::stringType
                                 )
                         ),
+                        ASTNodeFactory::createInterfaceProperty(
+                                ASTNodeFactory::idType
+                        )
                 }),
                 ASTNodeFactory::exportKeyword
         )},
@@ -3612,6 +3615,25 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression),
                     ASTNodeFactory::createStructKeyValue(ASTNodeFactory::charExpression),
                 })
+        )},
+        {232, new ASTProcedureDeclarationNode(
+                ASTNodeFactory::createProcedureDefinition(
+                        ASTNodeFactory::functionName,
+                        ASTNodeFactory::createFunctionParameterList(
+                        {
+                            ASTNodeFactory::createFunctionParameter(
+                                ASTNodeFactory::createStructType({
+                                    ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::booleanType),
+                                    ASTNodeFactory::createStructTypeKeyValue(
+                                        ASTNodeFactory::createStructType({
+                                            ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                                            ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::booleanType),
+                                        })
+                                    ),
+                            }))
+                        }
+                )),
+                ASTNodeFactory::createFunctionBlock({})
         )},
 
 };
@@ -3645,8 +3667,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 231);
-    for (int i = 0; i < 231; i++) {
+REQUIRE(fileScope->getScope().size() == 232);
+    for (int i = 0; i < 232; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

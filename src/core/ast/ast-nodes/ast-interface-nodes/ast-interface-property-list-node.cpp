@@ -25,7 +25,7 @@ ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(ASTInterfaceStartNode
     }
 }
 
-std::vector<ASTInterfacePropertyNode*> ASTInterfacePropertyListNode::getParameters() {
+std::vector<ASTInterfacePropertyNode*> ASTInterfacePropertyListNode::getProperties() {
     return _properties;
 }
 
@@ -60,7 +60,7 @@ bool ASTInterfacePropertyListNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTInterfacePropertyListNode*)other;
-    auto otherNodeElements = otherNode->getParameters();
+    auto otherNodeElements = otherNode->getProperties();
     if (this->numProperties() != otherNode->numProperties()) {
         return false;
     }

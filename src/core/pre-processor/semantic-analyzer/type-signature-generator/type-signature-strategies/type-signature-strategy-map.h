@@ -41,6 +41,7 @@ class TypeTypeSignatureStrategy;
 class PrimitiveTypeTypeSignatureStrategy;
 class CustomTypeTypeSignatureStrategy;
 class ArrayTypeTypeSignatureStrategy;
+class StructTypeTypeSignatureStrategy;
 class TupleTypeTypeSignatureStrategy;
 class FunctionTypeTypeSignatureStrategy;
 class ProcedureTypeTypeSignatureStrategy;
@@ -69,6 +70,8 @@ class TryStatementTypeSignatureStrategy;
 class IfStatementTypeSignatureStrategy;
 class ImportTypeSignatureStrategy;
 class ModuleTypeSignatureStrategy;
+class InterfaceTypeSignatureStrategy;
+class InterfacePropertyTypeSignatureStrategy;
 class LambdaExpressionScopeParameterTypeSignatureStrategy;
 class ClassScopeParameterTypeSignatureStrategy;
 class ArrayAccessAssignmentStatementTypeSignatureStrategy;
@@ -111,6 +114,7 @@ private:
     PrimitiveTypeTypeSignatureStrategy* _primitiveTypeTypeSignatureStrategy;
     CustomTypeTypeSignatureStrategy* _customTypeTypeSignatureStrategy;
     ArrayTypeTypeSignatureStrategy* _arrayTypeTypeSignatureStrategy;
+    StructTypeTypeSignatureStrategy* _structTypeTypeSignatureStrategy;
     TupleTypeTypeSignatureStrategy* _tupleTypeTypeSignatureStrategy;
     RefTypeTypeSignatureStrategy* _refTypeTypeSignatureStrategy;
     FunctionTypeTypeSignatureStrategy* _functionTypeTypeSignatureStrategy;
@@ -139,6 +143,8 @@ private:
     IfStatementTypeSignatureStrategy* _ifStatementTypeSignatureStrategy;
     ImportTypeSignatureStrategy* _importTypeSignatureStrategy;
     ModuleTypeSignatureStrategy* _moduleTypeSignatureStrategy;
+    InterfaceTypeSignatureStrategy* _interfaceTypeSignatureStrategy;
+    InterfacePropertyTypeSignatureStrategy* _interfacePropertyTypeSignatureStrategy;
     ArrayAccessAssignmentStatementTypeSignatureStrategy* _arrayAccessAssignmentStatementTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
@@ -178,6 +184,7 @@ public:
     PrimitiveTypeTypeSignatureStrategy* getPrimitiveTypeTypeSignatureStrategy();
     CustomTypeTypeSignatureStrategy* getCustomTypeTypeSignatureStrategy();
     ArrayTypeTypeSignatureStrategy* getArrayTypeTypeSignatureStrategy();
+    StructTypeTypeSignatureStrategy* getStructTypeTypeSignatureStrategy();
     TupleTypeTypeSignatureStrategy* getTupleTypeTypeSignatureStrategy();
     RefTypeTypeSignatureStrategy* getRefTypeTypeSignatureStrategy();
     FunctionTypeTypeSignatureStrategy* getFunctionTypeTypeSignatureStrategy();
@@ -207,6 +214,8 @@ public:
     IfStatementTypeSignatureStrategy* getIfStatementTypeSignatureStrategy();
     ImportTypeSignatureStrategy* getImportTypeSignatureStrategy();
     ModuleTypeSignatureStrategy* getModuleTypeSignatureStrategy();
+    InterfaceTypeSignatureStrategy* getInterfaceTypeSignatureStrategy();
+    InterfacePropertyTypeSignatureStrategy* getInterfacePropertyTypeSignatureStrategy();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H

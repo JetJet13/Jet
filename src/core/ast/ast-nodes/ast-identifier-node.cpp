@@ -53,6 +53,10 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTClassPropertyNameNode(this->getLexeme(), this->getId());
     }
 
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE })) {
+        return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
+    }
+
     if (prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE }) &&
         nextNode && nextNode.value()->is(AST_GROUP_START_NODE)) {
         return new ASTClassMethodNameNode(this->getLexeme(), this->getId());
@@ -74,9 +78,6 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTEnumNameNode(this->getLexeme(), this->getId());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE }) && mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
-        return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
-    }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());

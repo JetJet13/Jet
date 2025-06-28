@@ -509,6 +509,9 @@ export interface MyOtherInterface {
     hello: func<> => string,
     structure: { a: int, b: int },
     bye: func<{ a: int, b: int }, { c: boolean, d: char }> => string
+    custom: CustomType
 }
 
 const structure: { a: boolean, c: char } = { a: true, c: 'n' };
+
+proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}

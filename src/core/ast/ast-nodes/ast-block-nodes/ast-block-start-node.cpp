@@ -22,7 +22,7 @@ ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
     }
 
     if (mode == SA_TYPE_PARAMETER_LIST_MODE ||
-        (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE }))
+        (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE }))
         ) {
         return new ASTStructTypeStartNode(_lexeme);
     }

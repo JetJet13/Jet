@@ -1238,6 +1238,18 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-reducer-strategy/struct-type-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-key-value-reducer-strategy/struct-type-key-value-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-key-value-reducer-strategy/struct-type-key-value-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/interface-type-signature-strategy/interface-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/interface-type-signature-strategy/interface-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/interface-type-checker-policy/interface-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/interface-type-checker-policy/interface-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/interface-type-declaration-id-strategy/interface-type-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/interface-type-declaration-id-strategy/interface-type-declaration-id-strategy.h
 
 )
 

@@ -15,7 +15,7 @@ ASTFileNode* PreProcessor::buildFile(std::string filePath, FileScope* fileScope)
     auto fileNode = new ASTFileNode(std::move(fileScope->getScope()), filePath, fileScope->getImports(), fileScope->getModule());
     fileNode->markGlobalVariables();
     fileNode->hoistTypes({ AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE });
-    fileNode->hoistTypes({ AST_ENUM_DECLARATION_NODE });
+    fileNode->hoistTypes({ AST_ENUM_DECLARATION_NODE, AST_INTERFACE_TYPE_DECLARATION_NODE });
     fileNode->setupModuleIfNecessary();
     return fileNode;
 }

@@ -19,7 +19,7 @@ private:
 public:
     ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, ASTInterfaceEndNode* endNode);
     ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, std::vector<ASTInterfacePropertyNode*> properties, ASTInterfaceEndNode* endNode);
-    std::vector<ASTInterfacePropertyNode*> getParameters();
+    std::vector<ASTInterfacePropertyNode*> getProperties();
     unsigned long numProperties();
     ASTInterfacePropertyListNode* addProperty(ASTInterfacePropertyNode* property);
     Position* getStartPosition() override;

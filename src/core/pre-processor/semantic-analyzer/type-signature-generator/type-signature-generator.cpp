@@ -3,8 +3,8 @@
 //
 
 #include "type-signature-generator.h"
-#include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 #include "../../../type-signature/module-type-signature/module-type-signature.h"
+#include "../../../type-signature/interface-type-signature/interface-type-signature.h"
 
 TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider) {
     _typeSignatureStrategyProvider = typeSignatureStrategyProvider;
@@ -22,6 +22,8 @@ TypeSignature* TypeSignatureGenerator::generateInitialTypeSignatureForTypeDeclar
             return (new ClassTypeSignature())->setId(node->getId());
         case AST_MODULE_DECLARATION_NODE:
             return (new ModuleTypeSignature())->setId(node->getId());
+        case AST_INTERFACE_TYPE_DECLARATION_NODE:
+            return (new InterfaceTypeSignature())->setId(node->getId());
         default:
             return (new UnknownTypeSignature())->setId(node->getId());
     }

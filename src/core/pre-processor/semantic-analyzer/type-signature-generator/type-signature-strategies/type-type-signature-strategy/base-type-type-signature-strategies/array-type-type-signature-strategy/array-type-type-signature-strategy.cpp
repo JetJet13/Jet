@@ -4,7 +4,6 @@
 
 #include "array-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/array-type-signature/array-type-signature.h"
-#include "../../../../../../../../shared/utils/logger/logger.h"
 
 void ArrayTypeTypeSignatureStrategy::assign(ASTArrayTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getElementType(), scope);
