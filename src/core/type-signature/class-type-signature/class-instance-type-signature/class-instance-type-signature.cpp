@@ -4,6 +4,7 @@
 
 #include "class-instance-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../interface-type-signature/interface-type-signature.h"
 
 ClassInstanceTypeSignature::ClassInstanceTypeSignature() {
     _classTypeSignature = {};
@@ -17,6 +18,10 @@ ClassInstanceTypeSignature::ClassInstanceTypeSignature(ClassTypeSignature* class
 
 ClassTypeSignature* ClassInstanceTypeSignature::getClassTypeSignature() {
     return _classTypeSignature.value();
+}
+
+TypeSignatureMap<TypeSignature>* ClassInstanceTypeSignature::getClassInterface() {
+    return _classTypeSignature.value()->getInterface();
 }
 
 ClassConstructorTypeSignature* ClassInstanceTypeSignature::getConstructorTypeSignature() {
@@ -50,6 +55,9 @@ bool ClassInstanceTypeSignature::isEquivalentTo(TypeSignature* otherType) {
     } else if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)){
         auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
         return this->getClassTypeSignature()->isEqualTo(classInstanceTypeSignature->getClassTypeSignature());
+    } else if (otherType->typeSourceIs(INTERFACE_TYPE_SOURCE)) {
+        auto interfaceTypeSignature = (InterfaceTypeSignature*)otherType;
+        return interfaceTypeSignature->getKeyValuePairs()->isSatisfiedBy(this->getClassInterface());
     }
     return this->isEqualTo(otherType);
 }

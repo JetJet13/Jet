@@ -16,6 +16,7 @@ public:
     ClassInstanceTypeSignature();
     ClassInstanceTypeSignature(ClassTypeSignature* classTypeSignature, std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> constructorInfo = {});
     ClassTypeSignature* getClassTypeSignature();
+    TypeSignatureMap<TypeSignature>* getClassInterface();
     ClassConstructorTypeSignature* getConstructorTypeSignature();
     bool hasConstructorInfo();
     std::string getConstructorId();

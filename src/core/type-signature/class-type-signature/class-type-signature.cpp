@@ -11,6 +11,7 @@ ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
     _properties = TypeSignatureMap<ClassPropertyTypeSignature>();
     _methods = TypeSignatureMap<ClassMethodTypeSignature>();
+    _interface = TypeSignatureMap<TypeSignature>();
     _classScopeParameter = ParameterListItemTypeSignature::createClassScopeParameter();
 }
 
@@ -30,6 +31,10 @@ TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getMethods() {
     return &_methods;
 }
 
+TypeSignatureMap<TypeSignature>* ClassTypeSignature::getInterface() {
+    return &_interface;
+}
+
 ClassTypeSignature* ClassTypeSignature::addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature) {
     _constructors.insert(key, classConstructorTypeSignature);
     return this;
@@ -37,11 +42,21 @@ ClassTypeSignature* ClassTypeSignature::addConstructor(std::string key, ClassCon
 
 ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature) {
     _properties.insert(key, classPropertyTypeSignature);
+    if (classPropertyTypeSignature->getAccessModifier()->isPublic()) {
+        auto interfaceKey = key;
+        interfaceKey.erase(0, this->getId().size() + 1);
+        _interface.insert(interfaceKey, classPropertyTypeSignature->convertToVariableTypeSignature());
+    }
     return this;
 }
 
 ClassTypeSignature* ClassTypeSignature::addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature) {
     _methods.insert(key, classMethodTypeSignature);
+    if (classMethodTypeSignature->getAccessModifier()->isPublic()) {
+        auto interfaceKey = key;
+        interfaceKey.erase(0, this->getId().size() + 1);
+        _interface.insert(interfaceKey, classMethodTypeSignature->convertToVariableTypeSignature());
+    }
     return this;
 }
 

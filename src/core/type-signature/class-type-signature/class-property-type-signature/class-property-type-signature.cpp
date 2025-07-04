@@ -62,6 +62,10 @@ bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
 
 }
 
+TypeSignature* ClassPropertyTypeSignature::convertToVariableTypeSignature() {
+    return this->getType();
+}
+
 void ClassPropertyTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     Logger::log("IS_STATIC - ", _isStatic);

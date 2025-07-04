@@ -400,6 +400,33 @@ const myInterfaceImpl: MyInterface = {
 
 proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}
 
+interface ITest {
+    foo: boolean,
+    bar: int,
+    getColor: func<> => string,
+    size: func<> => int
+}
+
+class TestImplementation {
+    public foo: boolean = true;
+    public bar: int = 10;
+    private color: string;
+
+    constructor(color: string) {
+        this.color = color;
+    }
+
+    public getColor() string {
+        return this.color;
+    }
+
+    public size() int {
+        return 5;
+    }
+}
+
+const tester: ITest = new TestImplementation("blue");
+
 if intWithType == 5 {
     const nope = "hello";
 }

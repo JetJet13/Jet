@@ -22,6 +22,7 @@ public:
     TypeSignatureMap<T>* insert(std::string key, T* value);
     bool isEqualTo(TypeSignatureMap<T>* other);
     bool isEquivalentTo(TypeSignatureMap<T>* other);
+    bool isSatisfiedBy(TypeSignatureMap<T>* other);
     std::vector<std::pair<std::string, T*>> getKeyValues();
     std::vector<std::string> getKeys();
     std::vector<T*> getValues();

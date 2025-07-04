@@ -18,6 +18,7 @@ private:
     TypeSignatureMap<ClassConstructorTypeSignature> _constructors;
     TypeSignatureMap<ClassPropertyTypeSignature> _properties;
     TypeSignatureMap<ClassMethodTypeSignature> _methods;
+    TypeSignatureMap<TypeSignature> _interface;
     ParameterListItemTypeSignature* _classScopeParameter;
 public:
     ClassTypeSignature();
@@ -25,6 +26,7 @@ public:
     TypeSignatureMap<ClassConstructorTypeSignature>* getConstructors();
     TypeSignatureMap<ClassPropertyTypeSignature>* getProperties();
     TypeSignatureMap<ClassMethodTypeSignature>* getMethods();
+    TypeSignatureMap<TypeSignature>* getInterface();
     ClassTypeSignature* addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature);
     ClassTypeSignature* addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature);
     ClassTypeSignature* addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);

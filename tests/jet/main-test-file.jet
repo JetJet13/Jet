@@ -147,3 +147,53 @@ func tupleTest(tupArg: tuple<func<int> => int, func<> => int, func<int> => int>)
     const sevens = myTuple.3.take(2);
     return myTuple.1;
 }
+
+interface MyInterface {
+    foo: int,
+    bar: boolean,
+    hello: func<> => string,
+    structure: { a: int, b: int },
+    bye: func<{ a: int, b: int }, { c: boolean, d: char }> => string,
+    myClassInstance: MyClass,
+}
+
+const structure: { a: boolean, c: char } = { a: true, c: 'n' };
+const myInterfaceImpl: MyInterface = {
+    foo: 4,
+    bar: true,
+    hello: () => "hello",
+    structure: { a: 1, b: 10 },
+    bye: (first: { a: int, b: int }, second: { c: boolean, d: char }) => "bye",
+    myClassInstance: new MyClass(95)
+};
+
+proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}
+
+interface ITest {
+    foo: boolean,
+    bar: int,
+    getColor: func<> => string,
+    size: func<> => int
+}
+
+class TestImplementation {
+    public foo: boolean = true;
+    public bar: int = 10;
+    private color: string;
+
+    constructor(color: string) {
+        this.color = color;
+    }
+
+    public getColor() string {
+        return this.color;
+    }
+
+    public size() int {
+        return 5;
+    }
+}
+
+proc InterfaceTest() {
+    const tester: ITest = new TestImplementation("blue");
+}

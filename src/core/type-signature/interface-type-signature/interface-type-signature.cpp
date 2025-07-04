@@ -6,6 +6,7 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../unknown-type-signature/unknown-type-signature.h"
 #include "../struct-type-signature/struct-type-signature.h"
+#include "../class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 InterfaceTypeSignature::InterfaceTypeSignature() {
     _properties = TypeSignatureMap<TypeSignature>();
@@ -63,9 +64,13 @@ bool InterfaceTypeSignature::isEqualTo(TypeSignature* otherType) {
 bool InterfaceTypeSignature::isEquivalentTo(TypeSignature *otherType) {
     if (otherType->typeSourceIs(STRUCT_TYPE_SOURCE)){
         auto structTypeSignature = (StructTypeSignature*)otherType;
-        auto result = this->getKeyValuePairs()->isEquivalentTo(structTypeSignature->getKeyValuePairs());
-        Logger::log("InterfaceTypeSignature::isEquivalentTo result", result);
-        return result;
+        return this->getKeyValuePairs()->isSatisfiedBy(structTypeSignature->getKeyValuePairs());
+    } else if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {
+        auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
+        return this->getKeyValuePairs()->isSatisfiedBy(classInstanceTypeSignature->getClassInterface());
+    } else if (otherType->typeSourceIs(CLASS_TYPE_SOURCE)) {
+        auto classTypeSignature = (ClassTypeSignature*)otherType;
+        return this->getKeyValuePairs()->isSatisfiedBy(classTypeSignature->getInterface());
     }
     return this->isEqualTo(otherType);
 }

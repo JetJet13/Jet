@@ -12,7 +12,6 @@
 #include "../../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 #include "resources/type-signature-factory.h"
 #include "../../../../src/core/type-signature/array-type-signature/array-type-signature.h"
-#include "../../../../src/core/type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../../../src/core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../../../../src/core/type-signature/tuple-type-signature/tuple-type-signature.h"
 #include "../../../../src/core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
@@ -32,6 +31,7 @@ auto colorEnumTypeSignature = new EnumTypeSignature(
 
 auto otherClassTypeSignature = new ClassTypeSignature();
 auto myClassTypeSignature = new ClassTypeSignature();
+auto testImplementationTypeSignature = new ClassTypeSignature();
 auto myInterfaceTypeSignature = new InterfaceTypeSignature(
         TypeSignatureMap<TypeSignature>({
             std::pair("foo", TypeSignatureFactory::intLiteral),
@@ -56,6 +56,14 @@ auto myInterfaceTypeSignature = new InterfaceTypeSignature(
             )),
             std::pair("myClassInstance", myClassTypeSignature),
         }));
+        auto testInterfaceTypeSignature = new InterfaceTypeSignature(
+            TypeSignatureMap<TypeSignature>({
+                std::pair("foo", TypeSignatureFactory::boolLiteral),
+                std::pair("bar", TypeSignatureFactory::intLiteral),
+                std::pair("getColor", new FunctionLambdaTypeSignature(TypeSignatureFactory::stringLiteral)),
+                std::pair("size", new FunctionLambdaTypeSignature(TypeSignatureFactory::intLiteral)),
+            })
+        );
 
 std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
 
@@ -156,6 +164,35 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             TypeSignatureFactory::privateAccess,
             new ParameterListTypeSignature(),
             false
+        )
+    );
+
+    testImplementationTypeSignature
+    ->addProperty("TestImplementation_property_foo", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::boolLiteral, false, false))
+    ->addProperty("TestImplementation_property_bar", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
+    ->addProperty("TestImplementation_property_color", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::stringLiteral, false, false))
+    ->addConstructor(
+        "TestImplementation_constructor_0",
+        new ClassConstructorTypeSignature(
+                new ParameterListTypeSignature({
+                    new ParameterListItemTypeSignature("color", TypeSignatureFactory::stringLiteral)
+    })))
+    ->addMethod(
+        "TestImplementation_method_getColor",
+        new ClassMethodTypeSignature(
+                TypeSignatureFactory::privateAccess,
+                new ParameterListTypeSignature(),
+                false,
+                TypeSignatureFactory::stringLiteral
+        )
+    )
+    ->addMethod(
+        "TestImplementation_method_size",
+        new ClassMethodTypeSignature(
+                TypeSignatureFactory::publicAccess,
+                new ParameterListTypeSignature(),
+                false,
+                TypeSignatureFactory::intLiteral
         )
     );
 
@@ -699,6 +736,10 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                        )
                    })
             )},
+            {175, testInterfaceTypeSignature},
+            {176, testImplementationTypeSignature},
+            {177, testInterfaceTypeSignature},
+
 
     };
 }
@@ -717,7 +758,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
-    for (int i = 0; i < 173; i++) {
+    for (int i = 0; i < 177; i++) {
         auto declaration = fileNode->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         auto expectedTypeSignature = expectedTypeSignatures[i + 1];

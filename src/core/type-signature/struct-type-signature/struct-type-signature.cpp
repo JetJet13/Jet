@@ -63,7 +63,7 @@ bool StructTypeSignature::isEqualTo(TypeSignature* otherType) {
 bool StructTypeSignature::isEquivalentTo(TypeSignature* otherType) {
     if (otherType->typeSourceIs(INTERFACE_TYPE_SOURCE)){
         auto interfaceTypeSignature = (InterfaceTypeSignature*)otherType;
-        return this->getKeyValuePairs()->isEquivalentTo(interfaceTypeSignature->getKeyValuePairs());
+        return interfaceTypeSignature->getKeyValuePairs()->isSatisfiedBy(this->getKeyValuePairs());
     }
     return this->isEqualTo(otherType);
 }

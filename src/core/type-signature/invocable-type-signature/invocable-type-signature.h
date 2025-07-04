@@ -11,6 +11,7 @@ class InvocableTypeSignature : public TypeSignature {
 public:
     bool isInvocable() override;
     bool isEquivalentTo(TypeSignature* otherType) override;
+    TypeSignature* convertToVariableTypeSignature() override;
     virtual std::vector<TypeSignature*>* getParameterTypes() = 0;
     virtual TypeSignature* getReturnType() = 0;
 };
