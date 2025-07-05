@@ -114,6 +114,7 @@
 #include "reducer-strategies/interface-type-declaration-reducer-strategy/interface-type-declaration-reducer-strategy.h"
 #include "reducer-strategies/struct-type-key-value-reducer-strategy/struct-type-key-value-reducer-strategy.h"
 #include "reducer-strategies/struct-type-reducer-strategy/struct-type-reducer-strategy.h"
+#include "reducer-strategies/implements-interface-list-reducer-strategy/implements-interface-list-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -232,6 +233,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_INTERFACE_TYPE_DECLARATION_NODE, new InterfaceTypeDeclarationReducerStrategy());
     this->addStrategy(AST_STRUCT_TYPE_KEY_VALUE_NODE, new StructTypeKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_TYPE_NODE, new StructTypeReducerStrategy());
+    this->addStrategy(AST_IMPLEMENTS_INTERFACE_LIST_NODE, new ImplementsInterfaceListReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

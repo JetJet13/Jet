@@ -230,6 +230,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: ARRAY_LIST_MODE");
             _modeStack.push(SA_ARRAY_LIST_MODE);
             break;
+        case AST_IMPLEMENTS_NODE:
+            Logger::log("pushing mode: IMPLEMENTS INTERFACE MODE");
+            _modeStack.push(SA_IMPLEMENTS_INTERFACE_MODE);
+            break;
         case AST_IF_NODE:
         case AST_ELSE_IF_NODE:
         case AST_WHILE_NODE:
@@ -245,6 +249,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_ENUM_KEY_VALUE_LIST_NODE:
         case AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE:
         case AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE:
+        case AST_IMPLEMENTS_INTERFACE_LIST_NODE:
         case AST_STRUCT_TYPE_NODE:
         case AST_TUPLE_TYPE_NODE:
         case AST_ARRAY_TYPE_NODE:

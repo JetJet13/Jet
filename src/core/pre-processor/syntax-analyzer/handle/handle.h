@@ -30,6 +30,7 @@ public:
     bool isFunctionArgumentListEnclosed();
     bool isEnumKeyValueListEnclosed();
     bool isInterfacePropertyListEnclosed();
+    bool isImplementsInterfaceListEnclosed();
     bool isTupleListEnclosed();
     bool isModuleListEnclosed();
     bool isImportModuleListEnclosed();

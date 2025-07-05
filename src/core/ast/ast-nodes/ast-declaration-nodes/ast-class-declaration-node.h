@@ -12,18 +12,21 @@
 #include "../ast-class-nodes/ast-class-name-node.h"
 #include "../ast-class-nodes/ast-class-block-node.h"
 #include "../../../type-signature/class-type-signature/class-type-signature.h"
+#include "../ast-interface-nodes/ast-implements-interface-list-node.h"
 
 class ASTClassDeclarationNode : public ASTDeclarationNode {
 private:
     ASTClassNode* _classKeyword;
     ASTClassNameNode* _name;
     ASTClassBlockNode* _block;
+    std::optional<ASTImplementsInterfaceListNode*> _implementsInterfaceList;
     ClassTypeSignature* _typeSignature = new ClassTypeSignature();
 public:
-    explicit ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block);
+    explicit ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block, std::optional<ASTImplementsInterfaceListNode*> implementsInterfaceList = {});
     ASTClassBlockNode* getBlock();
     ASTClassNameNode* getName();
     void setTypeSignature(ClassTypeSignature* typeSignature);
+    std::optional<ASTImplementsInterfaceListNode*> getImplementsInterfaceList();
     ClassTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

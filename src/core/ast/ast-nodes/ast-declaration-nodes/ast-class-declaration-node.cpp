@@ -6,12 +6,16 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block) {
+ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block, std::optional<ASTImplementsInterfaceListNode*> implementsInterfaceList) {
     _classKeyword = classKeyword;
     _name = name;
     _block = block;
+    _implementsInterfaceList = implementsInterfaceList;
     _children.push_back(_classKeyword);
     _children.push_back(_name);
+    if (_implementsInterfaceList) {
+        _children.push_back(_implementsInterfaceList.value());
+    }
     _children.push_back(_block);
 }
 
@@ -25,6 +29,10 @@ ASTClassNameNode* ASTClassDeclarationNode::getName() {
 
 void ASTClassDeclarationNode::setTypeSignature(ClassTypeSignature* typeSignature) {
     _typeSignature = typeSignature;
+}
+
+std::optional<ASTImplementsInterfaceListNode*> ASTClassDeclarationNode::getImplementsInterfaceList() {
+    return _implementsInterfaceList;
 }
 
 ClassTypeSignature* ASTClassDeclarationNode::getTypeSignature() {
@@ -53,6 +61,16 @@ bool ASTClassDeclarationNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTClassDeclarationNode*)other;
 
+    if (!_implementsInterfaceList.has_value() && otherNode->getImplementsInterfaceList().has_value() ||
+        _implementsInterfaceList.has_value() && !otherNode->getImplementsInterfaceList().has_value()) {
+        return false;
+    }
+
+    if (_implementsInterfaceList.has_value() && otherNode->getImplementsInterfaceList().has_value() &&
+        !_implementsInterfaceList.value()->isSameAs(otherNode->getImplementsInterfaceList().value())) {
+        return false;
+    }
+
     return this->getName()->isSameAs(otherNode->getName()) &&
            this->getBlock()->isSameAs(otherNode->getBlock());
 }
@@ -60,6 +78,9 @@ bool ASTClassDeclarationNode::isSameAs(ASTNode *other) {
 void ASTClassDeclarationNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _name->print();
+    if (_implementsInterfaceList) {
+        _implementsInterfaceList.value()->print();
+    }
     _block->print();
     Logger::log("----------");
 }
@@ -67,7 +88,10 @@ void ASTClassDeclarationNode::print() {
 std::string ASTClassDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_classKeyword)
-    ->addWithWhitespace(_name)
-    ->addWithWhitespace(_block);
+    ->addWithWhitespace(_name);
+    if (_implementsInterfaceList) {
+        sourceCodeBuilder.addWithWhitespace(_implementsInterfaceList.value());
+    }
+    sourceCodeBuilder.addWithWhitespace(_block);
     return sourceCodeBuilder.build();
 }

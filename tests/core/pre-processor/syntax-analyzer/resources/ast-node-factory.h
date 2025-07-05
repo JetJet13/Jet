@@ -129,6 +129,9 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-property-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-property-list-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-property-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-implements-interface-list-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -267,6 +270,8 @@ namespace ASTNodeFactory {
     static ASTLogicalOperatorNode* orOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol()));
     static ASTConcatNode* concatOperator = new ASTConcatNode(createLexeme(SymbolFactory::createConcatSymbol()));
     static ASTInterfaceNode* interfaceKeyword = new ASTInterfaceNode(createLexeme(SymbolFactory::createInterfaceSymbol()));
+    static ASTImplementsNode* implementsKeyword = new ASTImplementsNode(createLexeme(SymbolFactory::createImplementsSymbol()));
+    static ASTImplementsInterfaceNameNode* implementsInterfaceName = new ASTImplementsInterfaceNameNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTUnaryExpressionNode* bangTrue = new ASTUnaryExpressionNode(
             ASTNodeFactory::bang,
             ASTNodeFactory::trueExpression
@@ -682,6 +687,12 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::blockStart,
                 contents,
                 ASTNodeFactory::blockEnd
+        );
+    }
+    static ASTImplementsInterfaceListNode* createImplementsInterfaceList(std::vector<ASTImplementsInterfaceNameNode*> interfaceNames) {
+        return new ASTImplementsInterfaceListNode(
+                ASTNodeFactory::implementsKeyword,
+                interfaceNames
         );
     }
     static ASTClassBlockNode* createClassBlock(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors) {

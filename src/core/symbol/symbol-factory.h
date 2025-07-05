@@ -89,6 +89,7 @@ namespace SymbolFactory {
     Symbol* createSrefSymbol();
     Symbol* createConcatSymbol();
     Symbol* createInterfaceSymbol();
+    Symbol* createImplementsSymbol();
 }
 
 

@@ -1250,6 +1250,16 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.h
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/interface-type-declaration-id-strategy/interface-type-declaration-id-strategy.cpp
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/interface-type-declaration-id-strategy/interface-type-declaration-id-strategy.h
+        ast/ast-nodes/ast-interface-nodes/ast-implements-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-implements-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-node.h
+        ast/ast-nodes/ast-interface-nodes/ast-implements-interface-list-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-implements-interface-list-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/implements-interface-list-reducer-strategy/implements-interface-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/implements-interface-list-reducer-strategy/implements-interface-list-reducer-strategy.h
+        ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-last-node.cpp
+        ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-last-node.h
 
 )
 

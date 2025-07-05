@@ -34,6 +34,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ENUM_KEY_VALUE_LIST_NODE);
     } else if (handle->isInterfacePropertyListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_INTERFACE_PROPERTY_LIST_NODE);
+    } else if (handle->isImplementsInterfaceListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_IMPLEMENTS_INTERFACE_LIST_NODE);
     } else if (handle->isTupleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     } else if (handle->isModuleListEnclosed()) {
@@ -136,23 +138,24 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
            AST_IMPORT_PATH_NODE,
            AST_IMPORT_WILDCARD_NODE,
            AST_CLASS_BLOCK_END_NODE,
-           AST_CLASS_BLOCK_NODE
+           AST_CLASS_BLOCK_NODE,
+           AST_IMPLEMENTS_INTERFACE_NAME_LAST_NODE
     });
 }
 
 bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optional<ASTNode*> peekNode) {
     if (lastReducedNode &&
         lastReducedNode.value()->isOneOf({
-                                                 AST_BLOCK_NODE,
-                                                 AST_ENUM_KEY_VALUE_LIST_NODE,
-                                                 AST_INTERFACE_PROPERTY_LIST_NODE,
-                                                 AST_MODULE_LIST_NODE,
-                                                 AST_IMPORT_MODULE_LIST_NODE,
-                                                 AST_ELSE_BLOCK_NODE,
-                                                 AST_FINALLY_BLOCK_NODE,
-                                                 AST_CLASS_BLOCK_NODE,
-                                                 AST_LAMBDA_RETURN_EXPRESSION_NODE,
-                                                 AST_TYPE_PARAMETER_LIST_NODE
+             AST_BLOCK_NODE,
+             AST_ENUM_KEY_VALUE_LIST_NODE,
+             AST_INTERFACE_PROPERTY_LIST_NODE,
+             AST_MODULE_LIST_NODE,
+             AST_IMPORT_MODULE_LIST_NODE,
+             AST_ELSE_BLOCK_NODE,
+             AST_FINALLY_BLOCK_NODE,
+             AST_CLASS_BLOCK_NODE,
+             AST_LAMBDA_RETURN_EXPRESSION_NODE,
+             AST_TYPE_PARAMETER_LIST_NODE
         })) {
         return true;
     } else if (lastReducedNode &&

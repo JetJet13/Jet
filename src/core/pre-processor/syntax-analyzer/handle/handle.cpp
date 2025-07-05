@@ -108,6 +108,14 @@ bool Handle::isInterfacePropertyListEnclosed() {
     return this->first().value()->is(AST_INTERFACE_START_NODE) && this->last().value()->is(AST_INTERFACE_END_NODE);
 }
 
+bool Handle::isImplementsInterfaceListEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_IMPLEMENTS_NODE) &&
+           this->last().value()->is(AST_IMPLEMENTS_INTERFACE_NAME_LAST_NODE);
+}
+
 bool Handle::isTupleListEnclosed() {
     if (_handle.size() < 2) {
         return false;

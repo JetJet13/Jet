@@ -515,3 +515,7 @@ export interface MyOtherInterface {
 const structure: { a: boolean, c: char } = { a: true, c: 'n' };
 
 proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}
+
+class FooClass implements MyInterface {}
+
+class BarClass implements MyInterface, MyOtherInterface, MyThirdInterface {}

@@ -193,6 +193,9 @@ void SyntaxDfa::init() {
     DFANode* structTypeKey = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_NODE);
     DFANode* structTypeKeyValue = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_VALUE_NODE);
     DFANode* structTypeColon = DFANodeFactory::Once::create(AST_STRUCT_TYPE_COLON_NODE);
+    DFANode* implementsKeyword = DFANodeFactory::Once::create(AST_IMPLEMENTS_NODE);
+    DFANode* implementsInterfaceName = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_NODE);
+    DFANode* implementsInterfaceNameLast = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_LAST_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -1119,9 +1122,13 @@ void SyntaxDfa::init() {
             DFANodeFactory::Once::create(AST_CLASS_NAME_NODE)
             ->addTransition(
                 DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_CLASS_BLOCK_NODE, AST_CLASS_DECLARATION_NODE)
-                )
-            )
+                    DFANodeFactory::NilOrOnce::create(AST_IMPLEMENTS_INTERFACE_LIST_NODE)
+                    ->addTransition(
+                        DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_CLASS_BLOCK_NODE, AST_CLASS_DECLARATION_NODE)
+                        )
+                    )
+            ))
         )
     );
 
@@ -1253,6 +1260,11 @@ void SyntaxDfa::init() {
     structTypeKeyValue
     ->markAlwaysReduceSelf();
 
+    implementsKeyword
+    ->markAlwaysReduceSelf();
+
+    implementsInterfaceName
+    ->markAlwaysReduceSelf();
 
     _dfa
     ->insertStartNode(varDeclaration)
@@ -1440,6 +1452,10 @@ void SyntaxDfa::init() {
     ->insertStartNode(structTypeColon)
     ->insertStartNode(structTypeKey)
     ->insertStartNode(structTypeKeyValue)
+    ->insertStartNode(implementsKeyword)
+    ->insertStartNode(implementsInterfaceName)
+    ->insertStartNode(implementsInterfaceNameLast)
+    ->insertStartNode(DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_LIST_NODE))
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_STRUCT_TYPE_START_NODE)->markAlwaysReduceSelf())

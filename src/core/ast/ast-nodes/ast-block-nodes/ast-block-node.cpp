@@ -64,7 +64,7 @@ ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, 
         return new ASTControlFlowBlockNode(_blockStartNode, _contents, _blockEndNode);
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NAME_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NAME_NODE, AST_IMPLEMENTS_INTERFACE_LIST_NODE })) {
         return new ASTClassBlockNode(_blockStartNode, _contents, _blockEndNode);
     }
 

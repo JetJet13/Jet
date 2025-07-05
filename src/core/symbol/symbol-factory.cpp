@@ -326,4 +326,8 @@ namespace SymbolFactory {
     Symbol* createInterfaceSymbol()  {
         return new Symbol(SYM_INTERFACE, "interface");
     }
+
+    Symbol* createImplementsSymbol()  {
+        return new Symbol(SYM_IMPLEMENTS, "implements");
+    }
 }

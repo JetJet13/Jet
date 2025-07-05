@@ -68,6 +68,7 @@
 #include "../../../ast/ast-nodes/ast-sref-node.h"
 #include "../../../ast/ast-nodes/ast-concat-node.h"
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
+#include "../../../ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -213,6 +214,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTConcatNode(lexeme);
     } else if (symbol->isInterface()) {
         return new ASTInterfaceNode(lexeme);
+    } else if (symbol->isImplements()) {
+        return new ASTImplementsNode(lexeme);
     } else if (symbol->isThis()) {
         return new ASTThisNode(lexeme);
     } else {

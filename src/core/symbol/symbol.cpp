@@ -341,6 +341,10 @@ bool Symbol::isInterface() {
     return _type == SYM_INTERFACE;
 }
 
+bool Symbol::isImplements() {
+    return _type == SYM_IMPLEMENTS;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }
