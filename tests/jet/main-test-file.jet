@@ -154,7 +154,6 @@ interface MyInterface {
     hello: func<> => string,
     structure: { a: int, b: int },
     bye: func<{ a: int, b: int }, { c: boolean, d: char }> => string,
-    myClassInstance: MyClass,
 }
 
 const structure: { a: boolean, c: char } = { a: true, c: 'n' };
@@ -164,7 +163,6 @@ const myInterfaceImpl: MyInterface = {
     hello: () => "hello",
     structure: { a: 1, b: 10 },
     bye: (first: { a: int, b: int }, second: { c: boolean, d: char }) => "bye",
-    myClassInstance: new MyClass(95)
 };
 
 proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}

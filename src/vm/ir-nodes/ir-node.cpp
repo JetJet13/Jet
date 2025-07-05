@@ -20,6 +20,11 @@ bool IRNode::isDeclaration() {
     return false;
 }
 
+bool IRNode::isTypeDeclaration() {
+    return false;
+}
+
+
 bool IRNode::isStatement() {
     return false;
 }

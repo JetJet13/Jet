@@ -537,6 +537,14 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/dref-ir-injector-helper/dref-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/dref-ir-injector-helper/dref-ir-injector-helper.h
+        ir-generator/ir-strategies/interface-type-declaration-ir-strategy/interface-type-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/interface-type-declaration-ir-strategy/interface-type-declaration-ir-strategy.h
+        ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.cpp
+        ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.h
+        ir-nodes/ir-type-declaration-nodes/ir-interface-type-declaration-node.cpp
+        ir-nodes/ir-type-declaration-nodes/ir-interface-type-declaration-node.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/interface-type-signature-ir-strategy/interface-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/interface-type-signature-ir-strategy/interface-type-signature-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

@@ -26,6 +26,7 @@ class FunctionParameterListIRStrategy;
 class FunctionReturnExpressionIRStrategy;
 class ProcedureDeclarationIRStrategy;
 class EnumDeclarationIRStrategy;
+class InterfaceTypeDeclarationIRStrategy;
 class ModuleDeclarationIRStrategy;
 class ImportSingleModuleDeclarationIRStrategy;
 class ObjectAccessExpressionIRStrategy;
@@ -53,6 +54,7 @@ class ArrayTypeSignatureIRStrategy;
 class LiteralTypeSignatureIRStrategy;
 class ClassTypeSignatureIRStrategy;
 class EnumTypeSignatureIRStrategy;
+class InterfaceTypeSignatureIRStrategy;
 class FunctionTypeSignatureIRStrategy;
 class LambdaTypeSignatureIRStrategy;
 class ProcedureTypeSignatureIRStrategy;
@@ -93,6 +95,7 @@ private:
     FunctionReturnExpressionIRStrategy* _functionReturnExpressionIRStrategy;
     ProcedureDeclarationIRStrategy* _procedureDeclarationIRStrategy;
     EnumDeclarationIRStrategy* _enumDeclarationIRStrategy;
+    InterfaceTypeDeclarationIRStrategy* _interfaceTypeDeclarationIRStrategy;
     ModuleDeclarationIRStrategy* _moduleDeclarationIRStrategy;
     ImportSingleModuleDeclarationIRStrategy* _importSingleModuleDeclarationIRStrategy;
     ObjectAccessExpressionIRStrategy* _objectAccessExpressionIRStrategy;
@@ -121,6 +124,7 @@ private:
     LiteralTypeSignatureIRStrategy* _literalTypeSignatureIRStrategy;
     ClassTypeSignatureIRStrategy* _classTypeSignatureIRStrategy;
     EnumTypeSignatureIRStrategy* _enumTypeSignatureIRStrategy;
+    InterfaceTypeSignatureIRStrategy* _interfaceTypeSignatureIRStrategy;
     FunctionTypeSignatureIRStrategy* _functionTypeSignatureIRStrategy;
     LambdaTypeSignatureIRStrategy* _lambdaTypeSignatureIRStrategy;
     ProcedureTypeSignatureIRStrategy* _procedureTypeSignatureIRStrategy;
@@ -158,6 +162,7 @@ public:
     FunctionReturnExpressionIRStrategy* getFunctionReturnExpressionIRStrategy();
     ProcedureDeclarationIRStrategy* getProcedureDeclarationIRStrategy();
     EnumDeclarationIRStrategy* getEnumDeclarationIRStrategy();
+    InterfaceTypeDeclarationIRStrategy* getInterfaceTypeDeclarationIRStrategy();
     ModuleDeclarationIRStrategy* getModuleDeclarationIRStrategy();
     ImportSingleModuleDeclarationIRStrategy* getImportSingleModuleDeclarationIRStrategy();
     ObjectAccessExpressionIRStrategy* getObjectAccessExpressionIRStrategy();
@@ -181,11 +186,13 @@ public:
     DrefExpressionIRStrategy* getDrefExpressionIRStrategy();
     SrefExpressionIRStrategy* getSrefExpressionIRStrategy();
 
+
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* getArrayTypeSignatureIRStrategy();
     LiteralTypeSignatureIRStrategy* getLiteralTypeSignatureIRStrategy();
     ClassTypeSignatureIRStrategy* getClassTypeSignatureIRStrategy();
     EnumTypeSignatureIRStrategy* getEnumTypeSignatureIRStrategy();
+    InterfaceTypeSignatureIRStrategy* getInterfaceTypeSignatureIRStrategy();
     FunctionTypeSignatureIRStrategy* getFunctionTypeSignatureIRStrategy();
     LambdaTypeSignatureIRStrategy* getLambdaTypeSignatureIRStrategy();
     ProcedureTypeSignatureIRStrategy* getProcedureTypeSignatureIRStrategy();

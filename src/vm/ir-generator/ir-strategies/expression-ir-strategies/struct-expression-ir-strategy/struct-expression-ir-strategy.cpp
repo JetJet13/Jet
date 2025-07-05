@@ -36,7 +36,7 @@ IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(ASTStruc
                 ""
         );
         return IRInstructionNodeFactory::create(
-                new llvm::BitCastInst(malloc, irType->getType()),
+                new llvm::BitCastInst(malloc, irGenerator->generatePointerType()),
                 irGenerator->generateIrPointerType(irType),
                 { malloc },
                 std::move(structValueSourceAllocationMap)

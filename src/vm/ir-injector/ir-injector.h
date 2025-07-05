@@ -12,6 +12,7 @@
 #include "../ir-nodes/ir-declaration-nodes/ir-declaration-node.h"
 #include "../ir-nodes/ir-statement-nodes/ir-statement-node.h"
 #include "../types/ir-operation-type.h"
+#include "../ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.h"
 
 class IRInjectorStrategy;
 class StringIRInjectorStrategy;
@@ -53,7 +54,7 @@ private:
     VariableIRInjectorStrategy* _variableIRInjector;
     ModuleIRInjectorStrategy* _moduleIRInjector;
     LambdaIRInjectorStrategy* _lambdaIRInjector;
-    EnumIRInjectorStrategy* _enumIRInjectorStrategy;
+    EnumIRInjectorStrategy* _enumIRInjector;
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
     NewClassInstanceIRInjectorStrategy* _newClassInstanceIRInjectorStrategy;

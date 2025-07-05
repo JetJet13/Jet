@@ -40,6 +40,7 @@
 #include "./function-return-expression-ir-strategy/function-return-expression-ir-strategy.h"
 #include "./procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h"
 #include "./enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
+#include "./interface-type-declaration-ir-strategy/interface-type-declaration-ir-strategy.h"
 #include "./module-declaration-ir-strategy/module-declaration-ir-strategy.h"
 #include "./import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "./class-declaration-ir-strategy/class-declaration-ir-strategy.h"
@@ -51,6 +52,7 @@
 #include "./type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/enum-type-signature-ir-strategy/enum-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/interface-type-signature-ir-strategy/interface-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/lambda-type-signature-ir-strategy/lambda-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/invocable-type-signature-ir-strategies/procedure-type-signature-ir-strategy/procedure-type-signature-ir-strategy.h"
@@ -87,6 +89,7 @@ IRStrategyMap::IRStrategyMap() {
     _functionReturnExpressionIRStrategy = new FunctionReturnExpressionIRStrategy();
     _procedureDeclarationIRStrategy = new ProcedureDeclarationIRStrategy();
     _enumDeclarationIRStrategy = new EnumDeclarationIRStrategy();
+    _interfaceTypeDeclarationIRStrategy = new InterfaceTypeDeclarationIRStrategy();
     _moduleDeclarationIRStrategy = new ModuleDeclarationIRStrategy();
     _importSingleModuleDeclarationIRStrategy = new ImportSingleModuleDeclarationIRStrategy();
     _objectAccessExpressionIRStrategy = new ObjectAccessExpressionIRStrategy();
@@ -114,6 +117,7 @@ IRStrategyMap::IRStrategyMap() {
     _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
     _classTypeSignatureIRStrategy = new ClassTypeSignatureIRStrategy();
     _enumTypeSignatureIRStrategy = new EnumTypeSignatureIRStrategy();
+    _interfaceTypeSignatureIRStrategy = new InterfaceTypeSignatureIRStrategy();
     _functionTypeSignatureIRStrategy = new FunctionTypeSignatureIRStrategy();
     _lambdaTypeSignatureIRStrategy = new LambdaTypeSignatureIRStrategy();
     _procedureTypeSignatureIRStrategy = new ProcedureTypeSignatureIRStrategy();
@@ -212,6 +216,10 @@ ProcedureDeclarationIRStrategy* IRStrategyMap::getProcedureDeclarationIRStrategy
 
 EnumDeclarationIRStrategy* IRStrategyMap::getEnumDeclarationIRStrategy() {
     return _enumDeclarationIRStrategy;
+}
+
+InterfaceTypeDeclarationIRStrategy* IRStrategyMap::getInterfaceTypeDeclarationIRStrategy() {
+    return _interfaceTypeDeclarationIRStrategy;
 }
 
 ModuleDeclarationIRStrategy* IRStrategyMap::getModuleDeclarationIRStrategy() {
@@ -316,6 +324,10 @@ ClassTypeSignatureIRStrategy* IRStrategyMap::getClassTypeSignatureIRStrategy() {
 
 EnumTypeSignatureIRStrategy* IRStrategyMap::getEnumTypeSignatureIRStrategy() {
     return _enumTypeSignatureIRStrategy;
+}
+
+InterfaceTypeSignatureIRStrategy* IRStrategyMap::getInterfaceTypeSignatureIRStrategy() {
+    return _interfaceTypeSignatureIRStrategy;
 }
 
 FunctionTypeSignatureIRStrategy* IRStrategyMap::getFunctionTypeSignatureIRStrategy() {

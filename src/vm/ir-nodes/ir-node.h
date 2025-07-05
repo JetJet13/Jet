@@ -17,6 +17,7 @@ public:
     bool is(IRNodeType irNodeType);
     bool isOneOf(std::vector<IRNodeType> irNodeTypes);
     virtual bool isDeclaration();
+    virtual bool isTypeDeclaration();
     virtual bool isStatement();
     virtual IRNodeType getNodeType() = 0;
     virtual std::string toString() = 0;

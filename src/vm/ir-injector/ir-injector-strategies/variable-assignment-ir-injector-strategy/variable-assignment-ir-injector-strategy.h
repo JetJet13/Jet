@@ -12,8 +12,6 @@
 #include "../../ir-injector.h"
 
 class VariableAssignmentIRInjectorStrategy {
-private:
-    void freeOldMallocs(llvm::LoadInst* oldValue, IRInstructionNode* allocation, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
 public:
     void inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
 };

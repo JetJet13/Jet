@@ -24,7 +24,7 @@ TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignature
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
     auto typeDeclarations = std::vector<ASTDeclarationNode*>();
     for (auto node : *fileNode->getBody()) {
-        if (ASTNodeUtils::isTypeDeclarationNode(node)) {
+        if (ASTNodeUtils::isDeclarableNode(node)) {
             typeDeclarations.push_back((ASTDeclarationNode*)node);
         }
     }
@@ -45,7 +45,7 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, T
 void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
     for (auto node : *fileNode->getBody()) {
         _typeSignatureGenerator->assignTypeSignatureFor(node, fileScope);
-        if (ASTNodeUtils::isTypeDeclarationNode(node)) {
+        if (ASTNodeUtils::isDeclarableNode(node)) {
             fileScope->find(node->getId())->copyFrom(node->getTypeSignature());
         }
     }

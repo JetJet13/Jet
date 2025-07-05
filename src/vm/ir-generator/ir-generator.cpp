@@ -45,6 +45,7 @@
 #include "ir-strategies/function-return-expression-ir-strategy/function-return-expression-ir-strategy.h"
 #include "ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h"
 #include "ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
+#include "ir-strategies/interface-type-declaration-ir-strategy/interface-type-declaration-ir-strategy.h"
 #include "ir-strategies/module-declaration-ir-strategy/module-declaration-ir-strategy.h"
 #include "ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.h"
@@ -52,6 +53,7 @@
 #include "ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/enum-type-signature-ir-strategy/enum-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/interface-type-signature-ir-strategy/interface-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/lambda-type-signature-ir-strategy/lambda-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/procedure-type-signature-ir-strategy/procedure-type-signature-ir-strategy.h"
@@ -114,7 +116,9 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
 }
 
 IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
-    if (ASTNodeUtils::isDeclarationNode(node)) {
+    if (ASTNodeUtils::isTypeDeclarationNode(node)) {
+        return this->generateFor((ASTTypeDeclarationNode*)node, scope, irContext);
+    } else if (ASTNodeUtils::isDeclarationNode(node)) {
         return this->generateFor((ASTDeclarationNode*)node, scope, irContext);
     } else if (ASTNodeUtils::isStatementNode(node)) {
         return this->generateFor((ASTStatementNode*)node, scope, irContext);
@@ -160,6 +164,13 @@ IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTa
         return this->_irStrategyMap.getClassDeclarationIRStrategy()->generate((ASTClassDeclarationNode*)node,  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
+}
+
+IRTypeDeclarationNode* IRGenerator::generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext) {
+    if (node->is(AST_INTERFACE_TYPE_DECLARATION_NODE)) {
+        return this->_irStrategyMap.getInterfaceTypeDeclarationIRStrategy()->generate((ASTInterfaceTypeDeclarationNode*)node,  this, scope, irContext);
+    }
+    throw std::logic_error("unable to generate llvm value for type declaration " + node->toString());
 }
 
 IRFunctionParameterListNode* IRGenerator::generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction) {
@@ -273,6 +284,9 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case PROCEDURE_LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
                     (ProcedureLambdaTypeSignature*) typeSignature, this, scope, irContext);
+        case INTERFACE_TYPE_SOURCE:
+            return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(
+                    (InterfaceTypeSignature*)typeSignature, this, scope, irContext);
         case STRUCT_TYPE_SOURCE:
             return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*) typeSignature,
                                                                                this, scope, irContext);
@@ -317,6 +331,10 @@ IRArrayPointerType* IRGenerator::generateTypeFor(ArrayTypeSignature* typeSignatu
 
 IREnumType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(typeSignature, enumValues, this, scope, irContext);
+}
+
+IRStructType* IRGenerator::generateTypeFor(InterfaceTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+    return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
 IRStructType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {

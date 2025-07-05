@@ -62,6 +62,9 @@
 #include "../ir-type/ir-type-value-type.h"
 #include "../ir-type/ir-ref-type.h"
 #include "../../core/type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../core/type-signature/interface-type-signature/interface-type-signature.h"
+#include "../ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.h"
+#include "../../core/ast/ast-nodes/ast-type-declaration-nodes/ast-type-declaration-node.h"
 
 class IRGenerator {
 private:
@@ -73,6 +76,7 @@ public:
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
     IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRContext* irContext);
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRTypeDeclarationNode* generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
     IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
@@ -81,6 +85,7 @@ public:
     IRType* generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IREnumType* generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext);
+    IRStructType* generateTypeFor(InterfaceTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRStructType* generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRStructType* generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRModuleType* generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
