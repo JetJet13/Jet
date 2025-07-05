@@ -11,6 +11,7 @@ ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
     _properties = TypeSignatureMap<ClassPropertyTypeSignature>();
     _methods = TypeSignatureMap<ClassMethodTypeSignature>();
+    _implements = TypeSignatureMap<TypeSignature>();
     _interface = TypeSignatureMap<TypeSignature>();
     _classScopeParameter = ParameterListItemTypeSignature::createClassScopeParameter();
 }
@@ -29,6 +30,10 @@ TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getProperties(
 
 TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getMethods() {
     return &_methods;
+}
+
+TypeSignatureMap<TypeSignature>* ClassTypeSignature::getImplements() {
+    return &_implements;
 }
 
 TypeSignatureMap<TypeSignature>* ClassTypeSignature::getInterface() {
@@ -60,6 +65,11 @@ ClassTypeSignature* ClassTypeSignature::addMethod(std::string key, ClassMethodTy
     return this;
 }
 
+ClassTypeSignature* ClassTypeSignature::addImplementsInterface(std::string key, TypeSignature* interfaceTypeSignature) {
+    _implements.insert(key, interfaceTypeSignature);
+    return this;
+}
+
 void ClassTypeSignature::setClassScopeParameter(ParameterListItemTypeSignature* classScopeParameter) {
     _classScopeParameter = classScopeParameter;
 }
@@ -68,6 +78,20 @@ bool ClassTypeSignature::isClassScopeParameterNecessary() {
     auto classScopeTypeSignature = (PointerTypeSignature*)_classScopeParameter->getTypeSignature();
     auto classScopeUnderlyingTypeSignature = (StructTypeSignature*)classScopeTypeSignature->getUnderlyingType();
     return !classScopeUnderlyingTypeSignature->isEmpty();
+}
+
+bool ClassTypeSignature::satisfiesImplementInterfaces() {
+    for (auto interface : _implements.getValues()) {
+        if (interface->typeSourceIs(INTERFACE_TYPE_SOURCE)) {
+            auto interfaceTypeSignature = (InterfaceTypeSignature*)interface;
+            if (!interfaceTypeSignature->getKeyValuePairs()->isSatisfiedBy(&_interface)) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    return true;
 }
 
 std::string ClassTypeSignature::getPreConstructorName() {

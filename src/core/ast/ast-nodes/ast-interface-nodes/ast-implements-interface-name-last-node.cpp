@@ -5,7 +5,9 @@
 #include "ast-implements-interface-name-last-node.h"
 
 ASTImplementsInterfaceNameNode* ASTImplementsInterfaceNameLastNode::convertToInterfaceName() {
-    return new ASTImplementsInterfaceNameNode(this->getLexeme());
+    auto node = new ASTImplementsInterfaceNameNode(this->getLexeme());
+    node->setId(this->getId());
+    return node;
 }
 
 ASTNodeType ASTImplementsInterfaceNameLastNode::getNodeType() {

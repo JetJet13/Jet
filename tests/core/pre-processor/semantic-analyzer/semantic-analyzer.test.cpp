@@ -64,6 +64,11 @@ auto myInterfaceTypeSignature = new InterfaceTypeSignature(
                 std::pair("size", new FunctionLambdaTypeSignature(TypeSignatureFactory::intLiteral)),
             })
         );
+        auto twoTestInterfaceTypeSignature = new InterfaceTypeSignature(
+                TypeSignatureMap<TypeSignature>({
+                    std::pair("magic", TypeSignatureFactory::boolLiteral),
+                })
+        );
 
 std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
 
@@ -737,9 +742,10 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                    })
             )},
             {175, testInterfaceTypeSignature},
-            {176, testImplementationTypeSignature},
-            {177, testInterfaceTypeSignature},
-
+            {176, twoTestInterfaceTypeSignature},
+            {177, testImplementationTypeSignature},
+            {178, testInterfaceTypeSignature},
+            {179, twoTestInterfaceTypeSignature},
 
     };
 }
@@ -758,7 +764,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
-    for (int i = 0; i < 177; i++) {
+    for (int i = 0; i < 179; i++) {
         auto declaration = fileNode->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         auto expectedTypeSignature = expectedTypeSignatures[i + 1];

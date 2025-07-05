@@ -12,7 +12,9 @@ void ClassDeclarationTypeCheckerPolicy::apply(ASTClassDeclarationNode* classDecl
     ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(classDeclarationNode, typeCheckerResult);
-
+    if (!classDeclarationNode->getTypeSignature()->satisfiesImplementInterfaces()) {
+        typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassDoesNotImplementInterface(classDeclarationNode));
+    }
 }
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {

@@ -12,12 +12,14 @@
 #include "class-method-type-signature/class-method-type-signature.h"
 #include "class-constructor-type-signature/class-constructor-type-signature.h"
 #include "../types/type-signature-map/type-signature-map.h"
+#include "../interface-type-signature/interface-type-signature.h"
 
 class ClassTypeSignature : public TypeSignature {
 private:
     TypeSignatureMap<ClassConstructorTypeSignature> _constructors;
     TypeSignatureMap<ClassPropertyTypeSignature> _properties;
     TypeSignatureMap<ClassMethodTypeSignature> _methods;
+    TypeSignatureMap<TypeSignature> _implements;
     TypeSignatureMap<TypeSignature> _interface;
     ParameterListItemTypeSignature* _classScopeParameter;
 public:
@@ -26,12 +28,15 @@ public:
     TypeSignatureMap<ClassConstructorTypeSignature>* getConstructors();
     TypeSignatureMap<ClassPropertyTypeSignature>* getProperties();
     TypeSignatureMap<ClassMethodTypeSignature>* getMethods();
+    TypeSignatureMap<TypeSignature>* getImplements();
     TypeSignatureMap<TypeSignature>* getInterface();
     ClassTypeSignature* addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature);
     ClassTypeSignature* addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature);
     ClassTypeSignature* addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature);
+    ClassTypeSignature* addImplementsInterface(std::string key, TypeSignature* interfaceTypeSignature);
     void setClassScopeParameter(ParameterListItemTypeSignature* classScopeParameter);
     bool isClassScopeParameterNecessary();
+    bool satisfiesImplementInterfaces();
     std::string getPreConstructorName();
     std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
     std::string toString() override;

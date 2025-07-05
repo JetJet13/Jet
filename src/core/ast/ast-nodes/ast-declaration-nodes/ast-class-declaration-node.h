@@ -26,7 +26,7 @@ public:
     ASTClassBlockNode* getBlock();
     ASTClassNameNode* getName();
     void setTypeSignature(ClassTypeSignature* typeSignature);
-    std::optional<ASTImplementsInterfaceListNode*> getImplementsInterfaceList();
+    std::optional<ASTImplementsInterfaceListNode*>* getImplementsInterfaceList();
     ClassTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -5,6 +5,7 @@
 #include "class-type-signature-strategy.h"
 #include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = (ClassTypeSignature*)scope->find(node->getId());
@@ -17,6 +18,12 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
 
     this->assignConstructorBlocksTypeSignature(node, &classScope, classTypeSignature, strategyMap);
     this->assignMethodBlocksTypeSignature(node, &classScope, classTypeSignature, strategyMap);
+
+    if (node->getImplementsInterfaceList()->has_value()) {
+        for (auto interfaceName : node->getImplementsInterfaceList()->value()->getInterfaceNames()) {
+            classTypeSignature->addImplementsInterface(interfaceName->getId(), scope->find(interfaceName->getId()));
+        }
+    }
 }
 
 void ClassTypeSignatureStrategy::assignPartial(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {

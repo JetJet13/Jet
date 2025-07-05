@@ -407,9 +407,14 @@ interface ITest {
     size: func<> => int
 }
 
-class TestImplementation {
+interface ITwoTest {
+    magic: boolean
+}
+
+class TestImplementation implements ITest, ITwoTest {
     public foo: boolean = true;
     public bar: int = 10;
+    public magic: boolean = false;
     private color: string;
 
     constructor(color: string) {
@@ -426,6 +431,7 @@ class TestImplementation {
 }
 
 const tester: ITest = new TestImplementation("blue");
+const twoTester: ITwoTest = new TestImplementation("red");
 
 if intWithType == 5 {
     const nope = "hello";

@@ -111,6 +111,9 @@ namespace TypeCheckerErrorMessageTable {
     static std::string ClassMethodHasReturnExpression(ASTNode* node) {
         return "class method cannot have return expression \n" + node->toSourceCode();
     }
+    static std::string ClassDoesNotImplementInterface(ASTNode* node) {
+        return "class does not satisfy interface it declared to implement \n" + node->toSourceCode();
+    }
     static std::string ArrayElementTypeMismatch(ASTNode* node) {
       return "not all array elements match the array element type \n" + node->toSourceCode();
     } 

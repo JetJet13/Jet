@@ -31,8 +31,8 @@ void ASTClassDeclarationNode::setTypeSignature(ClassTypeSignature* typeSignature
     _typeSignature = typeSignature;
 }
 
-std::optional<ASTImplementsInterfaceListNode*> ASTClassDeclarationNode::getImplementsInterfaceList() {
-    return _implementsInterfaceList;
+std::optional<ASTImplementsInterfaceListNode*>* ASTClassDeclarationNode::getImplementsInterfaceList() {
+    return &_implementsInterfaceList;
 }
 
 ClassTypeSignature* ASTClassDeclarationNode::getTypeSignature() {
@@ -61,13 +61,13 @@ bool ASTClassDeclarationNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTClassDeclarationNode*)other;
 
-    if (!_implementsInterfaceList.has_value() && otherNode->getImplementsInterfaceList().has_value() ||
-        _implementsInterfaceList.has_value() && !otherNode->getImplementsInterfaceList().has_value()) {
+    if (!_implementsInterfaceList.has_value() && otherNode->getImplementsInterfaceList()->has_value() ||
+        _implementsInterfaceList.has_value() && !otherNode->getImplementsInterfaceList()->has_value()) {
         return false;
     }
 
-    if (_implementsInterfaceList.has_value() && otherNode->getImplementsInterfaceList().has_value() &&
-        !_implementsInterfaceList.value()->isSameAs(otherNode->getImplementsInterfaceList().value())) {
+    if (_implementsInterfaceList.has_value() && otherNode->getImplementsInterfaceList()->has_value() &&
+        !_implementsInterfaceList.value()->isSameAs(otherNode->getImplementsInterfaceList()->value())) {
         return false;
     }
 
