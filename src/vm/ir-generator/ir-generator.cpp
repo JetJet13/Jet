@@ -102,6 +102,8 @@
 #include "ir-util-functions/array-take-ir-function/array-take-ir-function.h"
 #include "ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.h"
 #include "ir-prototypes/ir-array-prototype-map.h"
+#include "ir-util-functions/array-size-ir-function/array-size-ir-function.h"
+#include "ir-util-functions/array-empty-ir-function/array-empty-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -399,6 +401,10 @@ llvm::IntegerType* IRGenerator::generateIntType() {
     return llvm::IntegerType::get(*_context, 32);
 }
 
+llvm::IntegerType* IRGenerator::generateBooleanType() {
+    return llvm::IntegerType::get(*_context, 1);
+}
+
 llvm::IntegerType* IRGenerator::generateCharType() {
     return llvm::IntegerType::get(*_context, 8);
 }
@@ -455,6 +461,13 @@ IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignatu
 
 llvm::Constant* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
+}
+
+llvm::Constant* IRGenerator::generateBoolean(bool value) {
+    if (value) {
+        return llvm::ConstantInt::get(*_context, llvm::APInt(1, 1));
+    }
+    return llvm::ConstantInt::get(*_context, llvm::APInt(1, 0));
 }
 
 llvm::Constant* IRGenerator::generateInt64Constant(int integer) {
@@ -582,6 +595,8 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             ArrayTailIRFunction::getArrayTailIRFunctionName(),
             ArrayTakeIRFunction::getArrayTakeIRFunctionName(),
             ArrayTakeLastIRFunction::getArrayTakeLastIRFunctionName(),
+            ArraySizeIRFunction::getArraySizeIRFunctionName(),
+            ArrayEmptyIRFunction::getArrayEmptyIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName()
@@ -635,6 +650,8 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayPrependIRFunction::generateArrayPrependFunction(this, &_context, irModule);
     ArrayTakeIRFunction::generateArrayTakeFunction(this, &_context, irModule);
     ArrayTakeLastIRFunction::generateArrayTakeLastFunction(this, &_context, irModule);
+    ArraySizeIRFunction::generateArraySizeFunction(this, &_context, irModule);
+    ArrayEmptyIRFunction::generateArrayEmptyFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

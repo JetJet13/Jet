@@ -545,6 +545,10 @@ add_library(jet-vm
         ir-nodes/ir-type-declaration-nodes/ir-interface-type-declaration-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/interface-type-signature-ir-strategy/interface-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/interface-type-signature-ir-strategy/interface-type-signature-ir-strategy.h
+        ir-generator/ir-util-functions/array-size-ir-function/array-size-ir-function.cpp
+        ir-generator/ir-util-functions/array-size-ir-function/array-size-ir-function.h
+        ir-generator/ir-util-functions/array-empty-ir-function/array-empty-ir-function.cpp
+        ir-generator/ir-util-functions/array-empty-ir-function/array-empty-ir-function.h
 )
 
 target_link_libraries(jet-vm

@@ -102,6 +102,7 @@ public:
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
+    llvm::IntegerType* generateBooleanType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generatePointerIntType();
     llvm::IntegerType* generateInt64Type();
@@ -112,6 +113,7 @@ public:
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::Constant* generateIntConstant(int integer);
+    llvm::Constant* generateBoolean(bool value);
     llvm::Constant* generateInt64Constant(int integer);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);

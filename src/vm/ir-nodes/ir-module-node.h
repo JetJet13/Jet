@@ -40,6 +40,8 @@ private:
     std::string _arrayTailFunctionName;
     std::string _arrayTakeFunctionName;
     std::string _arrayTakeLastFunctionName;
+    std::string _arraySizeFunctionName;
+    std::string _arrayEmptyFunctionName;
     std::string _memcpyFunctionName;
     std::string _setupSrefFunctionName;
     std::string _setupRefFunctionName;
@@ -75,6 +77,8 @@ public:
                  std::string arrayTailFunctionName,
                  std::string arrayTakeFunctionName,
                  std::string arrayTakeLastFunctionName,
+                 std::string arraySizeFunctionName,
+                 std::string arrayEmptyFunctionName,
                  std::string memcpyFunctionName,
                  std::string setupSrefFunctionName,
                  std::string setupRefFunctionName);
@@ -109,6 +113,8 @@ public:
     llvm::Function* getArrayTailFunction();
     llvm::Function* getArrayTakeFunction();
     llvm::Function* getArrayTakeLastFunction();
+    llvm::Function* getArraySizeFunction();
+    llvm::Function* getArrayEmptyFunction();
     llvm::Function* getMemcpyFunction();
     llvm::Function* getSetupSrefFunction();
     llvm::Function* getSetupRefFunction();
