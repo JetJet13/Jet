@@ -4,7 +4,6 @@
 
 #include "type-signature-generator.h"
 #include "../../../type-signature/module-type-signature/module-type-signature.h"
-#include "../../../type-signature/interface-type-signature/interface-type-signature.h"
 
 TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider) {
     _typeSignatureStrategyProvider = typeSignatureStrategyProvider;

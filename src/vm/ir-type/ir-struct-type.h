@@ -18,6 +18,7 @@ private:
 public:
     IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap);
     llvm::StructType* getType() override;
+    void makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>* context);
     unsigned long size();
     uint64_t getSizeInBytes() override;
     std::string getKeyForIndex(unsigned long index);

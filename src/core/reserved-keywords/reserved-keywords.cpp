@@ -111,6 +111,7 @@ void ReservedKeywords::init() {
     this->add("++", SymbolFactory::createConcatSymbol());
     this->add("interface", SymbolFactory::createInterfaceSymbol());
     this->add("implements", SymbolFactory::createImplementsSymbol());
+    this->add("type", SymbolFactory::createTypeSymbol());
 
     this->initKeywordSymbolList();
 }

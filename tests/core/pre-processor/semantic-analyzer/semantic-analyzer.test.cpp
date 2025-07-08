@@ -747,6 +747,17 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {178, testInterfaceTypeSignature},
             {179, twoTestInterfaceTypeSignature},
 
+            {180, TypeSignatureFactory::stringLiteral},
+            {181, new FunctionLambdaTypeSignature(TypeSignatureFactory::boolLiteral)},
+            {182, TypeSignatureFactory::floatLiteral},
+            {183, new StructTypeSignature(
+                    TypeSignatureMap<TypeSignature>({
+                        std::pair("x", TypeSignatureFactory::intLiteral),
+                        std::pair("y", TypeSignatureFactory::intLiteral),
+                    })
+            )},
+
+
     };
 }
 
@@ -764,7 +775,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto expectedTypeSignatures = generateExpectedTypeSignatures();
     Logger::log("===== TEST LOGS =====");
     typeSignatureLookupTable->dump();
-    for (int i = 0; i < 179; i++) {
+    for (int i = 0; i < 183; i++) {
         auto declaration = fileNode->getBody()->at(i);
         auto typeSignature = typeSignatureLookupTable->find(declaration->getId());
         auto expectedTypeSignature = expectedTypeSignatures[i + 1];

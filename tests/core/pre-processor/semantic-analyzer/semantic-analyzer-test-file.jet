@@ -433,6 +433,11 @@ class TestImplementation implements ITest, ITwoTest {
 const tester: ITest = new TestImplementation("blue");
 const twoTester: ITwoTest = new TestImplementation("red");
 
+type TypeFoo = string;
+type TypeBar = func<> => boolean;
+type Money = float;
+type Point = { x: int, y: int };
+
 if intWithType == 5 {
     const nope = "hello";
 }

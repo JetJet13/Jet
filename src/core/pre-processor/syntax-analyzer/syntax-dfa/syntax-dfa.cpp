@@ -196,6 +196,10 @@ void SyntaxDfa::init() {
     DFANode* implementsKeyword = DFANodeFactory::Once::create(AST_IMPLEMENTS_NODE);
     DFANode* implementsInterfaceName = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_NODE);
     DFANode* implementsInterfaceNameLast = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_LAST_NODE);
+    DFANode* typeKeyword = DFANodeFactory::Once::create(AST_TYPE_KEYWORD_NODE);
+    DFANode* typeName = DFANodeFactory::Once::create(AST_TYPE_NAME_NODE);
+    DFANode* typeAssignmentOperator = DFANodeFactory::Once::create(AST_TYPE_ASSIGNMENT_OPERATOR_NODE);
+    DFANode* customTypeDeclaration = DFANodeFactory::Once::create(AST_CUSTOM_TYPE_DECLARATION_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -203,11 +207,8 @@ void SyntaxDfa::init() {
 //    todo: add support for goroutines
 //    todo: add support for piping
 //    todo: add support for traits
-//    todo: add support for interfaces
 //    todo: add support for inheritance
-//    todo: add support for struct definitions
 //    todo: add support for tagged unions (sum types)
-//    todo: add support for enums to have structs as values
 //    todo: add type-checker to prevent shadowing/re-declaring function parameters inside function blocks
 
     this->initVarDefinition(varDefinition);
@@ -215,6 +216,7 @@ void SyntaxDfa::init() {
     this->initFunction(functionKeyword);
     this->initProcedure(procedureKeyword);
     this->initEnum(enumKeyword);
+    this->initCustomType(typeKeyword);
     this->initIf(ifKeyword);
     this->initElse(elseKeyword);
     this->initElseIf(elseIfKeyword);
@@ -801,7 +803,8 @@ void SyntaxDfa::init() {
 
 
     assignmentOperator
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE, AST_CLASS_PROPERTY_ACCESS_NODE  });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE, AST_CLASS_PROPERTY_ACCESS_NODE  })
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_NODE });
 
     objectAccessSource
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_PERIOD_NODE })
@@ -1266,6 +1269,15 @@ void SyntaxDfa::init() {
     implementsInterfaceName
     ->markAlwaysReduceSelf();
 
+    typeKeyword
+    ->markAlwaysReduceSelf();
+
+    typeName
+    ->markAlwaysReduceSelf();
+
+    typeAssignmentOperator
+    ->markAlwaysReduceSelf();
+
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -1455,6 +1467,10 @@ void SyntaxDfa::init() {
     ->insertStartNode(implementsKeyword)
     ->insertStartNode(implementsInterfaceName)
     ->insertStartNode(implementsInterfaceNameLast)
+    ->insertStartNode(typeKeyword)
+    ->insertStartNode(typeName)
+    ->insertStartNode(typeAssignmentOperator)
+    ->insertStartNode(customTypeDeclaration)
     ->insertStartNode(DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_LIST_NODE))
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())
@@ -1626,15 +1642,34 @@ void SyntaxDfa::initProcedure(DFANode* procedureNode) {
 
 void SyntaxDfa::initEnum(DFANode* enumNode) {
     enumNode
+    ->addTransition(
+            DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_ENUM_NAME_NODE)
+                            ->addTransition(
+                                    DFATransitionFactory::create(
+                                            DFANodeFactory::Once::createWithTarget(AST_ENUM_KEY_VALUE_LIST_NODE, AST_ENUM_DECLARATION_NODE)
+                                    ))
+            )
+    );
+}
+
+void SyntaxDfa::initCustomType(DFANode* typeKeyword) {
+    typeKeyword
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_TYPE_NAME_NODE)
             ->addTransition(
-                    DFATransitionFactory::create(
-                            DFANodeFactory::Once::create(AST_ENUM_NAME_NODE)
-                                    ->addTransition(
-                                            DFATransitionFactory::create(
-                                                    DFANodeFactory::Once::createWithTarget(AST_ENUM_KEY_VALUE_LIST_NODE, AST_ENUM_DECLARATION_NODE)
-                                            ))
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_TYPE_ASSIGNMENT_OPERATOR_NODE)
+                    ->addTransition(
+                        DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_CUSTOM_TYPE_DECLARATION_NODE)
+                        )
                     )
-            );
+                )
+            )
+        )
+    );
 }
 
 void SyntaxDfa::initIf(DFANode* ifNode) {

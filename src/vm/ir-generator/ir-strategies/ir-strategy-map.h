@@ -27,6 +27,7 @@ class FunctionReturnExpressionIRStrategy;
 class ProcedureDeclarationIRStrategy;
 class EnumDeclarationIRStrategy;
 class InterfaceTypeDeclarationIRStrategy;
+class CustomTypeDeclarationIRStrategy;
 class ModuleDeclarationIRStrategy;
 class ImportSingleModuleDeclarationIRStrategy;
 class ObjectAccessExpressionIRStrategy;
@@ -96,6 +97,7 @@ private:
     ProcedureDeclarationIRStrategy* _procedureDeclarationIRStrategy;
     EnumDeclarationIRStrategy* _enumDeclarationIRStrategy;
     InterfaceTypeDeclarationIRStrategy* _interfaceTypeDeclarationIRStrategy;
+    CustomTypeDeclarationIRStrategy* _customTypeDeclarationIRStrategy;
     ModuleDeclarationIRStrategy* _moduleDeclarationIRStrategy;
     ImportSingleModuleDeclarationIRStrategy* _importSingleModuleDeclarationIRStrategy;
     ObjectAccessExpressionIRStrategy* _objectAccessExpressionIRStrategy;
@@ -163,6 +165,7 @@ public:
     ProcedureDeclarationIRStrategy* getProcedureDeclarationIRStrategy();
     EnumDeclarationIRStrategy* getEnumDeclarationIRStrategy();
     InterfaceTypeDeclarationIRStrategy* getInterfaceTypeDeclarationIRStrategy();
+    CustomTypeDeclarationIRStrategy* getCustomTypeDeclarationIRStrategy();
     ModuleDeclarationIRStrategy* getModuleDeclarationIRStrategy();
     ImportSingleModuleDeclarationIRStrategy* getImportSingleModuleDeclarationIRStrategy();
     ObjectAccessExpressionIRStrategy* getObjectAccessExpressionIRStrategy();

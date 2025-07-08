@@ -345,6 +345,10 @@ bool Symbol::isImplements() {
     return _type == SYM_IMPLEMENTS;
 }
 
+bool Symbol::isTypeKeyword() {
+    return _type == SYM_TYPE;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }

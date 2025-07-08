@@ -519,3 +519,8 @@ proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}
 class FooClass implements MyInterface {}
 
 class BarClass implements MyInterface, MyOtherInterface, MyThirdInterface {}
+
+type Foo = string;
+type Bar = func<> => boolean;
+type Money = float;
+type Point = { x: int, y: int };

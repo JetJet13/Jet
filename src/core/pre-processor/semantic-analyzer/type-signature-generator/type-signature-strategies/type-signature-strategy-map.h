@@ -72,6 +72,7 @@ class ImportTypeSignatureStrategy;
 class ModuleTypeSignatureStrategy;
 class InterfaceTypeSignatureStrategy;
 class InterfacePropertyTypeSignatureStrategy;
+class CustomTypeDeclarationTypeSignatureStrategy;
 class LambdaExpressionScopeParameterTypeSignatureStrategy;
 class ClassScopeParameterTypeSignatureStrategy;
 class ArrayAccessAssignmentStatementTypeSignatureStrategy;
@@ -145,6 +146,7 @@ private:
     ModuleTypeSignatureStrategy* _moduleTypeSignatureStrategy;
     InterfaceTypeSignatureStrategy* _interfaceTypeSignatureStrategy;
     InterfacePropertyTypeSignatureStrategy* _interfacePropertyTypeSignatureStrategy;
+    CustomTypeDeclarationTypeSignatureStrategy* _customTypeDeclarationTypeSignatureStrategy;
     ArrayAccessAssignmentStatementTypeSignatureStrategy* _arrayAccessAssignmentStatementTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
@@ -216,6 +218,7 @@ public:
     ModuleTypeSignatureStrategy* getModuleTypeSignatureStrategy();
     InterfaceTypeSignatureStrategy* getInterfaceTypeSignatureStrategy();
     InterfacePropertyTypeSignatureStrategy* getInterfacePropertyTypeSignatureStrategy();
+    CustomTypeDeclarationTypeSignatureStrategy* getCustomTypeDeclarationTypeSignatureStrategy();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_MAP_H

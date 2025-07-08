@@ -1260,6 +1260,22 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/implements-interface-list-reducer-strategy/implements-interface-list-reducer-strategy.h
         ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-last-node.cpp
         ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-last-node.h
+        ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.h
+        ast/ast-nodes/ast-type-nodes/ast-type-name-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-name-node.h
+        ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.cpp
+        ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/custom-type-declaration-reducer-strategy/custom-type-declaration-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/custom-type-declaration-reducer-strategy/custom-type-declaration-reducer-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-type-assignment-operator-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-type-assignment-operator-node.h
+        pre-processor/semantic-analyzer/type-checker/policies/custom-type-declaration-type-checker-policy/custom-type-declaration-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/custom-type-declaration-type-checker-policy/custom-type-declaration-type-checker-policy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/custom-type-declaration-id-strategy/custom-type-declaration-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/custom-type-declaration-id-strategy/custom-type-declaration-id-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.h
 
 )
 

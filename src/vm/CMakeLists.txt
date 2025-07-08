@@ -549,6 +549,10 @@ add_library(jet-vm
         ir-generator/ir-util-functions/array-size-ir-function/array-size-ir-function.h
         ir-generator/ir-util-functions/array-empty-ir-function/array-empty-ir-function.cpp
         ir-generator/ir-util-functions/array-empty-ir-function/array-empty-ir-function.h
+        ir-generator/ir-strategies/custom-type-declaration-ir-strategy/custom-type-declaration-ir-strategy.cpp
+        ir-generator/ir-strategies/custom-type-declaration-ir-strategy/custom-type-declaration-ir-strategy.h
+        ir-nodes/ir-type-declaration-nodes/ir-custom-type-declaration-node.cpp
+        ir-nodes/ir-type-declaration-nodes/ir-custom-type-declaration-node.h
 )
 
 target_link_libraries(jet-vm

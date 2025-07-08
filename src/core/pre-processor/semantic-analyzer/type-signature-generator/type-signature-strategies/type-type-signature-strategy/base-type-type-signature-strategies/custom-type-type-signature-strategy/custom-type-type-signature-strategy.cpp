@@ -4,7 +4,6 @@
 
 #include "custom-type-type-signature-strategy.h"
 
-
 void CustomTypeTypeSignatureStrategy::assign(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto customTypeSignature = typeSignatureLookupTable->find(node->getId());
     node->setTypeSignature(customTypeSignature);

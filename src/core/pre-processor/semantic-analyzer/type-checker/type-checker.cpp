@@ -48,6 +48,7 @@
 #include "policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.h"
 #include "policies/expressions/tuple-access-invocation-expression-type-checker-policy/tuple-access-invocation-expression-type-checker-policy.h"
 #include "policies/interface-type-checker-policy/interface-type-checker-policy.h"
+#include "policies/custom-type-declaration-type-checker-policy/custom-type-declaration-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -87,6 +88,9 @@ namespace TypeChecker {
                 break;
             case AST_INTERFACE_TYPE_DECLARATION_NODE:
                 InterfaceTypeDeclarationTypeCheckerPolicy::apply((ASTInterfaceTypeDeclarationNode*)node, typeCheckerResult);
+                break;
+            case AST_CUSTOM_TYPE_DECLARATION_NODE:
+                CustomTypeDeclarationTypeCheckerPolicy::apply((ASTCustomTypeDeclarationNode*)node, typeCheckerResult);
                 break;
             case AST_IF_STATEMENT_NODE:
                 IfStatementTypeCheckerPolicy::apply((ASTIfStatementNode*)node, typeCheckerResult);

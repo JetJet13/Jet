@@ -98,6 +98,7 @@ public:
     bool isConcat();
     bool isInterface();
     bool isImplements();
+    bool isTypeKeyword();
     bool isThis();
     SymbolType getType();
     bool isSameAs(Symbol* symbol);

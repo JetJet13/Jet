@@ -66,6 +66,7 @@
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h"
+#include "custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
@@ -140,6 +141,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _moduleTypeSignatureStrategy = new ModuleTypeSignatureStrategy();
     _interfaceTypeSignatureStrategy = new InterfaceTypeSignatureStrategy();
     _interfacePropertyTypeSignatureStrategy = new InterfacePropertyTypeSignatureStrategy();
+    _customTypeDeclarationTypeSignatureStrategy = new CustomTypeDeclarationTypeSignatureStrategy();
     _arrayAccessAssignmentStatementTypeSignatureStrategy = new ArrayAccessAssignmentStatementTypeSignatureStrategy();
 }
 
@@ -404,4 +406,7 @@ InterfaceTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfaceTypeSignat
 }
 InterfacePropertyTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfacePropertyTypeSignatureStrategy() {
     return this->_interfacePropertyTypeSignatureStrategy;
+}
+CustomTypeDeclarationTypeSignatureStrategy* TypeSignatureStrategyMap::getCustomTypeDeclarationTypeSignatureStrategy() {
+    return this->_customTypeDeclarationTypeSignatureStrategy;
 }

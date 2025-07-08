@@ -47,6 +47,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -3653,6 +3654,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::implementsInterfaceName
                 })
         )},
+        {235, ASTNodeFactory::createCustomType(ASTNodeFactory::stringType)},
+        {236, ASTNodeFactory::createCustomType(ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType))},
+        {237, ASTNodeFactory::createCustomType(ASTNodeFactory::floatType)},
+        {238, ASTNodeFactory::createCustomType(ASTNodeFactory::createStructType({
+                ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
+                ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType)
+        }))},
 
 };
 
@@ -3685,8 +3693,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 234);
-    for (int i = 0; i < 234; i++) {
+REQUIRE(fileScope->getScope().size() == 238);
+    for (int i = 0; i < 238; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

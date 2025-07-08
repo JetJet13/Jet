@@ -24,6 +24,7 @@ namespace ASTNodeUtils {
     static bool isTypeDeclarationNode(ASTNode* node) {
         switch (node->getNodeType()) {
             case AST_INTERFACE_TYPE_DECLARATION_NODE:
+            case AST_CUSTOM_TYPE_DECLARATION_NODE:
                 return true;
             default:
                 return false;
@@ -37,6 +38,7 @@ namespace ASTNodeUtils {
             case AST_PROCEDURE_DECLARATION_NODE:
             case AST_ENUM_DECLARATION_NODE:
             case AST_INTERFACE_TYPE_DECLARATION_NODE:
+            case AST_CUSTOM_TYPE_DECLARATION_NODE:
             case AST_MODULE_DECLARATION_NODE:
             case AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE:
             case AST_USE_SINGLE_MODULE_DECLARATION_NODE:

@@ -132,6 +132,10 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-implements-interface-list-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-name-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-assignment-operator-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -604,6 +608,18 @@ namespace ASTNodeFactory {
     static ASTStructTypeEndNode* structTypeEnd = new ASTStructTypeEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
     static ASTStructTypeKeyNode* structTypeKey = new ASTStructTypeKeyNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTStructTypeColonNode* structTypeColon = new ASTStructTypeColonNode(createLexeme(SymbolFactory::createColonSymbol()));
+    static ASTTypeKeywordNode* typeKeyword = new ASTTypeKeywordNode(createLexeme(SymbolFactory::createTypeSymbol()));
+    static ASTTypeNameNode* typeName = new ASTTypeNameNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static ASTTypeAssignmentOperatorNode* typeAssignmentOperator = new ASTTypeAssignmentOperatorNode(createLexeme(SymbolFactory::createEqualSymbol()));
+    static ASTCustomTypeDeclarationNode* createCustomType(ASTTypeNode* type, std::optional<ASTExportNode*> exportKeyword = {}) {
+        return new ASTCustomTypeDeclarationNode(
+               ASTNodeFactory::typeKeyword,
+               ASTNodeFactory::typeName,
+               ASTNodeFactory::typeAssignmentOperator,
+               type,
+               exportKeyword
+        );
+    }
     static ASTArrayNode* createArray(std::vector<ASTExpressionNode*> elements) {
         return new ASTArrayNode(
             ASTNodeFactory::leftBracket,

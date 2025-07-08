@@ -70,6 +70,7 @@
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h"
+#include "custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
 
 
@@ -126,6 +127,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getFunctionTypeSignatureStrategy()
                     ->assign((ASTFunctionDeclarationNode *) node, typeSignatureScope, this);
+            break;
+        case AST_CUSTOM_TYPE_DECLARATION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getCustomTypeDeclarationTypeSignatureStrategy()
+                    ->assignAndAddToScope((ASTCustomTypeDeclarationNode*)node, typeSignatureScope, this);
             break;
         case AST_INTERFACE_TYPE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap

@@ -46,6 +46,7 @@
 #include "ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h"
 #include "ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
 #include "ir-strategies/interface-type-declaration-ir-strategy/interface-type-declaration-ir-strategy.h"
+#include "ir-strategies/custom-type-declaration-ir-strategy/custom-type-declaration-ir-strategy.h"
 #include "ir-strategies/module-declaration-ir-strategy/module-declaration-ir-strategy.h"
 #include "ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.h"
@@ -171,6 +172,8 @@ IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTa
 IRTypeDeclarationNode* IRGenerator::generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext) {
     if (node->is(AST_INTERFACE_TYPE_DECLARATION_NODE)) {
         return this->_irStrategyMap.getInterfaceTypeDeclarationIRStrategy()->generate((ASTInterfaceTypeDeclarationNode*)node,  this, scope, irContext);
+    } else if (node->is(AST_CUSTOM_TYPE_DECLARATION_NODE)) {
+        return this->_irStrategyMap.getCustomTypeDeclarationIRStrategy()->generate((ASTCustomTypeDeclarationNode*)node,  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for type declaration " + node->toString());
 }
@@ -256,6 +259,10 @@ IRType* IRGenerator::generateTypeFor(llvm::Constant* constant) {
 }
 
 IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+    auto existingIRType = scope->findType(typeSignature->getId());
+    if (existingIRType) {
+        return existingIRType.value();
+    }
     switch (typeSignature->getTypeSource()) {
         case VOID_TYPE_SOURCE:
             return this->generateVoidType();

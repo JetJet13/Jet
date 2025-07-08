@@ -28,6 +28,7 @@
 #include "ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-node.h"
 #include "ast-interface-nodes/ast-implements-interface-name-node.h"
 #include "ast-interface-nodes/ast-implements-interface-name-last-node.h"
+#include "ast-type-nodes/ast-type-name-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -55,7 +56,7 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTClassPropertyNameNode(this->getLexeme(), this->getId());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_TYPE_ASSIGNMENT_OPERATOR_NODE, AST_STRUCT_TYPE_COLON_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
@@ -85,7 +86,7 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({AST_ASSIGNMENT_OPERATOR_NODE, AST_TERMINATOR_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE }) && nextNode && nextNode.value()->isOneOf({AST_ASSIGNMENT_OPERATOR_NODE, AST_TERMINATOR_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
@@ -146,6 +147,10 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CATCH_NODE })) {
         return new ASTCatchErrorVariableNode(this->getLexeme(), this->getId());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_KEYWORD_NODE })) {
+        return new ASTTypeNameNode(this->getLexeme(), this->getId());
     }
 
     return this;

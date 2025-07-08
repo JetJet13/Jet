@@ -15,6 +15,10 @@ llvm::StructType* IRStructType::getType() {
     return _type;
 }
 
+void IRStructType::makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>* context) {
+    _type = llvm::StructType::create(**context, _type->elements(), id);
+}
+
 unsigned long IRStructType::size() {
     return _type->getNumElements();
 }

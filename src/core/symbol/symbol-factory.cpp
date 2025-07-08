@@ -330,4 +330,8 @@ namespace SymbolFactory {
     Symbol* createImplementsSymbol()  {
         return new Symbol(SYM_IMPLEMENTS, "implements");
     }
+
+    Symbol* createTypeSymbol()  {
+        return new Symbol(SYM_TYPE, "type");
+    }
 }

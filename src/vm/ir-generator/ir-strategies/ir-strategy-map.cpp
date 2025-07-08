@@ -41,6 +41,7 @@
 #include "./procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.h"
 #include "./enum-declaration-ir-strategy/enum-declaration-ir-strategy.h"
 #include "./interface-type-declaration-ir-strategy/interface-type-declaration-ir-strategy.h"
+#include "./custom-type-declaration-ir-strategy/custom-type-declaration-ir-strategy.h"
 #include "./module-declaration-ir-strategy/module-declaration-ir-strategy.h"
 #include "./import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.h"
 #include "./class-declaration-ir-strategy/class-declaration-ir-strategy.h"
@@ -90,6 +91,7 @@ IRStrategyMap::IRStrategyMap() {
     _procedureDeclarationIRStrategy = new ProcedureDeclarationIRStrategy();
     _enumDeclarationIRStrategy = new EnumDeclarationIRStrategy();
     _interfaceTypeDeclarationIRStrategy = new InterfaceTypeDeclarationIRStrategy();
+    _customTypeDeclarationIRStrategy = new CustomTypeDeclarationIRStrategy();
     _moduleDeclarationIRStrategy = new ModuleDeclarationIRStrategy();
     _importSingleModuleDeclarationIRStrategy = new ImportSingleModuleDeclarationIRStrategy();
     _objectAccessExpressionIRStrategy = new ObjectAccessExpressionIRStrategy();
@@ -220,6 +222,10 @@ EnumDeclarationIRStrategy* IRStrategyMap::getEnumDeclarationIRStrategy() {
 
 InterfaceTypeDeclarationIRStrategy* IRStrategyMap::getInterfaceTypeDeclarationIRStrategy() {
     return _interfaceTypeDeclarationIRStrategy;
+}
+
+CustomTypeDeclarationIRStrategy* IRStrategyMap::getCustomTypeDeclarationIRStrategy() {
+    return _customTypeDeclarationIRStrategy;
 }
 
 ModuleDeclarationIRStrategy* IRStrategyMap::getModuleDeclarationIRStrategy() {

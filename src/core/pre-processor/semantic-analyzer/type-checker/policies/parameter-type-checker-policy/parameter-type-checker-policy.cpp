@@ -24,4 +24,4 @@ namespace ParameterTypeCheckerPolicy {
                 typeCheckerResult
         );
     }
-};
+}

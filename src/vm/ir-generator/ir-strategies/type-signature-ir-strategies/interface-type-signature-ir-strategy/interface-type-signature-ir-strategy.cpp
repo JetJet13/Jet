@@ -7,10 +7,7 @@
 #include "../../../../types/ir-type-id.h"
 
 IRStructType* InterfaceTypeSignatureIRStrategy::generate(InterfaceTypeSignature* interfaceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto existingInterface = scope->findType(interfaceTypeSignature->getId());
-    if (existingInterface) {
-        return (IRStructType*)existingInterface.value();
-    }
+
     auto interfacePropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();

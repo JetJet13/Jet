@@ -9,12 +9,6 @@ type Nar = func<int> => boolean;
 type Money = float;
 type GenericFiveArray<T> = arr<T, 5>;
 
-interface MyInterface {
-    foo: int,
-    bar: boolean,
-    hello: func<> => string,
-}
-
 interface MyInterface<T, R> {
     foo: T,
     const bar: R,
