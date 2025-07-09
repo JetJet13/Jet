@@ -3,26 +3,28 @@
 //
 
 #include "ast-array-type-node.h"
-#include "../../../../shared/utils/logger/logger.h"
-#include "../../types/source-code-builder/source-code-builder.h"
+#include "../../../../../shared/utils/logger/logger.h"
+#include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTArrayTypeNode::ASTArrayTypeNode(ASTArrayTypeKeywordNode* arrayKeywordNode, ASTTypeParameterListNode* typeParameterList) {
-    _arrayKeyword = arrayKeywordNode;
-    _typeParameterList = typeParameterList;
-    _children.push_back(_arrayKeyword);
-    _children.push_back(_typeParameterList);
+ASTArrayTypeNode::ASTArrayTypeNode(ASTArrayTypeStartNode* arrayStart, ASTTypeNode* elementType, ASTArrayTypeEndNode* arrayEnd) {
+    _arrayStart = arrayStart;
+    _elementType = elementType;
+    _arrayEnd = arrayEnd;
+    _children.push_back(_arrayStart);
+    _children.push_back(_elementType);
+    _children.push_back(_arrayEnd);
 }
 
 ASTTypeNode* ASTArrayTypeNode::getElementType() {
-    return _typeParameterList->getParameters()[0];
+    return _elementType;
 }
 
 Position* ASTArrayTypeNode::getStartPosition() {
-    return _arrayKeyword->getStartPosition();
+    return _arrayStart->getStartPosition();
 }
 
 Position* ASTArrayTypeNode::getEndPosition() {
-    return _typeParameterList->getEndPosition();
+    return _arrayEnd->getEndPosition();
 }
 
 ASTNodeType ASTArrayTypeNode::getNodeType() {
@@ -44,12 +46,12 @@ bool ASTArrayTypeNode::isSameAs(ASTNode *other) {
 
 void ASTArrayTypeNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _typeParameterList->print();
+    _elementType->print();
     Logger::log("----------");
 }
 
 std::string ASTArrayTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_arrayKeyword)->add(_typeParameterList);
+    sourceCodeBuilder.add(_arrayStart)->add(_elementType)->add(_arrayEnd);
     return sourceCodeBuilder.build();
 }

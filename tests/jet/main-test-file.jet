@@ -150,32 +150,32 @@ func tupleTest(tupArg: tuple<func<int> => int, func<> => int, func<int> => int>)
 
 interface MyInterface {
     foo: int,
-    bar: boolean,
+    bar: bool,
     hello: func<> => string,
     structure: { a: int, b: int },
-    bye: func<{ a: int, b: int }, { c: boolean, d: char }> => string,
+    bye: func<{ a: int, b: int }, { c: bool, d: char }> => string,
 }
 
-const structure: { a: boolean, c: char } = { a: true, c: 'n' };
+const structure: { a: bool, c: char } = { a: true, c: 'n' };
 const myInterfaceImpl: MyInterface = {
     foo: 4,
     bar: true,
     hello: () => "hello",
     structure: { a: 1, b: 10 },
-    bye: (first: { a: int, b: int }, second: { c: boolean, d: char }) => "bye",
+    bye: (first: { a: int, b: int }, second: { c: bool, d: char }) => "bye",
 };
 
-proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}
+proc SProc(myStruct: { a: bool, b: { foo: int, bar: bool } }) {}
 
 interface ITest {
-    foo: boolean,
+    foo: bool,
     bar: int,
     getColor: func<> => string,
     size: func<> => int
 }
 
 class TestImplementation {
-    public foo: boolean = true;
+    public foo: bool = true;
     public bar: int = 10;
     private color: string;
 
@@ -197,9 +197,9 @@ proc InterfaceTest() {
 }
 
 type TypeFoo = string;
-type TypeBar = func<> => boolean;
+type TypeBar = func<> => bool;
 type Money = float;
-type Point = { x: int, y: int };
+type Point = { x: int, y: int, m: Money };
 
-const myPoint: Point = { x: 5, y: 10 };
+const myPoint: Point = { x: 5, y: 10, m: 100.00 };
 const myMoney: Money = 50.0;

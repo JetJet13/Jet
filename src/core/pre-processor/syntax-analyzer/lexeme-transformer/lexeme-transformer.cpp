@@ -44,7 +44,6 @@
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.h"
-#include "../../../ast/ast-nodes/ast-array-nodes/ast-array-type-keyword-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-star-base-node.h"
 #include "../../../ast/ast-nodes/ast-module-nodes/ast-module-node.h"
 #include "../../../ast/ast-nodes/ast-module-nodes/ast-as-node.h"
@@ -173,8 +172,6 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTLessThanBaseNode(lexeme);
     } else if (symbol->isGreaterThan()) {
         return new ASTGreaterThanBaseNode(lexeme);
-    } else if (symbol->isArrayTypeKeyword()) {
-        return new ASTArrayTypeKeywordNode(lexeme);
     } else if (symbol->isModule()) {
         return new ASTModuleNode(lexeme);
     } else if (symbol->isAsKeyword()) {

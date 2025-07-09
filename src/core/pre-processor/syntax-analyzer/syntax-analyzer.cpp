@@ -252,7 +252,6 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_IMPLEMENTS_INTERFACE_LIST_NODE:
         case AST_STRUCT_TYPE_NODE:
         case AST_TUPLE_TYPE_NODE:
-        case AST_ARRAY_TYPE_NODE:
         case AST_REF_TYPE_NODE:
         case AST_TUPLE_LIST_NODE:
         case AST_MODULE_LIST_NODE:

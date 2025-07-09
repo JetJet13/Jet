@@ -56,7 +56,7 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTClassPropertyNameNode(this->getLexeme(), this->getId());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_TYPE_ASSIGNMENT_OPERATOR_NODE, AST_STRUCT_TYPE_COLON_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_TYPE_ASSIGNMENT_OPERATOR_NODE, AST_STRUCT_TYPE_COLON_NODE, AST_ARRAY_TYPE_START_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 

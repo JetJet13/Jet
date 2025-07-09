@@ -131,7 +131,6 @@ void SyntaxDfa::init() {
     DFANode* curryExpression = DFANodeFactory::Once::create(AST_CURRY_EXPRESSION_NODE);
     DFANode* tupleType = DFANodeFactory::Once::createWithTarget(AST_TUPLE_TYPE_NODE, AST_TUPLE_TYPE_NODE);
     DFANode* arrayType = DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_NODE, AST_ARRAY_TYPE_NODE);
-    DFANode* arrayTypeKeyword = DFANodeFactory::Once::create(AST_ARRAY_TYPE_KEYWORD_NODE);
     DFANode* moduleKeyword = DFANodeFactory::Once::create(AST_MODULE_NODE);
     DFANode* moduleSpread = DFANodeFactory::Once::create(AST_MODULE_SPREAD_NODE);
     DFANode* moduleListNormalItem = DFANodeFactory::Once::create(AST_MODULE_LIST_NORMAL_ITEM_NODE);
@@ -200,6 +199,8 @@ void SyntaxDfa::init() {
     DFANode* typeName = DFANodeFactory::Once::create(AST_TYPE_NAME_NODE);
     DFANode* typeAssignmentOperator = DFANodeFactory::Once::create(AST_TYPE_ASSIGNMENT_OPERATOR_NODE);
     DFANode* customTypeDeclaration = DFANodeFactory::Once::create(AST_CUSTOM_TYPE_DECLARATION_NODE);
+    DFANode* arrayTypeStart = DFANodeFactory::Once::create(AST_ARRAY_TYPE_START_NODE);
+    DFANode* arrayTypeEnd = DFANodeFactory::Once::create(AST_ARRAY_TYPE_END_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -923,7 +924,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     typeParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_ARRAY_TYPE_KEYWORD_NODE, AST_REF_TYPE_KEYWORD_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_REF_TYPE_KEYWORD_NODE });
 
     functionLambdaTypeParameterList
     ->addTransition(DFATransitionFactory::create(
@@ -955,12 +956,11 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LOGICAL_EXPRESSION_NODE, AST_LAMBDA_RETURN_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_UNARY_EXPRESSION_NODE, AST_LAMBDA_RETURN_EXPRESSION_NODE)));
 
-    arrayTypeKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_PARAMETER_LIST_START_NODE })
-    ->addTransition(
-            DFATransitionFactory::create(
-                DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_ARRAY_TYPE_NODE)
-    ));
+    arrayTypeStart
+    ->markAlwaysReduceSelf();
+
+    arrayTypeEnd
+    ->markAlwaysReduceSelf();
 
     moduleKeyword
     ->addTransition(
@@ -1399,7 +1399,6 @@ void SyntaxDfa::init() {
     ->insertStartNode(curryExpression)
     ->insertStartNode(tupleType)
     ->insertStartNode(arrayType)
-    ->insertStartNode(arrayTypeKeyword)
     ->insertStartNode(moduleKeyword)
     ->insertStartNode(moduleSpread)
     ->insertStartNode(moduleListNormalItem)
@@ -1471,6 +1470,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(typeName)
     ->insertStartNode(typeAssignmentOperator)
     ->insertStartNode(customTypeDeclaration)
+    ->insertStartNode(arrayTypeStart)
+    ->insertStartNode(arrayTypeEnd)
     ->insertStartNode(DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_LIST_NODE))
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())

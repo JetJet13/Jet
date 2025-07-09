@@ -10,7 +10,7 @@
 #include "ast-primitive-type-node.h"
 #include "ast-lambda-type-node.h"
 #include "ast-tuple-type-node.h"
-#include "ast-array-type-node.h"
+#include "ast-array-type-nodes/ast-array-type-node.h"
 #include "../ast-class-nodes/ast-this-node.h"
 #include "ast-procedure-type-node.h"
 #include "ast-function-type-node.h"

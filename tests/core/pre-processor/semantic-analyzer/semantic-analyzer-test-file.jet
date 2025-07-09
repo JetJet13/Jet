@@ -148,17 +148,17 @@ func returnString() string {
 }
 
 const lambdaSum = (x: Color) => x;
-const lambdaGt = (x: int, y: int) boolean => x > y;
+const lambdaGt = (x: int, y: int) bool => x > y;
 const lambdaFullSum = (x: int) { return x + 10; };
 const lambdaNestedSum = (x: int) => (y: int) => (z: int) => x + y + z;
 
 const preDefinedFunctionCall = useLambdaBool();
 
-func useLambda(x: int, lambda: func<int> => boolean) boolean {
+func useLambda(x: int, lambda: func<int> => bool) bool {
     return lambda(x);
 }
 
-func useLambdaOther(lambda: func<int,int> => func<int> => boolean) boolean {
+func useLambdaOther(lambda: func<int,int> => func<int> => bool) bool {
     return lambda(1,2)(5);
 }
 
@@ -170,15 +170,15 @@ func useLambdaLambda() func<int> => int {
     return (x: int) => 9;
 }
 
-func useLambdaBool() boolean {
+func useLambdaBool() bool {
     return (true && true);
 }
 
-func useLambdaFunc(x: func<int> => boolean) boolean {
+func useLambdaFunc(x: func<int> => bool) bool {
     return (true && true);
 }
 
-func useAnotherProc(x: proc<>, y: proc<Color>) boolean {
+func useAnotherProc(x: proc<>, y: proc<Color>) bool {
     return true;
 }
 
@@ -190,9 +190,9 @@ const intWithType: int = 5;
 const floatWithType: float = 5.0;
 const charWithType: char = 'c';
 const stringWithType: string = "foo";
-const boolWithType: boolean = true;
-const arrWithType: arr<int> = [1,2,3];
-const funcWithType: func<int> => boolean = (x: int) => true;
+const boolWithType: bool = true;
+const arrWithType: [int] = [1,2,3];
+const funcWithType: func<int> => bool = (x: int) => true;
 const procWithType: proc<int> = (x: int) { x + 1; };
 const tupleWithType: tuple<int, int> = tuple { 1, 2 };
 const customWithType: Color = Color.Red;
@@ -216,8 +216,8 @@ class MyClass {
     protected static fooTwoStatic: int = 10;
     protected static fooThreeStatic = 10;
 
-    private static const mickOneStatic: boolean;
-    private static const mickTwoStatic: boolean = true;
+    private static const mickOneStatic: bool;
+    private static const mickTwoStatic: bool = true;
     private static const mickThreeStatic = true;
 
     private initMyClass = new MyClass(5);
@@ -225,7 +225,7 @@ class MyClass {
     private otherClass: OtherClass = new OtherClass();
 
     private foo: int;
-    private bar: boolean;
+    private bar: bool;
 
     constructor(other: MyClass) {
         this.foo = 10;
@@ -249,15 +249,15 @@ class MyClass {
         return new MyClass(100);
     }
 
-    private static getBar() boolean {
+    private static getBar() bool {
         return true;
     }
 
-    public isValid() func<> => boolean {
+    public isValid() func<> => bool {
         return this.getBar;
     }
 
-    protected setBar(bar: boolean) this {
+    protected setBar(bar: bool) this {
         this.bar = bar;
         return this;
     }
@@ -313,7 +313,7 @@ func withFinally() int {
     }
 }
 
-const emptyArray: arr<int> = [];
+const emptyArray: [int] = [];
 
 
 const foo = { bar : 'a' };
@@ -339,7 +339,7 @@ const dereferenceChar = dref rIdChar;
 const dereferenceInt = dref refsArray[0];
 const dereferenceString = dref refsTuple.0;
 
-func refParamsTest(x: ref<int>, y: ref<boolean>, z: ref<arr<int>>) ref<int> {
+func refParamsTest(x: ref<int>, y: ref<bool>, z: ref<[int]>) ref<int> {
     return ref 5;
 }
 
@@ -381,40 +381,40 @@ const lambdaTupleCall = lambdaTuple.1();
 
 interface MyInterface {
     foo: int,
-    bar: boolean,
+    bar: bool,
     hello: func<> => string,
     structure: { a: int, b: int },
-    bye: func<{ a: int, b: int }, { c: boolean, d: char }> => string,
+    bye: func<{ a: int, b: int }, { c: bool, d: char }> => string,
     myClassInstance: MyClass,
 }
 
-const structure: { a: boolean, c: char } = { a: true, c: 'n' };
+const structure: { a: bool, c: char } = { a: true, c: 'n' };
 const myInterfaceImpl: MyInterface = {
     foo: 4,
     bar: true,
     hello: () => "hello",
     structure: { a: 1, b: 10 },
-    bye: (first: { a: int, b: int }, second: { c: boolean, d: char }) => "bye",
+    bye: (first: { a: int, b: int }, second: { c: bool, d: char }) => "bye",
     myClassInstance: new MyClass(95)
 };
 
-proc SProc(myStruct: { a: boolean, b: { foo: int, bar: boolean } }) {}
+proc SProc(myStruct: { a: bool, b: { foo: int, bar: bool } }) {}
 
 interface ITest {
-    foo: boolean,
+    foo: bool,
     bar: int,
     getColor: func<> => string,
     size: func<> => int
 }
 
 interface ITwoTest {
-    magic: boolean
+    magic: bool
 }
 
 class TestImplementation implements ITest, ITwoTest {
-    public foo: boolean = true;
+    public foo: bool = true;
     public bar: int = 10;
-    public magic: boolean = false;
+    public magic: bool = false;
     private color: string;
 
     constructor(color: string) {
@@ -434,7 +434,7 @@ const tester: ITest = new TestImplementation("blue");
 const twoTester: ITwoTest = new TestImplementation("red");
 
 type TypeFoo = string;
-type TypeBar = func<> => boolean;
+type TypeBar = func<> => bool;
 type Money = float;
 type Point = { x: int, y: int };
 

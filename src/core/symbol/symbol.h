@@ -75,7 +75,6 @@ public:
     bool isCatch();
     bool isFinally();
     bool isFatArrow();
-    bool isArrayTypeKeyword();
     bool isModule();
     bool isAsKeyword();
     bool isImport();

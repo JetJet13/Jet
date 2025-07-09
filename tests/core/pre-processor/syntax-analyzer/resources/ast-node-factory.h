@@ -169,7 +169,6 @@ namespace ASTNodeFactory {
     static ASTPeriodNode* period = new ASTPeriodNode(createLexeme(SymbolFactory::createPeriodSymbol()));
     static ASTLambdaExpressionFatArrowNode* lambdaFatArrow = new ASTLambdaExpressionFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
     static ASTLambdaTypeFatArrowNode* lambdaTypeFatArrow = new ASTLambdaTypeFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
-    static ASTArrayTypeKeywordNode* arrayTypeKeyword = new ASTArrayTypeKeywordNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
     static ASTModuleAccessNode* moduleAccess = new ASTModuleAccessNode(createLexeme(SymbolFactory::createColonColonSymbol()));
     static ASTModuleSpreadNode* moduleSpread = new ASTModuleSpreadNode(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
@@ -335,7 +334,6 @@ namespace ASTNodeFactory {
     static ASTTypeNode* stringType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
     static ASTTypeNode* charType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
     static ASTTypeNode* booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
-    static ASTTypeNode* arrayType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createArrayTypeSymbol()));
     static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()), "id");
     static ASTTypeNode* thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
 
@@ -385,11 +383,6 @@ namespace ASTNodeFactory {
             ASTNodeFactory::idExpression,
             ASTNodeFactory::typeColon,
             ASTNodeFactory::booleanType
-    );
-    static ASTFunctionParameterNode* arrayFunctionParameter =  new ASTFunctionParameterNode(
-            ASTNodeFactory::idExpression,
-            ASTNodeFactory::typeColon,
-            ASTNodeFactory::arrayType
     );
     static ASTFunctionParameterNode* idFunctionParameter =  new ASTFunctionParameterNode(
             ASTNodeFactory::idExpression,
@@ -804,11 +797,14 @@ namespace ASTNodeFactory {
                     ASTNodeFactory::createProcedureLambdaTypeParameterList(items)
         ));
     }
+    static ASTArrayTypeStartNode* arrayTypeStart = new ASTArrayTypeStartNode(createLexeme(SymbolFactory::createLeftBracketSymbol()));
+    static ASTArrayTypeEndNode* arrayTypeEnd = new ASTArrayTypeEndNode(createLexeme(SymbolFactory::createRightBracketSymbol()));
     static ASTTypeNode* createArrayType(ASTTypeNode* elementType) {
         return ASTTypeNodeFactory::createArrayTypeNode(
             new ASTArrayTypeNode(
-                ASTNodeFactory::arrayTypeKeyword,
-                ASTNodeFactory::createTypeParameterList({ elementType })
+                ASTNodeFactory::arrayTypeStart,
+                elementType,
+                ASTNodeFactory::arrayTypeEnd
         ));
     }
     static ASTTypeNode* createRefType(ASTTypeNode* refType) {

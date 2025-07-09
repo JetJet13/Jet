@@ -5,7 +5,7 @@
 #ifndef JETLANG_ARRAY_TYPE_TYPE_SIGNATURE_STRATEGY_H
 #define JETLANG_ARRAY_TYPE_TYPE_SIGNATURE_STRATEGY_H
 
-#include "../../../../../../../ast/ast-nodes/ast-type-nodes/ast-array-type-node.h"
+#include "../../../../../../../ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-node.h"
 #include "../../../type-signature-strategy-provider.h"
 
 class ArrayTypeTypeSignatureStrategy {

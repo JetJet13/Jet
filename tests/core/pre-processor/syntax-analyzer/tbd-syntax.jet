@@ -2,11 +2,7 @@
 const myClass = new GlobalModule::MyModule::MyClass();
 const otherClass = new MyClass();
 
-
-type Foo = string;
 type Bar = oneOf<string, int, CustomType>;
-type Nar = func<int> => boolean;
-type Money = float;
 type GenericFiveArray<T> = arr<T, 5>;
 
 interface MyInterface<T, R> {
@@ -18,7 +14,7 @@ interface MyInterface<T, R> {
 trait IteratorTrait<T> {
     private data: arr<string, 5>;
     private current: int = 0;
-    public hasNext: boolean = false;
+    public hasNext: bool = false;
 
     protected initIteratorTrait(data: arr<string, 5>) {
         this.data = data;
@@ -46,13 +42,13 @@ trait IteratorTrait<T> {
 
 class abstract ParentClass {
     public virtual virtualFoo: int;
-    public virtual isValid: func<> => boolean;
+    public virtual isValid: func<> => bool;
 }
 
 class MyClass {
     public virtualFoo: int = 5;
     public foo: int;
-    public const bar: boolean;
+    public const bar: bool;
 
     constructor() {
         this.initIteratorTrait([1,2,3,4,5]);
@@ -70,7 +66,7 @@ class MyClass {
         return "hello world!";
     }
 
-    public isValid() boolean {
+    public isValid() bool {
         return this.bar;
     }
 
@@ -90,7 +86,6 @@ myClassInstance.reset();
 myClassInstance.hello();
 myClassInstance.isValid();
 
-
 let myOptional = optional(50);
 clear myOptional;
 let otherOptional: optional<int> = optional(50);
@@ -103,7 +98,6 @@ if !emptyOptional || emptyOptional is Null {
 if emptyOptional || emptyOptional is NotNull {
     emptyOptional = "world";
 }
-
 
 const myOutcome: outcome<string> = openFile("hello-world.txt");
 if myOutcome {
@@ -169,3 +163,10 @@ myArray->filter((x:int) => x == 1)
 myString->filter((x:int) => x == 1)
         ->map((x:int) => x + 1)
         ->reduce((x: int, acc: int) => acc + x, 0);
+
+const myArray: [int] = [1,2,3];
+const myArray: int[] = [1,2,3];
+const myNestedArray: [[int]] = [1,2,3];
+const myNestedArray: int[][] = [1,2,3];
+const myDoubleNestedArray: [[[int]]] = [1,2,3];
+const myDoubleNestedArray: int[][][] = [1,2,3];

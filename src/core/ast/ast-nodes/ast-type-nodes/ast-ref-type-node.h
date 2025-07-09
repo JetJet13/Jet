@@ -9,7 +9,6 @@
 #include "ast-type-base-node.h"
 #include "ast-type-parameter-list-node.h"
 #include "../ast-array-nodes/ast-array-node.h"
-#include "../ast-array-nodes/ast-array-type-keyword-node.h"
 #include "ast-ref-type-keyword-node.h"
 
 class ASTRefTypeNode : public ASTTypeBaseNode {

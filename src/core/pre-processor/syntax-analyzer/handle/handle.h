@@ -24,6 +24,7 @@ public:
     bool isTerminatorOnlyNode();
     bool isGroupEnclosed();
     bool isArrayEnclosed();
+    bool isArrayTypeEnclosed();
     bool isStructEnclosed();
     bool isStructTypeEnclosed();
     bool isFunctionParameterListEnclosed();

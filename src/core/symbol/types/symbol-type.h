@@ -14,7 +14,6 @@ typedef enum {
     SYM_STRING_TYPE,
     SYM_CHAR_TYPE,
     SYM_BOOLEAN_TYPE,
-    SYM_ARRAY_TYPE,
     SYM_VOID_TYPE,
     SYM_AND,
     SYM_OR,

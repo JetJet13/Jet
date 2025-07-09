@@ -439,10 +439,8 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-tuple-type-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.h
-        ast/ast-nodes/ast-array-nodes/ast-array-type-keyword-node.cpp
-        ast/ast-nodes/ast-array-nodes/ast-array-type-keyword-node.h
-        ast/ast-nodes/ast-type-nodes/ast-array-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-array-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.h
         ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.cpp
@@ -1276,6 +1274,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/custom-type-declaration-id-strategy/custom-type-declaration-id-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-start-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-start-node.h
+        ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-end-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-end-node.h
 
 )
 

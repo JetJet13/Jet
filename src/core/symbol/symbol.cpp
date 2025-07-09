@@ -225,10 +225,6 @@ bool Symbol::isFatArrow() {
     return _type == SYM_FAT_ARROW;
 }
 
-bool Symbol::isArrayTypeKeyword() {
-    return _type == SYM_ARRAY_TYPE;
-}
-
 bool Symbol::isType() {
     return _type == SYM_INT_TYPE ||
             _type == SYM_FLOAT_TYPE ||

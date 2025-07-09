@@ -8,6 +8,6 @@ export func myStringFunction() string {
     return "hello world";
 }
 
-export func myTupleFunction() tuple<int, boolean, int> {
+export func myTupleFunction() tuple<int, bool, int> {
     return tuple { 1, false, 10 };
 }

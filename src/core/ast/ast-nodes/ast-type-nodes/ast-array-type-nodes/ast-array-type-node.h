@@ -6,17 +6,19 @@
 #define JETLANG_AST_ARRAY_TYPE_NODE_H
 
 #include <string>
-#include "ast-type-base-node.h"
-#include "ast-type-parameter-list-node.h"
-#include "../ast-array-nodes/ast-array-node.h"
-#include "../ast-array-nodes/ast-array-type-keyword-node.h"
+#include "../ast-type-base-node.h"
+#include "../ast-type-parameter-list-node.h"
+#include "../../ast-array-nodes/ast-array-node.h"
+#include "ast-array-type-start-node.h"
+#include "ast-array-type-end-node.h"
 
 class ASTArrayTypeNode : public ASTTypeBaseNode {
 private:
-    ASTArrayTypeKeywordNode* _arrayKeyword;
-    ASTTypeParameterListNode* _typeParameterList;
+    ASTArrayTypeStartNode* _arrayStart;
+    ASTTypeNode* _elementType;
+    ASTArrayTypeEndNode* _arrayEnd;
 public:
-    ASTArrayTypeNode(ASTArrayTypeKeywordNode* arrayKeywordNode, ASTTypeParameterListNode* typeParameterList);
+    ASTArrayTypeNode(ASTArrayTypeStartNode* arrayStart, ASTTypeNode* elementType, ASTArrayTypeEndNode* arrayEnd);
     ASTTypeNode* getElementType();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

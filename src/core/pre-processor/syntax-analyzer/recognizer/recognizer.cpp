@@ -22,6 +22,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle->isArrayEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ARRAY_NODE);
+    } else if (handle->isArrayTypeEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ARRAY_TYPE_NODE);
     } else if (handle->isStructEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_STRUCT_EXPRESSION_NODE);
     } else if (handle->isStructTypeEnclosed()) {
@@ -114,6 +116,7 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
     return astNode.has_value() && astNode.value()->isOneOf({
            AST_TERMINATOR_NODE,
            AST_RIGHT_BRACKET_NODE,
+           AST_ARRAY_TYPE_END_NODE,
            AST_GROUP_END_NODE,
            AST_STRUCT_END_NODE,
            AST_STRUCT_TYPE_END_NODE,
