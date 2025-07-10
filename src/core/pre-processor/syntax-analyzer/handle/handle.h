@@ -36,6 +36,7 @@ public:
     bool isModuleListEnclosed();
     bool isImportModuleListEnclosed();
     bool isLambdaTypeParameterListEnclosed();
+    bool isTypeParameterListEnclosed();
     bool hasOneAndOnlyNode();
     void clear();
     unsigned long size();

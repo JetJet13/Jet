@@ -201,6 +201,9 @@ void SyntaxDfa::init() {
     DFANode* customTypeDeclaration = DFANodeFactory::Once::create(AST_CUSTOM_TYPE_DECLARATION_NODE);
     DFANode* arrayTypeStart = DFANodeFactory::Once::create(AST_ARRAY_TYPE_START_NODE);
     DFANode* arrayTypeEnd = DFANodeFactory::Once::create(AST_ARRAY_TYPE_END_NODE);
+    DFANode* lambdaTypeParameterListStart = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE);
+    DFANode* lambdaTypeParameterListEnd = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE);
+    DFANode* lambdaTypeParameterList = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -539,7 +542,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_TARGET_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE)));
 
     functionKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({ AST_FUNCTION_NAME_NODE, AST_TYPE_PARAMETER_LIST_START_NODE });
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_FUNCTION_NAME_NODE });
 
     functionDefinition
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
@@ -699,7 +702,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_CURRY_EXPRESSION_NODE)));
 
     procedureKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({AST_FUNCTION_NAME_NODE, AST_TYPE_PARAMETER_LIST_START_NODE });
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_FUNCTION_NAME_NODE });
 
     procedureDefinition
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
@@ -924,7 +927,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     typeParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_REF_TYPE_KEYWORD_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_TUPLE_NODE, AST_REF_TYPE_KEYWORD_NODE });
 
     functionLambdaTypeParameterList
     ->addTransition(DFATransitionFactory::create(
@@ -961,6 +964,22 @@ void SyntaxDfa::init() {
 
     arrayTypeEnd
     ->markAlwaysReduceSelf();
+
+    lambdaTypeParameterListStart
+    ->markAlwaysReduceSelf();
+
+    lambdaTypeParameterListEnd
+    ->markAlwaysReduceSelf();
+
+    lambdaTypeParameterList
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_LAMBDA_TYPE_FAT_ARROW_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_LAMBDA_TYPE_NODE))
+            )
+    ));
 
     moduleKeyword
     ->addTransition(
@@ -1472,6 +1491,9 @@ void SyntaxDfa::init() {
     ->insertStartNode(customTypeDeclaration)
     ->insertStartNode(arrayTypeStart)
     ->insertStartNode(arrayTypeEnd)
+    ->insertStartNode(lambdaTypeParameterListStart)
+    ->insertStartNode(lambdaTypeParameterListEnd)
+    ->insertStartNode(lambdaTypeParameterList)
     ->insertStartNode(DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_LIST_NODE))
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())

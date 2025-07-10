@@ -5,8 +5,13 @@
 #include "ast-group-end-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-end-node.h"
 #include "../ast-function-nodes/ast-function-argument-list-end-node.h"
+#include "../ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-end-node.h"
 
 ASTNode * ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
+        return new ASTLambdaTypeParameterListEndNode(this->getLexeme());
+    }
+
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }

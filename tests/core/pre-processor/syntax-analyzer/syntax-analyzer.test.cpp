@@ -2168,7 +2168,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         ASTNodeFactory::createFunctionParameter(
                             ASTNodeFactory::idExpression,
-                            ASTNodeFactory::createFunctionType({ ASTNodeFactory::intType }, ASTNodeFactory::booleanType))
+                            ASTNodeFactory::createLambdaType({ASTNodeFactory::intType}, ASTNodeFactory::booleanType))
                     }
                 ),
                 ASTNodeFactory::booleanType),
@@ -2191,12 +2191,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     {
                          ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTNodeFactory::createFunctionType(
-                                 { ASTNodeFactory::intType, ASTNodeFactory::intType },
-                                 ASTNodeFactory::createFunctionType(
-                                         { ASTNodeFactory::intType },
-                                         ASTNodeFactory::booleanType
-                                 )
+                             ASTNodeFactory::createLambdaType(
+                                     {ASTNodeFactory::intType, ASTNodeFactory::intType},
+                                     ASTNodeFactory::createLambdaType(
+                                             {ASTNodeFactory::intType},
+                                             ASTNodeFactory::booleanType
+                                     )
                              )
                          )
                     }
@@ -2221,16 +2221,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     {
                          ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTNodeFactory::createFunctionType(
-                                 ASTNodeFactory::createFunctionType(
-                                     {
-                                        ASTNodeFactory::createFunctionType(
-                                            { ASTNodeFactory::stringType },
-                                            ASTNodeFactory::booleanType
-                                        )
-                                     },
-                                     ASTNodeFactory::booleanType
-                                 )
+                             ASTNodeFactory::createLambdaType(
+                                     ASTNodeFactory::createLambdaType(
+                                             {
+                                                     ASTNodeFactory::createLambdaType(
+                                                             {ASTNodeFactory::stringType},
+                                                             ASTNodeFactory::booleanType
+                                                     )
+                                             },
+                                             ASTNodeFactory::booleanType
+                                     )
                              )
                          )
                     }
@@ -2260,7 +2260,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ),
                         ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType)
+                             ASTNodeFactory::createLambdaType(ASTNodeFactory::booleanType)
                         )
                     }
                     
@@ -2280,7 +2280,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(),
-                ASTNodeFactory::createFunctionType(ASTNodeFactory::intType)),
+                ASTNodeFactory::createLambdaType(ASTNodeFactory::intType)),
                 ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturnFatArrow,
@@ -2298,7 +2298,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(),
-                ASTNodeFactory::createFunctionType({ ASTNodeFactory::intType }, ASTNodeFactory::intType)),
+                ASTNodeFactory::createLambdaType({ASTNodeFactory::intType}, ASTNodeFactory::intType)),
                 ASTNodeFactory::createFunctionBlock({
                      new ASTFunctionReturnExpressionNode(
                          ASTNodeFactory::functionReturn,
@@ -2342,7 +2342,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     {
                         ASTNodeFactory::createFunctionParameter(
                             ASTNodeFactory::idExpression,
-                            ASTNodeFactory::createFunctionType({ ASTNodeFactory::intType }, ASTNodeFactory::booleanType)
+                            ASTNodeFactory::createLambdaType({ASTNodeFactory::intType}, ASTNodeFactory::booleanType)
                         )
                     }
                     
@@ -2367,11 +2367,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     {
                          ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTNodeFactory::createProcedureType()
+                             ASTNodeFactory::createLambdaTypeWithVoidReturn()
                          ),
                          ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
-                             ASTNodeFactory::createProcedureType({ ASTNodeFactory::idType })
+                             ASTNodeFactory::createLambdaTypeWithVoidReturn({ASTNodeFactory::idType})
                          )
                     }
                     
@@ -2403,8 +2403,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
 
                             )
                         }),
-                        ASTNodeFactory::createFunctionType(
-                            ASTNodeFactory::createFunctionType(ASTNodeFactory::intType)
+                        ASTNodeFactory::createLambdaType(
+                                ASTNodeFactory::createLambdaType(ASTNodeFactory::intType)
                         )
                     )
         )},
@@ -2428,8 +2428,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 )
 
                         ),
-                        ASTNodeFactory::createFunctionType(
-                            ASTNodeFactory::createFunctionType(ASTNodeFactory::intType)
+                        ASTNodeFactory::createLambdaType(
+                                ASTNodeFactory::createLambdaType(ASTNodeFactory::intType)
                         )
                 )
         )},
@@ -2457,9 +2457,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     )
                             )
                         ),
-                     ASTNodeFactory::createFunctionType(
-                        ASTNodeFactory::createProcedureType()
-                     )
+                        ASTNodeFactory::createLambdaType(
+                                ASTNodeFactory::createLambdaTypeWithVoidReturn()
+                        )
                 )
         )},
         {162, new ASTVariableDeclarationNode(
@@ -2624,10 +2624,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                          ASTNodeFactory::createFunctionParameter(
                              ASTNodeFactory::idExpression,
                              ASTNodeFactory::createArrayType(
-                                ASTNodeFactory::createFunctionType(
-                                    { ASTNodeFactory::intType },
-                                    ASTNodeFactory::booleanType
-                                )
+                                     ASTNodeFactory::createLambdaType(
+                                             {ASTNodeFactory::intType},
+                                             ASTNodeFactory::booleanType
+                                     )
                              )
                          ),
                     }
@@ -2670,7 +2670,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {178, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(
-                    ASTNodeFactory::createFunctionType({ ASTNodeFactory::intType }, ASTNodeFactory::booleanType)
+                        ASTNodeFactory::createLambdaType({ASTNodeFactory::intType}, ASTNodeFactory::booleanType)
                 ),
                 new ASTLambdaWithFatArrowExpressionNode(
                         ASTNodeFactory::createFunctionParameterList(
@@ -2686,7 +2686,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {179, new ASTVariableDeclarationNode(
                 ASTNodeFactory::createConstInitWithType(
-                    ASTNodeFactory::createProcedureType({ ASTNodeFactory::intType })
+                        ASTNodeFactory::createLambdaTypeWithVoidReturn({ASTNodeFactory::intType})
                 ),
                 new ASTLambdaExpressionNode(
                         ASTNodeFactory::createFunctionParameterList(
@@ -3560,7 +3560,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::intType),
                     ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::booleanType),
                     ASTNodeFactory::createInterfaceProperty(
-                        ASTNodeFactory::createFunctionType(ASTNodeFactory::stringType)
+                            ASTNodeFactory::createLambdaType(ASTNodeFactory::stringType)
                     ),
                     ASTNodeFactory::createInterfaceProperty(
                         ASTNodeFactory::createStructType({
@@ -3576,7 +3576,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::intType),
                         ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::booleanType),
                         ASTNodeFactory::createInterfaceProperty(
-                            ASTNodeFactory::createFunctionType(ASTNodeFactory::stringType)
+                                ASTNodeFactory::createLambdaType(ASTNodeFactory::stringType)
                         ),
                         ASTNodeFactory::createInterfaceProperty(
                             ASTNodeFactory::createStructType({
@@ -3585,18 +3585,22 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             })
                         ),
                         ASTNodeFactory::createInterfaceProperty(
-                                ASTNodeFactory::createFunctionType(
-                                    {
-                                        ASTNodeFactory::createStructType({
-                                            ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
-                                            ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
-                                        }),
-                                        ASTNodeFactory::createStructType({
-                                             ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::booleanType),
-                                             ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::charType),
-                                        })
-                                    },
-                                    ASTNodeFactory::stringType
+                                ASTNodeFactory::createLambdaType(
+                                        {
+                                                ASTNodeFactory::createStructType({
+                                                                                         ASTNodeFactory::createStructTypeKeyValue(
+                                                                                                 ASTNodeFactory::intType),
+                                                                                         ASTNodeFactory::createStructTypeKeyValue(
+                                                                                                 ASTNodeFactory::intType),
+                                                                                 }),
+                                                ASTNodeFactory::createStructType({
+                                                                                         ASTNodeFactory::createStructTypeKeyValue(
+                                                                                                 ASTNodeFactory::booleanType),
+                                                                                         ASTNodeFactory::createStructTypeKeyValue(
+                                                                                                 ASTNodeFactory::charType),
+                                                                                 })
+                                        },
+                                        ASTNodeFactory::stringType
                                 )
                         ),
                         ASTNodeFactory::createInterfaceProperty(
@@ -3655,7 +3659,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 })
         )},
         {235, ASTNodeFactory::createCustomType(ASTNodeFactory::stringType)},
-        {236, ASTNodeFactory::createCustomType(ASTNodeFactory::createFunctionType(ASTNodeFactory::booleanType))},
+        {236, ASTNodeFactory::createCustomType(ASTNodeFactory::createLambdaType(ASTNodeFactory::booleanType))},
         {237, ASTNodeFactory::createCustomType(ASTNodeFactory::floatType)},
         {238, ASTNodeFactory::createCustomType(ASTNodeFactory::createStructType({
                 ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),

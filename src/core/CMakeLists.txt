@@ -397,8 +397,6 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-primitive-type-node.h
         ast/ast-nodes/ast-type-nodes/ast-custom-type-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-custom-type-node.h
-        ast/ast-nodes/ast-type-nodes/ast-lambda-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-lambda-type-node.h
         ast/ast-nodes/ast-type-nodes/ast-type-base-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-type-base-node.h
         ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h
@@ -1278,6 +1276,22 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-start-node.h
         ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-end-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-end-node.h
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-node.h
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-start-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-start-node.h
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-end-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-end-node.h
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-void-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-void-type-node.h
+        ast/ast-nodes/ast-void-node.cpp
+        ast/ast-nodes/ast-void-node.h
 
 )
 

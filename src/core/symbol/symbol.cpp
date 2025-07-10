@@ -345,6 +345,10 @@ bool Symbol::isTypeKeyword() {
     return _type == SYM_TYPE;
 }
 
+bool Symbol::isVoid() {
+    return _type == SYM_VOID_TYPE;
+}
+
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }

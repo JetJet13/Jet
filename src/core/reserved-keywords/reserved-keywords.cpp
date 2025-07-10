@@ -41,7 +41,7 @@ void ReservedKeywords::init() {
     this->add("string", SymbolFactory::createStringTypeSymbol());
     this->add("char", SymbolFactory::createCharTypeSymbol());
     this->add("bool", SymbolFactory::createBooleanTypeSymbol());
-    this->add("void", SymbolFactory::createVoidTypeSymbol());
+    this->add("void", SymbolFactory::createVoidSymbol());
     this->add("=", SymbolFactory::createEqualSymbol());
     this->add("let", SymbolFactory::createLetSymbol());
     this->add("const", SymbolFactory::createConstSymbol());

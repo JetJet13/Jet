@@ -169,6 +169,9 @@ namespace ASTNodeFactory {
     static ASTPeriodNode* period = new ASTPeriodNode(createLexeme(SymbolFactory::createPeriodSymbol()));
     static ASTLambdaExpressionFatArrowNode* lambdaFatArrow = new ASTLambdaExpressionFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
     static ASTLambdaTypeFatArrowNode* lambdaTypeFatArrow = new ASTLambdaTypeFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
+    static ASTVoidNode* voidNode = new ASTVoidNode(createLexeme(SymbolFactory::createVoidSymbol()));
+    static ASTLambdaTypeParameterListStartNode* lambdaTypeParameterListStart = new ASTLambdaTypeParameterListStartNode(createLexeme(SymbolFactory::createLeftParenSymbol()));
+    static ASTLambdaTypeParameterListEndNode* lambdaTypeParameterListEnd = new ASTLambdaTypeParameterListEndNode(createLexeme(SymbolFactory::createRightParenSymbol()));
     static ASTModuleAccessNode* moduleAccess = new ASTModuleAccessNode(createLexeme(SymbolFactory::createColonColonSymbol()));
     static ASTModuleSpreadNode* moduleSpread = new ASTModuleSpreadNode(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
@@ -336,6 +339,7 @@ namespace ASTNodeFactory {
     static ASTTypeNode* booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
     static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()), "id");
     static ASTTypeNode* thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
+    static ASTTypeNode* voidType = ASTTypeNodeFactory::createVoidTypeNode(ASTNodeFactory::voidNode);
 
     static ASTFunctionNode* functionKeyword =  new ASTFunctionNode(
             createLexeme(SymbolFactory::createFunctionSymbol())
@@ -743,6 +747,13 @@ namespace ASTNodeFactory {
     static ASTTypeParameterListNode* createTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
         return new ASTTypeParameterListNode(ASTNodeFactory::typeParameterListStart, items, ASTNodeFactory::typeParameterListEnd);
     }
+    static ASTLambdaTypeParameterListNode* createLambdaTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
+        return new ASTLambdaTypeParameterListNode(
+                ASTNodeFactory::lambdaTypeParameterListStart,
+                items,
+                ASTNodeFactory::lambdaTypeParameterListEnd
+        );
+    }
     static ASTFunctionLambdaTypeParameterListNode* createFunctionLambdaTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
         return new ASTFunctionLambdaTypeParameterListNode(
                 ASTNodeFactory::functionKeyword,
@@ -777,24 +788,25 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::structTypeEnd
         ));
     }
-    static ASTTypeNode* createFunctionType(std::vector<ASTTypeNode*> items, ASTTypeNode* returnType) {
-        return ASTTypeNodeFactory::createFunctionTypeNode(new ASTFunctionTypeNode(
-                ASTNodeFactory::createFunctionLambdaTypeParameterList(items),
+    static ASTTypeNode* createLambdaType(std::vector<ASTTypeNode*> items, ASTTypeNode* returnType) {
+        return ASTTypeNodeFactory::createLambdaTypeNode(new ASTLambdaTypeNode(
+                ASTNodeFactory::createLambdaTypeParameterList(items),
                 ASTNodeFactory::lambdaTypeFatArrow,
                 returnType
         ));
     }
-    static ASTTypeNode* createFunctionType(ASTTypeNode* returnType) {
-        return ASTTypeNodeFactory::createFunctionTypeNode(new ASTFunctionTypeNode(
-                ASTNodeFactory::createFunctionLambdaTypeParameterList(),
+    static ASTTypeNode* createLambdaType(ASTTypeNode* returnType) {
+        return ASTTypeNodeFactory::createLambdaTypeNode(new ASTLambdaTypeNode(
+                ASTNodeFactory::createLambdaTypeParameterList(),
                 ASTNodeFactory::lambdaTypeFatArrow,
                 returnType
         ));
     }
-    static ASTTypeNode* createProcedureType(std::vector<ASTTypeNode*> items = {}) {
-        return ASTTypeNodeFactory::createProcedureTypeNode(
-                new ASTProcedureTypeNode(
-                    ASTNodeFactory::createProcedureLambdaTypeParameterList(items)
+    static ASTTypeNode* createLambdaTypeWithVoidReturn(std::vector<ASTTypeNode*> items = {}) {
+        return ASTTypeNodeFactory::createLambdaTypeNode(new ASTLambdaTypeNode(
+                ASTNodeFactory::createLambdaTypeParameterList(items),
+                ASTNodeFactory::lambdaTypeFatArrow,
+                ASTNodeFactory::voidType
         ));
     }
     static ASTArrayTypeStartNode* arrayTypeStart = new ASTArrayTypeStartNode(createLexeme(SymbolFactory::createLeftBracketSymbol()));

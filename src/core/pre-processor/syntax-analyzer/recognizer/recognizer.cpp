@@ -42,9 +42,11 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
     } else if (handle->isModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_MODULE_LIST_NODE);
-    }else if (handle->isImportModuleListEnclosed()) {
+    } else if (handle->isImportModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_IMPORT_MODULE_LIST_NODE);
     } else if (handle->isLambdaTypeParameterListEnclosed()) {
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
+    } else if (handle->isTypeParameterListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TYPE_PARAMETER_LIST_NODE);
     }
 
@@ -129,6 +131,7 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
            AST_ENUM_KEY_VALUE_LIST_END_NODE,
            AST_TUPLE_LIST_END_NODE,
            AST_TYPE_PARAMETER_LIST_END_NODE,
+           AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE,
            AST_MODULE_LIST_NODE,
            AST_MODULE_LIST_END_NODE,
            AST_MODULE_ALIAS_NAME_NODE,

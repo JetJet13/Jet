@@ -5,8 +5,16 @@
 #include "ast-group-start-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-start-node.h"
 #include "../ast-function-nodes/ast-function-argument-list-start-node.h"
+#include "../ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-start-node.h"
 
 ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_ASSIGNMENT_OPERATOR_NODE, AST_ARRAY_TYPE_START_NODE, AST_TYPE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_LAMBDA_TYPE_FAT_ARROW_NODE })) {
+        return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
+    }
+    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
+        return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
+    }
 
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
         return new ASTFunctionParameterListStartNode(this->getLexeme());

@@ -98,6 +98,7 @@ public:
     bool isInterface();
     bool isImplements();
     bool isTypeKeyword();
+    bool isVoid();
     bool isThis();
     SymbolType getType();
     bool isSameAs(Symbol* symbol);

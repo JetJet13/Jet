@@ -211,7 +211,7 @@ namespace SymbolFactory {
         return new Symbol(SYM_FAT_ARROW, "=>");
     }
 
-    Symbol* createVoidTypeSymbol() {
+    Symbol* createVoidSymbol() {
         return new Symbol(SYM_VOID_TYPE, "void_type");
     }
 

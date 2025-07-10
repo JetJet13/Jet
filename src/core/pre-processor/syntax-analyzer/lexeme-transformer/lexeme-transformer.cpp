@@ -69,6 +69,7 @@
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.h"
+#include "../../../ast/ast-nodes/ast-type-nodes/ast-void-type-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -216,6 +217,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTImplementsNode(lexeme);
     } else if (symbol->isTypeKeyword()) {
         return new ASTTypeKeywordNode(lexeme);
+    } else if (symbol->isVoid()) {
+        return ASTTypeNodeFactory::createVoidTypeNode(new ASTVoidNode(lexeme));
     } else if (symbol->isThis()) {
         return new ASTThisNode(lexeme);
     } else {

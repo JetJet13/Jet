@@ -16,16 +16,16 @@ namespace ASTTypeNodeFactory {
         return new ASTTypeNode(new ASTPrimitiveTypeNode(lexeme));
     }
 
-    ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode) {
-        return new ASTTypeNode(lambdaTypeNode);
-    }
-
     ASTTypeNode* createProcedureTypeNode(ASTProcedureTypeNode* procedureTypeNode) {
         return new ASTTypeNode(procedureTypeNode);
     }
 
     ASTTypeNode* createFunctionTypeNode(ASTFunctionTypeNode* functionTypeNode) {
         return new ASTTypeNode(functionTypeNode);
+    }
+
+    ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode) {
+        return new ASTTypeNode(lambdaTypeNode);
     }
 
     ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode) {
@@ -46,5 +46,9 @@ namespace ASTTypeNodeFactory {
 
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode) {
         return new ASTTypeNode(new ASTThisTypeNode(thisNode));
+    }
+
+    ASTTypeNode* createVoidTypeNode(ASTVoidNode* voidNode) {
+        return new ASTTypeNode(new ASTVoidTypeNode(voidNode));
     }
 }

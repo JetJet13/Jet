@@ -170,3 +170,8 @@ const myNestedArray: [[int]] = [1,2,3];
 const myNestedArray: int[][] = [1,2,3];
 const myDoubleNestedArray: [[[int]]] = [1,2,3];
 const myDoubleNestedArray: int[][][] = [1,2,3];
+
+const lambda: (int, int) => int = (x: int, y: int) => 5;
+const lambda: (int, int) => void = (x: int) { print(x); };
+
+type myStructType = { x: int, y: () => int, z: proc(int, float)  };
