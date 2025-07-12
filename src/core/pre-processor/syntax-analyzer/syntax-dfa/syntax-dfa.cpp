@@ -1627,9 +1627,6 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
 
 void SyntaxDfa::initFunction(DFANode* functionNode) {
     functionNode
-            ->addTransition(DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE)
-            ))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE)
@@ -1648,10 +1645,6 @@ void SyntaxDfa::initFunction(DFANode* functionNode) {
 
 void SyntaxDfa::initProcedure(DFANode* procedureNode) {
     procedureNode
-            ->addTransition(
-                    DFATransitionFactory::create(
-                        DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE)
-            ))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE)

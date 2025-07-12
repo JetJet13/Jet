@@ -38,9 +38,9 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/void-type-type-signature-strategy/void-type-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-type-signature-strategy.h"
 #include "lambda-expression-scope-parameter-type-signature-strategy/lambda-expression-scope-parameter-type-signature-strategy.h"
@@ -183,20 +183,20 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
                     ->getRefTypeTypeSignatureStrategy()
                     ->assign((ASTRefTypeNode *) node, typeSignatureScope, this);
             break;
-        case AST_FUNCTION_TYPE_NODE:
+        case AST_LAMBDA_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getFunctionTypeTypeSignatureStrategy()
-                    ->assign((ASTFunctionTypeNode*) node, typeSignatureScope, this);
+                    ->getLambdaTypeTypeSignatureStrategy()
+                    ->assign((ASTLambdaTypeNode*) node, typeSignatureScope, this);
             break;
-        case AST_PROCEDURE_TYPE_NODE:
+        case AST_VOID_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getProcedureTypeTypeSignatureStrategy()
-                    ->assign((ASTProcedureTypeNode*) node, typeSignatureScope, this);
+                    ->getVoidTypeTypeSignatureStrategy()
+                    ->assign((ASTVoidTypeNode*)node, typeSignatureScope, this);
             break;
         case AST_THIS_TYPE_NODE:
             this->_typeSignatureStrategyMap
                     ->getThisTypeTypeSignatureStrategy()
-                    ->assign((ASTThisTypeNode *) node, typeSignatureScope);
+                    ->assign((ASTThisTypeNode*)node, typeSignatureScope);
             break;
         case AST_BINARY_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

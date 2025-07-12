@@ -19,7 +19,7 @@
 #include "../../../../src/core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
-#include "../../../../src/core/type-signature/interface-type-signature/interface-type-signature.h"
+#include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 
 auto colorEnumTypeSignature = new EnumTypeSignature(
         TypeSignatureFactory::stringLiteral,
@@ -36,13 +36,13 @@ auto myInterfaceTypeSignature = new InterfaceTypeSignature(
         TypeSignatureMap<TypeSignature>({
             std::pair("foo", TypeSignatureFactory::intLiteral),
             std::pair("bar", TypeSignatureFactory::boolLiteral),
-            std::pair("hello", new FunctionLambdaTypeSignature(TypeSignatureFactory::stringLiteral)),
+            std::pair("hello", new LambdaTypeSignature({}, TypeSignatureFactory::stringLiteral)),
             std::pair("structure", new StructTypeSignature(TypeSignatureMap<TypeSignature>({
                                            std::pair("a", TypeSignatureFactory::intLiteral),
                                            std::pair("b", TypeSignatureFactory::intLiteral),
                                     })
             )),
-            std::pair("bye", new FunctionLambdaTypeSignature({
+            std::pair("bye", new LambdaTypeSignature({
                                  new StructTypeSignature(TypeSignatureMap<TypeSignature>({
                                      std::pair("a", TypeSignatureFactory::intLiteral),
                                      std::pair("b", TypeSignatureFactory::intLiteral),
@@ -60,8 +60,8 @@ auto myInterfaceTypeSignature = new InterfaceTypeSignature(
             TypeSignatureMap<TypeSignature>({
                 std::pair("foo", TypeSignatureFactory::boolLiteral),
                 std::pair("bar", TypeSignatureFactory::intLiteral),
-                std::pair("getColor", new FunctionLambdaTypeSignature(TypeSignatureFactory::stringLiteral)),
-                std::pair("size", new FunctionLambdaTypeSignature(TypeSignatureFactory::intLiteral)),
+                std::pair("getColor", new LambdaTypeSignature({}, TypeSignatureFactory::stringLiteral)),
+                std::pair("size", new LambdaTypeSignature({}, TypeSignatureFactory::intLiteral)),
             })
         );
         auto twoTestInterfaceTypeSignature = new InterfaceTypeSignature(
@@ -387,34 +387,34 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature(),
                     TypeSignatureFactory::stringLiteral
             )},
-            {91, new FunctionLambdaTypeSignature(
+            {91, new LambdaTypeSignature(
                     {
                         colorEnumTypeSignature
                     },
                     colorEnumTypeSignature
             )},
-            {92, new FunctionLambdaTypeSignature(
+            {92, new LambdaTypeSignature(
                     {
                        TypeSignatureFactory::intLiteral,
                        TypeSignatureFactory::intLiteral,
                     },
                     TypeSignatureFactory::boolLiteral
             )},
-            {93, new FunctionLambdaTypeSignature(
+            {93, new LambdaTypeSignature(
                     {
                         TypeSignatureFactory::intLiteral,
                     },
                     TypeSignatureFactory::intLiteral
             )},
-            {94, new FunctionLambdaTypeSignature(
+            {94, new LambdaTypeSignature(
                     {
                         TypeSignatureFactory::intLiteral,
                     },
-                    new FunctionLambdaTypeSignature(
+                    new LambdaTypeSignature(
                             {
                                 TypeSignatureFactory::intLiteral,
                             },
-                            new FunctionLambdaTypeSignature(
+                            new LambdaTypeSignature(
                                 {
                                     TypeSignatureFactory::intLiteral,
                                 },
@@ -435,7 +435,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                        ),
                        new ParameterListItemTypeSignature(
                            "lambda",
-                           new FunctionLambdaTypeSignature(
+                           new LambdaTypeSignature(
                                { TypeSignatureFactory::intLiteral },
                                TypeSignatureFactory::boolLiteral)
                        ),
@@ -446,12 +446,12 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature(
                            "lambda",
-                           new FunctionLambdaTypeSignature(
+                           new LambdaTypeSignature(
                                {
                                    TypeSignatureFactory::intLiteral,
                                    TypeSignatureFactory::intLiteral
                                },
-                               new FunctionLambdaTypeSignature(
+                               new LambdaTypeSignature(
                                    {
                                        TypeSignatureFactory::intLiteral
                                    },
@@ -464,14 +464,14 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             )},
             {98, new FunctionTypeSignature(
                     new ParameterListTypeSignature(),
-                    new FunctionLambdaTypeSignature(
+                    new LambdaTypeSignature(
                         {},
                         TypeSignatureFactory::intLiteral
                     )
             )},
             {99, new FunctionTypeSignature(
                     new ParameterListTypeSignature(),
-                    new FunctionLambdaTypeSignature(
+                    new LambdaTypeSignature(
                         { TypeSignatureFactory::intLiteral },
                         TypeSignatureFactory::intLiteral
                     )
@@ -484,7 +484,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature(
                            "x",
-                           new FunctionLambdaTypeSignature(
+                           new LambdaTypeSignature(
                                { TypeSignatureFactory::intLiteral },
                                TypeSignatureFactory::boolLiteral
                            )
@@ -496,42 +496,36 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature(
                            "x",
-                           new ProcedureLambdaTypeSignature(
-                               {}
-                           )
+                           new LambdaTypeSignature()
                        ),
                        new ParameterListItemTypeSignature(
                            "y",
-                           new ProcedureLambdaTypeSignature(
-                               {
-                                   colorEnumTypeSignature
-                               }
-                           )
+                           new LambdaTypeSignature({ colorEnumTypeSignature })
                        )
                    }),
                     TypeSignatureFactory::boolLiteral
             )},
-            {103, new FunctionLambdaTypeSignature(
+            {103, new LambdaTypeSignature(
                     {},
                     TypeSignatureFactory::intLiteral
             )},
-            {104, new ProcedureLambdaTypeSignature(
+            {104, new LambdaTypeSignature(
                     {
                        TypeSignatureFactory::intLiteral
                     }
             )},
-            {105, new ProcedureLambdaTypeSignature({})},
+            {105, new LambdaTypeSignature()},
             {106, TypeSignatureFactory::intLiteral},
             {107, TypeSignatureFactory::floatLiteral},
             {108, TypeSignatureFactory::charLiteral},
             {109, TypeSignatureFactory::stringLiteral},
             {110, TypeSignatureFactory::boolLiteral},
             {111, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {112, new FunctionLambdaTypeSignature(
+            {112, new LambdaTypeSignature(
                     { TypeSignatureFactory::intLiteral },
                     TypeSignatureFactory::boolLiteral
             )},
-            {113, new ProcedureLambdaTypeSignature(
+            {113, new LambdaTypeSignature(
                     { TypeSignatureFactory::intLiteral }
             )},
             {114, new TupleTypeSignature({
@@ -636,13 +630,13 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     TypeSignatureFactory::refIntLiteral
             )},
             {145, TypeSignatureFactory::refCharLiteral},
-            {146, new FunctionLambdaTypeSignature(
+            {146, new LambdaTypeSignature(
                     {
                         TypeSignatureFactory::refIntLiteral,
                     },
                     TypeSignatureFactory::intLiteral
             )},
-            {147, new FunctionLambdaTypeSignature(
+            {147, new LambdaTypeSignature(
                     {
                         TypeSignatureFactory::refIntLiteral,
                     },
@@ -678,16 +672,17 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {167, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
             {168, new StructTypeSignature(
                     TypeSignatureMap({
-                        std::pair("foo", new FunctionLambdaTypeSignature(
+                        std::pair("foo", new LambdaTypeSignature(
                                 {
                                     TypeSignatureFactory::intLiteral,
                                 },
                                 TypeSignatureFactory::intLiteral
                         )),
-                        std::pair("bar", new FunctionLambdaTypeSignature(
+                        std::pair("bar", new LambdaTypeSignature(
+                                {},
                                 TypeSignatureFactory::intLiteral
                         )),
-                        std::pair("foo2", new FunctionLambdaTypeSignature(
+                        std::pair("foo2", new LambdaTypeSignature(
                                 {
                                     TypeSignatureFactory::intLiteral,
                                 },
@@ -697,16 +692,17 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     )
             },
             {169, new TupleTypeSignature({
-                         new FunctionLambdaTypeSignature(
+                         new LambdaTypeSignature(
                                  {
                                      TypeSignatureFactory::intLiteral,
                                  },
                                  TypeSignatureFactory::intLiteral
                          ),
-                         new FunctionLambdaTypeSignature(
+                         new LambdaTypeSignature(
+                                 {},
                                  TypeSignatureFactory::intLiteral
                          ),
-                         new FunctionLambdaTypeSignature(
+                         new LambdaTypeSignature(
                                  {
                                      TypeSignatureFactory::intLiteral,
                                  },
@@ -748,7 +744,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {179, twoTestInterfaceTypeSignature},
 
             {180, TypeSignatureFactory::stringLiteral},
-            {181, new FunctionLambdaTypeSignature(TypeSignatureFactory::boolLiteral)},
+            {181, new LambdaTypeSignature({}, TypeSignatureFactory::boolLiteral)},
             {182, TypeSignatureFactory::floatLiteral},
             {183, new StructTypeSignature(
                     TypeSignatureMap<TypeSignature>({

@@ -38,6 +38,8 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/void-type-type-signature-strategy/void-type-type-signature-strategy.h"
 #include "lambda-expression-scope-parameter-type-signature-strategy/lambda-expression-scope-parameter-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.h"
 #include "enum-type-signature-strategy/enum-type-signature-strategy.h"
@@ -67,8 +69,6 @@
 #include "interface-type-signature-strategy/interface-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h"
 #include "custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/procedure-type-type-signature-strategy/procedure-type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/function-type-type-signature-strategy/function-type-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
 #include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
 #include "expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.h"
@@ -113,8 +113,8 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _structTypeTypeSignatureStrategy = new StructTypeTypeSignatureStrategy();
     _tupleTypeTypeSignatureStrategy = new TupleTypeTypeSignatureStrategy();
     _refTypeTypeSignatureStrategy = new RefTypeTypeSignatureStrategy();
-    _functionTypeTypeSignatureStrategy = new FunctionTypeTypeSignatureStrategy();
-    _procedureTypeTypeSignatureStrategy = new ProcedureTypeTypeSignatureStrategy();
+    _lambdaTypeTypeSignatureStrategy = new LambdaTypeTypeSignatureStrategy();
+    _voidTypeTypeSignatureStrategy = new VoidTypeTypeSignatureStrategy();
     _thisTypeTypeSignatureStrategy = new ThisTypeTypeSignatureStrategy();
     _enumKeyValueTypeSignatureStrategy = new EnumKeyValueTypeSignatureStrategy();
     _enumTypeSignatureStrategy = new EnumTypeSignatureStrategy();
@@ -301,12 +301,12 @@ RefTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getRefTypeTypeSignatureS
     return this->_refTypeTypeSignatureStrategy;
 }
 
-FunctionTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getFunctionTypeTypeSignatureStrategy() {
-    return this->_functionTypeTypeSignatureStrategy;
+LambdaTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaTypeTypeSignatureStrategy() {
+    return this->_lambdaTypeTypeSignatureStrategy;
 }
 
-ProcedureTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getProcedureTypeTypeSignatureStrategy() {
-    return this->_procedureTypeTypeSignatureStrategy;
+VoidTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getVoidTypeTypeSignatureStrategy() {
+    return this->_voidTypeTypeSignatureStrategy;
 }
 
 ThisTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getThisTypeTypeSignatureStrategy() {

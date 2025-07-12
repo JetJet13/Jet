@@ -5,8 +5,6 @@
 #include "lambda-expression-type-signature.h"
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../void-type-signature/void-type-signature.h"
-#include "../procedure-lambda-type-signature/procedure-lambda-type-signature.h"
-#include "../function-lambda-type-signature/function-lambda-type-signature.h"
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
     _parameterList = new ParameterListTypeSignature();

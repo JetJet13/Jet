@@ -3,8 +3,7 @@
 //
 
 #include "invocable-type-signature.h"
-#include "lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
-#include "lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
+#include "lambda-type-signature/lambda-type-signature.h"
 
 bool InvocableTypeSignature::isInvocable() {
     return true;
@@ -37,8 +36,5 @@ TypeSignature* InvocableTypeSignature::convertToVariableTypeSignature() {
     for (auto parameter : *this->getParameterTypes()) {
         parameterTypes.push_back(parameter->convertToVariableTypeSignature());
     }
-    if (this->getReturnType()->isVoid()) {
-        return new ProcedureLambdaTypeSignature(parameterTypes);
-    }
-    return new FunctionLambdaTypeSignature(parameterTypes, this->getReturnType()->convertToVariableTypeSignature());
+    return new LambdaTypeSignature(parameterTypes, this->getReturnType()->convertToVariableTypeSignature());
 }
