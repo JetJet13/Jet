@@ -46,8 +46,6 @@
 #include "../ir-type/ir-function-type.h"
 #include "../../core/type-signature/invocable-type-signature/function-type-signature/function-type-signature.h"
 #include "../../core/type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
-#include "../../core/type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
-#include "../../core/type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
 #include "../../core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 #include "../../core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../ir-type/ir-array-pointer-type.h"

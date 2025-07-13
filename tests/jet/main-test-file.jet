@@ -14,14 +14,14 @@ func TempFunction(x: int) int {
 
 const tempResult = TempFunction(tempFoo);
 
-proc SimpleProc(fooLambda: func<int> => int) {
+proc SimpleProc(fooLambda: (int) => int) {
     const simple = 50;
     const simpleLambda = () => 50;
     const anotherLambda = () => simple + simpleLambda() + fooLambda();
     const pen = anotherLambda();
 }
 
-func LambdaVarTest(test: func<> => int) int {
+func LambdaVarTest(test: () => int) int {
     return 5 + test();
 }
 
@@ -30,10 +30,10 @@ func FooVarTest() int {
     return LambdaVarTest(fooLambdaTest);
 }
 
-func SimpleFunc(fooLambda: func<int> => int) int {
+func SimpleFunc(fooLambda: (int) => int) int {
     const simple = 50;
     const simpleLambda = () => 50;
-    const anotherLambda = (x: int, y: func<int> => int) => x + y(88) + simple + simpleLambda() + fooLambda();
+    const anotherLambda = (x: int, y: (int) => int) => x + y(88) + simple + simpleLambda() + fooLambda();
     return anotherLambda(20, (z: int) => z + 2) + anotherLambda(20, (z: int) { return z + 2; });
 }
 
@@ -65,7 +65,7 @@ class MyClass {
         this.e = this.computeValueForE();
     }
 
-    public getA(callback: func<> => int) int {
+    public getA(callback: () => int) int {
         return this.a + this.b.x + this.c.2 + callback() + this.compute();
     }
 
@@ -139,7 +139,7 @@ proc ArrayPrototypeProcedure() {
     concatArrays.prepend(2);
 }
 
-func tupleTest(tupArg: tuple<func<int> => int, func<> => int, func<int> => int>) int {
+func tupleTest(tupArg: tuple<(int) => int, () => int, (int) => int>) int {
     const myTuple = tuple { 1, 2, true, [7,7,7] };
     const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
     const lambdaTupleCall = lambdaTuple.1();
@@ -151,9 +151,9 @@ func tupleTest(tupArg: tuple<func<int> => int, func<> => int, func<int> => int>)
 interface MyInterface {
     foo: int,
     bar: bool,
-    hello: func<> => string,
+    hello: () => string,
     structure: { a: int, b: int },
-    bye: func<{ a: int, b: int }, { c: bool, d: char }> => string,
+    bye: ({ a: int, b: int }, { c: bool, d: char }) => string,
 }
 
 const structure: { a: bool, c: char } = { a: true, c: 'n' };
@@ -170,8 +170,8 @@ proc SProc(myStruct: { a: bool, b: { foo: int, bar: bool } }) {}
 interface ITest {
     foo: bool,
     bar: int,
-    getColor: func<> => string,
-    size: func<> => int
+    getColor: () => string,
+    size: () => int
 }
 
 class TestImplementation {
@@ -197,7 +197,7 @@ proc InterfaceTest() {
 }
 
 type TypeFoo = string;
-type TypeBar = func<> => bool;
+type TypeBar = () => bool;
 type Money = float;
 type Point = { x: int, y: int, m: Money };
 

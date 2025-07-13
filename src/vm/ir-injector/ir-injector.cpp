@@ -70,8 +70,7 @@ void IRInjector::init() {
     _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
     _injectorMap.insert(this->insert(POINTER_TYPE_SOURCE, _pointerIRInjector));
     _injectorMap.insert(this->insert(REF_TYPE_SOURCE, _refIRInjector));
-    _injectorMap.insert(this->insert(FUNCTION_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
-    _injectorMap.insert(this->insert(PROCEDURE_LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
+    _injectorMap.insert(this->insert(LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(ENUM_TYPE_SOURCE, _enumIRInjector));
     _injectorMap.insert(this->insert(CLASS_INSTANCE_TYPE_SOURCE, _newClassInstanceIRInjectorStrategy));

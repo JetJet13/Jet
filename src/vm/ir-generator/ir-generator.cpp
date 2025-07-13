@@ -287,12 +287,9 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case LAMBDA_EXPRESSION_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
                     (LambdaExpressionTypeSignature*) typeSignature, this, scope, irContext);
-        case FUNCTION_LAMBDA_TYPE_SOURCE:
+        case LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    (FunctionLambdaTypeSignature*) typeSignature, this, scope, irContext);
-        case PROCEDURE_LAMBDA_TYPE_SOURCE:
-            return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    (ProcedureLambdaTypeSignature*) typeSignature, this, scope, irContext);
+                    (LambdaTypeSignature*) typeSignature, this, scope, irContext);
         case INTERFACE_TYPE_SOURCE:
             return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(
                     (InterfaceTypeSignature*)typeSignature, this, scope, irContext);

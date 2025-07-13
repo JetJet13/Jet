@@ -4,17 +4,9 @@
 
 #include "lambda-type-signature-ir-strategy.h"
 
-IRFunctionParameterType* LambdaTypeSignatureIRStrategy::generate(ProcedureLambdaTypeSignature* procedureLambdaTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto returnType = irGenerator->generateTypeFor(procedureLambdaTypeSignature->getReturnType(), scope, irContext);
-    auto parameterTypes = this->generateParameterTypes(procedureLambdaTypeSignature->getParameterTypes(), irGenerator, scope, irContext);
-    auto irFunction = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false)));
-    auto irFunctionScopeArgumentType = irGenerator->generateIrPointerType();
-    return new IRFunctionParameterType(llvm::StructType::get(**irContext->getContext(), { irFunction->getType(), irFunctionScopeArgumentType->getType() }), irFunction);
-}
-
-IRFunctionParameterType* LambdaTypeSignatureIRStrategy::generate(FunctionLambdaTypeSignature* functionLambdaTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto returnType = irGenerator->generateTypeFor(functionLambdaTypeSignature->getReturnType(), scope, irContext);
-    auto parameterTypes = this->generateParameterTypes(functionLambdaTypeSignature->getParameterTypes(), irGenerator, scope, irContext);
+IRFunctionParameterType* LambdaTypeSignatureIRStrategy::generate(LambdaTypeSignature* lambdaTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto returnType = irGenerator->generateTypeFor(lambdaTypeSignature->getReturnType(), scope, irContext);
+    auto parameterTypes = this->generateParameterTypes(lambdaTypeSignature->getParameterTypes(), irGenerator, scope, irContext);
     auto irFunction = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes, false)));
     auto irFunctionScopeArgumentType = irGenerator->generateIrPointerType();
     return new IRFunctionParameterType(llvm::StructType::get(**irContext->getContext(), { irFunction->getType(), irFunctionScopeArgumentType->getType() }), irFunction);

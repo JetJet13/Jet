@@ -17,8 +17,6 @@
 #include "../../../../src/core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
-#include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/function-lambda-type-signature/function-lambda-type-signature.h"
-#include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/procedure-lambda-type-signature/procedure-lambda-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 
 auto colorEnumTypeSignature = new EnumTypeSignature(
