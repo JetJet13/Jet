@@ -91,14 +91,6 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope*
         _recognizeStack.pop();
         _recognizeStack.top()->push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
         _modeStack.pop();
-    } else if (reducedNode->is(AST_COLON_BASE_NODE) && _modeStack.top() == SA_STRUCT_MODE) {
-        Logger::log("reduced node is colon and mode is struct_mode, merging recognizeStack with scope stack");
-        auto scopeAsStack = _scopeStack.top().convertToStack();
-        auto newRecognizeStack = std::move(StackMerger<ASTNode*>::merge(&scopeAsStack, _recognizeStack.top()));
-        _scopeStack.pop();
-        _recognizeStack.pop();
-        _recognizeStack.push(newRecognizeStack);
-        _recognizeStack.top()->push(reducedNode);
     } else if (reducedNode->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
         fileScope->addImport((ASTImportSingleModuleDeclarationNode*)reducedNode);
     } else if (reducedNode->is(AST_MODULE_DECLARATION_NODE)) {
@@ -258,7 +250,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_STRUCT_TYPE_NODE:
         case AST_TUPLE_TYPE_NODE:
         case AST_REF_TYPE_NODE:
-        case AST_TUPLE_LIST_NODE:
+        case AST_TUPLE_EXPRESSION_NODE:
         case AST_MODULE_LIST_NODE:
         case AST_IMPORT_MODULE_LIST_NODE:
         case AST_INTERFACE_PROPERTY_LIST_NODE:
@@ -279,6 +271,12 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
 
     if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_BLOCK_MODE) {
         Logger::log("replacing BLOCK_MODE with STRUCT_MODE");
+        _modeStack.pop();
+        _modeStack.push(SA_STRUCT_MODE);
+    }
+
+        if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_TUPLE_LIST_MODE) {
+        Logger::log("replacing TUPLE_LIST_MODE with STRUCT_MODE");
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_MODE);
     }

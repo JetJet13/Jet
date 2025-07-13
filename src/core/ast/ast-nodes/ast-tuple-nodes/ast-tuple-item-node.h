@@ -17,6 +17,7 @@ private:
     ASTExpressionNode* _item;
 public:
     ASTTupleItemNode(ASTExpressionNode* item);
+    ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     ASTExpressionNode* getItem();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

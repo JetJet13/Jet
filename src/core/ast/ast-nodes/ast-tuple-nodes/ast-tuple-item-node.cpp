@@ -10,6 +10,13 @@ ASTTupleItemNode::ASTTupleItemNode(ASTExpressionNode* item) {
     _children.push_back(_item);
 }
 
+ASTNode* ASTTupleItemNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+    if (mode == SA_STRUCT_MODE) {
+        return this->getItem();
+    }
+    return this;
+}
+
 ASTExpressionNode* ASTTupleItemNode::getItem() {
     return _item;
 }

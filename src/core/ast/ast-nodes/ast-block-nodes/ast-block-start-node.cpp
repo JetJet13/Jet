@@ -13,8 +13,8 @@
 #include "../ast-type-nodes/ast-struct-type-nodes/ast-struct-type-start-node.h"
 
 ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-    if (prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_REF_NODE })) {
-        return new ASTStructStartNode(_lexeme);
+    if (prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_REF_NODE, AST_FUNCTION_RETURN_NODE })) {
+        return new ASTTupleListStartNode(_lexeme);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NAME_NODE })) {
@@ -26,10 +26,6 @@ ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
         (prevNode && prevNode.value()->isOneOf({ AST_ARRAY_TYPE_START_NODE, AST_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE, AST_TYPE_ASSIGNMENT_OPERATOR_NODE }))
         ) {
         return new ASTStructTypeStartNode(_lexeme);
-    }
-
-    if (prevNode && prevNode.value()->isOneOf({ AST_TUPLE_NODE })) {
-        return new ASTTupleListStartNode(_lexeme);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_INTERFACE_DEFINITION_NODE })) {

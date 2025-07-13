@@ -8,7 +8,7 @@
 IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto tupleValues = std::vector<IRExpressionNode*>();
-    for (auto tupleItem : node->getTupleList()->getItems()) {
+    for (auto tupleItem : node->getItems()) {
         auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope, irContext, irOperationType);
         tupleValues.push_back(irNode);
     }

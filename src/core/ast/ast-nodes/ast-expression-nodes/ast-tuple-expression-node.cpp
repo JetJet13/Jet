@@ -6,20 +6,37 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-
-ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleNode* tupleKeyword, ASTTupleListNode* tupleList) {
-    _tupleKeyword = tupleKeyword;
-    _tupleList = tupleList;
-    _children.push_back(_tupleList);
+ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd) {
+    _tupleListStart = tupleListStart;
+    _tupleListEnd = tupleListEnd;
+    _items = std::vector<ASTTupleItemNode*>();
 }
 
-ASTTupleListNode* ASTTupleExpressionNode::getTupleList() {
-    return _tupleList;
+ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, ASTTupleListEndNode* tupleListEnd) {
+    _tupleListStart = tupleListStart;
+    _tupleListEnd = tupleListEnd;
+    _items = std::vector<ASTTupleItemNode*>();
+    for (auto item: items) {
+        this->addItem(item);
+    }
+}
+
+std::vector<ASTTupleItemNode*> ASTTupleExpressionNode::getItems() {
+    return _items;
+}
+
+unsigned long ASTTupleExpressionNode::numItems() {
+    return _items.size();
+}
+
+ASTTupleExpressionNode* ASTTupleExpressionNode::addItem(ASTTupleItemNode* item) {
+    _items.push_back(item);
+    _children.push_back(item);
+    return this;
 }
 
 void ASTTupleExpressionNode::markAsReferenced() {
     _isReferenced = true;
-    _tupleList->markAsReferenced();
 }
 
 TupleTypeSignature* ASTTupleExpressionNode::getTypeSignature() {
@@ -31,11 +48,11 @@ void ASTTupleExpressionNode::setTypeSignature(TupleTypeSignature* tupleTypeSigna
 }
 
 Position* ASTTupleExpressionNode::getStartPosition() {
-    return _tupleList->getStartPosition();
+    return _tupleListStart->getStartPosition();
 }
 
 Position* ASTTupleExpressionNode::getEndPosition() {
-    return _tupleList->getEndPosition();
+    return _tupleListEnd->getEndPosition();
 }
 
 ASTNodeType ASTTupleExpressionNode::getNodeType() {
@@ -51,16 +68,31 @@ bool ASTTupleExpressionNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTTupleExpressionNode*)other;
-
-    return _tupleList->isSameAs(otherNode->getTupleList());
+    if (this->numItems() != otherNode->numItems()) {
+        return false;
+    }
+    for (int i = 0; i < this->numItems(); i++) {
+        if (!_items[i]->isSameAs(otherNode->getItems()[i])) {
+            return false;
+        }
+    }
+    return true;
 }
 
 void ASTTupleExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _tupleList->print();
+    for (auto item : _items) {
+        item->print();
+    }
     Logger::log("----------");
 }
 
 std::string ASTTupleExpressionNode::toSourceCode() {
-    return _tupleList->toSourceCode();
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_tupleListStart);
+    for (auto item : _items) {
+        sourceCodeBuilder.addWithWhitespace(item);
+    }
+    sourceCodeBuilder.add(_tupleListEnd);
+    return sourceCodeBuilder.build();
 }

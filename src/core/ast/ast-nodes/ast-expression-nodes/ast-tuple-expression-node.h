@@ -8,19 +8,23 @@
 #include <vector>
 #include "ast-aggregate-expression-node.h"
 #include "../ast-node.h"
-#include "../ast-struct-nodes/ast-struct-key-value-node.h"
-#include "../ast-tuple-nodes/ast-tuple-list-node.h"
-#include "../ast-tuple-nodes/ast-tuple-node.h"
+#include "../ast-tuple-nodes/ast-tuple-list-start-node.h"
+#include "../ast-tuple-nodes/ast-tuple-item-node.h"
+#include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
 #include "../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
 class ASTTupleExpressionNode : public ASTAggregateExpressionNode {
 private:
-    ASTTupleNode* _tupleKeyword;
-    ASTTupleListNode* _tupleList;
+    ASTTupleListStartNode* _tupleListStart;
+    ASTTupleListEndNode* _tupleListEnd;
+    std::vector<ASTTupleItemNode*> _items;
     TupleTypeSignature* _typeSignature = new TupleTypeSignature();
 public:
-    ASTTupleExpressionNode(ASTTupleNode* tupleKeyword, ASTTupleListNode* tupleList);
-    ASTTupleListNode* getTupleList();
+    ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd);
+    ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, ASTTupleListEndNode* tupleListEnd);
+    std::vector<ASTTupleItemNode*> getItems();
+    unsigned long numItems();
+    ASTTupleExpressionNode* addItem(ASTTupleItemNode* item);
     void markAsReferenced() override;
     TupleTypeSignature* getTypeSignature() override;
     void setTypeSignature(TupleTypeSignature* tupleTypeSignature);

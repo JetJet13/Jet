@@ -82,7 +82,6 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-argument-list-start-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-argument-list-end-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-block-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-if-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-control-flow-nodes/ast-else-if-node.h"
@@ -737,12 +736,10 @@ namespace ASTNodeFactory {
             tupleItems.push_back(new ASTTupleItemNode(expression));
         }
         return new ASTTupleExpressionNode(
-                ASTNodeFactory::tupleKeyword,
-                new ASTTupleListNode(
                 ASTNodeFactory::tupleListStart,
                 tupleItems,
                 ASTNodeFactory::tupleListEnd
-        ));
+        );
     }
     static ASTTypeParameterListNode* createTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
         return new ASTTypeParameterListNode(ASTNodeFactory::typeParameterListStart, items, ASTNodeFactory::typeParameterListEnd);

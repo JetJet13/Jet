@@ -53,7 +53,7 @@ proc mainX() {
 class MyClass {
     public a: int = 5;
     public b = { x: 10, y: 0, z: 97 };
-    private c = tuple { 1, 2, 3 };
+    private c = { 1, 2, 3 };
     private d: int;
     private e = this.computeValueForE();
     private f = this.a + 40;
@@ -140,8 +140,8 @@ proc ArrayPrototypeProcedure() {
 }
 
 func tupleTest(tupArg: tuple<(int) => int, () => int, (int) => int>) int {
-    const myTuple = tuple { 1, 2, true, [7,7,7] };
-    const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
+    const myTuple = { 1, 2, true, [7,7,7] };
+    const lambdaTuple = { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
     const lambdaTupleCall = lambdaTuple.1();
     const argLambdaTupleCall = tupArg.0(2);
     const sevens = myTuple.3.take(2);

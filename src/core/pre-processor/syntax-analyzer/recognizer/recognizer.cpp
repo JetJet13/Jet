@@ -39,7 +39,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
     } else if (handle->isImplementsInterfaceListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_IMPLEMENTS_INTERFACE_LIST_NODE);
     } else if (handle->isTupleListEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_LIST_NODE);
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TUPLE_EXPRESSION_NODE);
     } else if (handle->isModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_MODULE_LIST_NODE);
     } else if (handle->isImportModuleListEnclosed()) {

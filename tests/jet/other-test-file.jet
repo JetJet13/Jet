@@ -9,5 +9,5 @@ export func myStringFunction() string {
 }
 
 export func myTupleFunction() tuple<int, bool, int> {
-    return tuple { 1, false, 10 };
+    return { 1, false, 10 };
 }

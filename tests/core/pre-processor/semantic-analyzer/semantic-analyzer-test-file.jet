@@ -141,7 +141,7 @@ enum NoValEnum {
 
 const isEnum = 0 == NoValEnum.Zero;
 const isNum = structObj.obj.test && RGB.Red;
-const myTuple = tuple { "hello", 1, 2 };
+const myTuple = { "hello", 1, 2 };
 
 func returnString() string {
  return "hello";
@@ -194,7 +194,7 @@ const boolWithType: bool = true;
 const arrWithType: [int] = [1,2,3];
 const funcWithType: (int) => bool = (x: int) => true;
 const procWithType: (int) => void = (x: int) { x + 1; };
-const tupleWithType: tuple<int, int> = tuple { 1, 2 };
+const tupleWithType: tuple<int, int> = { 1, 2 };
 const customWithType: Color = Color.Red;
 
 const preDefinedClassInstance = new MyClass(987);
@@ -325,14 +325,14 @@ const rBool = ref true;
 const rChar = ref 'x';
 const rArray = ref [1,2,3];
 const rStruct = ref { a: 1, b: true };
-const rTuple = ref tuple { "hi", true, 0 };
+const rTuple = ref { "hi", true, 0 };
 const rId = ref foo;
 const rIdChar = ref foo.bar;
 const rArrayAccess = ref myArray[0];
 const rTupleAccess = ref myTuple.0;
 const refsArray = [ ref 0, ref 1, ref 2 ];
 const refsStruct = { a: ref 1, b: ref 'Z' };
-const refsTuple = tuple { ref "hi", ref true, ref 0 };
+const refsTuple = { ref "hi", ref true, ref 0 };
 
 const dereferenceStruct = dref rId;
 const dereferenceChar = dref rIdChar;
@@ -376,7 +376,7 @@ const lambdaStruct = {
     bar: () => 100,
     foo2: (x: int) int { return x + 5; }
 };
-const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
+const lambdaTuple = { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
 const lambdaTupleCall = lambdaTuple.1();
 
 interface MyInterface {

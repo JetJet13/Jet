@@ -31,7 +31,6 @@
 #include "reducer-strategies/function-invocation-expression-reducer-strategy/function-invocation-expression-reducer-strategy.h"
 #include "reducer-strategies/function-argument-list-reducer-strategy/function-argument-list-reducer-strategy.h"
 #include "reducer-strategies/expression-statement-reducer-strategy/expression-statement-reducer-strategy.h"
-#include "reducer-strategies/tuple-list-reducer-strategy/tuple-list-reducer-strategy.h"
 #include "reducer-strategies/tuple-expression-reducer-strategy/tuple-expression-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-expression-reducer-strategy/tuple-access-expression-reducer-strategy.h"
 #include "reducer-strategies/object-access-source-reducer-strategy/object-access-source-reducer-strategy.h"
@@ -161,7 +160,6 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ENUM_KEY_VALUE_LIST_NODE, new EnumKeyValueListReducerStrategy());
     this->addStrategy(AST_ENUM_DECLARATION_NODE, new EnumDeclarationReducerStrategy());
     this->addStrategy(AST_EXPRESSION_STATEMENT_NODE, new ExpressionStatementReducerStrategy());
-    this->addStrategy(AST_TUPLE_LIST_NODE, new TupleListReducerStrategy());
     this->addStrategy(AST_TUPLE_EXPRESSION_NODE, new TupleExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_ACCESS_EXPRESSION_NODE, new TupleAccessExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, new TupleAccessInvocationExpressionReducerStrategy());

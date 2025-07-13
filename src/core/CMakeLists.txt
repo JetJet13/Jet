@@ -273,12 +273,8 @@ add_library(jet-core
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-start-node.h
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-end-node.cpp
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-end-node.h
-        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-node.cpp
-        ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-node.h
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-item-node.cpp
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-item-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-list-reducer-strategy/tuple-list-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-list-reducer-strategy/tuple-list-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-expression-reducer-strategy/tuple-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-expression-reducer-strategy/tuple-expression-reducer-strategy.h
         ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.cpp

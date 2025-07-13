@@ -172,7 +172,7 @@ myFunction()[0];
 myFunction(myFunction());
 myFunction(myFunction(myFunction()));
 
-const myTuple = tuple { "hello", 1, 2 };
+const myTuple = { "hello", 1, 2 };
 myTuple.0;
 myTuple.1 + myTuple.2;
 myFunction(myTuple.0);
@@ -355,7 +355,7 @@ const boolWithType: bool = true;
 const arrWithType: [int] = [1,2,3];
 const funcWithType: (int) => bool = (x: int) => true;
 const procWithType: (int) => void = (x: int) { x + 1; };
-const tupleWithType: tuple<int, int> = tuple { 1, 2 };
+const tupleWithType: tuple<int, int> = { 1, 2 };
 const customWithType: CustomType = "custom-type";
 
 module MyModule
@@ -453,14 +453,14 @@ const rBool = ref true;
 const rChar = ref 'x';
 const rArray = ref [1,2,3];
 const rStruct = ref { a: 1, b: true };
-const rTuple = ref tuple { "hi", true, 0 };
+const rTuple = ref { "hi", true, 0 };
 const rId = ref foo;
 const rId = ref foo.bar;
 const rId = ref myArray[0];
 const rId = ref myTuple.0;
 const refsArray = [ ref 0, ref 1, ref 2 ];
 const refsStruct = { a: ref 1, b: ref 'Z' };
-const refsTuple = tuple { ref "hi", ref true, ref 0 };
+const refsTuple = { ref "hi", ref true, ref 0 };
 
 const dereferenceId = dref foo;
 const dereferenceId = dref foo.bar;
@@ -493,7 +493,7 @@ const lambdaStruct = {
     bar: () => 100,
     foo2: (x: int) int { return x + 5; }
 };
-const lambdaTuple = tuple { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
+const lambdaTuple = { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
 const lambdaTupleCall = lambdaTuple.1();
 
 interface MyInterface {

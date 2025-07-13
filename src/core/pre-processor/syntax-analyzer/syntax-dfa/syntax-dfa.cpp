@@ -86,7 +86,6 @@ void SyntaxDfa::init() {
     DFANode* enumKeyValueList = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_NODE);
     DFANode* tupleKeyword = DFANodeFactory::Once::create(AST_TUPLE_NODE);
     DFANode* tupleItem = DFANodeFactory::Once::create(AST_TUPLE_ITEM_NODE);
-    DFANode* tupleList = DFANodeFactory::Once::create(AST_TUPLE_LIST_NODE);
     DFANode* tupleExpression = DFANodeFactory::Once::create(AST_TUPLE_EXPRESSION_NODE);
     DFANode* tupleAccess = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_NODE);
     DFANode* tupleAccessExpression = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_EXPRESSION_NODE);
@@ -736,20 +735,14 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     tupleKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({ AST_TUPLE_LIST_START_NODE, AST_TYPE_PARAMETER_LIST_START_NODE })
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_PARAMETER_LIST_START_NODE })
     ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_TUPLE_TYPE_NODE)
-    ))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TUPLE_LIST_NODE, AST_TUPLE_EXPRESSION_NODE)));
+    ));
 
     tupleItem
     ->markAlwaysReduceSelf();
-
-    tupleList
-    ->backtrackWhenLastReducedNodeIsOneOf({
-        AST_TUPLE_NODE
-    });
 
     tupleAccess
     ->markAlwaysReduceSelf();
@@ -1378,7 +1371,6 @@ void SyntaxDfa::init() {
     ->insertStartNode(enumKeyValueList)
     ->insertStartNode(tupleKeyword)
     ->insertStartNode(tupleItem)
-    ->insertStartNode(tupleList)
     ->insertStartNode(tupleAccess)
     ->insertStartNode(type)
     ->insertStartNode(objectAccessSource)

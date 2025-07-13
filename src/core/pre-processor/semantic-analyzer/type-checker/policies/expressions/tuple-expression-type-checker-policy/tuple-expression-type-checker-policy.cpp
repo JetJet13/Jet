@@ -18,7 +18,7 @@ namespace TupleExpressionTypeCheckerPolicy {
             typeCheckerResult
         );
 
-        for (auto tupleItem : tupleExpression->getTupleList()->getItems()) {
+        for (auto tupleItem : tupleExpression->getItems()) {
             TypeChecker::applyPolicyTo(tupleItem->getItem(), typeCheckerResult);
         }
     }
