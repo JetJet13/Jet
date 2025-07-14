@@ -81,8 +81,8 @@ std::string ASTStructTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structTypeStartNode);
     for (auto keyValueType : _keyValueTypes) {
-        sourceCodeBuilder.addWithWhitespace(keyValueType);
+        sourceCodeBuilder.add(keyValueType);
     }
-    sourceCodeBuilder.addWithWhitespace(_structTypeEndNode);
+    sourceCodeBuilder.add(_structTypeEndNode);
     return sourceCodeBuilder.build();
 }

@@ -86,9 +86,9 @@ std::string ASTEnumKeyValueListNode::toSourceCode() {
     sourceCodeBuilder.add(_enumKeyValueListStartNode);
 
     for (auto enumKeyValue : _enumKeyValues) {
-        sourceCodeBuilder.addWithNewLine(enumKeyValue);
+        sourceCodeBuilder.add(enumKeyValue);
     }
 
-    sourceCodeBuilder.addWithWhitespace(_enumKeyValueListEndNode);
+    sourceCodeBuilder.add(_enumKeyValueListEndNode);
     return sourceCodeBuilder.build();
 }

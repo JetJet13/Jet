@@ -5,7 +5,7 @@
 #include "unique-scoped-names-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<ASTIdentifierNode*>* names, std::string nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
+void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<ASTIdentifierNode*>* names, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
     auto sameNames = std::vector<ASTIdentifierNode*>();
     for (int i = 0; i < names->size(); ++i) {
         for (int j = i + 1; j < names->size(); ++j) {
@@ -18,7 +18,7 @@ void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<ASTIdentifierNode*>* 
     }
 
     if (!sameNames.empty()) {
-        typeCheckerResult->addError(nonUniqueMessage);
+        typeCheckerResult->addError(nonUniqueMessage());
     }
 
 }

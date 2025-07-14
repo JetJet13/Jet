@@ -6,11 +6,11 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../types/type-checker-error-message-table.h"
 
-void NoReturnExpressionTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockNode, std::string message, TypeCheckerResult* typeCheckerResult) {
+void NoReturnExpressionTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(functionBlockNode->getContents(), message, typeCheckerResult);
 }
 
-void NoReturnExpressionTypeCheckerRule::enforce(ASTIfStatementNode* ifStatementNode, std::string message, TypeCheckerResult* typeCheckerResult) {
+void NoReturnExpressionTypeCheckerRule::enforce(ASTIfStatementNode* ifStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(ifStatementNode->getIfBlock()->getBlock()->getContents(), message, typeCheckerResult);
 
     for (auto elseIfBlock : *ifStatementNode->getElseIfBlocks()) {
@@ -23,7 +23,7 @@ void NoReturnExpressionTypeCheckerRule::enforce(ASTIfStatementNode* ifStatementN
 
 }
 
-void NoReturnExpressionTypeCheckerRule::enforce(ASTTryStatementNode* tryStatementNode, std::string message, TypeCheckerResult* typeCheckerResult) {
+void NoReturnExpressionTypeCheckerRule::enforce(ASTTryStatementNode* tryStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(tryStatementNode->getTryBlock()->getBlock()->getContents(), message, typeCheckerResult);
     this->checkNode(tryStatementNode->getCatchBlock()->getBlock()->getContents(), message, typeCheckerResult);
 
@@ -33,11 +33,11 @@ void NoReturnExpressionTypeCheckerRule::enforce(ASTTryStatementNode* tryStatemen
 
 }
 
-void NoReturnExpressionTypeCheckerRule::enforce(ASTForInStatementNode* forStatementNode, std::string message, TypeCheckerResult* typeCheckerResult) {
+void NoReturnExpressionTypeCheckerRule::enforce(ASTForInStatementNode* forStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(forStatementNode->getBlock()->getContents(), message, typeCheckerResult);
 }
 
-void NoReturnExpressionTypeCheckerRule::enforce(ASTWhileStatementNode* whileStatementNode, std::string message, TypeCheckerResult* typeCheckerResult) {
+void NoReturnExpressionTypeCheckerRule::enforce(ASTWhileStatementNode* whileStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(whileStatementNode->getBlock()->getContents(), message, typeCheckerResult);
 }
 
@@ -58,10 +58,10 @@ void NoReturnExpressionTypeCheckerRule::print() {
     Logger::log("------", this->toString(), "------");
 }
 
-void NoReturnExpressionTypeCheckerRule::checkNode(std::vector<ASTNode*>* nodes, std::string message, TypeCheckerResult* typeCheckerResult) {
+void NoReturnExpressionTypeCheckerRule::checkNode(std::vector<ASTNode*>* nodes, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     for (auto statement : *nodes) {
         if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
-            typeCheckerResult->addError(message);
+            typeCheckerResult->addError(message());
         } else if (statement->is(AST_IF_STATEMENT_NODE)) {
             this->enforce((ASTIfStatementNode*)statement, message, typeCheckerResult);
         } else if (statement->is(AST_TRY_STATEMENT_NODE)) {

@@ -93,7 +93,7 @@ std::string ASTFunctionParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionParameterListStartNode);
     for (auto parameters : _parameters) {
-        sourceCodeBuilder.addWithWhitespace(parameters);
+        sourceCodeBuilder.add(parameters);
     }
     sourceCodeBuilder.add(_functionParameterListEndNode);
     return sourceCodeBuilder.build();

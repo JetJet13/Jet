@@ -10,11 +10,10 @@ namespace ProcedureDeclarationTypeCheckerPolicy {
     void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), typeCheckerResult);
+        auto returnExpressionMessage = TypeCheckerErrorMessageTable::ProcedureHasReturnExpression(procedureDeclarationNode);
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             procedureDeclarationNode->getBlock(),
-            TypeCheckerErrorMessageTable::ProcedureHasReturnExpression(
-                procedureDeclarationNode
-            ),
+            returnExpressionMessage,
             typeCheckerResult
         );
     }

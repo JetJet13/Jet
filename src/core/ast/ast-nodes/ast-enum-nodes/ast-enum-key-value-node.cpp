@@ -85,11 +85,11 @@ std::string ASTEnumKeyValueNode::toSourceCode() {
     sourceCodeBuilder.add(_key);
 
     if (_assignmentOperator) {
-        sourceCodeBuilder.addWithWhitespace(_assignmentOperator.value());
+        sourceCodeBuilder.add(_assignmentOperator.value());
     }
 
     if (_value) {
-        sourceCodeBuilder.addWithWhitespace(_value.value());
+        sourceCodeBuilder.add(_value.value());
     }
 
     return sourceCodeBuilder.build();

@@ -6,18 +6,17 @@
 #define JETLANG_SOURCE_CODE_BUILDER_H
 
 #include <string>
+#include <optional>
 
 class ASTNode;
 
 class SourceCodeBuilder {
 private:
     std::string _sourceCode;
+    std::optional<ASTNode*> _lastNode = {};
 public:
     SourceCodeBuilder();
     SourceCodeBuilder* add(ASTNode* node);
-    SourceCodeBuilder* addWithWhitespace(ASTNode* node);
-    SourceCodeBuilder* addWithNewLine(ASTNode* node);
-    SourceCodeBuilder* addNewLine();
     std::string build();
 };
 #endif //JETLANG_SOURCE_CODE_BUILDER_H

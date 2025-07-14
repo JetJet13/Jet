@@ -69,6 +69,6 @@ void ASTRefExpressionNode::print() {
 std::string ASTRefExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_refNode)
-    ->addWithWhitespace(_expression);
+    ->add(_expression);
     return sourceCodeBuilder.build();
 }

@@ -85,11 +85,11 @@ void ASTVariableInitNode::print() {
 
 std::string ASTVariableInitNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_assignmentTypeQualifier)->addWithWhitespace(_identifier);
+    sourceCodeBuilder.add(_assignmentTypeQualifier)->add(_identifier);
 
     if (_colon && _type) {
-        sourceCodeBuilder.addWithWhitespace(_colon.value())->addWithWhitespace(_type.value());
+        sourceCodeBuilder.add(_colon.value())->add(_type.value());
     }
-    sourceCodeBuilder.addWithWhitespace(_assignmentOperator);
+    sourceCodeBuilder.add(_assignmentOperator);
     return sourceCodeBuilder.build();
 }

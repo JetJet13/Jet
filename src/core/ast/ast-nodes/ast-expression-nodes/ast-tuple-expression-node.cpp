@@ -91,7 +91,7 @@ std::string ASTTupleExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_tupleListStart);
     for (auto item : _items) {
-        sourceCodeBuilder.addWithWhitespace(item);
+        sourceCodeBuilder.add(item);
     }
     sourceCodeBuilder.add(_tupleListEnd);
     return sourceCodeBuilder.build();

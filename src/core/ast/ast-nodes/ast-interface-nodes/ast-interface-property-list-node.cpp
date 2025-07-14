@@ -86,9 +86,9 @@ std::string ASTInterfacePropertyListNode::toSourceCode() {
     sourceCodeBuilder.add(_startNode);
 
     for (auto enumKeyValue : _properties) {
-        sourceCodeBuilder.addWithNewLine(enumKeyValue);
+        sourceCodeBuilder.add(enumKeyValue);
     }
 
-    sourceCodeBuilder.addWithWhitespace(_endNode);
+    sourceCodeBuilder.add(_endNode);
     return sourceCodeBuilder.build();
 }

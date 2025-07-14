@@ -70,7 +70,7 @@ void ASTConcatExpressionNode::print() {
 std::string ASTConcatExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_leftNode)
-            ->addWithWhitespace(_concatNode)
-            ->addWithWhitespace(_rightNode);
+            ->add(_concatNode)
+            ->add(_rightNode);
     return sourceCodeBuilder.build();
 }

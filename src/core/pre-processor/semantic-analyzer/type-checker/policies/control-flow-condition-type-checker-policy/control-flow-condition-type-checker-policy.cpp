@@ -10,13 +10,12 @@
 
 namespace ControlFlowConditionTypeCheckerPolicy {
     void apply(ASTControlFlowConditionNode* controlFlowConditionNode, TypeCheckerResult* typeCheckerResult) {
-        Logger::log("controlFlowConditionNode", controlFlowConditionNode->getTypeSignature()->toString());
-        controlFlowConditionNode->getTypeSignature()->print();
+        auto mismatchMessage = TypeCheckerErrorMessageTable::ControlFlowConditionNotBool(controlFlowConditionNode);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             controlFlowConditionNode->getTypeSignature(),
             new BoolLiteralTypeSignature(),
-            TypeCheckerErrorMessageTable::ControlFlowConditionNotBool(controlFlowConditionNode),
+            mismatchMessage,
             typeCheckerResult
         );
     }

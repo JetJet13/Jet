@@ -81,7 +81,7 @@ std::string ASTImplementsInterfaceListNode::toSourceCode() {
     sourceCodeBuilder.add(_implements);
 
     for (auto interfaceName : _interfaceNames) {
-        sourceCodeBuilder.addWithWhitespace(interfaceName);
+        sourceCodeBuilder.add(interfaceName);
     }
     return sourceCodeBuilder.build();
 }

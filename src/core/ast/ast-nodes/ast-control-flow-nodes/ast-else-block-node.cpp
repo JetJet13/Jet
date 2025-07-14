@@ -50,6 +50,6 @@ void ASTElseBlockNode::print() {
 std::string ASTElseBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_elseKeyword)
-    ->addWithWhitespace(_block);
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

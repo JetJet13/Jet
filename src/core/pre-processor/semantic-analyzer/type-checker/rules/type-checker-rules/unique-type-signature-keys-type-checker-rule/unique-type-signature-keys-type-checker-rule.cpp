@@ -5,7 +5,7 @@
 #include "unique-type-signature-keys-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void UniqueTypeSignatureKeysTypeCheckerRule::enforce(std::vector<std::string>* keys, std::string nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
+void UniqueTypeSignatureKeysTypeCheckerRule::enforce(std::vector<std::string>* keys, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
     auto sameKeys = std::vector<std::string>();
     for (int i = 0; i < keys->size(); ++i) {
         for (int j = i + 1; j < keys->size(); ++j) {
@@ -18,7 +18,7 @@ void UniqueTypeSignatureKeysTypeCheckerRule::enforce(std::vector<std::string>* k
     }
 
     if (!sameKeys.empty()) {
-        typeCheckerResult->addError(nonUniqueMessage);
+        typeCheckerResult->addError(nonUniqueMessage());
     }
 
 }

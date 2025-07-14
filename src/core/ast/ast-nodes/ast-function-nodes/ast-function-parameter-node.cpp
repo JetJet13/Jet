@@ -67,6 +67,6 @@ std::string ASTFunctionParameterNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_identifier)
     ->add(_colon)
-    ->addWithWhitespace(_type);
+    ->add(_type);
     return sourceCodeBuilder.build();
 }

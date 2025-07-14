@@ -9,11 +9,12 @@
 #include "../../../../../../type-signature/type-signature.h"
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-node.h"
+#include "../../../types/type-checker-error-message-table.h"
 
 class ReturnTypeSignatureTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(std::optional<ASTNode*> node, std::string unknownMessage, std::string invalidMessage, TypeCheckerResult* typeCheckerResult);
-    void enforce(TypeSignature* typeSignature, std::string unknownMessage, std::string invalidMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::optional<ASTNode*> node, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(TypeSignature* typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

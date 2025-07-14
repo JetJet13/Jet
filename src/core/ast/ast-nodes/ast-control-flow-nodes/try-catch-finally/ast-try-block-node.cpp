@@ -51,6 +51,6 @@ void ASTTryBlockNode::print() {
 std::string ASTTryBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_tryKeyword)
-    ->addWithWhitespace(_block);
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

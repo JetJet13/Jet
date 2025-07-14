@@ -12,13 +12,15 @@ ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStart
     _children.push_back(_structStartNode);
     _children.push_back(_structEndNode);
     _keyValuePairs = std::vector<ASTStructKeyValueNode*>();
+    _commas = std::vector<ASTCommaNode*>();
 }
 
-ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStartNode, std::vector<ASTStructKeyValueNode*> keyValuePairs, ASTStructEndNode* structEndNode) {
+ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStartNode, std::vector<ASTStructKeyValueNode*> keyValuePairs, std::vector<ASTCommaNode*> commas, ASTStructEndNode* structEndNode) {
     _structStartNode = structStartNode;
     _structEndNode = structEndNode;
     _children.push_back(_structStartNode);
     _children.push_back(_structEndNode);
+    _commas = commas;
     _keyValuePairs = keyValuePairs;
     for (auto keyValuePair : keyValuePairs) {
         _children.push_back(keyValuePair);
@@ -36,6 +38,11 @@ ASTStructKeyValueNode* ASTStructExpressionNode::getKeyValuePairAt(unsigned long 
 ASTStructExpressionNode* ASTStructExpressionNode::addKeyValuePair(ASTStructKeyValueNode* keyValuePair) {
     _keyValuePairs.push_back(keyValuePair);
     _children.push_back(keyValuePair);
+    return this;
+}
+
+ASTStructExpressionNode* ASTStructExpressionNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -102,9 +109,15 @@ void ASTStructExpressionNode::print() {
 
 
 std::string ASTStructExpressionNode::toSourceCode() {
+    Logger::log("ASTStructExpressionNode::toSourceCode invoked!");
     auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_structStartNode);
     for (auto keyValuePair : _keyValuePairs) {
-        sourceCodeBuilder.addWithNewLine(keyValuePair);
+        sourceCodeBuilder.add(keyValuePair);
     }
+    for (auto comma : _commas) {
+        sourceCodeBuilder.add(comma);
+    }
+    sourceCodeBuilder.add(_structEndNode);
     return sourceCodeBuilder.build();
 }

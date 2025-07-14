@@ -71,7 +71,7 @@ void ASTBinaryExpressionNode::print() {
 std::string ASTBinaryExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_leftNode)
-    ->addWithWhitespace(_binaryOperator)
-    ->addWithWhitespace(_rightNode);
+    ->add(_binaryOperator)
+    ->add(_rightNode);
     return sourceCodeBuilder.build();
 }

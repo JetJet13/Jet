@@ -8,44 +8,37 @@
 
 namespace ArrayAccessAssignmentStatementTypeCheckerPolicy {
     void apply(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+        auto statementUnknownMessage = TypeCheckerErrorMessageTable::VariableTypeUnknown(arrayAccessAssignmentStatementNode);
+        auto statementInvalidMessage = TypeCheckerErrorMessageTable::VariableTypeInvalid(arrayAccessAssignmentStatementNode);
+        auto statementVoidMessage = TypeCheckerErrorMessageTable::VariableTypeVoid(arrayAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        arrayAccessAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature(),
-                        TypeCheckerErrorMessageTable::VariableTypeUnknown(
-                                arrayAccessAssignmentStatementNode
-                        ),
-                        TypeCheckerErrorMessageTable::VariableTypeInvalid(
-                                arrayAccessAssignmentStatementNode
-                        ),
-                        TypeCheckerErrorMessageTable::VariableTypeVoid(
-                                arrayAccessAssignmentStatementNode
-                        ),
-                        typeCheckerResult
-                );
+        ->enforce(
+            arrayAccessAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature(),
+            statementUnknownMessage,
+            statementInvalidMessage,
+            statementVoidMessage,
+            typeCheckerResult
+        );
 
+        auto expressionUnknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayAccessAssignmentStatementNode);
+        auto expressionInvalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayAccessAssignmentStatementNode);
+        auto expressionVoidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        arrayAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
-                        TypeCheckerErrorMessageTable::ExpressionTypeUnknown(
-                                arrayAccessAssignmentStatementNode
-                        ),
-                        TypeCheckerErrorMessageTable::ExpressionTypeInvalid(
-                                arrayAccessAssignmentStatementNode
-                        ),
-                        TypeCheckerErrorMessageTable::ExpressionTypeVoid(
-                                arrayAccessAssignmentStatementNode
-                        ),
-                        typeCheckerResult
-                );
+        ->enforce(
+            arrayAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
+            expressionUnknownMessage,
+            expressionInvalidMessage,
+            expressionVoidMessage,
+            typeCheckerResult
+        );
 
+        auto mismatchMessage = TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch(arrayAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
-                ->enforce(
-                        arrayAccessAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature(),
-                        arrayAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
-                        TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch(
-                                arrayAccessAssignmentStatementNode
-                        ),
-                        typeCheckerResult
-                );
+        ->enforce(
+                arrayAccessAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature(),
+                arrayAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
+                mismatchMessage,
+                typeCheckerResult
+        );
     }
 }

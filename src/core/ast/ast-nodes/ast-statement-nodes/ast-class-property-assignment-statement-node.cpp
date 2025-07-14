@@ -56,6 +56,6 @@ void ASTClassPropertyAssignmentStatementNode::print() {
 std::string ASTClassPropertyAssignmentStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_propertyAssignment)
-    ->addWithWhitespace(_expression);
+    ->add(_expression);
     return sourceCodeBuilder.build();
 }

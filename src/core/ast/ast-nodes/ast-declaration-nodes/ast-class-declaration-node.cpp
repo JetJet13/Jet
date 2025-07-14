@@ -88,10 +88,10 @@ void ASTClassDeclarationNode::print() {
 std::string ASTClassDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_classKeyword)
-    ->addWithWhitespace(_name);
+    ->add(_name);
     if (_implementsInterfaceList) {
-        sourceCodeBuilder.addWithWhitespace(_implementsInterfaceList.value());
+        sourceCodeBuilder.add(_implementsInterfaceList.value());
     }
-    sourceCodeBuilder.addWithWhitespace(_block);
+    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

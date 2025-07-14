@@ -67,6 +67,6 @@ void ASTModuleDeclarationNode::print() {
 std::string ASTModuleDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_moduleKeyword)
-    ->addWithWhitespace(_name);
+    ->add(_name);
     return sourceCodeBuilder.build();
 }

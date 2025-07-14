@@ -58,6 +58,6 @@ void ASTVariableAssignmentNode::print() {
 std::string ASTVariableAssignmentNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_identifier)
-    ->addWithWhitespace(_assignmentOperator);
+    ->add(_assignmentOperator);
     return sourceCodeBuilder.build();
 }

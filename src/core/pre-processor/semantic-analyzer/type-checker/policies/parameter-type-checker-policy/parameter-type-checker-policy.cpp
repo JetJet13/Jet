@@ -8,20 +8,16 @@
 
 namespace ParameterTypeCheckerPolicy {
     void apply(ASTFunctionParameterNode* functionParameter, TypeCheckerResult* typeCheckerResult) {
-
+        auto unknownMessage = TypeCheckerErrorMessageTable::ParameterTypeUnknown(functionParameter);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ParameterTypeInvalid(functionParameter);
+        auto voidMessage = TypeCheckerErrorMessageTable::ParameterTypeVoid(functionParameter);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
-                functionParameter,
-                TypeCheckerErrorMessageTable::ParameterTypeUnknown(
-                    functionParameter
-                ),
-                TypeCheckerErrorMessageTable::ParameterTypeInvalid(
-                    functionParameter
-                ),
-                TypeCheckerErrorMessageTable::ParameterTypeVoid(
-                    functionParameter
-                ),
-                typeCheckerResult
+            functionParameter,
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
+            typeCheckerResult
         );
     }
 }

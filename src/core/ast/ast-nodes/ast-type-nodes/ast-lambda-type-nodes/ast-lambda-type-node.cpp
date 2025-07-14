@@ -23,6 +23,14 @@ ASTTypeNode* ASTLambdaTypeNode::getReturnType() {
     return _returnType;
 }
 
+Position* ASTLambdaTypeNode::getStartPosition() {
+    return _parameterList->getStartPosition();
+}
+
+Position* ASTLambdaTypeNode::getEndPosition() {
+    return _returnType->getEndPosition();
+}
+
 ASTNodeType ASTLambdaTypeNode::getNodeType() {
     return AST_LAMBDA_TYPE_NODE;
 }
@@ -52,7 +60,7 @@ std::string ASTLambdaTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder
             .add(_parameterList)
-            ->addWithWhitespace(_fatArrowNode)
-            ->addWithWhitespace(_returnType);
+            ->add(_fatArrowNode)
+            ->add(_returnType);
     return sourceCodeBuilder.build();
 }

@@ -58,7 +58,7 @@ void ASTElseIfBlockNode::print() {
 std::string ASTElseIfBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_elseIfKeyword)
-    ->addWithWhitespace(_condition)
-    ->addWithWhitespace(_block);
+    ->add(_condition)
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

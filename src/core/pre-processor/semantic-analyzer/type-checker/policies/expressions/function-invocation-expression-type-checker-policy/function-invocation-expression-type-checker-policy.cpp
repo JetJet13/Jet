@@ -8,31 +8,36 @@
 
 namespace FunctionInvocationExpressionTypeCheckerPolicy {
     void apply(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(functionInvocationExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionInvocationExpression);
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getReturnType(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(functionInvocationExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionInvocationExpression),
+            unknownMessage,
+            invalidMessage,
             typeCheckerResult
         );
 
+        auto notEnoughArgumentsMessage = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(functionInvocationExpression);
+        auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(functionInvocationExpression);
         auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes()->size(),
             functionInvocationExpression->getArguments()->numArguments(),
-            TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(functionInvocationExpression),
-            TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(functionInvocationExpression),
+            notEnoughArgumentsMessage,
+            tooManyArgumentsMessage,
             typeCheckerResult
         );
 
         if (!argumentListCountResultOk) {
             return;
         }
+        auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(functionInvocationExpression);
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes(),
             functionInvocationExpression->getArguments(),
-            TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(functionInvocationExpression),
+            argumentTypeMismatchMessage,
             typeCheckerResult
         );
     }

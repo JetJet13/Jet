@@ -22,10 +22,11 @@ namespace FunctionBlockTypeCheckerPolicy {
             }
         }
 
+        auto variableNamesNotUniqueMessage = TypeCheckerErrorMessageTable::VariableNamesNotUnique(functionBlockNode);
         TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
         ->enforce(
             &scopedVariableDeclarationNames,
-            TypeCheckerErrorMessageTable::VariableNamesNotUnique(functionBlockNode),
+            variableNamesNotUniqueMessage,
             typeCheckerResult
         );
     }

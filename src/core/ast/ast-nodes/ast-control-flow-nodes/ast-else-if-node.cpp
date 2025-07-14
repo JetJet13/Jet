@@ -54,6 +54,6 @@ void ASTElseIfNode::print() {
 std::string ASTElseIfNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_else)
-    ->addWithWhitespace(_if);
+    ->add(_if);
     return sourceCodeBuilder.build();
 }

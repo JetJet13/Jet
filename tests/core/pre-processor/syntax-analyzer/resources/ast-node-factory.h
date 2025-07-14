@@ -645,10 +645,18 @@ namespace ASTNodeFactory {
                 value
         );
     }
+    static std::vector<ASTCommaNode*> createCommaList(unsigned long size) {
+        auto commas = std::vector<ASTCommaNode*>();
+        for (int i = 0; i < size; ++i) {
+            commas.push_back(new ASTCommaNode(createLexeme(SymbolFactory::createCommaSymbol())));
+        }
+        return commas;
+    }
     static ASTStructExpressionNode* createStructExpression(std::vector<ASTStructKeyValueNode*> fields) {
         return new ASTStructExpressionNode(
                 ASTNodeFactory::structStart,
                 fields,
+                ASTNodeFactory::createCommaList(fields.size()),
                 ASTNodeFactory::structEnd
         );
     }

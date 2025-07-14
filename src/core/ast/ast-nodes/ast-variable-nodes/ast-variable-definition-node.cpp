@@ -56,6 +56,6 @@ void ASTVariableDefinitionNode::print() {
 
 std::string ASTVariableDefinitionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_assignmentTypeQualifier)->addWithWhitespace(_identifier);
+    sourceCodeBuilder.add(_assignmentTypeQualifier)->add(_identifier);
     return sourceCodeBuilder.build();
 }

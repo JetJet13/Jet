@@ -71,7 +71,7 @@ void ASTFunctionDefinitionNode::print() {
 std::string ASTFunctionDefinitionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionKeyword);
-    sourceCodeBuilder.addWithWhitespace(_name)
-    ->addWithWhitespace(_parameters);
+    sourceCodeBuilder.add(_name)
+    ->add(_parameters);
     return sourceCodeBuilder.build();
 }

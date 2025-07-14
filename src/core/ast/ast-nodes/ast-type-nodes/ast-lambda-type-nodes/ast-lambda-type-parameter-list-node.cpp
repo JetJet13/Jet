@@ -81,8 +81,8 @@ std::string ASTLambdaTypeParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_startNode);
     for (auto parameters : _parameters) {
-        sourceCodeBuilder.addWithWhitespace(parameters);
+        sourceCodeBuilder.add(parameters);
     }
-    sourceCodeBuilder.addWithWhitespace(_endNode);
+    sourceCodeBuilder.add(_endNode);
     return sourceCodeBuilder.build();
 }

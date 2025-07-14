@@ -87,9 +87,9 @@ std::string ASTArrayNode::toSourceCode() {
     sourceCodeBuilder.add(_leftBracket);
 
     for (auto element : *_elements) {
-        sourceCodeBuilder.addWithWhitespace(element);
+        sourceCodeBuilder.add(element);
     }
 
-    sourceCodeBuilder.addWithWhitespace(_rightBracket);
+    sourceCodeBuilder.add(_rightBracket);
     return sourceCodeBuilder.build();
 }

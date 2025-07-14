@@ -10,25 +10,20 @@ namespace VariableDeclarationTypeCheckerPolicy {
     void apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto varTypeSignature = variableDeclarationNode->getTypeSignature();
         auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
+        auto unknownMessage = TypeCheckerErrorMessageTable::VariableTypeUnknown(variableDeclarationNode);
+        auto invalidMessage = TypeCheckerErrorMessageTable::VariableTypeInvalid(variableDeclarationNode);
+        auto voidMessage = TypeCheckerErrorMessageTable::VariableTypeVoid(variableDeclarationNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             varTypeSignature,
-            TypeCheckerErrorMessageTable::VariableTypeUnknown(
-                variableDeclarationNode
-            ),
-            TypeCheckerErrorMessageTable::VariableTypeInvalid(
-                variableDeclarationNode
-            ),
-            TypeCheckerErrorMessageTable::VariableTypeVoid(
-                variableDeclarationNode
-            ),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 
        if (!varTypeSignature->isEquivalentTo(initializerTypeSignature)){
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch(
-                    variableDeclarationNode
-            ));
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch(variableDeclarationNode)());
         }
 
         TypeChecker::applyPolicyTo(variableDeclarationNode->getInitializerNode(), typeCheckerResult);

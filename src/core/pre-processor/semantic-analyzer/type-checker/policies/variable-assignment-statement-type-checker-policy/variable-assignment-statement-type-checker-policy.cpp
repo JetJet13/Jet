@@ -8,44 +8,37 @@
 
 namespace VariableAssignmentStatementTypeCheckerPolicy {
     void apply(ASTVariableAssignmentStatementNode* variableAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::VariableTypeUnknown(variableAssignmentStatementNode);
+        auto invalidMessage = TypeCheckerErrorMessageTable::VariableTypeInvalid(variableAssignmentStatementNode);
+        auto voidMessage = TypeCheckerErrorMessageTable::VariableTypeVoid(variableAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             variableAssignmentStatementNode->getVariableAssignment()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::VariableTypeUnknown(
-                variableAssignmentStatementNode
-            ),
-            TypeCheckerErrorMessageTable::VariableTypeInvalid(
-                variableAssignmentStatementNode
-            ),
-            TypeCheckerErrorMessageTable::VariableTypeVoid(
-                variableAssignmentStatementNode
-            ),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 
+        auto unknownExpressionMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(variableAssignmentStatementNode);
+        auto invalidExpressionMessage =  TypeCheckerErrorMessageTable::ExpressionTypeInvalid(variableAssignmentStatementNode);
+        auto voidExpressionMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(variableAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             variableAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(
-                variableAssignmentStatementNode
-            ),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(
-                variableAssignmentStatementNode
-            ),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(
-                variableAssignmentStatementNode
-            ),
+            unknownExpressionMessage,
+            invalidExpressionMessage,
+            voidExpressionMessage,
             typeCheckerResult
         );
 
+        auto typeMismatchMessage = TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch(variableAssignmentStatementNode);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
           variableAssignmentStatementNode->getVariableAssignment()->getTypeSignature(),
           variableAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch(
-                variableAssignmentStatementNode
-            ),
-            typeCheckerResult
+          typeMismatchMessage,
+          typeCheckerResult
         );
     }
 }

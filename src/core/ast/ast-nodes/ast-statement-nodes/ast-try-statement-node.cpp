@@ -91,10 +91,10 @@ void ASTTryStatementNode::print() {
 std::string ASTTryStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_tryBlock)
-    ->addWithWhitespace(_catchBlock);
+    ->add(_catchBlock);
 
     if (_finallyBlock) {
-        sourceCodeBuilder.addWithWhitespace(_finallyBlock.value());
+        sourceCodeBuilder.add(_finallyBlock.value());
     }
 
     return sourceCodeBuilder.build();

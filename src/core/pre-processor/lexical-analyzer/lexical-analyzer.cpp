@@ -57,7 +57,6 @@ std::optional<Lexeme*> LexicalAnalyzer::next() {
         auto endLine = _fileReader.getCursor().line;
         auto endColumn = _fileReader.getCursor().column;
         auto lexeme = new Lexeme(nextToken.value(), line, column, endLine, endColumn);
-        Logger::log(lexeme->toString());
         return lexeme;
     }
     return {};
@@ -431,7 +430,6 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
 }
 
 void LexicalAnalyzer::skipWhitespaceAndNewLine() {
-    Logger::log("skipWhitespaceAndNewLine");
     auto c = _fileReader.peek();
     if (!c) {
         return;
@@ -450,7 +448,6 @@ void LexicalAnalyzer::skipComments() {
 
     auto cursorSnapshot = _fileReader.getCursor();
     auto numAdvancesSnapshot = _fileReader.getNumAdvances();
-    Logger::log("cursorSnapshot", cursorSnapshot.line, cursorSnapshot.column);
     _fileReader.advance();
 
     if (_fileReader.peek() != SLASH) {

@@ -13,7 +13,7 @@ void ClassDeclarationTypeCheckerPolicy::apply(ASTClassDeclarationNode* classDecl
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(classDeclarationNode, typeCheckerResult);
     if (!classDeclarationNode->getTypeSignature()->satisfiesImplementInterfaces()) {
-        typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassDoesNotImplementInterface(classDeclarationNode));
+        typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassDoesNotImplementInterface(classDeclarationNode)());
     }
 }
 
@@ -25,18 +25,16 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(ASTClassDeclara
 void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     for (auto classProperty : *classDeclarationNode->getBlock()->getProperties()) {
         if (classProperty->getTypeSignature()->getType()->isInvocable()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassPropertyInvocable(classProperty));
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassPropertyInvocable(classProperty)());
         }
 
         if (classProperty->getInitializer()) {
-            Logger::log("Class property initializer", classProperty->getId());
-            classProperty->getTypeSignature()->getType()->print();
-            classProperty->getInitializer().value()->getTypeSignature()->print();
+            auto mismatchMessage = TypeCheckerErrorMessageTable::ClassPropertyInitializerTypeMismatch(classProperty);
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 classProperty->getTypeSignature()->getType(),
                 classProperty->getInitializer().value()->getTypeSignature(),
-                TypeCheckerErrorMessageTable::ClassPropertyInitializerTypeMismatch(classProperty),
+                mismatchMessage,
                 typeCheckerResult
             );
         }
@@ -45,10 +43,11 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     auto classPropertyNames = std::vector<ASTIdentifierNode*>();
+    auto namesNotUniqueErrorMessage = TypeCheckerErrorMessageTable::ClassPropertyNamesNotUnique(classDeclarationNode);
     TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
     ->enforce(
         &classPropertyNames,
-        TypeCheckerErrorMessageTable::ClassPropertyNamesNotUnique(classDeclarationNode),
+        namesNotUniqueErrorMessage,
         typeCheckerResult
     );
 }
@@ -60,18 +59,15 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
         TypeChecker::applyPolicyTo(classMethod->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(classMethod->getBlock(), typeCheckerResult);
         if (!classMethod->getTypeSignature()->getReturnType()->isVoid()) {
+            auto unknownMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(classMethod);
+            auto invalidMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid(classMethod);
+            auto voidMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeVoid(classMethod);
             TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
             ->enforce(
                 classMethod->getTypeSignature()->getReturnType(),
-                TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(
-                    classMethod
-                ),
-                TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid(
-                    classMethod
-                ),
-                TypeCheckerErrorMessageTable::ClassMethodReturnTypeVoid(
-                    classMethod
-                ),
+                unknownMessage,
+                invalidMessage,
+                voidMessage,
                 typeCheckerResult
             );
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
@@ -80,19 +76,17 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
                 classMethod->getTypeSignature()->getReturnType(),
                 typeCheckerResult
             );
+            auto notAllPathsReturnMessage = TypeCheckerErrorMessageTable::ClassMethodNotAllPathsReturn(classMethod);
             TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
                 classMethod->getBlock(),
-                TypeCheckerErrorMessageTable::ClassMethodNotAllPathsReturn(
-                    classMethod
-                ),
+                notAllPathsReturnMessage,
                 typeCheckerResult
             );
         } else {
+            auto methodNoReturnMessage = TypeCheckerErrorMessageTable::ClassMethodHasReturnExpression(classMethod);
             TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
                 classMethod->getBlock(),
-                TypeCheckerErrorMessageTable::ClassMethodHasReturnExpression(
-                    classMethod
-                ),
+                methodNoReturnMessage,
                 typeCheckerResult
             );
         }
@@ -110,12 +104,11 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(ASTClassD
         );
     }
 
+    auto methodNamesNotUniqueMessage = TypeCheckerErrorMessageTable::ClassMethodNamesAndTypeSignaturesNotUnique(classDeclarationNode);
     TypeCheckerRuleProvider::getUniqueTypeSignatureWithIdTypeCheckerRule()
     ->enforce(
         &classMethodNameAndTypeSignatureList,
-        TypeCheckerErrorMessageTable::ClassMethodNamesAndTypeSignaturesNotUnique(
-            classDeclarationNode
-        ),
+        methodNamesNotUniqueMessage,
         typeCheckerResult
     );
 }
@@ -125,11 +118,10 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(ASTClassDecla
     for (auto classConstructor : *classDeclarationNode->getBlock()->getConstructors()) {
         TypeChecker::applyPolicyTo(classConstructor->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(classConstructor->getBlock(), typeCheckerResult);
+        auto noReturnExpressionMessage = TypeCheckerErrorMessageTable::ClassConstructorHasReturnExpression(classConstructor);
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             classConstructor->getBlock(),
-            TypeCheckerErrorMessageTable::ClassConstructorHasReturnExpression(
-                classConstructor
-            ),
+            noReturnExpressionMessage,
             typeCheckerResult
         );
     }
@@ -141,11 +133,11 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(ASTC
     for (auto classConstructor : *classDeclarationNode->getBlock()->getConstructors()) {
         classConstructorTypeSignatures.push_back(classConstructor->getTypeSignature());
     }
-
+    auto classConstructorsNotUnique = TypeCheckerErrorMessageTable::ClassConstructorsNotUnique(classDeclarationNode);
     TypeCheckerRuleProvider::getUniqueTypeSignaturesTypeCheckerRule()
             ->enforce(
                     &classConstructorTypeSignatures,
-                    TypeCheckerErrorMessageTable::ClassConstructorsNotUnique(classDeclarationNode),
+                    classConstructorsNotUnique,
                     typeCheckerResult
             );
 }

@@ -68,8 +68,8 @@ void ASTUseManyModuleDeclarationNode::print() {
 std::string ASTUseManyModuleDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_useKeyword)
-    ->addWithWhitespace(_importModuleListByGroupItem)
-    ->addWithWhitespace(_fromKeyword)
-    ->addWithWhitespace(_path);
+    ->add(_importModuleListByGroupItem)
+    ->add(_fromKeyword)
+    ->add(_path);
     return sourceCodeBuilder.build();
 }

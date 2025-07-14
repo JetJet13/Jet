@@ -130,14 +130,14 @@ std::string ASTClassBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_blockStartNode);
     for (auto property : _properties) {
-        sourceCodeBuilder.addWithNewLine(property);
+        sourceCodeBuilder.add(property);
     }
     for (auto constructor : _constructors) {
-        sourceCodeBuilder.addWithNewLine(constructor);
+        sourceCodeBuilder.add(constructor);
     }
     for (auto method : _methods) {
-        sourceCodeBuilder.addWithNewLine(method);
+        sourceCodeBuilder.add(method);
     }
-    sourceCodeBuilder.addWithNewLine(_blockEndNode);
+    sourceCodeBuilder.add(_blockEndNode);
     return sourceCodeBuilder.build();
 }

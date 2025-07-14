@@ -60,8 +60,8 @@ void ASTImportSingleModuleDeclarationNode::print() {
 std::string ASTImportSingleModuleDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_importKeyword)
-    ->addWithWhitespace(_moduleName)
-    ->addWithWhitespace(_fromKeyword)
-    ->addWithWhitespace(_path);
+    ->add(_moduleName)
+    ->add(_fromKeyword)
+    ->add(_path);
     return sourceCodeBuilder.build();
 }

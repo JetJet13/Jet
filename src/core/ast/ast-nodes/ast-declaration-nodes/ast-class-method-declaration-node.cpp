@@ -98,10 +98,10 @@ void ASTClassMethodDeclarationNode::print() {
 std::string ASTClassMethodDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_classMethodDefinition)
-    ->addWithWhitespace(_parameters);
+    ->add(_parameters);
     if (_returnType) {
-        sourceCodeBuilder.addWithWhitespace(_returnType.value());
+        sourceCodeBuilder.add(_returnType.value());
     }
-    sourceCodeBuilder.addWithWhitespace(_block);
+    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

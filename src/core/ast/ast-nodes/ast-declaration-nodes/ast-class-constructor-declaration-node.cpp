@@ -75,7 +75,7 @@ void ASTClassConstructorDeclarationNode::print() {
 std::string ASTClassConstructorDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_constructor)
-    ->addWithWhitespace(_parameters)
-    ->addWithWhitespace(_block);
+    ->add(_parameters)
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

@@ -9,11 +9,12 @@
 namespace EnumDeclarationTypeCheckerPolicy {
     void apply(ASTEnumDeclarationNode* enumDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         for (auto enumKeyValue : enumDeclarationNode->getValues()->getParameters()) {
+            auto mismatchMessage = TypeCheckerErrorMessageTable::EnumKeyValueTypeMismatch(enumDeclarationNode);
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 enumDeclarationNode->getTypeSignature()->getType(),
                 enumKeyValue->getTypeSignature(),
-                TypeCheckerErrorMessageTable::EnumKeyValueTypeMismatch(enumDeclarationNode),
+                mismatchMessage,
                 typeCheckerResult
             );
         }

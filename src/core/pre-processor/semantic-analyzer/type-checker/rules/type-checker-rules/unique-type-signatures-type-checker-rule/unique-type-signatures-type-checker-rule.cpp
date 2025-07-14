@@ -5,7 +5,7 @@
 #include "unique-type-signatures-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void UniqueTypeSignaturesTypeCheckerRule::enforce(std::vector<TypeSignature*>* typeSignatures, std::string nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
+void UniqueTypeSignaturesTypeCheckerRule::enforce(std::vector<TypeSignature*>* typeSignatures, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
     auto sameNames = std::vector<TypeSignature*>();
     for (int i = 0; i < typeSignatures->size(); ++i) {
         for (int j = i + 1; j < typeSignatures->size(); ++j) {
@@ -18,7 +18,7 @@ void UniqueTypeSignaturesTypeCheckerRule::enforce(std::vector<TypeSignature*>* t
     }
 
     if (!sameNames.empty()) {
-        typeCheckerResult->addError(nonUniqueMessage);
+        typeCheckerResult->addError(nonUniqueMessage());
     }
 
 }

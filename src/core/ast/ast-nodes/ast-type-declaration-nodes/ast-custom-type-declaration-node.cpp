@@ -73,12 +73,12 @@ void ASTCustomTypeDeclarationNode::print() {
 std::string ASTCustomTypeDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     if (_exportKeyword) {
-        sourceCodeBuilder.add(_exportKeyword.value())->addWithWhitespace(_typeKeyword);
+        sourceCodeBuilder.add(_exportKeyword.value())->add(_typeKeyword);
     } else {
         sourceCodeBuilder.add(_typeKeyword);
     }
-    sourceCodeBuilder.addWithWhitespace(_typeName)
-    ->addWithWhitespace(_assignmentOperator)
-    ->addWithWhitespace(_type);
+    sourceCodeBuilder.add(_typeName)
+    ->add(_assignmentOperator)
+    ->add(_type);
     return sourceCodeBuilder.build();
 }

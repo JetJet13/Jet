@@ -9,12 +9,16 @@
 
 namespace StructExpressionTypeCheckerPolicy {
     void apply(ASTStructExpressionNode* structExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(structExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(structExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(structExpression);
+
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             structExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(structExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(structExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(structExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 

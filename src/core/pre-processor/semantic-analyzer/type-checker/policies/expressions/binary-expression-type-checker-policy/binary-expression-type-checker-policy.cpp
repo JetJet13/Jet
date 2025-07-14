@@ -8,12 +8,15 @@
 
 namespace BinaryExpressionTypeCheckerPolicy {
     void apply(ASTBinaryExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(binaryExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(binaryExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(binaryExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             binaryExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(binaryExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(binaryExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(binaryExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
     }

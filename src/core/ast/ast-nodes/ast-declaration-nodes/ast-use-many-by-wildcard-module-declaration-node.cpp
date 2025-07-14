@@ -62,8 +62,8 @@ void ASTUseManyByWildcardModuleDeclarationNode::print() {
 std::string ASTUseManyByWildcardModuleDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_useKeyword)
-    ->addWithWhitespace(_importModuleListByWildcardItemNode)
-    ->addWithWhitespace(_fromKeyword)
-    ->addWithWhitespace(_path);
+    ->add(_importModuleListByWildcardItemNode)
+    ->add(_fromKeyword)
+    ->add(_path);
     return sourceCodeBuilder.build();
 }

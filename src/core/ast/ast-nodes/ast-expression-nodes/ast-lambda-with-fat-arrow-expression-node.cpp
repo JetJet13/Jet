@@ -91,9 +91,9 @@ std::string ASTLambdaWithFatArrowExpressionNode::toSourceCode() {
     sourceCodeBuilder.add(_parameters);
 
     if (_returnType) {
-        sourceCodeBuilder.addWithWhitespace(_returnType.value());
+        sourceCodeBuilder.add(_returnType.value());
     }
 
-    sourceCodeBuilder.addWithWhitespace(_returnExpression);
+    sourceCodeBuilder.add(_returnExpression);
     return sourceCodeBuilder.build();
 }

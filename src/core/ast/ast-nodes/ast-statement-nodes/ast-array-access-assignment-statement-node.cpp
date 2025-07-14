@@ -56,6 +56,6 @@ void ASTArrayAccessAssignmentStatementNode::print() {
 std::string ASTArrayAccessAssignmentStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_arrayAccessAssignment)
-            ->addWithWhitespace(_expression);
+            ->add(_expression);
     return sourceCodeBuilder.build();
 }

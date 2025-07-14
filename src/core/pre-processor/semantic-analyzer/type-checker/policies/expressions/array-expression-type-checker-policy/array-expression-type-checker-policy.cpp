@@ -9,21 +9,25 @@
 
 namespace ArrayExpressionTypeCheckerPolicy {
     void apply(ASTArrayExpressionNode* arrayExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             arrayExpression->getTypeSignature()->getElementType(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 
         for (auto element : *arrayExpression->getElements()) {
+            auto mismatchMessage = TypeCheckerErrorMessageTable::ArrayElementTypeMismatch(element);
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 arrayExpression->getTypeSignature()->getElementType(),
                 element->getTypeSignature(),
-                TypeCheckerErrorMessageTable::ArrayElementTypeMismatch(element),
+                mismatchMessage,
                 typeCheckerResult
             );
         }

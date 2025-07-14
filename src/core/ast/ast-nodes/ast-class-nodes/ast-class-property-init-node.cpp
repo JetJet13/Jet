@@ -98,22 +98,22 @@ std::string ASTClassPropertyInitNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_accessModifier);
     if (_staticKeyword) {
-        sourceCodeBuilder.addWithWhitespace(_staticKeyword.value());
+        sourceCodeBuilder.add(_staticKeyword.value());
     }
     if (_constKeyword) {
-        sourceCodeBuilder.addWithWhitespace(_constKeyword.value());
+        sourceCodeBuilder.add(_constKeyword.value());
     }
 
-    sourceCodeBuilder.addWithWhitespace(_propertyName);
+    sourceCodeBuilder.add(_propertyName);
 
     if (_colon) {
-        sourceCodeBuilder.addWithWhitespace(_colon.value());
+        sourceCodeBuilder.add(_colon.value());
     }
     if (_type) {
-        sourceCodeBuilder.addWithWhitespace(_type.value());
+        sourceCodeBuilder.add(_type.value());
     }
     if (_assignmentOperator){
-        sourceCodeBuilder.addWithWhitespace(_assignmentOperator.value());
+        sourceCodeBuilder.add(_assignmentOperator.value());
     }
 
     return sourceCodeBuilder.build();

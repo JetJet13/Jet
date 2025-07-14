@@ -86,10 +86,10 @@ void ASTProcedureDeclarationNode::print() {
 std::string ASTProcedureDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     if (_exportKeyword) {
-        sourceCodeBuilder.add(_exportKeyword.value())->addWithWhitespace(_procedureDefinition);
+        sourceCodeBuilder.add(_exportKeyword.value())->add(_procedureDefinition);
     } else {
         sourceCodeBuilder.add(_procedureDefinition);
     }
-    sourceCodeBuilder.addWithWhitespace(_block);
+    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

@@ -8,12 +8,15 @@
 
 namespace ArrayAccessExpressionTypeCheckerPolicy {
     void apply(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayAccessExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayAccessExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayAccessExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             arrayAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayAccessExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
     }

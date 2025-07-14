@@ -86,8 +86,8 @@ std::string ASTImportModuleListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_importModuleListStartNode);
     for (auto item : _items) {
-        sourceCodeBuilder.addWithWhitespace(item);
+        sourceCodeBuilder.add(item);
     }
-    sourceCodeBuilder.addWithWhitespace(_importModuleListEndNode);
+    sourceCodeBuilder.add(_importModuleListEndNode);
     return sourceCodeBuilder.build();
 }

@@ -10,11 +10,11 @@
 namespace ForInStatementTypeCheckerPolicy {
     void apply(ASTForInStatementNode* forStatementNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(forStatementNode->getBlock(), typeCheckerResult);
-
+        auto notIterableMessage = TypeCheckerErrorMessageTable::ForInStatementSourceNotIterable(forStatementNode->getSource());
         TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule()
         ->enforce(
             forStatementNode->getSource()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ForInStatementSourceNotIterable(forStatementNode->getSource()),
+            notIterableMessage,
             typeCheckerResult
         );
 

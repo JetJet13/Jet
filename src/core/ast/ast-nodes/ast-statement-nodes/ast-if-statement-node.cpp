@@ -118,11 +118,11 @@ std::string ASTIfStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_ifBlock);
     for (auto elseIfBlock : _elseIfBlocks) {
-        sourceCodeBuilder.addWithWhitespace(elseIfBlock);
+        sourceCodeBuilder.add(elseIfBlock);
     }
 
     if (_elseBlock) {
-        sourceCodeBuilder.addWithWhitespace(_elseBlock.value());
+        sourceCodeBuilder.add(_elseBlock.value());
     }
 
     return sourceCodeBuilder.build();

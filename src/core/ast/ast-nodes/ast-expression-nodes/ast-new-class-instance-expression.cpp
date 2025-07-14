@@ -71,7 +71,7 @@ void ASTNewClassInstanceExpressionNode::print() {
 std::string ASTNewClassInstanceExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_new)
-    ->addWithWhitespace(_className)
+    ->add(_className)
     ->add(_arguments);
     return sourceCodeBuilder.build();
 }

@@ -977,7 +977,15 @@ void SyntaxDfa::init() {
     });
 
     arrayTypeStart
-    ->markAlwaysReduceSelf();
+    ->markAlwaysReduceSelf()
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_TYPE_NODE)
+            ->addTransition(
+                    DFATransitionFactory::create(
+                        DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_END_NODE, AST_ARRAY_TYPE_NODE))
+            )
+    ));
 
     arrayTypeEnd
     ->markAlwaysReduceSelf();

@@ -9,10 +9,11 @@
 #include "../../../../../../type-signature/type-signature.h"
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-node.h"
+#include "../../../types/type-checker-error-message-table.h"
 
 class IterableTypeSignatureTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(TypeSignature* typeSignature, std::string message, TypeCheckerResult* typeCheckerResult);
+    void enforce(TypeSignature* typeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

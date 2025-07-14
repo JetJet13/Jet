@@ -81,8 +81,8 @@ std::string ASTTypeParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_typeParameterListStartNode);
     for (auto parameters : _parameters) {
-        sourceCodeBuilder.addWithWhitespace(parameters);
+        sourceCodeBuilder.add(parameters);
     }
-    sourceCodeBuilder.addWithWhitespace(_typeParameterListEndNode);
+    sourceCodeBuilder.add(_typeParameterListEndNode);
     return sourceCodeBuilder.build();
 }

@@ -70,7 +70,7 @@ void ASTLogicalExpressionNode::print() {
 std::string ASTLogicalExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_leftNode)
-    ->addWithWhitespace(_logicalOperator)
-    ->addWithWhitespace(_rightNode);
+    ->add(_logicalOperator)
+    ->add(_rightNode);
     return sourceCodeBuilder.build();
 }

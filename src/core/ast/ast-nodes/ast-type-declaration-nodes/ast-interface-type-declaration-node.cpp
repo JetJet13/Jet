@@ -79,10 +79,10 @@ void ASTInterfaceTypeDeclarationNode::print() {
 std::string ASTInterfaceTypeDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     if (_exportKeyword) {
-        sourceCodeBuilder.add(_exportKeyword.value())->addWithWhitespace(_interfaceDefinition);
+        sourceCodeBuilder.add(_exportKeyword.value())->add(_interfaceDefinition);
     } else {
         sourceCodeBuilder.add(_interfaceDefinition);
     }
-    sourceCodeBuilder.addWithWhitespace(_propertyList);
+    sourceCodeBuilder.add(_propertyList);
     return sourceCodeBuilder.build();
 }

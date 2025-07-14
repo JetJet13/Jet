@@ -22,10 +22,11 @@ namespace ControlFlowBlockTypeCheckerPolicy {
             }
         }
 
+        auto variableNamesNotUniqueMessage = TypeCheckerErrorMessageTable::VariableNamesNotUnique(controlFlowBlockNode);
         TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
         ->enforce(
             &scopedVariableDeclarationNames,
-            TypeCheckerErrorMessageTable::VariableNamesNotUnique(controlFlowBlockNode),
+            variableNamesNotUniqueMessage,
             typeCheckerResult
         );
     }

@@ -56,6 +56,6 @@ void ASTVariableAssignmentStatementNode::print() {
 std::string ASTVariableAssignmentStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_variableAssignment)
-    ->addWithWhitespace(_expression);
+    ->add(_expression);
     return sourceCodeBuilder.build();
 }

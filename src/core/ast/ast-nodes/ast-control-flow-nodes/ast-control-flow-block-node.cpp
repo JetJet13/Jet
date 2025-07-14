@@ -71,9 +71,9 @@ std::string ASTControlFlowBlockNode::toSourceCode() {
     sourceCodeBuilder.add(_blockStartNode);
 
     for (auto content : _contents) {
-        sourceCodeBuilder.addWithNewLine(content);
+        sourceCodeBuilder.add(content);
     }
 
-    sourceCodeBuilder.addWithNewLine(_blockEndNode);
+    sourceCodeBuilder.add(_blockEndNode);
     return sourceCodeBuilder.build();
 }

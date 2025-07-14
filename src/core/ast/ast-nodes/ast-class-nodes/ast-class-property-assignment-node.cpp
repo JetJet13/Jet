@@ -63,6 +63,6 @@ void ASTClassPropertyAssignmentNode::print() {
 std::string ASTClassPropertyAssignmentNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_classPropertyAccess)
-    ->addWithWhitespace(_assignmentOperator);
+    ->add(_assignmentOperator);
     return sourceCodeBuilder.build();
 }

@@ -85,8 +85,8 @@ std::string ASTModuleListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_moduleListStartNode);
     for (auto item : _items) {
-        sourceCodeBuilder.addWithWhitespace(item);
+        sourceCodeBuilder.add(item);
     }
-    sourceCodeBuilder.addWithWhitespace(_moduleListEndNode);
+    sourceCodeBuilder.add(_moduleListEndNode);
     return sourceCodeBuilder.build();
 }

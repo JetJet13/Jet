@@ -69,9 +69,9 @@ void ASTForInStatementNode::print() {
 std::string ASTForInStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_forKeyword)
-    ->addWithWhitespace(_variable)
-    ->addWithWhitespace(_inKeyword)
-    ->addWithWhitespace(_source)
-    ->addWithWhitespace(_block);
+    ->add(_variable)
+    ->add(_inKeyword)
+    ->add(_source)
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

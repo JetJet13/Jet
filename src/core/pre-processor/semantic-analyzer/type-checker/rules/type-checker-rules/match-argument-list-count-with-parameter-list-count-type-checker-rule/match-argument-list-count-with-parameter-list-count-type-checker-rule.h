@@ -9,10 +9,11 @@
 #include "../../../../../../type-signature/type-signature.h"
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-node.h"
+#include "../../../types/type-checker-error-message-table.h"
 
 class MatchArgumentListCountWithParameterListCountTypeCheckerRule : public TypeCheckerRule {
 public:
-    bool enforce(unsigned long numParameters, unsigned long numArguments, std::string notEnoughArgumentsMessage, std::string tooManyArgumentsMessage, TypeCheckerResult* typeCheckerResult);
+    bool enforce(unsigned long numParameters, unsigned long numArguments, ErrorMessageLambda& notEnoughArgumentsMessage, ErrorMessageLambda& tooManyArgumentsMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

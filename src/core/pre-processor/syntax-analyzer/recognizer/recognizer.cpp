@@ -22,8 +22,6 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
     } else if (handle->isArrayEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ARRAY_NODE);
-    } else if (handle->isArrayTypeEnclosed()) {
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ARRAY_TYPE_NODE);
     } else if (handle->isStructEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_STRUCT_EXPRESSION_NODE);
     } else if (handle->isStructTypeEnclosed()) {

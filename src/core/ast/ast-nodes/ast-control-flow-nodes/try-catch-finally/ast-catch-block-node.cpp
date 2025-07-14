@@ -73,8 +73,8 @@ std::string ASTCatchBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_catchKeyword);
     if (_errorVariable) {
-        sourceCodeBuilder.addWithWhitespace(_errorVariable.value());
+        sourceCodeBuilder.add(_errorVariable.value());
     }
-    sourceCodeBuilder.addWithWhitespace(_block);
+    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

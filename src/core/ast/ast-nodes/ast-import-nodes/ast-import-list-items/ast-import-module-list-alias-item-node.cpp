@@ -58,7 +58,7 @@ void ASTImportModuleListAliasItemNode::print() {
 std::string ASTImportModuleListAliasItemNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_moduleName)
-    ->addWithWhitespace(_asKeyword)
-    ->addWithWhitespace(_aliasModuleName);
+    ->add(_asKeyword)
+    ->add(_aliasModuleName);
     return sourceCodeBuilder.build();
 }

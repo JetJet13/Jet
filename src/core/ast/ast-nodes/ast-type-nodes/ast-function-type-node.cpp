@@ -52,7 +52,7 @@ std::string ASTFunctionTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder
     .add(_parameterList)
-    ->addWithWhitespace(_fatArrowNode)
-    ->addWithWhitespace(_returnType);
+    ->add(_fatArrowNode)
+    ->add(_returnType);
     return sourceCodeBuilder.build();
 }

@@ -11,21 +11,24 @@ namespace InterfaceTypeDeclarationTypeCheckerPolicy {
         auto propertyNames = std::vector<std::string>();
         for (auto property : interfaceTypeDeclaration->getProperties()->getProperties()) {
             propertyNames.push_back(property->getName()->getId());
+            auto unknownMessage = TypeCheckerErrorMessageTable::InterfacePropertyTypeUnknown(property);
+            auto invalidMessage = TypeCheckerErrorMessageTable::InterfacePropertyTypeInvalid(property);
+            auto voidMessage = TypeCheckerErrorMessageTable::InterfacePropertyTypeVoid(property);
             TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
             ->enforce(
                 property->getTypeSignature()->getTypeSignature(),
-                TypeCheckerErrorMessageTable::InterfacePropertyTypeUnknown(property),
-                TypeCheckerErrorMessageTable::InterfacePropertyTypeInvalid(property),
-                TypeCheckerErrorMessageTable::InterfacePropertyTypeVoid(property),
+                unknownMessage,
+                invalidMessage,
+                voidMessage,
                 typeCheckerResult
             );
         }
-
+        auto propertyNamesNotUniqueMessage = TypeCheckerErrorMessageTable::InterfacePropertyNamesNotUnique(interfaceTypeDeclaration);
         TypeCheckerRuleProvider::getUniqueTypeSignatureKeysTypeCheckerRule()
         ->enforce(
-                &propertyNames,
-                TypeCheckerErrorMessageTable::InterfacePropertyNamesNotUnique(interfaceTypeDeclaration),
-                typeCheckerResult
+            &propertyNames,
+            propertyNamesNotUniqueMessage,
+            typeCheckerResult
         );
     }
 }

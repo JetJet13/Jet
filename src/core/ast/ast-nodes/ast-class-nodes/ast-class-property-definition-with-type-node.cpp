@@ -64,7 +64,7 @@ void ASTClassPropertyDefinitionWithTypeNode::print() {
 std::string ASTClassPropertyDefinitionWithTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_classPropertyDefinition)
-    ->addWithWhitespace(_colon)
-    ->addWithWhitespace(_type);
+    ->add(_colon)
+    ->add(_type);
     return sourceCodeBuilder.build();
 }

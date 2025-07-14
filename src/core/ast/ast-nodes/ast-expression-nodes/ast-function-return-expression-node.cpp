@@ -58,6 +58,6 @@ void ASTFunctionReturnExpressionNode::print() {
 std::string ASTFunctionReturnExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_returnNode)
-    ->addWithWhitespace(_returnExpression);
+    ->add(_returnExpression);
     return sourceCodeBuilder.build();
 }

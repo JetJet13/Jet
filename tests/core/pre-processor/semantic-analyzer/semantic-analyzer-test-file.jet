@@ -438,6 +438,7 @@ type TypeBar = () => bool;
 type Money = float;
 type Point = { x: int, y: int };
 
+
 if intWithType == 5 {
     const nope = "hello";
 }

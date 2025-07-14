@@ -5,9 +5,9 @@
 #include "type-signature-mismatch-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void TypeSignatureMismatchTypeCheckerRule::enforce(std::optional<ASTNode*> node, std::optional<ASTNode*> otherNode, std::string mismatchMessage, TypeCheckerResult* typeCheckerResult) {
+void TypeSignatureMismatchTypeCheckerRule::enforce(std::optional<ASTNode*> node, std::optional<ASTNode*> otherNode, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
     if ((node && !otherNode) || (!node && otherNode)) {
-        typeCheckerResult->addError(mismatchMessage);
+        typeCheckerResult->addError(mismatchMessage());
         return;
     }
 
@@ -15,9 +15,9 @@ void TypeSignatureMismatchTypeCheckerRule::enforce(std::optional<ASTNode*> node,
 
 }
 
-void TypeSignatureMismatchTypeCheckerRule::enforce(TypeSignature* typeSignature, TypeSignature* otherTypeSignature, std::string mismatchMessage, TypeCheckerResult* typeCheckerResult) {
+void TypeSignatureMismatchTypeCheckerRule::enforce(TypeSignature* typeSignature, TypeSignature* otherTypeSignature, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
     if (!typeSignature->isEquivalentTo(otherTypeSignature)) {
-        typeCheckerResult->addError(mismatchMessage);
+        typeCheckerResult->addError(mismatchMessage());
     }
 }
 

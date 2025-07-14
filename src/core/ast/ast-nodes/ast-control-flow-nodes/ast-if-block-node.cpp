@@ -58,7 +58,7 @@ void ASTIfBlockNode::print() {
 std::string ASTIfBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_ifKeyword)
-    ->addWithWhitespace(_condition)
-    ->addWithWhitespace(_block);
+    ->add(_condition)
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

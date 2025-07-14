@@ -65,13 +65,6 @@ bool Handle::isArrayEnclosed() {
     return this->first().value()->is(AST_LEFT_BRACKET_NODE) && this->last().value()->is(AST_RIGHT_BRACKET_NODE);
 }
 
-bool Handle::isArrayTypeEnclosed() {
-    if (_handle.size() < 3) {
-        return false;
-    }
-    return this->first().value()->is(AST_ARRAY_TYPE_START_NODE) && this->last().value()->is(AST_ARRAY_TYPE_END_NODE);
-}
-
 bool Handle::isStructEnclosed() {
     if (_handle.size() < 2) {
         return false;

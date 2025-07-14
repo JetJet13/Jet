@@ -5,9 +5,9 @@
 #include "dref-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void DrefTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, std::string invalidMessage, TypeCheckerResult* typeCheckerResult) {
+void DrefTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
     if (!typeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        typeCheckerResult->addError(invalidMessage);
+        typeCheckerResult->addError(invalidMessage());
     }
 }
 

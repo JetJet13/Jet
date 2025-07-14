@@ -68,8 +68,8 @@ std::string ASTClassMethodDefinitionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_accessModifier);
     if (_staticKeyword) {
-        sourceCodeBuilder.addWithWhitespace(_staticKeyword.value());
+        sourceCodeBuilder.add(_staticKeyword.value());
     }
-    sourceCodeBuilder.addWithWhitespace(_methodName);
+    sourceCodeBuilder.add(_methodName);
     return sourceCodeBuilder.build();
 }

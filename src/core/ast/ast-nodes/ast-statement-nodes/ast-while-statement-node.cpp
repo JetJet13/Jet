@@ -59,7 +59,7 @@ void ASTWhileStatementNode::print() {
 std::string ASTWhileStatementNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_whileKeyword)
-    ->addWithWhitespace(_condition)
-    ->addWithWhitespace(_block);
+    ->add(_condition)
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

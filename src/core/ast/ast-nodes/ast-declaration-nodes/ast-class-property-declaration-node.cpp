@@ -105,7 +105,7 @@ std::string ASTClassPropertyDeclarationNode::toSourceCode() {
     sourceCodeBuilder.add(_propertyInit);
 
     if (_initializer) {
-        sourceCodeBuilder.addWithWhitespace(_initializer.value());
+        sourceCodeBuilder.add(_initializer.value());
     }
 
     return sourceCodeBuilder.build();

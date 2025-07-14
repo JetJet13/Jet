@@ -8,29 +8,36 @@
 
 namespace ClassPropertyAssignmentStatementTypeCheckerPolicy {
     void apply(ASTClassPropertyAssignmentStatementNode* classPropertyAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeUnknown(classPropertyAssignmentStatementNode);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeInvalid(classPropertyAssignmentStatementNode);
+        auto voidMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeVoid(classPropertyAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ClassPropertyTypeUnknown(classPropertyAssignmentStatementNode),
-            TypeCheckerErrorMessageTable::ClassPropertyTypeInvalid(classPropertyAssignmentStatementNode),
-            TypeCheckerErrorMessageTable::ClassPropertyTypeVoid(classPropertyAssignmentStatementNode),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 
+        auto unknownExpressionMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classPropertyAssignmentStatementNode->getExpression());
+        auto invalidExpressionMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classPropertyAssignmentStatementNode->getExpression());
+        auto voidExpressionMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(classPropertyAssignmentStatementNode->getExpression());
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             classPropertyAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classPropertyAssignmentStatementNode->getExpression()),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classPropertyAssignmentStatementNode->getExpression()),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(classPropertyAssignmentStatementNode->getExpression()),
+            unknownExpressionMessage,
+            invalidExpressionMessage,
+            voidExpressionMessage,
             typeCheckerResult
         );
 
+        auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::ClassPropertyAssignmentTypeMismatch(classPropertyAssignmentStatementNode);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature(),
             classPropertyAssignmentStatementNode->getExpression()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ClassPropertyAssignmentTypeMismatch(classPropertyAssignmentStatementNode),
+            assignmentTypeMismatchMessage,
             typeCheckerResult
         );
     }

@@ -90,10 +90,10 @@ void ASTFunctionDeclarationNode::print() {
 std::string ASTFunctionDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     if (_exportKeyword) {
-        sourceCodeBuilder.add(_exportKeyword.value())->addWithWhitespace(_functionDefinition);
+        sourceCodeBuilder.add(_exportKeyword.value())->add(_functionDefinition);
     } else {
         sourceCodeBuilder.add(_functionDefinition);
     }
-    sourceCodeBuilder.addWithWhitespace(_block);
+    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

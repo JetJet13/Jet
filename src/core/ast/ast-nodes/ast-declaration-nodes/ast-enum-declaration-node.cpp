@@ -67,7 +67,7 @@ void ASTEnumDeclarationNode::print() {
 std::string ASTEnumDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_enumKeyword)
-    ->addWithWhitespace(_name)
-    ->addWithWhitespace(_values);
+    ->add(_name)
+    ->add(_values);
     return sourceCodeBuilder.build();
 }

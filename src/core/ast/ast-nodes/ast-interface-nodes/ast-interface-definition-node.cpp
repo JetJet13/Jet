@@ -52,6 +52,6 @@ void ASTInterfaceDefinitionNode::print() {
 std::string ASTInterfaceDefinitionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_interfaceKeyword);
-    sourceCodeBuilder.addWithWhitespace(_name);
+    sourceCodeBuilder.add(_name);
     return sourceCodeBuilder.build();
 }

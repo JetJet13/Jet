@@ -8,20 +8,16 @@
 
 namespace CustomTypeDeclarationTypeCheckerPolicy {
     void apply(ASTCustomTypeDeclarationNode* customTypeDeclarationNode, TypeCheckerResult* typeCheckerResult) {
-
+        auto unknownMessage = TypeCheckerErrorMessageTable::ParameterTypeUnknown(customTypeDeclarationNode);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ParameterTypeInvalid(customTypeDeclarationNode);
+        auto voidMessage = TypeCheckerErrorMessageTable::ParameterTypeVoid(customTypeDeclarationNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        customTypeDeclarationNode,
-                        TypeCheckerErrorMessageTable::ParameterTypeUnknown(
-                                customTypeDeclarationNode
-                        ),
-                        TypeCheckerErrorMessageTable::ParameterTypeInvalid(
-                                customTypeDeclarationNode
-                        ),
-                        TypeCheckerErrorMessageTable::ParameterTypeVoid(
-                                customTypeDeclarationNode
-                        ),
-                        typeCheckerResult
-                );
+        ->enforce(
+            customTypeDeclarationNode,
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
+            typeCheckerResult
+        );
     }
 }

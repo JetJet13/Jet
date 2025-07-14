@@ -10,54 +10,62 @@
 
 namespace CurryExpressionTypeCheckerPolicy {
     void apply(ASTCurryExpressionNode* curryExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(curryExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(curryExpression);
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
         ->enforce(
             curryExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(curryExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(curryExpression),
+            unknownMessage,
+            invalidMessage,
             typeCheckerResult
         );
 
         auto callableTypeSignature = curryExpression->getCallableExpression()->getTypeSignature();
         if (callableTypeSignature->typeTargetIs(FUNCTION_TYPE_SOURCE)) {
             auto parameterList = ((FunctionTypeSignature*)callableTypeSignature)->getParameterList();
+            auto notEnoughArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression);
+            auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression);
             TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
             ->enforce(
                 parameterList->numParameters(),
                 curryExpression->numArguments(),
-                TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression),
-                TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression),
+                notEnoughArgumentsMessage,
+                tooManyArgumentsMessage,
                 typeCheckerResult
             );
 
+            auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression);
             TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 parameterList->getParameterTypes(),
                 curryExpression->getArguments(),
-                TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression),
+                argumentTypeMismatchMessage,
                 typeCheckerResult
             );
 
         } else if (callableTypeSignature->typeTargetIs(CLASS_METHOD_TYPE_SOURCE)) {
             auto parameterList = ((ClassMethodTypeSignature*)callableTypeSignature)->getParameters();
+            auto notEnoughArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression);
+            auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression);
             TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
             ->enforce(
                 parameterList->numParameters(),
                 curryExpression->numArguments(),
-                TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression),
-                TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression),
+                notEnoughArgumentsMessage,
+                tooManyArgumentsMessage,
                 typeCheckerResult
             );
 
+            auto argumentTypeMismatch = TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression);
             TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
                 parameterList->getParameterTypes(),
                 curryExpression->getArguments(),
-                TypeCheckerErrorMessageTable::CurryCallArgumentTypeMismatch(curryExpression),
+                argumentTypeMismatch,
                 typeCheckerResult
             );
         } else {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NotCallableCurryType(curryExpression));
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NotCallableCurryType(curryExpression)());
         }
 
     }

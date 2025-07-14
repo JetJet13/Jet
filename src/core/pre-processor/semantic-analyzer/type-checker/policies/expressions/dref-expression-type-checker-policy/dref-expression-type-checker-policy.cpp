@@ -9,18 +9,22 @@
 
 namespace DrefExpressionTypeCheckerPolicy {
     void apply(ASTDrefExpressionNode* drefExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(drefExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(drefExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(drefExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             drefExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(drefExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(drefExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(drefExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
+        auto drefInvalidMessage = TypeCheckerErrorMessageTable::DrefExpressionTypeInvalid(drefExpression);
         TypeCheckerRuleProvider::getDrefTypeSignatureTypeCheckerRule()
         ->enforce(
             drefExpression->getExpressionNode()->getTypeSignature(),
-            TypeCheckerErrorMessageTable::DrefExpressionTypeInvalid(drefExpression),
+            drefInvalidMessage,
             typeCheckerResult
         );
         TypeChecker::applyPolicyTo(drefExpression->getExpressionNode(), typeCheckerResult);

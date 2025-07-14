@@ -12,16 +12,17 @@
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 #include "../../../../../../ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
+#include "../../../types/type-checker-error-message-table.h"
 
 class NoReturnExpressionTypeCheckerRule : public TypeCheckerRule {
 private:
-    void checkNode(std::vector<ASTNode*>* nodes, std::string message, TypeCheckerResult* typeCheckerResult);
+    void checkNode(std::vector<ASTNode*>* nodes, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
 public:
-    void enforce(ASTFunctionBlockNode* functionBlockNode, std::string message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTIfStatementNode* ifStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTTryStatementNode* tryStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTForInStatementNode* forStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTWhileStatementNode* whileStatementNode, std::string message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTFunctionBlockNode* functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTIfStatementNode* ifStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTTryStatementNode* tryStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTForInStatementNode* forStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(ASTWhileStatementNode* whileStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

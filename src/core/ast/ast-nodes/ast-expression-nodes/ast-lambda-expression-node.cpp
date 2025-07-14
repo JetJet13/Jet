@@ -91,8 +91,8 @@ std::string ASTLambdaExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_parameters);
     if (_returnType) {
-        sourceCodeBuilder.addWithWhitespace(_returnType.value());
+        sourceCodeBuilder.add(_returnType.value());
     }
-    sourceCodeBuilder.addWithWhitespace(_block);
+    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

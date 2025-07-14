@@ -58,6 +58,6 @@ void ASTLambdaReturnExpressionNode::print() {
 std::string ASTLambdaReturnExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_fatArrowNode)
-    ->addWithWhitespace(_returnExpression);
+    ->add(_returnExpression);
     return sourceCodeBuilder.build();
 }

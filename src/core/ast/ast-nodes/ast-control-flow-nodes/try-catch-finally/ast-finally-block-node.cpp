@@ -51,6 +51,6 @@ void ASTFinallyBlockNode::print() {
 std::string ASTFinallyBlockNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_finallyKeyword)
-    ->addWithWhitespace(_block);
+    ->add(_block);
     return sourceCodeBuilder.build();
 }

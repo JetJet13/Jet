@@ -8,12 +8,15 @@
 
 namespace ClassPropertyAccessExpressionTypeCheckerPolicy {
     void apply(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classPropertyAccessExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classPropertyAccessExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(classPropertyAccessExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             classPropertyAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classPropertyAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classPropertyAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(classPropertyAccessExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
     }

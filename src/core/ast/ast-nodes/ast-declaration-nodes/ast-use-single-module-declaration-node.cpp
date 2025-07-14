@@ -59,8 +59,8 @@ void ASTUseSingleModuleDeclarationNode::print() {
 std::string ASTUseSingleModuleDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_useKeyword)
-    ->addWithWhitespace(_moduleName)
-    ->addWithWhitespace(_fromKeyword)
-    ->addWithWhitespace(_path);
+    ->add(_moduleName)
+    ->add(_fromKeyword)
+    ->add(_path);
     return sourceCodeBuilder.build();
 }

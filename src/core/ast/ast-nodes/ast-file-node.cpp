@@ -107,7 +107,7 @@ bool ASTFileNode::isSameAs(ASTNode *other) {
 std::string ASTFileNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     for (auto node : _body) {
-        sourceCodeBuilder.addWithNewLine(node);
+        sourceCodeBuilder.add(node);
     }
     return sourceCodeBuilder.build();
 }

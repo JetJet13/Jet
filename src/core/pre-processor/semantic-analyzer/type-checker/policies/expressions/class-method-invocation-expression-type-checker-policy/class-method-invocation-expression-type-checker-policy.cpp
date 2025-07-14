@@ -8,28 +8,33 @@
 
 namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
     void apply(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classMethodInvocationExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classMethodInvocationExpression);
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
         ->enforce(
             classMethodInvocationExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classMethodInvocationExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classMethodInvocationExpression),
+            unknownMessage,
+            invalidMessage,
             typeCheckerResult
         );
 
+        auto notEnoughArgumentsMessage = TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments(classMethodInvocationExpression->getArguments());
+        auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments(classMethodInvocationExpression->getArguments());
         TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
         ->enforce(
                 classMethodInvocationExpression->getName()->getTypeSignature()->getParameters()->numParameters(),
                 classMethodInvocationExpression->getArguments()->numArguments(),
-                TypeCheckerErrorMessageTable::ClassMethodCallNotEnoughArguments(classMethodInvocationExpression->getArguments()),
-                TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments(classMethodInvocationExpression->getArguments()),
+                notEnoughArgumentsMessage,
+                tooManyArgumentsMessage,
                 typeCheckerResult
         );
 
+        auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(classMethodInvocationExpression->getArguments());
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             classMethodInvocationExpression->getName()->getTypeSignature()->getParameterTypes(),
             classMethodInvocationExpression->getArguments(),
-            TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(classMethodInvocationExpression->getArguments()),
+            argumentTypeMismatchMessage,
             typeCheckerResult
         );
 
