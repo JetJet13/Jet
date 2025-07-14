@@ -8,13 +8,14 @@
 #include "../../shared/utils/file-io/file-io.h"
 #include "../../shared/types/basic-character-type.h"
 #include "../../shared/utils/logger/logger.h"
+#include "../../shared/types/exit-status.enum.h"
 
 void FileReader::open(std::string &filePath) {
     _filePath = filePath;
     _fileStream = FileIO::readFile(filePath);
     _cursor = {
         .line =  1,
-        .column =  0
+        .column =  1
     };
     _handleNewLine = false;
     _isOpen = true;
@@ -28,11 +29,15 @@ void FileReader::close() {
 }
 
 std::optional<char> FileReader::peek() {
+    if (!_isOpen) {
+        return {};
+    }
+
     auto peekCharacter = _fileStream.peek();
     if (_fileStream.fail()) {
         Logger::log("fileStream failed", _fileStream.failbit, _fileStream.bad(), _fileStream.badbit);
-
         _fileStream.clear();
+        _fileStream.seekg(_numAdvances);
         peekCharacter = _fileStream.peek();
     }
     if (!_isOpen || peekCharacter == EOF) {
@@ -52,19 +57,22 @@ std::optional<char> FileReader::advance() {
     auto nextCharacter = _fileStream.get();
     _numAdvances++;
     if (nextCharacter == EOF) {
+        Logger::log("nextCharacter is EOF!");
         return {};
+    }
+    if (nextCharacter == NEW_LINE) {
+        Logger::log("next character is new line!");
+        _handleNewLine = true;
+    } else {
+        _cursor.column++;
     }
 
     if (_handleNewLine) {
         _cursor.line++;
-        _cursor.column = 0;
-        _handleNewLine = nextCharacter == NEW_LINE;
-    } else if (nextCharacter == NEW_LINE) {
-        _handleNewLine = true;
-        _cursor.column++;
-    } else {
-        _cursor.column++;
+        _cursor.column = 1;
+        _handleNewLine = false;
     }
+
     return std::char_traits<char>::to_char_type(nextCharacter);
 }
 
@@ -102,7 +110,7 @@ unsigned long FileReader::getPeekColumn() {
     }
 
     if (_handleNewLine) {
-        return 0;
+        return 1;
     }
     return _cursor.column;
 }

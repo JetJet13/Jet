@@ -178,7 +178,7 @@ func useLambdaFunc(x: (int) => bool) bool {
     return (true && true);
 }
 
-func useAnotherProc(x: ()=>void, y: (Color) => void) bool {
+func useAnotherProc(x: () => void, y: (Color) => void) bool {
     return true;
 }
 

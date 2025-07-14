@@ -3665,6 +3665,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
                 ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType)
         }))},
+        {239, new ASTExpressionStatementNode(ASTNodeFactory::createTupleExpression({
+            ASTNodeFactory::intExpression,
+            ASTNodeFactory::trueExpression
+        }))},
+        {240, new ASTExpressionStatementNode(ASTNodeFactory::createStructExpression({
+            ASTNodeFactory::createStructKeyValue(ASTNodeFactory::stringExpression),
+            ASTNodeFactory::createStructKeyValue(ASTNodeFactory::falseExpression)
+        }))},
 
 };
 
@@ -3697,8 +3705,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 238);
-    for (int i = 0; i < 238; i++) {
+REQUIRE(fileScope->getScope().size() == 240);
+    for (int i = 0; i < 240; i++) {
         auto declaration = fileScope->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

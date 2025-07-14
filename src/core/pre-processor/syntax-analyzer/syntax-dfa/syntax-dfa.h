@@ -28,6 +28,7 @@ private:
     void initAccessModifier(DFANode* accessModifier);
     void initClassPropertyDefinition(DFANode* classPropertyDefinition);
     void initClassPropertyDefinitionWithType(DFANode* classPropertyDefinitionWithType);
+    void setupTransitionsWithTarget(DFANode* node, ASTNodeType targetNodeType, std::vector<ASTNodeType> nodeTypes);
 public:
     SyntaxDfa();
     DFA* getDFA();

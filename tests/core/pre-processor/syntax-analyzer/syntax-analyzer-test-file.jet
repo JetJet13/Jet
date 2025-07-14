@@ -144,6 +144,7 @@ proc anotherOne() {
 
 proc emptyProcedure() {}
 
+
 enum Color {
     Red = "red",
     Blue = "blue",
@@ -524,3 +525,10 @@ type Foo = string;
 type Bar = () => bool;
 type Money = float;
 type Point = { x: int, y: int };
+
+{ 1, true };
+{ a: "AB", b: false }; // Comment Test // Another!
+// Hello
+
+// Hello // World
+//// Hello!
