@@ -14,6 +14,10 @@ ASTNode* FunctionParameterListReducerStrategy::execute(std::vector<ASTNode*> nod
         if (node->is(AST_FUNCTION_PARAMETER_NODE)) {
             functionParameterListNode->addParameter((ASTFunctionParameterNode*)node);
         }
+
+        if (node->is(AST_COMMA_NODE)) {
+            functionParameterListNode->addComma((ASTCommaNode*)node);
+        }
     }
     return functionParameterListNode;
 }

@@ -6,19 +6,22 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
+
 ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode) {
     _enumKeyValueListStartNode = enumKeyValueListStartNode;
     _enumKeyValueListEndNode = enumKeyValueListEndNode;
     _children.push_back(_enumKeyValueListStartNode);
     _children.push_back(_enumKeyValueListEndNode);
+    _commas = std::vector<ASTCommaNode*>();
     _enumKeyValues = std::vector<ASTEnumKeyValueNode*>();
 }
 
-ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, std::vector<ASTEnumKeyValueNode*> enumKeyValues, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode) {
+ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, std::vector<ASTEnumKeyValueNode*> enumKeyValues, std::vector<ASTCommaNode*> commas, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode) {
     _enumKeyValueListStartNode = enumKeyValueListStartNode;
     _enumKeyValueListEndNode = enumKeyValueListEndNode;
     _children.push_back(_enumKeyValueListStartNode);
     _children.push_back(_enumKeyValueListEndNode);
+    _commas = commas;
     _enumKeyValues = std::vector<ASTEnumKeyValueNode*>();
     for (auto enumKeyValue: enumKeyValues) {
         this->addEnumKeyValue(enumKeyValue);
@@ -36,6 +39,11 @@ unsigned long ASTEnumKeyValueListNode::numParameters() {
 ASTEnumKeyValueListNode* ASTEnumKeyValueListNode::addEnumKeyValue(ASTEnumKeyValueNode* enumKeyValue) {
     _enumKeyValues.push_back(enumKeyValue);
     _children.push_back(enumKeyValue);
+    return this;
+}
+
+ASTEnumKeyValueListNode* ASTEnumKeyValueListNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -85,8 +93,11 @@ std::string ASTEnumKeyValueListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_enumKeyValueListStartNode);
 
-    for (auto enumKeyValue : _enumKeyValues) {
-        sourceCodeBuilder.add(enumKeyValue);
+    for (int i = 0; i < _enumKeyValues.size(); ++i) {
+        sourceCodeBuilder.add(_enumKeyValues.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
 
     sourceCodeBuilder.add(_enumKeyValueListEndNode);

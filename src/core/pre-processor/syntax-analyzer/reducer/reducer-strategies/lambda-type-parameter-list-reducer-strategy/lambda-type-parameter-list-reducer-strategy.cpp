@@ -14,6 +14,9 @@ ASTNode* LambdaTypeParameterListReducerStrategy::execute(std::vector<ASTNode*> n
         if (node->is(AST_TYPE_NODE)) {
             typeParameterListNode->addParameter((ASTTypeNode*)node);
         }
+        if (node->is(AST_COMMA_NODE)) {
+            typeParameterListNode->addComma((ASTCommaNode*)node);
+        }
     }
     return typeParameterListNode;
 }

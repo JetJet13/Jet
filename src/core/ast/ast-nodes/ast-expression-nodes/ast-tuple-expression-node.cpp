@@ -100,7 +100,7 @@ std::string ASTTupleExpressionNode::toSourceCode() {
     for (int i = 0; i < _items.size(); ++i) {
         sourceCodeBuilder.add(_items.at(i));
         if (i < _commas.size() ) {
-            sourceCodeBuilder.add(_items.at(i));
+            sourceCodeBuilder.add(_commas.at(i));
         }
     }
     sourceCodeBuilder.add(_tupleListEnd);

@@ -11,6 +11,9 @@ ASTNode* InterfacePropertyListReducerStrategy::execute(std::vector<ASTNode*> nod
         if (node->is(AST_INTERFACE_PROPERTY_NODE)) {
             interfacePropertyListNode->addProperty((ASTInterfacePropertyNode*)node);
         }
+        if (node->is(AST_COMMA_NODE)) {
+            interfacePropertyListNode->addComma((ASTCommaNode*)node);
+        }
     }
     return interfacePropertyListNode;
 }

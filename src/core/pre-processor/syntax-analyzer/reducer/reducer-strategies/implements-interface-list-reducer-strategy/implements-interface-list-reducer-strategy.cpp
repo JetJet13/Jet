@@ -16,6 +16,10 @@ ASTNode* ImplementsInterfaceListReducerStrategy::execute(std::vector<ASTNode*> n
         if (node->is(AST_IMPLEMENTS_INTERFACE_NAME_LAST_NODE)) {
             implementsInterfaceListNode->addInterface(((ASTImplementsInterfaceNameLastNode*)node)->convertToInterfaceName());
         }
+
+        if (node->is(AST_COMMA_NODE)) {
+            implementsInterfaceListNode->addComma((ASTCommaNode*)node);
+        }
     }
     return implementsInterfaceListNode;
 }

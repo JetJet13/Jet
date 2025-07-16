@@ -15,6 +15,10 @@ ASTNode* StructTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         if (node->is(AST_STRUCT_TYPE_KEY_NODE)) {
             structTypeNode->addKeyValueType((ASTStructTypeKeyValueNode*)node);
         }
+
+        if (node->is(AST_COMMA_NODE)) {
+            structTypeNode->addComma((ASTCommaNode*)node);
+        }
     }
     return ASTTypeNodeFactory::createStructTypeNode(structTypeNode);
 }

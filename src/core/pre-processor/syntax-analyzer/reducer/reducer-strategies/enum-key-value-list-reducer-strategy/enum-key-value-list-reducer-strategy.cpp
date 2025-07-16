@@ -12,6 +12,9 @@ ASTNode* EnumKeyValueListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         if (node->is(AST_ENUM_KEY_VALUE_NODE)) {
             enumKeyValueListNode->addEnumKeyValue((ASTEnumKeyValueNode*)node);
         }
+        if (node->is(AST_COMMA_NODE)) {
+            enumKeyValueListNode->addComma((ASTCommaNode*)node);
+        }
     }
     return enumKeyValueListNode;
 }

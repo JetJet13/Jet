@@ -12,17 +12,20 @@
 #include "ast-interface-property-node.h"
 #include "ast-implements-node.h"
 #include "ast-implements-interface-name-node.h"
+#include "../ast-comma-node.h"
 
 class ASTImplementsInterfaceListNode : public ASTNode {
 private:
     ASTImplementsNode* _implements;
+    std::vector<ASTCommaNode*> _commas;
     std::vector<ASTImplementsInterfaceNameNode*> _interfaceNames;
 public:
     ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword);
-    ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword, std::vector<ASTImplementsInterfaceNameNode*> interfaceNames);
+    ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword, std::vector<ASTImplementsInterfaceNameNode*> interfaceNames, std::vector<ASTCommaNode*> commas);
     std::vector<ASTImplementsInterfaceNameNode*> getInterfaceNames();
     unsigned long numInterfaces();
     ASTImplementsInterfaceListNode* addInterface(ASTImplementsInterfaceNameNode* interfaceName);
+    ASTImplementsInterfaceListNode* addComma(ASTCommaNode* comma);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

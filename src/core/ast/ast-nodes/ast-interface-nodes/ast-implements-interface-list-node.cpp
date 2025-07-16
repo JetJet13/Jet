@@ -9,12 +9,14 @@
 ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword) {
     _implements = implementsKeyword;
     _children.push_back(_implements);
+    _commas = std::vector<ASTCommaNode*>();
     _interfaceNames = std::vector<ASTImplementsInterfaceNameNode*>();
 }
 
-ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword, std::vector<ASTImplementsInterfaceNameNode*> interfaceNames) {
+ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword, std::vector<ASTImplementsInterfaceNameNode*> interfaceNames, std::vector<ASTCommaNode*> commas) {
     _implements = implementsKeyword;
     _children.push_back(_implements);
+    _commas = commas;
     _interfaceNames = std::vector<ASTImplementsInterfaceNameNode*>();
     for (auto interfaceName: interfaceNames) {
         this->addInterface(interfaceName);
@@ -32,6 +34,11 @@ unsigned long ASTImplementsInterfaceListNode::numInterfaces() {
 ASTImplementsInterfaceListNode* ASTImplementsInterfaceListNode::addInterface(ASTImplementsInterfaceNameNode* interfaceName) {
     _interfaceNames.push_back(interfaceName);
     _children.push_back(interfaceName);
+    return this;
+}
+
+ASTImplementsInterfaceListNode* ASTImplementsInterfaceListNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -80,8 +87,12 @@ std::string ASTImplementsInterfaceListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_implements);
 
-    for (auto interfaceName : _interfaceNames) {
-        sourceCodeBuilder.add(interfaceName);
+    for (int i = 0; i < _interfaceNames.size(); ++i) {
+        sourceCodeBuilder.add(_interfaceNames.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
+
     return sourceCodeBuilder.build();
 }

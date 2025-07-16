@@ -9,16 +9,18 @@
 ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
     _functionParameterListStartNode = functionParameterListStartNode;
     _functionParameterListEndNode = functionParameterListEndNode;
+    _commas = std::vector<ASTCommaNode*>();
     _children.push_back(_functionParameterListStartNode);
     _children.push_back(_functionParameterListEndNode);
     _parameters = std::vector<ASTFunctionParameterNode*>();
 }
 
-ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, std::vector<ASTFunctionParameterNode*> parameters, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
+ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, std::vector<ASTFunctionParameterNode*> parameters, std::vector<ASTCommaNode*> commas, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
     _functionParameterListStartNode = functionParameterListStartNode;
     _functionParameterListEndNode = functionParameterListEndNode;
     _children.push_back(_functionParameterListStartNode);
     _children.push_back(_functionParameterListEndNode);
+    _commas = commas;
     _parameters = std::vector<ASTFunctionParameterNode*>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
@@ -36,6 +38,11 @@ unsigned long ASTFunctionParameterListNode::numParameters() {
 ASTFunctionParameterListNode* ASTFunctionParameterListNode::addParameter(ASTFunctionParameterNode* parameter) {
     _parameters.push_back(parameter);
     _children.push_back(parameter);
+    return this;
+}
+
+ASTFunctionParameterListNode* ASTFunctionParameterListNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -92,8 +99,11 @@ void ASTFunctionParameterListNode::print() {
 std::string ASTFunctionParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionParameterListStartNode);
-    for (auto parameters : _parameters) {
-        sourceCodeBuilder.add(parameters);
+    for (int i = 0; i < _parameters.size(); ++i) {
+        sourceCodeBuilder.add(_parameters.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
     sourceCodeBuilder.add(_functionParameterListEndNode);
     return sourceCodeBuilder.build();

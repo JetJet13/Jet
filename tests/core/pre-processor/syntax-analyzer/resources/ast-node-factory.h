@@ -604,6 +604,7 @@ namespace ASTNodeFactory {
         return new ASTInterfacePropertyListNode(
                 ASTNodeFactory::interfaceStart,
                 properties,
+                ASTNodeFactory::createCommaList(properties.size()),
                 ASTNodeFactory::interfaceEnd
         );
     }
@@ -687,6 +688,7 @@ namespace ASTNodeFactory {
         return new ASTFunctionParameterListNode(
                 ASTNodeFactory::functionParameterListStart,
                 parameters,
+                ASTNodeFactory::createCommaList(parameters.size()),
                 ASTNodeFactory::functionParameterListEnd
         );
     }
@@ -714,7 +716,8 @@ namespace ASTNodeFactory {
     static ASTImplementsInterfaceListNode* createImplementsInterfaceList(std::vector<ASTImplementsInterfaceNameNode*> interfaceNames) {
         return new ASTImplementsInterfaceListNode(
                 ASTNodeFactory::implementsKeyword,
-                interfaceNames
+                interfaceNames,
+                ASTNodeFactory::createCommaList(interfaceNames.size())
         );
     }
     static ASTClassBlockNode* createClassBlock(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors) {
@@ -730,6 +733,7 @@ namespace ASTNodeFactory {
         return new ASTEnumKeyValueListNode(
                 ASTNodeFactory::enumKeyValueListStart,
                 contents,
+                ASTNodeFactory::createCommaList(contents.size()),
                 ASTNodeFactory::enumKeyValueListEnd
         );
     }
@@ -737,6 +741,7 @@ namespace ASTNodeFactory {
         return new ASTFunctionArgumentListNode(
                 ASTNodeFactory::functionArgumentListStart,
                 contents,
+                ASTNodeFactory::createCommaList(contents.size()),
                 ASTNodeFactory::functionArgumentListEnd
         );
     }
@@ -753,12 +758,13 @@ namespace ASTNodeFactory {
         );
     }
     static ASTTypeParameterListNode* createTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
-        return new ASTTypeParameterListNode(ASTNodeFactory::typeParameterListStart, items, ASTNodeFactory::typeParameterListEnd);
+        return new ASTTypeParameterListNode(ASTNodeFactory::typeParameterListStart, items, ASTNodeFactory::createCommaList(items.size()), ASTNodeFactory::typeParameterListEnd);
     }
     static ASTLambdaTypeParameterListNode* createLambdaTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
         return new ASTLambdaTypeParameterListNode(
                 ASTNodeFactory::lambdaTypeParameterListStart,
                 items,
+                ASTNodeFactory::createCommaList(items.size()),
                 ASTNodeFactory::lambdaTypeParameterListEnd
         );
     }
@@ -793,6 +799,7 @@ namespace ASTNodeFactory {
         return ASTTypeNodeFactory::createStructTypeNode(new ASTStructTypeNode(
                 ASTNodeFactory::structTypeStart,
                 items,
+                ASTNodeFactory::createCommaList(items.size()),
                 ASTNodeFactory::structTypeEnd
         ));
     }

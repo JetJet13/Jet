@@ -11,14 +11,16 @@ ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentList
     _functionArgumentListEndNode = functionArgumentListEndNode;
     _children.push_back(_functionArgumentListStartNode);
     _children.push_back(_functionArgumentListEndNode);
+    _commas = std::vector<ASTCommaNode*>();
     _arguments = std::vector<ASTFunctionArgumentNode*>();
 }
 
-ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, std::vector<ASTFunctionArgumentNode*> arguments, ASTFunctionArgumentListEndNode* functionArgumentListEndNode) {
+ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, std::vector<ASTFunctionArgumentNode*> arguments, std::vector<ASTCommaNode*> commas, ASTFunctionArgumentListEndNode* functionArgumentListEndNode) {
     _functionArgumentListStartNode = functionArgumentListStartNode;
     _functionArgumentListEndNode = functionArgumentListEndNode;
     _children.push_back(_functionArgumentListStartNode);
     _children.push_back(_functionArgumentListEndNode);
+    _commas = commas;
     _arguments = std::vector<ASTFunctionArgumentNode*>();
     for (auto argument: arguments) {
         this->addArgument(argument);
@@ -36,6 +38,11 @@ unsigned long ASTFunctionArgumentListNode::numArguments() {
 ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addArgument(ASTFunctionArgumentNode* argument) {
     _arguments.push_back(argument);
     _children.push_back(argument);
+    return this;
+}
+
+ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -92,8 +99,11 @@ void ASTFunctionArgumentListNode::print() {
 std::string ASTFunctionArgumentListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionArgumentListStartNode);
-    for (auto argument : _arguments) {
-        sourceCodeBuilder.add(argument);
+    for (int i = 0; i < _arguments.size(); ++i) {
+        sourceCodeBuilder.add(_arguments.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
     sourceCodeBuilder.add(_functionArgumentListEndNode);
     return sourceCodeBuilder.build();

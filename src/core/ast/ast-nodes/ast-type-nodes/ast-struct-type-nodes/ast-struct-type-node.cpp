@@ -9,12 +9,14 @@
 ASTStructTypeNode::ASTStructTypeNode(ASTStructTypeStartNode* structTypeStartNode, ASTStructTypeEndNode* structTypeEndNode) {
     _structTypeStartNode = structTypeStartNode;
     _structTypeEndNode = structTypeEndNode;
+    _commas = std::vector<ASTCommaNode*>();
     _keyValueTypes = std::vector<ASTStructTypeKeyValueNode*>();
 }
 
-ASTStructTypeNode::ASTStructTypeNode(ASTStructTypeStartNode* structTypeStartNode, std::vector<ASTStructTypeKeyValueNode*> keyValueTypes, ASTStructTypeEndNode* structTypeEndNode) {
+ASTStructTypeNode::ASTStructTypeNode(ASTStructTypeStartNode* structTypeStartNode, std::vector<ASTStructTypeKeyValueNode*> keyValueTypes, std::vector<ASTCommaNode*> commas, ASTStructTypeEndNode* structTypeEndNode) {
     _structTypeStartNode = structTypeStartNode;
     _structTypeEndNode = structTypeEndNode;
+    _commas = commas;
     _keyValueTypes = std::vector<ASTStructTypeKeyValueNode*>();
     for (auto keyValueType: keyValueTypes) {
         this->addKeyValueType(keyValueType);
@@ -32,6 +34,11 @@ unsigned long ASTStructTypeNode::numKeyValueTypes() {
 ASTStructTypeNode* ASTStructTypeNode::addKeyValueType(ASTStructTypeKeyValueNode* keyValueType) {
     _keyValueTypes.push_back(keyValueType);
     _children.push_back(keyValueType);
+    return this;
+}
+
+ASTStructTypeNode* ASTStructTypeNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -80,8 +87,11 @@ void ASTStructTypeNode::print() {
 std::string ASTStructTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structTypeStartNode);
-    for (auto keyValueType : _keyValueTypes) {
-        sourceCodeBuilder.add(keyValueType);
+    for (int i = 0; i < _keyValueTypes.size(); ++i) {
+        sourceCodeBuilder.add(_keyValueTypes.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
     sourceCodeBuilder.add(_structTypeEndNode);
     return sourceCodeBuilder.build();

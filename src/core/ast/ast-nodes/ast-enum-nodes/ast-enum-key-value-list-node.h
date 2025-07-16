@@ -10,19 +10,21 @@
 #include "ast-enum-key-value-node.h"
 #include "ast-enum-key-value-list-start-node.h"
 #include "ast-enum-key-value-list-end-node.h"
-
+#include "../ast-comma-node.h"
 
 class ASTEnumKeyValueListNode : public ASTNode {
 private:
     ASTEnumKeyValueListStartNode* _enumKeyValueListStartNode;
     ASTEnumKeyValueListEndNode* _enumKeyValueListEndNode;
+    std::vector<ASTCommaNode*> _commas;
     std::vector<ASTEnumKeyValueNode*> _enumKeyValues;
 public:
     ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode);
-    ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, std::vector<ASTEnumKeyValueNode*> enumKeyValues, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode);
+    ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, std::vector<ASTEnumKeyValueNode*> enumKeyValues, std::vector<ASTCommaNode*> commas, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode);
     std::vector<ASTEnumKeyValueNode*> getParameters();
     unsigned long numParameters();
     ASTEnumKeyValueListNode* addEnumKeyValue(ASTEnumKeyValueNode* enumKeyValue);
+    ASTEnumKeyValueListNode* addComma(ASTCommaNode* comma);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

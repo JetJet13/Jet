@@ -9,12 +9,14 @@
 ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(ASTLambdaTypeParameterListStartNode* startNode, ASTLambdaTypeParameterListEndNode* endNode) {
     _startNode = startNode;
     _endNode = endNode;
+    _commas = std::vector<ASTCommaNode*>();
     _parameters = std::vector<ASTTypeNode*>();
 }
 
-ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(ASTLambdaTypeParameterListStartNode* startNode, std::vector<ASTTypeNode*> parameters, ASTLambdaTypeParameterListEndNode* endNode) {
+ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(ASTLambdaTypeParameterListStartNode* startNode, std::vector<ASTTypeNode*> parameters, std::vector<ASTCommaNode*> commas, ASTLambdaTypeParameterListEndNode* endNode) {
     _startNode = startNode;
     _endNode = endNode;
+    _commas = commas;
     _parameters = std::vector<ASTTypeNode*>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
@@ -32,6 +34,11 @@ unsigned long ASTLambdaTypeParameterListNode::numParameters() {
 ASTLambdaTypeParameterListNode* ASTLambdaTypeParameterListNode::addParameter(ASTTypeNode* parameter) {
     _parameters.push_back(parameter);
     _children.push_back(parameter);
+    return this;
+}
+
+ASTLambdaTypeParameterListNode* ASTLambdaTypeParameterListNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -80,8 +87,11 @@ void ASTLambdaTypeParameterListNode::print() {
 std::string ASTLambdaTypeParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_startNode);
-    for (auto parameters : _parameters) {
-        sourceCodeBuilder.add(parameters);
+    for (int i = 0; i < _parameters.size(); ++i) {
+        sourceCodeBuilder.add(_parameters.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
     sourceCodeBuilder.add(_endNode);
     return sourceCodeBuilder.build();

@@ -12,6 +12,9 @@ ASTNode* FunctionArgumentListReducerStrategy::execute(std::vector<ASTNode*> node
         if (node->is(AST_FUNCTION_ARGUMENT_NODE)) {
             functionArgumentListNode->addArgument((ASTFunctionArgumentNode*)node);
         }
+        if (node->is(AST_COMMA_NODE)) {
+            functionArgumentListNode->addComma((ASTCommaNode*)node);
+        }
     }
     return functionArgumentListNode;
 }

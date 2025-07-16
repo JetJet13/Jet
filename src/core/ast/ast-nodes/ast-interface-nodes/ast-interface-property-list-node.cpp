@@ -11,14 +11,16 @@ ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(ASTInterfaceStartNode
     _endNode = endNode;
     _children.push_back(_startNode);
     _children.push_back(_endNode);
+    _commas = std::vector<ASTCommaNode*>();
     _properties = std::vector<ASTInterfacePropertyNode*>();
 }
 
-ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, std::vector<ASTInterfacePropertyNode*> properties, ASTInterfaceEndNode* endNode) {
+ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, std::vector<ASTInterfacePropertyNode*> properties, std::vector<ASTCommaNode*> commas, ASTInterfaceEndNode* endNode) {
     _startNode = startNode;
     _endNode = endNode;
     _children.push_back(_startNode);
     _children.push_back(_endNode);
+    _commas = commas;
     _properties = std::vector<ASTInterfacePropertyNode*>();
     for (auto property: properties) {
         this->addProperty(property);
@@ -36,6 +38,11 @@ unsigned long ASTInterfacePropertyListNode::numProperties() {
 ASTInterfacePropertyListNode* ASTInterfacePropertyListNode::addProperty(ASTInterfacePropertyNode* property) {
     _properties.push_back(property);
     _children.push_back(property);
+    return this;
+}
+
+ASTInterfacePropertyListNode* ASTInterfacePropertyListNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -85,8 +92,11 @@ std::string ASTInterfacePropertyListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_startNode);
 
-    for (auto enumKeyValue : _properties) {
-        sourceCodeBuilder.add(enumKeyValue);
+    for (int i = 0; i < _properties.size(); ++i) {
+        sourceCodeBuilder.add(_properties.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
 
     sourceCodeBuilder.add(_endNode);

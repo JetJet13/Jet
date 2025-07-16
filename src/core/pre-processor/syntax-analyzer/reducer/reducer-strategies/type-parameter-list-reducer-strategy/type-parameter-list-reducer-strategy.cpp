@@ -15,6 +15,10 @@ ASTNode* TypeParameterListReducerStrategy::execute(std::vector<ASTNode*> nodes) 
         if (node->is(AST_TYPE_NODE)) {
             typeParameterListNode->addParameter((ASTTypeNode*)node);
         }
+
+        if (node->is(AST_COMMA_NODE)) {
+            typeParameterListNode->addComma((ASTCommaNode*)node);
+        }
     }
     return typeParameterListNode;
 }

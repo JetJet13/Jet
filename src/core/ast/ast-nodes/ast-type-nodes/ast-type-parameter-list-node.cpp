@@ -9,12 +9,14 @@
 ASTTypeParameterListNode::ASTTypeParameterListNode(ASTTypeParameterListStartNode* typeParameterListStartNode, ASTTypeParameterListEndNode* typeParameterListEndNode) {
     _typeParameterListStartNode = typeParameterListStartNode;
     _typeParameterListEndNode = typeParameterListEndNode;
+    _commas = std::vector<ASTCommaNode*>();
     _parameters = std::vector<ASTTypeNode*>();
 }
 
-ASTTypeParameterListNode::ASTTypeParameterListNode(ASTTypeParameterListStartNode* typeParameterListStartNode, std::vector<ASTTypeNode*> parameters, ASTTypeParameterListEndNode* typeParameterListEndNode) {
+ASTTypeParameterListNode::ASTTypeParameterListNode(ASTTypeParameterListStartNode* typeParameterListStartNode, std::vector<ASTTypeNode*> parameters, std::vector<ASTCommaNode*> commas, ASTTypeParameterListEndNode* typeParameterListEndNode) {
     _typeParameterListStartNode = typeParameterListStartNode;
     _typeParameterListEndNode = typeParameterListEndNode;
+    _commas = commas;
     _parameters = std::vector<ASTTypeNode*>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
@@ -32,6 +34,11 @@ unsigned long ASTTypeParameterListNode::numParameters() {
 ASTTypeParameterListNode* ASTTypeParameterListNode::addParameter(ASTTypeNode* parameter) {
     _parameters.push_back(parameter);
     _children.push_back(parameter);
+    return this;
+}
+
+ASTTypeParameterListNode* ASTTypeParameterListNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -80,8 +87,11 @@ void ASTTypeParameterListNode::print() {
 std::string ASTTypeParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_typeParameterListStartNode);
-    for (auto parameters : _parameters) {
-        sourceCodeBuilder.add(parameters);
+    for (int i = 0; i < _parameters.size(); ++i) {
+        sourceCodeBuilder.add(_parameters.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
     sourceCodeBuilder.add(_typeParameterListEndNode);
     return sourceCodeBuilder.build();

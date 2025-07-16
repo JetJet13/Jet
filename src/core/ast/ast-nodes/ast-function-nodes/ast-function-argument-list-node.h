@@ -11,20 +11,23 @@
 #include "ast-function-argument-node.h"
 #include "ast-function-argument-list-start-node.h"
 #include "ast-function-argument-list-end-node.h"
+#include "../ast-comma-node.h"
 #include "../../../type-signature/argument-list-type-signature/argument-list-type-signature.h"
 
 class ASTFunctionArgumentListNode : public ASTNode {
 private:
     ASTFunctionArgumentListStartNode* _functionArgumentListStartNode;
     ASTFunctionArgumentListEndNode* _functionArgumentListEndNode;
+    std::vector<ASTCommaNode*> _commas;
     std::vector<ASTFunctionArgumentNode*> _arguments;
     ArgumentListTypeSignature* _typeSignature;
 public:
     ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, ASTFunctionArgumentListEndNode* functionArgumentListEndNode);
-    ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, std::vector<ASTFunctionArgumentNode*> arguments, ASTFunctionArgumentListEndNode* functionArgumentListEndNode);
+    ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, std::vector<ASTFunctionArgumentNode*> arguments, std::vector<ASTCommaNode*> commas, ASTFunctionArgumentListEndNode* functionArgumentListEndNode);
     std::vector<ASTFunctionArgumentNode*>* getArguments();
     unsigned long numArguments();
     ASTFunctionArgumentListNode* addArgument(ASTFunctionArgumentNode* argument);
+    ASTFunctionArgumentListNode* addComma(ASTCommaNode* comma);
     ArgumentListTypeSignature* getTypeSignature() override;
     void setTypeSignature(ArgumentListTypeSignature* typeSignature);
     Position* getStartPosition() override;
