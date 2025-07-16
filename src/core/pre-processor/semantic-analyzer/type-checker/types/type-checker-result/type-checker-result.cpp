@@ -35,6 +35,6 @@ TypeCheckerResult* TypeCheckerResult::combine(TypeCheckerResult other) {
 
 void TypeCheckerResult::printErrors() {
     for (const auto& error : _errors) {
-        Logger::log("TYPE_CHECKER_ERROR - ", error);
+        Logger::log("TypeError: ", error);
     }
 }

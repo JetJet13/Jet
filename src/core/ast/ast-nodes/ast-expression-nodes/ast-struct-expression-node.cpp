@@ -112,11 +112,11 @@ std::string ASTStructExpressionNode::toSourceCode() {
     Logger::log("ASTStructExpressionNode::toSourceCode invoked!");
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structStartNode);
-    for (auto keyValuePair : _keyValuePairs) {
-        sourceCodeBuilder.add(keyValuePair);
-    }
-    for (auto comma : _commas) {
-        sourceCodeBuilder.add(comma);
+    for (int i = 0; i < _keyValuePairs.size(); ++i) {
+        sourceCodeBuilder.add(_keyValuePairs.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
     sourceCodeBuilder.add(_structEndNode);
     return sourceCodeBuilder.build();

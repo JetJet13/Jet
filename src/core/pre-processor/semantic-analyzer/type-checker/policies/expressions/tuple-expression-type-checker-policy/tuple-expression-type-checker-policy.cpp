@@ -9,12 +9,15 @@
 
 namespace TupleExpressionTypeCheckerPolicy {
     void apply(ASTTupleExpressionNode* tupleExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             tupleExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 

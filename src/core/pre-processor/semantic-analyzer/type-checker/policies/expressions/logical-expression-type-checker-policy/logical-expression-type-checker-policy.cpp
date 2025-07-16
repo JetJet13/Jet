@@ -8,12 +8,15 @@
 
 namespace LogicalExpressionTypeCheckerPolicy {
     void apply(ASTLogicalExpressionNode* logicalExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(logicalExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(logicalExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(logicalExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             logicalExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(logicalExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(logicalExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(logicalExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
     }

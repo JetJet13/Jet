@@ -67,6 +67,5 @@ namespace CurryExpressionTypeCheckerPolicy {
         } else {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::NotCallableCurryType(curryExpression)());
         }
-
     }
 }

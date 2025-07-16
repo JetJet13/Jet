@@ -8,12 +8,15 @@
 
 namespace TupleAccessExpressionTypeCheckerPolicy {
     void apply(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleAccessExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             tupleAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleAccessExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
     }

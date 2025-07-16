@@ -9,12 +9,14 @@
 ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd) {
     _tupleListStart = tupleListStart;
     _tupleListEnd = tupleListEnd;
+    _commas = std::vector<ASTCommaNode*>();
     _items = std::vector<ASTTupleItemNode*>();
 }
 
-ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, ASTTupleListEndNode* tupleListEnd) {
+ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, std::vector<ASTCommaNode*> commas, ASTTupleListEndNode* tupleListEnd) {
     _tupleListStart = tupleListStart;
     _tupleListEnd = tupleListEnd;
+    _commas = commas;
     _items = std::vector<ASTTupleItemNode*>();
     for (auto item: items) {
         this->addItem(item);
@@ -32,6 +34,11 @@ unsigned long ASTTupleExpressionNode::numItems() {
 ASTTupleExpressionNode* ASTTupleExpressionNode::addItem(ASTTupleItemNode* item) {
     _items.push_back(item);
     _children.push_back(item);
+    return this;
+}
+
+ASTTupleExpressionNode* ASTTupleExpressionNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -90,8 +97,11 @@ void ASTTupleExpressionNode::print() {
 std::string ASTTupleExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_tupleListStart);
-    for (auto item : _items) {
-        sourceCodeBuilder.add(item);
+    for (int i = 0; i < _items.size(); ++i) {
+        sourceCodeBuilder.add(_items.at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_items.at(i));
+        }
     }
     sourceCodeBuilder.add(_tupleListEnd);
     return sourceCodeBuilder.build();

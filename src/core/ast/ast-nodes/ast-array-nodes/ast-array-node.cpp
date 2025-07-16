@@ -16,11 +16,12 @@ ASTArrayNode::ASTArrayNode(ASTLeftBracketNode* leftBracket, ASTRightBracketNode*
     _elements = new std::vector<ASTExpressionNode*>();
 }
 
-ASTArrayNode::ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpressionNode*> elements, ASTRightBracketNode* rightBracket) {
+ASTArrayNode::ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpressionNode*> elements, std::vector<ASTCommaNode*> commas, ASTRightBracketNode* rightBracket) {
     _leftBracket = leftBracket;
     _rightBracket = rightBracket;
     _children.push_back(_leftBracket);
     _children.push_back(_rightBracket);
+    _commas = commas;
     _elements = new std::vector<ASTExpressionNode*>();
     for (auto element: elements) {
         this->addElement(element);
@@ -30,6 +31,11 @@ ASTArrayNode::ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpre
 ASTArrayNode* ASTArrayNode::addElement(ASTExpressionNode* element) {
     _elements->push_back(element);
     _children.push_back(element);
+    return this;
+}
+
+ASTArrayNode* ASTArrayNode::addComma(ASTCommaNode* comma) {
+    _commas.push_back(comma);
     return this;
 }
 
@@ -85,9 +91,11 @@ void ASTArrayNode::print() {
 std::string ASTArrayNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_leftBracket);
-
-    for (auto element : *_elements) {
-        sourceCodeBuilder.add(element);
+    for (int i = 0; i < _elements->size(); ++i) {
+        sourceCodeBuilder.add(_elements->at(i));
+        if (i < _commas.size() ) {
+            sourceCodeBuilder.add(_commas.at(i));
+        }
     }
 
     sourceCodeBuilder.add(_rightBracket);

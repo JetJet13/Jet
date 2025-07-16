@@ -9,18 +9,22 @@
 
 namespace RefExpressionTypeCheckerPolicy {
     void apply(ASTRefExpressionNode* refExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(refExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(refExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(refExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             refExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(refExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(refExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(refExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
+        auto refExpressionInvalidMessage = TypeCheckerErrorMessageTable::RefExpressionTypeInvalid(refExpression);
         TypeCheckerRuleProvider::getRefTypeSignatureTypeCheckerRule()
         ->enforce(
             refExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::RefExpressionTypeInvalid(refExpression),
+            refExpressionInvalidMessage,
             typeCheckerResult
         );
         TypeChecker::applyPolicyTo(refExpression->getExpressionNode(), typeCheckerResult);

@@ -14,6 +14,10 @@ ASTNode* TupleExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         if (node->is(AST_TUPLE_ITEM_NODE)) {
             tupleExpression->addItem((ASTTupleItemNode*)node);
         }
+
+        if (node->is(AST_COMMA_NODE)) {
+            tupleExpression->addComma((ASTCommaNode*)node);
+        }
     }
     return tupleExpression;
 }

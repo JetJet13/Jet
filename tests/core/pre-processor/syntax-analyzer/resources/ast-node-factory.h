@@ -392,6 +392,13 @@ namespace ASTNodeFactory {
             ASTNodeFactory::typeColon,
             ASTNodeFactory::idType
     );
+    static std::vector<ASTCommaNode*> createCommaList(unsigned long size) {
+        auto commas = std::vector<ASTCommaNode*>();
+        for (int i = 0; i < size; ++i) {
+            commas.push_back(new ASTCommaNode(createLexeme(SymbolFactory::createCommaSymbol())));
+        }
+        return commas;
+    }
     static ASTFunctionParameterNode* createFunctionParameter(ASTTypeNode* typeNode) {
         return new ASTFunctionParameterNode(
                 ASTNodeFactory::idExpression,
@@ -620,6 +627,7 @@ namespace ASTNodeFactory {
         return new ASTArrayNode(
             ASTNodeFactory::leftBracket,
             elements,
+            ASTNodeFactory::createCommaList(elements.size()),
             ASTNodeFactory::rightBracket
         );
     }
@@ -628,6 +636,7 @@ namespace ASTNodeFactory {
                     new ASTArrayNode(
                         ASTNodeFactory::leftBracket,
                         elements,
+                        ASTNodeFactory::createCommaList(elements.size()),
                         ASTNodeFactory::rightBracket
         ));
     }
@@ -644,13 +653,6 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::structColon,
                 value
         );
-    }
-    static std::vector<ASTCommaNode*> createCommaList(unsigned long size) {
-        auto commas = std::vector<ASTCommaNode*>();
-        for (int i = 0; i < size; ++i) {
-            commas.push_back(new ASTCommaNode(createLexeme(SymbolFactory::createCommaSymbol())));
-        }
-        return commas;
     }
     static ASTStructExpressionNode* createStructExpression(std::vector<ASTStructKeyValueNode*> fields) {
         return new ASTStructExpressionNode(
@@ -746,6 +748,7 @@ namespace ASTNodeFactory {
         return new ASTTupleExpressionNode(
                 ASTNodeFactory::tupleListStart,
                 tupleItems,
+                ASTNodeFactory::createCommaList(tupleItems.size()),
                 ASTNodeFactory::tupleListEnd
         );
     }

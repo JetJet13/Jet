@@ -11,16 +11,19 @@
 #include "../ast-expression-nodes/ast-expression-node.h"
 #include "ast-left-bracket-node.h"
 #include "ast-right-bracket-node.h"
+#include "../ast-comma-node.h"
 
 class ASTArrayNode : public ASTNode {
 private:
     ASTLeftBracketNode* _leftBracket;
     ASTRightBracketNode* _rightBracket;
+    std::vector<ASTCommaNode*> _commas;
     std::vector<ASTExpressionNode*>* _elements;
 public:
     explicit ASTArrayNode(ASTLeftBracketNode* leftBracket, ASTRightBracketNode* rightBracket);
-    explicit ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpressionNode*> elements, ASTRightBracketNode* rightBracket);
+    explicit ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpressionNode*> elements, std::vector<ASTCommaNode*> commas, ASTRightBracketNode* rightBracket);
     ASTArrayNode* addElement(ASTExpressionNode* element);
+    ASTArrayNode* addComma(ASTCommaNode* comma);
     void markElementsAsReferenced();
     ASTLeftBracketNode* getLeftBracket();
     ASTRightBracketNode* getRightBracket();

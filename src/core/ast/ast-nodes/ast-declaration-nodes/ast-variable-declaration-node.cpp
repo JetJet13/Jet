@@ -101,11 +101,9 @@ void ASTVariableDeclarationNode::print() {
 std::string ASTVariableDeclarationNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     if (_exportKeyword) {
-        sourceCodeBuilder.add(_exportKeyword.value())
-        ->add(_initializer);
-    } else {
-        sourceCodeBuilder.add(_varInit);
+        sourceCodeBuilder.add(_exportKeyword.value());
     }
+    sourceCodeBuilder.add(_varInit);
     sourceCodeBuilder.add(_initializer);
     return sourceCodeBuilder.build();
 }

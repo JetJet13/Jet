@@ -8,17 +8,20 @@
 
 namespace ThisExpressionTypeCheckerPolicy {
     void apply(ASTThisExpressionNode* thisExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(thisExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(thisExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(thisExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             thisExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(thisExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(thisExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(thisExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 
         if (thisExpression->getTypeSignature()->typeTargetIs(CLASS_TYPE_SOURCE)) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(thisExpression));
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(thisExpression)());
         }
     }
 }

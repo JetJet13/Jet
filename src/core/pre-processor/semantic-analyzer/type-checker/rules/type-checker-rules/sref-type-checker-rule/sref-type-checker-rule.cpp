@@ -5,9 +5,9 @@
 #include "sref-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void SrefTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, std::string invalidMessage, TypeCheckerResult* typeCheckerResult) {
+void SrefTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
     if (!typeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        typeCheckerResult->addError(invalidMessage);
+        typeCheckerResult->addError(invalidMessage());
     }
 }
 

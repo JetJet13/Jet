@@ -8,12 +8,15 @@
 
 namespace ObjectAccessExpressionTypeCheckerPolicy {
     void apply(ASTObjectAccessExpressionNode* objectAccessExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(objectAccessExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             objectAccessExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(objectAccessExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
     }

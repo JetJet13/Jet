@@ -10,27 +10,33 @@
 
 namespace LambdaExpressionTypeCheckerPolicy {
     void apply(ASTLambdaExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             lambdaExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
         TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
         if (lambdaExpression->getTypeSignature()->getReturnType()->isVoid()) {
+            auto notAllPathsReturn = TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression);
             TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
                     lambdaExpression->getBlock(),
-                    TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression),
+                    notAllPathsReturn,
                     typeCheckerResult
             );
         } else {
+            auto returnTypeUnknown = TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeUnknown(lambdaExpression);
+            auto returnTypeInvalid = TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeInvalid(lambdaExpression);
             TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
             ->enforce(
                 lambdaExpression->getTypeSignature()->getReturnType(),
-                TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeUnknown(lambdaExpression),
-                TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeInvalid(lambdaExpression),
+                returnTypeUnknown,
+                returnTypeInvalid,
                 typeCheckerResult
             );
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
@@ -39,24 +45,29 @@ namespace LambdaExpressionTypeCheckerPolicy {
                 lambdaExpression->getTypeSignature()->getReturnType(),
                 typeCheckerResult
             );
+            auto notAllPathsReturn = TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression);
             TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()
             ->enforce(
                 lambdaExpression->getBlock(),
-                TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression),
+                notAllPathsReturn,
                 typeCheckerResult
             );
         }
         TypeChecker::applyPolicyTo(lambdaExpression->getBlock(), typeCheckerResult);
     }
+
     void apply(ASTLambdaWithFatArrowExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                    lambdaExpression,
-                    TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression),
-                    TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression),
-                    TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression),
-                    typeCheckerResult
-                );
+        ->enforce(
+            lambdaExpression,
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
+            typeCheckerResult
+        );
         TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(lambdaExpression->getReturnExpression()->getExpression(), typeCheckerResult);
     }

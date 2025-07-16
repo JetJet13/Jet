@@ -23,12 +23,13 @@ SourceCodeBuilder* SourceCodeBuilder::add(ASTNode* node) {
             ? node->getStartPosition()->getColumn() - lastColumn
             : node->getStartPosition()->getColumn();
     Logger::log("SourceCodeBuilder::add", lastLine, lastColumn, lineDelta, columnDelta);
-//    for (int i = 0; i < lineDelta; ++i) {
-//        _sourceCode += NEW_LINE;
-//    }
-//    for (int i = 0; i < columnDelta; ++i) {
-//        _sourceCode += WHITE_SPACE;
-//    }
+    for (int i = 0; i < lineDelta; ++i) {
+        _sourceCode += NEW_LINE;
+    }
+    for (int i = 0; i < columnDelta; ++i) {
+        _sourceCode += WHITE_SPACE;
+    }
+    _sourceCode += node->toSourceCode();
     _lastNode = node;
     return this;
 }

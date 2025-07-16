@@ -8,12 +8,15 @@
 
 namespace IdentifierExpressionTypeCheckerPolicy {
     void apply(ASTIdentifierExpressionNode* identifierExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(identifierExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(identifierExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(identifierExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             identifierExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(identifierExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(identifierExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(identifierExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
     }

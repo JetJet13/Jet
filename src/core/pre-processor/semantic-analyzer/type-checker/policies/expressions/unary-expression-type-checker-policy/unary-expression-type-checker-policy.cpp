@@ -9,12 +9,15 @@
 
 namespace UnaryExpressionTypeCheckerPolicy {
     void apply(ASTUnaryExpressionNode* unaryExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(unaryExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(unaryExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(unaryExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             unaryExpression->getTypeSignature(),
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(unaryExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(unaryExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(unaryExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 

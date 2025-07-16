@@ -14,9 +14,6 @@ ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQual
     _assignmentOperator = assignmentOperator;
     _children.push_back(_assignmentTypeQualifier);
     _children.push_back(_identifier);
-    if (_colon) {
-        _children.push_back(_colon.value());
-    }
     if (_type) {
         _children.push_back(_type.value());
     }
@@ -39,10 +36,7 @@ Position* ASTVariableInitNode::getStartPosition() {
 }
 
 Position* ASTVariableInitNode::getEndPosition() {
-    if (_type) {
-        return _type.value()->getEndPosition();
-    }
-    return _identifier->getEndPosition();
+    return _assignmentOperator->getEndPosition();
 }
 
 ASTNodeType ASTVariableInitNode::getNodeType() {

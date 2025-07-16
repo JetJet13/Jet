@@ -8,32 +8,38 @@
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
     void apply(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(objectAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
                 objectAccessInvocationExpression,
-                TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression),
-                TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression),
-                TypeCheckerErrorMessageTable::ExpressionTypeVoid(objectAccessInvocationExpression),
+                unknownMessage,
+                invalidMessage,
+                voidMessage,
                 typeCheckerResult
         );
         auto invocableTypeSignature = (InvocableTypeSignature*)objectAccessInvocationExpression->getObjectAccess()->getTypeSignature();
+        auto notEnoughArguments = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(objectAccessInvocationExpression);
+        auto tooManyArguments = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(objectAccessInvocationExpression);
         auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
                                          ->enforce(
                                             invocableTypeSignature->getParameterTypes()->size(),
                                             objectAccessInvocationExpression->getArguments()->numArguments(),
-                                            TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(objectAccessInvocationExpression),
-                                            TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(objectAccessInvocationExpression),
+                                            notEnoughArguments,
+                                            tooManyArguments,
                                             typeCheckerResult
                                          );
 
         if (!argumentListCountResultOk) {
             return;
         }
+        auto argumentTypeMismatch = TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(objectAccessInvocationExpression);
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             invocableTypeSignature->getParameterTypes(),
             objectAccessInvocationExpression->getArguments(),
-            TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(objectAccessInvocationExpression),
+            argumentTypeMismatch,
             typeCheckerResult
         );
     }

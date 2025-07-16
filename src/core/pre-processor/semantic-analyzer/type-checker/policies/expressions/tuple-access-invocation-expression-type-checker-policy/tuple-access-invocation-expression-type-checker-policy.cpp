@@ -9,33 +9,39 @@
 
 namespace TupleAccessInvocationExpressionTypeCheckerPolicy {
     void apply(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessInvocationExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessInvocationExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             tupleAccessInvocationExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessInvocationExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessInvocationExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleAccessInvocationExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 
         auto invocableTypeSignature = (InvocableTypeSignature*)tupleAccessInvocationExpression->getObjectAccess()->getTypeSignature();
+        auto notEnoughArguments = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(tupleAccessInvocationExpression);
+        auto tooManyArguments = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(tupleAccessInvocationExpression);
         auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
                                             ->enforce(
                                                 invocableTypeSignature->getParameterTypes()->size(),
                                                 tupleAccessInvocationExpression->getArguments()->numArguments(),
-                                                TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(tupleAccessInvocationExpression),
-                                                TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(tupleAccessInvocationExpression),
+                                                notEnoughArguments,
+                                                tooManyArguments,
                                                 typeCheckerResult
                                             );
 
         if (!argumentListCountResultOk) {
             return;
         }
+        auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(tupleAccessInvocationExpression);
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             invocableTypeSignature->getParameterTypes(),
             tupleAccessInvocationExpression->getArguments(),
-            TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(tupleAccessInvocationExpression),
+            argumentTypeMismatchMessage,
             typeCheckerResult
         );
     }

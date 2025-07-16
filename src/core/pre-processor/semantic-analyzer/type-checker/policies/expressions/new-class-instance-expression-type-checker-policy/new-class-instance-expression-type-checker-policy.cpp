@@ -8,21 +8,24 @@
 
 namespace NewClassInstanceExpressionTypeCheckerPolicy {
     void apply(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(newClassInstanceExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(newClassInstanceExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(newClassInstanceExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             newClassInstanceExpression,
-            TypeCheckerErrorMessageTable::ExpressionTypeUnknown(newClassInstanceExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeInvalid(newClassInstanceExpression),
-            TypeCheckerErrorMessageTable::ExpressionTypeVoid(newClassInstanceExpression),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
             typeCheckerResult
         );
 
         if (newClassInstanceExpression->getTypeSignature()->typeTargetIs(CLASS_TYPE_SOURCE)) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(newClassInstanceExpression));
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(newClassInstanceExpression)());
         }
 
         if (!newClassInstanceExpression->getTypeSignature()->hasConstructorInfo()) {
-            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNoMatchingConstructor(newClassInstanceExpression));
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNoMatchingConstructor(newClassInstanceExpression)());
         }
     }
 }

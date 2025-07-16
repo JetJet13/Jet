@@ -11,20 +11,23 @@
 #include "../ast-tuple-nodes/ast-tuple-list-start-node.h"
 #include "../ast-tuple-nodes/ast-tuple-item-node.h"
 #include "../ast-tuple-nodes/ast-tuple-list-end-node.h"
+#include "../ast-comma-node.h"
 #include "../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
 class ASTTupleExpressionNode : public ASTAggregateExpressionNode {
 private:
     ASTTupleListStartNode* _tupleListStart;
     ASTTupleListEndNode* _tupleListEnd;
+    std::vector<ASTCommaNode*> _commas;
     std::vector<ASTTupleItemNode*> _items;
     TupleTypeSignature* _typeSignature = new TupleTypeSignature();
 public:
     ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd);
-    ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, ASTTupleListEndNode* tupleListEnd);
+    ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, std::vector<ASTCommaNode*> commas, ASTTupleListEndNode* tupleListEnd);
     std::vector<ASTTupleItemNode*> getItems();
     unsigned long numItems();
     ASTTupleExpressionNode* addItem(ASTTupleItemNode* item);
+    ASTTupleExpressionNode* addComma(ASTCommaNode* comma);
     void markAsReferenced() override;
     TupleTypeSignature* getTypeSignature() override;
     void setTypeSignature(TupleTypeSignature* tupleTypeSignature);

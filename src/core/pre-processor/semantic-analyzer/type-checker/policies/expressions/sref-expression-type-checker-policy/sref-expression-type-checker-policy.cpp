@@ -9,20 +9,25 @@
 
 namespace SrefExpressionTypeCheckerPolicy {
     void apply(ASTSrefExpressionNode* srefExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(srefExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(srefExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(srefExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        srefExpression->getTypeSignature(),
-                        TypeCheckerErrorMessageTable::ExpressionTypeUnknown(srefExpression),
-                        TypeCheckerErrorMessageTable::ExpressionTypeInvalid(srefExpression),
-                        TypeCheckerErrorMessageTable::ExpressionTypeVoid(srefExpression),
-                        typeCheckerResult
-                );
+        ->enforce(
+            srefExpression->getTypeSignature(),
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
+            typeCheckerResult
+        );
+
+        auto srefExpressionInvalidMessage = TypeCheckerErrorMessageTable::SrefExpressionTypeInvalid(srefExpression);
         TypeCheckerRuleProvider::getSrefTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        srefExpression->getExpressionNode()->getTypeSignature(),
-                        TypeCheckerErrorMessageTable::SrefExpressionTypeInvalid(srefExpression),
-                        typeCheckerResult
-                );
+        ->enforce(
+            srefExpression->getExpressionNode()->getTypeSignature(),
+            srefExpressionInvalidMessage,
+            typeCheckerResult
+        );
         TypeChecker::applyPolicyTo(srefExpression->getExpressionNode(), typeCheckerResult);
     }
 }
