@@ -8,11 +8,15 @@
 
 ASTNode* ArrayNodeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto arrayNode = new ASTArrayNode((ASTLeftBracketNode*)nodes[0], (ASTRightBracketNode*)nodes[nodes.size() - 1]);
-    for (int i = 1; i < nodes.size() - 1; i++) {
-        if (!nodes[i]->is(AST_COMMA_NODE)) {
-            arrayNode->addElement((ASTExpressionNode*)nodes[i]);
+
+    for (int i = 1; i < nodes.size() - 1; ++i) {
+        auto node = nodes[i];
+        if (i % 2 == 1 && node->isExpression()) {
+            arrayNode->addElement((ASTExpressionNode*)node);
+        } else if (i % 2 == 0 && node->is(AST_COMMA_NODE) && i != nodes.size() - 2) {
+            arrayNode->addComma((ASTCommaNode*)node);
         } else {
-            arrayNode->addComma((ASTCommaNode*)nodes[i]);
+            throw std::invalid_argument("unable to reduce to array node since node list is malformed");
         }
     }
     return arrayNode;

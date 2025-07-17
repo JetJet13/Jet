@@ -26,6 +26,10 @@ ASTNode* ASTExpressionNode::transformIfNecessary(std::optional<ASTNode*> prevNod
     return this->baseTransformIfNecessary(prevNode, nextNode, mode);
 }
 
+bool ASTExpressionNode::isExpression() {
+    return true;
+}
+
 ASTNodeType ASTExpressionNode::getNodeType() {
     return AST_EXPRESSION_NODE;
 }

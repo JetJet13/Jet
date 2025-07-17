@@ -28,6 +28,7 @@ public:
     virtual Position* getStartPosition();
     virtual Position* getEndPosition();
     virtual bool isSameAs(ASTNode* other);
+    virtual bool isExpression();
     virtual void print();
     virtual std::string toSourceCode();
     virtual TypeSignature* getTypeSignature();

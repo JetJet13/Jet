@@ -11,14 +11,17 @@ ASTNode* StructTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
             (ASTStructTypeStartNode*)nodes[0],
             (ASTStructTypeEndNode*)nodes[nodes.size() - 1]
     );
-    for (auto node : nodes) {
-        if (node->is(AST_STRUCT_TYPE_KEY_NODE)) {
-            structTypeNode->addKeyValueType((ASTStructTypeKeyValueNode*)node);
-        }
 
-        if (node->is(AST_COMMA_NODE)) {
+    for (int i = 1; i < nodes.size() - 1; ++i) {
+        auto node = nodes[i];
+        if (i % 2 == 1 && node->is(AST_STRUCT_TYPE_KEY_NODE)) {
+            structTypeNode->addKeyValueType((ASTStructTypeKeyValueNode*)node);
+        } else if (i % 2 == 0 && node->is(AST_COMMA_NODE) && i != nodes.size() - 2) {
             structTypeNode->addComma((ASTCommaNode*)node);
+        } else {
+            throw std::invalid_argument("unable to reduce to struct type since node list is malformed");
         }
     }
+
     return ASTTypeNodeFactory::createStructTypeNode(structTypeNode);
 }

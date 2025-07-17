@@ -124,13 +124,13 @@ const predefinedEnumAssignment = Color.Red;
 enum Color {
     Red = "red",
     Blue = "blue",
-    Green = "green",
+    Green = "green"
 }
 
 enum RGB {
     Red = 'r',
     Blue = 'b',
-    Green = 'g',
+    Green = 'g'
 }
 
 enum NoValEnum {
@@ -385,7 +385,7 @@ interface MyInterface {
     hello: () => string,
     structure: { a: int, b: int },
     bye: ({ a: int, b: int }, { c: bool, d: char }) => string,
-    myClassInstance: MyClass,
+    myClassInstance: MyClass
 }
 
 const structure: { a: bool, c: char } = { a: true, c: 'n' };
@@ -440,7 +440,7 @@ type Point = { x: int, y: int };
 
 const myPoint: Point = {
     x: 4,
-    t: 55,
+    y: 55
 };
 
 if intWithType == 5 {

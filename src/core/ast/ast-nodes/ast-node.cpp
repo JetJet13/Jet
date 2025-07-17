@@ -88,6 +88,10 @@ bool ASTNode::isSameAs(ASTNode* other) {
     return this->getNodeType() == other->getNodeType();
 }
 
+bool ASTNode::isExpression() {
+    return false;
+}
+
 ASTNode* ASTNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     return this;
 }

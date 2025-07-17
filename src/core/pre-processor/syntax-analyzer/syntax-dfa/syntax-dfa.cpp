@@ -23,7 +23,6 @@ std::optional<DFANode*> SyntaxDfa::findStartNode(std::optional<ASTNode*> astNode
 }
 
 void SyntaxDfa::init() {
-
     DFANode* varDeclaration = DFANodeFactory::Once::create(AST_VARIABLE_DECLARATION_NODE);
     DFANode* varInit = DFANodeFactory::Once::create(AST_VARIABLE_INIT_NODE);
     DFANode* varType = DFANodeFactory::Once::create(AST_VARIABLE_TYPE_NODE);
@@ -1261,7 +1260,7 @@ void SyntaxDfa::init() {
                     ->addTransition(
                         DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_METHOD_DECLARATION_NODE)
-                        ))
+                    ))
             ))
         )
     );
