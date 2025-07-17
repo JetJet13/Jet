@@ -8,191 +8,194 @@
 using ErrorMessageLambda = std::function<std::string()>;
 
 namespace TypeCheckerErrorMessageTable {
+    static std::string generateMessage(ASTNode* node, std::string message) {
+        return "(" + node->getLineColumn() + ") - " + message + "\n" + node->toSourceCode();
+    }
     static ErrorMessageLambda VariableTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "variable type does not match initializer type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match initializer type"); };
     } 
     static ErrorMessageLambda VariableTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "variable type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type is unknown");  };
     } 
     static ErrorMessageLambda VariableTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "variable type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type is invalid");  };
     } 
     static ErrorMessageLambda VariableTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return  "variable type cannot be void \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type cannot be void");  };
     } 
     static ErrorMessageLambda VariableAssignmentTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "variable type does not match expression type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match expression type");  };
     } 
     static ErrorMessageLambda ProcedureHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return  "procedure cannot have return expression \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure cannot have return expression");  };
     } 
     static ErrorMessageLambda ParameterTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "parameter type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "parameter type is unknown"); };
     } 
     static ErrorMessageLambda ParameterTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "parameter type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "parameter type is invalid"); };
     } 
     static ErrorMessageLambda ParameterTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return  "parameter type cannot be void \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "parameter type cannot be void"); };
     } 
     static ErrorMessageLambda FunctionReturnTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "function return type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "function return type is unknown"); };
     } 
     static ErrorMessageLambda FunctionReturnTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "function return type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "function return type is invalid"); };
     } 
     static ErrorMessageLambda FunctionReturnTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return  "function return type cannot be void \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "function return type cannot be void"); };
     } 
     static ErrorMessageLambda FunctionNotAllPathsReturn(ASTNode* node) {
-      return [node]() -> std::string { return  "not all function paths return a value \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not all function paths return a value"); };
     } 
     static ErrorMessageLambda FunctionReturnExpressionMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "return expression type does not match function return type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "return expression type does not match function return type"); };
     } 
     static std::function<std::string()> ExpressionTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "expression type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "expression type is unknown"); };
     } 
     static ErrorMessageLambda ExpressionTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "expression type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "expression type is invalid"); };
     } 
     static ErrorMessageLambda ExpressionTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return  "expression type cannot be void \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "expression type cannot be void"); };
     } 
     static ErrorMessageLambda EnumKeyValueTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "enum key-value type does not match enum type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "enum key-value type does not match enum type"); };
     } 
     static ErrorMessageLambda ControlFlowConditionNotBool(ASTNode* node) {
-      return [node]() -> std::string { return  "condition must evaluate to true or false \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "condition must evaluate to true or false"); };
     } 
     static ErrorMessageLambda ForInStatementSourceNotIterable(ASTNode* node) {
-      return [node]() -> std::string { return  "source of for-in loop is not iterable \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "source of for-in loop is not iterable"); };
     } 
     static ErrorMessageLambda ClassPropertyTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "class property type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type is unknown"); };
     } 
     static ErrorMessageLambda ClassPropertyTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "class property type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type is invalid"); };
     } 
     static ErrorMessageLambda ClassPropertyTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return  "class property type cannot be void \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type cannot be void"); };
     } 
     static ErrorMessageLambda ClassPropertyAssignmentTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "class property type does not match expression type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type does not match expression type"); };
     } 
     static ErrorMessageLambda ClassPropertyInitializerTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "type of initial value for class property does not match class property type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "type of initial value for class property does not match class property type"); };
     }
     static ErrorMessageLambda ClassPropertyInvocable(ASTNode* node) {
-      return [node]() -> std::string { return  "class property cannot be invocable. Convert to class method instead \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be invocable. Convert to class method instead"); };
     }
     static ErrorMessageLambda ClassPropertyNamesNotUnique(ASTNode* node) {
-      return [node]() -> std::string { return  "class property names must be unique \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property names must be unique"); };
     } 
     static ErrorMessageLambda ClassMethodNamesAndTypeSignaturesNotUnique(ASTNode* node) {
-      return [node]() -> std::string { return  "one or more class methods have the same name and type-signature \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "one or more class methods have the same name and type-signature"); };
     } 
     static ErrorMessageLambda ClassConstructorsNotUnique(ASTNode* node) {
-      return [node]() -> std::string { return  "class constructors must have unique parameter lists \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class constructors must have unique parameter lists"); };
     }
     static ErrorMessageLambda ClassConstructorHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return  "class constructor cannot have return expression \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class constructor cannot have return expression"); };
     }
     static ErrorMessageLambda ClassMethodReturnTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "class method return type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class method return type is unknown"); };
     } 
     static ErrorMessageLambda ClassMethodReturnTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "class method return type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class method return type is invalid"); };
     } 
     static ErrorMessageLambda ClassMethodReturnTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return  "class method return type cannot be void \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class method return type cannot be void"); };
     } 
     static ErrorMessageLambda ClassMethodNotAllPathsReturn(ASTNode* node) {
-      return [node]() -> std::string { return  "not all class method paths return a value \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not all class method paths return a value"); };
     }
     static ErrorMessageLambda ClassMethodHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return  "class method cannot have return expression \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class method cannot have return expression"); };
     }
     static ErrorMessageLambda ClassDoesNotImplementInterface(ASTNode* node) {
-      return [node]() -> std::string { return  "class does not satisfy interface it declared to implement \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class does not satisfy interface it declared to implement"); };
     }
     static ErrorMessageLambda ArrayElementTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "not all array elements match the array element type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not all array elements match the array element type"); };
     } 
     static ErrorMessageLambda ClassMethodCallNotEnoughArguments(ASTNode* node) {
-      return [node]() -> std::string { return  "not enough arguments provided for class method call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not enough arguments provided for class method call"); };
     } 
     static ErrorMessageLambda ClassMethodCallTooManyArguments(ASTNode* node) {
-      return [node]() -> std::string { return  "too many arguments provided for class method call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "too many arguments provided for class method call"); };
     } 
     static ErrorMessageLambda ClassMethodCallArgumentTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "argument type does not match parameter type for class method call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "argument type does not match parameter type for class method call"); };
     } 
     static ErrorMessageLambda NotCallableCurryType(ASTNode* node) {
-      return [node]() -> std::string { return  "curry function type is not callable \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "curry function type is not callable"); };
     } 
     static ErrorMessageLambda CurryCallNotEnoughArguments(ASTNode* node) {
-      return [node]() -> std::string { return  "not enough arguments provided for curry call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not enough arguments provided for curry call"); };
     } 
     static ErrorMessageLambda CurryCallTooManyArguments(ASTNode* node) {
-      return [node]() -> std::string { return  "too many arguments provided for curry call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "too many arguments provided for curry call"); };
     } 
     static ErrorMessageLambda CurryCallArgumentTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "argument type does not match parameter type for curry call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "argument type does not match parameter type for curry call"); };
     } 
     static ErrorMessageLambda FunctionCallNotEnoughArguments(ASTNode* node) {
-      return [node]() -> std::string { return  "not enough arguments provided for function call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not enough arguments provided for function call"); };
     } 
     static ErrorMessageLambda FunctionCallTooManyArguments(ASTNode* node) {
-      return [node]() -> std::string { return  "too many arguments provided for function call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "too many arguments provided for function call"); };
     } 
     static ErrorMessageLambda FunctionCallArgumentTypeMismatch(ASTNode* node) {
-      return [node]() -> std::string { return  "argument type does not match parameter type for function call \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "argument type does not match parameter type for function call"); };
     } 
     static ErrorMessageLambda LambdaExpressionReturnTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "lambda expression return type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "lambda expression return type is unknown"); };
     } 
     static ErrorMessageLambda LambdaExpressionReturnTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "lambda expression return type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "lambda expression return type is invalid"); };
     } 
     static ErrorMessageLambda LambdaExpressionNotAllPathsReturn(ASTNode* node) {
-      return [node]() -> std::string { return  "not all lambda expression paths return a value \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not all lambda expression paths return a value"); };
     }
     static ErrorMessageLambda LambdaExpressionHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return  "lambda expression cannot have return expression \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "lambda expression cannot have return expression"); };
     }
     static ErrorMessageLambda NewClassInstanceNotClassType(ASTNode* node) {
-      return [node]() -> std::string { return  "cannot instantiate new class instance since type is not a class type \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "cannot instantiate new class instance since type is not a class type"); };
     }
     static ErrorMessageLambda NewClassInstanceNoMatchingConstructor(ASTNode* node) {
-      return [node]() -> std::string { return  "cannot instantiate new class instance since no constructor found for arguments provided \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "cannot instantiate new class instance since no constructor found for arguments provided"); };
     }
     static ErrorMessageLambda VariableNamesNotUnique(ASTNode* node) {
-      return [node]() -> std::string { return  "variable name must be unique \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable name must be unique"); };
     }
     static ErrorMessageLambda InvalidSingleImportModuleName(ASTNode* node) {
-      return [node]() -> std::string { return  "imported module name is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "imported module name is invalid"); };
     }
     static ErrorMessageLambda DrefExpressionTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "dref expression does not have type ref/pointer  \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "dref expression does not have type ref"); };
     }
     static ErrorMessageLambda SrefExpressionTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "sref expression does not have type ref/pointer  \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "sref expression does not have type ref"); };
     }
     static ErrorMessageLambda RefExpressionTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "ref expression cannot have type ref/pointer  \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "ref expression cannot have type ref"); };
     }
     static ErrorMessageLambda InterfacePropertyTypeUnknown(ASTNode* node) {
-      return [node]() -> std::string { return  "interface property type is unknown \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "interface property type is unknown"); };
     }
     static ErrorMessageLambda InterfacePropertyTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return  "interface property type is invalid \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "interface property type is invalid"); };
     }
     static ErrorMessageLambda InterfacePropertyTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return  "interface property type cannot be void \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "interface property type cannot be void"); };
     }
     static ErrorMessageLambda InterfacePropertyNamesNotUnique(ASTNode* node) {
-      return [node]() -> std::string { return  "interface property names must be unique \n" + node->toSourceCode(); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "interface property names must be unique"); };
     }
 }
 

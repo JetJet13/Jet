@@ -27,6 +27,7 @@ public:
     virtual std::string toString() = 0;
     virtual Position* getStartPosition();
     virtual Position* getEndPosition();
+    virtual std::string getLineColumn();
     virtual bool isSameAs(ASTNode* other);
     virtual bool isExpression();
     virtual void print();

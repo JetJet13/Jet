@@ -440,7 +440,7 @@ type Point = { x: int, y: int };
 
 const myPoint: Point = {
     x: 4,
-    y: 55
+    t: 55
 };
 
 if intWithType == 5 {

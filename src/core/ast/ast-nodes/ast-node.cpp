@@ -7,6 +7,7 @@
 #include <utility>
 #include "../../../shared/utils/logger/logger.h"
 #include "../../type-signature/unknown-type-signature/unknown-type-signature.h"
+#include "../../../shared/utils/to-string/to-string.h"
 
 std::string ASTNode::getId() {
     return _id;
@@ -82,6 +83,12 @@ Position* ASTNode::getStartPosition() {
 
 Position* ASTNode::getEndPosition() {
     throw std::logic_error("get end-position not implemented: " + this->toString());
+}
+
+std::string ASTNode::getLineColumn() {
+    return ToStringUtil::toString(this->getStartPosition()->getLine())
+    + ":"
+    + ToStringUtil::toString(this->getStartPosition()->getColumn());
 }
 
 bool ASTNode::isSameAs(ASTNode* other) {
