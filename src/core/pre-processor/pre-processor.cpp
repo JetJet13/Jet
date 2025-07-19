@@ -25,7 +25,12 @@ JetFile* PreProcessor::process(std::string filePath) {
     if (processedFile) {
         return processedFile.value();
     }
-    auto fileNode = this->buildFile(filePath, _syntaxAnalyzer->analyze(filePath));
+    auto syntaxResult = _syntaxAnalyzer->analyze(filePath);
+    if (!syntaxResult->ok()) {
+        syntaxResult->printErrors();
+        throw std::logic_error("syntax analyzer has errors: " + filePath);
+    }
+    auto fileNode = this->buildFile(filePath, syntaxResult->getFileScope());
     auto typeSignatureScope = new TypeSignatureLookupTable();
     auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);

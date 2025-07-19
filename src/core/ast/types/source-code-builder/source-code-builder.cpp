@@ -22,7 +22,6 @@ SourceCodeBuilder* SourceCodeBuilder::add(ASTNode* node) {
     auto columnDelta = lineDelta == 0
             ? node->getStartPosition()->getColumn() - lastColumn
             : node->getStartPosition()->getColumn();
-    Logger::log("SourceCodeBuilder::add", lastLine, lastColumn, lineDelta, columnDelta);
     for (int i = 0; i < lineDelta; ++i) {
         _sourceCode += NEW_LINE;
     }

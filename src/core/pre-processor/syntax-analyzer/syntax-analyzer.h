@@ -25,6 +25,7 @@
 #include "ast-node-id-assignor/ast-node-id-assignor.h"
 #include "scope/scope.h"
 #include "file-scope/file-scope.h"
+#include "syntax-analyzer-result/syntax-analyzer-result.h"
 
 /* This SyntaxAnalyzer is a LALR(1) parser that performs bottom-up parsing
  * Instructions:
@@ -47,17 +48,18 @@ private:
     std::stack<SyntaxAnalyzerMode> _modeStack;
     std::stack<Scope> _scopeStack;
     std::stack<std::stack<ASTNode*>*> _recognizeStack;
+    std::vector<std::string> _syntaxErrorList;
+    bool _shiftDisabled;
     RecognizerResult* recognizeHandle();
     void shift();
     void reduceHandle(RecognizerResult* recognizerResult, FileScope* fileScope);
     void popFromStack();
-    void accept();
-    void error();
     void prepHandleForRecognizer();
     void updateModeIfNecessary(ASTNodeType astNodeType);
+    void handleSyntaxErrors();
 public:
     SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
-    FileScope* analyze(std::string &filePath);
+    SyntaxAnalyzerResult* analyze(std::string &filePath);
 };
 
 #endif //JETLANG_SYNTAX_ANALYZER_H

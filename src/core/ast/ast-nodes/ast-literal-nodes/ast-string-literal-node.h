@@ -18,6 +18,7 @@ public:
     std::string toString() override;
     void setValue(TokenTable* tokenTable) override;
     std::string getValue();
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_STRING_LITERAL_NODE_H

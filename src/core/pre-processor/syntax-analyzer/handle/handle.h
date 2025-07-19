@@ -38,6 +38,7 @@ public:
     bool isTypeParameterListEnclosed();
     bool hasOneAndOnlyNode();
     void clear();
+    void reset();
     unsigned long size();
     std::vector<ASTNode*> getFirstNodes(int numNodesToGet);
     void removeFirstNodes(int numNodesToRemove);

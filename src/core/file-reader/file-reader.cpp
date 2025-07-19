@@ -61,7 +61,6 @@ std::optional<char> FileReader::advance() {
         return {};
     }
     if (nextCharacter == NEW_LINE) {
-        Logger::log("next character is new line!");
         _handleNewLine = true;
     } else {
         _cursor.column++;

@@ -3682,7 +3682,7 @@ auto tokenTable = new TokenTable();
 auto reservedKeywords = new ReservedKeywords();
 auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-auto fileScope = syntaxAnalyzer.analyze(filePath);
+auto syntaxAnalyzerResult = syntaxAnalyzer.analyze(filePath);
 auto expectedModuleDeclaration = new ASTModuleDeclarationNode(ASTNodeFactory::moduleKeyword, ASTNodeFactory::moduleName);
 auto expectedImportDeclarations = std::vector {
         new ASTImportSingleModuleDeclarationNode(
@@ -3693,10 +3693,12 @@ auto expectedImportDeclarations = std::vector {
         )
 };
 Logger::log("===== TEST LOGS =====");
-REQUIRE(fileScope->getModule().value()->isSameAs(expectedModuleDeclaration) == true);
-REQUIRE(fileScope->getImports().size() == 1);
+syntaxAnalyzerResult->printErrors();
+REQUIRE(syntaxAnalyzerResult->ok());
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getModule().value()->isSameAs(expectedModuleDeclaration) == true);
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getImports().size() == 1);
 for (int i = 0; i < 1; i++) {
-    auto importDeclaration = fileScope->getImports()[i];
+    auto importDeclaration = syntaxAnalyzerResult->getFileScope()->getImports()[i];
     importDeclaration->print();
     auto result = importDeclaration->isSameAs(expectedImportDeclarations[i]);
     Logger::log("RESULT =", result);
@@ -3705,9 +3707,9 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(fileScope->getScope().size() == 240);
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 240);
     for (int i = 0; i < 240; i++) {
-        auto declaration = fileScope->getScope()[i];
+        auto declaration = syntaxAnalyzerResult->getFileScope()->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");
         declaration->print();

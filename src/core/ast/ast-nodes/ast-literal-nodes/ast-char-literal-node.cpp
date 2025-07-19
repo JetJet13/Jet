@@ -19,3 +19,7 @@ void ASTCharLiteralNode::setValue(TokenTable* tokenTable) {
 char ASTCharLiteralNode::getValue() {
     return _value;
 }
+
+std::string ASTCharLiteralNode::toSourceCode() {
+    return "'" +_lexeme->getToken()->getRawValue() + "'";
+}

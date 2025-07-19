@@ -159,6 +159,12 @@ void Handle::clear() {
     _handle.clear();
 }
 
+void Handle::reset() {
+    _handle.clear();
+    _peekNode = {};
+    _lastReducedNode = {};
+}
+
 unsigned long Handle::size() {
     return _handle.size();
 }

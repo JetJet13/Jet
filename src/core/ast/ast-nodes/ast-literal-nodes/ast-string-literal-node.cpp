@@ -30,3 +30,7 @@ void ASTStringLiteralNode::setValue(TokenTable* tokenTable) {
 std::string ASTStringLiteralNode::getValue() {
     return _value;
 }
+
+std::string ASTStringLiteralNode::toSourceCode() {
+    return "\"" + _lexeme->getToken()->getRawValue() + "\"";
+}

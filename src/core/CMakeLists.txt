@@ -1286,6 +1286,8 @@ add_library(jet-core
         type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/void-type-type-signature-strategy/void-type-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/void-type-type-signature-strategy/void-type-type-signature-strategy.h
+        pre-processor/syntax-analyzer/syntax-analyzer-result/syntax-analyzer-result.cpp
+        pre-processor/syntax-analyzer/syntax-analyzer-result/syntax-analyzer-result.h
 
 )
 

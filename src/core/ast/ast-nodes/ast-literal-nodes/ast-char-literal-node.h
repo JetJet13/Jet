@@ -18,6 +18,7 @@ public:
     std::string toString() override;
     void setValue(TokenTable* tokenTable) override;
     char getValue();
+    std::string toSourceCode() override;
 };
 
 

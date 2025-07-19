@@ -148,13 +148,13 @@ proc emptyProcedure() {}
 enum Color {
     Red = "red",
     Blue = "blue",
-    Green = "green",
+    Green = "green"
 }
 
 enum RGB {
     Red = 'r',
     Blue = 'b',
-    Green = 'g',
+    Green = 'g'
 }
 
 enum NoValEnum {
@@ -532,3 +532,6 @@ type Point = { x: int, y: int };
 
 // Hello // World
 //// Hello!
+
+const chh = 'W'
+const fooBar = "   foo bar!   ";

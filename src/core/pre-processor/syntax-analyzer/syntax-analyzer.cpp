@@ -8,6 +8,7 @@
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ast-literal-node-value-assignor/ast-literal-node-value-assignor.h"
 #include "stack-merger/stack-merger.h"
+#include "../../ast/types/source-code-builder/source-code-builder.h"
 
 
 SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalAnalyzer) {
@@ -21,14 +22,18 @@ SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalA
     _scopeStack = std::stack<Scope>();
     _recognizeStack = std::stack<std::stack<ASTNode*>*>();
     _lexicalAnalyzer = lexicalAnalyzer;
+    _shiftDisabled = false;
+    _syntaxErrorList = std::vector<std::string>();
 }
 
-FileScope* SyntaxAnalyzer::analyze(std::string &filePath) {
+SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
     auto fileScope = new FileScope();
     _recognizeStack.push(new std::stack<ASTNode*>());
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
     auto numLoops = 0;
+    _shiftDisabled = false;
+    _syntaxErrorList = std::vector<std::string>();
     while (true) {
         if (numLoops == 12000) {
             while (!_recognizeStack.top()->empty()) {
@@ -37,25 +42,37 @@ FileScope* SyntaxAnalyzer::analyze(std::string &filePath) {
             }
             throw std::logic_error("too many loops!");
         }
+
         auto recognizerResult = this->recognizeHandle();
+        if (_modeStack.empty()) {
+            this->handleSyntaxErrors();
+            break;
+        }
         if (recognizerResult->reduce()) {
             this->updateModeIfNecessary(recognizerResult->getTargetAstNodeType());
-            this->reduceHandle(recognizerResult, fileScope);
+            try {
+                this->reduceHandle(recognizerResult, fileScope);
+            } catch (std::exception err) {
+                this->handleSyntaxErrors();
+            }
         } else if (recognizerResult->pop()) {
-            this->popFromStack();
-        } else if (recognizerResult->shift()){
+            try {
+                this->popFromStack();
+            } catch (std::exception err) {
+                this->handleSyntaxErrors();
+            }
+        } else if (recognizerResult->shift() && !_shiftDisabled){
             this->shift();
+        } else {
+            this->handleSyntaxErrors();
         }
 
-        if (_recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
-            if (_handle.isEmpty()) {
-                this->accept();
-                break;
-            }
+        if (_handle.isEmpty() && _recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
+            break;
         }
         numLoops++;
     }
-    return fileScope;
+    return new SyntaxAnalyzerResult(fileScope, _syntaxErrorList);
 }
 
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
@@ -73,6 +90,8 @@ void SyntaxAnalyzer::shift() {
         _astNodeIdAssignor->assignIdIfNecessary(nextNode);
         ASTLiteralNodeValueAssignor::assignValue(nextNode, _tokenTable);
         _handle.append(nextNode);
+    } else {
+        _shiftDisabled = true;
     }
 }
 
@@ -123,17 +142,10 @@ void SyntaxAnalyzer::popFromStack() {
     _recognizeStack.top()->pop();
 }
 
-void SyntaxAnalyzer::accept() {
-    Logger::log("file accepted");
-}
-
-void SyntaxAnalyzer::error() {
-    Logger::log("file errored");
-}
-
 void SyntaxAnalyzer::prepHandleForRecognizer() {
     if (_modeStack.empty()) {
-        throw std::invalid_argument("modeStack is empty!");
+        Logger::log("mode stack is empty!");
+        return;
     }
 
     if (!_recognizeStack.top()->empty()) {
@@ -279,5 +291,50 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         Logger::log("replacing TUPLE_LIST_MODE with STRUCT_MODE");
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_MODE);
+    }
+}
+
+void SyntaxAnalyzer::handleSyntaxErrors() {
+    auto recognizeNodes = std::vector<ASTNode*>();
+    auto numNodesInRecognizeStack = _recognizeStack.top()->size();
+    for (int i = 0; i < numNodesInRecognizeStack; ++i) {
+        recognizeNodes.insert(recognizeNodes.begin(), _recognizeStack.top()->top());
+        _recognizeStack.top()->pop();
+    }
+    for (int i = 0; i < _handle.size(); ++i) {
+        recognizeNodes.push_back(_handle.at(i).value());
+    }
+    _handle.reset();
+
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    std::optional<ASTNode*> startNode = {};
+    for (int i = 0; i < recognizeNodes.size(); ++i) {
+        auto node = recognizeNodes[i];
+        if (i == recognizeNodes.size() - 1) {
+            if (!startNode) {
+                sourceCodeBuilder = SourceCodeBuilder();
+                startNode = node;
+                sourceCodeBuilder.add(node);
+            } else if (startNode.value()->getStartPosition()->getLine() == node->getStartPosition()->getLine()) {
+                sourceCodeBuilder.add(node);
+            } else {
+                sourceCodeBuilder = SourceCodeBuilder();
+                startNode = node;
+                sourceCodeBuilder.add(node);
+            }
+            _syntaxErrorList.push_back("(" + startNode.value()->getLineColumn() + ") " + sourceCodeBuilder.build());
+            continue;
+        }
+
+        if (!startNode) {
+            startNode = node;
+            sourceCodeBuilder.add(node);
+        } else if (startNode.value()->getStartPosition()->getLine() == node->getStartPosition()->getLine()) {
+            sourceCodeBuilder.add(node);
+        } else {
+            _syntaxErrorList.push_back("(" + startNode.value()->getLineColumn() + ") " + sourceCodeBuilder.build());
+            sourceCodeBuilder = SourceCodeBuilder();
+            startNode = {};
+        }
     }
 }

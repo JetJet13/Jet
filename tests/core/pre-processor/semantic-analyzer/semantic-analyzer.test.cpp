@@ -761,7 +761,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto reservedKeywords = new ReservedKeywords();
     auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
     auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-    auto fileScope = syntaxAnalyzer.analyze(filePath);
+    auto fileScope = syntaxAnalyzer.analyze(filePath)->getFileScope();
     auto typeSignatureLookupTable = new TypeSignatureLookupTable();
     auto semanticAnalyzer = SemanticAnalyzer();
     auto fileNode = new ASTFileNode(fileScope->getScope(), filePath, fileScope->getImports(), fileScope->getModule());
