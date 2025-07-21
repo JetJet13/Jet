@@ -69,7 +69,7 @@
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.h"
-#include "../../../ast/ast-nodes/ast-type-nodes/ast-void-type-node.h"
+#include "../../../ast/ast-nodes/ast-print-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {

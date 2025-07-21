@@ -4,9 +4,7 @@
 
 #include "ast-node.h"
 
-#include <utility>
 #include "../../../shared/utils/logger/logger.h"
-#include "../../type-signature/unknown-type-signature/unknown-type-signature.h"
 #include "../../../shared/utils/to-string/to-string.h"
 
 std::string ASTNode::getId() {

@@ -63,6 +63,7 @@ class AccessModifierTypeSignatureStrategy;
 class VariableAssignmentStatementTypeSignatureStrategy;
 class BlockTypeSignatureStrategy;
 class ExpressionStatementTypeSignatureStrategy;
+class PrintStatementTypeSignatureStrategy;
 class ConditionTypeSignatureStrategy;
 class ForInStatementTypeSignatureStrategy;
 class WhileStatementTypeSignatureStrategy;
@@ -137,6 +138,7 @@ private:
     VariableAssignmentStatementTypeSignatureStrategy* _variableAssignmentStatementTypeSignatureStrategy;
     BlockTypeSignatureStrategy* _blockTypeSignatureStrategy;
     ExpressionStatementTypeSignatureStrategy* _expressionStatementTypeSignatureStrategy;
+    PrintStatementTypeSignatureStrategy* _printStatementTypeSignatureStrategy;
     ConditionTypeSignatureStrategy* _conditionTypeSignatureStrategy;
     ForInStatementTypeSignatureStrategy* _forStatementTypeSignatureStrategy;
     WhileStatementTypeSignatureStrategy* _whileStatementTypeSignatureStrategy;
@@ -209,6 +211,7 @@ public:
     ArrayAccessAssignmentStatementTypeSignatureStrategy* getArrayAccessAssignmentStatementTypeSignatureStrategy();
     BlockTypeSignatureStrategy* getBlockTypeSignatureStrategy();
     ExpressionStatementTypeSignatureStrategy* getExpressionStatementTypeSignatureStrategy();
+    PrintStatementTypeSignatureStrategy* getPrintStatementTypeSignatureStrategy();
     ConditionTypeSignatureStrategy* getConditionTypeSignatureStrategy();
     ForInStatementTypeSignatureStrategy* getForStatementTypeSignatureStrategy();
     WhileStatementTypeSignatureStrategy* getWhileStatementTypeSignatureStrategy();

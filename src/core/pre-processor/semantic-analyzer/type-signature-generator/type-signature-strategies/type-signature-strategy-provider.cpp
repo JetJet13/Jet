@@ -66,6 +66,7 @@
 #include "for-in-statement-type-signature-strategy/for-in-statement-type-signature-strategy.h"
 #include "condition-type-signature-strategy/condition-type-signature-strategy.h"
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
+#include "print-statement-type-signature-strategy/print-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-type-signature-strategy.h"
@@ -419,6 +420,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getExpressionStatementTypeSignatureStrategy()
                     ->assign((ASTExpressionStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_PRINT_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getPrintStatementTypeSignatureStrategy()
+                    ->assign((ASTPrintStatementNode*)node, typeSignatureScope, this);
             break;
         case AST_CONTROL_FLOW_CONDITION_NODE:
             this->_typeSignatureStrategyMap

@@ -33,6 +33,7 @@
 #include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
+#include "ir-strategies/print-statement-ir-strategy/print-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
@@ -146,6 +147,8 @@ IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable*
         return this->_irStrategyMap.getWhileStatementIRStrategy()->generate((ASTWhileStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_FOR_IN_STATEMENT_NODE)) {
         return this->_irStrategyMap.getForInStatementIRStrategy()->generate((ASTForInStatementNode*)node,  this, scope, irContext);
+    } else if (node->is(AST_PRINT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getPrintStatementIRStrategy()->generate((ASTPrintStatementNode*)node,  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }
@@ -656,6 +659,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayTakeLastIRFunction::generateArrayTakeLastFunction(this, &_context, irModule);
     ArraySizeIRFunction::generateArraySizeFunction(this, &_context, irModule);
     ArrayEmptyIRFunction::generateArrayEmptyFunction(this, &_context, irModule);
+    PrintIRFunction::generatePrintFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

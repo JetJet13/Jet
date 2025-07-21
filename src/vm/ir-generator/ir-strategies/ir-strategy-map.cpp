@@ -31,6 +31,7 @@
 #include "./expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "./expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
+#include "./print-statement-ir-strategy/print-statement-ir-strategy.h"
 #include "./class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "./array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
@@ -101,6 +102,7 @@ IRStrategyMap::IRStrategyMap() {
     _functionInvocationExpressionIRStrategy = new FunctionInvocationExpressionIRStrategy();
     _lambdaExpressionIRStrategy = new LambdaExpressionIRStrategy();
     _expressionStatementIRStrategy = new ExpressionStatementIRStrategy();
+    _printStatementIRStrategy = new PrintStatementIRStrategy();
     _classDeclarationIRStrategy = new ClassDeclarationIRStrategy();
     _classPropertyAccessExpressionIRStrategy = new ClassPropertyAccessExpressionIRStrategy();
     _classMethodInvocationExpressionIRStrategy = new ClassMethodInvocationExpressionIRStrategy();
@@ -262,6 +264,10 @@ LambdaExpressionIRStrategy* IRStrategyMap::getLambdaExpressionIRStrategy() {
 
 ExpressionStatementIRStrategy* IRStrategyMap::getExpressionStatementIRStrategy() {
     return _expressionStatementIRStrategy;
+}
+
+PrintStatementIRStrategy* IRStrategyMap::getPrintStatementIRStrategy() {
+    return _printStatementIRStrategy;
 }
 
 ClassDeclarationIRStrategy* IRStrategyMap::getClassDeclarationIRStrategy() {

@@ -117,6 +117,7 @@
 #include "reducer-strategies/custom-type-declaration-reducer-strategy/custom-type-declaration-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h"
+#include "reducer-strategies/print-statement-reducer-strategy/print-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -238,6 +239,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_STRUCT_TYPE_NODE, new StructTypeReducerStrategy());
     this->addStrategy(AST_IMPLEMENTS_INTERFACE_LIST_NODE, new ImplementsInterfaceListReducerStrategy());
     this->addStrategy(AST_CUSTOM_TYPE_DECLARATION_NODE, new CustomTypeDeclarationReducerStrategy());
+    this->addStrategy(AST_PRINT_STATEMENT_NODE, new PrintStatementReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

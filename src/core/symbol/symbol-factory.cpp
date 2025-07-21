@@ -330,4 +330,8 @@ namespace SymbolFactory {
     Symbol* createTypeSymbol()  {
         return new Symbol(SYM_TYPE, "type");
     }
+
+    Symbol* createPrintSymbol()  {
+        return new Symbol(SYM_PRINT, "print");
+    }
 }

@@ -3,8 +3,6 @@
 //
 
 #include "syntax-analyzer.h"
-
-#include <utility>
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ast-literal-node-value-assignor/ast-literal-node-value-assignor.h"
 #include "stack-merger/stack-merger.h"
@@ -31,17 +29,10 @@ SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
     _recognizeStack.push(new std::stack<ASTNode*>());
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
-    auto numLoops = 0;
     _shiftDisabled = false;
     _syntaxErrorList = std::vector<std::string>();
     while (true) {
-        if (numLoops == 12000) {
-            while (!_recognizeStack.top()->empty()) {
-                Logger::log("node in recognizeStack", _recognizeStack.top()->top()->toString());
-                _recognizeStack.top()->pop();
-            }
-            throw std::logic_error("too many loops!");
-        }
+
 
         auto recognizerResult = this->recognizeHandle();
         if (_modeStack.empty()) {
@@ -50,11 +41,11 @@ SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
         }
         if (recognizerResult->reduce()) {
             this->updateModeIfNecessary(recognizerResult->getTargetAstNodeType());
-            try {
+//            try {
                 this->reduceHandle(recognizerResult, fileScope);
-            } catch (std::exception err) {
-                this->handleSyntaxErrors();
-            }
+//            } catch (std::exception err) {
+//                this->handleSyntaxErrors();
+//            }
         } else if (recognizerResult->pop()) {
             try {
                 this->popFromStack();
@@ -70,7 +61,6 @@ SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
         if (_handle.isEmpty() && _recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
             break;
         }
-        numLoops++;
     }
     return new SyntaxAnalyzerResult(fileScope, _syntaxErrorList);
 }

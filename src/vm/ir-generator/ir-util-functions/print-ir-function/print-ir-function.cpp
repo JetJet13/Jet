@@ -7,14 +7,17 @@
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 
 std::string PrintIRFunction::getPrintIRFunctionName() {
-    return "jet.print.i32";
+    return "jet.print";
 }
 
 void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { llvm::PointerType::get(**context, 1) }, true));
-    auto functionType = llvm::FunctionType::get(intType, { intType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule());
+    auto voidType = irGenerator->generateVoidType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto arrayPointerType = irGenerator->generateArrayPointerType();
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { arrayPointerType }, false);
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto formatString = std::vector<char> { '%', 'd', '\n', '\0' };

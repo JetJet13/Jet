@@ -153,7 +153,7 @@ interface MyInterface {
     bar: bool,
     hello: () => string,
     structure: { a: int, b: int },
-    bye: ({ a: int, b: int }, { c: bool, d: char }) => string,
+    bye: ({ a: int, b: int }, { c: bool, d: char }) => string
 }
 
 const structure: { a: bool, c: char } = { a: true, c: 'n' };
@@ -162,7 +162,7 @@ const myInterfaceImpl: MyInterface = {
     bar: true,
     hello: () => "hello",
     structure: { a: 1, b: 10 },
-    bye: (first: { a: int, b: int }, second: { c: bool, d: char }) => "bye",
+    bye: (first: { a: int, b: int }, second: { c: bool, d: char }) => "bye"
 };
 
 proc SProc(myStruct: { a: bool, b: { foo: int, bar: bool } }) {}
@@ -203,3 +203,4 @@ type Point = { x: int, y: int, m: Money };
 
 const myPoint: Point = { x: 5, y: 10, m: 100.00 };
 const myMoney: Money = 50.0;
+print("hello");

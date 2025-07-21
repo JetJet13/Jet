@@ -99,6 +99,7 @@ public:
     bool isImplements();
     bool isTypeKeyword();
     bool isVoid();
+    bool isPrint();
     bool isThis();
     SymbolType getType();
     bool isSameAs(Symbol* symbol);

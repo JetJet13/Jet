@@ -90,6 +90,7 @@ namespace SymbolFactory {
     Symbol* createInterfaceSymbol();
     Symbol* createImplementsSymbol();
     Symbol* createTypeSymbol();
+    Symbol* createPrintSymbol();
 }
 
 

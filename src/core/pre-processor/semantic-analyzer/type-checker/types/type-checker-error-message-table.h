@@ -197,6 +197,9 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda InterfacePropertyNamesNotUnique(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "interface property names must be unique"); };
     }
+    static ErrorMessageLambda PrintStatementArgumentNotLiteral(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "print argument must be literal (string, bool, char, int or float)"); };
+    }
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

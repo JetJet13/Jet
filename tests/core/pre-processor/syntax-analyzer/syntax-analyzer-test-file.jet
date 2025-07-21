@@ -532,6 +532,4 @@ type Point = { x: int, y: int };
 
 // Hello // World
 //// Hello!
-
-const chh = 'W'
-const fooBar = "   foo bar!   ";
+print("HELLO!");

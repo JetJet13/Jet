@@ -64,6 +64,7 @@
 #include "for-in-statement-type-signature-strategy/for-in-statement-type-signature-strategy.h"
 #include "condition-type-signature-strategy/condition-type-signature-strategy.h"
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
+#include "print-statement-type-signature-strategy/print-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-type-signature-strategy.h"
@@ -132,6 +133,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _variableAssignmentStatementTypeSignatureStrategy = new VariableAssignmentStatementTypeSignatureStrategy();
     _blockTypeSignatureStrategy = new BlockTypeSignatureStrategy();
     _expressionStatementTypeSignatureStrategy = new ExpressionStatementTypeSignatureStrategy();
+    _printStatementTypeSignatureStrategy = new PrintStatementTypeSignatureStrategy();
     _conditionTypeSignatureStrategy = new ConditionTypeSignatureStrategy();
     _forStatementTypeSignatureStrategy = new ForInStatementTypeSignatureStrategy();
     _whileStatementTypeSignatureStrategy = new WhileStatementTypeSignatureStrategy();
@@ -380,33 +382,47 @@ BlockTypeSignatureStrategy* TypeSignatureStrategyMap::getBlockTypeSignatureStrat
 ExpressionStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getExpressionStatementTypeSignatureStrategy() {
     return this->_expressionStatementTypeSignatureStrategy;
 }
+
+PrintStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getPrintStatementTypeSignatureStrategy() {
+    return this->_printStatementTypeSignatureStrategy;
+}
+
 ConditionTypeSignatureStrategy* TypeSignatureStrategyMap::getConditionTypeSignatureStrategy() {
     return this->_conditionTypeSignatureStrategy;
 }
+
 ForInStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getForStatementTypeSignatureStrategy() {
     return this->_forStatementTypeSignatureStrategy;
 }
+
 WhileStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getWhileStatementTypeSignatureStrategy() {
     return this->_whileStatementTypeSignatureStrategy;
 }
+
 TryStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTryStatementTypeSignatureStrategy() {
     return this->_tryStatementTypeSignatureStrategy;
 }
+
 IfStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getIfStatementTypeSignatureStrategy() {
     return this->_ifStatementTypeSignatureStrategy;
 }
+
 ImportTypeSignatureStrategy* TypeSignatureStrategyMap::getImportTypeSignatureStrategy() {
     return this->_importTypeSignatureStrategy;
 }
+
 ModuleTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleTypeSignatureStrategy() {
     return this->_moduleTypeSignatureStrategy;
 }
+
 InterfaceTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfaceTypeSignatureStrategy() {
     return this->_interfaceTypeSignatureStrategy;
 }
+
 InterfacePropertyTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfacePropertyTypeSignatureStrategy() {
     return this->_interfacePropertyTypeSignatureStrategy;
 }
+
 CustomTypeDeclarationTypeSignatureStrategy* TypeSignatureStrategyMap::getCustomTypeDeclarationTypeSignatureStrategy() {
     return this->_customTypeDeclarationTypeSignatureStrategy;
 }

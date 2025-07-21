@@ -8,6 +8,5 @@
 IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-util");
     irGenerator->initModule(irModule);
-    PrintIRFunction::generatePrintFunction(irGenerator, context, irModule);
     return irModule;
 }

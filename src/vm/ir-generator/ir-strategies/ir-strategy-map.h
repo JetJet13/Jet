@@ -49,6 +49,7 @@ class ForInStatementIRStrategy;
 class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
 class SrefExpressionIRStrategy;
+class PrintStatementIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -107,6 +108,7 @@ private:
     FunctionInvocationExpressionIRStrategy* _functionInvocationExpressionIRStrategy;
     LambdaExpressionIRStrategy* _lambdaExpressionIRStrategy;
     ExpressionStatementIRStrategy* _expressionStatementIRStrategy;
+    PrintStatementIRStrategy* _printStatementIRStrategy;
     ClassDeclarationIRStrategy* _classDeclarationIRStrategy;
     ClassPropertyAccessExpressionIRStrategy* _classPropertyAccessExpressionIRStrategy;
     ClassMethodInvocationExpressionIRStrategy* _classMethodInvocationExpressionIRStrategy;
@@ -175,6 +177,7 @@ public:
     FunctionInvocationExpressionIRStrategy* getFunctionInvocationExpressionIRStrategy();
     LambdaExpressionIRStrategy* getLambdaExpressionIRStrategy();
     ExpressionStatementIRStrategy* getExpressionStatementIRStrategy();
+    PrintStatementIRStrategy* getPrintStatementIRStrategy();
     ClassDeclarationIRStrategy* getClassDeclarationIRStrategy();
     ClassPropertyAccessExpressionIRStrategy* getClassPropertyAccessExpressionIRStrategy();
     ClassMethodInvocationExpressionIRStrategy* getClassMethodInvocationExpressionIRStrategy();

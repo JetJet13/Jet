@@ -1288,6 +1288,18 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/void-type-type-signature-strategy/void-type-type-signature-strategy.h
         pre-processor/syntax-analyzer/syntax-analyzer-result/syntax-analyzer-result.cpp
         pre-processor/syntax-analyzer/syntax-analyzer-result/syntax-analyzer-result.h
+        ast/ast-nodes/ast-print-node.cpp
+        ast/ast-nodes/ast-print-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-print-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-print-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/print-statement-reducer-strategy/print-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/print-statement-reducer-strategy/print-statement-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/print-statement-type-signature-strategy/print-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/print-statement-type-signature-strategy/print-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/print-statement-type-checker-policy/print-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/print-statement-type-checker-policy/print-statement-type-checker-policy.h
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/print-id-strategy/print-id-strategy.cpp
+        pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/print-id-strategy/print-id-strategy.h
 
 )
 
