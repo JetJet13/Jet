@@ -203,4 +203,4 @@ type Point = { x: int, y: int, m: Money };
 
 const myPoint: Point = { x: 5, y: 10, m: 100.00 };
 const myMoney: Money = 50.0;
-print("hello");
+print("hello", 1, 2.0, 'c', true, false);

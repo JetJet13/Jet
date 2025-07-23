@@ -4,7 +4,7 @@
 
 #include "ir-module-node.h"
 
-IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string printFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName) {
+IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string printIntFunctionName, std::string printFloatFunctionName, std::string printCharFunctionName, std::string printBoolFunctionName, std::string printStringFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName) {
     _irValue = irValue;
     _arrayAccessFunctionName = arrayAccessFunctionName;
     _copyArrayFunctionName = copyArrayFunctionName;
@@ -19,7 +19,11 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _freeValueFunctionName = freeValueFunctionName;
     _freeStringFunctionName = freeStringFunctionName;
     _freeRefFunctionName = freeRefFunctionName;
-    _printFunctionName = printFunctionName;
+    _printIntFunctionName = printIntFunctionName;
+    _printFloatFunctionName = printFloatFunctionName;
+    _printCharFunctionName = printCharFunctionName;
+    _printBoolFunctionName = printBoolFunctionName;
+    _printStringFunctionName = printStringFunctionName;
     _range1pFunctionName = range1pFunctionName;
     _range2pFunctionName = range2pFunctionName;
     _range3pFunctionName = range3pFunctionName;
@@ -99,9 +103,24 @@ llvm::Function* IRModuleNode::getFreeRefFunction() {
     return _irValue->getFunction(_freeRefFunctionName);
 }
 
+llvm::Function* IRModuleNode::getPrintIntFunction() {
+    return _irValue->getFunction(_printIntFunctionName);
+}
 
-llvm::Function* IRModuleNode::getPrintFunction() {
-    return _irValue->getFunction(_printFunctionName);
+llvm::Function* IRModuleNode::getPrintFloatFunction() {
+    return _irValue->getFunction(_printFloatFunctionName);
+}
+
+llvm::Function* IRModuleNode::getPrintCharFunction() {
+    return _irValue->getFunction(_printCharFunctionName);
+}
+
+llvm::Function* IRModuleNode::getPrintBoolFunction() {
+    return _irValue->getFunction(_printBoolFunctionName);
+}
+
+llvm::Function* IRModuleNode::getPrintStringFunction() {
+    return _irValue->getFunction(_printStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getRange1pFunction() {

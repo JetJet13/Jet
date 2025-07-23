@@ -12,7 +12,7 @@ IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTy
         irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {
-        auto irType = new IRType(llvm::ConstantFP::get(**irContext->getContext(), llvm::APFloat(0.0))->getType());
+        auto irType = new IRType(irGenerator->generateFloatType());
         irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(CHAR_LITERAL_TYPE_SOURCE)) {

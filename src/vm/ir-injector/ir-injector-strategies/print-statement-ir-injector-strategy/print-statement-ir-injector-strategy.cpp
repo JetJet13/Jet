@@ -7,13 +7,37 @@
 void PrintStatementIRInjectorStrategy::inject(IRPrintStatementNode* irPrintStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irPrintStatement->getIRArguments()) {
-        arguments.push_back(
-                irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
-        );
+        auto value = irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope);
+        if (argument->getIRType()->isIntegerType()) {
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getPrintIntFunction()->getFunctionType(),
+                    irModule->getPrintIntFunction(),
+                    { value }
+            );
+        } else if (argument->getIRType()->isFloatType()) {
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getPrintFloatFunction()->getFunctionType(),
+                    irModule->getPrintFloatFunction(),
+                    { value }
+            );
+        } else if (argument->getIRType()->isCharType()) {
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getPrintCharFunction()->getFunctionType(),
+                    irModule->getPrintCharFunction(),
+                    { value }
+            );
+        } else if (argument->getIRType()->isBoolType()) {
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getPrintBoolFunction()->getFunctionType(),
+                    irModule->getPrintBoolFunction(),
+                    { value }
+            );
+        } else {
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getPrintStringFunction()->getFunctionType(),
+                    irModule->getPrintStringFunction(),
+                    { value }
+            );
+        }
     }
-    irBlock->getBuilder()->get()->CreateCall(
-        irModule->getPrintFunction()->getFunctionType(),
-        irModule->getPrintFunction(),
-        arguments
-    );
 }

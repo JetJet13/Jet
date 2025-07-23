@@ -23,7 +23,11 @@ private:
     std::string _freeValueFunctionName;
     std::string _freeStringFunctionName;
     std::string _freeRefFunctionName;
-    std::string _printFunctionName;
+    std::string _printIntFunctionName;
+    std::string _printFloatFunctionName;
+    std::string _printCharFunctionName;
+    std::string _printBoolFunctionName;
+    std::string _printStringFunctionName;
     std::string _range1pFunctionName;
     std::string _range2pFunctionName;
     std::string _range3pFunctionName;
@@ -60,7 +64,11 @@ public:
                  std::string freeValueFunctionName,
                  std::string freeStringFunctionName,
                  std::string freeRefFunctionName,
-                 std::string printFunctionName,
+                 std::string printIntFunctionName,
+                 std::string printFloatFunctionName,
+                 std::string printCharFunctionName,
+                 std::string printBoolFunctionName,
+                 std::string printStringFunctionName,
                  std::string range1pFunctionName,
                  std::string range2pFunctionName,
                  std::string range3pFunctionName,
@@ -96,7 +104,11 @@ public:
     llvm::Function* getFreeValueFunction();
     llvm::Function* getFreeStringFunction();
     llvm::Function* getFreeRefFunction();
-    llvm::Function* getPrintFunction();
+    llvm::Function* getPrintIntFunction();
+    llvm::Function* getPrintFloatFunction();
+    llvm::Function* getPrintCharFunction();
+    llvm::Function* getPrintBoolFunction();
+    llvm::Function* getPrintStringFunction();
     llvm::Function* getRange1pFunction();
     llvm::Function* getRange2pFunction();
     llvm::Function* getRange3pFunction();
