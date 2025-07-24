@@ -111,9 +111,10 @@ public:
     llvm::StoreInst* generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType);
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
-    llvm::Constant* generateIntConstant(int integer);
-    llvm::Constant* generateBoolean(bool value);
-    llvm::Constant* generateInt64Constant(int integer);
+    llvm::ConstantInt* generateIntConstant(int integer);
+    llvm::ConstantInt* generateChar(char character);
+    llvm::ConstantInt* generateBoolean(bool value);
+    llvm::ConstantInt* generateInt64Constant(int integer);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
     llvm::StructType* generateArrayPointerType();

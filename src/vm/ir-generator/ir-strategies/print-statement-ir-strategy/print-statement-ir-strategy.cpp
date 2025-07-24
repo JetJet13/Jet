@@ -11,5 +11,5 @@ IRStatementNode* PrintStatementIRStrategy::generate(ASTPrintStatementNode* node,
         arguments.push_back(irGenerator->generateFor(argument, scope, irContext, IR_FUNCTION_ARGUMENT_OP));
     }
 
-    return new IRPrintStatementNode(node, arguments);
+    return new IRPrintStatementNode(node, arguments, irGenerator->generateChar('\n'), irGenerator->generateChar(' '));
 }

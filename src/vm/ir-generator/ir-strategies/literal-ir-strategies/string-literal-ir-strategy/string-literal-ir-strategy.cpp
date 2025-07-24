@@ -13,7 +13,7 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
     auto chars = std::vector<llvm::Constant*>();
 
     for (auto character : node->getValue()) {
-        chars.push_back(llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(CHAR_BIT, character)));
+        chars.push_back(irGenerator->generateChar(character));
     }
     auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**irContext->getContext()));
     auto stringArrayType = new IRArrayType(

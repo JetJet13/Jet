@@ -6,7 +6,15 @@
 
 void PrintStatementIRInjectorStrategy::inject(IRPrintStatementNode* irPrintStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irPrintStatement->getIRArguments()) {
+    for (int i = 0; i < irPrintStatement->getIRArguments()->size(); ++i) {
+        if (i > 0) {
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getPrintCharFunction()->getFunctionType(),
+                    irModule->getPrintCharFunction(),
+                    { irPrintStatement->getWhitespace() }
+            );
+        }
+        auto argument = irPrintStatement->getIRArguments()->at(i);
         auto value = irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope);
         if (argument->getIRType()->isIntegerType()) {
             irBlock->getBuilder()->get()->CreateCall(
@@ -40,4 +48,9 @@ void PrintStatementIRInjectorStrategy::inject(IRPrintStatementNode* irPrintState
             );
         }
     }
+    irBlock->getBuilder()->get()->CreateCall(
+            irModule->getPrintCharFunction()->getFunctionType(),
+            irModule->getPrintCharFunction(),
+            { irPrintStatement->getNewLine() }
+    );
 }

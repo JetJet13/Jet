@@ -4,14 +4,25 @@
 
 #include "ir-print-statement-node.h"
 
-IRPrintStatementNode::IRPrintStatementNode(ASTPrintStatementNode* node, std::vector<IRExpressionNode*> arguments) {
+IRPrintStatementNode::IRPrintStatementNode(ASTPrintStatementNode* node, std::vector<IRExpressionNode*> arguments, llvm::Value* newLine, llvm::Value* whitespace) {
     _node = node;
     _arguments = arguments;
+    _newLine = newLine;
+    _whitespace = whitespace;
 }
 
 std::vector<IRExpressionNode*>* IRPrintStatementNode::getIRArguments() {
     return &_arguments;
 }
+
+llvm::Value* IRPrintStatementNode::getNewLine() {
+    return _newLine;
+}
+
+llvm::Value* IRPrintStatementNode::getWhitespace() {
+    return _whitespace;
+}
+
 
 IRNodeType IRPrintStatementNode::getNodeType() {
     return IR_PRINT_STATEMENT_NODE;

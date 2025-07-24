@@ -9,10 +9,11 @@
 #include "../../../../../core/ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h"
 #include "../../../../ir-nodes/ir-literal-nodes/ir-char-literal-node.h"
 #include "../../../../ir-nodes/ir-context.h"
+#include "../../../ir-generator.h"
 
 class CharLiteralIRStrategy {
 public:
-    IRCharLiteralNode* generate(ASTCharLiteralNode* node, IRContext* irContext);
+    IRCharLiteralNode* generate(ASTCharLiteralNode* node, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_CHAR_LITERAL_IR_STRATEGY_H

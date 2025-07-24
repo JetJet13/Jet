@@ -13,9 +13,13 @@ class IRPrintStatementNode : public IRStatementNode {
 private:
     ASTPrintStatementNode* _node;
     std::vector<IRExpressionNode*> _arguments;
+    llvm::Value* _newLine;
+    llvm::Value* _whitespace;
 public:
-    IRPrintStatementNode(ASTPrintStatementNode* node, std::vector<IRExpressionNode*> arguments);
+    IRPrintStatementNode(ASTPrintStatementNode* node, std::vector<IRExpressionNode*> arguments, llvm::Value* newLine, llvm::Value* whitespace);
     std::vector<IRExpressionNode*>* getIRArguments();
+    llvm::Value* getNewLine();
+    llvm::Value* getWhitespace();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -37,7 +37,7 @@ void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::un
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
-            { '%', 'd', '\0' },
+            { '%', 'd' },
             irGenerator,
             context,
             irModuleNode
@@ -58,7 +58,7 @@ void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
-            { '%', 'f', '\0' },
+            { '%', 'f' },
             irGenerator,
             context,
             irModuleNode
@@ -79,7 +79,7 @@ void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::u
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
-            { '%', 'c', '\0' },
+            { '%', 'c' },
             irGenerator,
             context,
             irModuleNode
@@ -106,7 +106,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
-            { '%', 's', '\0' },
+            { '%', 's' },
             irGenerator,
             context,
             irModuleNode
@@ -124,7 +124,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     // true (print true)
     auto trueStringAllocation = PrintIRFunction::generateStringAllocation(
             printTrueIfThenBlock,
-            { 't', 'r', 'u', 'e', '\0' },
+            { 't', 'r', 'u', 'e' },
             irGenerator,
             context,
             irModuleNode
@@ -138,7 +138,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     // else (print false)
     auto falseStringAllocation = PrintIRFunction::generateStringAllocation(
             elseBlock,
-            { 'f', 'a', 'l', 's', 'e', '\0' },
+            { 'f', 'a', 'l', 's', 'e' },
             irGenerator,
             context,
             irModuleNode
@@ -165,7 +165,7 @@ void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std:
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
-            { '%', 's', '\0' },
+            { '%', 's' },
             irGenerator,
             context,
             irModuleNode
@@ -176,9 +176,10 @@ void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std:
 }
 
 llvm::AllocaInst* PrintIRFunction::generateStringAllocation(IRBlockNode* irBlock, std::vector<char> formatString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    formatString.push_back('\0');
     auto chars = std::vector<llvm::Constant*>();
     for (auto character : formatString) {
-        chars.push_back(llvm::ConstantInt::get(**context, llvm::APInt(CHAR_BIT, character)));
+        chars.push_back(irGenerator->generateChar(character));
     }
     auto stringArray = llvm::ConstantArray::get(
             llvm::ArrayType::get(irGenerator->generateCharType(), chars.size()),

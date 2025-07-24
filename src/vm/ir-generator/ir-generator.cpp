@@ -247,7 +247,7 @@ IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* sco
         case AST_FLOAT_LITERAL_NODE:
             return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode *) node, irContext);
         case AST_CHAR_LITERAL_NODE:
-            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode *) node, irContext);
+            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode *) node, this, irContext);
         case AST_STRING_LITERAL_NODE:
             return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode *) node, this, irContext);
         case AST_BOOLEAN_LITERAL_NODE:
@@ -470,18 +470,22 @@ IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignatu
     return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, this, scope, irContext);
 }
 
-llvm::Constant* IRGenerator::generateIntConstant(int integer) {
+llvm::ConstantInt* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(32, integer));
 }
 
-llvm::Constant* IRGenerator::generateBoolean(bool value) {
+llvm::ConstantInt* IRGenerator::generateChar(char character) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(CHAR_BIT, character));
+}
+
+llvm::ConstantInt* IRGenerator::generateBoolean(bool value) {
     if (value) {
         return llvm::ConstantInt::get(*_context, llvm::APInt(1, 1));
     }
     return llvm::ConstantInt::get(*_context, llvm::APInt(1, 0));
 }
 
-llvm::Constant* IRGenerator::generateInt64Constant(int integer) {
+llvm::ConstantInt* IRGenerator::generateInt64Constant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
 
