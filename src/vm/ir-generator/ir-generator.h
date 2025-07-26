@@ -63,6 +63,8 @@
 #include "../../core/type-signature/interface-type-signature/interface-type-signature.h"
 #include "../ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.h"
 #include "../../core/ast/ast-nodes/ast-type-declaration-nodes/ast-type-declaration-node.h"
+#include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.h"
+#include "../ir-type/ir-array-type.h"
 
 class IRGenerator {
 private:
@@ -95,12 +97,16 @@ public:
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
     IRRefType* generateIrRefType(IRType* type);
+    IRArrayType* generateIRArrayType(IRType* elementType, unsigned long size);
     std::string getArrayPrototypeFunctionName(std::string id);
+    std::string getJetUtilsFunctionName(std::string id, ASTFunctionArgumentListNode* argumentList);
     IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
+    IRArrayType* generateVarArgsTypeValuesIrType(unsigned long numVarArgs);
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
     llvm::Type* generateFloatType();
+    llvm::Type* generateLiteralType();
     llvm::IntegerType* generateBooleanType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generatePointerIntType();

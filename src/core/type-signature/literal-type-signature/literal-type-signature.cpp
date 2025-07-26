@@ -18,7 +18,7 @@ TypeSource LiteralTypeSignature::getTypeSource() {
 }
 
 bool LiteralTypeSignature::isEqualTo(TypeSignature* otherType) {
-    return this->getTypeSource() == otherType->getTypeSource();
+    return this->isLiteral() || this->getTypeSource() == otherType->getTypeSource();
 }
 
 void LiteralTypeSignature::print() {

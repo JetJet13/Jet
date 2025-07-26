@@ -3,8 +3,8 @@
 //
 
 #include "variable-declaration-type-checker-policy.h"
-#include "../../types/type-checker-error-message-table.h"
 #include "../../type-checker.h"
+#include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 
 namespace VariableDeclarationTypeCheckerPolicy {
     void apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
@@ -22,7 +22,11 @@ namespace VariableDeclarationTypeCheckerPolicy {
             typeCheckerResult
         );
 
-       if (!varTypeSignature->isEquivalentTo(initializerTypeSignature)){
+        if (variableDeclarationNode->isGlobal() && JetUtilsTypeSignatureMap::doesIdConflict(variableDeclarationNode->getId())){
+            typeCheckerResult->addError(TypeCheckerErrorMessageTable::GlobalVariableNameConflictsWithBuiltInFunctionName(variableDeclarationNode)());
+        }
+
+        if (!varTypeSignature->isEquivalentTo(initializerTypeSignature)){
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch(variableDeclarationNode)());
         }
 

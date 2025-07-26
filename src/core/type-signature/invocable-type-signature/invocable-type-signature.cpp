@@ -38,3 +38,11 @@ TypeSignature* InvocableTypeSignature::convertToVariableTypeSignature() {
     }
     return new LambdaTypeSignature(parameterTypes, this->getReturnType()->convertToVariableTypeSignature());
 }
+
+bool InvocableTypeSignature::hasVariableLengthParameters() {
+    return false;
+}
+
+unsigned long InvocableTypeSignature::getVariableLengthParametersStartIndex() {
+    return -1;
+}

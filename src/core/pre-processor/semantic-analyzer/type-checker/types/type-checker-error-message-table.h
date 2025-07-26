@@ -9,7 +9,16 @@ using ErrorMessageLambda = std::function<std::string()>;
 
 namespace TypeCheckerErrorMessageTable {
     static std::string generateMessage(ASTNode* node, std::string message) {
-        return "(" + node->getLineColumn() + ") - " + message + "\n" + node->toSourceCode();
+        return "(" + node->getLineColumn() + ") - " + message + "\n" + node->toSourceCode() + "\n";
+    }
+    static ErrorMessageLambda GlobalVariableNameConflictsWithBuiltInFunctionName(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "global variable name conflicts with built-in function"); };
+    }
+    static ErrorMessageLambda FunctionNameConflictsWithBuiltInFunctionName(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "function name conflicts with built-in function"); };
+    }
+    static ErrorMessageLambda ProcedureNameConflictsWithBuiltInFunctionName(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure name conflicts with built-in function"); };
     }
     static ErrorMessageLambda VariableTypeMismatch(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match initializer type"); };
@@ -45,7 +54,7 @@ namespace TypeCheckerErrorMessageTable {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "function return type is invalid"); };
     } 
     static ErrorMessageLambda FunctionReturnTypeVoid(ASTNode* node) {
-      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "function return type cannot be void"); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "function return type cannot be void. Create a procedure instead."); };
     } 
     static ErrorMessageLambda FunctionNotAllPathsReturn(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not all function paths return a value"); };

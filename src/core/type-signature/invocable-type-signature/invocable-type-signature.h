@@ -12,6 +12,8 @@ public:
     bool isInvocable() override;
     bool isEquivalentTo(TypeSignature* otherType) override;
     TypeSignature* convertToVariableTypeSignature() override;
+    virtual bool hasVariableLengthParameters();
+    virtual unsigned long getVariableLengthParametersStartIndex();
     virtual std::vector<TypeSignature*>* getParameterTypes() = 0;
     virtual TypeSignature* getReturnType() = 0;
 };

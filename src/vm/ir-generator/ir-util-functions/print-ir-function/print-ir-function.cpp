@@ -6,6 +6,10 @@
 #include "print-ir-function.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 
+std::string PrintIRFunction::getPrintIRFunctionName() {
+    return "jet.print";
+}
+
 std::string PrintIRFunction::getPrintIntIRFunctionName() {
     return "jet.print.int";
 }
@@ -26,13 +30,28 @@ std::string PrintIRFunction::getPrintStringIRFunctionName() {
     return "jet.print.string";
 }
 
+void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto intType = irGenerator->generateIntType();
+    auto voidType = irGenerator->generateVoidType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, true);
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule());
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    // todo: setup for loop for print! extract num of var args first.
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+}
+
 void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { intType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
@@ -53,7 +72,7 @@ void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { floatType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, PrintIRFunction::getPrintFloatIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintFloatIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
@@ -74,7 +93,7 @@ void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::u
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { charType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, PrintIRFunction::getPrintCharIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCharIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
@@ -95,7 +114,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { boolType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, PrintIRFunction::getPrintBoolIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintBoolIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto printTrueIfBlock = irGenerator->generateIfBlock(irContext);
@@ -160,7 +179,7 @@ void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std:
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { arrayPointerType->getType() }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, PrintIRFunction::getPrintStringIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStringIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(

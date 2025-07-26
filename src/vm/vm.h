@@ -19,6 +19,7 @@ public:
     IRJetFile* compile(JetFile* jetFile);
     IRJetFile* compileMain(JetFile* jetFile);
     void linkJetFiles(IRJetFile* source, IRJetFile* destination);
+    void linkJetUtilModule(IRJetFile* source);
 };
 
 #endif //JETLANG_VM_H

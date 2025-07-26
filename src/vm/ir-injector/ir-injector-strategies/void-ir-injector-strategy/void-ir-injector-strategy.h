@@ -1,0 +1,22 @@
+//
+// Created by Johny Georges on 2025-07-25.
+//
+
+#ifndef JETLANG_VOID_IR_INJECTOR_STRATEGY_H
+#define JETLANG_VOID_IR_INJECTOR_STRATEGY_H
+
+#include "../../../ir-lookup-table/ir-lookup-table.h"
+#include "../../../ir-nodes/ir-module-node.h"
+#include "../../../ir-nodes/ir-declaration-nodes/ir-module-declaration-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
+#include "../ir-injector-strategy.h"
+
+class VoidIRInjectorStrategy : public IRInjectorStrategy {
+    using IRInjectorStrategy::IRInjectorStrategy;
+public:
+    llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
+    llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
+
+};
+
+#endif //JETLANG_VOID_IR_INJECTOR_STRATEGY_H

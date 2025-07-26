@@ -24,6 +24,10 @@ void ASTNode::setParentNode(ASTNode* parentNode) {
     _parentNode = parentNode;
 }
 
+void ASTNode::markAsGlobal() {
+    _isGlobal = true;
+}
+
 bool ASTNode::is(ASTNodeType astNodeType) {
     return this->getNodeType() == astNodeType;
 }
@@ -60,7 +64,7 @@ bool ASTNode::isExportable() {
 }
 
 bool ASTNode::isGlobal() {
-    return false;
+    return _isGlobal;
 }
 
 unsigned int ASTNode::getPriority() {

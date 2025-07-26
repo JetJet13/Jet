@@ -23,13 +23,15 @@ IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTy
         auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 1));
         irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
-    } else {
+    } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto charType = llvm::IntegerType::get(**irContext->getContext(), 8);
         auto irCharType = new IRType(charType);
         irCharType->setValue(this->generateTypeValue(irCharType, irGenerator));
         auto irType = irGenerator->generateIrArrayPointerType(irCharType);
         irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
+    } else {
+        return new IRType(irGenerator->generateLiteralType());
     }
 }
 

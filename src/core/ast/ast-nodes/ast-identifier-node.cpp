@@ -30,6 +30,7 @@
 #include "ast-interface-nodes/ast-implements-interface-name-last-node.h"
 #include "ast-type-nodes/ast-type-name-node.h"
 #include "ast-print-node.h"
+#include "ast-range-node.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -85,7 +86,6 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
     if (prevNode && prevNode.value()->isOneOf({ AST_ENUM_NODE })) {
         return new ASTEnumNameNode(this->getLexeme(), this->getId());
     }
-
 
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE })) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
@@ -156,10 +156,6 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
 
     if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_KEYWORD_NODE })) {
         return new ASTTypeNameNode(this->getLexeme(), this->getId());
-    }
-
-    if (!prevNode && this->getId() == "print") {
-        return new ASTPrintNode(this->getLexeme());
     }
 
     return this;

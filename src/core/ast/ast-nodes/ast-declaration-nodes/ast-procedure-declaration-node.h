@@ -29,6 +29,7 @@ public:
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
     ASTFunctionBlockNode* getBlock();
+    ASTProcedureDefinitionNode* getDefinition();
     unsigned long numParameters();
     bool isExportable() override;
     void setTypeSignature(ProcedureTypeSignature* typeSignature);

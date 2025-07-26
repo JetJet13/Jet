@@ -19,7 +19,7 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     }
     auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType(), scope, irContext);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto arrayType = new IRArrayType(llvm::ArrayType::get(arrayElementIrType->getType(), node->getElements()->size()), arrayElementIrType);
+    auto arrayType = irGenerator->generateIRArrayType(arrayElementIrType, node->getElements()->size());
     auto arrayAllocation = this->generateArrayAllocation(node, irType, arrayType, arrayElementIrType, elementValueSourceAllocations, irGenerator, irContext, irOperationType);
     auto arrayPointerAllocation = this->generateArrayPointerAllocation(node, irType, arrayType, arrayAllocation, irGenerator, irContext, irOperationType);
     if (!arrayPointerAllocation->getParentAllocation()) {
@@ -29,18 +29,18 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
 }
 
 IRInstructionNode* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayExpressionNode* node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRType* arrayElementIrType, std::vector<IRInstructionNode*> childAllocations, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
-        auto malloc = llvm::CallInst::Create(
-                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
-                irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateIntConstant(irArrayType->getSizeInBytes()) },
-                ""
-        );
-        return IRInstructionNodeFactory::create(
-                new llvm::BitCastInst(malloc, irArrayType->getElementType()->getPointerTo()),
-                irGenerator->generateIrPointerType(irArrayType),
-                { malloc },
-                std::move(childAllocations)
-        );
+    auto malloc = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+            irContext->getIRModule()->getMallocFunction(),
+            { irGenerator->generateIntConstant(irArrayType->getSizeInBytes()) },
+            ""
+    );
+    return IRInstructionNodeFactory::create(
+            new llvm::BitCastInst(malloc, irArrayType->getElementType()->getPointerTo()),
+            irGenerator->generateIrPointerType(irArrayType),
+            { malloc },
+            std::move(childAllocations)
+    );
 }
 
 IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(ASTArrayExpressionNode* node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRInstructionNode* arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {

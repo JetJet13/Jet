@@ -28,6 +28,7 @@
 #include "ir-injector-strategies/print-statement-ir-injector-strategy/print-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h"
+#include "ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.h"
 #include "ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.h"
 #include "ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.h"
 
@@ -40,6 +41,7 @@ IRInjector::IRInjector() {
     _structIRInjector = new StructIRInjectorStrategy();
     _tupleIRInjector = new TupleIRInjectorStrategy();
     _pointerIRInjector = new PointerIRInjectorStrategy();
+    _voidIRInjector = new VoidIRInjectorStrategy();
     _refIRInjector = new RefIRInjectorStrategy();
     _variableIRInjector = new VariableIRInjectorStrategy();
     _lambdaIRInjector = new LambdaIRInjectorStrategy();
@@ -69,6 +71,7 @@ void IRInjector::init() {
     _injectorMap.insert(this->insert(FLOAT_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(BOOL_LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(CHAR_LITERAL_TYPE_SOURCE, _literalIRInjector));
+    _injectorMap.insert(this->insert(LITERAL_TYPE_SOURCE, _literalIRInjector));
     _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
     _injectorMap.insert(this->insert(POINTER_TYPE_SOURCE, _pointerIRInjector));
     _injectorMap.insert(this->insert(REF_TYPE_SOURCE, _refIRInjector));
@@ -76,6 +79,7 @@ void IRInjector::init() {
     _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(ENUM_TYPE_SOURCE, _enumIRInjector));
     _injectorMap.insert(this->insert(CLASS_INSTANCE_TYPE_SOURCE, _newClassInstanceIRInjectorStrategy));
+    _injectorMap.insert(this->insert(VOID_TYPE_SOURCE, _voidIRInjector));
 }
 
 std::pair<TypeSource, IRInjectorStrategy*> IRInjector::insert(TypeSource typeSignature, IRInjectorStrategy* injector) {

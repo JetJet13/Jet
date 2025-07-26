@@ -3,8 +3,8 @@
 //
 
 #include "function-declaration-type-checker-policy.h"
-#include "../../types/type-checker-error-message-table.h"
 #include "../../type-checker.h"
+#include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 
 namespace FunctionDeclarationTypeCheckerPolicy {
     void apply(ASTFunctionDeclarationNode* functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
@@ -12,9 +12,9 @@ namespace FunctionDeclarationTypeCheckerPolicy {
 
         TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult);
-        auto unknownMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown(functionDeclarationNode);
-        auto invalidMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid(functionDeclarationNode);
-        auto voidMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeVoid(functionDeclarationNode);
+        auto unknownMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown(functionDeclarationNode->getDefinition());
+        auto invalidMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid(functionDeclarationNode->getDefinition());
+        auto voidMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeVoid(functionDeclarationNode->getDefinition());
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             functionTypeSignature->getReturnType(),
@@ -28,12 +28,18 @@ namespace FunctionDeclarationTypeCheckerPolicy {
             functionTypeSignature->getReturnType(),
             typeCheckerResult
         );
-        auto notAllPathsReturnMessage = TypeCheckerErrorMessageTable::FunctionNotAllPathsReturn(functionDeclarationNode);
+        auto notAllPathsReturnMessage = TypeCheckerErrorMessageTable::FunctionNotAllPathsReturn(functionDeclarationNode->getDefinition());
         TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule()->enforce(
             functionDeclarationNode->getBlock(),
             notAllPathsReturnMessage,
             typeCheckerResult
         );
+
+        if (JetUtilsTypeSignatureMap::doesIdConflict(functionDeclarationNode->getName()->getId())){
+            typeCheckerResult->addError(
+                TypeCheckerErrorMessageTable::FunctionNameConflictsWithBuiltInFunctionName(functionDeclarationNode->getDefinition())()
+            );
+        }
 
     }
 

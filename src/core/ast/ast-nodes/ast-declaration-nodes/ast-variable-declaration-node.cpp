@@ -29,10 +29,6 @@ ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
 }
 
-void ASTVariableDeclarationNode::markAsGlobal() {
-    _isGlobal = true;
-}
-
 void ASTVariableDeclarationNode::markAsReferenced() {
     _isReferenced = true;
     _initializer->markAsReferenced();
@@ -40,10 +36,6 @@ void ASTVariableDeclarationNode::markAsReferenced() {
 
 bool ASTVariableDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
-}
-
-bool ASTVariableDeclarationNode::isGlobal() {
-    return _isGlobal;
 }
 
 bool ASTVariableDeclarationNode::isReferenced() {

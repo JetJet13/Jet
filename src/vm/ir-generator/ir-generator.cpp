@@ -325,6 +325,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case CHAR_LITERAL_TYPE_SOURCE:
         case STRING_LITERAL_TYPE_SOURCE:
         case BOOL_LITERAL_TYPE_SOURCE:
+        case LITERAL_TYPE_SOURCE:
             return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature *) typeSignature,
                                                                                 this, scope, irContext);
         default:
@@ -388,12 +389,24 @@ IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
     return new IRRefType(type, new IRType(this->generateIntType()), underlyingIRType);
 }
 
+IRArrayType* IRGenerator::generateIRArrayType(IRType* elementType, unsigned long size) {
+    return new IRArrayType(llvm::ArrayType::get(elementType->getType(), size), elementType);
+}
+
 std::string IRGenerator::getArrayPrototypeFunctionName(std::string id) {
     return ArrayPrototypeMap::getIRName(id);
 }
 
+std::string IRGenerator::getJetUtilsFunctionName(std::string id, ASTFunctionArgumentListNode* argumentList) {
+    return IRUtilInternalModule::getIRName(id, argumentList);
+}
+
 IRFunctionType* IRGenerator::generateFunctionIrType(llvm::FunctionType* functionType) {
     return new IRFunctionType(functionType);
+}
+
+IRArrayType* IRGenerator::generateVarArgsTypeValuesIrType(unsigned long numVarArgs) {
+    return this->generateIRArrayType(this->generateIrTypeValueType(), numVarArgs);
 }
 
 llvm::PointerType* IRGenerator::generatePointerType() {
@@ -410,6 +423,10 @@ llvm::IntegerType* IRGenerator::generateIntType() {
 
 llvm::Type* IRGenerator::generateFloatType() {
     return llvm::Type::getFloatTy(*_context);
+}
+
+llvm::Type* IRGenerator::generateLiteralType() {
+    return llvm::IntegerType::get(*_context, 2);
 }
 
 llvm::IntegerType* IRGenerator::generateBooleanType() {
@@ -656,9 +673,6 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
     FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
-    RangeIRFunction::generateRange3pFunction(this, &_context, irModule);
-    RangeIRFunction::generateRange2pFunction(this, &_context, irModule);
-    RangeIRFunction::generateRange1pFunction(this, &_context, irModule);
     ArrayConcatIRFunction::generateArrayConcatFunction(this, &_context, irModule);
     ArrayHeadIRFunction::generateArrayHeadFunction(this, &_context, irModule);
     ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);
@@ -671,11 +685,6 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayTakeLastIRFunction::generateArrayTakeLastFunction(this, &_context, irModule);
     ArraySizeIRFunction::generateArraySizeFunction(this, &_context, irModule);
     ArrayEmptyIRFunction::generateArrayEmptyFunction(this, &_context, irModule);
-    PrintIRFunction::generatePrintIntFunction(this, &_context, irModule);
-    PrintIRFunction::generatePrintFloatFunction(this, &_context, irModule);
-    PrintIRFunction::generatePrintCharFunction(this, &_context, irModule);
-    PrintIRFunction::generatePrintBoolFunction(this, &_context, irModule);
-    PrintIRFunction::generatePrintStringFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {

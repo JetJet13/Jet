@@ -13,11 +13,13 @@ class PrintIRFunction {
 private:
     static llvm::AllocaInst* generateStringAllocation(IRBlockNode* irBlock, std::vector<char> formatString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
 public:
+    static std::string getPrintIRFunctionName();
     static std::string getPrintIntIRFunctionName();
     static std::string getPrintFloatIRFunctionName();
     static std::string getPrintCharIRFunctionName();
     static std::string getPrintBoolIRFunctionName();
     static std::string getPrintStringIRFunctionName();
+    static void generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintIntFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintFloatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintCharFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);

@@ -56,6 +56,14 @@ void ProcedureTypeSignature::copyFrom(TypeSignature* otherType) {
     _parameterList = other->getParameterList();
 }
 
+bool ProcedureTypeSignature::hasVariableLengthParameters() {
+    return _parameterList->isVariableLength();
+}
+
+unsigned long ProcedureTypeSignature::getVariableLengthParametersStartIndex() {
+    return _parameterList->getVariableLengthStartIndex();
+}
+
 void ProcedureTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameterList->print();

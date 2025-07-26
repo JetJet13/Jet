@@ -1300,6 +1300,12 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/print-statement-type-checker-policy/print-statement-type-checker-policy.h
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/print-id-strategy/print-id-strategy.cpp
         pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/print-id-strategy/print-id-strategy.h
+        ast/ast-nodes/ast-range-node.cpp
+        ast/ast-nodes/ast-range-node.h
+        pre-processor/semantic-analyzer/jet-utils-type-signature-map/jet-utils-type-signature-map.cpp
+        pre-processor/semantic-analyzer/jet-utils-type-signature-map/jet-utils-type-signature-map.h
+        pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.cpp
+        pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h
 
 )
 

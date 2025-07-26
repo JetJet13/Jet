@@ -12,6 +12,7 @@
 class IRUtilInternalModule {
 public:
     static IRModuleNode* generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context);
+    static std::string getIRName(std::string id, ASTFunctionArgumentListNode* argumentList);
 };
 
 #endif //JETLANG_IR_UTIL_INTERNAL_MODULE_H

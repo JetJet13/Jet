@@ -31,6 +31,10 @@ ASTFunctionBlockNode* ASTProcedureDeclarationNode::getBlock() {
     return _block;
 }
 
+ASTProcedureDefinitionNode* ASTProcedureDeclarationNode::getDefinition() {
+    return _procedureDefinition;
+}
+
 unsigned long ASTProcedureDeclarationNode::numParameters() {
     return _procedureDefinition->numParameters();
 }

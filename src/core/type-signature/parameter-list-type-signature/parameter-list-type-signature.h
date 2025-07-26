@@ -15,12 +15,17 @@ class ParameterListTypeSignature : public TypeSignature {
 private:
     std::vector<ParameterListItemTypeSignature*> _parameters;
     std::vector<TypeSignature*> _parameterTypes;
+    bool _isVariableLength = false;
+    unsigned long _variableLengthStartIndex = -1;
 public:
     ParameterListTypeSignature();
     ParameterListTypeSignature(std::vector<ParameterListItemTypeSignature*> parameters);
     std::vector<ParameterListItemTypeSignature*>* getParameters();
     std::vector<TypeSignature*>* getParameterTypes();
     unsigned long numParameters();
+    void markAsVariableLength(unsigned long startIndex);
+    bool isVariableLength();
+    unsigned long getVariableLengthStartIndex();
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

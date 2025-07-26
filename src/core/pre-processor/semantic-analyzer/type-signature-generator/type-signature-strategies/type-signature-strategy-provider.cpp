@@ -73,6 +73,7 @@
 #include "interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h"
 #include "custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
+#include "../../type-signature-lookup-table/type-signature-lookup-table-factory.h"
 
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
@@ -82,7 +83,7 @@ TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
 }
 
 void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
-    auto typeSignatureScope = scope.value_or(new TypeSignatureLookupTable());
+    auto typeSignatureScope = scope.value_or(TypeSignatureLookupTableFactory::create());
     switch (node->getNodeType()) {
         case AST_MODULE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
@@ -462,7 +463,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
 }
 
 void TypeSignatureStrategyProvider::assignPartialTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
-    auto typeSignatureScope = scope.value_or(new TypeSignatureLookupTable());
+    auto typeSignatureScope = scope.value_or(TypeSignatureLookupTableFactory::create());
     switch (node->getNodeType()) {
 //        case AST_FUNCTION_DECLARATION_NODE:
 //            return (new FunctionTypeSignature())->setId(node->getId());

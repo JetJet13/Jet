@@ -108,6 +108,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope*
         if (_scopeStack.empty()) {
             Logger::log("pushing node to file scope:", reducedNode->toString());
             fileScope->addToScope(reducedNode);
+            reducedNode->markAsGlobal();
         } else {
             Logger::log("pushing node to latest scope node:", reducedNode->toString());
             _scopeStack.top().add(reducedNode);

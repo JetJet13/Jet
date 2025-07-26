@@ -29,6 +29,7 @@ namespace CurryExpressionTypeCheckerPolicy {
             ->enforce(
                 parameterList->numParameters(),
                 curryExpression->numArguments(),
+                parameterList->isVariableLength(),
                 notEnoughArgumentsMessage,
                 tooManyArgumentsMessage,
                 typeCheckerResult
@@ -51,6 +52,7 @@ namespace CurryExpressionTypeCheckerPolicy {
             ->enforce(
                 parameterList->numParameters(),
                 curryExpression->numArguments(),
+                parameterList->isVariableLength(),
                 notEnoughArgumentsMessage,
                 tooManyArgumentsMessage,
                 typeCheckerResult

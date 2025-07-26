@@ -6,6 +6,8 @@
 #include "../../../type-signature/literal-type-signature/types/literal-type-signature-name.h"
 #include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../../type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
+
 
 TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope) {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();

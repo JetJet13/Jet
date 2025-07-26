@@ -33,6 +33,10 @@ ASTFunctionBlockNode* ASTFunctionDeclarationNode::getBlock() {
     return _block;
 }
 
+ASTFunctionDefinitionNode* ASTFunctionDeclarationNode::getDefinition() {
+    return _functionDefinition;
+}
+
 unsigned long ASTFunctionDeclarationNode::numParameters() {
     return _functionDefinition->numParameters();
 }

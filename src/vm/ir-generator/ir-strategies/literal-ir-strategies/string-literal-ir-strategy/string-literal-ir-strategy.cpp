@@ -16,13 +16,7 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
         chars.push_back(irGenerator->generateChar(character));
     }
     auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**irContext->getContext()));
-    auto stringArrayType = new IRArrayType(
-        llvm::ArrayType::get(
-            charIrType->getType(),
-            chars.size()
-        ),
-        charIrType
-    );
+    auto stringArrayType = irGenerator->generateIRArrayType(charIrType, chars.size());
     auto stringArray = llvm::ConstantArray::get(
             stringArrayType->getType(),
             llvm::ArrayRef(chars)

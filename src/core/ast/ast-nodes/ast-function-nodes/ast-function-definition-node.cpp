@@ -72,6 +72,7 @@ std::string ASTFunctionDefinitionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionKeyword);
     sourceCodeBuilder.add(_name)
-    ->add(_parameters);
+    ->add(_parameters)
+    ->add(_returnType);
     return sourceCodeBuilder.build();
 }

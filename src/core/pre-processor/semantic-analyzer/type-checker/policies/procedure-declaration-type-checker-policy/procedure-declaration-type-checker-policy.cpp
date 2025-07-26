@@ -4,7 +4,7 @@
 
 #include "procedure-declaration-type-checker-policy.h"
 #include "../../type-checker.h"
-#include "../../types/type-checker-error-message-table.h"
+#include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 
 namespace ProcedureDeclarationTypeCheckerPolicy {
     void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult) {
@@ -16,5 +16,11 @@ namespace ProcedureDeclarationTypeCheckerPolicy {
             returnExpressionMessage,
             typeCheckerResult
         );
+
+        if (JetUtilsTypeSignatureMap::doesIdConflict(procedureDeclarationNode->getName()->getId())){
+            typeCheckerResult->addError(
+                TypeCheckerErrorMessageTable::ProcedureNameConflictsWithBuiltInFunctionName(procedureDeclarationNode->getDefinition())()
+            );
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         ->enforce(
             functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes()->size(),
             functionInvocationExpression->getArguments()->numArguments(),
+            functionInvocationExpression->getTypeSignature()->getFunctionType()->hasVariableLengthParameters(),
             notEnoughArgumentsMessage,
             tooManyArgumentsMessage,
             typeCheckerResult

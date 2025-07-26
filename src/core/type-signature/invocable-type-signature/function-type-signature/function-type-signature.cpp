@@ -59,6 +59,14 @@ void FunctionTypeSignature::copyFrom(TypeSignature* otherType) {
     _parameterList = other->getParameterList();
 }
 
+bool FunctionTypeSignature::hasVariableLengthParameters() {
+    return _parameterList->isVariableLength();
+}
+
+unsigned long FunctionTypeSignature::getVariableLengthParametersStartIndex() {
+    return _parameterList->getVariableLengthStartIndex();
+}
+
 void FunctionTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameterList->print();

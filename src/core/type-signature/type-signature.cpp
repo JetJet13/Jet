@@ -8,6 +8,15 @@ std::string TypeSignature::getId() {
     return _id;
 }
 
+TypeSignature* TypeSignature::markAsBuiltIn() {
+    _isBuiltIn = true;
+    return this;
+}
+
+bool TypeSignature::isBuiltIn() {
+    return _isBuiltIn;
+}
+
 TypeSignature* TypeSignature::setId(std::string id) {
     _id = id;
     return this;

@@ -19,11 +19,11 @@ private:
     IRType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
-    std::optional<IRInstructionNode*> _lambdaScopeArgument;
+    std::optional<IRInstructionNode*> _varArgsTypeValueArgument;
 public:
-    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> lambdaScopeArgument = {});
+    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument = {});
     void markAsGlobal() override;
-    std::optional<IRInstructionNode*> getLambdaScopeArgument();
+    std::optional<IRInstructionNode*> getVarArgsTypeValueArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Value* getValue() override;
     IRType* getFunctionIRType();

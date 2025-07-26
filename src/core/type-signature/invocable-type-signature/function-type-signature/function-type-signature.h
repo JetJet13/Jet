@@ -25,6 +25,8 @@ public:
     TypeSignature* getTargetTypeSignature() override;
     bool isEqualTo(TypeSignature *otherType) override;
     void copyFrom(TypeSignature* otherType) override;
+    bool hasVariableLengthParameters() override;
+    unsigned long getVariableLengthParametersStartIndex() override;
     void print() override;
 };
 

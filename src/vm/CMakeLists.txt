@@ -559,6 +559,8 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-print-statement-node.h
         ir-injector/ir-injector-strategies/print-statement-ir-injector-strategy/print-statement-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/print-statement-ir-injector-strategy/print-statement-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

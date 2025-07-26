@@ -26,6 +26,7 @@ namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
                                          ->enforce(
                                             invocableTypeSignature->getParameterTypes()->size(),
                                             objectAccessInvocationExpression->getArguments()->numArguments(),
+                                            invocableTypeSignature->hasVariableLengthParameters(),
                                             notEnoughArguments,
                                             tooManyArguments,
                                             typeCheckerResult

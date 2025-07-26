@@ -18,11 +18,13 @@ protected:
     unsigned int _priority = 1;
     std::string _id;
     std::vector<ASTNode*> _children = {};
+    bool _isGlobal = false;
 public:
     std::string getId();
     ASTNode* setId(std::string id);
     std::optional<ASTNode*> getParentNode();
     void setParentNode(ASTNode* parentNode);
+    void markAsGlobal();
     virtual ASTNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
     virtual Position* getStartPosition();

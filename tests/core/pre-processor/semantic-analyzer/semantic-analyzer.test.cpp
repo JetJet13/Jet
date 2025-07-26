@@ -18,6 +18,7 @@
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
+#include "../../../../src/core/pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h"
 
 auto colorEnumTypeSignature = new EnumTypeSignature(
         TypeSignatureFactory::stringLiteral,
@@ -762,7 +763,7 @@ TEST_CASE( "should print the expected type signatures" ) {
     auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
     auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
     auto fileScope = syntaxAnalyzer.analyze(filePath)->getFileScope();
-    auto typeSignatureLookupTable = new TypeSignatureLookupTable();
+    auto typeSignatureLookupTable = TypeSignatureLookupTableFactory::createForModule();
     auto semanticAnalyzer = SemanticAnalyzer();
     auto fileNode = new ASTFileNode(fileScope->getScope(), filePath, fileScope->getImports(), fileScope->getModule());
     auto typeCheckerResult = semanticAnalyzer.analyze(fileNode, typeSignatureLookupTable);

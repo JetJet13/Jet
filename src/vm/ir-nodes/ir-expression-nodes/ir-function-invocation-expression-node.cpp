@@ -5,13 +5,13 @@
 #include "ir-function-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> lambdaScopeArgument) {
+IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
     _node = node;
     _irFunction = irFunction;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
     _type = type;
-    _lambdaScopeArgument = lambdaScopeArgument;
+    _varArgsTypeValueArgument = varArgsTypeValueArgument;
 }
 
 void IRFunctionInvocationExpressionNode::markAsGlobal() {
@@ -21,8 +21,8 @@ void IRFunctionInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-std::optional<IRInstructionNode*> IRFunctionInvocationExpressionNode::getLambdaScopeArgument() {
-    return _lambdaScopeArgument;
+std::optional<IRInstructionNode*> IRFunctionInvocationExpressionNode::getVarArgsTypeValueArgument() {
+    return _varArgsTypeValueArgument;
 }
 
 std::vector<IRExpressionNode*>* IRFunctionInvocationExpressionNode::getIRArguments() {

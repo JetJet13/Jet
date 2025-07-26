@@ -4,6 +4,7 @@
 
 #include "pre-processor.h"
 #include "../jet-file/jet-file-id-generator/jet-file-id-generator.h"
+#include "semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h"
 
 PreProcessor::PreProcessor(SyntaxAnalyzer* syntaxAnalyzer, SemanticAnalyzer* semanticAnalyzer) {
     _processedFileMap = PreProcessorMap();
@@ -31,7 +32,7 @@ JetFile* PreProcessor::process(std::string filePath) {
         throw std::logic_error("syntax analyzer has errors: " + filePath);
     }
     auto fileNode = this->buildFile(filePath, syntaxResult->getFileScope());
-    auto typeSignatureScope = new TypeSignatureLookupTable();
+    auto typeSignatureScope = TypeSignatureLookupTableFactory::createForModule();
     auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);
     if (!typeCheckerResult.ok()) {

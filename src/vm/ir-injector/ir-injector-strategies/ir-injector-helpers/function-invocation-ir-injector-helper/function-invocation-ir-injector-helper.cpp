@@ -4,14 +4,28 @@
 
 #include "function-invocation-ir-injector-helper.h"
 #include "../../../../ir-type/ir-lambda-type.h"
-#include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../ir-type/ir-array-type.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(
-                irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
+            irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
         );
+    }
+
+    if (irExpression->getVarArgsTypeValueArgument()) {
+        auto startIndex = irExpression->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
+        auto varArgsArgumentValue = irBlock->getBuilder()->get()->Insert(irExpression->getVarArgsTypeValueArgument().value()->getValue());
+        auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+        for (int i = startIndex; i < irExpression->getIRArguments()->size(); ++i) {
+            auto argument = irExpression->getIRArguments()->at(i);
+            auto index = irBlock->getBuilder()->get()->getInt32(i);
+            auto pointerToTypeValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getVarArgsTypeValueArgument().value()->getAllocatedType(), irExpression->getVarArgsTypeValueArgument().value()->getValue(), { zeroIndex, index });
+            auto typeValue = irInjector->inject(irBlock, argument->getIRType());
+            irBlock->getBuilder()->get()->CreateStore(typeValue, pointerToTypeValue);
+        }
+        arguments.insert(arguments.begin() + startIndex, varArgsArgumentValue);
     }
 
     if (irExpression->getFunctionIRType()->isLambdaType()) {

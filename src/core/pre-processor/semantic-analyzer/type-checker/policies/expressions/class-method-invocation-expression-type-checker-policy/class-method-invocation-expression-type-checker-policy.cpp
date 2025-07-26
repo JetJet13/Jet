@@ -24,6 +24,7 @@ namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
         ->enforce(
                 classMethodInvocationExpression->getName()->getTypeSignature()->getParameters()->numParameters(),
                 classMethodInvocationExpression->getArguments()->numArguments(),
+                classMethodInvocationExpression->getName()->getTypeSignature()->getParameters()->isVariableLength(),
                 notEnoughArgumentsMessage,
                 tooManyArgumentsMessage,
                 typeCheckerResult

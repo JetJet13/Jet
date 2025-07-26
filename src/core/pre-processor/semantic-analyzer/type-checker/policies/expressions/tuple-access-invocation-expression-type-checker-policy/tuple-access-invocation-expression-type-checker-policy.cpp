@@ -28,6 +28,7 @@ namespace TupleAccessInvocationExpressionTypeCheckerPolicy {
                                             ->enforce(
                                                 invocableTypeSignature->getParameterTypes()->size(),
                                                 tupleAccessInvocationExpression->getArguments()->numArguments(),
+                                                invocableTypeSignature->hasVariableLengthParameters(),
                                                 notEnoughArguments,
                                                 tooManyArguments,
                                                 typeCheckerResult

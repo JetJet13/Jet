@@ -31,6 +31,19 @@ unsigned long ParameterListTypeSignature::numParameters() {
     return _parameters.size();
 }
 
+void ParameterListTypeSignature::markAsVariableLength(unsigned long startIndex) {
+    _isVariableLength = true;
+    _variableLengthStartIndex = startIndex;
+}
+
+bool ParameterListTypeSignature::isVariableLength() {
+    return _isVariableLength;
+}
+
+unsigned long ParameterListTypeSignature::getVariableLengthStartIndex() {
+    return _variableLengthStartIndex;
+}
+
 std::string ParameterListTypeSignature::toString() {
     return "PARAMETER_LIST_TYPE_SIGNATURE";
 }

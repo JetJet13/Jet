@@ -21,7 +21,7 @@ void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::uni
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(irGenerator->generateIntType()));
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(), { intType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange1pIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
@@ -65,7 +65,7 @@ void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::uni
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(irGenerator->generateIntType()));
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(), { intType, intType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange2pIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
@@ -160,7 +160,7 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
     auto raise = irModuleNode->getModule()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
     auto sigTermCode = irGenerator->generateIntConstant(15); // graceful shutdown error code
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(), { intType, intType, intType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange3pIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
