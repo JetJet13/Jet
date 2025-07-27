@@ -610,6 +610,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             FreeValueIRFunction::getFreeValueIRFunctionName(),
             FreeStringIRFunction::getFreeStringIRFunctionName(),
             FreeRefIRFunction::getFreeRefIRFunctionName(),
+            PrintIRFunction::getPrintIRFunctionName(),
             PrintIRFunction::getPrintIntIRFunctionName(),
             PrintIRFunction::getPrintFloatIRFunctionName(),
             PrintIRFunction::getPrintCharIRFunctionName(),

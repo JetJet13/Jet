@@ -5,6 +5,7 @@
 #include "copy-array-ir-function.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
+#include "../../../types/ir-type-id.h"
 
 std::string CopyArrayIRFunction::getCopyArrayIRFunctionName() {
     return "jet.copy.array";
@@ -94,7 +95,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto isElementTypeLiteral = depthOneBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
             elementTypeValueId,
-            irGenerator->generateIntConstant(5)
+            irGenerator->generateIntConstant(IR_TYPE_ID.LITERAL)
     );
     depthOneBlock->getBuilder()->get()->CreateCondBr(isElementTypeLiteral, depthOneTypeLiteralTrueBlock->getBlock(), depthOneTypeLiteralFalseBlock->getBlock());
 

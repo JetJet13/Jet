@@ -15,7 +15,13 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     if (node->getTypeSignature()->getFunctionType()->hasVariableLengthParameters()) {
         auto startIndex = node->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
         auto numVarArgs = arguments.size() - startIndex;
-        varArgsTypeValueArgument = IRInstructionNodeFactory::create(irGenerator->generateVarArgsTypeValuesIrType(numVarArgs));
+        varArgsTypeValueArgument = IRInstructionNodeFactory::create(
+            irGenerator->generateIrArrayPointerType(irGenerator->generateIrTypeValueType()),
+            IRInstructionNodeFactory::create(
+                irGenerator->generateIrPointerType(irGenerator->generateIrTypeValueType()),
+                irGenerator->generateIntConstant(numVarArgs)
+            )
+        );
     }
 
     auto irFunctionType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope, irContext);

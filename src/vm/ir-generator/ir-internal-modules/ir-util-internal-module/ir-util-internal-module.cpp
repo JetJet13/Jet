@@ -18,6 +18,7 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     PrintIRFunction::generatePrintCharFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintBoolFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintStringFunction(irGenerator, context, irModule);
+    PrintIRFunction::generatePrintFunction(irGenerator, context, irModule);
     return irModule;
 }
 

@@ -5,6 +5,9 @@
 #include "function-invocation-ir-injector-helper.h"
 #include "../../../../ir-type/ir-lambda-type.h"
 #include "../../../../ir-type/ir-array-type.h"
+#include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../ir-type/ir-array-pointer-type.h"
+#include "../../../../ir-type/ir-type-value-type.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
@@ -14,18 +17,44 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         );
     }
 
+    // this is only here because of the built-in print function
+    // the front-end does not currently support variadic functions/lambdas
     if (irExpression->getVarArgsTypeValueArgument()) {
         auto startIndex = irExpression->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
-        auto varArgsArgumentValue = irBlock->getBuilder()->get()->Insert(irExpression->getVarArgsTypeValueArgument().value()->getValue());
+        auto typeValueType = (IRTypeValueType*)irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value()->getIRType()->getSourceType();
+        auto arrayPointerType = (IRArrayPointerType*)irExpression->getVarArgsTypeValueArgument().value()->getIRType()->getSourceType();
+        auto varArgsArrayAllocation = InstructionIRInjectorHelper::inject(irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value(), irBlock);
+        auto varArgsArrayPointerAllocation = InstructionIRInjectorHelper::inject(irExpression->getVarArgsTypeValueArgument().value(), irBlock);
         auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
         for (int i = startIndex; i < irExpression->getIRArguments()->size(); ++i) {
             auto argument = irExpression->getIRArguments()->at(i);
             auto index = irBlock->getBuilder()->get()->getInt32(i);
-            auto pointerToTypeValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getVarArgsTypeValueArgument().value()->getAllocatedType(), irExpression->getVarArgsTypeValueArgument().value()->getValue(), { zeroIndex, index });
+            auto pointerToTypeValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(
+                    typeValueType->getType(),
+                    varArgsArrayAllocation,
+                    { index }
+            );
             auto typeValue = irInjector->inject(irBlock, argument->getIRType());
-            irBlock->getBuilder()->get()->CreateStore(typeValue, pointerToTypeValue);
+            auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), typeValue);
+            irBlock->getBuilder()->get()->CreateStore(loadedTypeValue, pointerToTypeValue);
         }
-        arguments.insert(arguments.begin() + startIndex, varArgsArgumentValue);
+        auto numElementsIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumElementsIndex());
+        auto pointerToNumElements = irBlock->getBuilder()->get()->CreateInBoundsGEP(
+                arrayPointerType->getType(),
+                varArgsArrayPointerAllocation,
+                { zeroIndex, numElementsIndex }
+        );
+        auto numElements = irBlock->getBuilder()->get()->getInt32(arguments.size() - irExpression->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex());
+        irBlock->getBuilder()->get()->CreateStore(numElements, pointerToNumElements);
+
+        auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
+        auto pointerToArrayAllocation = irBlock->getBuilder()->get()->CreateInBoundsGEP(
+                arrayPointerType->getType(),
+                varArgsArrayPointerAllocation,
+                { zeroIndex, allocIndex }
+        );
+        irBlock->getBuilder()->get()->CreateStore(varArgsArrayAllocation, pointerToArrayAllocation);
+        arguments.insert(arguments.begin() + startIndex, varArgsArrayPointerAllocation);
     }
 
     if (irExpression->getFunctionIRType()->isLambdaType()) {

@@ -5,9 +5,9 @@
 #include "address-space-generator.h"
 
 unsigned int AddressSpaceGenerator::generate(llvm::Type* type) {
-    return 1;
+    return 0;
 }
 
 unsigned int AddressSpaceGenerator::generate(IRType* type) {
-    return 1;
+    return 0;
 }
