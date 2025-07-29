@@ -39,6 +39,11 @@ TypeSignature* InvocableTypeSignature::convertToVariableTypeSignature() {
     return new LambdaTypeSignature(parameterTypes, this->getReturnType()->convertToVariableTypeSignature());
 }
 
+bool InvocableTypeSignature::isArgumentVarArg(int argumentIndex) {
+    auto startIndex = this->getVariableLengthParametersStartIndex();
+    return startIndex >= 0 && startIndex <= argumentIndex;
+}
+
 bool InvocableTypeSignature::hasVariableLengthParameters() {
     return false;
 }

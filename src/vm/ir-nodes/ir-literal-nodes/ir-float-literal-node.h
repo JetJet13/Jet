@@ -12,11 +12,11 @@
 class IRFloatLiteralNode : public IRLiteralNode {
 private:
     ASTFloatLiteralNode* _astNode;
-    llvm::ConstantFP* _irValue;
+    llvm::Constant* _irValue;
     IRType* _type;
 public:
-    IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::ConstantFP* irValue);
-    llvm::ConstantFP* getConstantIRValue() override;
+    IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::Constant* irValue);
+    llvm::Constant* getConstantIRValue() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

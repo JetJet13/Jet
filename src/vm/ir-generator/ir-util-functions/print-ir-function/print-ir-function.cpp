@@ -32,11 +32,17 @@ std::string PrintIRFunction::getPrintStringIRFunctionName() {
     return "jet.print.string";
 }
 
+std::string PrintIRFunction::getPrintWhitespaceIRFunctionName() {
+    return "jet.print.whitespace";
+}
+
+std::string PrintIRFunction::getPrintNewLineIRFunctionName() {
+    return "jet.print.new.line";
+}
+
 void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto floatType = irGenerator->generateFloatType();
     auto charType = irGenerator->generateCharType();
-    auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
@@ -50,18 +56,20 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto vaStart = irModuleNode->getModule()->getOrInsertFunction("llvm.va_start", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
     auto vaEnd = irModuleNode->getModule()->getOrInsertFunction("llvm.va_end", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
     auto typeValueArrayArgument = function->getArg(0);
-    auto zeroIndex = irGenerator->generateIntConstant(0);
+    auto zero = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), typeValueArrayArgument, { zeroIndex, numElementsIndex });
+    auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), typeValueArrayArgument, { zero, numElementsIndex });
     auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToNumElements);
-    auto pointerToTypeValuesArrayPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), typeValueArrayArgument, { zeroIndex, allocIndex });
+    auto pointerToTypeValuesArrayPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), typeValueArrayArgument, { zero, allocIndex });
     auto typeValueArrayPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, pointerToTypeValuesArrayPointer);
-    auto vaList = functionBlock->getBuilder()->get()->CreateAlloca(pointerIntType);
+    auto vaList = functionBlock->getBuilder()->get()->CreateAlloca(pointerType, nullptr, "vaList");
     functionBlock->getBuilder()->get()->CreateCall(vaStart, { vaList });
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+    auto addWhitespaceIfBlock = irGenerator->generateIfBlock(irContext, "whitespace.");
+    auto addWhitespaceIfThenBlock = irGenerator->generateIfThenBlock(irContext, "whitespace.");
     auto intIfBlock = irGenerator->generateIfBlock(irContext, "int.");
     auto intIfThenBlock = irGenerator->generateIfThenBlock(irContext, "int.");
     auto floatIfBlock = irGenerator->generateIfBlock(irContext, "float.");
@@ -96,7 +104,23 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueArrayPointer, { forLoopIndexValue });
     auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
     auto typeValueIdAtIndex = forLoopBody->CreateExtractValue(typeValueAtIndex, typeValueType->getIdIndex());
-    forLoopBody->CreateBr(intIfBlock->getBlock());
+    forLoopBody->CreateBr(addWhitespaceIfBlock->getBlock());
+
+    auto forLoopIndexGreaterThenZero = addWhitespaceIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_SGT,
+            forLoopIndexValue,
+            zero
+    );
+    addWhitespaceIfBlock->getBuilder()->get()->CreateCondBr(
+            forLoopIndexGreaterThenZero,
+            addWhitespaceIfThenBlock->getBlock(),
+            intIfBlock->getBlock()
+    );
+    addWhitespaceIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintWhitespaceFunction()->getFunctionType(),
+            irContext->getIRModule()->getPrintWhitespaceFunction()
+    );
+    addWhitespaceIfThenBlock->getBuilder()->get()->CreateBr(intIfBlock->getBlock());
 
     auto isValueTypeInteger = intIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
@@ -117,7 +141,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
             irGenerator->generateIntConstant(IR_TYPE_ID.FLOAT)
     );
     floatIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, floatIfThenBlock->getBlock(), charIfBlock->getBlock());
-    auto floatVarArg = floatIfThenBlock->getBuilder()->get()->CreateVAArg(vaList, floatType);
+    auto floatVarArg = floatIfThenBlock->getBuilder()->get()->CreateVAArg(vaList, pointerType);
     floatIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintFloatFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintFloatFunction(),
@@ -130,7 +154,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
             irGenerator->generateIntConstant(IR_TYPE_ID.CHAR)
     );
     charIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, charIfThenBlock->getBlock(), boolIfBlock->getBlock());
-    auto charVarArg = charIfThenBlock->getBuilder()->get()->CreateVAArg(vaList, charType);
+    auto charVarArg = charIfThenBlock->getBuilder()->get()->CreateVAArg(vaList, pointerType);
     charIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintCharFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintCharFunction(),
@@ -143,7 +167,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
             irGenerator->generateIntConstant(IR_TYPE_ID.BOOL)
     );
     boolIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeBool, boolIfThenBlock->getBlock(), stringIfThenBlock->getBlock());
-    auto boolVarArg = boolIfThenBlock->getBuilder()->get()->CreateVAArg(vaList, boolType);
+    auto boolVarArg = boolIfThenBlock->getBuilder()->get()->CreateVAArg(vaList, pointerType);
     boolIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintBoolFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintBoolFunction(),
@@ -157,6 +181,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
             { stringVarArg }
     );
 
+
     intIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     floatIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     charIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
@@ -168,6 +193,10 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     endBlock->getBuilder()->get()->CreateStore(newForLoopIndexValue, forLoopIndex);
     endBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
+    forLoopEndBlock->getBuilder()->get()->CreateCall(
+        irContext->getIRModule()->getPrintNewLineFunction()->getFunctionType(),
+        irContext->getIRModule()->getPrintNewLineFunction()
+    );
     forLoopEndBlock->getBuilder()->get()->CreateCall(vaEnd, { vaList });
     forLoopEndBlock->addVoidReturn();
 }
@@ -177,10 +206,10 @@ void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::un
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
-    auto functionType = llvm::FunctionType::get(voidType->getType(), { intType }, false);
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-
+    auto intValue = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(0));
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
             { '%', 'd' },
@@ -188,7 +217,7 @@ void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::un
             context,
             irModuleNode
     );
-    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, function->getArg(0) });
+    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, intValue });
     functionBlock->addVoidReturn();
 }
 
@@ -198,10 +227,11 @@ void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
-    auto functionType = llvm::FunctionType::get(voidType->getType(), { floatType }, false);
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintFloatIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-
+    auto floatValue = functionBlock->getBuilder()->get()->CreateLoad(floatType, function->getArg(0));
+    auto doubleCastValue = functionBlock->getBuilder()->get()->CreateFPExt(floatValue, irGenerator->generateDoubleType());
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
             { '%', 'f' },
@@ -209,7 +239,7 @@ void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::
             context,
             irModuleNode
     );
-    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, function->getArg(0) });
+    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, doubleCastValue });
     functionBlock->addVoidReturn();
 }
 
@@ -219,10 +249,10 @@ void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::u
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
-    auto functionType = llvm::FunctionType::get(voidType->getType(), { charType }, false);
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCharIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-
+    auto floatValue = functionBlock->getBuilder()->get()->CreateLoad(charType, function->getArg(0));
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
             { '%', 'c' },
@@ -230,7 +260,7 @@ void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::u
             context,
             irModuleNode
     );
-    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, function->getArg(0) });
+    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, floatValue });
     functionBlock->addVoidReturn();
 }
 
@@ -240,7 +270,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
-    auto functionType = llvm::FunctionType::get(voidType->getType(), { boolType }, false);
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintBoolIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
@@ -249,7 +279,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     auto elseBlock = irGenerator->generateIfElseBlock(irContext);
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
-
+    auto boolValue = functionBlock->getBuilder()->get()->CreateLoad(boolType, function->getArg(0));
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
             { '%', 's' },
@@ -262,7 +292,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
 
     auto isValueTrue = printTrueIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            function->getArg(0),
+            boolValue,
             irGenerator->generateBoolean(true)
     );
     printTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, printTrueIfThenBlock->getBlock(), elseBlock->getBlock());
@@ -305,10 +335,10 @@ void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std:
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
     auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
-    auto functionType = llvm::FunctionType::get(voidType->getType(), { arrayPointerType->getType() }, false);
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStringIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-
+    auto stringValue = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), function->getArg(0));
     auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
             functionBlock,
             { '%', 's' },
@@ -316,8 +346,46 @@ void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std:
             context,
             irModuleNode
     );
-    auto stringAllocation = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(0), { arrayPointerType->getAllocIndex() });
+    auto stringAllocation = functionBlock->getBuilder()->get()->CreateExtractValue(stringValue, { arrayPointerType->getAllocIndex() });
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, stringAllocation });
+    functionBlock->addVoidReturn();
+}
+
+void PrintIRFunction::generatePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto intType = irGenerator->generateIntType();
+    auto voidType = irGenerator->generateVoidType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto functionType = llvm::FunctionType::get(voidType->getType(), {}, false);
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintWhitespaceIRFunctionName(), irModuleNode->getModule());
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
+            functionBlock,
+            { '%', 'c' },
+            irGenerator,
+            context,
+            irModuleNode
+    );
+    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, irGenerator->generateChar(' ') });
+    functionBlock->addVoidReturn();
+}
+
+void PrintIRFunction::generatePrintNewLineFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto intType = irGenerator->generateIntType();
+    auto voidType = irGenerator->generateVoidType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto functionType = llvm::FunctionType::get(voidType->getType(), {}, false);
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintNewLineIRFunctionName(), irModuleNode->getModule());
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto formatStringAllocation = PrintIRFunction::generateStringAllocation(
+            functionBlock,
+            { '%', 'c' },
+            irGenerator,
+            context,
+            irModuleNode
+    );
+    functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, irGenerator->generateChar('\n') });
     functionBlock->addVoidReturn();
 }
 

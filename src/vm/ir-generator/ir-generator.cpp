@@ -245,7 +245,7 @@ IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* sco
         case AST_INT_LITERAL_NODE:
             return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode *) node, irContext);
         case AST_FLOAT_LITERAL_NODE:
-            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode *) node, irContext);
+            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode *) node, this, irContext);
         case AST_CHAR_LITERAL_NODE:
             return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode *) node, this, irContext);
         case AST_STRING_LITERAL_NODE:
@@ -423,6 +423,10 @@ llvm::IntegerType* IRGenerator::generateIntType() {
 
 llvm::Type* IRGenerator::generateFloatType() {
     return llvm::Type::getFloatTy(*_context);
+}
+
+llvm::Type* IRGenerator::generateDoubleType() {
+    return llvm::Type::getDoubleTy(*_context);
 }
 
 llvm::Type* IRGenerator::generateLiteralType() {
@@ -616,6 +620,8 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             PrintIRFunction::getPrintCharIRFunctionName(),
             PrintIRFunction::getPrintBoolIRFunctionName(),
             PrintIRFunction::getPrintStringIRFunctionName(),
+            PrintIRFunction::getPrintWhitespaceIRFunctionName(),
+            PrintIRFunction::getPrintNewLineIRFunctionName(),
             RangeIRFunction::getRange1pIRFunctionName(),
             RangeIRFunction::getRange2pIRFunctionName(),
             RangeIRFunction::getRange3pIRFunctionName(),

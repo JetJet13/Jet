@@ -33,11 +33,13 @@
 #include "strategies/literal-ir-array-access-expression-injector-strategy/literal-ir-array-access-expression-injector-strategy.h"
 #include "strategies/literal-ir-tuple-access-expression-injector-strategy/literal-ir-tuple-access-expression-injector-strategy.h"
 #include "strategies/literal-ir-dref-expression-injector-strategy/literal-ir-dref-expression-injector-strategy.h"
+#include "strategies/literal-ir-literal-expression-injector-strategy/literal-ir-literal-expression-injector-strategy.h"
 
 class LiteralIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 private:
     LiteralIRIdentifierExpressionInjectorStrategy _identifierExpressionInjector = LiteralIRIdentifierExpressionInjectorStrategy();
+    LiteralIRLiteralExpressionInjectorStrategy _literalExpressionInjector = LiteralIRLiteralExpressionInjectorStrategy();
     LiteralIRObjectAccessExpressionInjectorStrategy _objectAccessExpressionInjector = LiteralIRObjectAccessExpressionInjectorStrategy();
     LiteralIRBinaryArithmeticExpressionInjectorStrategy _binaryArithmeticExpressionInjector = LiteralIRBinaryArithmeticExpressionInjectorStrategy();
     LiteralIRBinaryComparisonExpressionInjectorStrategy _binaryComparisonExpressionInjector = LiteralIRBinaryComparisonExpressionInjectorStrategy();

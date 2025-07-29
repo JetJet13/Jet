@@ -11,10 +11,13 @@
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-            irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
-        );
+    auto functionTypeSignature = irExpression->getTypeSignature()->getFunctionType();
+    for (int i = 0; i < irExpression->getIRArguments()->size(); ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto operationType = functionTypeSignature->isArgumentVarArg(i)
+                ? IR_OPERAND_POINTER_OP
+                : IR_OPERAND_VALUE_OP;
+            arguments.push_back(irInjector->inject(irBlock, argument, operationType, irModule, scope));
     }
 
     // this is only here because of the built-in print function

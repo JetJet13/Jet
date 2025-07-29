@@ -106,6 +106,7 @@ public:
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
     llvm::Type* generateFloatType();
+    llvm::Type* generateDoubleType();
     llvm::Type* generateLiteralType();
     llvm::IntegerType* generateBooleanType();
     llvm::IntegerType* generateCharType();

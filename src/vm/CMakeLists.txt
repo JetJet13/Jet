@@ -561,6 +561,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/print-statement-ir-injector-strategy/print-statement-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-literal-expression-injector-strategy/literal-ir-literal-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-literal-expression-injector-strategy/literal-ir-literal-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

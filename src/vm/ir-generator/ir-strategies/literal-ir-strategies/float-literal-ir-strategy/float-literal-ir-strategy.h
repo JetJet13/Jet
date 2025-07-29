@@ -12,10 +12,11 @@
 #include "../../../../ir-nodes/ir-literal-nodes/ir-float-literal-node.h"
 #include "../../../../ir-nodes/ir-module-node.h"
 #include "../../../../ir-nodes/ir-context.h"
+#include "../../../ir-generator.h"
 
 class FloatLiteralIRStrategy {
 public:
-    IRFloatLiteralNode* generate(ASTFloatLiteralNode* node, IRContext* irContext);
+    IRFloatLiteralNode* generate(ASTFloatLiteralNode* node, IRGenerator* irGenerator,  IRContext* irContext);
 };
 
 #endif //JETLANG_FLOAT_LITERAL_IR_STRATEGY_H
