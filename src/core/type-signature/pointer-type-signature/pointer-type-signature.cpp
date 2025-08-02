@@ -19,6 +19,10 @@ TypeSignature* PointerTypeSignature::getUnderlyingType() {
     return _underlyingType;
 }
 
+std::string PointerTypeSignature::toDetailString() {
+    return "jet.ptr." + _underlyingType->toDetailString();
+}
+
 std::string PointerTypeSignature::toString() {
     return "POINTER_TYPE_SIGNATURE";
 }

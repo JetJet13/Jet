@@ -25,6 +25,7 @@ public:
     AccessModifierTypeSignature* getAccessModifier();
     TypeSignature* getType();
     void setType(TypeSignature* typeSignature);
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature* otherType) override;

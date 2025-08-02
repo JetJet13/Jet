@@ -11,6 +11,7 @@
 
 class IntLiteralTypeSignature : public LiteralTypeSignature {
 public:
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
 };

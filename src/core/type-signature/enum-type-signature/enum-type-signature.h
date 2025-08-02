@@ -27,6 +27,7 @@ public:
     void setType(LiteralTypeSignature* type);
     bool hasKey(std::string key);
     void addKey(std::string key);
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEquivalentTo(TypeSignature *otherType) override;

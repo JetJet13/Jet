@@ -5,6 +5,10 @@
 #include "char-literal-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+std::string CharLiteralTypeSignature::toDetailString() {
+    return "char";
+}
+
 std::string CharLiteralTypeSignature::toString() {
     return "CHAR_LITERAL_TYPE_SIGNATURE";
 }

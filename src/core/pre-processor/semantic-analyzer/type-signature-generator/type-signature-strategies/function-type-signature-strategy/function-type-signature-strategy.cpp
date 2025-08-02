@@ -3,6 +3,7 @@
 //
 
 #include "function-type-signature-strategy.h"
+#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 void FunctionTypeSignatureStrategy::assign(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto functionScope = TypeSignatureLookupTable();
@@ -14,5 +15,9 @@ void FunctionTypeSignatureStrategy::assign(ASTFunctionDeclarationNode* functionD
             functionDeclaration->getParameters()->getTypeSignature(),
             functionDeclaration->getReturnType()->getTypeSignature()
     ));
-    scope->insertGlobal(functionDeclaration->getId(), functionDeclaration->getTypeSignature());
+    functionDeclaration->setId(FunctionIdGenerator::generateFor(functionDeclaration));
+    scope->insertGlobal(
+        functionDeclaration->getId(),
+        functionDeclaration->getTypeSignature()
+    );
 }

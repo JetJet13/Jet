@@ -30,6 +30,10 @@ void ParameterListItemTypeSignature::setType(TypeSignature* typeSignature) {
     _type = typeSignature;
 }
 
+std::string ParameterListItemTypeSignature::toDetailString() {
+    return _type->toDetailString();
+}
+
 std::string ParameterListItemTypeSignature::toString() {
     return "PARAMETER_ITEM_TYPE_SIGNATURE";
 }

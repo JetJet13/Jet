@@ -18,6 +18,10 @@ TypeSignature* StructKeyValueTypeSignature::getValue() {
     return _value;
 }
 
+std::string StructKeyValueTypeSignature::toDetailString() {
+    return "jet.struct_key_value." + _key + "_" + _value->toDetailString();
+}
+
 std::string StructKeyValueTypeSignature::toString() {
     return "STRUCT_KEY_VALUE_TYPE_SIGNATURE";
 }

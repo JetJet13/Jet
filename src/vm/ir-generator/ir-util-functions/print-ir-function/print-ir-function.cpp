@@ -42,7 +42,6 @@ std::string PrintIRFunction::getPrintNewLineIRFunctionName() {
 
 void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto charType = irGenerator->generateCharType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();

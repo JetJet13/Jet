@@ -25,8 +25,10 @@ public:
     AccessModifierTypeSignature* getAccessModifier();
     ParameterListTypeSignature* getParameters();
     std::vector<TypeSignature*>* getParameterTypes() override;
+    bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
     TypeSignature* getReturnType() override;
     void setReturnType(TypeSignature* returnType);
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

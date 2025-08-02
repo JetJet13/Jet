@@ -23,8 +23,31 @@ std::vector<TypeSignature*>* LambdaTypeSignature::getParameterTypes() {
     return &_parameterTypes;
 }
 
+bool LambdaTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+    if (this->numParameters() != argumentListTypeSignature->numParameters()) {
+        return false;
+    }
+
+    for (int i = 0; i < this->numParameters(); ++i) {
+        auto parameter = _parameterTypes[i];
+        auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
+        if (!parameter->isEquivalentTo(argument)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 TypeSignature* LambdaTypeSignature::getReturnType() {
     return _returnType;
+}
+
+std::string LambdaTypeSignature::toDetailString() {
+    std::string detailString = "jet.lambda.";
+    for (auto type : _parameterTypes) {
+        detailString += "_" + type->toDetailString();
+    }
+    return detailString;
 }
 
 std::string LambdaTypeSignature::toString() {

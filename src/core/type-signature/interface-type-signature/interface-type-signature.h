@@ -19,6 +19,7 @@ public:
     TypeSignature* getTypeSignatureForKey(std::string key) override;
     TypeSignature* getTypeSignatureAtIndex(unsigned long index) override;
     void addProperty(std::string key, TypeSignature* typeSignature);
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

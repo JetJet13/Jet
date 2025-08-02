@@ -7,13 +7,21 @@
 
 TypeSignatureLookupTable* TypeSignatureLookupTableFactory::createForModule() {
     auto typeSignatureLookupTable = new TypeSignatureLookupTable();
-    typeSignatureLookupTable->insertGlobal(
-        JetUtilsTypeSignatureMap::getPrintTypeSignatureKey(),
-        JetUtilsTypeSignatureMap::getPrintTypeSignature()
+
+    typeSignatureLookupTable->insertGlobalFunctionOverride(
+        JetUtilsTypeSignatureMap::getPrintTypeSignatureMap()
     );
     typeSignatureLookupTable->insertGlobal(
         JetUtilsTypeSignatureMap::getRangeTypeSignatureKey(),
         JetUtilsTypeSignatureMap::getRangeTypeSignature()
+    );
+    typeSignatureLookupTable->insertGlobal(
+            JetUtilsTypeSignatureMap::getRange2pTypeSignatureKey(),
+            JetUtilsTypeSignatureMap::getRange2pTypeSignature()
+    );
+    typeSignatureLookupTable->insertGlobal(
+            JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey(),
+            JetUtilsTypeSignatureMap::getRange3pTypeSignature()
     );
     return typeSignatureLookupTable;
 }

@@ -17,6 +17,7 @@ public:
     ArgumentListTypeSignature(std::vector<TypeSignature*> argumentTypes);
     std::vector<TypeSignature*>* getArgumentTypes();
     unsigned long numParameters();
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

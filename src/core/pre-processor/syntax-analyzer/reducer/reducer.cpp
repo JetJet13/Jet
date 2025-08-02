@@ -52,8 +52,6 @@
 #include "reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.h"
 #include "reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.h"
 #include "reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.h"
-#include "reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.h"
-#include "reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.h"
 #include "reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.h"
 #include "reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.h"
@@ -87,8 +85,6 @@
 #include "reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.h"
 #include "reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.h"
 #include "reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.h"
-#include "reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.h"
-#include "reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.h"
 #include "reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.h"
 #include "reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.h"
 #include "reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.h"
@@ -188,10 +184,6 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TYPE_PARAMETER_LIST_NODE, new TypeParameterListReducerStrategy());
     this->addStrategy(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaTypeParameterListReducerStrategy());
     this->addStrategy(AST_LAMBDA_TYPE_NODE, new LambdaTypeReducerStrategy());
-    this->addStrategy(AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaFunctionTypeParameterListReducerStrategy());
-    this->addStrategy(AST_PROCEDURE_LAMBDA_TYPE_PARAMETER_LIST_NODE, new LambdaProcedureTypeParameterListReducerStrategy());
-    this->addStrategy(AST_PROCEDURE_TYPE_NODE, new ProcedureTypeReducerStrategy());
-    this->addStrategy(AST_FUNCTION_TYPE_NODE, new FunctionTypeReducerStrategy());
     this->addStrategy(AST_CURRY_EXPRESSION_NODE, new CurryExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_TYPE_NODE, new TupleTypeReducerStrategy());
     this->addStrategy(AST_ARRAY_TYPE_NODE, new ArrayTypeReducerStrategy());

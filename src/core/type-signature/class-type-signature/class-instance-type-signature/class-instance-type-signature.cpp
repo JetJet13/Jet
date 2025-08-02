@@ -40,6 +40,10 @@ void ClassInstanceTypeSignature::setConstructorInfo(std::pair<std::string, Class
     _constructorInfo = constructorInfo;
 }
 
+std::string ClassInstanceTypeSignature::toDetailString() {
+    return "jet.class_instance." + _classTypeSignature.value()->toDetailString();
+}
+
 std::string ClassInstanceTypeSignature::toString() {
     return "CLASS_INSTANCE_TYPE_SIGNATURE";
 }

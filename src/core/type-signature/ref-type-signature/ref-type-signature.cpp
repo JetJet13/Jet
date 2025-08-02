@@ -19,6 +19,10 @@ TypeSignature* RefTypeSignature::getUnderlyingType() {
     return _underlyingType;
 }
 
+std::string RefTypeSignature::toDetailString() {
+    return "ref." + _underlyingType->toDetailString();
+}
+
 std::string RefTypeSignature::toString() {
     return "REF_TYPE_SIGNATURE";
 }

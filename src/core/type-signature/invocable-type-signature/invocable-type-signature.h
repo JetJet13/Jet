@@ -6,6 +6,7 @@
 #define JETLANG_INVOCABLE_TYPE_SIGNATURE_H
 
 #include "../type-signature.h"
+#include "../argument-list-type-signature/argument-list-type-signature.h"
 
 class InvocableTypeSignature : public TypeSignature {
 public:
@@ -16,6 +17,7 @@ public:
     virtual bool hasVariableLengthParameters();
     virtual unsigned long getVariableLengthParametersStartIndex();
     virtual std::vector<TypeSignature*>* getParameterTypes() = 0;
+    virtual bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) = 0;
     virtual TypeSignature* getReturnType() = 0;
 };
 

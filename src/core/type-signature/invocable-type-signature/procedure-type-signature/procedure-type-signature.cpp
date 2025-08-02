@@ -23,8 +23,16 @@ std::vector<TypeSignature*>* ProcedureTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
+bool ProcedureTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+    return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
+}
+
 TypeSignature* ProcedureTypeSignature::getReturnType() {
     return _returnType;
+}
+
+std::string ProcedureTypeSignature::toDetailString() {
+    return "jet.procedure." + _parameterList->toDetailString();
 }
 
 std::string ProcedureTypeSignature::toString() {

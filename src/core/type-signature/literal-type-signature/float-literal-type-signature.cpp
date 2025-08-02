@@ -5,6 +5,10 @@
 #include "float-literal-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+std::string FloatLiteralTypeSignature::toDetailString() {
+    return "float";
+}
+
 std::string FloatLiteralTypeSignature::toString() {
     return "FLOAT_LITERAL_TYPE_SIGNATURE";
 }

@@ -26,8 +26,6 @@
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-function-lambda-type-parameter-list-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-procedure-lambda-type-parameter-list-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.h"

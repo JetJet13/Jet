@@ -19,9 +19,11 @@ public:
     FunctionInvocationTypeSignature(InvocableTypeSignature* invocableTypeSignature);
     InvocableTypeSignature* getFunctionType();
     TypeSignature* getReturnType();
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     TypeSource getTypeTarget() override;
+    TypeSignature* convertToVariableTypeSignature() override;
     TypeSignature* getTargetTypeSignature() override;
     bool isEqualTo(TypeSignature *otherType) override;
     bool isEquivalentTo(TypeSignature* otherType) override;

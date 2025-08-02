@@ -43,6 +43,14 @@ void StructTypeSignature::addKeyValuePair(std::string key, TypeSignature* typeSi
     _keyValuePairs.insert(key, typeSignature);
 }
 
+std::string StructTypeSignature::toDetailString() {
+    std::string detailedString = "jet.struct.";
+    for (auto keyValue : _keyValuePairs.getKeyValues()) {
+        detailedString += "_" + keyValue.first + "_" + keyValue.second->toDetailString();
+    }
+    return detailedString;
+}
+
 std::string StructTypeSignature::toString() {
     return "STRUCT_TYPE_SIGNATURE";
 }

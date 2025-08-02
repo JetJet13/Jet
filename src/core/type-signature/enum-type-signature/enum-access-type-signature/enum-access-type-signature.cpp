@@ -18,6 +18,10 @@ std::string EnumAccessTypeSignature::getKey() {
     return _key;
 }
 
+std::string EnumAccessTypeSignature::toDetailString() {
+    return "jet.enum_access." + _enum->toDetailString();
+}
+
 std::string EnumAccessTypeSignature::toString() {
     return "ENUM_ACCESS_TYPE_SIGNATURE";
 }

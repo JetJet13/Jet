@@ -21,6 +21,10 @@ TypeSignature* FunctionInvocationTypeSignature::getReturnType() {
     return _invocableTypeSignature->getReturnType();
 }
 
+std::string FunctionInvocationTypeSignature::toDetailString() {
+    return "jet.function_invocation." + _invocableTypeSignature->getId();
+}
+
 std::string FunctionInvocationTypeSignature::toString() {
     return "FUNCTION_INVOCATION_TYPE_SIGNATURE";
 }
@@ -31,6 +35,10 @@ TypeSource FunctionInvocationTypeSignature::getTypeSource() {
 
 TypeSource FunctionInvocationTypeSignature::getTypeTarget() {
     return _invocableTypeSignature->getReturnType()->getTypeTarget();
+}
+
+TypeSignature* FunctionInvocationTypeSignature::convertToVariableTypeSignature() {
+    return _invocableTypeSignature->getReturnType();
 }
 
 TypeSignature* FunctionInvocationTypeSignature::getTargetTypeSignature() {

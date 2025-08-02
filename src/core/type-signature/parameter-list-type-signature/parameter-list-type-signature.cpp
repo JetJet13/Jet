@@ -31,18 +31,39 @@ unsigned long ParameterListTypeSignature::numParameters() {
     return _parameters.size();
 }
 
-void ParameterListTypeSignature::markAsVariableLength(unsigned long startIndex) {
+void ParameterListTypeSignature::markAsVariableLength(unsigned long startIndex, ParameterListItemTypeSignature* typeSignature) {
     _isVariableLength = true;
     _variableLengthStartIndex = startIndex;
+    _variableLengthTypeSignature = typeSignature;
 }
 
-bool ParameterListTypeSignature::isVariableLength() {
+bool ParameterListTypeSignature::isVariableLength() const {
     return _isVariableLength;
 }
 
-unsigned long ParameterListTypeSignature::getVariableLengthStartIndex() {
+unsigned long ParameterListTypeSignature::getVariableLengthStartIndex() const {
     return _variableLengthStartIndex;
 }
+
+ParameterListItemTypeSignature* ParameterListTypeSignature::getVariableLengthTypeSignature() {
+    if (_variableLengthTypeSignature) {
+        return _variableLengthTypeSignature.value();
+    }
+    throw std::logic_error("no variable length type signature exists. Parameter list is not variable length");
+}
+
+std::string ParameterListTypeSignature::toDetailString() {
+    std::string detailedString;
+    auto size = this->isVariableLength() ? this->getVariableLengthStartIndex() : _parameterTypes.size();
+    for (int i = 0; i < size; ++i) {
+        detailedString += "_" + _parameterTypes[i]->toDetailString();
+    }
+    if (this->isVariableLength()) {
+        detailedString += "_*";
+    }
+    return detailedString;
+}
+
 
 std::string ParameterListTypeSignature::toString() {
     return "PARAMETER_LIST_TYPE_SIGNATURE";
@@ -69,6 +90,32 @@ bool ParameterListTypeSignature::isEqualTo(TypeSignature *otherType) {
         }
     }
 
+    return true;
+}
+
+bool ParameterListTypeSignature::matchesWithArgumentList(ArgumentListTypeSignature* argumentListTypeSignature) {
+    if (!this->isVariableLength() && this->numParameters() != argumentListTypeSignature->numParameters()) {
+        return false;
+    }
+
+    for (int i = 0; i < this->numParameters(); ++i) {
+        auto parameter = _parameterTypes[i];
+        auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
+        if (!parameter->isEquivalentTo(argument)) {
+            return false;
+        }
+    }
+
+    if (this->isVariableLength()) {
+        auto variableLengthStartIndex = this->getVariableLengthStartIndex();
+        auto variableLengthTypeSignature = this->getVariableLengthTypeSignature()->getTypeSignature();
+        for (unsigned long i = variableLengthStartIndex; i < argumentListTypeSignature->numParameters(); ++i) {
+            auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
+            if (!variableLengthTypeSignature->isEquivalentTo(argument)) {
+                return false;
+            }
+        }
+    }
     return true;
 }
 

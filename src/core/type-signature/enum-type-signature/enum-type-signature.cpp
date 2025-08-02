@@ -62,6 +62,10 @@ void EnumTypeSignature::addKey(std::string key) {
     _keyValuePairs.insert(key, _type);
 }
 
+std::string EnumTypeSignature::toDetailString() {
+    return "jet.enum." + this->getId();
+}
+
 std::string EnumTypeSignature::toString() {
     return "ENUM_TYPE_SIGNATURE";
 }

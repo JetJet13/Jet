@@ -5,6 +5,10 @@
 #include "not-null-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+std::string NotNullTypeSignature::toDetailString() {
+    return "jet.not_null";
+}
+
 std::string NotNullTypeSignature::toString() {
     return "NOT_NULL_TYPE_SIGNATURE";
 }

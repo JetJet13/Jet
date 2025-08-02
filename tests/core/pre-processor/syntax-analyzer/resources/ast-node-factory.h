@@ -777,18 +777,6 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::lambdaTypeParameterListEnd
         );
     }
-    static ASTFunctionLambdaTypeParameterListNode* createFunctionLambdaTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
-        return new ASTFunctionLambdaTypeParameterListNode(
-                ASTNodeFactory::functionKeyword,
-                ASTNodeFactory::createTypeParameterList(items)
-        );
-    }
-    static ASTProcedureLambdaTypeParameterListNode* createProcedureLambdaTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
-        return new ASTProcedureLambdaTypeParameterListNode(
-                ASTNodeFactory::procedureKeyword,
-                ASTNodeFactory::createTypeParameterList(items)
-        );
-    }
     static ASTTypeNode* createTupleType(std::vector<ASTTypeNode*> items = {}) {
         return ASTTypeNodeFactory::createTupleTypeNode(
                 new ASTTupleTypeNode(

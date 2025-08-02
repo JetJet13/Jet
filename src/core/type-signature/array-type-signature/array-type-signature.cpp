@@ -22,6 +22,10 @@ void ArrayTypeSignature::setElementType(TypeSignature* elementType) {
     _elementType = elementType;
 }
 
+std::string ArrayTypeSignature::toDetailString() {
+    return "jet.arr." + _elementType->toDetailString();
+}
+
 std::string ArrayTypeSignature::toString() {
     return "ARRAY_TYPE_SIGNATURE";
 }

@@ -38,8 +38,16 @@ std::vector<TypeSignature*>* LambdaExpressionTypeSignature::getParameterTypes() 
     return _parameterList->getParameterTypes();
 }
 
+bool LambdaExpressionTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+    return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
+}
+
 TypeSignature* LambdaExpressionTypeSignature::getReturnType() {
     return _returnType;
+}
+
+std::string LambdaExpressionTypeSignature::toDetailString() {
+    return "jet.lambda_expression." + _parameterList->toDetailString();
 }
 
 std::string LambdaExpressionTypeSignature::toString() {

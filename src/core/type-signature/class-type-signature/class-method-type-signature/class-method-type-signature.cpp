@@ -40,12 +40,20 @@ std::vector<TypeSignature*>* ClassMethodTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
+bool ClassMethodTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+    return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
+}
+
 TypeSignature* ClassMethodTypeSignature::getReturnType() {
     return _returnType;
 }
 
 void ClassMethodTypeSignature::setReturnType(TypeSignature* returnType) {
     _returnType = returnType;
+}
+
+std::string ClassMethodTypeSignature::toDetailString() {
+    return "jet.class_method." + _parameterList->toDetailString();
 }
 
 std::string ClassMethodTypeSignature::toString() {

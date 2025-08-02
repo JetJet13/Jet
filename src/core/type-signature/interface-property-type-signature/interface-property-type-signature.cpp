@@ -23,6 +23,11 @@ void InterfacePropertyTypeSignature::setType(TypeSignature* typeSignature) {
     _type = typeSignature;
 }
 
+std::string InterfacePropertyTypeSignature::toDetailString() {
+    return "jet.interface_property." + _name + "_" + _type->toDetailString();
+}
+
+
 std::string InterfacePropertyTypeSignature::toString() {
     return "INTERFACE_PROPERTY_TYPE_SIGNATURE";
 }

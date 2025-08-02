@@ -21,6 +21,10 @@ bool AccessModifierTypeSignature::isPrivate() {
     return _accessModifier == PRIVATE_ACCESS_MODIFIER_TYPE;
 }
 
+std::string AccessModifierTypeSignature::toDetailString() {
+    return "jet.access_modifier";
+}
+
 std::string AccessModifierTypeSignature::toString() {
     return "ACCESS_MODIFIER_TYPE_SIGNATURE";
 }

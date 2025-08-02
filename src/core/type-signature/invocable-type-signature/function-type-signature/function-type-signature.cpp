@@ -24,8 +24,16 @@ std::vector<TypeSignature*>* FunctionTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
+bool FunctionTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+    return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
+}
+
 TypeSignature* FunctionTypeSignature::getReturnType() {
     return _returnType;
+}
+
+std::string FunctionTypeSignature::toDetailString() {
+    return _parameterList->toDetailString();
 }
 
 std::string FunctionTypeSignature::toString() {

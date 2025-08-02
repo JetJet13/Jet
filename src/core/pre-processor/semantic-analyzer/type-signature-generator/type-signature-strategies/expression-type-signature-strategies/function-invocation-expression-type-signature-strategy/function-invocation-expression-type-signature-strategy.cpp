@@ -3,22 +3,34 @@
 //
 
 #include "function-invocation-expression-type-signature-strategy.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 
 void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
-    auto typeSignature = typeSignatureLookupTable->find(
-            functionInvocationExpression->getFunction()->getId()
-    );
-    for (auto argument : *functionInvocationExpression->getArguments()->getArguments()) {
-        strategyMap->assignTypeSignatureFor(argument->getArgument(), typeSignatureLookupTable);
-    }
+    strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), typeSignatureLookupTable);
+    auto id = FunctionIdGenerator::generateFor(functionInvocationExpression);
+    auto typeSignature = typeSignatureLookupTable->find(id);
     if (typeSignature->isInvocable()) {
+        functionInvocationExpression->getFunction()->setId(id);
         functionInvocationExpression->getFunction()->setTypeSignature(typeSignature);
         functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature(
             (InvocableTypeSignature*)typeSignature)
         );
-    } else {
-        functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature());
+        return;
     }
+    auto functionOverride = typeSignatureLookupTable->findGlobalFunctionOverride(FunctionIdGenerator::getNameFromId(id));
+    if (functionOverride) {
+        auto matchedTypeSignature = functionOverride.value()->findMatchFor(functionInvocationExpression->getArguments()->getTypeSignature());
+        if (matchedTypeSignature) {
+            functionInvocationExpression->getFunction()->setId(matchedTypeSignature.value().first);
+            functionInvocationExpression->getFunction()->setTypeSignature(matchedTypeSignature.value().second);
+            functionInvocationExpression->setTypeSignature(
+                new FunctionInvocationTypeSignature(
+                    matchedTypeSignature.value().second
+                )
+            );
+            return;
+        }
+    }
+    functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature());
 }

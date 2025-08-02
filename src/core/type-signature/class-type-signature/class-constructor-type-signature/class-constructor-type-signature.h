@@ -16,6 +16,7 @@ public:
     explicit ClassConstructorTypeSignature();
     explicit ClassConstructorTypeSignature(ParameterListTypeSignature* parameterList);
     ParameterListTypeSignature* getParameterList();
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool matchArguments(std::vector<TypeSignature*>* argumentTypeSignatures);

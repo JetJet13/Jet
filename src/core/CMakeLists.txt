@@ -415,14 +415,6 @@ add_library(jet-core
         ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.h
         ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.cpp
         ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.h
-        ast/ast-nodes/ast-lambda-nodes/ast-function-lambda-type-parameter-list-node.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-function-lambda-type-parameter-list-node.h
-        ast/ast-nodes/ast-lambda-nodes/ast-procedure-lambda-type-parameter-list-node.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-procedure-lambda-type-parameter-list-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-function-type-parameter-list-reducer-strategy/lambda-function-type-parameter-list-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-procedure-type-parameter-list-reducer-strategy/lambda-procedure-type-parameter-list-reducer-strategy.h
         ast/ast-nodes/ast-expression-nodes/ast-callable-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-callable-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.cpp
@@ -980,14 +972,6 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-expression-type-checker-policy/tuple-expression-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.h
-        ast/ast-nodes/ast-type-nodes/ast-function-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-function-type-node.h
-        ast/ast-nodes/ast-type-nodes/ast-procedure-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-procedure-type-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-type-reducer-strategy/procedure-type-reducer-strategy.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/function-type-reducer-strategy/function-type-reducer-strategy.h
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.cpp
         ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.cpp
@@ -1306,6 +1290,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/jet-utils-type-signature-map/jet-utils-type-signature-map.h
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.cpp
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h
+        type-signature/types/function-vararg-type-signature-map/function-vararg-type-signature-map.cpp
+        type-signature/types/function-vararg-type-signature-map/function-vararg-type-signature-map.h
 
 )
 

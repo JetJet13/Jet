@@ -21,6 +21,7 @@ public:
     bool hasConstructorInfo();
     std::string getConstructorId();
     void setConstructorInfo(std::pair<std::string, ClassConstructorTypeSignature*> constructorInfo);
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEquivalentTo(TypeSignature *otherType) override;

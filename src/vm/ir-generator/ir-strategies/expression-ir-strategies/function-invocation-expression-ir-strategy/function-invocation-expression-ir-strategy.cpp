@@ -16,8 +16,6 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
         );
         arguments.push_back(argument);
     }
-    for (auto argument : *node->getArguments()->getArguments()) {
-    }
 
     std::optional<IRInstructionNode*> varArgsTypeValueArgument = {};
     if (node->getTypeSignature()->getFunctionType()->hasVariableLengthParameters()) {
@@ -40,7 +38,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     }
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
-        auto irFunctionName = irGenerator->getJetUtilsFunctionName(node->getFunction()->getId(), node->getArguments());
+        auto irFunctionName = irGenerator->getJetUtilsFunctionName(node->getFunction()->getId());
         auto function = irContext->getModule()->getFunction(irFunctionName);
         return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, varArgsTypeValueArgument);
     }

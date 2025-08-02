@@ -39,6 +39,7 @@ public:
     bool satisfiesImplementInterfaces();
     std::string getPreConstructorName();
     std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEquivalentTo(TypeSignature *otherType) override;

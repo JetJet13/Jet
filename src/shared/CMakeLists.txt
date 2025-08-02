@@ -10,10 +10,15 @@ add_library(jet-shared
         ./utils/logger/logger.h
         ./utils/logger/logger.cpp
 
+        ./utils/md5/md5.h
+        ./utils/md5/md5.cpp
+
         ./utils/to-string/to-string.h
         ./utils/to-string/to-string.cpp
         types/null-type.h
         types/basic-character-type.h
         ../core/pre-processor/syntax-analyzer/stack-merger/stack-merger.cpp
         ../core/pre-processor/syntax-analyzer/stack-merger/stack-merger.h
+        utils/function-id-generator/function-id-generator.cpp
+        utils/function-id-generator/function-id-generator.h
 )

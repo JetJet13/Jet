@@ -9,6 +9,10 @@ bool LiteralTypeSignature::isLiteral() {
     return true;
 }
 
+std::string LiteralTypeSignature::toDetailString() {
+    return "jet.literal";
+}
+
 std::string LiteralTypeSignature::toString() {
     return "LITERAL_TYPE_SIGNATURE";
 }

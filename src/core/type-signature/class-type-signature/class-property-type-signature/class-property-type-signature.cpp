@@ -41,6 +41,10 @@ void ClassPropertyTypeSignature::setType(TypeSignature* typeSignature) {
     _type = typeSignature;
 }
 
+std::string ClassPropertyTypeSignature::toDetailString() {
+    return "jet.class_property." + _type->toDetailString();
+}
+
 std::string ClassPropertyTypeSignature::toString() {
     return "CLASS_PROPERTY_TYPE_SIGNATURE";
 }

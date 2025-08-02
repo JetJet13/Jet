@@ -5,6 +5,11 @@
 #include "void-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+
+std::string VoidTypeSignature::toDetailString() {
+    return "jet.void";
+}
+
 std::string VoidTypeSignature::toString() {
     return "VOID_TYPE_SIGNATURE";
 }

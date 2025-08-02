@@ -5,6 +5,10 @@
 #include "unknown-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+std::string UnknownTypeSignature::toDetailString() {
+    return "jet.unknown";
+}
+
 std::string UnknownTypeSignature::toString() {
     return "UNKNOWN_TYPE_SIGNATURE";
 }

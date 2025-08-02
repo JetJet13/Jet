@@ -21,7 +21,9 @@ public:
     LambdaTypeSignature(std::vector<TypeSignature*> parameterTypes, std::optional<TypeSignature*> returnType = {});
     int numParameters();
     std::vector<TypeSignature*>* getParameterTypes() override;
+    bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
     TypeSignature* getReturnType() override;
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     TypeSignature* getTargetTypeSignature() override;

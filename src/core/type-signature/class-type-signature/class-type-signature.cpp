@@ -108,6 +108,10 @@ std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeS
     return {};
 }
 
+std::string ClassTypeSignature::toDetailString() {
+    return "jet.class." + this->getId();
+}
+
 std::string ClassTypeSignature::toString() {
     return "CLASS_TYPE_SIGNATURE";
 }

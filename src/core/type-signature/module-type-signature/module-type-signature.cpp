@@ -38,6 +38,10 @@ void ModuleTypeSignature::addKeyValuePair(std::string key, TypeSignature* typeSi
     _keyValuePairs.insert(key, typeSignature);
 }
 
+std::string ModuleTypeSignature::toDetailString() {
+    return "module";
+}
+
 std::string ModuleTypeSignature::toString() {
     return "MODULE_TYPE_SIGNATURE";
 }

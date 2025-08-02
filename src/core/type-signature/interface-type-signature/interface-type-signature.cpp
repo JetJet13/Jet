@@ -44,6 +44,10 @@ void InterfaceTypeSignature::addProperty(std::string key, TypeSignature* typeSig
     _properties.insert(key, typeSignature);
 }
 
+std::string InterfaceTypeSignature::toDetailString() {
+    return "jet.interface." + this->getId();
+}
+
 std::string InterfaceTypeSignature::toString() {
     return "INTERFACE_TYPE_SIGNATURE";
 }

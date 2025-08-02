@@ -4,8 +4,6 @@
 
 #include "ast-type-node-factory.h"
 #include "ast-this-type-node.h"
-#include "ast-procedure-type-node.h"
-#include "ast-function-type-node.h"
 
 namespace ASTTypeNodeFactory {
     ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id) {
@@ -14,14 +12,6 @@ namespace ASTTypeNodeFactory {
 
     ASTTypeNode* createPrimitiveTypeNode(Lexeme* lexeme) {
         return new ASTTypeNode(new ASTPrimitiveTypeNode(lexeme));
-    }
-
-    ASTTypeNode* createProcedureTypeNode(ASTProcedureTypeNode* procedureTypeNode) {
-        return new ASTTypeNode(procedureTypeNode);
-    }
-
-    ASTTypeNode* createFunctionTypeNode(ASTFunctionTypeNode* functionTypeNode) {
-        return new ASTTypeNode(functionTypeNode);
     }
 
     ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode) {

@@ -5,6 +5,10 @@
 #include "invalid-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+std::string InvalidTypeSignature::toDetailString() {
+    return "jet.invalid";
+}
+
 std::string InvalidTypeSignature::toString() {
     return "INVALID_TYPE_SIGNATURE";
 }

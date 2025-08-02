@@ -23,7 +23,9 @@ public:
     bool isScopeParameterNecessary();
     ParameterListTypeSignature* getParameterList();
     std::vector<TypeSignature*>* getParameterTypes() override;
+    bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
     TypeSignature* getReturnType() override;
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

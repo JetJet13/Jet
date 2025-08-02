@@ -31,6 +31,7 @@
 #include "ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.h"
 #include "ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.h"
 #include "ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.h"
+#include "../../shared/utils/logger/logger.h"
 
 
 IRInjector::IRInjector() {
@@ -145,6 +146,7 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope) {
     auto injector = _injectorMap.find(irExpression->getInjectorTypeSource());
     if (injector == _injectorMap.end()) {
+        Logger::log("~~");
         irExpression->getTypeSignature()->print();
         throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getInjectorTypeSource()));
     }

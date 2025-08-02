@@ -5,6 +5,10 @@
 #include "bool-literal-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+std::string BoolLiteralTypeSignature::toDetailString() {
+    return "bool";
+}
+
 std::string BoolLiteralTypeSignature::toString() {
     return "BOOL_LITERAL_TYPE_SIGNATURE";
 }

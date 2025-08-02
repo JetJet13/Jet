@@ -3,7 +3,10 @@
 //
 
 #include "int-literal-type-signature.h"
-#include "../../../shared/utils/logger/logger.h"
+
+std::string IntLiteralTypeSignature::toDetailString() {
+    return "int";
+}
 
 std::string IntLiteralTypeSignature::toString() {
     return "INT_LITERAL_TYPE_SIGNATURE";

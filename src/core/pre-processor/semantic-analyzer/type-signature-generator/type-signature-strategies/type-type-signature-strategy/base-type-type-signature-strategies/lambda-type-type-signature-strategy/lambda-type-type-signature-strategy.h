@@ -7,7 +7,6 @@
 
 #include "../../../../../../../type-signature/type-signature.h"
 #include "../../../type-signature-strategy-provider.h"
-#include "../../../../../../../ast/ast-nodes/ast-type-nodes/ast-function-type-node.h"
 #include "../../../../../../../ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-node.h"
 
 class LambdaTypeTypeSignatureStrategy {

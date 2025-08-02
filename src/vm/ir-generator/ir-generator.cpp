@@ -397,8 +397,8 @@ std::string IRGenerator::getArrayPrototypeFunctionName(std::string id) {
     return ArrayPrototypeMap::getIRName(id);
 }
 
-std::string IRGenerator::getJetUtilsFunctionName(std::string id, ASTFunctionArgumentListNode* argumentList) {
-    return IRUtilInternalModule::getIRName(id, argumentList);
+std::string IRGenerator::getJetUtilsFunctionName(std::string id) {
+    return IRUtilInternalModule::getIRName(id);
 }
 
 IRFunctionType* IRGenerator::generateFunctionIrType(llvm::FunctionType* functionType) {

@@ -14,6 +14,7 @@ public:
     RefTypeSignature();
     RefTypeSignature(TypeSignature* underlyingType);
     TypeSignature* getUnderlyingType();
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     TypeSource getTypeTarget() override;

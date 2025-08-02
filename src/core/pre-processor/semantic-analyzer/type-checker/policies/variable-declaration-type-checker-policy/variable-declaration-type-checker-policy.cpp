@@ -26,7 +26,7 @@ namespace VariableDeclarationTypeCheckerPolicy {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::GlobalVariableNameConflictsWithBuiltInFunctionName(variableDeclarationNode)());
         }
 
-        if (!varTypeSignature->isEquivalentTo(initializerTypeSignature)){
+        if (!varTypeSignature->isEquivalentTo(initializerTypeSignature->convertToVariableTypeSignature())){
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::VariableTypeMismatch(variableDeclarationNode)());
         }
 

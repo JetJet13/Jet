@@ -24,19 +24,17 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     return irModule;
 }
 
-std::string IRUtilInternalModule::getIRName(std::string id, ASTFunctionArgumentListNode* argumentList) {
+std::string IRUtilInternalModule::getIRName(std::string id) {
     if (id == JetUtilsTypeSignatureMap::getPrintTypeSignatureKey()) {
         return PrintIRFunction::getPrintIRFunctionName();
     }
 
     if (id == JetUtilsTypeSignatureMap::getRangeTypeSignatureKey()) {
-        if (argumentList->numArguments() == 1) {
-            return RangeIRFunction::getRange1pIRFunctionName();
-        } else if (argumentList->numArguments() == 2) {
-            return RangeIRFunction::getRange2pIRFunctionName();
-        } else if (argumentList->numArguments() == 3) {
-            return RangeIRFunction::getRange3pIRFunctionName();
-        }
+        return RangeIRFunction::getRange1pIRFunctionName();
+    } else if (id == JetUtilsTypeSignatureMap::getRange2pTypeSignatureKey()) {
+        return RangeIRFunction::getRange2pIRFunctionName();
+    } else if (id == JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey()) {
+        return RangeIRFunction::getRange3pIRFunctionName();
     }
     throw std::logic_error("unable to find util internal function name");
 }

@@ -21,6 +21,14 @@ unsigned long ArgumentListTypeSignature::numParameters() {
     return _argumentTypes.size();
 }
 
+std::string ArgumentListTypeSignature::toDetailString() {
+    std::string detailString;
+    for (auto argument : _argumentTypes) {
+        detailString += "_" + argument->toDetailString();
+    }
+    return detailString;
+}
+
 std::string ArgumentListTypeSignature::toString() {
     return "ARGUMENT_LIST_TYPE_SIGNATURE";
 }

@@ -10,6 +10,7 @@
 class LiteralTypeSignature : public TypeSignature {
 public:
     bool isLiteral() override;
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;

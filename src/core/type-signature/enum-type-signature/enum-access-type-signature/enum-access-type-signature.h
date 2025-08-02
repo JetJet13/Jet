@@ -16,6 +16,7 @@ public:
     EnumAccessTypeSignature(EnumTypeSignature* enumTypeSignature, std::string key);
     EnumTypeSignature* getEnum();
     std::string getKey();
+    std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     TypeSource getTypeTarget() override;
