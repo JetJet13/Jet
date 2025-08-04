@@ -10,9 +10,6 @@
 IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-util");
     irGenerator->initModule(irModule);
-    RangeIRFunction::generateRange3pFunction(irGenerator, context, irModule);
-    RangeIRFunction::generateRange2pFunction(irGenerator, context, irModule);
-    RangeIRFunction::generateRange1pFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintIntFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintFloatFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintCharFunction(irGenerator, context, irModule);
@@ -21,6 +18,9 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     PrintIRFunction::generatePrintWhitespaceFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintNewLineFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintFunction(irGenerator, context, irModule);
+    RangeIRFunction::generateRange3pFunction(irGenerator, context, irModule);
+    RangeIRFunction::generateRange2pFunction(irGenerator, context, irModule);
+    RangeIRFunction::generateRange1pFunction(irGenerator, context, irModule);
     return irModule;
 }
 

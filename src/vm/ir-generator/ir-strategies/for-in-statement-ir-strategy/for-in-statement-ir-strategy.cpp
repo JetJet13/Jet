@@ -5,6 +5,7 @@
 #include "for-in-statement-ir-strategy.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IRStatementNode* ForInStatementIRStrategy::generate(ASTForInStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto sourceIRExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, IR_OPERAND_VALUE_OP);

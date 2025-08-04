@@ -42,8 +42,8 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
         isIndexGreaterThanOrEqualToNumElements,
         isIndexLessThanZero
     );
-    auto notInRangeBlock = irGenerator->generateIfThenBlock(irContext,  "not.in.range.");
-    auto inRangeBlock = irGenerator->generateIfElseBlock(irContext, "in.range.");
+    auto notInRangeBlock = irGenerator->generateIfThenBlock(irContext,  "not.ok.");
+    auto inRangeBlock = irGenerator->generateIfElseBlock(irContext, "ok.");
     functionBlock->getBuilder()->get()->CreateCondBr(
         isIndexNotInRange,
         notInRangeBlock->getBlock(),

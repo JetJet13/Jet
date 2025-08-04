@@ -326,7 +326,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case STRING_LITERAL_TYPE_SOURCE:
         case BOOL_LITERAL_TYPE_SOURCE:
         case LITERAL_TYPE_SOURCE:
-            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature *) typeSignature,
+            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature*) typeSignature,
                                                                                 this, scope, irContext);
         default:
             Logger::log("UH OH");

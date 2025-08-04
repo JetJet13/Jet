@@ -32,7 +32,7 @@ TypeSignature* ProcedureTypeSignature::getReturnType() {
 }
 
 std::string ProcedureTypeSignature::toDetailString() {
-    return "jet.procedure." + _parameterList->toDetailString();
+    return _parameterList->toDetailString();
 }
 
 std::string ProcedureTypeSignature::toString() {

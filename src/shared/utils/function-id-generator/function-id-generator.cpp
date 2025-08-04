@@ -18,6 +18,13 @@ std::string FunctionIdGenerator::generateFor(ASTFunctionDeclarationNode* functio
     return id;
 }
 
+std::string FunctionIdGenerator::generateFor(ASTProcedureDeclarationNode* procedureDeclarationNode) {
+    auto id = procedureDeclarationNode->getId()
+              + "."
+              + MD5().operator()(procedureDeclarationNode->getTypeSignature()->toDetailString());
+    return id;
+}
+
 std::string FunctionIdGenerator::generateFor(ASTFunctionInvocationExpressionNode* functionInvocationExpressionNode) {
     auto id = functionInvocationExpressionNode->getFunction()->getId() + "."
               + MD5().operator()(functionInvocationExpressionNode->getArguments()->getTypeSignature()->toDetailString());

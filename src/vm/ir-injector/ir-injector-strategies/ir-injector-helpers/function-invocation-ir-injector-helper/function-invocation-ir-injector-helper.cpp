@@ -37,7 +37,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
                     varArgsArrayAllocation,
                     { index }
             );
-            auto typeValue = irInjector->inject(irBlock, argument->getIRType());
+            auto typeValue = irInjector->inject(irBlock, argument->getIRType()->getSourceType());
             auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), typeValue);
             irBlock->getBuilder()->get()->CreateStore(loadedTypeValue, pointerToTypeValue);
         }

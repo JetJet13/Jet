@@ -2,13 +2,24 @@ import MyOtherModule from "./other-test-file.jet";
 
 print(1, 2300.004, 'c', true, false);
 
-
-func main() int {
+proc main() {
     const x = range(10);
     const y = range(1, 100);
     const z = range(10, 15, 2);
-    print(x[1]);
-    return 1;
-}
+    const negX = range(-10);
+    const negZ = range(-10, -15, 1);
 
+    for i in x {
+        print(i);
+    }
+    for i in z {
+        print(i);
+    }
+    for i in negX {
+        print(i);
+    }
+    for i in negZ {
+        print(i);
+    }
+}
 main();

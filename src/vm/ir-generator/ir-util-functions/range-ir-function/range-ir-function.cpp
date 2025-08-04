@@ -168,18 +168,22 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
     auto isStepZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
     auto isStepInvalidIfBlock = irGenerator->generateIfBlock(irContext);
     auto isStepInvalidIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isRemainderNotZeroIfBlock = irGenerator->generateIfBlock(irContext);
+    auto isRemainderNotZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isRemainderNotZeroIfElseBlock = irGenerator->generateIfThenBlock(irContext);
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
 
     auto numElementsAllocation = functionBlock->getBuilder()->get()->CreateAlloca(intType);
+
     auto difference = functionBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Sub,
             function->getArg(1),
             function->getArg(0)
     );
-    functionBlock->getBuilder()->get()->CreateStore(difference, numElementsAllocation);
+
     functionBlock->getBuilder()->get()->CreateBr(isStepZeroIfBlock->getBlock());
 
     // step is 0 if block
@@ -231,12 +235,48 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
         isDifferenceGreaterThanZeroAndStepIsNegative,
         isDifferenceLessThanZeroAndStepIsPositive
     );
-    isStepInvalidIfBlock->getBuilder()->get()->CreateCondBr(isStepInvalid, isStepInvalidIfThenBlock->getBlock(), forLoopPrepBlock->getBlock());
+    isStepInvalidIfBlock->getBuilder()->get()->CreateCondBr(isStepInvalid, isStepInvalidIfThenBlock->getBlock(), isRemainderNotZeroIfBlock->getBlock());
 
     // step is invalid
     isStepInvalidIfThenBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), numElementsAllocation);
     isStepInvalidIfThenBlock->getBuilder()->get()->CreateBr(forLoopPrepBlock->getBlock());
 
+    // is remainder not zero
+    auto dividedByStep = isRemainderNotZeroIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::Instruction::BinaryOps::SDiv,
+            difference,
+            function->getArg(2)
+    );
+    auto remainder = isRemainderNotZeroIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::Instruction::BinaryOps::SRem,
+            difference,
+            function->getArg(2)
+    );
+    auto isRemainderNotZero = isRemainderNotZeroIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_NE,
+            remainder,
+            irGenerator->generateIntConstant(0)
+    );
+    isRemainderNotZeroIfBlock->getBuilder()->get()->CreateCondBr(
+        isRemainderNotZero,
+        isRemainderNotZeroIfThenBlock->getBlock(),
+        isRemainderNotZeroIfElseBlock->getBlock()
+    );
+
+    // remainder is not zero
+    auto dividedByStepPlusOne =  isRemainderNotZeroIfThenBlock->getBuilder()->get()->CreateBinOp(
+            llvm::Instruction::BinaryOps::Add,
+            dividedByStep,
+            irGenerator->generateIntConstant(1)
+    );
+    isRemainderNotZeroIfThenBlock->getBuilder()->get()->CreateStore(dividedByStepPlusOne, numElementsAllocation);
+    isRemainderNotZeroIfThenBlock->getBuilder()->get()->CreateBr(forLoopPrepBlock->getBlock());
+
+    // remainder is zero
+    isRemainderNotZeroIfElseBlock->getBuilder()->get()->CreateStore(dividedByStep, numElementsAllocation);
+    isRemainderNotZeroIfElseBlock->getBuilder()->get()->CreateBr(forLoopPrepBlock->getBlock());
+
+    // for loop prep
     auto numElements = forLoopPrepBlock->getBuilder()->get()->CreateLoad(intType, numElementsAllocation, "numElements");
     auto arrayAllocationSize = forLoopPrepBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction()->getFunctionType(),
@@ -253,10 +293,13 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
     );
     auto forLoopIndex = forLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType);
     forLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
+    auto stepCount = forLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType);
+    forLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), stepCount);
     forLoopPrepBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
     // for loop condition
     auto currentForLoopIndex = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex, "currentIndex");
+    auto currentStepCount = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, stepCount, "currentStepCount");
     auto isIndexLessThanArg = forLoopConditionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
             currentForLoopIndex,
@@ -269,15 +312,21 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
     auto valueAtIndex = forLoopBodyBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Add,
             function->getArg(0),
-            currentForLoopIndex
+            currentStepCount
     );
     forLoopBodyBlock->getBuilder()->get()->CreateStore(valueAtIndex, pointerAtIndex);
     auto newForLoopIndex = forLoopBodyBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Add,
             currentForLoopIndex,
-            function->getArg(2)
+            irGenerator->generateIntConstant(1)
     );
     forLoopBodyBlock->getBuilder()->get()->CreateStore(newForLoopIndex, forLoopIndex);
+    auto newStepCount = forLoopBodyBlock->getBuilder()->get()->CreateBinOp(
+            llvm::Instruction::BinaryOps::Add,
+            currentStepCount,
+            function->getArg(2)
+    );
+    forLoopBodyBlock->getBuilder()->get()->CreateStore(newStepCount, stepCount);
     forLoopBodyBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
     // for loop end

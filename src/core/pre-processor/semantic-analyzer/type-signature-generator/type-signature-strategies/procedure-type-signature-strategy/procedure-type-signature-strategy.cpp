@@ -3,6 +3,7 @@
 //
 
 #include "procedure-type-signature-strategy.h"
+#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 void ProcedureTypeSignatureStrategy::assign(ASTProcedureDeclarationNode* procedureDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto procedureScope = TypeSignatureLookupTable();
@@ -12,5 +13,6 @@ void ProcedureTypeSignatureStrategy::assign(ASTProcedureDeclarationNode* procedu
     procedureDeclaration->setTypeSignature(new ProcedureTypeSignature(
             procedureDeclaration->getParameters()->getTypeSignature()
     ));
+    procedureDeclaration->setId(FunctionIdGenerator::generateFor(procedureDeclaration));
     scope->insertGlobal(procedureDeclaration->getId(), procedureDeclaration->getTypeSignature());
 }
