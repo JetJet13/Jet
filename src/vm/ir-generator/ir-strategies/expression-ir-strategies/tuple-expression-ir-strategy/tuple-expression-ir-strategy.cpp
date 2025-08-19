@@ -26,13 +26,12 @@ IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(ASTTupleEx
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateIntConstant(irType->getSizeInBytes()) },
+                { irGenerator->generateInt64Constant(irType->get8BitAlignedSizeInBytes()) },
                 ""
         );
         return IRInstructionNodeFactory::create(
-                new llvm::BitCastInst(malloc, irType->getType()->getPointerTo()),
-                irGenerator->generateIrPointerType(irType),
-                { malloc }
+                malloc,
+                irGenerator->generateIrPointerType(irType)
         );
     }
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));

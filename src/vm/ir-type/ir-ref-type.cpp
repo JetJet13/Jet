@@ -42,8 +42,13 @@ IRType* IRRefType::getRefValueIRType() {
 }
 
 uint64_t IRRefType::getSizeInBytes() {
-    return 2;
+    return 16;
 }
+
+uint64_t IRRefType::get8BitAlignedSizeInBytes() {
+    return 16;
+}
+
 
 bool IRRefType::containsTypeThatRequiresFreeing() {
     return true;

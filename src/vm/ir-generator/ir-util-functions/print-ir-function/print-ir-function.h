@@ -11,8 +11,15 @@
 
 class PrintIRFunction {
 private:
-    static llvm::AllocaInst* generateStringAllocation(IRBlockNode* irBlock, std::vector<char> formatString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static llvm::Constant* generateStringAllocation(std::vector<char> formatString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
 public:
+    static std::string getGlobalIntFormatStringName();
+    static std::string getGlobalFloatFormatStringName();
+    static std::string getGlobalCharFormatStringName();
+    static std::string getGlobalTrueFormatStringName();
+    static std::string getGlobalFalseFormatStringName();
+    static std::string getGlobalStringFormatStringName();
+    static std::string getGlobalPointerFormatStringName();
     static std::string getPrintIRFunctionName();
     static std::string getPrintIntIRFunctionName();
     static std::string getPrintFloatIRFunctionName();
@@ -21,6 +28,10 @@ public:
     static std::string getPrintStringIRFunctionName();
     static std::string getPrintWhitespaceIRFunctionName();
     static std::string getPrintNewLineIRFunctionName();
+    static std::string getPrintDebugMarkerIRFunctionName();
+    static std::string getPrintDebugPointerIRFunctionName();
+    static std::string getPrintDebugStringIRFunctionName();
+    static void generatePrintGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintIntFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintFloatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
@@ -29,6 +40,9 @@ public:
     static void generatePrintStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintNewLineFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generatePrintDebugMarkerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generatePrintDebugPointerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generatePrintDebugStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
 };
 
 #endif //JETLANG_PRINT_IR_FUNCTION_H

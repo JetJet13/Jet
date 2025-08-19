@@ -13,6 +13,7 @@
 class StringLiteralIRStrategy {
 public:
     IRStringLiteralNode* generate(ASTStringLiteralNode* node, IRGenerator* irGenerator, IRContext* irContext);
+    llvm::Constant* generateIRString(std::string rawString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context);
 };
 
 #endif //JETLANG_STRING_LITERAL_IR_STRATEGY_H

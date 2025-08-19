@@ -418,7 +418,7 @@ llvm::PointerType* IRGenerator::generatePointerType(llvm::Type* type) {
 }
 
 llvm::IntegerType* IRGenerator::generateIntType() {
-    return llvm::IntegerType::get(*_context, 32);
+    return llvm::Type::getInt32Ty(*_context);
 }
 
 llvm::Type* IRGenerator::generateFloatType() {
@@ -470,7 +470,7 @@ IRTypeValueType* IRGenerator::generateIrTypeValueType() {
 }
 
 llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
-    auto irTypeValueType= this->generateIrTypeValueType();
+    auto irTypeValueType = this->generateIrTypeValueType();
     return new llvm::AllocaInst(
             irTypeValueType->getType(),
             AddressSpaceGenerator::generate(irTypeValueType),
@@ -508,6 +508,10 @@ llvm::ConstantInt* IRGenerator::generateBoolean(bool value) {
 
 llvm::ConstantInt* IRGenerator::generateInt64Constant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
+}
+
+llvm::Constant* IRGenerator::generateRawString(std::string rawString) {
+    return this->_irStrategyMap.getStringLiteralIRStrategy()->generateIRString(rawString, this, &_context);
 }
 
 IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRPointerType* irPointerType) {
@@ -622,6 +626,9 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             PrintIRFunction::getPrintStringIRFunctionName(),
             PrintIRFunction::getPrintWhitespaceIRFunctionName(),
             PrintIRFunction::getPrintNewLineIRFunctionName(),
+            PrintIRFunction::getPrintDebugMarkerIRFunctionName(),
+            PrintIRFunction::getPrintDebugPointerIRFunctionName(),
+            PrintIRFunction::getPrintDebugStringIRFunctionName(),
             RangeIRFunction::getRange1pIRFunctionName(),
             RangeIRFunction::getRange2pIRFunctionName(),
             RangeIRFunction::getRange3pIRFunctionName(),
@@ -694,7 +701,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayEmptyIRFunction::generateArrayEmptyFunction(this, &_context, irModule);
 }
 
-IRFunctionNode* IRGenerator::generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode) {
+IRFunctionNode* IRGenerator::generateMainFunction(std::string functionName, IRModuleNode* irModuleNode) {
     auto functionType = llvm::FunctionType::get(llvm::Type::getInt32Ty(*_context), {});
     return new IRFunctionNode(
         llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, functionName, irModuleNode->getModule())

@@ -31,6 +31,9 @@ private:
     std::string _printStringFunctionName;
     std::string _printWhitespaceFunctionName;
     std::string _printNewLineFunctionName;
+    std::string _printDebugMarkerFunctionName;
+    std::string _printDebugPointerFunctionName;
+    std::string _printDebugStringFunctionName;
     std::string _range1pFunctionName;
     std::string _range2pFunctionName;
     std::string _range3pFunctionName;
@@ -75,6 +78,9 @@ public:
                  std::string printStringFunctionName,
                  std::string printWhitespaceFunctionName,
                  std::string printNewLineFunctionName,
+                 std::string printDebugMarkerFunctionName,
+                 std::string printDebugPointerFunctionName,
+                 std::string printDebugStringFunctionName,
                  std::string range1pFunctionName,
                  std::string range2pFunctionName,
                  std::string range3pFunctionName,
@@ -118,6 +124,9 @@ public:
     llvm::Function* getPrintStringFunction();
     llvm::Function* getPrintWhitespaceFunction();
     llvm::Function* getPrintNewLineFunction();
+    llvm::Function* getPrintDebugMarkerFunction();
+    llvm::Function* getPrintDebugPointerFunction();
+    llvm::Function* getPrintDebugStringFunction();
     llvm::Function* getRange1pFunction();
     llvm::Function* getRange2pFunction();
     llvm::Function* getRange3pFunction();

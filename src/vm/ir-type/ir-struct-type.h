@@ -21,6 +21,7 @@ public:
     void makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>* context);
     unsigned long size();
     uint64_t getSizeInBytes() override;
+    uint64_t get8BitAlignedSizeInBytes() override;
     std::string getKeyForIndex(unsigned long index);
     unsigned long getIndexForKey(std::string key);
     unsigned long getIndexForKey(unsigned long key);

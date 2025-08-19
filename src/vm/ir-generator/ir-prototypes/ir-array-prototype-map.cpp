@@ -12,6 +12,7 @@
 #include "../ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.h"
 #include "../ir-util-functions/array-head-ir-function/array-head-ir-function.h"
 #include "../ir-util-functions/array-tail-ir-function/array-tail-ir-function.h"
+#include "../ir-util-functions/array-size-ir-function/array-size-ir-function.h"
 
 IRArrayPrototypeFunctionId ArrayPrototypeMap::getIRArrayPrototypeFunction(std::string id) {
     if (id == "drop") {
@@ -32,6 +33,8 @@ IRArrayPrototypeFunctionId ArrayPrototypeMap::getIRArrayPrototypeFunction(std::s
         return AP_APPEND_FUNCTION;
     } else if (id == "prepend") {
         return AP_PREPEND_FUNCTION;
+    } else if (id == "size") {
+        return AP_SIZE_FUNCTION;
     }
     throw std::logic_error("unable to find array prototype function for id provided: " + id);
 }
@@ -60,6 +63,8 @@ std::string ArrayPrototypeMap::getIRName(IRArrayPrototypeFunctionId irArrayProto
             return ArrayAppendIRFunction::getArrayAppendIRFunctionName();
         case AP_PREPEND_FUNCTION:
             return ArrayPrependIRFunction::getArrayPrependIRFunctionName();
+        case AP_SIZE_FUNCTION:
+            return ArraySizeIRFunction::getArraySizeIRFunctionName();
     }
     throw std::logic_error("unable to find array prototype name");
 }

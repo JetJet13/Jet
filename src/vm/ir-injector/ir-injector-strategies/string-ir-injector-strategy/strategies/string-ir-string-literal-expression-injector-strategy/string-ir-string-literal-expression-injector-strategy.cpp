@@ -8,9 +8,23 @@
 
 llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arrayAllocation = irExpression->getSourceAggregateAllocation()->getValue();
+    auto stringAllocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getValue()->getType());
+    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), stringAllocation);
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
+    auto zero = irBlock->getBuilder()->get()->getInt32(0);
+    for (int i = 0; i < irExpression->getValue()->getType()->getArrayNumElements(); ++i) {
+        auto index = irBlock->getBuilder()->get()->getInt32(i);
+        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRType()->getElementType(), arrayAllocation, { index });
+        auto pointerToChar = irBlock->getBuilder()->get()->CreateInBoundsGEP(stringAllocation->getAllocatedType(), stringAllocation, { zero, index });
+        auto loadedChar = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getElementType(), pointerToChar);
+        irBlock->getBuilder()->get()->CreateStore(loadedChar, pointer);
+    }
     irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), arrayAllocation);
-    return ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), irExpression->getValue()->getType()->getArrayNumElements(),
+    auto array = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), irExpression->getValue()->getType()->getArrayNumElements(),
                                                      irExpression->getSourceAggregateAllocation(),
                                                      irExpression->getAggregatePointerAllocation())->getValue();
+    if (irOperationType == IR_OPERAND_POINTER_OP) {
+        return irExpression->getAggregatePointerAllocation()->getValue();
+    }
+    return array;
 }

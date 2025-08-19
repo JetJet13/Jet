@@ -32,13 +32,13 @@ IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(ASTStruc
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateIntConstant(irType->getSizeInBytes()) },
+                { irGenerator->generateInt64Constant(irType->get8BitAlignedSizeInBytes()) },
                 ""
         );
         return IRInstructionNodeFactory::create(
-                new llvm::BitCastInst(malloc, irGenerator->generatePointerType()),
+                malloc,
                 irGenerator->generateIrPointerType(irType),
-                { malloc },
+                {},
                 std::move(structValueSourceAllocationMap)
         );
     }

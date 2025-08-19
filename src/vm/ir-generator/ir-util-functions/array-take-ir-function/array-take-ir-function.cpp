@@ -61,7 +61,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     auto emptyTakeArrayMalloc = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateIntConstant(0) }
+            { irGenerator->generateInt64Constant(0) }
     );
     auto arrayPointerAllocationForEmptyTake = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(

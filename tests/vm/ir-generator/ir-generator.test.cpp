@@ -40,7 +40,7 @@ TEST_CASE( "should create expected vm code" ) {
     auto irGenerator = IRGenerator(irInjector);
     auto irModule = irGenerator.generateModule(filePath);
     irGenerator.initModule(irModule);
-    auto irMainFunction = irGenerator.generateEmptyFunction("main", irModule);
+    auto irMainFunction = irGenerator.generateMainFunction("main", irModule);
     auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
     auto irContext = irGenerator.generateContext(irMainFunctionBlock, irModule);
     auto irLookupTable = IRLookupTable();

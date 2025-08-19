@@ -17,7 +17,8 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         auto operationType = functionTypeSignature->isArgumentVarArg(i)
                 ? IR_OPERAND_POINTER_OP
                 : IR_OPERAND_VALUE_OP;
-            arguments.push_back(irInjector->inject(irBlock, argument, operationType, irModule, scope));
+        auto irArgument = irInjector->inject(irBlock, argument, operationType, irModule, scope);
+        arguments.push_back(irArgument);
     }
 
     // this is only here because of the built-in print function
@@ -42,6 +43,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
             irBlock->getBuilder()->get()->CreateStore(loadedTypeValue, pointerToTypeValue);
         }
         auto numElementsIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumElementsIndex());
+        auto depthIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getDepthIndex());
         auto pointerToNumElements = irBlock->getBuilder()->get()->CreateInBoundsGEP(
                 arrayPointerType->getType(),
                 varArgsArrayPointerAllocation,
@@ -50,6 +52,14 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         auto numElements = irBlock->getBuilder()->get()->getInt32(arguments.size() - irExpression->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex());
         irBlock->getBuilder()->get()->CreateStore(numElements, pointerToNumElements);
 
+        auto pointerToDepth = irBlock->getBuilder()->get()->CreateInBoundsGEP(
+                arrayPointerType->getType(),
+                varArgsArrayPointerAllocation,
+                { zeroIndex, depthIndex }
+        );
+        auto depth = irBlock->getBuilder()->get()->getInt32(1);
+        irBlock->getBuilder()->get()->CreateStore(depth, pointerToDepth);
+
         auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
         auto pointerToArrayAllocation = irBlock->getBuilder()->get()->CreateInBoundsGEP(
                 arrayPointerType->getType(),
@@ -57,7 +67,8 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
                 { zeroIndex, allocIndex }
         );
         irBlock->getBuilder()->get()->CreateStore(varArgsArrayAllocation, pointerToArrayAllocation);
-        arguments.insert(arguments.begin() + startIndex, varArgsArrayPointerAllocation);
+        auto loadedVarArgsArrayPointer = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), varArgsArrayPointerAllocation);
+        arguments.insert(arguments.begin() + startIndex, loadedVarArgsArrayPointer);
     }
 
     if (irExpression->getFunctionIRType()->isLambdaType()) {
@@ -97,11 +108,27 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         );
     }
 
-    return irBlock->getBuilder()->get()->CreateCall(
+    auto value = irBlock->getBuilder()->get()->CreateCall(
         llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
         irExpression->getValue(),
         arguments
     );
+//    if (arguments.size() == 2) {
+//        auto argument = irExpression->getIRArguments()->at(0);
+//        auto irArgument = arguments[1];
+//            if (argument->getIRType()->getSourceType()->isLiteralType() || argument->getIRType()->getSourceType()->isArrayPointerType()) {
+//                irBlock->getBuilder()->get()->CreateCall(
+//                        irModule->getPrintDebugPointerFunction(),
+//                        { irArgument }
+//                );
+//                irBlock->getBuilder()->get()->CreateCall(
+//                        irModule->getPrintNewLineFunction(),
+//                        {}
+//                );
+//            }
+//
+//    }
+    return value;
 }
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionParameterInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -135,7 +162,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationE
     );
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperationType irOperationType) {
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(
@@ -144,14 +171,17 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     }
     auto arrayValue = irInjector->inject(irBlock, irExpression->getIRArrayValue(), IR_OPERAND_POINTER_OP, irModule, scope);
     arguments.push_back(arrayValue);
-    auto typeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getSourceType());
-    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRArrayValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue);
-    arguments.push_back(loadedTypeValue);
-    return irBlock->getBuilder()->get()->CreateCall(
+    auto result = irBlock->getBuilder()->get()->CreateCall(
             llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
             irExpression->getValue(),
             arguments
     );
+    if (irOperationType == IR_OPERAND_POINTER_OP) {
+        auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getType());
+        irBlock->getBuilder()->get()->CreateStore(result, alloc);
+        return alloc;
+    }
+    return result;
 }
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {

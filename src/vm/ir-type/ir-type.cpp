@@ -30,13 +30,16 @@ uint64_t IRType::getSizeInBytes() {
     }
 }
 
+uint64_t IRType::get8BitAlignedSizeInBytes() {
+    return 8;
+}
+
 void IRType::setValue(IRInstructionNode* value) {
     _value = value;
 }
 
 IRInstructionNode* IRType::getValue() {
     if (!_value) {
-        this->print();
         throw std::logic_error("ir type has no value");
     }
     return _value.value();

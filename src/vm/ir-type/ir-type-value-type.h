@@ -24,6 +24,7 @@ public:
     [[nodiscard]] unsigned int getAllocIndex() const;
     llvm::PointerType* getAllocType();
     uint64_t getSizeInBytes() override;
+    uint64_t get8BitAlignedSizeInBytes() override;
     bool isTypeValueType() override;
 };
 

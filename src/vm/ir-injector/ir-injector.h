@@ -84,6 +84,7 @@ public:
     llvm::Value* inject(IRBlockNode* irBlock, IRType* irType);
     llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
+    void injectPrintDebugString(llvm::Value* string, IRBlockNode* irBlock, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_IR_INJECTOR_H

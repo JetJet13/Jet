@@ -13,11 +13,11 @@ llvm::Align DataAlignmentGenerator::generate(llvm::Type* type) {
 
 llvm::Align DataAlignmentGenerator::generate(IRType* type) {
     if (type->isCharType() || type->isBoolType()) {
-        return llvm::Align(1);
+        return llvm::Align(8);
     }
 
     if (type->isIntegerType()) {
-        return llvm::Align(4);
+        return llvm::Align(8);
     }
 
     if (type->isFloatType()) {
@@ -38,6 +38,10 @@ llvm::Align DataAlignmentGenerator::generate(IRType* type) {
         }
         auto largestPowerOfTwo = std::ceil(log2(largestSize));
         return llvm::Align(std::pow(2, largestPowerOfTwo));
+    }
+
+    if (type->isArrayPointerType() || type->isTypeValueType()) {
+        return llvm::Align(8);
     }
 
     return llvm::Align(1);

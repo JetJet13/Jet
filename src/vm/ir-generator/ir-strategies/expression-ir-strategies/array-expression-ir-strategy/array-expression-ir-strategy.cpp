@@ -32,13 +32,12 @@ IRInstructionNode* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayEx
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateIntConstant(irArrayType->getSizeInBytes()) },
+            { irGenerator->generateInt64Constant(irArrayType->get8BitAlignedSizeInBytes()) },
             ""
     );
     return IRInstructionNodeFactory::create(
-            new llvm::BitCastInst(malloc, irArrayType->getElementType()->getPointerTo()),
+            malloc,
             irGenerator->generateIrPointerType(irArrayType),
-            { malloc },
             std::move(childAllocations)
     );
 }
@@ -47,12 +46,11 @@ IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(AST
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateIntConstant(irArrayPointerType->getSizeInBytes()) }
+            { irGenerator->generateInt64Constant(irArrayPointerType->get8BitAlignedSizeInBytes()) }
     );
     return IRInstructionNodeFactory::create(
-            new llvm::BitCastInst(malloc, irArrayPointerType->getType()->getPointerTo()),
+            malloc,
             irGenerator->generateIrPointerType(irArrayPointerType),
-            { malloc },
             arrayAllocation
     );
 }

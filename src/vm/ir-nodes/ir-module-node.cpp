@@ -4,7 +4,7 @@
 
 #include "ir-module-node.h"
 
-IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string printFunctionName, std::string printIntFunctionName, std::string printFloatFunctionName, std::string printCharFunctionName, std::string printBoolFunctionName, std::string printStringFunctionName, std::string printWhitespaceFunctionName, std::string printNewLineFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName) {
+IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string printFunctionName, std::string printIntFunctionName, std::string printFloatFunctionName, std::string printCharFunctionName, std::string printBoolFunctionName, std::string printStringFunctionName, std::string printWhitespaceFunctionName, std::string printNewLineFunctionName, std::string printDebugMarkerFunctionName, std::string printDebugPointerFunctionName, std::string printDebugStringFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName) {
     _irValue = irValue;
     _arrayAccessFunctionName = arrayAccessFunctionName;
     _copyArrayFunctionName = copyArrayFunctionName;
@@ -27,6 +27,9 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _printStringFunctionName = printStringFunctionName;
     _printWhitespaceFunctionName = printWhitespaceFunctionName;
     _printNewLineFunctionName = printNewLineFunctionName;
+    _printDebugMarkerFunctionName = printDebugMarkerFunctionName;
+    _printDebugPointerFunctionName = printDebugPointerFunctionName;
+    _printDebugStringFunctionName = printDebugStringFunctionName;
     _range1pFunctionName = range1pFunctionName;
     _range2pFunctionName = range2pFunctionName;
     _range3pFunctionName = range3pFunctionName;
@@ -136,6 +139,18 @@ llvm::Function* IRModuleNode::getPrintWhitespaceFunction() {
 
 llvm::Function* IRModuleNode::getPrintNewLineFunction() {
     return _irValue->getFunction(_printNewLineFunctionName);
+}
+
+llvm::Function* IRModuleNode::getPrintDebugMarkerFunction() {
+    return _irValue->getFunction(_printDebugMarkerFunctionName);
+}
+
+llvm::Function* IRModuleNode::getPrintDebugPointerFunction() {
+    return _irValue->getFunction(_printDebugPointerFunctionName);
+}
+
+llvm::Function* IRModuleNode::getPrintDebugStringFunction() {
+    return _irValue->getFunction(_printDebugStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getRange1pFunction() {

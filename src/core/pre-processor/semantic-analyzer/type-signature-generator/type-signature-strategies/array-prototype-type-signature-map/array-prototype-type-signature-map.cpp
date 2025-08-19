@@ -38,6 +38,10 @@ std::optional<FunctionTypeSignature*> ArrayPrototypeTypeSignatureMap::find(std::
         return new FunctionTypeSignature(new ParameterListTypeSignature(), elementType);
     }
 
+    if (id == "size") {
+        return new FunctionTypeSignature(new ParameterListTypeSignature(), new IntLiteralTypeSignature());
+    }
+
     if (id == "tail") {
         return new FunctionTypeSignature(new ParameterListTypeSignature(), new ArrayTypeSignature(elementType));
     }

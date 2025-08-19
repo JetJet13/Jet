@@ -15,6 +15,7 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
     for (auto character : node->getValue()) {
         chars.push_back(irGenerator->generateChar(character));
     }
+    chars.push_back(irGenerator->generateChar('\0'));
     auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**irContext->getContext()));
     auto stringArrayType = irGenerator->generateIRArrayType(charIrType, chars.size());
     auto stringArray = llvm::ConstantArray::get(
@@ -26,5 +27,20 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
         node,
         stringArray,
         stringArrayType
+    );
+}
+
+llvm::Constant* StringLiteralIRStrategy::generateIRString(std::string rawString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
+    auto chars = std::vector<llvm::Constant*>();
+
+    for (auto character : rawString) {
+        chars.push_back(irGenerator->generateChar(character));
+    }
+    chars.push_back(irGenerator->generateChar('\0'));
+    auto charIrType = new IRType(llvm::IntegerType::getInt8Ty(**context));
+    auto stringArrayType = irGenerator->generateIRArrayType(charIrType, chars.size());
+    return llvm::ConstantArray::get(
+            stringArrayType->getType(),
+            llvm::ArrayRef(chars)
     );
 }

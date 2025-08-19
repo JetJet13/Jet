@@ -122,6 +122,7 @@ public:
     llvm::ConstantInt* generateChar(char character);
     llvm::ConstantInt* generateBoolean(bool value);
     llvm::ConstantInt* generateInt64Constant(int integer);
+    llvm::Constant* generateRawString(std::string rawString);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
     llvm::StructType* generateArrayPointerType();
@@ -145,7 +146,7 @@ public:
     IRContext* generateContext(IRBlockNode* irBlock, IRModuleNode* irModule);
     IRModuleNode* generateModule(std::string moduleName);
     void initModule(IRModuleNode* irModule);
-    IRFunctionNode* generateEmptyFunction(std::string functionName, IRModuleNode* irModuleNode);
+    IRFunctionNode* generateMainFunction(std::string functionName, IRModuleNode* irModuleNode);
     IRModuleNode* generateUtilInternalModule();
     IRInjector* getInjector();
 };

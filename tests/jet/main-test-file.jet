@@ -1,25 +1,37 @@
 import MyOtherModule from "./other-test-file.jet";
 
-print(1, 2300.004, 'c', true, false);
-
 proc main() {
-    const x = range(10);
-    const y = range(1, 100);
-    const z = range(10, 15, 2);
-    const negX = range(-10);
-    const negZ = range(-10, -15, 1);
+    // const x = range(10);
+    // const y = range(1, 100);
+    // const z = range(10, 15, 2);
+    // const negX = range(-10);
+    // const negZ = range(-10, -15, 1);
+    // print('b', 'v', 104, "HELLO!", true, false, true, false, 10009, 'c', 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200);
+}
 
-    for i in x {
-        print(i);
-    }
-    for i in z {
-        print(i);
-    }
-    for i in negX {
-        print(i);
-    }
-    for i in negZ {
-        print(i);
-    }
+proc maino() {
+    const m = [1,2,3];
+    const x = 999;
+    const y = 6;
+    print(y);
+    print(x);
+    print(y);
+    print(x);
+    print(y, x, y);
+    print(99, 22, 29, 44, 55, 66, 77, 88, 99);
+    print(true, false, true, false, true);
+    print('a', 'b', 'c', 'd', 'e');
+    print("Al", "Bob", "Chris", "Dom", "Eric");
+    print(200, "Al", true, 'c', false, "Eric", 90.092);
+    //print(m[1], 20);
+    print(y, y, y);
+    print(y, y, y);
+    print(22);
+    print(54.290);
+    print('c');
+    print(true);
+    print(false);
+    print("moo");
 }
 main();
+maino();

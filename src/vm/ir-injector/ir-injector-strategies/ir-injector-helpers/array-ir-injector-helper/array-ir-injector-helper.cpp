@@ -37,7 +37,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
     irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt32(arrayPointerType->getDepth()), arrayPointer);
     auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), { zeroIndex, allocIndex });
     irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), allocPointer);
-    return new IRLoadInstructionNode(irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getAllocatedType(), arrayPointerAllocation->getValue()), arrayPointerAllocation);
+    return new IRLoadInstructionNode(irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getIRType()->getSourceType()->getType(), arrayPointerAllocation->getValue()), arrayPointerAllocation);
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRInstructionNode* sourceArrayPointerAllocation, IRModuleNode* irModule, IRInjector* irInjector) {

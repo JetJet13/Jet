@@ -26,7 +26,7 @@ void SetupRefIRFunction::generateSetupRefFunction(IRGenerator* irGenerator, std:
     auto refCounterMalloc = functionBlock->getBuilder()->get()->CreateCall(
         irModuleNode->getMallocFunction()->getFunctionType(),
         irModuleNode->getMallocFunction(),
-        { irGenerator->generateIntConstant(intType.getSizeInBytes()) }
+        { irGenerator->generateInt64Constant(intType.getSizeInBytes()) }
     );
     auto refCounter = functionBlock->getBuilder()->get()->CreateBitCast(refCounterMalloc, intType.getType()->getPointerTo());
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), refCounter);

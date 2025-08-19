@@ -38,7 +38,7 @@ std::unique_ptr<llvm::IRBuilder<>>* IRBlockNode::getBuilder() {
 }
 
 void IRBlockNode::addVoidReturn() {
-    _builder.get()->CreateRet(_builder.get()->getInt32(0));
+    _builder.get()->CreateRetVoid();
 }
 
 void IRBlockNode::createSuccessor() {

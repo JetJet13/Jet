@@ -7,13 +7,14 @@
 
 llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto pointerAtIndex = this->getPointerAtIndex(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
-    if (irOperationType == IR_COPY_REASSIGNMENT_OP) {
+    if (irOperationType == IR_COPY_REASSIGNMENT_OP || irOperationType == IR_OPERAND_POINTER_OP) {
         return pointerAtIndex;
+    } else {
+        return irBlock->getBuilder()->get()->CreateLoad(
+                irExpression->getIRType()->getSourceType()->getType(),
+                pointerAtIndex
+        );
     }
-    return irBlock->getBuilder()->get()->CreateLoad(
-            irExpression->getIRType()->getSourceType()->getType(),
-            pointerAtIndex
-    );
 }
 
 llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -22,9 +23,12 @@ llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(I
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
     auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
     auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
-    return irBlock->getBuilder()->get()->CreateInBoundsGEP(
-            arrayPointerType->getAllocType(),
+    auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(
+            arrayPointerType->getType(),
             sourceValue,
-            { zeroIndex, allocIndex, indexValue }
+            { zeroIndex, allocIndex }
     );
+    auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
+    return irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
+
 }

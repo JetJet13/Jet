@@ -43,7 +43,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPoin
     return new IRInstructionNode(irValue, irType, ancestorValues, childAllocationMap);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType, IRInstructionNode* sourceInstructionNode) {
+IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> sourceInstructionNode) {
     return new IRInstructionNode(irValue, irType, sourceInstructionNode);
 }
 
