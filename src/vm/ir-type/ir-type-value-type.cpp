@@ -40,10 +40,6 @@ uint64_t IRTypeValueType::getSizeInBytes() {
     return 13;
 }
 
-uint64_t IRTypeValueType::get8BitAlignedSizeInBytes() {
-    return 32;
-}
-
 bool IRTypeValueType::isTypeValueType() {
     return true;
 }

@@ -21,7 +21,7 @@ IRInstructionNode* LiteralExpressionIRStrategy::generateArrayAllocation(IRString
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateInt64Constant(irStringLiteralNode->getIRType()->get8BitAlignedSizeInBytes()) },
+            { irGenerator->generateInt64Constant(irStringLiteralNode->getIRType()->getSizeInBytes()) },
             ""
     );
     return IRInstructionNodeFactory::create(

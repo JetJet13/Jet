@@ -48,7 +48,7 @@ void CopyRefIRFunction::generateCopyRefFunction(IRGenerator* irGenerator, std::u
     auto refCounterMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateInt64Constant(refType->getRefCounterIRType()->get8BitAlignedSizeInBytes()) }
+            { irGenerator->generateInt64Constant(refType->getRefCounterIRType()->getSizeInBytes()) }
     );
 
     auto pointerToNewRefValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refValueIndex });

@@ -25,10 +25,6 @@ uint64_t IRArrayType::getSizeInBytes() {
     return _type->getNumElements() * _arrayElementType->getSizeInBytes();
 }
 
-uint64_t IRArrayType::get8BitAlignedSizeInBytes() {
-    return _arrayElementType->get8BitAlignedSizeInBytes();
-}
-
 bool IRArrayType::containsTypeThatRequiresFreeing() {
     return true;
 }

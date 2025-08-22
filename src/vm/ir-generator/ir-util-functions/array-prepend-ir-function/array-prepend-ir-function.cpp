@@ -28,9 +28,10 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
-    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "sizeInBytes");
-    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
+    auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
+    auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
+    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), arrayElementTypeValue, { zeroIndex, sizeInBytesIndex });
+    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto newNumElements = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, oldNumElements, irGenerator->generateIntConstant(1));
@@ -55,7 +56,6 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
             irModuleNode->getMallocFunction(),
             { newArraySize }
     );
-
     functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction()->getFunctionType(),
             irModuleNode->getMemcpyFunction(),

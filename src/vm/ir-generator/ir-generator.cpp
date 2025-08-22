@@ -666,6 +666,11 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeStructIRFunction::declareFreeStructFunction(this, &_context, irModule);
     FreeStringIRFunction::declareFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::declareFreeRefFunction(this, &_context, irModule);
+    PrintIRFunction::declarePrintDebugMarkerFunction(this, &_context, irModule);
+    PrintIRFunction::declarePrintDebugPointerFunction(this, &_context, irModule);
+    PrintIRFunction::declarePrintDebugStringFunction(this, &_context, irModule);
+    PrintIRFunction::declarePrintWhitespaceFunction(this, &_context, irModule);
+    PrintIRFunction::declarePrintNewLineFunction(this, &_context, irModule);
 
     // generate
     ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);

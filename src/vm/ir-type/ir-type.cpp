@@ -24,14 +24,10 @@ uint64_t IRType::getSizeInBytes() {
     } else if (this->isIntegerType() || this->isFloatType()) {
         return 4;
     } else if (this->isPointerType()) {
-        return 1;
+        return 8;
     } else {
         return 0;
     }
-}
-
-uint64_t IRType::get8BitAlignedSizeInBytes() {
-    return 8;
 }
 
 void IRType::setValue(IRInstructionNode* value) {

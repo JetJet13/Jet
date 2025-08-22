@@ -25,7 +25,6 @@ public:
     IRType* getRefCounterIRType();
     IRType* getRefValueIRType();
     uint64_t getSizeInBytes() override;
-    uint64_t get8BitAlignedSizeInBytes() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isRefType() override;
 };

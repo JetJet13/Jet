@@ -113,21 +113,6 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         irExpression->getValue(),
         arguments
     );
-//    if (arguments.size() == 2) {
-//        auto argument = irExpression->getIRArguments()->at(0);
-//        auto irArgument = arguments[1];
-//            if (argument->getIRType()->getSourceType()->isLiteralType() || argument->getIRType()->getSourceType()->isArrayPointerType()) {
-//                irBlock->getBuilder()->get()->CreateCall(
-//                        irModule->getPrintDebugPointerFunction(),
-//                        { irArgument }
-//                );
-//                irBlock->getBuilder()->get()->CreateCall(
-//                        irModule->getPrintNewLineFunction(),
-//                        {}
-//                );
-//            }
-//
-//    }
     return value;
 }
 
@@ -166,11 +151,14 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(
-            irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope)
+            irInjector->inject(irBlock, argument, IR_OPERAND_POINTER_OP, irModule, scope)
         );
     }
     auto arrayValue = irInjector->inject(irBlock, irExpression->getIRArrayValue(), IR_OPERAND_POINTER_OP, irModule, scope);
-    arguments.push_back(arrayValue);
+    arguments.insert(arguments.begin(), arrayValue);
+    auto arrayTypeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getSourceType());
+    auto loadedArrayTypeValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRArrayValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), arrayTypeValue);
+    arguments.push_back(loadedArrayTypeValue);
     auto result = irBlock->getBuilder()->get()->CreateCall(
             llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
             irExpression->getValue(),

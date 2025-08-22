@@ -18,7 +18,6 @@ public:
     IRType* getElementIRType();
     llvm::Type* getElementType();
     uint64_t getSizeInBytes() override;
-    uint64_t get8BitAlignedSizeInBytes() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isArrayType() override;
 };

@@ -1,12 +1,23 @@
 import MyOtherModule from "./other-test-file.jet";
 
 proc main() {
-    // const x = range(10);
-    // const y = range(1, 100);
-    // const z = range(10, 15, 2);
-    // const negX = range(-10);
-    // const negZ = range(-10, -15, 1);
-    // print('b', 'v', 104, "HELLO!", true, false, true, false, 10009, 'c', 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200);
+    const x = range(10);
+    for item in x {
+        print(item);
+    }
+    const z = range(10, 15, 2);
+    for item in z {
+        print(item);
+    }
+    const negX = range(-10);
+    for item in negX {
+        print(item);
+    }
+    const negZ = range(-10, -15, 1);
+    for item in negZ {
+        print(item); // should print nothing since negZ is empty.
+    }
+    print('b', 'v', 104, "HELLO!", true, false, true, false, 10009, 'c', 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200);
 }
 
 proc maino() {
@@ -23,7 +34,7 @@ proc maino() {
     print('a', 'b', 'c', 'd', 'e');
     print("Al", "Bob", "Chris", "Dom", "Eric");
     print(200, "Al", true, 'c', false, "Eric", 90.092);
-    //print(m[1], 20);
+    print(m[1], 20);
     print(y, y, y);
     print(y, y, y);
     print(22);
@@ -33,5 +44,27 @@ proc maino() {
     print(false);
     print("moo");
 }
-main();
-maino();
+
+proc testArrayPrototypeFunctions() {
+    print("--- my array prototype ---");
+    const myArray = range(15);
+    print("at index 1:", myArray[1]);
+    print("size", myArray.size());
+    //myArray.append(15);
+    print("newSize (after append)", myArray.size());
+    print("newValue", myArray[14], myArray[15]);
+    //myArray.prepend(-100);
+    print("newSize (after prepend)", myArray.size());
+    print("newValue", myArray[1], myArray[0]);
+
+    myArray.drop(2);
+    print("newSize (after drop 2)", myArray.size());
+    print("newValue", myArray[0], myArray[1], myArray[12], myArray[13]);
+
+    myArray.dropLast(2);
+    print("newSize (after dropLast 2)", myArray.size());
+    print("newValue", myArray[0], myArray[10], myArray[11], myArray[12], myArray[13], myArray[14], myArray[15]);
+}
+// main();
+// maino();
+testArrayPrototypeFunctions();

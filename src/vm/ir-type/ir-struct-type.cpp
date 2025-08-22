@@ -31,14 +31,6 @@ uint64_t IRStructType::getSizeInBytes() {
     return totalSize;
 }
 
-uint64_t IRStructType::get8BitAlignedSizeInBytes() {
-    uint64_t totalSize = 0;
-    for (auto keyType : _keyTypeMap) {
-        totalSize += keyType.second->get8BitAlignedSizeInBytes();
-    }
-    return totalSize;
-}
-
 std::string IRStructType::getKeyForIndex(unsigned long index) {
     for (const auto& keyValue : _keyIndexMap) {
         if (keyValue.second == index) {

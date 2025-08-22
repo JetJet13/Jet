@@ -20,7 +20,6 @@ public:
     virtual llvm::Type* getType();
     virtual IRType* getSourceType();
     virtual uint64_t getSizeInBytes();
-    virtual uint64_t get8BitAlignedSizeInBytes();
     void setValue(IRInstructionNode* value);
     IRInstructionNode* getValue();
     bool hasValue();

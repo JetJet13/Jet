@@ -31,7 +31,7 @@ IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAl
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irType->get8BitAlignedSizeInBytes()) },
+                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
                 ""
         );
         return IRInstructionNodeFactory::create(
