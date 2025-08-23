@@ -17,12 +17,14 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
     auto zero = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto functionType = llvm::FunctionType::get(pointerType->getType(),
+    auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
                                                 { pointerType->getType(), pointerType->getType(), intType, intType },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            ArrayConcatIRFunction::getArrayConcatIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto sizeInBytes = function->getArg(2);
+    auto depth = function->getArg(3);
     auto firstArrayNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, numElementsIndex });
     auto loadedFirstArrayNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, firstArrayNumElementsPointer);
     auto secondArrayNumElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zero, numElementsIndex });
@@ -37,7 +39,7 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             irModuleNode->getMallocSizeFunction(),
             {
                 newArrayNumElements,
-                function->getArg(2)
+                sizeInBytes
             }
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
@@ -53,7 +55,7 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             irModuleNode->getMallocSizeFunction(),
             {
                     loadedFirstArrayNumElements,
-                    function->getArg(2)
+                    sizeInBytes
             }
     );
     functionBlock->getBuilder()->get()->CreateCall(
@@ -70,7 +72,7 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             irModuleNode->getMallocSizeFunction(),
             {
                     loadedSecondArrayNumElements,
-                    function->getArg(2)
+                    sizeInBytes
             }
     );
     functionBlock->getBuilder()->get()->CreateCall(
@@ -83,7 +85,7 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             functionBlock,
             arrayPointerType,
             newArrayNumElements,
-            function->getArg(3),
+            depth,
             arrayPointerAllocation,
             newArrayMalloc
     );

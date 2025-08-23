@@ -5,6 +5,7 @@
 #include "array-prototype-type-signature-map.h"
 #include "../../../../../type-signature/literal-type-signature/int-literal-type-signature.h"
 #include "../../../../../type-signature/array-type-signature/array-type-signature.h"
+#include "../../../../../type-signature/literal-type-signature/bool-literal-type-signature.h"
 
 std::optional<FunctionTypeSignature*> ArrayPrototypeTypeSignatureMap::find(std::string id, TypeSignature* elementType) {
     if (id == "drop" || id == "dropLast") {
@@ -40,6 +41,10 @@ std::optional<FunctionTypeSignature*> ArrayPrototypeTypeSignatureMap::find(std::
 
     if (id == "size") {
         return new FunctionTypeSignature(new ParameterListTypeSignature(), new IntLiteralTypeSignature());
+    }
+
+    if (id == "empty") {
+        return new FunctionTypeSignature(new ParameterListTypeSignature(), new BoolLiteralTypeSignature());
     }
 
     if (id == "tail") {

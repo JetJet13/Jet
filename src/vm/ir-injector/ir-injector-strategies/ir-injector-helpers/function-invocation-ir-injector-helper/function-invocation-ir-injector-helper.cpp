@@ -164,11 +164,17 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
             irExpression->getValue(),
             arguments
     );
-    if (irOperationType == IR_OPERAND_POINTER_OP) {
+
+    if (irOperationType == IR_OPERAND_POINTER_OP && !result->getType()->isPointerTy()) {
         auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getType());
         irBlock->getBuilder()->get()->CreateStore(result, alloc);
         return alloc;
     }
+
+    if ((irOperationType == IR_COPY_ASSIGNMENT_OP || irOperationType == IR_OPERAND_VALUE_OP) && result->getType()->isPointerTy()) {
+        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), result);
+    }
+
     return result;
 }
 

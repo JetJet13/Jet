@@ -64,6 +64,37 @@ proc testArrayPrototypeFunctions() {
     myArray.dropLast(2);
     print("newSize (after dropLast 2)", myArray.size());
     print("newValue", myArray[0], myArray[10], myArray[11], myArray[12], myArray[13], myArray[14], myArray[15]);
+
+// todo - re-test take once built-in CopyArray function is working
+    const takeExample = myArray.take(2);
+//    print("takeExample", takeExample[0], takeExample[1]);
+
+// todo - re-test takeLast once built-in CopyArray function is working
+    const takeLastExample = myArray.takeLast(2);
+//    print("takeLastExample", takeLastExample[0], takeLastExample[1]);
+
+    const headExample = myArray.head();
+    const sumHeadExample = headExample + 100;
+    print("head", headExample, sumHeadExample);
+
+    const lastExample = myArray.last();
+    const sumLastExample = lastExample + 100;
+    print("last", lastExample, sumLastExample);
+
+    // todo - reset tail once built-in CopyArray function is working
+    const myArrayTail = myArray.tail();
+    print("myArrayTail", myArrayTail.size());
+
+    const oneArray = [1,2,3];
+    const twoArray = [4,5,6];
+    const concatResult = oneArray ++ twoArray;
+    print("concatResult", concatResult.size());
+    for item in concatResult {
+        print("concatItem", item);
+    }
+
+    const emptyArray: [int] = [];
+    print("test array.isEmpty():", emptyArray.empty(), oneArray.empty());
 }
 // main();
 // maino();

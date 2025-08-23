@@ -16,7 +16,7 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(pointerType->getType(),
-                                                { intType, pointerType->getType(), typeValueType->getType() },
+                                                { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            ArrayTakeLastIRFunction::getArrayTakeLastIRFunctionName(), irModuleNode->getModule());
@@ -33,12 +33,15 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
-    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "sizeInBytes");
-    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, depthIndex });
+    auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
+    auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
+    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), arrayElementTypeValue, { zeroIndex, sizeInBytesIndex });
+    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
+    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, numElementsIndex });
+    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
-    auto takeNumElements = function->getArg(0);
+    auto takeNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
     functionBlock->getBuilder()->get()->CreateBr(isNumElementsZeroIfBlock->getBlock());
 
     // isNumElementsZeroIfBlock
@@ -88,7 +91,7 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
     isTakeLastNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getCopyArrayFunction()->getFunctionType(),
             irModuleNode->getCopyArrayFunction(),
-            { arrayPointerAllocationForFullCopy, function->getArg(1), function->getArg(2) }
+            { arrayPointerAllocationForFullCopy, function->getArg(0), function->getArg(2) }
     );
     isTakeLastNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForFullCopy);
 
@@ -101,12 +104,36 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
                     sizeInBytes
             }
     );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintDebugMarkerFunction(),
+            { sizeInBytes }
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintWhitespaceFunction(),
+            {}
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintDebugMarkerFunction(),
+            { takeNumElements }
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintWhitespaceFunction(),
+            {}
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintDebugMarkerFunction(),
+            { takeArraySize }
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintNewLineFunction(),
+            { }
+    );
     auto takeArrayMalloc = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
             { takeArraySize }
     );
-    auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, allocIndex });
+    auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     auto loadedPointerToArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToArray);
     auto arrayToTakeOffsetNumElements = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, numElements, takeNumElements);
     auto arrayToTakeOffsetInBytes = successorBlock->getBuilder()->get()->CreateCall(
@@ -141,7 +168,7 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
     successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction()->getFunctionType(),
             irModuleNode->getMallocFreeFunction(),
-            { takeArrayMalloc, function->getArg(0) }
+            { takeArrayMalloc, takeNumElements }
     );
     successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeLastCopy);
 }

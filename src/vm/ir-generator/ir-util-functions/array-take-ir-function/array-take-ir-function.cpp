@@ -15,7 +15,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(pointerType->getType(),
-                                                { intType, pointerType->getType(), typeValueType->getType() },
+                                                { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            ArrayTakeIRFunction::getArrayTakeIRFunctionName(), irModuleNode->getModule());
@@ -32,21 +32,24 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
-    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "sizeInBytes");
-    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, depthIndex });
+    auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
+    auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
+    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), arrayElementTypeValue, { zeroIndex, sizeInBytesIndex });
+    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
+    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, numElementsIndex });
+    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
-    auto takeNumElements = function->getArg(0);
+    auto takeNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
     functionBlock->getBuilder()->get()->CreateBr(isNumElementsZeroIfBlock->getBlock());
 
     // isNumElementsZeroIfBlock
-    auto isNumElementsNegative = isNumElementsZeroIfBlock->getBuilder()->get()->CreateICmp(
+    auto isNumElementsZero = isNumElementsZeroIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             numElements,
             irGenerator->generateIntConstant(0)
     );
-    isNumElementsZeroIfBlock->getBuilder()->get()->CreateCondBr(isNumElementsNegative, isNumElementsZeroIfThenBlock->getBlock(), isTakeNumNegativeIfBlock->getBlock());
+    isNumElementsZeroIfBlock->getBuilder()->get()->CreateCondBr(isNumElementsZero, isNumElementsZeroIfThenBlock->getBlock(), isTakeNumNegativeIfBlock->getBlock());
 
     // isTakeNumNegativeIfBlock
     auto isTakeNumNegative = isTakeNumNegativeIfBlock->getBuilder()->get()->CreateICmp(
@@ -87,7 +90,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getCopyArrayFunction()->getFunctionType(),
             irModuleNode->getCopyArrayFunction(),
-            { arrayPointerAllocationForFullCopy, function->getArg(1), function->getArg(2) }
+            { arrayPointerAllocationForFullCopy, function->getArg(0), function->getArg(2) }
     );
     isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForFullCopy);
 
@@ -105,7 +108,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
             irModuleNode->getMallocFunction(),
             { takeArraySize }
     );
-    auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, allocIndex });
+    auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     auto loadedPointerToArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToArray);
     successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction()->getFunctionType(),
@@ -121,16 +124,40 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
             arrayPointerAllocationForTake,
             takeArrayMalloc
     );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintDebugMarkerFunction(),
+            { sizeInBytes }
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintWhitespaceFunction(),
+            {}
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintDebugMarkerFunction(),
+            { takeNumElements }
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintWhitespaceFunction(),
+            {}
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintDebugMarkerFunction(),
+            { takeArraySize }
+    );
+    successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getPrintNewLineFunction(),
+            { }
+    );
     auto arrayPointerAllocationForTakeCopy = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getCopyArrayFunction()->getFunctionType(),
-            irModuleNode->getCopyArrayFunction(),
-            { arrayPointerAllocationForTakeCopy, arrayPointerAllocationForTake, function->getArg(2) }
-    );
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFreeFunction()->getFunctionType(),
-            irModuleNode->getMallocFreeFunction(),
-            { takeArrayMalloc, function->getArg(0) }
-    );
+//    successorBlock->getBuilder()->get()->CreateCall(
+//            irModuleNode->getCopyArrayFunction()->getFunctionType(),
+//            irModuleNode->getCopyArrayFunction(),
+//            { arrayPointerAllocationForTakeCopy, arrayPointerAllocationForTake, function->getArg(2) }
+//    );
+//    successorBlock->getBuilder()->get()->CreateCall(
+//            irModuleNode->getMallocFreeFunction()->getFunctionType(),
+//            irModuleNode->getMallocFreeFunction(),
+//            { takeArrayMalloc, takeNumElements }
+//    );
     successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeCopy);
 }
