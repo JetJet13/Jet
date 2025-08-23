@@ -125,9 +125,10 @@ proc testRefFunctions() {
     let x = 50;
     const refX = ref x;
     const srefX = sref refX;
-    print("refX", x, refX, srefX);
+    const y = dref refX;
+    print("refX", x, refX, srefX, y);
     x = 45;
-    print("refX (after update)", x, refX, srefX);
+    print("refX (after update)", x, refX, srefX, y);
 }
 main();
 maino();
