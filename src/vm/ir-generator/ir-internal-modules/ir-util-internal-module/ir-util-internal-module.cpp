@@ -21,6 +21,7 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     PrintIRFunction::generatePrintCharFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintBoolFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintStringFunction(irGenerator, context, irModule);
+    PrintIRFunction::generatePrintRefFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintFunction(irGenerator, context, irModule);
     RangeIRFunction::generateRange3pFunction(irGenerator, context, irModule);
     RangeIRFunction::generateRange2pFunction(irGenerator, context, irModule);

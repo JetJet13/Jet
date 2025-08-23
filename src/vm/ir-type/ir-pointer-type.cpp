@@ -28,7 +28,7 @@ llvm::PointerType* IRPointerType::getType() {
 }
 
 uint64_t IRPointerType::getSizeInBytes() {
-    return 1;
+    return 8;
 }
 
 IRType* IRPointerType::getSourceType() {

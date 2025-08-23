@@ -40,7 +40,7 @@ llvm::Align DataAlignmentGenerator::generate(IRType* type) {
         return llvm::Align(std::pow(2, largestPowerOfTwo));
     }
 
-    if (type->isArrayPointerType() || type->isTypeValueType()) {
+    if (type->isArrayPointerType() || type->isTypeValueType() || type->isRefType()) {
         return llvm::Align(8);
     }
 

@@ -29,6 +29,7 @@ private:
     std::string _printCharFunctionName;
     std::string _printBoolFunctionName;
     std::string _printStringFunctionName;
+    std::string _printRefFunctionName;
     std::string _printWhitespaceFunctionName;
     std::string _printNewLineFunctionName;
     std::string _printDebugMarkerFunctionName;
@@ -76,6 +77,7 @@ public:
                  std::string printCharFunctionName,
                  std::string printBoolFunctionName,
                  std::string printStringFunctionName,
+                 std::string printRefFunctionName,
                  std::string printWhitespaceFunctionName,
                  std::string printNewLineFunctionName,
                  std::string printDebugMarkerFunctionName,
@@ -122,6 +124,7 @@ public:
     llvm::Function* getPrintCharFunction();
     llvm::Function* getPrintBoolFunction();
     llvm::Function* getPrintStringFunction();
+    llvm::Function* getPrintRefFunction();
     llvm::Function* getPrintWhitespaceFunction();
     llvm::Function* getPrintNewLineFunction();
     llvm::Function* getPrintDebugMarkerFunction();

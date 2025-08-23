@@ -25,6 +25,7 @@ public:
     bool hasValue();
     bool isCharType();
     bool isIntegerType();
+    bool isInteger64Type();
     bool isFloatType();
     bool isBoolType();
     bool isLiteralType();

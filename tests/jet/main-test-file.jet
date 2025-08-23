@@ -119,9 +119,18 @@ proc testCopyFunctions() {
     const v = { true, 'c', 800 };
     const vCopy = v;
     print("v", v.0, v.1, v.2, "|", vCopy.0, vCopy.1, vCopy.2);
-
 }
-// main();
-// maino();
+
+proc testRefFunctions() {
+    let x = 50;
+    const refX = ref x;
+    const srefX = sref refX;
+    print("refX", x, refX, srefX);
+    x = 45;
+    print("refX (after update)", x, refX, srefX);
+}
+main();
+maino();
 testArrayPrototypeFunctions();
 testCopyFunctions();
+testRefFunctions();
