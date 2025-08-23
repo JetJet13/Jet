@@ -65,13 +65,11 @@ proc testArrayPrototypeFunctions() {
     print("newSize (after dropLast 2)", myArray.size());
     print("newValue", myArray[0], myArray[10], myArray[11], myArray[12], myArray[13], myArray[14], myArray[15]);
 
-// todo - re-test take once built-in CopyArray function is working
     const takeExample = myArray.take(2);
-//    print("takeExample", takeExample[0], takeExample[1]);
+    print("takeExample", takeExample[0], takeExample[1]);
 
-// todo - re-test takeLast once built-in CopyArray function is working
     const takeLastExample = myArray.takeLast(2);
-//    print("takeLastExample", takeLastExample[0], takeLastExample[1]);
+    print("takeLastExample", takeLastExample[0], takeLastExample[1]);
 
     const headExample = myArray.head();
     const sumHeadExample = headExample + 100;
@@ -81,9 +79,8 @@ proc testArrayPrototypeFunctions() {
     const sumLastExample = lastExample + 100;
     print("last", lastExample, sumLastExample);
 
-    // todo - reset tail once built-in CopyArray function is working
     const myArrayTail = myArray.tail();
-    print("myArrayTail", myArrayTail.size());
+    print("myArrayTail", myArrayTail.size(), myArrayTail[0], myArrayTail[1]);
 
     const oneArray = [1,2,3];
     const twoArray = [4,5,6];
@@ -96,6 +93,35 @@ proc testArrayPrototypeFunctions() {
     const emptyArray: [int] = [];
     print("test array.isEmpty():", emptyArray.empty(), oneArray.empty());
 }
+
+proc testCopyFunctions() {
+    const x = 50;
+    const xCopy = x;
+    print("x", x, xCopy);
+    const y = 20.204;
+    const yCopy = y;
+    print("y", y, yCopy);
+    const z = 'c';
+    const zCopy = z;
+    print("z", z, zCopy);
+    const b = true;
+    const bCopy = b;
+    print("b", b, bCopy);
+    const s = "hello world";
+    const sCopy = s;
+    print("s", s, sCopy);
+    const t = { foo: 10, bar: false };
+    const tCopy = t;
+    print("t", t.foo, t.bar, tCopy.foo, tCopy.bar);
+    const a = [1,2,3,4,5];
+    const aCopy = a;
+    print("a", a.size(), a[0], a[4], "|", aCopy.size(), aCopy[0], aCopy[4]);
+    const v = { true, 'c', 800 };
+    const vCopy = v;
+    print("v", v.0, v.1, v.2, "|", vCopy.0, vCopy.1, vCopy.2);
+
+}
 // main();
 // maino();
 testArrayPrototypeFunctions();
+testCopyFunctions();

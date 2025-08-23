@@ -104,30 +104,6 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
                     sizeInBytes
             }
     );
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getPrintDebugMarkerFunction(),
-            { sizeInBytes }
-    );
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getPrintWhitespaceFunction(),
-            {}
-    );
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getPrintDebugMarkerFunction(),
-            { takeNumElements }
-    );
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getPrintWhitespaceFunction(),
-            {}
-    );
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getPrintDebugMarkerFunction(),
-            { takeArraySize }
-    );
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getPrintNewLineFunction(),
-            { }
-    );
     auto takeArrayMalloc = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),

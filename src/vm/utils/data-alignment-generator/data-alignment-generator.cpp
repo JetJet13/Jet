@@ -13,11 +13,11 @@ llvm::Align DataAlignmentGenerator::generate(llvm::Type* type) {
 
 llvm::Align DataAlignmentGenerator::generate(IRType* type) {
     if (type->isCharType() || type->isBoolType()) {
-        return llvm::Align(8);
+        return llvm::Align(1);
     }
 
     if (type->isIntegerType()) {
-        return llvm::Align(8);
+        return llvm::Align(4);
     }
 
     if (type->isFloatType()) {

@@ -150,7 +150,8 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     depthOneForLoopEndBlock->getBuilder()->get()->CreateBr(depthOneTypeLiteralEndBlock->getBlock());
 
     // is element type literal end block
-    depthOneTypeLiteralEndBlock->getBuilder()->get()->CreateStore(destinationArrayPointerAllocation, function->getArg(0));
+    auto loadedDestinationArrayPointer = depthOneTypeLiteralEndBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), destinationArrayPointerAllocation);
+    depthOneTypeLiteralEndBlock->getBuilder()->get()->CreateStore(loadedDestinationArrayPointer, function->getArg(0));
     depthOneTypeLiteralEndBlock->addVoidReturn();
 
 
@@ -188,6 +189,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     depthNForLoopBody->CreateBr(depthNForLoopConditionBlock->getBlock());
 
     // depth N for loop end
-    depthNForLoopEndBlock->getBuilder()->get()->CreateStore(destinationArrayPointerAllocation, function->getArg(0));
+    auto loadedDestinationArrayPointerAllocation = depthNForLoopEndBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), destinationArrayPointerAllocation);
+    depthNForLoopEndBlock->getBuilder()->get()->CreateStore(loadedDestinationArrayPointerAllocation, function->getArg(0));
     depthNForLoopEndBlock->addVoidReturn();
 }

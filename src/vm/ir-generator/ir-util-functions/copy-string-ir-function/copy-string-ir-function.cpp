@@ -55,8 +55,9 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
     functionBlock->getBuilder()->get()->CreateStore(malloc, destinationStringAllocPointer);
 
     auto sourceAllocation = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, allocIndex });
+    auto loadedSourceAllocation = functionBlock->getBuilder()->get()->CreateLoad(pointerType, sourceAllocation);
     auto charAlignment = DataAlignmentGenerator::generate(charType);
-    functionBlock->getBuilder()->get()->CreateMemCpy(malloc, charAlignment, sourceAllocation, charAlignment, mallocSize);
+    functionBlock->getBuilder()->get()->CreateMemCpy(malloc, charAlignment, loadedSourceAllocation, charAlignment, mallocSize);
     auto loadedStringCopy = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), destinationStringPointerAllocation);
     functionBlock->getBuilder()->get()->CreateStore(loadedStringCopy, function->getArg(0));
     functionBlock->addVoidReturn();
