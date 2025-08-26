@@ -166,7 +166,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     );
 
     if (irOperationType == IR_OPERAND_POINTER_OP && !result->getType()->isPointerTy()) {
-        auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getType());
+        auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getSourceType()->getType());
         irBlock->getBuilder()->get()->CreateStore(result, alloc);
         return alloc;
     }

@@ -130,8 +130,18 @@ proc testRefFunctions() {
     x = 45;
     print("refX (after update)", x, refX, srefX, y);
 }
+
+proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: string, bar: bool }) {
+    const myX = x;
+    const myY = y;
+    const myZ = z;
+    const myA = a;
+    const myB = b;
+    // print(myX, myY, myZ, myA.size(), myA[0], myB.foo, myB.bar);
+}
 main();
 maino();
 testArrayPrototypeFunctions();
 testCopyFunctions();
 testRefFunctions();
+testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });

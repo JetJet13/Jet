@@ -137,6 +137,8 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-print-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-print-statement-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
 
 namespace ASTNodeFactory {
     Lexeme* createLexeme(Symbol* symbol) {
@@ -748,10 +750,12 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::functionArgumentListEnd
         );
     }
-    static ASTPrintStatementNode* createPrintStatement(std::vector<ASTFunctionArgumentNode*> arguments = {}) {
-        return new ASTPrintStatementNode(
-                ASTNodeFactory::printKeyword,
-                ASTNodeFactory::createFunctionArgumentList(arguments)
+    static ASTExpressionStatementNode* createPrintStatement(std::vector<ASTFunctionArgumentNode*> arguments = {}) {
+        return new ASTExpressionStatementNode(
+                new ASTFunctionInvocationExpressionNode(
+                    ASTNodeFactory::callableIdExpression,
+                    ASTNodeFactory::createFunctionArgumentList(arguments)
+                )
         );
     }
     static ASTTupleExpressionNode* createTupleExpression(std::vector<ASTExpressionNode*> expressions = {}) {

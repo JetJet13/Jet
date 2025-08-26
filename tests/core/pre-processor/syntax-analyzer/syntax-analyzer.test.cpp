@@ -3531,17 +3531,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ASTNodeFactory::createLambdaType(
                                         {
                                                 ASTNodeFactory::createStructType({
-                                                                                         ASTNodeFactory::createStructTypeKeyValue(
-                                                                                                 ASTNodeFactory::intType),
-                                                                                         ASTNodeFactory::createStructTypeKeyValue(
-                                                                                                 ASTNodeFactory::intType),
-                                                                                 }),
+                                                     ASTNodeFactory::createStructTypeKeyValue(
+                                                             ASTNodeFactory::intType),
+                                                     ASTNodeFactory::createStructTypeKeyValue(
+                                                             ASTNodeFactory::intType),
+                                                 }),
                                                 ASTNodeFactory::createStructType({
-                                                                                         ASTNodeFactory::createStructTypeKeyValue(
-                                                                                                 ASTNodeFactory::booleanType),
-                                                                                         ASTNodeFactory::createStructTypeKeyValue(
-                                                                                                 ASTNodeFactory::charType),
-                                                                                 })
+                                                     ASTNodeFactory::createStructTypeKeyValue(
+                                                             ASTNodeFactory::booleanType),
+                                                     ASTNodeFactory::createStructTypeKeyValue(
+                                                             ASTNodeFactory::charType),
+                                                })
                                         },
                                         ASTNodeFactory::stringType
                                 )
@@ -3618,7 +3618,26 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         }))},
         {241, ASTNodeFactory::createPrintStatement({
             new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-        })}
+        })},
+        {242, new ASTExpressionStatementNode(
+                new ASTFunctionInvocationExpressionNode(
+                        ASTNodeFactory::callableIdExpression,
+                        ASTNodeFactory::createFunctionArgumentList({
+                            new ASTFunctionArgumentNode(ASTNodeFactory::intExpression),
+                            new ASTFunctionArgumentNode(ASTNodeFactory::floatExpression),
+                            new ASTFunctionArgumentNode(ASTNodeFactory::trueExpression),
+                            new ASTFunctionArgumentNode(ASTNodeFactory::createArrayExpression({
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::intExpression,
+                                ASTNodeFactory::intExpression
+                            })),
+                            new ASTFunctionArgumentNode(ASTNodeFactory::createStructExpression({
+                                ASTNodeFactory::createStructKeyValue(ASTNodeFactory::stringExpression),
+                                ASTNodeFactory::createStructKeyValue(ASTNodeFactory::falseExpression)
+                            }))
+                        })
+                )
+        )},
 
 };
 
@@ -3653,8 +3672,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 241);
-    for (int i = 0; i < 241; i++) {
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 242);
+    for (int i = 0; i < 242; i++) {
         auto declaration = syntaxAnalyzerResult->getFileScope()->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

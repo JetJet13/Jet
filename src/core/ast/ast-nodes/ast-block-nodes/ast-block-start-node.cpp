@@ -13,7 +13,7 @@
 #include "../ast-type-nodes/ast-struct-type-nodes/ast-struct-type-start-node.h"
 
 ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-    if (!prevNode || prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_REF_NODE, AST_FUNCTION_RETURN_NODE })) {
+    if (!prevNode || mode == SA_FUNCTION_ARGUMENT_LIST_MODE || prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_REF_NODE, AST_FUNCTION_RETURN_NODE })) {
         return new ASTTupleListStartNode(_lexeme);
     }
 
