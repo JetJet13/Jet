@@ -10,16 +10,14 @@ llvm::Value* StringIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcce
     auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_POINTER_OP, irModule, scope);
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getSourceType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt32(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
-    auto loadedPointerToIndexedElement = irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
     auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
-    irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getElementType(), nullptr, "BREAKPOINT");
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyArrayFunction(),
             {
                 irExpression->getSourceAllocation().value()->getValue(),
-                loadedPointerToIndexedElement,
+                pointer,
                 loadedTypeValue
             }
     );
