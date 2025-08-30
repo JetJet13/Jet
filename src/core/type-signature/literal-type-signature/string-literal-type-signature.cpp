@@ -16,3 +16,7 @@ std::string StringLiteralTypeSignature::toString() {
 TypeSource StringLiteralTypeSignature::getTypeSource() {
     return STRING_LITERAL_TYPE_SOURCE;
 }
+
+bool StringLiteralTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    return this->isEqualTo(otherType);
+}

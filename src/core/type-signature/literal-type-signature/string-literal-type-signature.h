@@ -14,6 +14,7 @@ public:
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
+    bool isEquivalentTo(TypeSignature *otherType) override;
 };
 
 #endif //JETLANG_STRING_LITERAL_TYPE_SIGNATURE_H

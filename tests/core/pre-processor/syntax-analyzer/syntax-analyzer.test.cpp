@@ -46,6 +46,7 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-object-access-assignment-statement-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
         {1, new ASTVariableDeclarationNode(
@@ -3638,7 +3639,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
-
+        {243, new ASTObjectAccessAssignmentStatementNode(
+                    new ASTObjectAccessAssignmentNode(
+                            ASTNodeFactory::createObjectAccessExpression(
+                                ASTNodeFactory::objectAccessSourceId,
+                                ASTNodeFactory::objectAccessTargetId
+                            ),
+                            ASTNodeFactory::assignment
+                    ),
+                    ASTNodeFactory::intExpression
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -3672,8 +3682,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 242);
-    for (int i = 0; i < 242; i++) {
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 243);
+    for (int i = 0; i < 243; i++) {
         auto declaration = syntaxAnalyzerResult->getFileScope()->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

@@ -12,7 +12,9 @@ void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNo
     }
 
     strategyMap->assignTypeSignatureFor(variableDeclaration->getInitializerNode(), scope);
-
+    if (variableDeclaration->getId() == "preDefinedFunctionCall") {
+        scope->dump();
+    }
     if (variableDeclaration->getTypeSignature()->isUnknown()) {
         variableDeclaration->setTypeSignature(variableDeclaration->getInitializerNode()->getTypeSignature()->convertToVariableTypeSignature());
     }

@@ -22,6 +22,10 @@ TypeSource LiteralTypeSignature::getTypeSource() {
 }
 
 bool LiteralTypeSignature::isEqualTo(TypeSignature* otherType) {
+    return this->getTypeSource() == otherType->getTypeSource();
+}
+
+bool LiteralTypeSignature::isEquivalentTo(TypeSignature *otherType){
     return this->isLiteral() || this->getTypeSource() == otherType->getTypeSource();
 }
 

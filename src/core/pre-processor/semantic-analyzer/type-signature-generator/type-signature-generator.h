@@ -12,7 +12,7 @@ private:
     TypeSignatureStrategyProvider* _typeSignatureStrategyProvider;
 public:
     explicit TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider);
-    TypeSignature* generateInitialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node);
+    void assignInitialTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope);
     void assignPartialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope);
     void assignTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope);
 };

@@ -535,3 +535,4 @@ type Point = { x: int, y: int };
 print("HELLO!");
 
 testParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+myObject.foo = 120;

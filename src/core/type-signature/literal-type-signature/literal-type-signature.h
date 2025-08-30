@@ -14,6 +14,7 @@ public:
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool isEqualTo(TypeSignature *otherType) override;
+    bool isEquivalentTo(TypeSignature *otherType) override;
     void print() override;
 };
 

@@ -31,7 +31,8 @@ namespace TypeCheckerErrorMessageTable {
     } 
     static ErrorMessageLambda VariableTypeVoid(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type cannot be void");  };
-    } 
+    }
+
     static ErrorMessageLambda VariableAssignmentTypeMismatch(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match expression type");  };
     } 
@@ -208,6 +209,30 @@ namespace TypeCheckerErrorMessageTable {
     }
     static ErrorMessageLambda PrintStatementArgumentNotLiteral(ASTNode* node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "print argument must be literal (string, bool, char, int or float)"); };
+    }
+    static ErrorMessageLambda ObjectAccessAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "object property type does not match expression type"); };
+    }
+    static ErrorMessageLambda ObjectPropertyTypeUnknown(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "object property type is unknown");  };
+    }
+    static ErrorMessageLambda ObjectPropertyTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "object property type is invalid");  };
+    }
+    static ErrorMessageLambda ObjectPropertyTypeVoid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "object property type cannot be void");  };
+    }
+    static ErrorMessageLambda ArrayAccessAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type does not match expression type"); };
+    }
+    static ErrorMessageLambda ArrayElementTypeUnknown(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type is unknown");  };
+    }
+    static ErrorMessageLambda ArrayElementTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type is invalid");  };
+    }
+    static ErrorMessageLambda ArrayElementTypeVoid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type cannot be void");  };
     }
 }
 

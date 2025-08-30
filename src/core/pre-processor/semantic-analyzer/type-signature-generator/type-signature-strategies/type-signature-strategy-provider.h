@@ -38,6 +38,7 @@ private:
 public:
     TypeSignatureStrategyProvider();
     void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
+    void assignInitialTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope);
     void assignPartialTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
     ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope);
     ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);

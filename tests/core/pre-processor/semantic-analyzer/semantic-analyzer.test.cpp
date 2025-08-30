@@ -420,12 +420,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                                 TypeSignatureFactory::intLiteral
                             ))
             )},
-            {95, new FunctionInvocationTypeSignature(
-                    new FunctionTypeSignature(
-                        new ParameterListTypeSignature(),
-                        TypeSignatureFactory::boolLiteral
-                    )
-            )},
+            {95, TypeSignatureFactory::boolLiteral },
             {96, new FunctionTypeSignature(
                     new ParameterListTypeSignature({
                        new ParameterListItemTypeSignature(

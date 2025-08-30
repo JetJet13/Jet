@@ -16,3 +16,7 @@ std::string BoolLiteralTypeSignature::toString() {
 TypeSource BoolLiteralTypeSignature::getTypeSource() {
     return BOOL_LITERAL_TYPE_SOURCE;
 }
+
+bool BoolLiteralTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+    return this->isEqualTo(otherType);
+}

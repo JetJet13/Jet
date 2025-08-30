@@ -1292,6 +1292,18 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h
         type-signature/types/function-vararg-type-signature-map/function-vararg-type-signature-map.cpp
         type-signature/types/function-vararg-type-signature-map/function-vararg-type-signature-map.h
+        ast/ast-nodes/ast-object-nodes/ast-object-access-assignment-node.cpp
+        ast/ast-nodes/ast-object-nodes/ast-object-access-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-assignment-reducer-strategy/object-access-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-assignment-reducer-strategy/object-access-assignment-reducer-strategy.h
+        ast/ast-nodes/ast-statement-nodes/ast-object-access-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-object-access-assignment-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-assignment-statement-reducer-strategy/object-access-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-assignment-statement-reducer-strategy/object-access-assignment-statement-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.h
 
 )
 

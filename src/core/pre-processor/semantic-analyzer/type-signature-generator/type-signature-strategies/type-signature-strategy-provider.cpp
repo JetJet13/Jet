@@ -59,6 +59,7 @@
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
 #include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
 #include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
+#include "object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h"
 #include "block-type-signature-strategy/block-type-signature-strategy.h"
 #include "if-statement-type-signature-strategy/if-statement-type-signature-strategy.h"
 #include "try-statement-type-signature-strategy/try-statement-type-signature-strategy.h"
@@ -417,6 +418,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
                     ->getArrayAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign((ASTArrayAccessAssignmentStatementNode*)node, typeSignatureScope, this);
             break;
+        case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getObjectAccessAssignmentStatementTypeSignatureStrategy()
+                    ->assign((ASTObjectAccessAssignmentStatementNode*)node, typeSignatureScope, this);
+            break;
         case AST_EXPRESSION_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
                     ->getExpressionStatementTypeSignatureStrategy()
@@ -462,20 +468,28 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
     }
 }
 
+void TypeSignatureStrategyProvider::assignInitialTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope) {
+    switch (node->getNodeType()) {
+        case AST_FUNCTION_DECLARATION_NODE:
+            _typeSignatureStrategyMap->getFunctionTypeSignatureStrategy()->assignInitial((ASTFunctionDeclarationNode*)node, scope, this);
+            return;
+        case AST_PROCEDURE_DECLARATION_NODE:
+            _typeSignatureStrategyMap->getProcedureTypeSignatureStrategy()->assignInitial((ASTProcedureDeclarationNode*)node, scope, this);
+            return;
+        case AST_CLASS_DECLARATION_NODE:
+        case AST_INTERFACE_TYPE_DECLARATION_NODE:
+        case AST_MODULE_DECLARATION_NODE:
+            node->getTypeSignature()->setId(node->getId());
+            return;
+        default:
+            return;
+    }
+}
+
 void TypeSignatureStrategyProvider::assignPartialTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
     auto typeSignatureScope = scope.value_or(TypeSignatureLookupTableFactory::create());
-    switch (node->getNodeType()) {
-//        case AST_FUNCTION_DECLARATION_NODE:
-//            return (new FunctionTypeSignature())->setId(node->getId());
-//        case AST_PROCEDURE_DECLARATION_NODE:
-//            return (new ProcedureTypeSignature())->setId(node->getId());
-//        case AST_ENUM_DECLARATION_NODE:
-//            return (new EnumTypeSignature())->setId(node->getId());
-        case AST_CLASS_DECLARATION_NODE:
-            _typeSignatureStrategyMap->getClassTypeSignatureStrategy()->assignPartial((ASTClassDeclarationNode*)node, typeSignatureScope, this);
-//        case AST_MODULE_DECLARATION_NODE:
-//            return (new ModuleTypeSignature())->setId(node->getId());
-//            return (new UnknownTypeSignature())->setId(node->getId());
+    if (node->is(AST_CLASS_DECLARATION_NODE)) {
+        _typeSignatureStrategyMap->getClassTypeSignatureStrategy()->assignPartial((ASTClassDeclarationNode*)node, typeSignatureScope, this);
     }
 }
 

@@ -9,7 +9,6 @@ void ParameterListItemTypeSignatureStrategy::assignAndAddToScope(ASTFunctionPara
     strategyMap->assignTypeSignatureFor(node->getType(), scope);
     node->setTypeSignature(new ParameterListItemTypeSignature(
         node->getIdentifier()->getIdentifierNode()->getId(),
-        node->getType()->getTypeSignature()
+        node->getType()->getTypeSignature()->convertToVariableTypeSignature()
     ));
-    scope->insert(node->getIdentifier()->getIdentifierNode()->getId(), node->getType()->getTypeSignature());
 }

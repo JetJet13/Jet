@@ -30,10 +30,10 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, T
     }
 
     for (auto declarationNode : typeDeclarations) {
+        _typeSignatureGenerator->assignInitialTypeSignatureForDeclaration(declarationNode, scope);
         scope->insertGlobal(
-                declarationNode->getId(),
-                _typeSignatureGenerator
-                ->generateInitialTypeSignatureForTypeDeclaration(declarationNode)
+            declarationNode->getId(),
+            declarationNode->getTypeSignature()
         );
     }
 
@@ -59,7 +59,6 @@ void SemanticAnalyzer::generateTypeSignatureForModule(ASTFileNode* fileNode, Typ
 
 void SemanticAnalyzer::runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults) {
     for (auto node : *fileNode->getBody()) {
-        node->print();
         TypeChecker::applyPolicyTo(node, typeCheckerResults);
     }
 }

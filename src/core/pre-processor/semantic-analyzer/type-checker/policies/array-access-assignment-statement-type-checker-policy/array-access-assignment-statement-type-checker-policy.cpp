@@ -8,9 +8,9 @@
 
 namespace ArrayAccessAssignmentStatementTypeCheckerPolicy {
     void apply(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
-        auto statementUnknownMessage = TypeCheckerErrorMessageTable::VariableTypeUnknown(arrayAccessAssignmentStatementNode);
-        auto statementInvalidMessage = TypeCheckerErrorMessageTable::VariableTypeInvalid(arrayAccessAssignmentStatementNode);
-        auto statementVoidMessage = TypeCheckerErrorMessageTable::VariableTypeVoid(arrayAccessAssignmentStatementNode);
+        auto statementUnknownMessage = TypeCheckerErrorMessageTable::ArrayElementTypeUnknown(arrayAccessAssignmentStatementNode);
+        auto statementInvalidMessage = TypeCheckerErrorMessageTable::ArrayElementTypeInvalid(arrayAccessAssignmentStatementNode);
+        auto statementVoidMessage = TypeCheckerErrorMessageTable::ArrayElementTypeVoid(arrayAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             arrayAccessAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature(),
@@ -32,7 +32,7 @@ namespace ArrayAccessAssignmentStatementTypeCheckerPolicy {
             typeCheckerResult
         );
 
-        auto mismatchMessage = TypeCheckerErrorMessageTable::VariableAssignmentTypeMismatch(arrayAccessAssignmentStatementNode);
+        auto mismatchMessage = TypeCheckerErrorMessageTable::ArrayAccessAssignmentTypeMismatch(arrayAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
                 arrayAccessAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature(),

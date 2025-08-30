@@ -114,6 +114,8 @@
 #include "reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h"
 #include "reducer-strategies/print-statement-reducer-strategy/print-statement-reducer-strategy.h"
+#include "reducer-strategies/object-access-assignment-reducer-strategy/object-access-assignment-reducer-strategy.h"
+#include "reducer-strategies/object-access-assignment-statement-reducer-strategy/object-access-assignment-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -137,6 +139,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
+    this->addStrategy(AST_OBJECT_ACCESS_ASSIGNMENT_NODE, new ObjectAccessAssignmentReducerStrategy());
+    this->addStrategy(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, new ObjectAccessAssignmentStatementReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, new ObjectAccessExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, new ObjectAccessInvocationExpressionReducerStrategy());
     this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, new ModuleAccessExpressionReducerStrategy());

@@ -443,6 +443,9 @@ const myPoint: Point = {
     y: 55
 };
 
+structObj.i = 20;
+arrWithType[0] = 21;
+
 print("hello world!");
 
 if intWithType == 5 {

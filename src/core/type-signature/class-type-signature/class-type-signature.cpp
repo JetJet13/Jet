@@ -103,7 +103,6 @@ std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeS
         if (constructor.second->matchArguments(argumentTypeSignatures)) {
             return std::pair(constructor.first, constructor.second);
         }
-        Logger::log("constructor did not match", constructor.first);
     }
     return {};
 }

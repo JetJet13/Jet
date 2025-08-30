@@ -77,6 +77,7 @@ class CustomTypeDeclarationTypeSignatureStrategy;
 class LambdaExpressionScopeParameterTypeSignatureStrategy;
 class ClassScopeParameterTypeSignatureStrategy;
 class ArrayAccessAssignmentStatementTypeSignatureStrategy;
+class ObjectAccessAssignmentStatementTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -150,6 +151,7 @@ private:
     InterfacePropertyTypeSignatureStrategy* _interfacePropertyTypeSignatureStrategy;
     CustomTypeDeclarationTypeSignatureStrategy* _customTypeDeclarationTypeSignatureStrategy;
     ArrayAccessAssignmentStatementTypeSignatureStrategy* _arrayAccessAssignmentStatementTypeSignatureStrategy;
+    ObjectAccessAssignmentStatementTypeSignatureStrategy* _objectAccessAssignmentStatementTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArgumentListTypeSignatureStrategy* getArgumentListTypeSignatureStrategy();
@@ -209,6 +211,7 @@ public:
     AccessModifierTypeSignatureStrategy* getAccessModifierTypeSignatureStrategy();
     VariableAssignmentStatementTypeSignatureStrategy* getVariableAssignmentStatementTypeSignatureStrategy();
     ArrayAccessAssignmentStatementTypeSignatureStrategy* getArrayAccessAssignmentStatementTypeSignatureStrategy();
+    ObjectAccessAssignmentStatementTypeSignatureStrategy* getObjectAccessAssignmentStatementTypeSignatureStrategy();
     BlockTypeSignatureStrategy* getBlockTypeSignatureStrategy();
     ExpressionStatementTypeSignatureStrategy* getExpressionStatementTypeSignatureStrategy();
     PrintStatementTypeSignatureStrategy* getPrintStatementTypeSignatureStrategy();

@@ -8,9 +8,7 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto classTypeSignature = (ClassTypeSignature*)scope->find(node->getId());
-    node->setTypeSignature(classTypeSignature);
-
+    auto classTypeSignature = node->getTypeSignature();
     auto classScope = TypeSignatureLookupTable();
     classScope.inheritGlobalScope(scope);
     this->assignPropertyTypeSignatures(node, &classScope, classTypeSignature, strategyMap);
@@ -27,7 +25,7 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
 }
 
 void ClassTypeSignatureStrategy::assignPartial(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto classTypeSignature = (ClassTypeSignature*)scope->find(node->getId());
+    auto classTypeSignature = node->getTypeSignature();
     auto classScope = TypeSignatureLookupTable();
     classScope.inheritGlobalScope(scope);
 

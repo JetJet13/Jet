@@ -8,11 +8,18 @@
 void ProcedureTypeSignatureStrategy::assign(ASTProcedureDeclarationNode* procedureDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto procedureScope = TypeSignatureLookupTable();
     procedureScope.inheritGlobalScope(scope);
-    strategyMap->assignTypeSignatureFor(procedureDeclaration->getParameters(), &procedureScope);
+    for (auto parameter : procedureDeclaration->getParameters()->getParameters()) {
+        procedureScope.insert(parameter->getIdentifier()->getId(), parameter->getTypeSignature()->getTypeSignature());
+    }
     strategyMap->assignTypeSignatureFor(procedureDeclaration->getBlock(), &procedureScope);
+}
+
+void ProcedureTypeSignatureStrategy::assignInitial(ASTProcedureDeclarationNode* procedureDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    auto procedureScope = TypeSignatureLookupTable();
+    procedureScope.inheritGlobalScope(scope);
+    strategyMap->assignTypeSignatureFor(procedureDeclaration->getParameters(), &procedureScope);
     procedureDeclaration->setTypeSignature(new ProcedureTypeSignature(
             procedureDeclaration->getParameters()->getTypeSignature()
     ));
     procedureDeclaration->setId(FunctionIdGenerator::generateFor(procedureDeclaration));
-    scope->insertGlobal(procedureDeclaration->getId(), procedureDeclaration->getTypeSignature());
 }

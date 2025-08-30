@@ -12,6 +12,7 @@
 class FunctionTypeSignatureStrategy {
 public:
     void assign(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignInitial(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FUNCTION_TYPE_SIGNATURE_STRATEGY_H
