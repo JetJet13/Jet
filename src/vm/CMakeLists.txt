@@ -565,8 +565,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-literal-expression-injector-strategy/literal-ir-literal-expression-injector-strategy.h
         ir-generator/ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.cpp
         ir-generator/ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h
-        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-nodes/ir-object-access-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-nodes/ir-object-access-assignment-statement-node.h
         ir-injector/ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.h
 )

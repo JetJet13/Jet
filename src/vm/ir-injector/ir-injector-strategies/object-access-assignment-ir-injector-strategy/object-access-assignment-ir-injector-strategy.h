@@ -9,7 +9,7 @@
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-block-node.h"
 #include "../../ir-injector.h"
-#include "../../../ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-node.h"
+#include "../../../ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-nodes/ir-object-access-assignment-statement-node.h"
 
 class ObjectAccessAssignmentIRInjectorStrategy {
 public:

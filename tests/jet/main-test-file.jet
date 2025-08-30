@@ -138,8 +138,6 @@ proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: s
     const myA = a;
     const myB = b;
     print(myX, myY, myZ, myA.size(), myA[0], myB.foo, myB.bar);
-    // todo - add end-to-end support for object-access assignment
-    // refer to array access assignment for reference
     myB.foo = "new foo!";
     print("b foo:", b.foo, "myB.foo:", myB.foo);
 }
