@@ -9,7 +9,7 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStat
             ->inject(
                     irBlock,
                     irArrayAccessAssignmentStatement->getIRArrayAccessExpression(),
-                    IR_COPY_REASSIGNMENT_OP, irModule, scope
+                    IR_OPERAND_POINTER_OP, irModule, scope
             );
     auto irExpressionValue = irInjector
             ->inject(

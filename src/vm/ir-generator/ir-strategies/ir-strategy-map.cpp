@@ -35,6 +35,7 @@
 #include "./class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
 #include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "./array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
+#include "./object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -110,6 +111,7 @@ IRStrategyMap::IRStrategyMap() {
     _classPropertyAssignmentStatementIRStrategy = new ClassPropertyAssignmentStatementIRStrategy();
     _variableAssignmentStatementIRStrategy = new VariableAssignmentStatementIRStrategy();
     _arrayAccessAssignmentStatementIRStrategy = new ArrayAccessAssignmentStatementIRStrategy();
+    _objectAccessAssignmentStatementIRStrategy = new ObjectAccessAssignmentStatementIRStrategy();
     _ifStatementIRStrategy = new IfStatementIRStrategy();
     _whileStatementIRStrategy = new WhileStatementIRStrategy();
     _forInStatementIRStrategy = new ForInStatementIRStrategy();
@@ -296,6 +298,10 @@ VariableAssignmentStatementIRStrategy* IRStrategyMap::getVariableAssignmentState
 
 ArrayAccessAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessAssignmentStatementIRStrategy() {
     return _arrayAccessAssignmentStatementIRStrategy;
+}
+
+ObjectAccessAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessAssignmentStatementIRStrategy() {
+    return _objectAccessAssignmentStatementIRStrategy;
 }
 
 IfStatementIRStrategy* IRStrategyMap::getIfStatementIRStrategy() {

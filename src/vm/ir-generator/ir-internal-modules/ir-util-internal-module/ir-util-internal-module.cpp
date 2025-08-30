@@ -6,6 +6,7 @@
 #include "../../ir-util-functions/print-ir-function/print-ir-function.h"
 #include "../../ir-util-functions/range-ir-function/range-ir-function.h"
 #include "../../../../core/pre-processor/semantic-analyzer/jet-utils-type-signature-map/jet-utils-type-signature-map.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-util");
@@ -41,5 +42,6 @@ std::string IRUtilInternalModule::getIRName(std::string id) {
     } else if (id == JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey()) {
         return RangeIRFunction::getRange3pIRFunctionName();
     }
+    Logger::log("ID!", id);
     throw std::logic_error("unable to find util internal function name");
 }

@@ -50,6 +50,8 @@ class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
 class SrefExpressionIRStrategy;
 class PrintStatementIRStrategy;
+class ArrayAccessAssignmentStatementIRStrategy;
+class ObjectAccessAssignmentStatementIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -72,7 +74,6 @@ class RefTypeSignatureIRStrategy;
 class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
 class ClassInstanceTypeSignatureIRStrategy;
-class ArrayAccessAssignmentStatementIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -122,6 +123,7 @@ private:
     DrefExpressionIRStrategy* _drefExpressionIRStrategy;
     SrefExpressionIRStrategy* _srefExpressionIRStrategy;
     ArrayAccessAssignmentStatementIRStrategy* _arrayAccessAssignmentStatementIRStrategy;
+    ObjectAccessAssignmentStatementIRStrategy* _objectAccessAssignmentStatementIRStrategy;
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -185,6 +187,7 @@ public:
     ClassPropertyAssignmentStatementIRStrategy* getClassPropertyAssignmentStatementIRStrategy();
     VariableAssignmentStatementIRStrategy* getVariableAssignmentStatementIRStrategy();
     ArrayAccessAssignmentStatementIRStrategy* getArrayAccessAssignmentStatementIRStrategy();
+    ObjectAccessAssignmentStatementIRStrategy* getObjectAccessAssignmentStatementIRStrategy();
     IfStatementIRStrategy* getIfStatementIRStrategy();
     WhileStatementIRStrategy* getWhileStatementIRStrategy();
     ForInStatementIRStrategy* getForInStatementIRStrategy();

@@ -10,7 +10,6 @@
 #include "../../../core/ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.h"
 #include "../ir-expression-nodes/ir-array-access-expression-node.h"
 
-
 class IRArrayAccessAssignmentStatementNode : public IRStatementNode {
 private:
     ASTArrayAccessAssignmentStatementNode* _node;

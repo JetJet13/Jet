@@ -4,6 +4,7 @@
 
 #include "function-invocation-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto arguments = std::vector<IRExpressionNode*>();
@@ -38,6 +39,8 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     }
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
+        Logger::log("built-in!", node->getFunction()->getId());
+        node->getTypeSignature()->print();
         auto irFunctionName = irGenerator->getJetUtilsFunctionName(node->getFunction()->getId());
         auto function = irContext->getModule()->getFunction(irFunctionName);
         return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, varArgsTypeValueArgument);

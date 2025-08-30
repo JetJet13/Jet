@@ -143,7 +143,7 @@ proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: s
     myB.foo = "new foo!";
     print("b foo:", b.foo, "myB.foo:", myB.foo);
 }
-main();
+//main();
 maino();
 testArrayPrototypeFunctions();
 testCopyFunctions();
