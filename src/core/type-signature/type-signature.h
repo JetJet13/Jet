@@ -12,7 +12,7 @@
 class TypeSignature {
 protected:
     std::string _id;
-    bool _isBuiltIn;
+    bool _isBuiltIn = false;
 public:
     std::string getId();
     TypeSignature* markAsBuiltIn();

@@ -12,8 +12,6 @@ void FunctionTypeSignatureStrategy::assign(ASTFunctionDeclarationNode* functionD
     for (auto parameter : functionDeclaration->getParameters()->getParameters()) {
         functionScope.insert(parameter->getIdentifier()->getId(), parameter->getTypeSignature()->getTypeSignature());
     }
-    Logger::log("FUNCTION SCOPE FOR", functionDeclaration->getId());
-    functionScope.dump();
     strategyMap->assignTypeSignatureFor(functionDeclaration->getBlock(), &functionScope);
 }
 
@@ -23,8 +21,8 @@ void FunctionTypeSignatureStrategy::assignInitial(ASTFunctionDeclarationNode* fu
     strategyMap->assignTypeSignatureFor(functionDeclaration->getParameters(), &functionScope);
     strategyMap->assignTypeSignatureFor(functionDeclaration->getReturnType(), &functionScope);
     functionDeclaration->setTypeSignature(new FunctionTypeSignature(
-            functionDeclaration->getParameters()->getTypeSignature(),
-            functionDeclaration->getReturnType()->getTypeSignature()
+        functionDeclaration->getParameters()->getTypeSignature(),
+        functionDeclaration->getReturnType()->getTypeSignature()
     ));
     functionDeclaration->setId(FunctionIdGenerator::generateFor(functionDeclaration));
 }
