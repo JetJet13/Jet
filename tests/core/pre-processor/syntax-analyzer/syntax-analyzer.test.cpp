@@ -11,41 +11,29 @@
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-object-access-assignment-statement-node.h"
 
 std::unordered_map<int, ASTNode*> expectedNodes = {
@@ -3649,6 +3637,27 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                     ASTNodeFactory::intExpression
         )},
+        {244, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createArrayExpression({
+                    ASTNodeFactory::createStructExpression({
+                        ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression),
+                        ASTNodeFactory::createStructKeyValue(
+                            ASTNodeFactory::createStructExpression({
+                                ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
+                            })
+                        )
+                    }),
+                    ASTNodeFactory::createStructExpression({
+                           ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression),
+                           ASTNodeFactory::createStructKeyValue(
+                               ASTNodeFactory::createStructExpression({
+                                   ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
+                               })
+                           )
+                    })
+                })
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -3682,8 +3691,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 243);
-    for (int i = 0; i < 243; i++) {
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 244);
+    for (int i = 0; i < 244; i++) {
         auto declaration = syntaxAnalyzerResult->getFileScope()->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

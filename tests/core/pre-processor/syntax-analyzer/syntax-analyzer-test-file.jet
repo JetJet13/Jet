@@ -536,3 +536,4 @@ print("HELLO!");
 
 testParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
 myObject.foo = 120;
+const y = [ { foo: true, nested: { bar: 10 } }, { foo: true, nested: { bar: 99 } }];

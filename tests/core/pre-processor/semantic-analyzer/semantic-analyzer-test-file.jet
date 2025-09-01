@@ -442,6 +442,7 @@ const myPoint: Point = {
     x: 4,
     y: 55
 };
+const structArray = [ { foo: true, nested: { bar: 10 } }, { foo: true, nested: { bar: 99 } }];
 
 structObj.i = 20;
 arrWithType[0] = 21;

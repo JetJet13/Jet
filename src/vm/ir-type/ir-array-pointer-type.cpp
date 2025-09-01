@@ -56,10 +56,8 @@ unsigned long IRArrayPointerType::getDepth() {
 }
 
 uint64_t IRArrayPointerType::getSizeInBytes() {
-    return 12;
+    return 16;
 }
-
-
 
 bool IRArrayPointerType::containsTypeThatRequiresFreeing() {
     return true;

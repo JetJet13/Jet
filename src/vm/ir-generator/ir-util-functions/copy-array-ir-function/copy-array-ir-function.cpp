@@ -155,10 +155,11 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     depthOneTypeLiteralEndBlock->addVoidReturn();
 
 
-
     auto destinationArray = depthNForLoopPrepBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType()->getPointerTo());
 
     auto forLoopIndex = depthNForLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
+    auto pointerToSourceAlloc = depthNForLoopPrepBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), { zeroIndex, allocIndex });
+    auto sourceAlloc = depthNForLoopPrepBlock->getBuilder()->get()->CreateLoad(pointerType, pointerToSourceAlloc);
     depthNForLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
 
     // depth N for loop
@@ -175,14 +176,12 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
 
     // depth N for loop body
     auto depthNForLoopBody = depthNForLoopBodyBlock->getBuilder()->get();
-    auto pointerToSourceAlloc = depthNForLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(1), {zeroIndex, allocIndex });
-    auto sourceAlloc = depthNForLoopBody->CreateLoad(pointerType, pointerToSourceAlloc);
-    auto pointerToSourceElement = depthNForLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), sourceAlloc, {forLoopIndexValue });
-    auto pointerToDestinationElement = depthNForLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), destinationArray, {forLoopIndexValue });
+    auto pointerToSourceElement = depthNForLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), sourceAlloc, { forLoopIndexValue });
+    auto pointerToDestinationElement = depthNForLoopBody->CreateInBoundsGEP(arrayPointerType->getType(), destinationArray, { forLoopIndexValue });
     depthNForLoopBody->CreateCall(
-            irModuleNode->getCopyArrayFunction()->getFunctionType(),
-            irModuleNode->getCopyArrayFunction(),
-            { pointerToDestinationElement, pointerToSourceElement, elementTypeValue }
+        irModuleNode->getCopyArrayFunction()->getFunctionType(),
+        irModuleNode->getCopyArrayFunction(),
+        { pointerToDestinationElement, pointerToSourceElement, elementTypeValue }
     );
     auto newForLoopIndexValue = depthNForLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
     depthNForLoopBody->CreateStore(newForLoopIndexValue, forLoopIndex);

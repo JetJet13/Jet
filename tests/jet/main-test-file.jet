@@ -139,7 +139,20 @@ proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: s
     const myB = b;
     print(myX, myY, myZ, myA.size(), myA[0], myB.foo, myB.bar);
     myB.foo = "new foo!";
-    print("b foo:", b.foo, "myB.foo:", myB.foo);
+    print("b foo:", b.foo, "myB.foo:", myB.foo, "myA[0]", myA[0]);
+    myA[0] = 99;
+    print("myA", myA[0]);
+}
+
+proc complexCopy() {
+    const x = [ [ [1, 2, 3], [5, 7, 8] ] ];
+    //const copyX = x;
+    print("complex X", x[0][0][0], x[0][0][1], x[0][1][0], x[0][1][1]);
+    //print("complex copyX", copyX[0][0][0], copyX[0][0][1], copyX[0][1][0], copyX[0][1][1]);
+    const y = [ { foo: true, nested: { bar: 10 } }, { foo: true, nested: { bar: 99 } }];
+    const copyY = y;
+    print("complex y", y[0].foo, y[0].nested.bar);
+    print("complex copyY", copyY[0].foo, copyY[0].nested.bar);
 }
 main();
 maino();
@@ -147,3 +160,4 @@ testArrayPrototypeFunctions();
 testCopyFunctions();
 testRefFunctions();
 testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+complexCopy();
