@@ -14,13 +14,13 @@ IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNod
     if (node->getUnaryOperatorNode()->isPlus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
-                llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(32, 1)),
+                llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(64, 1)),
                 expressionIr->getValue()
         ), expressionIr, irType);
     } else if (node->getUnaryOperatorNode()->isMinus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
-                llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(32, -1, true)),
+                llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(64, -1, true)),
                 expressionIr->getValue()
         ), expressionIr, irType);
     } else {

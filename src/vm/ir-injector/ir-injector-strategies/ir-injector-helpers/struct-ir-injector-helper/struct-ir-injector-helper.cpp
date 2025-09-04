@@ -11,10 +11,10 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRIn
     auto destinationAllocation = IRInstructionNodeFactory::create(structAllocation);
     InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
     auto irStructType = (IRStructType*)structAllocation->getIRType()->getSourceType();
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     for (int i = 0; i < irStructType->size(); ++i) {
         auto irTypeAtIndex = irStructType->getIRTypeByIndex(i);
-        auto index = irBlock->getBuilder()->get()->getInt32(i);
+        auto index = irBlock->getBuilder()->get()->getInt64(i);
         auto destinationPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(), destinationAllocation->getValue(), { zeroIndex, index });
         if (irTypeAtIndex->isArrayPointerType()) {
             auto arrayPointerAllocation = structAllocation->getChildAllocationForKey(irStructType->getKeyForIndex(i));
@@ -47,10 +47,10 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRIn
 
 llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRStructType* irStructType, llvm::Value* structSource, IRModuleNode* irModule, IRInjector* irInjector) {
     auto destinationAllocation = irBlock->getBuilder()->get()->CreateAlloca(irStructType->getType());
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
+    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     for (int i = 0; i < irStructType->size(); ++i) {
         auto irTypeAtIndex = irStructType->getIRTypeByIndex(i);
-        auto index = irBlock->getBuilder()->get()->getInt32(i);
+        auto index = irBlock->getBuilder()->get()->getInt64(i);
         auto destinationPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(), destinationAllocation, { zeroIndex, index });
         auto pointerToStructValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(irStructType->getType(), structSource, { zeroIndex, index });
         auto loadedPointerToStructValue = irBlock->getBuilder()->get()->CreateLoad(irTypeAtIndex->getType(), pointerToStructValue);

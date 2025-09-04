@@ -7,7 +7,7 @@
 void ObjectAccessAssignmentIRInjectorStrategy::inject(IRObjectAccessAssignmentStatementNode* irObjectAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto objectAccess = irObjectAccessAssignmentStatement->getIRObjectAccessExpression();
     auto source = irInjector->inject(irBlock, objectAccess->getSource(), IR_OPERAND_POINTER_OP, irModule, scope);
-    auto pointerToTarget = llvm::GetElementPtrInst::CreateInBounds(objectAccess->getSource()->getIRType()->getSourceType()->getType(), source, { irBlock->getBuilder()->get()->getInt32(0), objectAccess->getIRTargetKeyIndex() });
+    auto pointerToTarget = llvm::GetElementPtrInst::CreateInBounds(objectAccess->getSource()->getIRType()->getSourceType()->getType(), source, { irBlock->getBuilder()->get()->getInt64(0), objectAccess->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointerToTarget);
     auto irExpressionValue = irInjector
             ->inject(

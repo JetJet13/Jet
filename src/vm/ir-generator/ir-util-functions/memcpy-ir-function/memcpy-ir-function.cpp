@@ -9,7 +9,7 @@ std::string MemcpyIRFunction::getMemcpyIRFunctionName() {
 }
 
 void MemcpyIRFunction::generateMemcpyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    auto intType = irGenerator->generateInt64Type();
+    auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto memcpy = irModuleNode->getModule()->getOrInsertFunction("memcpy", llvm::FunctionType::get(pointerType, { pointerType, pointerType, intType }, false));
     auto functionType = llvm::FunctionType::get(pointerType, { pointerType, pointerType, intType }, false);

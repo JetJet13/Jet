@@ -37,7 +37,7 @@ llvm::PointerType* IRTypeValueType::getAllocType() {
 }
 
 uint64_t IRTypeValueType::getSizeInBytes() {
-    return 20;
+    return 32;
 }
 
 bool IRTypeValueType::isTypeValueType() {

@@ -52,7 +52,6 @@ int main (int argc, const char* argv[]) {
         auto TargetTriple = llvm::sys::getDefaultTargetTriple();
         std::string Error;
         auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
-
         // Print an error and exit if we couldn't find the requested target.
         // This generally occurs if we've forgotten to initialise the
         // TargetRegistry or we have a bogus target triple.
@@ -90,7 +89,8 @@ int main (int argc, const char* argv[]) {
 
         pass.run(*irJetFile->getModule()->getModule());
         dest.flush();
-
+        Logger::log("Target Triple", TargetTriple);
+        Logger::log("Data Layout", irJetFile->getModule()->getModule()->getDataLayoutStr());
         Logger::log("Wrote ", Filename, "\n");
 
     } else {

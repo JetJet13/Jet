@@ -21,9 +21,7 @@ IRType* IRType::getSourceType() {
 uint64_t IRType::getSizeInBytes() {
     if (this->isCharType() || this->isBoolType()) {
         return 1;
-    } else if (this->isIntegerType()) {
-        return 4;
-    } else if (this->isPointerType() || this->isFloatType() || this->isInteger64Type()) {
+    } else if (this->isIntegerType() || this->isPointerType() || this->isFloatType() || this->isInteger64Type()) {
         return 8;
     } else {
         return 0;
@@ -50,7 +48,7 @@ bool IRType::isCharType() {
 }
 
 bool IRType::isIntegerType() {
-    return _type->isIntegerTy(32);
+    return _type->isIntegerTy(64);
 }
 
 bool IRType::isInteger64Type() {

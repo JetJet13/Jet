@@ -9,7 +9,7 @@
 
 IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
-        auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 32));
+        auto irType = new IRType(irGenerator->generateIntType());
         irType->setValue(this->generateTypeValue(irType, irGenerator));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {

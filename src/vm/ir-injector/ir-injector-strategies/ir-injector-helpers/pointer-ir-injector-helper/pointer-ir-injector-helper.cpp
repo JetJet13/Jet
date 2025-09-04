@@ -49,8 +49,8 @@ IRInstructionNode* PointerIRInjectorHelper::injectPointerSourceAllocation(IRBloc
 
     if (irPointerType->getSourceType()->isArrayPointerType()) {
         auto irArrayPointerType = (IRArrayPointerType*)irPointerType->getSourceType();
-        auto zeroIndex = irBlock->getBuilder()->get()->getInt32(0);
-        auto numElementsIndex = irBlock->getBuilder()->get()->getInt32(irArrayPointerType->getNumElementsIndex());
+        auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
+        auto numElementsIndex = irBlock->getBuilder()->get()->getInt64(irArrayPointerType->getNumElementsIndex());
         auto pointerToNumElements = irBlock->getBuilder()->get()->CreateInBoundsGEP(irArrayPointerType->getType(), sourceValue, { zeroIndex, numElementsIndex });
         auto numElements = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getNumElementsType(), pointerToNumElements);
         return ArrayIRInjectorHelper::injectArrayAllocation(irBlock, irArrayPointerType, numElements, irModule);

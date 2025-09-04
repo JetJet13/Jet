@@ -42,6 +42,5 @@ std::string IRUtilInternalModule::getIRName(std::string id) {
     } else if (id == JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey()) {
         return RangeIRFunction::getRange3pIRFunctionName();
     }
-    Logger::log("ID!", id);
     throw std::logic_error("unable to find util internal function name");
 }

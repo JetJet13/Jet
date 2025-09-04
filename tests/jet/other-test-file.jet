@@ -1,13 +1,5 @@
 module MyOtherModule
 
-export func myOtherFunction(x: int) int {
-    return x + 5;
-}
-
-export func myStringFunction() string {
-    return "hello world";
-}
-
-export func myTupleFunction() tuple<int, bool, int> {
-    return { 1, false, 10 };
+export func myBoolFunction() bool {
+    return true;
 }

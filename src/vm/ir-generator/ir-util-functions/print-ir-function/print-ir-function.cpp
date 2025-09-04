@@ -135,7 +135,7 @@ void PrintIRFunction::declarePrintNewLineFunction(IRGenerator* irGenerator, std:
 }
 
 void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    auto intFormatString = PrintIRFunction::generateStringAllocation({ '%', 'd' }, irGenerator, context, irModuleNode);
+    auto intFormatString = PrintIRFunction::generateStringAllocation({ '%', 'l', 'd' }, irGenerator, context, irModuleNode);
     new llvm::GlobalVariable(
             *irModuleNode->getModule(),
             intFormatString->getType(),
@@ -225,7 +225,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto irPointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();
-    auto int64Type = new IRType(irGenerator->generateInt64Type());
+    auto intIrType = new IRType(intType);
     auto charType = irGenerator->generateCharType();
     auto floatType = irGenerator->generateFloatType();
     auto boolType = irGenerator->generateBooleanType();
@@ -234,7 +234,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto vaStart = irModuleNode->getModule()->getOrInsertFunction("llvm.va_start", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
     auto vaEnd = irModuleNode->getModule()->getOrInsertFunction("llvm.va_end", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
     auto typeValueArrayArgument = function->getArg(0);
@@ -267,11 +267,11 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto vaList = functionBlock->getBuilder()->get()->CreateAlloca(pointerType, nullptr, "vaList");
     auto varArgAlloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(int64Type->getSizeInBytes()) }
+            { irGenerator->generateInt64Constant(intIrType->getSizeInBytes()) }
     );
     auto forLoopIndex = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(int64Type->getSizeInBytes()) }
+            { irGenerator->generateInt64Constant(intIrType->getSizeInBytes()) }
     );
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
     functionBlock->getBuilder()->get()->CreateCall(vaStart, { vaList });
@@ -411,7 +411,7 @@ void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::un
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -427,7 +427,7 @@ void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::
     auto floatType = irGenerator->generateFloatType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintFloatIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -444,7 +444,7 @@ void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::u
     auto charType = irGenerator->generateCharType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCharIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -460,7 +460,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintBoolIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -506,7 +506,7 @@ void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std:
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStringIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -526,7 +526,7 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType, pointerType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintRefIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -550,7 +550,7 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
     auto pointerToTypeValueAtIndex = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { forLoopIndexValue });
     auto refTypeValue = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
     auto refValueTypeValuePointer = functionBlock->getBuilder()->get()->CreateExtractValue(refTypeValue, { typeValueType->getAllocIndex() }, "refValueTypeValue");
-    auto refValueTypeValueIdPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), refValueTypeValuePointer, { zeroIndex, typeValueIdIndex });
+    auto refValueTypeValueIdPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), refValueTypeValuePointer, typeValueType->getIdIndex());
     auto refValueTypeId = functionBlock->getBuilder()->get()->CreateLoad(intType, refValueTypeValueIdPointer, "refValueTypeId");
     auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
     auto loadedRef = functionBlock->getBuilder()->get()->CreateLoad(refType->getType(), loadedPointer);
@@ -635,7 +635,7 @@ void PrintIRFunction::generatePrintWhitespaceFunction(IRGenerator* irGenerator, 
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintWhitespaceFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto whitespace = PrintIRFunction::generateStringAllocation(
@@ -653,7 +653,7 @@ void PrintIRFunction::generatePrintNewLineFunction(IRGenerator* irGenerator, std
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintNewLineFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto newLine = PrintIRFunction::generateStringAllocation(
@@ -671,7 +671,7 @@ void PrintIRFunction::generatePrintDebugMarkerFunction(IRGenerator* irGenerator,
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintDebugMarkerFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalIntFormatStringName());
@@ -683,7 +683,7 @@ void PrintIRFunction::generatePrintDebugPointerFunction(IRGenerator* irGenerator
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintDebugPointerFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalPointerFormatStringName());
@@ -697,7 +697,7 @@ void PrintIRFunction::generatePrintDebugStringFunction(IRGenerator* irGenerator,
     auto pointerType = irGenerator->generatePointerType();
     auto charType = new IRType(irGenerator->generateCharType());
     auto rawStringType = irGenerator->generateIRArrayType(charType, 1);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(intType, { pointerType }, true));
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintDebugStringFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStringFormatStringName());

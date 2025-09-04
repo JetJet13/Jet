@@ -9,7 +9,7 @@ std::string MallocSizeIRFunction::getMallocSizeIRFunctionName() {
 }
 
 void MallocSizeIRFunction::generateMallocSizeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    auto functionType = llvm::FunctionType::get(irGenerator->generateInt64Type(), {irGenerator->generateIntType(), irGenerator->generateIntType() }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->generateIntType(), {irGenerator->generateIntType(), irGenerator->generateIntType() }, false);
 
 
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocSizeIRFunction::getMallocSizeIRFunctionName(), irModuleNode->getModule());
@@ -18,5 +18,5 @@ void MallocSizeIRFunction::generateMallocSizeFunction(IRGenerator* irGenerator, 
     auto elementSize = function->getArg(1);
     auto mallocSize = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Mul, numElements, elementSize);
 
-    functionBlock->getBuilder()->get()->CreateRet(functionBlock->getBuilder()->get()->CreateZExt(mallocSize, irGenerator->generateInt64Type()));
+    functionBlock->getBuilder()->get()->CreateRet(mallocSize);
 }

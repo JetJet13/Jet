@@ -29,11 +29,10 @@ void CopyPointerIRFunction::generateCopyPointerFunction(IRGenerator* irGenerator
     auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
     auto underlyingTypeSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), underlyingTypePointer, { zeroIndex, sizeInBytesIndex });
     auto loadedUnderlyingTypeSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, underlyingTypeSizeInBytesPointer);
-    auto mallocSize = functionBlock->getBuilder()->get()->CreateZExt(loadedUnderlyingTypeSizeInBytes, irGenerator->generateInt64Type());
     auto malloc = functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { mallocSize }
+            { loadedUnderlyingTypeSizeInBytes }
     );
     auto destinationValuePointer = functionBlock->getBuilder()->get()->CreateBitCast(malloc, pointerType->getType());
     auto loadedUnderlyingType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);

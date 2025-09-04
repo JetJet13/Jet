@@ -71,6 +71,9 @@ private:
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
     IRInjector* _irInjector;
+    llvm::StructType* _arrayPointerType;
+    llvm::StructType* _typeValueType;
+    llvm::StructType* _refType;
 public:
     explicit IRGenerator(IRInjector* irInjector);
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
@@ -83,6 +86,7 @@ public:
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
     IRType* generateTypeFor(llvm::Constant* constant);
     IRType* generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+
     IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IREnumType* generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext);
     IRStructType* generateTypeFor(InterfaceTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
@@ -105,13 +109,13 @@ public:
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
+    llvm::IntegerType* generateInt32Type();
     llvm::Type* generateFloatType();
     llvm::Type* generateDoubleType();
     llvm::Type* generateLiteralType();
     llvm::IntegerType* generateBooleanType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generatePointerIntType();
-    llvm::IntegerType* generateInt64Type();
     IRInstructionNode* generateIRTypeValueFor(IRType* irType);
     IRTypeValueType* generateIrTypeValueType();
     llvm::AllocaInst* generateIrTypeValueTypeAllocation();
@@ -126,6 +130,7 @@ public:
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
     llvm::StructType* generateArrayPointerType();
+    llvm::StructType* getArrayPointerType();
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRBlockNode* generateIfBlock(IRContext* irContext, std::string prefix = "");
     IRBlockNode* generateIfThenBlock(IRContext* irContext, std::string prefix = "");

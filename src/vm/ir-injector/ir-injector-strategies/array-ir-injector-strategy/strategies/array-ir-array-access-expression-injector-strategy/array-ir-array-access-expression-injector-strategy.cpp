@@ -28,8 +28,8 @@ llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAcc
             irExpression->getSourceExpression()->getIRType()->getType(),
             sourceValue,
             {
-                irBlock->getBuilder()->get()->getInt32(0),
-                irBlock->getBuilder()->get()->getInt32(irArrayPointerType->getAllocIndex()),
+                irBlock->getBuilder()->get()->getInt64(0),
+                irBlock->getBuilder()->get()->getInt64(irArrayPointerType->getAllocIndex()),
                 indexValue
             });
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
@@ -49,8 +49,8 @@ llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectOperand(IRArray
     auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_POINTER_OP, irModule, scope);
     auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
-    auto allocIndex = irBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
-    auto pointerToArrayAlloc = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceValue, { irBlock->getBuilder()->get()->getInt32(0), allocIndex });
+    auto allocIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getAllocIndex());
+    auto pointerToArrayAlloc = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceValue, { irBlock->getBuilder()->get()->getInt64(0), allocIndex });
     auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), pointerToArrayAlloc);
     auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
     if (irOperationType == IR_OPERAND_POINTER_OP) {
@@ -62,7 +62,7 @@ llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectOperand(IRArray
 llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopyReassignment(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
-    auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), sourceValue, { irBlock->getBuilder()->get()->getInt32(0), indexValue });
+    auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), sourceValue, { irBlock->getBuilder()->get()->getInt64(0), indexValue });
     if (irOperationType == IR_OPERAND_VALUE_OP) {
         return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), pointer);
     }

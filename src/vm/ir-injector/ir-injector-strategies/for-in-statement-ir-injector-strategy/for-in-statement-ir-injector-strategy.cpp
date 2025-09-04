@@ -12,10 +12,10 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto endBlock = irForInStatement->getEndBlock();
 
     auto arrayPointerType = (IRArrayPointerType*)irForInStatement->getSource()->getIRType()->getSourceType();
-    auto zero = setupBlock->getBuilder()->get()->getInt32(0);
-    auto one = setupBlock->getBuilder()->get()->getInt32(1);
-    auto numElementsIndex = setupBlock->getBuilder()->get()->getInt32(arrayPointerType->getNumElementsIndex());
-    auto allocIndex = setupBlock->getBuilder()->get()->getInt32(arrayPointerType->getAllocIndex());
+    auto zero = setupBlock->getBuilder()->get()->getInt64(0);
+    auto one = setupBlock->getBuilder()->get()->getInt64(1);
+    auto numElementsIndex = setupBlock->getBuilder()->get()->getInt64(arrayPointerType->getNumElementsIndex());
+    auto allocIndex = setupBlock->getBuilder()->get()->getInt64(arrayPointerType->getAllocIndex());
     // setup
     auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto numElementsPointer = setupBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceValue, { zero, numElementsIndex }, "forInNumElemPtr");

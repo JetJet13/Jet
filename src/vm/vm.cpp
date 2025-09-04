@@ -32,7 +32,7 @@ IRJetFile* VM::compile(JetFile* jetFile) {
                 &irLookupTable
         );
     }
-    irMainFunctionBlock->getBuilder()->get()->CreateRet(_irGenerator->generateIntConstant(0));
+    irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irJetFile;
 }
 
@@ -55,7 +55,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
                 &irLookupTable
         );
     }
-    irMainFunctionBlock->addVoidReturn();
+    irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irJetFile;
 }
 
@@ -72,7 +72,7 @@ void VM::linkJetFiles(IRJetFile* source, IRJetFile* destination) {
 
 void VM::linkJetUtilModule(IRJetFile* source) {
     llvm::Linker::linkModules(
-            *source->getModule()->getModule(),
-            std::unique_ptr<llvm::Module>(_irGenerator->generateUtilInternalModule()->getModule())
+        *source->getModule()->getModule(),
+        std::unique_ptr<llvm::Module>(_irGenerator->generateUtilInternalModule()->getModule())
     );
 }

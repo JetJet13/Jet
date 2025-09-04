@@ -17,7 +17,7 @@ llvm::Align DataAlignmentGenerator::generate(IRType* type) {
     }
 
     if (type->isIntegerType()) {
-        return llvm::Align(4);
+        return llvm::Align(8);
     }
 
     if (type->isFloatType()) {

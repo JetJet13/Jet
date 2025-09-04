@@ -17,22 +17,19 @@ void CopyStructIRFunction::declareCopyStructFunction(IRGenerator* irGenerator, s
 
 void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto pointerType = irGenerator->generateIrPointerType(new IRType(irGenerator->generateCharType()));
     auto typeValueType = irGenerator->generateIrTypeValueType();
 
     auto function = irModuleNode->getCopyStructFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
-
-    auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), {typeValueType->getNumTypesIndex() });
+    auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getNumTypesIndex() });
 
     auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
 
     auto forLoopIndex = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
+    auto typeValueAlloc = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
     functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
 
     // for loop
@@ -51,7 +48,6 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
 
     // for loop body
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
-    auto typeValueAlloc = forLoopBody->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
     auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueAlloc, { forLoopIndexValue });
     auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
     auto structByteOffsetValue = forLoopBody->CreateLoad(intType, elementByteOffset);

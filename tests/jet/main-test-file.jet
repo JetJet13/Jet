@@ -152,7 +152,7 @@ proc complexCopy() {
     const y = [ { foo: true, nested: { bar: 10 } }, { foo: true, nested: { bar: 99 } }];
     const copyY = y;
     print("complex y", y[0].foo, y[0].nested.bar);
-    print("complex copyY", copyY[0].foo, copyY[0].nested.bar);
+    //print("complex copyY", copyY[0].foo, copyY[0].nested.bar);
 }
 main();
 maino();
