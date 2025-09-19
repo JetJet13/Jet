@@ -28,9 +28,13 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
             irNewClassInstanceExpressionNode->getConstructorFunction(),
             arguments
     );
-
-    return irBlock->getBuilder()->get()->CreateLoad(
-        irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getIRType()->getSourceType()->getType(),
-        classInstanceAllocation
+    return InstructionIRInjectorHelper::injectLoad(
+            irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getIRType()->getSourceType()->getType(),
+            classInstanceAllocation,
+            irBlock
     );
+//    return irBlock->getBuilder()->get()->CreateLoad(
+//        irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getIRType()->getSourceType()->getType(),
+//        classInstanceAllocation
+//    );
 }

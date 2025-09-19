@@ -401,7 +401,6 @@ IRPointerType* IRGenerator::generateIrPointerType(IRType* type) {
 }
 
 IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
-    auto pointerType = this->generatePointerType();
     return new IRRefType(_refType, new IRType(this->generateIntType()), underlyingIRType);
 }
 
@@ -488,12 +487,12 @@ llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
             irTypeValueType->getType(),
             AddressSpaceGenerator::generate(irTypeValueType),
             nullptr,
-            DataAlignmentGenerator::generate(irTypeValueType)
+            irTypeValueType->getAlignment()
     );
 }
 
 llvm::StoreInst* IRGenerator::generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType) {
-    return new llvm::StoreInst(value, pointer, false, DataAlignmentGenerator::generate(irType));
+    return new llvm::StoreInst(value, pointer, false, irType->getAlignment());
 }
 
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter) {

@@ -145,19 +145,29 @@ proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: s
 }
 
 proc complexCopy() {
-    const x = [ [ [1, 2, 3], [5, 7, 8] ] ];
+    //const x = [ [ [1, 2, 3], [5, 7, 8] ] ];
     //const copyX = x;
-    print("complex X", x[0][0][0], x[0][0][1], x[0][1][0], x[0][1][1]);
-    //print("complex copyX", copyX[0][0][0], copyX[0][0][1], copyX[0][1][0], copyX[0][1][1]);
-    const y = [ { foo: true, nested: { bar: 10 } }, { foo: true, nested: { bar: 99 } }];
+    //print("complex X", x[0][0][0], x[0][0][1], x[0][1][0], x[0][1][1]);
+   //print("complex copyX", copyX[0][0][0], copyX[0][0][1], copyX[0][1][0], copyX[0][1][1]);
+    const y = [
+        { foo: true, mars: 88, nested: { bar: 10, noi: false, deepNest: { num: 142, oNum: 2099 } }, bob: false },
+        { foo: true, mars: 77, nested: { bar: 99, noi: false, deepNest: { num: 156, oNum: 1099 } }, bob: true }
+    ];
     const copyY = y;
-    print("complex y", y[0].foo, y[0].nested.bar);
-    //print("complex copyY", copyY[0].foo, copyY[0].nested.bar);
+
+    print(y[0].nested.bar, y[0].nested.deepNest.num, y[0].nested.deepNest.oNum, y[0].bob);
+    print(copyY[0].nested.bar, copyY[0].nested.deepNest.num, copyY[0].nested.deepNest.oNum, copyY[0].bob);
+
+    print(y[1].nested.bar, y[1].nested.deepNest.num, y[1].nested.deepNest.oNum, y[1].bob);
+    print(copyY[1].nested.bar, copyY[1].nested.deepNest.num, copyY[1].nested.deepNest.oNum, copyY[1].bob);
+
+    //print("complex y    :", y[0].foo, y[0].mars, y[0].nested.bar, y[0].nested.bb, "|", y[1].foo, y[1].mars, y[1].nested.bar, y[1].nested.bb);
+    //print("complex copyY:", copyY[0].foo, copyY[0].mars, copyY[0].nested.bar, copyY[0].nested.bb, "|", copyY[1].foo, copyY[1].mars, copyY[1].nested.bar, copyY[1].nested.bb);
 }
-main();
-maino();
-testArrayPrototypeFunctions();
-testCopyFunctions();
-testRefFunctions();
-testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+//main();
+//maino();
+//testArrayPrototypeFunctions();
+//testCopyFunctions();
+//testRefFunctions();
+//testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
 complexCopy();

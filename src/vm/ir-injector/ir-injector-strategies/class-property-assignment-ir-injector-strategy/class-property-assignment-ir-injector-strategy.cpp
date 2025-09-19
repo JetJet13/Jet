@@ -3,6 +3,7 @@
 //
 
 #include "class-property-assignment-ir-injector-strategy.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignmentStatementNode* irClassPropertyAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
@@ -15,5 +16,6 @@ void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignment
         { zeroIndex, propertyIndex }
     );
     irBlock->getBuilder()->get()->Insert(pointer);
-    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
+    InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irClassPropertyAssignmentStatementNode->getExpression()->getIRType());
+//    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
 }

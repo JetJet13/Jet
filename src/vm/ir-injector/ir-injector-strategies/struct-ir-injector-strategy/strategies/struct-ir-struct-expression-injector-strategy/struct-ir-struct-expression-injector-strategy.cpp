@@ -8,13 +8,13 @@
 llvm::Value* StructIRStructExpressionInjectorStrategy::inject(IRStructExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto structExpressionAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto numElements = irExpression->size();
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     for (int i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
-        auto irIndex = irBlock->getBuilder()->get()->getInt64(i);
-        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRType()->getType(), structExpressionAllocation, { zeroIndex, irIndex });
+        auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), structExpressionAllocation, i);
         auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, irOperationType, irModule, scope);
-        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
+        InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irExpressionAtIndex->getIRType());
+//        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
     }
-    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), structExpressionAllocation);
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), structExpressionAllocation, irBlock);
+//    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), structExpressionAllocation);
 }

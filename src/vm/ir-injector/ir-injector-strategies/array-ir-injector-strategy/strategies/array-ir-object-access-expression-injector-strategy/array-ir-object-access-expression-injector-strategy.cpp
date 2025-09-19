@@ -4,6 +4,7 @@
 
 #include "array-ir-object-access-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     switch (irOperationType) {
@@ -25,7 +26,8 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectA
     irBlock->getBuilder()->get()->Insert(pointer);
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
-    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
+    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
+//    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyArrayFunction(),
             {
@@ -34,7 +36,8 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectA
                     loadedTypeValue
             }
     );
-    return irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getType(), irExpression->getSourceAllocation().value()->getValue());
+    return InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getType(), irExpression->getSourceAllocation().value()->getValue(), irBlock);
+//    return irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getType(), irExpression->getSourceAllocation().value()->getValue());
 }
 
 llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectRef(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -46,7 +49,8 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectOperand(IRObje
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
     if (irOperationType == IR_OPERAND_VALUE_OP) {
-        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement, irBlock);
+//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
     return pointerToIndexedElement;
 }

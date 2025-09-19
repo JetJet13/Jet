@@ -14,9 +14,11 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
                     irVariableDeclaration->getIRExpression(),
                     operation, irModule, scope);
 
-    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
+      InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getValue(), irBlock, irVariableDeclaration->getAllocatedIRType());
+//    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
     if (irVariableDeclaration->getGlobalVariable()) {
-        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue());
+        InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue(), irBlock, irVariableDeclaration->getGlobalVariable().value()->getIRType());
+        // irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue());
     }
 }
 

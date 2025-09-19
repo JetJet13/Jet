@@ -53,7 +53,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInst
                     otherInstructionNode->getAllocatedType(),
                     AddressSpaceGenerator::generate(otherInstructionNode->getIRType()->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(otherInstructionNode->getIRType()->getSourceType())),
+                    otherInstructionNode->getIRType()->getSourceType()->getAlignment()),
             otherInstructionNode->getIRType()
     );
 }
@@ -64,7 +64,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInst
                     otherInstructionNode->getAllocatedType(),
                     AddressSpaceGenerator::generate(otherInstructionNode->getIRType()->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(otherInstructionNode->getIRType()->getSourceType())),
+                    otherInstructionNode->getIRType()->getSourceType()->getAlignment()),
             otherInstructionNode->getIRType(),
             sourceInstructionNode
     );
@@ -76,7 +76,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType) {
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getSourceType())), irType);
+                    irType->getSourceType()->getAlignment()), irType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap) {
@@ -85,7 +85,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getSourceType())), irType, std::move(childAllocationMap));
+                    irType->getSourceType()->getAlignment()), irType, std::move(childAllocationMap));
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, llvm::Value* numElements) {
@@ -94,7 +94,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, llvm:
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     numElements,
-                    DataAlignmentGenerator::generate(irType->getSourceType())), irType);
+                    irType->getSourceType()->getAlignment()), irType);
 }
 
 IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, IRInstructionNode* sourceAllocation) {
@@ -103,7 +103,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, IRIns
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getSourceType())),
+                    irType->getSourceType()->getAlignment()),
             irType,
             sourceAllocation);
 }
@@ -114,7 +114,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getSourceType())),
+                    irType->getSourceType()->getAlignment()),
             irType,
             childAllocations);
 }
@@ -125,7 +125,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType, IRInstructio
                     irType->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getSourceType())),
+                    irType->getSourceType()->getAlignment()),
             IRPointerType::create(irType),
             sourceAllocation);
 }
@@ -136,7 +136,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRType* irType) {
                     irType->getType(),
                     AddressSpaceGenerator::generate(irType),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType)),
+                    irType->getAlignment()),
             IRPointerType::create(irType));
 }
 
@@ -146,7 +146,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getSourceType()),
+                    irType->getSourceType()->getAlignment(),
                     name), irType);
 }
 
@@ -156,7 +156,7 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRPointerType* irType, std::
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
                     nullptr,
-                    DataAlignmentGenerator::generate(irType->getSourceType()),
+                    irType->getSourceType()->getAlignment(),
                     name),
             irType,
             sourceAllocation);

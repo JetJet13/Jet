@@ -7,6 +7,7 @@
 #include "llvm/IR/IntrinsicInst.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../types/ir-type-id.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string PrintIRFunction::getGlobalIntFormatStringName() {
     return "jet.print.int.format.string";
@@ -273,11 +274,13 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
             irModuleNode->getMallocFunction(),
             { irGenerator->generateInt64Constant(intIrType->getSizeInBytes()) }
     );
-    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
     functionBlock->getBuilder()->get()->CreateCall(vaStart, { vaList });
     functionBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
     // for loop condition
-    auto forLoopIndexValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex);
+    auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, forLoopIndex, forLoopConditionBlock);
+//    auto forLoopIndexValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex);
     auto forLoopIndexLessThanNumElements = forLoopConditionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
             forLoopIndexValue,
@@ -292,10 +295,12 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     // for loop body
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
     auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueArrayPointer, { forLoopIndexValue });
-    auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
+    auto typeValueAtIndex = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, forLoopBodyBlock, typeValueType);
+    //    auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
     auto typeValueIdAtIndex = forLoopBody->CreateExtractValue(typeValueAtIndex, typeValueType->getIdIndex());
     auto varArg = forLoopBody->CreateVAArg(vaList, pointerType);
-    forLoopBody->CreateStore(varArg, varArgAlloc);
+    InstructionIRInjectorHelper::injectStore(varArg, varArgAlloc, forLoopBodyBlock);
+//    forLoopBody->CreateStore(varArg, varArgAlloc);
 
     forLoopBody->CreateBr(addWhitespaceIfBlock->getBlock());
     auto forLoopIndexGreaterThenZero = addWhitespaceIfBlock->getBuilder()->get()->CreateICmp(
@@ -394,7 +399,8 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
 
     // end block for if/else chain
     auto newForLoopIndexValue = endBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
-    endBlock->getBuilder()->get()->CreateStore(newForLoopIndexValue, forLoopIndex);
+    InstructionIRInjectorHelper::injectStore(newForLoopIndexValue, forLoopIndex, endBlock);
+//    endBlock->getBuilder()->get()->CreateStore(newForLoopIndexValue, forLoopIndex);
     endBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
     forLoopEndBlock->getBuilder()->get()->CreateCall(vaEnd, { vaList });
@@ -415,8 +421,10 @@ void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::un
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
-    auto loadedInt = functionBlock->getBuilder()->get()->CreateLoad(intType, loadedPointer);
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
+//    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
+    auto loadedInt = InstructionIRInjectorHelper::injectLoad(intType, loadedPointer, functionBlock);
+//    auto loadedInt = functionBlock->getBuilder()->get()->CreateLoad(intType, loadedPointer);
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalIntFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, loadedInt });
     functionBlock->addVoidReturn();
@@ -431,8 +439,10 @@ void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintFloatIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
-    auto floatValue = functionBlock->getBuilder()->get()->CreateLoad(floatType, loadedPointer);
+//    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
+//    auto floatValue = functionBlock->getBuilder()->get()->CreateLoad(floatType, loadedPointer);
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
+    auto floatValue = InstructionIRInjectorHelper::injectLoad(floatType, loadedPointer, functionBlock);
     auto doubleCastValue = functionBlock->getBuilder()->get()->CreateFPExt(floatValue, irGenerator->generateDoubleType());
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalFloatFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, doubleCastValue });
@@ -448,8 +458,10 @@ void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::u
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCharIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
-    auto charValue = functionBlock->getBuilder()->get()->CreateLoad(charType, loadedPointer);
+//    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
+//    auto charValue = functionBlock->getBuilder()->get()->CreateLoad(charType, loadedPointer);
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
+    auto charValue = InstructionIRInjectorHelper::injectLoad(charType, loadedPointer, functionBlock);
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalCharFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, charValue });
     functionBlock->addVoidReturn();
@@ -470,8 +482,10 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     auto elseBlock = irGenerator->generateIfElseBlock(irContext);
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
-    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
-    auto boolValue = functionBlock->getBuilder()->get()->CreateLoad(boolType, loadedPointer);
+//    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
+//    auto boolValue = functionBlock->getBuilder()->get()->CreateLoad(boolType, loadedPointer);
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
+    auto boolValue = InstructionIRInjectorHelper::injectLoad(boolType, loadedPointer, functionBlock);
     functionBlock->getBuilder()->get()->CreateBr(printTrueIfBlock->getBlock());
 
     auto isValueTrue = printTrueIfBlock->getBuilder()->get()->CreateICmp(
@@ -510,8 +524,10 @@ void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std:
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStringIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
-    auto loadedString = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), loadedPointer);
+//    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
+//    auto loadedString = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), loadedPointer);
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
+    auto loadedString = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), loadedPointer, functionBlock, arrayPointerType);
     auto pointerToStringAllocation = functionBlock->getBuilder()->get()->CreateExtractValue(loadedString, { arrayPointerType->getAllocIndex() });
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStringFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, pointerToStringAllocation });
@@ -546,17 +562,23 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
-    auto forLoopIndexValue = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(2));
+    auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(2), functionBlock);
+//    auto forLoopIndexValue = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(2));
     auto pointerToTypeValueAtIndex = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { forLoopIndexValue });
-    auto refTypeValue = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
+    auto refTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, functionBlock, typeValueType);
+    //    auto refTypeValue = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
     auto refValueTypeValuePointer = functionBlock->getBuilder()->get()->CreateExtractValue(refTypeValue, { typeValueType->getAllocIndex() }, "refValueTypeValue");
     auto refValueTypeValueIdPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), refValueTypeValuePointer, typeValueType->getIdIndex());
-    auto refValueTypeId = functionBlock->getBuilder()->get()->CreateLoad(intType, refValueTypeValueIdPointer, "refValueTypeId");
-    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
-    auto loadedRef = functionBlock->getBuilder()->get()->CreateLoad(refType->getType(), loadedPointer);
+    auto refValueTypeId = InstructionIRInjectorHelper::injectLoad(intType, refValueTypeValueIdPointer, functionBlock);
+//    auto refValueTypeId = functionBlock->getBuilder()->get()->CreateLoad(intType, refValueTypeValueIdPointer, "refValueTypeId");
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
+//    auto loadedPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType, function->getArg(0));
+    auto loadedRef = InstructionIRInjectorHelper::injectLoad(refType->getType(), loadedPointer, functionBlock);
+//    auto loadedRef = functionBlock->getBuilder()->get()->CreateLoad(refType->getType(), loadedPointer);
     auto pointerToRefValue = functionBlock->getBuilder()->get()->CreateExtractValue(loadedRef, { refType->getRefValueIndex() });
     auto refValueAlloc = functionBlock->getBuilder()->get()->CreateAlloca(pointerType);
-    functionBlock->getBuilder()->get()->CreateStore(pointerToRefValue, refValueAlloc);
+    InstructionIRInjectorHelper::injectStore(pointerToRefValue, refValueAlloc, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(pointerToRefValue, refValueAlloc);
     auto refStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalRefStartFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { refStartString });
     functionBlock->getBuilder()->get()->CreateBr(intIfBlock->getBlock());

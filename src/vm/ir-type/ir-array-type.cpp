@@ -25,6 +25,10 @@ uint64_t IRArrayType::getSizeInBytes() {
     return _type->getNumElements() * _arrayElementType->getSizeInBytes();
 }
 
+llvm::Align IRArrayType::getAlignment() {
+    return this->getElementIRType()->getAlignment();
+}
+
 bool IRArrayType::containsTypeThatRequiresFreeing() {
     return true;
 }

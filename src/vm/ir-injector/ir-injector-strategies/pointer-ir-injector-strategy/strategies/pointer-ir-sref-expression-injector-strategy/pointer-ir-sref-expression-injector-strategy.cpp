@@ -7,8 +7,10 @@
 
 llvm::Value* PointerIRSrefExpressionInjectorStrategy::inject(IRSrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto pointerToPointerValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
-    auto loadedPointerToValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getExpression()->getIRType()->getType(), pointerToPointerValue);
+    auto loadedPointerToValue = InstructionIRInjectorHelper::injectLoad(irExpression->getExpression()->getIRType()->getType(), pointerToPointerValue, irBlock);
+//    auto loadedPointerToValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getExpression()->getIRType()->getType(), pointerToPointerValue);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
-    irBlock->getBuilder()->get()->CreateStore(loadedPointerToValue, allocation);
+    InstructionIRInjectorHelper::injectStore(loadedPointerToValue, allocation, irBlock, irExpression->getIRType()->getRefValueIRType());
+//    irBlock->getBuilder()->get()->CreateStore(loadedPointerToValue, allocation);
     return allocation;
 }

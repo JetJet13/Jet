@@ -15,7 +15,8 @@ llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(IRArrayExpressionNod
         auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRType()->getElementType(),
                                                                        irExpression->getSourceAggregateAllocation()->getValue(), { irIndex });
         auto irExpressionValue = irInjector->inject(irBlock, elementExpression, irOperationType, irModule, scope);
-        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
+        InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, elementExpression->getIRType());
+//        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
     }
 
     return ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), numElements,

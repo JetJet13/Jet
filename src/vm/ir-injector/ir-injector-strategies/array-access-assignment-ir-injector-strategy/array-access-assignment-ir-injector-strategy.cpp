@@ -4,6 +4,7 @@
 
 #include "array-access-assignment-ir-injector-strategy.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStatementNode* irArrayAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto sourceValue = irInjector->inject(irBlock, irArrayAccessAssignmentStatement->getIRArrayAccessExpression()->getSourceExpression(), IR_OPERAND_POINTER_OP, irModule, scope);
@@ -16,7 +17,8 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStat
             sourceValue,
             { zeroIndex, allocIndex }
     );
-    auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
+//    auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
+    auto arrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), arrayAllocPointer, irBlock, arrayPointerType);
     auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
     auto irExpressionValue = irInjector
             ->inject(
@@ -24,5 +26,6 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStat
                     irArrayAccessAssignmentStatement->getIRExpression(),
                     IR_OPERAND_VALUE_OP, irModule, scope
             );
-    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
+    InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irArrayAccessAssignmentStatement->getIRExpression()->getIRType());
+//    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
 }

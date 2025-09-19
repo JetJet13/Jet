@@ -3,6 +3,7 @@
 //
 
 #include "copy-pointer-ir-function.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string CopyPointerIRFunction::getCopyPointerIRFunctionName() {
     return "jet.copy.pointer";
@@ -42,6 +43,7 @@ void CopyPointerIRFunction::generateCopyPointerFunction(IRGenerator* irGenerator
             irContext->getIRModule()->getCopyValueFunction(),
             { destinationValuePointer, loadedUnderlyingSourcePointer, loadedUnderlyingType }
     );
-    functionBlock->getBuilder()->get()->CreateStore(destinationValuePointer, function->getArg(0));
+    InstructionIRInjectorHelper::injectStore(destinationValuePointer, function->getArg(0), functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(destinationValuePointer, function->getArg(0));
     functionBlock->getBuilder()->get()->CreateRet(function->getArg(0));
 }

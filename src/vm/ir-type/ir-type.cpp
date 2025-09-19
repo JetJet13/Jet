@@ -2,12 +2,14 @@
 // Created by Johny Georges on 2024-06-19.
 //
 
+#include <llvm/IR/Type.h>
 #include "ir-type.h"
 #include "../ir-nodes/ir-instruction-node.h"
 #include "../../shared/utils/logger/logger.h"
 
 IRType::IRType(llvm::Type* type) {
     _type = type;
+    _alignmentOverride = {};
 }
 
 llvm::Type* IRType::getType() {
@@ -19,7 +21,9 @@ IRType* IRType::getSourceType() {
 }
 
 uint64_t IRType::getSizeInBytes() {
-    if (this->isCharType() || this->isBoolType()) {
+    if (_alignmentOverride) {
+        return _alignmentOverride.value().value();
+    } else if (this->isCharType() || this->isBoolType()) {
         return 1;
     } else if (this->isIntegerType() || this->isPointerType() || this->isFloatType() || this->isInteger64Type()) {
         return 8;
@@ -37,6 +41,34 @@ IRInstructionNode* IRType::getValue() {
         throw std::logic_error("ir type has no value");
     }
     return _value.value();
+}
+
+void IRType::setAlignmentOverride(llvm::Align alignmentOverride) {
+    _alignmentOverride = alignmentOverride;
+}
+
+llvm::Align IRType::getAlignment() {
+    if (_alignmentOverride) {
+        return _alignmentOverride.value();
+    }
+
+    if (this->isCharType() || this->isBoolType()) {
+        return llvm::Align(1);
+    }
+
+    if (this->isIntegerType()) {
+        return llvm::Align(8);
+    }
+
+    if (this->isFloatType()) {
+        return llvm::Align(8);
+    }
+
+    if (this->isArrayPointerType() || this->isTypeValueType() || this->isRefType()) {
+        return llvm::Align(8);
+    }
+
+    return llvm::Align(1);
 }
 
 bool IRType::hasValue() {

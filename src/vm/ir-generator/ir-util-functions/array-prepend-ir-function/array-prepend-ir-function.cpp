@@ -4,6 +4,7 @@
 
 #include "array-prepend-ir-function.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string ArrayPrependIRFunction::getArrayPrependIRFunctionName() {
     return "jet.array.prepend";
@@ -25,15 +26,13 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            ArrayPrependIRFunction::getArrayPrependIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
-    auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
     auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
-    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), arrayElementTypeValue, { zeroIndex, sizeInBytesIndex });
-    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
-    auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
+    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), arrayElementTypeValue, typeValueType->getSizeInBytesIndex());
+    auto sizeInBytes = InstructionIRInjectorHelper::injectLoad(intType, arrayElementSizeInBytesPointer, functionBlock);
+    //    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
+    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
+    auto oldNumElements = InstructionIRInjectorHelper::injectLoad(intType, numElementsPointer, functionBlock);
+//    auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto newNumElements = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, oldNumElements, irGenerator->generateIntConstant(1));
     auto oldArraySize = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction()->getFunctionType(),
@@ -62,8 +61,9 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
             { newArrayMalloc, function->getArg(1), sizeInBytes }
     );
     auto newArraySecondElementPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, newArrayMalloc, {sizeInBytes });
-    auto pointerToOldArray = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
-    auto loadedPointerToOldArray = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldArray);
+    auto pointerToOldArray = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
+    auto loadedPointerToOldArray = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToOldArray, functionBlock);
+//    auto loadedPointerToOldArray = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldArray);
     functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction()->getFunctionType(),
             irModuleNode->getMemcpyFunction(),
@@ -75,7 +75,9 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
             irModuleNode->getMallocFreeFunction(),
             { loadedPointerToOldArray }
     );
-    functionBlock->getBuilder()->get()->CreateStore(newNumElements, numElementsPointer);
-    functionBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);
+    InstructionIRInjectorHelper::injectStore(newNumElements, numElementsPointer, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(newNumElements, numElementsPointer);
+    InstructionIRInjectorHelper::injectStore(newArrayMalloc, pointerToOldArray, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);
     functionBlock->addVoidReturn();
 }

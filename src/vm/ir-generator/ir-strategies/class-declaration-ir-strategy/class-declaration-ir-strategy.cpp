@@ -8,6 +8,7 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
@@ -57,7 +58,8 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
             auto propertyIndex = irGenerator->generateIntConstant(irClassType->getClassProperties()->getIndexForKey(property->getId()));
             auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(classScopeParameterAllocation->getIRType()->getSourceType()->getSourceType()->getType(), classScopeParameterAllocation->getValue(), { zeroIndex, propertyIndex });
             functionBlock->getBuilder()->get()->Insert(pointerToProperty);
-            functionBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointerToProperty);
+            InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, functionBlock);
+//            functionBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointerToProperty);
         }
     }
     functionBlock->getBuilder()->get()->CreateRet(irGenerator->generateIntConstant(0));
@@ -86,7 +88,7 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
                         parameter,
                         AddressSpaceGenerator::generate(irParamType),
                         nullptr,
-                        DataAlignmentGenerator::generate(irParamType)
+                        irParamType->getAlignment()
                 ), irGenerator->generateIrPointerType(irParamType));
         constructorScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irContext->getIRModule(), constructorScope);
@@ -126,7 +128,7 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
                         parameter,
                         AddressSpaceGenerator::generate(irParamType),
                         nullptr,
-                        DataAlignmentGenerator::generate(irParamType)
+                        irParamType->getAlignment()
                 ), irGenerator->generateIrPointerType(irParamType));
         methodScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irContext->getIRModule(), methodScope);

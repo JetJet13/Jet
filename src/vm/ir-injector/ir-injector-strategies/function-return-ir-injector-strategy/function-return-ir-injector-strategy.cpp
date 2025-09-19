@@ -3,13 +3,15 @@
 //
 
 #include "function-return-ir-injector-strategy.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void FunctionReturnIRInjectorStrategy::inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     auto returnValue = irInjector->inject(irBlock, irFunctionReturnExpression->getReturnExpression(), IR_FUNCTION_RETURN_OP, irModule, scope);
     for (auto instructionToFree: scope->getAllInstructionsToFree()) {
         auto typeValue = irInjector->inject(irBlock, instructionToFree->getIRType()->getSourceType());
-        auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(
-            instructionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue);
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(instructionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
+//        auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(
+//            instructionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue);
             irBlock->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction()->getFunctionType(),
                 irModule->getFreeValueFunction(),

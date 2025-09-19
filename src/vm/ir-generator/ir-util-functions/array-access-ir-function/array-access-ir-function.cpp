@@ -5,6 +5,7 @@
 #include "array-access-ir-function.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string ArrayAccessIRFunction::getArrayAccessIRFunctionName() {
     return "jet.array.access";
@@ -26,7 +27,8 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
 
     auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, numElementsIndex });
-    auto loadedNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToNumElements);
+    auto loadedNumElements = InstructionIRInjectorHelper::injectLoad(intType, pointerToNumElements, functionBlock);
+    //auto loadedNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToNumElements);
     auto isIndexGreaterThanOrEqualToNumElements = functionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SGE,
             function->getArg(1),
@@ -54,7 +56,8 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
     notInRangeBlock->addVoidReturn();
 
     auto arrayAllocation = inRangeBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, allocIndex });
-    auto loadedArrayAllocation = inRangeBlock->getBuilder()->get()->CreateLoad(pointerType, arrayAllocation);
+    auto loadedArrayAllocation = InstructionIRInjectorHelper::injectLoad(pointerType, arrayAllocation, inRangeBlock);
+    //    auto loadedArrayAllocation = inRangeBlock->getBuilder()->get()->CreateLoad(pointerType, arrayAllocation);
     auto offsetValue = inRangeBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Mul, function->getArg(2), function->getArg(1));
     auto pointerToElementAtIndex = inRangeBlock->getBuilder()->get()->CreateInBoundsGEP(irGenerator->generatePointerIntType(), loadedArrayAllocation, { offsetValue });
     inRangeBlock->getBuilder()->get()->CreateRet(pointerToElementAtIndex);

@@ -14,7 +14,8 @@ llvm::Value* StringIRClassPropertyAccessExpressionInjectorStrategy::inject(IRCla
                                                                                      irInjector,
                                                                                      irModule, scope);
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
-    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
+    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
+//    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     auto destinationAllocation = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyValueFunction(),
@@ -24,8 +25,9 @@ llvm::Value* StringIRClassPropertyAccessExpressionInjectorStrategy::inject(IRCla
                     loadedTypeValue
             }
     );
-    return irBlock->getBuilder()->get()->CreateLoad(
-            irExpression->getSourceAllocation().value()->getAllocatedType(),
-            destinationAllocation
-    );
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getSourceAllocation().value()->getAllocatedType(), destinationAllocation, irBlock);
+//    return irBlock->getBuilder()->get()->CreateLoad(
+//            irExpression->getSourceAllocation().value()->getAllocatedType(),
+//            destinationAllocation
+//    );
 }

@@ -5,6 +5,7 @@
 #include "variable-assignment-ir-injector-strategy.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
@@ -15,13 +16,14 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                     irVariableAssignmentStatement->getIRExpression(),
                     operation, irModule, scope);
     if (globalVariable) {
-        auto oldGlobalVariableValue = irBlock->getBuilder()->get()->CreateLoad(globalVariable.value()->getAllocatedType(), globalVariable.value()->getValue());
+        auto oldGlobalVariableValue = InstructionIRInjectorHelper::injectLoad(globalVariable.value()->getAllocatedType(), globalVariable.value()->getValue(), irBlock);
+//        auto oldGlobalVariableValue = irBlock->getBuilder()->get()->CreateLoad(globalVariable.value()->getAllocatedType(), globalVariable.value()->getValue());
         auto globalVariableIrType = globalVariable.value()->getIRType()->getSourceType();
         irBlock->getBuilder()->get()->CreateMemCpy(
                 globalVariable.value()->getValue(),
-                DataAlignmentGenerator::generate(globalVariableIrType),
+                globalVariableIrType->getAlignment(),
                 newVariableValue,
-                DataAlignmentGenerator::generate(globalVariableIrType),
+                globalVariableIrType->getAlignment(),
                 globalVariableIrType->getSizeInBytes()
         );
         irBlock->getBuilder()->get()->CreateCall(
@@ -32,9 +34,10 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
 
     } else {
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
-        irBlock->getBuilder()->get()->CreateStore(
-            newVariableValue,
-            variable->getValue()
-        );
+        InstructionIRInjectorHelper::injectStore(newVariableValue, variable->getValue(), irBlock, variable->getIRType());
+//        irBlock->getBuilder()->get()->CreateStore(
+//            newVariableValue,
+//            variable->getValue()
+//        );
     }
 }

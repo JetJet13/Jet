@@ -18,6 +18,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
     auto classProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyTypeMap);
+    classProperties->setAlignmentForIRTypes();
     classProperties->setValue(irGenerator->generateIRTypeValueFor(classProperties));
 
     auto constructorReturnType = irGenerator->generateVoidType()->getType();

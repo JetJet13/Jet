@@ -43,7 +43,8 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionN
                 llvm::GlobalValue::InternalLinkage
         );
         irModule->getModule()->insertGlobalVariable(globalVariable);
-        irBlock->getBuilder()->get()->CreateStore(rawValue, globalVariable);
+        InstructionIRInjectorHelper::injectStore(rawValue, globalVariable, irBlock, irExpression->getIRType()->getRefValueIRType());
+//        irBlock->getBuilder()->get()->CreateStore(rawValue, globalVariable);
         return globalVariable;
     }
 

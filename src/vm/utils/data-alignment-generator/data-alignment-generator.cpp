@@ -4,9 +4,9 @@
 
 #include <cmath>
 #include "data-alignment-generator.h"
-#include "../address-space-generator/address-space-generator.h"
 #include "../../ir-type/ir-struct-type.h"
 
+// todo - REMOVE THIS!
 llvm::Align DataAlignmentGenerator::generate(llvm::Type* type) {
     return DataAlignmentGenerator::generate(new IRType(type));
 }
@@ -31,7 +31,7 @@ llvm::Align DataAlignmentGenerator::generate(IRType* type) {
     if (type->isStructType()) {
         unsigned long largestSize = 1;
         for (unsigned long i = 0; i < type->getType()->getStructNumElements(); i++) {
-            auto structElementSize = ((IRStructType *) type)->getIRTypeByIndex(i)->getSizeInBytes();
+            auto structElementSize = DataAlignmentGenerator::generate(((IRStructType *) type)->getIRTypeByIndex(i)).value();
             if (structElementSize > largestSize) {
                 largestSize = structElementSize;
             }

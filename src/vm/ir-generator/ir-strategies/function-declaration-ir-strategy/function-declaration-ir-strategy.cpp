@@ -27,7 +27,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
                 parameter,
                 AddressSpaceGenerator::generate(irParamType),
                 nullptr,
-                DataAlignmentGenerator::generate(irParamType)
+                irParamType->getAlignment()
         ), irGenerator->generateIrPointerType(irParamType));
 
         functionScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);

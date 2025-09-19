@@ -10,18 +10,21 @@ llvm::Value* PointerIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode*
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
         auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
         auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(value, irExpression->getIRType()->getType()->getPointerTo());
-        irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
+        InstructionIRInjectorHelper::injectStore(pointerBitCast, allocation, irBlock);
+//        irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
         return allocation;
     } else if (irExpression->getExpression()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
         auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(irExpression->getExpression()->getValue(), irExpression->getIRType()->getType()->getPointerTo());
-        irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
+        InstructionIRInjectorHelper::injectStore(pointerBitCast, allocation, irBlock);
+//        irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
         return allocation;
     }
     auto value = this->injectRawValue(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto pointerBitCast = irBlock->getBuilder()->get()->CreateBitCast(value, irExpression->getIRType()->getType()->getPointerTo());
-    irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
+    InstructionIRInjectorHelper::injectStore(pointerBitCast, allocation, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(pointerBitCast, allocation);
     return allocation;
 }
 
@@ -34,11 +37,13 @@ llvm::Value* PointerIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpress
                 llvm::GlobalValue::InternalLinkage
         );
         irModule->getModule()->insertGlobalVariable(globalVariable);
-        irBlock->getBuilder()->get()->CreateStore(rawValue, globalVariable);
+        InstructionIRInjectorHelper::injectStore(rawValue, globalVariable, irBlock, irExpression->getIRType()->getRefValueIRType());
+//        irBlock->getBuilder()->get()->CreateStore(rawValue, globalVariable);
         return globalVariable;
     }
 
     auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getExpression()->getType());
-    irBlock->getBuilder()->get()->CreateStore(rawValue, allocation);
+    InstructionIRInjectorHelper::injectStore(rawValue, allocation, irBlock, irExpression->getIRType()->getRefValueIRType());
+//    irBlock->getBuilder()->get()->CreateStore(rawValue, allocation);
     return allocation;
 }

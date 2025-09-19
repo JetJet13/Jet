@@ -13,27 +13,37 @@
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
     InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
     auto numElementsPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getNumElementsIndex());
-    irBlock->getBuilder()->get()->CreateStore(loadedNumElements, numElementsPointer);
+    InstructionIRInjectorHelper::injectStore(loadedNumElements, numElementsPointer, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(loadedNumElements, numElementsPointer);
     auto depthPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getDepthIndex());
-    irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt64(arrayPointerType->getDepth()), depthPointer);
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(arrayPointerType->getDepth()), depthPointer, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt64(arrayPointerType->getDepth()), depthPointer);
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getAllocIndex());
-    irBlock->getBuilder()->get()->CreateStore(arrayPointerAllocation->getParentAllocation().value()->getValue(), allocPointer);
-    return new IRLoadInstructionNode(irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getAllocatedType(), arrayPointerAllocation->getValue()), arrayPointerAllocation);
+    InstructionIRInjectorHelper::injectStore(arrayPointerAllocation->getParentAllocation().value()->getValue(), allocPointer, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(arrayPointerAllocation->getParentAllocation().value()->getValue(), allocPointer);
+    // todo - remove the need for IRLoadInstructionNode
+    return new IRLoadInstructionNode(
+            InstructionIRInjectorHelper::injectLoad(arrayPointerAllocation->getAllocatedType(), arrayPointerAllocation->getValue(), irBlock),
+//            irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getAllocatedType(), arrayPointerAllocation->getValue()),
+            arrayPointerAllocation);
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayAllocation, IRInstructionNode* arrayPointerAllocation) {
     InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto numElementsIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getNumElementsIndex());
-    auto depthIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getDepthIndex());
-    auto allocIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getAllocIndex());
     auto intPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getNumElementsIndex());
-    irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt64(numElements), intPointer);
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(numElements), intPointer, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt64(numElements), intPointer);
     auto depthPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getDepthIndex());
-    irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt64(arrayPointerType->getDepth()), depthPointer);
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(arrayPointerType->getDepth()), depthPointer, irBlock, arrayAllocation->getIRType()->getSourceType());
+//    irBlock->getBuilder()->get()->CreateStore(irBlock->getBuilder()->get()->getInt64(arrayPointerType->getDepth()), depthPointer);
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getAllocIndex());
-    irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), allocPointer);
-    return new IRLoadInstructionNode(irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getIRType()->getSourceType()->getType(), arrayPointerAllocation->getValue()), arrayPointerAllocation);
+    InstructionIRInjectorHelper::injectStore(arrayAllocation->getValue(), allocPointer, irBlock, arrayAllocation->getIRType()->getSourceType());
+    //    irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), allocPointer);
+    return new IRLoadInstructionNode(
+//            irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getIRType()->getSourceType()->getType(), arrayPointerAllocation->getValue()),
+                InstructionIRInjectorHelper::injectLoad(arrayPointerAllocation->getIRType()->getSourceType()->getType(), arrayPointerAllocation->getValue(), irBlock),
+                arrayPointerAllocation
+    );
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRInstructionNode* sourceArrayPointerAllocation, IRModuleNode* irModule, IRInjector* irInjector) {
@@ -54,35 +64,42 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
             auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(),
                                                              destinationAllocation->getValue(), { zeroIndex, irIndex });
             if (childAllocation->getIRType()->isStructType()) {
-                irBlock->getBuilder()->get()->CreateStore(StructIRInjectorHelper::injectStructCopy(irBlock, childAllocation, irModule, irInjector), pointer);
+                InstructionIRInjectorHelper::injectStore(StructIRInjectorHelper::injectStructCopy(irBlock, childAllocation, irModule, irInjector), pointer, irBlock, childAllocation->getIRType());
+//                irBlock->getBuilder()->get()->CreateStore(StructIRInjectorHelper::injectStructCopy(irBlock, childAllocation, irModule, irInjector), pointer);
             } else if (childAllocation->getIRType()->getSourceType()->isPointerType()) {
                 auto pointerType = (IRPointerType*)childAllocation->getIRType()->getSourceType();
-                irBlock->getBuilder()->get()->CreateStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, childAllocation, irModule, irInjector), pointer);
+                InstructionIRInjectorHelper::injectStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, childAllocation, irModule, irInjector), pointer, irBlock, childAllocation->getIRType());
+//                irBlock->getBuilder()->get()->CreateStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, childAllocation, irModule, irInjector), pointer);
             } else {
-                irBlock->getBuilder()->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(irBlock, childAllocation, irModule, irInjector)->getValue(), pointer);
+                InstructionIRInjectorHelper::injectStore(ArrayIRInjectorHelper::injectArrayPointer(irBlock, childAllocation, irModule, irInjector)->getValue(), pointer, irBlock, arrayPointerType);
+//                irBlock->getBuilder()->get()->CreateStore(ArrayIRInjectorHelper::injectArrayPointer(irBlock, childAllocation, irModule, irInjector)->getValue(), pointer);
             }
         }
         auto pointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType), destinationAllocation);
         return ArrayIRInjectorHelper::injectArrayPointer(irBlock, arrayPointerType, numElements, destinationAllocation, pointerAllocation);
     }
     auto intPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceArrayPointerAllocation->getValue(), arrayPointerType->getNumElementsIndex());
-    auto loadedNumElements = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), intPointer);
+    auto loadedNumElements = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getNumElementsType(), intPointer, irBlock, arrayPointerType);
+//    auto loadedNumElements = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), intPointer);
     auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule);
     InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
     auto arrayPointerAllocation = IRInstructionNodeFactory::create(sourceArrayPointerAllocation, destinationAllocation);
     auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceArrayPointerAllocation->getValue(), arrayPointerType->getAllocIndex());
-    auto loadedArrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
+    auto loadedArrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), arrayAllocPointer, irBlock, arrayPointerType);
+//    auto loadedArrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
     ArrayIRInjectorHelper::injectArrayCopy(irBlock, arrayPointerType, arrayPointerType->getElementIRType(), irModule, loadedArrayAlloc, arrayPointerAllocation, irInjector);
     return ArrayIRInjectorHelper::injectArrayPointer(irBlock, arrayPointerType, loadedNumElements, arrayPointerAllocation);
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, IRType* elementType, IRModuleNode* irModule, llvm::Value* sourceArray, IRInstructionNode* arrayPointerAllocation, IRInjector* irInjector) {
     auto numElementsPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceArray, arrayPointerType->getNumElementsIndex());
-    auto loadedNumElements = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
+    auto loadedNumElements = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getNumElementsType(), numElementsPointer, irBlock, arrayPointerType);
+    //    auto loadedNumElements = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
     auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule);
     arrayPointerAllocation->setParentAllocation(destinationAllocation);
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceArray, arrayPointerType->getAllocIndex());
-    auto loadedAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), allocPointer);
+    auto loadedAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), allocPointer, irBlock, arrayPointerType);
+//    auto loadedAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), allocPointer);
     irBlock->getBuilder()->get()->CreateCall(irModule->getCopyStringFunction(), { destinationAllocation->getValue(), loadedAlloc });
     return ArrayIRInjectorHelper::injectArrayPointer(
             irBlock,
@@ -94,11 +111,14 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(IRBlockNode* irBlo
 
 void ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* numElements, llvm::Value* depth, llvm::Value* arrayPointerAllocation, llvm::Value* arrayAllocation) {
     auto numElementsPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation, arrayPointerType->getNumElementsIndex());
-    irBlock->getBuilder()->get()->CreateStore(numElements, numElementsPointer);
+    InstructionIRInjectorHelper::injectStore(numElements, numElementsPointer, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(numElements, numElementsPointer);
     auto depthPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation, arrayPointerType->getDepthIndex());
-    irBlock->getBuilder()->get()->CreateStore(depth, depthPointer);
+    InstructionIRInjectorHelper::injectStore(depth, depthPointer, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(depth, depthPointer);
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation, arrayPointerType->getAllocIndex());
-    irBlock->getBuilder()->get()->CreateStore(arrayAllocation, allocPointer);
+    InstructionIRInjectorHelper::injectStore(arrayAllocation, allocPointer, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(arrayAllocation, allocPointer);
 }
 
 IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, IRModuleNode* irModule) {
@@ -126,7 +146,8 @@ IRInstructionNode* ArrayIRInjectorHelper::injectArrayPointerAllocation(IRBlockNo
     );
     auto arrayPointerAllocation = irBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType()->getPointerTo());
     auto pointerToArrayAllocation = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation, arrayPointerType->getAllocIndex());
-    irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), pointerToArrayAllocation);
+    InstructionIRInjectorHelper::injectStore(arrayAllocation->getValue(), pointerToArrayAllocation, irBlock);
+//    irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), pointerToArrayAllocation);
     return IRInstructionNodeFactory::create(
             arrayPointerAllocation,
             IRPointerType::create(arrayPointerType->getElementIRType()),

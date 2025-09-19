@@ -5,7 +5,7 @@
 #ifndef JETLANG_IR_TYPE_H
 #define JETLANG_IR_TYPE_H
 
-#include <llvm/IR/Type.h>
+#include <llvm/Support/Alignment.h>
 #include <llvm/IR/DerivedTypes.h>
 
 // forward declaration
@@ -15,13 +15,16 @@ class IRType {
 protected:
     llvm::Type* _type;
     std::optional<IRInstructionNode*> _value;
+    std::optional<llvm::Align> _alignmentOverride;
 public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
     virtual IRType* getSourceType();
     virtual uint64_t getSizeInBytes();
+    virtual llvm::Align getAlignment();
     void setValue(IRInstructionNode* value);
     IRInstructionNode* getValue();
+    void setAlignmentOverride(llvm::Align alignmentOverride);
     bool hasValue();
     bool isCharType();
     bool isIntegerType();

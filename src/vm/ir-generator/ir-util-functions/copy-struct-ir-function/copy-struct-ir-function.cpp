@@ -3,6 +3,7 @@
 //
 
 #include "copy-struct-ir-function.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string CopyStructIRFunction::getCopyStructIRFunctionName() {
     return "jet.copy.struct";
@@ -17,6 +18,7 @@ void CopyStructIRFunction::declareCopyStructFunction(IRGenerator* irGenerator, s
 
 void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto intType = irGenerator->generateIntType();
+    auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
 
     auto function = irModuleNode->getCopyStructFunction();
@@ -24,13 +26,16 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
     auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getNumTypesIndex() });
-
+//    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintDebugMarkerFunction(), { numTypes });
+//    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
     auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
-    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), elementByteOffset, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
 
     auto forLoopIndex = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
-    auto typeValueAlloc = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
-    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
+    auto typeValueAlloc = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "typeValueAlloc");
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
 
     // for loop
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
@@ -38,7 +43,15 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
     functionBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
     // for loop condition
-    auto forLoopIndexValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex);
+    auto structByteOffsetValue = InstructionIRInjectorHelper::injectLoad(intType, elementByteOffset, forLoopConditionBlock);
+//    auto structByteOffsetValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, elementByteOffset);
+    auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, forLoopIndex, forLoopConditionBlock);
+//    auto forLoopIndexValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex);
+    auto pointerToTypeValueAtIndex = forLoopConditionBlock->getBuilder()->get()->CreateInBoundsGEP(pointerType, typeValueAlloc, { forLoopIndexValue });
+//    auto typeValuePointerAtIndex = forLoopConditionBlock->getBuilder()->get()->CreateLoad(pointerType, pointerToTypeValueAtIndex);
+    auto typeValuePointerAtIndex = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToTypeValueAtIndex, forLoopConditionBlock);
+//    auto typeValueAtIndex = forLoopConditionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), typeValuePointerAtIndex);
+    auto typeValueAtIndex = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), typeValuePointerAtIndex, forLoopConditionBlock, typeValueType);
     auto isForLoopIndexLessThanNumElements = forLoopConditionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
             forLoopIndexValue,
@@ -48,10 +61,6 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
 
     // for loop body
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
-    auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueAlloc, { forLoopIndexValue });
-    auto typeValueAtIndex = forLoopBody->CreateLoad(typeValueType->getType(), pointerToTypeValueAtIndex);
-    auto structByteOffsetValue = forLoopBody->CreateLoad(intType, elementByteOffset);
-
     auto destinationPointerAtIndex = forLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), function->getArg(0), { structByteOffsetValue });
     auto sourcePointerAtIndex = forLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), function->getArg(1), { structByteOffsetValue });
     forLoopBody->CreateCall(
@@ -61,16 +70,20 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     );
 
     auto sizeInBytesAtIndex = forLoopBody->CreateExtractValue(typeValueAtIndex, { typeValueType->getSizeInBytesIndex() });
+    forLoopBody->CreateCall(irModuleNode->getPrintDebugMarkerFunction(), { sizeInBytesAtIndex });
+    forLoopBody->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
     auto newStructByteOffsetValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, sizeInBytesAtIndex);
-    forLoopBody->CreateStore(newStructByteOffsetValue, elementByteOffset);
+    InstructionIRInjectorHelper::injectStore(newStructByteOffsetValue, elementByteOffset, forLoopBodyBlock);
+//    forLoopBody->CreateStore(newStructByteOffsetValue, elementByteOffset);
 
     auto newForLoopIndexValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
-    forLoopBody->CreateStore(newForLoopIndexValue, forLoopIndex);
+    InstructionIRInjectorHelper::injectStore(newForLoopIndexValue, forLoopIndex, forLoopBodyBlock);
+//    forLoopBody->CreateStore(newForLoopIndexValue, forLoopIndex);
     forLoopBody->CreateBr(forLoopConditionBlock->getBlock());
 
     // for loop end
     auto functionEndBlock = irGenerator->generateBasicBlock("", irContext);
+    forLoopEndBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
     forLoopEndBlock->getBuilder()->get()->CreateBr(functionEndBlock->getBlock());
-
     functionEndBlock->addVoidReturn();
 }

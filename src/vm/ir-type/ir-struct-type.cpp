@@ -19,16 +19,35 @@ void IRStructType::makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>
     _type = llvm::StructType::create(**context, _type->elements(), id);
 }
 
+void IRStructType::setAlignmentForIRTypes() {
+    auto alignment = this->getAlignment();
+    for (auto keyValue : _keyTypeMap) {
+        keyValue.second->setAlignmentOverride(alignment);
+    }
+}
+
 unsigned long IRStructType::size() {
     return _type->getNumElements();
 }
 
 uint64_t IRStructType::getSizeInBytes() {
-    uint64_t totalSize = 0;
-    for (auto keyType : _keyTypeMap) {
-        totalSize += keyType.second->getSizeInBytes();
+    auto totalSize = 0;
+    for (auto keyValue : _keyTypeMap) {
+        totalSize += keyValue.second->getSizeInBytes();
     }
     return totalSize;
+}
+
+llvm::Align IRStructType::getAlignment() {
+    unsigned long largestSize = 1;
+    for (unsigned long i = 0; i < this->getType()->getStructNumElements(); i++) {
+        auto structElementSize = this->getIRTypeByIndex(i)->getAlignment().value();
+        if (structElementSize > largestSize) {
+            largestSize = structElementSize;
+        }
+    }
+    auto largestPowerOfTwo = std::ceil(log2(largestSize));
+    return llvm::Align(std::pow(2, largestPowerOfTwo));
 }
 
 std::string IRStructType::getKeyForIndex(unsigned long index) {

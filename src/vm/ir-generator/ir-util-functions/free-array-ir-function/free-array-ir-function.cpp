@@ -6,6 +6,7 @@
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../types/ir-type-id.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string FreeArrayIRFunction::getFreeArrayIRFunctionName() {
     return "jet.free.array";
@@ -86,10 +87,12 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     depthOneTypeLiteralTrueBlock->getBuilder()->get()->CreateBr(depthOneTypeLiteralEndBlock->getBlock());
 
     auto elementByteOffset = depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
-    depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), elementByteOffset, depthOneTypeLiteralFalseBlock);
+//    depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
 
     auto depthOneForLoopIndex = depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "depthOneForLoopIndex");
-    depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), depthOneForLoopIndex);
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), depthOneForLoopIndex, depthOneTypeLiteralFalseBlock);
+//    depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), depthOneForLoopIndex);
 
     // depth 1 for loop
     depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateBr(depthOneForLoopConditionBlock->getBlock());

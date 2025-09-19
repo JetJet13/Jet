@@ -9,7 +9,8 @@
 llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arrayAllocation = irExpression->getSourceAggregateAllocation()->getValue();
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
-    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), arrayAllocation);
+    InstructionIRInjectorHelper::injectStore(irExpression->getValue(), arrayAllocation, irBlock, irExpression->getSourceAggregateAllocation()->getIRType()->getSourceType());
+//    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), arrayAllocation);
     auto array = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), irExpression->getValue()->getType()->getArrayNumElements(),
                                                      irExpression->getSourceAggregateAllocation(),
                                                      irExpression->getAggregatePointerAllocation())->getValue();

@@ -3,6 +3,7 @@
 //
 
 #include "copy-ref-ir-function.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string CopyRefIRFunction::getCopyRefIRFunctionName() {
     return "jet.copy.ref";
@@ -52,9 +53,11 @@ void CopyRefIRFunction::generateCopyRefFunction(IRGenerator* irGenerator, std::u
     );
 
     auto pointerToNewRefValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refValueIndex });
-    functionBlock->getBuilder()->get()->CreateStore(refValueMalloc, pointerToNewRefValue);
+    InstructionIRInjectorHelper::injectStore(refValueMalloc, pointerToNewRefValue, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(refValueMalloc, pointerToNewRefValue);
     auto pointerToNewRefCounter = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refCounterIndex });
-    functionBlock->getBuilder()->get()->CreateStore(refCounterMalloc, pointerToNewRefCounter);
+    InstructionIRInjectorHelper::injectStore(refCounterMalloc, pointerToNewRefCounter, functionBlock);
+//    functionBlock->getBuilder()->get()->CreateStore(refCounterMalloc, pointerToNewRefCounter);
 
     functionBlock->addVoidReturn();
 }

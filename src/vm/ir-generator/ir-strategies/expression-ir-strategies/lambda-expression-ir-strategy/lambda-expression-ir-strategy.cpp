@@ -9,6 +9,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../core/type-signature/pointer-type-signature/pointer-type-signature.h"
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
+#include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable();
@@ -66,7 +67,7 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                         parameter,
                         AddressSpaceGenerator::generate(irParamType),
                         nullptr,
-                        DataAlignmentGenerator::generate(irParamType)
+                        irParamType->getAlignment()
                 ), irGenerator->generateIrPointerType(irParamType));
         scope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
         irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irContext->getIRModule(), scope);
@@ -81,10 +82,16 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                 auto irType = scopeParameterIrType->getIRTypeForKey(keyValue.first);
                 auto pointerToValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(scopeParameterIrType->getType(), functionParameterAllocation->getValue(), { zeroIndex, index });
                 auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getType(), nullptr, keyValue.first);
-                functionBlock->getBuilder()->get()->CreateStore(
-                        functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
-                        allocation
+                InstructionIRInjectorHelper::injectStore(
+                        InstructionIRInjectorHelper::injectLoad(irType->getType(), pointerToValue, functionBlock, irType),
+//                        functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
+                        allocation,
+                        functionBlock
                 );
+//                functionBlock->getBuilder()->get()->CreateStore(
+//                        functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
+//                        allocation
+//                );
                 scope->insert(
                         keyValue.first,
                         IRInstructionNodeFactory::create(allocation, irGenerator->generateIrPointerType(underlyingIrType))

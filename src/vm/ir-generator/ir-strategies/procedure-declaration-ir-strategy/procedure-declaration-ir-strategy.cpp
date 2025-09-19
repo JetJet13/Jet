@@ -26,7 +26,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
                 parameter,
                 AddressSpaceGenerator::generate(irParamType),
                 nullptr,
-                DataAlignmentGenerator::generate(irParamType)
+                irParamType->getAlignment()
             ),
             irGenerator->generateIrPointerType(irParamType)
         );
