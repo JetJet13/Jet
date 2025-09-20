@@ -22,8 +22,17 @@ llvm::Type* IRArrayType::getElementType() {
 }
 
 uint64_t IRArrayType::getSizeInBytes() {
+    if (_sizeInBytesOverride) {
+        return _sizeInBytesOverride.value();
+    }
     return _type->getNumElements() * _arrayElementType->getSizeInBytes();
 }
+
+void IRArrayType::setAlignmentOverride(llvm::Align alignmentOverride) {
+    _alignmentOverride = alignmentOverride;
+    _arrayElementType->setAlignmentOverride(alignmentOverride);
+}
+
 
 llvm::Align IRArrayType::getAlignment() {
     return this->getElementIRType()->getAlignment();

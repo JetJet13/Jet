@@ -16,15 +16,17 @@ protected:
     llvm::Type* _type;
     std::optional<IRInstructionNode*> _value;
     std::optional<llvm::Align> _alignmentOverride;
+    std::optional<unsigned long> _sizeInBytesOverride;
 public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
     virtual IRType* getSourceType();
     virtual uint64_t getSizeInBytes();
     virtual llvm::Align getAlignment();
+    virtual void setAlignmentOverride(llvm::Align alignmentOverride);
     void setValue(IRInstructionNode* value);
     IRInstructionNode* getValue();
-    void setAlignmentOverride(llvm::Align alignmentOverride);
+    void setSizeInBytesOverride(unsigned long sizeInBytes);
     bool hasValue();
     bool isCharType();
     bool isIntegerType();

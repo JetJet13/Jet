@@ -47,8 +47,6 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto elementSizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(elementTypeValue, { typeValueType->getSizeInBytesIndex() }, "elementTypeSizeInBytes");
     auto elementTypeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(elementTypeValue, { typeValueType->getIdIndex() });
 
-    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintDebugMarkerFunction(), { elementSizeInBytes });
-    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
 
     auto mallocSize = functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocSizeFunction()->getFunctionType(),
@@ -133,8 +131,6 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto depthOneForLoopBody = depthOneForLoopBodyBlock->getBuilder()->get();
     auto elementByteOffsetValue = InstructionIRInjectorHelper::injectLoad(intType, elementByteOffset, depthOneForLoopBodyBlock);
 //    auto elementByteOffsetValue = depthOneForLoopBody->CreateLoad(intType, elementByteOffset);
-    depthOneForLoopBody->CreateCall(irModuleNode->getPrintDebugMarkerFunction(), { elementByteOffsetValue });
-    depthOneForLoopBody->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
     auto destinationPointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), malloc, { elementByteOffsetValue });
     auto sourcePointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), loadedSourceArrayAllocation, { elementByteOffsetValue });
     depthOneForLoopBody->CreateCall(

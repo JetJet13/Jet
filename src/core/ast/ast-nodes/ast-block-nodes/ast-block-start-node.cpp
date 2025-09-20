@@ -20,7 +20,7 @@ ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
         return new ASTStructTypeStartNode(_lexeme);
     }
 
-    if (!prevNode || mode == SA_FUNCTION_ARGUMENT_LIST_MODE || prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_REF_NODE, AST_COMMA_NODE, AST_FUNCTION_RETURN_NODE })) {
+    if (!prevNode || mode == SA_FUNCTION_ARGUMENT_LIST_MODE || mode == SA_STRUCT_MODE || prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_CLASS_PROPERTY_INIT_NODE, AST_STRUCT_COLON_NODE, AST_LEFT_BRACKET_NODE, AST_REF_NODE, AST_COMMA_NODE, AST_FUNCTION_RETURN_NODE })) {
         return new ASTTupleListStartNode(_lexeme);
     }
 

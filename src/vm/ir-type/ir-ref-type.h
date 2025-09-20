@@ -25,6 +25,7 @@ public:
     IRType* getRefCounterIRType();
     IRType* getRefValueIRType();
     uint64_t getSizeInBytes() override;
+    void setAlignmentOverride(llvm::Align alignmentOverride) override;
     bool containsTypeThatRequiresFreeing() override;
     bool isRefType() override;
 };

@@ -26,8 +26,6 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
     auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getNumTypesIndex() });
-//    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintDebugMarkerFunction(), { numTypes });
-//    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
     auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), elementByteOffset, functionBlock);
 //    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
@@ -70,8 +68,6 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     );
 
     auto sizeInBytesAtIndex = forLoopBody->CreateExtractValue(typeValueAtIndex, { typeValueType->getSizeInBytesIndex() });
-    forLoopBody->CreateCall(irModuleNode->getPrintDebugMarkerFunction(), { sizeInBytesAtIndex });
-    forLoopBody->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
     auto newStructByteOffsetValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, sizeInBytesAtIndex);
     InstructionIRInjectorHelper::injectStore(newStructByteOffsetValue, elementByteOffset, forLoopBodyBlock);
 //    forLoopBody->CreateStore(newStructByteOffsetValue, elementByteOffset);
@@ -83,7 +79,6 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
 
     // for loop end
     auto functionEndBlock = irGenerator->generateBasicBlock("", irContext);
-    forLoopEndBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintNewLineFunction(),{});
     forLoopEndBlock->getBuilder()->get()->CreateBr(functionEndBlock->getBlock());
     functionEndBlock->addVoidReturn();
 }

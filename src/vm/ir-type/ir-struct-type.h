@@ -19,9 +19,10 @@ public:
     IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap);
     llvm::StructType* getType() override;
     void makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>* context);
-    void setAlignmentForIRTypes();
+    void setAlignmentAndSizeForIRTypes();
     unsigned long size();
     uint64_t getSizeInBytes() override;
+    void setAlignmentOverride(llvm::Align alignmentOverride) override;
     llvm::Align getAlignment() override;
     std::string getKeyForIndex(unsigned long index);
     unsigned long getIndexForKey(std::string key);

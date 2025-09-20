@@ -56,7 +56,15 @@ unsigned long IRArrayPointerType::getDepth() {
 }
 
 uint64_t IRArrayPointerType::getSizeInBytes() {
+    if (_sizeInBytesOverride) {
+        return _sizeInBytesOverride.value();
+    }
     return 24;
+}
+
+void IRArrayPointerType::setAlignmentOverride(llvm::Align alignmentOverride) {
+    _alignmentOverride = alignmentOverride;
+    _arrayElementType->setAlignmentOverride(alignmentOverride);
 }
 
 bool IRArrayPointerType::containsTypeThatRequiresFreeing() {

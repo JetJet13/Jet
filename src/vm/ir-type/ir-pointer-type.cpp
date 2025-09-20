@@ -28,7 +28,17 @@ llvm::PointerType* IRPointerType::getType() {
 }
 
 uint64_t IRPointerType::getSizeInBytes() {
+    if (_sizeInBytesOverride) {
+        return _sizeInBytesOverride.value();
+    }
     return 8;
+}
+
+void IRPointerType::setAlignmentOverride(llvm::Align alignmentOverride) {
+    _alignmentOverride = alignmentOverride;
+    if (_sourceType) {
+        _sourceType.value()->setAlignmentOverride(alignmentOverride);
+    }
 }
 
 IRType* IRPointerType::getSourceType() {

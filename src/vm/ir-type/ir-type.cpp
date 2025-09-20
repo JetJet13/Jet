@@ -10,6 +10,7 @@
 IRType::IRType(llvm::Type* type) {
     _type = type;
     _alignmentOverride = {};
+    _sizeInBytesOverride = {};
 }
 
 llvm::Type* IRType::getType() {
@@ -21,8 +22,8 @@ IRType* IRType::getSourceType() {
 }
 
 uint64_t IRType::getSizeInBytes() {
-    if (_alignmentOverride) {
-        return _alignmentOverride.value().value();
+    if (_sizeInBytesOverride) {
+        return _sizeInBytesOverride.value();
     } else if (this->isCharType() || this->isBoolType()) {
         return 1;
     } else if (this->isIntegerType() || this->isPointerType() || this->isFloatType() || this->isInteger64Type()) {
@@ -41,6 +42,10 @@ IRInstructionNode* IRType::getValue() {
         throw std::logic_error("ir type has no value");
     }
     return _value.value();
+}
+
+void IRType::setSizeInBytesOverride(unsigned long sizeInBytes) {
+    _sizeInBytesOverride = sizeInBytes;
 }
 
 void IRType::setAlignmentOverride(llvm::Align alignmentOverride) {

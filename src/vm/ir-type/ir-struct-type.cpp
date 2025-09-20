@@ -19,11 +19,32 @@ void IRStructType::makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>
     _type = llvm::StructType::create(**context, _type->elements(), id);
 }
 
-void IRStructType::setAlignmentForIRTypes() {
+void IRStructType::setAlignmentAndSizeForIRTypes() {
     auto alignment = this->getAlignment();
-    for (auto keyValue : _keyTypeMap) {
-        keyValue.second->setAlignmentOverride(alignment);
+    std::optional<IRType*> prevType = {};
+    auto prevTypeSize = 0;
+    for (int i = 0; i < this->size(); ++i) {
+        auto irTypeAtIndex = this->getIRTypeByIndex(i);
+        irTypeAtIndex->setAlignmentOverride(alignment);
+        if (irTypeAtIndex->isStructType()) {
+            ((IRStructType*)irTypeAtIndex)->setAlignmentAndSizeForIRTypes();
+        }
+        auto currentTypeSize = irTypeAtIndex->getSizeInBytes();
+        if (currentTypeSize % alignment.value() == 0 && prevTypeSize > 0 && prevTypeSize < alignment.value()) {
+            prevType.value()->setSizeInBytesOverride(alignment.value());
+            prevTypeSize = alignment.value();
+        }
+
+        if (i == this->size() - 1 && currentTypeSize % alignment.value() != 0 && prevTypeSize % alignment.value() == 0) {
+            irTypeAtIndex->setSizeInBytesOverride(alignment.value());
+        } else {
+            prevType = irTypeAtIndex;
+            prevTypeSize = irTypeAtIndex->getSizeInBytes();
+        }
     }
+
+
+
 }
 
 unsigned long IRStructType::size() {
@@ -35,10 +56,28 @@ uint64_t IRStructType::getSizeInBytes() {
     for (auto keyValue : _keyTypeMap) {
         totalSize += keyValue.second->getSizeInBytes();
     }
+    auto alignment = this->getAlignment().value();
+    auto totalRemainder = totalSize % alignment;
+    if (totalRemainder > 0) {
+        auto factor = std::floor(totalSize / alignment) + 1;
+        auto paddedSize = factor * alignment;
+        return paddedSize;
+    }
     return totalSize;
 }
 
+void IRStructType::setAlignmentOverride(llvm::Align alignmentOverride) {
+    _alignmentOverride = alignmentOverride;
+    for (auto keyValue : _keyTypeMap) {
+       keyValue.second->setAlignmentOverride(alignmentOverride);
+    }
+}
+
+
 llvm::Align IRStructType::getAlignment() {
+    if (_alignmentOverride) {
+        return _alignmentOverride.value();
+    }
     unsigned long largestSize = 1;
     for (unsigned long i = 0; i < this->getType()->getStructNumElements(); i++) {
         auto structElementSize = this->getIRTypeByIndex(i)->getAlignment().value();

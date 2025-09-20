@@ -20,7 +20,7 @@ IRStructType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTy
     }
 
     auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), tupleElementTypes), keyIndexMap, keyTypeMap);
-    structType->setAlignmentForIRTypes();
+    structType->setAlignmentAndSizeForIRTypes();
     structType->setValue(this->generateTypeValue(structType, irGenerator));
     return structType;
 }

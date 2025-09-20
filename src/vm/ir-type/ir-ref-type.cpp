@@ -42,8 +42,18 @@ IRType* IRRefType::getRefValueIRType() {
 }
 
 uint64_t IRRefType::getSizeInBytes() {
+    if (_sizeInBytesOverride) {
+        return _sizeInBytesOverride.value();
+    }
     return 16;
 }
+
+void IRRefType::setAlignmentOverride(llvm::Align alignmentOverride) {
+    _alignmentOverride = alignmentOverride;
+    _refIRType->setAlignmentOverride(alignmentOverride);
+    _refCounterIRType->setAlignmentOverride(alignmentOverride);
+}
+
 
 bool IRRefType::containsTypeThatRequiresFreeing() {
     return true;

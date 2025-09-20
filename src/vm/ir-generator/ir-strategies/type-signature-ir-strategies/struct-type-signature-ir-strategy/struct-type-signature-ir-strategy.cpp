@@ -19,7 +19,7 @@ IRStructType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* struc
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
     auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), structPropertyTypes), keyIndexMap, keyTypeMap);
-    structType->setAlignmentForIRTypes();
+    structType->setAlignmentAndSizeForIRTypes();
     structType->setValue(this->generateTypeValue(structType, irGenerator));
     return structType;
 }
