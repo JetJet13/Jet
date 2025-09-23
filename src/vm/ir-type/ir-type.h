@@ -20,6 +20,7 @@ protected:
 public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
+    virtual IRType* getUnderlyingType();
     virtual IRType* getSourceType();
     virtual uint64_t getSizeInBytes();
     virtual llvm::Align getAlignment();

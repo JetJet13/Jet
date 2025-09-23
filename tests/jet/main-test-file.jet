@@ -129,6 +129,9 @@ proc testRefFunctions() {
     print("refX", x, refX, srefX, y);
     x = 45;
     print("refX (after update)", x, refX, srefX, y);
+    const myArr = [10, 20, 40];
+    const refMyArr = ref myArr;
+    print("refMyArr", refMyArr[0]);
 }
 
 proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: string, bar: bool }) {
@@ -151,17 +154,17 @@ proc complexCopy() {
     print("complex copyX :", copyX[0][0][0], copyX[0][0][1], copyX[0][1][0], copyX[0][1][1]);
 
     const y = [
-        { foo: true, mars: 88, nested: { bar: 10, noi: false, deepNest: { num: 142, oNum: 2099, jj: [ { x: 50, y: 100 }, { x: 60, y: 101 } ], tup: { 49, true, false } } }, bob: false },
-        { foo: true, mars: 77, nested: { bar: 99, noi: false, deepNest: { num: 156, oNum: 1099, jj: [ { x: 20, y: 100 }, { x: 30, y: 101 } ], tup: { 39, false, false } } }, bob: true }
+        { foo: true, mars: 88, nested: { bar: 10, noi: false, deepNest: { num: 142, oNum: 2099, jj: [ { x: 50, y: 100 }, { x: 60, y: 101 } ], tup: { 49, true, false } } }, bob: false, otherTup: { 49, true, 88 }, rNum: ref 50 },
+        { foo: true, mars: 77, nested: { bar: 99, noi: false, deepNest: { num: 156, oNum: 1099, jj: [ { x: 20, y: 100 }, { x: 30, y: 101 } ], tup: { 39, false, false } } }, bob: true, otherTup: { 655, true, 836 }, rNum: ref 100 }
     ];
     const copyY = y;
+    const refY = ref y;
 
+    print("y 0     :", y[0].nested.bar, y[0].nested.deepNest.num, y[0].nested.deepNest.oNum, y[0].bob, y[0].nested.deepNest.jj[0].x, y[0].nested.deepNest.tup.0, y[0].nested.deepNest.tup.1, y[0].nested.deepNest.tup.2, y[0].otherTup.0, y[0].rNum);
+    print("copyY 0 :", copyY[0].nested.bar, copyY[0].nested.deepNest.num, copyY[0].nested.deepNest.oNum, copyY[0].bob, copyY[0].nested.deepNest.jj[0].x, copyY[0].nested.deepNest.tup.0, copyY[0].nested.deepNest.tup.1, copyY[0].nested.deepNest.tup.2, copyY[0].otherTup.0, copyY[0].rNum);
 
-    print("y 0     :", y[0].nested.bar, y[0].nested.deepNest.num, y[0].nested.deepNest.oNum, y[0].bob, y[0].nested.deepNest.jj[0].x, y[0].nested.deepNest.tup.0, y[0].nested.deepNest.tup.1, y[0].nested.deepNest.tup.2);
-    print("copyY 0 :", copyY[0].nested.bar, copyY[0].nested.deepNest.num, copyY[0].nested.deepNest.oNum, copyY[0].bob, copyY[0].nested.deepNest.jj[0].x, copyY[0].nested.deepNest.tup.0, copyY[0].nested.deepNest.tup.1, copyY[0].nested.deepNest.tup.2);
-
-    print("y 1     :", y[1].nested.bar, y[1].nested.deepNest.num, y[1].nested.deepNest.oNum, y[1].bob, y[1].nested.deepNest.jj[0].x, y[1].nested.deepNest.tup.0, y[1].nested.deepNest.tup.1, y[1].nested.deepNest.tup.2);
-    print("copyY 1 :", copyY[1].nested.bar, copyY[1].nested.deepNest.num, copyY[1].nested.deepNest.oNum, copyY[1].bob, copyY[1].nested.deepNest.jj[0].x, copyY[1].nested.deepNest.tup.0, copyY[1].nested.deepNest.tup.1, copyY[1].nested.deepNest.tup.2);
+    print("y 1     :", y[1].nested.bar, y[1].nested.deepNest.num, y[1].nested.deepNest.oNum, y[1].bob, y[1].nested.deepNest.jj[0].x, y[1].nested.deepNest.tup.0, y[1].nested.deepNest.tup.1, y[1].nested.deepNest.tup.2, y[1].otherTup.0, y[1].rNum);
+    print("copyY 1 :", copyY[1].nested.bar, copyY[1].nested.deepNest.num, copyY[1].nested.deepNest.oNum, copyY[1].bob, copyY[1].nested.deepNest.jj[0].x, copyY[1].nested.deepNest.tup.0, copyY[1].nested.deepNest.tup.1, copyY[1].nested.deepNest.tup.2, copyY[1].otherTup.0, copyY[1].rNum);
 
 
 }

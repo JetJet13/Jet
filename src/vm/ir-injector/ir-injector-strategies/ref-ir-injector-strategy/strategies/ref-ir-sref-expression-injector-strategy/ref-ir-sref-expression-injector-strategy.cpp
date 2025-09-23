@@ -16,5 +16,6 @@ llvm::Value* RefIRSrefExpressionInjectorStrategy::inject(IRSrefExpressionNode* i
     if (irOperationType == IR_OPERAND_POINTER_OP) {
         return allocation;
     }
-    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRValue()->getAllocatedType(), allocation);
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRValue()->getAllocatedType(), allocation, irBlock);
+//    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRValue()->getAllocatedType(), allocation);
 }

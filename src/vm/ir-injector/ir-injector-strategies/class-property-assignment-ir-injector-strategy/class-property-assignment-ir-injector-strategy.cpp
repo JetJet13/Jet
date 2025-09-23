@@ -11,7 +11,7 @@ void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignment
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     auto propertyIndex = irBlock->getBuilder()->get()->getInt64(irClassPropertyAssignmentStatementNode->getPropertyIndex());
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(
-        classScopeParameter->getIRType()->getSourceType()->getSourceType()->getType(),
+        classScopeParameter->getIRType()->getUnderlyingType()->getType(),
         classScopeParameter->getValue(),
         { zeroIndex, propertyIndex }
     );

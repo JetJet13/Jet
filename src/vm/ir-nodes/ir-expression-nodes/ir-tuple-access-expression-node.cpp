@@ -44,7 +44,7 @@ TypeSignature* IRTupleAccessExpressionNode::getTypeSignature() {
 }
 
 IRType* IRTupleAccessExpressionNode::getTargetIRType() {
-    return ((IRStructType*)_irSource->getIRType()->getSourceType())->getIRTypeByIndex(_targetKeyIndex);
+    return ((IRStructType*)_irSource->getUnderlyingIRType())->getIRTypeByIndex(_targetKeyIndex);
 }
 
 llvm::Value* IRTupleAccessExpressionNode::getValue() {

@@ -48,7 +48,7 @@ TypeSignature* IRClassPropertyAccessExpressionNode::getTypeSignature() {
 }
 
 IRType* IRClassPropertyAccessExpressionNode::getTargetIRType() {
-    return ((IRStructType*)_irSource->getIRType()->getSourceType()->getSourceType())->getIRTypeForKey(_targetKey);
+    return ((IRStructType*)_irSource->getIRType()->getUnderlyingType())->getIRTypeForKey(_targetKey);
 }
 
 llvm::Value* IRClassPropertyAccessExpressionNode::getValue() {

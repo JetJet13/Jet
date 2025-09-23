@@ -52,7 +52,7 @@ unsigned long IRArrayExpressionNode::size() {
 }
 
 llvm::Type* IRArrayExpressionNode::getTypeAtIndex(unsigned long index) {
-    return _irValue->getIRType()->getSourceType()->getType()->getArrayElementType();
+    return _irValue->getIRType()->getUnderlyingType()->getType()->getArrayElementType();
 }
 
 IRNodeType IRArrayExpressionNode::getNodeType() {

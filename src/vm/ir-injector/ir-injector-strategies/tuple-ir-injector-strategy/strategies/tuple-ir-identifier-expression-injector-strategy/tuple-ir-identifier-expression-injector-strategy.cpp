@@ -22,7 +22,7 @@ llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExp
 llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectCopy(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     return StructIRInjectorHelper::injectStructCopy(
             irBlock,
-            (IRStructType*)irExpression->getIRType()->getSourceType(),
+            (IRStructType*)irExpression->getUnderlyingIRType(),
             irExpression->getValue(),
             irModule,
             irInjector
@@ -35,7 +35,7 @@ llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectRef(IRIdentifier
 
 llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectOperand(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irOperationType == IR_OPERAND_VALUE_OP) {
-        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue(), irBlock);
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), irExpression->getValue(), irBlock);
 //        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue());
     }
     return irExpression->getValue();

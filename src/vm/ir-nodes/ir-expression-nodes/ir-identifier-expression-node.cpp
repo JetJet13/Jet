@@ -31,7 +31,7 @@ TypeSignature* IRIdentifierExpressionNode::getTypeSignature() {
 }
 
 llvm::Type* IRIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
-    auto type = _irValue->getIRType()->getSourceType()->getType();
+    auto type = _irValue->getIRType()->getUnderlyingType()->getType();
     if (type->isArrayTy()) {
         return type->getArrayElementType();
     } else if (type->isStructTy()) {

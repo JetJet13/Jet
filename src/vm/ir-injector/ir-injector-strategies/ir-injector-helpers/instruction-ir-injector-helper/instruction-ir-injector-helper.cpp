@@ -23,14 +23,14 @@ llvm::Value* InstructionIRInjectorHelper::injectLoad(IRInstructionNode* irInstru
     if (irInstruction->getIRType()->getSourceType()->isPointerType()) {
         auto loadedPointer = irBlock->getBuilder()->get()->CreateLoad(irInstruction->getAllocatedType(), irInstruction->getValue());
         auto loadedValue = irBlock->getBuilder()->get()->CreateLoad(
-                irInstruction->getIRType()->getSourceType()->getSourceType()->getType(),
+                irInstruction->getIRType()->getUnderlyingType()->getType(),
                 loadedPointer
         );
-        loadedValue->setAlignment(irInstruction->getIRType()->getSourceType()->getSourceType()->getAlignment());
+        loadedValue->setAlignment(irInstruction->getIRType()->getUnderlyingType()->getAlignment());
         return loadedValue;
     }
     auto loadedValue = irBlock->getBuilder()->get()->CreateLoad(irInstruction->getAllocatedType(), irInstruction->getValue());
-    loadedValue->setAlignment(irInstruction->getIRType()->getSourceType()->getAlignment());
+    loadedValue->setAlignment(irInstruction->getIRType()->getUnderlyingType()->getAlignment());
     return loadedValue;
 }
 

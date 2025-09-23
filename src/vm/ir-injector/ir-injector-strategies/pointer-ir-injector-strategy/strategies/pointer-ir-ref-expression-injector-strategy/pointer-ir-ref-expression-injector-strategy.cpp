@@ -32,7 +32,7 @@ llvm::Value* PointerIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpress
     auto rawValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperationType, irModule, scope);
     if (irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
         auto globalVariable = new llvm::GlobalVariable(
-                irExpression->getIRType()->getSourceType()->getType(),
+                irExpression->getUnderlyingIRType()->getType(),
                 false,
                 llvm::GlobalValue::InternalLinkage
         );

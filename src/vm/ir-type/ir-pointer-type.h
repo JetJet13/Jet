@@ -21,6 +21,7 @@ public:
     llvm::PointerType* getType() override;
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
+    IRType* getUnderlyingType() override;
     IRType* getSourceType() override;
     void setSourceType(IRType* type);
     bool containsTypeThatRequiresFreeing() override;

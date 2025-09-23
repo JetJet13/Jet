@@ -7,9 +7,9 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* PointerIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irExpression->getIRType()->getSourceType()->getSourceType()->isArrayPointerType() &&
+    if (irExpression->getUnderlyingIRType()->isArrayPointerType() &&
             (irOperationType == IR_COPY_ASSIGNMENT_OP || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP)) {
-        auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType()->getSourceType()->getSourceType();
+        auto irArrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();
         auto loadedUnderlyingPointer = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), irExpression->getValue(), irBlock);
 //        auto loadedUnderlyingPointer = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), irExpression->getValue());
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());

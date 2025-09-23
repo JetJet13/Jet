@@ -41,6 +41,10 @@ IRType* IRRefType::getRefValueIRType() {
     return _refIRType;
 }
 
+IRType* IRRefType::getUnderlyingType() {
+    return this->getRefValueIRType();
+}
+
 uint64_t IRRefType::getSizeInBytes() {
     if (_sizeInBytesOverride) {
         return _sizeInBytesOverride.value();

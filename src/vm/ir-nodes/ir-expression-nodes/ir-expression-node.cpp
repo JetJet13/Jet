@@ -3,6 +3,7 @@
 //
 
 #include "ir-expression-node.h"
+#include "../../ir-type/ir-ref-type.h"
 
 void IRExpressionNode::markAsGlobal() {
     _isGlobal = true;
@@ -14,6 +15,10 @@ bool IRExpressionNode::isGlobal() {
 
 bool IRExpressionNode::requiresFreeing() {
     return this->getIRType()->containsTypeThatRequiresFreeing();
+}
+
+IRType* IRExpressionNode::getUnderlyingIRType() {
+    return this->getIRType()->getUnderlyingType();
 }
 
 TypeSource IRExpressionNode::getInjectorTypeSource() {

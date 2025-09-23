@@ -12,7 +12,7 @@ llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAcces
         return pointerAtIndex;
     } else {
         return InstructionIRInjectorHelper::injectLoad(
-                irExpression->getIRType()->getSourceType()->getType(),
+                irExpression->getUnderlyingIRType()->getType(),
                 pointerAtIndex,
                 irBlock
         );
@@ -26,7 +26,7 @@ llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAcces
 llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
     auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_POINTER_OP, irModule, scope);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getIRType()->getSourceType();
+    auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getUnderlyingIRType();
     auto allocIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getAllocIndex());
     auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
     auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(
@@ -37,5 +37,4 @@ llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(I
     auto arrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), arrayAllocPointer, irBlock, arrayPointerType);
 //    auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
     return irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
-
 }

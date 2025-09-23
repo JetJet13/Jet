@@ -8,7 +8,7 @@
 
 IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperationType);
-    auto sourceType = (IRStructType*)sourceValue->getIRType()->getSourceType();
+    auto sourceType = (IRStructType*)sourceValue->getUnderlyingIRType();
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);

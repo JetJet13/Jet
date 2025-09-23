@@ -17,6 +17,10 @@ llvm::Type* IRType::getType() {
     return _type;
 }
 
+IRType* IRType::getUnderlyingType() {
+    return this;
+}
+
 IRType* IRType::getSourceType() {
     return this;
 }

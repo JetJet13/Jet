@@ -8,9 +8,9 @@
 void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     irInjector->inject(irBlock, irProcedureDeclaration->getBlock(), irModule, irProcedureDeclaration->getScope());
     for (auto instructionToFree: scope->getAllInstructionsToFree()) {
-        auto typeValue = irInjector->inject(irProcedureDeclaration->getBlock(), instructionToFree->getIRType()->getSourceType());
+        auto typeValue = irInjector->inject(irProcedureDeclaration->getBlock(), instructionToFree->getIRType()->getUnderlyingType());
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(
-                instructionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(),
+                instructionToFree->getIRType()->getUnderlyingType()->getValue()->getAllocatedType(),
                 typeValue, irProcedureDeclaration->getBlock());
 //        auto loadedTypeValue = irProcedureDeclaration->getBlock()->getBuilder()->get()->CreateLoad(
 //                instructionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue);

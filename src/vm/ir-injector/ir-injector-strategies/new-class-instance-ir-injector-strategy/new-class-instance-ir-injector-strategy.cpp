@@ -29,7 +29,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
             arguments
     );
     return InstructionIRInjectorHelper::injectLoad(
-            irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getIRType()->getSourceType()->getType(),
+            irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getIRType()->getUnderlyingType()->getType(),
             classInstanceAllocation,
             irBlock
     );

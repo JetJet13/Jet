@@ -11,6 +11,8 @@ llvm::Value* RefIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlo
         return this->_refIRIdentifierExpressionInjectorStrategy.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     } else if (irExpression->is(IR_SREF_EXPRESSION_NODE)) {
         return this->_refIRSrefExpressionInjectorStrategy.inject((IRSrefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+    } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
+        return this->_refIRObjectAccessExpressionInjectorStrategy.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
     }
-    throw std::logic_error("RefIRInjectorStrategy - invalid ir expression with pointer type");
+    throw std::logic_error("RefIRInjectorStrategy - invalid ir expression with ref type");
 }

@@ -53,7 +53,7 @@ TypeSignature* IRObjectAccessExpressionNode::getTypeSignature() {
 }
 
 IRType* IRObjectAccessExpressionNode::getTargetIRType() {
-    return ((IRStructType*)_irSource->getIRType()->getSourceType())->getIRTypeForKey(_targetKey);
+    return ((IRStructType*)_irSource->getUnderlyingIRType())->getIRTypeForKey(_targetKey);
 }
 
 llvm::Value* IRObjectAccessExpressionNode::getValue() {

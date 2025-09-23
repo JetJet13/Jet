@@ -41,18 +41,18 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
     //    irBlock->getBuilder()->get()->CreateStore(arrayAllocation->getValue(), allocPointer);
     return new IRLoadInstructionNode(
 //            irBlock->getBuilder()->get()->CreateLoad(arrayPointerAllocation->getIRType()->getSourceType()->getType(), arrayPointerAllocation->getValue()),
-                InstructionIRInjectorHelper::injectLoad(arrayPointerAllocation->getIRType()->getSourceType()->getType(), arrayPointerAllocation->getValue(), irBlock),
+                InstructionIRInjectorHelper::injectLoad(arrayPointerAllocation->getIRType()->getUnderlyingType()->getType(), arrayPointerAllocation->getValue(), irBlock),
                 arrayPointerAllocation
     );
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRInstructionNode* sourceArrayPointerAllocation, IRModuleNode* irModule, IRInjector* irInjector) {
-    auto arrayPointerType = (IRArrayPointerType*)sourceArrayPointerAllocation->getIRType()->getSourceType();
+    auto arrayPointerType = (IRArrayPointerType*)sourceArrayPointerAllocation->getIRType()->getUnderlyingType();
 
     if (!sourceArrayPointerAllocation->getParentAllocation().value()->getChildAllocations()->empty()) {
         // initialize
         auto arrayAllocation = sourceArrayPointerAllocation->getParentAllocation().value();
-        auto arrayType = (IRArrayType*)arrayAllocation->getIRType()->getSourceType();
+        auto arrayType = (IRArrayType*)arrayAllocation->getIRType()->getUnderlyingType();
         auto numElements = arrayType->getType()->getNumElements();
         auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, irBlock->getBuilder()->get()->getInt64(numElements), irModule);
         InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);

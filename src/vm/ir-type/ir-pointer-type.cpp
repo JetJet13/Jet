@@ -41,6 +41,10 @@ void IRPointerType::setAlignmentOverride(llvm::Align alignmentOverride) {
     }
 }
 
+IRType* IRPointerType::getUnderlyingType() {
+    return this->getSourceType()->getUnderlyingType();
+}
+
 IRType* IRPointerType::getSourceType() {
     if (!_sourceType) {
         throw std::logic_error("ir pointer does not have source ir type set");

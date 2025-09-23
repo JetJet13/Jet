@@ -10,7 +10,7 @@
 llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRInstructionNode* structAllocation, IRModuleNode* irModule, IRInjector* irInjector) {
     auto destinationAllocation = IRInstructionNodeFactory::create(structAllocation);
     InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
-    auto irStructType = (IRStructType*)structAllocation->getIRType()->getSourceType();
+    auto irStructType = (IRStructType*)structAllocation->getIRType()->getUnderlyingType();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     for (int i = 0; i < irStructType->size(); ++i) {
         auto irTypeAtIndex = irStructType->getIRTypeByIndex(i);
