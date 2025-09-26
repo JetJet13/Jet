@@ -12,7 +12,7 @@
 
 class ArrayIRDrefExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_ARRAY_IR_DREF_EXPRESSION_INJECTOR_STRATEGY_H

@@ -5,9 +5,9 @@
 #include "logical-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, irOperationType);
-    auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, irOperationType);
+IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, irOperation);
+    auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, irOperation);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     return new IRLogicalExpressionNode(node, llvm::BinaryOperator::Create(
             this->determineOperatorIR(node->getLogicalOperator()),

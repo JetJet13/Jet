@@ -6,7 +6,7 @@
 #include "../../../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arrayAllocation = irExpression->getSourceAggregateAllocation()->getValue();
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     InstructionIRInjectorHelper::injectStore(irExpression->getValue(), arrayAllocation, irBlock, irExpression->getSourceAggregateAllocation()->getIRType()->getUnderlyingType());
@@ -14,7 +14,7 @@ llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLit
     auto array = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), irExpression->getValue()->getType()->getArrayNumElements(),
                                                      irExpression->getSourceAggregateAllocation(),
                                                      irExpression->getAggregatePointerAllocation())->getValue();
-    if (irOperationType == IR_OPERAND_POINTER_OP) {
+    if (irOperation->isOperandPointer()) {
         return irExpression->getAggregatePointerAllocation()->getValue();
     }
     return array;

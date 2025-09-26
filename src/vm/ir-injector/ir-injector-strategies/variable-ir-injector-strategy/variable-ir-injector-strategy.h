@@ -13,7 +13,7 @@
 
 class VariableIRInjectorStrategy {
 private:
-    IROperationType determineOperationType(IRVariableDeclarationNode* irVariableDeclaration);
+    IROperation* determineOperationType(IRVariableDeclarationNode* irVariableDeclaration);
 public:
     void inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
 };

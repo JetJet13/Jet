@@ -5,8 +5,8 @@
 #include "array-ir-identifier-expression-injector-strategy.h"
 #include "../../../../../ir-type/ir-array-pointer-type.h"
 
-llvm::Value* ArrayIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irOperationType == IR_COPY_ASSIGNMENT_OP || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP) {
+llvm::Value* ArrayIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+    if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
         auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRValue()->getIRType()->getUnderlyingType();
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
         auto typeValue = irInjector->inject(irBlock, irArrayPointerType);

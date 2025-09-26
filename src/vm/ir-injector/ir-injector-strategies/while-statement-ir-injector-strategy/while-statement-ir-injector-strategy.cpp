@@ -9,7 +9,7 @@ void WhileStatementIRInjectorStrategy::inject(IRWhileStatementNode* irWhileState
     auto bodyBlock = irWhileStatement->getBodyBlock();
     auto endBlock = irWhileStatement->getEndBlock();
 
-    auto irWhileConditionValue = irInjector->inject(whileConditionBlock, irWhileStatement->getExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
+    auto irWhileConditionValue = irInjector->inject(whileConditionBlock, irWhileStatement->getExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     whileConditionBlock->getBuilder()->get()->CreateCondBr(irWhileConditionValue, bodyBlock->getBlock(), endBlock->getBlock());
 
     irInjector->inject(irBlock, bodyBlock, irModule, scope);

@@ -10,8 +10,12 @@
 class IROperation {
 private:
     IROperationType _type;
+    bool _global;
+    bool _underlyingType;
 public:
     IROperation(IROperationType type);
+    IROperation* markAsUnderlying();
+    IROperation* markAsGlobal();
     bool isOperand();
     bool isOperandValue();
     bool isOperandPointer();
@@ -23,7 +27,8 @@ public:
     bool isRefGlobalAssignment();
     bool isFunctionArgument();
     bool isFunctionReturn();
-
+    bool isUnderlying();
+    bool isGlobal();
 };
 
 #endif //JETLANG_IR_OPERATION_H

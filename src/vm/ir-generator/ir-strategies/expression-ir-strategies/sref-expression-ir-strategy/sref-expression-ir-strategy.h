@@ -11,9 +11,9 @@
 
 class SrefExpressionIRStrategy {
 private:
-    IRInstructionNode* generateAllocation(ASTSrefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
+    IRInstructionNode* generateAllocation(ASTSrefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    IRExpressionNode* generate(ASTSrefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRExpressionNode* generate(ASTSrefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_SREF_EXPRESSION_IR_STRATEGY_H

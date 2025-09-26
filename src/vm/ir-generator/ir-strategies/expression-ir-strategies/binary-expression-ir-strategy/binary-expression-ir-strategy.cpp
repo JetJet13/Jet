@@ -6,9 +6,9 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h"
 
-IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, IR_OPERAND_VALUE_OP);
-    auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, IR_OPERAND_VALUE_OP);
+IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (node->getBinaryOperator()->isArithmetic()) {
         return new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(

@@ -6,7 +6,7 @@
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-llvm::Value* EnumIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* EnumIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         return irExpression->getValue();
     }

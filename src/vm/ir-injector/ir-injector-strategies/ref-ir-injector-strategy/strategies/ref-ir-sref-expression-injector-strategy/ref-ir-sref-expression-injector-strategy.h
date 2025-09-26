@@ -12,7 +12,7 @@
 
 class RefIRSrefExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRSrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRSrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 

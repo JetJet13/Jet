@@ -6,9 +6,9 @@
 #include "../../../../../ir-type/ir-array-pointer-type.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto pointerAtIndex = this->getPointerAtIndex(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
-    if (irOperationType == IR_COPY_REASSIGNMENT_OP || irOperationType == IR_OPERAND_POINTER_OP) {
+llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto pointerAtIndex = this->getPointerAtIndex(irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    if (irOperation->isCopyReassignment() || irOperation->isOperandPointer()) {
         return pointerAtIndex;
     } else {
         return InstructionIRInjectorHelper::injectLoad(
@@ -16,25 +16,18 @@ llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAcces
                 pointerAtIndex,
                 irBlock
         );
-//        return irBlock->getBuilder()->get()->CreateLoad(
-//                irExpression->getIRType()->getSourceType()->getType(),
-//                pointerAtIndex
-//        );
     }
 }
 
-llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_POINTER_OP, irModule, scope);
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
+llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::getPointerAtIndex(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getUnderlyingIRType();
-    auto allocIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getAllocIndex());
-    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
-    auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(
+    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateStructGEP(
             arrayPointerType->getType(),
             sourceValue,
-            { zeroIndex, allocIndex }
+            arrayPointerType->getAllocIndex()
     );
     auto arrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), arrayAllocPointer, irBlock, arrayPointerType);
-//    auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
     return irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
 }

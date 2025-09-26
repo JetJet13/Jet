@@ -131,7 +131,14 @@ proc testRefFunctions() {
     print("refX (after update)", x, refX, srefX, y);
     const myArr = [10, 20, 40];
     const refMyArr = ref myArr;
-    print("refMyArr", refMyArr[0]);
+    const refValue = refMyArr[0];
+    print("refMyArr", refValue, refMyArr[0]);
+
+    // todo - get this working
+    const myObj = { foo: 10, bar: true };
+    const refMyObj = ref myObj;
+    const refMyObjFoo = refMyObj.foo;
+    print("refMyObj", refMyObjFoo, refMyObj.foo);
 }
 
 proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: string, bar: bool }) {

@@ -12,9 +12,9 @@
 
 class RefExpressionIRStrategy {
 private:
-    IRInstructionNode* generateAllocation(ASTRefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
+    IRInstructionNode* generateAllocation(ASTRefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    IRRefExpressionNode* generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRRefExpressionNode* generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 

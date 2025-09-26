@@ -14,7 +14,7 @@ class LogicalExpressionIRStrategy {
 private:
     llvm::Instruction::BinaryOps determineOperatorIR(ASTLogicalOperatorNode* node);
 public:
-    IRLogicalExpressionNode* generate(ASTLogicalExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRLogicalExpressionNode* generate(ASTLogicalExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_LOGICAL_EXPRESSION_IR_STRATEGY_H

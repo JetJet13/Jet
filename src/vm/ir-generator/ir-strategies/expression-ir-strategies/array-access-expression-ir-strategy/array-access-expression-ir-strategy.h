@@ -13,7 +13,7 @@
 
 class ArrayAccessExpressionIRStrategy {
 public:
-    IRArrayAccessExpressionNode* generate(ASTArrayAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRArrayAccessExpressionNode* generate(ASTArrayAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_EXPRESSION_IR_STRATEGY_H

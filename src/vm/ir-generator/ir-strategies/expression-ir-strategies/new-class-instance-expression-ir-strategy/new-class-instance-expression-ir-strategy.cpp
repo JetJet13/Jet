@@ -5,10 +5,10 @@
 #include "new-class-instance-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate(ASTNewClassInstanceExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate(ASTNewClassInstanceExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRExpressionNode*>();
     for (auto argument : *node->getArguments()->getArguments()) {
-        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, IR_FUNCTION_ARGUMENT_OP));
+        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
     }
 
     auto irClassType = (IRClassType*)scope->findType(node->getClassName()->getId()).value();
@@ -21,13 +21,13 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
             irConstructorType.value(),
             arguments,
             irClassType,
-            this->generateClassInstanceAllocation(node, irClassType, irGenerator, irContext, irOperationType)
+            this->generateClassInstanceAllocation(node, irClassType, irGenerator, irContext, irOperation)
     );
 }
 
-IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(ASTNewClassInstanceExpressionNode* node, IRClassType* irClassType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(ASTNewClassInstanceExpressionNode* node, IRClassType* irClassType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     auto irType = irClassType->getClassProperties();
-    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+    if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),

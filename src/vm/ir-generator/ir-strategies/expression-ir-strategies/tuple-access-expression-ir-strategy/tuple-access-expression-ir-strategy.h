@@ -12,7 +12,7 @@
 
 class TupleAccessExpressionIRStrategy {
 public:
-    IRTupleAccessExpressionNode* generate(ASTTupleAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRTupleAccessExpressionNode* generate(ASTTupleAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_EXPRESSION_IR_STRATEGY_H

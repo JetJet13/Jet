@@ -53,8 +53,8 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
     auto zeroIndex = irGenerator->generateIntConstant(0);
     for (auto property : *node->getBlock()->getProperties()) {
         if (property->getInitializer()) {
-            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, IR_OPERAND_VALUE_OP);
-            auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, IR_OPERAND_VALUE_OP, irContext->getIRModule(), preConstructorScope);
+            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+            auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), preConstructorScope);
             auto propertyIndex = irGenerator->generateIntConstant(irClassType->getClassProperties()->getIndexForKey(property->getId()));
             auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(classScopeParameterAllocation->getIRType()->getUnderlyingType()->getType(), classScopeParameterAllocation->getValue(), { zeroIndex, propertyIndex });
             functionBlock->getBuilder()->get()->Insert(pointerToProperty);

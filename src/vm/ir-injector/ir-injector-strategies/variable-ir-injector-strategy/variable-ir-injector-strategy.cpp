@@ -4,6 +4,7 @@
 
 #include "variable-ir-injector-strategy.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
@@ -15,16 +16,17 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
                     operation, irModule, scope);
 
       InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getValue(), irBlock, irVariableDeclaration->getAllocatedIRType());
-//    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irVariableDeclaration->getValue());
     if (irVariableDeclaration->getGlobalVariable()) {
         InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue(), irBlock, irVariableDeclaration->getGlobalVariable().value()->getIRType());
-        // irBlock->getBuilder()->get()->CreateStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue());
     }
 }
 
-IROperationType VariableIRInjectorStrategy::determineOperationType(IRVariableDeclarationNode* irVariableDeclaration) {
+IROperation* VariableIRInjectorStrategy::determineOperationType(IRVariableDeclarationNode* irVariableDeclaration) {
+    auto operation = irVariableDeclaration->getIRExpression()->is(IR_REF_EXPRESSION_NODE)
+            ? new IROperation(IR_REF_ASSIGNMENT_OP)
+            : new IROperation(IR_COPY_ASSIGNMENT_OP);
     if (irVariableDeclaration->getGlobalVariable()) {
-        return irVariableDeclaration->getIRExpression()->is(IR_REF_EXPRESSION_NODE) ? IR_REF_GLOBAL_ASSIGNMENT_OP : IR_COPY_GLOBAL_ASSIGNMENT_OP;
+        operation->markAsGlobal();
     }
-    return irVariableDeclaration->getIRExpression()->is(IR_REF_EXPRESSION_NODE) ? IR_REF_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP;
+    return operation;
 }

@@ -7,35 +7,28 @@
 #include "../../../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    switch (irOperationType) {
-        case IR_COPY_REASSIGNMENT_OP:
-        case IR_COPY_GLOBAL_REASSIGNMENT_OP:
-            return this->injectCopyReassignment(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
-        case IR_COPY_ASSIGNMENT_OP:
-        case IR_COPY_GLOBAL_ASSIGNMENT_OP:
-        case IR_FUNCTION_RETURN_OP:
-            return this->injectCopy(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
-        default:
-            return this->injectOperand(irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+    if (irOperation->isCopy() || irOperation->isCopyGlobal() || irOperation->isFunctionReturn()) {
+        return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    } else if (irOperation->isCopyReassignment() || irOperation->isCopyReassignmentGlobal()) {
+        return this->injectCopyReassignment(irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    } else {
+        return this->injectOperand(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     }
 }
 
-llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getUnderlyingIRType();
-    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
-    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
-    auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(
-            irExpression->getSourceExpression()->getIRType()->getType(),
+    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    auto pointerToArrayAllocation = irBlock->getBuilder()->get()->CreateStructGEP(
+            irArrayPointerType->getType(),
             sourceValue,
-            {
-                irBlock->getBuilder()->get()->getInt64(0),
-                irBlock->getBuilder()->get()->getInt64(irArrayPointerType->getAllocIndex()),
-                indexValue
-            });
+            irArrayPointerType->getAllocIndex());
+    auto loadedArrayAllocation = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getAllocType(), pointerToArrayAllocation, irBlock);
+    auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irArrayPointerType->getElementType(), loadedArrayAllocation, { indexValue });
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
-//    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyArrayFunction(),
             {
@@ -47,29 +40,26 @@ llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAcc
     return irExpression->getSourceAllocation().value()->getValue();
 }
 
-llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectOperand(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_POINTER_OP, irModule, scope);
-    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
+llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectOperand(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getSourceExpression()->getUnderlyingIRType();
     auto allocIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getAllocIndex());
     auto pointerToArrayAlloc = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), sourceValue, { irBlock->getBuilder()->get()->getInt64(0), allocIndex });
     auto arrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), pointerToArrayAlloc, irBlock, arrayPointerType);
-    //    auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), pointerToArrayAlloc);
     auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
-    if (irOperationType == IR_OPERAND_POINTER_OP) {
+    if (irOperation->isOperandPointer()) {
         return pointerToIndexedElement;
     }
     return InstructionIRInjectorHelper::injectLoad(arrayPointerType->getElementType(), pointerToIndexedElement, irBlock, arrayPointerType);
-//    return irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getElementType(), pointerToIndexedElement);
 }
 
-llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopyReassignment(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
-    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), IR_OPERAND_VALUE_OP, irModule, scope);
+llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::injectCopyReassignment(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto sourceValue = irInjector->inject(irBlock, irExpression->getSourceExpression(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), sourceValue, { irBlock->getBuilder()->get()->getInt64(0), indexValue });
-    if (irOperationType == IR_OPERAND_VALUE_OP) {
+    if (irOperation->isOperandValue()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), pointer, irBlock);
-//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), pointer);
     }
     return pointer;
 }

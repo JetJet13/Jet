@@ -6,7 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::generate(ASTClassPropertyAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::generate(ASTClassPropertyAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto classScope = scope->getClassScope().value();
     auto sourceType = (IRStructType*)classScope->getIRType()->getUnderlyingType();
     sourceType->print();

@@ -6,17 +6,17 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-literal-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRRefExpressionNode* RefExpressionIRStrategy::generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperationType);
+IRRefExpressionNode* RefExpressionIRStrategy::generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperation);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto allocation = this->generateAllocation(node, irType, irGenerator, irContext, irOperationType);
+    auto allocation = this->generateAllocation(node, irType, irGenerator, irContext, irOperation);
     if (irExpressionNode->getSourceAllocation()) {
         allocation->setParentAllocation(irExpressionNode->getSourceAllocation().value());
     }
     return new IRRefExpressionNode(node, irExpressionNode, irType, allocation);
 }
 
-IRInstructionNode* RefExpressionIRStrategy::generateAllocation(ASTRefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
+IRInstructionNode* RefExpressionIRStrategy::generateAllocation(ASTRefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     if (node->isReferenced()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),

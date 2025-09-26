@@ -7,21 +7,21 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h"
 
-IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRExpressionNode*>();
     for (auto argument : *node->getArguments()->getArguments()) {
-        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, IR_FUNCTION_ARGUMENT_OP));
+        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
     }
 
     if (node->isArrayPrototypeInvocation()) {
-        auto irArrayExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, IR_OPERAND_POINTER_OP);
+        auto irArrayExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
         auto function = irContext->getModule()->getFunction(irGenerator->getArrayPrototypeFunctionName(node->getName()));
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         return new IRArrayPrototypeInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, irArrayExpression);
     }
 
-    auto irExpression = (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, IR_OPERAND_POINTER_OP);
+    auto irExpression = (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
     auto irFunctionType = irExpression->getTargetIRType();
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     return new IRObjectAccessInvocationExpressionNode(node, irExpression, irFunctionType, arguments, irReturnType);

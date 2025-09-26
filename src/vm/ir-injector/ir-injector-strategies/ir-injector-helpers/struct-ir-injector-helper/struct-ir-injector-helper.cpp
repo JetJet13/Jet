@@ -20,7 +20,6 @@ llvm::Value* StructIRInjectorHelper::injectStructCopy(IRBlockNode* irBlock, IRIn
             auto arrayPointerAllocation = structAllocation->getChildAllocationForKey(irStructType->getKeyForIndex(i));
             auto typeValue = irInjector->inject(irBlock, irTypeAtIndex);
             auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irTypeAtIndex->getValue()->getAllocatedType(), typeValue, irBlock, irTypeAtIndex);
-//            auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irTypeAtIndex->getValue()->getAllocatedType(), typeValue);
             irBlock->getBuilder()->get()->CreateCall(
                     irModule->getCopyArrayFunction(),
                     {

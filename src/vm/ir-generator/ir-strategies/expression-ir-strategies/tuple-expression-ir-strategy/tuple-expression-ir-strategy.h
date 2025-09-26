@@ -12,9 +12,9 @@
 
 class TupleExpressionIRStrategy {
 private:
-    IRInstructionNode* generateTupleAllocation(ASTTupleExpressionNode* node, IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
+    IRInstructionNode* generateTupleAllocation(ASTTupleExpressionNode* node, IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    IRTupleExpressionNode* generate(ASTTupleExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRTupleExpressionNode* generate(ASTTupleExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_TUPLE_EXPRESSION_IR_STRATEGY_H

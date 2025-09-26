@@ -12,7 +12,7 @@
 
 class RefIRIdentifierExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_REF_IR_IDENTIFIER_EXPRESSION_INJECTOR_STRATEGY_H

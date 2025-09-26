@@ -13,6 +13,7 @@
 #include "../ir-nodes/ir-statement-nodes/ir-statement-node.h"
 #include "../types/ir-operation-type.h"
 #include "../ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.h"
+#include "../ir-operation/ir-operation.h"
 
 class IRInjectorStrategy;
 class StringIRInjectorStrategy;
@@ -84,7 +85,7 @@ public:
     void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule, IRLookupTable* scope);
     void inject(IRBlockNode* irBlock, IRBlockNode* irNode, IRModuleNode* irModule, IRLookupTable* scope);
     llvm::Value* inject(IRBlockNode* irBlock, IRType* irType);
-    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
     void injectPrintDebugString(llvm::Value* string, IRBlockNode* irBlock, IRModuleNode* irModule);
 };

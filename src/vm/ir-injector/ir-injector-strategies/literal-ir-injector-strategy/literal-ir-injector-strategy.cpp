@@ -8,29 +8,29 @@
 #include "../ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
 
-llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_LITERAL_EXPRESSION_NODE)) {
-        return this->_literalExpressionInjector.inject((IRLiteralExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_literalExpressionInjector.inject((IRLiteralExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_identifierExpressionInjector.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_identifierExpressionInjector.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        return this->_objectAccessExpressionInjector.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_objectAccessExpressionInjector.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_BINARY_ARITHMETIC_EXPRESSION_NODE)) {
-        return this->_binaryArithmeticExpressionInjector.inject((IRBinaryArithmeticExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_binaryArithmeticExpressionInjector.inject((IRBinaryArithmeticExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_BINARY_COMPARISON_EXPRESSION_NODE)) {
-        return this->_binaryComparisonExpressionInjector.inject((IRBinaryComparisonExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_binaryComparisonExpressionInjector.inject((IRBinaryComparisonExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_UNARY_ARITHMETIC_EXPRESSION_NODE)) {
-        return this->_unaryArithmeticExpressionInjector.inject((IRUnaryArithmeticExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_unaryArithmeticExpressionInjector.inject((IRUnaryArithmeticExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_UNARY_NEGATE_EXPRESSION_NODE)) {
-        return this->_unaryNegateExpressionInjector.inject((IRUnaryNegateExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_unaryNegateExpressionInjector.inject((IRUnaryNegateExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_LOGICAL_EXPRESSION_NODE)) {
-        return this->_logicalExpressionInjector.inject((IRLogicalExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_logicalExpressionInjector.inject((IRLogicalExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
-        return this->_arrayAccessExpressionInjector.inject((IRArrayAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayAccessExpressionInjector.inject((IRArrayAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
-        return this->_tupleAccessExpressionInjector.inject((IRTupleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_tupleAccessExpressionInjector.inject((IRTupleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_DREF_EXPRESSION_NODE)) {
-        return this->_literalIRDrefExpressionInjectorStrategy.inject((IRDrefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_literalIRDrefExpressionInjectorStrategy.inject((IRDrefExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_PARAMETER_INVOCATION_EXPRESSION_NODE)) {
@@ -40,7 +40,7 @@ llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, I
     } else if (irExpression->is(IR_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRClassMethodInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_PROTOTYPE_INVOCATION_EXPRESSION_NODE)) {
-        return FunctionInvocationIRInjectorHelper::inject((IRArrayPrototypeInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperationType);
+        return FunctionInvocationIRInjectorHelper::inject((IRArrayPrototypeInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRTupleAccessInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {

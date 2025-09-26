@@ -15,8 +15,8 @@
 class NewClassInstanceIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 public:
-    llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
-    llvm::Value* inject(IRNewClassInstanceExpressionNode* irNewClassInstanceExpressionNode, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode* irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) override;
+    llvm::Value* inject(IRNewClassInstanceExpressionNode* irNewClassInstanceExpressionNode, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_NEW_CLASS_INSTANCE_IR_INJECTOR_STRATEGY_H

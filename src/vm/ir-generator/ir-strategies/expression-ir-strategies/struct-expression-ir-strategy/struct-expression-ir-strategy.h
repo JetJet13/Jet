@@ -12,9 +12,9 @@
 
 class StructExpressionIRStrategy {
 private:
-    IRInstructionNode* generateStructAllocation(ASTStructExpressionNode* node, IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType);
+    IRInstructionNode* generateStructAllocation(ASTStructExpressionNode* node, IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    IRStructExpressionNode* generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRStructExpressionNode* generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_STRUCT_EXPRESSION_IR_STRATEGY_H

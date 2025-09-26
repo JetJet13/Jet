@@ -35,7 +35,7 @@ private:
     StructIRClassPropertyAccessExpressionInjectorStrategy _structIRClassPropertyAccessExpressionInjectorStrategy = StructIRClassPropertyAccessExpressionInjectorStrategy();
     StructIRDrefExpressionInjectorStrategy _structIRDrefExpressionInjectorStrategy = StructIRDrefExpressionInjectorStrategy();
 public:
-    llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) override;
+    llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) override;
 };
 
 #endif //JETLANG_STRUCT_IR_INJECTOR_STRATEGY_H

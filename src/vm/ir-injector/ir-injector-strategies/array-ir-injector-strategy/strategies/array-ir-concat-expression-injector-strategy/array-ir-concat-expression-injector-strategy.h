@@ -12,7 +12,7 @@
 
 class ArrayIRConcatExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRConcatExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRConcatExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_ARRAY_IR_CONCAT_EXPRESSION_INJECTOR_STRATEGY_H

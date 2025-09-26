@@ -12,7 +12,7 @@
 
 class FunctionInvocationExpressionIRStrategy {
 public:
-    IRExpressionNode* generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRExpressionNode* generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_FUNCTION_INVOCATION_EXPRESSION_IR_STRATEGY_H

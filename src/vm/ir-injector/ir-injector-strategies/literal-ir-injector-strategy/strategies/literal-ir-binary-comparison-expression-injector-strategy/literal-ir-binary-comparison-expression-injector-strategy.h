@@ -12,7 +12,7 @@
 
 class LiteralIRBinaryComparisonExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRBinaryComparisonExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRBinaryComparisonExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_LITERAL_IR_BINARY_COMPARISON_EXPRESSION_INJECTOR_STRATEGY_H

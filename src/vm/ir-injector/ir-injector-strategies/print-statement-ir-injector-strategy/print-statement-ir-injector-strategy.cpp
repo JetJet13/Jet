@@ -15,7 +15,7 @@ void PrintStatementIRInjectorStrategy::inject(IRPrintStatementNode* irPrintState
             );
         }
         auto argument = irPrintStatement->getIRArguments()->at(i);
-        auto value = irInjector->inject(irBlock, argument, IR_FUNCTION_ARGUMENT_OP, irModule, scope);
+        auto value = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
         if (argument->getIRType()->isIntegerType()) {
             irBlock->getBuilder()->get()->CreateCall(
                     irModule->getPrintIntFunction()->getFunctionType(),

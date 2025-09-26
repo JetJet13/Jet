@@ -6,9 +6,9 @@
 #include "../../../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* StringIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* StringIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
-    auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), IR_OPERAND_VALUE_OP, irModule, scope);
+    auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getUnderlyingIRType()->getType(), arrayAccessAllocation, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
     auto loadedPointerToIndexedElement = InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);

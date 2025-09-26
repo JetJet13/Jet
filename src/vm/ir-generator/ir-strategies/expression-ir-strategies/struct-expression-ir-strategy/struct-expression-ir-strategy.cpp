@@ -6,12 +6,12 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto structValues = std::vector<IRExpressionNode*>();
     auto structValueSourceAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
     for (auto keyValuePair : node->getKeyValuePairs()) {
-        auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irContext, irOperationType);
+        auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irContext, irOperation);
         structValues.push_back(irNode);
         if (irNode->getSourceAllocation()) {
             structValueSourceAllocationMap.insert(
@@ -21,14 +21,14 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     }
     return new IRStructExpressionNode(
             node,
-            this->generateStructAllocation(node, irType, structValueSourceAllocationMap, irGenerator, irContext, irOperationType),
+            this->generateStructAllocation(node, irType, structValueSourceAllocationMap, irGenerator, irContext, irOperation),
             irType,
             structValues
     );
 }
 
-IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(ASTStructExpressionNode* node, IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext, IROperationType irOperationType) {
-    if (node->isReferenced() || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP || irOperationType == IR_REF_GLOBAL_ASSIGNMENT_OP) {
+IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(ASTStructExpressionNode* node, IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+    if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),

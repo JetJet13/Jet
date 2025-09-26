@@ -8,21 +8,21 @@
 #include "../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 
-llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector *irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector *irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_ARRAY_EXPRESSION_NODE)) {
-        return this->_arrayIRArrayExpressionInjectorStrategy.inject((IRArrayExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayIRArrayExpressionInjectorStrategy.inject((IRArrayExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        return this->_arrayIRObjectAccessExpressionInjectorStrategy.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayIRObjectAccessExpressionInjectorStrategy.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
-        return this->_arrayIRArrayAccessExpressionInjectorStrategy.inject((IRArrayAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayIRArrayAccessExpressionInjectorStrategy.inject((IRArrayAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
-        return this->_arrayIRTupleAccessExpressionInjectorStrategy.inject((IRTupleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayIRTupleAccessExpressionInjectorStrategy.inject((IRTupleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_DREF_EXPRESSION_NODE)) {
-        return this->_arrayIRDrefExpressionInjectorStrategy.inject((IRDrefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayIRDrefExpressionInjectorStrategy.inject((IRDrefExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_arrayIRIdentifierExpressionInjectorStrategy.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayIRIdentifierExpressionInjectorStrategy.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_CONCAT_EXPRESSION_NODE)) {
-        return this->_arrayIRConcatExpressionInjectorStrategy.inject((IRConcatExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_arrayIRConcatExpressionInjectorStrategy.inject((IRConcatExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_PARAMETER_INVOCATION_EXPRESSION_NODE)) {
@@ -30,7 +30,7 @@ llvm::Value* ArrayIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRB
     } else if (irExpression->is(IR_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRClassMethodInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_PROTOTYPE_INVOCATION_EXPRESSION_NODE)) {
-        return FunctionInvocationIRInjectorHelper::inject((IRArrayPrototypeInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperationType);
+        return FunctionInvocationIRInjectorHelper::inject((IRArrayPrototypeInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     }
     throw std::logic_error("ArrayIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }

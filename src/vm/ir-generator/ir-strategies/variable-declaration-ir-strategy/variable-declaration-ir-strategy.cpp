@@ -41,11 +41,11 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGlobalVariable);
 }
 
-IROperationType VariableDeclarationIRStrategy::determineOperationType(ASTVariableDeclarationNode* node) {
+IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDeclarationNode* node) {
     if (node->isGlobal()) {
-        return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? IR_REF_GLOBAL_ASSIGNMENT_OP : IR_COPY_GLOBAL_ASSIGNMENT_OP;
+        return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? (new IROperation(IR_REF_ASSIGNMENT_OP))->markAsGlobal() : (new IROperation(IR_COPY_ASSIGNMENT_OP))->markAsGlobal();
     }
-    return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? IR_REF_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP;
+    return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? new IROperation(IR_REF_ASSIGNMENT_OP) : new IROperation(IR_COPY_ASSIGNMENT_OP);
 }
 
 IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRExpressionNode* irExpression, IRContext* irContext) {

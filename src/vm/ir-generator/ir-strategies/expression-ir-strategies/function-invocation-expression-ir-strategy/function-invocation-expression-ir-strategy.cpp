@@ -6,14 +6,14 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRExpressionNode*>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = irGenerator->generateFor(
                 node->getArguments()->getArguments()->at(i),
                 scope,
                 irContext,
-                IR_FUNCTION_ARGUMENT_OP
+                new IROperation(IR_FUNCTION_ARGUMENT_OP)
         );
         arguments.push_back(argument);
     }

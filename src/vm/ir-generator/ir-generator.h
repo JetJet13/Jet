@@ -81,8 +81,8 @@ public:
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
     IRTypeDeclarationNode* generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
-    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
-    IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
     IRType* generateTypeFor(llvm::Constant* constant);
     IRType* generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);

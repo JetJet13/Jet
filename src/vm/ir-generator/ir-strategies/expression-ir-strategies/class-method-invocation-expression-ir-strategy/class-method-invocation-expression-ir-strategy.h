@@ -12,7 +12,7 @@
 
 class ClassMethodInvocationExpressionIRStrategy {
 public:
-    IRClassMethodInvocationExpressionNode* generate(ASTClassMethodInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType);
+    IRClassMethodInvocationExpressionNode* generate(ASTClassMethodInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 

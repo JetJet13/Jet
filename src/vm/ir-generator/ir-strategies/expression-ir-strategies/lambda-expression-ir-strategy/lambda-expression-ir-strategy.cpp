@@ -45,8 +45,8 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
     this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, irContext);
-    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, irContext, IR_OPERAND_VALUE_OP);
-    auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, IR_OPERAND_VALUE_OP, irContext->getIRModule(), lambdaScope);
+    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), lambdaScope);
     functionBlock->getBuilder()->get()->CreateRet(irReturnExpressionValue);
     return new IRLambdaWithFatArrowExpressionNode(node, irFunction, functionParameterList, functionBlock, (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
 }

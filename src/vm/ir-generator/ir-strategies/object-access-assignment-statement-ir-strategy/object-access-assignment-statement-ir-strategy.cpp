@@ -9,7 +9,7 @@
 IRStatementNode* ObjectAccessAssignmentStatementIRStrategy::generate(ASTObjectAccessAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     return new IRObjectAccessAssignmentStatementNode(
             node,
-            (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, IR_COPY_REASSIGNMENT_OP),
-            irGenerator->generateFor(node->getExpression(), scope, irContext, IR_OPERAND_VALUE_OP)
+            (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, new IROperation(IR_COPY_REASSIGNMENT_OP)),
+            irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP))
     );
 }

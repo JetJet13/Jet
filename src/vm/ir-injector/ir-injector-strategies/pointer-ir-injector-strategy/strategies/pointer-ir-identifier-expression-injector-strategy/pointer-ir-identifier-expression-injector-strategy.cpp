@@ -6,20 +6,17 @@
 #include "../../../../../ir-type/ir-array-pointer-type.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* PointerIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* PointerIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->getUnderlyingIRType()->isArrayPointerType() &&
-            (irOperationType == IR_COPY_ASSIGNMENT_OP || irOperationType == IR_COPY_GLOBAL_ASSIGNMENT_OP)) {
+            (irOperation->isCopy() || irOperation->isCopyGlobal())) {
         auto irArrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();
         auto loadedUnderlyingPointer = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), irExpression->getValue(), irBlock);
-//        auto loadedUnderlyingPointer = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), irExpression->getValue());
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
         auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
-//        auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
         irBlock->getBuilder()->get()->CreateCall(irModule->getCopyArrayFunction(), { destinationPointerAllocation, loadedUnderlyingPointer, loadedTypeValue });
         auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());
         InstructionIRInjectorHelper::injectStore(destinationPointerAllocation, newPointer, irBlock, irArrayPointerType);
-//        irBlock->getBuilder()->get()->CreateStore(destinationPointerAllocation, newPointer);
         return newPointer;
     }
     return irExpression->getValue();

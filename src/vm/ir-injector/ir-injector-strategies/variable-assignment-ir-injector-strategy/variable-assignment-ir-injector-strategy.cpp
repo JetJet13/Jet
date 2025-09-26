@@ -9,7 +9,7 @@
 
 void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
-    auto operation = globalVariable.has_value() ? IR_COPY_GLOBAL_ASSIGNMENT_OP : IR_COPY_ASSIGNMENT_OP;
+    auto operation = globalVariable.has_value() ? (new IROperation(IR_COPY_ASSIGNMENT_OP))->markAsGlobal() : new IROperation(IR_COPY_ASSIGNMENT_OP);
     auto newVariableValue = irInjector
             ->inject(
                     irBlock,

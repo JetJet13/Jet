@@ -6,8 +6,8 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperationType);
+IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperation);
     auto sourceType = (IRStructType*)sourceValue->getUnderlyingIRType();
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);

@@ -202,59 +202,59 @@ IRFunctionParameterListNode* IRGenerator::generateFor(ASTFunctionParameterListNo
     return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node,  this, scope, irContext, irFunction);
 }
 
-IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
+IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     if (node->is(AST_LITERAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate((ASTLiteralExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate((ASTLiteralExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_BINARY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_CONCAT_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate((ASTConcatExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate((ASTConcatExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_STRUCT_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate((ASTUnaryExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate((ASTUnaryExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode *) node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode *) node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate((ASTObjectAccessExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate((ASTObjectAccessExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getObjectAccessInvocationExpressionIRStrategy()->generate((ASTObjectAccessInvocationExpressionNode*)node, this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getObjectAccessInvocationExpressionIRStrategy()->generate((ASTObjectAccessInvocationExpressionNode*)node, this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate((ASTTupleAccessExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate((ASTTupleAccessExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleAccessInvocationExpressionIRStrategy()->generate((ASTTupleAccessInvocationExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getTupleAccessInvocationExpressionIRStrategy()->generate((ASTTupleAccessInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate((ASTFunctionInvocationExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate((ASTFunctionInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaExpressionNode*)node,  this, scope, irContext);
     } else if (node->is(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaWithFatArrowExpressionNode*)node,  this, scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getClassPropertyAccessExpressionIRStrategy()->generate((ASTClassPropertyAccessExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getClassPropertyAccessExpressionIRStrategy()->generate((ASTClassPropertyAccessExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate((ASTClassMethodInvocationExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate((ASTClassMethodInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate((ASTNewClassInstanceExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate((ASTNewClassInstanceExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_REF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate((ASTRefExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate((ASTRefExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate((ASTDrefExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate((ASTDrefExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_SREF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getSrefExpressionIRStrategy()->generate((ASTSrefExpressionNode*)node,  this, scope, irContext, irOperationType);
+        return this->_irStrategyMap.getSrefExpressionIRStrategy()->generate((ASTSrefExpressionNode*)node,  this, scope, irContext, irOperation);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
 
-IRExpressionNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperationType irOperationType) {
-    return this->generateFor(node->getArgument(), scope, irContext, irOperationType);
+IRExpressionNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    return this->generateFor(node->getArgument(), scope, irContext, irOperation);
 }
 
 IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext) {

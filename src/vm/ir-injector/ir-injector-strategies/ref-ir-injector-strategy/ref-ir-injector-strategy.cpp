@@ -4,15 +4,15 @@
 
 #include "ref-ir-injector-strategy.h"
 
-llvm::Value* RefIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperationType irOperationType, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* RefIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_REF_EXPRESSION_NODE)) {
-        return this->_refIRRefExpressionInjectorStrategy.inject((IRRefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_refIRRefExpressionInjectorStrategy.inject((IRRefExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_refIRIdentifierExpressionInjectorStrategy.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_refIRIdentifierExpressionInjectorStrategy.inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_SREF_EXPRESSION_NODE)) {
-        return this->_refIRSrefExpressionInjectorStrategy.inject((IRSrefExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_refIRSrefExpressionInjectorStrategy.inject((IRSrefExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        return this->_refIRObjectAccessExpressionInjectorStrategy.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperationType, irModule, scope);
+        return this->_refIRObjectAccessExpressionInjectorStrategy.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     }
     throw std::logic_error("RefIRInjectorStrategy - invalid ir expression with ref type");
 }
