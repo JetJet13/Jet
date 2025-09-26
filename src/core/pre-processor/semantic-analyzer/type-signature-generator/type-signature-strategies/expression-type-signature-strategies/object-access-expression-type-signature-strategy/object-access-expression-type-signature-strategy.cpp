@@ -16,20 +16,20 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressi
     }
 
     if (sourceTypeSignature->typeTargetIs(STRUCT_TYPE_SOURCE)) {
-        auto structSource = (StructTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        auto structSource = (StructTypeSignature*)sourceTypeSignature;
         objectAccessExpression->setTypeSignature(structSource->getTypeSignatureForKey(
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
         ));
         return;
     } else if (sourceTypeSignature->typeTargetIs(ENUM_TYPE_SOURCE)) {
-        auto enumSource = (EnumTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        auto enumSource = (EnumTypeSignature*)sourceTypeSignature;
         objectAccessExpression->setTypeSignature(new EnumAccessTypeSignature(
             enumSource,
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
         ));
         return;
     } else if (sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)) {
-        auto arraySource = (ArrayTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        auto arraySource = (ArrayTypeSignature*)sourceTypeSignature;
         objectAccessExpression->setTypeSignature(strategyMap->findArrayPrototypeTypeSignature(
                 objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
                 arraySource->getElementType()).value_or(new FunctionTypeSignature())
