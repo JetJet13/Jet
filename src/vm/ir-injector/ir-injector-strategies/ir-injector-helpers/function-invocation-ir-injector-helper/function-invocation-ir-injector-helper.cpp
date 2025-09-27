@@ -158,7 +158,6 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     arguments.insert(arguments.begin(), arrayValue);
     auto arrayTypeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getUnderlyingType());
     auto loadedArrayTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRArrayValue()->getIRType()->getUnderlyingType()->getValue()->getAllocatedType(), arrayTypeValue, irBlock);
-//    auto loadedArrayTypeValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRArrayValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), arrayTypeValue);
     arguments.push_back(loadedArrayTypeValue);
     auto result = irBlock->getBuilder()->get()->CreateCall(
             llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
@@ -169,13 +168,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     if (irOperation->isOperandPointer() && !result->getType()->isPointerTy()) {
         auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getUnderlyingIRType()->getType());
         InstructionIRInjectorHelper::injectStore(result, alloc, irBlock, irExpression->getUnderlyingIRType());
-//        irBlock->getBuilder()->get()->CreateStore(result, alloc);
         return alloc;
     }
 
     if ((irOperation->isCopy() || irOperation->isOperandValue()) && result->getType()->isPointerTy()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), result, irBlock);
-//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), result);
     }
 
     return result;

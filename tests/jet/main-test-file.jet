@@ -134,7 +134,7 @@ proc testRefFunctions() {
     const refValue = refMyArr[0];
     print("refMyArr", refValue, refMyArr[0]);
 
-    const myObj = { foo: 13, bar: true };
+    const myObj = { foo: 13, bar: true, nest: { go: 'n', mars: [1, 55, 6], novo: { "evo", true, 113 } } };
     const refMyObj = ref myObj;
     const refMyObjFoo = refMyObj.foo;
     print("refMyObj", refMyObjFoo, refMyObj.foo);
@@ -142,6 +142,16 @@ proc testRefFunctions() {
     print("myObj (updated)", myObj.foo, refMyObj.foo, refMyObjFoo);
     refMyObj.foo = 174;
     print("refMyObj (updated)", myObj.foo, refMyObj.foo, refMyObjFoo);
+    const refFoo = ref myObj.foo;
+    print("refFoo", myObj.foo, refMyObj.foo, refFoo);
+    myObj.foo = 754;
+    print("refFoo (updated)", myObj.foo, refMyObj.foo, refFoo);
+    myObj.nest.mars.append(10);
+    print("mars (updated - append)", myObj.nest.mars.size(), refMyObj.nest.mars.size());
+    refMyObj.nest.mars.append(11);
+    print("mars (updated - append via ref)", myObj.nest.mars.size(), refMyObj.nest.mars.size());
+    print("novo.evo", myObj.nest.novo.0, refMyObj.nest.novo.0);
+    // todo - add missing support for tuple access assignment
 }
 
 proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: string, bar: bool }) {

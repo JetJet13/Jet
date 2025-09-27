@@ -158,10 +158,3 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpres
 void IRInjector::injectVoidReturnType(IRBlockNode* irBlock) {
     irBlock->getBuilder()->get()->CreateRet(irBlock->getBuilder()->get()->getInt64(0));
 }
-
-void IRInjector::injectPrintDebugString(llvm::Value* string, IRBlockNode* irBlock, IRModuleNode* irModule) {
-    irBlock->getBuilder()->get()->CreateCall(
-            irModule->getPrintDebugStringFunction(),
-            { string }
-    );
-}

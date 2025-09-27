@@ -3658,6 +3658,26 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 })
         )},
+        {245, new ASTVariableDeclarationNode(
+                ASTNodeFactory::constInit,
+                ASTNodeFactory::createStructExpression({
+                       ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
+                       ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression),
+                       ASTNodeFactory::createStructKeyValue(ASTNodeFactory::createStructExpression({
+                           ASTNodeFactory::createStructKeyValue(ASTNodeFactory::charExpression),
+                           ASTNodeFactory::createStructKeyValue(ASTNodeFactory::createArrayExpression({
+                               ASTNodeFactory::intExpression,
+                               ASTNodeFactory::intExpression,
+                               ASTNodeFactory::intExpression
+                           })),
+                           ASTNodeFactory::createStructKeyValue(ASTNodeFactory::createTupleExpression({
+                               ASTNodeFactory::stringExpression,
+                               ASTNodeFactory::trueExpression,
+                               ASTNodeFactory::intExpression
+                           }))
+                       })),
+               })
+        )},
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -3691,8 +3711,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 244);
-    for (int i = 0; i < 244; i++) {
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 245);
+    for (int i = 0; i < 245; i++) {
         auto declaration = syntaxAnalyzerResult->getFileScope()->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

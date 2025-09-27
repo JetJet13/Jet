@@ -537,3 +537,4 @@ print("HELLO!");
 testParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
 myObject.foo = 120;
 const y = [ { foo: true, nested: { bar: 10 } }, { foo: true, nested: { bar: 99 } }];
+const myObj = { foo: 13, bar: true, nest: { go: 'n', mars: [1, 55, 6], novo: { "evo", true, 113 } } };

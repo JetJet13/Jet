@@ -20,7 +20,6 @@ llvm::Value* LiteralIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleA
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getUnderlyingType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
     return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
 }
 
 llvm::Value* LiteralIRTupleAccessExpressionInjectorStrategy::injectRef(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -36,7 +35,6 @@ llvm::Value* LiteralIRTupleAccessExpressionInjectorStrategy::injectOperand(IRTup
     irBlock->getBuilder()->get()->Insert(pointer);
     if (irOperation->isOperandValue() || irOperation->isFunctionReturn()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
-//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getTargetIRType()->getType(), pointer);
     }
     return pointer;
 }
