@@ -28,6 +28,11 @@ ClassConstructorTypeSignature* ClassInstanceTypeSignature::getConstructorTypeSig
     return _constructorInfo.value().second;
 }
 
+std::optional<ClassMethodTypeSignature*> ClassInstanceTypeSignature::findMethod(std::string methodName) {
+    auto methodId = _classTypeSignature.value()->getId() + "_" + methodName;
+    return _classTypeSignature.value()->getMethods()->find(methodId);
+}
+
 bool ClassInstanceTypeSignature::hasConstructorInfo() {
     return _constructorInfo.has_value();
 }

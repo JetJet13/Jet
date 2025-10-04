@@ -3,6 +3,7 @@
 //
 
 #include "ir-array-pointer-type.h"
+#include "../../shared/utils/logger/logger.h"
 
 IRArrayPointerType::IRArrayPointerType(llvm::StructType* type, IRType* arrayElementType) : IRType(type) {
     _type = type;
@@ -73,4 +74,9 @@ bool IRArrayPointerType::containsTypeThatRequiresFreeing() {
 
 bool IRArrayPointerType::isArrayPointerType() {
     return true;
+}
+
+void IRArrayPointerType::print() {
+    Logger::log("IR ARRAY POINTER TYPE");
+    _type->print(llvm::outs());
 }

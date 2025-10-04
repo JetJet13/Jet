@@ -45,6 +45,7 @@ public:
     virtual bool isLambdaType();
     virtual bool isFunctionType();
     virtual bool isClassType();
+    virtual bool isClassInstanceType();
     virtual bool isTypeValueType();
     virtual bool isRefType();
     virtual bool containsTypeThatRequiresFreeing();

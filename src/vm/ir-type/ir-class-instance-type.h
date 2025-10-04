@@ -16,8 +16,11 @@ public:
     IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType);
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();
+    std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
     llvm::StructType* getType() override;
     bool containsTypeThatRequiresFreeing() override;
+    bool isClassInstanceType() override;
+    void print() override;
 };
 
 #endif //JETLANG_IR_CLASS_INSTANCE_TYPE_H

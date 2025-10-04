@@ -30,6 +30,7 @@ public:
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     bool containsTypeThatRequiresFreeing() override;
     bool isArrayPointerType() override;
+    void print() override;
 };
 
 #endif //JETLANG_IR_ARRAY_POINTER_TYPE_H

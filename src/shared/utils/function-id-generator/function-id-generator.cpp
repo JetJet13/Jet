@@ -11,6 +11,13 @@ std::string FunctionIdGenerator::getNameFromId(std::string functionId) {
     return functionId.substr(0, functionId.size() - periodAndMd5HashLength);
 }
 
+std::string FunctionIdGenerator::generateFor(ASTClassMethodDeclarationNode* classMethodDeclarationNode) {
+    auto id = classMethodDeclarationNode->getId()
+              + "."
+              + MD5().operator()(classMethodDeclarationNode->getTypeSignature()->toDetailString());
+    return id;
+}
+
 std::string FunctionIdGenerator::generateFor(ASTFunctionDeclarationNode* functionDeclarationNode) {
     auto id = functionDeclarationNode->getId()
               + "."
@@ -28,6 +35,12 @@ std::string FunctionIdGenerator::generateFor(ASTProcedureDeclarationNode* proced
 std::string FunctionIdGenerator::generateFor(ASTFunctionInvocationExpressionNode* functionInvocationExpressionNode) {
     auto id = functionInvocationExpressionNode->getFunction()->getId() + "."
               + MD5().operator()(functionInvocationExpressionNode->getArguments()->getTypeSignature()->toDetailString());
+    return id;
+}
+
+std::string FunctionIdGenerator::generateFor(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpressionNode) {
+    auto id = objectAccessInvocationExpressionNode->getName() + "."
+              + MD5().operator()(objectAccessInvocationExpressionNode->getArguments()->getTypeSignature()->toDetailString());
     return id;
 }
 

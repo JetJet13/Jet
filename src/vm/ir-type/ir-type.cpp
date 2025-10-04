@@ -148,6 +148,10 @@ bool IRType::isClassType() {
     return false;
 }
 
+bool IRType::isClassInstanceType() {
+    return false;
+}
+
 bool IRType::isTypeValueType() {
     return false;
 }

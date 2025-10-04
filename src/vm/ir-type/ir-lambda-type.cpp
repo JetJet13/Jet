@@ -41,5 +41,6 @@ llvm::Align IRLambdaType::getAlignment() {
 }
 
 void IRLambdaType::print() {
+    Logger::log("IR LAMBDA TYPE");
     _type->print(llvm::outs());
 }

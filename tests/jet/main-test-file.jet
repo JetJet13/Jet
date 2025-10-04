@@ -211,6 +211,11 @@ proc testLambdas() {
 
 }
 
+proc testClasses() {
+    const myClass = new MyClass(23, "Orange");
+    print("myClass values", myClass.getAge());
+}
+
 main();
 maino();
 testArrayPrototypeFunctions();
@@ -219,3 +224,35 @@ testRefFunctions();
 testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
 complexCopy();
 testLambdas();
+testClasses();
+
+class MyClass {
+    public age: int;
+    public color: string;
+    private foo = 100;
+
+    constructor(age: int, color: string) {
+        this.age = age;
+        this.color = color;
+    }
+
+    public getFoo() int {
+        return this.foo;
+    }
+
+    public getAge() int {
+        return this.age;
+    }
+
+    public getColor() string {
+        return this.color;
+    }
+
+    public changeColor(newColor: string) {
+        this.color = newColor;
+    }
+
+    public incrementAge() {
+        this.age = this.age + 1;
+    }
+}

@@ -205,16 +205,9 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
                 irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope)
         );
     }
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto pointerToLambda = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRObjectAccessExpression()->getSource()->getSourceAllocation().value()->getAllocatedType(), irExpression->getIRObjectAccessExpression()->getValue(), { zeroIndex, irExpression->getIRObjectAccessExpression()->getIRTargetKeyIndex() });
-    auto irFunctionParameterType = (IRFunctionParameterType*)irExpression->getFunctionIRType();
-    auto loadedLambdaAtIndex = InstructionIRInjectorHelper::injectLoad(irFunctionParameterType->getType(), pointerToLambda, irBlock);
-    auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionIndex() });
-    auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionScopeArgumentIndex() });
-    arguments.push_back(lambdaScopeArgument);
     return irBlock->getBuilder()->get()->CreateCall(
-            irFunctionParameterType->getFunctionType(),
-            lambda,
+            llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
+            irExpression->getFunction(),
             arguments
     );
 }

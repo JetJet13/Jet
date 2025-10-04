@@ -9,7 +9,7 @@ llvm::Value* VoidIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBl
     if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
         return this->inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     }
-    throw std::logic_error("LambdaIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
+    throw std::logic_error("VoidIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
 
 llvm::Value* VoidIRInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {

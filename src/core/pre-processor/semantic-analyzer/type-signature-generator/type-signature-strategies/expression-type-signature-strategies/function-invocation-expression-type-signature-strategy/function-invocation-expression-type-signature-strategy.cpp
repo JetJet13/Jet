@@ -41,7 +41,5 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvoca
             return;
         }
     }
-    typeSignatureLookupTable->dump();
-    Logger::log("function not found", id);
     functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature());
 }

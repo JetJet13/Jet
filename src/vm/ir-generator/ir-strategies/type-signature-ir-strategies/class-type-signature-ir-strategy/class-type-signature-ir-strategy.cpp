@@ -31,15 +31,18 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     }
 
     auto classMethods = std::unordered_map<std::string, IRFunctionType*>();
-    for (auto keyValue : classTypeSignature->getMethods()->getKeyValues()) {
+    for (int i = 0; i < classTypeSignature->getMethods()->size(); ++i) {
+        auto keyValue = classTypeSignature->getMethods()->getKeyValues()[i];
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType(), scope, irContext);
         auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
-                ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
-                : irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
+                                ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
+                                : irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
+        Logger::log("CLASS METHOD", keyValue.first);
         classMethods[keyValue.first] = new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false));
     }
 
     return new IRClassType(
+            classTypeSignature->getId(),
             classProperties,
             classTypeSignature->isClassScopeParameterNecessary()
             ? irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext)

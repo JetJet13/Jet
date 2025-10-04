@@ -22,6 +22,7 @@ public:
     llvm::Align getAlignment() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isArrayType() override;
+    void print() override;
 };
 
 #endif //JETLANG_IR_ARRAY_TYPE_H

@@ -17,14 +17,14 @@
 class IRObjectAccessInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTObjectAccessInvocationExpressionNode* _node;
-    IRObjectAccessExpressionNode* _irObjectAccessExpression;
+    llvm::Value* _irFunction;
     IRType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
 public:
-    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRObjectAccessExpressionNode* irObjectAccessExpression, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type);
+    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type);
     void markAsGlobal() override;
-    IRObjectAccessExpressionNode* getIRObjectAccessExpression();
+    llvm::Value* getFunction();
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Value* getValue() override;
     IRType* getFunctionIRType();

@@ -3,6 +3,7 @@
 //
 
 #include "ir-array-type.h"
+#include "../../shared/utils/logger/logger.h"
 
 IRArrayType::IRArrayType(llvm::ArrayType* type, IRType* arrayElementType) : IRType(type) {
     _type = type;
@@ -44,4 +45,9 @@ bool IRArrayType::containsTypeThatRequiresFreeing() {
 
 bool IRArrayType::isArrayType() {
     return true;
+}
+
+void IRArrayType::print() {
+    Logger::log("IR ARRAY TYPE");
+    _type->print(llvm::outs());
 }

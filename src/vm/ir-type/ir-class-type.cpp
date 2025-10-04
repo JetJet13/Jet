@@ -3,10 +3,12 @@
 //
 
 #include "ir-class-type.h"
+#include "../../shared/utils/logger/logger.h"
 
 #include <utility>
 
-IRClassType::IRClassType(IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::string preConstructorName) : IRType(*this) {
+IRClassType::IRClassType(std::string name, IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::string preConstructorName) : IRType(classProperties->getType()) {
+    _name = name;
     _classProperties = classProperties;
     _classScopeType = classScopeType;
     _classConstructors = std::move(classConstructors);
@@ -46,10 +48,19 @@ std::string IRClassType::getPreConstructorName() {
     return _preConstructorName;
 }
 
+std::string IRClassType::getName() {
+    return _name;
+}
+
 bool IRClassType::isClassType() {
     return true;
 }
 
 bool IRClassType::containsTypeThatRequiresFreeing() {
     return _classProperties->containsTypeThatRequiresFreeing();
+}
+
+void IRClassType::print() {
+    Logger::log("IR CLASS TYPE");
+    _type->print(llvm::outs());
 }

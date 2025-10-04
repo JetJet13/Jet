@@ -53,7 +53,7 @@ void ClassMethodTypeSignature::setReturnType(TypeSignature* returnType) {
 }
 
 std::string ClassMethodTypeSignature::toDetailString() {
-    return "jet.class_method." + _parameterList->toDetailString();
+    return _parameterList->toDetailString();
 }
 
 std::string ClassMethodTypeSignature::toString() {

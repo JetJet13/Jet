@@ -3,6 +3,7 @@
 //
 
 #include "class-method-type-signature-strategy.h"
+#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 void ClassMethodTypeSignatureStrategy::assign(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     std::optional<TypeSignature*> returnType = {};
@@ -21,4 +22,5 @@ void ClassMethodTypeSignatureStrategy::assign(ASTClassMethodDeclarationNode* cla
                 classMethodDeclaration->getClassMethodDefinition()->isStatic(),
                 returnType
     ));
+    classMethodDeclaration->setId(FunctionIdGenerator::generateFor(classMethodDeclaration));
 }

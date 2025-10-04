@@ -6,6 +6,9 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h"
+#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../ir-type/ir-class-instance-type.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRExpressionNode*>();
@@ -21,9 +24,18 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
         return new IRArrayPrototypeInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, irArrayExpression);
     }
 
-    auto irExpression = (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
-    auto irFunctionType = irExpression->getTargetIRType();
+    auto functionId = FunctionIdGenerator::generateFor(node);
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
+    auto sourceType = sourceValue->getUnderlyingIRType();
+    auto irFunction = irContext->getModule()->getFunction(functionId);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    return new IRObjectAccessInvocationExpressionNode(node, irExpression, irFunctionType, arguments, irReturnType);
+    if (sourceType->isClassInstanceType()) {
+        auto classInstanceType = (IRClassInstanceType*)sourceType;
+        auto irFunctionType = classInstanceType->getIRTypeForMethod(functionId).value();
+        return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
+    }
 
+    auto irStructType = (IRStructType*)sourceType;
+    auto irFunctionType = irStructType->getIRTypeForKey(functionId);
+    return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
 }

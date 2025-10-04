@@ -39,9 +39,6 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     }
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
-        Logger::log("built-in!", node->getFunction()->getId());
-        node->getFunction()->getTypeSignature()->print();
-        node->print();
         auto irFunctionName = irGenerator->getJetUtilsFunctionName(node->getFunction()->getId());
         auto function = irContext->getModule()->getFunction(irFunctionName);
         return new IRFunctionInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, varArgsTypeValueArgument);
