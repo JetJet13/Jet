@@ -19,6 +19,7 @@ public:
     std::string getFunctionName();
     void addFunctionVarArgTypeSignature(std::string key, InvocableTypeSignature* typeSignature);
     std::optional<std::pair<std::string, InvocableTypeSignature*>> findMatchFor(ArgumentListTypeSignature* argumentListTypeSignature);
+    std::string toString();
 };
 
 #endif //JETLANG_FUNCTION_VARARG_TYPE_SIGNATURE_MAP_H

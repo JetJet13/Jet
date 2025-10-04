@@ -4,7 +4,6 @@
 
 #include "function-type-signature-strategy.h"
 #include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
-#include "../../../../../../shared/utils/logger/logger.h"
 
 void FunctionTypeSignatureStrategy::assign(ASTFunctionDeclarationNode* functionDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto functionScope = TypeSignatureLookupTable();

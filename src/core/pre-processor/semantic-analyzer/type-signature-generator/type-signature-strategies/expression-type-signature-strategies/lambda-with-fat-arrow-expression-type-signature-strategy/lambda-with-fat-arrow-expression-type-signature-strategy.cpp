@@ -6,6 +6,7 @@
 
 void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
+    scope.inheritGlobalScope(typeSignatureLookupTable);
     for (auto parameter : lambdaWithFatArrowExpression->getParameters()->getParameters()) {
         strategyMap->assignTypeSignatureFor(parameter, &scope);
         scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());

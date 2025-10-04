@@ -7,6 +7,5 @@
 
 void FunctionParameterIRInjectorStrategy::inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule) {
     InstructionIRInjectorHelper::inject(irFunctionParameterDeclaration->getAllocation(), irBlock);
-    InstructionIRInjectorHelper::injectStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue(), irBlock);
-//    irBlock->getBuilder()->get()->CreateStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue());
+    InstructionIRInjectorHelper::injectStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue(), irBlock, irFunctionParameterDeclaration->getAllocation()->getIRType());
 }

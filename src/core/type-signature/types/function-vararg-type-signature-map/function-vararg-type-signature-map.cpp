@@ -29,3 +29,7 @@ std::optional<std::pair<std::string, InvocableTypeSignature*>> FunctionVarArgTyp
     }
     return {};
 }
+
+std::string FunctionVarArgTypeSignatureMap::toString() {
+    return "FUNCTION_VAR_ARG_TYPE_SIGNATURE";
+}

@@ -185,9 +185,32 @@ proc complexCopy() {
 
     print("y 1     :", y[1].nested.bar, y[1].nested.deepNest.num, y[1].nested.deepNest.oNum, y[1].bob, y[1].nested.deepNest.jj[0].x, y[1].nested.deepNest.tup.0, y[1].nested.deepNest.tup.1, y[1].nested.deepNest.tup.2, y[1].otherTup.0, y[1].rNum);
     print("copyY 1 :", copyY[1].nested.bar, copyY[1].nested.deepNest.num, copyY[1].nested.deepNest.oNum, copyY[1].bob, copyY[1].nested.deepNest.jj[0].x, copyY[1].nested.deepNest.tup.0, copyY[1].nested.deepNest.tup.1, copyY[1].nested.deepNest.tup.2, copyY[1].otherTup.0, copyY[1].rNum);
+}
 
+proc testLambdas() {
+    const x = () => 19;
+    const xResult = x();
+    print("xResult", xResult);
+
+    let foo = 40;
+    const y = () => foo + 2 - xResult;
+    const yResult = y();
+    print("yResult", yResult);
+    const boga = { mars: 1928, bar: true };
+    const z = (value: int) {
+      const innerX = 290;
+      const innerLambda = () => 23 + foo + boga.mars;
+      const moo = foo + innerX + innerLambda() + value;
+      foo = 9001;
+      boga.mars = 9002;
+      print("zResult", moo);
+    };
+    print("foo (before)", foo, boga.mars);
+    z(190);
+    print("foo (after)", foo, boga.mars);
 
 }
+
 main();
 maino();
 testArrayPrototypeFunctions();
@@ -195,3 +218,4 @@ testCopyFunctions();
 testRefFunctions();
 testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
 complexCopy();
+testLambdas();

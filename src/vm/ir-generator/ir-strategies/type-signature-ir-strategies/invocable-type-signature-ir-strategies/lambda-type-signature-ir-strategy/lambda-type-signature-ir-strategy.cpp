@@ -42,7 +42,7 @@ std::vector<llvm::Type*> LambdaTypeSignatureIRStrategy::generateParameterTypes(s
         parameterTypes.push_back(parameter->getType());
     }
     if (lambdaScopeParameter) {
-        parameterTypes.push_back(lambdaScopeParameter.value()->getType());
+        parameterTypes.push_back(lambdaScopeParameter.value()->getType()->getPointerTo());
     }
     return parameterTypes;
 }

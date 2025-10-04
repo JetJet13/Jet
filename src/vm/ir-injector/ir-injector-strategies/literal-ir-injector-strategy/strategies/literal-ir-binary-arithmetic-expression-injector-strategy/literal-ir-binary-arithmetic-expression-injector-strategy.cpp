@@ -12,7 +12,6 @@ llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(IRBinar
     if (irOperation->isOperandPointer()) {
         auto allocation = irBlock->getBuilder()->get()->CreateAlloca(result->getType());
         InstructionIRInjectorHelper::injectStore(result, allocation, irBlock);
-//        irBlock->getBuilder()->get()->CreateStore(result, allocation);
         return allocation;
     }
     return result;

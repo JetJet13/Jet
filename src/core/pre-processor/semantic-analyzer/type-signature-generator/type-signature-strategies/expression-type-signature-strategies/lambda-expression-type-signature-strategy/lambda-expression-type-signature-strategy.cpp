@@ -7,6 +7,7 @@
 
 void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lambdaExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
+    scope.inheritGlobalScope(typeSignatureLookupTable);
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
         strategyMap->assignTypeSignatureFor(parameter, &scope);
         scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
@@ -19,13 +20,9 @@ void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lamb
         returnType = lambdaExpression->getReturnType().value()->getTypeSignature();
     } else {
         for (auto node : *lambdaExpression->getBlock()->getContents()) {
-            if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
-                Logger::log("Found function return expression");
-                node->print();
-                auto returnExpression = (ASTFunctionReturnExpressionNode*)node;
-                strategyMap->assignTypeSignatureFor(returnExpression, &scope);
-                returnType = returnExpression->getTypeSignature();
-                break;
+            if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE) && !returnType) {
+                strategyMap->assignTypeSignatureFor(node, &scope);
+                returnType = node->getTypeSignature();
             }
         }
     }

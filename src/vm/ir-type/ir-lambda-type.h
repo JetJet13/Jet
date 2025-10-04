@@ -22,6 +22,7 @@ public:
     IRFunctionParameterType* getLambdaVariableType();
     llvm::PointerType* getFunctionPointerType();
     llvm::FunctionType* getType() override;
+    llvm::Align getAlignment() override;
     void print() override;
 };
 

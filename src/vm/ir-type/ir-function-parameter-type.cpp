@@ -51,6 +51,10 @@ std::string IRFunctionParameterType::getFunctionScopeArgumentParameterName(std::
     return parameterName + ".scopeArgument";
 }
 
+llvm::Align IRFunctionParameterType::getAlignment() {
+    return llvm::Align(8);
+}
+
 uint64_t IRFunctionParameterType::getSizeInBytes() {
-    return 8;
+    return 16;
 }

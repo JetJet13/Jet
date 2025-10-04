@@ -23,54 +23,42 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
     auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getLambdaVariableType()->getType());
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto functionIndex = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getFunctionIndex());
-    auto functionPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex, functionIndex });
+    auto functionIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionIndex();
+    auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, functionIndex);
     InstructionIRInjectorHelper::injectStore(irExpression->getValue(), functionPointer, irBlock, irExpression->getIRType());
-//    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), functionPointer);
     if (irExpression->getIRType()->getLambdaScopeType()) {
         auto irLambdaScopeType = (IRStructType*)irExpression->getIRType()->getLambdaScopeType().value();
-        auto functionArgumentIndex = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getFunctionScopeArgumentIndex());
-        auto functionArgumentPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex, functionArgumentIndex });
+        auto functionArgumentIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionScopeArgumentIndex();
+        auto functionArgumentPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, functionArgumentIndex);
         auto lambdaScopeAllocation = irBlock->getBuilder()->get()->CreateAlloca(irLambdaScopeType->getType());
         for (int i = 0; i < irLambdaScopeType->size(); ++i) {
-            auto index = irBlock->getBuilder()->get()->getInt64(i);
             auto key = irLambdaScopeType->getKeyForIndex(i);
             auto allocationForKey = scope->find(key).value();
-            auto pointer = irBlock->getBuilder()->get()->CreateGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, { zeroIndex, index });
+            auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, i);
             InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointer, irBlock, allocationForKey->getIRType()->getUnderlyingType());
-//            irBlock->getBuilder()->get()->CreateStore(allocationForKey->getValue(), pointer);
         }
         InstructionIRInjectorHelper::injectStore(lambdaScopeAllocation, functionArgumentPointer, irBlock);
-//        irBlock->getBuilder()->get()->CreateStore(lambdaScopeAllocation, functionArgumentPointer);
     }
     return InstructionIRInjectorHelper::injectLoad(allocation->getAllocatedType(), allocation, irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(allocation->getAllocatedType(), allocation);
 }
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
     auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getLambdaVariableType()->getType());
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto functionIndex = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getFunctionIndex());
-    auto functionPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex, functionIndex });
+    auto functionIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionIndex();
+    auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, functionIndex);
     InstructionIRInjectorHelper::injectStore(irExpression->getValue(), functionPointer, irBlock, irExpression->getIRType()->getLambdaVariableType());
-//    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), functionPointer);
     if (irExpression->getIRType()->getLambdaScopeType()) {
         auto irLambdaScopeType = (IRStructType*)irExpression->getIRType()->getLambdaScopeType().value();
-        auto functionArgumentIndex = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getFunctionScopeArgumentIndex());
-        auto functionArgumentPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex, functionArgumentIndex });
+        auto functionArgumentIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionScopeArgumentIndex();
+        auto functionArgumentPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, functionArgumentIndex);
         auto lambdaScopeAllocation = irBlock->getBuilder()->get()->CreateAlloca(irLambdaScopeType->getType());
         for (int i = 0; i < irLambdaScopeType->size(); ++i) {
-            auto index = irBlock->getBuilder()->get()->getInt64(i);
             auto key = irLambdaScopeType->getKeyForIndex(i);
             auto allocationForKey = scope->find(key).value();
-            auto pointer = irBlock->getBuilder()->get()->CreateGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, { zeroIndex, index });
+            auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, i);
             InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointer, irBlock, allocationForKey->getIRType()->getUnderlyingType());
-//            irBlock->getBuilder()->get()->CreateStore(allocationForKey->getValue(), pointer);
         }
         InstructionIRInjectorHelper::injectStore(lambdaScopeAllocation, functionArgumentPointer, irBlock);
-//        irBlock->getBuilder()->get()->CreateStore(lambdaScopeAllocation, functionArgumentPointer);
     }
     return InstructionIRInjectorHelper::injectLoad(allocation->getAllocatedType(), allocation, irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(allocation->getAllocatedType(), allocation);
 }

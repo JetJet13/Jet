@@ -105,5 +105,8 @@ void TypeSignatureLookupTable::dump() {
     for (auto keyValue : _globalTypeSignatureLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
     }
+    for (auto keyValue : _globalFunctionOverrideLookupTable) {
+        Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
+    }
     Logger::log("===============================================");
 }

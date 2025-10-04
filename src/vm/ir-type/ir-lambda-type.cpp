@@ -36,7 +36,10 @@ llvm::FunctionType* IRLambdaType::getType() {
     return _type;
 }
 
+llvm::Align IRLambdaType::getAlignment() {
+    return llvm::Align(8);
+}
+
 void IRLambdaType::print() {
-    Logger::log("IR Lambda Type");
     _type->print(llvm::outs());
 }

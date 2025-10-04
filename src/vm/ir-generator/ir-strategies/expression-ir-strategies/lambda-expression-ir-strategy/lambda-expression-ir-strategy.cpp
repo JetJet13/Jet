@@ -29,7 +29,7 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
         }
     }
 
-    if (!node->getReturnType()) {
+    if (functionType->getReturnType()->isVoidTy()) {
         irGenerator->getInjector()->injectVoidReturnType(functionBlock);
     }
     return new IRLambdaExpressionNode(node, irFunction, functionParameterList, functionBlock, (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
@@ -74,27 +74,24 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
         if (formalParameter->getParameterType()->getName() == typeSignature->getScopeParameter()->getName()) {
             auto scopeParameterIrType = (IRStructType*)formalParameter->getParameterType()->getIRType();
             auto scopeParameterTypeSignature = (StructTypeSignature*)typeSignature->getScopeParameter()->getTypeSignature();
-            auto zeroIndex = irGenerator->generateIntConstant(0);
+            auto pointerToScopeParameterType = InstructionIRInjectorHelper::injectLoad(functionParameterAllocation->getAllocatedType(), functionParameterAllocation->getValue(), functionBlock);
             for (const auto& keyValue : scopeParameterTypeSignature->getKeyValuePairs()->getKeyValues()) {
                 auto underlyingType = ((PointerTypeSignature*)keyValue.second)->getUnderlyingType();
                 auto underlyingIrType = irGenerator->generateTypeFor(underlyingType, scope, irContext);
-                auto index = irGenerator->generateIntConstant(scopeParameterIrType->getIndexForKey(keyValue.first));
+                auto index = scopeParameterIrType->getIndexForKey(keyValue.first);
                 auto irType = scopeParameterIrType->getIRTypeForKey(keyValue.first);
-                auto pointerToValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(scopeParameterIrType->getType(), functionParameterAllocation->getValue(), { zeroIndex, index });
-                auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getType(), nullptr, keyValue.first);
-                InstructionIRInjectorHelper::injectStore(
-                        InstructionIRInjectorHelper::injectLoad(irType->getType(), pointerToValue, functionBlock, irType),
-//                        functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
-                        allocation,
-                        functionBlock
-                );
-//                functionBlock->getBuilder()->get()->CreateStore(
-//                        functionBlock->getBuilder()->get()->CreateLoad(irType->getType(), pointerToValue),
-//                        allocation
+                auto pointerToValue = functionBlock->getBuilder()->get()->CreateStructGEP(scopeParameterIrType->getType(), pointerToScopeParameterType, index);
+                auto loadedPointerToValue = InstructionIRInjectorHelper::injectLoad(irType->getType(), pointerToValue, functionBlock, irType);
+//                auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getSourceType()->getType(), nullptr, keyValue.first);
+//                InstructionIRInjectorHelper::injectStore(
+//                        InstructionIRInjectorHelper::injectLoad(irType->getSourceType()->getType(), loadedPointerToValue, functionBlock, irType->getSourceType()),
+//                        allocation,
+//                        functionBlock,
+//                        irType->getSourceType()
 //                );
                 scope->insert(
                         keyValue.first,
-                        IRInstructionNodeFactory::create(allocation, irGenerator->generateIrPointerType(underlyingIrType))
+                        IRInstructionNodeFactory::create(loadedPointerToValue, irGenerator->generateIrPointerType(underlyingIrType))
                 );
             }
         }

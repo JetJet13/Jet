@@ -28,6 +28,7 @@ public:
     IRPointerType* getIRFunctionPointer();
     std::string getFunctionParameterName(std::string parameterName);
     std::string getFunctionScopeArgumentParameterName(std::string parameterName);
+    llvm::Align getAlignment() override;
     uint64_t getSizeInBytes() override;
 };
 
