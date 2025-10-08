@@ -10,12 +10,12 @@ void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignment
     auto classScopeParameter = scope->getClassScope().value();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     auto propertyIndex = irBlock->getBuilder()->get()->getInt64(irClassPropertyAssignmentStatementNode->getPropertyIndex());
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(classScopeParameter->getIRType()->getType(), classScopeParameter->getValue(), irBlock);
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(
         classScopeParameter->getIRType()->getUnderlyingType()->getType(),
-        classScopeParameter->getValue(),
+        loadedPointer,
         { zeroIndex, propertyIndex }
     );
     irBlock->getBuilder()->get()->Insert(pointer);
     InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irClassPropertyAssignmentStatementNode->getExpression()->getIRType());
-//    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
 }

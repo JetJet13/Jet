@@ -10,13 +10,15 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.h"
 #include "../ir-injector-strategy.h"
 #include "../../../ir-nodes/ir-block-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 
 
 class NewClassInstanceIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 public:
     llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) override;
-    llvm::Value* inject(IRNewClassInstanceExpressionNode* irNewClassInstanceExpressionNode, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRNewClassInstanceExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_NEW_CLASS_INSTANCE_IR_INJECTOR_STRATEGY_H

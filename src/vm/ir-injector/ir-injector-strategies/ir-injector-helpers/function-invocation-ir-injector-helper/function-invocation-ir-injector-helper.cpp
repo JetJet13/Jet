@@ -8,6 +8,7 @@
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../ir-type/ir-array-pointer-type.h"
 #include "../../../../ir-type/ir-type-value-type.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
@@ -198,16 +199,38 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationE
     );
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(
                 irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope)
         );
     }
-    return irBlock->getBuilder()->get()->CreateCall(
-            llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
+
+    auto irType = irExpression->getFunctionIRType();
+    if (irType->isFunctionParameterType()) {
+        auto irFunctionParameterType = (IRFunctionParameterType*)irType;
+        auto loadedLambdaAtIndex = InstructionIRInjectorHelper::injectLoad(irFunctionParameterType->getType(), irExpression->getFunction(), irBlock);
+        auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionIndex() });
+        auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionScopeArgumentIndex() });
+        arguments.push_back(lambdaScopeArgument);
+        return irBlock->getBuilder()->get()->CreateCall(
+                irFunctionParameterType->getFunctionType(),
+                lambda,
+                arguments
+        );
+    }
+
+    auto irFunctionType = (IRFunctionType*)irType;
+    auto value = irBlock->getBuilder()->get()->CreateCall(
+            irFunctionType->getType(),
             irExpression->getFunction(),
             arguments
     );
+    if (irOperation->isOperandPointer()) {
+        auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
+        InstructionIRInjectorHelper::injectStore(value, pointerToValue, irBlock, irExpression->getIRType());
+        return pointerToValue;
+    }
+    return value;
 }

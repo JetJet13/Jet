@@ -10,6 +10,7 @@ AllPathsReturnTypeCheckerRule* TypeCheckerRuleProvider::_allPathsReturnTypeCheck
 DefinedTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_definedTypeSignatureTypeCheckerRule = new DefinedTypeSignatureTypeCheckerRule();
 TypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::_typeSignatureMismatchTypeCheckerRule = new TypeSignatureMismatchTypeCheckerRule();
 IterableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_iterableTypeSignatureTypeCheckerRule = new IterableTypeSignatureTypeCheckerRule();
+InvocableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_invocableTypeSignatureTypeCheckerRule = new InvocableTypeSignatureTypeCheckerRule();
 UniqueScopedNamesTypeCheckerRule* TypeCheckerRuleProvider::_uniqueScopedNamesTypeCheckerRule = new UniqueScopedNamesTypeCheckerRule();
 UniqueTypeSignatureKeysTypeCheckerRule* TypeCheckerRuleProvider::_uniqueTypeSignatureKeysTypeCheckerRule = new UniqueTypeSignatureKeysTypeCheckerRule();
 UniqueTypeSignatureWithIdTypeCheckerRule* TypeCheckerRuleProvider::_uniqueTypeSignatureWithIdTypeCheckerRule = new UniqueTypeSignatureWithIdTypeCheckerRule();
@@ -43,6 +44,10 @@ TypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::getTypeSignatureM
 
 IterableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule() {
     return _iterableTypeSignatureTypeCheckerRule;
+}
+
+InvocableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getInvocableTypeSignatureTypeCheckerRule() {
+    return _invocableTypeSignatureTypeCheckerRule;
 }
 
 UniqueScopedNamesTypeCheckerRule* TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule() {

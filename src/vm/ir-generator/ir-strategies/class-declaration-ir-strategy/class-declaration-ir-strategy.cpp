@@ -56,10 +56,10 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
             auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
             auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), preConstructorScope);
             auto propertyIndex = irGenerator->generateIntConstant(irClassType->getClassProperties()->getIndexForKey(property->getId()));
-            auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(classScopeParameterAllocation->getIRType()->getUnderlyingType()->getType(), classScopeParameterAllocation->getValue(), { zeroIndex, propertyIndex });
+            auto loadedPointerToProperty = InstructionIRInjectorHelper::injectLoad(classScopeParameterAllocation->getIRType()->getType(), classScopeParameterAllocation->getValue(), functionBlock);
+            auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(classScopeParameterAllocation->getIRType()->getUnderlyingType()->getType(), loadedPointerToProperty, { zeroIndex, propertyIndex });
             functionBlock->getBuilder()->get()->Insert(pointerToProperty);
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, functionBlock);
-//            functionBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointerToProperty);
         }
     }
     functionBlock->getBuilder()->get()->CreateRet(irGenerator->generateIntConstant(0));
@@ -110,8 +110,7 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
     methodScope->inherit(scope);
     auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
-    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
+    auto irFunction = irContext->getIRModule()->getModule()->getFunction(node->getId());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);

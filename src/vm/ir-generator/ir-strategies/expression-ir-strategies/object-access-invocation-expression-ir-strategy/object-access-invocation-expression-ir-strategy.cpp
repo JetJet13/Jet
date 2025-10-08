@@ -27,15 +27,17 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     auto functionId = FunctionIdGenerator::generateFor(node);
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
     auto sourceType = sourceValue->getUnderlyingIRType();
-    auto irFunction = irContext->getModule()->getFunction(functionId);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = (IRClassInstanceType*)sourceType;
+        arguments.push_back(sourceValue);
         auto irFunctionType = classInstanceType->getIRTypeForMethod(functionId).value();
+        auto irFunction = irContext->getModule()->getFunction(classInstanceType->getIRMethodName(functionId));
         return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
     }
 
     auto irStructType = (IRStructType*)sourceType;
     auto irFunctionType = irStructType->getIRTypeForKey(functionId);
+    auto irFunction = irContext->getModule()->getFunction(functionId);
     return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
 }

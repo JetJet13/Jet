@@ -28,6 +28,7 @@ public:
     std::string getName();
     bool isClassType() override;
     bool containsTypeThatRequiresFreeing() override;
+    llvm::Align getAlignment() override;
     void print() override;
 };
 

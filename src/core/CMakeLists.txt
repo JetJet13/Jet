@@ -1304,6 +1304,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.h
 
 )
 

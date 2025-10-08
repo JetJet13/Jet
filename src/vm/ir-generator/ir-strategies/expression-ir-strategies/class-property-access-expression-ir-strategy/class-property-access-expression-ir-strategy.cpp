@@ -9,7 +9,6 @@
 IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::generate(ASTClassPropertyAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto classScope = scope->getClassScope().value();
     auto sourceType = (IRStructType*)classScope->getIRType()->getUnderlyingType();
-    sourceType->print();
     auto targetKey = node->getPropertyAccess()->getPropertyName()->getId();
     auto targetIndex = sourceType->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);

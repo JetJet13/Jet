@@ -16,10 +16,12 @@ public:
     IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType);
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();
+    std::string getIRMethodName(std::string methodName);
     std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
     llvm::StructType* getType() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isClassInstanceType() override;
+    llvm::Align getAlignment() override;
     void print() override;
 };
 

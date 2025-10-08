@@ -9,32 +9,37 @@
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
         return this->inject((IRNewClassInstanceExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
+        return this->inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     }
     throw std::logic_error("NewClassInstanceIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
 
-llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irNewClassInstanceExpressionNode, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto classInstanceAllocation = InstructionIRInjectorHelper::inject(irNewClassInstanceExpressionNode->getClassInstanceAllocation(), irBlock);
-    auto preConstructorFunction = irModule->getModule()->getFunction(irNewClassInstanceExpressionNode->getIRType()->getPreConstructorName());
+llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
+    auto classInstanceAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation(), irBlock);
+    auto preConstructorFunction = irModule->getModule()->getFunction(irExpression->getIRType()->getPreConstructorName());
     irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
 
     auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irNewClassInstanceExpressionNode->getIRArguments()) {
+    for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope));
     }
     arguments.push_back(classInstanceAllocation);
     irBlock->getBuilder()->get()->CreateCall(
-            irNewClassInstanceExpressionNode->getConstructorIRType()->getType(),
-            irNewClassInstanceExpressionNode->getConstructorFunction(),
+            irExpression->getConstructorIRType()->getType(),
+            irExpression->getConstructorFunction(),
             arguments
     );
     return InstructionIRInjectorHelper::injectLoad(
-            irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getIRType()->getUnderlyingType()->getType(),
+            irExpression->getClassInstanceAllocation()->getIRType()->getUnderlyingType()->getType(),
             classInstanceAllocation,
             irBlock
     );
-//    return irBlock->getBuilder()->get()->CreateLoad(
-//        irNewClassInstanceExpressionNode->getClassInstanceAllocation()->getIRType()->getSourceType()->getType(),
-//        classInstanceAllocation
-//    );
+}
+
+llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
+    if (irOperation->isOperandValue()) {
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), irExpression->getValue(), irBlock);
+    }
+    return irExpression->getValue();
 }

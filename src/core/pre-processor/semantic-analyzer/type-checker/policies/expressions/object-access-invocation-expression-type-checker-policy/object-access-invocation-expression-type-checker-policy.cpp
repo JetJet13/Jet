@@ -5,6 +5,7 @@
 #include "object-access-invocation-expression-type-checker-policy.h"
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
     void apply(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
@@ -19,6 +20,19 @@ namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
                 voidMessage,
                 typeCheckerResult
         );
+        auto notInvocableMessage = TypeCheckerErrorMessageTable::NotInvocable(objectAccessInvocationExpression->getObjectAccess());
+        TypeCheckerRuleProvider::getInvocableTypeSignatureTypeCheckerRule()
+        ->enforce(
+                objectAccessInvocationExpression->getObjectAccess()->getTypeSignature(),
+                notInvocableMessage,
+                typeCheckerResult
+        );
+
+        objectAccessInvocationExpression->getObjectAccess()->getTypeSignature()->print();
+        if (!objectAccessInvocationExpression->getObjectAccess()->getTypeSignature()->isInvocable()) {
+            return;
+        }
+
         auto invocableTypeSignature = (InvocableTypeSignature*)objectAccessInvocationExpression->getObjectAccess()->getTypeSignature();
         auto notEnoughArguments = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(objectAccessInvocationExpression);
         auto tooManyArguments = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(objectAccessInvocationExpression);

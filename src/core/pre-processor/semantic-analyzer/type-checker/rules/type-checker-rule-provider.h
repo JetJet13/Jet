@@ -21,6 +21,7 @@
 #include "type-checker-rules/sref-type-checker-rule/sref-type-checker-rule.h"
 #include "type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h"
 #include "type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.h"
+#include "type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.h"
 
 class TypeCheckerRuleProvider {
 private:
@@ -30,6 +31,7 @@ private:
     static DefinedTypeSignatureTypeCheckerRule* _definedTypeSignatureTypeCheckerRule;
     static TypeSignatureMismatchTypeCheckerRule* _typeSignatureMismatchTypeCheckerRule;
     static IterableTypeSignatureTypeCheckerRule* _iterableTypeSignatureTypeCheckerRule;
+    static InvocableTypeSignatureTypeCheckerRule* _invocableTypeSignatureTypeCheckerRule;
     static UniqueScopedNamesTypeCheckerRule* _uniqueScopedNamesTypeCheckerRule;
     static UniqueTypeSignatureKeysTypeCheckerRule* _uniqueTypeSignatureKeysTypeCheckerRule;
     static UniqueTypeSignatureWithIdTypeCheckerRule* _uniqueTypeSignatureWithIdTypeCheckerRule;
@@ -47,6 +49,7 @@ public:
     static DefinedTypeSignatureTypeCheckerRule* getDefinedTypeSignatureTypeCheckerRule();
     static TypeSignatureMismatchTypeCheckerRule* getTypeSignatureMismatchTypeCheckerRule();
     static IterableTypeSignatureTypeCheckerRule* getIterableTypeSignatureTypeCheckerRule();
+    static InvocableTypeSignatureTypeCheckerRule* getInvocableTypeSignatureTypeCheckerRule();
     static UniqueScopedNamesTypeCheckerRule* getUniqueScopedNamesTypeCheckerRule();
     static UniqueTypeSignatureKeysTypeCheckerRule* getUniqueTypeSignatureKeysTypeCheckerRule();
     static UniqueTypeSignatureWithIdTypeCheckerRule* getUniqueTypeSignatureWithIdTypeCheckerRule();

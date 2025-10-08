@@ -60,6 +60,10 @@ bool IRClassType::containsTypeThatRequiresFreeing() {
     return _classProperties->containsTypeThatRequiresFreeing();
 }
 
+llvm::Align IRClassType::getAlignment() {
+    return _classProperties->getAlignment();
+}
+
 void IRClassType::print() {
     Logger::log("IR CLASS TYPE");
     _type->print(llvm::outs());

@@ -80,7 +80,10 @@ namespace TypeCheckerErrorMessageTable {
     } 
     static ErrorMessageLambda ForInStatementSourceNotIterable(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "source of for-in loop is not iterable"); };
-    } 
+    }
+    static ErrorMessageLambda NotInvocable(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not invocable"); };
+    }
     static ErrorMessageLambda ClassPropertyTypeUnknown(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type is unknown"); };
     } 

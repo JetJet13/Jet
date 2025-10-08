@@ -18,9 +18,12 @@ IRFunctionType* IRClassInstanceType::getIRConstructorType() {
     return _irConstructorType;
 }
 
+std::string IRClassInstanceType::getIRMethodName(std::string methodName) {
+    return _irClassType->getName() + "_" + methodName;
+}
+
 std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {
-    auto methodId = _irClassType->getName() + "_" + methodName;
-    return _irClassType->getIRTypeForMethod(methodId);
+    return _irClassType->getIRTypeForMethod(this->getIRMethodName(methodName));
 }
 
 llvm::StructType* IRClassInstanceType::getType() {
@@ -33,6 +36,10 @@ bool IRClassInstanceType::containsTypeThatRequiresFreeing() {
 
 bool IRClassInstanceType::isClassInstanceType() {
     return true;
+}
+
+llvm::Align IRClassInstanceType::getAlignment() {
+    return _irClassType->getAlignment();
 }
 
 void IRClassInstanceType::print() {
