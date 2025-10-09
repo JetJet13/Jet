@@ -11,7 +11,7 @@
 
 class ClassPropertyAccessIRInjectorHelper {
 public:
-    static llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
+    static llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_ACCESS_IR_INJECTOR_HELPER_H

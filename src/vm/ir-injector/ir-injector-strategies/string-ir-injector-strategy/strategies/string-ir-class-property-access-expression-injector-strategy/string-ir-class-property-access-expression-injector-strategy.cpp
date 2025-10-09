@@ -9,25 +9,23 @@
 
 llvm::Value* StringIRClassPropertyAccessExpressionInjectorStrategy::inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
-    auto loadedPointerToIndexedElement = ClassPropertyAccessIRInjectorHelper::inject(irExpression,
+    auto pointerToPropertyValue = ClassPropertyAccessIRInjectorHelper::inject(irExpression,
                                                                                      irBlock,
                                                                                      irInjector,
-                                                                                     irModule, scope);
-    auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
-    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
-//    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
-    auto destinationAllocation = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
+                                                                                     irModule,
+                                                                                     scope,
+                                                                                     (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying()
+    );
+    auto destinationAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
     irBlock->getBuilder()->get()->CreateCall(
-            irModule->getCopyValueFunction(),
+            irModule->getCopyStringFunction(),
             {
                     destinationAllocation,
-                    loadedPointerToIndexedElement,
-                    loadedTypeValue
+                    pointerToPropertyValue
             }
     );
-    return InstructionIRInjectorHelper::injectLoad(irExpression->getSourceAllocation().value()->getAllocatedType(), destinationAllocation, irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(
-//            irExpression->getSourceAllocation().value()->getAllocatedType(),
-//            destinationAllocation
-//    );
+    if (irOperation->isOperandPointer()) {
+        return destinationAllocation;
+    }
+    return InstructionIRInjectorHelper::injectLoad(destinationAllocation->getAllocatedType(), destinationAllocation, irBlock);
 }

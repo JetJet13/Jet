@@ -4,6 +4,7 @@
 
 #include "string-ir-identifier-expression-injector-strategy.h"
 #include "../../../../../ir-type/ir-array-pointer-type.h"
+#include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* StringIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irOperation->isCopy()|| irOperation->isCopyGlobal()) {
@@ -11,6 +12,10 @@ llvm::Value* StringIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierEx
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
         irBlock->getBuilder()->get()->CreateCall(irModule->getCopyStringFunction(), { destinationPointerAllocation, irExpression->getValue() });
         return irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getType(), destinationPointerAllocation);
+    }
+
+    if (irOperation->isOperandValue()) {
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), irExpression->getValue(), irBlock);
     }
     return irExpression->getValue();
 }

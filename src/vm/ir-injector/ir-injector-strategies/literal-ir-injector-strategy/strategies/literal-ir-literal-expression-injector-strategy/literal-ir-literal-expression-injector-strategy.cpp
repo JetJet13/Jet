@@ -25,11 +25,10 @@ llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectRef(IRLiteralExpr
 }
 
 llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectOperand(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irOperation->isOperandValue()) {
+    if (irOperation->isOperandValue() || irOperation->isFunctionArgument()) {
         return irExpression->getValue();
     }
     auto literalAllocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());
-//    irBlock->getBuilder()->get()->CreateCall(irModule->getPrintDebugPointerFunction(), { literalAllocation });
     irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), literalAllocation);
     return literalAllocation;
 }

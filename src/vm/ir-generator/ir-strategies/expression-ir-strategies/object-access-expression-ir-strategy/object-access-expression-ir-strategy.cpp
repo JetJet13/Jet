@@ -5,10 +5,19 @@
 #include "object-access-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../ir-type/ir-class-instance-type.h"
 
 IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperation);
     auto sourceType = sourceValue->getUnderlyingIRType();
+    if (sourceType->isClassInstanceType()) {
+        auto classInstanceType = (IRClassInstanceType*)sourceType;
+        auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto targetIndex = classInstanceType->getIndexForProperty(targetKey);
+        auto irType = classInstanceType->getIRTypeForProperty(targetKey);
+        auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
+        return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
+    }
     auto structType = (IRStructType*)sourceType;
     auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
     auto targetIndex = structType->getIndexForKey(targetKey);

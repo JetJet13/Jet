@@ -17,6 +17,9 @@ public:
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();
     std::string getIRMethodName(std::string methodName);
+    std::string getIRPropertyName(std::string propertyName);
+    unsigned long getIndexForProperty(std::string propertyName);
+    IRType* getIRTypeForProperty(std::string propertyName);
     std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
     llvm::StructType* getType() override;
     bool containsTypeThatRequiresFreeing() override;

@@ -150,6 +150,7 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
     auto injector = _injectorMap.find(irExpression->getInjectorTypeSource());
     if (injector == _injectorMap.end()) {
+        irExpression->getTypeSignature()->print();
         throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getInjectorTypeSource()));
     }
     return injector->second->inject(irExpression, irBlock, this, irOperation, irModule, scope);

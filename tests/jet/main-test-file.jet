@@ -214,7 +214,9 @@ proc testLambdas() {
 proc testClasses() {
     const myClass = new MyClass(23, "Orange");
     const age = myClass.getAge();
-    print("myClass values", age, myClass.getAge());
+    const color = myClass.getColor();
+    print("myClass property access", myClass.age, myClass.color);
+    print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
 }
 
 main();

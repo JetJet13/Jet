@@ -53,6 +53,10 @@ TypeSource ClassPropertyTypeSignature::getTypeSource() {
     return CLASS_PROPERTY_TYPE_SOURCE;
 }
 
+TypeSource ClassPropertyTypeSignature::getTypeTarget() {
+    return _type->getTypeSource();
+}
+
 bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;

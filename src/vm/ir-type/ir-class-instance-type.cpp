@@ -22,6 +22,18 @@ std::string IRClassInstanceType::getIRMethodName(std::string methodName) {
     return _irClassType->getName() + "_" + methodName;
 }
 
+std::string IRClassInstanceType::getIRPropertyName(std::string propertyName) {
+    return _irClassType->getName() + "_" + propertyName;
+}
+
+unsigned long IRClassInstanceType::getIndexForProperty(std::string propertyName) {
+    return _irClassType->getClassProperties()->getIndexForKey(this->getIRPropertyName(propertyName));
+}
+
+IRType* IRClassInstanceType::getIRTypeForProperty(std::string propertyName) {
+    return _irClassType->getClassProperties()->getIRTypeForKey(this->getIRPropertyName(propertyName));
+}
+
 std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {
     return _irClassType->getIRTypeForMethod(this->getIRMethodName(methodName));
 }

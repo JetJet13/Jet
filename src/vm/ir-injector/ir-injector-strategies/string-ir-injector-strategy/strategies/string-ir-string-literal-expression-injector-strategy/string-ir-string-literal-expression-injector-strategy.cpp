@@ -10,7 +10,6 @@ llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLit
     auto arrayAllocation = irExpression->getSourceAggregateAllocation()->getValue();
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     InstructionIRInjectorHelper::injectStore(irExpression->getValue(), arrayAllocation, irBlock, irExpression->getSourceAggregateAllocation()->getIRType()->getUnderlyingType());
-//    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), arrayAllocation);
     auto array = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), irExpression->getValue()->getType()->getArrayNumElements(),
                                                      irExpression->getSourceAggregateAllocation(),
                                                      irExpression->getAggregatePointerAllocation())->getValue();
