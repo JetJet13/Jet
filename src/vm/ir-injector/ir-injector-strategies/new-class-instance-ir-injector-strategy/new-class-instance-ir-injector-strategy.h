@@ -11,6 +11,7 @@
 #include "../ir-injector-strategy.h"
 #include "../../../ir-nodes/ir-block-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
 
 
 class NewClassInstanceIRInjectorStrategy : public IRInjectorStrategy {

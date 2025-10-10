@@ -17,7 +17,6 @@ void TypeSignatureMismatchTypeCheckerRule::enforce(std::optional<ASTNode*> node,
 
 void TypeSignatureMismatchTypeCheckerRule::enforce(TypeSignature* typeSignature, TypeSignature* otherTypeSignature, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
     if (!typeSignature->isEquivalentTo(otherTypeSignature)) {
-        Logger::log("FOUND MISMATCH!");
         typeCheckerResult->addError(mismatchMessage());
     }
 }

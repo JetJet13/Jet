@@ -11,13 +11,11 @@ namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
     void apply(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression);
-        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(objectAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
                 objectAccessInvocationExpression,
                 unknownMessage,
                 invalidMessage,
-                voidMessage,
                 typeCheckerResult
         );
         auto notInvocableMessage = TypeCheckerErrorMessageTable::NotInvocable(objectAccessInvocationExpression->getObjectAccess());
@@ -28,7 +26,6 @@ namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
                 typeCheckerResult
         );
 
-        objectAccessInvocationExpression->getObjectAccess()->getTypeSignature()->print();
         if (!objectAccessInvocationExpression->getObjectAccess()->getTypeSignature()->isInvocable()) {
             return;
         }

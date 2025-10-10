@@ -5,12 +5,13 @@
 #include "ir-object-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type) {
+IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument) {
     _node = node;
     _irFunction = irFunction;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
     _type = type;
+    _scopeArgument = scopeArgument;
 }
 
 void IRObjectAccessInvocationExpressionNode::markAsGlobal() {
@@ -22,6 +23,10 @@ void IRObjectAccessInvocationExpressionNode::markAsGlobal() {
 
 llvm::Value* IRObjectAccessInvocationExpressionNode::getFunction() {
     return _irFunction;
+}
+
+std::optional<IRExpressionNode*> IRObjectAccessInvocationExpressionNode::getScopeArgument() {
+    return _scopeArgument;
 }
 
 std::vector<IRExpressionNode*>* IRObjectAccessInvocationExpressionNode::getIRArguments() {

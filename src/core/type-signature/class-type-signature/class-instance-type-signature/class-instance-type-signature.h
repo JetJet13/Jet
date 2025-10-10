@@ -19,6 +19,7 @@ public:
     TypeSignatureMap<TypeSignature>* getClassInterface();
     ClassConstructorTypeSignature* getConstructorTypeSignature();
     std::optional<ClassMethodTypeSignature*> findMethod(std::string methodName);
+    std::optional<ClassPropertyTypeSignature*> findProperty(std::string propertyName);
     bool hasConstructorInfo();
     std::string getConstructorId();
     void setConstructorInfo(std::pair<std::string, ClassConstructorTypeSignature*> constructorInfo);

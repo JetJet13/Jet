@@ -7,31 +7,30 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
 
 void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), scope);
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), scope);
-    strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getObjectAccess(), scope);
-    auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression);
     if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
-        objectAccessInvocationExpression->setTypeSignature(structSource->getTypeSignatureForKey(
-                objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
-        )->getTargetTypeSignature());
+        auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto functionTypeSignature = structSource->getTypeSignatureForKey(id);
+        objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(functionTypeSignature);
+        objectAccessInvocationExpression->setTypeSignature(functionTypeSignature->getTargetTypeSignature());
         return;
     } else if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
+        auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression);
         auto classInstanceSource = (ClassInstanceTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
-        objectAccessInvocationExpression->setTypeSignature(
-                classInstanceSource->findMethod(id)
-                .value_or(new ClassMethodTypeSignature())->getReturnType());
+        auto classMethodTypeSignature = classInstanceSource->findMethod(id).value_or(new ClassMethodTypeSignature());
+        objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classMethodTypeSignature);
+        objectAccessInvocationExpression->setTypeSignature(classMethodTypeSignature->getReturnType());
         return;
     } else if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
         auto arraySource = (ArrayTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
-        objectAccessInvocationExpression->setTypeSignature(strategyMap->findArrayPrototypeTypeSignature(
-                objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
-                arraySource->getElementType()
-        ).value_or(new FunctionTypeSignature())->getReturnType());
+        auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto arrayPrototypeTypeSignature = strategyMap->findArrayPrototypeTypeSignature(id, arraySource->getElementType()).value_or(new FunctionTypeSignature());
+        objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(arrayPrototypeTypeSignature);
+        objectAccessInvocationExpression->setTypeSignature(arrayPrototypeTypeSignature->getReturnType());
         return;
     }
     objectAccessInvocationExpression->setTypeSignature(new InvalidTypeSignature());

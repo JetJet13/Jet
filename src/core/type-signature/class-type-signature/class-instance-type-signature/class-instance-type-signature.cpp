@@ -33,6 +33,11 @@ std::optional<ClassMethodTypeSignature*> ClassInstanceTypeSignature::findMethod(
     return _classTypeSignature.value()->getMethods()->find(methodId);
 }
 
+std::optional<ClassPropertyTypeSignature*> ClassInstanceTypeSignature::findProperty(std::string propertyName) {
+    auto propertyId = _classTypeSignature.value()->getId() + "_" + propertyName;
+    return _classTypeSignature.value()->getProperties()->find(propertyId);
+}
+
 bool ClassInstanceTypeSignature::hasConstructorInfo() {
     return _constructorInfo.has_value();
 }

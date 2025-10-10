@@ -30,10 +30,9 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = (IRClassInstanceType*)sourceType;
-        arguments.push_back(sourceValue);
         auto irFunctionType = classInstanceType->getIRTypeForMethod(functionId).value();
         auto irFunction = irContext->getModule()->getFunction(classInstanceType->getIRMethodName(functionId));
-        return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
+        return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType, sourceValue);
     }
 
     auto irStructType = (IRStructType*)sourceType;

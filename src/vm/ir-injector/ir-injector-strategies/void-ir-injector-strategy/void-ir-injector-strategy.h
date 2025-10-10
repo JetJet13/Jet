@@ -10,12 +10,12 @@
 #include "../../../ir-nodes/ir-declaration-nodes/ir-module-declaration-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 #include "../ir-injector-strategy.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h"
 
 class VoidIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 public:
     llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) override;
-    llvm::Value* inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 
 };
 

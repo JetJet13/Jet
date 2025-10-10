@@ -8,6 +8,7 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), scope);
@@ -38,11 +39,12 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressi
         return;
     } else if (sourceTypeSignature->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
         auto classInstanceSource = (ClassInstanceTypeSignature*)sourceTypeSignature;
-        objectAccessExpression->setTypeSignature(classInstanceSource->getClassTypeSignature()->getMethods()->find(
-                objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId())
-                .value_or(new ClassMethodTypeSignature())
-        );
-        return;
+        auto id = objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto classProperty = classInstanceSource->findProperty(id);
+        if (classProperty) {
+            objectAccessExpression->setTypeSignature(classProperty.value());
+            return;
+        }
     }
     objectAccessExpression->setTypeSignature(new InvalidTypeSignature());
 }

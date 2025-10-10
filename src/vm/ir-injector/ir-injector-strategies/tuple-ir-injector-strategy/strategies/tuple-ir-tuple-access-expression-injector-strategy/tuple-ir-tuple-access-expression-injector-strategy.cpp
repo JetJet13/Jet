@@ -31,7 +31,6 @@ llvm::Value* TupleIRTupleAccessExpressionInjectorStrategy::injectOperand(IRTuple
     auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { zeroIndex, irExpression->getIRTargetKeyIndex() });
     if (irOperation->isOperandValue()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), pointerToIndexedElement, irBlock);
-//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
     return pointerToIndexedElement;
 }

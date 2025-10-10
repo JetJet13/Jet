@@ -217,6 +217,12 @@ proc testClasses() {
     const color = myClass.getColor();
     print("myClass property access", myClass.age, myClass.color);
     print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
+    myClass.age = 99;
+    myClass.color = "blue";
+    myClass.incrementAge();
+    myClass.setOtherValue(8556);
+    print("myClass property access (updated)", myClass.age, myClass.color);
+    myClass.printOtherValue();
 }
 
 main();
@@ -233,6 +239,7 @@ class MyClass {
     public age: int;
     public color: string;
     private foo = 100;
+    private other = new OtherClass();
 
     constructor(age: int, color: string) {
         this.age = age;
@@ -257,5 +264,27 @@ class MyClass {
 
     public incrementAge() {
         this.age = this.age + 1;
+    }
+
+    public setOtherValue(newValue: int) {
+        this.other.setValue(newValue);
+    }
+
+    public printOtherValue() {
+        print(this.other.getValue());
+    }
+}
+
+class OtherClass {
+    private value: int = 0;
+
+    constructor() {}
+
+    public getValue() int {
+        return this.value;
+    }
+
+    public setValue(newValue: int) {
+        this.value = newValue;
     }
 }

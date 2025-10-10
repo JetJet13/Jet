@@ -70,6 +70,10 @@ bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
 
 }
 
+bool ClassPropertyTypeSignature::isEquivalentTo(TypeSignature *otherType) {
+    return this->getType()->isEquivalentTo(otherType);
+}
+
 TypeSignature* ClassPropertyTypeSignature::convertToVariableTypeSignature() {
     return this->getType();
 }

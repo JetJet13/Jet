@@ -5,12 +5,15 @@
 #include "new-class-instance-ir-injector-strategy.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h"
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
         return this->inject((IRNewClassInstanceExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         return this->inject((IRIdentifierExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    } else if (irExpression->is(IR_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)) {
+        return ClassPropertyAccessIRInjectorHelper::inject((IRClassPropertyAccessExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     }
     throw std::logic_error("NewClassInstanceIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }

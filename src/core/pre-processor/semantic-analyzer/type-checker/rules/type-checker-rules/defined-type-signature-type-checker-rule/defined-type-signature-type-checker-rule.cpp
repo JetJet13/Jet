@@ -11,6 +11,12 @@ void DefinedTypeSignatureTypeCheckerRule::enforce(std::optional<ASTNode*> node, 
     }
 }
 
+void DefinedTypeSignatureTypeCheckerRule::enforce(std::optional<ASTNode*> node, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
+    if (node) {
+        this->enforce(node.value()->getTypeSignature(), unknownMessage, invalidMessage, typeCheckerResult);
+    }
+}
+
 void DefinedTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, ErrorMessageLambda& voidMessage, TypeCheckerResult* typeCheckerResult) {
     if (typeSignature->isUnknown()) {
         typeCheckerResult->addError(unknownMessage());
@@ -18,6 +24,14 @@ void DefinedTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, 
         typeCheckerResult->addError(invalidMessage());
     } else if (typeSignature->isVoid()) {
         typeCheckerResult->addError(voidMessage());
+    }
+}
+
+void DefinedTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
+    if (typeSignature->isUnknown()) {
+        typeCheckerResult->addError(unknownMessage());
+    } else if (typeSignature->isInvalid()) {
+        typeCheckerResult->addError(invalidMessage());
     }
 }
 

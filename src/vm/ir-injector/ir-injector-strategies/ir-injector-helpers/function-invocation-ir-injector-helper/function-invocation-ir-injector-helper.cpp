@@ -221,6 +221,13 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
         );
     }
 
+    auto scopeArgument = irExpression->getScopeArgument();
+    if (scopeArgument) {
+        arguments.push_back(
+                irInjector->inject(irBlock, scopeArgument.value(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope)
+        );
+    }
+
     auto irFunctionType = (IRFunctionType*)irType;
     auto value = irBlock->getBuilder()->get()->CreateCall(
             irFunctionType->getType(),

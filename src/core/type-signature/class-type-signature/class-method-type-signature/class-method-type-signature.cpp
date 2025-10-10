@@ -75,6 +75,8 @@ bool ClassMethodTypeSignature::isEqualTo(TypeSignature *otherType) {
            this->getReturnType()->isEqualTo(other->getReturnType());
 }
 
+
+
 void ClassMethodTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");
     Logger::log("IS_STATIC - ", _isStatic);

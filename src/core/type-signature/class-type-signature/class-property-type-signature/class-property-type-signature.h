@@ -30,6 +30,7 @@ public:
     TypeSource getTypeSource() override;
     TypeSource getTypeTarget() override;
     bool isEqualTo(TypeSignature* otherType) override;
+    bool isEquivalentTo(TypeSignature *otherType) override;
     TypeSignature* convertToVariableTypeSignature() override;
     void print() override;
 };
