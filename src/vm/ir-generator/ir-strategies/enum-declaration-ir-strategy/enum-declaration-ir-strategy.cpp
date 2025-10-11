@@ -3,17 +3,46 @@
 //
 
 #include "enum-declaration-ir-strategy.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto structValues = std::vector<llvm::Constant*>();
-    for (int i = 0; i < node->getValues()->numParameters(); ++i) {
-        auto keyValuePair = node->getValues()->getParameters()[i];
-        if (keyValuePair->getValue()) {
+
+    if (node->getTypeSignature()->getType()->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
+        auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
+        for (int i = 0; i < node->getValues()->numParameters(); ++i) {
+            auto keyValuePair = node->getValues()->getParameters()[i];
             auto enumValue = irGenerator->generateFor(keyValuePair->getValue().value(), scope, irContext);
-            structValues.push_back(enumValue->getConstantIRValue());
-        } else {
-            auto enumValue = irGenerator->generateIntConstant(i);
-            structValues.push_back(enumValue);
+            auto stringType = (IRArrayType*)enumValue->getIRType();
+            auto stringValue = enumValue->getConstantIRValue();
+            auto stringGlobalVariable = new llvm::GlobalVariable(
+                    *irContext->getModule(),
+                    stringValue->getType(),
+                    true,
+                    llvm::GlobalValue::InternalLinkage,
+                    stringValue
+            );
+            structValues.push_back(
+                llvm::ConstantStruct::get(
+                    stringArrayPointerType->getType(),
+                    {
+                        irGenerator->generateIntConstant(stringType->getSize()),
+                        irGenerator->generateIntConstant(1),
+                        stringGlobalVariable
+                    }
+                )
+            );
+        }
+    } else {
+        for (int i = 0; i < node->getValues()->numParameters(); ++i) {
+            auto keyValuePair = node->getValues()->getParameters()[i];
+            if (keyValuePair->getValue()) {
+                auto enumValue = irGenerator->generateFor(keyValuePair->getValue().value(), scope, irContext);
+                structValues.push_back(enumValue->getConstantIRValue());
+            } else {
+                auto enumValue = irGenerator->generateIntConstant(i);
+                structValues.push_back(enumValue);
+            }
         }
     }
 

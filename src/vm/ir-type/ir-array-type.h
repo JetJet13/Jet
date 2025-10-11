@@ -17,6 +17,7 @@ public:
     llvm::ArrayType* getType() override;
     IRType* getElementIRType();
     llvm::Type* getElementType();
+    uint64_t getSize();
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     llvm::Align getAlignment() override;

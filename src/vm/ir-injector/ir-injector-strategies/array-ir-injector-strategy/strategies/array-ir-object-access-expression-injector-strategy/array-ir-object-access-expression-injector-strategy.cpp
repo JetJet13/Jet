@@ -24,7 +24,6 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectA
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
-//    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyArrayFunction(),
             {

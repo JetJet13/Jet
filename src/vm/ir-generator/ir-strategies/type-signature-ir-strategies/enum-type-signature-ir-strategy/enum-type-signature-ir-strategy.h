@@ -12,7 +12,7 @@
 
 class EnumTypeSignatureIRStrategy {
 public:
-    IRPointerType* generate(EnumTypeSignature* enumTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRType* generate(EnumTypeSignature* enumTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IREnumType* generate(EnumTypeSignature* enumTypeSignature, std::vector<llvm::Constant*> enumValues, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 

@@ -4,7 +4,6 @@
 
 #include "function-invocation-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
 
 void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), typeSignatureLookupTable);

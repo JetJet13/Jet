@@ -22,6 +22,10 @@ llvm::Type* IRArrayType::getElementType() {
     return _arrayElementType->getType();
 }
 
+uint64_t IRArrayType::getSize() {
+    return _type->getNumElements();
+}
+
 uint64_t IRArrayType::getSizeInBytes() {
     if (_sizeInBytesOverride) {
         return _sizeInBytesOverride.value();

@@ -225,6 +225,13 @@ proc testClasses() {
     myClass.printOtherValue();
 }
 
+proc testEnums(enumVal: MyEnum, strEnumVal: MyStrEnum) {
+    const myEnumValue = MyEnum.Alpha;
+    const myStrEnumValue = MyStrEnum.Foo;
+    print("myEnum values", myEnumValue, MyEnum.Beta, enumVal);
+    print("myStrEnum values", myStrEnumValue, MyStrEnum.Bar, strEnumVal);
+}
+
 main();
 maino();
 testArrayPrototypeFunctions();
@@ -234,6 +241,7 @@ testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: f
 complexCopy();
 testLambdas();
 testClasses();
+testEnums(MyEnum.Gamma, MyStrEnum.Mars);
 
 class MyClass {
     public age: int;
@@ -287,4 +295,16 @@ class OtherClass {
     public setValue(newValue: int) {
         this.value = newValue;
     }
+}
+
+enum MyEnum {
+ Alpha = 1,
+ Beta = 2,
+ Gamma = 3
+}
+
+enum MyStrEnum {
+ Foo = "foo",
+ Bar = "bar",
+ Mars = "mars"
 }

@@ -293,8 +293,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
             return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature *) typeSignature,
                                                                               this, scope, irContext);
         case ENUM_TYPE_SOURCE:
-            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature *) typeSignature, this,
-                                                                             scope, irContext);
+            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature *) typeSignature, this, scope, irContext);
         case ENUM_ACCESS_TYPE_SOURCE:
             return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate(
                     (EnumAccessTypeSignature*) typeSignature, this, scope, irContext);
@@ -532,6 +531,14 @@ IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRPointerType* irPoi
 
 IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElementType) {
     return new IRArrayPointerType(this->getArrayPointerType(), arrayElementType);
+}
+
+IRType* IRGenerator::generateIRCharType() {
+    return new IRType(this->generateCharType());
+}
+
+IRArrayPointerType* IRGenerator::generateIrStringArrayPointerType() {
+    return new IRArrayPointerType(this->getArrayPointerType(), this->generateIRCharType());
 }
 
 llvm::StructType* IRGenerator::generateArrayPointerType() {

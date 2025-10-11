@@ -4,8 +4,8 @@
 
 #include "enum-type-signature-ir-strategy.h"
 
-IRPointerType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    return irGenerator->generateIrPointerType();
+IRType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    return irGenerator->generateTypeFor(enumTypeSignature->getType(), scope, irContext);
 }
 
 IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::vector<llvm::Constant*> enumValues, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {

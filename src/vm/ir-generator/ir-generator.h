@@ -129,6 +129,8 @@ public:
     llvm::Constant* generateRawString(std::string rawString);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
+    IRType* generateIRCharType();
+    IRArrayPointerType* generateIrStringArrayPointerType();
     llvm::StructType* generateArrayPointerType();
     llvm::StructType* getArrayPointerType();
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);

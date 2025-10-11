@@ -11,15 +11,18 @@ llvm::Value* StringIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcce
     auto objectAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
     auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getUnderlyingIRType()->getType(), objectAccessAllocation, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointer);
-    auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
-    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
+    if (irExpression->getSource()->getTypeSignature()->typeSourceIs(ENUM_TYPE_SOURCE)) {
+        if (irOperation->isOperandPointer()) {
+            return pointer;
+        }
+        return InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getType(), pointer, irBlock, irArrayPointerType);
+    }
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     irBlock->getBuilder()->get()->CreateCall(
-            irModule->getCopyArrayFunction(),
+            irModule->getCopyStringFunction(),
             {
                 irExpression->getSourceAllocation().value()->getValue(),
                 pointer,
-                loadedTypeValue
             }
     );
     return irExpression->getSourceAllocation().value()->getValue();
