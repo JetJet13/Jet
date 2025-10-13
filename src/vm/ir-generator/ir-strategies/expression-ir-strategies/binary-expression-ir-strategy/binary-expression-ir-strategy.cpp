@@ -7,9 +7,9 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h"
 
 IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (node->getBinaryOperator()->isArithmetic()) {
         return new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 this->determineArithmeticOperatorIR(node->getBinaryOperator()),
@@ -18,12 +18,13 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
         ), leftExpressionIr, rightExpressionIr, irType);
     }
 
+    auto comparisonIrType = irGenerator->generateTypeFor(node->getLeftNode()->getTypeSignature(), scope, irContext);
     return new IRBinaryComparisonExpressionNode(node, llvm::CmpInst::Create(
             llvm::Instruction::OtherOps::ICmp,
             this->determineComparatorPredicate(node->getBinaryOperator()),
             leftExpressionIr->getValue(),
             rightExpressionIr->getValue()
-    ), leftExpressionIr, rightExpressionIr, irType);
+    ), leftExpressionIr, rightExpressionIr, irType, comparisonIrType);
 }
 
 llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode) {

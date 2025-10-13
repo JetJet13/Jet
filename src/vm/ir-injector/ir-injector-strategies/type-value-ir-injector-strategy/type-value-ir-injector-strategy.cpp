@@ -28,7 +28,6 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRArrayPointerType* irArrayPoin
     auto allocIndex = irBlock->getBuilder()->get()->getInt64(irTypeValueType->getAllocIndex());
     auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irTypeValueType->getType(), irArrayTypeValue, { zeroIndex, allocIndex });
     InstructionIRInjectorHelper::injectStore(elementTypeValue, allocPointer, irBlock);
-//    irBlock->getBuilder()->get()->CreateStore(elementTypeValue, allocPointer);
     return irArrayTypeValue;
 }
 
@@ -45,13 +44,11 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructType* irStructType, IRB
         InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irTypeAtIndex->getSizeInBytes()), pointerToSizeInBytes, irBlock);
         auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { index });
         InstructionIRInjectorHelper::injectStore(irTypeAtIndexValue, pointer, irBlock);
-//        irBlock->getBuilder()->get()->CreateStore(irTypeAtIndexValue, pointer);
     }
     auto irTypeValueType = (IRTypeValueType*)irStructType->getValue()->getIRType()->getSourceType();
     auto allocIndex = irBlock->getBuilder()->get()->getInt64(irTypeValueType->getAllocIndex());
     auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irTypeValueType->getType(), irStructTypeValue, { zeroIndex, allocIndex });
     InstructionIRInjectorHelper::injectStore(allocation, allocPointer, irBlock);
-//    irBlock->getBuilder()->get()->CreateStore(allocation, allocPointer);
     return irStructTypeValue;
 }
 
@@ -63,7 +60,6 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRPointerType* irPointerType, I
     auto allocIndex = irBlock->getBuilder()->get()->getInt64(irTypeValueType->getAllocIndex());
     auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irTypeValueType->getType(), irPointerTypeValue, { zeroIndex, allocIndex });
     InstructionIRInjectorHelper::injectStore(elementTypeValue, allocPointer, irBlock, irPointerType);
-//    irBlock->getBuilder()->get()->CreateStore(elementTypeValue, allocPointer);
     return irPointerTypeValue;
 }
 
@@ -75,6 +71,5 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRRefType* irRefType, IRBlockNo
     auto allocIndex = irBlock->getBuilder()->get()->getInt64(irTypeValueType->getAllocIndex());
     auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irTypeValueType->getType(), irRefTypeValue, { zeroIndex, allocIndex });
     InstructionIRInjectorHelper::injectStore(refValueTypeValue, allocPointer, irBlock, irTypeValueType);
-    //irBlock->getBuilder()->get()->CreateStore(refValueTypeValue, allocPointer);
     return irRefTypeValue;
 }

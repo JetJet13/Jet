@@ -107,6 +107,11 @@
 #include "ir-prototypes/ir-array-prototype-map.h"
 #include "ir-util-functions/array-size-ir-function/array-size-ir-function.h"
 #include "ir-util-functions/array-empty-ir-function/array-empty-ir-function.h"
+#include "ir-util-functions/equal-value-ir-function/equal-value-ir-function.h"
+#include "ir-util-functions/equal-ref-ir-function/equal-ref-ir-function.h"
+#include "ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.h"
+#include "ir-util-functions/equal-array-ir-function/equal-array-ir-function.h"
+#include "ir-util-functions/equal-string-ir-function/equal-string-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -659,6 +664,11 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             MallocIRFunction::getMallocIRFunctionName(),
             MallocFreeIRFunction::getMallocFreeIRFunctionName(),
             MallocSizeIRFunction::getMallocSizeIRFunctionName(),
+            EqualValueIRFunction::getEqualValueIRFunctionName(),
+            EqualStringIRFunction::getEqualStringIRFunctionName(),
+            EqualArrayIRFunction::getEqualArrayIRFunctionName(),
+            EqualStructIRFunction::getEqualStructIRFunctionName(),
+            EqualRefIRFunction::getEqualRefIRFunctionName(),
             ArrayAppendIRFunction::getArrayAppendIRFunctionName(),
             ArrayPrependIRFunction::getArrayPrependIRFunctionName(),
             ArrayConcatIRFunction::getArrayConcatIRFunctionName(),
@@ -684,6 +694,11 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     CopyPointerIRFunction::declareCopyPointerFunction(this, &_context, irModule);
     CopyStructIRFunction::declareCopyStructFunction(this, &_context, irModule);
     CopyRefIRFunction::declareCopyRefFunction(this, &_context, irModule);
+    EqualValueIRFunction::declareEqualValueFunction(this, &_context, irModule);
+    EqualArrayIRFunction::declareEqualArrayFunction(this, &_context, irModule);
+    EqualStringIRFunction::declareEqualStringFunction(this, &_context, irModule);
+    EqualStructIRFunction::declareEqualStructFunction(this, &_context, irModule);
+    EqualRefIRFunction::declareEqualRefFunction(this, &_context, irModule);
     FreeValueIRFunction::declareFreeValueFunction(this, &_context, irModule);
     FreeArrayIRFunction::declareFreeArrayFunction(this, &_context, irModule);
     FreePointerIRFunction::declareFreePointerFunction(this, &_context, irModule);
@@ -710,6 +725,11 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
     CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
+    EqualValueIRFunction::generateEqualValueFunction(this, &_context, irModule);
+    EqualArrayIRFunction::generateEqualArrayFunction(this, &_context, irModule);
+    EqualStringIRFunction::generateEqualStringFunction(this, &_context, irModule);
+    EqualStructIRFunction::generateEqualStructFunction(this, &_context, irModule);
+    EqualRefIRFunction::generateEqualRefFunction(this, &_context, irModule);
     FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
     FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
     FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);

@@ -575,6 +575,16 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-object-access-expression-injector-strategy/ref-ir-object-access-expression-injector-strategy.h
         ir-operation/ir-operation.cpp
         ir-operation/ir-operation.h
+        ir-generator/ir-util-functions/equal-string-ir-function/equal-string-ir-function.cpp
+        ir-generator/ir-util-functions/equal-string-ir-function/equal-string-ir-function.h
+        ir-generator/ir-util-functions/equal-array-ir-function/equal-array-ir-function.cpp
+        ir-generator/ir-util-functions/equal-array-ir-function/equal-array-ir-function.h
+        ir-generator/ir-util-functions/equal-ref-ir-function/equal-ref-ir-function.cpp
+        ir-generator/ir-util-functions/equal-ref-ir-function/equal-ref-ir-function.h
+        ir-generator/ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.cpp
+        ir-generator/ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.h
+        ir-generator/ir-util-functions/equal-value-ir-function/equal-value-ir-function.cpp
+        ir-generator/ir-util-functions/equal-value-ir-function/equal-value-ir-function.h
 )
 
 target_link_libraries(jet-vm

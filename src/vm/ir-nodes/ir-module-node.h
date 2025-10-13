@@ -41,6 +41,11 @@ private:
     std::string _mallocFunctionName;
     std::string _mallocFreeFunctionName;
     std::string _mallocSizeFunctionName;
+    std::string _equalValueFunctionName;
+    std::string _equalStringFunctionName;
+    std::string _equalArrayFunctionName;
+    std::string _equalStructFunctionName;
+    std::string _equalRefFunctionName;
     std::string _arrayAppendFunctionName;
     std::string _arrayPrependFunctionName;
     std::string _arrayConcatFunctionName;
@@ -89,6 +94,11 @@ public:
                  std::string mallocFunctionName,
                  std::string mallocFreeFunctionName,
                  std::string mallocSizeFunctionName,
+                 std::string equalValueFunctionName,
+                 std::string equalStringFunctionName,
+                 std::string equalArrayFunctionName,
+                 std::string equalStructFunctionName,
+                 std::string equalRefFunctionName,
                  std::string arrayAppendFunctionName,
                  std::string arrayPrependFunctionName,
                  std::string arrayConcatFunctionName,
@@ -136,6 +146,11 @@ public:
     llvm::Function* getMallocFunction();
     llvm::Function* getMallocFreeFunction();
     llvm::Function* getMallocSizeFunction();
+    llvm::Function* getEqualValueFunction();
+    llvm::Function* getEqualStringFunction();
+    llvm::Function* getEqualArrayFunction();
+    llvm::Function* getEqualStructFunction();
+    llvm::Function* getEqualRefFunction();
     llvm::Function* getArrayAppendFunction();
     llvm::Function* getArrayPrependFunction();
     llvm::Function* getArrayConcatFunction();

@@ -74,6 +74,12 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 { STRING_LITERAL_TYPE_SOURCE, STRING_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
                 { BOOL_LITERAL_TYPE_SOURCE, BOOL_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
                 { INT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { ARRAY_TYPE_SOURCE, ARRAY_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { STRUCT_TYPE_SOURCE, STRUCT_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { TUPLE_TYPE_SOURCE, TUPLE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { REF_TYPE_SOURCE, REF_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
                 { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
@@ -82,6 +88,11 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 { STRING_LITERAL_TYPE_SOURCE, STRING_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
                 { BOOL_LITERAL_TYPE_SOURCE, BOOL_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
                 { INT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { ARRAY_TYPE_SOURCE, ARRAY_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { STRUCT_TYPE_SOURCE, STRUCT_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { TUPLE_TYPE_SOURCE, TUPLE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { REF_TYPE_SOURCE, REF_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                { CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
                 { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },

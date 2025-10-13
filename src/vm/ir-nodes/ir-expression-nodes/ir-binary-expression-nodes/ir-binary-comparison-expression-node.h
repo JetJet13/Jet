@@ -16,10 +16,14 @@ private:
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
     IRType* _type;
+    IRType* _comparisonIrType;
 public:
-    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
+    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* comparisonIrType);
     void markAsGlobal() override;
     llvm::CmpInst* getValue() override;
+    bool isPredicateEqual();
+    bool isPredicateNotEqual();
+    IRType* getComparisonIrType();
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();
     IRType* getIRType() override;

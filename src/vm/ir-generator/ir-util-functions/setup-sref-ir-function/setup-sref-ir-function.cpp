@@ -19,8 +19,6 @@ void SetupSrefIRFunction::generateSetupSrefFunction(IRGenerator* irGenerator, st
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(1), refType->getRefCounterIndex());
     auto refCounterPointer = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefCounterPointer, functionBlock);
     auto currentRefCount = InstructionIRInjectorHelper::injectLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, functionBlock);
-//    auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
-//    auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, "currentRefCount");
     auto newRefCount = functionBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Add,
             currentRefCount,
@@ -30,14 +28,11 @@ void SetupSrefIRFunction::generateSetupSrefFunction(IRGenerator* irGenerator, st
 
     auto pointerToRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(1), refType->getRefValueIndex());
     auto refValuePointer = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefValuePointer, functionBlock);
-//    auto refValuePointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefValuePointer);
     auto pointerToNewRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());
     InstructionIRInjectorHelper::injectStore(refValuePointer, pointerToNewRefValuePointer, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(refValuePointer, pointerToNewRefValuePointer);
 
     auto pointerToNewRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
     InstructionIRInjectorHelper::injectStore(refCounterPointer, pointerToNewRefCounterPointer, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(refCounterPointer, pointerToNewRefCounterPointer);
 
     functionBlock->addVoidReturn();
 }
