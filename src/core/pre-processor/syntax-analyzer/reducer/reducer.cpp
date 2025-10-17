@@ -116,6 +116,8 @@
 #include "reducer-strategies/print-statement-reducer-strategy/print-statement-reducer-strategy.h"
 #include "reducer-strategies/object-access-assignment-reducer-strategy/object-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/object-access-assignment-statement-reducer-strategy/object-access-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.h"
+#include "reducer-strategies/tuple-access-assignment-statement-reducer-strategy/tuple-access-assignment-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -190,6 +192,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LAMBDA_TYPE_NODE, new LambdaTypeReducerStrategy());
     this->addStrategy(AST_CURRY_EXPRESSION_NODE, new CurryExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_TYPE_NODE, new TupleTypeReducerStrategy());
+    this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_NODE, new TupleAccessAssignmentReducerStrategy());
+    this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, new TupleAccessAssignmentStatementReducerStrategy());
     this->addStrategy(AST_ARRAY_TYPE_NODE, new ArrayTypeReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_ALIAS_ITEM_NODE, new ModuleListAliasItemReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_SPREAD_ITEM_NODE, new ModuleListSpreadItemReducerStrategy());

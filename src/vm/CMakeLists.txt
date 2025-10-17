@@ -585,6 +585,12 @@ add_library(jet-vm
         ir-generator/ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.h
         ir-generator/ir-util-functions/equal-value-ir-function/equal-value-ir-function.cpp
         ir-generator/ir-util-functions/equal-value-ir-function/equal-value-ir-function.h
+        ir-generator/ir-strategies/tuple-access-assignment-statement-ir-strategy/tuple-access-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/tuple-access-assignment-statement-ir-strategy/tuple-access-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-tuple-access-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-tuple-access-assignment-statement-node.h
+        ir-injector/ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

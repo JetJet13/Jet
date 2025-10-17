@@ -33,7 +33,6 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectA
             }
     );
     return InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getType(), irExpression->getSourceAllocation().value()->getValue(), irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getType(), irExpression->getSourceAllocation().value()->getValue());
 }
 
 llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectRef(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
@@ -46,7 +45,6 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectOperand(IRObje
     auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSource()->getIRType()->getType(), loadedPointerToIndexedElement, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
     if (irOperation->isOperandValue()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), pointerToIndexedElement, irBlock);
-//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement);
     }
     return pointerToIndexedElement;
 }

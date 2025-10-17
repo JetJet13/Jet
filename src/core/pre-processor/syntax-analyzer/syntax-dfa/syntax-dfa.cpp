@@ -46,6 +46,7 @@ void SyntaxDfa::init() {
     DFANode* arrayAccess = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_NODE);
     DFANode* arrayAccessAssignment = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_ASSIGNMENT_NODE);
     DFANode* objectAccessAssignment = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_ASSIGNMENT_NODE);
+    DFANode* tupleAccessAssignment = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_ASSIGNMENT_NODE);
     DFANode* structKeyValue = DFANodeFactory::Once::create(AST_STRUCT_KEY_VALUE_NODE);
     DFANode* block = DFANodeFactory::Once::create(AST_BLOCK_NODE);
     DFANode* typeColon = DFANodeFactory::Once::create(AST_TYPE_COLON_NODE);
@@ -79,6 +80,7 @@ void SyntaxDfa::init() {
     DFANode* varAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE);
     DFANode* arrayAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE);
     DFANode* objectAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE);
+    DFANode* tupleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
     DFANode* enumDeclaration = DFANodeFactory::Once::createWithTarget(AST_ENUM_DECLARATION_NODE, AST_ENUM_DECLARATION_NODE);
     DFANode* enumKeyword = DFANodeFactory::Once::create(AST_ENUM_NODE);
     DFANode* enumName = DFANodeFactory::Once::create(AST_ENUM_NAME_NODE);
@@ -207,7 +209,6 @@ void SyntaxDfa::init() {
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
 //    todo: create built-in/first-class support for result
-//    todo: add support for goroutines
 //    todo: add support for piping
 //    todo: add support for traits
 //    todo: add support for inheritance
@@ -777,6 +778,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_TUPLE_ACCESS_ASSIGNMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(concatOperator))
@@ -822,6 +824,23 @@ void SyntaxDfa::init() {
     });
 
     this->setupTransitionsWithTarget(objectAccessAssignment, AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, {
+            AST_LITERAL_EXPRESSION_NODE,
+            AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_EXPRESSION_NODE,
+            AST_MODULE_ACCESS_EXPRESSION_NODE,
+            AST_LAMBDA_EXPRESSION_NODE,
+            AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
+            AST_ARRAY_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_EXPRESSION_NODE,
+            AST_STRUCT_EXPRESSION_NODE,
+            AST_TUPLE_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_EXPRESSION_NODE,
+            AST_BINARY_EXPRESSION_NODE,
+            AST_LOGICAL_EXPRESSION_NODE,
+            AST_UNARY_EXPRESSION_NODE,
+    });
+
+    this->setupTransitionsWithTarget(tupleAccessAssignment, AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, {
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
@@ -1350,6 +1369,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(varAssignmentStatement)
     ->insertStartNode(arrayAccessAssignmentStatement)
     ->insertStartNode(objectAccessAssignmentStatement)
+    ->insertStartNode(tupleAccessAssignmentStatement)
     ->insertStartNode(identifier)
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
@@ -1399,6 +1419,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(arrayAccess)
     ->insertStartNode(arrayAccessAssignment)
     ->insertStartNode(objectAccessAssignment)
+    ->insertStartNode(tupleAccessAssignment)
     ->insertStartNode(structKeyValue)
     ->insertStartNode(block)
     ->insertStartNode(functionDeclaration)

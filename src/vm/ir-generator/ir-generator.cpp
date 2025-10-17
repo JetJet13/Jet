@@ -38,6 +38,7 @@
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
 #include "ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h"
+#include "ir-strategies/tuple-access-assignment-statement-ir-strategy/tuple-access-assignment-statement-ir-strategy.h"
 #include "ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.h"
 #include "ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.h"
 #include "ir-strategies/for-in-statement-ir-strategy/for-in-statement-ir-strategy.h"
@@ -163,6 +164,8 @@ IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable*
         return this->_irStrategyMap.getArrayAccessAssignmentStatementIRStrategy()->generate((ASTArrayAccessAssignmentStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getObjectAccessAssignmentStatementIRStrategy()->generate((ASTObjectAccessAssignmentStatementNode*)node,  this, scope, irContext);
+    } else if (node->is(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getTupleAccessAssignmentStatementIRStrategy()->generate((ASTTupleAccessAssignmentStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_IF_STATEMENT_NODE)) {
         return this->_irStrategyMap.getIfStatementIRStrategy()->generate((ASTIfStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_WHILE_STATEMENT_NODE)) {

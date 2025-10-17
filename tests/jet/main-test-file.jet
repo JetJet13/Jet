@@ -151,7 +151,23 @@ proc testRefFunctions() {
     refMyObj.nest.mars.append(11);
     print("mars (updated - append via ref)", myObj.nest.mars.size(), refMyObj.nest.mars.size());
     print("novo.evo", myObj.nest.novo.0, refMyObj.nest.novo.0);
-    // todo - add missing support for tuple access assignment
+    const myTuple = { 13, true, { 'n', [1, 55, 6], { "evo", true, 113 } } };
+    const refMyTuple = ref myTuple;
+    const refMyTupleFoo = refMyTuple.0;
+    print("refMyTuple", refMyTupleFoo, refMyTuple.0);
+    myTuple.0 = 190;
+    print("myTuple (updated)", myTuple.0, refMyTuple.0, refMyTupleFoo);
+    refMyTuple.0 = 174;
+    print("refMyTuple (updated)", myTuple.0, refMyTuple.0, refMyTupleFoo);
+    const refTupleFoo = ref myTuple.0;
+    print("refTupleFoo", myTuple.0, refMyTuple.0, refTupleFoo);
+    myTuple.0 = 754;
+    print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
+    myTuple.2.1.append(10);
+    print("myTuple array (updated - append)", myTuple.2.1.size(), refMyTuple.2.1.size());
+    refMyTuple.2.1.append(11);
+    print("myTuple array (updated - append via ref)", myTuple.2.1.size(), refMyTuple.2.1.size());
+    print("myTuple nested tuple", myTuple.2.2.0, refMyTuple.2.2.0);
 }
 
 proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: string, bar: bool }) {
@@ -249,12 +265,8 @@ proc testEquality() {
     const bigStruct = { name: "Bruce", age: 45, hairColor: "black", friend: "Alfred" };
     const smallTuple = { true, 100, 'c' };
     const bigTuple = { "Pennyworth", 898, 'j', 10, false };
-    const firstMyEnum = MyEnum.Alpha;
-    const secondMyEnum = MyEnum.Gamma;
-    const firstMyStrEnum = MyStrEnum.Foo;
-    const secondMyStrEnum = MyStrEnum.Bar;
-    const firstMyClass = new MyClass(25, "red");
-    const secondMyClass = new MyClass(28, "blue");
+    const firstEnum = MyEnum.Alpha;
+    const secondEnum = MyEnum.Gamma;
     const firstRef = ref 6;
     const secondRef = ref 9;
 
@@ -364,6 +376,19 @@ proc testEquality() {
 
     if (smallTuple != bigTuple) {
         print("smallTuple != bigTuple");
+    }
+
+    // enum tests
+    if (firstEnum == secondEnum) {
+        print("firstEnum == secondEnum");
+    }
+
+    if (firstEnum == MyEnum.Alpha) {
+        print("firstEnum == MyEnum.Alpha");
+    }
+
+    if (firstEnum != secondEnum) {
+        print("firstEnum != secondEnum");
     }
 
     // ref tests

@@ -3,7 +3,6 @@
 //
 
 #include "object-access-assignment-reducer-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-array-nodes/ast-array-access-assignment-node.h"
 #include "../../../../../ast/ast-nodes/ast-object-nodes/ast-object-access-assignment-node.h"
 
 ASTNode* ObjectAccessAssignmentReducerStrategy::execute(std::vector<ASTNode*> nodes) {

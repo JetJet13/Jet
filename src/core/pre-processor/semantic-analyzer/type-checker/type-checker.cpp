@@ -51,6 +51,7 @@
 #include "policies/custom-type-declaration-type-checker-policy/custom-type-declaration-type-checker-policy.h"
 #include "policies/print-statement-type-checker-policy/print-statement-type-checker-policy.h"
 #include "policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.h"
+#include "policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -84,6 +85,9 @@ namespace TypeChecker {
                 break;
             case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ObjectAccessAssignmentStatementTypeCheckerPolicy::apply((ASTObjectAccessAssignmentStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
+                TupleAccessAssignmentStatementTypeCheckerPolicy::apply((ASTTupleAccessAssignmentStatementNode*)node, typeCheckerResult);
                 break;
             case AST_ENUM_DECLARATION_NODE:
                 EnumDeclarationTypeCheckerPolicy::apply((ASTEnumDeclarationNode*)node, typeCheckerResult);

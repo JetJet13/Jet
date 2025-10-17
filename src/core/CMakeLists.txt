@@ -1306,6 +1306,18 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.h
+        ast/ast-nodes/ast-statement-nodes/ast-tuple-access-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-tuple-access-assignment-statement-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-assignment-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-assignment-statement-reducer-strategy/tuple-access-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-assignment-statement-reducer-strategy/tuple-access-assignment-statement-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h
 
 )
 
