@@ -591,6 +591,8 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-tuple-access-assignment-statement-node.h
         ir-injector/ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.h
+        ir-generator/ir-util-functions/assert-ir-function/assert-ir-function.cpp
+        ir-generator/ir-util-functions/assert-ir-function/assert-ir-function.h
 )
 
 target_link_libraries(jet-vm

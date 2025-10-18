@@ -271,139 +271,65 @@ proc testEquality() {
     const secondRef = ref 9;
 
     // int tests
-    if (smallInt == bigInt) {
-        print("smallInt == bigInt");
-    }
+    assert(smallInt == smallInt, "smallInt == smallInt");
+    assert(smallInt == 5, "smallInt == 5");
+    assert(smallInt != bigInt, "smallInt != bigInt");
 
-    if (smallInt == 5) {
-        print("smallInt == 5");
-    }
-
-    if (smallInt != bigFloat) {
-        print("smallInt != bigInt");
-    }
 
     // float tests
-    if (smallFloat == bigFloat) {
-        print("smallFloat == bigFloat");
-    }
+    assert(smallFloat == smallFloat, "smallFloat == smallFloat");
+    assert(smallFloat == 5.125, "smallFloat == 5.125");
+    assert(smallFloat != bigFloat, "smallFloat != bigFloat");
 
-    if (smallFloat == 5.125) {
-        print("smallFloat == 5.125");
-    }
-
-    if (smallFloat != bigFloat) {
-        print("smallFloat != bigFloat");
-    }
 
     // char tests
-    if (a == z) {
-        print("a == z");
-    }
+    assert(a == a, "a == a");
+    assert(a == 'a', "a == 'a'");
+    assert(a != z, "a != z");
 
-    if (a == 'a') {
-        print("a == 'a'");
-    }
-
-    if (a != z) {
-        print("a != z");
-    }
 
     // bool tests
-    if (t == f) {
-        print("t == f");
-    }
+    assert(t == t, "t == t");
+    assert(t == true, "t == true");
+    assert(t != f, "t != f");
 
-    if (t == true) {
-        print("t == true");
-    }
-
-    if (t != f) {
-        print("t != f");
-    }
 
     // string tests
-    if (smallString == bigString) {
-        print("smallString == bigString");
-    }
+    assert(smallString == smallString, "smallString == smallString");
+    assert(smallString == "hi", "smallString == hi");
+    assert(smallString != bigString, "smallString != bigString");
 
-    if (smallString == "hi") {
-        print("smallString == hi");
-    }
 
-    if (smallString != bigString) {
-        print("smallString != bigString");
-    }
-
-   // array tests
-    if (smallArray == bigArray) {
-        print("smallArray == bigArray");
-    }
-
-    const otherSmallArray = smallArray;
+    // array tests
     // todo: add syntax support for 'smallArray == [2, 4, 6]'
-    if (smallArray == otherSmallArray) {
-        print("smallArray == [2, 4, 6]");
-    }
+    const otherSmallArray = smallArray;
+    assert(smallArray == smallArray, "smallArray == smallArray");
+    assert(smallArray == otherSmallArray, "smallArray == otherSmallArray");
+    assert(smallArray != bigArray, "smallArray != bigArray");
 
-    if (smallArray != bigArray) {
-        print("smallArray != bigArray");
-    }
 
-   // struct tests
-    if (smallStruct == bigStruct) {
-        print("smallStruct == bigStruct");
-    }
-
+    // struct tests
     const otherSmallStruct = smallStruct;
-    if (smallStruct == otherSmallStruct) {
-        print("smallStruct == { foo: true, bar: 'c' }");
-    }
+    assert(smallStruct == smallStruct, "smallStruct == smallStruct");
+    assert(smallStruct == { foo: true, bar: 'c' }, "smallStruct == { foo: true, bar: 'c' }");
+    assert(smallStruct != bigStruct, "smallStruct != bigStruct");
 
-    if (smallStruct != bigStruct) {
-        print("smallStruct != bigStruct");
-    }
-
-   // tuple tests
-    if (smallTuple == bigTuple) {
-        print("smallTuple == bigTuple");
-    }
-
+    // tuple tests
     const otherSmallTuple = smallTuple;
-    if (smallTuple == otherSmallTuple) {
-        print("smallTuple == { true, 100, 'c' }");
-    }
-
-    if (smallTuple != bigTuple) {
-        print("smallTuple != bigTuple");
-    }
+    assert(smallTuple != bigTuple, "smallTuple != bigTuple");
+    //assert(smallTuple == smallTuple, "smallTuple == smallTuple");
+    assert(smallTuple == { true, 100, 'c' }, "smallTuple == { true, 100, 'c' }");
 
     // enum tests
-    if (firstEnum == secondEnum) {
-        print("firstEnum == secondEnum");
-    }
-
-    if (firstEnum == MyEnum.Alpha) {
-        print("firstEnum == MyEnum.Alpha");
-    }
-
-    if (firstEnum != secondEnum) {
-        print("firstEnum != secondEnum");
-    }
+    assert(firstEnum != secondEnum, "firstEnum != secondEnum");
+    assert(firstEnum == firstEnum, "firstEnum == firstEnum");
+    assert(firstEnum == MyEnum.Alpha, "firstEnum == MyEnum.Alpha");
 
     // ref tests
-    if (firstRef == secondRef) {
-        print("firstRef == secondRef");
-    }
-
     const otherFirstRef = sref firstRef;
-    if (firstRef == otherFirstRef) {
-        print("firstRef == otherFirstRef");
-    }
-
-    if (firstRef != secondRef) {
-        print("firstRef != secondRef");
-    }
+    assert(firstRef != secondRef, "firstRef != secondRef");
+    assert(firstRef == firstRef, "firstRef == firstRef");
+    assert(firstRef == otherFirstRef, "firstRef == otherFirstRef");
 
 }
 

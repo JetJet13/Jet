@@ -7,6 +7,8 @@
 #include "../../../type-signature/literal-type-signature/int-literal-type-signature.h"
 #include "../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../type-signature/literal-type-signature/bool-literal-type-signature.h"
+#include "../../../type-signature/literal-type-signature/string-literal-type-signature.h"
 
 FunctionVarArgTypeSignatureMap* JetUtilsTypeSignatureMap::getPrintTypeSignatureMap() {
     auto printVarArgMap = new FunctionVarArgTypeSignatureMap(
@@ -35,9 +37,21 @@ std::string JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey() {
     return FunctionIdGenerator::generateFor("range", "_int_int_int");
 }
 
+std::string JetUtilsTypeSignatureMap::getAssertTypeSignatureKey() {
+    return FunctionIdGenerator::generateFor("assert", "_bool");
+}
+
+std::string JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatureKey() {
+    return FunctionIdGenerator::generateFor("assert", "_bool_string");
+}
+
 bool JetUtilsTypeSignatureMap::doesIdConflict(std::string id) {
-    return id == JetUtilsTypeSignatureMap::getRangeTypeSignatureKey()
-        || id == JetUtilsTypeSignatureMap::getPrintTypeSignatureKey();
+    return id == JetUtilsTypeSignatureMap::getPrintTypeSignatureKey()
+            || id == JetUtilsTypeSignatureMap::getRange2pTypeSignatureKey()
+            || id == JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey()
+            || id == JetUtilsTypeSignatureMap::getRangeTypeSignatureKey()
+            || id == JetUtilsTypeSignatureMap::getAssertTypeSignatureKey()
+            || id == JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatureKey();
 
 }
 
@@ -83,4 +97,27 @@ FunctionTypeSignature* JetUtilsTypeSignatureMap::getRange3pTypeSignature() {
     );
     rangeTypeSignature->markAsBuiltIn();
     return rangeTypeSignature;
+}
+
+FunctionTypeSignature* JetUtilsTypeSignatureMap::getAssertTypeSignature() {
+    auto assertTypeSignature = new FunctionTypeSignature(
+            new ParameterListTypeSignature({
+                new ParameterListItemTypeSignature("value", new BoolLiteralTypeSignature())
+            }),
+            new VoidTypeSignature()
+    );
+    assertTypeSignature->markAsBuiltIn();
+    return assertTypeSignature;
+}
+
+FunctionTypeSignature* JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignature() {
+    auto assertWithMessageTypeSignature = new FunctionTypeSignature(
+            new ParameterListTypeSignature({
+               new ParameterListItemTypeSignature("value", new BoolLiteralTypeSignature()),
+               new ParameterListItemTypeSignature("message", new StringLiteralTypeSignature())
+            }),
+            new VoidTypeSignature()
+    );
+    assertWithMessageTypeSignature->markAsBuiltIn();
+    return assertWithMessageTypeSignature;
 }

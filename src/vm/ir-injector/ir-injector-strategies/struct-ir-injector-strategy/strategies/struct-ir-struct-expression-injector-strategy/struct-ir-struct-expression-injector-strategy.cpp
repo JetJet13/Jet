@@ -13,8 +13,9 @@ llvm::Value* StructIRStructExpressionInjectorStrategy::inject(IRStructExpression
         auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), structExpressionAllocation, i);
         auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, irOperation, irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irExpressionAtIndex->getIRType());
-//        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
+    }
+    if (irOperation->isOperandPointer()) {
+        return structExpressionAllocation;
     }
     return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), structExpressionAllocation, irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), structExpressionAllocation);
 }

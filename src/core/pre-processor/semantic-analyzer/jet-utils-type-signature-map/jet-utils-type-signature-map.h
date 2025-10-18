@@ -17,11 +17,15 @@ public:
     static std::string getRangeTypeSignatureKey();
     static std::string getRange2pTypeSignatureKey();
     static std::string getRange3pTypeSignatureKey();
+    static std::string getAssertTypeSignatureKey();
+    static std::string getAssertWithMessageTypeSignatureKey();
     static bool doesIdConflict(std::string id);
     static ProcedureTypeSignature* getPrintTypeSignature();
     static FunctionTypeSignature* getRangeTypeSignature();
     static FunctionTypeSignature* getRange2pTypeSignature();
     static FunctionTypeSignature* getRange3pTypeSignature();
+    static FunctionTypeSignature* getAssertTypeSignature();
+    static FunctionTypeSignature* getAssertWithMessageTypeSignature();
 };
 
 #endif //JETLANG_JET_UTILS_TYPE_SIGNATURE_MAP_H

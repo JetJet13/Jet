@@ -7,6 +7,7 @@
 #include "../../ir-util-functions/range-ir-function/range-ir-function.h"
 #include "../../../../core/pre-processor/semantic-analyzer/jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../ir-util-functions/assert-ir-function/assert-ir-function.h"
 
 IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-util");
@@ -27,6 +28,9 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     RangeIRFunction::generateRange3pFunction(irGenerator, context, irModule);
     RangeIRFunction::generateRange2pFunction(irGenerator, context, irModule);
     RangeIRFunction::generateRange1pFunction(irGenerator, context, irModule);
+    AssertIRFunction::generateAssertGlobals(irGenerator, context, irModule);
+    AssertIRFunction::generateAssertFunction(irGenerator, context, irModule);
+    AssertIRFunction::generateAssertWithMessageFunction(irGenerator, context, irModule);
     return irModule;
 }
 
@@ -41,6 +45,12 @@ std::string IRUtilInternalModule::getIRName(std::string id) {
         return RangeIRFunction::getRange2pIRFunctionName();
     } else if (id == JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey()) {
         return RangeIRFunction::getRange3pIRFunctionName();
+    }
+
+    if (id == JetUtilsTypeSignatureMap::getAssertTypeSignatureKey()) {
+        return AssertIRFunction::getAssertIRFunctionName();
+    } else if (id == JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatureKey()) {
+        return AssertIRFunction::getAssertWithMessageIRFunctionName();
     }
     throw std::logic_error("unable to find util internal function name");
 }

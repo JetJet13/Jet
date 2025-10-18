@@ -23,6 +23,14 @@ TypeSignatureLookupTable* TypeSignatureLookupTableFactory::createForModule() {
             JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey(),
             JetUtilsTypeSignatureMap::getRange3pTypeSignature()
     );
+    typeSignatureLookupTable->insertGlobal(
+            JetUtilsTypeSignatureMap::getAssertTypeSignatureKey(),
+            JetUtilsTypeSignatureMap::getAssertTypeSignature()
+    );
+    typeSignatureLookupTable->insertGlobal(
+            JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatureKey(),
+            JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignature()
+    );
     return typeSignatureLookupTable;
 }
 

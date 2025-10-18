@@ -13,8 +13,9 @@ llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(IRTupleExpressionNod
         auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleExpressionAllocation, i);
         auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, irOperation, irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irExpression->getIRType());
-//        irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
+    }
+    if (irOperation->isOperandPointer()) {
+        return tupleExpressionAllocation;
     }
     return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), tupleExpressionAllocation, irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), tupleExpressionAllocation);
 }
