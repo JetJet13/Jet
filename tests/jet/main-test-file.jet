@@ -135,14 +135,8 @@ proc testCopyFunctions() {
 
     const v = { true, 'c', 800 };
     const vCopy = v;
-    //print("v", v.0, v.1, v.2, "|", vCopy.0, vCopy.1, vCopy.2);
-    // todo - fix alignment / size in bytes logic for ir-struct-types
-    // the type { i1, i8, i64 } results in size = 24 bytes, where each field has size:
-    // i1 = 8 bytes
-    // i8 = 8 bytes
-    // i64 = 8 bytes
-    // where the total should be 16 bytes, i1 = 1, i8 = 1 + 6 bytes padded, 164 = 8.
     assert(v == vCopy, "v == vCopy");
+    print("v", v.0, v.1, v.2, "|", vCopy.0, vCopy.1, vCopy.2);
 }
 
 proc testRefFunctions() {

@@ -21,26 +21,23 @@ void IRStructType::makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>
 
 void IRStructType::setAlignmentAndSizeForIRTypes() {
     auto alignment = this->getAlignment();
-    std::optional<IRType*> prevType = {};
-    auto prevTypeSize = 0;
+    auto spaceRemaining = alignment.value();
     for (int i = 0; i < this->size(); ++i) {
-        auto irTypeAtIndex = this->getIRTypeByIndex(i);
-        irTypeAtIndex->setAlignmentOverride(alignment);
-        if (irTypeAtIndex->isStructType()) {
-            ((IRStructType*)irTypeAtIndex)->setAlignmentAndSizeForIRTypes();
+        auto currentType = this->getIRTypeByIndex(i);
+        currentType->setAlignmentOverride(alignment);
+        if (currentType->isStructType()) {
+            ((IRStructType*)currentType)->setAlignmentAndSizeForIRTypes();
         }
 
-        auto currentTypeSize = irTypeAtIndex->getSizeInBytes();
-        if (currentTypeSize % alignment.value() == 0 && prevTypeSize > 0 && prevTypeSize < alignment.value()) {
-            prevType.value()->setSizeInBytesOverride(alignment.value());
-            prevTypeSize = alignment.value();
-        }
-
-        if (i == this->size() - 1 && currentTypeSize % alignment.value() != 0 && prevTypeSize % alignment.value() == 0) {
-            irTypeAtIndex->setSizeInBytesOverride(alignment.value());
+        auto nextTypeSize = i + 1 < this->size() ? this->getIRTypeByIndex(i+1)->getSizeInBytes() : 0;
+        auto currentTypeSize = currentType->getSizeInBytes();
+        if (currentTypeSize >= spaceRemaining) {
+            spaceRemaining = alignment.value();
+        } else if (currentTypeSize < spaceRemaining && (currentTypeSize + nextTypeSize) > spaceRemaining) {
+            currentType->setSizeInBytesOverride(spaceRemaining);
+            spaceRemaining = alignment.value();
         } else {
-            prevType = irTypeAtIndex;
-            prevTypeSize = irTypeAtIndex->getSizeInBytes();
+            spaceRemaining -= currentTypeSize;
         }
     }
 
