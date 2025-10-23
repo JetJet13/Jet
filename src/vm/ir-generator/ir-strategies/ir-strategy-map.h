@@ -74,6 +74,7 @@ class PointerTypeSignatureIRStrategy;
 class RefTypeSignatureIRStrategy;
 class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
+class ClassPropertyTypeSignatureIRStrategy;
 class ClassInstanceTypeSignatureIRStrategy;
 
 class IRStrategyMap {
@@ -146,6 +147,7 @@ private:
     RefTypeSignatureIRStrategy* _refTypeSignatureStrategy;
     FunctionInvocationTypeSignatureIRStrategy* _functionInvocationTypeSignatureIRStrategy;
     ClassMethodTypeSignatureIRStrategy* _classMethodTypeSignatureIRStrategy;
+    ClassPropertyTypeSignatureIRStrategy* _classPropertyTypeSignatureIRStrategy;
     ClassInstanceTypeSignatureIRStrategy* _classInstanceTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
@@ -218,6 +220,7 @@ public:
     RefTypeSignatureIRStrategy* getRefTypeSignatureIRStrategy();
     FunctionInvocationTypeSignatureIRStrategy* getFunctionInvocationTypeSignatureIRStrategy();
     ClassMethodTypeSignatureIRStrategy* getClassMethodTypeSignatureIRStrategy();
+    ClassPropertyTypeSignatureIRStrategy* getClassPropertyTypeSignatureIRStrategy();
     ClassInstanceTypeSignatureIRStrategy* getClassInstanceTypeSignatureIRStrategy();
 };
 

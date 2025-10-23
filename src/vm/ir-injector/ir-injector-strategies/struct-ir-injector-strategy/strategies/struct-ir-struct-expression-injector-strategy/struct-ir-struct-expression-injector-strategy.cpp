@@ -11,11 +11,11 @@ llvm::Value* StructIRStructExpressionInjectorStrategy::inject(IRStructExpression
     for (int i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
         auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), structExpressionAllocation, i);
-        auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, irOperation, irModule, scope);
+        auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irExpressionAtIndex->getIRType());
     }
     if (irOperation->isOperandPointer()) {
         return structExpressionAllocation;
     }
-    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), structExpressionAllocation, irBlock);
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), structExpressionAllocation, irBlock, irExpression->getIRType());
 }

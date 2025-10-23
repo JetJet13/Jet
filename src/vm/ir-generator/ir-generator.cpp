@@ -71,6 +71,7 @@
 #include "ir-strategies/type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
@@ -228,7 +229,7 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate((ASTUnaryExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode *) node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode*) node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {
@@ -268,15 +269,15 @@ IRExpressionNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, IRLook
 IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext) {
     switch (node->getNodeType()) {
         case AST_INT_LITERAL_NODE:
-            return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode *) node, irContext);
+            return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode*) node, irContext);
         case AST_FLOAT_LITERAL_NODE:
-            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode *) node, this, irContext);
+            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode*) node, this, irContext);
         case AST_CHAR_LITERAL_NODE:
-            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode *) node, this, irContext);
+            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode*) node, this, irContext);
         case AST_STRING_LITERAL_NODE:
-            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode *) node, this, irContext);
+            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode*) node, this, irContext);
         case AST_BOOLEAN_LITERAL_NODE:
-            return _irStrategyMap.getBoolLiteralIRStrategy()->generate((ASTBooleanLiteralNode *) node, irContext);
+            return _irStrategyMap.getBoolLiteralIRStrategy()->generate((ASTBooleanLiteralNode*) node, irContext);
         default:
             throw std::logic_error("unknown literal node");
     }
@@ -295,13 +296,13 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case VOID_TYPE_SOURCE:
             return this->generateVoidType();
         case ARRAY_TYPE_SOURCE:
-            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature *) typeSignature,
+            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*) typeSignature,
                                                                               this, scope, irContext);
         case CLASS_TYPE_SOURCE:
-            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature *) typeSignature,
+            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature*) typeSignature,
                                                                               this, scope, irContext);
         case ENUM_TYPE_SOURCE:
-            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature *) typeSignature, this, scope, irContext);
+            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*) typeSignature, this, scope, irContext);
         case ENUM_ACCESS_TYPE_SOURCE:
             return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate(
                     (EnumAccessTypeSignature*) typeSignature, this, scope, irContext);
@@ -337,13 +338,16 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
                                                                                 this, scope, irContext);
         case FUNCTION_INVOCATION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate(
-                    (FunctionInvocationTypeSignature *) typeSignature, this, scope, irContext);
+                    (FunctionInvocationTypeSignature*) typeSignature, this, scope, irContext);
         case CLASS_METHOD_TYPE_SOURCE:
             return _irStrategyMap.getClassMethodTypeSignatureIRStrategy()->generate(
-                    (ClassMethodTypeSignature *) typeSignature, this, scope, irContext);
+                    (ClassMethodTypeSignature*) typeSignature, this, scope, irContext);
+        case CLASS_PROPERTY_TYPE_SOURCE:
+            return _irStrategyMap.getClassPropertyTypeSignatureIRStrategy()->generate(
+                    (ClassPropertyTypeSignature*) typeSignature, this, scope, irContext);
         case CLASS_INSTANCE_TYPE_SOURCE:
             return _irStrategyMap.getClassInstanceTypeSignatureIRStrategy()->generate(
-                    (ClassInstanceTypeSignature *) typeSignature, this, scope, irContext);
+                    (ClassInstanceTypeSignature*) typeSignature, this, scope, irContext);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
@@ -635,7 +639,7 @@ IRContext* IRGenerator::generateContext(IRBlockNode* irBlock, IRModuleNode* irMo
 
 IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
     return new IRModuleNode(
-            new llvm::Module(moduleName, *_context),
+            new llvm::Module(moduleName,*_context),
             ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
             CopyArrayIRFunction::getCopyArrayIRFunctionName(),
             CopyPointerIRFunction::getCopyPointerIRFunctionName(),

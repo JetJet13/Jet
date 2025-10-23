@@ -593,6 +593,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.h
         ir-generator/ir-util-functions/assert-ir-function/assert-ir-function.cpp
         ir-generator/ir-util-functions/assert-ir-function/assert-ir-function.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

@@ -20,7 +20,7 @@ proc main() {
     print('b', 'v', 104, "HELLO!", true, false, true, false, 10009, 'c', 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200);
 }
 
-proc maino() {
+proc testPrint() {
     const m = [1,2,3];
     const x = 999;
     const y = 6;
@@ -80,45 +80,69 @@ proc testArrayPrototypeFunctions() {
     print("last", lastExample, sumLastExample);
 
     const myArrayTail = myArray.tail();
+    assert(myArrayTail == [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     print("myArrayTail", myArrayTail.size(), myArrayTail[0], myArrayTail[1]);
 
     const oneArray = [1,2,3];
     const twoArray = [4,5,6];
     const concatResult = oneArray ++ twoArray;
+    assert(concatResult == [1, 2, 3, 4, 5, 6]);
     print("concatResult", concatResult.size());
     for item in concatResult {
         print("concatItem", item);
     }
 
     const emptyArray: [int] = [];
+    assert(emptyArray.empty() == true);
     print("test array.isEmpty():", emptyArray.empty(), oneArray.empty());
 }
 
 proc testCopyFunctions() {
     const x = 50;
     const xCopy = x;
+    assert(x == xCopy);
     print("x", x, xCopy);
+
     const y = 20.204;
     const yCopy = y;
+    assert(y == yCopy);
     print("y", y, yCopy);
+
     const z = 'c';
     const zCopy = z;
+    assert(z == zCopy);
     print("z", z, zCopy);
+
     const b = true;
     const bCopy = b;
+    assert(b == bCopy);
     print("b", b, bCopy);
+
     const s = "hello world";
     const sCopy = s;
+    assert(s == sCopy);
     print("s", s, sCopy);
+
     const t = { foo: 10, bar: false };
     const tCopy = t;
+    assert(t == tCopy, "t == tCopy");
     print("t", t.foo, t.bar, tCopy.foo, tCopy.bar);
+
     const a = [1,2,3,4,5];
     const aCopy = a;
+    assert(a == aCopy);
     print("a", a.size(), a[0], a[4], "|", aCopy.size(), aCopy[0], aCopy[4]);
+
     const v = { true, 'c', 800 };
     const vCopy = v;
-    print("v", v.0, v.1, v.2, "|", vCopy.0, vCopy.1, vCopy.2);
+    //print("v", v.0, v.1, v.2, "|", vCopy.0, vCopy.1, vCopy.2);
+    // todo - fix alignment / size in bytes logic for ir-struct-types
+    // the type { i1, i8, i64 } results in size = 24 bytes, where each field has size:
+    // i1 = 8 bytes
+    // i8 = 8 bytes
+    // i64 = 8 bytes
+    // where the total should be 16 bytes, i1 = 1, i8 = 1 + 6 bytes padded, 164 = 8.
+    assert(v == vCopy, "v == vCopy");
 }
 
 proc testRefFunctions() {
@@ -128,10 +152,18 @@ proc testRefFunctions() {
     const y = dref refX;
     print("refX", x, refX, srefX, y);
     x = 45;
+    assert(x == 45);
+    // assert(refX == 45);
+    assert(refX == srefX);
+    assert(y != refX);
+    assert(y == 50);
     print("refX (after update)", x, refX, srefX, y);
+
     const myArr = [10, 20, 40];
     const refMyArr = ref myArr;
     const refValue = refMyArr[0];
+
+    assert(refValue == refMyArr[0]);
     print("refMyArr", refValue, refMyArr[0]);
 
     const myObj = { foo: 13, bar: true, nest: { go: 'n', mars: [1, 55, 6], novo: { "evo", true, 113 } } };
@@ -160,13 +192,22 @@ proc testRefFunctions() {
     refMyTuple.0 = 174;
     print("refMyTuple (updated)", myTuple.0, refMyTuple.0, refMyTupleFoo);
     const refTupleFoo = ref myTuple.0;
+    assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo", myTuple.0, refMyTuple.0, refTupleFoo);
+    // todo - add ref prototype function to get raw value: refTupleFoo.val()
     myTuple.0 = 754;
+    assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
+
     myTuple.2.1.append(10);
+    assert(myTuple.2.1.size() == refMyTuple.2.1.size());
     print("myTuple array (updated - append)", myTuple.2.1.size(), refMyTuple.2.1.size());
+
     refMyTuple.2.1.append(11);
+    assert(myTuple.2.1.size() == refMyTuple.2.1.size());
     print("myTuple array (updated - append via ref)", myTuple.2.1.size(), refMyTuple.2.1.size());
+
+    assert(myTuple.2.2.0 == refMyTuple.2.2.0);
     print("myTuple nested tuple", myTuple.2.2.0, refMyTuple.2.2.0);
 }
 
@@ -176,16 +217,34 @@ proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: s
     const myZ = z;
     const myA = a;
     const myB = b;
+
+    assert(myX == x);
+    assert(myY == y);
+    assert(myZ == z);
+    assert(myA == a);
+    assert(myB == b);
     print(myX, myY, myZ, myA.size(), myA[0], myB.foo, myB.bar);
+
     myB.foo = "new foo!";
+    assert(b.foo == "hello world");
+    assert(myB.foo == "new foo!");
+    assert(myA[0] == 7);
     print("b foo:", b.foo, "myB.foo:", myB.foo, "myA[0]", myA[0]);
+
     myA[0] = 99;
+    assert(myA[0] == 99);
     print("myA", myA[0]);
 }
 
 proc complexCopy() {
     const x = [ [ [1, 2, 3], [5, 7, 8] ] ];
     const copyX = x;
+
+    assert(x[0][0][0] == copyX[0][0][0]);
+    assert(x[0][0][1] == copyX[0][0][1]);
+    assert(x[0][1][0] == copyX[0][1][0]);
+    assert(x[0][1][1] == copyX[0][1][1]);
+
     print("complex X     :", x[0][0][0], x[0][0][1], x[0][1][0], x[0][1][1]);
     print("complex copyX :", copyX[0][0][0], copyX[0][0][1], copyX[0][1][0], copyX[0][1][1]);
 
@@ -196,8 +255,30 @@ proc complexCopy() {
     const copyY = y;
     const refY = ref y;
 
+    assert(y[0].nested.bar == copyY[0].nested.bar);
+    assert(y[0].nested.deepNest.num == copyY[0].nested.deepNest.num);
+    assert(y[0].nested.deepNest.oNum == copyY[0].nested.deepNest.oNum);
+    assert(y[0].bob == copyY[0].bob);
+    assert(y[0].nested.deepNest.jj[0].x == copyY[0].nested.deepNest.jj[0].x);
+    assert(y[0].nested.deepNest.tup.0 == copyY[0].nested.deepNest.tup.0);
+    assert(y[0].nested.deepNest.tup.1 == copyY[0].nested.deepNest.tup.1);
+    assert(y[0].nested.deepNest.tup.2 == copyY[0].nested.deepNest.tup.2);
+    assert(y[0].otherTup.0 == y[0].otherTup.0);
+    assert(y[0].rNum == y[0].rNum);
+
     print("y 0     :", y[0].nested.bar, y[0].nested.deepNest.num, y[0].nested.deepNest.oNum, y[0].bob, y[0].nested.deepNest.jj[0].x, y[0].nested.deepNest.tup.0, y[0].nested.deepNest.tup.1, y[0].nested.deepNest.tup.2, y[0].otherTup.0, y[0].rNum);
     print("copyY 0 :", copyY[0].nested.bar, copyY[0].nested.deepNest.num, copyY[0].nested.deepNest.oNum, copyY[0].bob, copyY[0].nested.deepNest.jj[0].x, copyY[0].nested.deepNest.tup.0, copyY[0].nested.deepNest.tup.1, copyY[0].nested.deepNest.tup.2, copyY[0].otherTup.0, copyY[0].rNum);
+
+    assert(y[1].nested.bar == copyY[1].nested.bar);
+    assert(y[1].nested.deepNest.num == copyY[1].nested.deepNest.num);
+    assert(y[1].nested.deepNest.oNum == copyY[1].nested.deepNest.oNum);
+    assert(y[1].bob == copyY[1].bob);
+    assert(y[1].nested.deepNest.jj[0].x == copyY[1].nested.deepNest.jj[0].x);
+    assert(y[1].nested.deepNest.tup.0 == copyY[1].nested.deepNest.tup.0);
+    assert(y[1].nested.deepNest.tup.1 == copyY[1].nested.deepNest.tup.1);
+    assert(y[1].nested.deepNest.tup.2 == copyY[1].nested.deepNest.tup.2);
+    assert(y[1].otherTup.0 == y[1].otherTup.0);
+    assert(y[1].rNum == y[1].rNum);
 
     print("y 1     :", y[1].nested.bar, y[1].nested.deepNest.num, y[1].nested.deepNest.oNum, y[1].bob, y[1].nested.deepNest.jj[0].x, y[1].nested.deepNest.tup.0, y[1].nested.deepNest.tup.1, y[1].nested.deepNest.tup.2, y[1].otherTup.0, y[1].rNum);
     print("copyY 1 :", copyY[1].nested.bar, copyY[1].nested.deepNest.num, copyY[1].nested.deepNest.oNum, copyY[1].bob, copyY[1].nested.deepNest.jj[0].x, copyY[1].nested.deepNest.tup.0, copyY[1].nested.deepNest.tup.1, copyY[1].nested.deepNest.tup.2, copyY[1].otherTup.0, copyY[1].rNum);
@@ -206,12 +287,17 @@ proc complexCopy() {
 proc testLambdas() {
     const x = () => 19;
     const xResult = x();
+
+    assert(xResult == 19);
     print("xResult", xResult);
 
     let foo = 40;
     const y = () => foo + 2 - xResult;
     const yResult = y();
+
+    assert(yResult == 23);
     print("yResult", yResult);
+
     const boga = { mars: 1928, bar: true };
     const z = (value: int) {
       const innerX = 290;
@@ -221,8 +307,15 @@ proc testLambdas() {
       boga.mars = 9002;
       print("zResult", moo);
     };
+
+    assert(foo == 40);
+    assert(boga.mars == 1928);
     print("foo (before)", foo, boga.mars);
+
     z(190);
+
+    assert(foo == 9001);
+    assert(boga.mars == 9002);
     print("foo (after)", foo, boga.mars);
 
 }
@@ -231,12 +324,22 @@ proc testClasses() {
     const myClass = new MyClass(23, "Orange");
     const age = myClass.getAge();
     const color = myClass.getColor();
+
+    assert(age == 23);
+    assert(color == "Orange");
+    assert(myClass.getFoo() == 100);
+
     print("myClass property access", myClass.age, myClass.color);
     print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
+
     myClass.age = 99;
     myClass.color = "blue";
     myClass.incrementAge();
     myClass.setOtherValue(8556);
+
+    assert(myClass.age == 100);
+    assert(myClass.color == "blue");
+
     print("myClass property access (updated)", myClass.age, myClass.color);
     myClass.printOtherValue();
 }
@@ -244,6 +347,10 @@ proc testClasses() {
 proc testEnums(enumVal: MyEnum, strEnumVal: MyStrEnum) {
     const myEnumValue = MyEnum.Alpha;
     const myStrEnumValue = MyStrEnum.Foo;
+
+    assert(myEnumValue == MyEnum.Alpha);
+    assert(myStrEnumValue == MyStrEnum.Foo);
+
     print("myEnum values", myEnumValue, MyEnum.Beta, enumVal);
     print("myStrEnum values", myStrEnumValue, MyStrEnum.Bar, strEnumVal);
 }
@@ -334,7 +441,7 @@ proc testEquality() {
 }
 
 main();
-maino();
+testPrint();
 testArrayPrototypeFunctions();
 testCopyFunctions();
 testRefFunctions();

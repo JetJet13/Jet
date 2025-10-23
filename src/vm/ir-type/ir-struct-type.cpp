@@ -29,6 +29,7 @@ void IRStructType::setAlignmentAndSizeForIRTypes() {
         if (irTypeAtIndex->isStructType()) {
             ((IRStructType*)irTypeAtIndex)->setAlignmentAndSizeForIRTypes();
         }
+
         auto currentTypeSize = irTypeAtIndex->getSizeInBytes();
         if (currentTypeSize % alignment.value() == 0 && prevTypeSize > 0 && prevTypeSize < alignment.value()) {
             prevType.value()->setSizeInBytesOverride(alignment.value());

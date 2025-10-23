@@ -70,6 +70,7 @@
 #include "./type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
     _intLiteralIRStrategy = new IntLiteralIRStrategy();
@@ -139,6 +140,7 @@ IRStrategyMap::IRStrategyMap() {
     _refTypeSignatureStrategy = new RefTypeSignatureIRStrategy();
     _functionInvocationTypeSignatureIRStrategy = new FunctionInvocationTypeSignatureIRStrategy();
     _classMethodTypeSignatureIRStrategy = new ClassMethodTypeSignatureIRStrategy();
+    _classPropertyTypeSignatureIRStrategy = new ClassPropertyTypeSignatureIRStrategy();
     _classInstanceTypeSignatureIRStrategy = new ClassInstanceTypeSignatureIRStrategy();
 }
 
@@ -404,6 +406,10 @@ FunctionInvocationTypeSignatureIRStrategy* IRStrategyMap::getFunctionInvocationT
 
 ClassMethodTypeSignatureIRStrategy* IRStrategyMap::getClassMethodTypeSignatureIRStrategy() {
     return _classMethodTypeSignatureIRStrategy;
+}
+
+ClassPropertyTypeSignatureIRStrategy* IRStrategyMap::getClassPropertyTypeSignatureIRStrategy() {
+    return _classPropertyTypeSignatureIRStrategy;
 }
 
 ClassInstanceTypeSignatureIRStrategy* IRStrategyMap::getClassInstanceTypeSignatureIRStrategy() {
