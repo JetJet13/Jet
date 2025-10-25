@@ -9,6 +9,7 @@
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 #include "../../../../ir-type/ir-class-instance-type.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h"
 
 IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRExpressionNode*>();
@@ -22,6 +23,14 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         return new IRArrayPrototypeInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, irArrayExpression);
+    }
+
+    if (node->isRefPrototypeInvocation()) {
+        auto irRefExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
+        auto function = irContext->getModule()->getFunction(irGenerator->getRefPrototypeFunctionName(node->getName()));
+        auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
+        auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+        return new IRRefPrototypeInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, irRefExpression);
     }
 
     auto functionId = FunctionIdGenerator::generateFor(node);

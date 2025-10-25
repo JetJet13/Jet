@@ -46,6 +46,8 @@ private:
     std::string _equalArrayFunctionName;
     std::string _equalStructFunctionName;
     std::string _equalRefFunctionName;
+    std::string _equalRefLeftOnlyFunctionName;
+    std::string _equalRefRightOnlyFunctionName;
     std::string _arrayAppendFunctionName;
     std::string _arrayPrependFunctionName;
     std::string _arrayConcatFunctionName;
@@ -61,6 +63,8 @@ private:
     std::string _memcpyFunctionName;
     std::string _setupSrefFunctionName;
     std::string _setupRefFunctionName;
+    std::string _refOfFunctionName;
+    std::string _srefWithFunctionName;
 public:
     IRModuleNode(llvm::Module* irValue,
                  std::string arrayAccessFunctionName,
@@ -99,6 +103,8 @@ public:
                  std::string equalArrayFunctionName,
                  std::string equalStructFunctionName,
                  std::string equalRefFunctionName,
+                 std::string equalRefLeftOnlyFunctionName,
+                 std::string equalRefRightOnlyFunctionName,
                  std::string arrayAppendFunctionName,
                  std::string arrayPrependFunctionName,
                  std::string arrayConcatFunctionName,
@@ -113,7 +119,9 @@ public:
                  std::string arrayEmptyFunctionName,
                  std::string memcpyFunctionName,
                  std::string setupSrefFunctionName,
-                 std::string setupRefFunctionName);
+                 std::string setupRefFunctionName,
+                 std::string refOfFunctionName,
+                 std::string srefWithFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
@@ -151,6 +159,8 @@ public:
     llvm::Function* getEqualArrayFunction();
     llvm::Function* getEqualStructFunction();
     llvm::Function* getEqualRefFunction();
+    llvm::Function* getEqualRefLeftOnlyFunction();
+    llvm::Function* getEqualRefRightOnlyFunction();
     llvm::Function* getArrayAppendFunction();
     llvm::Function* getArrayPrependFunction();
     llvm::Function* getArrayConcatFunction();
@@ -166,6 +176,8 @@ public:
     llvm::Function* getMemcpyFunction();
     llvm::Function* getSetupSrefFunction();
     llvm::Function* getSetupRefFunction();
+    llvm::Function* getRefOfFunction();
+    llvm::Function* getSrefWithFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

@@ -178,6 +178,34 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     return result;
 }
 
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRRefPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
+    auto arguments = std::vector<llvm::Value*>();
+    for (auto argument : *irExpression->getIRArguments()) {
+        arguments.push_back(
+                irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope)
+        );
+    }
+    auto refValue = irInjector->inject(irBlock, irExpression->getIRRefValue(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    arguments.insert(arguments.begin(), refValue);
+    auto result = irBlock->getBuilder()->get()->CreateCall(
+            llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
+            irExpression->getValue(),
+            arguments
+    );
+
+    if (irOperation->isOperandPointer() && !result->getType()->isPointerTy()) {
+        auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getUnderlyingIRType()->getType());
+        InstructionIRInjectorHelper::injectStore(result, alloc, irBlock, irExpression->getUnderlyingIRType());
+        return alloc;
+    }
+
+    if ((irOperation->isCopy() || irOperation->isOperandValue()) && result->getType()->isPointerTy()) {
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), result, irBlock);
+    }
+
+    return result;
+}
+
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {

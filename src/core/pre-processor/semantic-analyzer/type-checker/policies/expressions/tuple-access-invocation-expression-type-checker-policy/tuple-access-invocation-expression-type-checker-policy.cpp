@@ -6,21 +6,32 @@
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../../../../type-signature/invocable-type-signature/invocable-type-signature.h"
+#include "../../../type-checker.h"
 
 namespace TupleAccessInvocationExpressionTypeCheckerPolicy {
     void apply(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        TypeChecker::applyPolicyTo(tupleAccessInvocationExpression->getArguments(), typeCheckerResult);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessInvocationExpression);
-        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             tupleAccessInvocationExpression,
             unknownMessage,
             invalidMessage,
-            voidMessage,
             typeCheckerResult
         );
 
+        auto notInvocableMessage = TypeCheckerErrorMessageTable::NotInvocable(tupleAccessInvocationExpression->getObjectAccess());
+        TypeCheckerRuleProvider::getInvocableTypeSignatureTypeCheckerRule()
+                ->enforce(
+                        tupleAccessInvocationExpression->getObjectAccess()->getTypeSignature(),
+                        notInvocableMessage,
+                        typeCheckerResult
+                );
+
+        if (!tupleAccessInvocationExpression->getObjectAccess()->getTypeSignature()->isInvocable()) {
+            return;
+        }
         auto invocableTypeSignature = (InvocableTypeSignature*)tupleAccessInvocationExpression->getObjectAccess()->getTypeSignature();
         auto notEnoughArguments = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(tupleAccessInvocationExpression);
         auto tooManyArguments = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(tupleAccessInvocationExpression);

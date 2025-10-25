@@ -4,13 +4,14 @@
 
 #include "ir-binary-comparison-expression-node.h"
 
-IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* comparisonIrType) {
+IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
     _irRightNode = irRightNode;
     _type = type;
-    _comparisonIrType = comparisonIrType;
+    _leftIrType = leftIrType;
+    _rightIrType = rightIrType;
 }
 
 void IRBinaryComparisonExpressionNode::markAsGlobal() {
@@ -31,8 +32,12 @@ bool IRBinaryComparisonExpressionNode::isPredicateNotEqual() {
     return _irValue->getPredicate() == llvm::CmpInst::Predicate::ICMP_NE;
 }
 
-IRType* IRBinaryComparisonExpressionNode::getComparisonIrType() {
-    return _comparisonIrType;
+IRType* IRBinaryComparisonExpressionNode::getLeftIrType() {
+    return _leftIrType;
+}
+
+IRType* IRBinaryComparisonExpressionNode::getRightIrType() {
+    return _rightIrType;
 }
 
 IRExpressionNode* IRBinaryComparisonExpressionNode::getLeftNode() {

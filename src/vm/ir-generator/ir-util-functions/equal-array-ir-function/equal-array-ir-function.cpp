@@ -81,7 +81,7 @@ void EqualArrayIRFunction::generateEqualArrayFunction(IRGenerator* irGenerator, 
             irGenerator->generateBoolean(false),
             isValueAtIndexNotEqualIfBlock->getBuilder()->get()->CreateCall(
                 irModuleNode->getEqualValueFunction(),
-                { firstValuePointerAtIndex, secondValuePointerAtIndex, elementTypeValue  }
+                { firstValuePointerAtIndex, secondValuePointerAtIndex, elementTypeValue, elementTypeValue  }
             )
     );
     isValueAtIndexNotEqualIfBlock->getBuilder()->get()->CreateCondBr(isValueAtIndexNotEqual, isValueAtIndexNotEqualIfThenBlock->getBlock(), forLoopBodyBlock->getBlock());

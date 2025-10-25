@@ -8,7 +8,6 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), scope);
@@ -45,6 +44,15 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressi
             objectAccessExpression->setTypeSignature(classProperty.value());
             return;
         }
+    } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        auto refSource = (RefTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        auto refPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(
+                objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
+                refSource->getUnderlyingType());
+        if (refPrototypeTypeSignature) {
+            objectAccessExpression->setTypeSignature(refPrototypeTypeSignature.value());
+        }
+        return;
     }
     objectAccessExpression->setTypeSignature(new InvalidTypeSignature());
 }

@@ -5,9 +5,11 @@
 #include "function-invocation-expression-type-checker-policy.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../types/type-checker-error-message-table.h"
+#include "../../../type-checker.h"
 
 namespace FunctionInvocationExpressionTypeCheckerPolicy {
     void apply(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        TypeChecker::applyPolicyTo(functionInvocationExpression->getArguments(), typeCheckerResult);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(functionInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionInvocationExpression);
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()

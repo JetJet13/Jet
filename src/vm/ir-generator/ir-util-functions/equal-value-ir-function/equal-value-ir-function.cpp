@@ -13,7 +13,7 @@ std::string EqualValueIRFunction::getEqualValueIRFunctionName() {
 void EqualValueIRFunction::declareEqualValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType(), typeValueType->getType() }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualValueIRFunction::getEqualValueIRFunctionName(), irModuleNode->getModule());
 }
 
@@ -38,23 +38,40 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
     auto boolIfThenBlock = irGenerator->generateIfThenBlock(irContext, "bool.");
     auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
-    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
-    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
+    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
+    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
+    auto refLeftOnlyIfBlock = irGenerator->generateIfBlock(irContext, "ref.left.only");
+    auto refLeftOnlyIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.left.only");
+    auto refRightOnlyIfBlock = irGenerator->generateIfBlock(irContext, "ref.right.only");
+    auto refRightOnlyIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.right.only");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
-    auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getIdIndex() }, "valueTypeId");
+    auto leftTypeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getIdIndex() }, "leftValueTypeId");
+    auto rightTypeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(3), { typeValueType->getIdIndex() }, "rightValueTypeId");
+
+
 
     functionBlock->getBuilder()->get()->CreateBr(intIfBlock->getBlock());
 
-    auto isValueTypeInt = intIfBlock->getBuilder()->get()->CreateICmp(
+    auto isLeftValueTypeInt = intIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
+            leftTypeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.INT)
     );
-    intIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeInt, intIfThenBlock->getBlock(), floatIfBlock->getBlock());
+    auto isRightValueTypeInt = intIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.INT)
+    );
+    auto areBothValueTypesInt = intIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeInt,
+            isRightValueTypeInt
+    );
+    intIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesInt, intIfThenBlock->getBlock(), floatIfBlock->getBlock());
     auto firstIntValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(0), intIfThenBlock);
     auto secondIntValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(1), intIfThenBlock);
     intIfThenBlock->getBuilder()->get()->CreateRet(
@@ -65,12 +82,22 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
         )
     );
 
-    auto isValueTypeFloat = floatIfBlock->getBuilder()->get()->CreateICmp(
+    auto isLeftValueTypeFloat = floatIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
+            leftTypeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.FLOAT)
     );
-    floatIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeFloat, floatIfThenBlock->getBlock(), charIfBlock->getBlock());
+    auto isRightValueTypeFloat = floatIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.FLOAT)
+    );
+    auto areBothValueTypesFloat = floatIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeFloat,
+            isRightValueTypeFloat
+    );
+    floatIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesFloat, floatIfThenBlock->getBlock(), charIfBlock->getBlock());
     auto firstFloatValue = InstructionIRInjectorHelper::injectLoad(floatType, function->getArg(0), floatIfThenBlock);
     auto secondFloatValue = InstructionIRInjectorHelper::injectLoad(floatType, function->getArg(1), floatIfThenBlock);
     floatIfThenBlock->getBuilder()->get()->CreateRet(
@@ -81,12 +108,22 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
             )
     );
 
-    auto isValueTypeChar = charIfBlock->getBuilder()->get()->CreateICmp(
+    auto isLeftValueTypeChar = charIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
+            leftTypeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.CHAR)
     );
-    charIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeChar, charIfThenBlock->getBlock(), boolIfBlock->getBlock());
+    auto isRightValueTypeChar = charIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.CHAR)
+    );
+    auto areBothValueTypesChar = charIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeChar,
+            isRightValueTypeChar
+    );
+    charIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesChar, charIfThenBlock->getBlock(), boolIfBlock->getBlock());
     auto firstCharValue = InstructionIRInjectorHelper::injectLoad(charType, function->getArg(0), charIfThenBlock);
     auto secondCharValue = InstructionIRInjectorHelper::injectLoad(charType, function->getArg(1), charIfThenBlock);
     charIfThenBlock->getBuilder()->get()->CreateRet(
@@ -97,12 +134,23 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
             )
     );
 
-    auto isValueTypeBool = boolIfBlock->getBuilder()->get()->CreateICmp(
+
+    auto isLeftValueTypeBool = boolIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
+            leftTypeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.BOOL)
     );
-    boolIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeBool, boolIfThenBlock->getBlock(), stringIfBlock->getBlock());
+    auto isRightValueTypeBool = boolIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.BOOL)
+    );
+    auto areBothValueTypesBool = boolIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeBool,
+            isRightValueTypeBool
+    );
+    boolIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesBool, boolIfThenBlock->getBlock(), stringIfBlock->getBlock());
     auto firstBoolValue = InstructionIRInjectorHelper::injectLoad(boolType, function->getArg(0), boolIfThenBlock);
     auto secondBoolValue = InstructionIRInjectorHelper::injectLoad(boolType, function->getArg(1), boolIfThenBlock);
     boolIfThenBlock->getBuilder()->get()->CreateRet(
@@ -113,12 +161,23 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
             )
     );
 
-    auto isValueTypeString = stringIfBlock->getBuilder()->get()->CreateICmp(
+
+    auto isLeftValueTypeString = stringIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
+            leftTypeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRING)
     );
-    stringIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeString, stringIfThenBlock->getBlock(), refIfBlock->getBlock());
+    auto isRightValueTypeString = stringIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRING)
+    );
+    auto areBothValueTypesString = stringIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeString,
+            isRightValueTypeString
+    );
+    stringIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesString, stringIfThenBlock->getBlock(), structIfBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateRet(
         stringIfThenBlock->getBuilder()->get()->CreateCall(
            irModuleNode->getEqualStringFunction(),
@@ -126,30 +185,23 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
         )
     );
 
-    auto isValueTypeRef = refIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.REF)
-    );
-    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
-    refIfThenBlock->getBuilder()->get()->CreateRet(
-        refIfThenBlock->getBuilder()->get()->CreateCall(
-                irContext->getIRModule()->getEqualRefFunction()->getFunctionType(),
-                irContext->getIRModule()->getEqualRefFunction(),
-                {
-                    function->getArg(0),
-                    function->getArg(1),
-                    function->getArg(2)
-                }
-        )
-    );
 
-    auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
+    auto isLeftValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
+            leftTypeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), arrayIfBlock->getBlock());
+    auto isRightValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
+    );
+    auto areBothValueTypesStruct = structIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeStruct,
+            isRightValueTypeStruct
+    );
+    structIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesStruct, structIfThenBlock->getBlock(), arrayIfBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateRet(
         structIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getEqualStructFunction()->getFunctionType(),
@@ -163,12 +215,22 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
     );
 
 
-    auto isValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(
-        llvm::CmpInst::Predicate::ICMP_EQ,
-        typeValueId,
-        irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
+    auto isLeftValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            leftTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
     );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), endBlock->getBlock());
+    auto isRightValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
+    );
+    auto areBothValueTypesArray = arrayIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeArray,
+            isRightValueTypeArray
+    );
+    arrayIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesArray, arrayIfThenBlock->getBlock(), refIfBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateRet(
         arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getEqualArrayFunction()->getFunctionType(),
@@ -179,6 +241,74 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
                 function->getArg(2)
             }
         )
+    );
+
+
+    auto isLeftValueTypeRef = refIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            leftTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.REF)
+    );
+    auto isRightValueTypeRef = refIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.REF)
+    );
+
+    auto areBothValueTypesRef = refIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeRef,
+            isRightValueTypeRef
+    );
+    refIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesRef, refIfThenBlock->getBlock(), refLeftOnlyIfBlock->getBlock());
+    refIfThenBlock->getBuilder()->get()->CreateRet(
+            refIfThenBlock->getBuilder()->get()->CreateCall(
+                    irContext->getIRModule()->getEqualRefFunction()->getFunctionType(),
+                    irContext->getIRModule()->getEqualRefFunction(),
+                    {
+                        function->getArg(0),
+                        function->getArg(1),
+                        function->getArg(2)
+                    }
+            )
+    );
+
+
+
+    auto isLeftOnlyValueTypeRef = refLeftOnlyIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            isLeftValueTypeRef,
+            irGenerator->generateBoolean(true)
+    );
+    refLeftOnlyIfBlock->getBuilder()->get()->CreateCondBr(isLeftOnlyValueTypeRef, refLeftOnlyIfThenBlock->getBlock(), refRightOnlyIfBlock->getBlock());
+    refLeftOnlyIfThenBlock->getBuilder()->get()->CreateRet(
+            refLeftOnlyIfThenBlock->getBuilder()->get()->CreateCall(
+                    irContext->getIRModule()->getEqualRefLeftOnlyFunction()->getFunctionType(),
+                    irContext->getIRModule()->getEqualRefLeftOnlyFunction(),
+                    {
+                        function->getArg(0),
+                        function->getArg(1),
+                        function->getArg(2)
+                    }
+            )
+    );
+
+    auto isRightOnlyValueTypeRef = refRightOnlyIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            isRightValueTypeRef,
+            irGenerator->generateBoolean(true)
+    );
+    refRightOnlyIfBlock->getBuilder()->get()->CreateCondBr(isRightOnlyValueTypeRef, refRightOnlyIfThenBlock->getBlock(), endBlock->getBlock());
+    refRightOnlyIfThenBlock->getBuilder()->get()->CreateRet(
+            refRightOnlyIfThenBlock->getBuilder()->get()->CreateCall(
+                    irContext->getIRModule()->getEqualRefRightOnlyFunction()->getFunctionType(),
+                    irContext->getIRModule()->getEqualRefRightOnlyFunction(),
+                    {
+                        function->getArg(0),
+                        function->getArg(1),
+                        function->getArg(3)
+                    }
+            )
     );
 
     endBlock->getBuilder()->get()->CreateRet(irGenerator->generateBoolean(false));

@@ -52,6 +52,7 @@
 #include "policies/print-statement-type-checker-policy/print-statement-type-checker-policy.h"
 #include "policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.h"
 #include "policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.h"
+#include "policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -61,6 +62,9 @@ namespace TypeChecker {
                 break;
             case AST_PROCEDURE_DECLARATION_NODE:
                 ProcedureDeclarationTypeCheckerPolicy::apply((ASTProcedureDeclarationNode*)node, typeCheckerResult);
+                break;
+            case AST_FUNCTION_ARGUMENT_LIST_NODE:
+                ArgumentListTypeCheckerPolicy::apply((ASTFunctionArgumentListNode*)node, typeCheckerResult);
                 break;
             case AST_FUNCTION_PARAMETER_LIST_NODE:
                 ParameterListTypeCheckerPolicy::apply((ASTFunctionParameterListNode*)node, typeCheckerResult);

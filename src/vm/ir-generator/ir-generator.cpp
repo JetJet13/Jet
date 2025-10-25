@@ -114,6 +114,9 @@
 #include "ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.h"
 #include "ir-util-functions/equal-array-ir-function/equal-array-ir-function.h"
 #include "ir-util-functions/equal-string-ir-function/equal-string-ir-function.h"
+#include "ir-prototypes/ir-ref-prototype-map.h"
+#include "ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
+#include "ir-util-functions/sref-with-ir-function/sref-with-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -423,6 +426,10 @@ std::string IRGenerator::getArrayPrototypeFunctionName(std::string id) {
     return ArrayPrototypeMap::getIRName(id);
 }
 
+std::string IRGenerator::getRefPrototypeFunctionName(std::string id) {
+    return RefPrototypeMap::getIRName(id);
+}
+
 std::string IRGenerator::getJetUtilsFunctionName(std::string id) {
     return IRUtilInternalModule::getIRName(id);
 }
@@ -676,6 +683,8 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             EqualArrayIRFunction::getEqualArrayIRFunctionName(),
             EqualStructIRFunction::getEqualStructIRFunctionName(),
             EqualRefIRFunction::getEqualRefIRFunctionName(),
+            EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(),
+            EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(),
             ArrayAppendIRFunction::getArrayAppendIRFunctionName(),
             ArrayPrependIRFunction::getArrayPrependIRFunctionName(),
             ArrayConcatIRFunction::getArrayConcatIRFunctionName(),
@@ -690,7 +699,9 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             ArrayEmptyIRFunction::getArrayEmptyIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
-            SetupRefIRFunction::getSetupRefIRFunctionName()
+            SetupRefIRFunction::getSetupRefIRFunctionName(),
+            RefOfIRFunction::getRefOfIRFunctionName(),
+            SrefWithIRFunction::getSrefWithIRFunctionName()
     );
 }
 
@@ -706,6 +717,8 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     EqualStringIRFunction::declareEqualStringFunction(this, &_context, irModule);
     EqualStructIRFunction::declareEqualStructFunction(this, &_context, irModule);
     EqualRefIRFunction::declareEqualRefFunction(this, &_context, irModule);
+    EqualRefIRFunction::declareEqualRefLeftOnlyFunction(this, &_context, irModule);
+    EqualRefIRFunction::declareEqualRefRightOnlyFunction(this, &_context, irModule);
     FreeValueIRFunction::declareFreeValueFunction(this, &_context, irModule);
     FreeArrayIRFunction::declareFreeArrayFunction(this, &_context, irModule);
     FreePointerIRFunction::declareFreePointerFunction(this, &_context, irModule);
@@ -724,6 +737,8 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
+    RefOfIRFunction::generateRefOfFunction(this, &_context, irModule);
+    SrefWithIRFunction::generateSrefWithFunction(this, &_context, irModule);
     SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
     CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
@@ -737,6 +752,8 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     EqualStringIRFunction::generateEqualStringFunction(this, &_context, irModule);
     EqualStructIRFunction::generateEqualStructFunction(this, &_context, irModule);
     EqualRefIRFunction::generateEqualRefFunction(this, &_context, irModule);
+    EqualRefIRFunction::generateEqualRefLeftOnlyFunction(this, &_context, irModule);
+    EqualRefIRFunction::generateEqualRefRightOnlyFunction(this, &_context, irModule);
     FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
     FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
     FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);

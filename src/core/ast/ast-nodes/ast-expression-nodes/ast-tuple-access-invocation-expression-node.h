@@ -23,7 +23,6 @@ public:
     ASTObjectAccessSourceNode* getSource();
     ASTTupleAccessNode* getIndex();
     unsigned long numArguments();
-    bool isArrayPrototypeInvocation();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

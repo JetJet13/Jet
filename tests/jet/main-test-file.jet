@@ -2,21 +2,22 @@ import MyOtherModule from "./other-test-file.jet";
 
 proc main() {
     const x = range(10);
+    assert(x == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     for item in x {
         print(item);
     }
     const z = range(10, 15, 2);
+    assert(z == [10, 12, 14]);
     for item in z {
         print(item);
     }
     const negX = range(-10);
+    assert(negX == [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
     for item in negX {
         print(item);
     }
     const negZ = range(-10, -15, 1);
-    for item in negZ {
-        print(item); // should print nothing since negZ is empty.
-    }
+    assert(negZ.empty());
     print('b', 'v', 104, "HELLO!", true, false, true, false, 10009, 'c', 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200);
 }
 
@@ -48,35 +49,48 @@ proc testPrint() {
 proc testArrayPrototypeFunctions() {
     print("--- my array prototype ---");
     const myArray = range(15);
+    assert(myArray == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
     print("at index 1:", myArray[1]);
     print("size", myArray.size());
+
+    // todo - get this working
     //myArray.append(15);
     print("newSize (after append)", myArray.size());
     print("newValue", myArray[14], myArray[15]);
+
+    // todo - get this working
     //myArray.prepend(-100);
     print("newSize (after prepend)", myArray.size());
     print("newValue", myArray[1], myArray[0]);
 
     myArray.drop(2);
+    assert(myArray.size() == 13);
+    assert(myArray == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
     print("newSize (after drop 2)", myArray.size());
     print("newValue", myArray[0], myArray[1], myArray[12], myArray[13]);
 
     myArray.dropLast(2);
+    assert(myArray.size() == 11);
+    assert(myArray == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     print("newSize (after dropLast 2)", myArray.size());
     print("newValue", myArray[0], myArray[10], myArray[11], myArray[12], myArray[13], myArray[14], myArray[15]);
 
     const takeExample = myArray.take(2);
+    assert(takeExample == [2, 3]);
     print("takeExample", takeExample[0], takeExample[1]);
 
     const takeLastExample = myArray.takeLast(2);
+    assert(takeLastExample == [11, 12]);
     print("takeLastExample", takeLastExample[0], takeLastExample[1]);
 
     const headExample = myArray.head();
     const sumHeadExample = headExample + 100;
+    assert(headExample == 2);
     print("head", headExample, sumHeadExample);
 
     const lastExample = myArray.last();
     const sumLastExample = lastExample + 100;
+    assert(lastExample == 12);
     print("last", lastExample, sumLastExample);
 
     const myArrayTail = myArray.tail();
@@ -147,7 +161,7 @@ proc testRefFunctions() {
     print("refX", x, refX, srefX, y);
     x = 45;
     assert(x == 45);
-    // assert(refX == 45);
+    assert(refX == 45);
     assert(refX == srefX);
     assert(y != refX);
     assert(y == 50);
@@ -179,6 +193,8 @@ proc testRefFunctions() {
     print("novo.evo", myObj.nest.novo.0, refMyObj.nest.novo.0);
     const myTuple = { 13, true, { 'n', [1, 55, 6], { "evo", true, 113 } } };
     const refMyTuple = ref myTuple;
+    const srefMyTuple = sref refMyTuple;
+    const otherRefMyTuple = ref myTuple;
     const refMyTupleFoo = refMyTuple.0;
     print("refMyTuple", refMyTupleFoo, refMyTuple.0);
     myTuple.0 = 190;
@@ -188,8 +204,11 @@ proc testRefFunctions() {
     const refTupleFoo = ref myTuple.0;
     assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo", myTuple.0, refMyTuple.0, refTupleFoo);
-    // todo - add ref prototype function to get raw value: refTupleFoo.val()
     myTuple.0 = 754;
+    assert(refMyTuple == myTuple);
+    assert(refMyTuple.refOf(myTuple));
+    assert(refMyTuple.srefWith(srefMyTuple));
+    assert(refMyTuple.srefWith(otherRefMyTuple));
     assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
 
@@ -418,7 +437,7 @@ proc testEquality() {
     // tuple tests
     const otherSmallTuple = smallTuple;
     assert(smallTuple != bigTuple, "smallTuple != bigTuple");
-    //assert(smallTuple == smallTuple, "smallTuple == smallTuple");
+    assert(smallTuple == smallTuple, "smallTuple == smallTuple");
     assert(smallTuple == { true, 100, 'c' }, "smallTuple == { true, 100, 'c' }");
 
     // enum tests

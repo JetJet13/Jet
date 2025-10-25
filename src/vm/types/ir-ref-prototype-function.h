@@ -1,0 +1,11 @@
+//
+// Created by Johny Georges on 2025-10-25.
+//
+
+#ifndef JETLANG_IR_REF_PROTOTYPE_FUNCTION_H
+#define JETLANG_IR_REF_PROTOTYPE_FUNCTION_H
+typedef enum {
+    RP_REF_OF_FUNCTION,
+    RP_SREF_WITH_FUNCTION,
+} IRRefPrototypeFunctionId;
+#endif //JETLANG_IR_REF_PROTOTYPE_FUNCTION_H

@@ -595,6 +595,15 @@ add_library(jet-vm
         ir-generator/ir-util-functions/assert-ir-function/assert-ir-function.h
         ir-generator/ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h
+        ir-generator/ir-prototypes/ir-ref-prototype-map.cpp
+        ir-generator/ir-prototypes/ir-ref-prototype-map.h
+        types/ir-ref-prototype-function.h
+        ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.cpp
+        ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.h
+        ir-generator/ir-util-functions/sref-with-ir-function/sref-with-ir-function.cpp
+        ir-generator/ir-util-functions/sref-with-ir-function/sref-with-ir-function.h
+        ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h
 )
 
 target_link_libraries(jet-vm

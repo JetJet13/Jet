@@ -103,6 +103,7 @@ public:
     IRRefType* generateIrRefType(IRType* type);
     IRArrayType* generateIRArrayType(IRType* elementType, unsigned long size);
     std::string getArrayPrototypeFunctionName(std::string id);
+    std::string getRefPrototypeFunctionName(std::string id);
     std::string getJetUtilsFunctionName(std::string id);
     IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
     IRArrayType* generateVarArgsTypeValuesIrType(unsigned long numVarArgs);

@@ -82,6 +82,7 @@ TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
     _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
     _literalTypeSignatureLookupTable = LiteralTypeSignatureLookupTable();
     _arrayPrototypeSignatureMap = ArrayPrototypeTypeSignatureMap();
+    _refPrototypeSignatureMap = RefPrototypeTypeSignatureMap();
 }
 
 void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope) {
@@ -509,4 +510,8 @@ ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateClassScop
 
 std::optional<FunctionTypeSignature*> TypeSignatureStrategyProvider::findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType) {
     return _arrayPrototypeSignatureMap.find(id, elementType);
+}
+
+std::optional<FunctionTypeSignature*> TypeSignatureStrategyProvider::findRefPrototypeTypeSignature(std::string id, TypeSignature* refType) {
+    return _refPrototypeSignatureMap.find(id, refType);
 }

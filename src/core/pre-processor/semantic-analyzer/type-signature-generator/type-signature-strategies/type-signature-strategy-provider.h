@@ -28,6 +28,7 @@
 #include "../../../../ast/ast-nodes/ast-statement-nodes/ast-statement-node.h"
 #include "../../../../type-signature/struct-type-signature/struct-type-signature.h"
 #include "array-prototype-type-signature-map/array-prototype-type-signature-map.h"
+#include "ref-prototype-type-signature-map/ref-prototype-type-signature-map.h"
 
 
 class TypeSignatureStrategyProvider {
@@ -35,6 +36,7 @@ private:
     LiteralTypeSignatureLookupTable _literalTypeSignatureLookupTable;
     TypeSignatureStrategyMap* _typeSignatureStrategyMap;
     ArrayPrototypeTypeSignatureMap _arrayPrototypeSignatureMap;
+    RefPrototypeTypeSignatureMap _refPrototypeSignatureMap;
 public:
     TypeSignatureStrategyProvider();
     void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
@@ -43,6 +45,7 @@ public:
     ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope);
     ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
     std::optional<FunctionTypeSignature*> findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType);
+    std::optional<FunctionTypeSignature*> findRefPrototypeTypeSignature(std::string id, TypeSignature* elementType);
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

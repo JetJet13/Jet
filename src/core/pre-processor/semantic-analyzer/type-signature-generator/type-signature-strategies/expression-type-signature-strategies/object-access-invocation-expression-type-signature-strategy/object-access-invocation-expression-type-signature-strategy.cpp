@@ -7,6 +7,8 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), scope);
@@ -31,6 +33,13 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
         auto arrayPrototypeTypeSignature = strategyMap->findArrayPrototypeTypeSignature(id, arraySource->getElementType()).value_or(new FunctionTypeSignature());
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(arrayPrototypeTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(arrayPrototypeTypeSignature->getReturnType());
+        return;
+    } else if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        auto refSource = (RefTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
+        auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto refPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(id, refSource->getUnderlyingType()).value_or(new FunctionTypeSignature());
+        objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(refPrototypeTypeSignature);
+        objectAccessInvocationExpression->setTypeSignature(refPrototypeTypeSignature->getReturnType());
         return;
     }
     objectAccessInvocationExpression->setTypeSignature(new InvalidTypeSignature());

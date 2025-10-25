@@ -18,13 +18,14 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
         ), leftExpressionIr, rightExpressionIr, irType);
     }
 
-    auto comparisonIrType = irGenerator->generateTypeFor(node->getLeftNode()->getTypeSignature(), scope, irContext);
+    auto leftIrType = irGenerator->generateTypeFor(node->getLeftNode()->getTypeSignature(), scope, irContext);
+    auto rightIrType = irGenerator->generateTypeFor(node->getRightNode()->getTypeSignature(), scope, irContext);
     return new IRBinaryComparisonExpressionNode(node, llvm::CmpInst::Create(
             llvm::Instruction::OtherOps::ICmp,
             this->determineComparatorPredicate(node->getBinaryOperator()),
             leftExpressionIr->getValue(),
             rightExpressionIr->getValue()
-    ), leftExpressionIr, rightExpressionIr, irType, comparisonIrType);
+    ), leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
 }
 
 llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode) {

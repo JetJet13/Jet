@@ -33,10 +33,6 @@ unsigned long ASTTupleAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-bool ASTTupleAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
-    return this->getSource()->getSource()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE);
-}
-
 Position* ASTTupleAccessInvocationExpressionNode::getStartPosition() {
     return _tupleAccess->getStartPosition();
 }

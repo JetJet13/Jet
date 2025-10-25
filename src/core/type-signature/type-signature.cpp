@@ -17,6 +17,16 @@ bool TypeSignature::isBuiltIn() {
     return _isBuiltIn;
 }
 
+TypeSignature* TypeSignature::markAsPrototype() {
+    _isPrototype = true;
+    return this;
+}
+
+bool TypeSignature::isPrototype() {
+    return _isPrototype;
+}
+
+
 TypeSignature* TypeSignature::setId(std::string id) {
     _id = id;
     return this;

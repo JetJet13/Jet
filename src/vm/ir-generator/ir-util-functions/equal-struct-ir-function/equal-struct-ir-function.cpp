@@ -61,7 +61,7 @@ void EqualStructIRFunction::generateEqualStructFunction(IRGenerator* irGenerator
             irGenerator->generateBoolean(false),
             isValueAtIndexNotEqualIfBlock->getBuilder()->get()->CreateCall(
                     irModuleNode->getEqualValueFunction(),
-                    { firstValuePointerAtIndex, secondValuePointerAtIndex, typeValueAtIndex }
+                    { firstValuePointerAtIndex, secondValuePointerAtIndex, typeValueAtIndex, typeValueAtIndex }
             )
     );
     isValueAtIndexNotEqualIfBlock->getBuilder()->get()->CreateCondBr(isValueAtIndexNotEqual, isValueAtIndexNotEqualIfThenBlock->getBlock(), forLoopBodyBlock->getBlock());

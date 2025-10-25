@@ -38,7 +38,13 @@ unsigned long ASTObjectAccessInvocationExpressionNode::numArguments() {
 }
 
 bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
-    return this->getSource()->getSource()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE);
+    return this->getSource()->getSource()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE)
+           && this->getObjectAccess()->getTypeSignature()->isPrototype();
+}
+
+bool ASTObjectAccessInvocationExpressionNode::isRefPrototypeInvocation() {
+    return this->getSource()->getSource()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)
+            && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }
 
 Position* ASTObjectAccessInvocationExpressionNode::getStartPosition() {

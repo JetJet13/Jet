@@ -9,39 +9,113 @@ std::string EqualRefIRFunction::getEqualRefIRFunctionName() {
     return "jet.equal.ref";
 }
 
+std::string EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName() {
+    return "jet.equal.ref.left.only";
+}
+
+std::string EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName() {
+    return "jet.equal.ref.right.only";
+}
+
 void EqualRefIRFunction::declareEqualRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType }, false);
+    auto typeValueType = irGenerator->generateIrTypeValueType();
+    auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefIRFunctionName(), irModuleNode->getModule());
+}
+
+void EqualRefIRFunction::declareEqualRefLeftOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto pointerType = irGenerator->generatePointerType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
+    auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(), irModuleNode->getModule());
+}
+
+void EqualRefIRFunction::declareEqualRefRightOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto pointerType = irGenerator->generatePointerType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
+    auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(), irModuleNode->getModule());
 }
 
 void EqualRefIRFunction::generateEqualRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto function = irModuleNode->getEqualRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isRefValuePointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRefValuePointerNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRefValuePointerNotEqualElseBlock = irGenerator->generateIfElseBlock(irContext);
 
     auto firstRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefValueIndex());
     auto firstRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, firstRefValuePointer, functionBlock);
     auto secondRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(1), irRefType->getRefValueIndex());
     auto secondRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, secondRefValuePointer, functionBlock);
-    functionBlock->getBuilder()->get()->CreateBr(isRefValuePointerNotEqualIfBlock->getBlock());
-
-    // isRefValuePointerNotEqualIfBlock
-    auto isRefValuePointerNotEqual = isRefValuePointerNotEqualIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_NE,
-            firstRefValue,
-            secondRefValue
+    auto pointerToUnderlyingTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), typeValueType->getAllocIndex());
+    auto underlyingTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToUnderlyingTypeValue, functionBlock);
+    functionBlock->getBuilder()->get()->CreateRet(
+        functionBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getEqualValueFunction()->getFunctionType(),
+            irContext->getIRModule()->getEqualValueFunction(),
+            {
+                firstRefValue,
+                secondRefValue,
+                underlyingTypeValue,
+                underlyingTypeValue
+            }
+        )
     );
-    isRefValuePointerNotEqualIfBlock->getBuilder()->get()->CreateCondBr(isRefValuePointerNotEqual, isRefValuePointerNotEqualIfThenBlock->getBlock(), isRefValuePointerNotEqualElseBlock->getBlock());
 
-    // isRefValuePointerNotEqualIfThenBlock
-    isRefValuePointerNotEqualIfThenBlock->getBuilder()->get()->CreateRet(irGenerator->generateBoolean(false));
+}
 
-    // isRefValuePointerNotEqualElseBlock
-    isRefValuePointerNotEqualElseBlock->getBuilder()->get()->CreateRet(irGenerator->generateBoolean(true));
+void EqualRefIRFunction::generateEqualRefLeftOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto pointerType = irGenerator->generatePointerType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
+    auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto function = irModuleNode->getEqualRefLeftOnlyFunction();
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+
+    auto firstRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefValueIndex());
+    auto firstRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, firstRefValuePointer, functionBlock);
+    auto pointerToUnderlyingTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), typeValueType->getAllocIndex());
+    auto underlyingTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToUnderlyingTypeValue, functionBlock);
+    functionBlock->getBuilder()->get()->CreateRet(
+        functionBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getEqualValueFunction()->getFunctionType(),
+            irContext->getIRModule()->getEqualValueFunction(),
+            {
+                firstRefValue,
+                function->getArg(1),
+                underlyingTypeValue,
+                underlyingTypeValue
+            }
+        )
+    );
+}
+
+void EqualRefIRFunction::generateEqualRefRightOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto pointerType = irGenerator->generatePointerType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
+    auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto function = irModuleNode->getEqualRefRightOnlyFunction();
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+
+    auto secondRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(1), irRefType->getRefValueIndex());
+    auto secondRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, secondRefValuePointer, functionBlock);
+    auto pointerToUnderlyingTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), typeValueType->getAllocIndex());
+    auto underlyingTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToUnderlyingTypeValue, functionBlock);
+    functionBlock->getBuilder()->get()->CreateRet(
+        functionBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getEqualValueFunction()->getFunctionType(),
+            irContext->getIRModule()->getEqualValueFunction(),
+            {
+                function->getArg(0),
+                secondRefValue,
+                underlyingTypeValue,
+                underlyingTypeValue
+            }
+        )
+    );
+
 }

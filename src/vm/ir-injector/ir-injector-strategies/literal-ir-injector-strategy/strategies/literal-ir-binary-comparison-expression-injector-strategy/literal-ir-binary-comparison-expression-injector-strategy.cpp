@@ -7,11 +7,13 @@
 
 llvm::Value* LiteralIRBinaryComparisonExpressionInjectorStrategy::inject(IRBinaryComparisonExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->isPredicateEqual() || irExpression->isPredicateNotEqual()) {
-        auto irTypeValue = irInjector->inject(irBlock, irExpression->getComparisonIrType());
-        auto loadedIrTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getComparisonIrType()->getValue()->getAllocatedType(), irTypeValue, irBlock);
+        auto leftIrTypeValue = irInjector->inject(irBlock, irExpression->getLeftIrType());
+        auto loadedLeftIrTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getLeftIrType()->getValue()->getAllocatedType(), leftIrTypeValue, irBlock);
+        auto rightIrTypeValue = irInjector->inject(irBlock, irExpression->getRightIrType());
+        auto loadedRightIrTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getRightIrType()->getValue()->getAllocatedType(), rightIrTypeValue, irBlock);
         auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
         auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-        auto result = irBlock->getBuilder()->get()->CreateCall(irModule->getEqualValueFunction(), { irLeftNodeValue, irRightNodeValue, loadedIrTypeValue });
+        auto result = irBlock->getBuilder()->get()->CreateCall(irModule->getEqualValueFunction(), { irLeftNodeValue, irRightNodeValue, loadedLeftIrTypeValue, loadedRightIrTypeValue });
         return irExpression->isPredicateEqual()
         ? result
         : irBlock->getBuilder()->get()->CreateICmp(llvm::CmpInst::Predicate::ICMP_EQ, result, irBlock->getBuilder()->get()->getFalse());

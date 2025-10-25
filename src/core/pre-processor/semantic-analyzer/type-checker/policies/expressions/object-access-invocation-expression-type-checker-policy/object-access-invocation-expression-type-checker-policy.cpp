@@ -6,9 +6,11 @@
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
+#include "../../../type-checker.h"
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
     void apply(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getArguments(), typeCheckerResult);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
@@ -46,6 +48,17 @@ namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
         if (!argumentListCountResultOk) {
             return;
         }
+
+        auto unknownReturnTypeMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression);
+        auto invalidReturnTypeMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression);
+        TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
+        ->enforce(
+            invocableTypeSignature->getReturnType(),
+            unknownReturnTypeMessage,
+            invalidReturnTypeMessage,
+            typeCheckerResult
+        );
+
         auto argumentTypeMismatch = TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(objectAccessInvocationExpression);
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(

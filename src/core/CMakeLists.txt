@@ -1318,6 +1318,10 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/ref-prototype-type-signature-map/ref-prototype-type-signature-map.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/ref-prototype-type-signature-map/ref-prototype-type-signature-map.h
+        pre-processor/semantic-analyzer/type-checker/policies/argument-list-type-checker-policy/argument-list-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h
 
 )
 
