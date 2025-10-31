@@ -59,7 +59,7 @@ ProcedureTypeSignature* JetUtilsTypeSignatureMap::getPrintTypeSignature() {
     auto parameterList = new ParameterListTypeSignature();
     parameterList->markAsVariableLength(0, new ParameterListItemTypeSignature("value", new LiteralTypeSignature()));
     auto printTypeSignature = new ProcedureTypeSignature(parameterList);
-    printTypeSignature->markAsBuiltIn();
+    printTypeSignature->markAsBuiltIn(BI_PRINT_TYPE_SOURCE);
     return printTypeSignature;
 }
 
@@ -70,7 +70,7 @@ FunctionTypeSignature* JetUtilsTypeSignatureMap::getRangeTypeSignature() {
             }),
             new ArrayTypeSignature(new IntLiteralTypeSignature())
     );
-    rangeTypeSignature->markAsBuiltIn();
+    rangeTypeSignature->markAsBuiltIn(BI_RANGE_TYPE_SOURCE);
     return rangeTypeSignature;
 }
 
@@ -82,7 +82,7 @@ FunctionTypeSignature* JetUtilsTypeSignatureMap::getRange2pTypeSignature() {
             }),
             new ArrayTypeSignature(new IntLiteralTypeSignature())
     );
-    rangeTypeSignature->markAsBuiltIn();
+    rangeTypeSignature->markAsBuiltIn(BI_RANGE_2P_TYPE_SOURCE);
     return rangeTypeSignature;
 }
 
@@ -95,7 +95,7 @@ FunctionTypeSignature* JetUtilsTypeSignatureMap::getRange3pTypeSignature() {
             }),
             new ArrayTypeSignature(new IntLiteralTypeSignature())
     );
-    rangeTypeSignature->markAsBuiltIn();
+    rangeTypeSignature->markAsBuiltIn(BI_RANGE_3P_TYPE_SOURCE);
     return rangeTypeSignature;
 }
 
@@ -106,7 +106,7 @@ FunctionTypeSignature* JetUtilsTypeSignatureMap::getAssertTypeSignature() {
             }),
             new VoidTypeSignature()
     );
-    assertTypeSignature->markAsBuiltIn();
+    assertTypeSignature->markAsBuiltIn(BI_ASSERT_TYPE_SOURCE);
     return assertTypeSignature;
 }
 
@@ -118,6 +118,6 @@ FunctionTypeSignature* JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatu
             }),
             new VoidTypeSignature()
     );
-    assertWithMessageTypeSignature->markAsBuiltIn();
+    assertWithMessageTypeSignature->markAsBuiltIn(BI_ASSERT_WITH_MESSAGE_TYPE_SOURCE);
     return assertWithMessageTypeSignature;
 }

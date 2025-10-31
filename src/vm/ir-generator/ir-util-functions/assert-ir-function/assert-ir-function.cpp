@@ -17,10 +17,6 @@ std::string AssertIRFunction::getGlobalDefaultAssertMessageStringName() {
     return "jet.assert.default.message";
 }
 
-std::string AssertIRFunction::getGlobalAssertWithMessageStringName() {
-    return "jet.assert.with.message.string";
-}
-
 void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto defaultMessage = "\n\nAssertion Failed\n";
     auto defaultAssertMessageString = irGenerator->generateRawString(defaultMessage);
@@ -33,24 +29,13 @@ void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::uniq
             AssertIRFunction::getGlobalDefaultAssertMessageStringName()
     );
 
-    std::string customMessageStartingPoint = "Message: ";
-    auto assertWithCustomMessageString = irGenerator->generateRawString(defaultMessage + customMessageStartingPoint);
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            assertWithCustomMessageString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            assertWithCustomMessageString,
-            AssertIRFunction::getGlobalAssertWithMessageStringName()
-    );
-
 }
 
 void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->generateVoidType()->getType();
     auto pointerType = irGenerator->generatePointerType();
-    auto functionType = llvm::FunctionType::get(voidType, { boolType }, false);
+    auto functionType = llvm::FunctionType::get(voidType, { boolType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            AssertIRFunction::getAssertIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -71,6 +56,9 @@ void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::uni
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalDefaultAssertMessageStringName())
     });
+    isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            function->getArg(1)
+    });
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(abort);
     isValueTrueIfElseBlock->addVoidReturn();
 }
@@ -80,7 +68,7 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     auto voidType = irGenerator->generateVoidType()->getType();
     auto pointerType = irGenerator->generatePointerType();
     auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
-    auto functionType = llvm::FunctionType::get(voidType, { boolType, stringArrayPointerType->getType() }, false);
+    auto functionType = llvm::FunctionType::get(voidType, { boolType, stringArrayPointerType->getType(), pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            AssertIRFunction::getAssertWithMessageIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -102,7 +90,10 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     auto pointerToStringAllocation = isValueTrueIfElseBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { stringArrayPointerType->getAllocIndex() });
     auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStringFormatStringName());
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalAssertWithMessageStringName())
+            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalDefaultAssertMessageStringName())
+    });
+    isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            function->getArg(2)
     });
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             formatStringAllocation,

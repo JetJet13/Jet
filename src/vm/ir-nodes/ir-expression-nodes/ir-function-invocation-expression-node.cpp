@@ -29,6 +29,10 @@ std::vector<IRExpressionNode*>* IRFunctionInvocationExpressionNode::getIRArgumen
     return &_arguments;
 }
 
+ASTFunctionInvocationExpressionNode* IRFunctionInvocationExpressionNode::getNode() {
+    return _node;
+}
+
 llvm::Value* IRFunctionInvocationExpressionNode::getValue() {
     return _irFunction;
 }

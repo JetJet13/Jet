@@ -108,6 +108,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         );
     }
 
+    if (functionTypeSignature->isOneOfBuiltInTypeSources({ BI_ASSERT_TYPE_SOURCE, BI_ASSERT_WITH_MESSAGE_TYPE_SOURCE })) {
+        arguments.push_back(irBlock->getBuilder()->get()->CreateGlobalStringPtr(
+                "(" + irExpression->getNode()->getLineColumn() + ") " + irExpression->getNode()->toSourceCode() + "\n\n"));
+    }
+
     auto value = irBlock->getBuilder()->get()->CreateCall(
         llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
         irExpression->getValue(),

@@ -1322,6 +1322,7 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/ref-prototype-type-signature-map/ref-prototype-type-signature-map.h
         pre-processor/semantic-analyzer/type-checker/policies/argument-list-type-checker-policy/argument-list-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h
+        type-signature/types/built-in-type-source.h
 
 )
 

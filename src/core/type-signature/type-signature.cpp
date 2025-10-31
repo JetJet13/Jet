@@ -8,13 +8,30 @@ std::string TypeSignature::getId() {
     return _id;
 }
 
-TypeSignature* TypeSignature::markAsBuiltIn() {
-    _isBuiltIn = true;
+TypeSignature* TypeSignature::markAsBuiltIn(BuiltInTypeSource builtInTypeSource) {
+    _builtInTypeSource = builtInTypeSource;
     return this;
 }
 
 bool TypeSignature::isBuiltIn() {
-    return _isBuiltIn;
+    return _builtInTypeSource.has_value();
+}
+
+bool TypeSignature::builtInTypeSourceIs(BuiltInTypeSource builtInTypeSource) {
+    if (!_builtInTypeSource) {
+        return false;
+    }
+    return _builtInTypeSource.value() == builtInTypeSource;
+}
+
+bool TypeSignature::isOneOfBuiltInTypeSources(std::vector<BuiltInTypeSource> builtInTypeSources) {
+    if (!_builtInTypeSource) {
+        return false;
+    }
+    return std::find(
+            builtInTypeSources.begin(),
+            builtInTypeSources.end(),
+            _builtInTypeSource.value()) != builtInTypeSources.end();
 }
 
 TypeSignature* TypeSignature::markAsPrototype() {

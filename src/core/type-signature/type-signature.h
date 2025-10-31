@@ -6,18 +6,22 @@
 #define JETLANG_TYPE_SIGNATURE_H
 
 #include <vector>
+#include <optional>
 #include <string>
 #include "types/type-source.h"
+#include "types/built-in-type-source.h"
 
 class TypeSignature {
 protected:
     std::string _id;
-    bool _isBuiltIn = false;
+    std::optional<BuiltInTypeSource> _builtInTypeSource = {};
     bool _isPrototype = false;
 public:
     std::string getId();
-    TypeSignature* markAsBuiltIn();
+    TypeSignature* markAsBuiltIn(BuiltInTypeSource builtInTypeSource);
     bool isBuiltIn();
+    bool builtInTypeSourceIs(BuiltInTypeSource builtInTypeSource);
+    bool isOneOfBuiltInTypeSources(std::vector<BuiltInTypeSource> builtInTypeSources);
     TypeSignature* markAsPrototype();
     bool isPrototype();
     TypeSignature* setId(std::string id);

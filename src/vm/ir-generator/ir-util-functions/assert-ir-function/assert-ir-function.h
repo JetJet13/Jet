@@ -14,7 +14,6 @@ public:
     static std::string getAssertIRFunctionName();
     static std::string getAssertWithMessageIRFunctionName();
     static std::string getGlobalDefaultAssertMessageStringName();
-    static std::string getGlobalAssertWithMessageStringName();
     static void generateAssertGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generateAssertFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generateAssertWithMessageFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);

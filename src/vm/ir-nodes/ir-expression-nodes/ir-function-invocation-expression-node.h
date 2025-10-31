@@ -25,6 +25,7 @@ public:
     void markAsGlobal() override;
     std::optional<IRInstructionNode*> getVarArgsTypeValueArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
+    ASTFunctionInvocationExpressionNode* getNode();
     llvm::Value* getValue() override;
     IRType* getFunctionIRType();
     IRType* getIRType() override;
