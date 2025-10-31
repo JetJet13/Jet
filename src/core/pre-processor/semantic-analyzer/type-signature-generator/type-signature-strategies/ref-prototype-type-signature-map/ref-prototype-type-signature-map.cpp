@@ -19,7 +19,7 @@ std::optional<FunctionTypeSignature*> RefPrototypeTypeSignatureMap::find(std::st
         return refOfTypeSignature;
     }
 
-    if (id == "srefWith") {
+    if (id == "srefWith" || id == "sameRefAs") {
         auto srefWithTypeSignature = new FunctionTypeSignature(
                 new ParameterListTypeSignature({
                         new ParameterListItemTypeSignature("other", new RefTypeSignature(refType))

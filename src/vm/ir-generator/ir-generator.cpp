@@ -117,6 +117,7 @@
 #include "ir-prototypes/ir-ref-prototype-map.h"
 #include "ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
 #include "ir-util-functions/sref-with-ir-function/sref-with-ir-function.h"
+#include "ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -701,7 +702,8 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName(),
             RefOfIRFunction::getRefOfIRFunctionName(),
-            SrefWithIRFunction::getSrefWithIRFunctionName()
+            SrefWithIRFunction::getSrefWithIRFunctionName(),
+            SameRefAsIRFunction::getSameRefAsIRFunctionName()
     );
 }
 
@@ -739,6 +741,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
     RefOfIRFunction::generateRefOfFunction(this, &_context, irModule);
     SrefWithIRFunction::generateSrefWithFunction(this, &_context, irModule);
+    SameRefAsIRFunction::generateSameRefAsFunction(this, &_context, irModule);
     SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
     CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);

@@ -381,7 +381,6 @@ void SyntaxDfa::init() {
 
     objectAccessExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
-        AST_UNARY_OPERATOR_NODE,
         AST_PERIOD_NODE
     })
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))

@@ -4,11 +4,14 @@
 
 #include "ir-unary-negate-expression-node.h"
 
-IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type) {
+IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, IRExpressionNode* irExpression, IRType* type) {
     _node = node;
-    _irValue = irValue;
     _irExpression = irExpression;
     _type = type;
+}
+
+IRExpressionNode* IRUnaryNegateExpressionNode::getIRExpression() {
+    return _irExpression;
 }
 
 void IRUnaryNegateExpressionNode::markAsGlobal() {
@@ -16,8 +19,8 @@ void IRUnaryNegateExpressionNode::markAsGlobal() {
     _irExpression->markAsGlobal();
 }
 
-llvm::UnaryOperator* IRUnaryNegateExpressionNode::getValue() {
-    return _irValue;
+llvm::Value* IRUnaryNegateExpressionNode::getValue() {
+    return _irExpression->getValue();
 }
 
 IRType* IRUnaryNegateExpressionNode::getIRType() {
@@ -37,7 +40,5 @@ std::string IRUnaryNegateExpressionNode::toString() {
 }
 
 void IRUnaryNegateExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irValue->print(**stream);
-    stream->get()->write('\n');
     _irExpression->print(stream);
 }

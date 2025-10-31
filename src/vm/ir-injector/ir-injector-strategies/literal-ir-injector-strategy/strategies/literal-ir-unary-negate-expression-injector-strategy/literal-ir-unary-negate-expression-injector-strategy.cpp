@@ -5,5 +5,6 @@
 #include "literal-ir-unary-negate-expression-injector-strategy.h"
 
 llvm::Value* LiteralIRUnaryNegateExpressionInjectorStrategy::inject(IRUnaryNegateExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
-    return irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+    auto value = irInjector->inject(irBlock, irExpression->getIRExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    return irBlock->getBuilder()->get()->CreateXor(value, irBlock->getBuilder()->get()->getTrue());
 }

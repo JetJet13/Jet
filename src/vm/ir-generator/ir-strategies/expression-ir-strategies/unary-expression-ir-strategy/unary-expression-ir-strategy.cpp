@@ -9,7 +9,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperation);
+    auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (node->getUnaryOperatorNode()->isPlus()) {
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
@@ -24,9 +24,6 @@ IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNod
                 expressionIr->getValue()
         ), expressionIr, irType);
     } else {
-        return new IRUnaryNegateExpressionNode(node, llvm::UnaryOperator::Create(
-                llvm::Instruction::UnaryOps::FNeg,
-                expressionIr->getValue()
-        ), expressionIr, irType);
+        return new IRUnaryNegateExpressionNode(node, expressionIr, irType);
     }
 }

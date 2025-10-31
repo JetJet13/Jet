@@ -7,5 +7,6 @@
 typedef enum {
     RP_REF_OF_FUNCTION,
     RP_SREF_WITH_FUNCTION,
+    RP_SAME_REF_AS_FUNCTION,
 } IRRefPrototypeFunctionId;
 #endif //JETLANG_IR_REF_PROTOTYPE_FUNCTION_H

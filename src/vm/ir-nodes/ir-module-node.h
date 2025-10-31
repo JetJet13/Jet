@@ -65,6 +65,7 @@ private:
     std::string _setupRefFunctionName;
     std::string _refOfFunctionName;
     std::string _srefWithFunctionName;
+    std::string _sameRefAsFunctionName;
 public:
     IRModuleNode(llvm::Module* irValue,
                  std::string arrayAccessFunctionName,
@@ -121,7 +122,8 @@ public:
                  std::string setupSrefFunctionName,
                  std::string setupRefFunctionName,
                  std::string refOfFunctionName,
-                 std::string srefWithFunctionName);
+                 std::string srefWithFunctionName,
+                 std::string sameRefAsFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
@@ -178,6 +180,7 @@ public:
     llvm::Function* getSetupRefFunction();
     llvm::Function* getRefOfFunction();
     llvm::Function* getSrefWithFunction();
+    llvm::Function* getSameRefAsFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

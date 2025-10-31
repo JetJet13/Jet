@@ -13,13 +13,13 @@
 class IRUnaryNegateExpressionNode : public IRUnaryExpressionNode {
 private:
     ASTUnaryExpressionNode* _node;
-    llvm::UnaryOperator* _irValue;
     IRExpressionNode* _irExpression;
     IRType* _type;
 public:
-    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, llvm::UnaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
+    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, IRExpressionNode* irExpression, IRType* type);
+    IRExpressionNode* getIRExpression();
     void markAsGlobal() override;
-    llvm::UnaryOperator* getValue() override;
+    llvm::Value* getValue() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;

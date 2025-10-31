@@ -208,7 +208,8 @@ proc testRefFunctions() {
     assert(refMyTuple == myTuple);
     assert(refMyTuple.refOf(myTuple));
     assert(refMyTuple.srefWith(srefMyTuple));
-    assert(refMyTuple.srefWith(otherRefMyTuple));
+    assert(!refMyTuple.srefWith(otherRefMyTuple));
+    assert(refMyTuple.sameRefAs(otherRefMyTuple));
     assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
 

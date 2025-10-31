@@ -16,27 +16,27 @@ void SrefWithIRFunction::generateSrefWithFunction(IRGenerator* irGenerator, std:
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SrefWithIRFunction::getSrefWithIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isRefValuePointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRefValuePointerNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRefValuePointerNotEqualElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isRefCounterPointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
+    auto isRefCounterPointerNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isRefCounterPointerNotEqualElseBlock = irGenerator->generateIfElseBlock(irContext);
 
-    auto firstRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefValueIndex());
-    auto firstRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, firstRefValuePointer, functionBlock);
-    auto secondRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(1), irRefType->getRefValueIndex());
-    auto secondRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, secondRefValuePointer, functionBlock);
-    functionBlock->getBuilder()->get()->CreateBr(isRefValuePointerNotEqualIfBlock->getBlock());
+    auto firstRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefCounterIndex());
+    auto firstRefCounter = InstructionIRInjectorHelper::injectLoad(irRefType->getRefCounterType(), firstRefCounterPointer, functionBlock);
+    auto secondRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(1), irRefType->getRefCounterIndex());
+    auto secondRefCounter = InstructionIRInjectorHelper::injectLoad(irRefType->getRefCounterType(), secondRefCounterPointer, functionBlock);
+    functionBlock->getBuilder()->get()->CreateBr(isRefCounterPointerNotEqualIfBlock->getBlock());
 
-    // isRefValuePointerNotEqualIfBlock
-    auto isRefValuePointerNotEqual = isRefValuePointerNotEqualIfBlock->getBuilder()->get()->CreateICmp(
+    // isRefCounterPointerNotEqualIfBlock
+    auto isRefCounterPointerNotEqual = isRefCounterPointerNotEqualIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_NE,
-            firstRefValue,
-            secondRefValue
+            firstRefCounter,
+            secondRefCounter
     );
-    isRefValuePointerNotEqualIfBlock->getBuilder()->get()->CreateCondBr(isRefValuePointerNotEqual, isRefValuePointerNotEqualIfThenBlock->getBlock(), isRefValuePointerNotEqualElseBlock->getBlock());
+    isRefCounterPointerNotEqualIfBlock->getBuilder()->get()->CreateCondBr(isRefCounterPointerNotEqual, isRefCounterPointerNotEqualIfThenBlock->getBlock(), isRefCounterPointerNotEqualElseBlock->getBlock());
 
-    // isRefValuePointerNotEqualIfThenBlock
-    isRefValuePointerNotEqualIfThenBlock->getBuilder()->get()->CreateRet(irGenerator->generateBoolean(false));
+    // isRefCounterPointerNotEqualIfThenBlock
+    isRefCounterPointerNotEqualIfThenBlock->getBuilder()->get()->CreateRet(irGenerator->generateBoolean(false));
 
-    // isRefValuePointerNotEqualElseBlock
-    isRefValuePointerNotEqualElseBlock->getBuilder()->get()->CreateRet(irGenerator->generateBoolean(true));
+    // isRefCounterPointerNotEqualElseBlock
+    isRefCounterPointerNotEqualElseBlock->getBuilder()->get()->CreateRet(irGenerator->generateBoolean(true));
 }

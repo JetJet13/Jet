@@ -604,6 +604,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/sref-with-ir-function/sref-with-ir-function.h
         ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h
+        ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.cpp
+        ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h
 )
 
 target_link_libraries(jet-vm
