@@ -668,7 +668,9 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             PrintIRFunction::getPrintBoolIRFunctionName(),
             PrintIRFunction::getPrintStringIRFunctionName(),
             PrintIRFunction::getPrintRefIRFunctionName(),
+            PrintIRFunction::getPrintArrayIRFunctionName(),
             PrintIRFunction::getPrintWhitespaceIRFunctionName(),
+            PrintIRFunction::getPrintCommaIRFunctionName(),
             PrintIRFunction::getPrintNewLineIRFunctionName(),
             PrintIRFunction::getPrintDebugMarkerIRFunctionName(),
             PrintIRFunction::getPrintDebugPointerIRFunctionName(),
@@ -731,6 +733,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     PrintIRFunction::declarePrintDebugPointerFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintDebugStringFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintWhitespaceFunction(this, &_context, irModule);
+    PrintIRFunction::declarePrintCommaFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintNewLineFunction(this, &_context, irModule);
 
     // generate

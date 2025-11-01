@@ -35,10 +35,8 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto destinationArrayPointerAllocation = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     auto destinationArrayNumElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), destinationArrayPointerAllocation, arrayPointerType->getNumElementsIndex());
     InstructionIRInjectorHelper::injectStore(sourceArrayNumElements, destinationArrayNumElementsPointer, functionBlock);
-    //    functionBlock->getBuilder()->get()->CreateStore(sourceArrayNumElements, destinationArrayNumElementsPointer);
     auto destinationArrayDepthPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), destinationArrayPointerAllocation, arrayPointerType->getDepthIndex());
     InstructionIRInjectorHelper::injectStore(sourceArrayDepth, destinationArrayDepthPointer, functionBlock);
-    //    functionBlock->getBuilder()->get()->CreateStore(sourceArrayDepth, destinationArrayDepthPointer);
     auto destinationArrayAllocPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), destinationArrayPointerAllocation, arrayPointerType->getAllocIndex());
 
     auto elementTypeValuePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "elementTypeValue");
@@ -64,7 +62,6 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
             ""
     );
     InstructionIRInjectorHelper::injectStore(malloc, destinationArrayAllocPointer, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(malloc, destinationArrayAllocPointer);
 
     std::string depthOnePrefix = "depth.1.";
     std::string depthNPrefix = "depth.n.";
@@ -110,11 +107,9 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
 
     auto elementByteOffset = depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), elementByteOffset, depthOneTypeLiteralFalseBlock);
-//    depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), elementByteOffset);
 
     auto depthOneForLoopIndex = depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "depthOneForLoopIndex");
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), depthOneForLoopIndex, depthOneTypeLiteralFalseBlock);
-//    depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), depthOneForLoopIndex);
 
     // depth 1 for loop
     depthOneTypeLiteralFalseBlock->getBuilder()->get()->CreateBr(depthOneForLoopConditionBlock->getBlock());
@@ -130,7 +125,6 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     // depth 1 for loop body
     auto depthOneForLoopBody = depthOneForLoopBodyBlock->getBuilder()->get();
     auto elementByteOffsetValue = InstructionIRInjectorHelper::injectLoad(intType, elementByteOffset, depthOneForLoopBodyBlock);
-//    auto elementByteOffsetValue = depthOneForLoopBody->CreateLoad(intType, elementByteOffset);
     auto destinationPointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), malloc, { elementByteOffsetValue });
     auto sourcePointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), loadedSourceArrayAllocation, { elementByteOffsetValue });
     depthOneForLoopBody->CreateCall(
@@ -141,11 +135,9 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
 
     auto newElementByteOffsetValue = depthOneForLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, elementByteOffsetValue, elementSizeInBytes);
     InstructionIRInjectorHelper::injectStore(newElementByteOffsetValue, elementByteOffset, depthOneForLoopBodyBlock);
-    //    depthOneForLoopBody->CreateStore(newElementByteOffsetValue, elementByteOffset);
 
     auto newIsElementTypeLiteralFalseForLoopIndexValue = depthOneForLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, depthOneForLoopIndexValue, irGenerator->generateIntConstant(1));
     InstructionIRInjectorHelper::injectStore(newIsElementTypeLiteralFalseForLoopIndexValue, depthOneForLoopIndex, depthOneForLoopBodyBlock);
-    //    depthOneForLoopBody->CreateStore(newIsElementTypeLiteralFalseForLoopIndexValue, depthOneForLoopIndex);
     depthOneForLoopBody->CreateBr(depthOneForLoopConditionBlock->getBlock());
 
     // depth 1 for loop end
@@ -154,7 +146,6 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     // is element type literal end block
     auto loadedDestinationArrayPointer = depthOneTypeLiteralEndBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), destinationArrayPointerAllocation);
     InstructionIRInjectorHelper::injectStore(loadedDestinationArrayPointer, function->getArg(0), depthOneTypeLiteralEndBlock);
-//    depthOneTypeLiteralEndBlock->getBuilder()->get()->CreateStore(loadedDestinationArrayPointer, function->getArg(0));
     depthOneTypeLiteralEndBlock->addVoidReturn();
 
 
@@ -163,7 +154,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto forLoopIndex = depthNForLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
     auto pointerToSourceAlloc = depthNForLoopPrepBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(1), arrayPointerType->getAllocIndex());
     auto sourceAlloc = depthNForLoopPrepBlock->getBuilder()->get()->CreateLoad(pointerType, pointerToSourceAlloc);
-    depthNForLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, depthNForLoopPrepBlock);
 
     // depth N for loop
     depthNForLoopPrepBlock->getBuilder()->get()->CreateBr(depthNForLoopConditionBlock->getBlock());

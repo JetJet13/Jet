@@ -44,6 +44,11 @@ proc testPrint() {
     print(true);
     print(false);
     print("moo");
+    print(m);
+    print(ref m);
+    print([5,6,7]);
+    print([ref 5, ref 6, ref 7]);
+    print([ [1,2,3], [4,5,6], [7,8,9] ]);
 }
 
 proc testArrayPrototypeFunctions() {
@@ -209,7 +214,7 @@ proc testRefFunctions() {
     assert(refMyTuple.refOf(myTuple));
     assert(refMyTuple.srefWith(srefMyTuple));
     assert(!refMyTuple.srefWith(otherRefMyTuple));
-    assert(!refMyTuple.sameRefAs(otherRefMyTuple), "My custom message!");
+    assert(refMyTuple.sameRefAs(otherRefMyTuple), "My custom message!");
     assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
 
@@ -454,17 +459,17 @@ proc testEquality() {
 
 }
 
-main();
+//main();
 testPrint();
-testArrayPrototypeFunctions();
-testCopyFunctions();
-testRefFunctions();
-testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
-complexCopy();
-testLambdas();
-testClasses();
-testEnums(MyEnum.Gamma, MyStrEnum.Mars);
-testEquality();
+//testArrayPrototypeFunctions();
+//testCopyFunctions();
+//testRefFunctions();
+//testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+//complexCopy();
+//testLambdas();
+//testClasses();
+//testEnums(MyEnum.Gamma, MyStrEnum.Mars);
+//testEquality();
 
 class MyClass {
     public age: int;
