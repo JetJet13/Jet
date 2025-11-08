@@ -680,6 +680,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             PrintIRFunction::getPrintStringIRFunctionName(),
             PrintIRFunction::getPrintRefIRFunctionName(),
             PrintIRFunction::getPrintArrayIRFunctionName(),
+            PrintIRFunction::getPrintStructIRFunctionName(),
             PrintIRFunction::getPrintWhitespaceIRFunctionName(),
             PrintIRFunction::getPrintCommaIRFunctionName(),
             PrintIRFunction::getPrintNewLineIRFunctionName(),
