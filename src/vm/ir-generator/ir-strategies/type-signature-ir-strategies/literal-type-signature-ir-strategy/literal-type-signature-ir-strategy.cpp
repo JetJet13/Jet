@@ -56,6 +56,7 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(IR_TYPE_ID.INT),
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
+                llvm::ConstantPointerNull::get(pointerType),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else if (irType->isFloatType()) {
@@ -63,6 +64,7 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(IR_TYPE_ID.FLOAT),
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
+                llvm::ConstantPointerNull::get(pointerType),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else if (irType->isCharType()) {
@@ -70,6 +72,7 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(IR_TYPE_ID.CHAR),
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
+                llvm::ConstantPointerNull::get(pointerType),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else if (irType->isBoolType()) {
@@ -77,6 +80,7 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(IR_TYPE_ID.BOOL),
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
+                llvm::ConstantPointerNull::get(pointerType),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else {
@@ -84,6 +88,7 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(IR_TYPE_ID.STRING),
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
+                llvm::ConstantPointerNull::get(pointerType),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     }

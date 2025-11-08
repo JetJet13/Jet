@@ -6,5 +6,6 @@
 
 void CustomTypeTypeSignatureStrategy::assign(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
     auto customTypeSignature = typeSignatureLookupTable->find(node->getId());
+    customTypeSignature->setId(node->getId());
     node->setTypeSignature(customTypeSignature);
 }

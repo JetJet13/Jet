@@ -7,6 +7,7 @@
 
 #include "ir-struct-type.h"
 #include "ir-function-parameter-type.h"
+#include "ir-lambda-parameter-list-type.h"
 
 class IRLambdaType : public IRType {
 private:
@@ -14,8 +15,10 @@ private:
     IRPointerType* _irType;
     IRFunctionParameterType* _lambdaVariableType;
     std::optional<IRType*> _lambdaScopeType;
+    IRLambdaParameterListType* _parameterList;
+    IRType* _returnType;
 public:
-    IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, std::optional<IRType*> lambdaScopeType = {});
+    IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRType*> lambdaScopeType = {});
     bool isLambdaType() override;
     bool isFunctionType() override;
     std::optional<IRType*> getLambdaScopeType();

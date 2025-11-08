@@ -6,6 +6,7 @@
 #include "../../shared/utils/logger/logger.h"
 
 IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType) : IRType(irClassType->getClassProperties()->getType()) {
+    _id = irClassType->getId();
     _irClassType = irClassType;
     _irConstructorType = irConstructorType;
 }

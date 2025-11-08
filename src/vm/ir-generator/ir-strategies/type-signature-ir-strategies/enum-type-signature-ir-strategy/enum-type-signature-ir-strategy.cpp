@@ -20,5 +20,7 @@ IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSig
         keyTypeMap.insert(std::pair(enumKey, enumPropertyType));
     }
 
-    return new IREnumType(llvm::StructType::get(**irContext->getContext(), enumPropertyTypes), keyIndexMap, keyTypeMap);
+    auto irType = new IREnumType(llvm::StructType::get(**irContext->getContext(), enumPropertyTypes), keyIndexMap, keyTypeMap);
+    irType->setId(enumTypeSignature->getId());
+    return irType;
 }

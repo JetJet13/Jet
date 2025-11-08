@@ -37,6 +37,14 @@ uint64_t IRType::getSizeInBytes() {
     }
 }
 
+std::string IRType::getId() {
+    return _id;
+}
+
+void IRType::setId(std::string id) {
+    _id = id;
+}
+
 void IRType::setValue(IRInstructionNode* value) {
     _value = value;
 }

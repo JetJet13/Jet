@@ -13,6 +13,7 @@ class IRInstructionNode;
 
 class IRType {
 protected:
+    std::string _id;
     llvm::Type* _type;
     std::optional<IRInstructionNode*> _value;
     std::optional<llvm::Align> _alignmentOverride;
@@ -25,6 +26,8 @@ public:
     virtual uint64_t getSizeInBytes();
     virtual llvm::Align getAlignment();
     virtual void setAlignmentOverride(llvm::Align alignmentOverride);
+    std::string getId();
+    void setId(std::string id);
     void setValue(IRInstructionNode* value);
     IRInstructionNode* getValue();
     void setSizeInBytesOverride(unsigned long sizeInBytes);

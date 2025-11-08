@@ -3,13 +3,21 @@
 //
 
 #include "ir-lambda-type.h"
-#include "../../shared/utils/logger/logger.h"
 
-IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, std::optional<IRType*> lambdaScopeType) : IRType(type) {
+// todo - continue implementing ids for IR Types so we can
+// generate a struct type id that we will use to create a
+// global variable to hold the list of keys of the struct.
+// the global variable will then be referenced in the
+// type-value object for structs so we can print the
+// struct keys when we want to print a struct value.
+// remember: struct field order matters!
+IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRType*> lambdaScopeType) : IRType(type) {
     _type = type;
     _irType = irType;
     _lambdaVariableType = lambdaVariableType;
     _lambdaScopeType = lambdaScopeType;
+    _parameterList = parameterList;
+    _returnType = returnType;
 }
 
 bool IRLambdaType::isLambdaType() {
@@ -41,6 +49,5 @@ llvm::Align IRLambdaType::getAlignment() {
 }
 
 void IRLambdaType::print() {
-    Logger::log("IR LAMBDA TYPE");
     _type->print(llvm::outs());
 }

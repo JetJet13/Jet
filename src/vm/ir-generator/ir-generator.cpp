@@ -137,7 +137,8 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
             this->generateIntType(),
             this->generateIntType(),
             this->generateIntType(),
-            this->generatePointerType()
+            this->generatePointerType(),
+            this->generatePointerType(),
     }, "TypeValueType");
     _refType = llvm::StructType::create(*_context, {
             this->generatePointerType(),
@@ -416,11 +417,15 @@ IRPointerType* IRGenerator::generateIrPointerType(IRType* type) {
 }
 
 IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
-    return new IRRefType(_refType, new IRType(this->generateIntType()), underlyingIRType);
+    auto irRefType = new IRRefType(_refType, new IRType(this->generateIntType()), underlyingIRType);
+    irRefType->setId("ref." + underlyingIRType->getId());
+    return irRefType;
 }
 
 IRArrayType* IRGenerator::generateIRArrayType(IRType* elementType, unsigned long size) {
-    return new IRArrayType(llvm::ArrayType::get(elementType->getType(), size), elementType);
+    auto irArrayType = new IRArrayType(llvm::ArrayType::get(elementType->getType(), size), elementType);
+    irArrayType->setId("array." + elementType->getId());
+    return irArrayType;
 }
 
 std::string IRGenerator::getArrayPrototypeFunctionName(std::string id) {
@@ -483,11 +488,11 @@ llvm::IntegerType* IRGenerator::generatePointerIntType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
-IRInstructionNode* IRGenerator::generateIRTypeValueFor(IRType* irType) {
+IRInstructionNode* IRGenerator::generateIRTypeValueFor(IRType* irType, IRContext* irContext) {
     if (irType->isRefType()) {
         return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue((IRRefType*)irType, this);
     } else if (irType->isStructType()) {
-        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue((IRStructType*)irType, this);
+        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue((IRStructType*)irType, this, irContext);
     } else if (irType->isArrayPointerType()) {
         return this->_irStrategyMap.getArrayTypeSignatureIRStrategy()->generateTypeValue((IRArrayPointerType*)irType, this);
     } else if (irType->isPointerType()) {
@@ -546,11 +551,15 @@ llvm::Constant* IRGenerator::generateRawString(std::string rawString) {
 }
 
 IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRPointerType* irPointerType) {
-    return new IRArrayPointerType(this->getArrayPointerType(), irPointerType->getSourceType());
+    auto irArrayPointerType = new IRArrayPointerType(this->getArrayPointerType(), irPointerType->getSourceType());
+    irArrayPointerType->setId("arrayPointer." + irArrayPointerType->getElementIRType()->getId());
+    return irArrayPointerType;
 }
 
 IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElementType) {
-    return new IRArrayPointerType(this->getArrayPointerType(), arrayElementType);
+    auto irArrayPointerType = new IRArrayPointerType(this->getArrayPointerType(), arrayElementType);
+    irArrayPointerType->setId("arrayPointer." + irArrayPointerType->getElementIRType()->getId());
+    return irArrayPointerType;
 }
 
 IRType* IRGenerator::generateIRCharType() {
@@ -558,7 +567,9 @@ IRType* IRGenerator::generateIRCharType() {
 }
 
 IRArrayPointerType* IRGenerator::generateIrStringArrayPointerType() {
-    return new IRArrayPointerType(this->getArrayPointerType(), this->generateIRCharType());
+    auto irArrayPointerType = new IRArrayPointerType(this->getArrayPointerType(), this->generateIRCharType());
+    irArrayPointerType->setId("arrayPointer." + irArrayPointerType->getElementIRType()->getId());
+    return irArrayPointerType;
 }
 
 llvm::StructType* IRGenerator::generateArrayPointerType() {

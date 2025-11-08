@@ -25,6 +25,7 @@ IRInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointe
             irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY),
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);

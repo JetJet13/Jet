@@ -3,7 +3,6 @@
 //
 
 #include "custom-type-declaration-ir-strategy.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 IRCustomTypeDeclarationNode* CustomTypeDeclarationIRStrategy::generate(ASTCustomTypeDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);

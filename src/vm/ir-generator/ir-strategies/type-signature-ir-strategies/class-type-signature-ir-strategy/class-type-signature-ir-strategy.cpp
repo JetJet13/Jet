@@ -3,7 +3,7 @@
 //
 
 #include "class-type-signature-ir-strategy.h"
-#include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../../shared/utils/md5/md5.h"
 
 IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto classPropertyTypes = std::vector<llvm::Type*>();
@@ -16,10 +16,12 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
                 std::pair(keyValue.first, classTypeSignature->getProperties()->findKeyIndex(keyValue.first))
         );
         keyTypeMap.insert(std::pair(keyValue.first, irType));
+
     }
     auto classProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyTypeMap);
+    classProperties->setId(classTypeSignature->getId());
     classProperties->setAlignmentAndSizeForIRTypes();
-    classProperties->setValue(irGenerator->generateIRTypeValueFor(classProperties));
+    classProperties->setValue(irGenerator->generateIRTypeValueFor(classProperties, irContext));
 
     auto constructorReturnType = irGenerator->generateVoidType()->getType();
     auto classConstructors = std::unordered_map<std::string, IRFunctionType*>();
@@ -40,7 +42,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         classMethods[keyValue.first] = new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false));
     }
 
-    return new IRClassType(
+    auto irClassType = new IRClassType(
             classTypeSignature->getId(),
             classProperties,
             classTypeSignature->isClassScopeParameterNecessary()
@@ -50,4 +52,6 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
             classMethods,
             classTypeSignature->getPreConstructorName()
     );
+    irClassType->setId(classTypeSignature->getId());
+    return irClassType;
 }

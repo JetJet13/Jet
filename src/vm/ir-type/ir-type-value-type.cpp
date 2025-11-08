@@ -10,6 +10,7 @@ IRTypeValueType::IRTypeValueType(llvm::StructType* type) : IRType(type) {
     _sizeInBytesIndex = 1;
     _numTypesIndex = 2;
     _allocIndex = 3;
+    _keysIndex = 4;
 }
 
 llvm::StructType* IRTypeValueType::getType() {
@@ -32,12 +33,21 @@ unsigned int IRTypeValueType::getAllocIndex() const {
     return _allocIndex;
 }
 
+unsigned int IRTypeValueType::getKeysIndex() const {
+    return _keysIndex;
+}
+
 llvm::PointerType* IRTypeValueType::getAllocType() {
     return llvm::cast<llvm::PointerType>(_type->getStructElementType(_allocIndex));
 }
 
+llvm::PointerType* IRTypeValueType::getKeysType() {
+    return llvm::cast<llvm::PointerType>(_type->getStructElementType(_keysIndex));
+}
+
+
 uint64_t IRTypeValueType::getSizeInBytes() {
-    return 32;
+    return 40;
 }
 
 bool IRTypeValueType::isTypeValueType() {

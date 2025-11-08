@@ -117,7 +117,7 @@ public:
     llvm::IntegerType* generateBooleanType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generatePointerIntType();
-    IRInstructionNode* generateIRTypeValueFor(IRType* irType);
+    IRInstructionNode* generateIRTypeValueFor(IRType* irType, IRContext* irContext);
     IRTypeValueType* generateIrTypeValueType();
     llvm::AllocaInst* generateIrTypeValueTypeAllocation();
     llvm::StoreInst* generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType);

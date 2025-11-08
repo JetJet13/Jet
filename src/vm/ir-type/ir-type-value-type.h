@@ -15,6 +15,7 @@ private:
     unsigned int _sizeInBytesIndex;
     unsigned int _numTypesIndex;
     unsigned int _allocIndex;
+    unsigned int _keysIndex;
 public:
     explicit IRTypeValueType(llvm::StructType* type);
     llvm::StructType* getType() override;
@@ -22,7 +23,9 @@ public:
     [[nodiscard]] unsigned int getSizeInBytesIndex() const;
     [[nodiscard]] unsigned int getNumTypesIndex() const;
     [[nodiscard]] unsigned int getAllocIndex() const;
+    [[nodiscard]] unsigned int getKeysIndex() const;
     llvm::PointerType* getAllocType();
+    llvm::PointerType* getKeysType();
     uint64_t getSizeInBytes() override;
     bool isTypeValueType() override;
 };

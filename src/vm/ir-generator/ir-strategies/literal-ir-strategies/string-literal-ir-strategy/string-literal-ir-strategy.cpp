@@ -3,10 +3,8 @@
 //
 
 #include <llvm/IR/Constants.h>
-#include <llvm/IR/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
 #include "string-literal-ir-strategy.h"
-#include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* node, IRGenerator* irGenerator, IRContext* irContext) {

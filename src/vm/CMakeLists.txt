@@ -606,6 +606,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.cpp
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h
+        ir-type/ir-lambda-parameter-list-type.cpp
+        ir-type/ir-lambda-parameter-list-type.h
 )
 
 target_link_libraries(jet-vm

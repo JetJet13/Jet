@@ -41,8 +41,6 @@ void IRStructType::setAlignmentAndSizeForIRTypes() {
         }
     }
 
-
-
 }
 
 unsigned long IRStructType::size() {
