@@ -8,6 +8,7 @@
 IRPointerType* PointerTypeSignatureIRStrategy::generate(PointerTypeSignature* pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto underlyingIRType = irGenerator->generateTypeFor(pointerTypeSignature->getUnderlyingType(), scope, irContext);
     auto irPointerType = IRPointerType::create(underlyingIRType);
+    irPointerType->setKeyId(pointerTypeSignature->getKeyId());
     irPointerType->setValue(this->generateTypeValue(irPointerType, irGenerator));
     return irPointerType;
 }
@@ -19,6 +20,7 @@ IRInstructionNode* PointerTypeSignatureIRStrategy::generateTypeValue(IRPointerTy
             irGenerator->generateIntConstant(IR_TYPE_ID.POINTER),
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });

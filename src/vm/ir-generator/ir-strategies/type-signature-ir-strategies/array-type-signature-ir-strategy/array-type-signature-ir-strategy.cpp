@@ -10,15 +10,16 @@ IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* a
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType(), scope, irContext);
     if (arrayElementType->isPointerType()) {
         auto irArrayPointerType = irGenerator->generateIrArrayPointerType((IRPointerType*)arrayElementType);
-        irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator));
+        irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator, irContext));
         return irArrayPointerType;
     }
     auto irArrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
-    irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator));
+    irArrayPointerType->setKeyId(arrayTypeSignature->getKeyId());
+    irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator, irContext));
     return irArrayPointerType;
 }
 
-IRInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator) {
+IRInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -26,6 +27,9 @@ IRInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointe
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            irType->hasKeyId()
+            ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
+            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);

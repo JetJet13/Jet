@@ -35,7 +35,6 @@ IRLambdaType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignat
         returnType,
         lambdaScopeIrType
     );
-    irLambdaType->setId("lambda." + parameterList->getId() + returnType->getId());
     return irLambdaType;
 }
 

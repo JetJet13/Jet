@@ -3,15 +3,17 @@
 //
 
 #include "struct-expression-type-signature-strategy.h"
-#include "../../../../../../type-signature/struct-type-signature/struct-type-signature.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 void StructExpressionTypeSignatureStrategy::assign(ASTStructExpressionNode* structExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto structTypeSignature = new StructTypeSignature();
     for (auto keyValuePair : structExpression->getKeyValuePairs()) {
         strategyMap->assignTypeSignatureFor(keyValuePair->getValue(), scope);
+        auto valueTypeSignature = keyValuePair->getValue()->getTypeSignature()->convertToVariableTypeSignature();
+        valueTypeSignature->setKeyId(keyValuePair->getKey()->getIdentifierNode()->getId());
         structTypeSignature->addKeyValuePair(
                 keyValuePair->getKey()->getIdentifierNode()->getId(),
-                keyValuePair->getValue()->getTypeSignature()->convertToVariableTypeSignature()
+                valueTypeSignature
         );
     }
 

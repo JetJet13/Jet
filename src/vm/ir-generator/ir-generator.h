@@ -128,6 +128,7 @@ public:
     llvm::ConstantInt* generateBoolean(bool value);
     llvm::ConstantInt* generateInt64Constant(int integer);
     llvm::Constant* generateRawString(std::string rawString);
+    llvm::Constant* getOrInsertGlobalVariableString(std::string id, std::string rawString, IRContext* irContext);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
     IRType* generateIRCharType();

@@ -14,10 +14,12 @@
 class TypeSignature {
 protected:
     std::string _id;
+    std::string _keyId;
     std::optional<BuiltInTypeSource> _builtInTypeSource = {};
     bool _isPrototype = false;
 public:
     std::string getId();
+    std::string getKeyId();
     TypeSignature* markAsBuiltIn(BuiltInTypeSource builtInTypeSource);
     bool isBuiltIn();
     bool builtInTypeSourceIs(BuiltInTypeSource builtInTypeSource);
@@ -25,6 +27,7 @@ public:
     TypeSignature* markAsPrototype();
     bool isPrototype();
     TypeSignature* setId(std::string id);
+    TypeSignature* setKeyId(std::string id);
     bool typeTargetIs(TypeSource other);
     bool typeSourceIs(TypeSource other);
     bool isOneOf(std::vector<TypeSource> typeSources);

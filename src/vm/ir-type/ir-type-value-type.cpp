@@ -10,7 +10,8 @@ IRTypeValueType::IRTypeValueType(llvm::StructType* type) : IRType(type) {
     _sizeInBytesIndex = 1;
     _numTypesIndex = 2;
     _allocIndex = 3;
-    _keysIndex = 4;
+    _keyIndex = 4;
+    _valueIdIndex = 5;
 }
 
 llvm::StructType* IRTypeValueType::getType() {
@@ -33,21 +34,28 @@ unsigned int IRTypeValueType::getAllocIndex() const {
     return _allocIndex;
 }
 
-unsigned int IRTypeValueType::getKeysIndex() const {
-    return _keysIndex;
+unsigned int IRTypeValueType::getKeyIndex() const {
+    return _keyIndex;
+}
+
+unsigned int IRTypeValueType::getValueIdIndex() const {
+    return _valueIdIndex;
 }
 
 llvm::PointerType* IRTypeValueType::getAllocType() {
     return llvm::cast<llvm::PointerType>(_type->getStructElementType(_allocIndex));
 }
 
-llvm::PointerType* IRTypeValueType::getKeysType() {
-    return llvm::cast<llvm::PointerType>(_type->getStructElementType(_keysIndex));
+llvm::PointerType* IRTypeValueType::getKeyType() {
+    return llvm::cast<llvm::PointerType>(_type->getStructElementType(_keyIndex));
 }
 
+llvm::PointerType* IRTypeValueType::getValueIdType() {
+    return llvm::cast<llvm::PointerType>(_type->getStructElementType(_valueIdIndex));
+}
 
 uint64_t IRTypeValueType::getSizeInBytes() {
-    return 40;
+    return 48;
 }
 
 bool IRTypeValueType::isTypeValueType() {

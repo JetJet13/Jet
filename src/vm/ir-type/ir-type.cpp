@@ -41,8 +41,24 @@ std::string IRType::getId() {
     return _id;
 }
 
+bool IRType::hasId() {
+    return !_id.empty();
+}
+
 void IRType::setId(std::string id) {
     _id = id;
+}
+
+std::string IRType::getKeyId() {
+    return _keyId;
+}
+
+bool IRType::hasKeyId() {
+    return !_keyId.empty();
+}
+
+void IRType::setKeyId(std::string id) {
+    _keyId = id;
 }
 
 void IRType::setValue(IRInstructionNode* value) {

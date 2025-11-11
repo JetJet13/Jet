@@ -21,7 +21,8 @@ namespace TupleExpressionTypeCheckerPolicy {
             typeCheckerResult
         );
 
-        for (auto tupleItem : tupleExpression->getItems()) {
+        for (int i = 0; i < tupleExpression->numItems(); ++i) {
+            auto tupleItem = tupleExpression->getItems()->at(i);
             TypeChecker::applyPolicyTo(tupleItem->getItem(), typeCheckerResult);
         }
     }

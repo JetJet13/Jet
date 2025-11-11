@@ -12,14 +12,7 @@
 #include "../../../../type-signature/literal-type-signature/bool-literal-type-signature.h"
 
 class LiteralTypeSignatureLookupTable {
-private:
-    IntLiteralTypeSignature _intLiteralTypeSignature;
-    FloatLiteralTypeSignature _floatLiteralTypeSignature;
-    CharLiteralTypeSignature _charLiteralTypeSignature;
-    StringLiteralTypeSignature _stringLiteralTypeSignature;
-    BoolLiteralTypeSignature _boolLiteralTypeSignature;
 public:
-    LiteralTypeSignatureLookupTable();
     IntLiteralTypeSignature* getIntLiteralTypeSignature();
     FloatLiteralTypeSignature* getFloatLiteralTypeSignature();
     CharLiteralTypeSignature* getCharLiteralTypeSignature();

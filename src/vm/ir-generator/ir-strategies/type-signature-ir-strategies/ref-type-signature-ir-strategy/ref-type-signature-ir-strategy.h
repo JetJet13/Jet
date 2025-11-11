@@ -12,7 +12,7 @@
 class RefTypeSignatureIRStrategy {
 public:
     IRRefType* generate(RefTypeSignature* refTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRInstructionNode* generateTypeValue(IRRefType* irType, IRGenerator* irGenerator);
+    IRInstructionNode* generateTypeValue(IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_REF_TYPE_SIGNATURE_IR_STRATEGY_H

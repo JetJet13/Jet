@@ -21,6 +21,7 @@ public:
     static std::string getGlobalStringFormatStringName();
     static std::string getGlobalPointerFormatStringName();
     static std::string getGlobalCommaFormatStringName();
+    static std::string getGlobalColonFormatStringName();
     static std::string getGlobalRefStartFormatStringName();
     static std::string getGlobalRefEndFormatStringName();
     static std::string getGlobalArrayStartFormatStringName();

@@ -41,6 +41,10 @@ std::string PrintIRFunction::getGlobalCommaFormatStringName() {
     return "jet.print.comma.format.string";
 }
 
+std::string PrintIRFunction::getGlobalColonFormatStringName() {
+    return "jet.print.colon.format.string";
+}
+
 std::string PrintIRFunction::getGlobalRefStartFormatStringName() {
     return "jet.print.ref.start.format.string";
 }
@@ -311,6 +315,15 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
             llvm::GlobalValue::ExternalLinkage,
             structEndFormatString,
             PrintIRFunction::getGlobalStructEndFormatStringName()
+    );
+    auto colonFormatString = PrintIRFunction::generateStringAllocation({ ':', ' ' }, irGenerator, context, irModuleNode);
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule(),
+            colonFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            colonFormatString,
+            PrintIRFunction::getGlobalColonFormatStringName()
     );
 }
 
@@ -1011,8 +1024,12 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
-    auto addCommaIfBlock = irGenerator->generateIfBlock(irContext, "whitespace.");
-    auto addCommaIfThenBlock = irGenerator->generateIfThenBlock(irContext, "whitespace.");
+    auto addIdBlock = irGenerator->generateIfBlock(irContext, "id.");
+    auto addIdThenBlock = irGenerator->generateIfBlock(irContext, "id.");
+    auto addStructStartBlock = irGenerator->generateIfBlock(irContext, "start.");
+    auto addKeyBlock = irGenerator->generateIfBlock(irContext, "key.");
+    auto addCommaIfBlock = irGenerator->generateIfBlock(irContext, "comma.");
+    auto addCommaIfThenBlock = irGenerator->generateIfThenBlock(irContext, "comma.");
     auto intIfBlock = irGenerator->generateIfBlock(irContext, "int.");
     auto intIfThenBlock = irGenerator->generateIfThenBlock(irContext, "int.");
     auto floatIfBlock = irGenerator->generateIfBlock(irContext, "float.");
@@ -1041,13 +1058,26 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
     auto structElementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), structElementByteOffset, functionBlock);
-    auto structStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStructStartFormatStringName());
-    functionBlock->getBuilder()->get()->CreateCall(printf, { structStartString });
 
     // forLoopIndexArgumentAlloc is for printRef, printArray and printStruct calls only
     auto forLoopIndexArgumentAlloc = functionBlock->getBuilder()->get()->CreateAlloca(intType);
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndexArgumentAlloc, functionBlock);
-    functionBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
+    functionBlock->getBuilder()->get()->CreateBr(addIdBlock->getBlock());
+
+    auto structId = addIdBlock->getBuilder()->get()->CreateExtractValue(structTypeValue, { typeValueType->getValueIdIndex() });
+    auto isIdNotNull = addIdBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_NE,
+            structId,
+            llvm::ConstantPointerNull::get(pointerType)
+    );
+    addIdBlock->getBuilder()->get()->CreateCondBr(isIdNotNull, addIdThenBlock->getBlock(), addStructStartBlock->getBlock());
+    addIdThenBlock->getBuilder()->get()->CreateCall(printf, { structId });
+    addIdThenBlock->getBuilder()->get()->CreateBr(addStructStartBlock->getBlock());
+
+    auto structStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStructStartFormatStringName());
+    addStructStartBlock->getBuilder()->get()->CreateCall(printf, { structStartString });
+    addStructStartBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
+
 
     // for loop condition
     auto forLoopIndexValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex);
@@ -1063,8 +1093,8 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto structElementTypeValueAtIndexPointerLoaded = InstructionIRInjectorHelper::injectLoad(pointerType, structElementTypeValueAtIndexPointer, forLoopBodyBlock);
     auto structElementTypeValueAtIndex = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), structElementTypeValueAtIndexPointerLoaded, forLoopBodyBlock, typeValueType);
     auto structElementTypeValueIdAtIndex = forLoopBodyBlock->getBuilder()->get()->CreateExtractValue(structElementTypeValueAtIndex, typeValueType->getIdIndex());
+    auto structElementKeyAtIndex = forLoopBodyBlock->getBuilder()->get()->CreateExtractValue(structElementTypeValueAtIndex, typeValueType->getKeyIndex());
     auto structElementByteOffsetValue = InstructionIRInjectorHelper::injectLoad(intType, structElementByteOffset, forLoopBodyBlock);
-    auto structElementKey = forLo
     auto pointerToElementValue = forLoopBodyBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, loadedStructPointer, { structElementByteOffsetValue });
     auto structElementValueAlloc = forLoopBodyBlock->getBuilder()->get()->CreateAlloca(pointerType);
     InstructionIRInjectorHelper::injectStore(pointerToElementValue, structElementValueAlloc, forLoopBodyBlock);
@@ -1078,10 +1108,15 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     addCommaIfBlock->getBuilder()->get()->CreateCondBr(
             forLoopIndexGreaterThenZero,
             addCommaIfThenBlock->getBlock(),
-            intIfBlock->getBlock()
+            addKeyBlock->getBlock()
     );
     addCommaIfThenBlock->getBuilder()->get()->CreateCall(irContext->getIRModule()->getPrintCommaFunction());
-    addCommaIfThenBlock->getBuilder()->get()->CreateBr(intIfBlock->getBlock());
+    addCommaIfThenBlock->getBuilder()->get()->CreateBr(addKeyBlock->getBlock());
+
+    auto colonString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalColonFormatStringName());
+    addKeyBlock->getBuilder()->get()->CreateCall(printf, { structElementKeyAtIndex });
+    addKeyBlock->getBuilder()->get()->CreateCall(printf, { colonString });
+    addKeyBlock->getBuilder()->get()->CreateBr(intIfBlock->getBlock());
 
     auto isValueTypeInteger = intIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,

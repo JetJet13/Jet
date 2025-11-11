@@ -139,7 +139,7 @@ bool IRStructType::isStructType() {
 }
 
 void IRStructType::print() {
-    Logger::log("IR STRUCT TYPE");
+    Logger::log("IR STRUCT TYPE", this->getId(), this->getKeyId());
     llvm::outs().write_escaped("|");
     _type->print(llvm::outs(), true, true);
     llvm::outs().write_escaped("|");

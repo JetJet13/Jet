@@ -10,36 +10,41 @@
 IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(irGenerator->generateIntType());
-        irType->setValue(this->generateTypeValue(irType, irGenerator));
+        irType->setKeyId(literalTypeSignature->getKeyId());
+        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(irGenerator->generateFloatType());
-        irType->setValue(this->generateTypeValue(irType, irGenerator));
+        irType->setKeyId(literalTypeSignature->getKeyId());
+        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(CHAR_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 8));
-        irType->setValue(this->generateTypeValue(irType, irGenerator));
+        irType->setKeyId(literalTypeSignature->getKeyId());
+        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(BOOL_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 1));
-        irType->setValue(this->generateTypeValue(irType, irGenerator));
+        irType->setKeyId(literalTypeSignature->getKeyId());
+        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto charType = llvm::IntegerType::get(**irContext->getContext(), 8);
         auto irCharType = new IRType(charType);
-        irCharType->setValue(this->generateTypeValue(irCharType, irGenerator));
+        irCharType->setValue(this->generateTypeValue(irCharType, irGenerator, irContext));
         auto irType = irGenerator->generateIrArrayPointerType(irCharType);
-        irType->setValue(this->generateTypeValue(irType, irGenerator));
+        irType->setKeyId(literalTypeSignature->getKeyId());
+        irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else {
         return new IRType(irGenerator->generateLiteralType());
     }
 }
 
-IRInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator) {
+IRInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
-    auto initialValue = this->generateInitialTypeValue(irType, irTypeValueType, irGenerator);
+    auto initialValue = this->generateInitialTypeValue(irType, irTypeValueType, irGenerator, irContext);
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);
     return new IRInstructionNode(
         allocation,
@@ -49,7 +54,7 @@ IRInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irT
     );
 }
 
-llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* irType, IRTypeValueType* irTypeValueType, IRGenerator* irGenerator) {
+llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* irType, IRTypeValueType* irTypeValueType, IRGenerator* irGenerator, IRContext* irContext) {
     auto pointerType = irGenerator->generatePointerType();
     if (irType->isIntegerType()) {
         return llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -57,6 +62,9 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
                 llvm::ConstantPointerNull::get(pointerType),
+                irType->hasKeyId()
+                ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
+                : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else if (irType->isFloatType()) {
@@ -65,6 +73,9 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
                 llvm::ConstantPointerNull::get(pointerType),
+                irType->hasKeyId()
+                ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
+                : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else if (irType->isCharType()) {
@@ -73,6 +84,9 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
                 llvm::ConstantPointerNull::get(pointerType),
+                irType->hasKeyId()
+                ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
+                : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else if (irType->isBoolType()) {
@@ -81,6 +95,9 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
                 llvm::ConstantPointerNull::get(pointerType),
+                irType->hasKeyId()
+                ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
+                : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     } else {
@@ -89,6 +106,9 @@ llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* ir
                 irGenerator->generateIntConstant(irType->getSizeInBytes()),
                 irGenerator->generateIntConstant(0),
                 llvm::ConstantPointerNull::get(pointerType),
+                irType->hasKeyId()
+                ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
+                : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
                 llvm::ConstantPointerNull::get(pointerType)
         });
     }

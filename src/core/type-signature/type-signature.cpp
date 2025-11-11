@@ -8,6 +8,10 @@ std::string TypeSignature::getId() {
     return _id;
 }
 
+std::string TypeSignature::getKeyId() {
+    return _keyId;
+}
+
 TypeSignature* TypeSignature::markAsBuiltIn(BuiltInTypeSource builtInTypeSource) {
     _builtInTypeSource = builtInTypeSource;
     return this;
@@ -46,6 +50,11 @@ bool TypeSignature::isPrototype() {
 
 TypeSignature* TypeSignature::setId(std::string id) {
     _id = id;
+    return this;
+}
+
+TypeSignature* TypeSignature::setKeyId(std::string id) {
+    _keyId = id;
     return this;
 }
 

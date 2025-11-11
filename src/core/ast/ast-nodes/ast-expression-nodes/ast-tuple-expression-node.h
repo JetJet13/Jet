@@ -24,7 +24,7 @@ private:
 public:
     ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd);
     ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, std::vector<ASTCommaNode*> commas, ASTTupleListEndNode* tupleListEnd);
-    std::vector<ASTTupleItemNode*> getItems();
+    std::vector<ASTTupleItemNode*>* getItems();
     unsigned long numItems();
     ASTTupleExpressionNode* addItem(ASTTupleItemNode* item);
     ASTTupleExpressionNode* addComma(ASTCommaNode* comma);

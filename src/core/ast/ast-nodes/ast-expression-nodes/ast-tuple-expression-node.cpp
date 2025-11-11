@@ -23,8 +23,8 @@ ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListS
     }
 }
 
-std::vector<ASTTupleItemNode*> ASTTupleExpressionNode::getItems() {
-    return _items;
+std::vector<ASTTupleItemNode*>* ASTTupleExpressionNode::getItems() {
+    return &_items;
 }
 
 unsigned long ASTTupleExpressionNode::numItems() {
@@ -79,7 +79,7 @@ bool ASTTupleExpressionNode::isSameAs(ASTNode *other) {
         return false;
     }
     for (int i = 0; i < this->numItems(); i++) {
-        if (!_items[i]->isSameAs(otherNode->getItems()[i])) {
+        if (!_items[i]->isSameAs(otherNode->getItems()->at(i))) {
             return false;
         }
     }

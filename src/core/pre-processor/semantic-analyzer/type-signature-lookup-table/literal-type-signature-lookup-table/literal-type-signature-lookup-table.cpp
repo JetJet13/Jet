@@ -4,30 +4,22 @@
 
 #include "literal-type-signature-lookup-table.h"
 
-LiteralTypeSignatureLookupTable::LiteralTypeSignatureLookupTable() {
-    _intLiteralTypeSignature = IntLiteralTypeSignature();
-    _floatLiteralTypeSignature = FloatLiteralTypeSignature();
-    _charLiteralTypeSignature = CharLiteralTypeSignature();
-    _stringLiteralTypeSignature = StringLiteralTypeSignature();
-    _boolLiteralTypeSignature = BoolLiteralTypeSignature();
-}
-
 IntLiteralTypeSignature* LiteralTypeSignatureLookupTable::getIntLiteralTypeSignature() {
-    return &_intLiteralTypeSignature;
+    return new IntLiteralTypeSignature();
 }
 
 FloatLiteralTypeSignature* LiteralTypeSignatureLookupTable::getFloatLiteralTypeSignature() {
-    return &_floatLiteralTypeSignature;
+    return new FloatLiteralTypeSignature();
 }
 
 CharLiteralTypeSignature* LiteralTypeSignatureLookupTable::getCharLiteralTypeSignature() {
-    return &_charLiteralTypeSignature;
+    return new CharLiteralTypeSignature();
 }
 
 StringLiteralTypeSignature* LiteralTypeSignatureLookupTable::getStringLiteralTypeSignature() {
-    return &_stringLiteralTypeSignature;
+    return new StringLiteralTypeSignature();
 }
 
 BoolLiteralTypeSignature* LiteralTypeSignatureLookupTable::getBoolLiteralTypeSignature() {
-    return &_boolLiteralTypeSignature;
+    return new BoolLiteralTypeSignature();
 }
