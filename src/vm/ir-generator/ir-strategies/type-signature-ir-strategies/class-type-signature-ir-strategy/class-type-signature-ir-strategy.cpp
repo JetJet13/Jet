@@ -10,7 +10,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (auto keyValue : classTypeSignature->getProperties()->getKeyValues()) {
-        auto irType = irGenerator->generateTypeFor(keyValue.second->getType(), scope, irContext);
+        auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
         classPropertyTypes.push_back(irType->getType());
         keyIndexMap.insert(
                 std::pair(keyValue.first, classTypeSignature->getProperties()->findKeyIndex(keyValue.first))

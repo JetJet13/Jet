@@ -1072,6 +1072,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     );
     addIdBlock->getBuilder()->get()->CreateCondBr(isIdNotNull, addIdThenBlock->getBlock(), addStructStartBlock->getBlock());
     addIdThenBlock->getBuilder()->get()->CreateCall(printf, { structId });
+    addIdThenBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintWhitespaceFunction());
     addIdThenBlock->getBuilder()->get()->CreateBr(addStructStartBlock->getBlock());
 
     auto structStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStructStartFormatStringName());
@@ -1186,7 +1187,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     refIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintRefFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintRefFunction(),
-            { structElementValueAlloc, structElementTypeValueAtIndexPointer, forLoopIndexArgumentAlloc }
+            { structElementValueAlloc, structElementTypeValueAtIndexPointerLoaded, forLoopIndexArgumentAlloc }
     );
 
     auto isValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(
@@ -1194,11 +1195,11 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
             structElementTypeValueIdAtIndex,
             irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
     );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
+    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structIfBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintArrayFunction(),
-            { structElementValueAlloc, structElementTypeValueAtIndexPointer, forLoopIndexArgumentAlloc }
+            { structElementValueAlloc, structElementTypeValueAtIndexPointerLoaded, forLoopIndexArgumentAlloc }
     );
 
     auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
@@ -1210,7 +1211,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     structIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintStructFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintStructFunction(),
-            { structElementValueAlloc, structElementTypeValueAtIndexPointer, forLoopIndexArgumentAlloc }
+            { structElementValueAlloc, structElementTypeValueAtIndexPointerLoaded, forLoopIndexArgumentAlloc }
     );
 
     intIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());

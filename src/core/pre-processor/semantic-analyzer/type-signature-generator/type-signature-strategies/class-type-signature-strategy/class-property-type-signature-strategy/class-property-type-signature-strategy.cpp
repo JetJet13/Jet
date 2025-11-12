@@ -22,5 +22,6 @@ void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode*
         classPropertyDeclaration->isStatic(),
         classPropertyDeclaration->isConstant()
     ));
+    classPropertyType->setKeyId(classPropertyDeclaration->getPropertyName()->getId());
     classPropertyDeclaration->getTypeSignature()->setKeyId(classPropertyDeclaration->getPropertyName()->getId());
 }

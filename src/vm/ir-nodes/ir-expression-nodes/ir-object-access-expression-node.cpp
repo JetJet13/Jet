@@ -4,6 +4,7 @@
 
 #include "ir-object-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "../../ir-type/ir-class-instance-type.h"
 
 IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
@@ -53,6 +54,9 @@ TypeSignature* IRObjectAccessExpressionNode::getTypeSignature() {
 }
 
 IRType* IRObjectAccessExpressionNode::getTargetIRType() {
+    if (_irSource->getUnderlyingIRType()->isClassInstanceType()) {
+        return ((IRClassInstanceType*)_irSource)->getIRTypeForProperty(_targetKey);
+    }
     return ((IRStructType*)_irSource->getUnderlyingIRType())->getIRTypeForKey(_targetKey);
 }
 

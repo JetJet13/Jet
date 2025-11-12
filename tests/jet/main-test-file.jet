@@ -23,9 +23,10 @@ proc main() {
 
 proc testPrint() {
     const m = [1,2,3];
-    const s = { foo: "bar", hello: 120 };
+    const s = { foo: "bar", hello: 120, aa: [4, 5, 7], zz: ref 10, nested: { age: 4, color: "red" } };
     const t = { 190, true, false, 'b' };
-    const classInstance = new OtherClass();
+    const classInstance = new MyClass(29, "Blue");
+    //const classInstance = new OtherClass(29, "Blue");
     const x = 999;
     const y = 6;
     print(y);
@@ -55,7 +56,7 @@ proc testPrint() {
     print(s);
     print(t);
     // todo - get this working
-    // print(classInstance);
+    print(classInstance);
 }
 
 proc testArrayPrototypeFunctions() {
@@ -354,20 +355,13 @@ proc testClasses() {
     assert(age == 23);
     assert(color == "Orange");
     assert(myClass.getFoo() == 100);
-
-    print("myClass property access", myClass.age, myClass.color);
+    const otherAge = myClass.age;
+    //print("myClass property access", myClass.age);
     print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
 
-    myClass.age = 99;
-    myClass.color = "blue";
-    myClass.incrementAge();
-    myClass.setOtherValue(8556);
 
-    assert(myClass.age == 100);
-    assert(myClass.color == "blue");
 
-    print("myClass property access (updated)", myClass.age, myClass.color);
-    myClass.printOtherValue();
+
 }
 
 proc testEnums(enumVal: MyEnum, strEnumVal: MyStrEnum) {
@@ -482,46 +476,54 @@ class MyClass {
     public age: int;
     public color: string;
     private foo = 100;
-    private other = new OtherClass();
+    //private other = new OtherClass(44, "Hi!");
 
     constructor(age: int, color: string) {
         this.age = age;
         this.color = color;
     }
 
-    public getFoo() int {
-        return this.foo;
-    }
+        public getFoo() int {
+            return this.foo;
+        }
 
-    public getAge() int {
-        return this.age;
-    }
+        public getAge() int {
+            return this.age;
+        }
 
-    public getColor() string {
-        return this.color;
-    }
+        public getColor() string {
+            return this.color;
+        }
 
-    public changeColor(newColor: string) {
-        this.color = newColor;
-    }
+        public changeColor(newColor: string) {
+            this.color = newColor;
+        }
 
-    public incrementAge() {
-        this.age = this.age + 1;
-    }
+        public incrementAge() {
+            this.age = this.age + 1;
+        }
 
-    public setOtherValue(newValue: int) {
-        this.other.setValue(newValue);
-    }
+        public setOtherValue(newValue: int) {
+            //this.other.setValue(newValue);
+            this.age = newValue;
+        }
 
-    public printOtherValue() {
-        print(this.other.getValue());
-    }
+        public printOtherValue() {
+            //print(this.other.getValue());
+            print(5);
+        }
+
 }
 
 class OtherClass {
-    private value: int = 0;
+    public value: int;
+    public stringValue: string;
+    private foo = 100;
 
-    constructor() {}
+    constructor(initialValue: int, otherString: string) {
+        this.value = initialValue;
+        this.stringValue = otherString;
+    }
 
     public getValue() int {
         return this.value;

@@ -17,8 +17,7 @@ llvm::Value* LiteralIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcc
 
 llvm::Value* LiteralIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getUnderlyingType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
-    irBlock->getBuilder()->get()->Insert(pointer);
+    auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getSource()->getIRType()->getUnderlyingType()->getType(), sourceAllocation, irExpression->getTargetKeyIndex());
     return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
 }
 
@@ -31,8 +30,7 @@ llvm::Value* LiteralIRObjectAccessExpressionInjectorStrategy::injectRef(IRObject
 
 llvm::Value* LiteralIRObjectAccessExpressionInjectorStrategy::injectOperand(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getUnderlyingType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
-    irBlock->getBuilder()->get()->Insert(pointer);
+    auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getSource()->getIRType()->getUnderlyingType()->getType(), sourceAllocation, irExpression->getTargetKeyIndex());
     if (irOperation->isOperandValue()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock, irExpression->getTargetIRType());
     }

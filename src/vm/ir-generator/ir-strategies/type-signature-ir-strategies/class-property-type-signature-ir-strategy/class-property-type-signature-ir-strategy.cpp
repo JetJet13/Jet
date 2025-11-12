@@ -5,5 +5,6 @@
 #include "class-property-type-signature-ir-strategy.h"
 
 IRType* ClassPropertyTypeSignatureIRStrategy::generate(ClassPropertyTypeSignature* classPropertyTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    return irGenerator->generateTypeFor(classPropertyTypeSignature->getType(), scope, irContext);
+    auto irType = irGenerator->generateTypeFor(classPropertyTypeSignature->getType(), scope, irContext);
+    return irType;
 }
