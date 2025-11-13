@@ -10,17 +10,16 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
     for (auto argument : *node->getArguments()->getArguments()) {
         arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
     }
-    auto irClassType = (IRClassType*)scope->findType(node->getClassName()->getId()).value();
-    auto irConstructorType = irClassType->getIRTypeForConstructor(node->getTypeSignature()->getConstructorId());
 
     auto function = irContext->getModule()->getFunction(node->getTypeSignature()->getConstructorId());
+    auto irType = (IRClassInstanceType*)irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     return new IRNewClassInstanceExpressionNode(
             node,
             function,
-            irConstructorType.value(),
+            irType->getIRConstructorType(),
             arguments,
-            irClassType,
-            this->generateClassInstanceAllocation(node, irClassType, irGenerator, irContext, irOperation)
+            irType,
+            this->generateClassInstanceAllocation(node, irType->getIRClassType(), irGenerator, irContext, irOperation)
     );
 }
 

@@ -7,8 +7,8 @@
 #include "../logger/logger.h"
 
 std::string FunctionIdGenerator::getNameFromId(std::string functionId) {
-    auto periodAndMd5HashLength = 33;
-    return functionId.substr(0, functionId.size() - periodAndMd5HashLength);
+    auto delimiterIndex = functionId.find('.');
+    return functionId.substr(0, delimiterIndex);
 }
 
 std::string FunctionIdGenerator::generateFor(ASTClassMethodDeclarationNode* classMethodDeclarationNode) {

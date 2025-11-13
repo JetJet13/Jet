@@ -62,7 +62,7 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, functionBlock);
         }
     }
-    functionBlock->getBuilder()->get()->CreateRet(irGenerator->generateIntConstant(0));
+    functionBlock->addVoidReturn();
 }
 
 IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
@@ -101,7 +101,7 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
             irGenerator->getInjector()->inject(functionBlock, irGenerator->generateFor((ASTStatementNode*)statement, constructorScope, irContext), irContext->getIRModule(), constructorScope);
         }
     }
-    irGenerator->getInjector()->injectVoidReturnType(functionBlock);
+    functionBlock->addVoidReturn();
     return new IRClassConstructorNode(irFunction);
 }
 

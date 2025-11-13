@@ -26,7 +26,6 @@ proc testPrint() {
     const s = { foo: "bar", hello: 120, aa: [4, 5, 7], zz: ref 10, nested: { age: 4, color: "red" } };
     const t = { 190, true, false, 'b' };
     const classInstance = new MyClass(29, "Blue");
-    //const classInstance = new OtherClass(29, "Blue");
     const x = 999;
     const y = 6;
     print(y);
@@ -53,10 +52,12 @@ proc testPrint() {
     print([5,6,7]);
     print([ref 5, ref 6, ref 7]);
     print([ [1,2,3], [4,5,6], [7,8,9] ]);
+    print([ { a: 'a', b: 'b' }, { a: 'n', b: 'm' }, { a: 't', b: 'y' } ]);
     print(s);
     print(t);
-    // todo - get this working
     print(classInstance);
+    print(ref classInstance);
+    print([new OtherClass(), new OtherClass()]);
 }
 
 proc testArrayPrototypeFunctions() {
@@ -351,16 +352,13 @@ proc testClasses() {
     const myClass = new MyClass(23, "Orange");
     const age = myClass.getAge();
     const color = myClass.getColor();
+    const otherAge = myClass.age;
 
     assert(age == 23);
     assert(color == "Orange");
     assert(myClass.getFoo() == 100);
-    const otherAge = myClass.age;
-    //print("myClass property access", myClass.age);
+    print("myClass properties", myClass.age, myClass.color);
     print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
-
-
-
 
 }
 
@@ -460,23 +458,23 @@ proc testEquality() {
 
 }
 
-//main();
+main();
 testPrint();
-//testArrayPrototypeFunctions();
-//testCopyFunctions();
-//testRefFunctions();
-//testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
-//complexCopy();
-//testLambdas();
-//testClasses();
-//testEnums(MyEnum.Gamma, MyStrEnum.Mars);
-//testEquality();
+testArrayPrototypeFunctions();
+testCopyFunctions();
+testRefFunctions();
+testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+complexCopy();
+testLambdas();
+testClasses();
+testEnums(MyEnum.Gamma, MyStrEnum.Mars);
+testEquality();
 
 class MyClass {
     public age: int;
     public color: string;
     private foo = 100;
-    //private other = new OtherClass(44, "Hi!");
+    private other = new OtherClass();
 
     constructor(age: int, color: string) {
         this.age = age;
@@ -504,26 +502,19 @@ class MyClass {
         }
 
         public setOtherValue(newValue: int) {
-            //this.other.setValue(newValue);
-            this.age = newValue;
+            this.other.setValue(newValue);
         }
 
         public printOtherValue() {
-            //print(this.other.getValue());
-            print(5);
+            print(this.other.getValue());
         }
 
 }
 
 class OtherClass {
-    public value: int;
-    public stringValue: string;
-    private foo = 100;
+    public value: int = 100;
 
-    constructor(initialValue: int, otherString: string) {
-        this.value = initialValue;
-        this.stringValue = otherString;
-    }
+    constructor() {}
 
     public getValue() int {
         return this.value;

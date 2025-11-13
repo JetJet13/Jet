@@ -20,12 +20,14 @@ class ASTClassPropertyDeclarationNode : public ASTDeclarationNode {
 private:
     ASTClassPropertyInitNode* _propertyInit;
     std::optional<ASTExpressionNode*> _initializer;
+    std::string _normalizedPropertyName;
     ClassPropertyTypeSignature* _typeSignature = new ClassPropertyTypeSignature();
 public:
     explicit ASTClassPropertyDeclarationNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer = {});
     ASTClassPropertyInitNode* getPropertyInit();
     ASTAccessModifierNode* getAccessModifier();
     ASTClassPropertyNameNode* getPropertyName();
+    std::string getNormalizedPropertyName();
     std::optional<ASTTypeNode*> getType();
     std::optional<ASTExpressionNode*> getInitializer();
     bool isStatic();

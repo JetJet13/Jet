@@ -10,10 +10,12 @@
 
 class IRClassInstanceType : public IRType {
 private:
+    IRStructType* _irClassInstancePropertiesType;
     IRClassType* _irClassType;
     IRFunctionType* _irConstructorType;
 public:
-    IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType);
+    IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructType* irClassInstancePropertiesType);
+    IRStructType* getIRClassPropertiesType();
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();
     std::string getIRMethodName(std::string methodName);

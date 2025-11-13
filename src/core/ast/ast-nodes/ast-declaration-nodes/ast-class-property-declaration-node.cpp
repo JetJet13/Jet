@@ -28,6 +28,12 @@ ASTClassPropertyNameNode* ASTClassPropertyDeclarationNode::getPropertyName() {
     return _propertyInit->getPropertyName();
 }
 
+std::string ASTClassPropertyDeclarationNode::getNormalizedPropertyName() {
+    auto propertyId = _propertyInit->getPropertyName()->getId();
+    auto delimiterIndex = propertyId.find('.');
+    return propertyId.substr(delimiterIndex + 1);
+}
+
 std::optional<ASTTypeNode*> ASTClassPropertyDeclarationNode::getType() {
     return _propertyInit->getType();
 }

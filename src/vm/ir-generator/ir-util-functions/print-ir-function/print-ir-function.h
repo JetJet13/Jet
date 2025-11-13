@@ -16,6 +16,7 @@ public:
     static std::string getGlobalIntFormatStringName();
     static std::string getGlobalFloatFormatStringName();
     static std::string getGlobalCharFormatStringName();
+    static std::string getGlobalCharPrettyFormatStringName();
     static std::string getGlobalTrueFormatStringName();
     static std::string getGlobalFalseFormatStringName();
     static std::string getGlobalStringFormatStringName();

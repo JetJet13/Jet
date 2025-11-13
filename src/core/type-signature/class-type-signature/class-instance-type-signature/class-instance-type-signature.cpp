@@ -29,12 +29,12 @@ ClassConstructorTypeSignature* ClassInstanceTypeSignature::getConstructorTypeSig
 }
 
 std::optional<ClassMethodTypeSignature*> ClassInstanceTypeSignature::findMethod(std::string methodName) {
-    auto methodId = _classTypeSignature.value()->getId() + "_" + methodName;
+    auto methodId = _classTypeSignature.value()->getId() + "." + methodName;
     return _classTypeSignature.value()->getMethods()->find(methodId);
 }
 
 std::optional<ClassPropertyTypeSignature*> ClassInstanceTypeSignature::findProperty(std::string propertyName) {
-    auto propertyId = _classTypeSignature.value()->getId() + "_" + propertyName;
+    auto propertyId = _classTypeSignature.value()->getId() + "." + propertyName;
     return _classTypeSignature.value()->getProperties()->find(propertyId);
 }
 

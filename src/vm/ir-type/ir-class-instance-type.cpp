@@ -5,11 +5,16 @@
 #include "ir-class-instance-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType) : IRType(irClassType->getClassProperties()->getType()) {
+IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructType* irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
     _id = irClassType->getId();
+    _irClassInstancePropertiesType = irClassInstancePropertiesType;
     _irClassType = irClassType;
     _irConstructorType = irConstructorType;
     _value = irClassType->getClassProperties()->getValue();
+}
+
+IRStructType* IRClassInstanceType::getIRClassPropertiesType() {
+    return _irClassInstancePropertiesType;
 }
 
 IRClassType* IRClassInstanceType::getIRClassType() {
@@ -21,19 +26,19 @@ IRFunctionType* IRClassInstanceType::getIRConstructorType() {
 }
 
 std::string IRClassInstanceType::getIRMethodName(std::string methodName) {
-    return _irClassType->getName() + "_" + methodName;
+    return _irClassType->getName() + "." + methodName;
 }
 
 std::string IRClassInstanceType::getIRPropertyName(std::string propertyName) {
-    return _irClassType->getName() + "_" + propertyName;
+    return _irClassType->getName() + "." + propertyName;
 }
 
 unsigned long IRClassInstanceType::getIndexForProperty(std::string propertyName) {
-    return _irClassType->getClassProperties()->getIndexForKey(this->getIRPropertyName(propertyName));
+    return _irClassInstancePropertiesType->getIndexForKey(this->getIRPropertyName(propertyName));
 }
 
 IRType* IRClassInstanceType::getIRTypeForProperty(std::string propertyName) {
-    return _irClassType->getClassProperties()->getIRTypeForKey(this->getIRPropertyName(propertyName));
+    return _irClassInstancePropertiesType->getIRTypeForKey(this->getIRPropertyName(propertyName));
 }
 
 std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {
@@ -41,7 +46,7 @@ std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::stri
 }
 
 llvm::StructType* IRClassInstanceType::getType() {
-    return _irClassType->getClassProperties()->getType();
+    return _irClassInstancePropertiesType->getType();
 }
 
 bool IRClassInstanceType::containsTypeThatRequiresFreeing() {

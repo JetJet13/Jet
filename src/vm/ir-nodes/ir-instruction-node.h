@@ -10,6 +10,9 @@
 #include "../ir-type/ir-type.h"
 #include "../ir-type/ir-pointer-type.h"
 
+// forward declaration
+class IRBlockNode;
+
 class IRInstructionNode : public IRNode {
 private:
     llvm::Value* _irValue;
@@ -34,7 +37,7 @@ public:
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType);
     bool isGlobal();
     void markAsGlobal();
-    bool isInserted();
+    bool isInserted(IRBlockNode* irBlock);
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
     std::vector<llvm::Value*>* getAncestorValues();

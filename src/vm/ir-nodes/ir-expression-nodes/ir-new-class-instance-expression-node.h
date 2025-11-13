@@ -12,6 +12,7 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
 #include "../../../core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../ir-type/ir-class-type.h"
+#include "../../ir-type/ir-class-instance-type.h"
 
 class IRNewClassInstanceExpressionNode : public IRExpressionNode {
 private:
@@ -19,17 +20,17 @@ private:
     llvm::Value* _irConstructor;
     IRFunctionType* _irConstructorType;
     std::vector<IRExpressionNode*> _arguments;
-    IRClassType* _type;
+    IRClassInstanceType* _type;
     IRInstructionNode* _classInstanceAllocation;
 public:
-    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassType* type, IRInstructionNode* classInstanceAllocation);
+    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassInstanceType* type, IRInstructionNode* classInstanceAllocation);
     void markAsGlobal() override;
     IRInstructionNode* getClassInstanceAllocation();
     std::vector<IRExpressionNode*>* getIRArguments();
     llvm::Value* getValue() override;
     IRFunctionType* getConstructorIRType();
     llvm::Value* getConstructorFunction();
-    IRClassType* getIRType() override;
+    IRClassInstanceType* getIRType() override;
     ClassInstanceTypeSignature* getTypeSignature() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

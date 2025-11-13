@@ -77,5 +77,5 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRRefType* irRefType, IRBlockNo
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock) {
-    return this->inject(irClassInstanceType->getIRClassType()->getClassProperties(), irBlock);
+    return this->inject(irClassInstanceType->getIRClassPropertiesType(), irBlock);
 }

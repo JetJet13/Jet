@@ -3,6 +3,7 @@
 //
 
 #include "ir-instruction-node.h"
+#include "ir-block-node.h"
 #include "../../shared/utils/logger/logger.h"
 #include <utility>
 
@@ -123,9 +124,9 @@ void IRInstructionNode::markAsGlobal() {
     }
 }
 
-bool IRInstructionNode::isInserted() {
+bool IRInstructionNode::isInserted(IRBlockNode* irBlock) {
     if (llvm::isa<llvm::Instruction>(_irValue)) {
-        return llvm::cast<llvm::Instruction>(_irValue)->getParent() != nullptr;
+        return llvm::cast<llvm::Instruction>(_irValue)->getParent() == irBlock->getBlock();
     }
     return _irValue->getType();
 }

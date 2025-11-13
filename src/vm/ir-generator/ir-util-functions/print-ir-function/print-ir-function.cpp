@@ -21,6 +21,10 @@ std::string PrintIRFunction::getGlobalCharFormatStringName() {
     return "jet.print.char.format.string";
 }
 
+std::string PrintIRFunction::getGlobalCharPrettyFormatStringName() {
+    return "jet.print.char.pretty.format.string";
+}
+
 std::string PrintIRFunction::getGlobalTrueFormatStringName() {
     return "jet.print.true.format.string";
 }
@@ -216,6 +220,15 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
             llvm::GlobalValue::ExternalLinkage,
             charFormatString,
             PrintIRFunction::getGlobalCharFormatStringName()
+    );
+    auto charPrettyFormatString = PrintIRFunction::generateStringAllocation({ '\'', '%', 'c', '\'' }, irGenerator, context, irModuleNode);
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule(),
+            charPrettyFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            charPrettyFormatString,
+            PrintIRFunction::getGlobalCharPrettyFormatStringName()
     );
     auto trueFormatString = PrintIRFunction::generateStringAllocation({ 't', 'r', 'u', 'e' }, irGenerator, context, irModuleNode);
     new llvm::GlobalVariable(
@@ -587,7 +600,7 @@ void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::u
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
     auto charValue = InstructionIRInjectorHelper::injectLoad(charType, loadedPointer, functionBlock);
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalCharFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalCharPrettyFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, charValue });
     functionBlock->addVoidReturn();
 }

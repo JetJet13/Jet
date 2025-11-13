@@ -20,7 +20,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpr
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
     auto classInstanceAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation(), irBlock);
-    auto preConstructorFunction = irModule->getModule()->getFunction(irExpression->getIRType()->getPreConstructorName());
+    auto preConstructorFunction = irModule->getModule()->getFunction(irExpression->getIRType()->getIRClassType()->getPreConstructorName());
     irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
 
     auto arguments = std::vector<llvm::Value*>();
