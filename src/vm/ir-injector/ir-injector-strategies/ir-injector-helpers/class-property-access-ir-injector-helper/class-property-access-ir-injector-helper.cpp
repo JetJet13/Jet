@@ -9,7 +9,7 @@ llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(IRClassPropertyAccessEx
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(irExpression->getSource()->getAllocatedType(), irExpression->getValue(), irBlock);
     auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getIRType()->getUnderlyingType()->getType(), loadedPointer, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
     irBlock->getBuilder()->get()->Insert(pointerToProperty);
-    if (irOperation->isOperandValue() || irOperation->isFunctionArgument()) {
+    if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointerToProperty, irBlock);
     }
     return pointerToProperty;

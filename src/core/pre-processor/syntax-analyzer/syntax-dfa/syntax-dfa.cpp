@@ -545,6 +545,7 @@ void SyntaxDfa::init() {
             AST_LAMBDA_EXPRESSION_NODE,
             AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
             AST_UNARY_EXPRESSION_NODE,
+            AST_FUNCTION_INVOCATION_EXPRESSION_NODE
     });
 
     period

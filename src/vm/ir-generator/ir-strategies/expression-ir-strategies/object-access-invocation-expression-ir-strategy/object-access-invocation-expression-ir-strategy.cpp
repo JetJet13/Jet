@@ -45,7 +45,8 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     }
 
     auto irStructType = (IRStructType*)sourceType;
-    auto irFunctionType = irStructType->getIRTypeForKey(functionId);
-    auto irFunction = irContext->getModule()->getFunction(functionId);
+    auto targetIndex = irStructType->getIndexForKey(node->getName());
+    auto irFunctionType = irStructType->getIRTypeForKey(node->getName());
+    auto irFunction = llvm::GetElementPtrInst::CreateInBounds(irStructType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });
     return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
 }

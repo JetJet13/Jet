@@ -20,9 +20,9 @@ llvm::Value* TupleIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRB
     } else if (irExpression->is(IR_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)) {
         return this->_tupleIRClassPropertyAccessExpressionInjectorStrategy.inject((IRClassPropertyAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
-        return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
+        return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_FUNCTION_PARAMETER_INVOCATION_EXPRESSION_NODE)) {
-        return FunctionInvocationIRInjectorHelper::inject((IRFunctionParameterInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope);
+        return FunctionInvocationIRInjectorHelper::inject((IRFunctionParameterInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     }
     throw std::logic_error("TupleIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }

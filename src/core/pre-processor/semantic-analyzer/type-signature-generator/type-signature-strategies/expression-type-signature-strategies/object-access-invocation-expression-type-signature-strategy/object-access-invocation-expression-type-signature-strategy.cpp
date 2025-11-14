@@ -16,9 +16,9 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
     if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(STRUCT_TYPE_SOURCE)) {
         auto structSource = (StructTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
         auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
-        auto functionTypeSignature = structSource->getTypeSignatureForKey(id);
+        auto functionTypeSignature = (InvocableTypeSignature*)structSource->getTypeSignatureForKey(id);
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(functionTypeSignature);
-        objectAccessInvocationExpression->setTypeSignature(functionTypeSignature->getTargetTypeSignature());
+        objectAccessInvocationExpression->setTypeSignature(functionTypeSignature->getReturnType());
         return;
     } else if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
         auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression);

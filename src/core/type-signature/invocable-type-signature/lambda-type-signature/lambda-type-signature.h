@@ -26,7 +26,6 @@ public:
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    TypeSignature* getTargetTypeSignature() override;
     TypeSignature* convertToVariableTypeSignature() override;
     bool isEqualTo(TypeSignature *otherType) override;
     void print() override;

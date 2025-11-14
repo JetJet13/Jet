@@ -58,10 +58,6 @@ TypeSource LambdaTypeSignature::getTypeSource() {
     return LAMBDA_TYPE_SOURCE;
 }
 
-TypeSignature* LambdaTypeSignature::getTargetTypeSignature() {
-    return _returnType;
-}
-
 TypeSignature* LambdaTypeSignature::convertToVariableTypeSignature() {
     return this;
 }

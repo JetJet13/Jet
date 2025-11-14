@@ -25,7 +25,7 @@ llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectRef(IRLiteralExpr
 }
 
 llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectOperand(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
-    if (irOperation->isOperandValue() || irOperation->isFunctionArgument()) {
+    if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         return irExpression->getValue();
     }
     auto literalAllocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());

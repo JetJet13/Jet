@@ -12,6 +12,7 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 
 class LambdaIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;

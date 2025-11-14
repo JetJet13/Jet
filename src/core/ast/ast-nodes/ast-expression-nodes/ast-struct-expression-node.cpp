@@ -109,7 +109,6 @@ void ASTStructExpressionNode::print() {
 
 
 std::string ASTStructExpressionNode::toSourceCode() {
-    Logger::log("ASTStructExpressionNode::toSourceCode invoked!");
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structStartNode);
     for (int i = 0; i < _keyValuePairs.size(); ++i) {

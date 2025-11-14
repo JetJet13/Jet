@@ -82,13 +82,6 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                 auto irType = scopeParameterIrType->getIRTypeForKey(keyValue.first);
                 auto pointerToValue = functionBlock->getBuilder()->get()->CreateStructGEP(scopeParameterIrType->getType(), pointerToScopeParameterType, index);
                 auto loadedPointerToValue = InstructionIRInjectorHelper::injectLoad(irType->getType(), pointerToValue, functionBlock, irType);
-//                auto allocation = functionBlock->getBuilder()->get()->CreateAlloca(irType->getSourceType()->getType(), nullptr, keyValue.first);
-//                InstructionIRInjectorHelper::injectStore(
-//                        InstructionIRInjectorHelper::injectLoad(irType->getSourceType()->getType(), loadedPointerToValue, functionBlock, irType->getSourceType()),
-//                        allocation,
-//                        functionBlock,
-//                        irType->getSourceType()
-//                );
                 scope->insert(
                         keyValue.first,
                         IRInstructionNodeFactory::create(loadedPointerToValue, irGenerator->generateIrPointerType(underlyingIrType))

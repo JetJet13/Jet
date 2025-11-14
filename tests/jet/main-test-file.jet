@@ -55,10 +55,10 @@ proc testPrint() {
     print([ { a: 'a', b: 'b' }, { a: 'n', b: 'm' }, { a: 't', b: 'y' } ]);
     print(s);
     print(t);
-    //print(classInstance);
-    //print(ref classInstance);
-    //print([new OtherClass(), new OtherClass()]);
-    //print({ classInstance, classInstance });
+    print(classInstance);
+    print(ref classInstance);
+    print([new OtherClass(), new OtherClass()]);
+    print({ classInstance, classInstance });
     print([ classInstance, classInstance ]);
 }
 
@@ -460,6 +460,20 @@ proc testEquality() {
 
 }
 
+func getTestLambda() () => int {
+    const ms = [100, 200, 300];
+    const fs = 909;
+    return () => ms[0] + 1 + fs;
+}
+
+proc testLambdaReturn() {
+    const testLambda = getTestLambda();
+    const result = testLambda();
+    print("testLambdaReturn", result);
+    const structWithLambda = { foo: getTestLambda(), mars: () => 20, bar: 100 };
+    print("structWithLambda", testLambda(), structWithLambda.mars(), structWithLambda.bar);
+}
+
 main();
 testPrint();
 testArrayPrototypeFunctions();
@@ -471,6 +485,7 @@ testLambdas();
 testClasses();
 testEnums(MyEnum.Gamma, MyStrEnum.Mars);
 testEquality();
+testLambdaReturn();
 
 class MyClass {
     public age: int;

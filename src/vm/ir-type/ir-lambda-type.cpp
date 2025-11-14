@@ -4,13 +4,6 @@
 
 #include "ir-lambda-type.h"
 
-// todo - continue implementing ids for IR Types so we can
-// generate a struct type id that we will use to create a
-// global variable to hold the list of keys of the struct.
-// the global variable will then be referenced in the
-// type-value object for structs so we can print the
-// struct keys when we want to print a struct value.
-// remember: struct field order matters!
 IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRType*> lambdaScopeType) : IRType(type) {
     _type = type;
     _irType = irType;
