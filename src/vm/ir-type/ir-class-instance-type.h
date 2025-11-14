@@ -23,6 +23,7 @@ public:
     unsigned long getIndexForProperty(std::string propertyName);
     IRType* getIRTypeForProperty(std::string propertyName);
     std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
+    uint64_t getSizeInBytes() override;
     llvm::StructType* getType() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isClassInstanceType() override;

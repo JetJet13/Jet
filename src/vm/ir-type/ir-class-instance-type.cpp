@@ -45,6 +45,13 @@ std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::stri
     return _irClassType->getIRTypeForMethod(this->getIRMethodName(methodName));
 }
 
+uint64_t IRClassInstanceType::getSizeInBytes() {
+    if (_sizeInBytesOverride) {
+        return _sizeInBytesOverride.value();
+    }
+    return _irClassInstancePropertiesType->getSizeInBytes();
+}
+
 llvm::StructType* IRClassInstanceType::getType() {
     return _irClassInstancePropertiesType->getType();
 }
