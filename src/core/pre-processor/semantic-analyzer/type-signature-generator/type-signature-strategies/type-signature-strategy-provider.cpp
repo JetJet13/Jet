@@ -500,8 +500,8 @@ void TypeSignatureStrategyProvider::assignPartialTypeSignatureFor(ASTNode* node,
     }
 }
 
-ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope) {
-    return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(scope);
+ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* captureVariableTypeSignatureMap) {
+    return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(captureVariableTypeSignatureMap);
 }
 
 ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateClassScopeParameter(ClassTypeSignature* classTypeSignature) {

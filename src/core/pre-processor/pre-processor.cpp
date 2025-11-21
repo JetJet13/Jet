@@ -8,6 +8,7 @@
 
 PreProcessor::PreProcessor(SyntaxAnalyzer* syntaxAnalyzer, SemanticAnalyzer* semanticAnalyzer) {
     _processedFileMap = PreProcessorMap();
+    _scopeAnalyzer = ScopeAnalyzer();
     _syntaxAnalyzer = syntaxAnalyzer;
     _semanticAnalyzer = semanticAnalyzer;
 }
@@ -33,6 +34,7 @@ JetFile* PreProcessor::process(std::string filePath) {
         throw std::logic_error("syntax analyzer has errors: " + filePath);
     }
     auto fileNode = this->buildFile(filePath, syntaxResult->getFileScope());
+    _scopeAnalyzer.process(fileNode);
     auto typeSignatureScope = TypeSignatureLookupTableFactory::createForModule();
     auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);

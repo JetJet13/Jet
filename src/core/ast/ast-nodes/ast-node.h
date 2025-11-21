@@ -32,6 +32,7 @@ public:
     virtual std::string getLineColumn();
     virtual bool isSameAs(ASTNode* other);
     virtual bool isExpression();
+    virtual bool isScopedBlockNode();
     virtual void print();
     virtual std::string toSourceCode();
     virtual TypeSignature* getTypeSignature();

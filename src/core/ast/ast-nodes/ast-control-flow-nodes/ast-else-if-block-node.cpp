@@ -22,6 +22,10 @@ ASTControlFlowConditionNode* ASTElseIfBlockNode::getCondition() {
     return _condition;
 }
 
+std::vector<ASTFunctionReturnExpressionNode*>* ASTElseIfBlockNode::getReturnStatements() {
+    return _block->getReturnStatements();
+}
+
 Position* ASTElseIfBlockNode::getStartPosition() {
     return _elseIfKeyword->getStartPosition();
 }

@@ -30,7 +30,7 @@ ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNod
 
 ASTBlockNode* ASTBlockNode::addContent(ASTNode* content) {
     _contents.push_back(content);
-    _children.push_back(content);
+    _children.insert(_children.end() - 1, content);
     return this;
 }
 
@@ -52,6 +52,10 @@ unsigned long ASTBlockNode::size() {
 
 std::vector<ASTNode*>* ASTBlockNode::getContents() {
     return &_contents;
+}
+
+std::vector<ASTFunctionReturnExpressionNode*>* ASTBlockNode::getReturnStatements() {
+    return new std::vector<ASTFunctionReturnExpressionNode*>();
 }
 
 ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,

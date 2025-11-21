@@ -322,6 +322,7 @@ proc testLambdas() {
     print("xResult", xResult);
 
     let foo = 40;
+    // scope issue here. foo is not found in the scope of y lambda
     const y = () => foo + 2 - xResult;
     const yResult = y();
 
@@ -463,7 +464,11 @@ proc testEquality() {
 func getTestLambda() () => int {
     const ms = [100, 200, 300];
     const fs = 909;
-    return () => ms[0] + 1 + fs;
+    return () => 9008 + ms[0] + fs;
+}
+
+func getTestInt() int {
+    return 1009;
 }
 
 proc testLambdaReturn() {
@@ -471,7 +476,9 @@ proc testLambdaReturn() {
     const result = testLambda();
     print("testLambdaReturn", result);
     const structWithLambda = { foo: getTestLambda(), mars: () => 20, bar: 100 };
-    print("structWithLambda", testLambda(), structWithLambda.mars(), structWithLambda.bar);
+    // todo - store variables on the heap (ie. use malloc instead of alloca)
+    // when they are used in lambdas
+    print("structWithLambda", testLambda(), structWithLambda.foo());
 }
 
 main();
@@ -498,33 +505,33 @@ class MyClass {
         this.color = color;
     }
 
-        public getFoo() int {
-            return this.foo;
-        }
+    public getFoo() int {
+        return this.foo;
+    }
 
-        public getAge() int {
-            return this.age;
-        }
+    public getAge() int {
+        return this.age;
+    }
 
-        public getColor() string {
-            return this.color;
-        }
+    public getColor() string {
+        return this.color;
+    }
 
-        public changeColor(newColor: string) {
-            this.color = newColor;
-        }
+    public changeColor(newColor: string) {
+        this.color = newColor;
+    }
 
-        public incrementAge() {
-            this.age = this.age + 1;
-        }
+    public incrementAge() {
+        this.age = this.age + 1;
+    }
 
-        public setOtherValue(newValue: int) {
-            this.other.setValue(newValue);
-        }
+    public setOtherValue(newValue: int) {
+        this.other.setValue(newValue);
+    }
 
-        public printOtherValue() {
-            print(this.other.getValue());
-        }
+    public printOtherValue() {
+        print(this.other.getValue());
+    }
 
 }
 

@@ -19,17 +19,21 @@ void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lamb
         strategyMap->assignTypeSignatureFor(lambdaExpression->getReturnType().value(), &scope);
         returnType = lambdaExpression->getReturnType().value()->getTypeSignature();
     } else {
-        for (auto node : *lambdaExpression->getBlock()->getContents()) {
-            if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE) && !returnType) {
-                strategyMap->assignTypeSignatureFor(node, &scope);
+        for (auto node : *lambdaExpression->getBlock()->getReturnStatements()) {
+            if (!returnType) {
                 returnType = node->getTypeSignature();
             }
         }
     }
 
+    auto captureVariableTypeSignatureMap = TypeSignatureLookupTable();
+    for (auto capturedVariable : *lambdaExpression->getCapturedVariables()) {
+        captureVariableTypeSignatureMap.insert(capturedVariable->getId(), capturedVariable->getTypeSignature());
+    }
+
     lambdaExpression->setTypeSignature(new LambdaExpressionTypeSignature(
         lambdaExpression->getParameters()->getTypeSignature(),
-        strategyMap->generateLambdaExpressionScopeParameter(typeSignatureLookupTable),
+        strategyMap->generateLambdaExpressionScopeParameter(&captureVariableTypeSignatureMap),
         returnType
     ));
 

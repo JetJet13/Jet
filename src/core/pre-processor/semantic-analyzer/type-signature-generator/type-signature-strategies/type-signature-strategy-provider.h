@@ -42,7 +42,7 @@ public:
     void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
     void assignInitialTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope);
     void assignPartialTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
-    ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* scope);
+    ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(TypeSignatureLookupTable* captureVariableTypeSignatureMap);
     ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
     std::optional<FunctionTypeSignature*> findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType);
     std::optional<FunctionTypeSignature*> findRefPrototypeTypeSignature(std::string id, TypeSignature* elementType);

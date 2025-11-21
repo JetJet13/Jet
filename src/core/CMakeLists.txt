@@ -1323,6 +1323,10 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/argument-list-type-checker-policy/argument-list-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h
         type-signature/types/built-in-type-source.h
+        post-processor/lambda-analyzer/lambda-analyzer.cpp
+        post-processor/lambda-analyzer/lambda-analyzer.h
+        pre-processor/scope-analyzer/scope-analyzer.cpp
+        pre-processor/scope-analyzer/scope-analyzer.h
 
 )
 

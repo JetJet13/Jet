@@ -20,13 +20,16 @@ private:
     TypeSignature* _typeSignature = new UnknownTypeSignature();
     std::optional<ASTExportNode*> _exportKeyword = {};
     bool _isReferenced = false;
+    bool _isCaptured = false;
 public:
     explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, std::optional<ASTExportNode*> exportKeyword = {});
     ASTVariableInitNode* getVarInitNode();
     ASTExpressionNode* getInitializerNode();
     void markAsReferenced();
+    void markAsCaptured();
     bool isExportable() override;
     bool isReferenced();
+    bool isCaptured();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

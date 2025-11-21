@@ -14,6 +14,7 @@ public:
     Position(unsigned long line, unsigned long column);
     unsigned long getLine();
     unsigned long getColumn();
+    bool isEqual(Position* otherPosition);
 
 };
 

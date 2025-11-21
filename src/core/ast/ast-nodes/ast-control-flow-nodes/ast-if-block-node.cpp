@@ -18,6 +18,10 @@ ASTControlFlowBlockNode* ASTIfBlockNode::getBlock() {
     return _block;
 }
 
+std::vector<ASTFunctionReturnExpressionNode*>* ASTIfBlockNode::getReturnStatements() {
+    return _block->getReturnStatements();
+}
+
 ASTControlFlowConditionNode* ASTIfBlockNode::getCondition() {
     return _condition;
 }

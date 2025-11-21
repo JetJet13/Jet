@@ -23,6 +23,7 @@ public:
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     unsigned long size();
     std::vector<ASTNode*>* getContents();
+    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
     ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

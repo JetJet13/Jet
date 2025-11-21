@@ -7,13 +7,12 @@
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../../../core/type-signature/pointer-type-signature/pointer-type-signature.h"
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto lambdaScope = new IRLookupTable();
-    lambdaScope->inherit(scope);
+    auto lambdaScope = new IRLookupTable(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
@@ -36,8 +35,7 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
 }
 
 IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaWithFatArrowExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto lambdaScope = new IRLookupTable();
-    lambdaScope->inherit(scope);
+    auto lambdaScope = new IRLookupTable(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
@@ -76,8 +74,9 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
             auto scopeParameterTypeSignature = (StructTypeSignature*)typeSignature->getScopeParameter()->getTypeSignature();
             auto pointerToScopeParameterType = InstructionIRInjectorHelper::injectLoad(functionParameterAllocation->getAllocatedType(), functionParameterAllocation->getValue(), functionBlock);
             for (const auto& keyValue : scopeParameterTypeSignature->getKeyValuePairs()->getKeyValues()) {
-                auto underlyingType = ((PointerTypeSignature*)keyValue.second)->getUnderlyingType();
-                auto underlyingIrType = irGenerator->generateTypeFor(underlyingType, scope, irContext);
+//                auto underlyingType = ((PointerTypeSignature*)keyValue.second)->getUnderlyingType();
+//                auto underlyingIrType = irGenerator->generateTypeFor(underlyingType, scope, irContext);
+                auto underlyingIrType = scope->find(keyValue.first).value()->getIRType()->getSourceType();
                 auto index = scopeParameterIrType->getIndexForKey(keyValue.first);
                 auto irType = scopeParameterIrType->getIRTypeForKey(keyValue.first);
                 auto pointerToValue = functionBlock->getBuilder()->get()->CreateStructGEP(scopeParameterIrType->getType(), pointerToScopeParameterType, index);

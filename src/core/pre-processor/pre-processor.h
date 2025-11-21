@@ -11,10 +11,12 @@
 #include "lexical-analyzer/lexical-analyzer.h"
 #include "../jet-file/jet-file.h"
 #include "pre-processor-map/pre-processor-map.h"
+#include "scope-analyzer/scope-analyzer.h"
 
 class PreProcessor {
 private:
     PreProcessorMap _processedFileMap;
+    ScopeAnalyzer _scopeAnalyzer;
     SyntaxAnalyzer* _syntaxAnalyzer;
     SemanticAnalyzer* _semanticAnalyzer;
     ASTFileNode* buildFile(std::string filePath, FileScope* fileScope);

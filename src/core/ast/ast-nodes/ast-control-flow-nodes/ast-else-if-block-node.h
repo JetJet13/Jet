@@ -21,6 +21,7 @@ public:
     explicit ASTElseIfBlockNode(ASTElseIfNode* elseIfKeyword, ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block);
     ASTControlFlowBlockNode* getBlock();
     ASTControlFlowConditionNode* getCondition();
+    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

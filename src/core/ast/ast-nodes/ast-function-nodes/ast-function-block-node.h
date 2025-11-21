@@ -16,9 +16,11 @@ private:
     ASTBlockStartNode* _blockStartNode;
     ASTBlockEndNode* _blockEndNode;
     std::vector<ASTNode*> _contents;
+    std::vector<ASTFunctionReturnExpressionNode*> _returnStatements;
 public:
     explicit ASTFunctionBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode);
     std::vector<ASTNode*>* getContents();
+    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements();
     bool hasReturnExpression();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

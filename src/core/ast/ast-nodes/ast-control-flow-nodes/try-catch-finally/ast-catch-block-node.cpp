@@ -25,6 +25,10 @@ std::optional<ASTCatchErrorVariableNode*> ASTCatchBlockNode::getErrorVariable() 
     return _errorVariable;
 }
 
+std::vector<ASTFunctionReturnExpressionNode*>* ASTCatchBlockNode::getReturnStatements() {
+    return _block->getReturnStatements();
+}
+
 Position* ASTCatchBlockNode::getStartPosition() {
     return _catchKeyword->getStartPosition();
 }

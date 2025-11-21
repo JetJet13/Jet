@@ -101,6 +101,10 @@ bool ASTNode::isExpression() {
     return false;
 }
 
+bool ASTNode::isScopedBlockNode() {
+    return false;
+}
+
 ASTNode* ASTNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     return this;
 }

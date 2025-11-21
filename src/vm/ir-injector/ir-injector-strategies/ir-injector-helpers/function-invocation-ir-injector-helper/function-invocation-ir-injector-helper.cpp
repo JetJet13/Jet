@@ -130,6 +130,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         irExpression->getValue(),
         arguments
     );
+    if (irOperation->isOperandPointer()) {
+        auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
+        InstructionIRInjectorHelper::injectStore(value, pointerToValue, irBlock, irExpression->getIRType());
+        return pointerToValue;
+    }
     return value;
 }
 

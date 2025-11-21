@@ -34,12 +34,20 @@ void ASTVariableDeclarationNode::markAsReferenced() {
     _initializer->markAsReferenced();
 }
 
+void ASTVariableDeclarationNode::markAsCaptured() {
+    _isCaptured = true;
+}
+
 bool ASTVariableDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
 }
 
 bool ASTVariableDeclarationNode::isReferenced() {
     return _isReferenced;
+}
+
+bool ASTVariableDeclarationNode::isCaptured() {
+    return _isCaptured;
 }
 
 void ASTVariableDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {

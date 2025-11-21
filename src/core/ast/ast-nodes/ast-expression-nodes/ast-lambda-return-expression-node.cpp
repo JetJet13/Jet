@@ -9,6 +9,7 @@
 ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* expressionNode) {
     _fatArrowNode = fatArrowNode;
     _returnExpression = expressionNode;
+    _children.push_back(_fatArrowNode);
     _children.push_back(_returnExpression);
 }
 

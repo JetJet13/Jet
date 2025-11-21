@@ -21,6 +21,7 @@ public:
     explicit ASTCatchBlockNode(ASTCatchNode* catchKeyword, ASTControlFlowBlockNode* block, std::optional<ASTCatchErrorVariableNode*> errorVariable = {});
     ASTControlFlowBlockNode* getBlock();
     std::optional<ASTCatchErrorVariableNode*> getErrorVariable();
+    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

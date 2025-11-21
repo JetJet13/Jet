@@ -23,9 +23,14 @@ void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatA
         returnType = lambdaWithFatArrowExpression->getReturnExpression()->getTypeSignature();
     }
 
+    auto captureVariableTypeSignatureMap = TypeSignatureLookupTable();
+    for (auto capturedVariable : *lambdaWithFatArrowExpression->getCapturedVariables()) {
+        captureVariableTypeSignatureMap.insert(capturedVariable->getId(), capturedVariable->getTypeSignature());
+    }
+
     lambdaWithFatArrowExpression->setTypeSignature(new LambdaExpressionTypeSignature(
             lambdaWithFatArrowExpression->getParameters()->getTypeSignature(),
-            strategyMap->generateLambdaExpressionScopeParameter(typeSignatureLookupTable),
+            strategyMap->generateLambdaExpressionScopeParameter(&captureVariableTypeSignatureMap),
             returnType
     ));
 }

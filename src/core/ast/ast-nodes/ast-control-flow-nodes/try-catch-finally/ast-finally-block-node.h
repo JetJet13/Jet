@@ -18,6 +18,7 @@ private:
 public:
     explicit ASTFinallyBlockNode(ASTFinallyNode* finallyKeyword, ASTControlFlowBlockNode* block);
     ASTControlFlowBlockNode* getBlock();
+    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

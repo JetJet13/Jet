@@ -17,6 +17,10 @@ ASTControlFlowBlockNode* ASTTryBlockNode::getBlock() {
     return _block;
 }
 
+std::vector<ASTFunctionReturnExpressionNode*>* ASTTryBlockNode::getReturnStatements() {
+    return _block->getReturnStatements();
+}
+
 Position* ASTTryBlockNode::getStartPosition() {
     return _tryKeyword->getStartPosition();
 }

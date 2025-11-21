@@ -42,7 +42,18 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaExpressionNode* irExpressi
             auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, i);
             InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointer, irBlock, allocationForKey->getIRType()->getUnderlyingType());
         }
-        InstructionIRInjectorHelper::injectStore(lambdaScopeAllocation, functionArgumentPointer, irBlock);
+        auto lambdaScopeMalloc = irBlock->getBuilder()->get()->CreateCall(
+                irModule->getMallocFunction(),
+                { irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getSizeInBytes()) }
+        );
+        irBlock->getBuilder()->get()->CreateMemCpy(
+                lambdaScopeMalloc,
+                irLambdaScopeType->getAlignment(),
+                lambdaScopeAllocation,
+                irLambdaScopeType->getAlignment(),
+                irLambdaScopeType->getSizeInBytes()
+        );
+        InstructionIRInjectorHelper::injectStore(lambdaScopeMalloc, functionArgumentPointer, irBlock);
     }
     return InstructionIRInjectorHelper::injectLoad(allocation->getAllocatedType(), allocation, irBlock);
 }
@@ -63,7 +74,18 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode
             auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, i);
             InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointer, irBlock, allocationForKey->getIRType()->getUnderlyingType());
         }
-        InstructionIRInjectorHelper::injectStore(lambdaScopeAllocation, functionArgumentPointer, irBlock);
+        auto lambdaScopeMalloc = irBlock->getBuilder()->get()->CreateCall(
+                irModule->getMallocFunction(),
+                { irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getSizeInBytes()) }
+        );
+        irBlock->getBuilder()->get()->CreateMemCpy(
+                lambdaScopeMalloc,
+                irLambdaScopeType->getAlignment(),
+                lambdaScopeAllocation,
+                irLambdaScopeType->getAlignment(),
+                irLambdaScopeType->getSizeInBytes()
+        );
+        InstructionIRInjectorHelper::injectStore(lambdaScopeMalloc, functionArgumentPointer, irBlock);
     }
     return InstructionIRInjectorHelper::injectLoad(allocation->getAllocatedType(), allocation, irBlock);
 }

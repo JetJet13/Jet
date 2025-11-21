@@ -10,6 +10,12 @@
 #include <string>
 #include "types/type-source.h"
 #include "types/built-in-type-source.h"
+// created lambda analyzer in post-processor to mark variables as captured, so we
+// store them on the heap (i.e. malloc) but we now need to generate the lambda scope
+// parameter using only the variables marked as captured. This isn't possible at the moment
+// because we generate the lambda scope parameter before the post-processor runs.
+
+// added captured variables list to ast lambda expression nodes. The only thing left to do is to populate them.
 
 class TypeSignature {
 protected:

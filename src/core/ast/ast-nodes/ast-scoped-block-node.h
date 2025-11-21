@@ -6,7 +6,12 @@
 #define JETLANG_AST_SCOPED_BLOCK_NODE_H
 
 #include "ast-node.h"
+#include "ast-expression-nodes/ast-function-return-expression-node.h"
 
-class ASTScopedBlockNode : public ASTNode {};
+class ASTScopedBlockNode : public ASTNode {
+public:
+    bool isScopedBlockNode() override;
+    virtual std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() = 0;
+};
 
 #endif //JETLANG_AST_SCOPED_BLOCK_NODE_H

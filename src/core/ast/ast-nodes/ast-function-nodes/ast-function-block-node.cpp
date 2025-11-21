@@ -5,30 +5,43 @@
 #include "ast-function-block-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
+#include "../ast-scoped-block-node.h"
 
 ASTFunctionBlockNode::ASTFunctionBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode) {
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
     _children.push_back(_blockStartNode);
-    _children.push_back(_blockEndNode);
     _contents = std::vector<ASTNode*>();
+    _returnStatements = std::vector<ASTFunctionReturnExpressionNode*>();
     for (auto content: contents) {
         _contents.push_back(content);
         _children.push_back(content);
+        if (content->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+            _returnStatements.push_back((ASTFunctionReturnExpressionNode*)content);
+        }
+        if (content->isScopedBlockNode()) {
+            auto scopeBlockNodeReturnStatements = ((ASTScopedBlockNode*)content)->getReturnStatements();
+            _returnStatements.insert(
+                _returnStatements.end(),
+                scopeBlockNodeReturnStatements->begin(),
+                scopeBlockNodeReturnStatements->end()
+            );
+        }
+
     }
+    _children.push_back(_blockEndNode);
 }
 
 std::vector<ASTNode*>* ASTFunctionBlockNode::getContents() {
     return &_contents;
 }
 
+std::vector<ASTFunctionReturnExpressionNode*>* ASTFunctionBlockNode::getReturnStatements() {
+    return &_returnStatements;
+}
+
 bool ASTFunctionBlockNode::hasReturnExpression() {
-    for (auto statement: _contents) {
-        if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
-            return true;
-        }
-    }
-    return false;
+    return !_returnStatements.empty();
 }
 
 Position* ASTFunctionBlockNode::getStartPosition() {

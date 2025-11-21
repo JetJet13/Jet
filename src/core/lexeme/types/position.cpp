@@ -21,3 +21,7 @@ unsigned long Position::getLine() {
 unsigned long Position::getColumn() {
     return _column;
 }
+
+bool Position::isEqual(Position* otherPosition) {
+    return _line == otherPosition->getLine() && _column == otherPosition->getColumn();
+}

@@ -19,6 +19,7 @@ private:
 public:
     explicit ASTElseBlockNode(ASTElseNode* elseKeyword, ASTControlFlowBlockNode* block);
     ASTControlFlowBlockNode* getBlock();
+    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

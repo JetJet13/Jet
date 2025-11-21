@@ -3,3 +3,7 @@
 //
 
 #include "ast-scoped-block-node.h"
+
+bool ASTScopedBlockNode::isScopedBlockNode() {
+    return true;
+}

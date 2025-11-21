@@ -49,7 +49,7 @@ IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDe
 }
 
 IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRExpressionNode* irExpression, IRContext* irContext) {
-    if ((node->isReferenced() || node->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE))
+    if ((node->isReferenced() || node->isCaptured() || node->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE))
         && !node->isGlobal()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),

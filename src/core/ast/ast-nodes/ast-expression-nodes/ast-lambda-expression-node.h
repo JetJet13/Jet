@@ -11,6 +11,7 @@
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
+#include "../ast-declaration-nodes/ast-variable-declaration-node.h"
 
 class ASTLambdaExpressionNode : public ASTExpressionNode {
 private:
@@ -19,12 +20,15 @@ private:
     ASTFunctionBlockNode* _block;
     std::optional<ASTTypeNode*> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
+    std::vector<ASTNode*> _capturedVariables;
 public:
     ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType = {});
     Lexeme* getLexeme();
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionBlockNode* getBlock();
     std::optional<ASTTypeNode*> getReturnType();
+    std::vector<ASTNode*>* getCapturedVariables();
+    void addCapturedVariable(ASTNode* variableNode);
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
     LambdaExpressionTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
