@@ -18,7 +18,6 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
         auto node = nextNode.value();
         if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
             currentScope->insert(node->getId(), node);
-            currentScope->dump();
         } else if (node->is(AST_FUNCTION_PARAMETER_NODE)) {
             auto parameterNode = (ASTFunctionParameterNode*)node;
             currentScope->insert(parameterNode->getIdentifier()->getId(), node);
@@ -36,14 +35,12 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
             lambdaScope->markAsLambdaFatArrowScope((ASTLambdaWithFatArrowExpressionNode*)node);
             scopeStack.push(lambdaScope);
             currentScope = scopeStack.top();
-            currentScope->dumpFromRootScope();
         } else if (node->isOneOf({ AST_BLOCK_END_NODE, AST_TERMINATOR_NODE })) {
-            currentScope->dumpFromRootScope();
             scopeStack.pop();
             if (!scopeStack.empty()) {
                 currentScope = scopeStack.top();
             }
-        } else if (currentScope->isLambdaScope() && node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
+        } else if (currentScope->isLambdaScope() && node->isOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE })) {
             auto insideNode = currentScope->findWithin(node->getId());
             auto outsideNode = currentScope->findInOuterScope(node->getId());
             if (!insideNode && outsideNode.has_value() && outsideNode.value()->is(AST_VARIABLE_DECLARATION_NODE)) {

@@ -76,7 +76,7 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode
         }
         auto lambdaScopeMalloc = irBlock->getBuilder()->get()->CreateCall(
                 irModule->getMallocFunction(),
-                { irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getSizeInBytes()) }
+                { irBlock->getBuilder()->get()->getInt64(irLambdaScopeType->getSizeInBytes()) }
         );
         irBlock->getBuilder()->get()->CreateMemCpy(
                 lambdaScopeMalloc,
