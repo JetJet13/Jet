@@ -11,9 +11,7 @@ IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode*
     _irGlobalVariable = irGlobalVariable;
 }
 
-bool IRVariableDeclarationNode::requiresFreeing() {
-    return this->_irExpression->requiresFreeing();
-}
+
 
 std::string IRVariableDeclarationNode::getVariableName() {
     return _node->getId();
@@ -37,6 +35,13 @@ IRInstructionNode* IRVariableDeclarationNode::getIRValue() {
 
 IRExpressionNode* IRVariableDeclarationNode::getIRExpression() {
     return _irExpression;
+}
+
+bool IRVariableDeclarationNode::needsToBeFreed() {
+    return !_node->isReferenced() &&
+    !_node->isCaptured() &&
+    !_node->isGlobal() &&
+    _irValue->getIRType()->containsTypeThatRequiresFreeing();
 }
 
 std::optional<IRInstructionNode*> IRVariableDeclarationNode::getGlobalVariable() {

@@ -1110,8 +1110,6 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.h
         post-processor/post-processor.cpp
         post-processor/post-processor.h
-        post-processor/ref-analyzer/ref-analyzer.cpp
-        post-processor/ref-analyzer/ref-analyzer.h
         ast-lookup-table/ast-lookup-table.cpp
         ast-lookup-table/ast-lookup-table.h
         ast/ast-nodes/ast-sref-node.cpp

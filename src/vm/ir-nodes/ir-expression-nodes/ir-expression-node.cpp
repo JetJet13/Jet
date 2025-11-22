@@ -13,10 +13,6 @@ bool IRExpressionNode::isGlobal() {
     return _isGlobal;
 }
 
-bool IRExpressionNode::requiresFreeing() {
-    return this->getIRType()->containsTypeThatRequiresFreeing();
-}
-
 IRType* IRExpressionNode::getUnderlyingIRType() {
     return this->getIRType()->getUnderlyingType();
 }

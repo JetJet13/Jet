@@ -192,17 +192,6 @@ IRPointerType* IRInstructionNode::getIRType() {
     return _irType;
 }
 
-bool IRInstructionNode::requiresFreeing() {
-    return !_isGlobal
-           && _isFreeable
-           && this->getIRType()->getSourceType()->containsTypeThatRequiresFreeing();
-}
-
-IRInstructionNode* IRInstructionNode::markIsFreeable() {
-    _isFreeable = true;
-    return this;
-}
-
 IRNodeType IRInstructionNode::getNodeType() {
     return IR_ALLOCATION_NODE;
 }

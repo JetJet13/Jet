@@ -10,16 +10,21 @@
 #include "ir-node.h"
 #include "ir-declaration-nodes/ir-variable-declaration-node.h"
 #include "ir-statement-nodes/ir-function-return-expression-node.h"
+#include "../types/ir-block-type.h"
 
 class IRBlockNode {
 private:
     llvm::BasicBlock* _irValue;
+    IRBlockType _type;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
     std::vector<IRNode*> _body;
     std::vector<IRBlockNode*> _successors;
     std::optional<IRBlockNode*> _parentBlock;
+    std::vector<IRExpressionNode*> _expressionsToFree;
+    std::vector<IRVariableDeclarationNode*> _variablesToFree;
+    std::optional<IRFunctionReturnExpressionNode*> _returnExpression;
 public:
-    IRBlockNode(llvm::BasicBlock* irValue);
+    IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type);
     bool hasReturnStatement();
     bool hasBranchStatement();
     llvm::BasicBlock* getBlock();
@@ -27,11 +32,27 @@ public:
     void insert(IRNode* irNode);
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
     void addVoidReturn();
+    void addExpressionToFree(IRExpressionNode* expressionNode);
+    std::vector<IRExpressionNode*>* getExpressionsToFree();
+    void addVariableToFree(IRVariableDeclarationNode* variableNode);
+    std::vector<IRVariableDeclarationNode*>* getAllVariablesToFree();
+    std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
+    void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);
+    std::optional<IRFunctionReturnExpressionNode*> getReturnExpression();
+    void setInsertionPointBeforeReturn();
     void createSuccessor();
     std::vector<IRBlockNode*>* getSuccessors();
     void addSuccessor(IRBlockNode* successorIrBlock);
     IRBlockNode* getLastSuccessorOrSelf();
     std::optional<IRBlockNode*> getParentBlock();
+    bool containsInstruction(IRInstructionNode* irInstructionNode);
+    bool isBasicBlock();
+    bool isIfBlock();
+    bool isIfThenBlock();
+    bool isIfElseBlock();
+    bool isWhileBlock();
+    bool isForLoopBlock();
+    bool isForInBlock();
     void setParentBlock(IRBlockNode* parentIRBlock);
 };
 

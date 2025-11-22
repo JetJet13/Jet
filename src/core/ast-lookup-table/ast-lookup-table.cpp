@@ -26,7 +26,7 @@ ASTLookupTable* ASTLookupTable::insert(std::string key, ASTNode* value) {
     return this;
 }
 
-ASTLookupTable* ASTLookupTable::insertCapturedVariable(ASTNode* node) {
+ASTLookupTable* ASTLookupTable::capture(ASTNode* node) {
     if (_lambda) {
         _lambda.value()->addCapturedVariableId(node->getId());
     }
@@ -37,7 +37,7 @@ ASTLookupTable* ASTLookupTable::insertCapturedVariable(ASTNode* node) {
     return this;
 }
 
-void ASTLookupTable::markAsLambdaScope(ASTLambdaExpressionNode* lambdaExpressionNode) {
+void ASTLookupTable::bindLambda(ASTLambdaExpressionNode* lambdaExpressionNode) {
     _lambda = lambdaExpressionNode;
 }
 
@@ -45,16 +45,8 @@ bool ASTLookupTable::isLambdaScope() {
     return _lambda.has_value() || _lambdaFatArrow.has_value();
 }
 
-void ASTLookupTable::markAsLambdaFatArrowScope(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpressionNode) {
+void ASTLookupTable::bindLambdaFatArrow(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpressionNode) {
     _lambdaFatArrow = lambdaWithFatArrowExpressionNode;
-}
-
-bool ASTLookupTable::isLambdaFatArrowScope() {
-    return _lambdaFatArrow.has_value();
-}
-
-std::optional<ASTLambdaWithFatArrowExpressionNode*> ASTLookupTable::getLambdaFatArrowExpression() {
-    return _lambdaFatArrow;
 }
 
 std::optional<ASTNode*> ASTLookupTable::find(std::string key) {

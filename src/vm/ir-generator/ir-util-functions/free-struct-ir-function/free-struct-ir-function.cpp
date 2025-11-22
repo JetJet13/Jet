@@ -85,7 +85,6 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
     auto loadedSizeInBytesAtIndex = isValueNotFreeableEndBlock->getBuilder()->get()->CreateLoad(intType, sizeInBytesAtIndexPointer);
     auto newStructByteOffsetValue = isValueNotFreeableEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, loadedSizeInBytesAtIndex);
     InstructionIRInjectorHelper::injectStore(newStructByteOffsetValue, elementByteOffset, isValueNotFreeableEndBlock);
-//    isValueNotFreeableEndBlock->getBuilder()->get()->CreateStore(newStructByteOffsetValue, elementByteOffset);
 
     auto newForLoopIndexValue = isValueNotFreeableEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
     isValueNotFreeableEndBlock->getBuilder()->get()->CreateStore(newForLoopIndexValue, forLoopIndex);

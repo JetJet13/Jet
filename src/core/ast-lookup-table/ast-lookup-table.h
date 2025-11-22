@@ -26,12 +26,10 @@ public:
     ASTLookupTable* insert(std::string key, ASTNode* value);
     ASTLookupTable* insertGlobalVariable(std::string key, ASTDeclarationNode* value);
     ASTLookupTable* insertChildScope(std::string key, ASTLookupTable* value);
-    ASTLookupTable* insertCapturedVariable(ASTNode* variableNode);
-    void markAsLambdaScope(ASTLambdaExpressionNode* lambdaExpressionNode);
+    ASTLookupTable* capture(ASTNode* node);
+    void bindLambda(ASTLambdaExpressionNode* lambdaExpressionNode);
     bool isLambdaScope();
-    void markAsLambdaFatArrowScope(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpressionNode);
-    bool isLambdaFatArrowScope();
-    std::optional<ASTLambdaWithFatArrowExpressionNode*> getLambdaFatArrowExpression();
+    void bindLambdaFatArrow(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpressionNode);
     std::optional<ASTNode*> find(std::string key);
     std::optional<ASTNode*> findWithin(std::string key);
     std::optional<ASTNode*> findInOuterScope(std::string key);

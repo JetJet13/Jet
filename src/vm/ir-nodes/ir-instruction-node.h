@@ -23,7 +23,6 @@ private:
     std::unordered_map<std::string, IRInstructionNode*> _childAllocationMap;
     IRPointerType* _irType;
     bool _isGlobal = false;
-    bool _isFreeable = false;
 public:
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, IRInstructionNode* parentAllocation, std::vector<IRInstructionNode*> childAllocations);
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType, std::optional<IRInstructionNode*> parentAllocation);
@@ -50,8 +49,6 @@ public:
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
     IRPointerType* getIRType();
-    bool requiresFreeing();
-    IRInstructionNode* markIsFreeable();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void printChildAllocations();
