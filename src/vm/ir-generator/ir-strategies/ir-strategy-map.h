@@ -76,6 +76,7 @@ class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
 class ClassPropertyTypeSignatureIRStrategy;
 class ClassInstanceTypeSignatureIRStrategy;
+class LambdaScopeTypeSignatureIRStrategy;
 
 class IRStrategyMap {
 private:
@@ -149,6 +150,7 @@ private:
     ClassMethodTypeSignatureIRStrategy* _classMethodTypeSignatureIRStrategy;
     ClassPropertyTypeSignatureIRStrategy* _classPropertyTypeSignatureIRStrategy;
     ClassInstanceTypeSignatureIRStrategy* _classInstanceTypeSignatureIRStrategy;
+    LambdaScopeTypeSignatureIRStrategy* _lambdaScopeTypeSignatureIRStrategy;
 public:
     IRStrategyMap();
     IntLiteralIRStrategy* getIntLiteralIRStrategy();
@@ -222,6 +224,7 @@ public:
     ClassMethodTypeSignatureIRStrategy* getClassMethodTypeSignatureIRStrategy();
     ClassPropertyTypeSignatureIRStrategy* getClassPropertyTypeSignatureIRStrategy();
     ClassInstanceTypeSignatureIRStrategy* getClassInstanceTypeSignatureIRStrategy();
+    LambdaScopeTypeSignatureIRStrategy* getLambdaScopeTypeSignatureIRStrategy();
 };
 
 #endif //JETLANG_IR_STRATEGY_MAP_H

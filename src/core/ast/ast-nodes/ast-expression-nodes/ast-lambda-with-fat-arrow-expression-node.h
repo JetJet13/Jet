@@ -19,14 +19,14 @@ private:
     ASTLambdaReturnExpressionNode* _returnExpression;
     std::optional<ASTTypeNode*> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
-    std::vector<ASTNode*> _capturedVariables;
+    std::vector<std::string> _capturedVariableIds;
 public:
     ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, std::optional<ASTTypeNode*> returnType = {});
     ASTFunctionParameterListNode* getParameters();
     ASTLambdaReturnExpressionNode* getReturnExpression();
     std::optional<ASTTypeNode*> getReturnType();
-    std::vector<ASTNode*>* getCapturedVariables();
-    void addCapturedVariable(ASTNode* variableNode);
+    std::vector<std::string>* getCapturedVariableIds();
+    void addCapturedVariableId(std::string variableId);
     void markAsReferenced() override;
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
     LambdaExpressionTypeSignature* getTypeSignature() override;

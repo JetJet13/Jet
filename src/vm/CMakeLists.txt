@@ -608,6 +608,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h
         ir-type/ir-lambda-parameter-list-type.cpp
         ir-type/ir-lambda-parameter-list-type.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

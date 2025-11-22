@@ -19,12 +19,12 @@ ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterL
     _functionParameterListStartNode = functionParameterListStartNode;
     _functionParameterListEndNode = functionParameterListEndNode;
     _children.push_back(_functionParameterListStartNode);
-    _children.push_back(_functionParameterListEndNode);
     _commas = commas;
     _parameters = std::vector<ASTFunctionParameterNode*>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
     }
+    _children.push_back(_functionParameterListEndNode);
 }
 
 std::vector<ASTFunctionParameterNode*> ASTFunctionParameterListNode::getParameters() {
@@ -37,7 +37,7 @@ unsigned long ASTFunctionParameterListNode::numParameters() {
 
 ASTFunctionParameterListNode* ASTFunctionParameterListNode::addParameter(ASTFunctionParameterNode* parameter) {
     _parameters.push_back(parameter);
-    _children.push_back(parameter);
+    _children.insert(_children.end() - 1, parameter);
     return this;
 }
 

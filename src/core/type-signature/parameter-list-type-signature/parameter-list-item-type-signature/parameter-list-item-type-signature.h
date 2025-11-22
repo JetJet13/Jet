@@ -7,15 +7,15 @@
 
 #include <vector>
 #include "../../type-signature.h"
-#include "../../struct-type-signature/struct-type-signature.h"
 #include "../../pointer-type-signature/pointer-type-signature.h"
+#include "../../lambda-scope-type-signature/lambda-scope-type-signature.h"
 
 class ParameterListItemTypeSignature : public TypeSignature {
 private:
     std::string _name;
     TypeSignature* _type;
 public:
-    static ParameterListItemTypeSignature* createScopeParameter(std::optional<StructTypeSignature*> scopeTypeSignature = {});
+    static ParameterListItemTypeSignature* createScopeParameter(std::optional<LambdaScopeTypeSignature*> scopeTypeSignature = {});
     static ParameterListItemTypeSignature* createClassScopeParameter(std::optional<PointerTypeSignature*> scopeTypeSignature = {});
     ParameterListItemTypeSignature(std::string name, TypeSignature* type);
     std::string getName();

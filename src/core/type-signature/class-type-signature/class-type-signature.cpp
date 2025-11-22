@@ -6,6 +6,7 @@
 #include "class-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 #include "class-instance-type-signature/class-instance-type-signature.h"
+#include "../struct-type-signature/struct-type-signature.h"
 
 ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();

@@ -26,14 +26,9 @@ void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lamb
         }
     }
 
-    auto captureVariableTypeSignatureMap = TypeSignatureLookupTable();
-    for (auto capturedVariable : *lambdaExpression->getCapturedVariables()) {
-        captureVariableTypeSignatureMap.insert(capturedVariable->getId(), capturedVariable->getTypeSignature());
-    }
-
     lambdaExpression->setTypeSignature(new LambdaExpressionTypeSignature(
         lambdaExpression->getParameters()->getTypeSignature(),
-        strategyMap->generateLambdaExpressionScopeParameter(&captureVariableTypeSignatureMap),
+        strategyMap->generateLambdaExpressionScopeParameter(lambdaExpression->getCapturedVariableIds()),
         returnType
     ));
 

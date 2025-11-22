@@ -19,12 +19,12 @@ ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentList
     _functionArgumentListStartNode = functionArgumentListStartNode;
     _functionArgumentListEndNode = functionArgumentListEndNode;
     _children.push_back(_functionArgumentListStartNode);
-    _children.push_back(_functionArgumentListEndNode);
     _commas = commas;
     _arguments = std::vector<ASTFunctionArgumentNode*>();
     for (auto argument: arguments) {
         this->addArgument(argument);
     }
+    _children.push_back(_functionArgumentListEndNode);
 }
 
 std::vector<ASTFunctionArgumentNode*>* ASTFunctionArgumentListNode::getArguments() {
@@ -37,7 +37,7 @@ unsigned long ASTFunctionArgumentListNode::numArguments() {
 
 ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addArgument(ASTFunctionArgumentNode* argument) {
     _arguments.push_back(argument);
-    _children.push_back(argument);
+    _children.insert(_children.end() - 1, argument);
     return this;
 }
 

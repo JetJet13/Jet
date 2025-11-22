@@ -9,7 +9,6 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../../../shared/utils/logger/logger.h"
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
@@ -71,19 +70,15 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
         irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation), irContext->getIRModule(), scope);
         if (formalParameter->getParameterType()->getName() == typeSignature->getScopeParameter()->getName()) {
             auto scopeParameterIrType = (IRStructType*)formalParameter->getParameterType()->getIRType();
-            auto scopeParameterTypeSignature = (StructTypeSignature*)typeSignature->getScopeParameter()->getTypeSignature();
             auto pointerToScopeParameterType = InstructionIRInjectorHelper::injectLoad(functionParameterAllocation->getAllocatedType(), functionParameterAllocation->getValue(), functionBlock);
-            for (const auto& keyValue : scopeParameterTypeSignature->getKeyValuePairs()->getKeyValues()) {
-//                auto underlyingType = ((PointerTypeSignature*)keyValue.second)->getUnderlyingType();
-//                auto underlyingIrType = irGenerator->generateTypeFor(underlyingType, scope, irContext);
-                auto underlyingIrType = scope->find(keyValue.first).value()->getIRType()->getSourceType();
-                auto index = scopeParameterIrType->getIndexForKey(keyValue.first);
-                auto irType = scopeParameterIrType->getIRTypeForKey(keyValue.first);
+            for (int index = 0; index < scopeParameterIrType->size(); ++index) {
+                auto key = scopeParameterIrType->getKeyForIndex(index);
+                auto irType = scopeParameterIrType->getIRTypeForKey(key);
                 auto pointerToValue = functionBlock->getBuilder()->get()->CreateStructGEP(scopeParameterIrType->getType(), pointerToScopeParameterType, index);
                 auto loadedPointerToValue = InstructionIRInjectorHelper::injectLoad(irType->getType(), pointerToValue, functionBlock, irType);
                 scope->insert(
-                        keyValue.first,
-                        IRInstructionNodeFactory::create(loadedPointerToValue, irGenerator->generateIrPointerType(underlyingIrType))
+                        key,
+                        IRInstructionNodeFactory::create(loadedPointerToValue, irGenerator->generateIrPointerType(irType->getSourceType()))
                 );
             }
         }

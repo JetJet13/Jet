@@ -476,9 +476,7 @@ proc testLambdaReturn() {
     const result = testLambda();
     print("testLambdaReturn", result);
     const structWithLambda = { foo: getTestLambda(), mars: () => 20, bar: 100 };
-    // todo - store variables on the heap (ie. use malloc instead of alloca)
-    // when they are used in lambdas
-    print("structWithLambda", testLambda(), structWithLambda.foo());
+    print("structWithLambda", testLambda(), structWithLambda.mars(), structWithLambda.foo());
 }
 
 main();

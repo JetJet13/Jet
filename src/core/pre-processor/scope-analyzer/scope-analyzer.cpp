@@ -4,7 +4,6 @@
 
 #include "scope-analyzer.h"
 #include "../../ast-traverser/ast-traverser.h"
-#include "../../../shared/utils/logger/logger.h"
 
 void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
     auto astTraverser = ASTTraverser();
@@ -19,6 +18,7 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
         auto node = nextNode.value();
         if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
             currentScope->insert(node->getId(), node);
+            currentScope->dump();
         } else if (node->is(AST_FUNCTION_PARAMETER_NODE)) {
             auto parameterNode = (ASTFunctionParameterNode*)node;
             currentScope->insert(parameterNode->getIdentifier()->getId(), node);
@@ -36,12 +36,11 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
             lambdaScope->markAsLambdaFatArrowScope((ASTLambdaWithFatArrowExpressionNode*)node);
             scopeStack.push(lambdaScope);
             currentScope = scopeStack.top();
-            Logger::log("ADDED LAMBDA WITH FAT ARROW SCOPE!");
-        } else if (node->isOneOf({ AST_BLOCK_END_NODE, AST_TERMINATOR_NODE })) {
-            Logger::log("POPPING SCOPE!", node->toString());
-            scopeStack.pop();
             currentScope->dumpFromRootScope();
-            if (astTraverser.hasMore()) {
+        } else if (node->isOneOf({ AST_BLOCK_END_NODE, AST_TERMINATOR_NODE })) {
+            currentScope->dumpFromRootScope();
+            scopeStack.pop();
+            if (!scopeStack.empty()) {
                 currentScope = scopeStack.top();
             }
         } else if (currentScope->isLambdaScope() && node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {

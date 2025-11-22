@@ -20,15 +20,15 @@ private:
     ASTFunctionBlockNode* _block;
     std::optional<ASTTypeNode*> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
-    std::vector<ASTNode*> _capturedVariables;
+    std::vector<std::string> _capturedVariableIds;
 public:
     ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType = {});
     Lexeme* getLexeme();
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionBlockNode* getBlock();
     std::optional<ASTTypeNode*> getReturnType();
-    std::vector<ASTNode*>* getCapturedVariables();
-    void addCapturedVariable(ASTNode* variableNode);
+    std::vector<std::string>* getCapturedVariableIds();
+    void addCapturedVariableId(std::string variableId);
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
     LambdaExpressionTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

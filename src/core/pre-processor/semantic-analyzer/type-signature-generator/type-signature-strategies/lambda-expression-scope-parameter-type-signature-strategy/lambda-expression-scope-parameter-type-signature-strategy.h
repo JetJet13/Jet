@@ -11,7 +11,7 @@
 
 class LambdaExpressionScopeParameterTypeSignatureStrategy {
 public:
-    ParameterListItemTypeSignature* create(TypeSignatureLookupTable* captureVariableTypeSignatureMap);
+    ParameterListItemTypeSignature* create(std::vector<std::string>* captureVariableIds);
 };
 
 

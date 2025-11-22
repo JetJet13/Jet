@@ -73,6 +73,7 @@
 #include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
@@ -354,6 +355,9 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case CLASS_INSTANCE_TYPE_SOURCE:
             return _irStrategyMap.getClassInstanceTypeSignatureIRStrategy()->generate(
                     (ClassInstanceTypeSignature*) typeSignature, this, scope, irContext);
+        case LAMBDA_SCOPE_TYPE_SOURCE:
+            return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(
+                    (LambdaScopeTypeSignature*) typeSignature, this, scope, irContext);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:

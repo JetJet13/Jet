@@ -14,6 +14,7 @@ ASTTraverser::ASTTraverser() {
 void ASTTraverser::init(ASTNode* startNode) {
     this->reset();
     _stack.push(startNode);
+    _hasMore = true;
 }
 
 void ASTTraverser::reset() {

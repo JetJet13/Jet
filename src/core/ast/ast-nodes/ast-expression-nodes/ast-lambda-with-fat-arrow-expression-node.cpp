@@ -10,7 +10,7 @@ ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunc
     _parameters = parameters;
     _returnExpression = returnExpression;
     _returnType = returnType;
-    _capturedVariables = std::vector<ASTNode*>();
+    _capturedVariableIds = std::vector<std::string>();
     _children.push_back(_parameters);
     _children.push_back(_returnExpression);
     if (_returnType) {
@@ -26,10 +26,6 @@ ASTLambdaReturnExpressionNode* ASTLambdaWithFatArrowExpressionNode::getReturnExp
     return _returnExpression;
 }
 
-std::vector<ASTNode*>* ASTLambdaWithFatArrowExpressionNode::getCapturedVariables() {
-    return &_capturedVariables;
-}
-
 void ASTLambdaWithFatArrowExpressionNode::markAsReferenced() {
     _isReferenced = true;
     _returnExpression->markAsReferenced();
@@ -39,8 +35,12 @@ std::optional<ASTTypeNode*> ASTLambdaWithFatArrowExpressionNode::getReturnType()
     return _returnType;
 }
 
-void ASTLambdaWithFatArrowExpressionNode::addCapturedVariable(ASTNode* variableNode) {
-    _capturedVariables.push_back(variableNode);
+std::vector<std::string>* ASTLambdaWithFatArrowExpressionNode::getCapturedVariableIds() {
+    return &_capturedVariableIds;
+}
+
+void ASTLambdaWithFatArrowExpressionNode::addCapturedVariableId(std::string variableId) {
+    _capturedVariableIds.push_back(variableId);
 }
 
 void ASTLambdaWithFatArrowExpressionNode::setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature) {
