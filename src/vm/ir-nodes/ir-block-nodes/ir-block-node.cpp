@@ -3,7 +3,7 @@
 //
 
 #include "ir-block-node.h"
-#include "../../shared/utils/logger/logger.h"
+#include "../../../shared/utils/logger/logger.h"
 
 IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type) {
     _irValue = irValue;
@@ -42,6 +42,10 @@ void IRBlockNode::addVoidReturn() {
     _builder.get()->CreateRetVoid();
 }
 
+bool IRBlockNode::hasVariablesToFree() {
+    return this->getVariablesToFree()->size() > 0;
+}
+
 void IRBlockNode::addExpressionToFree(IRExpressionNode* expressionNode) {
     _expressionsToFree.push_back(expressionNode);
 }
@@ -59,14 +63,10 @@ void IRBlockNode::addVariableToFree(IRVariableDeclarationNode* variableNode) {
 }
 
 std::vector<IRVariableDeclarationNode*>* IRBlockNode::getVariablesToFree() {
-    return &_variablesToFree;
-}
-
-std::vector<IRVariableDeclarationNode*>* IRBlockNode::getAllVariablesToFree() {
     auto allVariablesToFree = new std::vector<IRVariableDeclarationNode*>();
     allVariablesToFree->insert(allVariablesToFree->begin(), _variablesToFree.begin(), _variablesToFree.end());
     for (auto successorBlock : _successors) {
-        if (successorBlock->isBasicBlock()) {
+        if (successorBlock->is(IR_BASIC_BT)) {
             auto moreVariablesToFree = successorBlock->getVariablesToFree();
             allVariablesToFree->insert(
                     allVariablesToFree->end(),
@@ -83,7 +83,7 @@ std::optional<IRFunctionReturnExpressionNode*> IRBlockNode::getReturnExpression(
     return _returnExpression;
 }
 
-void IRBlockNode::setInsertionPointBeforeReturn() {
+void IRBlockNode::setInsertionPointBeforeLastInstruction() {
     auto block = this->getLastSuccessorOrSelf();
     block->getBuilder()->get()->SetInsertPoint(block->getBlock()->getTerminator());
 }
@@ -99,6 +99,16 @@ void IRBlockNode::createSuccessor() {
 
 std::vector<IRBlockNode*>* IRBlockNode::getSuccessors() {
     return &_successors;
+}
+
+std::vector<IRBlockNode*>* IRBlockNode::getAllSuccessors() {
+    auto allSuccessors = new std::vector<IRBlockNode*>();
+    for (auto successor : _successors) {
+        allSuccessors->push_back(successor);
+        auto successorsOfSuccessor = successor->getAllSuccessors();
+        allSuccessors->insert(allSuccessors->end(), successorsOfSuccessor->begin(), successorsOfSuccessor->end());
+    }
+    return allSuccessors;
 }
 
 void IRBlockNode::addSuccessor(IRBlockNode* successorIrBlock) {
@@ -139,32 +149,15 @@ bool IRBlockNode::containsInstruction(IRInstructionNode* irInstructionNode) {
     return false;
 }
 
-bool IRBlockNode::isBasicBlock() {
-    return _type == IR_BASIC_BT;
+bool IRBlockNode::is(IRBlockType blockType) {
+    return _type == blockType;
 }
 
-bool IRBlockNode::isIfBlock() {
-    return _type == IR_IF_BT;
-}
-
-bool IRBlockNode::isIfThenBlock() {
-    return _type == IR_IF_THEN_BT;
-}
-
-bool IRBlockNode::isIfElseBlock() {
-    return _type == IR_IF_ELSE_BT;
-}
-
-bool IRBlockNode::isWhileBlock() {
-    return _type == IR_WHILE_BT;
-}
-
-bool IRBlockNode::isForLoopBlock() {
-    return _type == IR_FOR_LOOP_BT;
-}
-
-bool IRBlockNode::isForInBlock() {
-    return _type == IR_FOR_IN_BT;
+bool IRBlockNode::isOneOf(std::vector<IRBlockType> blockTypes) {
+    return std::find(
+            blockTypes.begin(),
+            blockTypes.end(),
+            _type) != blockTypes.end();
 }
 
 void IRBlockNode::setParentBlock(IRBlockNode* parentIRBlock) {

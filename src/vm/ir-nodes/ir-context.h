@@ -6,7 +6,7 @@
 #define JETLANG_IR_CONTEXT_H
 
 #include "llvm/IR/LLVMContext.h"
-#include "ir-block-node.h"
+#include "ir-block-nodes/ir-block-node.h"
 #include "ir-module-node.h"
 #include "../ir-scope/ir-scope.h"
 

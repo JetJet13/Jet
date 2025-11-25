@@ -94,8 +94,8 @@ add_library(jet-vm
         ir-nodes/ir-literal-nodes/ir-literal-node.h
         ir-generator/ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.h
-        ir-nodes/ir-block-node.cpp
-        ir-nodes/ir-block-node.h
+        ir-nodes/ir-block-nodes/ir-block-node.cpp
+        ir-nodes/ir-block-nodes/ir-block-node.h
         ir-nodes/ir-module-node.cpp
         ir-nodes/ir-module-node.h
         ir-nodes/ir-function-nodes/ir-function-node.cpp
@@ -611,6 +611,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.h
         types/ir-block-type.h
+        ir-nodes/ir-block-nodes/ir-control-flow-block-node.cpp
+        ir-nodes/ir-block-nodes/ir-control-flow-block-node.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h
 )
 
 target_link_libraries(jet-vm

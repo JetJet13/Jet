@@ -7,13 +7,13 @@
 
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/BasicBlock.h"
-#include "ir-node.h"
-#include "ir-declaration-nodes/ir-variable-declaration-node.h"
-#include "ir-statement-nodes/ir-function-return-expression-node.h"
-#include "../types/ir-block-type.h"
+#include "../ir-node.h"
+#include "../ir-declaration-nodes/ir-variable-declaration-node.h"
+#include "../ir-statement-nodes/ir-function-return-expression-node.h"
+#include "../../types/ir-block-type.h"
 
 class IRBlockNode {
-private:
+protected:
     llvm::BasicBlock* _irValue;
     IRBlockType _type;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
@@ -32,27 +32,23 @@ public:
     void insert(IRNode* irNode);
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
     void addVoidReturn();
+    bool hasVariablesToFree();
     void addExpressionToFree(IRExpressionNode* expressionNode);
     std::vector<IRExpressionNode*>* getExpressionsToFree();
     void addVariableToFree(IRVariableDeclarationNode* variableNode);
-    std::vector<IRVariableDeclarationNode*>* getAllVariablesToFree();
-    std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
+    virtual std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
+    virtual void setInsertionPointBeforeLastInstruction();
     void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);
     std::optional<IRFunctionReturnExpressionNode*> getReturnExpression();
-    void setInsertionPointBeforeReturn();
     void createSuccessor();
     std::vector<IRBlockNode*>* getSuccessors();
+    std::vector<IRBlockNode*>* getAllSuccessors();
     void addSuccessor(IRBlockNode* successorIrBlock);
     IRBlockNode* getLastSuccessorOrSelf();
     std::optional<IRBlockNode*> getParentBlock();
     bool containsInstruction(IRInstructionNode* irInstructionNode);
-    bool isBasicBlock();
-    bool isIfBlock();
-    bool isIfThenBlock();
-    bool isIfElseBlock();
-    bool isWhileBlock();
-    bool isForLoopBlock();
-    bool isForInBlock();
+    bool is(IRBlockType blockType);
+    bool isOneOf(std::vector<IRBlockType> blockTypes);
     void setParentBlock(IRBlockNode* parentIRBlock);
 };
 

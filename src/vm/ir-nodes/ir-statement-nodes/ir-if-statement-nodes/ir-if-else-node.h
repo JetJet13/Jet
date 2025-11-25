@@ -6,7 +6,7 @@
 #define JETLANG_IR_IF_ELSE_NODE_H
 
 #include "../../ir-expression-nodes/ir-expression-node.h"
-#include "../../ir-block-node.h"
+#include "../../ir-block-nodes/ir-block-node.h"
 
 class IRIfElseNode : public IRNode {
 private:

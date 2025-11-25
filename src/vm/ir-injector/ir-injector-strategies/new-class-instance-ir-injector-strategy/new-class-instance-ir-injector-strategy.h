@@ -9,7 +9,7 @@
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.h"
 #include "../ir-injector-strategy.h"
-#include "../../../ir-nodes/ir-block-node.h"
+#include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
 

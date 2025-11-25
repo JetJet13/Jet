@@ -6,7 +6,7 @@
 #define JETLANG_IR_LAMBDA_EXPRESSION_NODE_H
 
 #include <llvm/IR/Function.h>
-#include "../ir-block-node.h"
+#include "../ir-block-nodes/ir-block-node.h"
 #include "../ir-function-nodes/ir-function-parameter-list-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
 #include "ir-expression-node.h"

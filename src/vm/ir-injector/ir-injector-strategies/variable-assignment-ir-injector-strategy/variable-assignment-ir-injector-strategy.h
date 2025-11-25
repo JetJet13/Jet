@@ -8,7 +8,7 @@
 #include "../../../ir-lookup-table/ir-lookup-table.h"
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.h"
-#include "../../../ir-nodes/ir-block-node.h"
+#include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../../ir-injector.h"
 
 class VariableAssignmentIRInjectorStrategy {

@@ -7,7 +7,7 @@
 
 #include "../ir-statement-node.h"
 #include "../../../../core/ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
-#include "../../ir-block-node.h"
+#include "../../ir-block-nodes/ir-block-node.h"
 
 class IRForInStatementNode : public IRStatementNode {
 private:

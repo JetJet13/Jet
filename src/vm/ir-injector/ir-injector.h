@@ -6,7 +6,7 @@
 #define JETLANG_IR_INJECTOR_H
 
 #include "../ir-nodes/ir-expression-nodes/ir-expression-node.h"
-#include "../ir-nodes/ir-block-node.h"
+#include "../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../ir-lookup-table/ir-lookup-table.h"
 #include "../ir-nodes/ir-module-node.h"
 #include "../ir-nodes/ir-declaration-nodes/ir-declaration-node.h"

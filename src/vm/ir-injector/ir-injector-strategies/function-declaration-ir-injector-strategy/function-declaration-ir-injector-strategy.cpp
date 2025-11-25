@@ -3,24 +3,33 @@
 //
 
 #include "function-declaration-ir-injector-strategy.h"
-#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 void FunctionDeclarationIRInjectorStrategy::inject(IRFunctionDeclarationNode* irFunctionDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     for (auto statement: *irFunctionDeclaration->getBlock()->getBody()) {
         irInjector->inject(irFunctionDeclaration->getBlock(), statement, irModule, irFunctionDeclaration->getScope());
     }
 
-//    irFunctionDeclaration->getBlock()->setInsertionPointBeforeReturn();
-//    for (auto variablesToFree : *irFunctionDeclaration->getBlock()->getVariablesToFree()) {
-//        auto typeValue = irInjector->inject(irFunctionDeclaration->getBlock(), variablesToFree->getIRValue()->getIRType()->getSourceType());
-//        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variablesToFree->getIRValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irFunctionDeclaration->getBlock());
-//        irFunctionDeclaration->getBlock()->getBuilder()->get()->CreateCall(
-//                irModule->getFreeValueFunction()->getFunctionType(),
-//                irModule->getFreeValueFunction(),
-//                {
-//                    variablesToFree->getValue(),
-//                    loadedTypeValue
-//                }
-//        );
-//    }
+    for (auto childBlock : *irFunctionDeclaration->getBlock()->getAllSuccessors()) {
+        if (childBlock->hasVariablesToFree()) {
+            childBlock->setInsertionPointBeforeLastInstruction();
+            FreeIRInjectorHelper::freeBlockVariables(
+                    childBlock,
+                    childBlock->getVariablesToFree(),
+                    irInjector,
+                    irModule,
+                    scope
+            );
+        }
+    }
+// todo - get this working
+//    auto finalBlock = irFunctionDeclaration->getBlock()->getLastSuccessorOrSelf();
+//    finalBlock->setInsertionPointBeforeLastInstruction();
+//    FreeIRInjectorHelper::freeBlockVariables(
+//            finalBlock,
+//            irFunctionDeclaration->getBlock()->getVariablesToFree(),
+//            irInjector,
+//            irModule,
+//            scope
+//    );
 }

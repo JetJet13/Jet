@@ -3,6 +3,7 @@
 //
 
 #include "if-statement-ir-injector-strategy.h"
+#include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto endBlock = irIfStatement->getIfElseNode()->getEndBlock();

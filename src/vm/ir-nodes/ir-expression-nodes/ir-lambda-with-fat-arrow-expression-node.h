@@ -6,7 +6,7 @@
 #define JETLANG_IR_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE_H
 
 #include <llvm/IR/Function.h>
-#include "../ir-block-node.h"
+#include "../ir-block-nodes/ir-block-node.h"
 #include "../ir-function-nodes/ir-function-parameter-list-node.h"
 #include "ir-expression-node.h"
 #include "../../ir-type/ir-lambda-type.h"

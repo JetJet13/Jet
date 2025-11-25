@@ -27,7 +27,7 @@
 #include "../ir-nodes/ir-node.h"
 #include "../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../ir-nodes/ir-literal-nodes/ir-literal-node.h"
-#include "../ir-nodes/ir-block-node.h"
+#include "../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../ir-nodes/ir-module-node.h"
 #include "../ir-nodes/ir-function-nodes/ir-function-node.h"
 #include "../ir-nodes/ir-function-nodes/ir-function-parameter-list-node.h"
@@ -65,6 +65,7 @@
 #include "../../core/ast/ast-nodes/ast-type-declaration-nodes/ast-type-declaration-node.h"
 #include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.h"
 #include "../ir-type/ir-array-type.h"
+#include "../ir-nodes/ir-block-nodes/ir-control-flow-block-node.h"
 
 class IRGenerator {
 private:

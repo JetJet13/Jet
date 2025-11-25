@@ -607,59 +607,59 @@ IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
 }
 
 IRBlockNode* IRGenerator::generateIfBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.cond", irContext->getFunction()), IR_IF_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.cond", irContext->getFunction()), IR_IF_BT);
 }
 
 IRBlockNode* IRGenerator::generateIfThenBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.true", irContext->getFunction()), IR_IF_THEN_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.true", irContext->getFunction()), IR_IF_THEN_BT);
 }
 
 IRBlockNode* IRGenerator::generateIfElseBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.false", irContext->getFunction()), IR_IF_ELSE_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.false", irContext->getFunction()), IR_IF_ELSE_BT);
 }
 
 IRBlockNode* IRGenerator::generateIfEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.end", irContext->getFunction()), IR_IF_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.end", irContext->getFunction()), IR_IF_END_BT);
 }
 
 IRBlockNode* IRGenerator::generateWhileConditionBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.condition", irContext->getFunction()), IR_WHILE_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.condition", irContext->getFunction()), IR_WHILE_BT);
 }
 
 IRBlockNode* IRGenerator::generateWhileBodyBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.body", irContext->getFunction()), IR_WHILE_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.body", irContext->getFunction()), IR_WHILE_BODY_BT);
 }
 
 IRBlockNode* IRGenerator::generateWhileEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.end", irContext->getFunction()), IR_WHILE_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.end", irContext->getFunction()), IR_WHILE_END_BT);
 }
 
 IRBlockNode* IRGenerator::generateForLoopConditionBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.condition", irContext->getFunction()), IR_FOR_LOOP_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.condition", irContext->getFunction()), IR_FOR_LOOP_BT);
 }
 
 IRBlockNode* IRGenerator::generateForLoopBodyBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.body", irContext->getFunction()), IR_FOR_LOOP_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.body", irContext->getFunction()), IR_FOR_LOOP_BODY_BT);
 }
 
 IRBlockNode* IRGenerator::generateForLoopEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.end", irContext->getFunction()), IR_FOR_LOOP_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.end", irContext->getFunction()), IR_FOR_LOOP_END_BT);
 }
 
 IRBlockNode* IRGenerator::generateForInBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in", irContext->getFunction()), IR_FOR_IN_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in", irContext->getFunction()), IR_FOR_IN_BT);
 }
 
 IRBlockNode* IRGenerator::generateForInSetupBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.setup", irContext->getFunction()), IR_FOR_IN_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.setup", irContext->getFunction()), IR_FOR_IN_SETUP_BT);
 }
 
 IRBlockNode* IRGenerator::generateForInBodyBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.body", irContext->getFunction()), IR_FOR_IN_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.body", irContext->getFunction()), IR_FOR_IN_BODY_BT);
 }
 
 IRBlockNode* IRGenerator::generateForInEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.end", irContext->getFunction()), IR_FOR_IN_BT);
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.end", irContext->getFunction()), IR_FOR_IN_END_BT);
 }
 
 IRBlockNode* IRGenerator::generateBasicBlock() {

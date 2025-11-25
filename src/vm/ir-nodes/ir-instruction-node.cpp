@@ -3,7 +3,7 @@
 //
 
 #include "ir-instruction-node.h"
-#include "ir-block-node.h"
+#include "ir-block-nodes/ir-block-node.h"
 #include "../../shared/utils/logger/logger.h"
 #include <utility>
 

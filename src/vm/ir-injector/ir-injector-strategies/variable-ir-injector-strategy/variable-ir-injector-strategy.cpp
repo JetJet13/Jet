@@ -20,7 +20,7 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
         InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue(), irBlock, irVariableDeclaration->getGlobalVariable().value()->getIRType());
     }
     if (irVariableDeclaration->needsToBeFreed()) {
-        Logger::log("IR VARIABLE NEEDS TO BE FREED!", irVariableDeclaration->getVariableName());
+        Logger::log("IR VARIABLE NEEDS TO BE FREED!", irVariableDeclaration->getVariableName(), irBlock->getBlock()->getName().str());
         irBlock->addVariableToFree(irVariableDeclaration);
     }
 }

@@ -21,7 +21,7 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-class-method-invocation-expression-node.h"
-#include "../../../ir-nodes/ir-block-node.h"
+#include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-ref-expression-node.h"
 #include "strategies/literal-ir-identifier-expression-injector-strategy/literal-ir-identifier-expression-injector-strategy.h"
 #include "strategies/literal-ir-object-access-expression-injector-strategy/literal-ir-object-access-expression-injector-strategy.h"

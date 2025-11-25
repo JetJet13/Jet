@@ -13,7 +13,7 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
-#include "../../../ir-nodes/ir-block-node.h"
+#include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "strategies/tuple-ir-tuple-expression-injector-strategy/tuple-ir-tuple-expression-injector-strategy.h"
 #include "strategies/tuple-ir-identifier-expression-injector-strategy/tuple-ir-identifier-expression-injector-strategy.h"
 #include "strategies/tuple-ir-tuple-access-expression-injector-strategy/tuple-ir-tuple-access-expression-injector-strategy.h"

@@ -7,7 +7,7 @@
 
 #include <llvm/IR/Function.h>
 #include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
-#include "../ir-block-node.h"
+#include "../ir-block-nodes/ir-block-node.h"
 #include "../ir-function-nodes/ir-function-parameter-list-node.h"
 #include "ir-declaration-node.h"
 #include "../../ir-lookup-table/ir-lookup-table.h"

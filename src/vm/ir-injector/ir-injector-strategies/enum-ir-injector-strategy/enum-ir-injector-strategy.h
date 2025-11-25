@@ -6,7 +6,7 @@
 #define JETLANG_ENUM_IR_INJECTOR_STRATEGY_H
 
 #include "../ir-injector-strategy.h"
-#include "../../../ir-nodes/ir-block-node.h"
+#include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 
 

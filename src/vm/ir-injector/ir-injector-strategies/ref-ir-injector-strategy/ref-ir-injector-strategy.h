@@ -7,7 +7,7 @@
 
 #include "../ir-injector-strategy.h"
 #include "../../../ir-nodes/ir-module-node.h"
-#include "../../../ir-nodes/ir-block-node.h"
+#include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "strategies/ref-ir-ref-expression-injector-strategy/ref-ir-ref-expression-injector-strategy.h"
 #include "strategies/ref-ir-identifier-expression-injector-strategy/ref-ir-identifier-expression-injector-strategy.h"
 #include "strategies/ref-ir-sref-expression-injector-strategy/ref-ir-sref-expression-injector-strategy.h"

@@ -1,9 +1,491 @@
 import MyOtherModule from "./other-test-file.jet";
 
+proc main() {
+    const x = range(10);
+    assert(x == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    for item in x {
+        print(item);
+    }
+    const z = range(10, 15, 2);
+    assert(z == [10, 12, 14]);
+    for item in z {
+        print(item);
+    }
+    const negX = range(-10);
+    assert(negX == [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]);
+    for item in negX {
+        print(item);
+    }
+    const negZ = range(-10, -15, 1);
+    assert(negZ.empty());
+    print('b', 'v', 104, "HELLO!", true, false, true, false, 10009, 'c', 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200);
+}
+
+proc testPrint() {
+    const m = [1,2,3];
+    const s = { foo: "bar", hello: 120, aa: [4, 5, 7], zz: ref 10, nested: { age: 4, color: "red" } };
+    const t = { 190, true, false, 'b' };
+    const classInstance = new MyClass(29, "Blue");
+    const x = 999;
+    const y = 6;
+    print(y);
+    print(x);
+    print(y);
+    print(x);
+    print(y, x, y);
+    print(99, 22, 29, 44, 55, 66, 77, 88, 99);
+    print(true, false, true, false, true);
+    print('a', 'b', 'c', 'd', 'e');
+    print("Al", "Bob", "Chris", "Dom", "Eric");
+    print(200, "Al", true, 'c', false, "Eric", 90.092);
+    print(m[1], 20);
+    print(y, y, y);
+    print(y, y, y);
+    print(22);
+    print(54.290);
+    print('c');
+    print(true);
+    print(false);
+    print("moo");
+    print(m);
+    print(ref m);
+    print([5,6,7]);
+    print([ref 5, ref 6, ref 7]);
+    print([ [1,2,3], [4,5,6], [7,8,9] ]);
+    print([ { a: 'a', b: 'b' }, { a: 'n', b: 'm' }, { a: 't', b: 'y' } ]);
+    print(s);
+    print(t);
+    print(classInstance);
+    print(ref classInstance);
+    print([new OtherClass(), new OtherClass()]);
+    print({ classInstance, classInstance });
+    print([ classInstance, classInstance ]);
+}
+
+proc testArrayPrototypeFunctions() {
+    print("--- my array prototype ---");
+    const myArray = range(15);
+    assert(myArray == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+    print("at index 1:", myArray[1]);
+    print("size", myArray.size());
+
+    // todo - get this working
+    //myArray.append(15);
+    print("newSize (after append)", myArray.size());
+    print("newValue", myArray[14], myArray[15]);
+
+    // todo - get this working
+    //myArray.prepend(-100);
+    print("newSize (after prepend)", myArray.size());
+    print("newValue", myArray[1], myArray[0]);
+
+    myArray.drop(2);
+    assert(myArray.size() == 13);
+    assert(myArray == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+    print("newSize (after drop 2)", myArray.size());
+    print("newValue", myArray[0], myArray[1], myArray[12], myArray[13]);
+
+    myArray.dropLast(2);
+    assert(myArray.size() == 11);
+    assert(myArray == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    print("newSize (after dropLast 2)", myArray.size());
+    print("newValue", myArray[0], myArray[10], myArray[11], myArray[12], myArray[13], myArray[14], myArray[15]);
+
+    const takeExample = myArray.take(2);
+    assert(takeExample == [2, 3]);
+    print("takeExample", takeExample[0], takeExample[1]);
+
+    const takeLastExample = myArray.takeLast(2);
+    assert(takeLastExample == [11, 12]);
+    print("takeLastExample", takeLastExample[0], takeLastExample[1]);
+
+    const headExample = myArray.head();
+    const sumHeadExample = headExample + 100;
+    assert(headExample == 2);
+    print("head", headExample, sumHeadExample);
+
+    const lastExample = myArray.last();
+    const sumLastExample = lastExample + 100;
+    assert(lastExample == 12);
+    print("last", lastExample, sumLastExample);
+
+    const myArrayTail = myArray.tail();
+    assert(myArrayTail == [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    print("myArrayTail", myArrayTail.size(), myArrayTail[0], myArrayTail[1]);
+
+    const oneArray = [1,2,3];
+    const twoArray = [4,5,6];
+    const concatResult = oneArray ++ twoArray;
+    assert(concatResult == [1, 2, 3, 4, 5, 6]);
+    print("concatResult", concatResult.size());
+    for item in concatResult {
+        print("concatItem", item);
+    }
+
+    const emptyArray: [int] = [];
+    assert(emptyArray.empty() == true);
+    print("test array.isEmpty():", emptyArray.empty(), oneArray.empty());
+}
+
+proc testCopyFunctions() {
+    const x = 50;
+    const xCopy = x;
+    assert(x == xCopy);
+    print("x", x, xCopy);
+
+    const y = 20.204;
+    const yCopy = y;
+    assert(y == yCopy);
+    print("y", y, yCopy);
+
+    const z = 'c';
+    const zCopy = z;
+    assert(z == zCopy);
+    print("z", z, zCopy);
+
+    const b = true;
+    const bCopy = b;
+    assert(b == bCopy);
+    print("b", b, bCopy);
+
+    const s = "hello world";
+    const sCopy = s;
+    assert(s == sCopy);
+    print("s", s, sCopy);
+
+    const t = { foo: 10, bar: false };
+    const tCopy = t;
+    assert(t == tCopy, "t == tCopy");
+    print("t", t.foo, t.bar, tCopy.foo, tCopy.bar);
+
+    const a = [1,2,3,4,5];
+    const aCopy = a;
+    assert(a == aCopy);
+    print("a", a.size(), a[0], a[4], "|", aCopy.size(), aCopy[0], aCopy[4]);
+
+    const v = { true, 'c', 800 };
+    const vCopy = v;
+    assert(v == vCopy, "v == vCopy");
+    print("v", v.0, v.1, v.2, "|", vCopy.0, vCopy.1, vCopy.2);
+}
+
+proc testRefFunctions() {
+    let x = 50;
+    const refX = ref x;
+    const srefX = sref refX;
+    const y = dref refX;
+    print("refX", x, refX, srefX, y);
+    x = 45;
+    assert(x == 45);
+    assert(refX == 45);
+    assert(refX == srefX);
+    assert(y != refX);
+    assert(y == 50);
+    print("refX (after update)", x, refX, srefX, y);
+
+    const myArr = [10, 20, 40];
+    const refMyArr = ref myArr;
+    const refValue = refMyArr[0];
+
+    assert(refValue == refMyArr[0]);
+    print("refMyArr", refValue, refMyArr[0]);
+
+    const myObj = { foo: 13, bar: true, nest: { go: 'n', mars: [1, 55, 6], novo: { "evo", true, 113 } } };
+    const refMyObj = ref myObj;
+    const refMyObjFoo = refMyObj.foo;
+    print("refMyObj", refMyObjFoo, refMyObj.foo);
+    myObj.foo = 190;
+    print("myObj (updated)", myObj.foo, refMyObj.foo, refMyObjFoo);
+    refMyObj.foo = 174;
+    print("refMyObj (updated)", myObj.foo, refMyObj.foo, refMyObjFoo);
+    const refFoo = ref myObj.foo;
+    print("refFoo", myObj.foo, refMyObj.foo, refFoo);
+    myObj.foo = 754;
+    print("refFoo (updated)", myObj.foo, refMyObj.foo, refFoo);
+    myObj.nest.mars.append(10);
+    print("mars (updated - append)", myObj.nest.mars.size(), refMyObj.nest.mars.size());
+    refMyObj.nest.mars.append(11);
+    print("mars (updated - append via ref)", myObj.nest.mars.size(), refMyObj.nest.mars.size());
+    print("novo.evo", myObj.nest.novo.0, refMyObj.nest.novo.0);
+    const myTuple = { 13, true, { 'n', [1, 55, 6], { "evo", true, 113 } } };
+    const refMyTuple = ref myTuple;
+    const srefMyTuple = sref refMyTuple;
+    const otherRefMyTuple = ref myTuple;
+    const refMyTupleFoo = refMyTuple.0;
+    print("refMyTuple", refMyTupleFoo, refMyTuple.0);
+    myTuple.0 = 190;
+    print("myTuple (updated)", myTuple.0, refMyTuple.0, refMyTupleFoo);
+    refMyTuple.0 = 174;
+    print("refMyTuple (updated)", myTuple.0, refMyTuple.0, refMyTupleFoo);
+    const refTupleFoo = ref myTuple.0;
+    assert(myTuple.0 == refMyTuple.0);
+    print("refTupleFoo", myTuple.0, refMyTuple.0, refTupleFoo);
+    myTuple.0 = 754;
+    assert(refMyTuple == myTuple);
+    assert(refMyTuple.refOf(myTuple));
+    assert(refMyTuple.srefWith(srefMyTuple));
+    assert(!refMyTuple.srefWith(otherRefMyTuple));
+    assert(refMyTuple.sameRefAs(otherRefMyTuple), "My custom message!");
+    assert(myTuple.0 == refMyTuple.0);
+    print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
+
+    myTuple.2.1.append(10);
+    assert(myTuple.2.1.size() == refMyTuple.2.1.size());
+    print("myTuple array (updated - append)", myTuple.2.1.size(), refMyTuple.2.1.size());
+
+    refMyTuple.2.1.append(11);
+    assert(myTuple.2.1.size() == refMyTuple.2.1.size());
+    print("myTuple array (updated - append via ref)", myTuple.2.1.size(), refMyTuple.2.1.size());
+
+    assert(myTuple.2.2.0 == refMyTuple.2.2.0);
+    print("myTuple nested tuple", myTuple.2.2.0, refMyTuple.2.2.0);
+}
+
+proc testCopyParameterFunctions(x: int, y: float, z: bool, a: [int], b: { foo: string, bar: bool }) {
+    const myX = x;
+    const myY = y;
+    const myZ = z;
+    const myA = a;
+    const myB = b;
+
+    assert(myX == x);
+    assert(myY == y);
+    assert(myZ == z);
+    assert(myA == a);
+    assert(myB == b);
+    print(myX, myY, myZ, myA.size(), myA[0], myB.foo, myB.bar);
+
+    myB.foo = "new foo!";
+    assert(b.foo == "hello world");
+    assert(myB.foo == "new foo!");
+    assert(myA[0] == 7);
+    print("b foo:", b.foo, "myB.foo:", myB.foo, "myA[0]", myA[0]);
+
+    myA[0] = 99;
+    assert(myA[0] == 99);
+    print("myA", myA[0]);
+}
+
+proc complexCopy() {
+    const x = [ [ [1, 2, 3], [5, 7, 8] ] ];
+    const copyX = x;
+
+    assert(x[0][0][0] == copyX[0][0][0]);
+    assert(x[0][0][1] == copyX[0][0][1]);
+    assert(x[0][1][0] == copyX[0][1][0]);
+    assert(x[0][1][1] == copyX[0][1][1]);
+
+    print("complex X     :", x[0][0][0], x[0][0][1], x[0][1][0], x[0][1][1]);
+    print("complex copyX :", copyX[0][0][0], copyX[0][0][1], copyX[0][1][0], copyX[0][1][1]);
+
+    const y = [
+        { foo: true, mars: 88, nested: { bar: 10, noi: false, deepNest: { num: 142, oNum: 2099, jj: [ { x: 50, y: 100 }, { x: 60, y: 101 } ], tup: { 49, true, false } } }, bob: false, otherTup: { 49, true, 88 }, rNum: ref 50 },
+        { foo: true, mars: 77, nested: { bar: 99, noi: false, deepNest: { num: 156, oNum: 1099, jj: [ { x: 20, y: 100 }, { x: 30, y: 101 } ], tup: { 39, false, false } } }, bob: true, otherTup: { 655, true, 836 }, rNum: ref 100 }
+    ];
+    const copyY = y;
+    const refY = ref y;
+
+    assert(y[0].nested.bar == copyY[0].nested.bar);
+    assert(y[0].nested.deepNest.num == copyY[0].nested.deepNest.num);
+    assert(y[0].nested.deepNest.oNum == copyY[0].nested.deepNest.oNum);
+    assert(y[0].bob == copyY[0].bob);
+    assert(y[0].nested.deepNest.jj[0].x == copyY[0].nested.deepNest.jj[0].x);
+    assert(y[0].nested.deepNest.tup.0 == copyY[0].nested.deepNest.tup.0);
+    assert(y[0].nested.deepNest.tup.1 == copyY[0].nested.deepNest.tup.1);
+    assert(y[0].nested.deepNest.tup.2 == copyY[0].nested.deepNest.tup.2);
+    assert(y[0].otherTup.0 == y[0].otherTup.0);
+    assert(y[0].rNum == y[0].rNum);
+
+    print("y 0     :", y[0].nested.bar, y[0].nested.deepNest.num, y[0].nested.deepNest.oNum, y[0].bob, y[0].nested.deepNest.jj[0].x, y[0].nested.deepNest.tup.0, y[0].nested.deepNest.tup.1, y[0].nested.deepNest.tup.2, y[0].otherTup.0, y[0].rNum);
+    print("copyY 0 :", copyY[0].nested.bar, copyY[0].nested.deepNest.num, copyY[0].nested.deepNest.oNum, copyY[0].bob, copyY[0].nested.deepNest.jj[0].x, copyY[0].nested.deepNest.tup.0, copyY[0].nested.deepNest.tup.1, copyY[0].nested.deepNest.tup.2, copyY[0].otherTup.0, copyY[0].rNum);
+
+    assert(y[1].nested.bar == copyY[1].nested.bar);
+    assert(y[1].nested.deepNest.num == copyY[1].nested.deepNest.num);
+    assert(y[1].nested.deepNest.oNum == copyY[1].nested.deepNest.oNum);
+    assert(y[1].bob == copyY[1].bob);
+    assert(y[1].nested.deepNest.jj[0].x == copyY[1].nested.deepNest.jj[0].x);
+    assert(y[1].nested.deepNest.tup.0 == copyY[1].nested.deepNest.tup.0);
+    assert(y[1].nested.deepNest.tup.1 == copyY[1].nested.deepNest.tup.1);
+    assert(y[1].nested.deepNest.tup.2 == copyY[1].nested.deepNest.tup.2);
+    assert(y[1].otherTup.0 == y[1].otherTup.0);
+    assert(y[1].rNum == y[1].rNum);
+
+    print("y 1     :", y[1].nested.bar, y[1].nested.deepNest.num, y[1].nested.deepNest.oNum, y[1].bob, y[1].nested.deepNest.jj[0].x, y[1].nested.deepNest.tup.0, y[1].nested.deepNest.tup.1, y[1].nested.deepNest.tup.2, y[1].otherTup.0, y[1].rNum);
+    print("copyY 1 :", copyY[1].nested.bar, copyY[1].nested.deepNest.num, copyY[1].nested.deepNest.oNum, copyY[1].bob, copyY[1].nested.deepNest.jj[0].x, copyY[1].nested.deepNest.tup.0, copyY[1].nested.deepNest.tup.1, copyY[1].nested.deepNest.tup.2, copyY[1].otherTup.0, copyY[1].rNum);
+}
+
+proc testLambdas() {
+    const x = () => 19;
+    const xResult = x();
+
+    assert(xResult == 19);
+    print("xResult", xResult);
+
+    let foo = 40;
+    // scope issue here. foo is not found in the scope of y lambda
+    const y = () => foo + 2 - xResult + x();
+    const yResult = y();
+
+    assert(yResult == 42);
+    print("yResult", yResult);
+
+    const boga = { mars: 1928, bar: true };
+    const z = (value: int) {
+      const innerX = 290;
+      const innerLambda = () => 23 + foo + boga.mars;
+      const moo = foo + innerX + innerLambda() + value;
+      foo = 9001;
+      boga.mars = 9002;
+      print("zResult", moo);
+    };
+
+    assert(foo == 40);
+    assert(boga.mars == 1928);
+    print("foo (before)", foo, boga.mars);
+
+    z(190);
+
+    assert(foo == 9001);
+    assert(boga.mars == 9002);
+    print("foo (after)", foo, boga.mars);
+
+}
+
+proc testClasses() {
+    const myClass = new MyClass(23, "Orange");
+    const age = myClass.getAge();
+    const color = myClass.getColor();
+    const otherAge = myClass.age;
+
+    assert(age == 23);
+    assert(color == "Orange");
+    assert(myClass.getFoo() == 100);
+    print("myClass properties", myClass.age, myClass.color);
+    print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
+
+}
+
+proc testEnums(enumVal: MyEnum, strEnumVal: MyStrEnum) {
+    const myEnumValue = MyEnum.Alpha;
+    const myStrEnumValue = MyStrEnum.Foo;
+
+    assert(myEnumValue == MyEnum.Alpha);
+    assert(myStrEnumValue == MyStrEnum.Foo);
+
+    print("myEnum values", myEnumValue, MyEnum.Beta, enumVal);
+    print("myStrEnum values", myStrEnumValue, MyStrEnum.Bar, strEnumVal);
+}
+
+proc testEquality() {
+    const smallInt = 5;
+    const bigInt = 10;
+    const smallFloat = 5.125;
+    const bigFloat = 10.542;
+    const a = 'a';
+    const z = 'z';
+    const t = true;
+    const f = false;
+    const smallString = "hi";
+    const bigString = "world";
+    const smallArray = [2, 4, 6];
+    const bigArray = [9, 8, 7, 6, 5];
+    const smallStruct = { foo: true, bar: 'c' };
+    const bigStruct = { name: "Bruce", age: 45, hairColor: "black", friend: "Alfred" };
+    const smallTuple = { true, 100, 'c' };
+    const bigTuple = { "Pennyworth", 898, 'j', 10, false };
+    const firstEnum = MyEnum.Alpha;
+    const secondEnum = MyEnum.Gamma;
+    const firstRef = ref 6;
+    const secondRef = ref 9;
+
+    // int tests
+    assert(smallInt == smallInt, "smallInt == smallInt");
+    assert(smallInt == 5, "smallInt == 5");
+    assert(smallInt != bigInt, "smallInt != bigInt");
+
+
+    // float tests
+    assert(smallFloat == smallFloat, "smallFloat == smallFloat");
+    assert(smallFloat == 5.125, "smallFloat == 5.125");
+    assert(smallFloat != bigFloat, "smallFloat != bigFloat");
+
+
+    // char tests
+    assert(a == a, "a == a");
+    assert(a == 'a', "a == 'a'");
+    assert(a != z, "a != z");
+
+
+    // bool tests
+    assert(t == t, "t == t");
+    assert(t == true, "t == true");
+    assert(t != f, "t != f");
+
+
+    // string tests
+    assert(smallString == smallString, "smallString == smallString");
+    assert(smallString == "hi", "smallString == hi");
+    assert(smallString != bigString, "smallString != bigString");
+
+
+    // array tests
+    // todo: add syntax support for 'smallArray == [2, 4, 6]'
+    const otherSmallArray = smallArray;
+    assert(smallArray == smallArray, "smallArray == smallArray");
+    assert(smallArray == otherSmallArray, "smallArray == otherSmallArray");
+    assert(smallArray != bigArray, "smallArray != bigArray");
+
+
+    // struct tests
+    const otherSmallStruct = smallStruct;
+    assert(smallStruct == smallStruct, "smallStruct == smallStruct");
+    assert(smallStruct == { foo: true, bar: 'c' }, "smallStruct == { foo: true, bar: 'c' }");
+    assert(smallStruct != bigStruct, "smallStruct != bigStruct");
+
+    // tuple tests
+    const otherSmallTuple = smallTuple;
+    assert(smallTuple != bigTuple, "smallTuple != bigTuple");
+    assert(smallTuple == smallTuple, "smallTuple == smallTuple");
+    assert(smallTuple == { true, 100, 'c' }, "smallTuple == { true, 100, 'c' }");
+
+    // enum tests
+    assert(firstEnum != secondEnum, "firstEnum != secondEnum");
+    assert(firstEnum == firstEnum, "firstEnum == firstEnum");
+    assert(firstEnum == MyEnum.Alpha, "firstEnum == MyEnum.Alpha");
+
+    // ref tests
+    const otherFirstRef = sref firstRef;
+    assert(firstRef != secondRef, "firstRef != secondRef");
+    assert(firstRef == firstRef, "firstRef == firstRef");
+    assert(firstRef == otherFirstRef, "firstRef == otherFirstRef");
+
+}
+
+func getTestLambda() () => int {
+    const ms = [100, 200, 300];
+    const fs = 909;
+    return () => 9008 + ms[0] + fs;
+}
+
+func getTestInt() int {
+    return 1009;
+}
+
+proc testLambdaReturn() {
+    const testLambda = getTestLambda();
+    const result = testLambda();
+    print("testLambdaReturn", result);
+    const structWithLambda = { foo: getTestLambda(), mars: () => 20, bar: 100 };
+    print("structWithLambda", testLambda(), structWithLambda.mars(), structWithLambda.foo());
+}
+
 proc testCleanup() {
     const mpo = [1, 5, 2, 2];
     if mpo == [6, 5, 3] {
         const ipo = [9, 8, 5];
+        if ipo[0] == 9 {
+            const gpo = [23, 24, 25];
+        }
     } else {
         const vpo = [4, 15, 10];
         if vpo[0] == 10 {
@@ -13,18 +495,18 @@ proc testCleanup() {
     const result = 5;
 }
 
-//main();
-//testPrint();
-//testArrayPrototypeFunctions();
-//testCopyFunctions();
-//testRefFunctions();
-//testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
-//complexCopy();
-//testLambdas();
-//testClasses();
-//testEnums(MyEnum.Gamma, MyStrEnum.Mars);
-//testEquality();
-//testLambdaReturn();
+main();
+testPrint();
+testArrayPrototypeFunctions();
+testCopyFunctions();
+testRefFunctions();
+testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+complexCopy();
+testLambdas();
+testClasses();
+testEnums(MyEnum.Gamma, MyStrEnum.Mars);
+testEquality();
+testLambdaReturn();
 testCleanup();
 
 class MyClass {
