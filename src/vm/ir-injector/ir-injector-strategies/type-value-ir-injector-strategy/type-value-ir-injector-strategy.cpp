@@ -8,7 +8,9 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRType* irType, IRBlockNode* irBlock) {
-    if (irType->isArrayPointerType()) {
+    if (irType->getValue()->isInserted(irBlock)) {
+        return irType->getValue()->getValue();
+    } else if (irType->isArrayPointerType()) {
         return this->inject((IRArrayPointerType*)irType, irBlock);
     } else if (irType->isStructType()) {
         return this->inject((IRStructType*)irType, irBlock);

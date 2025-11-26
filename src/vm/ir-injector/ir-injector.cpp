@@ -145,10 +145,6 @@ void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, IRModuleNode*
 }
 
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {
-    if (irBlock->containsInstruction(irType->getValue())) {
-
-        return irType->getValue()->getValue();
-    }
     return _typeValueIRInjectorStrategy->inject(irType, irBlock);
 }
 

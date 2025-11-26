@@ -46,7 +46,6 @@ public:
     void addSuccessor(IRBlockNode* successorIrBlock);
     IRBlockNode* getLastSuccessorOrSelf();
     std::optional<IRBlockNode*> getParentBlock();
-    bool containsInstruction(IRInstructionNode* irInstructionNode);
     bool is(IRBlockType blockType);
     bool isOneOf(std::vector<IRBlockType> blockTypes);
     void setParentBlock(IRBlockNode* parentIRBlock);

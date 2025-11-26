@@ -331,6 +331,7 @@ proc testLambdas() {
 
     const boga = { mars: 1928, bar: true };
     const z = (value: int) {
+      const zLambdaString = "a string inside a lambda";
       const innerX = 290;
       const innerLambda = () => 23 + foo + boga.mars;
       const moo = foo + innerX + innerLambda() + value;
@@ -348,7 +349,6 @@ proc testLambdas() {
     assert(foo == 9001);
     assert(boga.mars == 9002);
     print("foo (after)", foo, boga.mars);
-
 }
 
 proc testClasses() {
@@ -362,7 +362,6 @@ proc testClasses() {
     assert(myClass.getFoo() == 100);
     print("myClass properties", myClass.age, myClass.color);
     print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
-
 }
 
 proc testEnums(enumVal: MyEnum, strEnumVal: MyStrEnum) {
@@ -493,6 +492,15 @@ proc testCleanup() {
         }
     }
     const result = 5;
+    const list = range(5);
+    for x in list {
+        const forArray = [4, 19, 90];
+        const forString = "a string inside a for loop";
+        if x > 1 {
+            const ifBlockForLoopString = "a string inside a if block inside a for loop";
+            print(x);
+        }
+    }
 }
 
 main();

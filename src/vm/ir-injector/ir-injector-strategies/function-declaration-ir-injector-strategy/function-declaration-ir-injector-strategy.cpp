@@ -11,7 +11,7 @@ void FunctionDeclarationIRInjectorStrategy::inject(IRFunctionDeclarationNode* ir
     }
 
     for (auto childBlock : *irFunctionDeclaration->getBlock()->getAllSuccessors()) {
-        if (childBlock->hasVariablesToFree()) {
+        if (childBlock->hasVariablesToFree() && !childBlock->is(IR_BASIC_BT)) {
             childBlock->setInsertionPointBeforeLastInstruction();
             FreeIRInjectorHelper::freeBlockVariables(
                     childBlock,
@@ -22,14 +22,14 @@ void FunctionDeclarationIRInjectorStrategy::inject(IRFunctionDeclarationNode* ir
             );
         }
     }
-// todo - get this working
-//    auto finalBlock = irFunctionDeclaration->getBlock()->getLastSuccessorOrSelf();
-//    finalBlock->setInsertionPointBeforeLastInstruction();
-//    FreeIRInjectorHelper::freeBlockVariables(
-//            finalBlock,
-//            irFunctionDeclaration->getBlock()->getVariablesToFree(),
-//            irInjector,
-//            irModule,
-//            scope
-//    );
+
+    auto finalBlock = irFunctionDeclaration->getBlock()->getLastSuccessorOrSelf();
+    finalBlock->setInsertionPointBeforeLastInstruction();
+    FreeIRInjectorHelper::freeBlockVariables(
+            finalBlock,
+            irFunctionDeclaration->getBlock()->getVariablesToFree(),
+            irInjector,
+            irModule,
+            scope
+    );
 }

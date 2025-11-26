@@ -132,23 +132,6 @@ std::optional<IRBlockNode*> IRBlockNode::getParentBlock() {
     return _parentBlock;
 }
 
-bool IRBlockNode::containsInstruction(IRInstructionNode* irInstructionNode) {
-    if (_parentBlock) {
-        return _parentBlock.value()->containsInstruction(irInstructionNode);
-    }
-
-    auto instruction = llvm::cast<llvm::Instruction>(irInstructionNode->getValue());
-    if (instruction->getParent() == _irValue) {
-        return true;
-    }
-    for (auto successorBlock : _successors) {
-        if (instruction->getParent() == successorBlock->getBlock()) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool IRBlockNode::is(IRBlockType blockType) {
     return _type == blockType;
 }

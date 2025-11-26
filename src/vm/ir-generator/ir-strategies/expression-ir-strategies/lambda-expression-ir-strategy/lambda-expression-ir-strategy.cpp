@@ -9,6 +9,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
@@ -30,6 +31,30 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
     if (functionType->getReturnType()->isVoidTy()) {
         irGenerator->getInjector()->injectVoidReturnType(functionBlock);
     }
+
+    for (auto childBlock : *functionBlock->getAllSuccessors()) {
+        if (childBlock->hasVariablesToFree() && !childBlock->is(IR_BASIC_BT)) {
+            childBlock->setInsertionPointBeforeLastInstruction();
+            FreeIRInjectorHelper::freeBlockVariables(
+                    childBlock,
+                    childBlock->getVariablesToFree(),
+                    irGenerator->getInjector(),
+                    irContext->getIRModule(),
+                    scope
+            );
+        }
+    }
+
+    auto finalBlock = functionBlock->getLastSuccessorOrSelf();
+    finalBlock->setInsertionPointBeforeLastInstruction();
+    FreeIRInjectorHelper::freeBlockVariables(
+            finalBlock,
+            functionBlock->getVariablesToFree(),
+            irGenerator->getInjector(),
+            irContext->getIRModule(),
+            scope
+    );
+
     return new IRLambdaExpressionNode(node, irFunction, functionParameterList, functionBlock, (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
 }
 
