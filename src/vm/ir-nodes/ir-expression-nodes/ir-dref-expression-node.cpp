@@ -17,6 +17,10 @@ void IRDrefExpressionNode::markAsGlobal() {
     _irExpression->markAsGlobal();
 }
 
+bool IRDrefExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRExpressionNode* IRDrefExpressionNode::getExpression() {
     return _irExpression;
 }

@@ -12,7 +12,7 @@
 
 class ASTExpressionNode : public ASTNode {
 protected:
-    bool _isReferenced;
+    bool _isReferenced = false;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
     ASTNode* baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
 public:

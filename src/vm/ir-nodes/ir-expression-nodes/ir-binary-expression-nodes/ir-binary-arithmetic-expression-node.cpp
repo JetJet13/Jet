@@ -18,6 +18,10 @@ void IRBinaryArithmeticExpressionNode::markAsGlobal() {
     _irRightNode->markAsGlobal();
 }
 
+bool IRBinaryArithmeticExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }

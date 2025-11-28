@@ -54,11 +54,12 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
     auto zeroIndex = irGenerator->generateIntConstant(0);
     for (auto property : *node->getBlock()->getProperties()) {
         if (property->getInitializer()) {
-            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-            auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), preConstructorScope);
             auto propertyIndex = irGenerator->generateIntConstant(irClassType->getClassProperties()->getIndexForKey(property->getId()));
             auto loadedPointerToProperty = InstructionIRInjectorHelper::injectLoad(classScopeParameterAllocation->getIRType()->getType(), classScopeParameterAllocation->getValue(), functionBlock);
             auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(classScopeParameterAllocation->getIRType()->getUnderlyingType()->getType(), loadedPointerToProperty, { zeroIndex, propertyIndex });
+            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+            irExpression->assignTo(pointerToProperty);
+            auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), preConstructorScope);
             functionBlock->getBuilder()->get()->Insert(pointerToProperty);
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, functionBlock);
         }

@@ -20,6 +20,7 @@ private:
 public:
     IRConcatExpressionNode(ASTConcatExpressionNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type);
     void markAsGlobal() override;
+    bool isReferenced() override;
     llvm::Value* getValue() override;
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();

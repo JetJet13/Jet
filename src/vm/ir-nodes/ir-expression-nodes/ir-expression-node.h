@@ -13,9 +13,14 @@
 class IRExpressionNode : public IRNode {
 protected:
     bool _isGlobal = false;
+    std::optional<llvm::Value*> _assignedTo = {};
 public:
     virtual void markAsGlobal();
     bool isGlobal();
+    virtual bool isReferenced();
+    virtual bool isAssigned();
+    void assignTo(llvm::Value* value);
+    bool needsToBeFreed();
     IRType* getUnderlyingIRType();
     virtual TypeSource getInjectorTypeSource();
     virtual std::optional<IRInstructionNode*> getSourceAllocation();

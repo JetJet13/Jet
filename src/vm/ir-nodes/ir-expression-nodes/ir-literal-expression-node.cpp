@@ -10,6 +10,10 @@ IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node,
     _irType = irType;
 }
 
+bool IRLiteralExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRType* IRLiteralExpressionNode::getIRType() {
     return _irType;
 }

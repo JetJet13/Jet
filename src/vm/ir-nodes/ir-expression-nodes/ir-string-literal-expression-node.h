@@ -21,6 +21,7 @@ private:
     IRInstructionNode* _arrayPointerSourceAllocation;
 public:
     IRStringLiteralExpressionNode(ASTLiteralExpressionNode* node, IRStringLiteralNode* irValue, IRArrayPointerType* irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation);
+    bool isReferenced() override;
     IRArrayPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     llvm::Constant* getValue() override;

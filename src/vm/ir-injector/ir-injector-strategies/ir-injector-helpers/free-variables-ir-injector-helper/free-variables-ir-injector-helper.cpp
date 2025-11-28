@@ -16,6 +16,13 @@ void FreeIRInjectorHelper::freeFunctionBlockVariables(IRBlockNode* functionBlock
                     irModule,
                     scope
             );
+            FreeIRInjectorHelper::freeBlockExpressions(
+                    childBlock,
+                    childBlock->getExpressionsToFree(),
+                    irInjector,
+                    irModule,
+                    scope
+            );
         }
     }
 
@@ -24,6 +31,13 @@ void FreeIRInjectorHelper::freeFunctionBlockVariables(IRBlockNode* functionBlock
     FreeIRInjectorHelper::freeBlockVariables(
             finalBlock,
             functionBlock->getVariablesToFree(),
+            irInjector,
+            irModule,
+            scope
+    );
+    FreeIRInjectorHelper::freeBlockExpressions(
+            finalBlock,
+            functionBlock->getExpressionsToFree(),
             irInjector,
             irModule,
             scope
@@ -41,6 +55,23 @@ void FreeIRInjectorHelper::freeBlockVariables(IRBlockNode* irBlockNode, std::vec
                 variableToFree->getValue(),
                 loadedTypeValue
             }
+        );
+    }
+}
+
+void FreeIRInjectorHelper::freeBlockExpressions(IRBlockNode* irBlockNode, std::vector<IRExpressionNode*>* expressionsToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+    for (auto expressionToFree : *expressionsToFree) {
+        auto typeValue = irInjector->inject(irBlockNode, expressionToFree->getIRType());
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(expressionToFree->getIRType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
+        irBlockNode->getBuilder()->get()->CreateCall(
+                irModule->getFreeValueFunction()->getFunctionType(),
+                irModule->getFreeValueFunction(),
+                {
+                    expressionToFree->getSourceAllocation().has_value()
+                    ? expressionToFree->getSourceAllocation().value()->getValue()
+                    : expressionToFree->getValue(),
+                    loadedTypeValue
+                }
         );
     }
 }

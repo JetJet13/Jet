@@ -59,7 +59,20 @@ void IRBlockNode::addVariableToFree(IRVariableDeclarationNode* variableNode) {
 }
 
 std::vector<IRExpressionNode*>* IRBlockNode::getExpressionsToFree() {
-    return &_expressionsToFree;
+    auto allExpressionsToFree = new std::vector<IRExpressionNode*>();
+    allExpressionsToFree->insert(allExpressionsToFree->begin(), _expressionsToFree.begin(), _expressionsToFree.end());
+    for (auto successorBlock : _successors) {
+        if (successorBlock->is(IR_BASIC_BT)) {
+            auto moreExpressionsToFree = successorBlock->getExpressionsToFree();
+            allExpressionsToFree->insert(
+                    allExpressionsToFree->end(),
+                    moreExpressionsToFree->begin(),
+                    moreExpressionsToFree->end()
+            );
+
+        }
+    }
+    return allExpressionsToFree;
 }
 
 std::vector<IRVariableDeclarationNode*>* IRBlockNode::getVariablesToFree() {

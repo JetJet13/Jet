@@ -20,6 +20,10 @@ void IRTupleAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRTupleAccessInvocationExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRTupleAccessExpressionNode* IRTupleAccessInvocationExpressionNode::getIRTupleAccessExpression() {
     return _irTupleAccessExpression;
 }

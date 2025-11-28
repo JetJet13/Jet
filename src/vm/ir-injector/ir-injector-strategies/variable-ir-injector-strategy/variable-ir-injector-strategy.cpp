@@ -7,8 +7,9 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
+    auto variableValue = InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
     auto operation = this->determineOperationType(irVariableDeclaration);
+    irVariableDeclaration->getIRExpression()->assignTo(variableValue);
     auto irExpressionValue = irInjector
             ->inject(
                     irBlock,
@@ -20,7 +21,6 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
         InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue(), irBlock, irVariableDeclaration->getGlobalVariable().value()->getIRType());
     }
     if (irVariableDeclaration->needsToBeFreed()) {
-        Logger::log("IR VARIABLE NEEDS TO BE FREED!", irVariableDeclaration->getVariableName(), irBlock->getBlock()->getName().str());
         irBlock->addVariableToFree(irVariableDeclaration);
     }
 }

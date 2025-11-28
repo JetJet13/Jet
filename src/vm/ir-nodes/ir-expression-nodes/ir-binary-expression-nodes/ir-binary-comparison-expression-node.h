@@ -21,6 +21,7 @@ private:
 public:
     IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType);
     void markAsGlobal() override;
+    bool isReferenced() override;
     llvm::CmpInst* getValue() override;
     bool isPredicateEqual();
     bool isPredicateNotEqual();

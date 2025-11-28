@@ -18,6 +18,11 @@ void IRLogicalExpressionNode::markAsGlobal() {
     _irRightNode->markAsGlobal();
 }
 
+bool IRLogicalExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
+
 IRType* IRLogicalExpressionNode::getIRType() {
     return _type;
 }

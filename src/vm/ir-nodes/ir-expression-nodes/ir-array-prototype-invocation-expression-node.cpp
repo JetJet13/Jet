@@ -21,6 +21,10 @@ void IRArrayPrototypeInvocationExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRArrayPrototypeInvocationExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRExpressionNode* IRArrayPrototypeInvocationExpressionNode::getIRArrayValue() {
     return _irArray;
 }

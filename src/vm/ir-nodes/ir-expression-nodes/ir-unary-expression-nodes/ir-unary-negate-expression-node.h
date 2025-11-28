@@ -19,6 +19,7 @@ public:
     IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, IRExpressionNode* irExpression, IRType* type);
     IRExpressionNode* getIRExpression();
     void markAsGlobal() override;
+    bool isReferenced() override;
     llvm::Value* getValue() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

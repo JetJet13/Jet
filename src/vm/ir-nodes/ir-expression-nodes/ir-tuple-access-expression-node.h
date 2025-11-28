@@ -22,6 +22,7 @@ private:
 public:
     IRTupleAccessExpressionNode(ASTTupleAccessExpressionNode* node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
     void markAsGlobal() override;
+    bool isReferenced() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRExpressionNode* getSource();
     llvm::Constant* getIRTargetKeyIndex();

@@ -21,6 +21,10 @@ void IRClassMethodInvocationExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRClassMethodInvocationExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRInstructionNode* IRClassMethodInvocationExpressionNode::getClassScopeArgument() {
     return _classScopeArgument;
 }

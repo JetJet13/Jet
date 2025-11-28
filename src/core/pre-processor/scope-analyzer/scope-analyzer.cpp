@@ -28,7 +28,6 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
             currentScope = scopeStack.top();
         } else if (node->is(AST_REF_EXPRESSION_NODE)) {
             auto refExpression = (ASTRefExpressionNode*)node;
-            refExpression->getExpressionNode()->markAsReferenced();
             if (refExpression->getExpressionNode()->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
                 auto idExpression = (ASTIdentifierExpressionNode*)refExpression->getExpressionNode();
                 auto referencedValue = currentScope->findAcrossScopes(idExpression->getId()).value();
@@ -39,6 +38,8 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
                 if (referencedValue->is(AST_FUNCTION_PARAMETER_NODE)) {
                     ((ASTFunctionParameterNode*)referencedValue)->markAsReferenced();
                 }
+            } else {
+                refExpression->getExpressionNode()->markAsReferenced();
             }
         } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
             auto lambdaScope = new ASTLookupTable(currentScope);

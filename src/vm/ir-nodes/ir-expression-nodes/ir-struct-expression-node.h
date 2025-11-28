@@ -21,6 +21,7 @@ private:
 public:
     IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
+    bool isReferenced() override;
     IRStructType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;

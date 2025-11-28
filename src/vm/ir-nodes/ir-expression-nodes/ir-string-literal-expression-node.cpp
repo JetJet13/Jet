@@ -12,6 +12,10 @@ IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(ASTLiteralExpressio
     _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
 }
 
+bool IRStringLiteralExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRArrayPointerType* IRStringLiteralExpressionNode::getIRType() {
     return _irArrayPointerType;
 }

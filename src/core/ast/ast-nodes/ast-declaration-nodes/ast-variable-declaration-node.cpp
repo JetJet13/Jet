@@ -31,7 +31,6 @@ ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
 
 void ASTVariableDeclarationNode::markAsReferenced() {
     _isReferenced = true;
-    _initializer->markAsReferenced();
 }
 
 void ASTVariableDeclarationNode::markAsCaptured() {

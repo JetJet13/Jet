@@ -21,6 +21,10 @@ void IRObjectAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRObjectAccessInvocationExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 llvm::Value* IRObjectAccessInvocationExpressionNode::getFunction() {
     return _irFunction;
 }

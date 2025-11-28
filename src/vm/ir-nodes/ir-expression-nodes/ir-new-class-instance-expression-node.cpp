@@ -21,6 +21,11 @@ void IRNewClassInstanceExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRNewClassInstanceExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
+
 IRInstructionNode* IRNewClassInstanceExpressionNode::getClassInstanceAllocation() {
     return _classInstanceAllocation;
 }

@@ -21,6 +21,10 @@ void IRRefPrototypeInvocationExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRRefPrototypeInvocationExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRExpressionNode* IRRefPrototypeInvocationExpressionNode::getIRRefValue() {
     return _irRef;
 }

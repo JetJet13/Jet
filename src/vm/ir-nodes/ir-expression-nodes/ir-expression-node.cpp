@@ -13,6 +13,32 @@ bool IRExpressionNode::isGlobal() {
     return _isGlobal;
 }
 
+bool IRExpressionNode::isReferenced() {
+    return false;
+}
+
+bool IRExpressionNode::isAssigned() {
+    return _assignedTo.has_value();
+}
+
+void IRExpressionNode::assignTo(llvm::Value* value) {
+    _assignedTo = value;
+}
+
+bool IRExpressionNode::needsToBeFreed() {
+    return !this->isReferenced() &&
+           !this->isGlobal() &&
+           !this->isAssigned() &&
+           !this->isOneOf({
+               IR_IDENTIFIER_EXPRESSION_NODE,
+               IR_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
+               IR_OBJECT_ACCESS_EXPRESSION_NODE,
+               IR_TUPLE_ACCESS_EXPRESSION_NODE,
+               IR_ARRAY_ACCESS_EXPRESSION_NODE
+           }) &&
+           this->getIRType()->containsTypeThatRequiresFreeing();
+}
+
 IRType* IRExpressionNode::getUnderlyingIRType() {
     return this->getIRType()->getUnderlyingType();
 }

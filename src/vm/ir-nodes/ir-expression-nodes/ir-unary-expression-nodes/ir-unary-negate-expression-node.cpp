@@ -14,6 +14,10 @@ IRExpressionNode* IRUnaryNegateExpressionNode::getIRExpression() {
     return _irExpression;
 }
 
+bool IRUnaryNegateExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 void IRUnaryNegateExpressionNode::markAsGlobal() {
     _isGlobal = true;
     _irExpression->markAsGlobal();

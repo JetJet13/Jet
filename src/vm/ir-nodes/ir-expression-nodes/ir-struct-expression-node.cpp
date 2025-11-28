@@ -18,6 +18,10 @@ void IRStructExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRStructExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 IRStructType* IRStructExpressionNode::getIRType() {
     return _type;
 }

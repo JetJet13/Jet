@@ -20,6 +20,10 @@ void IRFunctionParameterInvocationExpressionNode::markAsGlobal() {
     }
 }
 
+bool IRFunctionParameterInvocationExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 std::vector<IRExpressionNode*>* IRFunctionParameterInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }

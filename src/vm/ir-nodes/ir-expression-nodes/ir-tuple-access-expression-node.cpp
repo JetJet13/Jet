@@ -19,6 +19,10 @@ void IRTupleAccessExpressionNode::markAsGlobal() {
     _irSource->markAsGlobal();
 }
 
+bool IRTupleAccessExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 std::optional<IRInstructionNode*> IRTupleAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }

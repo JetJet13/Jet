@@ -23,6 +23,7 @@ private:
 public:
     IRClassPropertyAccessExpressionNode(ASTClassPropertyAccessExpressionNode* node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
     ASTClassPropertyAccessExpressionNode* getNode();
+    bool isReferenced() override;
     IRInstructionNode* getSource();
     std::string* getTargetKey();
     llvm::Constant* getIRTargetKeyIndex();

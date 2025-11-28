@@ -20,6 +20,10 @@ void IRBinaryComparisonExpressionNode::markAsGlobal() {
     _irRightNode->markAsGlobal();
 }
 
+bool IRBinaryComparisonExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
 llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {
     return _irValue;
 }
