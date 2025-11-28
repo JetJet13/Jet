@@ -28,7 +28,7 @@ ASTLookupTable* ASTLookupTable::insert(std::string key, ASTNode* value) {
 
 ASTLookupTable* ASTLookupTable::capture(ASTNode* node) {
     if (_lambda) {
-        _lambda.value()->addCapturedVariableId(node->getId());
+        _lambda.value()->addCapturedValueId(node->getId());
     }
 
     if (_lambdaFatArrow) {

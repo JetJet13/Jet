@@ -11,6 +11,7 @@
 #include "../ir-declaration-nodes/ir-variable-declaration-node.h"
 #include "../ir-statement-nodes/ir-function-return-expression-node.h"
 #include "../../types/ir-block-type.h"
+#include "../ir-function-nodes/ir-function-parameter-node.h"
 
 class IRBlockNode {
 protected:
@@ -20,6 +21,7 @@ protected:
     std::vector<IRNode*> _body;
     std::vector<IRBlockNode*> _successors;
     std::optional<IRBlockNode*> _parentBlock;
+    std::vector<IRFunctionParameterNode*> _parametersToFree;
     std::vector<IRExpressionNode*> _expressionsToFree;
     std::vector<IRVariableDeclarationNode*> _variablesToFree;
     std::optional<IRFunctionReturnExpressionNode*> _returnExpression;
@@ -34,8 +36,8 @@ public:
     void addVoidReturn();
     bool hasVariablesToFree();
     void addExpressionToFree(IRExpressionNode* expressionNode);
-    std::vector<IRExpressionNode*>* getExpressionsToFree();
     void addVariableToFree(IRVariableDeclarationNode* variableNode);
+    std::vector<IRExpressionNode*>* getExpressionsToFree();
     virtual std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
     virtual void setInsertionPointBeforeLastInstruction();
     void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);

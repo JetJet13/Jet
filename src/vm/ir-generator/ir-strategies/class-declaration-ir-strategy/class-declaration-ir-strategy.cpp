@@ -103,28 +103,8 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
         }
     }
     functionBlock->addVoidReturn();
-    for (auto childBlock : *functionBlock->getAllSuccessors()) {
-        if (childBlock->hasVariablesToFree() && !childBlock->is(IR_BASIC_BT)) {
-            childBlock->setInsertionPointBeforeLastInstruction();
-            FreeIRInjectorHelper::freeBlockVariables(
-                    childBlock,
-                    childBlock->getVariablesToFree(),
-                    irGenerator->getInjector(),
-                    irContext->getIRModule(),
-                    scope
-            );
-        }
-    }
-
-    auto finalBlock = functionBlock->getLastSuccessorOrSelf();
-    finalBlock->setInsertionPointBeforeLastInstruction();
-    FreeIRInjectorHelper::freeBlockVariables(
-            finalBlock,
-            functionBlock->getVariablesToFree(),
-            irGenerator->getInjector(),
-            irContext->getIRModule(),
-            scope
-    );
+    FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), constructorScope);
+    FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), constructorScope);
     return new IRClassConstructorNode(irFunction);
 }
 
@@ -168,29 +148,9 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
         irGenerator->getInjector()->injectVoidReturnType(functionBlock);
     }
 
-    for (auto childBlock : *functionBlock->getAllSuccessors()) {
-        if (childBlock->hasVariablesToFree() && !childBlock->is(IR_BASIC_BT)) {
-            childBlock->setInsertionPointBeforeLastInstruction();
-            FreeIRInjectorHelper::freeBlockVariables(
-                    childBlock,
-                    childBlock->getVariablesToFree(),
-                    irGenerator->getInjector(),
-                    irContext->getIRModule(),
-                    scope
-            );
-        }
-    }
 
-    auto finalBlock = functionBlock->getLastSuccessorOrSelf();
-    finalBlock->setInsertionPointBeforeLastInstruction();
-    FreeIRInjectorHelper::freeBlockVariables(
-            finalBlock,
-            functionBlock->getVariablesToFree(),
-            irGenerator->getInjector(),
-            irContext->getIRModule(),
-            scope
-    );
-
+    FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), methodScope);
+    FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), methodScope);
     return new IRClassMethodNode(irFunction);
 }
 

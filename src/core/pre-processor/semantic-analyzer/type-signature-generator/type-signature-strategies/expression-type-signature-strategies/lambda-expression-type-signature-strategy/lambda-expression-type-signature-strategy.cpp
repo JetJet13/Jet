@@ -28,7 +28,7 @@ void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lamb
 
     lambdaExpression->setTypeSignature(new LambdaExpressionTypeSignature(
         lambdaExpression->getParameters()->getTypeSignature(),
-        strategyMap->generateLambdaExpressionScopeParameter(lambdaExpression->getCapturedVariableIds()),
+        strategyMap->generateLambdaExpressionScopeParameter(lambdaExpression->getCapturedValueIds()),
         returnType
     ));
 

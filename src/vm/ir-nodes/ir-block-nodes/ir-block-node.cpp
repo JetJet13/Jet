@@ -46,20 +46,20 @@ bool IRBlockNode::hasVariablesToFree() {
     return this->getVariablesToFree()->size() > 0;
 }
 
-void IRBlockNode::addExpressionToFree(IRExpressionNode* expressionNode) {
-    _expressionsToFree.push_back(expressionNode);
-}
-
-std::vector<IRExpressionNode*>* IRBlockNode::getExpressionsToFree() {
-    return &_expressionsToFree;
-}
-
 void IRBlockNode::addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode) {
     _returnExpression = returnExpressionNode;
 }
 
+void IRBlockNode::addExpressionToFree(IRExpressionNode* expressionNode) {
+    _expressionsToFree.push_back(expressionNode);
+}
+
 void IRBlockNode::addVariableToFree(IRVariableDeclarationNode* variableNode) {
     _variablesToFree.push_back(variableNode);
+}
+
+std::vector<IRExpressionNode*>* IRBlockNode::getExpressionsToFree() {
+    return &_expressionsToFree;
 }
 
 std::vector<IRVariableDeclarationNode*>* IRBlockNode::getVariablesToFree() {

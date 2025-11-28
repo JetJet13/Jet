@@ -13,7 +13,7 @@ IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFuncti
         auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature(), scope, irContext);
         auto argument = new llvm::Argument(parameterType->getType(), parameterType->getName(), irFunction, i);
         functionParameters.push_back(
-            new IRFunctionParameterNode(argument, parameterType)
+            new IRFunctionParameterNode(argument, parameterType, parameter)
         );
     }
     return new IRFunctionParameterListNode(node, functionParameters);

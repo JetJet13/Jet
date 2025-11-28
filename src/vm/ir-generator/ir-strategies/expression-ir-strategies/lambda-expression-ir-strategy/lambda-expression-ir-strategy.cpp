@@ -32,29 +32,8 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
         irGenerator->getInjector()->injectVoidReturnType(functionBlock);
     }
 
-    for (auto childBlock : *functionBlock->getAllSuccessors()) {
-        if (childBlock->hasVariablesToFree() && !childBlock->is(IR_BASIC_BT)) {
-            childBlock->setInsertionPointBeforeLastInstruction();
-            FreeIRInjectorHelper::freeBlockVariables(
-                    childBlock,
-                    childBlock->getVariablesToFree(),
-                    irGenerator->getInjector(),
-                    irContext->getIRModule(),
-                    scope
-            );
-        }
-    }
-
-    auto finalBlock = functionBlock->getLastSuccessorOrSelf();
-    finalBlock->setInsertionPointBeforeLastInstruction();
-    FreeIRInjectorHelper::freeBlockVariables(
-            finalBlock,
-            functionBlock->getVariablesToFree(),
-            irGenerator->getInjector(),
-            irContext->getIRModule(),
-            scope
-    );
-
+    FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), scope);
+    FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), lambdaScope);
     return new IRLambdaExpressionNode(node, irFunction, functionParameterList, functionBlock, (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
 }
 
@@ -70,6 +49,8 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
     auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irReturnExpressionValue = irGenerator->getInjector()->inject(functionBlock, returnExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), lambdaScope);
     functionBlock->getBuilder()->get()->CreateRet(irReturnExpressionValue);
+
+    FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), lambdaScope);
     return new IRLambdaWithFatArrowExpressionNode(node, irFunction, functionParameterList, functionBlock, (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
 }
 

@@ -11,26 +11,6 @@ void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* 
         irProcedureDeclaration->getBlock()->getLastSuccessorOrSelf()->addVoidReturn();
     }
 
-    for (auto childBlock : *irProcedureDeclaration->getBlock()->getAllSuccessors()) {
-        if (childBlock->hasVariablesToFree() && !childBlock->is(IR_BASIC_BT)) {
-            childBlock->setInsertionPointBeforeLastInstruction();
-            FreeIRInjectorHelper::freeBlockVariables(
-                childBlock,
-                childBlock->getVariablesToFree(),
-                irInjector,
-                irModule,
-                scope
-            );
-        }
-    }
-
-    auto finalBlock = irProcedureDeclaration->getBlock()->getLastSuccessorOrSelf();
-    finalBlock->setInsertionPointBeforeLastInstruction();
-    FreeIRInjectorHelper::freeBlockVariables(
-            finalBlock,
-            irProcedureDeclaration->getBlock()->getVariablesToFree(),
-            irInjector,
-            irModule,
-            scope
-    );
+    FreeIRInjectorHelper::freeFunctionBlockVariables(irProcedureDeclaration->getBlock(), irInjector, irModule, irProcedureDeclaration->getScope());
+    FreeIRInjectorHelper::freeFunctionParameters(irProcedureDeclaration->getBlock(), irProcedureDeclaration->getParameters(), irInjector, irModule, irProcedureDeclaration->getScope());
 }

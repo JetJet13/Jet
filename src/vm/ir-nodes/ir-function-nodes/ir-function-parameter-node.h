@@ -14,10 +14,12 @@ class IRFunctionParameterNode : public IRNode {
 private:
     llvm::Argument* _irValue;
     IRParameterType* _parameterType;
+    std::optional<ASTFunctionParameterNode*> _node;
 public:
-    IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType);
+    IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType, std::optional<ASTFunctionParameterNode*> node = {});
     llvm::Argument* getArgument();
     IRParameterType* getParameterType();
+    bool needsToBeFreed();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -4,9 +4,10 @@
 
 #include "ir-function-parameter-node.h"
 
-IRFunctionParameterNode::IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType) {
+IRFunctionParameterNode::IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType, std::optional<ASTFunctionParameterNode*> node) {
     _irValue = irValue;
     _parameterType = parameterType;
+    _node = node;
 }
 
 llvm::Argument* IRFunctionParameterNode::getArgument() {
@@ -15,6 +16,13 @@ llvm::Argument* IRFunctionParameterNode::getArgument() {
 
 IRParameterType* IRFunctionParameterNode::getParameterType() {
     return _parameterType;
+}
+
+bool IRFunctionParameterNode::needsToBeFreed() {
+    if (!_node) return false;
+    return !_node.value()->isReferenced() &&
+           !_node.value()->isCaptured() &&
+            _parameterType->getIRType()->containsTypeThatRequiresFreeing();
 }
 
 IRNodeType IRFunctionParameterNode::getNodeType() {

@@ -23,6 +23,22 @@ ASTTypeNode* ASTFunctionParameterNode::getType() {
     return _type;
 }
 
+void ASTFunctionParameterNode::markAsReferenced() {
+    _isReferenced = true;
+}
+
+void ASTFunctionParameterNode::markAsCaptured() {
+    _isCaptured = true;
+}
+
+bool ASTFunctionParameterNode::isReferenced() {
+    return _isReferenced;
+}
+
+bool ASTFunctionParameterNode::isCaptured() {
+    return _isCaptured;
+}
+
 void ASTFunctionParameterNode::setTypeSignature(ParameterListItemTypeSignature* typeSignature) {
     _typeSignature = typeSignature;
 }
