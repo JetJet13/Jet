@@ -13,13 +13,13 @@
 class IRExpressionNode : public IRNode {
 protected:
     bool _isGlobal = false;
-    std::optional<llvm::Value*> _assignedTo = {};
+    bool _isAssigned = false;
 public:
     virtual void markAsGlobal();
     bool isGlobal();
     virtual bool isReferenced();
     virtual bool isAssigned();
-    void assignTo(llvm::Value* value);
+    void markAsAssigned();
     bool needsToBeFreed();
     IRType* getUnderlyingIRType();
     virtual TypeSource getInjectorTypeSource();

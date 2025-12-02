@@ -6,9 +6,11 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-array-access-assignment-statement-node.h"
 
 IRStatementNode* ArrayAccessAssignmentStatementIRStrategy::generate(ASTArrayAccessAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    irExpression->markAsAssigned();
     return new IRArrayAccessAssignmentStatementNode(
         node,
         (IRArrayAccessExpressionNode*)irGenerator->generateFor(node->getArrayAccessAssignment()->getArrayAccess(), scope, irContext, new IROperation(IR_COPY_REASSIGNMENT_OP)),
-        irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP))
+        irExpression
     );
 }

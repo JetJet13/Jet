@@ -27,7 +27,6 @@ void CopyRefIRFunction::generateCopyRefFunction(IRGenerator* irGenerator, std::u
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
-    auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
     auto refValueIndex = irGenerator->generateIntConstant(refType->getRefValueIndex());
     auto refCounterIndex = irGenerator->generateIntConstant(refType->getRefCounterIndex());
     auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), {typeValueType->getAllocIndex() });
@@ -54,10 +53,8 @@ void CopyRefIRFunction::generateCopyRefFunction(IRGenerator* irGenerator, std::u
 
     auto pointerToNewRefValue = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refValueIndex });
     InstructionIRInjectorHelper::injectStore(refValueMalloc, pointerToNewRefValue, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(refValueMalloc, pointerToNewRefValue);
     auto pointerToNewRefCounter = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refCounterIndex });
     InstructionIRInjectorHelper::injectStore(refCounterMalloc, pointerToNewRefCounter, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(refCounterMalloc, pointerToNewRefCounter);
 
     functionBlock->addVoidReturn();
 }

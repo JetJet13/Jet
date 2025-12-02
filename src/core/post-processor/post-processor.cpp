@@ -4,4 +4,6 @@
 
 #include "post-processor.h"
 
+PostProcessor::PostProcessor() {}
+
 void PostProcessor::process(JetFile* file) {}

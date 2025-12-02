@@ -37,7 +37,7 @@ public:
     bool hasVariablesToFree();
     void addExpressionToFree(IRExpressionNode* expressionNode);
     void addVariableToFree(IRVariableDeclarationNode* variableNode);
-    std::vector<IRExpressionNode*>* getExpressionsToFree();
+    virtual std::vector<IRExpressionNode*>* getExpressionsToFree();
     virtual std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
     virtual void setInsertionPointBeforeLastInstruction();
     void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);

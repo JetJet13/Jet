@@ -24,7 +24,6 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto allocIndex = irGenerator->generateIntConstant(typeValueType->getAllocIndex());
     auto refValueIndex = irGenerator->generateIntConstant(refType->getRefValueIndex());
     auto refCounterIndex = irGenerator->generateIntConstant(refType->getRefCounterIndex());
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refCounterIndex });

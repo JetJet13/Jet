@@ -58,7 +58,7 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
             auto loadedPointerToProperty = InstructionIRInjectorHelper::injectLoad(classScopeParameterAllocation->getIRType()->getType(), classScopeParameterAllocation->getValue(), functionBlock);
             auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(classScopeParameterAllocation->getIRType()->getUnderlyingType()->getType(), loadedPointerToProperty, { zeroIndex, propertyIndex });
             auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-            irExpression->assignTo(pointerToProperty);
+            irExpression->markAsAssigned();
             auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), preConstructorScope);
             functionBlock->getBuilder()->get()->Insert(pointerToProperty);
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, functionBlock);

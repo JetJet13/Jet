@@ -7,9 +7,8 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto variableValue = InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
+    InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
     auto operation = this->determineOperationType(irVariableDeclaration);
-    irVariableDeclaration->getIRExpression()->assignTo(variableValue);
     auto irExpressionValue = irInjector
             ->inject(
                     irBlock,

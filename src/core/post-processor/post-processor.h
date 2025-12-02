@@ -9,6 +9,7 @@
 
 class PostProcessor {
 public:
+    PostProcessor();
     void process(JetFile* file);
 };
 

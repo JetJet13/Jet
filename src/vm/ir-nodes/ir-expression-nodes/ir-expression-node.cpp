@@ -18,11 +18,11 @@ bool IRExpressionNode::isReferenced() {
 }
 
 bool IRExpressionNode::isAssigned() {
-    return _assignedTo.has_value();
+    return _isAssigned;
 }
 
-void IRExpressionNode::assignTo(llvm::Value* value) {
-    _assignedTo = value;
+void IRExpressionNode::markAsAssigned() {
+    _isAssigned = true;
 }
 
 bool IRExpressionNode::needsToBeFreed() {

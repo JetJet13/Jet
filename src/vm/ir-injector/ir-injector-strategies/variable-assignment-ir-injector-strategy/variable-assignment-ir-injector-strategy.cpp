@@ -3,7 +3,6 @@
 //
 
 #include "variable-assignment-ir-injector-strategy.h"
-#include "../../../ir-type/ir-array-pointer-type.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
@@ -17,7 +16,6 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                     operation, irModule, scope);
     if (globalVariable) {
         auto oldGlobalVariableValue = InstructionIRInjectorHelper::injectLoad(globalVariable.value()->getAllocatedType(), globalVariable.value()->getValue(), irBlock);
-//        auto oldGlobalVariableValue = irBlock->getBuilder()->get()->CreateLoad(globalVariable.value()->getAllocatedType(), globalVariable.value()->getValue());
         auto globalVariableIrType = globalVariable.value()->getIRType()->getSourceType();
         irBlock->getBuilder()->get()->CreateMemCpy(
                 globalVariable.value()->getValue(),
@@ -35,9 +33,5 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
     } else {
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
         InstructionIRInjectorHelper::injectStore(newVariableValue, variable->getValue(), irBlock, variable->getIRType());
-//        irBlock->getBuilder()->get()->CreateStore(
-//            newVariableValue,
-//            variable->getValue()
-//        );
     }
 }

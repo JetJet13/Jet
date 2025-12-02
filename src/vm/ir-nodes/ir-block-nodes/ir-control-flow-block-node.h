@@ -10,6 +10,7 @@
 class IRControlFlowBlockNode : public IRBlockNode {
     using IRBlockNode::IRBlockNode;
 public:
+    std::vector<IRExpressionNode*>* getExpressionsToFree() override;
     std::vector<IRVariableDeclarationNode*>* getVariablesToFree() override;
     void setInsertionPointBeforeLastInstruction() override;
 };

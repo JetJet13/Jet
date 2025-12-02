@@ -10,6 +10,7 @@
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto operation = this->determineOperationType(node);
     auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irContext, operation);
+    irExpression->markAsAssigned();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irExpression, irContext);
 

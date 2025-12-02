@@ -12,6 +12,7 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     auto structValueSourceAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
     for (auto keyValuePair : node->getKeyValuePairs()) {
         auto irNode = irGenerator->generateFor(keyValuePair->getValue(), scope, irContext, irOperation);
+        irNode->markAsAssigned();
         structValues.push_back(irNode);
         if (irNode->getSourceAllocation()) {
             structValueSourceAllocationMap.insert(

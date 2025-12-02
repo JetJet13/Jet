@@ -12,6 +12,7 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
     auto elementValueSourceAllocations = std::vector<IRInstructionNode*>();
     for (auto element : *node->getElements()) {
         auto elementIrExpression = irGenerator->generateFor(element, scope, irContext, irOperation);
+        elementIrExpression->markAsAssigned();
         elementValues.push_back(elementIrExpression);
         if (elementIrExpression->getSourceAllocation()) {
             elementValueSourceAllocations.push_back(elementIrExpression->getSourceAllocation().value());

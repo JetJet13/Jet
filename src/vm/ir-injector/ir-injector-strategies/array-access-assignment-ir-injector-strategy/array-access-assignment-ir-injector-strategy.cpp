@@ -17,7 +17,6 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStat
             sourceValue,
             { zeroIndex, allocIndex }
     );
-//    auto arrayAlloc = irBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), arrayAllocPointer);
     auto arrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), arrayAllocPointer, irBlock, arrayPointerType);
     auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
     auto irExpressionValue = irInjector
@@ -27,5 +26,4 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStat
                     new IROperation(IR_OPERAND_VALUE_OP), irModule, scope
             );
     InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irArrayAccessAssignmentStatement->getIRExpression()->getIRType());
-//    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointer);
 }

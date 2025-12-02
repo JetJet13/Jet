@@ -11,6 +11,7 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
     for (int i = 0; i < node->numItems(); ++i) {
         auto tupleItem = node->getItems()->at(i);
         auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope, irContext, irOperation);
+        irNode->markAsAssigned();
         tupleValues.push_back(irNode);
     }
 
