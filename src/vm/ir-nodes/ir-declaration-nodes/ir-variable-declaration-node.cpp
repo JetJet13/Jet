@@ -4,14 +4,13 @@
 
 #include "ir-variable-declaration-node.h"
 
-IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRInstructionNode*> irGlobalVariable) {
+IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irCaptureCounter) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
     _irGlobalVariable = irGlobalVariable;
+    _irCaptureCounter = irCaptureCounter;
 }
-
-
 
 std::string IRVariableDeclarationNode::getVariableName() {
     return _node->getId();
@@ -46,6 +45,10 @@ bool IRVariableDeclarationNode::needsToBeFreed() {
 
 std::optional<IRInstructionNode*> IRVariableDeclarationNode::getGlobalVariable() {
     return _irGlobalVariable;
+}
+
+std::optional<IRInstructionNode*> IRVariableDeclarationNode::getCaptureCounter() {
+    return _irCaptureCounter;
 }
 
 IRNodeType IRVariableDeclarationNode::getNodeType() {

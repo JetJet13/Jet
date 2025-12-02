@@ -34,7 +34,11 @@ void ASTVariableDeclarationNode::markAsReferenced() {
 }
 
 void ASTVariableDeclarationNode::markAsCaptured() {
-    _isCaptured = true;
+    _captureCount++;
+}
+
+unsigned long ASTVariableDeclarationNode::getCaptureCount() {
+    return _captureCount;
 }
 
 bool ASTVariableDeclarationNode::isExportable() {
@@ -46,7 +50,7 @@ bool ASTVariableDeclarationNode::isReferenced() {
 }
 
 bool ASTVariableDeclarationNode::isCaptured() {
-    return _isCaptured;
+    return _captureCount > 0;
 }
 
 void ASTVariableDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {

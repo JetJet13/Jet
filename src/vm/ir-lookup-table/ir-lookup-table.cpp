@@ -8,6 +8,7 @@
 IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
     _globalScope = std::unordered_map<std::string, IRInstructionNode*>();
     _scope = std::unordered_map<std::string, IRInstructionNode*>();
+    _captureCounterScope = std::unordered_map<std::string, IRInstructionNode*>();
     _loadedScope = std::unordered_map<std::string, IRLoadInstructionNode*>();
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, IRType*>();
@@ -31,6 +32,12 @@ IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) 
     return this;
 }
 
+IRLookupTable* IRLookupTable::insertCaptureCounter(std::string key, IRInstructionNode* value) {
+    _captureCounterScope[key] = value;
+    return this;
+}
+
+
 IRLookupTable* IRLookupTable::insert(std::string key, IRLoadInstructionNode* value) {
     _loadedScope[key] = value;
     return this;
@@ -47,6 +54,15 @@ std::optional<IRInstructionNode*> IRLookupTable::find(std::string key) {
         if (_outerScope) {
             return _outerScope.value()->find(key);
         }
+        return {};
+    } else {
+        return result->second;
+    }
+}
+
+std::optional<IRInstructionNode*> IRLookupTable::findCaptureCounter(std::string key) {
+    auto result = _captureCounterScope.find(key);
+    if (result == _captureCounterScope.end()) {
         return {};
     } else {
         return result->second;

@@ -6,6 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
+#include "../../../ir-type/ir-captured-variable-type.h"
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
@@ -38,9 +39,16 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaExpressionNode* irExpressi
         auto lambdaScopeAllocation = irBlock->getBuilder()->get()->CreateAlloca(irLambdaScopeType->getType());
         for (int i = 0; i < irLambdaScopeType->size(); ++i) {
             auto key = irLambdaScopeType->getKeyForIndex(i);
+            auto irCapturedVariableType = (IRCapturedVariableType*)irLambdaScopeType->getIRTypeForKey(key);
             auto allocationForKey = scope->find(key).value();
+            auto allocationCaptureCounterForKey = scope->findCaptureCounter(key).value();
+            auto capturedVariableAllocation = irBlock->getBuilder()->get()->CreateAlloca(irCapturedVariableType->getType());
+            auto pointerToCapturedVariable = irBlock->getBuilder()->get()->CreateStructGEP(irCapturedVariableType->getType(), capturedVariableAllocation, irCapturedVariableType->getVariableIndex());
+            InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointerToCapturedVariable, irBlock, allocationForKey->getIRType()->getUnderlyingType());
+            auto pointerToCaptureCounter = irBlock->getBuilder()->get()->CreateStructGEP(irCapturedVariableType->getType(), capturedVariableAllocation, irCapturedVariableType->getCaptureCounterIndex());
+            InstructionIRInjectorHelper::injectStore(allocationCaptureCounterForKey->getValue(), pointerToCaptureCounter, irBlock, allocationCaptureCounterForKey->getIRType());
             auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, i);
-            InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointer, irBlock, allocationForKey->getIRType()->getUnderlyingType());
+            InstructionIRInjectorHelper::injectStore(capturedVariableAllocation, pointer, irBlock, irCapturedVariableType);
         }
         auto lambdaScopeMalloc = irBlock->getBuilder()->get()->CreateCall(
                 irModule->getMallocFunction(),
@@ -70,9 +78,18 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode
         auto lambdaScopeAllocation = irBlock->getBuilder()->get()->CreateAlloca(irLambdaScopeType->getType());
         for (int i = 0; i < irLambdaScopeType->size(); ++i) {
             auto key = irLambdaScopeType->getKeyForIndex(i);
+            auto irCapturedVariableType = (IRCapturedVariableType*)irLambdaScopeType->getIRTypeForKey(key);
             auto allocationForKey = scope->find(key).value();
+            Logger::log("ALLOCATION FOR KEY FOUND", key);
+            auto allocationCaptureCounterForKey = scope->findCaptureCounter(key).value();
+            Logger::log("ALLOCATION CAPTURE COUNTER FOR KEY FOUND");
+            auto capturedVariableAllocation = irBlock->getBuilder()->get()->CreateAlloca(irCapturedVariableType->getType());
+            auto pointerToCapturedVariable = irBlock->getBuilder()->get()->CreateStructGEP(irCapturedVariableType->getType(), capturedVariableAllocation, irCapturedVariableType->getVariableIndex());
+            InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointerToCapturedVariable, irBlock, allocationForKey->getIRType()->getUnderlyingType());
+            auto pointerToCaptureCounter = irBlock->getBuilder()->get()->CreateStructGEP(irCapturedVariableType->getType(), capturedVariableAllocation, irCapturedVariableType->getCaptureCounterIndex());
+            InstructionIRInjectorHelper::injectStore(allocationCaptureCounterForKey->getValue(), pointerToCaptureCounter, irBlock, allocationCaptureCounterForKey->getIRType());
             auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaScopeType->getType(), lambdaScopeAllocation, i);
-            InstructionIRInjectorHelper::injectStore(allocationForKey->getValue(), pointer, irBlock, allocationForKey->getIRType()->getUnderlyingType());
+            InstructionIRInjectorHelper::injectStore(capturedVariableAllocation, pointer, irBlock, irCapturedVariableType);
         }
         auto lambdaScopeMalloc = irBlock->getBuilder()->get()->CreateCall(
                 irModule->getMallocFunction(),

@@ -14,8 +14,6 @@ class FreeIRInjectorHelper {
 private:
     static void freeBlockVariables(IRBlockNode* irBlockNode, std::vector<IRVariableDeclarationNode*>* variablesToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
     static void freeBlockExpressions(IRBlockNode* irBlockNode, std::vector<IRExpressionNode*>* expressionsToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
-    static void refCheckVariables(IRBlockNode* irBlockNode, std::vector<IRVariableDeclarationNode*>* variablesToRefCheck, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
-    static void refCheckExpressions(IRBlockNode* irBlockNode, std::vector<IRExpressionNode*>* expressionsToRefCheck, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
 public:
     static void freeFunctionBlockVariables(IRBlockNode* functionBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
     static void freeFunctionParameters(IRBlockNode* irBlockNode, IRFunctionParameterListNode* functionParameterList, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);

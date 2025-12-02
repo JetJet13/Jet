@@ -615,6 +615,8 @@ add_library(jet-vm
         ir-nodes/ir-block-nodes/ir-control-flow-block-node.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h
+        ir-type/ir-captured-variable-type.cpp
+        ir-type/ir-captured-variable-type.h
 )
 
 target_link_libraries(jet-vm

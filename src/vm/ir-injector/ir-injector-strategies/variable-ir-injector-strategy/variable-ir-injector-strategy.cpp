@@ -19,6 +19,9 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
     if (irVariableDeclaration->getGlobalVariable()) {
         InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue(), irBlock, irVariableDeclaration->getGlobalVariable().value()->getIRType());
     }
+    if (irVariableDeclaration->getCaptureCounter()) {
+        InstructionIRInjectorHelper::inject(irVariableDeclaration->getCaptureCounter().value(), irBlock, irVariableDeclaration->getVariableName() + ".capture.counter");
+    }
     if (irVariableDeclaration->needsToBeFreed()) {
         irBlock->addVariableToFree(irVariableDeclaration);
     }

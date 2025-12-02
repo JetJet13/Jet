@@ -66,6 +66,7 @@
 #include "../../core/ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.h"
 #include "../ir-type/ir-array-type.h"
 #include "../ir-nodes/ir-block-nodes/ir-control-flow-block-node.h"
+#include "../ir-type/ir-captured-variable-type.h"
 
 class IRGenerator {
 private:
@@ -132,6 +133,8 @@ public:
     llvm::Constant* getOrInsertGlobalVariableString(std::string id, std::string rawString, IRContext* irContext);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
+    IRType* generateIRCaptureCounterType();
+    IRCapturedVariableType* generateIRCapturedVariableType(IRType* variableIrType);
     IRType* generateIRCharType();
     IRArrayPointerType* generateIrStringArrayPointerType();
     llvm::StructType* generateArrayPointerType();

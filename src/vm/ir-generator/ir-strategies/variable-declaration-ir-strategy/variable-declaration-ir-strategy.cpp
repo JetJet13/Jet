@@ -39,7 +39,13 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
         scope->insert(node->getId(), variableAllocation);
     }
 
-    return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGlobalVariable);
+    auto irCaptureCounter = std::optional<IRInstructionNode*>();
+    if (node->isCaptured()) {
+        irCaptureCounter = this->generateVariableCaptureCounter(node, irGenerator, irContext);
+        scope->insertCaptureCounter(node->getId(), irCaptureCounter.value());
+    }
+
+    return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGlobalVariable, irCaptureCounter);
 }
 
 IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDeclarationNode* node) {
@@ -50,6 +56,9 @@ IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDe
 }
 
 IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRExpressionNode* irExpression, IRContext* irContext) {
+    if (node->isCaptured()) {
+        Logger::log("VARIABLE CAPTURE COUNT", node->getId(), node->getCaptureCount());
+    }
     if ((node->isReferenced() || node->isCaptured() || node->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE))
         && !node->isGlobal()) {
         auto malloc = llvm::CallInst::Create(
@@ -66,5 +75,22 @@ IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(AST
     }
     return IRInstructionNodeFactory::create(
             irGenerator->generateIrPointerType(irType), node->getId(), irExpression->getSourceAllocation()
+    );
+}
+
+IRInstructionNode* VariableDeclarationIRStrategy::generateVariableCaptureCounter(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRContext* irContext) {
+    auto irType = irGenerator->generateIRCaptureCounterType();
+    auto malloc = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+            irContext->getIRModule()->getMallocFunction(),
+            { irGenerator->generateInt64Constant(irType->getSizeInBytes()) }
+    );
+    auto captureCount = irGenerator->generateIntConstant(node->getCaptureCount());
+    auto storeInstruction = irGenerator->generateStoreInstruction(captureCount, malloc, irType);
+    return new IRInstructionNode(
+            malloc,
+            irGenerator->generateIrPointerType(irType),
+            {},
+            { storeInstruction }
     );
 }

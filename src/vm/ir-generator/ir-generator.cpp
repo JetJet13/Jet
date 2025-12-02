@@ -581,6 +581,18 @@ IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElement
     return irArrayPointerType;
 }
 
+IRType* IRGenerator::generateIRCaptureCounterType() {
+    return new IRType(this->generateIntType());
+}
+
+IRCapturedVariableType* IRGenerator::generateIRCapturedVariableType(IRType* variableIrType) {
+    return new IRCapturedVariableType(
+        llvm::StructType::get(*_context, { this->generatePointerType(), this->generatePointerType() }),
+        this->generateIRCaptureCounterType(),
+        variableIrType
+    );
+}
+
 IRType* IRGenerator::generateIRCharType() {
     return new IRType(this->generateCharType());
 }

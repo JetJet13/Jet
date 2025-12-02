@@ -23,20 +23,7 @@ void FreeIRInjectorHelper::freeFunctionBlockVariables(IRBlockNode* functionBlock
                     irModule,
                     scope
             );
-            FreeIRInjectorHelper::refCheckVariables(
-                    childBlock,
-                    childBlock->getVariablesToRefCheck(),
-                    irInjector,
-                    irModule,
-                    scope
-            );
-            FreeIRInjectorHelper::refCheckExpressions(
-                    childBlock,
-                    childBlock->getExpressionsToRefCheck(),
-                    irInjector,
-                    irModule,
-                    scope
-            );
+
         }
     }
 
@@ -52,20 +39,6 @@ void FreeIRInjectorHelper::freeFunctionBlockVariables(IRBlockNode* functionBlock
     FreeIRInjectorHelper::freeBlockExpressions(
             finalBlock,
             functionBlock->getExpressionsToFree(),
-            irInjector,
-            irModule,
-            scope
-    );
-    FreeIRInjectorHelper::refCheckVariables(
-            finalBlock,
-            functionBlock->getVariablesToRefCheck(),
-            irInjector,
-            irModule,
-            scope
-    );
-    FreeIRInjectorHelper::refCheckExpressions(
-            finalBlock,
-            functionBlock->getExpressionsToRefCheck(),
             irInjector,
             irModule,
             scope
@@ -98,38 +71,6 @@ void FreeIRInjectorHelper::freeBlockExpressions(IRBlockNode* irBlockNode, std::v
                     expressionToFree->getSourceAllocation().has_value()
                     ? expressionToFree->getSourceAllocation().value()->getValue()
                     : expressionToFree->getValue(),
-                    loadedTypeValue
-                }
-        );
-    }
-}
-
-void FreeIRInjectorHelper::refCheckVariables(IRBlockNode* irBlockNode, std::vector<IRVariableDeclarationNode*>* variablesToRefCheck, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    for (auto variableToRefCheck : *variablesToRefCheck) {
-        auto typeValue = irInjector->inject(irBlockNode, variableToRefCheck->getAllocatedIRType());
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variableToRefCheck->getIRValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
-        irBlockNode->getBuilder()->get()->CreateCall(
-                irModule->getFreeRefFunction()->getFunctionType(),
-                irModule->getFreeRefFunction(),
-                {
-                    variableToRefCheck->getValue(),
-                    loadedTypeValue
-                }
-        );
-    }
-}
-
-void FreeIRInjectorHelper::refCheckExpressions(IRBlockNode* irBlockNode, std::vector<IRExpressionNode*>* expressionsToRefCheck, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    for (auto expressionToRefCheck : *expressionsToRefCheck) {
-        auto typeValue = irInjector->inject(irBlockNode, expressionToRefCheck->getIRType());
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(expressionToRefCheck->getIRType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
-        irBlockNode->getBuilder()->get()->CreateCall(
-                irModule->getFreeRefFunction()->getFunctionType(),
-                irModule->getFreeRefFunction(),
-                {
-                    expressionToRefCheck->getSourceAllocation().has_value()
-                    ? expressionToRefCheck->getSourceAllocation().value()->getValue()
-                    : expressionToRefCheck->getValue(),
                     loadedTypeValue
                 }
         );

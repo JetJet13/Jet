@@ -11,7 +11,8 @@ IRStructType* LambdaScopeTypeSignatureIRStrategy::generate(LambdaScopeTypeSignat
     auto capturedVariableIds = lambdaScopeTypeSignature->getCapturedVariableIds();
     for (int i = 0; i < capturedVariableIds->size(); ++i) {
         auto capturedVariableId = capturedVariableIds->at(i);
-        auto irType = scope->find(capturedVariableId).value()->getIRType();
+        auto irVariableType = scope->find(capturedVariableId).value()->getIRType();
+        auto irType = irGenerator->generateIRCapturedVariableType(irVariableType);
         structPropertyTypes.push_back(irType->getType());
         keyIndexMap.insert(
                 std::pair(capturedVariableId, i)

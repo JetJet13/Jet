@@ -79,13 +79,16 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
             auto pointerToScopeParameterType = InstructionIRInjectorHelper::injectLoad(functionParameterAllocation->getAllocatedType(), functionParameterAllocation->getValue(), functionBlock);
             for (int index = 0; index < scopeParameterIrType->size(); ++index) {
                 auto key = scopeParameterIrType->getKeyForIndex(index);
-                auto irType = scopeParameterIrType->getIRTypeForKey(key);
-                auto pointerToValue = functionBlock->getBuilder()->get()->CreateStructGEP(scopeParameterIrType->getType(), pointerToScopeParameterType, index);
-                auto loadedPointerToValue = InstructionIRInjectorHelper::injectLoad(irType->getType(), pointerToValue, functionBlock, irType);
+                auto irType = (IRCapturedVariableType*)scopeParameterIrType->getIRTypeForKey(key);
+                auto pointerToCapturedVariableValue = functionBlock->getBuilder()->get()->CreateStructGEP(scopeParameterIrType->getType(), pointerToScopeParameterType, index);
+                auto loadedCapturedVariableValue = InstructionIRInjectorHelper::injectLoad(irType->getType(), pointerToCapturedVariableValue, functionBlock, irType);
+                auto pointerToValue = functionBlock->getBuilder()->get()->CreateExtractValue(loadedCapturedVariableValue, irType->getVariableIndex());
+                auto pointerToCaptureCounterValue = functionBlock->getBuilder()->get()->CreateExtractValue(loadedCapturedVariableValue, irType->getCaptureCounterIndex());
                 scope->insert(
-                        key,
-                        IRInstructionNodeFactory::create(loadedPointerToValue, irGenerator->generateIrPointerType(irType->getSourceType()))
+                    key,
+                    IRInstructionNodeFactory::create(pointerToValue, irGenerator->generateIrPointerType(irType->getVariableIRType()))
                 );
+                scope->insertCaptureCounter(key, IRInstructionNodeFactory::create(pointerToCaptureCounterValue, irGenerator->generateIrPointerType(irType->getCaptureCounterIRType())));
             }
         }
     }
