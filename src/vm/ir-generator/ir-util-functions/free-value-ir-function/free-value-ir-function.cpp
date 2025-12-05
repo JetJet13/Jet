@@ -22,102 +22,103 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto function = irModuleNode->getFreeValueFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-
-    auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
-    auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
-    auto pointerIfBlock = irGenerator->generateIfBlock(irContext, "pointer.");
-    auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
-    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
-    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
-    auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
-    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
-    auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
-    auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
-    auto endBlock = irGenerator->generateIfEndBlock(irContext);
-
-    auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getIdIndex() });
-
-    functionBlock->getBuilder()->get()->CreateBr(arrayIfBlock->getBlock());
-
-    auto isValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
-    );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), pointerIfBlock->getBlock());
-    arrayIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeArrayFunction()->getFunctionType(),
-            irContext->getIRModule()->getFreeArrayFunction(),
-            {
-                    function->getArg(0),
-                    function->getArg(1)
-            }
-    );
-
-    auto isValueTypePointer = pointerIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.POINTER)
-    );
-    pointerIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, pointerIfThenBlock->getBlock(), refIfBlock->getBlock());
-    pointerIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreePointerFunction()->getFunctionType(),
-            irContext->getIRModule()->getFreePointerFunction(),
-            {
-                    function->getArg(0),
-                    function->getArg(1)
-            }
-    );
-
-    auto isValueTypeRef = refIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.REF)
-    );
-    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
-    refIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeRefFunction()->getFunctionType(),
-            irContext->getIRModule()->getFreeRefFunction(),
-            {
-                function->getArg(0),
-                function->getArg(1)
-            }
-    );
-
-    auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
-    );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), stringIfBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeStructFunction()->getFunctionType(),
-            irContext->getIRModule()->getFreeStructFunction(),
-            {
-                    function->getArg(0),
-                    function->getArg(1)
-            }
-    );
-
-    auto isValueTypeString = stringIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_EQ,
-            typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.STRING)
-    );
-    stringIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeString, stringIfThenBlock->getBlock(), endBlock->getBlock());
-    stringIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeStringFunction()->getFunctionType(),
-            irContext->getIRModule()->getFreeStringFunction(),
-            {
-                function->getArg(0)
-            }
-    );
-
-    arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-    pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-    refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-    stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-
-    endBlock->addVoidReturn();
+    functionBlock->addVoidReturn();
+//  todo - uncomment all this and test
+//    auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
+//    auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
+//    auto pointerIfBlock = irGenerator->generateIfBlock(irContext, "pointer.");
+//    auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
+//    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
+//    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
+//    auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
+//    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+//    auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
+//    auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
+//    auto endBlock = irGenerator->generateIfEndBlock(irContext);
+//
+//    auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getIdIndex() });
+//
+//    functionBlock->getBuilder()->get()->CreateBr(arrayIfBlock->getBlock());
+//
+//    auto isValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(
+//            llvm::CmpInst::Predicate::ICMP_EQ,
+//            typeValueId,
+//            irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
+//    );
+//    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), pointerIfBlock->getBlock());
+//    arrayIfThenBlock->getBuilder()->get()->CreateCall(
+//            irContext->getIRModule()->getFreeArrayFunction()->getFunctionType(),
+//            irContext->getIRModule()->getFreeArrayFunction(),
+//            {
+//                    function->getArg(0),
+//                    function->getArg(1)
+//            }
+//    );
+//
+//    auto isValueTypePointer = pointerIfBlock->getBuilder()->get()->CreateICmp(
+//            llvm::CmpInst::Predicate::ICMP_EQ,
+//            typeValueId,
+//            irGenerator->generateIntConstant(IR_TYPE_ID.POINTER)
+//    );
+//    pointerIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, pointerIfThenBlock->getBlock(), refIfBlock->getBlock());
+//    pointerIfThenBlock->getBuilder()->get()->CreateCall(
+//            irContext->getIRModule()->getFreePointerFunction()->getFunctionType(),
+//            irContext->getIRModule()->getFreePointerFunction(),
+//            {
+//                    function->getArg(0),
+//                    function->getArg(1)
+//            }
+//    );
+//
+//    auto isValueTypeRef = refIfBlock->getBuilder()->get()->CreateICmp(
+//            llvm::CmpInst::Predicate::ICMP_EQ,
+//            typeValueId,
+//            irGenerator->generateIntConstant(IR_TYPE_ID.REF)
+//    );
+//    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
+//    refIfThenBlock->getBuilder()->get()->CreateCall(
+//            irContext->getIRModule()->getFreeRefFunction()->getFunctionType(),
+//            irContext->getIRModule()->getFreeRefFunction(),
+//            {
+//                function->getArg(0),
+//                function->getArg(1)
+//            }
+//    );
+//
+//    auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
+//            llvm::CmpInst::Predicate::ICMP_EQ,
+//            typeValueId,
+//            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
+//    );
+//    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), stringIfBlock->getBlock());
+//    structIfThenBlock->getBuilder()->get()->CreateCall(
+//            irContext->getIRModule()->getFreeStructFunction()->getFunctionType(),
+//            irContext->getIRModule()->getFreeStructFunction(),
+//            {
+//                    function->getArg(0),
+//                    function->getArg(1)
+//            }
+//    );
+//
+//    auto isValueTypeString = stringIfBlock->getBuilder()->get()->CreateICmp(
+//            llvm::CmpInst::Predicate::ICMP_EQ,
+//            typeValueId,
+//            irGenerator->generateIntConstant(IR_TYPE_ID.STRING)
+//    );
+//    stringIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeString, stringIfThenBlock->getBlock(), endBlock->getBlock());
+//    stringIfThenBlock->getBuilder()->get()->CreateCall(
+//            irContext->getIRModule()->getFreeStringFunction()->getFunctionType(),
+//            irContext->getIRModule()->getFreeStringFunction(),
+//            {
+//                function->getArg(0)
+//            }
+//    );
+//
+//    arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+//    pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+//    refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+//    structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+//    stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+//
+//    endBlock->addVoidReturn();
 }

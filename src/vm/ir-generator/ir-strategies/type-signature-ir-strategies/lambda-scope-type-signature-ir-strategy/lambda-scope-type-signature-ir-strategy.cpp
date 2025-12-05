@@ -9,8 +9,8 @@ IRStructType* LambdaScopeTypeSignatureIRStrategy::generate(LambdaScopeTypeSignat
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     auto capturedVariableIds = lambdaScopeTypeSignature->getCapturedVariableIds();
-    for (int i = 0; i < capturedVariableIds->size(); ++i) {
-        auto capturedVariableId = capturedVariableIds->at(i);
+    int i = 0;
+    for (auto capturedVariableId : *capturedVariableIds) {
         auto irVariableType = scope->find(capturedVariableId).value()->getIRType();
         auto irType = irGenerator->generateIRCapturedVariableType(irVariableType);
         structPropertyTypes.push_back(irType->getType());
@@ -18,6 +18,7 @@ IRStructType* LambdaScopeTypeSignatureIRStrategy::generate(LambdaScopeTypeSignat
                 std::pair(capturedVariableId, i)
         );
         keyTypeMap.insert(std::pair(capturedVariableId, irType));
+        i++;
     }
     auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), structPropertyTypes), keyIndexMap, keyTypeMap);
     return structType;

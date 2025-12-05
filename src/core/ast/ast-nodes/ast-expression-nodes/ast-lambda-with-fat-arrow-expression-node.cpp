@@ -10,7 +10,7 @@ ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunc
     _parameters = parameters;
     _returnExpression = returnExpression;
     _returnType = returnType;
-    _capturedVariableIds = std::vector<std::string>();
+    _capturedVariableIds = std::set<std::string>();
     _children.push_back(_parameters);
     _children.push_back(_returnExpression);
     if (_returnType) {
@@ -35,12 +35,12 @@ std::optional<ASTTypeNode*> ASTLambdaWithFatArrowExpressionNode::getReturnType()
     return _returnType;
 }
 
-std::vector<std::string>* ASTLambdaWithFatArrowExpressionNode::getCapturedVariableIds() {
+std::set<std::string>* ASTLambdaWithFatArrowExpressionNode::getCapturedVariableIds() {
     return &_capturedVariableIds;
 }
 
 void ASTLambdaWithFatArrowExpressionNode::addCapturedVariableId(std::string variableId) {
-    _capturedVariableIds.push_back(variableId);
+    _capturedVariableIds.insert(variableId);
 }
 
 void ASTLambdaWithFatArrowExpressionNode::setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature) {

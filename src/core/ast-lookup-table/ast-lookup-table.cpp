@@ -34,6 +34,10 @@ ASTLookupTable* ASTLookupTable::capture(ASTNode* node) {
     if (_lambdaFatArrow) {
         _lambdaFatArrow.value()->addCapturedVariableId(node->getId());
     }
+
+    if (_outerScope && _outerScope.value()->isLambdaScope()) {
+        _outerScope.value()->capture(node);
+    }
     return this;
 }
 

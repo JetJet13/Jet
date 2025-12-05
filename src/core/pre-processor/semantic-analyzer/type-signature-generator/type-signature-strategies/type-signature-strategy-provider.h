@@ -6,6 +6,7 @@
 #define JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H
 
 #include <any>
+#include <set>
 #include "type-signature-strategy-map.h"
 #include "../../type-signature-lookup-table/type-signature-lookup-table.h"
 #include "../../../../ast/ast-nodes/ast-node.h"
@@ -42,7 +43,7 @@ public:
     void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
     void assignInitialTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope);
     void assignPartialTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
-    ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(std::vector<std::string>* capturedVariableIds);
+    ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds);
     ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
     std::optional<FunctionTypeSignature*> findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType);
     std::optional<FunctionTypeSignature*> findRefPrototypeTypeSignature(std::string id, TypeSignature* elementType);

@@ -5,7 +5,7 @@
 #ifndef JETLANG_AST_LAMBDA_EXPRESSION_NODE_H
 #define JETLANG_AST_LAMBDA_EXPRESSION_NODE_H
 
-#include <vector>
+#include <set>
 #include "../ast-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
@@ -20,14 +20,14 @@ private:
     ASTFunctionBlockNode* _block;
     std::optional<ASTTypeNode*> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
-    std::vector<std::string> _capturedValueIds;
+    std::set<std::string> _capturedValueIds;
 public:
     ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType = {});
     Lexeme* getLexeme();
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionBlockNode* getBlock();
     std::optional<ASTTypeNode*> getReturnType();
-    std::vector<std::string>* getCapturedValueIds();
+    std::set<std::string>* getCapturedValueIds();
     void addCapturedValueId(std::string id);
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
     LambdaExpressionTypeSignature* getTypeSignature() override;

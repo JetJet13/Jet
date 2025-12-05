@@ -5,6 +5,6 @@
 #include "lambda-expression-scope-parameter-type-signature-strategy.h"
 #include "../../../../../../shared/utils/logger/logger.h"
 
-ParameterListItemTypeSignature* LambdaExpressionScopeParameterTypeSignatureStrategy::create(std::vector<std::string>* captureVariableIds) {
+ParameterListItemTypeSignature* LambdaExpressionScopeParameterTypeSignatureStrategy::create(std::set<std::string>* captureVariableIds) {
     return ParameterListItemTypeSignature::createScopeParameter(new LambdaScopeTypeSignature(captureVariableIds));
 }

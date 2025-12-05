@@ -6,14 +6,14 @@
 #include "../../../shared/utils/logger/logger.h"
 
 LambdaScopeTypeSignature::LambdaScopeTypeSignature() {
-    _capturedVariableIds = std::vector<std::string>();
+    _capturedVariableIds = std::set<std::string>();
 }
 
-LambdaScopeTypeSignature::LambdaScopeTypeSignature(std::vector<std::string>* capturedVariables) {
+LambdaScopeTypeSignature::LambdaScopeTypeSignature(std::set<std::string>* capturedVariables) {
     _capturedVariableIds = *capturedVariables;
 }
 
-std::vector<std::string>* LambdaScopeTypeSignature::getCapturedVariableIds() {
+std::set<std::string>* LambdaScopeTypeSignature::getCapturedVariableIds() {
     return &_capturedVariableIds;
 }
 
@@ -22,7 +22,7 @@ bool LambdaScopeTypeSignature::isEmpty() {
 }
 
 void LambdaScopeTypeSignature::addCapturedVariableId(std::string capturedVariableId) {
-    _capturedVariableIds.push_back(capturedVariableId);
+    _capturedVariableIds.insert(capturedVariableId);
 }
 
 std::string LambdaScopeTypeSignature::toDetailString() {
@@ -47,8 +47,8 @@ bool LambdaScopeTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (otherCapturedVariableIds->size() != _capturedVariableIds.size()) {
         return false;
     }
-    for (int i = 0; i < _capturedVariableIds.size(); ++i) {
-        if (_capturedVariableIds[i] != otherCapturedVariableIds->at(i)) {
+    for (auto id : *otherCapturedVariableIds) {
+        if (_capturedVariableIds.find(id) == _capturedVariableIds.end()) {
             return false;
         }
     }

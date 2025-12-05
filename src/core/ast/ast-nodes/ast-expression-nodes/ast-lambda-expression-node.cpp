@@ -15,7 +15,7 @@ ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* p
     if (_returnType) {
         _children.push_back(_returnType.value());
     }
-    _capturedValueIds = std::vector<std::string>();
+    _capturedValueIds = std::set<std::string>();
 }
 
 Lexeme* ASTLambdaExpressionNode::getLexeme() {
@@ -34,12 +34,12 @@ std::optional<ASTTypeNode*> ASTLambdaExpressionNode::getReturnType() {
     return _returnType;
 }
 
-std::vector<std::string>* ASTLambdaExpressionNode::getCapturedValueIds() {
+std::set<std::string>* ASTLambdaExpressionNode::getCapturedValueIds() {
     return &_capturedValueIds;
 }
 
 void ASTLambdaExpressionNode::addCapturedValueId(std::string id) {
-    _capturedValueIds.push_back(id);
+    _capturedValueIds.insert(id);
 }
 
 void ASTLambdaExpressionNode::setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature) {

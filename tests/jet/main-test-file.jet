@@ -322,7 +322,6 @@ proc testLambdas() {
     print("xResult", xResult);
 
     let foo = 40;
-    // scope issue here. foo is not found in the scope of y lambda
     const y = () => foo + 2 - xResult + x();
     const yResult = y();
 

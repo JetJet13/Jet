@@ -63,6 +63,9 @@ std::optional<IRInstructionNode*> IRLookupTable::find(std::string key) {
 std::optional<IRInstructionNode*> IRLookupTable::findCaptureCounter(std::string key) {
     auto result = _captureCounterScope.find(key);
     if (result == _captureCounterScope.end()) {
+        if (_outerScope) {
+            return _outerScope.value()->findCaptureCounter(key);
+        }
         return {};
     } else {
         return result->second;

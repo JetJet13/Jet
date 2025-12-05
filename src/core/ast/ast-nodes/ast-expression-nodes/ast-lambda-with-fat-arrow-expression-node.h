@@ -5,7 +5,7 @@
 #ifndef JETLANG_AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE_H
 #define JETLANG_AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE_H
 
-#include <vector>
+#include <set>
 #include "../ast-node.h"
 #include "../ast-function-nodes/ast-function-block-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
@@ -19,13 +19,13 @@ private:
     ASTLambdaReturnExpressionNode* _returnExpression;
     std::optional<ASTTypeNode*> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
-    std::vector<std::string> _capturedVariableIds;
+    std::set<std::string> _capturedVariableIds;
 public:
     ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, std::optional<ASTTypeNode*> returnType = {});
     ASTFunctionParameterListNode* getParameters();
     ASTLambdaReturnExpressionNode* getReturnExpression();
     std::optional<ASTTypeNode*> getReturnType();
-    std::vector<std::string>* getCapturedVariableIds();
+    std::set<std::string>* getCapturedVariableIds();
     void addCapturedVariableId(std::string variableId);
     void markAsReferenced() override;
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
