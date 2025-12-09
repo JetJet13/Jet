@@ -30,6 +30,7 @@ public:
     llvm::PointerType* getKeyType();
     llvm::PointerType* getValueIdType();
     uint64_t getSizeInBytes() override;
+    IRTypeValueType* clone() override;
     bool isTypeValueType() override;
 };
 

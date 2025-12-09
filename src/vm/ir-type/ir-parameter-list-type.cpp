@@ -19,3 +19,12 @@ std::vector<llvm::Type*> IRParameterListType::getParameterTypes() {
     }
     return argumentList;
 }
+
+IRParameterListType* IRParameterListType::clone() {
+    auto parameters = std::vector<IRParameterType*>();
+    for (auto parameter : _parameters) {
+        parameters.push_back(parameter->clone());
+    }
+
+    return new IRParameterListType(parameters);
+}

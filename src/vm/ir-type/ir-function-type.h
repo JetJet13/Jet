@@ -13,6 +13,7 @@ private:
 public:
     IRFunctionType(llvm::FunctionType* type);
     llvm::FunctionType* getType() override;
+    IRFunctionType* clone() override;
 };
 
 #endif //JETLANG_IR_FUNCTION_TYPE_H

@@ -46,6 +46,7 @@ public:
     uint64_t getCleanupFunctionSizeInBytes();
     llvm::Align getAlignment() override;
     uint64_t getSizeInBytes() override;
+    IRFunctionParameterType* clone() override;
 };
 
 #endif //JETLANG_IR_FUNCTION_PARAMETER_TYPE_H

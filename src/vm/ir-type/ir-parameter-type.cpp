@@ -20,3 +20,8 @@ IRType* IRParameterType::getIRType() {
 llvm::Type* IRParameterType::getType() {
     return _type->getType();
 }
+
+IRParameterType* IRParameterType::clone() {
+    auto typeClone = _type->clone();
+    return new IRParameterType(_name, typeClone);
+}

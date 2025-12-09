@@ -63,6 +63,14 @@ bool IRRefType::containsTypeThatRequiresFreeing() {
     return true;
 }
 
+IRRefType* IRRefType::clone() {
+    auto refIRTypeClone = _refIRType->clone();
+    auto refCounterIRTypeClone = _refCounterIRType->clone();
+    auto clone = new IRRefType(_type, refCounterIRTypeClone, refIRTypeClone);
+    this->initClone(clone);
+    return clone;
+}
+
 bool IRRefType::isRefType() {
     return true;
 }

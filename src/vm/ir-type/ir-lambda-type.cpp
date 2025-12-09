@@ -42,6 +42,20 @@ llvm::Align IRLambdaType::getAlignment() {
     return llvm::Align(8);
 }
 
+IRLambdaType* IRLambdaType::clone() {
+    auto irTypeClone = _irType->clone();
+    auto lambdaVariableTypeClone = _lambdaVariableType->clone();
+    auto parameterListClone = _parameterList->clone();
+    auto returnTypeClone = _returnType->clone();
+    std::optional<IRStructType*> lambdaScopeTypeClone = {};
+    if (_lambdaScopeType) {
+        lambdaScopeTypeClone = _lambdaScopeType.value()->clone();
+    }
+    auto clone = new IRLambdaType(_type, irTypeClone, lambdaVariableTypeClone, parameterListClone, returnTypeClone, lambdaScopeTypeClone);
+    this->initClone(clone);
+    return clone;
+}
+
 void IRLambdaType::print() {
     Logger::log("IR LAMBDA TYPE");
     _type->print(llvm::outs());

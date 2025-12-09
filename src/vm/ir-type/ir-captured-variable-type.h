@@ -28,6 +28,7 @@ public:
     uint64_t getSizeInBytes() override;
     bool isCapturedVariableType() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
+    IRCapturedVariableType* clone() override;
 };
 
 #endif //JETLANG_IR_CAPTURED_VARIABLE_TYPE_H

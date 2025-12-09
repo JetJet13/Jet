@@ -64,6 +64,13 @@ llvm::Align IRClassType::getAlignment() {
     return _classProperties->getAlignment();
 }
 
+IRClassType* IRClassType::clone() {
+    auto classPropertiesClone = _classProperties->clone();
+    auto clone = new IRClassType(_name, classPropertiesClone, _classScopeType, _classConstructors, _classMethods, _preConstructorName);
+    this->initClone(clone);
+    return clone;
+}
+
 void IRClassType::print() {
     Logger::log("IR CLASS TYPE");
     _type->print(llvm::outs());

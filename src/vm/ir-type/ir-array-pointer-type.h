@@ -30,6 +30,7 @@ public:
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     bool containsTypeThatRequiresFreeing() override;
     bool isArrayPointerType() override;
+    IRArrayPointerType* clone() override;
     void print() override;
 };
 

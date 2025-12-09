@@ -13,11 +13,6 @@ IRStructType* LambdaScopeTypeSignatureIRStrategy::generate(LambdaScopeTypeSignat
     int i = 0;
     for (auto capturedVariableId : *capturedVariableIds) {
         auto irVariableType = scope->find(capturedVariableId).value()->getIRType()->getSourceType();
-        // todo - with the introduction of lambda cleanup functions, we need to inject the same
-        //  type value in multiple function blocks which is problematic because the type-value
-        // allocations can only be injected in one block only. To get around this, one approach
-        // we can take is to add clone logic for type-values.
-        // TODO - implement ir-type 'clone' method override for aggregate ir-types.
         auto irCapturedVariableType = irGenerator->generateIRCapturedVariableType(irVariableType->clone());
         irCapturedVariableType->setValue(this->generateTypeValue(irCapturedVariableType, irGenerator, irContext));
         structPropertyTypes.push_back(irCapturedVariableType->getType());

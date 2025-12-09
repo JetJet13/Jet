@@ -11,3 +11,9 @@ IRFunctionType::IRFunctionType(llvm::FunctionType* type) : IRType(type) {
 llvm::FunctionType* IRFunctionType::getType() {
     return _type;
 }
+
+IRFunctionType* IRFunctionType::clone() {
+    auto clone = new IRFunctionType(_type);
+    this->initClone(clone);
+    return clone;
+}

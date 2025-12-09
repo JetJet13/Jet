@@ -32,3 +32,16 @@ std::vector<llvm::Type*> IRLambdaParameterListType::getParameterTypes() {
     }
     return parameterList;
 }
+
+IRLambdaParameterListType* IRLambdaParameterListType::clone() {
+    auto parameters = std::vector<IRType*>();
+    for (auto parameter : _parameters) {
+        parameters.push_back(parameter->clone());
+    }
+
+    std::optional<IRType*> lambdaScopeTypeClone = {};
+    if (_lambdaScopeParameterType) {
+        lambdaScopeTypeClone = _lambdaScopeParameterType.value()->clone();
+    }
+    return new IRLambdaParameterListType(parameters, lambdaScopeTypeClone);
+}

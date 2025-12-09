@@ -26,6 +26,7 @@ public:
     void setSourceType(IRType* type);
     bool containsTypeThatRequiresFreeing() override;
     bool isPointerType() override;
+    IRPointerType* clone() override;
     virtual void print() override;
 };
 

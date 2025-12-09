@@ -58,6 +58,12 @@ uint64_t IRTypeValueType::getSizeInBytes() {
     return 48;
 }
 
+IRTypeValueType* IRTypeValueType::clone() {
+    auto clone = new IRTypeValueType(_type);
+    this->initClone(clone);
+    return clone;
+}
+
 bool IRTypeValueType::isTypeValueType() {
     return true;
 }

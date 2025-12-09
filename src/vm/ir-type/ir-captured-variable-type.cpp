@@ -61,3 +61,12 @@ void IRCapturedVariableType::setAlignmentOverride(llvm::Align alignmentOverride)
     _variableIRType->setAlignmentOverride(alignmentOverride);
     _captureCounterIRType->setAlignmentOverride(alignmentOverride);
 }
+
+IRCapturedVariableType* IRCapturedVariableType::clone() {
+    auto captureCounterClone = _captureCounterIRType->clone();
+    auto variableClone = _variableIRType->clone();
+    auto clone = new IRCapturedVariableType(_type, captureCounterClone, variableClone);
+    this->initClone(clone);
+    return clone;
+}
+

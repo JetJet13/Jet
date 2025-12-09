@@ -138,6 +138,16 @@ bool IRStructType::isStructType() {
     return true;
 }
 
+IRStructType* IRStructType::clone() {
+    auto keyTypeMapClone = std::unordered_map<std::string, IRType*>();
+    for (auto keyValue : _keyTypeMap) {
+        keyTypeMapClone[keyValue.first] = keyValue.second->clone();
+    }
+    auto clone = new IRStructType(_type, _keyIndexMap, keyTypeMapClone);
+    this->initClone(clone);
+    return clone;
+}
+
 void IRStructType::print() {
     Logger::log("IR STRUCT TYPE", this->getId(), this->getKeyId());
     llvm::outs().write_escaped("|");

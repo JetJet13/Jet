@@ -78,36 +78,36 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRRefType* irRefType, IRBlockNo
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRCapturedVariableType* irCapturedVariableType, IRBlockNode* irBlock) {
     auto irCapturedVariableTypeValue = InstructionIRInjectorHelper::inject(irCapturedVariableType->getValue(), irBlock);
-//    auto capturedVariableTypeValue = this->inject(irCapturedVariableType->getVariableIRType()->getSourceType(), irBlock);
-//    auto irTypeValueType = (IRTypeValueType*)irCapturedVariableType->getValue()->getIRType()->getSourceType();
-//    auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irCapturedVariableTypeValue, irTypeValueType->getAllocIndex());
-//    InstructionIRInjectorHelper::injectStore(capturedVariableTypeValue, allocPointer, irBlock, irTypeValueType);
+    auto capturedVariableTypeValue = this->inject(irCapturedVariableType->getVariableIRType()->getSourceType(), irBlock);
+    auto irTypeValueType = (IRTypeValueType*)irCapturedVariableType->getValue()->getIRType()->getSourceType();
+    auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irCapturedVariableTypeValue, irTypeValueType->getAllocIndex());
+    InstructionIRInjectorHelper::injectStore(capturedVariableTypeValue, allocPointer, irBlock, irTypeValueType);
     return irCapturedVariableTypeValue;
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRFunctionParameterType* irFunctionParameterType, IRBlockNode* irBlock) {
     auto typeValueType = (IRTypeValueType*)irFunctionParameterType->getValue()->getIRType()->getSourceType();
     auto irFunctionParameterTypeValue = InstructionIRInjectorHelper::inject(irFunctionParameterType->getValue(), irBlock);
-//    auto parameters = irFunctionParameterType->getParameters()->getParameters();
-//    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-//    auto allocation = irBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType(), irBlock->getBuilder()->get()->getInt64(1 + parameters->size()));
-//    auto returnTypeTypeValue = this->inject(irFunctionParameterType->getReturnType(), irBlock);
-//    auto returnTypePointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex });
-//    auto pointerToReturnTypeSizeInBytes = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), returnTypeTypeValue, typeValueType->getSizeInBytesIndex());
-//    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irFunctionParameterType->getReturnType()->getSizeInBytes()), pointerToReturnTypeSizeInBytes, irBlock);
-//    InstructionIRInjectorHelper::injectStore(returnTypeTypeValue, returnTypePointer, irBlock);
-//    for (int i = 0; i < parameters->size(); ++i) {
-//        auto irTypeAtIndex = parameters->at(i);
-//        auto irTypeAtIndexValue = this->inject(irTypeAtIndex, irBlock);
-//        auto pointerToSizeInBytes = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), irTypeAtIndexValue, typeValueType->getSizeInBytesIndex());
-//        InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irTypeAtIndex->getSizeInBytes()), pointerToSizeInBytes, irBlock);
-//        auto index = irBlock->getBuilder()->get()->getInt64(i + 1); // index 0 is for the return type
-//        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { index });
-//        InstructionIRInjectorHelper::injectStore(irTypeAtIndexValue, pointer, irBlock);
-//    }
-//    auto allocIndex = irBlock->getBuilder()->get()->getInt64(typeValueType->getAllocIndex());
-//    auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), irFunctionParameterTypeValue, { zeroIndex, allocIndex });
-//    InstructionIRInjectorHelper::injectStore(allocation, allocPointer, irBlock);
+    auto parameters = irFunctionParameterType->getParameters()->getParameters();
+    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
+    auto allocation = irBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType(), irBlock->getBuilder()->get()->getInt64(1 + parameters->size()));
+    auto returnTypeTypeValue = this->inject(irFunctionParameterType->getReturnType(), irBlock);
+    auto returnTypePointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex });
+    auto pointerToReturnTypeSizeInBytes = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), returnTypeTypeValue, typeValueType->getSizeInBytesIndex());
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irFunctionParameterType->getReturnType()->getSizeInBytes()), pointerToReturnTypeSizeInBytes, irBlock);
+    InstructionIRInjectorHelper::injectStore(returnTypeTypeValue, returnTypePointer, irBlock);
+    for (int i = 0; i < parameters->size(); ++i) {
+        auto irTypeAtIndex = parameters->at(i);
+        auto irTypeAtIndexValue = this->inject(irTypeAtIndex, irBlock);
+        auto pointerToSizeInBytes = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), irTypeAtIndexValue, typeValueType->getSizeInBytesIndex());
+        InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irTypeAtIndex->getSizeInBytes()), pointerToSizeInBytes, irBlock);
+        auto index = irBlock->getBuilder()->get()->getInt64(i + 1); // index 0 is for the return type
+        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { index });
+        InstructionIRInjectorHelper::injectStore(irTypeAtIndexValue, pointer, irBlock);
+    }
+    auto allocIndex = irBlock->getBuilder()->get()->getInt64(typeValueType->getAllocIndex());
+    auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), irFunctionParameterTypeValue, { zeroIndex, allocIndex });
+    InstructionIRInjectorHelper::injectStore(allocation, allocPointer, irBlock);
     return irFunctionParameterTypeValue;
 }
 

@@ -76,6 +76,13 @@ bool IRArrayPointerType::isArrayPointerType() {
     return true;
 }
 
+IRArrayPointerType* IRArrayPointerType::clone() {
+    auto elementClone = _arrayElementType->clone();
+    auto clone = new IRArrayPointerType(_type, elementClone);
+    this->initClone(clone);
+    return clone;
+}
+
 void IRArrayPointerType::print() {
     Logger::log("IR ARRAY POINTER TYPE");
     _type->print(llvm::outs());

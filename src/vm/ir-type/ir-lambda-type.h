@@ -26,6 +26,7 @@ public:
     llvm::PointerType* getFunctionPointerType();
     llvm::FunctionType* getType() override;
     llvm::Align getAlignment() override;
+    IRLambdaType* clone() override;
     void print() override;
 };
 

@@ -17,6 +17,7 @@ public:
     std::string getName();
     IRType* getIRType();
     llvm::Type* getType();
+    IRParameterType* clone();
 };
 
 #endif //JETLANG_IR_PARAMETER_TYPE_H

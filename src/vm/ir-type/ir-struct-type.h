@@ -11,7 +11,7 @@
 #include "ir-pointer-type.h"
 
 class IRStructType : public IRType {
-private:
+protected:
     llvm::StructType* _type;
     std::unordered_map<std::string, unsigned long> _keyIndexMap;
     std::unordered_map<std::string, IRType*> _keyTypeMap;
@@ -31,6 +31,7 @@ public:
     IRType* getIRTypeByIndex(unsigned long index);
     bool containsTypeThatRequiresFreeing() override;
     bool isStructType() override;
+    IRStructType* clone() override;
     virtual void print() override;
 };
 

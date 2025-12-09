@@ -12,6 +12,7 @@ class IRModuleType : public IRStructType {
 public:
     llvm::Type* getValueType();
     bool isModuleType() override;
+    IRModuleType* clone() override;
 };
 
 #endif //JETLANG_IR_MODULE_TYPE_H

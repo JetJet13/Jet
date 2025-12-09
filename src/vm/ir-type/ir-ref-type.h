@@ -28,6 +28,7 @@ public:
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     bool containsTypeThatRequiresFreeing() override;
+    IRRefType* clone() override;
     bool isRefType() override;
 };
 

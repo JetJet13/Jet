@@ -23,6 +23,7 @@ public:
     llvm::Align getAlignment() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isArrayType() override;
+    IRArrayType* clone() override;
     void print() override;
 };
 

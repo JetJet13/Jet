@@ -67,6 +67,17 @@ bool IRPointerType::isPointerType() {
     return true;
 }
 
+IRPointerType* IRPointerType::clone() {
+    if (_sourceType) {
+        auto clone = new IRPointerType(_type, _sourceType.value()->clone());
+        this->initClone(clone);
+        return clone;
+    }
+    auto clone = new IRPointerType(_type);
+    this->initClone(clone);
+    return clone;
+}
+
 void IRPointerType::print() {
     llvm::outs().write_escaped("IR POINTER TYPE ->");
     _type->print(llvm::outs(), true, true);

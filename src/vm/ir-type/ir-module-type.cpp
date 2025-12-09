@@ -11,3 +11,13 @@ llvm::Type* IRModuleType::getValueType() {
 bool IRModuleType::isModuleType() {
     return true;
 }
+
+IRModuleType* IRModuleType::clone() {
+    auto keyTypeMapClone = std::unordered_map<std::string, IRType*>();
+    for (auto keyValue : _keyTypeMap) {
+        keyTypeMapClone[keyValue.first] = keyValue.second->clone();
+    }
+    auto clone = new IRModuleType(_type, _keyIndexMap, keyTypeMapClone);
+    this->initClone(clone);
+    return clone;
+}

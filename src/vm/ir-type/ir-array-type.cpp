@@ -51,6 +51,13 @@ bool IRArrayType::isArrayType() {
     return true;
 }
 
+IRArrayType* IRArrayType::clone() {
+    auto elementClone = _arrayElementType->clone();
+    auto clone = new IRArrayType(_type, elementClone);
+    this->initClone(clone);
+    return clone;
+}
+
 void IRArrayType::print() {
     Logger::log("IR ARRAY TYPE");
     _type->print(llvm::outs());

@@ -15,6 +15,7 @@ public:
     explicit IRParameterListType(std::vector<IRParameterType*> parameters);
     std::vector<IRParameterType*>* getParameters();
     std::vector<llvm::Type*> getParameterTypes();
+    IRParameterListType* clone();
 };
 
 #endif //JETLANG_IR_PARAMETER_LIST_TYPE_H

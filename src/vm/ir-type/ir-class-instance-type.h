@@ -28,6 +28,7 @@ public:
     bool containsTypeThatRequiresFreeing() override;
     bool isClassInstanceType() override;
     llvm::Align getAlignment() override;
+    IRClassInstanceType* clone() override;
     void print() override;
 };
 

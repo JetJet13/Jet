@@ -17,6 +17,7 @@ public:
     std::string getId();
     std::vector<IRType*>* getParameters();
     std::vector<llvm::Type*> getParameterTypes();
+    IRLambdaParameterListType* clone();
 };
 
 #endif //JETLANG_IR_LAMBDA_PARAMETER_LIST_TYPE_H

@@ -106,3 +106,13 @@ uint64_t IRFunctionParameterType::getSizeInBytes() {
     }
     return 32;
 }
+
+IRFunctionParameterType* IRFunctionParameterType::clone() {
+    auto irFunctionPointerClone = _irFunctionPointer->clone();
+    auto irFunctionCleanupPointerClone = _irFunctionCleanupPointer->clone();
+    auto parameters = _parameters->clone();
+    auto returnTypeClone = _returnType->clone();
+    auto clone = new IRFunctionParameterType(_type, irFunctionPointerClone, irFunctionCleanupPointerClone, parameters, returnTypeClone);
+    this->initClone(clone);
+    return clone;
+}
