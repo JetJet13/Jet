@@ -14,7 +14,7 @@
 class IRBlockNode;
 
 class IRInstructionNode : public IRNode {
-private:
+protected:
     llvm::Value* _irValue;
     std::vector<llvm::Value*> _ancestorValues;
     std::vector<llvm::Value*> _descendentValues;

@@ -43,6 +43,10 @@ bool IRVariableDeclarationNode::needsToBeFreed() {
     _irValue->getIRType()->containsTypeThatRequiresFreeing();
 }
 
+bool IRVariableDeclarationNode::isLambdaVariable() {
+    return _irExpression->getIRType()->getUnderlyingType()->isLambdaType();
+}
+
 std::optional<IRInstructionNode*> IRVariableDeclarationNode::getGlobalVariable() {
     return _irGlobalVariable;
 }

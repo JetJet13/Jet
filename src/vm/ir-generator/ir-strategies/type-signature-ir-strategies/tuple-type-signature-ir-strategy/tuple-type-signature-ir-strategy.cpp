@@ -26,7 +26,7 @@ IRStructType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTy
     return structType;
 }
 
-IRInstructionNode* TupleTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* TupleTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -40,10 +40,9 @@ IRInstructionNode* TupleTypeSignatureIRStrategy::generateTypeValue(IRStructType*
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
-    return new IRInstructionNode(
+    return new IRTypeValueInstructionNode(
             typeValueTypeAllocation,
             irGenerator->generateIrPointerType(irTypeValueType),
-            {},
-            { storeInstruction }
+            storeInstruction
     );
 }

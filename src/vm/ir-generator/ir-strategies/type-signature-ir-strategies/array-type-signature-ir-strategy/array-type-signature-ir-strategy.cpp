@@ -19,7 +19,7 @@ IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* a
     return irArrayPointerType;
 }
 
-IRInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -33,10 +33,9 @@ IRInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointe
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);
-    return new IRInstructionNode(
+    return new IRTypeValueInstructionNode(
             allocation,
             irGenerator->generateIrPointerType(irTypeValueType),
-            {},
-            { storeInstruction }
+            storeInstruction
     );
 }

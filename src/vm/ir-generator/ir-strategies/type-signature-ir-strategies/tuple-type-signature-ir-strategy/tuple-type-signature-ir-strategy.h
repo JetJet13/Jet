@@ -12,7 +12,7 @@
 class TupleTypeSignatureIRStrategy {
 public:
     IRStructType* generate(TupleTypeSignature* tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRInstructionNode* generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_TUPLE_TYPE_SIGNATURE_IR_STRATEGY_H

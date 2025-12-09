@@ -24,6 +24,7 @@ protected:
     std::vector<IRFunctionParameterNode*> _parametersToFree;
     std::vector<IRExpressionNode*> _expressionsToFree;
     std::vector<IRVariableDeclarationNode*> _variablesToFree;
+    std::vector<IRVariableDeclarationNode*> _lambdaVariablesToFree;
     std::optional<IRFunctionReturnExpressionNode*> _returnExpression;
 public:
     IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type);
@@ -37,8 +38,10 @@ public:
     bool hasVariablesToFree();
     void addExpressionToFree(IRExpressionNode* expressionNode);
     void addVariableToFree(IRVariableDeclarationNode* variableNode);
+    void addLambdaVariableToFree(IRVariableDeclarationNode* variableNode);
     virtual std::vector<IRExpressionNode*>* getExpressionsToFree();
     virtual std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
+    virtual std::vector<IRVariableDeclarationNode*>* getLambdaVariablesToFree();
     virtual void setInsertionPointBeforeLastInstruction();
     void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);
     std::optional<IRFunctionReturnExpressionNode*> getReturnExpression();

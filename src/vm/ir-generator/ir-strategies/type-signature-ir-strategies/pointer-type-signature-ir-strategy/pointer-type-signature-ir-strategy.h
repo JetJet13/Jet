@@ -12,7 +12,7 @@
 class PointerTypeSignatureIRStrategy {
 public:
     IRPointerType* generate(PointerTypeSignature* pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRInstructionNode* generateTypeValue(IRPointerType* irType, IRGenerator* irGenerator);
+    IRTypeValueInstructionNode* generateTypeValue(IRPointerType* irType, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_POINTER_TYPE_SIGNATURE_IR_STRATEGY_H

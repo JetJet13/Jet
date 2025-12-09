@@ -14,7 +14,7 @@ private:
     llvm::Value* generateInitialTypeValue(IRType* irType, IRTypeValueType* irTypeValueType, IRGenerator* irGenerator, IRContext* irContext);
 public:
     IRType* generate(LiteralTypeSignature* literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRInstructionNode* generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -4,12 +4,17 @@
 
 #include "ir-lambda-with-fat-arrow-expression-node.h"
 
-IRLambdaWithFatArrowExpressionNode::IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type) {
+IRLambdaWithFatArrowExpressionNode::IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction) {
     _node = node;
     _irValue = irValue;
     _irParameterList = irParameterList;
     _irBlock = irBlock;
     _type = type;
+    _irCleanupFunction = irCleanupFunction;
+}
+
+llvm::Function* IRLambdaWithFatArrowExpressionNode::getCleanupFunction() {
+    return _irCleanupFunction;
 }
 
 llvm::Function* IRLambdaWithFatArrowExpressionNode::getValue() {

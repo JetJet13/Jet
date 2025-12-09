@@ -13,6 +13,9 @@
 #include "../../../ir-type/ir-array-pointer-type.h"
 #include "../../../ir-type/ir-ref-type.h"
 #include "../../../ir-type/ir-class-instance-type.h"
+#include "../../../ir-type/ir-captured-variable-type.h"
+#include "../../../ir-type/ir-function-parameter-type.h"
+#include "../../../ir-type/ir-lambda-type.h"
 
 class TypeValueIRInjectorStrategy {
 private:
@@ -20,6 +23,9 @@ private:
     llvm::Value* inject(IRStructType* irStructType, IRBlockNode* irBlock);
     llvm::Value* inject(IRPointerType* irPointerType, IRBlockNode* irBlock);
     llvm::Value* inject(IRRefType* irRefType, IRBlockNode* irBlock);
+    llvm::Value* inject(IRCapturedVariableType* irCapturedVariableType, IRBlockNode* irBlock);
+    llvm::Value* inject(IRFunctionParameterType* irFunctionParameterType, IRBlockNode* irBlock);
+    llvm::Value* inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock);
     llvm::Value* inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock);
 public:
     llvm::Value* inject(IRType* irType, IRBlockNode* irBlock);

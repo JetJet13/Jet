@@ -13,7 +13,7 @@ IRRefType* RefTypeSignatureIRStrategy::generate(RefTypeSignature* refTypeSignatu
     return irRefType;
 }
 
-IRInstructionNode* RefTypeSignatureIRStrategy::generateTypeValue(IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* RefTypeSignatureIRStrategy::generateTypeValue(IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -27,10 +27,9 @@ IRInstructionNode* RefTypeSignatureIRStrategy::generateTypeValue(IRRefType* irTy
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);
-    return new IRInstructionNode(
+    return new IRTypeValueInstructionNode(
             allocation,
             irGenerator->generateIrPointerType(irTypeValueType),
-            {},
-            { storeInstruction }
+            storeInstruction
     );
 }

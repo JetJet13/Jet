@@ -64,6 +64,20 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaExpressionNode* irExpressi
         );
         InstructionIRInjectorHelper::injectStore(lambdaScopeMalloc, functionArgumentPointer, irBlock);
     }
+    auto refCounterIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionRefCounterIndex();
+    auto refCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, refCounterIndex);
+    auto refCounterAlloc = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            { irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getRefCounterSizeInBytes()) }
+    );
+    auto refCounterValue = irBlock->getBuilder()->get()->getInt64(1);
+    InstructionIRInjectorHelper::injectStore(refCounterValue, refCounterAlloc, irBlock);
+    InstructionIRInjectorHelper::injectStore(refCounterAlloc, refCounterPointer, irBlock);
+
+    auto lambdaCleanupIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionCleanupIndex();
+    auto lambdaCleanupPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, lambdaCleanupIndex);
+    auto lambdaCleanupFunction = irExpression->getCleanupFunction();
+    InstructionIRInjectorHelper::injectStore(lambdaCleanupFunction, lambdaCleanupPointer, irBlock);
     return InstructionIRInjectorHelper::injectLoad(allocation->getAllocatedType(), allocation, irBlock);
 }
 
@@ -104,5 +118,19 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode
         );
         InstructionIRInjectorHelper::injectStore(lambdaScopeMalloc, functionArgumentPointer, irBlock);
     }
+    auto refCounterIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionRefCounterIndex();
+    auto refCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, refCounterIndex);
+    auto refCounterAlloc = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            { irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getRefCounterSizeInBytes()) }
+    );
+    auto refCounterValue = irBlock->getBuilder()->get()->getInt64(1);
+    InstructionIRInjectorHelper::injectStore(refCounterValue, refCounterAlloc, irBlock);
+    InstructionIRInjectorHelper::injectStore(refCounterAlloc, refCounterPointer, irBlock);
+
+    auto lambdaCleanupIndex = irExpression->getIRType()->getLambdaVariableType()->getFunctionCleanupIndex();
+    auto lambdaCleanupPointer = irBlock->getBuilder()->get()->CreateStructGEP(allocation->getAllocatedType(), allocation, lambdaCleanupIndex);
+    auto lambdaCleanupFunction = irExpression->getCleanupFunction();
+    InstructionIRInjectorHelper::injectStore(lambdaCleanupFunction, lambdaCleanupPointer, irBlock);
     return InstructionIRInjectorHelper::injectLoad(allocation->getAllocatedType(), allocation, irBlock);
 }

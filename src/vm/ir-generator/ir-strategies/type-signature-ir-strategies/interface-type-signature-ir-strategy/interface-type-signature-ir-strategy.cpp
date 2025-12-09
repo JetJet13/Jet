@@ -25,7 +25,7 @@ IRStructType* InterfaceTypeSignatureIRStrategy::generate(InterfaceTypeSignature*
     return structType;
 }
 
-IRInstructionNode* InterfaceTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* InterfaceTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -39,10 +39,9 @@ IRInstructionNode* InterfaceTypeSignatureIRStrategy::generateTypeValue(IRStructT
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
-    return new IRInstructionNode(
+    return new IRTypeValueInstructionNode(
             typeValueTypeAllocation,
             irGenerator->generateIrPointerType(irTypeValueType),
-            {},
-            { storeInstruction }
+            storeInstruction
     );
 }

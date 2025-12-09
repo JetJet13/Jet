@@ -3,8 +3,9 @@
 //
 
 #include "ir-lambda-type.h"
+#include "../../shared/utils/logger/logger.h"
 
-IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRType*> lambdaScopeType) : IRType(type) {
+IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRStructType*> lambdaScopeType) : IRType(type) {
     _type = type;
     _irType = irType;
     _lambdaVariableType = lambdaVariableType;
@@ -21,7 +22,7 @@ bool IRLambdaType::isFunctionType() {
     return false;
 }
 
-std::optional<IRType*> IRLambdaType::getLambdaScopeType() {
+std::optional<IRStructType*> IRLambdaType::getLambdaScopeType() {
     return _lambdaScopeType;
 }
 
@@ -42,5 +43,6 @@ llvm::Align IRLambdaType::getAlignment() {
 }
 
 void IRLambdaType::print() {
+    Logger::log("IR LAMBDA TYPE");
     _type->print(llvm::outs());
 }

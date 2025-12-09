@@ -16,6 +16,7 @@
 class LambdaTypeSignatureIRStrategy {
 private:
     IRLambdaParameterListType* generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<IRType*> lambdaScopeParameter = {});
+    IRTypeValueInstructionNode* generateTypeValue(IRFunctionParameterType* functionParameterType, IRGenerator* irGenerator, IRContext* irContext);
 public:
     IRFunctionParameterType* generate(LambdaTypeSignature* lambdaTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRLambdaType* generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);

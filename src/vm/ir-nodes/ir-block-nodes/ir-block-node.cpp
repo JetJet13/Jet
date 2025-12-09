@@ -58,6 +58,10 @@ void IRBlockNode::addVariableToFree(IRVariableDeclarationNode* variableNode) {
     _variablesToFree.push_back(variableNode);
 }
 
+void IRBlockNode::addLambdaVariableToFree(IRVariableDeclarationNode* variableNode) {
+    _lambdaVariablesToFree.push_back(variableNode);
+}
+
 std::vector<IRExpressionNode*>* IRBlockNode::getExpressionsToFree() {
     auto allExpressionsToFree = new std::vector<IRExpressionNode*>();
     allExpressionsToFree->insert(allExpressionsToFree->begin(), _expressionsToFree.begin(), _expressionsToFree.end());
@@ -90,6 +94,22 @@ std::vector<IRVariableDeclarationNode*>* IRBlockNode::getVariablesToFree() {
         }
     }
     return allVariablesToFree;
+}
+
+std::vector<IRVariableDeclarationNode*>* IRBlockNode::getLambdaVariablesToFree() {
+    auto allLambdaVariablesToFree = new std::vector<IRVariableDeclarationNode*>();
+    allLambdaVariablesToFree->insert(allLambdaVariablesToFree->begin(), _lambdaVariablesToFree.begin(), _lambdaVariablesToFree.end());
+    for (auto successorBlock : _successors) {
+        if (successorBlock->is(IR_BASIC_BT)) {
+            auto moreLambdaVariablesToFree = successorBlock->getLambdaVariablesToFree();
+            allLambdaVariablesToFree->insert(
+                allLambdaVariablesToFree->end(),
+                moreLambdaVariablesToFree->begin(),
+                moreLambdaVariablesToFree->end()
+            );
+        }
+    }
+    return allLambdaVariablesToFree;
 }
 
 std::optional<IRFunctionReturnExpressionNode*> IRBlockNode::getReturnExpression() {

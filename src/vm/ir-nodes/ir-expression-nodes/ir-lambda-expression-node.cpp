@@ -4,12 +4,17 @@
 
 #include "ir-lambda-expression-node.h"
 
-IRLambdaExpressionNode::IRLambdaExpressionNode(ASTLambdaExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type) {
+IRLambdaExpressionNode::IRLambdaExpressionNode(ASTLambdaExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction) {
     _node = node;
     _irValue = irValue;
     _irParameterList = irParameterList;
     _irBlock = irBlock;
     _type = type;
+    _irCleanupFunction = irCleanupFunction;
+}
+
+llvm::Function* IRLambdaExpressionNode::getCleanupFunction() {
+    return _irCleanupFunction;
 }
 
 llvm::Function* IRLambdaExpressionNode::getValue() {

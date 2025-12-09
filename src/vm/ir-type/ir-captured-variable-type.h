@@ -26,6 +26,7 @@ public:
     IRType* getVariableIRType();
     IRType* getUnderlyingType() override;
     uint64_t getSizeInBytes() override;
+    bool isCapturedVariableType() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
 };
 

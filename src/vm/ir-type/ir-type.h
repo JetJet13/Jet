@@ -7,18 +7,21 @@
 
 #include <llvm/Support/Alignment.h>
 #include <llvm/IR/DerivedTypes.h>
+#include "../ir-nodes/ir-type-value-instruction-node.h"
 
 // forward declaration
 class IRInstructionNode;
+class IRTypeValueInstructionNode;
 
 class IRType {
 protected:
     std::string _id;
     std::string _keyId;
     llvm::Type* _type;
-    std::optional<IRInstructionNode*> _value;
+    std::optional<IRTypeValueInstructionNode*> _value;
     std::optional<llvm::Align> _alignmentOverride;
     std::optional<unsigned long> _sizeInBytesOverride;
+    void initClone(IRType* irType);
 public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
@@ -33,8 +36,8 @@ public:
     std::string getKeyId();
     bool hasKeyId();
     void setKeyId(std::string id);
-    void setValue(IRInstructionNode* value);
-    IRInstructionNode* getValue();
+    void setValue(IRTypeValueInstructionNode* value);
+    IRTypeValueInstructionNode* getValue();
     void setSizeInBytesOverride(unsigned long sizeInBytes);
     bool hasValue();
     bool isCharType();
@@ -56,6 +59,7 @@ public:
     virtual bool isClassInstanceType();
     virtual bool isTypeValueType();
     virtual bool isRefType();
+    virtual bool isCapturedVariableType();
     virtual bool containsTypeThatRequiresFreeing();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
@@ -63,6 +67,7 @@ public:
     bool isLessThanOrEqual(IRType* otherValue);
     bool isGreaterThan(IRType* otherValue);
     bool isGreaterThanOrEqual(IRType* otherValue);
+    virtual IRType* clone();
     virtual void print();
 };
 

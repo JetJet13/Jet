@@ -617,6 +617,10 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h
         ir-type/ir-captured-variable-type.cpp
         ir-type/ir-captured-variable-type.h
+        ir-generator/ir-util-functions/free-lambda-ir-function/free-captured-variable-ir-function.cpp
+        ir-generator/ir-util-functions/free-lambda-ir-function/free-captured-variable-ir-function.h
+        ir-nodes/ir-type-value-instruction-node.cpp
+        ir-nodes/ir-type-value-instruction-node.h
 )
 
 target_link_libraries(jet-vm

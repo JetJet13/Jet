@@ -13,8 +13,10 @@ struct IRTypeIdMap {
     int STRING;
     int POINTER;
     int REF;
+    int CAPTURED_VARIABLE;
     int STRUCT;
     int ARRAY;
+    int LAMBDA;
 };
 
 const IRTypeIdMap IR_TYPE_ID = {
@@ -26,7 +28,9 @@ const IRTypeIdMap IR_TYPE_ID = {
         .STRING = 501,
         .POINTER = 1000,
         .REF = 1001,
+        .CAPTURED_VARIABLE = 1002,
         .STRUCT = 2000,
-        .ARRAY = 3000
+        .ARRAY = 3000,
+        .LAMBDA = 4000
 };
 #endif //JETLANG_IR_TYPE_ID_H

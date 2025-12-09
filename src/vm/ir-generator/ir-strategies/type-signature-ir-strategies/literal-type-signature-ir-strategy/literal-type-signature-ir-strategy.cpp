@@ -41,16 +41,15 @@ IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTy
     }
 }
 
-IRInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = this->generateInitialTypeValue(irType, irTypeValueType, irGenerator, irContext);
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);
-    return new IRInstructionNode(
+    return new IRTypeValueInstructionNode(
         allocation,
         irGenerator->generateIrPointerType(irTypeValueType),
-        {},
-        { storeInstruction }
+        storeInstruction
     );
 }
 

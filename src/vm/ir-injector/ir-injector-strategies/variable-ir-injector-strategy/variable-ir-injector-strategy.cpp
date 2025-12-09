@@ -24,6 +24,8 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
     }
     if (irVariableDeclaration->needsToBeFreed()) {
         irBlock->addVariableToFree(irVariableDeclaration);
+    } else if (irVariableDeclaration->isLambdaVariable()) {
+        irBlock->addLambdaVariableToFree(irVariableDeclaration);
     }
 }
 

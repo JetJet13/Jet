@@ -119,6 +119,7 @@
 #include "ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
 #include "ir-util-functions/sref-with-ir-function/sref-with-ir-function.h"
 #include "ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
+#include "ir-util-functions/free-lambda-ir-function/free-captured-variable-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -393,6 +394,10 @@ IRStructType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature, IR
     return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
+IRStructType* IRGenerator::generateTypeFor(LambdaScopeTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+    return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+}
+
 IRModuleType* IRGenerator::generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
@@ -491,7 +496,7 @@ llvm::IntegerType* IRGenerator::generatePointerIntType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
-IRInstructionNode* IRGenerator::generateIRTypeValueFor(IRType* irType, IRContext* irContext) {
+IRTypeValueInstructionNode* IRGenerator::generateIRTypeValueFor(IRType* irType, IRContext* irContext) {
     if (irType->isRefType()) {
         return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue((IRRefType*)irType, this, irContext);
     } else if (irType->isStructType()) {
@@ -702,6 +707,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             FreeValueIRFunction::getFreeValueIRFunctionName(),
             FreeStringIRFunction::getFreeStringIRFunctionName(),
             FreeRefIRFunction::getFreeRefIRFunctionName(),
+            FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName(),
             PrintIRFunction::getPrintIRFunctionName(),
             PrintIRFunction::getPrintIntIRFunctionName(),
             PrintIRFunction::getPrintFloatIRFunctionName(),
@@ -771,6 +777,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeStructIRFunction::declareFreeStructFunction(this, &_context, irModule);
     FreeStringIRFunction::declareFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::declareFreeRefFunction(this, &_context, irModule);
+    FreeCapturedVariableIRFunction::declareFreeCapturedVariableFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintDebugMarkerFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintDebugPointerFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintDebugStringFunction(this, &_context, irModule);
@@ -808,6 +815,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
     FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
+    FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(this, &_context, irModule);
     ArrayConcatIRFunction::generateArrayConcatFunction(this, &_context, irModule);
     ArrayHeadIRFunction::generateArrayHeadFunction(this, &_context, irModule);
     ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);

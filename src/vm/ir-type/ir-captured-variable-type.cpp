@@ -52,6 +52,10 @@ uint64_t IRCapturedVariableType::getSizeInBytes() {
     return 16;
 }
 
+bool IRCapturedVariableType::isCapturedVariableType() {
+    return true;
+}
+
 void IRCapturedVariableType::setAlignmentOverride(llvm::Align alignmentOverride) {
     _alignmentOverride = alignmentOverride;
     _variableIRType->setAlignmentOverride(alignmentOverride);

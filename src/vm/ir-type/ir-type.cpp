@@ -4,7 +4,7 @@
 
 #include <llvm/IR/Type.h>
 #include "ir-type.h"
-#include "../ir-nodes/ir-instruction-node.h"
+#include "../ir-nodes/ir-type-value-instruction-node.h"
 #include "../../shared/utils/logger/logger.h"
 
 IRType::IRType(llvm::Type* type) {
@@ -61,11 +61,33 @@ void IRType::setKeyId(std::string id) {
     _keyId = id;
 }
 
-void IRType::setValue(IRInstructionNode* value) {
+void IRType::setValue(IRTypeValueInstructionNode* value) {
     _value = value;
 }
 
-IRInstructionNode* IRType::getValue() {
+void IRType::initClone(IRType* irType) {
+    irType->setId(_id);
+    irType->setKeyId(_keyId);
+    if (_alignmentOverride) {
+        irType->setAlignmentOverride(_alignmentOverride.value());
+    }
+
+    if (_sizeInBytesOverride) {
+        irType->setSizeInBytesOverride(_sizeInBytesOverride.value());
+    }
+
+    if (_value) {
+        irType->setValue(_value.value()->clone());
+    }
+}
+
+IRType* IRType::clone() {
+    auto clone = new IRType(_type);
+    this->initClone(clone);
+    return clone;
+}
+
+IRTypeValueInstructionNode* IRType::getValue() {
     if (!_value) {
         throw std::logic_error("ir type has no value");
     }
@@ -181,6 +203,10 @@ bool IRType::isTypeValueType() {
 }
 
 bool IRType::isRefType() {
+    return false;
+}
+
+bool IRType::isCapturedVariableType() {
     return false;
 }
 

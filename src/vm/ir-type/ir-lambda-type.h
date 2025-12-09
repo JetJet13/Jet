@@ -14,14 +14,14 @@ private:
     llvm::FunctionType* _type;
     IRPointerType* _irType;
     IRFunctionParameterType* _lambdaVariableType;
-    std::optional<IRType*> _lambdaScopeType;
+    std::optional<IRStructType*> _lambdaScopeType;
     IRLambdaParameterListType* _parameterList;
     IRType* _returnType;
 public:
-    IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRType*> lambdaScopeType = {});
+    IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRStructType*> lambdaScopeType = {});
     bool isLambdaType() override;
     bool isFunctionType() override;
-    std::optional<IRType*> getLambdaScopeType();
+    std::optional<IRStructType*> getLambdaScopeType();
     IRFunctionParameterType* getLambdaVariableType();
     llvm::PointerType* getFunctionPointerType();
     llvm::FunctionType* getType() override;

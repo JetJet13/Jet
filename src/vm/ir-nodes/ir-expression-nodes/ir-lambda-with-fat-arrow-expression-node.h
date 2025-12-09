@@ -19,8 +19,10 @@ private:
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
     IRLambdaType* _type;
+    llvm::Function* _irCleanupFunction;
 public:
-    IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type);
+    IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction);
+    llvm::Function* getCleanupFunction();
     llvm::Function* getValue() override;
     IRLambdaType* getIRType() override;
     TypeSignature* getTypeSignature() override;

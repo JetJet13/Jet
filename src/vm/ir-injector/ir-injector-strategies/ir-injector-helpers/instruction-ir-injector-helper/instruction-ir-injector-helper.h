@@ -12,6 +12,7 @@
 
 class InstructionIRInjectorHelper {
 public:
+    static llvm::Value* inject(IRTypeValueInstructionNode* irTypeValueInstructionNode, IRBlockNode* irBlock, std::string name = "");
     static llvm::Value* inject(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name = "");
     static llvm::Value* injectLoad(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name = "");
     static llvm::Value* injectLoad(IRPointerType* irPointerType, llvm::Value* sourcePointer, IRBlockNode* irBlock, std::string name = "");

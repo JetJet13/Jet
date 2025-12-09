@@ -4,6 +4,8 @@
 
 #include "free-variables-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../ir-type/ir-lambda-type.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 void FreeIRInjectorHelper::freeFunctionBlockVariables(IRBlockNode* functionBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     for (auto childBlock : *functionBlock->getAllSuccessors()) {
@@ -36,6 +38,13 @@ void FreeIRInjectorHelper::freeFunctionBlockVariables(IRBlockNode* functionBlock
             irModule,
             scope
     );
+    FreeIRInjectorHelper::freeBlockLambdaVariables(
+            finalBlock,
+            functionBlock->getLambdaVariablesToFree(),
+            irInjector,
+            irModule,
+            scope
+    );
     FreeIRInjectorHelper::freeBlockExpressions(
             finalBlock,
             functionBlock->getExpressionsToFree(),
@@ -55,6 +64,23 @@ void FreeIRInjectorHelper::freeBlockVariables(IRBlockNode* irBlockNode, std::vec
             {
                 variableToFree->getValue(),
                 loadedTypeValue
+            }
+        );
+    }
+}
+
+void FreeIRInjectorHelper::freeBlockLambdaVariables(IRBlockNode* irBlockNode, std::vector<IRVariableDeclarationNode*>* lambdaVariablesToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+    for (auto lambdaVariableToFree : *lambdaVariablesToFree) {
+        auto irLambdaType = (IRLambdaType*)lambdaVariableToFree->getIRExpression()->getIRType();
+        auto pointerToLambdaScope = irBlockNode->getBuilder()->get()->CreateStructGEP(irLambdaType->getLambdaVariableType()->getType(), lambdaVariableToFree->getValue(), irLambdaType->getLambdaVariableType()->getFunctionScopeArgumentIndex());
+        auto loadedLambdaScope = InstructionIRInjectorHelper::injectLoad(irLambdaType->getLambdaVariableType()->getFunctionScopeArgumentType(), pointerToLambdaScope, irBlockNode);
+        auto pointerToCleanupFunction = irBlockNode->getBuilder()->get()->CreateStructGEP(irLambdaType->getLambdaVariableType()->getType(), lambdaVariableToFree->getValue(), irLambdaType->getLambdaVariableType()->getFunctionCleanupIndex());
+        auto loadedCleanupFunction = InstructionIRInjectorHelper::injectLoad(irLambdaType->getLambdaVariableType()->getFunctionCleanupType(), pointerToCleanupFunction, irBlockNode);
+        irBlockNode->getBuilder()->get()->CreateCall(
+            irLambdaType->getLambdaVariableType()->getCleanupFunctionType(),
+            loadedCleanupFunction,
+            {
+                loadedLambdaScope
             }
         );
     }

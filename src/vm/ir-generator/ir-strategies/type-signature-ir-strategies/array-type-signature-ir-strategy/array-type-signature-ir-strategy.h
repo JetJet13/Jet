@@ -13,7 +13,7 @@
 class ArrayTypeSignatureIRStrategy {
 public:
     IRArrayPointerType* generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRInstructionNode* generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_ARRAY_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -27,6 +27,7 @@ public:
     IRInstructionNode* getIRValue();
     IRExpressionNode* getIRExpression();
     bool needsToBeFreed();
+    bool isLambdaVariable();
     std::optional<IRInstructionNode*> getGlobalVariable();
     std::optional<IRInstructionNode*> getCaptureCounter();
     IRNodeType getNodeType() override;

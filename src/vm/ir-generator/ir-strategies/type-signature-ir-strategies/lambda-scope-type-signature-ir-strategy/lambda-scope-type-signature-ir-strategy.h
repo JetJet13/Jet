@@ -11,6 +11,7 @@
 class LambdaScopeTypeSignatureIRStrategy {
 public:
     IRStructType* generate(LambdaScopeTypeSignature* lambdaScopeTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(IRCapturedVariableType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_LAMBDA_SCOPE_TYPE_SIGNATURE_IR_STRATEGY_H
