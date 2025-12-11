@@ -67,6 +67,7 @@
 #include "../ir-type/ir-array-type.h"
 #include "../ir-nodes/ir-block-nodes/ir-control-flow-block-node.h"
 #include "../ir-type/ir-captured-variable-type.h"
+#include "../ir-type/ir-function-parameter-type.h"
 
 class IRGenerator {
 private:
@@ -76,6 +77,7 @@ private:
     llvm::StructType* _arrayPointerType;
     llvm::StructType* _typeValueType;
     llvm::StructType* _refType;
+    llvm::StructType* _functionParameterType;
 public:
     explicit IRGenerator(IRInjector* irInjector);
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
@@ -100,10 +102,11 @@ public:
     IRPointerType* generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRRefType* generateTypeFor(RefTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateVoidType();
-    IRFunctionType* generateIRFunctionType(llvm::Function* irFunction);
+    IRPointerType* generateIRFunctionParameterCleanupType();
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
     IRRefType* generateIrRefType(IRType* type);
+    llvm::StructType* getFunctionParameterType();
     IRArrayType* generateIRArrayType(IRType* elementType, unsigned long size);
     std::string getArrayPrototypeFunctionName(std::string id);
     std::string getRefPrototypeFunctionName(std::string id);

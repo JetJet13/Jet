@@ -4,6 +4,10 @@
 
 #include "ir-lambda-parameter-list-type.h"
 
+IRLambdaParameterListType::IRLambdaParameterListType() {
+    _parameters = std::vector<IRType*>();
+}
+
 IRLambdaParameterListType::IRLambdaParameterListType(std::vector<IRType*> parameters, std::optional<IRType*> lambdaScopeParameterType) {
     _parameters = parameters;
     _lambdaScopeParameterType = lambdaScopeParameterType;

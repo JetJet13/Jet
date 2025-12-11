@@ -17,7 +17,7 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
-    auto irCleanupFunction = this->generateLambdaCleanupFunction(irFunction, irType, irGenerator, lambdaScope, irContext);
+    auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
@@ -45,7 +45,7 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
-    auto irCleanupFunction = this->generateLambdaCleanupFunction(irFunction, irType, irGenerator, lambdaScope, irContext);
+    auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), scope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
@@ -98,7 +98,7 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
     }
 }
 
-llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(llvm::Function* lambdaFunction, IRLambdaType* irLambdaType, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(IRLambdaType* irLambdaType, IRGenerator* irGenerator, IRContext* irContext) {
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
@@ -113,11 +113,11 @@ llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(llvm::
             auto irType = lambdaScopeArgumentType->getIRTypeForKey(key);
             auto pointerToCapturedVariable = functionBlock->getBuilder()->get()->CreateStructGEP(lambdaScopeArgumentType->getType(), irFunction->getArg(0), i);
             auto typeValue = irGenerator->getInjector()->inject(functionBlock, irType);
-//            auto capturedVariableTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), typeValue, functionBlock);
-//            functionBlock->getBuilder()->get()->CreateCall(
-//                irContext->getIRModule()->getFreeCapturedVariableFunction(),
-//                { pointerToCapturedVariable, capturedVariableTypeValue }
-//            );
+            auto capturedVariableTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), typeValue, functionBlock);
+            functionBlock->getBuilder()->get()->CreateCall(
+                irContext->getIRModule()->getFreeCapturedVariableFunction(),
+                { pointerToCapturedVariable, capturedVariableTypeValue }
+            );
         }
     }
     functionBlock->addVoidReturn();

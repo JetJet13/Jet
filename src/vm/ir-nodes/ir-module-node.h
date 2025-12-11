@@ -13,12 +13,14 @@ private:
     std::string _arrayAccessFunctionName;
     std::string _copyArrayFunctionName;
     std::string _copyPointerFunctionName;
+    std::string _copyLambdaFunctionName;
     std::string _copyStructFunctionName;
     std::string _copyValueFunctionName;
     std::string _copyStringFunctionName;
     std::string _copyRefFunctionName;
     std::string _freeArrayFunctionName;
     std::string _freePointerFunctionName;
+    std::string _freeLambdaFunctionName;
     std::string _freeStructFunctionName;
     std::string _freeValueFunctionName;
     std::string _freeStringFunctionName;
@@ -70,17 +72,20 @@ private:
     std::string _refOfFunctionName;
     std::string _srefWithFunctionName;
     std::string _sameRefAsFunctionName;
+    std::string _incrementRefCountFunctionName;
 public:
     IRModuleNode(llvm::Module* irValue,
                  std::string arrayAccessFunctionName,
                  std::string copyArrayFunctionName,
                  std::string copyPointerFunctionName,
+                 std::string copyLambdaFunctionName,
                  std::string copyStructFunctionName,
                  std::string copyValueFunctionName,
                  std::string copyStringFunctionName,
                  std::string copyRefFunctionName,
                  std::string freeArrayFunctionName,
                  std::string freePointerFunctionName,
+                 std::string freeLambdaFunctionName,
                  std::string freeStructFunctionName,
                  std::string freeValueFunctionName,
                  std::string freeStringFunctionName,
@@ -131,17 +136,20 @@ public:
                  std::string setupRefFunctionName,
                  std::string refOfFunctionName,
                  std::string srefWithFunctionName,
-                 std::string sameRefAsFunctionName);
+                 std::string sameRefAsFunctionName,
+                 std::string incrementRefCountFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
     llvm::Function* getCopyPointerFunction();
+    llvm::Function* getCopyLambdaFunction();
     llvm::Function* getCopyStructFunction();
     llvm::Function* getCopyValueFunction();
     llvm::Function* getCopyStringFunction();
     llvm::Function* getCopyRefFunction();
     llvm::Function* getFreeArrayFunction();
     llvm::Function* getFreePointerFunction();
+    llvm::Function* getFreeLambdaFunction();
     llvm::Function* getFreeStructFunction();
     llvm::Function* getFreeValueFunction();
     llvm::Function* getFreeStringFunction();
@@ -193,6 +201,7 @@ public:
     llvm::Function* getRefOfFunction();
     llvm::Function* getSrefWithFunction();
     llvm::Function* getSameRefAsFunction();
+    llvm::Function* getIncrementRefCountFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

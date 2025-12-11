@@ -9,11 +9,8 @@ IRFunctionParameterType* LambdaTypeSignatureIRStrategy::generate(LambdaTypeSigna
     auto returnType = irGenerator->generateTypeFor(lambdaTypeSignature->getReturnType(), scope, irContext);
     auto parameterTypes = this->generateParameterTypes(lambdaTypeSignature->getParameterTypes(), irGenerator, scope, irContext);
     auto irFunction = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false)));
-    auto irFunctionScopeArgumentType = irGenerator->generatePointerType();
-    auto irFunctionRefCounterType = irGenerator->generatePointerType(irGenerator->generateIntType());
-    auto irFunctionCleanupType = irGenerator->generatePointerType();
-    auto irFunctionCleanup = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { irFunctionScopeArgumentType }, false)));
-    auto irFunctionParameterType = new IRFunctionParameterType(llvm::StructType::get(**irContext->getContext(), { irFunction->getType(), irFunctionScopeArgumentType, irFunctionRefCounterType, irFunctionCleanupType }), irFunction, irFunctionCleanup, parameterTypes, returnType);
+    auto irFunctionCleanup = irGenerator->generateIRFunctionParameterCleanupType();
+    auto irFunctionParameterType = new IRFunctionParameterType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterTypes, returnType);
     irFunctionParameterType->setValue(this->generateTypeValue(irFunctionParameterType, irGenerator, irContext));
     return irFunctionParameterType;
 }
@@ -32,11 +29,8 @@ IRLambdaType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignat
             lambdaScopeIrType);
     auto functionType = llvm::FunctionType::get(returnType->getType(), parameterList->getParameterTypes(), false);
     auto irFunction = IRPointerType::create(new IRFunctionType(functionType));
-    auto irFunctionScopeArgumentType = irGenerator->generatePointerType();
-    auto irFunctionRefCounterType = irGenerator->generatePointerType(irGenerator->generateIntType());
-    auto irFunctionCleanupType = irGenerator->generatePointerType();
-    auto irFunctionCleanup = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { irFunctionScopeArgumentType }, false)));
-    auto irFunctionParameterType = new IRFunctionParameterType(llvm::StructType::get(**irContext->getContext(), { irFunction->getType(), irFunctionScopeArgumentType, irFunctionRefCounterType, irFunctionCleanupType }), irFunction, irFunctionCleanup, parameterList, returnType);
+    auto irFunctionCleanup = irGenerator->generateIRFunctionParameterCleanupType();
+    auto irFunctionParameterType = new IRFunctionParameterType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterList, returnType);
     irFunctionParameterType->setValue(this->generateTypeValue(irFunctionParameterType, irGenerator, irContext));
     auto irLambdaType = new IRLambdaType(
         functionType,

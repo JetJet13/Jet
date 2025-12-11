@@ -15,7 +15,7 @@
 class LambdaExpressionIRStrategy {
 private:
     void setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRContext* irContext);
-    llvm::Function* generateLambdaCleanupFunction(llvm::Function* lambdaFunction, IRLambdaType* irLambdaType, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    llvm::Function* generateLambdaCleanupFunction(IRLambdaType* irLambdaType, IRGenerator* irGenerator, IRContext* irContext);
 public:
     IRLambdaExpressionNode* generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRLambdaWithFatArrowExpressionNode* generate(ASTLambdaWithFatArrowExpressionNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);

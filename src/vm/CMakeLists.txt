@@ -617,10 +617,16 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h
         ir-type/ir-captured-variable-type.cpp
         ir-type/ir-captured-variable-type.h
-        ir-generator/ir-util-functions/free-lambda-ir-function/free-captured-variable-ir-function.cpp
-        ir-generator/ir-util-functions/free-lambda-ir-function/free-captured-variable-ir-function.h
+        ir-generator/ir-util-functions/free-captured-variable-ir-function/free-captured-variable-ir-function.cpp
+        ir-generator/ir-util-functions/free-captured-variable-ir-function/free-captured-variable-ir-function.h
         ir-nodes/ir-type-value-instruction-node.cpp
         ir-nodes/ir-type-value-instruction-node.h
+        ir-generator/ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.cpp
+        ir-generator/ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.h
+        ir-generator/ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.cpp
+        ir-generator/ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.h
+        ir-generator/ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.cpp
+        ir-generator/ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.h
 )
 
 target_link_libraries(jet-vm

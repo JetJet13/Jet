@@ -16,22 +16,14 @@ void SetupSrefIRFunction::generateSetupSrefFunction(IRGenerator* irGenerator, st
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SetupSrefIRFunction::getSetupSrefIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
-    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(1), refType->getRefCounterIndex());
-    auto refCounterPointer = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefCounterPointer, functionBlock);
-    auto currentRefCount = InstructionIRInjectorHelper::injectLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, functionBlock);
-    auto newRefCount = functionBlock->getBuilder()->get()->CreateBinOp(
-            llvm::Instruction::BinaryOps::Add,
-            currentRefCount,
-            irGenerator->generateIntConstant(1)
-    );
-    functionBlock->getBuilder()->get()->CreateStore(newRefCount, refCounterPointer);
-
+    auto pointerToNewRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());
     auto pointerToRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(1), refType->getRefValueIndex());
     auto refValuePointer = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefValuePointer, functionBlock);
-    auto pointerToNewRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());
     InstructionIRInjectorHelper::injectStore(refValuePointer, pointerToNewRefValuePointer, functionBlock);
 
     auto pointerToNewRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
+    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(1), refType->getRefCounterIndex());
+    auto refCounterPointer = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefCounterPointer, functionBlock);
     InstructionIRInjectorHelper::injectStore(refCounterPointer, pointerToNewRefCounterPointer, functionBlock);
 
     functionBlock->addVoidReturn();

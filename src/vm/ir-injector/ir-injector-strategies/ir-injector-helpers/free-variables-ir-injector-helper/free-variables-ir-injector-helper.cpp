@@ -71,16 +71,11 @@ void FreeIRInjectorHelper::freeBlockVariables(IRBlockNode* irBlockNode, std::vec
 
 void FreeIRInjectorHelper::freeBlockLambdaVariables(IRBlockNode* irBlockNode, std::vector<IRVariableDeclarationNode*>* lambdaVariablesToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     for (auto lambdaVariableToFree : *lambdaVariablesToFree) {
-        auto irLambdaType = (IRLambdaType*)lambdaVariableToFree->getIRExpression()->getIRType();
-        auto pointerToLambdaScope = irBlockNode->getBuilder()->get()->CreateStructGEP(irLambdaType->getLambdaVariableType()->getType(), lambdaVariableToFree->getValue(), irLambdaType->getLambdaVariableType()->getFunctionScopeArgumentIndex());
-        auto loadedLambdaScope = InstructionIRInjectorHelper::injectLoad(irLambdaType->getLambdaVariableType()->getFunctionScopeArgumentType(), pointerToLambdaScope, irBlockNode);
-        auto pointerToCleanupFunction = irBlockNode->getBuilder()->get()->CreateStructGEP(irLambdaType->getLambdaVariableType()->getType(), lambdaVariableToFree->getValue(), irLambdaType->getLambdaVariableType()->getFunctionCleanupIndex());
-        auto loadedCleanupFunction = InstructionIRInjectorHelper::injectLoad(irLambdaType->getLambdaVariableType()->getFunctionCleanupType(), pointerToCleanupFunction, irBlockNode);
         irBlockNode->getBuilder()->get()->CreateCall(
-            irLambdaType->getLambdaVariableType()->getCleanupFunctionType(),
-            loadedCleanupFunction,
+            irModule->getFreeLambdaFunction()->getFunctionType(),
+            irModule->getFreeLambdaFunction(),
             {
-                loadedLambdaScope
+                lambdaVariableToFree->getValue()
             }
         );
     }

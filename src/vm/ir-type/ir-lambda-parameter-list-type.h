@@ -11,8 +11,9 @@
 class IRLambdaParameterListType {
 private:
     std::vector<IRType*> _parameters;
-    std::optional<IRType*> _lambdaScopeParameterType;
+    std::optional<IRType*> _lambdaScopeParameterType = {};
 public:
+    IRLambdaParameterListType();
     explicit IRLambdaParameterListType(std::vector<IRType*> parameters, std::optional<IRType*> lambdaScopeParameterType = {});
     std::string getId();
     std::vector<IRType*>* getParameters();

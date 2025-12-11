@@ -31,6 +31,8 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, "lambda.");
+    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, "lambda.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
     auto typeSizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "valueTypeSizeInBytes");
@@ -91,7 +93,7 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), arrayIfThenBlock->getBlock());
+    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), lambdaIfBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getCopyStructFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyStructFunction(),
@@ -99,6 +101,22 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
                 function->getArg(0),
                 function->getArg(1),
                 function->getArg(2)
+            }
+    );
+
+    auto isValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            typeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+    );
+    lambdaIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeLambda, lambdaIfThenBlock->getBlock(), arrayIfThenBlock->getBlock());
+    lambdaIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getCopyLambdaFunction()->getFunctionType(),
+            irContext->getIRModule()->getCopyLambdaFunction(),
+            {
+                    function->getArg(0),
+                    function->getArg(1),
+                    function->getArg(2)
             }
     );
 
@@ -116,6 +134,7 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    lambdaIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
     endBlock->getBuilder()->get()->CreateRet(function->getArg(0));
