@@ -627,6 +627,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.h
         ir-generator/ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.cpp
         ir-generator/ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.h
+        ir-generator/ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.cpp
+        ir-generator/ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h
 )
 
 target_link_libraries(jet-vm

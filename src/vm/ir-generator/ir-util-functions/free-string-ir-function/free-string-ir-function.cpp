@@ -19,13 +19,11 @@ void FreeStringIRFunction::declareFreeStringFunction(IRGenerator* irGenerator, s
 void FreeStringIRFunction::generateFreeStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto charType = new IRType(irGenerator->generateCharType());
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
 
     auto function = irModuleNode->getFreeStringFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
-    auto sourceAllocationPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
+    auto sourceAllocationPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
     auto loadedSourceAllocation = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), sourceAllocationPointer);
     functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction()->getFunctionType(),

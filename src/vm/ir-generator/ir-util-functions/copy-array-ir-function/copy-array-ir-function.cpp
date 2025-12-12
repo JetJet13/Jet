@@ -23,6 +23,7 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();
+    auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
 
     auto function = irModuleNode->getCopyArrayFunction();
@@ -125,8 +126,8 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     // depth 1 for loop body
     auto depthOneForLoopBody = depthOneForLoopBodyBlock->getBuilder()->get();
     auto elementByteOffsetValue = InstructionIRInjectorHelper::injectLoad(intType, elementByteOffset, depthOneForLoopBodyBlock);
-    auto destinationPointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), malloc, { elementByteOffsetValue });
-    auto sourcePointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(irGenerator->generatePointerIntType(), loadedSourceArrayAllocation, { elementByteOffsetValue });
+    auto destinationPointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(pointerIntType, malloc, { elementByteOffsetValue });
+    auto sourcePointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(pointerIntType, loadedSourceArrayAllocation, { elementByteOffsetValue });
     depthOneForLoopBody->CreateCall(
             irContext->getIRModule()->getCopyValueFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyValueFunction(),

@@ -87,7 +87,10 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             irModuleNode->getMemcpyFunction(),
             { tailArrayMalloc, secondElementPointer, tailArraySize }
     );
-    auto arrayPointerAllocationForTail = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    auto arrayPointerAllocationForTail = successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFunction(),
+            { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes()) }
+    );
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,
@@ -96,14 +99,16 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             arrayPointerAllocationForTail,
             tailArrayMalloc
     );
-    auto arrayPointerAllocationForTailCopy = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    auto arrayPointerAllocationForTailCopy = successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFunction(),
+            { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes()) }
+    );
     successorBlock->getBuilder()->get()->CreateCall(
         irModuleNode->getCopyArrayFunction()->getFunctionType(),
         irModuleNode->getCopyArrayFunction(),
         { arrayPointerAllocationForTailCopy, arrayPointerAllocationForTail, function->getArg(1) }
     );
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getFreeArrayFunction()->getFunctionType(),
             irModuleNode->getFreeArrayFunction(),
             { arrayPointerAllocationForTail, function->getArg(1) }
     );

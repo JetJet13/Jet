@@ -86,7 +86,10 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
             { newArrayMalloc, loadedPointerToOldArray, newArraySize }
     );
 
-    auto arrayPointerAllocationForOldArray = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    auto arrayPointerAllocationForOldArray = successorBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFunction(),
+            { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes()) }
+    );
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,

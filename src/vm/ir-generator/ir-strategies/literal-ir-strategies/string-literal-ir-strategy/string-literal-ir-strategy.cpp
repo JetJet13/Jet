@@ -30,7 +30,6 @@ IRStringLiteralNode* StringLiteralIRStrategy::generate(ASTStringLiteralNode* nod
 
 llvm::Constant* StringLiteralIRStrategy::generateIRString(std::string rawString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto chars = std::vector<llvm::Constant*>();
-
     for (auto character : rawString) {
         chars.push_back(irGenerator->generateChar(character));
     }

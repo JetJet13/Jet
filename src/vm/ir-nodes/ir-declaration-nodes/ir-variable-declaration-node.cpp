@@ -4,16 +4,21 @@
 
 #include "ir-variable-declaration-node.h"
 
-IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irCaptureCounter) {
+IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irCaptureCounter) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
+    _variableNameIRValue = variableNameIRValue;
     _irGlobalVariable = irGlobalVariable;
     _irCaptureCounter = irCaptureCounter;
 }
 
 std::string IRVariableDeclarationNode::getVariableName() {
     return _node->getId();
+}
+
+llvm::Value* IRVariableDeclarationNode::getVariableNameIRValue() {
+    return _variableNameIRValue;
 }
 
 llvm::Value* IRVariableDeclarationNode::getValue() {

@@ -164,3 +164,19 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpres
 void IRInjector::injectVoidReturnType(IRBlockNode* irBlock) {
     irBlock->getBuilder()->get()->CreateRet(irBlock->getBuilder()->get()->getInt64(0));
 }
+
+llvm::AllocaInst* IRInjector::injectRawString(IRBlockNode* irBlock, std::string rawString) {
+    auto chars = std::vector<llvm::Constant*>();
+    for (auto character : rawString) {
+        chars.push_back(irBlock->getBuilder()->get()->getInt8(character));
+    }
+    chars.push_back(irBlock->getBuilder()->get()->getInt8('\0'));
+    auto stringArrayType = llvm::ArrayType::get(irBlock->getBuilder()->get()->getInt8Ty(), chars.size());
+    auto irString = llvm::ConstantArray::get(
+            stringArrayType,
+            llvm::ArrayRef(chars)
+    );
+    auto alloca = irBlock->getBuilder()->get()->CreateAlloca(irString->getType());
+    irBlock->getBuilder()->get()->CreateStore(irString, alloca);
+    return alloca;
+}

@@ -41,6 +41,7 @@ private:
     std::string _printDebugMarkerFunctionName;
     std::string _printDebugPointerFunctionName;
     std::string _printDebugStringFunctionName;
+    std::string _printDebugRefCountFunctionName;
     std::string _range1pFunctionName;
     std::string _range2pFunctionName;
     std::string _range3pFunctionName;
@@ -73,6 +74,7 @@ private:
     std::string _srefWithFunctionName;
     std::string _sameRefAsFunctionName;
     std::string _incrementRefCountFunctionName;
+    std::string _getRefCountFunctionName;
 public:
     IRModuleNode(llvm::Module* irValue,
                  std::string arrayAccessFunctionName,
@@ -106,6 +108,7 @@ public:
                  std::string printDebugMarkerFunctionName,
                  std::string printDebugPointerFunctionName,
                  std::string printDebugStringFunctionName,
+                 std::string printDebugRefCountFunctionName,
                  std::string range1pFunctionName,
                  std::string range2pFunctionName,
                  std::string range3pFunctionName,
@@ -137,7 +140,8 @@ public:
                  std::string refOfFunctionName,
                  std::string srefWithFunctionName,
                  std::string sameRefAsFunctionName,
-                 std::string incrementRefCountFunctionName);
+                 std::string incrementRefCountFunctionName,
+                 std::string getRefCountFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
@@ -170,6 +174,7 @@ public:
     llvm::Function* getPrintDebugMarkerFunction();
     llvm::Function* getPrintDebugPointerFunction();
     llvm::Function* getPrintDebugStringFunction();
+    llvm::Function* getPrintDebugRefCountFunction();
     llvm::Function* getRange1pFunction();
     llvm::Function* getRange2pFunction();
     llvm::Function* getRange3pFunction();
@@ -202,6 +207,7 @@ public:
     llvm::Function* getSrefWithFunction();
     llvm::Function* getSameRefAsFunction();
     llvm::Function* getIncrementRefCountFunction();
+    llvm::Function* getGetRefCountFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

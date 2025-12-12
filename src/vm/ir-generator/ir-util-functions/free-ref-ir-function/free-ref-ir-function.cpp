@@ -25,10 +25,9 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     functionBlock->addVoidReturn();
 
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto refValueIndex = irGenerator->generateIntConstant(refType->getRefValueIndex());
-    auto refCounterIndex = irGenerator->generateIntConstant(refType->getRefCounterIndex());
-    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refCounterIndex });
+    auto refValueIndex = refType->getRefValueIndex();
+    auto refCounterIndex = refType->getRefCounterIndex();
+    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refCounterIndex);
     auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
     auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, "currentRefCount");
 
@@ -49,7 +48,7 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
 
     auto underlyingTypePointer = freeValueIfThenBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
     auto loadedUnderlyingType = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
-    auto pointerToRefValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refValueIndex });
+    auto pointerToRefValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refValueIndex);
     auto refValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefValuePointer);
 
     freeValueIfThenBlock->getBuilder()->get()->CreateCall(

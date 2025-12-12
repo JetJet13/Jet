@@ -19,6 +19,7 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     PrintIRFunction::generatePrintDebugMarkerFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugPointerFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugStringFunction(irGenerator, context, irModule);
+    PrintIRFunction::generatePrintDebugRefCountFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintWhitespaceFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintCommaFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintNewLineFunction(irGenerator, context, irModule);

@@ -58,6 +58,26 @@ void FreeIRInjectorHelper::freeBlockVariables(IRBlockNode* irBlockNode, std::vec
     for (auto variableToFree : *variablesToFree) {
         auto typeValue = irInjector->inject(irBlockNode, variableToFree->getAllocatedIRType());
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variableToFree->getIRValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
+        auto variableName = irBlockNode->getBuilder()->get()->CreateAlloca(
+                variableToFree->getVariableNameIRValue()->getType()
+        );
+        InstructionIRInjectorHelper::injectStore(variableToFree->getVariableNameIRValue(), variableName, irBlockNode);
+        if (variableToFree->getAllocatedIRType()->isRefType()) {
+            auto refCount = irBlockNode->getBuilder()->get()->CreateCall(
+                    irModule->getGetRefCountFunction(),
+                    { variableToFree->getValue() }
+            );
+            irBlockNode->getBuilder()->get()->CreateCall(
+                    irModule->getPrintDebugRefCountFunction(),
+                    { variableName, refCount }
+            );
+        }
+        irBlockNode->getBuilder()->get()->CreateCall(
+                irModule->getPrintDebugStringFunction(),
+                {
+                    irInjector->injectRawString(irBlockNode, "freeing " + variableToFree->getVariableName() + "\n")
+                }
+        );
         irBlockNode->getBuilder()->get()->CreateCall(
             irModule->getFreeValueFunction()->getFunctionType(),
             irModule->getFreeValueFunction(),
@@ -66,6 +86,16 @@ void FreeIRInjectorHelper::freeBlockVariables(IRBlockNode* irBlockNode, std::vec
                 loadedTypeValue
             }
         );
+        if (variableToFree->getAllocatedIRType()->isRefType()) {
+            auto refCount = irBlockNode->getBuilder()->get()->CreateCall(
+                    irModule->getGetRefCountFunction(),
+                    { variableToFree->getValue() }
+            );
+            irBlockNode->getBuilder()->get()->CreateCall(
+                    irModule->getPrintDebugRefCountFunction(),
+                    { variableName, refCount }
+            );
+        }
     }
 }
 

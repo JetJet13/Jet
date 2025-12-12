@@ -123,6 +123,7 @@
 #include "ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.h"
 #include "ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.h"
 #include "ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.h"
+#include "ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -744,6 +745,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             PrintIRFunction::getPrintDebugMarkerIRFunctionName(),
             PrintIRFunction::getPrintDebugPointerIRFunctionName(),
             PrintIRFunction::getPrintDebugStringIRFunctionName(),
+            PrintIRFunction::getPrintDebugRefCountIRFunctionName(),
             RangeIRFunction::getRange1pIRFunctionName(),
             RangeIRFunction::getRange2pIRFunctionName(),
             RangeIRFunction::getRange3pIRFunctionName(),
@@ -775,7 +777,8 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             RefOfIRFunction::getRefOfIRFunctionName(),
             SrefWithIRFunction::getSrefWithIRFunctionName(),
             SameRefAsIRFunction::getSameRefAsIRFunctionName(),
-            IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName()
+            IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),
+            GetRefCountIRFunction::getGetRefCountIRFunctionName()
     );
 }
 
@@ -805,6 +808,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     PrintIRFunction::declarePrintDebugMarkerFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintDebugPointerFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintDebugStringFunction(this, &_context, irModule);
+    PrintIRFunction::declarePrintDebugRefCountFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintWhitespaceFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintCommaFunction(this, &_context, irModule);
     PrintIRFunction::declarePrintNewLineFunction(this, &_context, irModule);
@@ -855,6 +859,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArraySizeIRFunction::generateArraySizeFunction(this, &_context, irModule);
     ArrayEmptyIRFunction::generateArrayEmptyFunction(this, &_context, irModule);
     IncrementRefCountIRFunction::generateIncrementRefCountFunction(this, &_context, irModule);
+    GetRefCountIRFunction::generateGetRefCountFunction(this, &_context, irModule);
 }
 
 IRFunctionNode* IRGenerator::generateMainFunction(std::string functionName, IRModuleNode* irModuleNode) {

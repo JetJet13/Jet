@@ -18,9 +18,11 @@ private:
     IRExpressionNode* _irExpression;
     std::optional<IRInstructionNode*> _irGlobalVariable;
     std::optional<IRInstructionNode*> _irCaptureCounter;
+    llvm::Value* _variableNameIRValue;
 public:
-    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, std::optional<IRInstructionNode*> irGlobalVariable = {}, std::optional<IRInstructionNode*> irCaptureCounter = {});
+    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable = {}, std::optional<IRInstructionNode*> irCaptureCounter = {});
     std::string getVariableName();
+    llvm::Value* getVariableNameIRValue();
     llvm::Value* getValue() override;
     llvm::Type* getAllocatedType();
     IRType* getAllocatedIRType();

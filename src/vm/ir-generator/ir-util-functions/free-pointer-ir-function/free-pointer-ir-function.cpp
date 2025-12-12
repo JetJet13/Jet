@@ -22,7 +22,8 @@ void FreePointerIRFunction::generateFreePointerFunction(IRGenerator* irGenerator
     auto function = irModuleNode->getFreePointerFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto underlyingType = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
+    auto underlyingTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
+    auto underlyingType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
     auto loadedUnderlyingSourcePointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), function->getArg(0));
 
     functionBlock->getBuilder()->get()->CreateCall(

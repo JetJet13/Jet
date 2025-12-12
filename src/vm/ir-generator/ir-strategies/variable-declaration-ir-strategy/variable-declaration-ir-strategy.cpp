@@ -45,7 +45,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
         scope->insertCaptureCounter(node->getId(), irCaptureCounter.value());
     }
 
-    return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGlobalVariable, irCaptureCounter);
+    return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGenerator->generateRawString(node->getId()), irGlobalVariable, irCaptureCounter);
 }
 
 IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDeclarationNode* node) {
