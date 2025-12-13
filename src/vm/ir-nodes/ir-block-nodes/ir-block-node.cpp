@@ -18,8 +18,11 @@ bool IRBlockNode::hasReturnStatement() {
     return _body.back()->is(IR_FUNCTION_RETURN_EXPRESSION_NODE);
 }
 
-bool IRBlockNode::hasBranchStatement() {
-    return llvm::isa<llvm::BranchInst>(_irValue->back());
+bool IRBlockNode::hasBranchInstruction() {
+    if (_irValue->getTerminator()) {
+        return llvm::isa<llvm::BranchInst>(_irValue->getTerminator());
+    }
+    return false;
 }
 
 llvm::BasicBlock* IRBlockNode::getBlock() {
@@ -119,6 +122,22 @@ std::optional<IRFunctionReturnExpressionNode*> IRBlockNode::getReturnExpression(
 void IRBlockNode::setInsertionPointBeforeLastInstruction() {
     auto block = this->getLastSuccessorOrSelf();
     block->getBuilder()->get()->SetInsertPoint(block->getBlock()->getTerminator());
+}
+
+void IRBlockNode::setInsertionPointBeforeFirstInstruction() {
+    this->getBuilder()->get()->SetInsertPoint(&*this->getBlock()->getFirstInsertionPt());
+}
+
+void IRBlockNode::resetInsertionPoint() {
+    auto block = this->getLastSuccessorOrSelf();
+    block->getBuilder()->get()->SetInsertPoint(block->getBlock());
+}
+
+void IRBlockNode::removeLastInstruction() {
+    if (this->getBlock()->getTerminator()) {
+        this->getBlock()->getTerminator()->eraseFromParent();
+        this->getBuilder()->get()->SetInsertPoint(this->getBlock());
+    }
 }
 
 void IRBlockNode::createSuccessor() {

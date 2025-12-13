@@ -19,7 +19,7 @@ llvm::Value* LiteralIRBinaryComparisonExpressionInjectorStrategy::inject(IRBinar
         : irBlock->getBuilder()->get()->CreateICmp(llvm::CmpInst::Predicate::ICMP_EQ, result, irBlock->getBuilder()->get()->getFalse());
     }
 
-    auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
-    auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
+    auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
     return irBlock->getBuilder()->get()->CreateCmp(irExpression->getValue()->getPredicate(), irLeftNodeValue, irRightNodeValue);
 }

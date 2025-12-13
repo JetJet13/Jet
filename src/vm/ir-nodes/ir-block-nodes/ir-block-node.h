@@ -29,7 +29,7 @@ protected:
 public:
     IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type);
     bool hasReturnStatement();
-    bool hasBranchStatement();
+    bool hasBranchInstruction();
     llvm::BasicBlock* getBlock();
     std::vector<IRNode*>* getBody();
     void insert(IRNode* irNode);
@@ -43,6 +43,9 @@ public:
     virtual std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
     virtual std::vector<IRVariableDeclarationNode*>* getLambdaVariablesToFree();
     virtual void setInsertionPointBeforeLastInstruction();
+    virtual void setInsertionPointBeforeFirstInstruction();
+    virtual void resetInsertionPoint();
+    virtual void removeLastInstruction();
     void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);
     std::optional<IRFunctionReturnExpressionNode*> getReturnExpression();
     void createSuccessor();

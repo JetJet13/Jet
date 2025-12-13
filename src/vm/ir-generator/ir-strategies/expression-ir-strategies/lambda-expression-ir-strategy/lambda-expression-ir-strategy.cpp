@@ -10,6 +10,7 @@
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
+#include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
@@ -36,6 +37,8 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
 
     FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), scope);
     FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), lambdaScope);
+    DebugIRInjectorHelper::injectFunctionEnterLog(functionBlock, irFunction->getName().str(), irGenerator->getInjector(), irContext->getIRModule());
+    DebugIRInjectorHelper::injectFunctionExitLog(functionBlock, irFunction->getName().str(), irGenerator->getInjector(), irContext->getIRModule());
     return new IRLambdaExpressionNode(node, irFunction, functionParameterList, functionBlock, irType, irCleanupFunction);
 }
 

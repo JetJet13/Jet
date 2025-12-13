@@ -5,6 +5,7 @@
 #include "free-struct-ir-function.h"
 #include "../../../types/ir-type-id.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string FreeStructIRFunction::getFreeStructIRFunctionName() {
     return "jet.free.struct";
@@ -26,22 +27,21 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getNumTypesIndex() }, "numTypes");
-    auto typeValueAlloc = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() }, "typeValueAlloc");
-
-    auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
-    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), elementByteOffset, functionBlock);
-
-    auto forLoopIndex = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
-    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
-
-    // for loop
+    // for loop blocks
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
     auto isValueNotFreeableThenBlock = irGenerator->generateIfThenBlock(irContext);
     auto isValueNotFreeableElseBlock = irGenerator->generateIfElseBlock(irContext);
     auto isValueNotFreeableEndBlock = irGenerator->generateIfElseBlock(irContext);
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+
+    auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getNumTypesIndex() }, "numTypes");
+    auto typeValueAlloc = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() }, "typeValueAlloc");
+    auto elementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), elementByteOffset, functionBlock);
+
+    auto forLoopIndex = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
     functionBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
     // for loop condition
     auto forLoopIndexValue = forLoopConditionBlock->getBuilder()->get()->CreateLoad(intType, forLoopIndex);
@@ -70,22 +70,19 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
 
     forLoopBody->CreateCondBr(isValueTypeLiteral, isValueNotFreeableThenBlock->getBlock(), isValueNotFreeableElseBlock->getBlock());
     isValueNotFreeableThenBlock->getBuilder()->get()->CreateBr(isValueNotFreeableEndBlock->getBlock());
-    auto loadedTypeValueAtIndex = isValueNotFreeableElseBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), typeValueAtIndex);
     isValueNotFreeableElseBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeValueFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeValueFunction(),
-            { pointerAtIndex, loadedTypeValueAtIndex }
+            { pointerAtIndex, typeValueAtIndex }
     );
     isValueNotFreeableElseBlock->getBuilder()->get()->CreateBr(isValueNotFreeableEndBlock->getBlock());
 
-    auto sizeInBytesAtIndexPointer = isValueNotFreeableEndBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), typeValueAtIndex, typeValueType->getSizeInBytesIndex());
-    auto loadedSizeInBytesAtIndex = isValueNotFreeableEndBlock->getBuilder()->get()->CreateLoad(intType, sizeInBytesAtIndexPointer);
-    auto newStructByteOffsetValue = isValueNotFreeableEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, loadedSizeInBytesAtIndex);
+    auto sizeInBytesAtIndex = isValueNotFreeableEndBlock->getBuilder()->get()->CreateExtractValue(typeValueAtIndex, typeValueType->getSizeInBytesIndex());
+    auto newStructByteOffsetValue = isValueNotFreeableEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, structByteOffsetValue, sizeInBytesAtIndex);
     InstructionIRInjectorHelper::injectStore(newStructByteOffsetValue, elementByteOffset, isValueNotFreeableEndBlock);
-
     auto newForLoopIndexValue = isValueNotFreeableEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
     isValueNotFreeableEndBlock->getBuilder()->get()->CreateStore(newForLoopIndexValue, forLoopIndex);
     isValueNotFreeableEndBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
+
 
     // for loop end
     auto functionEndBlock = irGenerator->generateBasicBlock("", irContext);

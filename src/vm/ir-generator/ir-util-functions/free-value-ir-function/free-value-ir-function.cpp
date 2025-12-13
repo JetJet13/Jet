@@ -4,6 +4,7 @@
 
 #include "free-value-ir-function.h"
 #include "../../../types/ir-type-id.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string FreeValueIRFunction::getFreeValueIRFunctionName() {
     return "jet.free.value";
@@ -22,7 +23,6 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto function = irModuleNode->getFreeValueFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    functionBlock->addVoidReturn();
 
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
@@ -37,7 +37,6 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
     auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getIdIndex() });
-
     functionBlock->getBuilder()->get()->CreateBr(arrayIfBlock->getBlock());
 
     auto isValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(

@@ -10,6 +10,7 @@
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
@@ -106,6 +107,8 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
     functionBlock->addVoidReturn();
     FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), constructorScope);
     FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), constructorScope);
+    DebugIRInjectorHelper::injectFunctionEnterLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());
+    DebugIRInjectorHelper::injectFunctionExitLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());
     return new IRClassConstructorNode(irFunction);
 }
 
@@ -152,6 +155,8 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
 
     FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), methodScope);
     FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), methodScope);
+    DebugIRInjectorHelper::injectFunctionEnterLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());
+    DebugIRInjectorHelper::injectFunctionExitLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());
     return new IRClassMethodNode(irFunction);
 }
 

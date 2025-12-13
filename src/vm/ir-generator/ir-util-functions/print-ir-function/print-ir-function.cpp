@@ -344,7 +344,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
             structEndFormatString,
             PrintIRFunction::getGlobalStructEndFormatStringName()
     );
-    auto refCountFormatString = irGenerator->generateRawString("ref_count(%d, %s)\n");
+    auto refCountFormatString = irGenerator->generateRawString("[ref_count] %d, %s\n");
     new llvm::GlobalVariable(
             *irModuleNode->getModule(),
             refCountFormatString->getType(),

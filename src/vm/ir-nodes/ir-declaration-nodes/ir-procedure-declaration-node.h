@@ -21,6 +21,7 @@ private:
     IRLookupTable* _scope;
 public:
     IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLookupTable* scope);
+    std::string getName();
     IRFunctionParameterListNode* getParameters();
     IRBlockNode* getBlock();
     IRLookupTable* getScope();

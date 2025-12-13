@@ -629,6 +629,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.h
         ir-generator/ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.cpp
         ir-generator/ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h
 )
 
 target_link_libraries(jet-vm

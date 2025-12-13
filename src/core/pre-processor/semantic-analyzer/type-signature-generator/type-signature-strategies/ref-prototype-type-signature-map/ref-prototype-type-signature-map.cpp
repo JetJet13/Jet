@@ -30,5 +30,14 @@ std::optional<FunctionTypeSignature*> RefPrototypeTypeSignatureMap::find(std::st
         return srefWithTypeSignature;
     }
 
+    if (id == "refCount") {
+        auto refCountTypeSignature = new FunctionTypeSignature(
+                new ParameterListTypeSignature(),
+                new IntLiteralTypeSignature()
+        );
+        refCountTypeSignature->markAsPrototype();
+        return refCountTypeSignature;
+    }
+
     return {};
 }

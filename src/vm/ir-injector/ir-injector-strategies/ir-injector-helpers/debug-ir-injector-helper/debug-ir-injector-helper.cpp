@@ -1,0 +1,84 @@
+//
+// Created by Johny Georges on 2025-12-13.
+//
+
+#include "debug-ir-injector-helper.h"
+
+void DebugIRInjectorHelper::injectFunctionEnterLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlockNode->setInsertionPointBeforeFirstInstruction();
+    irBlockNode->getBuilder()->get()->CreateCall(
+        irModule->getPrintDebugStringFunction(),
+        {
+                irInjector->injectRawString(irBlockNode, "[enter] " +  functionName + "\n")
+        }
+    );
+    irBlockNode->resetInsertionPoint();
+}
+
+void DebugIRInjectorHelper::injectFunctionExitLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlockNode->setInsertionPointBeforeLastInstruction();
+    irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateCall(
+            irModule->getPrintDebugStringFunction(),
+            {
+                irInjector->injectRawString(irBlockNode->getLastSuccessorOrSelf(), "[exit] " +  functionName + "\n")
+            }
+    );
+    irBlockNode->resetInsertionPoint();
+}
+
+void DebugIRInjectorHelper::injectControlFlowEnterLog(IRBlockNode* irBlockNode, int index, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlockNode->setInsertionPointBeforeFirstInstruction();
+    irBlockNode->getBuilder()->get()->CreateCall(
+            irModule->getPrintDebugStringFunction(),
+            {
+                    irInjector->injectRawString(irBlockNode, "[enter] ControlFlow: " +  std::to_string(index) + "\n")
+            }
+    );
+    irBlockNode->resetInsertionPoint();
+}
+
+void DebugIRInjectorHelper::injectControlFlowExitLog(IRBlockNode* irBlockNode, int index, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlockNode->setInsertionPointBeforeLastInstruction();
+    irBlockNode->getBuilder()->get()->CreateCall(
+            irModule->getPrintDebugStringFunction(),
+            {
+                irInjector->injectRawString(irBlockNode, "[exit] ControlFlow: " +  std::to_string(index) + "\n")
+            }
+    );
+    irBlockNode->resetInsertionPoint();
+}
+
+void DebugIRInjectorHelper::injectRefCountLog(IRBlockNode* irBlockNode, llvm::Value* idValue, llvm::Value* refValue, IRModuleNode *irModule) {
+    auto refCount = irBlockNode->getBuilder()->get()->CreateCall(
+            irModule->getGetRefCountFunction(),
+            { refValue }
+    );
+    irBlockNode->getBuilder()->get()->CreateCall(
+            irModule->getPrintDebugRefCountFunction(),
+            { idValue, refCount }
+    );
+}
+
+void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, llvm::Value* log, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintDebugMarkerFunction(), { log });
+    irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintNewLineFunction());
+}
+
+void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, int log, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlockNode->getBuilder()->get()->CreateCall(
+        irModule->getPrintDebugMarkerFunction(),
+        {
+            irBlockNode->getBuilder()->get()->getInt64(log)
+        }
+    );
+    irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintNewLineFunction());
+}
+
+void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, std::string log, IRInjector* irInjector, IRModuleNode *irModule) {
+    irBlockNode->getBuilder()->get()->CreateCall(
+            irModule->getPrintDebugStringFunction(),
+            {
+                irInjector->injectRawString(irBlockNode, log + "\n")
+            }
+    );
+}

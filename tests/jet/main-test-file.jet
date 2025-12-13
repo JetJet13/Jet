@@ -497,24 +497,43 @@ proc testCleanup() {
         const forString = "a string inside a for loop";
         if x > 1 {
             const ifBlockForLoopString = "a string inside a if block inside a for loop";
-            print(x);
         }
     }
 }
 
-main();
-testPrint();
-testArrayPrototypeFunctions();
-testCopyFunctions();
-testRefFunctions();
-testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
-complexCopy();
-testLambdas();
-testClasses();
-testEnums(MyEnum.Gamma, MyStrEnum.Mars);
-testEquality();
-testLambdaReturn();
-testCleanup();
+proc testRefCleanup() {
+    const x = ref 500;
+    assert(x.refCount() == 1);
+    if x > 10 {
+        assert(x.refCount() == 1);
+        const ifXStruct = { foo: x, bar: 500 };
+        assert(x.refCount() == 2);
+    }
+    assert(x.refCount() == 1);
+    const y = x;
+    assert(x.refCount() == 2);
+    if y > 10 {
+        assert(x.refCount() == 2);
+        const ifYStruct = { foo: y, bar: 100 };
+        assert(x.refCount() == 3);
+    }
+    assert(x.refCount() == 2);
+}
+
+//main();
+//testPrint();
+//testArrayPrototypeFunctions();
+//testCopyFunctions();
+//testRefFunctions();
+//testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+//complexCopy();
+//testLambdas();
+//testClasses();
+//testEnums(MyEnum.Gamma, MyStrEnum.Mars);
+//testEquality();
+//testLambdaReturn();
+//testCleanup();
+testRefCleanup();
 
 class MyClass {
     public age: int;

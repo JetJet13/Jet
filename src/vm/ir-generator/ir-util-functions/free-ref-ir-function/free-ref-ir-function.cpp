@@ -3,6 +3,7 @@
 //
 
 #include "free-ref-ir-function.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string FreeRefIRFunction::getFreeRefIRFunctionName() {
     return "jet.free.ref";
@@ -23,19 +24,18 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     auto function = irModuleNode->getFreeRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    functionBlock->addVoidReturn();
 
-    auto refValueIndex = refType->getRefValueIndex();
-    auto refCounterIndex = refType->getRefCounterIndex();
-    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refCounterIndex);
-    auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
-    auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, "currentRefCount");
-
-    auto freeValueIfBlock = irGenerator->generateIfBlock(irContext, "string.");
-    auto freeValueIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
+    auto freeValueIfBlock = irGenerator->generateIfBlock(irContext);
+    auto freeValueIfThenBlock = irGenerator->generateIfThenBlock(irContext);
     auto freeValueElseBlock = irGenerator->generateIfElseBlock(irContext);
     auto freeValueEndBlock = irGenerator->generateIfEndBlock(irContext);
 
+    auto refValueIndex = refType->getRefValueIndex();
+    auto refCounterIndex = refType->getRefCounterIndex();
+
+    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refCounterIndex);
+    auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
+    auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, "currentRefCount");
     functionBlock->getBuilder()->get()->CreateBr(freeValueIfBlock->getBlock());
 
     auto isLastRef = freeValueIfBlock->getBuilder()->get()->CreateICmp(
@@ -50,14 +50,11 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     auto loadedUnderlyingType = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
     auto pointerToRefValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refValueIndex);
     auto refValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefValuePointer);
-
     freeValueIfThenBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getFreeValueFunction()->getFunctionType(),
         irContext->getIRModule()->getFreeValueFunction(),
         { refValuePointer, loadedUnderlyingType }
     );
     freeValueIfThenBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getMallocFreeFunction()->getFunctionType(),
         irContext->getIRModule()->getMallocFreeFunction(),
         { refCounterPointer }
     );
@@ -70,6 +67,5 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     );
     freeValueElseBlock->getBuilder()->get()->CreateStore(newRefCount, refCounterPointer);
     freeValueElseBlock->getBuilder()->get()->CreateBr(freeValueEndBlock->getBlock());
-
     freeValueEndBlock->addVoidReturn();
 }

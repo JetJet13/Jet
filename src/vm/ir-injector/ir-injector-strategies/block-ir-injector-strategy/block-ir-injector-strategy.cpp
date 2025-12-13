@@ -45,10 +45,9 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
         }
     }
 
-    // todo - setup logic to clean up variables.
     if (irBlockNode->getParentBlock()) {
         for (auto successorBlock : successorsToBranchToParent) {
-            if (!successorBlock->hasBranchStatement()) {
+            if (!successorBlock->hasBranchInstruction()) {
                 successorBlock->getBuilder()->get()->CreateBr(
                         irBlockNode->getParentBlock().value()->getLastSuccessorOrSelf()->getBlock()
                 );

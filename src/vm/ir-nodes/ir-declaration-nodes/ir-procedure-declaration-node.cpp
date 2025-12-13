@@ -12,6 +12,10 @@ IRProcedureDeclarationNode::IRProcedureDeclarationNode(ASTProcedureDeclarationNo
     _scope = scope;
 }
 
+std::string IRProcedureDeclarationNode::getName() {
+    return _node->getId();
+}
+
 IRFunctionParameterListNode* IRProcedureDeclarationNode::getParameters() {
     return _irParameterList;
 }

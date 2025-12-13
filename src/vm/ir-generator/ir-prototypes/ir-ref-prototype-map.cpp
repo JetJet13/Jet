@@ -6,6 +6,7 @@
 #include "../ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
 #include "../ir-util-functions/sref-with-ir-function/sref-with-ir-function.h"
 #include "../ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
+#include "../ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
 
 IRRefPrototypeFunctionId RefPrototypeMap::getIRRefPrototypeFunction(std::string id) {
     if (id == "refOf") {
@@ -14,6 +15,8 @@ IRRefPrototypeFunctionId RefPrototypeMap::getIRRefPrototypeFunction(std::string 
         return RP_SREF_WITH_FUNCTION;
     } else if (id == "sameRefAs") {
         return RP_SAME_REF_AS_FUNCTION;
+    } else if (id == "refCount") {
+        return RP_REF_COUNT_FUNCTION;
     }
     throw std::logic_error("unable to find array prototype function for id provided: " + id);
 }
@@ -30,6 +33,8 @@ std::string RefPrototypeMap::getIRName(IRRefPrototypeFunctionId irRefPrototypeFu
             return SrefWithIRFunction::getSrefWithIRFunctionName();
         case RP_SAME_REF_AS_FUNCTION:
             return SameRefAsIRFunction::getSameRefAsIRFunctionName();
+        case RP_REF_COUNT_FUNCTION:
+            return GetRefCountIRFunction::getGetRefCountIRFunctionName();
     }
     throw std::logic_error("unable to find ref prototype name");
 }

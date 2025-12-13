@@ -12,6 +12,10 @@ IRFunctionDeclarationNode::IRFunctionDeclarationNode(ASTFunctionDeclarationNode*
     _scope = scope;
 }
 
+std::string IRFunctionDeclarationNode::getName() {
+    return _node->getId();
+}
+
 IRFunctionParameterListNode* IRFunctionDeclarationNode::getParameters() {
     return _irParameterList;
 }
