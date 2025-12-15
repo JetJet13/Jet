@@ -18,7 +18,7 @@ private:
     llvm::StoreInst* _initialValueStoreInstruction;
 public:
     IRTypeValueInstructionNode(llvm::AllocaInst* alloc, IRPointerType* irType, llvm::StoreInst* initialValueStoreInstruction);
-    bool isInserted(IRBlockNode* irBlock);
+    bool isInserted();
     llvm::AllocaInst* getValue();
     llvm::StoreInst* getInitialValueStoreInstruction();
     IRTypeValueInstructionNode* clone();

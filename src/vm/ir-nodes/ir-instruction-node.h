@@ -36,7 +36,7 @@ public:
     IRInstructionNode(llvm::Value* irValue, IRPointerType* irType);
     bool isGlobal();
     void markAsGlobal();
-    bool isInserted(IRBlockNode* irBlock);
+    bool isInserted();
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
     std::vector<llvm::Value*>* getAncestorValues();

@@ -62,11 +62,6 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
         irContext->getIRModule()->getMallocFreeFunction(),
         { sourceArrayMalloc }
     );
-    isElementTypeLiteralThenBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFreeFunction()->getFunctionType(),
-            irModuleNode->getMallocFreeFunction(),
-            { function->getArg(0) }
-    );
     isElementTypeLiteralThenBlock->addVoidReturn();
 
     // for loop prep block
@@ -105,5 +100,4 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
 
     // for loop end
     forLoopEndBlock->addVoidReturn();
-
 }

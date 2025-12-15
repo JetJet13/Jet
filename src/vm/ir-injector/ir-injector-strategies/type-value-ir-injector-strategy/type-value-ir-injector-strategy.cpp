@@ -9,7 +9,8 @@
 #include "../../../ir-type/ir-function-parameter-type.h"
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRType* irType, IRBlockNode* irBlock) {
-    if (irType->getValue()->isInserted(irBlock)) {
+    if (irType->getValue()->isInserted()) {
+        Logger::log("IS INSERTED TYPE VALUE!");
         return irType->getValue()->getValue();
     } else if (irType->isArrayPointerType()) {
         return this->inject((IRArrayPointerType*)irType, irBlock);
@@ -112,9 +113,9 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRFunctionParameterType* irFunc
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock) {
-    return this->inject(irLambdaType->getLambdaVariableType(), irBlock);
+    return this->inject((IRType*)irLambdaType->getLambdaVariableType(), irBlock);
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock) {
-    return this->inject(irClassInstanceType->getIRClassPropertiesType(), irBlock);
+    return this->inject((IRType*)irClassInstanceType->getIRClassPropertiesType(), irBlock);
 }

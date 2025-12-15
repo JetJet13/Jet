@@ -6,16 +6,13 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignmentStatementNode* irClassPropertyAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
-    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
     auto classScopeParameter = scope->getClassScope().value();
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto propertyIndex = irBlock->getBuilder()->get()->getInt64(irClassPropertyAssignmentStatementNode->getPropertyIndex());
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(classScopeParameter->getIRType()->getType(), classScopeParameter->getValue(), irBlock);
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(
+    auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(
         classScopeParameter->getIRType()->getUnderlyingType()->getType(),
         loadedPointer,
-        { zeroIndex, propertyIndex }
+        irClassPropertyAssignmentStatementNode->getPropertyIndex()
     );
-    irBlock->getBuilder()->get()->Insert(pointer);
     InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irClassPropertyAssignmentStatementNode->getExpression()->getIRType());
 }

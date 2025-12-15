@@ -11,7 +11,7 @@ IRTypeValueInstructionNode::IRTypeValueInstructionNode(llvm::AllocaInst* alloc, 
     _initialValueStoreInstruction = initialValueStoreInstruction;
 }
 
-bool IRTypeValueInstructionNode::isInserted(IRBlockNode* irBlock) {
+bool IRTypeValueInstructionNode::isInserted() {
     return _alloc->getParent() != nullptr;
 }
 

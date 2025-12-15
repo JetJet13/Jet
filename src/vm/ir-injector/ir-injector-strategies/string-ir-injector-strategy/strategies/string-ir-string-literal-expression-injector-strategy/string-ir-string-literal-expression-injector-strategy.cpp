@@ -7,14 +7,21 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+    auto irArrayPointerType = irExpression->getIRType();
     auto arrayAllocation = irExpression->getSourceAggregateAllocation()->getValue();
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     InstructionIRInjectorHelper::injectStore(irExpression->getValue(), arrayAllocation, irBlock, irExpression->getSourceAggregateAllocation()->getIRType()->getUnderlyingType());
-    auto array = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), irExpression->getValue()->getType()->getArrayNumElements(),
+    auto array = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irArrayPointerType, irExpression->getValue()->getType()->getArrayNumElements(),
                                                      irExpression->getSourceAggregateAllocation(),
                                                      irExpression->getAggregatePointerAllocation())->getValue();
     if (irOperation->isOperandPointer()) {
         return irExpression->getAggregatePointerAllocation()->getValue();
+    }
+
+    if (irOperation->isFunctionArgument()) {
+        auto functionArgumentAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
+        irBlock->getBuilder()->get()->CreateCall(irModule->getCopyStringFunction(), { functionArgumentAllocation, irExpression->getAggregatePointerAllocation()->getValue() });
+        return irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getType(), functionArgumentAllocation);
     }
     return array;
 }

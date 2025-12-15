@@ -36,6 +36,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
+    DebugIRInjectorHelper::injectLog(functionBlock, "FREEING VALUE!", irGenerator->getInjector(), irModuleNode);
     auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getIdIndex() });
     functionBlock->getBuilder()->get()->CreateBr(arrayIfBlock->getBlock());
 
@@ -45,6 +46,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
     );
     arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), pointerIfBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(arrayIfThenBlock, "FREEING ARRAY!", irGenerator->getInjector(), irModuleNode);
     arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeArrayFunction(),
@@ -60,6 +62,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             irGenerator->generateIntConstant(IR_TYPE_ID.POINTER)
     );
     pointerIfBlock->getBuilder()->get()->CreateCondBr(isValueTypePointer, pointerIfThenBlock->getBlock(), refIfBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(pointerIfThenBlock, "FREEING POINTER!", irGenerator->getInjector(), irModuleNode);
     pointerIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreePointerFunction()->getFunctionType(),
             irContext->getIRModule()->getFreePointerFunction(),
@@ -75,6 +78,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             irGenerator->generateIntConstant(IR_TYPE_ID.REF)
     );
     refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(refIfThenBlock, "FREEING REF!", irGenerator->getInjector(), irModuleNode);
     refIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeRefFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeRefFunction(),
@@ -90,6 +94,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
     );
     structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), stringIfBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(structIfThenBlock, "FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
     structIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeStructFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeStructFunction(),
@@ -105,6 +110,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             irGenerator->generateIntConstant(IR_TYPE_ID.STRING)
     );
     stringIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeString, stringIfThenBlock->getBlock(), endBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(stringIfThenBlock, "FREEING STRING!", irGenerator->getInjector(), irModuleNode);
     stringIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeStringFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeStringFunction(),
@@ -119,5 +125,6 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
+    DebugIRInjectorHelper::injectLog(endBlock, "DONE FREEING VALUE!", irGenerator->getInjector(), irModuleNode);
     endBlock->addVoidReturn();
 }

@@ -17,7 +17,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         auto argument = irExpression->getIRArguments()->at(i);
         auto operationType = functionTypeSignature->isArgumentVarArg(i)
                 ? new IROperation(IR_OPERAND_POINTER_OP)
-                : new IROperation(IR_OPERAND_VALUE_OP);
+                : new IROperation(IR_FUNCTION_ARGUMENT_OP);
         auto irArgument = irInjector->inject(irBlock, argument, operationType, irModule, scope);
         arguments.push_back(irArgument);
     }
