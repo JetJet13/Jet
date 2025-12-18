@@ -21,6 +21,8 @@ public:
     llvm::Value* getValue() override;
     IRPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;

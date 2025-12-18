@@ -17,16 +17,5 @@ IRRefExpressionNode* RefExpressionIRStrategy::generate(ASTRefExpressionNode* nod
 }
 
 IRInstructionNode* RefExpressionIRStrategy::generateAllocation(ASTRefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
-    if (node->isReferenced()) {
-        auto malloc = llvm::CallInst::Create(
-                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
-                irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) }
-        );
-        return IRInstructionNodeFactory::create(
-                malloc,
-                irGenerator->generateIrPointerType(irType)
-        );
-    }
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

@@ -54,6 +54,14 @@ ClassInstanceTypeSignature* IRNewClassInstanceExpressionNode::getTypeSignature()
     return _node->getTypeSignature();
 }
 
+Position* IRNewClassInstanceExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRNewClassInstanceExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRNewClassInstanceExpressionNode::getNodeType() {
     return IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE;
 }

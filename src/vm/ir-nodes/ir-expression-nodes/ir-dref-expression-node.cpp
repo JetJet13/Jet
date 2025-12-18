@@ -37,6 +37,14 @@ TypeSignature* IRDrefExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRDrefExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRDrefExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 llvm::Value* IRDrefExpressionNode::getValue() {
     return _irExpression->getValue();
 }

@@ -46,6 +46,14 @@ TypeSignature* IRConcatExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRConcatExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRConcatExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRConcatExpressionNode::getNodeType() {
     return IR_CONCAT_EXPRESSION_NODE;
 }

@@ -32,6 +32,8 @@ public:
     IRFunctionParameterType* getFunctionIRType();
     IRType* getIRType() override;
     FunctionInvocationTypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

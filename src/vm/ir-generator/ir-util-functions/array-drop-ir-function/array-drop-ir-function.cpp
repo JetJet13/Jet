@@ -27,17 +27,16 @@ void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, st
     auto isNewNumElementsNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext);
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
-    auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
-    auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
+    auto numElementsIndex = arrayPointerType->getNumElementsIndex();
+    auto allocIndex = arrayPointerType->getAllocIndex();
+    auto depthIndex = arrayPointerType->getDepthIndex();
+    auto sizeInBytesIndex = typeValueType->getSizeInBytesIndex();
     auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
-    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), arrayElementTypeValue, { zeroIndex, sizeInBytesIndex });
+    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), arrayElementTypeValue, sizeInBytesIndex);
     auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
-    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
+    auto depthPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), depthIndex);
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
+    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), numElementsIndex);
     auto numElementsToDrop = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
     auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto newNumElementsAllocation = functionBlock->getBuilder()->get()->CreateAlloca(intType);
@@ -59,7 +58,6 @@ void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, st
 
     auto loadedNewNumElements = successorBlock->getBuilder()->get()->CreateLoad(intType, newNumElementsAllocation, "newNumElements");
     auto newArraySize = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocSizeFunction()->getFunctionType(),
             irModuleNode->getMallocSizeFunction(),
             {
                 loadedNewNumElements,
@@ -67,24 +65,19 @@ void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, st
             }
     );
     auto newArrayMalloc = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
             { newArraySize }
     );
     auto oldArrayOffset = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Mul, sizeInBytes, numElementsToDrop);
-    auto pointerToOldArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
+    auto pointerToOldArray = successorBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), allocIndex);
     auto loadedPointerToOldArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldArray);
     auto oldArrayOffsetPointer = successorBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, loadedPointerToOldArray, { oldArrayOffset });
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMemcpyFunction()->getFunctionType(),
             irModuleNode->getMemcpyFunction(),
             { newArrayMalloc, oldArrayOffsetPointer, newArraySize }
     );
 
-    auto arrayPointerAllocationForOldArray = successorBlock->getBuilder()->get()->CreateCall(
-        irModuleNode->getMallocFunction(),
-        { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes()) }
-    );
+    auto arrayPointerAllocationForOldArray = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,
@@ -95,10 +88,9 @@ void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, st
     );
     successorBlock->getBuilder()->get()->CreateStore(loadedNewNumElements, numElementsPointer);
     successorBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);
-    successorBlock->getBuilder()->get()->CreateCall(
-        irModuleNode->getFreeArrayFunction()->getFunctionType(),
-        irModuleNode->getFreeArrayFunction(),
-        { arrayPointerAllocationForOldArray, function->getArg(2) }
-    );
+//    successorBlock->getBuilder()->get()->CreateCall(
+//        irModuleNode->getFreeArrayFunction(),
+//        { arrayPointerAllocationForOldArray, function->getArg(2) }
+//    );
     successorBlock->getBuilder()->get()->CreateRet(function->getArg(0));
 }

@@ -52,6 +52,14 @@ FunctionInvocationTypeSignature* IRFunctionParameterInvocationExpressionNode::ge
     return _node->getTypeSignature();
 }
 
+Position* IRFunctionParameterInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRFunctionParameterInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRFunctionParameterInvocationExpressionNode::getNodeType() {
     return IR_FUNCTION_PARAMETER_INVOCATION_EXPRESSION_NODE;
 }

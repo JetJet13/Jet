@@ -35,6 +35,14 @@ TypeSignature* IRUnaryNegateExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRUnaryNegateExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRUnaryNegateExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRUnaryNegateExpressionNode::getNodeType() {
     return IR_UNARY_NEGATE_EXPRESSION_NODE;
 }

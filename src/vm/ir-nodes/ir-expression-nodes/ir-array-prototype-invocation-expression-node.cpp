@@ -49,6 +49,14 @@ TypeSignature* IRArrayPrototypeInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRArrayPrototypeInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRArrayPrototypeInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRArrayPrototypeInvocationExpressionNode::getNodeType() {
     return IR_ARRAY_PROTOTYPE_INVOCATION_EXPRESSION_NODE;
 }

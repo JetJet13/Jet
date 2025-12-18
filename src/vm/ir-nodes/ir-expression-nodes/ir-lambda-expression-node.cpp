@@ -29,6 +29,14 @@ LambdaExpressionTypeSignature* IRLambdaExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRLambdaExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRLambdaExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRLambdaExpressionNode::getNodeType() {
     return IR_LAMBDA_EXPRESSION_NODE;
 }

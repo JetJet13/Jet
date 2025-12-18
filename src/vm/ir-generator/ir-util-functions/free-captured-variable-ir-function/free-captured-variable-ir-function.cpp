@@ -54,7 +54,10 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
         { capturedVariablePointer, loadedUnderlyingType }
     );
     freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getMallocFreeFunction()->getFunctionType(),
+        irContext->getIRModule()->getMallocFreeFunction(),
+        { capturedVariablePointer }
+    );
+    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
         irContext->getIRModule()->getMallocFreeFunction(),
         { captureCounterPointer }
     );

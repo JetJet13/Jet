@@ -23,6 +23,8 @@ public:
     bool isReferenced() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     llvm::BinaryOperator* getValue() override;
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();

@@ -53,6 +53,14 @@ TypeSignature* IRObjectAccessInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRObjectAccessInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRObjectAccessInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRObjectAccessInvocationExpressionNode::getNodeType() {
     return IR_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE;
 }

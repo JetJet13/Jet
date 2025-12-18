@@ -54,15 +54,15 @@ void IRBlockNode::addReturnExpression(IRFunctionReturnExpressionNode* returnExpr
 }
 
 void IRBlockNode::addExpressionToFree(IRExpressionNode* expressionNode) {
-    _expressionsToFree.push_back(expressionNode);
+    _expressionsToFree.insert(_expressionsToFree.begin(), expressionNode);
 }
 
 void IRBlockNode::addVariableToFree(IRVariableDeclarationNode* variableNode) {
-    _variablesToFree.push_back(variableNode);
+    _variablesToFree.insert(_variablesToFree.begin(), variableNode);
 }
 
 void IRBlockNode::addLambdaVariableToFree(IRVariableDeclarationNode* variableNode) {
-    _lambdaVariablesToFree.push_back(variableNode);
+    _lambdaVariablesToFree.insert(_lambdaVariablesToFree.begin(), variableNode);
 }
 
 std::vector<IRExpressionNode*>* IRBlockNode::getExpressionsToFree() {
@@ -72,7 +72,7 @@ std::vector<IRExpressionNode*>* IRBlockNode::getExpressionsToFree() {
         if (successorBlock->is(IR_BASIC_BT)) {
             auto moreExpressionsToFree = successorBlock->getExpressionsToFree();
             allExpressionsToFree->insert(
-                    allExpressionsToFree->end(),
+                    allExpressionsToFree->begin(),
                     moreExpressionsToFree->begin(),
                     moreExpressionsToFree->end()
             );
@@ -89,7 +89,7 @@ std::vector<IRVariableDeclarationNode*>* IRBlockNode::getVariablesToFree() {
         if (successorBlock->is(IR_BASIC_BT)) {
             auto moreVariablesToFree = successorBlock->getVariablesToFree();
             allVariablesToFree->insert(
-                    allVariablesToFree->end(),
+                    allVariablesToFree->begin(),
                     moreVariablesToFree->begin(),
                     moreVariablesToFree->end()
             );
@@ -106,7 +106,7 @@ std::vector<IRVariableDeclarationNode*>* IRBlockNode::getLambdaVariablesToFree()
         if (successorBlock->is(IR_BASIC_BT)) {
             auto moreLambdaVariablesToFree = successorBlock->getLambdaVariablesToFree();
             allLambdaVariablesToFree->insert(
-                allLambdaVariablesToFree->end(),
+                allLambdaVariablesToFree->begin(),
                 moreLambdaVariablesToFree->begin(),
                 moreLambdaVariablesToFree->end()
             );

@@ -32,6 +32,8 @@ public:
     unsigned long getTargetKeyIndex();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     IRType* getTargetIRType();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;

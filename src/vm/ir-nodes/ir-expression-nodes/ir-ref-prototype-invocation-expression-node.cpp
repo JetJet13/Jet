@@ -49,6 +49,14 @@ TypeSignature* IRRefPrototypeInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRRefPrototypeInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRRefPrototypeInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRRefPrototypeInvocationExpressionNode::getNodeType() {
     return IR_REF_PROTOTYPE_INVOCATION_EXPRESSION_NODE;
 }

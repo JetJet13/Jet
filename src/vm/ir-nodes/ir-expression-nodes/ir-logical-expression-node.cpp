@@ -31,6 +31,14 @@ TypeSignature* IRLogicalExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRLogicalExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRLogicalExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 llvm::BinaryOperator* IRLogicalExpressionNode::getValue() {
     return _irValue;
 }

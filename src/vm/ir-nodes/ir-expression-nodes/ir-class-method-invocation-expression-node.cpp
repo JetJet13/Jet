@@ -49,6 +49,14 @@ TypeSignature* IRClassMethodInvocationExpressionNode::getTypeSignature() {
     return _node->getName()->getTypeSignature()->getReturnType();
 }
 
+Position* IRClassMethodInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRClassMethodInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRClassMethodInvocationExpressionNode::getNodeType() {
     return IR_CLASS_METHOD_INVOCATION_EXPRESSION_NODE;
 }

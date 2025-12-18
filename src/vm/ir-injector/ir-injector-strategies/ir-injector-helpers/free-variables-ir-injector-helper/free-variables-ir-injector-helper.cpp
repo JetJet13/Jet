@@ -2,6 +2,7 @@
 // Created by Johny Georges on 2025-11-24.
 //
 
+#include "llvm/Support/raw_ostream.h"
 #include "free-variables-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../ir-type/ir-lambda-type.h"
@@ -62,11 +63,10 @@ void FreeIRInjectorHelper::freeBlockVariables(IRBlockNode* irBlockNode, std::vec
     for (auto variableToFree : *variablesToFree) {
         auto typeValue = irInjector->inject(irBlockNode, variableToFree->getAllocatedIRType());
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variableToFree->getIRValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
-
         irBlockNode->getBuilder()->get()->CreateCall(
                 irModule->getPrintDebugStringFunction(),
                 {
-                    irInjector->injectRawString(irBlockNode, "[free] " + variableToFree->getVariableName() + "\n")
+                    irInjector->injectRawString(irBlockNode, "[free-var] " + variableToFree->getVariableName() + " - " + irBlockNode->getBlock()->getParent()->getName().str() + "\n")
                 }
         );
         irBlockNode->getBuilder()->get()->CreateCall(
@@ -94,6 +94,15 @@ void FreeIRInjectorHelper::freeBlockExpressions(IRBlockNode* irBlockNode, std::v
     for (auto expressionToFree : *expressionsToFree) {
         auto typeValue = irInjector->inject(irBlockNode, expressionToFree->getIRType());
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(expressionToFree->getIRType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
+        std::string name = std::to_string(expressionToFree->getStartPosition()->getLine())
+                + ":"
+                + std::to_string(expressionToFree->getStartPosition()->getColumn());
+        irBlockNode->getBuilder()->get()->CreateCall(
+            irModule->getPrintDebugStringFunction(),
+            {
+                irInjector->injectRawString(irBlockNode, "[free-exp] "  + name + " - " + irBlockNode->getBlock()->getParent()->getName().str() + "\n")
+            }
+        );
         irBlockNode->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction(),
                 {

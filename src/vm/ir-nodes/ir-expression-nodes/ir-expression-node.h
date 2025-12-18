@@ -9,6 +9,7 @@
 #include "../ir-instruction-node.h"
 #include "../../ir-type/ir-pointer-type.h"
 #include "../../../core/type-signature/type-signature.h"
+#include "../../../core/lexeme/types/position.h"
 
 class IRExpressionNode : public IRNode {
 protected:
@@ -29,6 +30,8 @@ public:
     virtual llvm::Value* getValue() = 0;
     virtual IRType* getIRType() = 0;
     virtual TypeSignature* getTypeSignature() = 0;
+    virtual Position* getStartPosition() = 0;
+    virtual Position* getEndPosition() = 0;
 };
 
 #endif //JETLANG_IR_EXPRESSION_NODE_H

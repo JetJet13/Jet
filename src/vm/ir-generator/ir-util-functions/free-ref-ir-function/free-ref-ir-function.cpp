@@ -55,6 +55,10 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
         { refValuePointer, loadedUnderlyingType }
     );
     freeValueIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getMallocFreeFunction(),
+            { refValuePointer }
+    );
+    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
         irContext->getIRModule()->getMallocFreeFunction(),
         { refCounterPointer }
     );

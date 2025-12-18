@@ -30,6 +30,14 @@ TypeSignature* IRIdentifierExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRIdentifierExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRIdentifierExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 llvm::Type* IRIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
     auto type = _irValue->getIRType()->getUnderlyingType()->getType();
     if (type->isArrayTy()) {

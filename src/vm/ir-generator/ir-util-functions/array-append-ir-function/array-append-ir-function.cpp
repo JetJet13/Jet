@@ -17,23 +17,23 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
     auto pointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(),
-                                                {
-                                                    pointerType->getType(),
-                                                    pointerType->getType(),
-                                                    typeValueType->getType()
-                                                },
-                                                false);
+    auto functionType = llvm::FunctionType::get(
+        irGenerator->generateVoidType()->getType(),
+        {
+            pointerType->getType(),
+            pointerType->getType(),
+            typeValueType->getType()
+        },
+        false
+    );
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            ArrayAppendIRFunction::getArrayAppendIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
     auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), arrayElementTypeValue, typeValueType->getSizeInBytesIndex());
     auto sizeInBytes = InstructionIRInjectorHelper::injectLoad(intType, arrayElementSizeInBytesPointer, functionBlock);
-    //    auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
     auto oldNumElements = InstructionIRInjectorHelper::injectLoad(intType, numElementsPointer, functionBlock);
-//    auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto newNumElements = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, oldNumElements, irGenerator->generateIntConstant(1));
     auto oldArraySize = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction()->getFunctionType(),
@@ -58,7 +58,6 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
     );
 
     auto pointerToOldArray = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
-//    auto loadedPointerToOldArray = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldArray);
     auto loadedPointerToOldArray = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToOldArray, functionBlock);
     functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction(),
@@ -77,8 +76,6 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
             { loadedPointerToOldArray }
     );
     InstructionIRInjectorHelper::injectStore(newNumElements, numElementsPointer, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(newNumElements, numElementsPointer);
     InstructionIRInjectorHelper::injectStore(newArrayMalloc, pointerToOldArray, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);
     functionBlock->addVoidReturn();
 }

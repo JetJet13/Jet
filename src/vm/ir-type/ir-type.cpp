@@ -174,6 +174,10 @@ bool IRType::isStructType() {
     return false;
 }
 
+bool IRType::isStructPointerType() {
+    return false;
+}
+
 bool IRType::isEnumType() {
     return false;
 }

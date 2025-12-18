@@ -24,43 +24,47 @@ proc main() {
 proc testPrint() {
     const m = [1,2,3];
     const s = { foo: "bar", hello: 120, aa: [4, 5, 7], zz: ref 10, nested: { age: 4, color: "red" } };
-    const t = { 190, true, false, 'b' };
+    const t = { 190, true, false, 'b', "word", [10, 30, 20] };
     const classInstance = new MyClass(29, "Blue");
     const x = 999;
     const y = 6;
     print(classInstance);
-    //print(y);
-    //print(x);
-    //print(y);
-    //print(x);
-    //print(y, x, y);
-    //print(99, 22, 29, 44, 55, 66, 77, 88, 99);
-    //print(true, false, true, false, true);
-    //print('a', 'b', 'c', 'd', 'e');
-    //print("Al", "Bob", "Chris", "Dom", "Eric");
-    //print(200, "Al", true, 'c', false, "Eric", 90.092);
-    //print(m[1], 20);
-    //print(y, y, y);
-    //print(y, y, y);
-    //print(22);
-    //print(54.290);
-    //print('c');
-    //print(true);
-    //print(false);
-    //print("moo");
-    //print(m);
-    //print(ref m);
-    //print([5,6,7]);
-    //print([ref 5, ref 6, ref 7]);
-    //print([ [1,2,3], [4,5,6], [7,8,9] ]);
-    //print([ { a: 'a', b: 'b' }, { a: 'n', b: 'm' }, { a: 't', b: 'y' } ]);
-    //print(s);
-    //print(t);
-    //print(classInstance);
-    //print(ref classInstance);
-    //print([new OtherClass(), new OtherClass()]);
-    //print({ classInstance, classInstance });
-    //print([ classInstance, classInstance ]);
+    print(y);
+    print(x);
+    print(y);
+    print(x);
+    print(y, x, y);
+    print(99, 22, 29, 44, 55, 66, 77, 88, 99);
+    print(true, false, true, false, true);
+    print('a', 'b', 'c', 'd', 'e');
+    print("Al", "Bob", "Chris", "Dom", "Eric");
+    print(200, "Al", true, 'c', false, "Eric", 90.092);
+    print(m[1], 20);
+    print(y, y, y);
+    print(y, y, y);
+    print(22);
+    print(54.290);
+    print('c');
+    print(true);
+    print(false);
+    print("moo");
+    print(m);
+    print(ref m);
+    print([5,6,7]);
+    print([ref 5, ref 6, ref 7]);
+    print([ [1,2,3], [4,5,6], [7,8,9] ]);
+    print([ { a: 'a', b: 'b' }, { a: 'n', b: 'm' }, { a: 't', b: 'y' } ]);
+    print(s);
+    print([s, s]);
+    print({ s, s });
+    print(t);
+    print([t, t]);
+    print({ t, t });
+    print(classInstance);
+    print(ref classInstance);
+    print([new OtherClass(), new OtherClass()]);
+    print({ classInstance, classInstance });
+    print([ classInstance, classInstance ]);
 }
 
 proc testArrayPrototypeFunctions() {
@@ -70,48 +74,48 @@ proc testArrayPrototypeFunctions() {
     print("at index 1:", myArray[1]);
     print("size", myArray.size());
 
-    // todo - get this working
-    //myArray.append(15);
+    myArray.append(15);
+    assert(myArray.size() == 16);
     print("newSize (after append)", myArray.size());
     print("newValue", myArray[14], myArray[15]);
 
-    // todo - get this working
-    //myArray.prepend(-100);
+    myArray.prepend(-100);
+    assert(myArray.size() == 17);
     print("newSize (after prepend)", myArray.size());
     print("newValue", myArray[1], myArray[0]);
 
     myArray.drop(2);
-    assert(myArray.size() == 13);
-    assert(myArray == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+    assert(myArray.size() == 15);
+    assert(myArray == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
     print("newSize (after drop 2)", myArray.size());
     print("newValue", myArray[0], myArray[1], myArray[12], myArray[13]);
 
     myArray.dropLast(2);
-    assert(myArray.size() == 11);
-    assert(myArray == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    assert(myArray.size() == 13);
+    assert(myArray == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
     print("newSize (after dropLast 2)", myArray.size());
     print("newValue", myArray[0], myArray[10], myArray[11], myArray[12], myArray[13], myArray[14], myArray[15]);
 
     const takeExample = myArray.take(2);
-    assert(takeExample == [2, 3]);
+    assert(takeExample == [1, 2]);
     print("takeExample", takeExample[0], takeExample[1]);
 
     const takeLastExample = myArray.takeLast(2);
-    assert(takeLastExample == [11, 12]);
+    assert(takeLastExample == [12, 13]);
     print("takeLastExample", takeLastExample[0], takeLastExample[1]);
 
     const headExample = myArray.head();
     const sumHeadExample = headExample + 100;
-    assert(headExample == 2);
+    assert(headExample == 1);
     print("head", headExample, sumHeadExample);
 
     const lastExample = myArray.last();
     const sumLastExample = lastExample + 100;
-    assert(lastExample == 12);
+    assert(lastExample == 13);
     print("last", lastExample, sumLastExample);
 
     const myArrayTail = myArray.tail();
-    assert(myArrayTail == [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    assert(myArrayTail == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
     print("myArrayTail", myArrayTail.size(), myArrayTail[0], myArrayTail[1]);
 
     const oneArray = [1,2,3];
@@ -222,6 +226,7 @@ proc testRefFunctions() {
     assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo", myTuple.0, refMyTuple.0, refTupleFoo);
     myTuple.0 = 754;
+    assert(myTuple.0 == refTupleFoo);
     assert(refMyTuple == myTuple);
     assert(refMyTuple.refOf(myTuple));
     assert(refMyTuple.srefWith(srefMyTuple));
@@ -523,9 +528,9 @@ proc testRefCleanup() {
 
 main();
 testPrint();
-//testArrayPrototypeFunctions();
-//testCopyFunctions();
-//testRefFunctions();
+testArrayPrototypeFunctions();
+testCopyFunctions();
+testRefFunctions();
 //testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
 //complexCopy();
 //testLambdas();

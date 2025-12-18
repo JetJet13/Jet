@@ -57,6 +57,14 @@ TypeSignature* IRAggregateIdentifierExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRAggregateIdentifierExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRAggregateIdentifierExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 llvm::Type* IRAggregateIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
     return _arrayAllocation->getAllocatedType()->getArrayElementType();
 }

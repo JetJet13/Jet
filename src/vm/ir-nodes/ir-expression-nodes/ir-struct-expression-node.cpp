@@ -30,6 +30,14 @@ TypeSignature* IRStructExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRStructExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRStructExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() {
     return _irValue;
 }

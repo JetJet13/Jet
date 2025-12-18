@@ -26,6 +26,8 @@ public:
     llvm::Function* getValue() override;
     IRLambdaType* getIRType() override;
     LambdaExpressionTypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

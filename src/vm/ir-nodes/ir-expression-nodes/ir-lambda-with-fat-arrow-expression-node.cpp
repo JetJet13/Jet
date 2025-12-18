@@ -29,6 +29,14 @@ TypeSignature* IRLambdaWithFatArrowExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRLambdaWithFatArrowExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRLambdaWithFatArrowExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRLambdaWithFatArrowExpressionNode::getNodeType() {
     return IR_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE;
 }

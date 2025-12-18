@@ -46,6 +46,14 @@ TypeSignature* IRTupleExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRTupleExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRTupleExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRTupleExpressionNode::getNodeType() {
     return IR_TUPLE_EXPRESSION_NODE;
 }

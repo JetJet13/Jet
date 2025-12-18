@@ -48,6 +48,14 @@ TypeSignature* IRTupleAccessInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRTupleAccessInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRTupleAccessInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRTupleAccessInvocationExpressionNode::getNodeType() {
     return IR_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE;
 }

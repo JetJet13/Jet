@@ -41,8 +41,20 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
 }
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
-    if (irOperation->isOperandValue()) {
-        return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), irExpression->getValue(), irBlock);
+    if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isCopy()) {
+        auto irType = (IRClassInstanceType*)irExpression->getIRType()->getSourceType();
+        auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
+        auto typeValue = irInjector->inject(irBlock, irType);
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
+        irBlock->getBuilder()->get()->CreateCall(
+            irModule->getCopyValueFunction(),
+            {
+                destinationPointerAllocation,
+                irExpression->getValue(),
+                loadedTypeValue
+            }
+        );
+        return InstructionIRInjectorHelper::injectLoad(irType->getType(), destinationPointerAllocation, irBlock);
     }
     return irExpression->getValue();
 }

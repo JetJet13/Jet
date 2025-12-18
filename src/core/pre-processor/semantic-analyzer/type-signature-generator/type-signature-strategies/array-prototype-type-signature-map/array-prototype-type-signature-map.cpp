@@ -6,6 +6,7 @@
 #include "../../../../../type-signature/literal-type-signature/int-literal-type-signature.h"
 #include "../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../type-signature/literal-type-signature/bool-literal-type-signature.h"
+#include "../../../../../type-signature/void-type-signature/void-type-signature.h"
 
 std::optional<FunctionTypeSignature*> ArrayPrototypeTypeSignatureMap::find(std::string id, TypeSignature* elementType) {
     if (id == "drop" || id == "dropLast") {
@@ -13,7 +14,7 @@ std::optional<FunctionTypeSignature*> ArrayPrototypeTypeSignatureMap::find(std::
                 new ParameterListTypeSignature({
                     new ParameterListItemTypeSignature("num", new IntLiteralTypeSignature())
                 }),
-                new ArrayTypeSignature(elementType)
+                new VoidTypeSignature()
         );
         dropTypeSignature->markAsPrototype();
         return dropTypeSignature;
@@ -35,7 +36,7 @@ std::optional<FunctionTypeSignature*> ArrayPrototypeTypeSignatureMap::find(std::
                 new ParameterListTypeSignature({
                     new ParameterListItemTypeSignature("value", elementType)
                 }),
-                new ArrayTypeSignature(elementType)
+                new VoidTypeSignature()
         );
         appendTypeSignature->markAsPrototype();
         return appendTypeSignature;

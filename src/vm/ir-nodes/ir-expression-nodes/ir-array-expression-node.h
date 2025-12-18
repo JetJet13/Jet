@@ -31,6 +31,8 @@ public:
     IRInstructionNode* getAggregatePointerAllocation();
     IRArrayPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     unsigned long size();
     llvm::Type* getTypeAtIndex(unsigned long index) override;
     IRNodeType getNodeType() override;

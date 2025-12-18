@@ -60,6 +60,14 @@ TypeSignature* IRBinaryComparisonExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRBinaryComparisonExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRBinaryComparisonExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRBinaryComparisonExpressionNode::getNodeType() {
     return IR_BINARY_COMPARISON_EXPRESSION_NODE;
 }

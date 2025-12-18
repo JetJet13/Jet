@@ -6,11 +6,9 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-type/ir-type-value-type.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../../../ir-type/ir-function-parameter-type.h"
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRType* irType, IRBlockNode* irBlock) {
     if (irType->getValue()->isInserted()) {
-        Logger::log("IS INSERTED TYPE VALUE!");
         return irType->getValue()->getValue();
     } else if (irType->isArrayPointerType()) {
         return this->inject((IRArrayPointerType*)irType, irBlock);

@@ -24,6 +24,8 @@ public:
     IRInstructionNode* getIRValue();
     IRRefType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;

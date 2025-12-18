@@ -24,6 +24,8 @@ public:
     bool isReferenced() override;
     IRArrayPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     llvm::Constant* getValue() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRInstructionNode* getSourceAggregateAllocation();

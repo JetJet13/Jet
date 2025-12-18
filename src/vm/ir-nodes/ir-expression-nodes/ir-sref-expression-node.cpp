@@ -33,6 +33,14 @@ TypeSignature* IRSrefExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRSrefExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRSrefExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 std::optional<IRInstructionNode*> IRSrefExpressionNode::getSourceAllocation() {
     return _irValue;
 }

@@ -42,14 +42,4 @@ IRInstructionNode* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayEx
 
 IRInstructionNode* ArrayExpressionIRStrategy::generateArrayPointerAllocation(ASTArrayExpressionNode* node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRInstructionNode* arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irArrayPointerType), arrayAllocation);
-//    auto malloc = llvm::CallInst::Create(
-//            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
-//            irContext->getIRModule()->getMallocFunction(),
-//            { irGenerator->generateInt64Constant(irArrayPointerType->getSizeInBytes()) }
-//    );
-//    return IRInstructionNodeFactory::create(
-//            malloc,
-//            irGenerator->generateIrPointerType(irArrayPointerType),
-//            arrayAllocation
-//    );
 }

@@ -57,6 +57,14 @@ TypeSignature* IRObjectAccessExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRObjectAccessExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRObjectAccessExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRType* IRObjectAccessExpressionNode::getTargetIRType() {
     if (_irSource->getUnderlyingIRType()->isClassInstanceType()) {
         return ((IRClassInstanceType*)_irSource->getUnderlyingIRType())->getIRTypeForProperty(_targetKey);

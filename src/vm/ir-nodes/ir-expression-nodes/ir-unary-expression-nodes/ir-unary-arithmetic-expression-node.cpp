@@ -32,6 +32,14 @@ TypeSignature* IRUnaryArithmeticExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRUnaryArithmeticExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRUnaryArithmeticExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRUnaryArithmeticExpressionNode::getNodeType() {
     return IR_UNARY_ARITHMETIC_EXPRESSION_NODE;
 }

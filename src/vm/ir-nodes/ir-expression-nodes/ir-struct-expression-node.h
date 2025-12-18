@@ -24,6 +24,8 @@ public:
     bool isReferenced() override;
     IRStructType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     unsigned long size();
     llvm::Value* getValue() override;

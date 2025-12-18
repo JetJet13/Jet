@@ -51,6 +51,14 @@ TypeSignature* IRArrayExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRArrayExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRArrayExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 unsigned long IRArrayExpressionNode::size() {
     return _irValues.size();
 }

@@ -51,6 +51,14 @@ TypeSignature* IRArrayAccessExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRArrayAccessExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRArrayAccessExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRArrayAccessExpressionNode::getNodeType() {
     return IR_ARRAY_ACCESS_EXPRESSION_NODE;
 }

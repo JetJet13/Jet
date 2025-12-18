@@ -21,6 +21,8 @@ public:
     bool isReferenced() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
     llvm::Constant* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

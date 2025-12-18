@@ -48,6 +48,7 @@ public:
     bool isLiteralType();
     virtual bool isArrayType();
     virtual bool isStructType();
+    virtual bool isStructPointerType();
     virtual bool isEnumType();
     virtual bool isModuleType();
     virtual bool isPointerType();

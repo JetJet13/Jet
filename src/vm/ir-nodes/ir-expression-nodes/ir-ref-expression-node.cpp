@@ -32,6 +32,14 @@ TypeSignature* IRRefExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRRefExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRRefExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 std::optional<IRInstructionNode*> IRRefExpressionNode::getSourceAllocation() {
     return _irValue;
 }

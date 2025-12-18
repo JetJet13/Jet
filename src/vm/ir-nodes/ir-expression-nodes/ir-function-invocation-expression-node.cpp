@@ -53,6 +53,14 @@ FunctionInvocationTypeSignature* IRFunctionInvocationExpressionNode::getTypeSign
     return _node->getTypeSignature();
 }
 
+Position* IRFunctionInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRFunctionInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 IRNodeType IRFunctionInvocationExpressionNode::getNodeType() {
     return IR_FUNCTION_INVOCATION_EXPRESSION_NODE;
 }

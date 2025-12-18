@@ -22,6 +22,14 @@ TypeSignature* IRLiteralExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
+Position* IRLiteralExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRLiteralExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
 llvm::Constant* IRLiteralExpressionNode::getValue() {
     return _irValue->getConstantIRValue();
 }
