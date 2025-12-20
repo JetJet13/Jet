@@ -16,5 +16,4 @@ public:
     static void generateCopyStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
 };
 
-
 #endif //JETLANG_COPY_STRUCT_IR_FUNCTION_H

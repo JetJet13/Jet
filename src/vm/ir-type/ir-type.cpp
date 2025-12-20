@@ -174,7 +174,7 @@ bool IRType::isStructType() {
     return false;
 }
 
-bool IRType::isStructPointerType() {
+bool IRType::isStructRefType() {
     return false;
 }
 

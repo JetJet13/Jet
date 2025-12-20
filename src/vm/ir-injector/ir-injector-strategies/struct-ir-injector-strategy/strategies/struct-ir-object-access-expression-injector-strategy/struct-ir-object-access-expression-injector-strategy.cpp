@@ -5,6 +5,7 @@
 #include "struct-ir-object-access-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h"
 
 llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irOperation->isRefAssignment()) {
@@ -20,7 +21,7 @@ llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObject
     auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     return StructIRInjectorHelper::injectStructCopy(
             irBlock,
-            (IRStructType*)irExpression->getSource()->getIRType(),
+            (IRStructRefType*)irExpression->getSource()->getIRType(),
             loadedSourceAllocation,
             irModule,
             irInjector
@@ -29,15 +30,12 @@ llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObject
 
 llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::injectRef(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getUnderlyingIRType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
-    irBlock->getBuilder()->get()->Insert(pointer);
-    return pointer;
+    return ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
 }
 
 llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::injectOperand(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto pointer = llvm::GetElementPtrInst::CreateInBounds(irExpression->getSource()->getUnderlyingIRType()->getType(), sourceAllocation, { irBlock->getBuilder()->get()->getInt64(0), irExpression->getIRTargetKeyIndex() });
-    irBlock->getBuilder()->get()->Insert(pointer);
+    auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
     if (irOperation->isOperandValue()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
     }

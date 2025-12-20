@@ -6,16 +6,30 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(IRTupleExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto tupleExpressionAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
+    auto tupleRefAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
+    auto tupleAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue()->getParentAllocation().value(), irBlock);
     auto numElements = irExpression->size();
     for (int i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
-        auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleExpressionAllocation, i);
+        auto irTypeAtIndex = irExpression->getIRType()->getStructIRType()->getIRTypeByIndex(i);
+        auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getStructIRType()->getType(), tupleAllocation, i);
         auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
-        InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irExpressionAtIndex->getIRType());
+        InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irTypeAtIndex);
     }
+
+    auto pointerToTuplePointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleRefAllocation, irExpression->getIRType()->getStructIndex());
+    InstructionIRInjectorHelper::injectStore(tupleAllocation, pointerToTuplePointer, irBlock);
+    auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleRefAllocation, irExpression->getIRType()->getCounterIndex());
+    auto counterSize = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getCounterIRType()->getSizeInBytes());
+    auto counterAllocation = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            { counterSize }
+    );
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(1), counterAllocation, irBlock, irExpression->getIRType()->getCounterIRType());
+    InstructionIRInjectorHelper::injectStore(counterAllocation, pointerToCounterPointer, irBlock);
+
     if (irOperation->isOperandPointer()) {
-        return tupleExpressionAllocation;
+        return tupleRefAllocation;
     }
-    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), tupleExpressionAllocation, irBlock, irExpression->getIRType());
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), tupleRefAllocation, irBlock, irExpression->getIRType());
 }

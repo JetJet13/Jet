@@ -4,6 +4,7 @@
 
 #include "ir-struct-type.h"
 #include "../../shared/utils/logger/logger.h"
+#include "ir-struct-pointer-type.h"
 
 IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap) : IRType(type) {
     _type = type;
@@ -25,8 +26,8 @@ void IRStructType::setAlignmentAndSizeForIRTypes() {
     for (int i = 0; i < this->size(); ++i) {
         auto currentType = this->getIRTypeByIndex(i);
         currentType->setAlignmentOverride(alignment);
-        if (currentType->isStructType()) {
-            ((IRStructType*)currentType)->setAlignmentAndSizeForIRTypes();
+        if (currentType->isStructRefType()) {
+            ((IRStructRefType*)currentType)->getStructIRType()->setAlignmentAndSizeForIRTypes();
         }
 
         auto nextTypeSize = i + 1 < this->size() ? this->getIRTypeByIndex(i+1)->getSizeInBytes() : 0;

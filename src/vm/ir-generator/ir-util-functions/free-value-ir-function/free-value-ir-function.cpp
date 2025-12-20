@@ -30,6 +30,8 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
     auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
     auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
@@ -88,6 +90,22 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             }
     );
 
+    auto isValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            typeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
+    );
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), structIfBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(structRefIfThenBlock, "FREEING STRUCT_REF!", irGenerator->getInjector(), irModuleNode);
+    structRefIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getFreeStructRefFunction()->getFunctionType(),
+            irContext->getIRModule()->getFreeStructRefFunction(),
+            {
+                function->getArg(0),
+                function->getArg(1)
+            }
+    );
+
     auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             typeValueId,
@@ -122,6 +140,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 

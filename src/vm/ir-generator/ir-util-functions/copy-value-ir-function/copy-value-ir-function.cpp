@@ -29,6 +29,8 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
     auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
     auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, "lambda.");
@@ -88,6 +90,22 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
             }
     );
 
+    auto isValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            typeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
+    );
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), structIfBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getCopyStructRefFunction()->getFunctionType(),
+            irContext->getIRModule()->getCopyStructRefFunction(),
+            {
+                function->getArg(0),
+                function->getArg(1),
+                function->getArg(2)
+            }
+    );
+
     auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             typeValueId,
@@ -133,6 +151,7 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     literalIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     pointerIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     lambdaIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());

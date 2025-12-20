@@ -8,7 +8,7 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/Constants.h>
 #include "ir-expression-node.h"
-#include "../../ir-type/ir-struct-type.h"
+#include "../../ir-type/ir-struct-pointer-type.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
 
 class IRClassPropertyAccessExpressionNode : public IRExpressionNode {

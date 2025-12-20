@@ -12,7 +12,8 @@
 
 class TupleExpressionIRStrategy {
 private:
-    IRInstructionNode* generateTupleAllocation(ASTTupleExpressionNode* node, IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    IRInstructionNode* generateTupleAllocation(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    IRInstructionNode* generateTuplePointerAllocation(ASTTupleExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
     IRTupleExpressionNode* generate(ASTTupleExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };

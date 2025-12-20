@@ -12,6 +12,7 @@
 
 class RefIRRefExpressionInjectorStrategy {
 private:
+    void setupRef(llvm::Value* allocation, llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IRModuleNode *irModule);
     llvm::Value* injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 public:
     llvm::Value* inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);

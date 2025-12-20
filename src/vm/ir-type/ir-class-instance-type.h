@@ -7,15 +7,16 @@
 
 #include "ir-type.h"
 #include "ir-class-type.h"
+#include "ir-struct-pointer-type.h"
 
 class IRClassInstanceType : public IRType {
 private:
-    IRStructType* _irClassInstancePropertiesType;
+    IRStructRefType* _irClassInstancePropertiesType;
     IRClassType* _irClassType;
     IRFunctionType* _irConstructorType;
 public:
-    IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructType* irClassInstancePropertiesType);
-    IRStructType* getIRClassPropertiesType();
+    IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructRefType* irClassInstancePropertiesType);
+    IRStructRefType* getIRClassPropertiesType();
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();
     std::string getIRMethodName(std::string methodName);

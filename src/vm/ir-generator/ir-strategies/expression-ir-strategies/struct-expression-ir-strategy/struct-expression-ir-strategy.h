@@ -12,7 +12,8 @@
 
 class StructExpressionIRStrategy {
 private:
-    IRInstructionNode* generateStructAllocation(ASTStructExpressionNode* node, IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    IRInstructionNode* generateStructAllocation(IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext);
+    IRInstructionNode* generateStructRefAllocation(ASTStructExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
     IRStructExpressionNode* generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };

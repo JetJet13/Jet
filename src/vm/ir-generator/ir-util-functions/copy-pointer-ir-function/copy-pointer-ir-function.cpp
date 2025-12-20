@@ -44,6 +44,5 @@ void CopyPointerIRFunction::generateCopyPointerFunction(IRGenerator* irGenerator
             { destinationValuePointer, loadedUnderlyingSourcePointer, loadedUnderlyingType }
     );
     InstructionIRInjectorHelper::injectStore(destinationValuePointer, function->getArg(0), functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(destinationValuePointer, function->getArg(0));
-    functionBlock->getBuilder()->get()->CreateRet(function->getArg(0));
+    functionBlock->addVoidReturn();
 }

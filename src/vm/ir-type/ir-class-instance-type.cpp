@@ -5,7 +5,7 @@
 #include "ir-class-instance-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructType* irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
+IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructRefType* irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
     _id = irClassType->getId();
     _irClassInstancePropertiesType = irClassInstancePropertiesType;
     _irClassType = irClassType;
@@ -13,7 +13,7 @@ IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionTyp
     _value = irClassType->getClassProperties()->getValue();
 }
 
-IRStructType* IRClassInstanceType::getIRClassPropertiesType() {
+IRStructRefType* IRClassInstanceType::getIRClassPropertiesType() {
     return _irClassInstancePropertiesType;
 }
 
@@ -34,11 +34,11 @@ std::string IRClassInstanceType::getIRPropertyName(std::string propertyName) {
 }
 
 unsigned long IRClassInstanceType::getIndexForProperty(std::string propertyName) {
-    return _irClassInstancePropertiesType->getIndexForKey(this->getIRPropertyName(propertyName));
+    return _irClassInstancePropertiesType->getStructIRType()->getIndexForKey(this->getIRPropertyName(propertyName));
 }
 
 IRType* IRClassInstanceType::getIRTypeForProperty(std::string propertyName) {
-    return _irClassInstancePropertiesType->getIRTypeForKey(this->getIRPropertyName(propertyName));
+    return _irClassInstancePropertiesType->getStructIRType()->getIRTypeForKey(this->getIRPropertyName(propertyName));
 }
 
 std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {

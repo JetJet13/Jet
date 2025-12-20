@@ -11,7 +11,7 @@
 
 class TupleTypeSignatureIRStrategy {
 public:
-    IRStructType* generate(TupleTypeSignature* tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStructRefType* generate(TupleTypeSignature* tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRTypeValueInstructionNode* generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 

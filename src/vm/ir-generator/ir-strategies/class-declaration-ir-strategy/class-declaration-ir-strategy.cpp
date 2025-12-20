@@ -38,11 +38,13 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
     if (!irClassType->getClassScopeParameterType()) {
         return;
     }
+    auto pointerType = irGenerator->generatePointerType();
+    auto classInstanceIrType = (IRStructRefType*)irClassType->getClassScopeParameterType().value()->getIRType()->getSourceType();
     auto preConstructorScope = new IRLookupTable();
     preConstructorScope->inherit(scope);
     auto functionType = llvm::FunctionType::get(
             llvm::Type::getVoidTy(**irContext->getContext()),
-            { irClassType->getClassScopeParameterType().value()->getType() },
+            { pointerType },
             false
     );
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
@@ -52,16 +54,19 @@ void ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode*
     auto classScopeParameterAllocation = IRInstructionNodeFactory::create(irClassType->getClassScopeParameterType().value()->getIRType());
     preConstructorScope->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
     irGenerator->getInjector()->inject(functionBlock, new IRFunctionParameterDeclarationNode(irFunction->getArg(0), classScopeParameterAllocation), irContext->getIRModule(), preConstructorScope);
-    auto zeroIndex = irGenerator->generateIntConstant(0);
+
+    auto classInstancePropertiesAlloc = InstructionIRInjectorHelper::injectLoad(classScopeParameterAllocation->getAllocatedType(), classScopeParameterAllocation->getValue(), functionBlock);
+    auto pointerToClassInstancePropertiesAlloc = functionBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getType(), classInstancePropertiesAlloc, classInstanceIrType->getStructIndex());
+    auto classInstancePropertiesStructAlloc = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToClassInstancePropertiesAlloc, functionBlock);
+
+
     for (auto property : *node->getBlock()->getProperties()) {
         if (property->getInitializer()) {
-            auto propertyIndex = irGenerator->generateIntConstant(irClassType->getClassProperties()->getIndexForKey(property->getId()));
-            auto loadedPointerToProperty = InstructionIRInjectorHelper::injectLoad(classScopeParameterAllocation->getIRType()->getType(), classScopeParameterAllocation->getValue(), functionBlock);
-            auto pointerToProperty = llvm::GetElementPtrInst::CreateInBounds(classScopeParameterAllocation->getIRType()->getUnderlyingType()->getType(), loadedPointerToProperty, { zeroIndex, propertyIndex });
+            auto propertyIndex = irClassType->getClassProperties()->getIndexForKey(property->getId());
+            auto pointerToProperty = functionBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getStructIRType()->getType(), classInstancePropertiesStructAlloc, propertyIndex);
             auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
             irExpression->markAsAssigned();
             auto irExpressionValue = irGenerator->getInjector()->inject(functionBlock, irExpression, new IROperation(IR_OPERAND_VALUE_OP), irContext->getIRModule(), preConstructorScope);
-            functionBlock->getBuilder()->get()->Insert(pointerToProperty);
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, functionBlock);
         }
     }

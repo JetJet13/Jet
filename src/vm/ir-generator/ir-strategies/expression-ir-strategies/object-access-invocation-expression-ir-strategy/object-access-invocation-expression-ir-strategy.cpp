@@ -10,6 +10,7 @@
 #include "../../../../ir-type/ir-class-instance-type.h"
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h"
+#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRExpressionNode*>();
@@ -40,13 +41,28 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = (IRClassInstanceType*)sourceType;
         auto irFunctionType = classInstanceType->getIRTypeForMethod(functionId).value();
-        auto irFunction = irContext->getModule()->getFunction(classInstanceType->getIRMethodName(functionId));
+        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(classInstanceType->getIRMethodName(functionId)), irGenerator->generateIrPointerType(irFunctionType));
         return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType, sourceValue);
+    } else if (sourceType->isStructRefType()) {
+        auto irStructRefType = (IRStructRefType*)sourceType;
+        auto targetIndex = irStructRefType->getStructIRType()->getIndexForKey(node->getName());
+        auto irFunctionType = irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
+        auto irStructAllocPointer = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(irStructRefType->getStructIndex()) });
+        auto loadedStructAlloc = new llvm::LoadInst(irStructRefType->getStructType(), irStructAllocPointer, "", false, irStructRefType->getAlignment());
+        auto irFunction = IRInstructionNodeFactory::create(
+                llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedStructAlloc, { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) }),
+                irGenerator->generateIrPointerType(irFunctionType),
+                { irStructAllocPointer, loadedStructAlloc }
+        );
+        return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
+    } else {
+        auto irStructType = (IRStructType*)sourceType;
+        auto targetIndex = irStructType->getIndexForKey(node->getName());
+        auto irFunctionType = irStructType->getIRTypeForKey(node->getName());
+        auto irFunction = IRInstructionNodeFactory::create(
+                llvm::GetElementPtrInst::CreateInBounds(irStructType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) }),
+                irGenerator->generateIrPointerType()
+        );
+        return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
     }
-
-    auto irStructType = (IRStructType*)sourceType;
-    auto targetIndex = irStructType->getIndexForKey(node->getName());
-    auto irFunctionType = irStructType->getIRTypeForKey(node->getName());
-    auto irFunction = llvm::GetElementPtrInst::CreateInBounds(irStructType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });
-    return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
 }

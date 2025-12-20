@@ -633,6 +633,14 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h
         ir-type/ir-struct-pointer-type.cpp
         ir-type/ir-struct-pointer-type.h
+        ir-generator/ir-util-functions/setup-ref-for-struct-ir-function/setup-ref-for-struct-ir-function.cpp
+        ir-generator/ir-util-functions/setup-ref-for-struct-ir-function/setup-ref-for-struct-ir-function.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h
+        ir-generator/ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.cpp
+        ir-generator/ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.h
+        ir-generator/ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.cpp
+        ir-generator/ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.h
 )
 
 target_link_libraries(jet-vm

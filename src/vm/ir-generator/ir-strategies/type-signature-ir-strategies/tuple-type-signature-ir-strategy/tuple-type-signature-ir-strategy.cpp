@@ -6,7 +6,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/md5/md5.h"
 
-IRStructType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRStructRefType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto tupleElementTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
@@ -19,11 +19,13 @@ IRStructType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTy
         keyTypeMap.insert(std::pair(key, tupleElementIrType));
     }
 
-    auto structType = new IRStructType(llvm::StructType::create(**irContext->getContext(), tupleElementTypes), keyIndexMap, keyTypeMap);
+    auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), tupleElementTypes), keyIndexMap, keyTypeMap);
     structType->setAlignmentAndSizeForIRTypes();
     structType->setKeyId(tupleTypeSignature->getKeyId());
     structType->setValue(this->generateTypeValue(structType, irGenerator, irContext));
-    return structType;
+    auto structRefType = irGenerator->generateIRStructRefType(structType);
+    structRefType->setValue(irGenerator->generateIRTypeValueFor(structRefType, irContext));
+    return structRefType;
 }
 
 IRTypeValueInstructionNode* TupleTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {

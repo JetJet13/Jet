@@ -5,6 +5,7 @@
 #include "struct-ir-identifier-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../../ir-type/ir-struct-pointer-type.h"
 
 llvm::Value* StructIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irOperation->isRefAssignment()) {
@@ -19,7 +20,7 @@ llvm::Value* StructIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierEx
 llvm::Value* StructIRIdentifierExpressionInjectorStrategy::injectCopy(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     return StructIRInjectorHelper::injectStructCopy(
             irBlock,
-            (IRStructType*)irExpression->getUnderlyingIRType(),
+            (IRStructRefType*)irExpression->getUnderlyingIRType(),
             irExpression->getValue(),
             irModule,
             irInjector
@@ -38,7 +39,7 @@ llvm::Value* StructIRIdentifierExpressionInjectorStrategy::injectOperand(IRIdent
             auto typeValue = irInjector->inject(irBlock, irType);
             auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
             irBlock->getBuilder()->get()->CreateCall(
-                    irModule->getCopyStructFunction(),
+                    irModule->getCopyStructRefFunction(),
                     {
                         destinationPointerAllocation,
                         irExpression->getValue(),

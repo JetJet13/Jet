@@ -124,6 +124,9 @@
 #include "ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.h"
 #include "ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.h"
 #include "ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
+#include "ir-util-functions/setup-ref-for-struct-ir-function/setup-ref-for-struct-ir-function.h"
+#include "ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.h"
+#include "ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -139,6 +142,10 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
             this->generateIntType(),
             this->generatePointerType()
     }, "ArrayPointer");
+    _structRefType = llvm::StructType::create(*_context, {
+            this->generatePointerType(),
+            this->generatePointerType(),
+    }, "StructRef");
     _typeValueType = llvm::StructType::create(*_context, {
             this->generateIntType(),
             this->generateIntType(),
@@ -396,11 +403,11 @@ IRStructType* IRGenerator::generateTypeFor(InterfaceTypeSignature* typeSignature
     return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRStructRefType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRStructRefType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
@@ -521,6 +528,8 @@ IRTypeValueInstructionNode* IRGenerator::generateIRTypeValueFor(IRType* irType, 
         return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue((IRRefType*)irType, this, irContext);
     } else if (irType->isStructType()) {
         return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue((IRStructType*)irType, this, irContext);
+    } else if (irType->isStructRefType()) {
+        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue((IRStructRefType*)irType, this, irContext);
     } else if (irType->isArrayPointerType()) {
         return this->_irStrategyMap.getArrayTypeSignatureIRStrategy()->generateTypeValue((IRArrayPointerType*)irType, this, irContext);
     } else if (irType->isPointerType()) {
@@ -606,7 +615,31 @@ IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElement
     return irArrayPointerType;
 }
 
+IRStructRefType* IRGenerator::generateIRStructRefType(IRStructType* irStructType) {
+    return new IRStructRefType(
+        this->getStructRefType(),
+        this->generateIRStructRefCounterType(),
+        irStructType
+    );
+}
+
+IRStructRefType* IRGenerator::generateIRStructRefType() {
+    return new IRStructRefType(
+            this->getStructRefType(),
+            this->generateIRStructRefCounterType(),
+            new IRStructType(
+                    llvm::StructType::get(*_context),
+                    std::unordered_map<std::string, unsigned long>(),
+                    std::unordered_map<std::string, IRType*>()
+            )
+    );
+}
+
 IRType* IRGenerator::generateIRCaptureCounterType() {
+    return new IRType(this->generateIntType());
+}
+
+IRType* IRGenerator::generateIRStructRefCounterType() {
     return new IRType(this->generateIntType());
 }
 
@@ -637,6 +670,10 @@ llvm::StructType* IRGenerator::generateArrayPointerType() {
 
 llvm::StructType* IRGenerator::getArrayPointerType() {
     return _arrayPointerType;
+}
+
+llvm::StructType* IRGenerator::getStructRefType() {
+    return _structRefType;
 }
 
 IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
@@ -719,6 +756,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             CopyPointerIRFunction::getCopyPointerIRFunctionName(),
             CopyLambdaIRFunction::getCopyLambdaIRFunctionName(),
             CopyStructIRFunction::getCopyStructIRFunctionName(),
+            CopyStructRefIRFunction::getCopyStructRefIRFunctionName(),
             CopyValueIRFunction::getCopyValueIRFunctionName(),
             CopyStringIRFunction::getCopyStringIRFunctionName(),
             CopyRefIRFunction::getCopyRefIRFunctionName(),
@@ -726,6 +764,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             FreePointerIRFunction::getFreePointerIRFunctionName(),
             FreeLambdaIRFunction::getFreeLambdaIRFunctionName(),
             FreeStructIRFunction::getFreeStructIRFunctionName(),
+            FreeStructRefIRFunction::getFreeStructRefIRFunctionName(),
             FreeValueIRFunction::getFreeValueIRFunctionName(),
             FreeStringIRFunction::getFreeStringIRFunctionName(),
             FreeRefIRFunction::getFreeRefIRFunctionName(),
@@ -774,6 +813,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             MemcpyIRFunction::getMemcpyIRFunctionName(),
             SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName(),
+            SetupRefForStructIRFunction::getSetupRefForStructIRFunctionName(),
             RefOfIRFunction::getRefOfIRFunctionName(),
             SrefWithIRFunction::getSrefWithIRFunctionName(),
             SameRefAsIRFunction::getSameRefAsIRFunctionName(),
@@ -789,6 +829,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     CopyPointerIRFunction::declareCopyPointerFunction(this, &_context, irModule);
     CopyLambdaIRFunction::declareCopyLambdaFunction(this, &_context, irModule);
     CopyStructIRFunction::declareCopyStructFunction(this, &_context, irModule);
+    CopyStructRefIRFunction::declareCopyStructRefFunction(this, &_context, irModule);
     CopyRefIRFunction::declareCopyRefFunction(this, &_context, irModule);
     EqualValueIRFunction::declareEqualValueFunction(this, &_context, irModule);
     EqualArrayIRFunction::declareEqualArrayFunction(this, &_context, irModule);
@@ -802,6 +843,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreePointerIRFunction::declareFreePointerFunction(this, &_context, irModule);
     FreeLambdaIRFunction::declareFreeLambdaFunction(this, &_context, irModule);
     FreeStructIRFunction::declareFreeStructFunction(this, &_context, irModule);
+    FreeStructRefIRFunction::declareFreeStructRefFunction(this, &_context, irModule);
     FreeStringIRFunction::declareFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::declareFreeRefFunction(this, &_context, irModule);
     FreeCapturedVariableIRFunction::declareFreeCapturedVariableFunction(this, &_context, irModule);
@@ -819,16 +861,19 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
+    IncrementRefCountIRFunction::generateIncrementRefCountFunction(this, &_context, irModule);
     RefOfIRFunction::generateRefOfFunction(this, &_context, irModule);
     SrefWithIRFunction::generateSrefWithFunction(this, &_context, irModule);
     SameRefAsIRFunction::generateSameRefAsFunction(this, &_context, irModule);
     SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
+    SetupRefForStructIRFunction::generateSetupRefForStructFunction(this, &_context, irModule);
     CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
     CopyArrayIRFunction::generateCopyArrayFunction(this, &_context, irModule);
     CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
     CopyLambdaIRFunction::generateCopyLambdaFunction(this, &_context, irModule);
     CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
+    CopyStructRefIRFunction::generateCopyStructRefFunction(this, &_context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
     CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
     EqualValueIRFunction::generateEqualValueFunction(this, &_context, irModule);
@@ -843,6 +888,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
     FreeLambdaIRFunction::generateFreeLambdaFunction(this, &_context, irModule);
     FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
+    FreeStructRefIRFunction::generateFreeStructRefFunction(this, &_context, irModule);
     FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
     FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(this, &_context, irModule);
@@ -858,7 +904,6 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     ArrayTakeLastIRFunction::generateArrayTakeLastFunction(this, &_context, irModule);
     ArraySizeIRFunction::generateArraySizeFunction(this, &_context, irModule);
     ArrayEmptyIRFunction::generateArrayEmptyFunction(this, &_context, irModule);
-    IncrementRefCountIRFunction::generateIncrementRefCountFunction(this, &_context, irModule);
     GetRefCountIRFunction::generateGetRefCountFunction(this, &_context, irModule);
 }
 

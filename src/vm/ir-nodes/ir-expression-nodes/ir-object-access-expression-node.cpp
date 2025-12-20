@@ -68,6 +68,8 @@ Position* IRObjectAccessExpressionNode::getEndPosition() {
 IRType* IRObjectAccessExpressionNode::getTargetIRType() {
     if (_irSource->getUnderlyingIRType()->isClassInstanceType()) {
         return ((IRClassInstanceType*)_irSource->getUnderlyingIRType())->getIRTypeForProperty(_targetKey);
+    } else if (_irSource->getUnderlyingIRType()->isStructRefType()) {
+        return ((IRStructRefType*)_irSource->getUnderlyingIRType())->getStructIRType()->getIRTypeForKey(_targetKey);
     }
     return ((IRStructType*)_irSource->getUnderlyingIRType())->getIRTypeForKey(_targetKey);
 }

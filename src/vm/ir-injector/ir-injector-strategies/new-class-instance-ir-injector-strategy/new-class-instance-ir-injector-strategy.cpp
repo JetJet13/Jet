@@ -19,7 +19,20 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpr
 }
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
+    auto irStructRefType = irExpression->getIRType()->getIRClassPropertiesType();
     auto classInstanceAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation(), irBlock);
+    auto classInstancePropertiesAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation()->getParentAllocation().value(), irBlock);
+    auto pointerToClassInstancePropertiesPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), classInstanceAllocation, irStructRefType->getStructIndex());
+    InstructionIRInjectorHelper::injectStore(classInstancePropertiesAllocation, pointerToClassInstancePropertiesPointer, irBlock);
+    auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), classInstanceAllocation, irStructRefType->getCounterIndex());
+    auto counterSize = irBlock->getBuilder()->get()->getInt64(irStructRefType->getCounterIRType()->getSizeInBytes());
+    auto counterAllocation = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            { counterSize }
+    );
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(1), counterAllocation, irBlock, irExpression->getIRType()->getIRClassPropertiesType()->getCounterIRType());
+    InstructionIRInjectorHelper::injectStore(counterAllocation, pointerToCounterPointer, irBlock);
+
     auto preConstructorFunction = irModule->getModule()->getFunction(irExpression->getIRType()->getIRClassType()->getPreConstructorName());
     irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
 
@@ -33,6 +46,8 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
             irExpression->getConstructorFunction(),
             arguments
     );
+
+
     return InstructionIRInjectorHelper::injectLoad(
             irExpression->getClassInstanceAllocation()->getIRType()->getUnderlyingType()->getType(),
             classInstanceAllocation,

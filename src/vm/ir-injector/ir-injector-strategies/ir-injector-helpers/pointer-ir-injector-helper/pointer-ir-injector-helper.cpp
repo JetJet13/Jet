@@ -38,9 +38,9 @@ llvm::Value* PointerIRInjectorHelper::injectPointerCopy(IRBlockNode* irBlock, IR
         auto arrayPointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType));
         auto loadedArrayPointer = ArrayIRInjectorHelper::injectArrayCopy(irBlock, arrayPointerType, arrayPointerType->getElementIRType(), irModule,  loadedValue, arrayPointerAllocation, irInjector);
         InstructionIRInjectorHelper::injectStore(loadedArrayPointer->getValue(), newValueAllocation->getValue(), irBlock, newValueAllocation->getIRType()->getSourceType());
-    } else if (irPointerType->getUnderlyingType()->isStructType()) {
-        auto structType = (IRStructType*)irPointerType->getSourceType();
-        auto loadedNestedStruct = StructIRInjectorHelper::injectStructCopy(irBlock, structType, loadedValue, irModule, irInjector);
+    } else if (irPointerType->getUnderlyingType()->isStructRefType()) {
+        auto structRefType = (IRStructRefType*)irPointerType->getSourceType();
+        auto loadedNestedStruct = StructIRInjectorHelper::injectStructCopy(irBlock, structRefType, loadedValue, irModule, irInjector);
         InstructionIRInjectorHelper::injectStore(loadedNestedStruct, newValueAllocation->getValue(), irBlock, newValueAllocation->getIRType()->getUnderlyingType());
     } else {
         InstructionIRInjectorHelper::injectStore(loadedValue, newValueAllocation->getValue(), irBlock, newValueAllocation->getIRType()->getUnderlyingType());

@@ -13,28 +13,43 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
 
     auto function = irContext->getModule()->getFunction(node->getTypeSignature()->getConstructorId());
     auto irType = (IRClassInstanceType*)irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto allocation = this->generateClassInstanceAllocation(irType, irGenerator, irContext);
+    auto pointerAllocation = this->generateClassInstancePointerAllocation(node, irType, irGenerator, irContext, irOperation);
+    pointerAllocation->setParentAllocation(allocation);
     return new IRNewClassInstanceExpressionNode(
             node,
             function,
             irType->getIRConstructorType(),
             arguments,
             irType,
-            this->generateClassInstanceAllocation(node, irType->getIRClassType(), irGenerator, irContext, irOperation)
+            pointerAllocation
     );
 }
 
-IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(ASTNewClassInstanceExpressionNode* node, IRClassType* irClassType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(IRClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext) {
+    auto malloc = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+            irContext->getIRModule()->getMallocFunction(),
+            { irGenerator->generateInt64Constant(irClassInstanceType->getIRClassPropertiesType()->getStructIRType()->getSizeInBytes()) },
+            ""
+    );
+    return IRInstructionNodeFactory::create(
+            malloc,
+            irGenerator->generateIrPointerType(irClassInstanceType->getIRClassPropertiesType()->getStructIRType())
+    );
+}
+
+IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstancePointerAllocation(ASTNewClassInstanceExpressionNode* node, IRClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irClassType->getClassProperties()->getSizeInBytes()) },
-                ""
+                { irGenerator->generateInt64Constant(irClassInstanceType->getIRClassPropertiesType()->getStructIRType()->getSizeInBytes()) }
         );
         return IRInstructionNodeFactory::create(
                 malloc,
-                irGenerator->generateIrPointerType(irClassType)
+                irGenerator->generateIrPointerType(irClassInstanceType->getIRClassPropertiesType())
         );
     }
-    return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irClassType));
+    return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irClassInstanceType->getIRClassPropertiesType()));
 }

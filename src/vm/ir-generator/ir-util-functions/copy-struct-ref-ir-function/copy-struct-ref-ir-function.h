@@ -1,0 +1,20 @@
+//
+// Created by Johny Georges on 2025-12-19.
+//
+
+#ifndef JETLANG_COPY_STRUCT_REF_IR_FUNCTION_H
+#define JETLANG_COPY_STRUCT_REF_IR_FUNCTION_H
+
+#include <utility>
+#include "llvm/IR/IRBuilder.h"
+#include "../../ir-generator.h"
+
+class CopyStructRefIRFunction {
+public:
+    static std::string getCopyStructRefIRFunctionName();
+    static void declareCopyStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateCopyStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+};
+
+
+#endif //JETLANG_COPY_STRUCT_REF_IR_FUNCTION_H

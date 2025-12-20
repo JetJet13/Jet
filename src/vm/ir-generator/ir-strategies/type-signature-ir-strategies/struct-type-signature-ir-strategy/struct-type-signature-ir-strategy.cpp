@@ -6,7 +6,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/md5/md5.h"
 
-IRStructType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRStructRefType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
@@ -22,7 +22,9 @@ IRStructType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* struc
     structType->setAlignmentAndSizeForIRTypes();
     structType->setKeyId(structTypeSignature->getKeyId());
     structType->setValue(this->generateTypeValue(structType, irGenerator, irContext));
-    return structType;
+    auto structRefType = irGenerator->generateIRStructRefType(structType);
+    structRefType->setValue(this->generateTypeValue(structRefType, irGenerator, irContext));
+    return structRefType;
 }
 
 IRTypeValueInstructionNode* StructTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
@@ -39,6 +41,25 @@ IRTypeValueInstructionNode* StructTypeSignatureIRStrategy::generateTypeValue(IRS
             irType->hasId()
             ? irGenerator->getOrInsertGlobalVariableString(irType->getId(), irType->getId(), irContext)
             : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+    });
+    auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
+    return new IRTypeValueInstructionNode(
+            typeValueTypeAllocation,
+            irGenerator->generateIrPointerType(irTypeValueType),
+            storeInstruction
+    );
+}
+
+IRTypeValueInstructionNode* StructTypeSignatureIRStrategy::generateTypeValue(IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+    auto irTypeValueType = irGenerator->generateIrTypeValueType();
+    auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
+    auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF),
+            irGenerator->generateIntConstant(irType->getSizeInBytes()),
+            irGenerator->generateIntConstant(1),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
     return new IRTypeValueInstructionNode(

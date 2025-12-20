@@ -4,13 +4,14 @@
 
 #include "ir-module-node.h"
 
-IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyLambdaFunctionName, std::string copyStructFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeLambdaFunctionName, std::string freeStructFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string freeCapturedVariableFunctionName, std::string printFunctionName, std::string printIntFunctionName, std::string printFloatFunctionName, std::string printCharFunctionName, std::string printBoolFunctionName, std::string printStringFunctionName, std::string printRefFunctionName, std::string printArrayFunctionName, std::string printStructFunctionName, std::string printWhitespaceFunctionName, std::string printCommaFunctionName, std::string printNewLineFunctionName, std::string printDebugMarkerFunctionName, std::string printDebugPointerFunctionName, std::string printDebugStringFunctionName, std::string printDebugRefCountFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string equalValueFunctionName, std::string equalStringFunctionName, std::string equalArrayFunctionName, std::string equalStructFunctionName, std::string equalRefFunctionName, std::string equalRefLeftOnlyFunctionName, std::string equalRefRightOnlyFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName, std::string refOfFunctionName, std::string srefWithFunctionName, std::string sameRefAsFunctionName, std::string incrementRefCountFunctionName, std::string getRefCountFunctionName) {
+IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyLambdaFunctionName, std::string copyStructFunctionName, std::string copyStructRefFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeLambdaFunctionName, std::string freeStructFunctionName, std::string freeStructRefFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string freeCapturedVariableFunctionName, std::string printFunctionName, std::string printIntFunctionName, std::string printFloatFunctionName, std::string printCharFunctionName, std::string printBoolFunctionName, std::string printStringFunctionName, std::string printRefFunctionName, std::string printArrayFunctionName, std::string printStructFunctionName, std::string printWhitespaceFunctionName, std::string printCommaFunctionName, std::string printNewLineFunctionName, std::string printDebugMarkerFunctionName, std::string printDebugPointerFunctionName, std::string printDebugStringFunctionName, std::string printDebugRefCountFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string equalValueFunctionName, std::string equalStringFunctionName, std::string equalArrayFunctionName, std::string equalStructFunctionName, std::string equalRefFunctionName, std::string equalRefLeftOnlyFunctionName, std::string equalRefRightOnlyFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName, std::string setupRefForStructFunctionName, std::string refOfFunctionName, std::string srefWithFunctionName, std::string sameRefAsFunctionName, std::string incrementRefCountFunctionName, std::string getRefCountFunctionName) {
     _irValue = irValue;
     _arrayAccessFunctionName = arrayAccessFunctionName;
     _copyArrayFunctionName = copyArrayFunctionName;
     _copyPointerFunctionName = copyPointerFunctionName;
     _copyLambdaFunctionName = copyLambdaFunctionName;
     _copyStructFunctionName = copyStructFunctionName;
+    _copyStructRefFunctionName = copyStructRefFunctionName;
     _copyValueFunctionName = copyValueFunctionName;
     _copyStringFunctionName = copyStringFunctionName;
     _copyRefFunctionName = copyRefFunctionName;
@@ -18,6 +19,7 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _freePointerFunctionName = freePointerFunctionName;
     _freeLambdaFunctionName = freeLambdaFunctionName;
     _freeStructFunctionName = freeStructFunctionName;
+    _freeStructRefFunctionName = freeStructRefFunctionName;
     _freeValueFunctionName = freeValueFunctionName;
     _freeStringFunctionName = freeStringFunctionName;
     _freeRefFunctionName = freeRefFunctionName;
@@ -66,6 +68,7 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _memcpyFunctionName = memcpyFunctionName;
     _setupSrefFunctionName = setupSrefFunctionName;
     _setupRefFunctionName = setupRefFunctionName;
+    _setupRefForStructFunctionName = setupRefForStructFunctionName;
     _refOfFunctionName = refOfFunctionName;
     _srefWithFunctionName = srefWithFunctionName;
     _sameRefAsFunctionName = sameRefAsFunctionName;
@@ -97,6 +100,10 @@ llvm::Function* IRModuleNode::getCopyStructFunction() {
     return _irValue->getFunction(_copyStructFunctionName);
 }
 
+llvm::Function* IRModuleNode::getCopyStructRefFunction() {
+    return _irValue->getFunction(_copyStructRefFunctionName);
+}
+
 llvm::Function* IRModuleNode::getCopyValueFunction() {
     return _irValue->getFunction(_copyValueFunctionName);
 }
@@ -123,6 +130,10 @@ llvm::Function* IRModuleNode::getFreeLambdaFunction() {
 
 llvm::Function* IRModuleNode::getFreeStructFunction() {
     return _irValue->getFunction(_freeStructFunctionName);
+}
+
+llvm::Function* IRModuleNode::getFreeStructRefFunction() {
+    return _irValue->getFunction(_freeStructRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeValueFunction() {
@@ -315,6 +326,10 @@ llvm::Function* IRModuleNode::getSetupSrefFunction() {
 
 llvm::Function* IRModuleNode::getSetupRefFunction() {
     return _irValue->getFunction(_setupRefFunctionName);
+}
+
+llvm::Function* IRModuleNode::getSetupRefForStructFunction() {
+    return _irValue->getFunction(_setupRefForStructFunctionName);
 }
 
 llvm::Function* IRModuleNode::getRefOfFunction() {

@@ -17,11 +17,19 @@ IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObje
         auto irType = classInstanceType->getIRTypeForProperty(targetKey);
         auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
         return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
+    } else if (sourceType->isStructRefType()) {
+        auto structRefType = (IRStructRefType*)sourceType;
+        auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto targetIndex = structRefType->getStructIRType()->getIndexForKey(targetKey);
+        auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+        auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
+        return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
+    } else {
+        auto structType = (IRStructType*)sourceType;
+        auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto targetIndex = structType->getIndexForKey(targetKey);
+        auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+        auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
+        return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
     }
-    auto structType = (IRStructType*)sourceType;
-    auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
-    auto targetIndex = structType->getIndexForKey(targetKey);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-    return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
 }

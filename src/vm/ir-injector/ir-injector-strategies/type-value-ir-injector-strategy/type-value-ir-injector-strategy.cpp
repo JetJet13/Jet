@@ -14,7 +14,9 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRType* irType, IRBlockNode* ir
         return this->inject((IRArrayPointerType*)irType, irBlock);
     } else if (irType->isStructType()) {
         return this->inject((IRStructType*)irType, irBlock);
-    } else if (irType->isPointerType()) {
+    } else if (irType->isStructRefType()) {
+        return this->inject((IRStructRefType*)irType, irBlock);
+    }else if (irType->isPointerType()) {
         return this->inject((IRPointerType*)irType, irBlock);
     } else if (irType->isRefType()) {
         return this->inject((IRRefType*)irType, irBlock);
@@ -82,6 +84,15 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRCapturedVariableType* irCaptu
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irCapturedVariableTypeValue, irTypeValueType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(capturedVariableTypeValue, allocPointer, irBlock, irTypeValueType);
     return irCapturedVariableTypeValue;
+}
+
+llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructRefType* irStructRefType, IRBlockNode* irBlock) {
+    auto irStructRefTypeValue = InstructionIRInjectorHelper::inject(irStructRefType->getValue(), irBlock);
+    auto structRefTypeValue = this->inject(irStructRefType->getStructIRType()->getSourceType(), irBlock);
+    auto irTypeValueType = (IRTypeValueType*)irStructRefType->getValue()->getIRType()->getSourceType();
+    auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irStructRefTypeValue, irTypeValueType->getAllocIndex());
+    InstructionIRInjectorHelper::injectStore(structRefTypeValue, allocPointer, irBlock, irTypeValueType);
+    return irStructRefTypeValue;
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRFunctionParameterType* irFunctionParameterType, IRBlockNode* irBlock) {

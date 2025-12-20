@@ -14,16 +14,32 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
         irNode->markAsAssigned();
         tupleValues.push_back(irNode);
     }
-
+    auto tupleAllocation = this->generateTupleAllocation(irType->getStructIRType(), irGenerator, irContext);
+    auto tuplePointerAllocation = this->generateTuplePointerAllocation(node, irType, irGenerator, irContext, irOperation);
+    tuplePointerAllocation->setParentAllocation(tupleAllocation);
     return new IRTupleExpressionNode(
             node,
-            this->generateTupleAllocation(node, irType, irGenerator, irContext, irOperation),
+            tuplePointerAllocation,
             irType,
             tupleValues
     );
 }
 
-IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(ASTTupleExpressionNode* node, IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+    auto malloc = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
+            irContext->getIRModule()->getMallocFunction(),
+            { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
+            ""
+    );
+    return IRInstructionNodeFactory::create(
+            malloc,
+            irGenerator->generateIrPointerType(irType)
+    );
+}
+
+
+IRInstructionNode* TupleExpressionIRStrategy::generateTuplePointerAllocation(ASTTupleExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction()->getFunctionType(),

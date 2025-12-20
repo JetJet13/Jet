@@ -471,10 +471,6 @@ func getTestLambda() () => int {
     return () => 9008 + ms[0] + fs;
 }
 
-func getTestInt() int {
-    return 1009;
-}
-
 proc testLambdaReturn() {
     const testLambda = getTestLambda();
     const result = testLambda();

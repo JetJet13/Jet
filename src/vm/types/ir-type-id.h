@@ -15,6 +15,7 @@ struct IRTypeIdMap {
     int REF;
     int CAPTURED_VARIABLE;
     int STRUCT;
+    int STRUCT_REF;
     int ARRAY;
     int LAMBDA;
 };
@@ -30,6 +31,7 @@ const IRTypeIdMap IR_TYPE_ID = {
         .REF = 1001,
         .CAPTURED_VARIABLE = 1002,
         .STRUCT = 2000,
+        .STRUCT_REF = 2001,
         .ARRAY = 3000,
         .LAMBDA = 4000
 };

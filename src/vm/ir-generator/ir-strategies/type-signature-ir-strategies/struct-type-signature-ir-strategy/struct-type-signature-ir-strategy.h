@@ -8,11 +8,13 @@
 #include <llvm/IR/Value.h>
 #include "../../../ir-generator.h"
 #include "../../../../../core/type-signature/struct-type-signature/struct-type-signature.h"
+#include "../../../../ir-type/ir-struct-pointer-type.h"
 
 class StructTypeSignatureIRStrategy {
 public:
-    IRStructType* generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStructRefType* generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRTypeValueInstructionNode* generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_STRUCT_TYPE_SIGNATURE_IR_STRATEGY_H

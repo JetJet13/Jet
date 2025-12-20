@@ -1,0 +1,80 @@
+import MyOtherModule from "./other-test-file.jet";
+
+proc main() {
+    const foo = { a: 10, b: true, mars: { hello: "world", nested: { g: 10 } }, voo: { 50.1, false, 'c' }, zoom: [100, 400, 900] };
+    const bar = { 100, false, { 230.1, true, 'q' } };
+    const fooCopy = foo;
+    const barCopy = bar;
+    const refFoo = ref foo;
+    const refFooA = ref foo.a;
+    const classInstance = new OtherClass();
+}
+
+main();
+
+class MyClass {
+    public age: int;
+    public color: string;
+    private foo = 100;
+    private other = new OtherClass();
+
+    constructor(age: int, color: string) {
+        this.age = age;
+        this.color = color;
+    }
+
+    public getFoo() int {
+        return this.foo;
+    }
+
+    public getAge() int {
+        return this.age;
+    }
+
+    public getColor() string {
+        return this.color;
+    }
+
+    public changeColor(newColor: string) {
+        this.color = newColor;
+    }
+
+    public incrementAge() {
+        this.age = this.age + 1;
+    }
+
+    public setOtherValue(newValue: int) {
+        this.other.setValue(newValue);
+    }
+
+    public printOtherValue() {
+        print(this.other.getValue());
+    }
+
+}
+
+class OtherClass {
+    public value: int = 100;
+
+    constructor() {}
+
+    public getValue() int {
+        return this.value;
+    }
+
+    public setValue(newValue: int) {
+        this.value = newValue;
+    }
+}
+
+enum MyEnum {
+ Alpha = 1,
+ Beta = 2,
+ Gamma = 3
+}
+
+enum MyStrEnum {
+ Foo = "foo",
+ Bar = "bar",
+ Mars = "mars"
+}

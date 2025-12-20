@@ -11,24 +11,24 @@
 #include "../ir-node.h"
 #include "../ir-instruction-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
-#include "../../ir-type/ir-struct-type.h"
 #include "ir-expression-node.h"
+#include "../../ir-type/ir-struct-pointer-type.h"
 
 class IRTupleExpressionNode : public IRExpressionNode {
 private:
     ASTTupleExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::vector<IRExpressionNode*> _irValues;
-    IRStructType* _type;
+    IRStructRefType* _type;
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRStructType* type, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
     bool isReferenced() override;
     llvm::Value* getValue() override;
     unsigned long size();
     IRInstructionNode* getIRValue();
     std::vector<IRExpressionNode*>* getValues();
-    IRStructType* getIRType() override;
+    IRStructRefType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

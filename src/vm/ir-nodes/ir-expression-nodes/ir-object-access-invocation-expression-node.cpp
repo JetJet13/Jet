@@ -5,7 +5,7 @@
 #include "ir-object-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument) {
+IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument) {
     _node = node;
     _irFunction = irFunction;
     _irFunctionType = irFunctionType;
@@ -25,7 +25,7 @@ bool IRObjectAccessInvocationExpressionNode::isReferenced() {
     return _node->isReferenced();
 }
 
-llvm::Value* IRObjectAccessInvocationExpressionNode::getFunction() {
+IRInstructionNode* IRObjectAccessInvocationExpressionNode::getFunction() {
     return _irFunction;
 }
 
@@ -38,7 +38,7 @@ std::vector<IRExpressionNode*>* IRObjectAccessInvocationExpressionNode::getIRArg
 }
 
 llvm::Value* IRObjectAccessInvocationExpressionNode::getValue() {
-    return _irFunction;
+    return _irFunction->getValue();
 }
 
 IRType* IRObjectAccessInvocationExpressionNode::getFunctionIRType() {
@@ -70,5 +70,5 @@ std::string IRObjectAccessInvocationExpressionNode::toString() {
 }
 
 void IRObjectAccessInvocationExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irFunction->print(**stream);
+    _irFunction->getValue()->print(**stream);
 }

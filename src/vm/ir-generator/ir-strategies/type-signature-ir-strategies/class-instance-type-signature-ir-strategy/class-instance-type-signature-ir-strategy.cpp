@@ -22,12 +22,14 @@ IRClassInstanceType* ClassInstanceTypeSignatureIRStrategy::generate(ClassInstanc
     classInstanceProperties->setKeyId(classInstanceTypeSignature->getKeyId());
     classInstanceProperties->setAlignmentAndSizeForIRTypes();
     classInstanceProperties->setValue(irGenerator->generateIRTypeValueFor(classInstanceProperties, irContext));
+    auto classInstancePropertiesPointerType = irGenerator->generateIRStructRefType(classInstanceProperties);
+    classInstancePropertiesPointerType->setValue(irGenerator->generateIRTypeValueFor(classInstancePropertiesPointerType, irContext));
 
     auto irClassType = (IRClassType*)scope->findType(classInstanceTypeSignature->getClassTypeSignature()->getId()).value();
     auto irType = new IRClassInstanceType(
         irClassType,
         irClassType->getIRTypeForConstructor(classInstanceTypeSignature->getConstructorId()).value(),
-        classInstanceProperties
+        classInstancePropertiesPointerType
     );
     irType->setId(classInstanceTypeSignature->getClassTypeSignature()->getId());
     irType->setKeyId(classInstanceTypeSignature->getKeyId());

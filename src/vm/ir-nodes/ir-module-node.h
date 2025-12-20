@@ -15,6 +15,7 @@ private:
     std::string _copyPointerFunctionName;
     std::string _copyLambdaFunctionName;
     std::string _copyStructFunctionName;
+    std::string _copyStructRefFunctionName;
     std::string _copyValueFunctionName;
     std::string _copyStringFunctionName;
     std::string _copyRefFunctionName;
@@ -22,6 +23,7 @@ private:
     std::string _freePointerFunctionName;
     std::string _freeLambdaFunctionName;
     std::string _freeStructFunctionName;
+    std::string _freeStructRefFunctionName;
     std::string _freeValueFunctionName;
     std::string _freeStringFunctionName;
     std::string _freeRefFunctionName;
@@ -70,6 +72,7 @@ private:
     std::string _memcpyFunctionName;
     std::string _setupSrefFunctionName;
     std::string _setupRefFunctionName;
+    std::string _setupRefForStructFunctionName;
     std::string _refOfFunctionName;
     std::string _srefWithFunctionName;
     std::string _sameRefAsFunctionName;
@@ -82,6 +85,7 @@ public:
                  std::string copyPointerFunctionName,
                  std::string copyLambdaFunctionName,
                  std::string copyStructFunctionName,
+                 std::string copyStructRefFunctionName,
                  std::string copyValueFunctionName,
                  std::string copyStringFunctionName,
                  std::string copyRefFunctionName,
@@ -89,6 +93,7 @@ public:
                  std::string freePointerFunctionName,
                  std::string freeLambdaFunctionName,
                  std::string freeStructFunctionName,
+                 std::string freeStructRefFunctionName,
                  std::string freeValueFunctionName,
                  std::string freeStringFunctionName,
                  std::string freeRefFunctionName,
@@ -137,6 +142,7 @@ public:
                  std::string memcpyFunctionName,
                  std::string setupSrefFunctionName,
                  std::string setupRefFunctionName,
+                 std::string setupRefForStructFunctionName,
                  std::string refOfFunctionName,
                  std::string srefWithFunctionName,
                  std::string sameRefAsFunctionName,
@@ -148,6 +154,7 @@ public:
     llvm::Function* getCopyPointerFunction();
     llvm::Function* getCopyLambdaFunction();
     llvm::Function* getCopyStructFunction();
+    llvm::Function* getCopyStructRefFunction();
     llvm::Function* getCopyValueFunction();
     llvm::Function* getCopyStringFunction();
     llvm::Function* getCopyRefFunction();
@@ -155,6 +162,7 @@ public:
     llvm::Function* getFreePointerFunction();
     llvm::Function* getFreeLambdaFunction();
     llvm::Function* getFreeStructFunction();
+    llvm::Function* getFreeStructRefFunction();
     llvm::Function* getFreeValueFunction();
     llvm::Function* getFreeStringFunction();
     llvm::Function* getFreeRefFunction();
@@ -203,6 +211,7 @@ public:
     llvm::Function* getMemcpyFunction();
     llvm::Function* getSetupSrefFunction();
     llvm::Function* getSetupRefFunction();
+    llvm::Function* getSetupRefForStructFunction();
     llvm::Function* getRefOfFunction();
     llvm::Function* getSrefWithFunction();
     llvm::Function* getSameRefAsFunction();

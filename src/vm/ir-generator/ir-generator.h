@@ -68,6 +68,7 @@
 #include "../ir-nodes/ir-block-nodes/ir-control-flow-block-node.h"
 #include "../ir-type/ir-captured-variable-type.h"
 #include "../ir-type/ir-function-parameter-type.h"
+#include "../ir-type/ir-struct-pointer-type.h"
 
 class IRGenerator {
 private:
@@ -75,6 +76,7 @@ private:
     IRStrategyMap _irStrategyMap;
     IRInjector* _irInjector;
     llvm::StructType* _arrayPointerType;
+    llvm::StructType* _structRefType;
     llvm::StructType* _typeValueType;
     llvm::StructType* _refType;
     llvm::StructType* _functionParameterType;
@@ -94,8 +96,8 @@ public:
     IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IREnumType* generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext);
     IRStructType* generateTypeFor(InterfaceTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
-    IRStructType* generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
-    IRStructType* generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRStructRefType* generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRStructRefType* generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRStructType* generateTypeFor(LambdaScopeTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRModuleType* generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRClassType* generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
@@ -137,12 +139,16 @@ public:
     llvm::Constant* getOrInsertGlobalVariableString(std::string id, std::string rawString, IRContext* irContext);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
+    IRStructRefType* generateIRStructRefType(IRStructType* irStructType);
+    IRStructRefType* generateIRStructRefType();
     IRType* generateIRCaptureCounterType();
+    IRType* generateIRStructRefCounterType();
     IRCapturedVariableType* generateIRCapturedVariableType(IRType* variableIrType);
     IRType* generateIRCharType();
     IRArrayPointerType* generateIrStringArrayPointerType();
     llvm::StructType* generateArrayPointerType();
     llvm::StructType* getArrayPointerType();
+    llvm::StructType* getStructRefType();
     IRBlockNode* generateFunctionBlock(llvm::Function* irFunction);
     IRBlockNode* generateIfBlock(IRContext* irContext, std::string prefix = "");
     IRBlockNode* generateIfThenBlock(IRContext* irContext, std::string prefix = "");
