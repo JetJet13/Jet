@@ -25,27 +25,22 @@ void CopyStructRefIRFunction::generateCopyStructRefFunction(IRGenerator* irGener
     auto function = irModuleNode->getCopyStructRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-
     auto structTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
-    auto structTypeSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), structTypePointer, typeValueType->getSizeInBytesIndex());
-    auto loadedUnderlyingTypeSizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, structTypeSizeInBytesPointer);
+    auto loadedStructType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), structTypePointer);
+    auto structTypeSizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(loadedStructType, { typeValueType->getSizeInBytesIndex() });
     auto structMalloc = functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { loadedUnderlyingTypeSizeInBytes }
+            { structTypeSizeInBytes }
     );
     auto counterMalloc = functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
             { irGenerator->generateIntConstant(structRefType->getCounterIRType()->getSizeInBytes()) }
     );
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(1), counterMalloc, functionBlock);
-
     auto sourceStructPointer = functionBlock->getBuilder()->get()->CreateStructGEP(structRefType->getType(), function->getArg(1), structRefType->getStructIndex());
     auto loadedSourceStructPointer = InstructionIRInjectorHelper::injectLoad(pointerType, sourceStructPointer, functionBlock);
-    auto loadedStructType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), structTypePointer);
+
     functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getCopyStructFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyStructFunction(),
             { structMalloc, loadedSourceStructPointer, loadedStructType }
     );

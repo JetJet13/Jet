@@ -18,11 +18,13 @@ IRClassInstanceType* ClassInstanceTypeSignatureIRStrategy::generate(ClassInstanc
 
     }
     auto classInstanceProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyTypeMap);
-    classInstanceProperties->setId(classInstanceTypeSignature->getClassTypeSignature()->getId());
-    classInstanceProperties->setKeyId(classInstanceTypeSignature->getKeyId());
     classInstanceProperties->setAlignmentAndSizeForIRTypes();
+    classInstanceProperties->setKeyId(classInstanceTypeSignature->getKeyId());
+    classInstanceProperties->setId(classInstanceTypeSignature->getClassTypeSignature()->getId());
     classInstanceProperties->setValue(irGenerator->generateIRTypeValueFor(classInstanceProperties, irContext));
     auto classInstancePropertiesPointerType = irGenerator->generateIRStructRefType(classInstanceProperties);
+    classInstancePropertiesPointerType->setKeyId(classInstanceTypeSignature->getKeyId());
+    classInstancePropertiesPointerType->setId(classInstanceTypeSignature->getClassTypeSignature()->getId());
     classInstancePropertiesPointerType->setValue(irGenerator->generateIRTypeValueFor(classInstancePropertiesPointerType, irContext));
 
     auto irClassType = (IRClassType*)scope->findType(classInstanceTypeSignature->getClassTypeSignature()->getId()).value();

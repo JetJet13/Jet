@@ -39,7 +39,6 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
     auto typeSizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getSizeInBytesIndex() }, "valueTypeSizeInBytes");
     auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getIdIndex() }, "valueTypeId");
-
     functionBlock->getBuilder()->get()->CreateBr(literalIfBlock->getBlock());
 
     auto isValueTypeLiteral = literalIfBlock->getBuilder()->get()->CreateICmp(
@@ -79,7 +78,7 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.REF)
     );
-    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
+    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getCopyRefFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyRefFunction(),
@@ -97,7 +96,6 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     );
     structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), structIfBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getCopyStructRefFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyStructRefFunction(),
             {
                 function->getArg(0),

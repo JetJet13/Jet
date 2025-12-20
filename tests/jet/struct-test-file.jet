@@ -10,7 +10,18 @@ proc main() {
     const classInstance = new OtherClass();
 }
 
+proc testPrint() {
+    const classInstance = new MyClass(29, "Blue");
+    const copyClass = classInstance;
+    const classes = [ classInstance, classInstance ];
+    print({ foo: "bar", x: 100, nested: { ab: "100" } });
+    print({ "bar", 100 });
+    print(classInstance);
+    print(classes);
+}
+
 main();
+testPrint();
 
 class MyClass {
     public age: int;

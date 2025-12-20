@@ -23,6 +23,7 @@ IRStructRefType* StructTypeSignatureIRStrategy::generate(StructTypeSignature* st
     structType->setKeyId(structTypeSignature->getKeyId());
     structType->setValue(this->generateTypeValue(structType, irGenerator, irContext));
     auto structRefType = irGenerator->generateIRStructRefType(structType);
+    structRefType->setKeyId(structTypeSignature->getKeyId());
     structRefType->setValue(this->generateTypeValue(structRefType, irGenerator, irContext));
     return structRefType;
 }
@@ -40,7 +41,7 @@ IRTypeValueInstructionNode* StructTypeSignatureIRStrategy::generateTypeValue(IRS
             : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             irType->hasId()
             ? irGenerator->getOrInsertGlobalVariableString(irType->getId(), irType->getId(), irContext)
-            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
     return new IRTypeValueInstructionNode(
@@ -58,8 +59,12 @@ IRTypeValueInstructionNode* StructTypeSignatureIRStrategy::generateTypeValue(IRS
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
-            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
-            llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
+            irType->hasKeyId()
+            ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
+            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            irType->hasId()
+            ? irGenerator->getOrInsertGlobalVariableString(irType->getId(), irType->getId(), irContext)
+            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
     return new IRTypeValueInstructionNode(

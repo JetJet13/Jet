@@ -10,7 +10,7 @@ IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionTyp
     _irClassInstancePropertiesType = irClassInstancePropertiesType;
     _irClassType = irClassType;
     _irConstructorType = irConstructorType;
-    _value = irClassType->getClassProperties()->getValue();
+    _value = irClassInstancePropertiesType->getValue();
 }
 
 IRStructRefType* IRClassInstanceType::getIRClassPropertiesType() {

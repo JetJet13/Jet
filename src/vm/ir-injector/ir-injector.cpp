@@ -180,3 +180,11 @@ llvm::AllocaInst* IRInjector::injectRawString(IRBlockNode* irBlock, std::string 
     irBlock->getBuilder()->get()->CreateStore(irString, alloca);
     return alloca;
 }
+
+void IRInjector::injectPrintDebugString(IRBlockNode* irBlock, std::string rawString, IRModuleNode* irModule) {
+    auto debugStringStart = this->injectRawString(irBlock, rawString + "\n");
+    irBlock->getBuilder()->get()->CreateCall(
+            irModule->getPrintDebugStringFunction(),
+            { debugStringStart }
+    );
+}

@@ -90,6 +90,7 @@ public:
     llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
     llvm::AllocaInst* injectRawString(IRBlockNode* irBlock, std::string rawString);
+    void injectPrintDebugString(IRBlockNode* irBlock, std::string rawString, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_IR_INJECTOR_H

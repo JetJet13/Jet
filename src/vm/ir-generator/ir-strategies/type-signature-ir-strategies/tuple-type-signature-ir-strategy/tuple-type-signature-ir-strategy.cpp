@@ -22,29 +22,9 @@ IRStructRefType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupl
     auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), tupleElementTypes), keyIndexMap, keyTypeMap);
     structType->setAlignmentAndSizeForIRTypes();
     structType->setKeyId(tupleTypeSignature->getKeyId());
-    structType->setValue(this->generateTypeValue(structType, irGenerator, irContext));
+    structType->setValue(irGenerator->generateIRTypeValueFor(structType, irContext));
     auto structRefType = irGenerator->generateIRStructRefType(structType);
+    structRefType->setKeyId(tupleTypeSignature->getKeyId());
     structRefType->setValue(irGenerator->generateIRTypeValueFor(structRefType, irContext));
     return structRefType;
-}
-
-IRTypeValueInstructionNode* TupleTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
-    auto irTypeValueType = irGenerator->generateIrTypeValueType();
-    auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
-    auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
-            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT),
-            irGenerator->generateIntConstant(irType->getSizeInBytes()),
-            irGenerator->generateIntConstant(irType->size()),
-            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
-            irType->hasKeyId()
-            ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
-            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
-            llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
-    });
-    auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);
-    return new IRTypeValueInstructionNode(
-            typeValueTypeAllocation,
-            irGenerator->generateIrPointerType(irTypeValueType),
-            storeInstruction
-    );
 }

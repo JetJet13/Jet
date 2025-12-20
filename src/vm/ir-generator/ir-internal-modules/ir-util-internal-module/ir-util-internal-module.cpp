@@ -15,6 +15,7 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     PrintIRFunction::declarePrintRefFunction(irGenerator, context, irModule);
     PrintIRFunction::declarePrintArrayFunction(irGenerator, context, irModule);
     PrintIRFunction::declarePrintStructFunction(irGenerator, context, irModule);
+    PrintIRFunction::declarePrintStructRefFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintGlobals(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugMarkerFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugPointerFunction(irGenerator, context, irModule);
@@ -31,6 +32,7 @@ IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::uniq
     PrintIRFunction::generatePrintRefFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintArrayFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintStructFunction(irGenerator, context, irModule);
+    PrintIRFunction::generatePrintStructRefFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintFunction(irGenerator, context, irModule);
     RangeIRFunction::generateRange3pFunction(irGenerator, context, irModule);
     RangeIRFunction::generateRange2pFunction(irGenerator, context, irModule);

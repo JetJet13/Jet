@@ -113,6 +113,10 @@ std::string PrintIRFunction::getPrintStructIRFunctionName() {
     return "jet.print.struct";
 }
 
+std::string PrintIRFunction::getPrintStructRefIRFunctionName() {
+    return "jet.print.struct.ref";
+}
+
 std::string PrintIRFunction::getPrintWhitespaceIRFunctionName() {
     return "jet.print.whitespace";
 }
@@ -206,6 +210,13 @@ void PrintIRFunction::declarePrintStructFunction(IRGenerator* irGenerator, std::
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType, pointerType, pointerType }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStructIRFunctionName(), irModuleNode->getModule());
+}
+
+void PrintIRFunction::declarePrintStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto voidType = irGenerator->generateVoidType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType, pointerType, pointerType }, false);
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStructRefIRFunctionName(), irModuleNode->getModule());
 }
 
 void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
@@ -406,8 +417,8 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
-    auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
-    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
     // for loop prep
@@ -540,22 +551,21 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
             typeValueIdAtIndex,
             irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
     );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structIfBlock->getBlock());
+    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintArrayFunction(),
             { varArgAlloc, typeValueArrayPointer, forLoopIndex }
     );
 
-    auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
+    auto isValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             typeValueIdAtIndex,
-            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), endBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getPrintStructFunction()->getFunctionType(),
-            irContext->getIRModule()->getPrintStructFunction(),
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), endBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintStructRefFunction(),
             { varArgAlloc, typeValueArrayPointer, forLoopIndex }
     );
 
@@ -566,7 +576,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
     // end block for if/else chain
     auto newForLoopIndexValue = endBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
@@ -577,7 +587,6 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     forLoopEndBlock->getBuilder()->get()->CreateCall(irModuleNode->getMallocFreeFunction(), { varArgAlloc });
     forLoopEndBlock->getBuilder()->get()->CreateCall(irModuleNode->getMallocFreeFunction(), { forLoopIndex });
     forLoopEndBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getPrintNewLineFunction()->getFunctionType(),
         irContext->getIRModule()->getPrintNewLineFunction()
     );
     forLoopEndBlock->addVoidReturn();
@@ -713,8 +722,8 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
-    auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
-    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
     auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(2), functionBlock);
@@ -799,22 +808,21 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
             refValueTypeId,
             irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
     );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structIfBlock->getBlock());
+    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintArrayFunction(),
             { refValueAlloc, refValueTypeValuePointer, forLoopIndexArgumentAlloc }
     );
 
-    auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
+    auto isValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             refValueTypeId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), endBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getPrintStructFunction()->getFunctionType(),
-            irContext->getIRModule()->getPrintStructFunction(),
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), endBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintStructRefFunction(),
             { refValueAlloc, refValueTypeValuePointer, forLoopIndexArgumentAlloc }
     );
 
@@ -824,7 +832,7 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
     boolIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
 
     auto refEndString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalRefEndFormatStringName());
@@ -867,8 +875,8 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
-    auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
-    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
     auto forLoopIndexParameterValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(2), functionBlock);
@@ -999,22 +1007,21 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
             arrayElementValueTypeId,
             irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
     );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structIfBlock->getBlock());
+    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintArrayFunction(),
             { arrayElementValueAlloc, arrayElementTypeValuePointer, forLoopIndexArgumentAlloc }
     );
 
-    auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
+    auto isValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             arrayElementValueTypeId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getPrintStructFunction()->getFunctionType(),
-            irContext->getIRModule()->getPrintStructFunction(),
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintStructRefFunction(),
             { arrayElementValueAlloc, arrayElementTypeValuePointer, forLoopIndexArgumentAlloc }
     );
 
@@ -1025,7 +1032,7 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     stringIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
 
     // for loop end block
     auto newElementByteOffsetValue = forLoopEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, arrayElementByteOffsetValue, arrayElementSizeInBytes);
@@ -1081,8 +1088,8 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
-    auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
-    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
 
     auto loadedStructPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
@@ -1232,22 +1239,21 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
             structElementTypeValueIdAtIndex,
             irGenerator->generateIntConstant(IR_TYPE_ID.ARRAY)
     );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structIfBlock->getBlock());
+    arrayIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeArray, arrayIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintArrayFunction(),
             { structElementValueAlloc, structElementTypeValueAtIndexPointerLoaded, forLoopIndexArgumentAlloc }
     );
 
-    auto isValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
+    auto isValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             structElementTypeValueIdAtIndex,
-            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getPrintStructFunction()->getFunctionType(),
-            irContext->getIRModule()->getPrintStructFunction(),
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintStructRefFunction(),
             { structElementValueAlloc, structElementTypeValueAtIndexPointerLoaded, forLoopIndexArgumentAlloc }
     );
 
@@ -1258,7 +1264,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     stringIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
-    structIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
 
     // for loop end block
     auto structElementSizeInBytes = forLoopEndBlock->getBuilder()->get()->CreateExtractValue(structElementTypeValueAtIndex, typeValueType->getSizeInBytesIndex());
@@ -1273,6 +1279,35 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto arrayEndString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStructEndFormatStringName());
     endBlock->getBuilder()->get()->CreateCall(printf, { arrayEndString });
     endBlock->addVoidReturn();
+}
+
+void PrintIRFunction::generatePrintStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto intType = irGenerator->generateIntType();
+    auto typeValueType = irGenerator->generateIrTypeValueType();
+    auto structRefType = irGenerator->generateIRStructRefType();
+    auto voidType = irGenerator->generateVoidType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto function = irModuleNode->getPrintStructRefFunction();
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(2), functionBlock);
+    auto pointerToTypeValueAtIndex = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { forLoopIndexValue });
+    auto structRefTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, functionBlock, typeValueType);
+    auto structTypeValuePointer = functionBlock->getBuilder()->get()->CreateExtractValue(structRefTypeValue, {typeValueType->getAllocIndex() }, "structTypeValue");
+    auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
+    auto loadedStructRef = InstructionIRInjectorHelper::injectLoad(structRefType->getType(), loadedPointer, functionBlock);
+    auto pointerToStruct = functionBlock->getBuilder()->get()->CreateExtractValue(loadedStructRef, { structRefType->getStructIndex() });
+    auto structValueAlloc = functionBlock->getBuilder()->get()->CreateAlloca(pointerType);
+    InstructionIRInjectorHelper::injectStore(pointerToStruct, structValueAlloc, functionBlock);
+    // forLoopIndexArgumentAlloc is for printRef, printStructRef and printArray calls only
+    auto forLoopIndexArgumentAlloc = functionBlock->getBuilder()->get()->CreateAlloca(intType);
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndexArgumentAlloc, functionBlock);
+    functionBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintStructFunction(),
+            { structValueAlloc, structTypeValuePointer, forLoopIndexArgumentAlloc }
+    );
+    functionBlock->addVoidReturn();
 }
 
 void PrintIRFunction::generatePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {

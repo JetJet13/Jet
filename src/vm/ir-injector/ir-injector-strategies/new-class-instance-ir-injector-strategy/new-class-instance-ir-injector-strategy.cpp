@@ -62,7 +62,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNo
         auto typeValue = irInjector->inject(irBlock, irType);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
-            irModule->getCopyValueFunction(),
+            irModule->getCopyStructRefFunction(),
             {
                 destinationPointerAllocation,
                 irExpression->getValue(),
