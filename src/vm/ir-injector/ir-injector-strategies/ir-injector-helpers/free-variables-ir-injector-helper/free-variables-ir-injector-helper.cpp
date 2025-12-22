@@ -60,78 +60,78 @@ void FreeIRInjectorHelper::freeFunctionBlockVariables(IRBlockNode* functionBlock
 }
 
 void FreeIRInjectorHelper::freeBlockVariables(IRBlockNode* irBlockNode, std::vector<IRVariableDeclarationNode*>* variablesToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    for (auto variableToFree : *variablesToFree) {
-        auto typeValue = irInjector->inject(irBlockNode, variableToFree->getAllocatedIRType());
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variableToFree->getIRValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
-        irBlockNode->getBuilder()->get()->CreateCall(
-                irModule->getPrintDebugStringFunction(),
-                {
-                    irInjector->injectRawString(irBlockNode, "[free-var] " + variableToFree->getVariableName() + " - " + irBlockNode->getBlock()->getParent()->getName().str() + "\n")
-                }
-        );
-        irBlockNode->getBuilder()->get()->CreateCall(
-            irModule->getFreeValueFunction(),
-            {
-                variableToFree->getValue(),
-                loadedTypeValue
-            }
-        );
-    }
+//    for (auto variableToFree : *variablesToFree) {
+//        auto typeValue = irInjector->inject(irBlockNode, variableToFree->getAllocatedIRType());
+//        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variableToFree->getIRValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
+//        irBlockNode->getBuilder()->get()->CreateCall(
+//                irModule->getPrintDebugStringFunction(),
+//                {
+//                    irInjector->injectRawString(irBlockNode, "[free-var] " + variableToFree->getVariableName() + " - " + irBlockNode->getBlock()->getParent()->getName().str() + "\n")
+//                }
+//        );
+//        irBlockNode->getBuilder()->get()->CreateCall(
+//            irModule->getFreeValueFunction(),
+//            {
+//                variableToFree->getValue(),
+//                loadedTypeValue
+//            }
+//        );
+//    }
 }
 
 void FreeIRInjectorHelper::freeBlockLambdaVariables(IRBlockNode* irBlockNode, std::vector<IRVariableDeclarationNode*>* lambdaVariablesToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    for (auto lambdaVariableToFree : *lambdaVariablesToFree) {
-        irBlockNode->getBuilder()->get()->CreateCall(
-            irModule->getFreeLambdaFunction(),
-            {
-                lambdaVariableToFree->getValue()
-            }
-        );
-    }
+//    for (auto lambdaVariableToFree : *lambdaVariablesToFree) {
+//        irBlockNode->getBuilder()->get()->CreateCall(
+//            irModule->getFreeLambdaFunction(),
+//            {
+//                lambdaVariableToFree->getValue()
+//            }
+//        );
+//    }
 }
 
 void FreeIRInjectorHelper::freeBlockExpressions(IRBlockNode* irBlockNode, std::vector<IRExpressionNode*>* expressionsToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    for (auto expressionToFree : *expressionsToFree) {
-        auto typeValue = irInjector->inject(irBlockNode, expressionToFree->getIRType());
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(expressionToFree->getIRType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
-        std::string name = std::to_string(expressionToFree->getStartPosition()->getLine())
-                + ":"
-                + std::to_string(expressionToFree->getStartPosition()->getColumn());
-        irBlockNode->getBuilder()->get()->CreateCall(
-            irModule->getPrintDebugStringFunction(),
-            {
-                irInjector->injectRawString(irBlockNode, "[free-exp] "  + name + " - " + irBlockNode->getBlock()->getParent()->getName().str() + "\n")
-            }
-        );
-        irBlockNode->getBuilder()->get()->CreateCall(
-                irModule->getFreeValueFunction(),
-                {
-                    expressionToFree->getSourceAllocation().has_value()
-                    ? expressionToFree->getSourceAllocation().value()->getValue()
-                    : expressionToFree->getValue(),
-                    loadedTypeValue
-                }
-        );
-    }
+//    for (auto expressionToFree : *expressionsToFree) {
+//        auto typeValue = irInjector->inject(irBlockNode, expressionToFree->getIRType());
+//        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(expressionToFree->getIRType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
+//        std::string name = std::to_string(expressionToFree->getStartPosition()->getLine())
+//                + ":"
+//                + std::to_string(expressionToFree->getStartPosition()->getColumn());
+//        irBlockNode->getBuilder()->get()->CreateCall(
+//            irModule->getPrintDebugStringFunction(),
+//            {
+//                irInjector->injectRawString(irBlockNode, "[free-exp] "  + name + " - " + irBlockNode->getBlock()->getParent()->getName().str() + "\n")
+//            }
+//        );
+//        irBlockNode->getBuilder()->get()->CreateCall(
+//                irModule->getFreeValueFunction(),
+//                {
+//                    expressionToFree->getSourceAllocation().has_value()
+//                    ? expressionToFree->getSourceAllocation().value()->getValue()
+//                    : expressionToFree->getValue(),
+//                    loadedTypeValue
+//                }
+//        );
+//    }
 }
 
 void FreeIRInjectorHelper::freeFunctionParameters(IRBlockNode* irBlockNode, IRFunctionParameterListNode* functionParameterList, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto finalBlock = irBlockNode->getLastSuccessorOrSelf();
-    finalBlock->setInsertionPointBeforeLastInstruction();
-    for (auto parameter : *functionParameterList->getParameters()) {
-        if (parameter->needsToBeFreed()) {
-            auto typeValue = irInjector->inject(finalBlock, parameter->getParameterType()->getIRType());
-            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(
-                    parameter->getParameterType()->getIRType()->getValue()->getAllocatedType(), typeValue,
-                    finalBlock
-            );
-            finalBlock->getBuilder()->get()->CreateCall(
-                    irModule->getFreeValueFunction(),
-                    {
-                        scope->find(parameter->getParameterType()->getName()).value()->getValue(),
-                        loadedTypeValue
-                    }
-            );
-        }
-    }
+//    auto finalBlock = irBlockNode->getLastSuccessorOrSelf();
+//    finalBlock->setInsertionPointBeforeLastInstruction();
+//    for (auto parameter : *functionParameterList->getParameters()) {
+//        if (parameter->needsToBeFreed()) {
+//            auto typeValue = irInjector->inject(finalBlock, parameter->getParameterType()->getIRType());
+//            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(
+//                    parameter->getParameterType()->getIRType()->getValue()->getAllocatedType(), typeValue,
+//                    finalBlock
+//            );
+//            finalBlock->getBuilder()->get()->CreateCall(
+//                    irModule->getFreeValueFunction(),
+//                    {
+//                        scope->find(parameter->getParameterType()->getName()).value()->getValue(),
+//                        loadedTypeValue
+//                    }
+//            );
+//        }
+//    }
 }

@@ -214,6 +214,7 @@ proc testRefFunctions() {
     print("novo.evo", myObj.nest.novo.0, refMyObj.nest.novo.0);
     const myTuple = { 13, true, { 'n', [1, 55, 6], { "evo", true, 113 } } };
     const refMyTuple = ref myTuple;
+//  const refMyTupleCopy = refMyTuple; (not allowed. Must use sref)
     const srefMyTuple = sref refMyTuple;
     const otherRefMyTuple = ref myTuple;
     const refMyTupleFoo = refMyTuple.0;
@@ -230,7 +231,7 @@ proc testRefFunctions() {
     assert(refMyTuple == myTuple);
     assert(refMyTuple.refOf(myTuple));
     assert(refMyTuple.srefWith(srefMyTuple));
-    assert(!refMyTuple.srefWith(otherRefMyTuple));
+    assert(refMyTuple.srefWith(otherRefMyTuple));
     assert(refMyTuple.sameRefAs(otherRefMyTuple), "My custom message!");
     assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
@@ -527,14 +528,14 @@ testPrint();
 testArrayPrototypeFunctions();
 testCopyFunctions();
 testRefFunctions();
-//testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
-//complexCopy();
-//testLambdas();
-//testClasses();
-//testEnums(MyEnum.Gamma, MyStrEnum.Mars);
-//testEquality();
-//testLambdaReturn();
-//testCleanup();
+testCopyParameterFunctions(5, 11.32, true, [7,8,9], { foo: "hello world", bar: false });
+complexCopy();
+testLambdas();
+testClasses();
+testEnums(MyEnum.Gamma, MyStrEnum.Mars);
+testEquality();
+testLambdaReturn();
+testCleanup();
 testRefCleanup();
 
 class MyClass {

@@ -55,6 +55,7 @@ private:
     std::string _equalStringFunctionName;
     std::string _equalArrayFunctionName;
     std::string _equalStructFunctionName;
+    std::string _equalStructRefFunctionName;
     std::string _equalRefFunctionName;
     std::string _equalRefLeftOnlyFunctionName;
     std::string _equalRefRightOnlyFunctionName;
@@ -126,6 +127,7 @@ public:
                  std::string equalStringFunctionName,
                  std::string equalArrayFunctionName,
                  std::string equalStructFunctionName,
+                 std::string equalStructRefFunctionName,
                  std::string equalRefFunctionName,
                  std::string equalRefLeftOnlyFunctionName,
                  std::string equalRefRightOnlyFunctionName,
@@ -196,6 +198,7 @@ public:
     llvm::Function* getEqualStringFunction();
     llvm::Function* getEqualArrayFunction();
     llvm::Function* getEqualStructFunction();
+    llvm::Function* getEqualStructRefFunction();
     llvm::Function* getEqualRefFunction();
     llvm::Function* getEqualRefLeftOnlyFunction();
     llvm::Function* getEqualRefRightOnlyFunction();

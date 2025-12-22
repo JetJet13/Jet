@@ -10,18 +10,57 @@ proc main() {
     const classInstance = new OtherClass();
 }
 
-proc testPrint() {
-    const classInstance = new MyClass(29, "Blue");
-    const copyClass = classInstance;
-    const classes = [ classInstance, classInstance ];
-    print({ foo: "bar", x: 100, nested: { ab: "100" } });
-    print({ "bar", 100 });
-    print(classInstance);
-    print(classes);
+proc complexCopy() {
+    const x = [ [ [1, 2, 3], [5, 7, 8] ] ];
+    const copyX = x;
+
+    assert(x[0][0][0] == copyX[0][0][0]);
+    assert(x[0][0][1] == copyX[0][0][1]);
+    assert(x[0][1][0] == copyX[0][1][0]);
+    assert(x[0][1][1] == copyX[0][1][1]);
+
+    print("complex X     :", x[0][0][0], x[0][0][1], x[0][1][0], x[0][1][1]);
+    print("complex copyX :", copyX[0][0][0], copyX[0][0][1], copyX[0][1][0], copyX[0][1][1]);
+
+    const y = [
+        { foo: true, mars: 88, nested: { bar: 10, noi: false, deepNest: { num: 142, oNum: 2099, jj: [ { x: 50, y: 100 }, { x: 60, y: 101 } ], tup: { 49, true, false } } }, bob: false, otherTup: { 49, true, 88 }, rNum: ref 50 },
+        { foo: true, mars: 77, nested: { bar: 99, noi: false, deepNest: { num: 156, oNum: 1099, jj: [ { x: 20, y: 100 }, { x: 30, y: 101 } ], tup: { 39, false, false } } }, bob: true, otherTup: { 655, true, 836 }, rNum: ref 100 }
+    ];
+    const copyY = y;
+    const refY = ref y;
+
+    assert(y[0].nested.bar == copyY[0].nested.bar);
+    assert(y[0].nested.deepNest.num == copyY[0].nested.deepNest.num);
+    assert(y[0].nested.deepNest.oNum == copyY[0].nested.deepNest.oNum);
+    assert(y[0].bob == copyY[0].bob);
+    assert(y[0].nested.deepNest.jj[0].x == copyY[0].nested.deepNest.jj[0].x);
+    assert(y[0].nested.deepNest.tup.0 == copyY[0].nested.deepNest.tup.0);
+    assert(y[0].nested.deepNest.tup.1 == copyY[0].nested.deepNest.tup.1);
+    assert(y[0].nested.deepNest.tup.2 == copyY[0].nested.deepNest.tup.2);
+    assert(y[0].otherTup.0 == y[0].otherTup.0);
+    assert(y[0].rNum == y[0].rNum);
+
+    print("y 0     :", y[0].nested.bar, y[0].nested.deepNest.num, y[0].nested.deepNest.oNum, y[0].bob, y[0].nested.deepNest.jj[0].x, y[0].nested.deepNest.tup.0, y[0].nested.deepNest.tup.1, y[0].nested.deepNest.tup.2, y[0].otherTup.0, y[0].rNum);
+    print("copyY 0 :", copyY[0].nested.bar, copyY[0].nested.deepNest.num, copyY[0].nested.deepNest.oNum, copyY[0].bob, copyY[0].nested.deepNest.jj[0].x, copyY[0].nested.deepNest.tup.0, copyY[0].nested.deepNest.tup.1, copyY[0].nested.deepNest.tup.2, copyY[0].otherTup.0, copyY[0].rNum);
+
+    assert(y[1].nested.bar == copyY[1].nested.bar);
+    assert(y[1].nested.deepNest.num == copyY[1].nested.deepNest.num);
+    assert(y[1].nested.deepNest.oNum == copyY[1].nested.deepNest.oNum);
+    assert(y[1].bob == copyY[1].bob);
+    assert(y[1].nested.deepNest.jj[0].x == copyY[1].nested.deepNest.jj[0].x);
+    assert(y[1].nested.deepNest.tup.0 == copyY[1].nested.deepNest.tup.0);
+    assert(y[1].nested.deepNest.tup.1 == copyY[1].nested.deepNest.tup.1);
+    assert(y[1].nested.deepNest.tup.2 == copyY[1].nested.deepNest.tup.2);
+    assert(y[1].otherTup.0 == y[1].otherTup.0);
+    assert(y[1].rNum == y[1].rNum);
+
+    print("y 1     :", y[1].nested.bar, y[1].nested.deepNest.num, y[1].nested.deepNest.oNum, y[1].bob, y[1].nested.deepNest.jj[0].x, y[1].nested.deepNest.tup.0, y[1].nested.deepNest.tup.1, y[1].nested.deepNest.tup.2, y[1].otherTup.0, y[1].rNum);
+    print("copyY 1 :", copyY[1].nested.bar, copyY[1].nested.deepNest.num, copyY[1].nested.deepNest.oNum, copyY[1].bob, copyY[1].nested.deepNest.jj[0].x, copyY[1].nested.deepNest.tup.0, copyY[1].nested.deepNest.tup.1, copyY[1].nested.deepNest.tup.2, copyY[1].otherTup.0, copyY[1].rNum);
 }
 
 main();
-testPrint();
+complexCopy();
+
 
 class MyClass {
     public age: int;

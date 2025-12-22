@@ -641,6 +641,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.h
         ir-generator/ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.cpp
         ir-generator/ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.h
+        ir-generator/ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.cpp
+        ir-generator/ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.h
 )
 
 target_link_libraries(jet-vm

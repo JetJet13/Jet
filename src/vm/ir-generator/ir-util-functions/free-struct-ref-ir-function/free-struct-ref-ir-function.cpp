@@ -6,7 +6,7 @@
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string FreeStructRefIRFunction::getFreeStructRefIRFunctionName() {
-    return "jet.free.ref";
+    return "jet.free.struct.ref";
 }
 
 void FreeStructRefIRFunction::declareFreeStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
@@ -53,10 +53,6 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
     freeStructIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeStructFunction(),
             { structPointer, loadedStructType }
-    );
-    freeStructIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocFreeFunction(),
-            { structPointer }
     );
     freeStructIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFreeFunction(),

@@ -127,6 +127,7 @@
 #include "ir-util-functions/setup-ref-for-struct-ir-function/setup-ref-for-struct-ir-function.h"
 #include "ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.h"
 #include "ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.h"
+#include "ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -796,6 +797,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             EqualStringIRFunction::getEqualStringIRFunctionName(),
             EqualArrayIRFunction::getEqualArrayIRFunctionName(),
             EqualStructIRFunction::getEqualStructIRFunctionName(),
+            EqualStructRefIRFunction::getEqualStructRefIRFunctionName(),
             EqualRefIRFunction::getEqualRefIRFunctionName(),
             EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(),
             EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(),
@@ -836,6 +838,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     EqualArrayIRFunction::declareEqualArrayFunction(this, &_context, irModule);
     EqualStringIRFunction::declareEqualStringFunction(this, &_context, irModule);
     EqualStructIRFunction::declareEqualStructFunction(this, &_context, irModule);
+    EqualStructRefIRFunction::declareEqualStructRefFunction(this, &_context, irModule);
     EqualRefIRFunction::declareEqualRefFunction(this, &_context, irModule);
     EqualRefIRFunction::declareEqualRefLeftOnlyFunction(this, &_context, irModule);
     EqualRefIRFunction::declareEqualRefRightOnlyFunction(this, &_context, irModule);
@@ -881,6 +884,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     EqualArrayIRFunction::generateEqualArrayFunction(this, &_context, irModule);
     EqualStringIRFunction::generateEqualStringFunction(this, &_context, irModule);
     EqualStructIRFunction::generateEqualStructFunction(this, &_context, irModule);
+    EqualStructRefIRFunction::generateEqualStructRefFunction(this, &_context, irModule);
     EqualRefIRFunction::generateEqualRefFunction(this, &_context, irModule);
     EqualRefIRFunction::generateEqualRefLeftOnlyFunction(this, &_context, irModule);
     EqualRefIRFunction::generateEqualRefRightOnlyFunction(this, &_context, irModule);

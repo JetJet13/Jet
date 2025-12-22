@@ -4,6 +4,7 @@
 
 #include "literal-ir-binary-comparison-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 llvm::Value* LiteralIRBinaryComparisonExpressionInjectorStrategy::inject(IRBinaryComparisonExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irExpression->isPredicateEqual() || irExpression->isPredicateNotEqual()) {

@@ -3,11 +3,12 @@
 //
 
 #include "object-access-assignment-ir-injector-strategy.h"
+#include "../ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h"
 
 void ObjectAccessAssignmentIRInjectorStrategy::inject(IRObjectAccessAssignmentStatementNode* irObjectAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto objectAccess = irObjectAccessAssignmentStatement->getIRObjectAccessExpression();
     auto source = irInjector->inject(irBlock, objectAccess->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto pointerToTarget = irBlock->getBuilder()->get()->CreateStructGEP(objectAccess->getSource()->getUnderlyingIRType()->getType(), source, objectAccess->getTargetKeyIndex());
+    auto pointerToTarget = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irObjectAccessAssignmentStatement->getIRObjectAccessExpression(), source);
     auto irExpressionValue = irInjector
             ->inject(
                     irBlock,

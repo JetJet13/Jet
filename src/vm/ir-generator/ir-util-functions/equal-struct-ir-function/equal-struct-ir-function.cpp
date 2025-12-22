@@ -4,6 +4,7 @@
 
 #include "equal-struct-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string EqualStructIRFunction::getEqualStructIRFunctionName() {
     return "jet.equal.struct";
@@ -29,7 +30,6 @@ void EqualStructIRFunction::generateEqualStructFunction(IRGenerator* irGenerator
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
     auto isValueAtIndexNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
     auto isValueAtIndexNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-
     functionBlock->getBuilder()->get()->CreateBr(forLoopPrepBlock->getBlock());
 
     auto numTypes = forLoopPrepBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getNumTypesIndex() });

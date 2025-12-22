@@ -38,6 +38,8 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
     auto boolIfThenBlock = irGenerator->generateIfThenBlock(irContext, "bool.");
     auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
@@ -177,7 +179,7 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
             isLeftValueTypeString,
             isRightValueTypeString
     );
-    stringIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesString, stringIfThenBlock->getBlock(), structIfBlock->getBlock());
+    stringIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesString, stringIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateRet(
         stringIfThenBlock->getBuilder()->get()->CreateCall(
            irModuleNode->getEqualStringFunction(),
@@ -185,6 +187,32 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
         )
     );
 
+    auto isLeftValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            leftTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
+    );
+    auto isRightValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
+    );
+    auto areBothValueTypesStructRef = structRefIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeStructRef,
+            isRightValueTypeStructRef
+    );
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesStructRef, structRefIfThenBlock->getBlock(), structIfBlock->getBlock());
+    structRefIfThenBlock->getBuilder()->get()->CreateRet(
+            structRefIfThenBlock->getBuilder()->get()->CreateCall(
+                    irContext->getIRModule()->getEqualStructRefFunction(),
+                    {
+                            function->getArg(0),
+                            function->getArg(1),
+                            function->getArg(2)
+                    }
+            )
+    );
 
     auto isLeftValueTypeStruct = structIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
