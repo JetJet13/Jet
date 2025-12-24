@@ -8,7 +8,7 @@
 #include "../../../../ir-type/ir-class-instance-type.h"
 
 IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperation);
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
     auto sourceType = sourceValue->getUnderlyingIRType();
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = (IRClassInstanceType*)sourceType;

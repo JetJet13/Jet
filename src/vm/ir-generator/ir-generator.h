@@ -68,7 +68,7 @@
 #include "../ir-nodes/ir-block-nodes/ir-control-flow-block-node.h"
 #include "../ir-type/ir-captured-variable-type.h"
 #include "../ir-type/ir-function-parameter-type.h"
-#include "../ir-type/ir-struct-pointer-type.h"
+#include "../ir-type/ir-struct-ref-type.h"
 
 class IRGenerator {
 private:
@@ -129,6 +129,7 @@ public:
     IRTypeValueType* generateIrTypeValueType();
     llvm::AllocaInst* generateIrTypeValueTypeAllocation();
     llvm::StoreInst* generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType);
+    llvm::LoadInst* generateLoadInstruction(llvm::Value* pointer, IRType* irType);
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::ConstantInt* generateIntConstant(int integer);
@@ -143,6 +144,9 @@ public:
     IRStructRefType* generateIRStructRefType();
     IRType* generateIRCaptureCounterType();
     IRType* generateIRStructRefCounterType();
+    IRType* generateIRArcType();
+    IRInstructionNode* generateArcAllocation(IRContext* irContext, llvm::Value* source, unsigned long count = 0);
+    IRInstructionNode* generateArcAllocation(IRContext* irContext, unsigned long initialCount = 1);
     IRCapturedVariableType* generateIRCapturedVariableType(IRType* variableIrType);
     IRType* generateIRCharType();
     IRArrayPointerType* generateIrStringArrayPointerType();

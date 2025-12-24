@@ -9,7 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include "ir-expression-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
-#include "../../ir-type/ir-struct-pointer-type.h"
+#include "../../ir-type/ir-struct-ref-type.h"
 
 class IRTupleAccessExpressionNode : public IRExpressionNode {
 private:
@@ -24,6 +24,7 @@ public:
     void markAsGlobal() override;
     bool isReferenced() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getArc() override;
     IRExpressionNode* getSource();
     llvm::Constant* getIRTargetKeyIndex();
     unsigned long getTargetKeyIndex();

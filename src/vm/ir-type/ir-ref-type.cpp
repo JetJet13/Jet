@@ -71,6 +71,10 @@ IRRefType* IRRefType::clone() {
     return clone;
 }
 
+bool IRRefType::requiresArc() {
+    return true;
+}
+
 bool IRRefType::isRefType() {
     return true;
 }

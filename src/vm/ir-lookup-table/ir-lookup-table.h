@@ -15,7 +15,7 @@ class IRLookupTable {
 private:
     std::unordered_map<std::string, IRInstructionNode*> _globalScope;
     std::unordered_map<std::string, IRInstructionNode*> _scope;
-    std::unordered_map<std::string, IRInstructionNode*> _captureCounterScope;
+    std::unordered_map<std::string, IRInstructionNode*> _arcScope;
     std::unordered_map<std::string, IRLoadInstructionNode*> _loadedScope;
     std::optional<IRLookupTable*> _outerScope;
     std::unordered_map<std::string, IRType*> _typeScope;
@@ -25,11 +25,11 @@ public:
     std::unordered_map<std::string, IRType*> getTypeScope();
     void inherit(IRLookupTable* otherScope);
     IRLookupTable* insert(std::string key, IRInstructionNode* value);
-    IRLookupTable* insertCaptureCounter(std::string key, IRInstructionNode* value);
+    IRLookupTable* insertArc(std::string key, IRInstructionNode* value);
     IRLookupTable* insert(std::string key, IRLoadInstructionNode* value);
     IRLookupTable* insert(std::string key, IRType* value);
     std::optional<IRInstructionNode*> find(std::string key);
-    std::optional<IRInstructionNode*> findCaptureCounter(std::string key);
+    std::optional<IRInstructionNode*> findArc(std::string key);
     std::optional<IRLoadInstructionNode*> findLoaded(std::string key);
     std::optional<IRInstructionNode*> findAcrossScopes(std::string key);
     std::optional<IRType*> findType(std::string key);

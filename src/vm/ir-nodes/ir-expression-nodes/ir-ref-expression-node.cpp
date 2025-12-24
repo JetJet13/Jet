@@ -4,11 +4,12 @@
 
 #include "ir-ref-expression-node.h"
 
-IRRefExpressionNode::IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue) {
+IRRefExpressionNode::IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue, IRInstructionNode* irArc) {
     _node = node;
     _irExpression = irExpression;
     _irType = irType;
     _irValue = irValue;
+    _irArc = irArc;
 }
 
 void IRRefExpressionNode::markAsGlobal() {
@@ -42,6 +43,10 @@ Position* IRRefExpressionNode::getEndPosition() {
 
 std::optional<IRInstructionNode*> IRRefExpressionNode::getSourceAllocation() {
     return _irValue;
+}
+
+std::optional<IRInstructionNode*> IRRefExpressionNode::getArc() {
+    return _irArc;
 }
 
 llvm::Value* IRRefExpressionNode::getValue() {

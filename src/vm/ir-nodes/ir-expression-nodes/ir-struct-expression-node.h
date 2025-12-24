@@ -10,16 +10,17 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.h"
 #include "ir-expression-node.h"
 #include "../ir-instruction-node.h"
-#include "../../ir-type/ir-struct-pointer-type.h"
+#include "../../ir-type/ir-struct-ref-type.h"
 
 class IRStructExpressionNode : public IRExpressionNode {
 private:
     ASTStructExpressionNode* _node;
     IRInstructionNode* _irValue;
+    IRInstructionNode* _irArc;
     std::vector<IRExpressionNode*> _irValues;
     IRStructRefType* _type;
 public:
-    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
+    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRStructRefType* getIRType() override;
@@ -27,6 +28,7 @@ public:
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getArc() override;
     unsigned long size();
     llvm::Value* getValue() override;
     IRInstructionNode* getIRValue();

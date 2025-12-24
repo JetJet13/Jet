@@ -39,6 +39,10 @@ bool IRExpressionNode::needsToBeFreed() {
            this->getIRType()->containsTypeThatRequiresFreeing();
 }
 
+bool IRExpressionNode::hasArc() {
+    return this->getArc().has_value();
+}
+
 IRType* IRExpressionNode::getUnderlyingIRType() {
     return this->getIRType()->getUnderlyingType();
 }
@@ -53,6 +57,14 @@ TypeSource IRExpressionNode::getInjectorTypeSource() {
 
 std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocation() {
     return {};
+}
+
+std::optional<IRInstructionNode*> IRExpressionNode::getArc() {
+    return {};
+}
+
+bool IRExpressionNode::isExpression() {
+    return true;
 }
 
 llvm::Type* IRExpressionNode::getType() {

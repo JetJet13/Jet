@@ -36,6 +36,7 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refCounterIndex);
     auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
     auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, "currentRefCount");
+    DebugIRInjectorHelper::injectLog(functionBlock, currentRefCount, irGenerator->getInjector(), irModuleNode);
     functionBlock->getBuilder()->get()->CreateBr(freeValueIfBlock->getBlock());
 
     auto isLastRef = freeValueIfBlock->getBuilder()->get()->CreateICmp(
@@ -54,14 +55,14 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
         irContext->getIRModule()->getFreeValueFunction(),
         { refValuePointer, loadedUnderlyingType }
     );
-    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocFreeFunction(),
-            { refValuePointer }
-    );
-    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getMallocFreeFunction(),
-        { refCounterPointer }
-    );
+//    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
+//            irContext->getIRModule()->getMallocFreeFunction(),
+//            { refValuePointer }
+//    );
+//    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
+//        irContext->getIRModule()->getMallocFreeFunction(),
+//        { refCounterPointer }
+//    );
     freeValueIfThenBlock->getBuilder()->get()->CreateBr(freeValueEndBlock->getBlock());
 
     auto newRefCount = freeValueElseBlock->getBuilder()->get()->CreateBinOp(
@@ -70,6 +71,7 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
         irGenerator->generateIntConstant(1)
     );
     freeValueElseBlock->getBuilder()->get()->CreateStore(newRefCount, refCounterPointer);
+    DebugIRInjectorHelper::injectLog(freeValueElseBlock, "DECREMENTED REF COUNT!", irGenerator->getInjector(), irModuleNode);
     freeValueElseBlock->getBuilder()->get()->CreateBr(freeValueEndBlock->getBlock());
     freeValueEndBlock->addVoidReturn();
 }

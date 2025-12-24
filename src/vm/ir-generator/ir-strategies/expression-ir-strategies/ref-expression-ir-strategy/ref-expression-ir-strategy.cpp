@@ -7,13 +7,14 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRRefExpressionNode* RefExpressionIRStrategy::generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperation);
+    auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, new IROperation(IR_REF_ASSIGNMENT_OP));
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto allocation = this->generateAllocation(node, irType, irGenerator, irContext, irOperation);
     if (irExpressionNode->getSourceAllocation()) {
         allocation->setParentAllocation(irExpressionNode->getSourceAllocation().value());
     }
-    return new IRRefExpressionNode(node, irExpressionNode, irType, allocation);
+    auto arcAllocation = irExpressionNode->getArc().value_or(irGenerator->generateArcAllocation(irContext));
+    return new IRRefExpressionNode(node, irExpressionNode, irType, allocation, arcAllocation);
 }
 
 IRInstructionNode* RefExpressionIRStrategy::generateAllocation(ASTRefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {

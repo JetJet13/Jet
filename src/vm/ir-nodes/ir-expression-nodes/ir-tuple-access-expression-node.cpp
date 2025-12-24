@@ -4,7 +4,7 @@
 
 #include "ir-tuple-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
-#include "../../ir-type/ir-struct-pointer-type.h"
+#include "../../ir-type/ir-struct-ref-type.h"
 
 IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(ASTTupleAccessExpressionNode* node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
@@ -26,6 +26,10 @@ bool IRTupleAccessExpressionNode::isReferenced() {
 
 std::optional<IRInstructionNode*> IRTupleAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
+}
+
+std::optional<IRInstructionNode*> IRTupleAccessExpressionNode::getArc() {
+    return _irSource->getArc();
 }
 
 IRExpressionNode* IRTupleAccessExpressionNode::getSource() {

@@ -3,6 +3,7 @@
 //
 
 #include "free-captured-variable-ir-function.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName() {
     return "jet.free.captured.variable";
@@ -24,7 +25,7 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
     auto function = irModuleNode->getFreeCapturedVariableFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-
+    DebugIRInjectorHelper::injectLog(functionBlock, "FREEING CAPTURED VARIABLE!", irGenerator->getInjector(), irModuleNode);
     auto pointerToCaptureCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(capturedVariableType->getType(), function->getArg(0), capturedVariableType->getCaptureCounterIndex());
     auto captureCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToCaptureCounterPointer);
     auto currentCaptureCount = functionBlock->getBuilder()->get()->CreateLoad(capturedVariableType->getCaptureCounterIRType()->getType(), captureCounterPointer, "currentCaptureCount");
@@ -49,18 +50,17 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
     auto capturedVariablePointer = freeVariableIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToCapturedVariablePointer);
 
     freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getFreeValueFunction()->getFunctionType(),
         irContext->getIRModule()->getFreeValueFunction(),
         { capturedVariablePointer, loadedUnderlyingType }
     );
-    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getMallocFreeFunction(),
-        { capturedVariablePointer }
-    );
-    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
-        irContext->getIRModule()->getMallocFreeFunction(),
-        { captureCounterPointer }
-    );
+//    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
+//        irContext->getIRModule()->getMallocFreeFunction(),
+//        { capturedVariablePointer }
+//    );
+//    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
+//        irContext->getIRModule()->getMallocFreeFunction(),
+//        { captureCounterPointer }
+//    );
     freeVariableIfThenBlock->getBuilder()->get()->CreateBr(freeVariableEndBlock->getBlock());
 
     auto newCaptureCount = freeVariableElseBlock->getBuilder()->get()->CreateBinOp(
@@ -69,6 +69,10 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
             irGenerator->generateIntConstant(1)
     );
     freeVariableElseBlock->getBuilder()->get()->CreateStore(newCaptureCount, captureCounterPointer);
+    DebugIRInjectorHelper::injectLog(freeVariableElseBlock, "DECREMENTED CAPTURED VARIABLE COUNT!", irGenerator->getInjector(), irModuleNode);
+    DebugIRInjectorHelper::injectLog(freeVariableElseBlock, currentCaptureCount, irGenerator->getInjector(), irModuleNode);
+    DebugIRInjectorHelper::injectLog(freeVariableElseBlock, newCaptureCount, irGenerator->getInjector(), irModuleNode);
     freeVariableElseBlock->getBuilder()->get()->CreateBr(freeVariableEndBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(freeVariableEndBlock, "FREEING CAPTURED VARIABLE DONE!", irGenerator->getInjector(), irModuleNode);
     freeVariableEndBlock->addVoidReturn();
 }

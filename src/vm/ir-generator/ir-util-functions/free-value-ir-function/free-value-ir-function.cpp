@@ -79,7 +79,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.REF)
     );
-    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structIfBlock->getBlock());
+    refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     DebugIRInjectorHelper::injectLog(refIfThenBlock, "FREEING REF!", irGenerator->getInjector(), irModuleNode);
     refIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeRefFunction()->getFunctionType(),

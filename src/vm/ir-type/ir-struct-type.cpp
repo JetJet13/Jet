@@ -4,7 +4,7 @@
 
 #include "ir-struct-type.h"
 #include "../../shared/utils/logger/logger.h"
-#include "ir-struct-pointer-type.h"
+#include "ir-struct-ref-type.h"
 
 IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap) : IRType(type) {
     _type = type;
@@ -127,12 +127,7 @@ IRType* IRStructType::getIRTypeByIndex(unsigned long index) {
 }
 
 bool IRStructType::containsTypeThatRequiresFreeing() {
-    for (auto keyValue : _keyTypeMap) {
-        if (keyValue.second->containsTypeThatRequiresFreeing()) {
-            return true;
-        }
-    }
-    return false;
+    return true;
 }
 
 bool IRStructType::isStructType() {

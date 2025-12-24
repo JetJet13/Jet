@@ -20,13 +20,8 @@ llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(IRTupleExpressionNod
     auto pointerToTuplePointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleRefAllocation, irExpression->getIRType()->getStructIndex());
     InstructionIRInjectorHelper::injectStore(tupleAllocation, pointerToTuplePointer, irBlock);
     auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleRefAllocation, irExpression->getIRType()->getCounterIndex());
-    auto counterSize = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getCounterIRType()->getSizeInBytes());
-    auto counterAllocation = irBlock->getBuilder()->get()->CreateCall(
-            irModule->getMallocFunction(),
-            { counterSize }
-    );
-    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(1), counterAllocation, irBlock, irExpression->getIRType()->getCounterIRType());
-    InstructionIRInjectorHelper::injectStore(counterAllocation, pointerToCounterPointer, irBlock);
+    auto arc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
+    InstructionIRInjectorHelper::injectStore(arc, pointerToCounterPointer, irBlock);
 
     if (irOperation->isOperandPointer()) {
         return tupleRefAllocation;

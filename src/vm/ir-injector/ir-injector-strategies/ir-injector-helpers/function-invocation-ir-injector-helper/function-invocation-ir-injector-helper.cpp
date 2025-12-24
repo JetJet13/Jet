@@ -260,8 +260,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
     auto irType = irExpression->getFunctionIRType();
     if (irType->isFunctionParameterType()) {
         auto irFunctionParameterType = (IRFunctionParameterType*)irType;
-        InstructionIRInjectorHelper::inject(irExpression->getFunction(), irBlock);
-        auto loadedLambdaAtIndex = InstructionIRInjectorHelper::injectLoad(irFunctionParameterType->getType(), irExpression->getValue(), irBlock);
+        auto loadedLambdaAtIndex = InstructionIRInjectorHelper::inject(irExpression->getFunction(), irBlock);
         auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionIndex() });
         auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionScopeArgumentIndex() });
         arguments.push_back(lambdaScopeArgument);

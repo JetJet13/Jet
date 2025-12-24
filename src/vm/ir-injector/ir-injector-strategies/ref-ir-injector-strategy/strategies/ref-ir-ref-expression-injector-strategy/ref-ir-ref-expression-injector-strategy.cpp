@@ -9,12 +9,14 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irE
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperation, irModule, scope);
-        this->setupRef(allocation, value, irExpression->getUnderlyingIRType(), irBlock, irModule);
+        this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { allocation });
     } else if (irExpression->getExpression()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        this->setupRef(allocation, irExpression->getExpression()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
+        this->setupRef(allocation, irExpression->getExpression()->getValue(), irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
     } else {
         auto value = this->injectRawValue(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-        this->setupRef(allocation, value, irExpression->getUnderlyingIRType(), irBlock, irModule);
+        InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
+        this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
     }
 
     if (irOperation->isOperandPointer()) {
@@ -23,18 +25,11 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irE
     return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), allocation);
 }
 
-void RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocation, llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IRModuleNode *irModule) {
-    if (irType->isStructRefType()) {
-        irBlock->getBuilder()->get()->CreateCall(
-                irModule->getSetupRefForStructFunction(),
-                { allocation, value }
-        );
-    } else {
+void RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocation, llvm::Value* value, llvm::Value* valueArc, IRType* irType, IRBlockNode* irBlock, IRModuleNode *irModule) {
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getSetupRefFunction(),
-                { allocation, value }
+                { allocation, value, valueArc }
         );
-    }
 }
 
 llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {

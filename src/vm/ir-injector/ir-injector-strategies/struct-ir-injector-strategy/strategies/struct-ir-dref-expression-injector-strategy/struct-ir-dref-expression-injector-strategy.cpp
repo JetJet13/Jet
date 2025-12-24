@@ -5,13 +5,13 @@
 #include "struct-ir-dref-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/dref-ir-injector-helper/dref-ir-injector-helper.h"
-#include "../../../../../ir-type/ir-struct-pointer-type.h"
+#include "../../../../../ir-type/ir-struct-ref-type.h"
 
 llvm::Value* StructIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto loadedValue = DrefIRInjectorHelper::inject(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-    return StructIRInjectorHelper::injectStructCopy(
+    return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType*)irExpression->getIRType(),
+            (IRStructRefType *) irExpression->getIRType(),
             loadedValue,
             irModule,
             irInjector

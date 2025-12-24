@@ -14,10 +14,12 @@ class IRIdentifierExpressionNode : public IRExpressionNode {
 private:
     ASTIdentifierExpressionNode* _node;
     IRInstructionNode* _irValue;
+    std::optional<IRInstructionNode*> _irArc;
 public:
-    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue);
+    IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc = {});
     IRInstructionNode* getIRValue();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getArc() override;
     llvm::Value* getValue() override;
     IRPointerType* getIRType() override;
     TypeSignature* getTypeSignature() override;

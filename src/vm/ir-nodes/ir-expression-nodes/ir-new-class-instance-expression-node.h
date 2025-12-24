@@ -22,12 +22,14 @@ private:
     std::vector<IRExpressionNode*> _arguments;
     IRClassInstanceType* _type;
     IRInstructionNode* _classInstanceAllocation;
+    IRInstructionNode* _irArc;
 public:
-    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassInstanceType* type, IRInstructionNode* classInstanceAllocation);
+    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRInstructionNode* getClassInstanceAllocation();
     std::vector<IRExpressionNode*>* getIRArguments();
+    std::optional<IRInstructionNode*> getArc() override;
     llvm::Value* getValue() override;
     IRFunctionType* getConstructorIRType();
     llvm::Value* getConstructorFunction();

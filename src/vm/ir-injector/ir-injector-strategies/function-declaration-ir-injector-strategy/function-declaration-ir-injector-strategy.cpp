@@ -8,7 +8,8 @@
 
 void FunctionDeclarationIRInjectorStrategy::inject(IRFunctionDeclarationNode* irFunctionDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     irInjector->inject(irBlock, irFunctionDeclaration->getBlock(), irModule, irFunctionDeclaration->getScope());
-    FreeIRInjectorHelper::freeFunctionBlockVariables(irFunctionDeclaration->getBlock(), irInjector, irModule, irFunctionDeclaration->getScope());
+    FreeIRInjectorHelper::freeFunctionBlockNodes(irFunctionDeclaration->getBlock(), irInjector, irModule,
+                                                 irFunctionDeclaration->getScope());
     FreeIRInjectorHelper::freeFunctionParameters(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getParameters(), irInjector, irModule, irFunctionDeclaration->getScope());
     DebugIRInjectorHelper::injectFunctionEnterLog(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getName(), irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getName(), irInjector, irModule);

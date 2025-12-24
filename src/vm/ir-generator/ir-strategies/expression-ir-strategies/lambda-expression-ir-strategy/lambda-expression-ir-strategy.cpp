@@ -35,7 +35,8 @@ IRLambdaExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpression
         irGenerator->getInjector()->injectVoidReturnType(functionBlock);
     }
 
-    FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), scope);
+    FreeIRInjectorHelper::freeFunctionBlockNodes(functionBlock, irGenerator->getInjector(), irContext->getIRModule(),
+                                                 scope);
     FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), lambdaScope);
     DebugIRInjectorHelper::injectFunctionEnterLog(functionBlock, irFunction->getName().str(), irGenerator->getInjector(), irContext->getIRModule());
     DebugIRInjectorHelper::injectFunctionExitLog(functionBlock, irFunction->getName().str(), irGenerator->getInjector(), irContext->getIRModule());
@@ -58,6 +59,8 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
     functionBlock->getBuilder()->get()->CreateRet(irReturnExpressionValue);
 
     FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), lambdaScope);
+    DebugIRInjectorHelper::injectFunctionEnterLog(functionBlock, irFunction->getName().str(), irGenerator->getInjector(), irContext->getIRModule());
+    DebugIRInjectorHelper::injectFunctionExitLog(functionBlock, irFunction->getName().str(), irGenerator->getInjector(), irContext->getIRModule());
     return new IRLambdaWithFatArrowExpressionNode(node, irFunction, functionParameterList, functionBlock, irType, irCleanupFunction);
 }
 
@@ -95,7 +98,9 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
                     key,
                     IRInstructionNodeFactory::create(pointerToValue, irGenerator->generateIrPointerType(irType->getVariableIRType()))
                 );
-                scope->insertCaptureCounter(key, IRInstructionNodeFactory::create(pointerToCaptureCounterValue, irGenerator->generateIrPointerType(irType->getCaptureCounterIRType())));
+                scope->insertArc(key, IRInstructionNodeFactory::create(pointerToCaptureCounterValue,
+                                                                       irGenerator->generateIrPointerType(
+                                                                               irType->getCaptureCounterIRType())));
             }
         }
     }

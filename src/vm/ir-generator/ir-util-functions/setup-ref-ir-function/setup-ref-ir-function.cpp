@@ -11,27 +11,17 @@ std::string SetupRefIRFunction::getSetupRefIRFunctionName() {
 void SetupRefIRFunction::generateSetupRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto refType = irGenerator->generateIrRefType(pointerType);
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType->getType(), pointerType->getType() }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType->getType(), pointerType->getType(), pointerType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SetupRefIRFunction::getSetupRefIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto refValueIndex = irGenerator->generateIntConstant(refType->getRefValueIndex());
-    auto refCounterIndex = irGenerator->generateIntConstant(refType->getRefCounterIndex());
 
-
-    auto pointerToNewRefValuePointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refValueIndex });
+    auto pointerToNewRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());
     functionBlock->getBuilder()->get()->CreateStore(function->getArg(1), pointerToNewRefValuePointer);
 
     auto intType = IRType(irGenerator->generateIntType());
-    auto refCounterMalloc = functionBlock->getBuilder()->get()->CreateCall(
-        irModuleNode->getMallocFunction()->getFunctionType(),
-        irModuleNode->getMallocFunction(),
-        { irGenerator->generateInt64Constant(intType.getSizeInBytes()) }
-    );
-    auto refCounter = functionBlock->getBuilder()->get()->CreateBitCast(refCounterMalloc, intType.getType()->getPointerTo());
-    functionBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), refCounter);
-    auto pointerToNewRefCounterPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(refType->getType(), function->getArg(0), { zeroIndex, refCounterIndex });
-    functionBlock->getBuilder()->get()->CreateStore(refCounterMalloc, pointerToNewRefCounterPointer);
+
+    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
+    functionBlock->getBuilder()->get()->CreateStore(function->getArg(2), pointerToRefCounterPointer);
 
     functionBlock->addVoidReturn();
 }

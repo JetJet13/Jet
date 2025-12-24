@@ -26,6 +26,7 @@ public:
     bool isReferenced() override;
     ASTObjectAccessExpressionNode* getNode();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getArc() override;
     IRExpressionNode* getSource();
     std::string* getTargetKey();
     llvm::Constant* getIRTargetKeyIndex();

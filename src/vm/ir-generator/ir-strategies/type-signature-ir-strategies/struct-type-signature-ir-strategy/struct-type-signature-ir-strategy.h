@@ -8,7 +8,7 @@
 #include <llvm/IR/Value.h>
 #include "../../../ir-generator.h"
 #include "../../../../../core/type-signature/struct-type-signature/struct-type-signature.h"
-#include "../../../../ir-type/ir-struct-pointer-type.h"
+#include "../../../../ir-type/ir-struct-ref-type.h"
 
 class StructTypeSignatureIRStrategy {
 public:

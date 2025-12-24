@@ -17,11 +17,6 @@ void SetupRefForStructIRFunction::generateSetupRefForStructFunction(IRGenerator*
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SetupRefForStructIRFunction::getSetupRefForStructIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
-    functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getIncrementRefCountFunction(),
-            { function->getArg(1) }
-    );
-
     auto pointerToRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());
     InstructionIRInjectorHelper::injectStore(function->getArg(1), pointerToRefValuePointer, functionBlock);
 

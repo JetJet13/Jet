@@ -48,11 +48,12 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
         auto targetIndex = irStructRefType->getStructIRType()->getIndexForKey(node->getName());
         auto irFunctionType = irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
         auto irStructAllocPointer = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(irStructRefType->getStructIndex()) });
-        auto loadedStructAlloc = new llvm::LoadInst(irStructRefType->getStructType(), irStructAllocPointer, "", false, irStructRefType->getAlignment());
+        auto loadedStructAlloc = irGenerator->generateLoadInstruction(irStructAllocPointer, irGenerator->generateIrPointerType());
+        auto pointerToValue = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedStructAlloc, { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });
         auto irFunction = IRInstructionNodeFactory::create(
-                llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedStructAlloc, { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) }),
+                irGenerator->generateLoadInstruction(pointerToValue, irFunctionType),
                 irGenerator->generateIrPointerType(irFunctionType),
-                { irStructAllocPointer, loadedStructAlloc }
+                { irStructAllocPointer, loadedStructAlloc, pointerToValue }
         );
         return new IRObjectAccessInvocationExpressionNode(node, irFunction, irFunctionType, arguments, irReturnType);
     } else {

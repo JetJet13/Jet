@@ -7,7 +7,7 @@
 
 #include "ir-type.h"
 #include "ir-class-type.h"
-#include "ir-struct-pointer-type.h"
+#include "ir-struct-ref-type.h"
 
 class IRClassInstanceType : public IRType {
 private:

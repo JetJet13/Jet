@@ -27,7 +27,6 @@ void FreePointerIRFunction::generateFreePointerFunction(IRGenerator* irGenerator
     auto loadedUnderlyingSourcePointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), function->getArg(0));
 
     functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeValueFunction()->getFunctionType(),
             irContext->getIRModule()->getFreeValueFunction(),
             { loadedUnderlyingSourcePointer, underlyingType }
     );

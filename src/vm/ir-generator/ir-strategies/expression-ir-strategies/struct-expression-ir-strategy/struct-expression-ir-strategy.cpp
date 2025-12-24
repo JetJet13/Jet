@@ -26,6 +26,7 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
     return new IRStructExpressionNode(
             node,
             structRefAllocation,
+            irGenerator->generateArcAllocation(irContext),
             irType,
             structValues
     );
@@ -49,10 +50,8 @@ IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(IRStruct
 IRInstructionNode* StructExpressionIRStrategy::generateStructRefAllocation(ASTStructExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
-                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
-                ""
+                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) }
         );
         return IRInstructionNodeFactory::create(
                 malloc,

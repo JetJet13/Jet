@@ -19,9 +19,9 @@ llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcce
 
 llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
-    return StructIRInjectorHelper::injectStructCopy(
+    return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType*)irExpression->getSource()->getIRType(),
+            (IRStructRefType *) irExpression->getSource()->getIRType(),
             loadedSourceAllocation,
             irModule,
             irInjector

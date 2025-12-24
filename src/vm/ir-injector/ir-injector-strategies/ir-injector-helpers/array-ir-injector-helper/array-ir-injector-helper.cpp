@@ -56,7 +56,8 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
             auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(),
                                                              destinationAllocation->getValue(), { zeroIndex, irIndex });
             if (childAllocation->getIRType()->isStructRefType()) {
-                InstructionIRInjectorHelper::injectStore(StructIRInjectorHelper::injectStructCopy(irBlock, childAllocation, irModule, irInjector), pointer, irBlock, childAllocation->getIRType());
+                InstructionIRInjectorHelper::injectStore(
+                        StructIRInjectorHelper::injectStructRef(irBlock, childAllocation, irModule, irInjector), pointer, irBlock, childAllocation->getIRType());
             } else if (childAllocation->getIRType()->getSourceType()->isPointerType()) {
                 auto pointerType = (IRPointerType*)childAllocation->getIRType()->getSourceType();
                 InstructionIRInjectorHelper::injectStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, childAllocation, irModule, irInjector), pointer, irBlock, childAllocation->getIRType());

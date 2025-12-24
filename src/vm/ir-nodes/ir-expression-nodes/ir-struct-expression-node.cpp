@@ -4,9 +4,10 @@
 
 #include "ir-struct-expression-node.h"
 
-IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRStructRefType* type, std::vector<IRExpressionNode*> irValues) {
+IRStructExpressionNode::IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues) {
     _node = astNode;
     _irValue = irValue;
+    _irArc = irArc;
     _irValues = irValues;
     _type = type;
 }
@@ -40,6 +41,10 @@ Position* IRStructExpressionNode::getEndPosition() {
 
 std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() {
     return _irValue;
+}
+
+std::optional<IRInstructionNode*> IRStructExpressionNode::getArc() {
+    return _irArc;
 }
 
 unsigned long IRStructExpressionNode::size() {

@@ -29,6 +29,7 @@ public:
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     bool containsTypeThatRequiresFreeing() override;
     IRRefType* clone() override;
+    bool requiresArc() override;
     bool isRefType() override;
 };
 

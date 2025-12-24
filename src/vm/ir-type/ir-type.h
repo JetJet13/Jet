@@ -62,6 +62,7 @@ public:
     virtual bool isRefType();
     virtual bool isCapturedVariableType();
     virtual bool containsTypeThatRequiresFreeing();
+    virtual bool requiresArc();
     bool isEqual(IRType* otherValue);
     bool isNotEqual(IRType* otherValue);
     bool isLessThan(IRType* otherValue);

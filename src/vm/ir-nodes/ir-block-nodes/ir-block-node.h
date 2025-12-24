@@ -21,6 +21,7 @@ protected:
     std::vector<IRNode*> _body;
     std::vector<IRBlockNode*> _successors;
     std::optional<IRBlockNode*> _parentBlock;
+    std::vector<IRNode*> _nodesToFree;
     std::vector<IRFunctionParameterNode*> _parametersToFree;
     std::vector<IRExpressionNode*> _expressionsToFree;
     std::vector<IRVariableDeclarationNode*> _variablesToFree;
@@ -35,10 +36,12 @@ public:
     void insert(IRNode* irNode);
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
     void addVoidReturn();
+    bool hasNodesToFree();
     bool hasVariablesToFree();
     void addExpressionToFree(IRExpressionNode* expressionNode);
     void addVariableToFree(IRVariableDeclarationNode* variableNode);
     void addLambdaVariableToFree(IRVariableDeclarationNode* variableNode);
+    virtual std::vector<IRNode*>* getNodesToFree();
     virtual std::vector<IRExpressionNode*>* getExpressionsToFree();
     virtual std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
     virtual std::vector<IRVariableDeclarationNode*>* getLambdaVariablesToFree();

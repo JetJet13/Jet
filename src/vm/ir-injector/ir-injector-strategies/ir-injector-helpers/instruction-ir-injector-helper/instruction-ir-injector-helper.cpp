@@ -12,6 +12,10 @@ llvm::Value* InstructionIRInjectorHelper::inject(IRTypeValueInstructionNode* irT
 }
 
 llvm::Value* InstructionIRInjectorHelper::inject(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name) {
+    if (irInstruction->isInserted()) {
+        return irInstruction->getValue();
+    }
+
     for (auto ancestorValue : *irInstruction->getAncestorValues()) {
         irBlock->getBuilder()->get()->Insert(ancestorValue);
     }

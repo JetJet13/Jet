@@ -2,8 +2,8 @@
 // Created by Johny Georges on 2025-12-18.
 //
 
-#ifndef JETLANG_IR_STRUCT_POINTER_TYPE_H
-#define JETLANG_IR_STRUCT_POINTER_TYPE_H
+#ifndef JETLANG_IR_STRUCT_REF_TYPE_H
+#define JETLANG_IR_STRUCT_REF_TYPE_H
 
 #include <llvm/IR/Value.h>
 #include "ir-type.h"
@@ -25,10 +25,11 @@ public:
     llvm::PointerType* getCounterType();
     IRType* getCounterIRType();
     IRStructType* getStructIRType();
+    bool requiresArc() override;
     bool isStructRefType() override;
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     IRStructRefType* clone() override;
 };
 
-#endif //JETLANG_IR_STRUCT_POINTER_TYPE_H
+#endif //JETLANG_IR_STRUCT_REF_TYPE_H

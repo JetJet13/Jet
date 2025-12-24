@@ -7,7 +7,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 IRTupleAccessExpressionNode* TupleAccessExpressionIRStrategy::generate(ASTTupleAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperation);
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
     auto sourceType = (IRStructRefType*)sourceValue->getUnderlyingIRType();
     auto targetIndex = node->getIndex()->getIndexValue();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);

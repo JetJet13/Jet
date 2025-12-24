@@ -24,8 +24,8 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                 globalVariableIrType->getAlignment(),
                 globalVariableIrType->getSizeInBytes()
         );
+        // todo - fix this
         irBlock->getBuilder()->get()->CreateCall(
-                irModule->getFreeValueFunction()->getFunctionType(),
                 irModule->getFreeValueFunction(),
                 { oldGlobalVariableValue }
         );

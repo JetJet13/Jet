@@ -22,7 +22,8 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
             irType->getIRConstructorType(),
             arguments,
             irType,
-            pointerAllocation
+            pointerAllocation,
+            irGenerator->generateArcAllocation(irContext)
     );
 }
 

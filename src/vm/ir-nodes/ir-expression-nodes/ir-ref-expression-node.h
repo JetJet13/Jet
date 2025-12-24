@@ -19,8 +19,9 @@ private:
     IRExpressionNode* _irExpression;
     IRRefType* _irType;
     IRInstructionNode* _irValue;
+    IRInstructionNode* _irArc;
 public:
-    IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue);
+    IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue, IRInstructionNode* irArc);
     void markAsGlobal() override;
     IRExpressionNode* getExpression();
     IRInstructionNode* getIRValue();
@@ -29,6 +30,7 @@ public:
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
+    std::optional<IRInstructionNode*> getArc() override;
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

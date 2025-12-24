@@ -2,7 +2,7 @@
 // Created by Johny Georges on 2025-12-18.
 //
 
-#include "ir-struct-pointer-type.h"
+#include "ir-struct-ref-type.h"
 
 IRStructRefType::IRStructRefType(llvm::StructType* type, IRType* counterIRType, IRStructType* structIRType) : IRType(type) {
     _type = type;
@@ -41,6 +41,10 @@ IRStructType* IRStructRefType::getStructIRType() {
 }
 
 bool IRStructRefType::isStructRefType() {
+    return true;
+}
+
+bool IRStructRefType::requiresArc() {
     return true;
 }
 

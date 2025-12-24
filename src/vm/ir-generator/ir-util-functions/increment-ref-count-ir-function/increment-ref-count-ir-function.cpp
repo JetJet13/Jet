@@ -4,6 +4,7 @@
 
 #include "increment-ref-count-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName() {
     return "jet.increment.ref.count";
@@ -24,6 +25,9 @@ void IncrementRefCountIRFunction::generateIncrementRefCountFunction(IRGenerator*
             currentRefCount,
             irGenerator->generateIntConstant(1)
     );
+    DebugIRInjectorHelper::injectLog(functionBlock, "INCREMENT REF COUNT", irGenerator->getInjector(), irModuleNode);
+    DebugIRInjectorHelper::injectLog(functionBlock, currentRefCount, irGenerator->getInjector(), irModuleNode);
+    DebugIRInjectorHelper::injectLog(functionBlock, newRefCount, irGenerator->getInjector(), irModuleNode);
     InstructionIRInjectorHelper::injectStore(newRefCount, refCounterPointer, functionBlock);
 
     functionBlock->addVoidReturn();

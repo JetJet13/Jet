@@ -4,13 +4,13 @@
 
 #include "ir-variable-declaration-node.h"
 
-IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irCaptureCounter) {
+IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irArc) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
     _variableNameIRValue = variableNameIRValue;
     _irGlobalVariable = irGlobalVariable;
-    _irCaptureCounter = irCaptureCounter;
+    _irArc = irArc;
 }
 
 std::string IRVariableDeclarationNode::getVariableName() {
@@ -41,7 +41,7 @@ IRExpressionNode* IRVariableDeclarationNode::getIRExpression() {
     return _irExpression;
 }
 
-bool IRVariableDeclarationNode::needsToBeFreed() {
+bool IRVariableDeclarationNode::toBeFreedDirectly() {
     return !_node->isReferenced() &&
     !_node->isCaptured() &&
     !_node->isGlobal() &&
@@ -56,8 +56,8 @@ std::optional<IRInstructionNode*> IRVariableDeclarationNode::getGlobalVariable()
     return _irGlobalVariable;
 }
 
-std::optional<IRInstructionNode*> IRVariableDeclarationNode::getCaptureCounter() {
-    return _irCaptureCounter;
+std::optional<IRInstructionNode*> IRVariableDeclarationNode::getArc() {
+    return _irArc;
 }
 
 IRNodeType IRVariableDeclarationNode::getNodeType() {

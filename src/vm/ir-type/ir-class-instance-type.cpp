@@ -57,7 +57,7 @@ llvm::StructType* IRClassInstanceType::getType() {
 }
 
 bool IRClassInstanceType::containsTypeThatRequiresFreeing() {
-    return _irClassType->containsTypeThatRequiresFreeing();
+    return true;
 }
 
 bool IRClassInstanceType::isClassInstanceType() {

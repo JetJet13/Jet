@@ -218,6 +218,10 @@ bool IRType::containsTypeThatRequiresFreeing() {
     return false;
 }
 
+bool IRType::requiresArc() {
+    return false;
+}
+
 bool IRType::isEqual(IRType* otherValue) {
     if (this->isIntegerType() && otherValue->isIntegerType()) {
         return this->getType()->getIntegerBitWidth() == otherValue->getType()->getIntegerBitWidth();

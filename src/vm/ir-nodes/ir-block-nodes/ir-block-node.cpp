@@ -9,6 +9,7 @@ IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type) {
     _irValue = irValue;
     _type = type;
     _builder = std::make_unique<llvm::IRBuilder<>>(_irValue);
+    _nodesToFree = std::vector<IRNode*>();
 }
 
 bool IRBlockNode::hasReturnStatement() {
@@ -45,6 +46,10 @@ void IRBlockNode::addVoidReturn() {
     _builder.get()->CreateRetVoid();
 }
 
+bool IRBlockNode::hasNodesToFree() {
+    return _nodesToFree.size() > 0;
+}
+
 bool IRBlockNode::hasVariablesToFree() {
     return this->getVariablesToFree()->size() > 0;
 }
@@ -55,14 +60,34 @@ void IRBlockNode::addReturnExpression(IRFunctionReturnExpressionNode* returnExpr
 
 void IRBlockNode::addExpressionToFree(IRExpressionNode* expressionNode) {
     _expressionsToFree.insert(_expressionsToFree.begin(), expressionNode);
+    _nodesToFree.insert(_nodesToFree.begin(), expressionNode);
 }
 
 void IRBlockNode::addVariableToFree(IRVariableDeclarationNode* variableNode) {
     _variablesToFree.insert(_variablesToFree.begin(), variableNode);
+    _nodesToFree.insert(_nodesToFree.begin(), variableNode);
 }
 
 void IRBlockNode::addLambdaVariableToFree(IRVariableDeclarationNode* variableNode) {
     _lambdaVariablesToFree.insert(_lambdaVariablesToFree.begin(), variableNode);
+    _nodesToFree.insert(_nodesToFree.begin(), variableNode);
+}
+
+std::vector<IRNode*>* IRBlockNode::getNodesToFree() {
+    auto allNodesToFree = new std::vector<IRNode*>();
+    allNodesToFree->insert(allNodesToFree->begin(), _nodesToFree.begin(), _nodesToFree.end());
+    for (auto successorBlock : _successors) {
+        if (successorBlock->is(IR_BASIC_BT)) {
+            auto moreNodesToFree = successorBlock->getExpressionsToFree();
+            allNodesToFree->insert(
+                    allNodesToFree->begin(),
+                    moreNodesToFree->begin(),
+                    moreNodesToFree->end()
+            );
+
+        }
+    }
+    return allNodesToFree;
 }
 
 std::vector<IRExpressionNode*>* IRBlockNode::getExpressionsToFree() {

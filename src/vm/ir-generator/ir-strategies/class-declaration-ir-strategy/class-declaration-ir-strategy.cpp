@@ -110,7 +110,8 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
         }
     }
     functionBlock->addVoidReturn();
-    FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), constructorScope);
+    FreeIRInjectorHelper::freeFunctionBlockNodes(functionBlock, irGenerator->getInjector(), irContext->getIRModule(),
+                                                 constructorScope);
     FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), constructorScope);
     DebugIRInjectorHelper::injectFunctionEnterLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());
     DebugIRInjectorHelper::injectFunctionExitLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());
@@ -158,7 +159,8 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
     }
 
 
-    FreeIRInjectorHelper::freeFunctionBlockVariables(functionBlock, irGenerator->getInjector(), irContext->getIRModule(), methodScope);
+    FreeIRInjectorHelper::freeFunctionBlockNodes(functionBlock, irGenerator->getInjector(), irContext->getIRModule(),
+                                                 methodScope);
     FreeIRInjectorHelper::freeFunctionParameters(functionBlock, functionParameterList, irGenerator->getInjector(), irContext->getIRModule(), methodScope);
     DebugIRInjectorHelper::injectFunctionEnterLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());
     DebugIRInjectorHelper::injectFunctionExitLog(functionBlock, node->getId(), irGenerator->getInjector(), irContext->getIRModule());

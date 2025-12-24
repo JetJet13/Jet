@@ -5,7 +5,7 @@
 #include "tuple-ir-identifier-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../../../ir-type/ir-struct-pointer-type.h"
+#include "../../../../../ir-type/ir-struct-ref-type.h"
 
 llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     if (irOperation->isRefAssignment()) {
@@ -18,9 +18,9 @@ llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExp
 }
 
 llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectCopy(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
-    return StructIRInjectorHelper::injectStructCopy(
+    return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType*)irExpression->getUnderlyingIRType(),
+            (IRStructRefType *) irExpression->getUnderlyingIRType(),
             irExpression->getValue(),
             irModule,
             irInjector

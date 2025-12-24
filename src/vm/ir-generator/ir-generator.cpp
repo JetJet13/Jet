@@ -557,6 +557,10 @@ llvm::StoreInst* IRGenerator::generateStoreInstruction(llvm::Value* value, llvm:
     return new llvm::StoreInst(value, pointer, false, irType->getAlignment());
 }
 
+llvm::LoadInst* IRGenerator::generateLoadInstruction(llvm::Value* pointer, IRType* irType) {
+    return new llvm::LoadInst(irType->getType(), pointer, "", false, irType->getAlignment());
+}
+
 IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter) {
     return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, this, scope, irContext, scopeParameter);
 }
@@ -642,6 +646,48 @@ IRType* IRGenerator::generateIRCaptureCounterType() {
 
 IRType* IRGenerator::generateIRStructRefCounterType() {
     return new IRType(this->generateIntType());
+}
+
+IRType* IRGenerator::generateIRArcType() {
+    return new IRType(this->generateIntType());
+}
+
+IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, llvm::Value* source, unsigned long count) {
+    auto irType = this->generateIRArcType();
+    auto structRefType = this->generateIRStructRefType();
+    auto pointerToArcPointer = llvm::GetElementPtrInst::Create(structRefType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(structRefType->getCounterIndex()) });
+    auto ancestorValues = std::vector<llvm::Value*> { pointerToArcPointer };
+    if (count > 0) {
+        auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
+        auto currentArcValue = this->generateLoadInstruction(loadedArcPointerForCount, irType);
+        auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+        auto setArcValue = this->generateStoreInstruction(newArcValue, loadedArcPointerForCount, irType);
+        ancestorValues.push_back(loadedArcPointerForCount);
+        ancestorValues.push_back(currentArcValue);
+        ancestorValues.push_back(newArcValue);
+        ancestorValues.push_back(setArcValue);
+    }
+    return new IRInstructionNode(
+            this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType)),
+            this->generateIrPointerType(irType),
+            ancestorValues
+    );
+}
+
+IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, unsigned long initialCount) {
+    auto irType = this->generateIRArcType();
+    auto malloc = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocFunction(),
+            { this->generateInt64Constant(irType->getSizeInBytes()) }
+    );
+    auto captureCount = this->generateIntConstant(initialCount);
+    auto storeInstruction = this->generateStoreInstruction(captureCount, malloc, irType);
+    return new IRInstructionNode(
+            malloc,
+            this->generateIrPointerType(irType),
+            {},
+            { storeInstruction }
+    );
 }
 
 IRCapturedVariableType* IRGenerator::generateIRCapturedVariableType(IRType* variableIrType) {

@@ -20,6 +20,7 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
     return new IRTupleExpressionNode(
             node,
             tuplePointerAllocation,
+            irGenerator->generateArcAllocation(irContext),
             irType,
             tupleValues
     );

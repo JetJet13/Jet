@@ -5,13 +5,14 @@
 #include "ir-new-class-instance-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassInstanceType* type, IRInstructionNode* classInstanceAllocation) {
+IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc) {
     _node = node;
     _irConstructor = irConstructor;
     _irConstructorType = irConstructorType;
     _arguments = arguments;
     _type = type;
     _classInstanceAllocation = classInstanceAllocation;
+    _irArc = irArc;
 }
 
 void IRNewClassInstanceExpressionNode::markAsGlobal() {
@@ -32,6 +33,10 @@ IRInstructionNode* IRNewClassInstanceExpressionNode::getClassInstanceAllocation(
 
 std::vector<IRExpressionNode*>* IRNewClassInstanceExpressionNode::getIRArguments() {
     return &_arguments;
+}
+
+std::optional<IRInstructionNode*> IRNewClassInstanceExpressionNode::getArc() {
+    return _irArc;
 }
 
 llvm::Value* IRNewClassInstanceExpressionNode::getValue() {

@@ -4,7 +4,7 @@
 
 #include "class-property-assignment-ir-injector-strategy.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../ir-type/ir-struct-pointer-type.h"
+#include "../../../ir-type/ir-struct-ref-type.h"
 
 void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignmentStatementNode* irClassPropertyAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
     auto classScopeParameter = scope->getClassScope().value();

@@ -7,6 +7,10 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto allocation = scope->findAcrossScopes(node->getIdentifierNode()->getId());
-    return new IRIdentifierExpressionNode(node, allocation.value());
+    auto id = node->getIdentifierNode()->getId();
+    auto allocation = scope->findAcrossScopes(id);
+    if (irOperation->isCopy() && allocation.value()->getIRType()->getSourceType()->requiresArc()) {
+        return new IRIdentifierExpressionNode(node, allocation.value(), irGenerator->generateArcAllocation(irContext));
+    }
+    return new IRIdentifierExpressionNode(node, allocation.value(), scope->findArc(id));
 }

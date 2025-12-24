@@ -17,10 +17,10 @@ private:
     IRInstructionNode* _irValue;
     IRExpressionNode* _irExpression;
     std::optional<IRInstructionNode*> _irGlobalVariable;
-    std::optional<IRInstructionNode*> _irCaptureCounter;
+    std::optional<IRInstructionNode*> _irArc;
     llvm::Value* _variableNameIRValue;
 public:
-    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable = {}, std::optional<IRInstructionNode*> irCaptureCounter = {});
+    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable = {}, std::optional<IRInstructionNode*> irArc = {});
     std::string getVariableName();
     llvm::Value* getVariableNameIRValue();
     llvm::Value* getValue() override;
@@ -28,10 +28,10 @@ public:
     IRType* getAllocatedIRType();
     IRInstructionNode* getIRValue();
     IRExpressionNode* getIRExpression();
-    bool needsToBeFreed();
+    bool toBeFreedDirectly();
     bool isLambdaVariable();
     std::optional<IRInstructionNode*> getGlobalVariable();
-    std::optional<IRInstructionNode*> getCaptureCounter();
+    std::optional<IRInstructionNode*> getArc();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

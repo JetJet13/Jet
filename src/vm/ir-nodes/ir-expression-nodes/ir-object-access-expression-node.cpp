@@ -33,6 +33,10 @@ std::optional<IRInstructionNode*> IRObjectAccessExpressionNode::getSourceAllocat
     return _sourceAllocation;
 }
 
+std::optional<IRInstructionNode*> IRObjectAccessExpressionNode::getArc() {
+    return _irSource->getArc();
+}
+
 IRExpressionNode* IRObjectAccessExpressionNode::getSource() {
     return _irSource;
 }

@@ -11,12 +11,12 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 #include "../../../ir-injector.h"
-#include "../../../../ir-type/ir-struct-pointer-type.h"
+#include "../../../../ir-type/ir-struct-ref-type.h"
 
 class StructIRInjectorHelper {
 public:
-    static llvm::Value* injectStructCopy(IRBlockNode* irBlock, IRInstructionNode* structRefAllocation, IRModuleNode* irModule, IRInjector* irInjector);
-    static llvm::Value* injectStructCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, IRModuleNode* irModule, IRInjector* irInjector);
+    static llvm::Value* injectStructRef(IRBlockNode* irBlock, IRInstructionNode* structRefAllocation, IRModuleNode* irModule, IRInjector* irInjector);
+    static llvm::Value* injectStructRefCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, IRModuleNode* irModule, IRInjector* irInjector);
 };
 
 #endif //JETLANG_STRUCT_IR_INJECTOR_HELPER_H

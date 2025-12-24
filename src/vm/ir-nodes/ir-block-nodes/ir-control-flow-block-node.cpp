@@ -4,6 +4,10 @@
 
 #include "ir-control-flow-block-node.h"
 
+std::vector<IRNode*>* IRControlFlowBlockNode::getNodesToFree() {
+    return &_nodesToFree;
+}
+
 std::vector<IRExpressionNode*>* IRControlFlowBlockNode::getExpressionsToFree() {
     return &_expressionsToFree;
 }

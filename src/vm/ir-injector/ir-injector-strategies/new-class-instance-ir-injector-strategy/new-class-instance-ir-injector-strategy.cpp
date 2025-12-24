@@ -25,13 +25,8 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
     auto pointerToClassInstancePropertiesPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), classInstanceAllocation, irStructRefType->getStructIndex());
     InstructionIRInjectorHelper::injectStore(classInstancePropertiesAllocation, pointerToClassInstancePropertiesPointer, irBlock);
     auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), classInstanceAllocation, irStructRefType->getCounterIndex());
-    auto counterSize = irBlock->getBuilder()->get()->getInt64(irStructRefType->getCounterIRType()->getSizeInBytes());
-    auto counterAllocation = irBlock->getBuilder()->get()->CreateCall(
-            irModule->getMallocFunction(),
-            { counterSize }
-    );
-    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(1), counterAllocation, irBlock, irExpression->getIRType()->getIRClassPropertiesType()->getCounterIRType());
-    InstructionIRInjectorHelper::injectStore(counterAllocation, pointerToCounterPointer, irBlock);
+    auto arc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
+    InstructionIRInjectorHelper::injectStore(arc, pointerToCounterPointer, irBlock);
 
     auto preConstructorFunction = irModule->getModule()->getFunction(irExpression->getIRType()->getIRClassType()->getPreConstructorName());
     irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });

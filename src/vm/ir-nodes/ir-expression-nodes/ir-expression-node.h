@@ -22,9 +22,11 @@ public:
     virtual bool isAssigned();
     void markAsAssigned();
     bool needsToBeFreed();
+    bool hasArc();
     IRType* getUnderlyingIRType();
     virtual TypeSource getInjectorTypeSource();
     virtual std::optional<IRInstructionNode*> getSourceAllocation();
+    virtual std::optional<IRInstructionNode*> getArc();
     virtual llvm::Type* getType();
     virtual llvm::Type* getTypeAtIndex(unsigned long index);
     virtual llvm::Value* getValue() = 0;
@@ -32,6 +34,7 @@ public:
     virtual TypeSignature* getTypeSignature() = 0;
     virtual Position* getStartPosition() = 0;
     virtual Position* getEndPosition() = 0;
+    bool isExpression() override;
 };
 
 #endif //JETLANG_IR_EXPRESSION_NODE_H
