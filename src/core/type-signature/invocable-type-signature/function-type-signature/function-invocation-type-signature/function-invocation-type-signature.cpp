@@ -34,7 +34,7 @@ TypeSource FunctionInvocationTypeSignature::getTypeSource() {
 }
 
 TypeSource FunctionInvocationTypeSignature::getTypeTarget() {
-    return _invocableTypeSignature->getReturnType()->getTypeTarget();
+    return _invocableTypeSignature->getReturnType()->getTypeSource();
 }
 
 TypeSignature* FunctionInvocationTypeSignature::convertToVariableTypeSignature() {

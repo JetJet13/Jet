@@ -593,17 +593,17 @@ llvm::Constant* IRGenerator::generateRawString(std::string rawString) {
 }
 
 llvm::Constant* IRGenerator::getOrInsertGlobalVariableString(std::string id, std::string rawString, IRContext* irContext) {
-    auto idValue = this->generateRawString(id);
+    auto stringValue = this->generateRawString(rawString);
     return irContext->getModule()->getOrInsertGlobal(
             id,
-            idValue->getType(),
-            [irContext, idValue, id]() -> llvm::GlobalVariable* {
+            stringValue->getType(),
+            [irContext, stringValue, id]() -> llvm::GlobalVariable* {
                 return new llvm::GlobalVariable(
                         *irContext->getModule(),
-                        idValue->getType(),
+                        stringValue->getType(),
                         true,
-                        llvm::GlobalValue::InternalLinkage,
-                        idValue,
+                        llvm::GlobalValue::PrivateLinkage,
+                        stringValue,
                         id
                 );
             }

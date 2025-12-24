@@ -22,6 +22,6 @@ void SetupRefIRFunction::generateSetupRefFunction(IRGenerator* irGenerator, std:
 
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
     functionBlock->getBuilder()->get()->CreateStore(function->getArg(2), pointerToRefCounterPointer);
-
+    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getIncrementRefCountFunction(), { function->getArg(0) });
     functionBlock->addVoidReturn();
 }

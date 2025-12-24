@@ -69,9 +69,8 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
             irGenerator->generateIntConstant(1)
     );
     freeVariableElseBlock->getBuilder()->get()->CreateStore(newCaptureCount, captureCounterPointer);
-    DebugIRInjectorHelper::injectLog(freeVariableElseBlock, "DECREMENTED CAPTURED VARIABLE COUNT!", irGenerator->getInjector(), irModuleNode);
     DebugIRInjectorHelper::injectLog(freeVariableElseBlock, currentCaptureCount, irGenerator->getInjector(), irModuleNode);
-    DebugIRInjectorHelper::injectLog(freeVariableElseBlock, newCaptureCount, irGenerator->getInjector(), irModuleNode);
+    DebugIRInjectorHelper::injectLog(freeVariableElseBlock, "DECREMENTED CAPTURED VARIABLE COUNT!", irGenerator->getInjector(), irModuleNode);
     freeVariableElseBlock->getBuilder()->get()->CreateBr(freeVariableEndBlock->getBlock());
     DebugIRInjectorHelper::injectLog(freeVariableEndBlock, "FREEING CAPTURED VARIABLE DONE!", irGenerator->getInjector(), irModuleNode);
     freeVariableEndBlock->addVoidReturn();

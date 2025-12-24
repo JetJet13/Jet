@@ -10,13 +10,16 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irE
     if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperation, irModule, scope);
         this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
-        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { allocation });
     } else if (irExpression->getExpression()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
         this->setupRef(allocation, irExpression->getExpression()->getValue(), irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
     } else {
         auto value = this->injectRawValue(irExpression, irBlock, irInjector, irOperation, irModule, scope);
         InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
         this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
+    }
+
+    if (irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { allocation });
     }
 
     if (irOperation->isOperandPointer()) {

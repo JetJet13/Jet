@@ -5,8 +5,9 @@
 #include "ir-function-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
+IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
     _node = node;
+    _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
@@ -37,7 +38,11 @@ ASTFunctionInvocationExpressionNode* IRFunctionInvocationExpressionNode::getNode
     return _node;
 }
 
-llvm::Value* IRFunctionInvocationExpressionNode::getValue() {
+llvm::CallInst* IRFunctionInvocationExpressionNode::getValue() {
+    return _irCallInstruction;
+}
+
+llvm::Value* IRFunctionInvocationExpressionNode::getFunctionValue() {
     return _irFunction;
 }
 

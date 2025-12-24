@@ -24,7 +24,7 @@ void SetupSrefIRFunction::generateSetupSrefFunction(IRGenerator* irGenerator, st
     auto pointerToNewRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(1), refType->getRefCounterIndex());
     auto refCounterPointer = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefCounterPointer, functionBlock);
+    functionBlock->getBuilder()->get()->CreateCall(irModuleNode->getIncrementRefCountFunction(), { function->getArg(1) });
     InstructionIRInjectorHelper::injectStore(refCounterPointer, pointerToNewRefCounterPointer, functionBlock);
-
     functionBlock->addVoidReturn();
 }

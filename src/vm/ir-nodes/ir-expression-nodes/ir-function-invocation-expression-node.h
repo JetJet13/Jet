@@ -15,19 +15,21 @@
 class IRFunctionInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTFunctionInvocationExpressionNode* _node;
+    llvm::CallInst* _irCallInstruction;
     llvm::Value* _irFunction;
     IRType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
     std::optional<IRInstructionNode*> _varArgsTypeValueArgument;
 public:
-    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument = {});
+    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument = {});
     void markAsGlobal() override;
     bool isReferenced() override;
     std::optional<IRInstructionNode*> getVarArgsTypeValueArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
     ASTFunctionInvocationExpressionNode* getNode();
-    llvm::Value* getValue() override;
+    llvm::CallInst* getValue() override;
+    llvm::Value* getFunctionValue();
     IRType* getFunctionIRType();
     IRType* getIRType() override;
     FunctionInvocationTypeSignature* getTypeSignature() override;

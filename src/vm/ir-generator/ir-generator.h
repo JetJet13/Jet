@@ -92,7 +92,6 @@ public:
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
     IRType* generateTypeFor(llvm::Constant* constant);
     IRType* generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
-
     IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IREnumType* generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext);
     IRStructType* generateTypeFor(InterfaceTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
@@ -146,7 +145,7 @@ public:
     IRType* generateIRStructRefCounterType();
     IRType* generateIRArcType();
     IRInstructionNode* generateArcAllocation(IRContext* irContext, llvm::Value* source, unsigned long count = 0);
-    IRInstructionNode* generateArcAllocation(IRContext* irContext, unsigned long initialCount = 1);
+    IRInstructionNode* generateArcAllocation(IRContext* irContext, unsigned long initialCount = 0);
     IRCapturedVariableType* generateIRCapturedVariableType(IRType* variableIrType);
     IRType* generateIRCharType();
     IRArrayPointerType* generateIrStringArrayPointerType();

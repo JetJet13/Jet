@@ -24,7 +24,7 @@ namespace SrefExpressionTypeCheckerPolicy {
         auto srefExpressionInvalidMessage = TypeCheckerErrorMessageTable::SrefExpressionTypeInvalid(srefExpression);
         TypeCheckerRuleProvider::getSrefTypeSignatureTypeCheckerRule()
         ->enforce(
-            srefExpression->getExpressionNode()->getTypeSignature(),
+            srefExpression->getExpressionNode()->getTypeSignature()->getTargetTypeSignature(),
             srefExpressionInvalidMessage,
             typeCheckerResult
         );

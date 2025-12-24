@@ -41,7 +41,7 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
     functionBlock->getBuilder()->get()->CreateBr(freeStructIfBlock->getBlock());
 
     auto isLastRef = freeStructIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_EQ,
+            llvm::CmpInst::Predicate::ICMP_SLE,
             currentRefCount,
             irGenerator->generateIntConstant(1)
     );
@@ -64,14 +64,7 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
     DebugIRInjectorHelper::injectLog(freeStructIfThenBlock, "DONE FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
     freeStructIfThenBlock->getBuilder()->get()->CreateBr(freeStructEndBlock->getBlock());
 
-//    auto newRefCount = freeStructElseBlock->getBuilder()->get()->CreateBinOp(
-//            llvm::Instruction::BinaryOps::Sub,
-//            currentRefCount,
-//            irGenerator->generateIntConstant(1)
-//    );
-//    freeStructElseBlock->getBuilder()->get()->CreateStore(newRefCount, refCounterPointer);
-//    DebugIRInjectorHelper::injectLog(freeStructElseBlock, "DECREMENTED STRUCT REF COUNT!", irGenerator->getInjector(), irModuleNode);
-//    DebugIRInjectorHelper::injectLog(freeStructElseBlock, newRefCount, irGenerator->getInjector(), irModuleNode);
+//    DebugIRInjectorHelper::injectLog(freeStructElseBlock, "DID NOT FREE STRUCT SINCE STRUCT REF COUNT != 0", irGenerator->getInjector(), irModuleNode);
     freeStructElseBlock->getBuilder()->get()->CreateBr(freeStructEndBlock->getBlock());
     freeStructEndBlock->addVoidReturn();
 }

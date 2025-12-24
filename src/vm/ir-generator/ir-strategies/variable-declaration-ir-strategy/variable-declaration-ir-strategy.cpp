@@ -44,7 +44,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
         irArc = irGenerator->generateArcAllocation(irContext, variableAllocation->getValue(), node->getCaptureCount());
         scope->insertArc(node->getId(), irArc.value());
     } else if (node->isCaptured() || node->isReferenced()) {
-        irArc = irGenerator->generateArcAllocation(irContext, 1 + node->getCaptureCount());
+        irArc = irGenerator->generateArcAllocation(irContext, node->getCaptureCount());
         scope->insertArc(node->getId(), irArc.value());
     }
 

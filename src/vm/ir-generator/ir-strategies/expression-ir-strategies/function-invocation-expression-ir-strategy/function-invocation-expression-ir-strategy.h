@@ -11,6 +11,8 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 
 class FunctionInvocationExpressionIRStrategy {
+private:
+    std::vector<llvm::Value*> generatePlaceholderArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionType* irFunctionType, IRGenerator* irGenerator, IRContext* irContext);
 public:
     IRExpressionNode* generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
