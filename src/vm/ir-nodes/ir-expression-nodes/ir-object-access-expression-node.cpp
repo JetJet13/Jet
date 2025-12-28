@@ -4,6 +4,7 @@
 
 #include "ir-object-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "../../ir-type/ir-new-class-instance-type.h"
 #include "../../ir-type/ir-class-instance-type.h"
 
 IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {

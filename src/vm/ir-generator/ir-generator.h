@@ -83,6 +83,8 @@ private:
 public:
     explicit IRGenerator(IRInjector* irInjector);
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
+    void generateInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
+    void generatePostInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
     IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRContext* irContext);
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
     IRTypeDeclarationNode* generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
@@ -90,6 +92,8 @@ public:
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
     IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRType* generateInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    IRType* generatePostInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateTypeFor(llvm::Constant* constant);
     IRType* generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRArrayPointerType* generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
@@ -114,6 +118,7 @@ public:
     std::string getJetUtilsFunctionName(std::string id);
     IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
     IRArrayType* generateVarArgsTypeValuesIrType(unsigned long numVarArgs);
+    std::vector<llvm::Value*> generateArgumentPlaceholderList(IRFunctionType* irFunctionType);
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
@@ -141,6 +146,7 @@ public:
     IRArrayPointerType* generateIrArrayPointerType(IRType* arrayElementType);
     IRStructRefType* generateIRStructRefType(IRStructType* irStructType);
     IRStructRefType* generateIRStructRefType();
+    IRStructType* generateIRStructType();
     IRType* generateIRCaptureCounterType();
     IRType* generateIRStructRefCounterType();
     IRType* generateIRArcType();

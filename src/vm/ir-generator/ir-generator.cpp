@@ -72,6 +72,7 @@
 #include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/new-class-instance-type-signature-ir-strategy/new-class-instance-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
@@ -309,6 +310,36 @@ IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* sco
     }
 }
 
+void IRGenerator::generateInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
+    if (node->is(AST_CLASS_DECLARATION_NODE)) {
+        this->generateInitialTypeFor(node->getTypeSignature(), scope, irContext);
+    }
+}
+
+void IRGenerator::generatePostInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
+    if (node->is(AST_CLASS_DECLARATION_NODE)) {
+        auto irClassType = this->generatePostInitialTypeFor(node->getTypeSignature(), scope, irContext);
+    }
+}
+
+IRType* IRGenerator::generateInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+    switch (typeSignature->getTypeSource()) {
+        case CLASS_TYPE_SOURCE:
+            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generateInitial((ClassTypeSignature*)typeSignature, this, scope, irContext);
+        default:
+            return this->generateTypeFor(typeSignature, scope, irContext);
+    }
+}
+
+IRType* IRGenerator::generatePostInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+    switch (typeSignature->getTypeSource()) {
+        case CLASS_TYPE_SOURCE:
+            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generatePostInitial((ClassTypeSignature*)typeSignature, this, scope, irContext);
+        default:
+            return this->generateTypeFor(typeSignature, scope, irContext);
+    }
+}
+
 IRType* IRGenerator::generateTypeFor(llvm::Constant* constant) {
     return new IRType(constant->getType());
 }
@@ -371,6 +402,9 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case CLASS_PROPERTY_TYPE_SOURCE:
             return _irStrategyMap.getClassPropertyTypeSignatureIRStrategy()->generate(
                     (ClassPropertyTypeSignature*) typeSignature, this, scope, irContext);
+        case NEW_CLASS_INSTANCE_TYPE_SOURCE:
+            return _irStrategyMap.getNewClassInstanceTypeSignatureIRStrategy()->generate(
+                    (NewClassInstanceTypeSignature*) typeSignature, this, scope, irContext);
         case CLASS_INSTANCE_TYPE_SOURCE:
             return _irStrategyMap.getClassInstanceTypeSignatureIRStrategy()->generate(
                     (ClassInstanceTypeSignature*) typeSignature, this, scope, irContext);
@@ -423,6 +457,7 @@ IRModuleType* IRGenerator::generateTypeFor(ModuleTypeSignature* typeSignature, I
 IRClassType* IRGenerator::generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
+
 
 IRPointerType* IRGenerator::generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
@@ -482,6 +517,16 @@ IRFunctionType* IRGenerator::generateFunctionIrType(llvm::FunctionType* function
 
 IRArrayType* IRGenerator::generateVarArgsTypeValuesIrType(unsigned long numVarArgs) {
     return this->generateIRArrayType(this->generateIrTypeValueType(), numVarArgs);
+}
+
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctionType* irFunctionType) {
+    auto pointerType = this->generatePointerType();
+    auto argList = std::vector<llvm::Value*>();
+    auto numArguments = irFunctionType->getType()->getNumParams();
+    for (int i = 0; i < numArguments; ++i) {
+        argList.push_back(llvm::ConstantPointerNull::get(pointerType));
+    }
+    return argList;
 }
 
 llvm::PointerType* IRGenerator::generatePointerType() {
@@ -632,11 +677,15 @@ IRStructRefType* IRGenerator::generateIRStructRefType() {
     return new IRStructRefType(
             this->getStructRefType(),
             this->generateIRStructRefCounterType(),
-            new IRStructType(
-                    llvm::StructType::get(*_context),
-                    std::unordered_map<std::string, unsigned long>(),
-                    std::unordered_map<std::string, IRType*>()
-            )
+            this->generateIRStructType()
+    );
+}
+
+IRStructType* IRGenerator::generateIRStructType() {
+    return new IRStructType(
+            llvm::StructType::get(*_context),
+            std::unordered_map<std::string, unsigned long>(),
+            std::unordered_map<std::string, IRType*>()
     );
 }
 

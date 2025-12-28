@@ -25,12 +25,17 @@ IRJetFile* VM::compile(JetFile* jetFile) {
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
     auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irModule);
     for (auto node : *jetFile->getFile()->getBody()) {
-        _irInjector->inject(
-                irMainFunctionBlock,
-                _irGenerator->generateFor(node, &irLookupTable, irContext),
-                irModule,
-                &irLookupTable
-        );
+        _irGenerator->generateInitialTypeFor(node, &irLookupTable, irContext);
+    }
+    for (auto node : *jetFile->getFile()->getBody()) {
+        _irGenerator->generatePostInitialTypeFor(node, &irLookupTable, irContext);
+    }
+    auto generatedIRNodes = std::vector<IRNode*>();
+    for (auto node : *jetFile->getFile()->getBody()) {
+        generatedIRNodes.push_back(_irGenerator->generateFor(node, &irLookupTable, irContext));
+    }
+    for (auto irNode : generatedIRNodes) {
+        _irInjector->inject(irMainFunctionBlock, irNode, irModule, &irLookupTable);
     }
     irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irJetFile;
@@ -48,12 +53,17 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
     auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irModule);
     for (auto node : *jetFile->getFile()->getBody()) {
-        _irInjector->inject(
-                irMainFunctionBlock,
-                _irGenerator->generateFor(node, &irLookupTable, irContext),
-                irModule,
-                &irLookupTable
-        );
+        _irGenerator->generateInitialTypeFor(node, &irLookupTable, irContext);
+    }
+    for (auto node : *jetFile->getFile()->getBody()) {
+        _irGenerator->generatePostInitialTypeFor(node, &irLookupTable, irContext);
+    }
+    auto generatedIRNodes = std::vector<IRNode*>();
+    for (auto node : *jetFile->getFile()->getBody()) {
+        generatedIRNodes.push_back(_irGenerator->generateFor(node, &irLookupTable, irContext));
+    }
+    for (auto irNode : generatedIRNodes) {
+        _irInjector->inject(irMainFunctionBlock, irNode, irModule, &irLookupTable);
     }
     irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irJetFile;

@@ -16,21 +16,21 @@
 #include "ast-callable-expression-node.h"
 #include "../ast-class-nodes/ast-class-name-node.h"
 #include "../ast-class-nodes/ast-new-node.h"
-#include "../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 
 class ASTNewClassInstanceExpressionNode : public ASTCallableExpressionNode {
 private:
     ASTNewNode* _new;
     ASTClassNameNode* _className;
     ASTFunctionArgumentListNode* _arguments;
-    ClassInstanceTypeSignature* _typeSignature = new ClassInstanceTypeSignature();
+    NewClassInstanceTypeSignature* _typeSignature = new NewClassInstanceTypeSignature();
 public:
     explicit ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments);
     ASTFunctionArgumentListNode* getArguments();
     ASTClassNameNode* getClassName();
     unsigned long numArguments();
-    ClassInstanceTypeSignature* getTypeSignature() override;
-    void setTypeSignature(ClassInstanceTypeSignature* typeSignature);
+    NewClassInstanceTypeSignature* getTypeSignature() override;
+    void setTypeSignature(NewClassInstanceTypeSignature* typeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

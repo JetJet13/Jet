@@ -21,10 +21,8 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         auto irArgument = irInjector->inject(irBlock, argument, operationType, irModule, scope);
         if (functionTypeSignature->isArgumentVarArg(i)) {
             auto index = functionTypeSignature->getVariableLengthParametersStartIndex() + 1 + i;
-            Logger::log("FUNCTION INVOCATION HELPER - isArgumentVarArg", irExpression->getValue()->arg_size(), index);
             irExpression->getValue()->setArgOperand(index, irArgument);
         } else {
-            Logger::log("FUNCTION INVOCATION HELPER - argument", irExpression->getValue()->arg_size(), i);
             irExpression->getValue()->setArgOperand(i, irArgument);
         }
     }
@@ -76,9 +74,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         );
         InstructionIRInjectorHelper::injectStore(varArgsArrayAllocation, pointerToArrayAllocation, irBlock);
         auto loadedVarArgsArrayPointer = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), varArgsArrayPointerAllocation, irBlock, arrayPointerType);
-        Logger::log("FUNCTION INVOCATION HELPER - VarArgsArray", irExpression->getValue()->arg_size(), startIndex);
         irExpression->getValue()->setArgOperand(startIndex, loadedVarArgsArrayPointer);
-//        arguments.insert(arguments.begin() + startIndex, loadedVarArgsArrayPointer);
     }
 
     if (irExpression->getFunctionIRType()->isLambdaType()) {
@@ -91,16 +87,10 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
             auto lambdaScopeArgumentIndex = irLambdaType->getLambdaVariableType()->getFunctionScopeArgumentIndex();
             auto lambdaScopeArgumentPointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaType->getLambdaVariableType()->getType(), irExpression->getFunctionValue(), lambdaScopeArgumentIndex);
             auto loadedLambdaScopeArgument = InstructionIRInjectorHelper::injectLoad(irLambdaType->getLambdaScopeType().value()->getType(), lambdaScopeArgumentPointer, irBlock);
-            Logger::log("FUNCTION INVOCATION HELPER", irExpression->getValue()->arg_size(), irExpression->getValue()->arg_size() - 1);
             irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, loadedLambdaScopeArgument);
-//            arguments.push_back(loadedLambdaScopeArgument);
         }
         auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
-//                irBlock->getBuilder()->get()->CreateCall(
-//                irLambdaType->getType(),
-//                loadedLambda,
-//                arguments
-//        );
+
         if (irOperation->isOperandPointer()) {
             auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
             InstructionIRInjectorHelper::injectStore(value, pointerToValue, irBlock, irExpression->getIRType());
@@ -119,7 +109,6 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         auto functionScopeArgumentIndex = irFunctionParameterType->getFunctionScopeArgumentIndex();
         auto functionScopeArgumentPointer = irBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), irExpression->getFunctionValue(), functionScopeArgumentIndex);
         auto loadedFunctionScopeArgument = InstructionIRInjectorHelper::injectLoad(irFunctionParameterType->getFunctionScopeArgumentType(), functionScopeArgumentPointer, irBlock);
-        Logger::log("FUNCTION INVOCATION HELPER - function scope argument", irExpression->getValue()->arg_size(), irExpression->getValue()->arg_size() - 1);
         irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, loadedFunctionScopeArgument);
         auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
         if (irOperation->isOperandPointer()) {
@@ -139,54 +128,34 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
     return value;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionParameterInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
-    auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-                irInjector->inject(irBlock, argument,  new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope)
-        );
-    }
-
-    arguments.push_back(irExpression->getFunctionScopeArgument());
-    return irBlock->getBuilder()->get()->CreateCall(
-            irExpression->getFunctionIRType()->getFunctionType(),
-            irExpression->getFunction(),
-            arguments
-    );
-}
-
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-                irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope)
-        );
+    auto numArgs = irExpression->getIRArguments()->size();
+    for (int i = 0; i < numArgs; ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
+        irExpression->getValue()->setArgOperand(i, argumentValue);
     }
-    arguments.push_back(irExpression->getClassScopeArgument()->getValue());
-    return irBlock->getBuilder()->get()->CreateCall(
-            llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
-            irExpression->getValue(),
-            arguments
-    );
+
+    irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, irExpression->getClassScopeArgument()->getValue());
+    return irBlock->getBuilder()->get()->Insert(irExpression->getValue());
 }
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
-    auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-            irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope)
-        );
+    auto numArgs = irExpression->getIRArguments()->size();
+    for (int i = 0; i < numArgs; ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+        irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
+
     auto arrayValue = irInjector->inject(irBlock, irExpression->getIRArrayValue(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-    arguments.insert(arguments.begin(), arrayValue);
-    auto arrayTypeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getUnderlyingType());
-    auto loadedArrayTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRArrayValue()->getIRType()->getUnderlyingType()->getValue()->getAllocatedType(), arrayTypeValue, irBlock);
-    arguments.push_back(loadedArrayTypeValue);
-    auto result = irBlock->getBuilder()->get()->CreateCall(
-            llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
-            irExpression->getValue(),
-            arguments
-    );
+    irExpression->getValue()->setArgOperand(0, arrayValue);
+    if (irExpression->requiresTypeValueArgument()) {
+        auto arrayTypeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getUnderlyingType());
+        auto loadedArrayTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRArrayValue()->getIRType()->getUnderlyingType()->getValue()->getAllocatedType(), arrayTypeValue, irBlock);
+        irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, loadedArrayTypeValue);
+    }
+    auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
 
     if (irOperation->isOperandPointer() && !result->getType()->isPointerTy()) {
         auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getUnderlyingIRType()->getType());
@@ -202,19 +171,16 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
 }
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRRefPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
-    auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-                irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope)
-        );
+
+    auto numArgs = irExpression->getIRArguments()->size();
+    for (int i = 0; i < numArgs; ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+        irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
     auto refValue = irInjector->inject(irBlock, irExpression->getIRRefValue(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-    arguments.insert(arguments.begin(), refValue);
-    auto result = irBlock->getBuilder()->get()->CreateCall(
-            llvm::cast<llvm::FunctionType>(irExpression->getFunctionIRType()->getType()),
-            irExpression->getValue(),
-            arguments
-    );
+    irExpression->getValue()->setArgOperand(0, refValue);
+    auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
 
     if (irOperation->isOperandPointer() && !result->getType()->isPointerTy()) {
         auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getUnderlyingIRType()->getType());
@@ -230,11 +196,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRRefPrototypeInvocation
 }
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
-    auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-                irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope)
-        );
+    auto numArgs = irExpression->getIRArguments()->size();
+    for (int i = 0; i < numArgs; ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
+        irExpression->getValue()->setArgOperand(i, argumentValue);
     }
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     auto pointerToLambda = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRTupleAccessExpression()->getSource()->getSourceAllocation().value()->getAllocatedType(), irExpression->getIRTupleAccessExpression()->getValue(), { zeroIndex, irExpression->getIRTupleAccessExpression()->getIRTargetKeyIndex() });
@@ -242,20 +208,23 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationE
     auto loadedLambdaAtIndex = InstructionIRInjectorHelper::injectLoad(irFunctionParameterType->getType(), pointerToLambda, irBlock);
     auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionIndex() });
     auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionScopeArgumentIndex() });
-    arguments.push_back(lambdaScopeArgument);
-    return irBlock->getBuilder()->get()->CreateCall(
-            irFunctionParameterType->getFunctionType(),
-            lambda,
-            arguments
-    );
+    irExpression->getValue()->setOperand(1, lambda);
+    irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, lambdaScopeArgument);
+    auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+    if (irOperation->isOperandPointer()) {
+        auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
+        InstructionIRInjectorHelper::injectStore(value, pointerToValue, irBlock, irExpression->getIRType());
+        return pointerToValue;
+    }
+    return value;
 }
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
-    auto arguments = std::vector<llvm::Value*>();
-    for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(
-                irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope)
-        );
+    auto numArgs = irExpression->getIRArguments()->size();
+    for (int i = 0; i < numArgs; ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
+        irExpression->getValue()->setArgOperand(i, argumentValue);
     }
 
     auto irType = irExpression->getFunctionIRType();
@@ -264,12 +233,9 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
         auto loadedLambdaAtIndex = InstructionIRInjectorHelper::inject(irExpression->getFunction(), irBlock);
         auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionIndex() });
         auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irFunctionParameterType->getFunctionScopeArgumentIndex() });
-        arguments.push_back(lambdaScopeArgument);
-        auto value = irBlock->getBuilder()->get()->CreateCall(
-                irFunctionParameterType->getFunctionType(),
-                lambda,
-                arguments
-        );
+        irExpression->getValue()->setOperand(1, lambda);
+        irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, lambdaScopeArgument);
+        auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
         if (irOperation->isOperandPointer()) {
             auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
             InstructionIRInjectorHelper::injectStore(value, pointerToValue, irBlock, irExpression->getIRType());
@@ -280,18 +246,13 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
 
     auto scopeArgument = irExpression->getScopeArgument();
     if (scopeArgument) {
-        arguments.push_back(
-                irInjector->inject(irBlock, scopeArgument.value(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope)
-        );
+        auto scopeArgumentValue = irInjector->inject(irBlock, scopeArgument.value(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+        irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, scopeArgumentValue);
     }
 
-    auto irFunctionType = (IRFunctionType*)irType;
-    auto irFunction = InstructionIRInjectorHelper::inject(irExpression->getFunction(), irBlock);
-    auto value = irBlock->getBuilder()->get()->CreateCall(
-            irFunctionType->getType(),
-            irFunction,
-            arguments
-    );
+    auto function = InstructionIRInjectorHelper::inject(irExpression->getFunction(), irBlock);
+    irExpression->getValue()->setOperand(1, function);
+    auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
 
     if (irOperation->isOperandPointer()) {
         auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());

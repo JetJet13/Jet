@@ -27,11 +27,11 @@ unsigned long ASTNewClassInstanceExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-ClassInstanceTypeSignature* ASTNewClassInstanceExpressionNode::getTypeSignature() {
+NewClassInstanceTypeSignature* ASTNewClassInstanceExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-void ASTNewClassInstanceExpressionNode::setTypeSignature(ClassInstanceTypeSignature* typeSignature) {
+void ASTNewClassInstanceExpressionNode::setTypeSignature(NewClassInstanceTypeSignature* typeSignature) {
     _typeSignature = typeSignature;
 }
 

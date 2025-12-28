@@ -826,8 +826,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/literal-type-signature-strategy/literal-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h
-        type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.cpp
-        type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h
+        type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.cpp
+        type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h
         type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.cpp
         type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h
         type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.cpp
@@ -1325,6 +1325,8 @@ add_library(jet-core
         pre-processor/scope-analyzer/scope-analyzer.h
         type-signature/lambda-scope-type-signature/lambda-scope-type-signature.cpp
         type-signature/lambda-scope-type-signature/lambda-scope-type-signature.h
+        type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.cpp
+        type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h
 
 )
 

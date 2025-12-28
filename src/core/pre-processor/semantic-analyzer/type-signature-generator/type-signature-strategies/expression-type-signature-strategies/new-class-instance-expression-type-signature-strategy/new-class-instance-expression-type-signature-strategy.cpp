@@ -15,12 +15,12 @@ void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstance
     if (typeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classTypeSignature = (ClassTypeSignature*)typeSignature;
         newClassInstanceExpression->setTypeSignature(
-                new ClassInstanceTypeSignature(
+                new NewClassInstanceTypeSignature(
                         classTypeSignature,
                         classTypeSignature->findConstructorForArguments(newClassInstanceExpression->getArguments()->getTypeSignature()->getArgumentTypes()))
                 );
     } else {
-        newClassInstanceExpression->setTypeSignature(new ClassInstanceTypeSignature());
+        newClassInstanceExpression->setTypeSignature(new NewClassInstanceTypeSignature());
     }
 
 

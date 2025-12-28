@@ -3,18 +3,12 @@
 //
 
 #include "object-access-ir-injector-helper.h"
-#include "../../../../ir-type/ir-class-instance-type.h"
+#include "../../../../ir-type/ir-new-class-instance-type.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlock, IRObjectAccessExpressionNode* irExpression, llvm::Value* sourceValue) {
     auto irType = irExpression->getSource()->getUnderlyingIRType();
-    if (irType->isClassInstanceType()) {
-        auto irClassInstanceType = (IRClassInstanceType*)irType;
-        auto pointerToClassInstanceAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irClassInstanceType->getIRClassPropertiesType()->getType(), sourceValue, irClassInstanceType->getIRClassPropertiesType()->getStructIndex());
-        auto classInstanceAlloc = InstructionIRInjectorHelper::injectLoad(
-                irClassInstanceType->getIRClassPropertiesType()->getStructType(), pointerToClassInstanceAlloc, irBlock);
-        return irBlock->getBuilder()->get()->CreateStructGEP(irClassInstanceType->getIRClassPropertiesType()->getStructIRType()->getType(), classInstanceAlloc, irExpression->getTargetKeyIndex());
-    } else if (irType->isStructRefType()) {
+    if (irType->isStructRefType()) {
         auto irStructRefType = (IRStructRefType*)irType;
         auto pointerToStructAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), sourceValue, irStructRefType->getStructIndex());
         auto structAlloc = InstructionIRInjectorHelper::injectLoad(irStructRefType->getStructType(), pointerToStructAlloc, irBlock);
@@ -27,13 +21,7 @@ llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlo
 
 llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlock, IRTupleAccessExpressionNode* irExpression, llvm::Value* sourceValue) {
     auto irType = irExpression->getSource()->getUnderlyingIRType();
-    if (irType->isClassInstanceType()) {
-        auto irClassInstanceType = (IRClassInstanceType*)irType;
-        auto pointerToClassInstanceAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irClassInstanceType->getIRClassPropertiesType()->getType(), sourceValue, irClassInstanceType->getIRClassPropertiesType()->getStructIndex());
-        auto classInstanceAlloc = InstructionIRInjectorHelper::injectLoad(
-                irClassInstanceType->getIRClassPropertiesType()->getStructType(), pointerToClassInstanceAlloc, irBlock);
-        return irBlock->getBuilder()->get()->CreateStructGEP(irClassInstanceType->getIRClassPropertiesType()->getStructIRType()->getType(), classInstanceAlloc, irExpression->getTargetKeyIndex());
-    } else if (irType->isStructRefType()) {
+    if (irType->isStructRefType()) {
         auto irStructRefType = (IRStructRefType*)irType;
         auto pointerToStructAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), sourceValue, irStructRefType->getStructIndex());
         auto structAlloc = InstructionIRInjectorHelper::injectLoad(irStructRefType->getStructType(), pointerToStructAlloc, irBlock);

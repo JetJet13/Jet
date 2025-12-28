@@ -11,16 +11,19 @@
 #include "../../ir-type/ir-class-type.h"
 #include "../ir-class-nodes/ir-class-constructor-node.h"
 #include "../ir-class-nodes/ir-class-method-node.h"
+#include "../ir-class-nodes/ir-class-pre-constructor-node.h"
 
 class IRClassDeclarationNode : public IRDeclarationNode {
 private:
     ASTClassDeclarationNode* _node;
     IRClassType* _type;
+    std::optional<IRClassPreConstructorNode*> _preConstructor;
     std::vector<IRClassConstructorNode*> _constructors;
     std::vector<IRClassMethodNode*> _methods;
 public:
-    IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods);
+    IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods);
     IRClassType* getIRType();
+    std::optional<IRClassPreConstructorNode*> getPreConstructor();
     std::vector<IRClassConstructorNode*>* getConstructors();
     std::vector<IRClassMethodNode*>* getMethods();
     llvm::Value* getValue() override;

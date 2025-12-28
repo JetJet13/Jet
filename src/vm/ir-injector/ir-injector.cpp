@@ -18,6 +18,7 @@
 #include "ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.h"
 #include "ir-injector-strategies/enum-ir-injector-strategy/enum-ir-injector-strategy.h"
 #include "ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-instance-ir-injector-strategy/class-instance-ir-injector-strategy.h"
 #include "ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h"
@@ -33,6 +34,7 @@
 #include "ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.h"
 #include "ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.h"
 #include "ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-ir-injector-strategy/class-ir-injector-strategy.h"
 #include "../../shared/utils/logger/logger.h"
 
 
@@ -51,6 +53,7 @@ IRInjector::IRInjector() {
     _enumIRInjector = new EnumIRInjectorStrategy();
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
     _newClassInstanceIRInjectorStrategy = new NewClassInstanceIRInjectorStrategy();
+    _classInstanceIRInjectorStrategy = new ClassInstanceIRInjectorStrategy();
     _variableAssignmentIRInjectorStrategy = new VariableAssignmentIRInjectorStrategy();
     _arrayAccessAssignmentIRInjectorStrategy = new ArrayAccessAssignmentIRInjectorStrategy();
     _objectAccessAssignmentIRInjectorStrategy = new ObjectAccessAssignmentIRInjectorStrategy();
@@ -65,6 +68,7 @@ IRInjector::IRInjector() {
     _functionDeclarationIRInjectorStrategy = new FunctionDeclarationIRInjectorStrategy();
     _typeValueIRInjectorStrategy = new TypeValueIRInjectorStrategy();
     _blockIRInjectorStrategy = new BlockIRInjectorStrategy();
+    _classIRInjectorStrategy = new ClassIRInjectorStrategy();
     this->init();
 }
 
@@ -83,7 +87,8 @@ void IRInjector::init() {
     _injectorMap.insert(this->insert(LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
     _injectorMap.insert(this->insert(ENUM_TYPE_SOURCE, _enumIRInjector));
-    _injectorMap.insert(this->insert(CLASS_INSTANCE_TYPE_SOURCE, _newClassInstanceIRInjectorStrategy));
+    _injectorMap.insert(this->insert(NEW_CLASS_INSTANCE_TYPE_SOURCE, _newClassInstanceIRInjectorStrategy));
+    _injectorMap.insert(this->insert(CLASS_INSTANCE_TYPE_SOURCE, _classInstanceIRInjectorStrategy));
     _injectorMap.insert(this->insert(VOID_TYPE_SOURCE, _voidIRInjector));
 }
 
@@ -111,6 +116,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, 
         _procedureDeclarationIRInjectorStrategy->inject((IRProcedureDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
     } else if (irDeclaration->is(IR_FUNCTION_DECLARATION_NODE)) {
         _functionDeclarationIRInjectorStrategy->inject((IRFunctionDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+    } else if (irDeclaration->is(IR_CLASS_DECLARATION_NODE)) {
+        _classIRInjectorStrategy->inject((IRClassDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
     }
 }
 
@@ -152,6 +159,7 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpres
     auto injector = _injectorMap.find(irExpression->getInjectorTypeSource());
     if (injector == _injectorMap.end()) {
         irExpression->getTypeSignature()->print();
+        Logger::log(irExpression->toString());
         throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getInjectorTypeSource()));
     }
     if (irExpression->needsToBeFreed()) {
@@ -179,12 +187,4 @@ llvm::AllocaInst* IRInjector::injectRawString(IRBlockNode* irBlock, std::string 
     auto alloca = irBlock->getBuilder()->get()->CreateAlloca(irString->getType());
     irBlock->getBuilder()->get()->CreateStore(irString, alloca);
     return alloca;
-}
-
-void IRInjector::injectPrintDebugString(IRBlockNode* irBlock, std::string rawString, IRModuleNode* irModule) {
-    auto debugStringStart = this->injectRawString(irBlock, rawString + "\n");
-    irBlock->getBuilder()->get()->CreateCall(
-            irModule->getPrintDebugStringFunction(),
-            { debugStringStart }
-    );
 }

@@ -12,8 +12,8 @@
 
 class NewClassInstanceExpressionIRStrategy {
 private:
-    IRInstructionNode* generateClassInstanceAllocation(IRClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext);
-    IRInstructionNode* generateClassInstancePointerAllocation(ASTNewClassInstanceExpressionNode* node, IRClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    IRInstructionNode* generateClassInstanceAllocation(IRNewClassInstanceType* irNewClassInstanceType, IRGenerator* irGenerator, IRContext* irContext);
+    IRInstructionNode* generateClassInstancePointerAllocation(ASTNewClassInstanceExpressionNode* node, IRNewClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
     IRNewClassInstanceExpressionNode* generate(ASTNewClassInstanceExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };

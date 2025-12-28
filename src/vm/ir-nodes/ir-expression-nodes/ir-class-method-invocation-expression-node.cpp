@@ -5,8 +5,9 @@
 #include "ir-class-method-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRClassMethodInvocationExpressionNode::IRClassMethodInvocationExpressionNode(ASTClassMethodInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRInstructionNode* classScopeArgument) {
+IRClassMethodInvocationExpressionNode::IRClassMethodInvocationExpressionNode(ASTClassMethodInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRInstructionNode* classScopeArgument) {
     _node = node;
+    _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
@@ -33,7 +34,11 @@ std::vector<IRExpressionNode*>* IRClassMethodInvocationExpressionNode::getIRArgu
     return &_arguments;
 }
 
-llvm::Value* IRClassMethodInvocationExpressionNode::getValue() {
+llvm::CallInst* IRClassMethodInvocationExpressionNode::getValue() {
+    return _irCallInstruction;
+}
+
+llvm::Value* IRClassMethodInvocationExpressionNode::getFunctionValue() {
     return _irFunction;
 }
 

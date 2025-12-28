@@ -6,13 +6,26 @@
 #define JETLANG_IR_CLASS_CONSTRUCTOR_NODE_H
 
 #include <llvm/IR/Function.h>
+#include "../ir-declaration-nodes/ir-function-parameter-declaration-node.h"
+#include "../../ir-lookup-table/ir-lookup-table.h"
+#include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.h"
+#include "../ir-function-nodes/ir-function-parameter-list-node.h"
 
 class IRClassConstructorNode {
 private:
+    ASTClassConstructorDeclarationNode* _node;
     llvm::Function* _irValue;
+    IRBlockNode* _irBlock;
+    IRFunctionParameterListNode* _irParameters;
+    IRLookupTable* _scope;
+
 public:
-    IRClassConstructorNode(llvm::Function* irValue);
+    IRClassConstructorNode(ASTClassConstructorDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock, IRLookupTable* scope);
+    ASTClassConstructorDeclarationNode* getNode();
     llvm::Function* getFunction();
+    IRFunctionParameterListNode* getParameters();
+    IRBlockNode* getBlock();
+    IRLookupTable* getScope();
 };
 
 

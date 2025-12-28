@@ -7,6 +7,7 @@
 #include "../../../../../../type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
@@ -39,7 +40,7 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressi
     } else if (sourceTypeSignature->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
         auto classInstanceSource = (ClassInstanceTypeSignature*)sourceTypeSignature;
         auto id = objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
-        auto classProperty = classInstanceSource->findProperty(id);
+        auto classProperty = classInstanceSource->getKeyValuePairs()->find(id);
         if (classProperty) {
             objectAccessExpression->setTypeSignature(classProperty.value());
             return;

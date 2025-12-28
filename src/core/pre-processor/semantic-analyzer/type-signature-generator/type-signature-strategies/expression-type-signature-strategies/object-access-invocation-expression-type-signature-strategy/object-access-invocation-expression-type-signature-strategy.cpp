@@ -5,10 +5,10 @@
 #include "object-access-invocation-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
-#include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), scope);
@@ -23,7 +23,7 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
     } else if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
         auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression);
         auto classInstanceSource = (ClassInstanceTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
-        auto classMethodTypeSignature = classInstanceSource->findMethod(id).value_or(new ClassMethodTypeSignature());
+        auto classMethodTypeSignature = (ClassMethodTypeSignature*)classInstanceSource->getKeyValuePairs()->find(id).value_or(new ClassMethodTypeSignature());
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classMethodTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(classMethodTypeSignature->getReturnType());
         return;

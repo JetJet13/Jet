@@ -16,7 +16,6 @@
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
-#include "../../../ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h"
 #include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "strategies/string-ir-string-literal-expression-injector-strategy/string-ir-string-literal-expression-injector-strategy.h"
 #include "strategies/string-ir-object-access-expression-injector-strategy/string-ir-object-access-expression-injector-strategy.h"

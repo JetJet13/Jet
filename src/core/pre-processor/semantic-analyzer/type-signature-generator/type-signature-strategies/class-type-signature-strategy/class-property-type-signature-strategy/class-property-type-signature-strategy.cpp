@@ -18,7 +18,7 @@ void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode*
     strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getAccessModifier());
     classPropertyDeclaration->setTypeSignature(new ClassPropertyTypeSignature(
         classPropertyDeclaration->getAccessModifier()->getTypeSignature(),
-        classPropertyType,
+        classPropertyType->convertToVariableTypeSignature(),
         classPropertyDeclaration->isStatic(),
         classPropertyDeclaration->isConstant()
     ));

@@ -17,19 +17,21 @@
 class IRObjectAccessInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTObjectAccessInvocationExpressionNode* _node;
+    llvm::CallInst* _irCallInstruction;
     IRInstructionNode* _irFunction;
     IRType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
     std::optional<IRExpressionNode*> _scopeArgument;
 public:
-    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
+    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
     void markAsGlobal() override;
     bool isReferenced() override;
     IRInstructionNode* getFunction();
     std::optional<IRExpressionNode*> getScopeArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
-    llvm::Value* getValue() override;
+    llvm::CallInst* getValue() override;
+    llvm::Value* getFunctionValue();
     IRType* getFunctionIRType();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

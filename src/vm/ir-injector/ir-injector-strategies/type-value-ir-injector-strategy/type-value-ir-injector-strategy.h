@@ -12,10 +12,11 @@
 #include "../../ir-injector.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
 #include "../../../ir-type/ir-ref-type.h"
-#include "../../../ir-type/ir-class-instance-type.h"
+#include "../../../ir-type/ir-new-class-instance-type.h"
 #include "../../../ir-type/ir-captured-variable-type.h"
 #include "../../../ir-type/ir-function-parameter-type.h"
 #include "../../../ir-type/ir-lambda-type.h"
+#include "../../../ir-type/ir-class-instance-type.h"
 
 class TypeValueIRInjectorStrategy {
 private:
@@ -28,6 +29,7 @@ private:
     llvm::Value* inject(IRFunctionParameterType* irFunctionParameterType, IRBlockNode* irBlock);
     llvm::Value* inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock);
     llvm::Value* inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock);
+    llvm::Value* inject(IRNewClassInstanceType* irNewClassInstanceType, IRBlockNode* irBlock);
 public:
     llvm::Value* inject(IRType* irType, IRBlockNode* irBlock);
 };

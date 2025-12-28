@@ -19,20 +19,24 @@ private:
     std::unordered_map<std::string, IRLoadInstructionNode*> _loadedScope;
     std::optional<IRLookupTable*> _outerScope;
     std::unordered_map<std::string, IRType*> _typeScope;
+    std::unordered_map<std::string, IRType*> _globalTypeScope;
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
     std::unordered_map<std::string, IRInstructionNode*> getGlobalScope();
     std::unordered_map<std::string, IRType*> getTypeScope();
+    std::unordered_map<std::string, IRType*> getGlobalTypeScope();
     void inherit(IRLookupTable* otherScope);
     IRLookupTable* insert(std::string key, IRInstructionNode* value);
     IRLookupTable* insertArc(std::string key, IRInstructionNode* value);
     IRLookupTable* insert(std::string key, IRLoadInstructionNode* value);
     IRLookupTable* insert(std::string key, IRType* value);
+    IRLookupTable* insertGlobalType(std::string key, IRType* value);
     std::optional<IRInstructionNode*> find(std::string key);
     std::optional<IRInstructionNode*> findArc(std::string key);
     std::optional<IRLoadInstructionNode*> findLoaded(std::string key);
     std::optional<IRInstructionNode*> findAcrossScopes(std::string key);
     std::optional<IRType*> findType(std::string key);
+    std::optional<IRType*> findGlobalType(std::string key);
     IRLookupTable* insertGlobalVariable(std::string key, IRInstructionNode* value);
     std::optional<IRInstructionNode*> findGlobalVariable(std::string key);
     std::optional<IRInstructionNode*> getClassScope();

@@ -5,8 +5,9 @@
 #include <utility>
 #include "class-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
-#include "class-instance-type-signature/class-instance-type-signature.h"
+#include "new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../struct-type-signature/struct-type-signature.h"
+#include "class-instance-type-signature/class-instance-type-signature.h"
 
 ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
@@ -108,6 +109,13 @@ std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeS
     return {};
 }
 
+TypeSignature* ClassTypeSignature::convertToVariableTypeSignature() {
+    auto classInstance = new ClassInstanceTypeSignature(this);
+    classInstance->setId(this->getId());
+    classInstance->setKeyId(this->getKeyId());
+    return classInstance;
+}
+
 std::string ClassTypeSignature::toDetailString() {
     return "jet.class." + this->getId();
 }
@@ -121,8 +129,9 @@ TypeSource ClassTypeSignature::getTypeSource() {
 }
 
 bool ClassTypeSignature::isEquivalentTo(TypeSignature* otherType) {
-    if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)){
-        auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
+    if (this->getId() == otherType->getId()) return true;
+    if (otherType->typeSourceIs(NEW_CLASS_INSTANCE_TYPE_SOURCE)){
+        auto classInstanceTypeSignature = (NewClassInstanceTypeSignature*)otherType;
         return this->isEqualTo(classInstanceTypeSignature->getClassTypeSignature());
     }
     return this->isEqualTo(otherType);
@@ -132,6 +141,11 @@ bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
     // todo: figure out an elegant way to perform equality check
     // for class type-signatures without causing an infinite loop
     // due to class instance references of self.
+    if (this->getId() == otherType->getId()) return true;
+    if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {
+        auto classInstance = (ClassInstanceTypeSignature*)otherType;
+        return this->getInterface()->isEqualTo(classInstance->getKeyValuePairs());
+    }
     return this->getTypeSource() == otherType->getTypeSource();
 }
 

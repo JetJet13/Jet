@@ -3,6 +3,7 @@
 //
 
 #include "class-property-type-signature-ir-strategy.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRType* ClassPropertyTypeSignatureIRStrategy::generate(ClassPropertyTypeSignature* classPropertyTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irType = irGenerator->generateTypeFor(classPropertyTypeSignature->getType(), scope, irContext);

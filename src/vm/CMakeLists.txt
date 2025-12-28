@@ -259,8 +259,6 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-expression-statement-node.h
         ir-type/ir-function-parameter-type.cpp
         ir-type/ir-function-parameter-type.h
-        ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-function-parameter-invocation-expression-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.cpp
@@ -289,10 +287,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h
         ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.h
-        ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.cpp
-        ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h
-        ir-type/ir-class-instance-type.cpp
-        ir-type/ir-class-instance-type.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/new-class-instance-type-signature-ir-strategy/new-class-instance-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/new-class-instance-type-signature-ir-strategy/new-class-instance-type-signature-ir-strategy.h
+        ir-type/ir-new-class-instance-type.cpp
+        ir-type/ir-new-class-instance-type.h
         ir-injector/ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h
         ir-generator/ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.cpp
@@ -643,6 +641,16 @@ add_library(jet-vm
         ir-generator/ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.h
         ir-generator/ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.cpp
         ir-generator/ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/class-instance-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/class-instance-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/class-ir-injector-strategy/class-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-ir-injector-strategy/class-ir-injector-strategy.h
+        ir-nodes/ir-class-nodes/ir-class-pre-constructor-node.cpp
+        ir-nodes/ir-class-nodes/ir-class-pre-constructor-node.h
+        ir-type/ir-class-instance-type.cpp
+        ir-type/ir-class-instance-type.h
 )
 
 target_link_libraries(jet-vm

@@ -13,6 +13,8 @@
 class ClassTypeSignatureIRStrategy {
 public:
     IRClassType* generate(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRClassType* generateInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRClassType* generatePostInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -18,6 +18,7 @@ private:
     std::string _preConstructorName;
     std::string _name;
 public:
+    IRClassType(std::string name, IRStructType* classProperties, std::string preConstructorName = "");
     IRClassType(std::string name, IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::string preConstructorName = "");
     std::optional<IRParameterType*> getClassScopeParameterType();
     std::optional<IRFunctionType*> getIRTypeForConstructor(std::string constructorId);
@@ -26,6 +27,11 @@ public:
     IRStructType* getClassProperties();
     std::string getPreConstructorName();
     std::string getName();
+    void setProperties(IRStructType* classProperties);
+    void setClassScopeType(std::optional<IRParameterType*> classScopeType);
+    void addMethod(std::string methodName, IRFunctionType* irType);
+    void addConstructor(std::string constructorName, IRFunctionType* irType);
+    llvm::Type* getType() override;
     bool isClassType() override;
     bool containsTypeThatRequiresFreeing() override;
     llvm::Align getAlignment() override;

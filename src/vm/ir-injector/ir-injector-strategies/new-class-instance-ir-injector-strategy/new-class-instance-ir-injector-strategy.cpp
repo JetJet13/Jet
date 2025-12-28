@@ -36,9 +36,9 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
         arguments.push_back(irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope));
     }
     arguments.push_back(classInstanceAllocation);
+    auto constructorFunction = irModule->getModule()->getFunction(irExpression->getConstructorId());
     irBlock->getBuilder()->get()->CreateCall(
-            irExpression->getConstructorIRType()->getType(),
-            irExpression->getConstructorFunction(),
+            constructorFunction,
             arguments
     );
 
@@ -52,7 +52,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
     if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isCopy()) {
-        auto irType = (IRClassInstanceType*)irExpression->getIRType()->getSourceType();
+        auto irType = (IRNewClassInstanceType*)irExpression->getIRType()->getSourceType();
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
         auto typeValue = irInjector->inject(irBlock, irType);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);

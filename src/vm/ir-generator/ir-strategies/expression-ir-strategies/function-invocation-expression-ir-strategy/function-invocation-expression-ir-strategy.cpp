@@ -35,8 +35,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     auto irFunctionType = (IRFunctionType*)irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope, irContext);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType(), scope, irContext);
 
-    // generate placeholder arg list for call instruction
-    auto argList = this->generatePlaceholderArgumentList(node, irFunctionType, irGenerator, irContext);
+    auto argList = this->prepArgumentList(node, irFunctionType, irGenerator, irContext);
     if (irFunctionType->isFunctionParameterType() || irFunctionType->isLambdaType()) {
         auto function = scope->find(node->getFunction()->getId()).value()->getValue();
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
@@ -55,7 +54,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     return new IRFunctionInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, varArgsTypeValueArgument);
 }
 
-std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::generatePlaceholderArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionType* irFunctionType, IRGenerator* irGenerator, IRContext* irContext) {
+std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionType* irFunctionType, IRGenerator* irGenerator, IRContext* irContext) {
     auto pointerType = irGenerator->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
     auto numArguments = node->getTypeSignature()->getFunctionType()->hasVariableLengthParameters() ?

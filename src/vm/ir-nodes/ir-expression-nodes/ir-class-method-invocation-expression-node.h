@@ -15,18 +15,20 @@
 class IRClassMethodInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTClassMethodInvocationExpressionNode* _node;
+    llvm::CallInst* _irCallInstruction;
     llvm::Value* _irFunction;
     IRType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
     IRInstructionNode* _classScopeArgument;
 public:
-    IRClassMethodInvocationExpressionNode(ASTClassMethodInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRInstructionNode* classScopeArgument);
+    IRClassMethodInvocationExpressionNode(ASTClassMethodInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRInstructionNode* classScopeArgument);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRInstructionNode* getClassScopeArgument();
     std::vector<IRExpressionNode*>* getIRArguments();
-    llvm::Value* getValue() override;
+    llvm::CallInst* getValue() override;
+    llvm::Value* getFunctionValue();
     IRType* getFunctionIRType();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

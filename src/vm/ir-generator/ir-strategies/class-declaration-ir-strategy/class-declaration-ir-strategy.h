@@ -12,10 +12,11 @@
 
 class ClassDeclarationIRStrategy {
 private:
-    void generatePreConstructor(ASTClassDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
+    std::optional<IRClassPreConstructorNode*> generatePreConstructor(ASTClassDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     IRClassConstructorNode* generate(ASTClassConstructorDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     IRClassMethodNode* generate(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     void declareMethod(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
+    void declareConstructor(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
 public:
     IRClassDeclarationNode* generate(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };

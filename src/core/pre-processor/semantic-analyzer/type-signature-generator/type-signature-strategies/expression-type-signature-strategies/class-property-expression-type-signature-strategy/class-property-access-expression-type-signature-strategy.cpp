@@ -14,6 +14,7 @@ void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassProperty
     if (!classPropertyTypeSignature) {
         auto classMethodTypeSignature = classTypeSignature->getMethods()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
         if (!classMethodTypeSignature) {
+            classTypeSignature->getInterface()->print();
             classPropertyAccessExpression->setTypeSignature(new InvalidTypeSignature());
             return;
         }

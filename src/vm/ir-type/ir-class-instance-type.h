@@ -1,5 +1,5 @@
 //
-// Created by Johny Georges on 2024-12-31.
+// Created by Johny Georges on 2025-12-27.
 //
 
 #ifndef JETLANG_IR_CLASS_INSTANCE_TYPE_H
@@ -13,9 +13,8 @@ class IRClassInstanceType : public IRType {
 private:
     IRStructRefType* _irClassInstancePropertiesType;
     IRClassType* _irClassType;
-    IRFunctionType* _irConstructorType;
 public:
-    IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructRefType* irClassInstancePropertiesType);
+    IRClassInstanceType(IRClassType* irClassType, IRStructRefType* irClassInstancePropertiesType);
     IRStructRefType* getIRClassPropertiesType();
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();

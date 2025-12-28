@@ -10,8 +10,10 @@ IRClassMethodInvocationExpressionNode* ClassMethodInvocationExpressionIRStrategy
         arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
     }
 
-    auto irFunctionType = irGenerator->generateTypeFor(node->getName()->getTypeSignature(), scope, irContext);
+    auto irFunctionType = (IRFunctionType*)irGenerator->generateTypeFor(node->getName()->getTypeSignature(), scope, irContext);
     auto irReturnType = irGenerator->generateTypeFor(node->getName()->getTypeSignature()->getReturnType(), scope, irContext);
     auto function = irContext->getModule()->getFunction(node->getName()->getId());
-    return new IRClassMethodInvocationExpressionNode(node, function, irFunctionType, arguments, irReturnType, scope->getClassScope().value());
+    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
+    auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
+    return new IRClassMethodInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, scope->getClassScope().value());
 }

@@ -5,8 +5,9 @@
 #include "ir-array-prototype-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayPrototypeInvocationExpressionNode::IRArrayPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRExpressionNode* irArray) {
+IRArrayPrototypeInvocationExpressionNode::IRArrayPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRExpressionNode* irArray) {
     _node = node;
+    _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
@@ -25,6 +26,10 @@ bool IRArrayPrototypeInvocationExpressionNode::isReferenced() {
     return _node->isReferenced();
 }
 
+bool IRArrayPrototypeInvocationExpressionNode::requiresTypeValueArgument() {
+    return this->getValue()->getFunctionType()->getNumParams() > 1;
+}
+
 IRExpressionNode* IRArrayPrototypeInvocationExpressionNode::getIRArrayValue() {
     return _irArray;
 }
@@ -33,7 +38,12 @@ std::vector<IRExpressionNode*>* IRArrayPrototypeInvocationExpressionNode::getIRA
     return &_arguments;
 }
 
-llvm::Value* IRArrayPrototypeInvocationExpressionNode::getValue() {
+llvm::CallInst* IRArrayPrototypeInvocationExpressionNode::getValue() {
+    return _irCallInstruction;
+}
+
+
+llvm::Value* IRArrayPrototypeInvocationExpressionNode::getFunctionValue() {
     return _irFunction;
 }
 

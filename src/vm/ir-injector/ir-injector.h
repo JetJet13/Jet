@@ -31,6 +31,7 @@ class EnumIRInjectorStrategy;
 class FunctionParameterIRInjectorStrategy;
 class FunctionReturnIRInjectorStrategy;
 class NewClassInstanceIRInjectorStrategy;
+class ClassInstanceIRInjectorStrategy;
 class ClassPropertyAssignmentIRInjectorStrategy;
 class VariableAssignmentIRInjectorStrategy;
 class ArrayAccessAssignmentIRInjectorStrategy;
@@ -45,6 +46,7 @@ class ProcedureDeclarationIRInjectorStrategy;
 class FunctionDeclarationIRInjectorStrategy;
 class TypeValueIRInjectorStrategy;
 class BlockIRInjectorStrategy;
+class ClassIRInjectorStrategy;
 
 class IRInjector {
 private:
@@ -64,6 +66,7 @@ private:
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
     NewClassInstanceIRInjectorStrategy* _newClassInstanceIRInjectorStrategy;
+    ClassInstanceIRInjectorStrategy* _classInstanceIRInjectorStrategy;
     ClassPropertyAssignmentIRInjectorStrategy* _classPropertyAssignmentIRInjectorStrategy;
     VariableAssignmentIRInjectorStrategy* _variableAssignmentIRInjectorStrategy;
     ArrayAccessAssignmentIRInjectorStrategy* _arrayAccessAssignmentIRInjectorStrategy;
@@ -78,6 +81,7 @@ private:
     FunctionDeclarationIRInjectorStrategy* _functionDeclarationIRInjectorStrategy;
     TypeValueIRInjectorStrategy* _typeValueIRInjectorStrategy;
     BlockIRInjectorStrategy* _blockIRInjectorStrategy;
+    ClassIRInjectorStrategy* _classIRInjectorStrategy;
     void init();
     std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
@@ -90,7 +94,6 @@ public:
     llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
     llvm::AllocaInst* injectRawString(IRBlockNode* irBlock, std::string rawString);
-    void injectPrintDebugString(IRBlockNode* irBlock, std::string rawString, IRModuleNode* irModule);
 };
 
 #endif //JETLANG_IR_INJECTOR_H

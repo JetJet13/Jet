@@ -202,6 +202,10 @@ bool IRType::isClassInstanceType() {
     return false;
 }
 
+bool IRType::isNewClassInstanceType() {
+    return false;
+}
+
 bool IRType::isTypeValueType() {
     return false;
 }

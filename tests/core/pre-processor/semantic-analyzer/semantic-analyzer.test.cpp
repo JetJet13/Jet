@@ -14,7 +14,7 @@
 #include "../../../../src/core/type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../src/core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../../../../src/core/type-signature/tuple-type-signature/tuple-type-signature.h"
-#include "../../../../src/core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../../src/core/type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
@@ -72,7 +72,7 @@ auto myInterfaceTypeSignature = new InterfaceTypeSignature(
 std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
 
     otherClassTypeSignature
-    ->addProperty("OtherClass_property_myIntOne", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, new ClassInstanceTypeSignature(myClassTypeSignature), false, false));
+    ->addProperty("OtherClass_property_myIntOne", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, new NewClassInstanceTypeSignature(myClassTypeSignature), false, false));
 
     myClassTypeSignature
     ->addProperty("MyClass_property_myIntOne", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
@@ -87,14 +87,14 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
     ->addProperty("MyClass_property_mickOneStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
     ->addProperty("MyClass_property_mickTwoStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
     ->addProperty("MyClass_property_mickThreeStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
-    ->addProperty("MyClass_property_initMyClass", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new ClassInstanceTypeSignature(myClassTypeSignature), false, false))
-    ->addProperty("MyClass_property_myClassProp", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new ClassInstanceTypeSignature(myClassTypeSignature), false, false))
-    ->addProperty("MyClass_property_otherClass", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new ClassInstanceTypeSignature(otherClassTypeSignature), false, false))
+    ->addProperty("MyClass_property_initMyClass", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new NewClassInstanceTypeSignature(myClassTypeSignature), false, false))
+    ->addProperty("MyClass_property_myClassProp", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new NewClassInstanceTypeSignature(myClassTypeSignature), false, false))
+    ->addProperty("MyClass_property_otherClass", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new NewClassInstanceTypeSignature(otherClassTypeSignature), false, false))
     ->addConstructor(
         "MyClass_constructor_0",
         new ClassConstructorTypeSignature(
             new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("other", new ClassInstanceTypeSignature(myClassTypeSignature))
+                new ParameterListItemTypeSignature("other", new NewClassInstanceTypeSignature(myClassTypeSignature))
     })))
     ->addConstructor(
         "MyClass_constructor_1",
@@ -110,7 +110,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                new ParameterListItemTypeSignature("foo", TypeSignatureFactory::intLiteral)
            }),
            true,
-            new ClassInstanceTypeSignature(myClassTypeSignature)
+            new NewClassInstanceTypeSignature(myClassTypeSignature)
        )
    )
     ->addMethod(
@@ -118,10 +118,10 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
         new ClassMethodTypeSignature(
             TypeSignatureFactory::protectedAccess,
             new ParameterListTypeSignature({
-               new ParameterListItemTypeSignature("other", new ClassInstanceTypeSignature(myClassTypeSignature))
+               new ParameterListItemTypeSignature("other", new NewClassInstanceTypeSignature(myClassTypeSignature))
             }),
             true,
-            new ClassInstanceTypeSignature(myClassTypeSignature)
+            new NewClassInstanceTypeSignature(myClassTypeSignature)
         )
     )
     ->addMethod(
@@ -130,7 +130,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             TypeSignatureFactory::privateAccess,
             new ParameterListTypeSignature(),
             true,
-            new ClassInstanceTypeSignature(myClassTypeSignature)
+            new NewClassInstanceTypeSignature(myClassTypeSignature)
         )
     )
     ->addMethod(
@@ -150,7 +150,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                 new ParameterListItemTypeSignature("bar", TypeSignatureFactory::boolLiteral)
             }),
             false,
-            new ClassInstanceTypeSignature(myClassTypeSignature)
+            new NewClassInstanceTypeSignature(myClassTypeSignature)
         )
     )
     ->addMethod(
@@ -527,7 +527,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                      TypeSignatureFactory::intLiteral
             })},
             {115, colorEnumTypeSignature},
-            {116, new ClassInstanceTypeSignature(myClassTypeSignature)},
+            {116, new NewClassInstanceTypeSignature(myClassTypeSignature)},
             {117, otherClassTypeSignature},
             {118, myClassTypeSignature},
             {119, new FunctionTypeSignature(

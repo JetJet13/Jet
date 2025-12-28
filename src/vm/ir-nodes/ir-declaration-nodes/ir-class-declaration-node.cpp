@@ -6,15 +6,20 @@
 
 #include <utility>
 
-IRClassDeclarationNode::IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods) {
+IRClassDeclarationNode::IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods) {
     _node = node;
     _type = type;
+    _preConstructor = preConstructor;
     _constructors = std::move(constructors);
     _methods = std::move(methods);
 }
 
 IRClassType* IRClassDeclarationNode::getIRType() {
     return _type;
+}
+
+std::optional<IRClassPreConstructorNode*> IRClassDeclarationNode::getPreConstructor() {
+    return _preConstructor;
 }
 
 std::vector<IRClassConstructorNode*>* IRClassDeclarationNode::getConstructors() {

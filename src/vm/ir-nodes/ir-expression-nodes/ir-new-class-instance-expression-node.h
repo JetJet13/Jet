@@ -10,21 +10,21 @@
 #include "../ir-instruction-node.h"
 #include "../../ir-type/ir-function-type.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
-#include "../../../core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../core/type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../ir-type/ir-class-type.h"
-#include "../../ir-type/ir-class-instance-type.h"
+#include "../../ir-type/ir-new-class-instance-type.h"
 
 class IRNewClassInstanceExpressionNode : public IRExpressionNode {
 private:
     ASTNewClassInstanceExpressionNode* _node;
-    llvm::Value* _irConstructor;
+    std::string _constructorId;
     IRFunctionType* _irConstructorType;
     std::vector<IRExpressionNode*> _arguments;
-    IRClassInstanceType* _type;
+    IRNewClassInstanceType* _type;
     IRInstructionNode* _classInstanceAllocation;
     IRInstructionNode* _irArc;
 public:
-    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
+    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, std::string constructorId, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRNewClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRInstructionNode* getClassInstanceAllocation();
@@ -32,9 +32,9 @@ public:
     std::optional<IRInstructionNode*> getArc() override;
     llvm::Value* getValue() override;
     IRFunctionType* getConstructorIRType();
-    llvm::Value* getConstructorFunction();
-    IRClassInstanceType* getIRType() override;
-    ClassInstanceTypeSignature* getTypeSignature() override;
+    std::string getConstructorId();
+    IRNewClassInstanceType* getIRType() override;
+    NewClassInstanceTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     IRNodeType getNodeType() override;

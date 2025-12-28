@@ -7,6 +7,15 @@
 
 #include <utility>
 
+IRClassType::IRClassType(std::string name, IRStructType* classProperties, std::string preConstructorName): IRType(classProperties->getType()) {
+    _name = name;
+    _classProperties = classProperties;
+    _classScopeType = std::optional<IRParameterType*>();
+    _classConstructors = std::unordered_map<std::string, IRFunctionType*>();
+    _classMethods = std::unordered_map<std::string, IRFunctionType*>();
+    _preConstructorName = std::move(preConstructorName);
+}
+
 IRClassType::IRClassType(std::string name, IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::string preConstructorName) : IRType(classProperties->getType()) {
     _name = name;
     _classProperties = classProperties;
@@ -50,6 +59,26 @@ std::string IRClassType::getPreConstructorName() {
 
 std::string IRClassType::getName() {
     return _name;
+}
+
+void IRClassType::setProperties(IRStructType* classProperties) {
+    _classProperties = classProperties;
+}
+
+void IRClassType::setClassScopeType(std::optional<IRParameterType*> classScopeType) {
+    _classScopeType = classScopeType;
+}
+
+void IRClassType::addMethod(std::string methodName, IRFunctionType* irType) {
+    _classMethods[methodName] = irType;
+}
+
+void IRClassType::addConstructor(std::string constructorName, IRFunctionType* irType) {
+    _classConstructors[constructorName] = irType;
+}
+
+llvm::Type* IRClassType::getType() {
+    return _classProperties->getType();
 }
 
 bool IRClassType::isClassType() {

@@ -6,6 +6,7 @@
 #include "../../../../../shared/utils/md5/md5.h"
 
 IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getId()).value();
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
@@ -22,6 +23,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     classProperties->setId(classTypeSignature->getId());
     classProperties->setAlignmentAndSizeForIRTypes();
     classProperties->setValue(irGenerator->generateIRTypeValueFor(classProperties, irContext));
+    irClassType->setProperties(classProperties);
 
     auto constructorReturnType = irGenerator->generateVoidType()->getType();
     auto classConstructors = std::unordered_map<std::string, IRFunctionType*>();
@@ -29,7 +31,10 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
         ? irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext, classTypeSignature->getClassScopeParameter())
         : irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext);
-        classConstructors[keyValue.first] = new IRFunctionType(llvm::FunctionType::get(constructorReturnType, constructorParameters->getParameterTypes(), false));
+        irClassType->addConstructor(
+            keyValue.first,
+            new IRFunctionType(llvm::FunctionType::get(constructorReturnType, constructorParameters->getParameterTypes(), false))
+        );
     }
 
     auto classMethods = std::unordered_map<std::string, IRFunctionType*>();
@@ -39,19 +44,49 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
                                 ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
                                 : irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
-        classMethods[keyValue.first] = new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false));
+        irClassType->addMethod(
+            keyValue.first,
+            new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false))
+        );
     }
 
+    return irClassType;
+}
+
+IRClassType* ClassTypeSignatureIRStrategy::generateInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = new IRClassType(
             classTypeSignature->getId(),
-            classProperties,
-            classTypeSignature->isClassScopeParameterNecessary()
-            ? irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext)
-            : std::optional<IRParameterType*>(),
-            classConstructors,
-            classMethods,
+            irGenerator->generateIRStructType(),
             classTypeSignature->getPreConstructorName()
     );
+
     irClassType->setId(classTypeSignature->getId());
+    scope->insertGlobalType(irClassType->getId(), irClassType);
+
+    return irClassType;
+}
+
+IRClassType* ClassTypeSignatureIRStrategy::generatePostInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getId()).value();
+    auto constructorReturnType = irGenerator->generateVoidType()->getType();
+    for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
+        auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
+                                     ? irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext, classTypeSignature->getClassScopeParameter())
+                                     : irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext);
+        irClassType->addConstructor(
+                keyValue.first,
+                new IRFunctionType(llvm::FunctionType::get(constructorReturnType, constructorParameters->getParameterTypes(), false))
+        );
+    }
+
+    if (classTypeSignature->isClassScopeParameterNecessary()) {
+        irClassType->setClassScopeType(irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext));
+    }
+
+    if (irClassType->getClassScopeParameterType()) {
+        auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { irGenerator->generatePointerType() }, false);
+        llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, irClassType->getPreConstructorName(), irContext->getModule());
+    }
+
     return irClassType;
 }

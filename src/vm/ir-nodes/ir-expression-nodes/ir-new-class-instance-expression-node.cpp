@@ -5,9 +5,9 @@
 #include "ir-new-class-instance-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, llvm::Value* irConstructor, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc) {
+IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, std::string constructorId, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRNewClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc) {
     _node = node;
-    _irConstructor = irConstructor;
+    _constructorId = constructorId;
     _irConstructorType = irConstructorType;
     _arguments = arguments;
     _type = type;
@@ -40,22 +40,22 @@ std::optional<IRInstructionNode*> IRNewClassInstanceExpressionNode::getArc() {
 }
 
 llvm::Value* IRNewClassInstanceExpressionNode::getValue() {
-    return _irConstructor;
+    return _classInstanceAllocation->getValue();
 }
 
 IRFunctionType* IRNewClassInstanceExpressionNode::getConstructorIRType() {
     return _irConstructorType;
 }
 
-llvm::Value* IRNewClassInstanceExpressionNode::getConstructorFunction() {
-    return _irConstructor;
+std::string IRNewClassInstanceExpressionNode::getConstructorId() {
+    return _constructorId;
 }
 
-IRClassInstanceType* IRNewClassInstanceExpressionNode::getIRType() {
+IRNewClassInstanceType* IRNewClassInstanceExpressionNode::getIRType() {
     return _type;
 }
 
-ClassInstanceTypeSignature* IRNewClassInstanceExpressionNode::getTypeSignature() {
+NewClassInstanceTypeSignature* IRNewClassInstanceExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
@@ -76,5 +76,5 @@ std::string IRNewClassInstanceExpressionNode::toString() {
 }
 
 void IRNewClassInstanceExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irConstructor->print(**stream);
+    Logger::log(this->toString(), _constructorId);
 }

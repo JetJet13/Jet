@@ -1,15 +1,14 @@
 //
-// Created by Johny Georges on 2024-12-31.
+// Created by Johny Georges on 2025-12-27.
 //
 
 #include "ir-class-instance-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRFunctionType* irConstructorType, IRStructRefType* irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
+IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRStructRefType* irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
     _id = irClassType->getId();
     _irClassInstancePropertiesType = irClassInstancePropertiesType;
     _irClassType = irClassType;
-    _irConstructorType = irConstructorType;
     _value = irClassInstancePropertiesType->getValue();
 }
 
@@ -19,10 +18,6 @@ IRStructRefType* IRClassInstanceType::getIRClassPropertiesType() {
 
 IRClassType* IRClassInstanceType::getIRClassType() {
     return _irClassType;
-}
-
-IRFunctionType* IRClassInstanceType::getIRConstructorType() {
-    return _irConstructorType;
 }
 
 std::string IRClassInstanceType::getIRMethodName(std::string methodName) {
@@ -65,14 +60,12 @@ bool IRClassInstanceType::isClassInstanceType() {
 }
 
 llvm::Align IRClassInstanceType::getAlignment() {
-    return _irClassType->getAlignment();
+    return _irClassInstancePropertiesType->getAlignment();
 }
 
 IRClassInstanceType* IRClassInstanceType::clone() {
-    auto classClone = _irClassType->clone();
-    auto constructorClone = _irConstructorType->clone();
     auto classPropertiesClone = _irClassInstancePropertiesType->clone();
-    auto clone = new IRClassInstanceType(classClone, constructorClone, classPropertiesClone);
+    auto clone = new IRClassInstanceType(_irClassType, classPropertiesClone);
     this->initClone(clone);
     return clone;
 }

@@ -61,7 +61,7 @@ proc testArcPassUp() {
 //testArcArray();
 //testArcStruct();
 //testArcPassDown();
-testArcPassUp();
+//testArcPassUp();
 
 
 class MyClass {
@@ -118,6 +118,25 @@ class OtherClass {
         this.value = newValue;
     }
 }
+
+// Parent class and Child class will compile, but not run
+// due to an infinite loop of class constructor calls
+// class Parent {
+//     private child = new Child();
+//     constructor() {}
+//     public setChild(child: Child) {
+//         this.child = child;
+//     }
+// }
+//
+// class Child {
+//     private parent = new Parent();
+//     constructor() {}
+//
+//     public setParent(parent: Parent) {
+//         this.parent = parent;
+//     }
+// }
 
 enum MyEnum {
  Alpha = 1,

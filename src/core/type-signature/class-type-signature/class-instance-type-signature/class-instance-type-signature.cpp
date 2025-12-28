@@ -1,57 +1,50 @@
 //
-// Created by Johny Georges on 2024-05-15.
+// Created by Johny Georges on 2025-12-26.
 //
 
 #include "class-instance-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../../interface-type-signature/interface-type-signature.h"
+#include "../../unknown-type-signature/unknown-type-signature.h"
 
 ClassInstanceTypeSignature::ClassInstanceTypeSignature() {
-    _classTypeSignature = {};
-    _constructorInfo = {};
+    _class = new ClassTypeSignature();
 }
 
-ClassInstanceTypeSignature::ClassInstanceTypeSignature(ClassTypeSignature* classTypeSignature, std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> constructorInfo) {
-    _classTypeSignature = classTypeSignature;
-    _constructorInfo = constructorInfo;
+ClassInstanceTypeSignature::ClassInstanceTypeSignature(ClassTypeSignature* classTypeSignature) {
+    _class = classTypeSignature;
 }
 
-ClassTypeSignature* ClassInstanceTypeSignature::getClassTypeSignature() {
-    return _classTypeSignature.value();
+bool ClassInstanceTypeSignature::isEmpty() {
+    return _class->getInterface()->size() == 0;
 }
 
-TypeSignatureMap<TypeSignature>* ClassInstanceTypeSignature::getClassInterface() {
-    return _classTypeSignature.value()->getInterface();
+TypeSignatureMap<ClassPropertyTypeSignature>* ClassInstanceTypeSignature::getProperties() {
+    return _class->getProperties();
 }
 
-ClassConstructorTypeSignature* ClassInstanceTypeSignature::getConstructorTypeSignature() {
-    return _constructorInfo.value().second;
+TypeSignatureMap<TypeSignature>* ClassInstanceTypeSignature::getKeyValuePairs() {
+    return _class->getInterface();
 }
 
-std::optional<ClassMethodTypeSignature*> ClassInstanceTypeSignature::findMethod(std::string methodName) {
-    auto methodId = _classTypeSignature.value()->getId() + "." + methodName;
-    return _classTypeSignature.value()->getMethods()->find(methodId);
+TypeSignature* ClassInstanceTypeSignature::getTypeSignatureForKey(std::string key) {
+    auto result = _class->getInterface()->find(key);
+    if (result) {
+        return result.value();
+    }
+    return new UnknownTypeSignature();
 }
 
-std::optional<ClassPropertyTypeSignature*> ClassInstanceTypeSignature::findProperty(std::string propertyName) {
-    auto propertyId = _classTypeSignature.value()->getId() + "." + propertyName;
-    return _classTypeSignature.value()->getProperties()->find(propertyId);
+TypeSignature* ClassInstanceTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+    if (index >= _class->getInterface()->size()) {
+        return new UnknownTypeSignature();
+    }
+
+    return _class->getInterface()->find(_class->getInterface()->findKeyByIndex(index)).value();
 }
 
-bool ClassInstanceTypeSignature::hasConstructorInfo() {
-    return _constructorInfo.has_value();
-}
-
-std::string ClassInstanceTypeSignature::getConstructorId() {
-    return _constructorInfo.value().first;
-}
-
-void ClassInstanceTypeSignature::setConstructorInfo(std::pair<std::string, ClassConstructorTypeSignature*> constructorInfo) {
-    _constructorInfo = constructorInfo;
-}
 
 std::string ClassInstanceTypeSignature::toDetailString() {
-    return "jet.class_instance." + _classTypeSignature.value()->toDetailString();
+    return "jet.class.interface." + this->getId();
 }
 
 std::string ClassInstanceTypeSignature::toString() {
@@ -62,28 +55,16 @@ TypeSource ClassInstanceTypeSignature::getTypeSource() {
     return CLASS_INSTANCE_TYPE_SOURCE;
 }
 
-bool ClassInstanceTypeSignature::isEquivalentTo(TypeSignature* otherType) {
-    if (otherType->typeSourceIs(CLASS_TYPE_SOURCE)){
-        auto classTypeSignature = (ClassTypeSignature*)otherType;
-        return this->getClassTypeSignature()->isEqualTo(classTypeSignature);
-    } else if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)){
-        auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
-        return this->getClassTypeSignature()->isEqualTo(classInstanceTypeSignature->getClassTypeSignature());
-    } else if (otherType->typeSourceIs(INTERFACE_TYPE_SOURCE)) {
-        auto interfaceTypeSignature = (InterfaceTypeSignature*)otherType;
-        return interfaceTypeSignature->getKeyValuePairs()->isSatisfiedBy(this->getClassInterface());
-    }
-    return this->isEqualTo(otherType);
-}
-
 bool ClassInstanceTypeSignature::isEqualTo(TypeSignature* otherType) {
-    return this->getTypeSource() == otherType->getTypeSource();
+    return _class->isEqualTo(otherType);
 }
 
-bool ClassInstanceTypeSignature::isInvalid() {
-    return !_classTypeSignature.has_value();
+bool ClassInstanceTypeSignature::isEquivalentTo(TypeSignature *otherType) {
+    return _class->isEquivalentTo(otherType);
 }
 
 void ClassInstanceTypeSignature::print() {
-    Logger::log(this->toString());
+    Logger::log("----------", this->toString(), "----------");
+    _class->print();
+    Logger::log("----------");
 }

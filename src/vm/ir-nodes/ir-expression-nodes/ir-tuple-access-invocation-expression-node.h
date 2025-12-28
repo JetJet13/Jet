@@ -16,16 +16,17 @@ class IRTupleAccessInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTTupleAccessInvocationExpressionNode* _node;
     IRTupleAccessExpressionNode* _irTupleAccessExpression;
+    llvm::CallInst* _irCallInstruction;
     IRType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
 public:
-    IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type);
+    IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRTupleAccessExpressionNode* getIRTupleAccessExpression();
     std::vector<IRExpressionNode*>* getIRArguments();
-    llvm::Value* getValue() override;
+    llvm::CallInst* getValue() override;
     IRType* getFunctionIRType();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

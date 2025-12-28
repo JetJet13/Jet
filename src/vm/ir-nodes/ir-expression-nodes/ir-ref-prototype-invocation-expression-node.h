@@ -14,18 +14,20 @@
 class IRRefPrototypeInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTObjectAccessInvocationExpressionNode* _node;
+    llvm::CallInst* _irCallInstruction;
     llvm::Value* _irFunction;
     IRType* _irFunctionType;
     std::vector<IRExpressionNode*> _arguments;
     IRType* _type;
     IRExpressionNode* _irRef;
 public:
-    IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRExpressionNode* irRef);
+    IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRExpressionNode* irRef);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRExpressionNode* getIRRefValue();
     std::vector<IRExpressionNode*>* getIRArguments();
-    llvm::Value* getValue() override;
+    llvm::CallInst* getValue() override;
+    llvm::Value* getFunctionValue();
     IRType* getFunctionIRType();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

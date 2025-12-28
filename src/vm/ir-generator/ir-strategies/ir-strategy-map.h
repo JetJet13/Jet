@@ -75,6 +75,7 @@ class RefTypeSignatureIRStrategy;
 class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
 class ClassPropertyTypeSignatureIRStrategy;
+class NewClassInstanceTypeSignatureIRStrategy;
 class ClassInstanceTypeSignatureIRStrategy;
 class LambdaScopeTypeSignatureIRStrategy;
 
@@ -149,6 +150,7 @@ private:
     FunctionInvocationTypeSignatureIRStrategy* _functionInvocationTypeSignatureIRStrategy;
     ClassMethodTypeSignatureIRStrategy* _classMethodTypeSignatureIRStrategy;
     ClassPropertyTypeSignatureIRStrategy* _classPropertyTypeSignatureIRStrategy;
+    NewClassInstanceTypeSignatureIRStrategy* _newClassInstanceTypeSignatureIRStrategy;
     ClassInstanceTypeSignatureIRStrategy* _classInstanceTypeSignatureIRStrategy;
     LambdaScopeTypeSignatureIRStrategy* _lambdaScopeTypeSignatureIRStrategy;
 public:
@@ -223,6 +225,7 @@ public:
     FunctionInvocationTypeSignatureIRStrategy* getFunctionInvocationTypeSignatureIRStrategy();
     ClassMethodTypeSignatureIRStrategy* getClassMethodTypeSignatureIRStrategy();
     ClassPropertyTypeSignatureIRStrategy* getClassPropertyTypeSignatureIRStrategy();
+    NewClassInstanceTypeSignatureIRStrategy* getNewClassInstanceTypeSignatureIRStrategy();
     ClassInstanceTypeSignatureIRStrategy* getClassInstanceTypeSignatureIRStrategy();
     LambdaScopeTypeSignatureIRStrategy* getLambdaScopeTypeSignatureIRStrategy();
 };
