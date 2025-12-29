@@ -5,7 +5,7 @@
 #include "ir-function-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
+IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -42,8 +42,12 @@ llvm::CallInst* IRFunctionInvocationExpressionNode::getValue() {
     return _irCallInstruction;
 }
 
-llvm::Value* IRFunctionInvocationExpressionNode::getFunctionValue() {
+IRInstructionNode* IRFunctionInvocationExpressionNode::getFunction() {
     return _irFunction;
+}
+
+llvm::Value* IRFunctionInvocationExpressionNode::getFunctionValue() {
+    return _irFunction->getValue();
 }
 
 IRType* IRFunctionInvocationExpressionNode::getFunctionIRType() {
@@ -75,5 +79,5 @@ std::string IRFunctionInvocationExpressionNode::toString() {
 }
 
 void IRFunctionInvocationExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irFunction->print(**stream);
+    _irFunction->getValue()->print(**stream);
 }

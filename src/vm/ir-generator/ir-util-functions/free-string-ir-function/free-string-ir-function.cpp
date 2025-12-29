@@ -25,10 +25,9 @@ void FreeStringIRFunction::generateFreeStringFunction(IRGenerator* irGenerator, 
 
     auto sourceAllocationPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
     auto loadedSourceAllocation = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), sourceAllocationPointer);
-//    functionBlock->getBuilder()->get()->CreateCall(
-//            irModuleNode->getMallocFreeFunction()->getFunctionType(),
-//            irModuleNode->getMallocFreeFunction(),
-//            { loadedSourceAllocation }
-//    );
+    functionBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFreeFunction(),
+            { loadedSourceAllocation }
+    );
     functionBlock->addVoidReturn();
 }

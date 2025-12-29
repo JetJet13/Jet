@@ -81,9 +81,6 @@ IRClassType* ClassTypeSignatureIRStrategy::generatePostInitial(ClassTypeSignatur
 
     if (classTypeSignature->isClassScopeParameterNecessary()) {
         irClassType->setClassScopeType(irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext));
-    }
-
-    if (irClassType->getClassScopeParameterType()) {
         auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { irGenerator->generatePointerType() }, false);
         llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, irClassType->getPreConstructorName(), irContext->getModule());
     }

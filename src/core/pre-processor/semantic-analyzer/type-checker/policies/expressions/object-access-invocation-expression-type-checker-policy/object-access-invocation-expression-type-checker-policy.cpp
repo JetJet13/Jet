@@ -10,7 +10,9 @@
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
     void apply(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+        TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getSource()->getSource(), typeCheckerResult);
         TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getArguments(), typeCheckerResult);
+        objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->print();
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()

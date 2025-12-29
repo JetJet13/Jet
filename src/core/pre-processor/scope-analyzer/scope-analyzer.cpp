@@ -42,12 +42,6 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
             } else {
                 refExpression->getExpressionNode()->markAsReferenced();
             }
-            // todo - refactor struct and tuple types to support ref counting
-            // since that is likely the best method to support refs
-            // to struct & tuple properties (e.g. ref myTuple.0)
-            // The existing behavior for pass by value for structs and tuples
-            // will need to remain in place. Under the hood, they will be created
-            // with a refCounter (i.e. like a reference)
         } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
             auto lambdaScope = new ASTLookupTable(currentScope);
             lambdaScope->bindLambda((ASTLambdaExpressionNode *) node);

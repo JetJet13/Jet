@@ -6,6 +6,7 @@
 #include "../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
 #include "../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = node->getTypeSignature();
@@ -48,13 +49,13 @@ void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(ASTClassDeclaratio
         strategyMap->assignTypeSignatureFor(property, scope);
         if (property->getPropertyInit()->getType() &&
             property->getPropertyInit()->getType().value()->getType()->getId() == node->getId()) {
-            property->getTypeSignature()->setType(new NewClassInstanceTypeSignature(classTypeSignature));
+            property->getTypeSignature()->setType(classTypeSignature->convertToVariableTypeSignature());
         }
 
         if (property->getInitializer() && property->getInitializer().value()->is(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
             auto newClassInstanceExpression = (ASTNewClassInstanceExpressionNode*)property->getInitializer().value();
             if (newClassInstanceExpression->getClassName()->getId() == node->getId()) {
-                property->getTypeSignature()->setType(new NewClassInstanceTypeSignature(classTypeSignature));
+                property->getTypeSignature()->setType(classTypeSignature->convertToVariableTypeSignature());
             }
         }
 

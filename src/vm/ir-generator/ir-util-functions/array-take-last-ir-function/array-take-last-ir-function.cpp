@@ -137,12 +137,10 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
     );
     auto arrayPointerAllocationForTakeLastCopy = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getCopyArrayFunction()->getFunctionType(),
             irModuleNode->getCopyArrayFunction(),
             { arrayPointerAllocationForTakeLastCopy, arrayPointerAllocationForTakeLast, function->getArg(2) }
     );
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFreeFunction()->getFunctionType(),
             irModuleNode->getMallocFreeFunction(),
             { takeArrayMalloc, takeNumElements }
     );

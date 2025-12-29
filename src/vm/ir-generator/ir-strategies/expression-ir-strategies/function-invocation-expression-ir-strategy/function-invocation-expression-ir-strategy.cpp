@@ -32,26 +32,33 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
         );
     }
 
-    auto irFunctionType = (IRFunctionType*)irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope, irContext);
+    auto irType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope, irContext);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType(), scope, irContext);
 
-    auto argList = this->prepArgumentList(node, irFunctionType, irGenerator, irContext);
-    if (irFunctionType->isFunctionParameterType() || irFunctionType->isLambdaType()) {
-        auto function = scope->find(node->getFunction()->getId()).value()->getValue();
-        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
-        return new IRFunctionInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, varArgsTypeValueArgument);
+    if (irType->isFunctionParameterType()) {
+        auto irFunctionParameterType = (IRFunctionParameterType*)irType;
+        auto source = scope->find(node->getFunction()->getId()).value();
+        auto argList = this->prepArgumentList(node, irFunctionParameterType, irGenerator, irContext);
+        auto callInstruction = llvm::CallInst::Create(irFunctionParameterType->getIRFunctionType()->getType(), source->getValue(), argList);
+        return new IRFunctionInvocationExpressionNode(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
+        auto irFunctionType = (IRFunctionType*)irType;
         auto irFunctionName = irGenerator->getJetUtilsFunctionName(node->getFunction()->getId());
         auto function = irContext->getModule()->getFunction(irFunctionName);
+        auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
+        auto argList = this->prepArgumentList(node, irFunctionType, irGenerator, irContext);
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
-        return new IRFunctionInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, varArgsTypeValueArgument);
+        return new IRFunctionInvocationExpressionNode(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
 
+    auto irFunctionType = (IRFunctionType*)irType;
     auto function = irContext->getModule()->getFunction(node->getFunction()->getId());
+    auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
+    auto argList = this->prepArgumentList(node, irFunctionType, irGenerator, irContext);
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
-    return new IRFunctionInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, varArgsTypeValueArgument);
+    return new IRFunctionInvocationExpressionNode(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
 }
 
 std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionType* irFunctionType, IRGenerator* irGenerator, IRContext* irContext) {
@@ -64,17 +71,6 @@ std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentLi
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
 
-    if (irFunctionType->isLambdaType()) {
-        auto irLambdaType = (IRLambdaType*)irFunctionType;
-        if (irLambdaType->getLambdaScopeType() && irLambdaType->getLambdaScopeType().value()->size() > 0) {
-            argList.push_back(llvm::ConstantPointerNull::get(pointerType));
-        }
-    }
-
-    if (irFunctionType->isFunctionParameterType()) {
-        argList.push_back(llvm::ConstantPointerNull::get(pointerType));
-    }
-
     if (node->getTypeSignature()->getFunctionType()->hasVariableLengthParameters()) {
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
@@ -83,6 +79,20 @@ std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentLi
         auto assertMessage = irGenerator->getOrInsertGlobalVariableString(node->getId(), "(" + node->getLineColumn() + ") " + node->toSourceCode() + "\n\n", irContext);
         argList.push_back(assertMessage);
     }
+
+    return argList;
+}
+
+std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionParameterType* irFunctionParameterType, IRGenerator* irGenerator, IRContext* irContext) {
+    auto pointerType = irGenerator->generatePointerType();
+    auto argList = std::vector<llvm::Value*>();
+    auto numArguments = irFunctionParameterType->getFunctionType()->getNumParams();
+    for (int i = 0; i < numArguments; ++i) {
+        argList.push_back(llvm::ConstantPointerNull::get(pointerType));
+    }
+
+    // for lambda scope argument;
+    argList.push_back(llvm::ConstantPointerNull::get(pointerType));
 
     return argList;
 }

@@ -5,6 +5,7 @@
 #include "new-class-instance-expression-type-checker-policy.h"
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
+#include "../../../type-checker.h"
 
 namespace NewClassInstanceExpressionTypeCheckerPolicy {
     void apply(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeCheckerResult* typeCheckerResult) {
@@ -27,5 +28,7 @@ namespace NewClassInstanceExpressionTypeCheckerPolicy {
         if (!newClassInstanceExpression->getTypeSignature()->hasConstructorInfo()) {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNoMatchingConstructor(newClassInstanceExpression)());
         }
+
+        TypeChecker::applyPolicyTo(newClassInstanceExpression->getArguments(), typeCheckerResult);
     }
 }

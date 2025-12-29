@@ -5,6 +5,7 @@
 #include "binary-expression-type-signature-strategy.h"
 #include "../../../../../../symbol/symbol-factory.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
+#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
@@ -18,9 +19,17 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* bina
         throw std::invalid_argument("unknown binary operator..aborting.");
     }
 
+    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE) ?
+                                 ((RefTypeSignature*)binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType() :
+                                 binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
+
+    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE) ?
+                                 ((RefTypeSignature*)binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType() :
+                                 binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
+
     auto resultTypeSignature = combination.value()->match(
-            binaryExpression->getLeftNode()->getTypeSignature(),
-            binaryExpression->getRightNode()->getTypeSignature()
+            leftNodeTypeSignature,
+            rightNodeTypeSignature
     );
     if (!resultTypeSignature) {
         binaryExpression->setTypeSignature(new InvalidTypeSignature());

@@ -31,9 +31,9 @@ TypeSource RefTypeSignature::getTypeSource() {
     return REF_TYPE_SOURCE;
 }
 
-TypeSource RefTypeSignature::getTypeTarget() {
-    return this->_underlyingType->getTypeTarget();
-}
+//TypeSource RefTypeSignature::getTypeTarget() {
+//    return this->_underlyingType->getTypeTarget();
+//}
 
 bool RefTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {

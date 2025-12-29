@@ -214,7 +214,7 @@ proc testRefFunctions() {
     print("novo.evo", myObj.nest.novo.0, refMyObj.nest.novo.0);
     const myTuple = { 13, true, { 'n', [1, 55, 6], { "evo", true, 113 } } };
     const refMyTuple = ref myTuple;
-//  const refMyTupleCopy = refMyTuple; (not allowed. Must use sref)
+    const refMyTupleCopy = sref refMyTuple;
     const srefMyTuple = sref refMyTuple;
     const otherRefMyTuple = ref myTuple;
     const refMyTupleFoo = refMyTuple.0;
@@ -523,6 +523,63 @@ proc testRefCleanup() {
     assert(x.refCount() == 2);
 }
 
+proc testArcLiteral() {
+    const x = 50;
+    const refX = ref x;
+    const lambdaX = () => x + 125;
+    const srefX = sref refX;
+    const otherRefX = ref x;
+    if x > 20 {
+        const nestedRefX = sref refX;
+    }
+}
+
+proc testArcArray() {
+    const y = [100, 200, 300];
+    const refY = ref y;
+    const lambdaY = () => y[0] + 125;
+    const srefY = sref refY;
+    const otherRefY = ref y;
+}
+
+proc testArcStruct() {
+    const z = { a: 10, b: true, mars: { hello: "world", nested: { g: 10 } }, voo: { 50.1, false, 'c' }, zoom: [100, 400, 900] };
+    const refZ = ref z;
+    const lambdaZ = () => z.a + 125;
+    const srefZ = sref refZ;
+    const secondSrefZ = sref srefZ;
+    const otherRefZ = ref z;
+}
+
+proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
+    assert(s.refCount() == 2);
+    const localArgRef = sref s;
+    print("localArgRef", s.a);
+    assert(s.refCount() == 3);
+}
+
+proc testArcPassDown() {
+    const s = { a: 100, b: false };
+    testPassDownStructRef(ref s);
+    const refS = ref s;
+    assert(refS.refCount() == 2);
+}
+
+func testPassUpInt() ref<int> {
+    const x = 121;
+    return ref x;
+}
+
+proc testArcPassUp() {
+    assert(testPassUpInt().refCount() == 1);
+    const passedUpX = sref testPassUpInt();
+    assert(passedUpX.refCount() == 2);
+    const anotherX = sref passedUpX;
+    assert(passedUpX.refCount() == 3);
+    print("passedUpX", passedUpX);
+    assert(passedUpX == 121);
+}
+
 main();
 testPrint();
 testArrayPrototypeFunctions();
@@ -537,6 +594,11 @@ testEquality();
 testLambdaReturn();
 testCleanup();
 testRefCleanup();
+testArcLiteral();
+testArcArray();
+testArcStruct();
+testArcPassDown();
+testArcPassUp();
 
 class MyClass {
     public age: int;
@@ -592,6 +654,36 @@ class OtherClass {
         this.value = newValue;
     }
 }
+
+// Node class will compile, but cannot be used since
+// it cannot be instantiated
+// e.g. new Node(new Node(..and so on))
+// class Node {
+//    private other: Node;
+//
+//    constructor(other: Node) {
+//        this.other = other;
+//    }
+//}
+
+// Parent class and Child class will compile, but not run
+// due to an infinite loop of class pre-constructor calls
+// class Parent {
+//     private child = new Child();
+//     constructor() {}
+//     public setChild(child: Child) {
+//         this.child = child;
+//     }
+// }
+//
+// class Child {
+//     private parent = new Parent();
+//     constructor() {}
+//
+//     public setParent(parent: Parent) {
+//         this.parent = parent;
+//     }
+// }
 
 enum MyEnum {
  Alpha = 1,

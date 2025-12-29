@@ -4,10 +4,8 @@
 
 #include "object-access-invocation-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.h"
-#include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h"
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
-#include "../../../../ir-type/ir-new-class-instance-type.h"
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
@@ -20,23 +18,23 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     }
 
     if (node->isArrayPrototypeInvocation()) {
-        auto irArrayExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
+        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
         auto function = irContext->getModule()->getFunction(irGenerator->getArrayPrototypeFunctionName(node->getName()));
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
-        return new IRArrayPrototypeInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, irArrayExpression);
+        return new IRArrayPrototypeInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, irExpression);
     }
 
     if (node->isRefPrototypeInvocation()) {
-        auto irRefExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
+        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
         auto function = irContext->getModule()->getFunction(irGenerator->getRefPrototypeFunctionName(node->getName()));
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
-        return new IRRefPrototypeInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, irRefExpression);
+        return new IRRefPrototypeInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, irExpression);
     }
 
     auto functionId = FunctionIdGenerator::generateFor(node);

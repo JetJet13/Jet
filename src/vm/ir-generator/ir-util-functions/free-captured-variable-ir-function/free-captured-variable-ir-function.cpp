@@ -4,6 +4,7 @@
 
 #include "free-captured-variable-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
+#include "../../../types/ir-type-id.h"
 
 std::string FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName() {
     return "jet.free.captured.variable";
@@ -32,6 +33,8 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
 
     auto freeVariableIfBlock = irGenerator->generateIfBlock(irContext, "free.variable.");
     auto freeVariableIfThenBlock = irGenerator->generateIfThenBlock(irContext, "free.variable.");
+    auto freeCaptureCounterIfBlock = irGenerator->generateIfBlock(irContext);
+    auto freeCaptureCounterIfThenBlock = irGenerator->generateIfThenBlock(irContext);
     auto freeVariableElseBlock = irGenerator->generateIfElseBlock(irContext);
     auto freeVariableEndBlock = irGenerator->generateIfEndBlock(irContext);
 
@@ -46,6 +49,7 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
 
     auto underlyingTypePointer = freeVariableIfThenBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), {typeValueType->getAllocIndex() });
     auto loadedUnderlyingType = freeVariableIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
+    auto capturedVariableTypeId = freeVariableIfThenBlock->getBuilder()->get()->CreateExtractValue(loadedUnderlyingType, {typeValueType->getIdIndex() });
     auto pointerToCapturedVariablePointer = freeVariableIfThenBlock->getBuilder()->get()->CreateStructGEP(capturedVariableType->getType(), function->getArg(0), capturedVariableType->getVariableIndex());
     auto capturedVariablePointer = freeVariableIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToCapturedVariablePointer);
 
@@ -53,15 +57,25 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
         irContext->getIRModule()->getFreeValueFunction(),
         { capturedVariablePointer, loadedUnderlyingType }
     );
-//    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
-//        irContext->getIRModule()->getMallocFreeFunction(),
-//        { capturedVariablePointer }
-//    );
-//    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
-//        irContext->getIRModule()->getMallocFreeFunction(),
-//        { captureCounterPointer }
-//    );
-    freeVariableIfThenBlock->getBuilder()->get()->CreateBr(freeVariableEndBlock->getBlock());
+    freeVariableIfThenBlock->getBuilder()->get()->CreateCall(
+        irContext->getIRModule()->getMallocFreeFunction(),
+        { capturedVariablePointer }
+    );
+    freeVariableIfThenBlock->getBuilder()->get()->CreateBr(freeCaptureCounterIfBlock->getBlock());
+
+    auto isCapturedVariableNotStructRef = freeCaptureCounterIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_NE,
+            capturedVariableTypeId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
+    );
+    freeCaptureCounterIfBlock->getBuilder()->get()->CreateCondBr(isCapturedVariableNotStructRef, freeCaptureCounterIfThenBlock->getBlock(), freeVariableEndBlock->getBlock());
+    freeCaptureCounterIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getMallocFreeFunction(),
+            { captureCounterPointer }
+    );
+    freeCaptureCounterIfThenBlock->getBuilder()->get()->CreateBr(freeVariableEndBlock->getBlock());
+
+
 
     auto newCaptureCount = freeVariableElseBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Sub,

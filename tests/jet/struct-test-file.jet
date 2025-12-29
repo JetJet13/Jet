@@ -29,14 +29,17 @@ proc testArcStruct() {
 }
 
 proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
+    assert(s.refCount() == 2);
     const localArgRef = sref s;
     print("localArgRef", s.a);
+    assert(s.refCount() == 3);
 }
 
 proc testArcPassDown() {
     const s = { a: 100, b: false };
     testPassDownStructRef(ref s);
     const refS = ref s;
+    assert(refS.refCount() == 2);
 }
 
 func testPassUpInt() ref<int> {
@@ -45,23 +48,34 @@ func testPassUpInt() ref<int> {
 }
 
 proc testArcPassUp() {
+    assert(testPassUpInt().refCount() == 1);
     const passedUpX = sref testPassUpInt();
+    assert(passedUpX.refCount() == 2);
     const anotherX = sref passedUpX;
+    assert(passedUpX.refCount() == 3);
     print("passedUpX", passedUpX);
-    assert(passedUpX == 121, "WORD!");
-    const al = range(10);
-    for a in al {
-        print(a);
-    }
-    assert(al == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    assert(passedUpX == 121);
 }
 
+proc testClasses() {
+    const myClass = new MyClass(23, "Orange");
+    const age = myClass.getAge();
+    const color = myClass.getColor();
+    const otherAge = myClass.age;
+
+    assert(age == 23);
+    assert(color == "Orange");
+    assert(myClass.getFoo() == 100);
+    print("myClass properties", myClass.age, myClass.color);
+    print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
+}
 
 //testArcLiteral();
 //testArcArray();
 //testArcStruct();
 //testArcPassDown();
 //testArcPassUp();
+testClasses();
 
 
 class MyClass {
@@ -118,25 +132,6 @@ class OtherClass {
         this.value = newValue;
     }
 }
-
-// Parent class and Child class will compile, but not run
-// due to an infinite loop of class constructor calls
-// class Parent {
-//     private child = new Child();
-//     constructor() {}
-//     public setChild(child: Child) {
-//         this.child = child;
-//     }
-// }
-//
-// class Child {
-//     private parent = new Parent();
-//     constructor() {}
-//
-//     public setParent(parent: Parent) {
-//         this.parent = parent;
-//     }
-// }
 
 enum MyEnum {
  Alpha = 1,

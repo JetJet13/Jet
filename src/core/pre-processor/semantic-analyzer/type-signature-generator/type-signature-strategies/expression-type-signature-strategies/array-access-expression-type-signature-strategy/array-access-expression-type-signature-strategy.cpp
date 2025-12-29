@@ -10,16 +10,22 @@
 void ArrayAccessExpressionTypeSignatureStrategy::assign(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(arrayAccessExpression->getSource(), scope);
     strategyMap->assignTypeSignatureFor(arrayAccessExpression->getIndex()->getIndex(), scope);
-    if (!arrayAccessExpression->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
+
+    if (arrayAccessExpression->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)) {
+        auto refTypeSignature = (RefTypeSignature*)arrayAccessExpression->getSource()->getTypeSignature()->getTargetTypeSignature();
+        if (refTypeSignature->getUnderlyingType()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
+            auto arrayTypeSignature = (ArrayTypeSignature*)refTypeSignature->getUnderlyingType()->getTargetTypeSignature();
+            arrayAccessExpression->setTypeSignature(arrayTypeSignature->getElementType());
+            return;
+        }
         arrayAccessExpression->setTypeSignature(new InvalidTypeSignature());
         return;
     }
 
-    if (arrayAccessExpression->getSource()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)arrayAccessExpression->getSource()->getTypeSignature();
-        auto arrayTypeSignature = (ArrayTypeSignature*)refTypeSignature->getUnderlyingType();
-        arrayAccessExpression->setTypeSignature(arrayTypeSignature->getElementType());
+    if (arrayAccessExpression->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
+        arrayAccessExpression->setTypeSignature(((ArrayTypeSignature*)arrayAccessExpression->getSource()->getTypeSignature()->getTargetTypeSignature())->getElementType());
         return;
     }
-    arrayAccessExpression->setTypeSignature(((ArrayTypeSignature*)arrayAccessExpression->getSource()->getTypeSignature())->getElementType());
+
+    arrayAccessExpression->setTypeSignature(new InvalidTypeSignature());
 }

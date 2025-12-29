@@ -8,15 +8,8 @@
 #include "../../../ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h"
 
 llvm::Value* StringIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
-    auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
     auto objectAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, objectAccessAllocation);
-    if (irExpression->getSource()->getTypeSignature()->typeSourceIs(ENUM_TYPE_SOURCE)) {
-        if (irOperation->isOperandPointer()) {
-            return pointer;
-        }
-        return InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getType(), pointer, irBlock, irArrayPointerType);
-    }
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyStringFunction(),
@@ -25,5 +18,9 @@ llvm::Value* StringIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcce
                 pointer,
             }
     );
-    return irExpression->getSourceAllocation().value()->getValue();
+
+    if (irOperation->isOperandPointer()) {
+        return irExpression->getSourceAllocation().value()->getValue();
+    }
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getSourceAllocation().value(), irBlock);
 }

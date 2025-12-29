@@ -126,12 +126,10 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     );
     auto arrayPointerAllocationForTakeCopy = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getCopyArrayFunction()->getFunctionType(),
             irModuleNode->getCopyArrayFunction(),
             { arrayPointerAllocationForTakeCopy, arrayPointerAllocationForTake, function->getArg(2) }
     );
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFreeFunction()->getFunctionType(),
             irModuleNode->getMallocFreeFunction(),
             { takeArrayMalloc, takeNumElements }
     );

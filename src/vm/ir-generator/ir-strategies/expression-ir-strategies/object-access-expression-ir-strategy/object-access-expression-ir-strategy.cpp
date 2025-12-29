@@ -5,7 +5,6 @@
 #include "object-access-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
-#include "../../../../ir-type/ir-new-class-instance-type.h"
 #include "../../../../ir-type/ir-class-instance-type.h"
 
 IRObjectAccessExpressionNode* ObjectAccessExpressionIRStrategy::generate(ASTObjectAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {

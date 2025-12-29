@@ -25,10 +25,10 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto freeStructIfBlock = irGenerator->generateIfBlock(irContext);
-    auto freeStructIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto freeStructElseBlock = irGenerator->generateIfElseBlock(irContext);
-    auto freeStructEndBlock = irGenerator->generateIfEndBlock(irContext);
+    auto freeStructRefIfBlock = irGenerator->generateIfBlock(irContext);
+    auto freeStructRefIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto freeStructRefElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto freeStructRefEndBlock = irGenerator->generateIfEndBlock(irContext);
 
     auto structIndex = structRefType->getStructIndex();
     auto counterIndex = structRefType->getCounterIndex();
@@ -38,33 +38,32 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
     auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(structRefType->getCounterIRType()->getType(), refCounterPointer, "currentRefCount");
     DebugIRInjectorHelper::injectLog(functionBlock, "CURRENT STRUCT REF COUNT", irGenerator->getInjector(), irModuleNode);
     DebugIRInjectorHelper::injectLog(functionBlock, currentRefCount, irGenerator->getInjector(), irModuleNode);
-    functionBlock->getBuilder()->get()->CreateBr(freeStructIfBlock->getBlock());
+    functionBlock->getBuilder()->get()->CreateBr(freeStructRefIfBlock->getBlock());
 
-    auto isLastRef = freeStructIfBlock->getBuilder()->get()->CreateICmp(
+    auto isLastRef = freeStructRefIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLE,
             currentRefCount,
             irGenerator->generateIntConstant(1)
     );
-    freeStructIfBlock->getBuilder()->get()->CreateCondBr(isLastRef, freeStructIfThenBlock->getBlock(), freeStructElseBlock->getBlock());
+    freeStructRefIfBlock->getBuilder()->get()->CreateCondBr(isLastRef, freeStructRefIfThenBlock->getBlock(), freeStructRefElseBlock->getBlock());
 
-
-    auto structTypePointer = freeStructIfThenBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
-    auto loadedStructType = freeStructIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), structTypePointer);
-    auto pointerToStructPointer = freeStructIfThenBlock->getBuilder()->get()->CreateStructGEP(structRefType->getType(), function->getArg(0), structIndex);
-    auto structPointer = freeStructIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToStructPointer);
-    DebugIRInjectorHelper::injectLog(freeStructIfThenBlock, "FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
-    freeStructIfThenBlock->getBuilder()->get()->CreateCall(
+    auto structTypePointer = freeStructRefIfThenBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), {typeValueType->getAllocIndex() });
+    auto loadedStructType = freeStructRefIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), structTypePointer);
+    auto pointerToStructPointer = freeStructRefIfThenBlock->getBuilder()->get()->CreateStructGEP(structRefType->getType(), function->getArg(0), structIndex);
+    auto structPointer = freeStructRefIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToStructPointer);
+    DebugIRInjectorHelper::injectLog(freeStructRefIfThenBlock, "FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
+    freeStructRefIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeStructFunction(),
             { structPointer, loadedStructType }
     );
-//    freeStructIfThenBlock->getBuilder()->get()->CreateCall(
-//            irContext->getIRModule()->getMallocFreeFunction(),
-//            { refCounterPointer }
-//    );
-    DebugIRInjectorHelper::injectLog(freeStructIfThenBlock, "DONE FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
-    freeStructIfThenBlock->getBuilder()->get()->CreateBr(freeStructEndBlock->getBlock());
+    freeStructRefIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getMallocFreeFunction(),
+            { refCounterPointer }
+    );
+    DebugIRInjectorHelper::injectLog(freeStructRefIfThenBlock, "DONE FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
+    freeStructRefIfThenBlock->getBuilder()->get()->CreateBr(freeStructRefEndBlock->getBlock());
 
 //    DebugIRInjectorHelper::injectLog(freeStructElseBlock, "DID NOT FREE STRUCT SINCE STRUCT REF COUNT != 0", irGenerator->getInjector(), irModuleNode);
-    freeStructElseBlock->getBuilder()->get()->CreateBr(freeStructEndBlock->getBlock());
-    freeStructEndBlock->addVoidReturn();
+    freeStructRefElseBlock->getBuilder()->get()->CreateBr(freeStructRefEndBlock->getBlock());
+    freeStructRefEndBlock->addVoidReturn();
 }

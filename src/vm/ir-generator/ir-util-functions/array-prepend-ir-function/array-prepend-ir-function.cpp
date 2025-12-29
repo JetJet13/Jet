@@ -76,8 +76,6 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
             { loadedPointerToOldArray }
     );
     InstructionIRInjectorHelper::injectStore(newNumElements, numElementsPointer, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(newNumElements, numElementsPointer);
     InstructionIRInjectorHelper::injectStore(newArrayMalloc, pointerToOldArray, functionBlock);
-//    functionBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);
     functionBlock->addVoidReturn();
 }

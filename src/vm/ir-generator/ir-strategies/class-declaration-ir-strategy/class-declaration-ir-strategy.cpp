@@ -3,15 +3,10 @@
 //
 
 #include "class-declaration-ir-strategy.h"
-#include "../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
-#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
@@ -39,7 +34,6 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
 }
 
 std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
-    Logger::log("ClassDeclarationIRStrategy::generatePreConstructor", node->getId());
     if (!irClassType->getClassScopeParameterType()) {
         return {};
     }
@@ -70,7 +64,6 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
 }
 
 IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
-    Logger::log("ClassDeclarationIRStrategy::generate - Constructor", node->getId());
     auto constructorScope = new IRLookupTable();
     constructorScope->inherit(scope);
     auto irFunction = irContext->getIRModule()->getModule()->getFunction(node->getId());

@@ -4,6 +4,7 @@
 
 #include "free-ref-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
+#include "../../../types/ir-type-id.h"
 
 std::string FreeRefIRFunction::getFreeRefIRFunctionName() {
     return "jet.free.ref";
@@ -27,6 +28,8 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
 
     auto freeValueIfBlock = irGenerator->generateIfBlock(irContext);
     auto freeValueIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto freeRefCounterIfBlock = irGenerator->generateIfBlock(irContext);
+    auto freeRefCounterIfThenBlock = irGenerator->generateIfThenBlock(irContext);
     auto freeValueElseBlock = irGenerator->generateIfElseBlock(irContext);
     auto freeValueEndBlock = irGenerator->generateIfEndBlock(irContext);
 
@@ -49,21 +52,30 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
 
     auto underlyingTypePointer = freeValueIfThenBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
     auto loadedUnderlyingType = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
+    auto refValueTypeId = freeValueIfThenBlock->getBuilder()->get()->CreateExtractValue(loadedUnderlyingType, { typeValueType->getIdIndex() });
     auto pointerToRefValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refValueIndex);
     auto refValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefValuePointer);
     freeValueIfThenBlock->getBuilder()->get()->CreateCall(
         irContext->getIRModule()->getFreeValueFunction(),
         { refValuePointer, loadedUnderlyingType }
     );
-//    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
-//            irContext->getIRModule()->getMallocFreeFunction(),
-//            { refValuePointer }
-//    );
-//    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
-//        irContext->getIRModule()->getMallocFreeFunction(),
-//        { refCounterPointer }
-//    );
-    freeValueIfThenBlock->getBuilder()->get()->CreateBr(freeValueEndBlock->getBlock());
+    freeValueIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getMallocFreeFunction(),
+            { refValuePointer }
+    );
+    freeValueIfThenBlock->getBuilder()->get()->CreateBr(freeRefCounterIfBlock->getBlock());
+
+    auto isRefValueNotStructRef = freeRefCounterIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_NE,
+            refValueTypeId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
+    );
+    freeRefCounterIfBlock->getBuilder()->get()->CreateCondBr(isRefValueNotStructRef, freeRefCounterIfThenBlock->getBlock(), freeValueEndBlock->getBlock());
+    freeRefCounterIfThenBlock->getBuilder()->get()->CreateCall(
+        irContext->getIRModule()->getMallocFreeFunction(),
+        { refCounterPointer }
+    );
+    freeRefCounterIfThenBlock->getBuilder()->get()->CreateBr(freeValueEndBlock->getBlock());
 
     auto newRefCount = freeValueElseBlock->getBuilder()->get()->CreateBinOp(
         llvm::Instruction::BinaryOps::Sub,

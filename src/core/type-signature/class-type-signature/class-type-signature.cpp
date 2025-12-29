@@ -138,9 +138,6 @@ bool ClassTypeSignature::isEquivalentTo(TypeSignature* otherType) {
 }
 
 bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
-    // todo: figure out an elegant way to perform equality check
-    // for class type-signatures without causing an infinite loop
-    // due to class instance references of self.
     if (this->getId() == otherType->getId()) return true;
     if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {
         auto classInstance = (ClassInstanceTypeSignature*)otherType;
