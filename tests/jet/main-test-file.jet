@@ -477,7 +477,8 @@ proc testLambdaReturn() {
     const result = testLambda();
     print("testLambdaReturn", result);
     const structWithLambda = { foo: getTestLambda(), mars: () => 20, bar: 100 };
-    print("structWithLambda", testLambda(), structWithLambda.mars(), structWithLambda.foo());
+    const fooResult = structWithLambda.foo();
+    print("structWithLambda", testLambda(), structWithLambda.mars());
 }
 
 proc testCleanup() {
@@ -513,11 +514,11 @@ proc testRefCleanup() {
         assert(x.refCount() == 2);
     }
     assert(x.refCount() == 1);
-    const y = x;
+    const y = sref x;
     assert(x.refCount() == 2);
     if y > 10 {
         assert(x.refCount() == 2);
-        const ifYStruct = { foo: y, bar: 100, mars: [1,2,3,4] };
+        const ifYStruct = { foo: sref y, bar: 100, mars: [1,2,3,4] };
         assert(x.refCount() == 3);
     }
     assert(x.refCount() == 2);

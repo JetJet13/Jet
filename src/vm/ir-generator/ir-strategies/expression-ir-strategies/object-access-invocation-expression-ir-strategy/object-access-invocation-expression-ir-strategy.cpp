@@ -48,31 +48,20 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
         auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
         return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType, sourceValue);
-    } else if (sourceType->isStructRefType()) {
-        auto irStructRefType = (IRStructRefType*)sourceType;
-        auto targetIndex = irStructRefType->getStructIRType()->getIndexForKey(node->getName());
-        auto irFunctionType = (IRFunctionType*)irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
-        auto irStructAllocPointer = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(irStructRefType->getStructIndex()) });
-        auto loadedStructAlloc = irGenerator->generateLoadInstruction(irStructAllocPointer, irGenerator->generateIrPointerType());
-        auto pointerToValue = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedStructAlloc, { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });
-        auto irFunction = IRInstructionNodeFactory::create(
-                irGenerator->generateLoadInstruction(pointerToValue, irFunctionType),
-                irGenerator->generateIrPointerType(irFunctionType),
-                { irStructAllocPointer, loadedStructAlloc, pointerToValue }
-        );
-        auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
-        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
-        return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType);
-    } else {
-        auto irStructType = (IRStructType*)sourceType;
-        auto targetIndex = irStructType->getIndexForKey(node->getName());
-        auto irFunctionType = (IRFunctionType*)irStructType->getIRTypeForKey(node->getName());
-        auto irFunction = IRInstructionNodeFactory::create(
-                llvm::GetElementPtrInst::CreateInBounds(irStructType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) }),
-                irGenerator->generateIrPointerType()
-        );
-        auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
-        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
-        return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType);
     }
+
+    auto irStructRefType = (IRStructRefType*)sourceType;
+    auto targetIndex = irStructRefType->getStructIRType()->getIndexForKey(node->getName());
+    auto irFunctionParameterType = (IRFunctionParameterType*)irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
+    auto irStructAllocPointer = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(irStructRefType->getStructIndex()) });
+    auto loadedStructAlloc = irGenerator->generateLoadInstruction(irStructAllocPointer, irGenerator->generateIrPointerType());
+    auto pointerToValue = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedStructAlloc, { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });
+    auto irFunction = IRInstructionNodeFactory::create(
+            irGenerator->generateLoadInstruction(pointerToValue, irFunctionParameterType),
+            irGenerator->generateIrPointerType(irFunctionParameterType),
+            { irStructAllocPointer, loadedStructAlloc, pointerToValue }
+    );
+    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionParameterType);
+    auto callInstruction = llvm::CallInst::Create(irFunctionParameterType->getIRFunctionType()->getType(), irFunction->getValue(), argList);
+    return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irFunctionParameterType, arguments, irReturnType);
 }

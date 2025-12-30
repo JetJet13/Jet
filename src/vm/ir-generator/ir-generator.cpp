@@ -529,6 +529,20 @@ std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctio
     return argList;
 }
 
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctionParameterType* irFunctionParameterType) {
+    auto pointerType = this->generatePointerType();
+    auto argList = std::vector<llvm::Value*>();
+    auto numArguments = irFunctionParameterType->getIRFunctionType()->getType()->getNumParams();
+    for (int i = 0; i < numArguments; ++i) {
+        argList.push_back(llvm::ConstantPointerNull::get(pointerType));
+    }
+
+    // for scope argument
+    argList.push_back(llvm::ConstantPointerNull::get(pointerType));
+
+    return argList;
+}
+
 llvm::PointerType* IRGenerator::generatePointerType() {
     return llvm::PointerType::get(*_context, 0);
 }

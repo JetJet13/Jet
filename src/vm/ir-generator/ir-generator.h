@@ -119,6 +119,7 @@ public:
     IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
     IRArrayType* generateVarArgsTypeValuesIrType(unsigned long numVarArgs);
     std::vector<llvm::Value*> generateArgumentPlaceholderList(IRFunctionType* irFunctionType);
+    std::vector<llvm::Value*> generateArgumentPlaceholderList(IRFunctionParameterType* irFunctionParameterType);
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();

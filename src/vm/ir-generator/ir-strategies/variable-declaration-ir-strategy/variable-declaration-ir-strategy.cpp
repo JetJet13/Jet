@@ -4,7 +4,6 @@
 
 #include "variable-declaration-ir-strategy.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../ir-type/ir-lambda-type.h"
 #include "../../../../shared/utils/logger/logger.h"
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {

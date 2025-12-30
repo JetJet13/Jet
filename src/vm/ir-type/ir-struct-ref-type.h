@@ -28,6 +28,7 @@ public:
     bool requiresArc() override;
     bool isStructRefType() override;
     uint64_t getSizeInBytes() override;
+    bool containsTypeThatRequiresFreeing() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     IRStructRefType* clone() override;
 };

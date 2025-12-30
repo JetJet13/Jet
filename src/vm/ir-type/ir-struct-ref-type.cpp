@@ -61,6 +61,10 @@ void IRStructRefType::setAlignmentOverride(llvm::Align alignmentOverride) {
     _counterIRType->setAlignmentOverride(alignmentOverride);
 }
 
+bool IRStructRefType::containsTypeThatRequiresFreeing() {
+    return true;
+}
+
 IRStructRefType* IRStructRefType::clone() {
     auto counterClone = _counterIRType->clone();
     auto variableClone = _structIRType->clone();
