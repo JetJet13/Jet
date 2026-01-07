@@ -8,4 +8,7 @@
 void FunctionParameterIRInjectorStrategy::inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule) {
     InstructionIRInjectorHelper::inject(irFunctionParameterDeclaration->getAllocation(), irBlock);
     InstructionIRInjectorHelper::injectStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue(), irBlock, irFunctionParameterDeclaration->getAllocation()->getIRType());
+    if (irFunctionParameterDeclaration->getArc()) {
+        auto arcValue = InstructionIRInjectorHelper::inject(irFunctionParameterDeclaration->getArc().value(), irBlock, "arc");
+    }
 }

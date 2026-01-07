@@ -35,11 +35,11 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     auto irType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope, irContext);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType(), scope, irContext);
 
-    if (irType->isFunctionParameterType()) {
-        auto irFunctionParameterType = (IRFunctionParameterType*)irType;
+    if (irType->isInvocableType()) {
+        auto irInvocableType = (IRInvocableType*)irType;
         auto source = scope->find(node->getFunction()->getId()).value();
-        auto argList = this->prepArgumentList(node, irFunctionParameterType, irGenerator, irContext);
-        auto callInstruction = llvm::CallInst::Create(irFunctionParameterType->getIRFunctionType()->getType(), source->getValue(), argList);
+        auto argList = this->prepArgumentList(node, irInvocableType, irGenerator, irContext);
+        auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), source->getValue(), argList);
         return new IRFunctionInvocationExpressionNode(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
 
@@ -83,10 +83,10 @@ std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentLi
     return argList;
 }
 
-std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionParameterType* irFunctionParameterType, IRGenerator* irGenerator, IRContext* irContext) {
+std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRInvocableType* irInvocableType, IRGenerator* irGenerator, IRContext* irContext) {
     auto pointerType = irGenerator->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
-    auto numArguments = irFunctionParameterType->getFunctionType()->getNumParams();
+    auto numArguments = irInvocableType->getFunctionType()->getNumParams();
     for (int i = 0; i < numArguments; ++i) {
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }

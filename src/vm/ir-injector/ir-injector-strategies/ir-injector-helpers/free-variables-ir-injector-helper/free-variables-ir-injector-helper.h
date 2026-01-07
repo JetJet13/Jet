@@ -13,7 +13,6 @@
 class FreeIRInjectorHelper {
 private:
     static void freeNodes(IRBlockNode* irBlockNode, std::vector<IRNode*>* nodesToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
-    static void freeLambdaVariable(IRBlockNode* irBlockNode, IRVariableDeclarationNode* lambdaVariableToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
     static void freeVariable(IRBlockNode* irBlockNode, IRVariableDeclarationNode* variableToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
     static void freeExpression(IRBlockNode* irBlockNode, IRExpressionNode* expressionToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope);
 public:

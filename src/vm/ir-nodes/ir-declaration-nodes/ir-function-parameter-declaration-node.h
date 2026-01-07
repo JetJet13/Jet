@@ -15,11 +15,13 @@ class IRFunctionParameterDeclarationNode : public IRDeclarationNode {
 private:
     llvm::Argument* _argument;
     IRInstructionNode* _irValue;
+    std::optional<IRInstructionNode*> _irArc;
 public:
-    IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue);
+    IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc = {});
     llvm::Value* getValue() override;
     llvm::Argument* getArgument();
     IRInstructionNode* getAllocation();
+    std::optional<IRInstructionNode*> getArc();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -510,7 +510,7 @@ proc testRefCleanup() {
     assert(x.refCount() == 1);
     if x > 10 {
         assert(x.refCount() == 1);
-        const ifXStruct = { foo: x, bar: 500, mars: "Hello world" };
+        const ifXStruct = { foo: sref x, bar: 500, mars: "Hello world" };
         assert(x.refCount() == 2);
     }
     assert(x.refCount() == 1);
@@ -581,6 +581,18 @@ proc testArcPassUp() {
     assert(passedUpX == 121);
 }
 
+func handleCapturedLambda(lambda: () => int) int {
+    const vv = lambda();
+    return vv + 1;
+}
+
+proc testCapturedLambda() {
+    const x = () => 20;
+    const y = () => 100 + x();
+    const result = handleCapturedLambda(y);
+    print("result", result);
+}
+
 main();
 testPrint();
 testArrayPrototypeFunctions();
@@ -600,6 +612,7 @@ testArcArray();
 testArcStruct();
 testArcPassDown();
 testArcPassUp();
+testCapturedLambda();
 
 class MyClass {
     public age: int;
@@ -659,32 +672,32 @@ class OtherClass {
 // Node class will compile, but cannot be used since
 // it cannot be instantiated
 // e.g. new Node(new Node(..and so on))
-// class Node {
-//    private other: Node;
-//
-//    constructor(other: Node) {
-//        this.other = other;
-//    }
-//}
+class Node {
+    private other: Node;
+
+    constructor(other: Node) {
+        this.other = other;
+    }
+}
 
 // Parent class and Child class will compile, but not run
 // due to an infinite loop of class pre-constructor calls
-// class Parent {
-//     private child = new Child();
-//     constructor() {}
-//     public setChild(child: Child) {
-//         this.child = child;
-//     }
-// }
-//
-// class Child {
-//     private parent = new Parent();
-//     constructor() {}
-//
-//     public setParent(parent: Parent) {
-//         this.parent = parent;
-//     }
-// }
+class Parent {
+     private child = new Child();
+     constructor() {}
+     public setChild(child: Child) {
+         this.child = child;
+     }
+}
+
+class Child {
+    private parent = new Parent();
+    constructor() {}
+
+    public setParent(parent: Parent) {
+        this.parent = parent;
+    }
+}
 
 enum MyEnum {
  Alpha = 1,

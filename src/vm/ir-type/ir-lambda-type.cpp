@@ -5,7 +5,7 @@
 #include "ir-lambda-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRFunctionParameterType* lambdaVariableType, IRLambdaParameterListType* parameterList, IRType* returnType, std::optional<IRStructType*> lambdaScopeType) : IRType(type) {
+IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRInvocableType* lambdaVariableType, IRInvocableParameterListType* parameterList, IRType* returnType, std::optional<IRStructType*> lambdaScopeType) : IRType(type) {
     _type = type;
     _irType = irType;
     _lambdaVariableType = lambdaVariableType;
@@ -26,12 +26,20 @@ std::optional<IRStructType*> IRLambdaType::getLambdaScopeType() {
     return _lambdaScopeType;
 }
 
-IRFunctionParameterType* IRLambdaType::getLambdaVariableType() {
+IRInvocableType* IRLambdaType::getLambdaVariableType() {
     return _lambdaVariableType;
 }
 
 llvm::PointerType* IRLambdaType::getFunctionPointerType() {
     return _irType->getType();
+}
+
+bool IRLambdaType::containsTypeThatRequiresFreeing() {
+    return true;
+}
+
+bool IRLambdaType::isInvocableType() {
+    return true;
 }
 
 llvm::FunctionType* IRLambdaType::getType() {

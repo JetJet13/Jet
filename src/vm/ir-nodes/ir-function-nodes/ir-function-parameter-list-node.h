@@ -15,10 +15,12 @@ class IRFunctionParameterListNode : public IRNode {
 private:
     ASTFunctionParameterListNode* _node;
     std::vector<IRFunctionParameterNode*> _parameters;
-
+    std::optional<IRFunctionParameterNode*> _scopeParameter;
 public:
     IRFunctionParameterListNode(ASTFunctionParameterListNode* node, std::vector<IRFunctionParameterNode*> parameters);
-    void addScopeParameter(IRFunctionParameterNode* parameter);
+    void addLambdaScopeParameter(IRFunctionParameterNode* parameter);
+    void addClassScopeParameter(IRFunctionParameterNode* classScopeParameter);
+    std::optional<IRFunctionParameterNode*> getLambdaScopeParameter();
     std::vector<IRFunctionParameterNode*>* getParameters();
     std::vector<llvm::Argument*> getArguments();
     IRNodeType getNodeType() override;

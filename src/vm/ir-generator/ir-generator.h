@@ -67,7 +67,7 @@
 #include "../ir-type/ir-array-type.h"
 #include "../ir-nodes/ir-block-nodes/ir-control-flow-block-node.h"
 #include "../ir-type/ir-captured-variable-type.h"
-#include "../ir-type/ir-function-parameter-type.h"
+#include "../ir-type/ir-invocable-type.h"
 #include "../ir-type/ir-struct-ref-type.h"
 
 class IRGenerator {
@@ -79,7 +79,7 @@ private:
     llvm::StructType* _structRefType;
     llvm::StructType* _typeValueType;
     llvm::StructType* _refType;
-    llvm::StructType* _functionParameterType;
+    llvm::StructType* _invocableType;
 public:
     explicit IRGenerator(IRInjector* irInjector);
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
@@ -107,7 +107,8 @@ public:
     IRPointerType* generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRRefType* generateTypeFor(RefTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateVoidType();
-    IRPointerType* generateIRFunctionParameterCleanupType();
+    IRPointerType* generateIRInvocableCleanupType();
+    IRInvocableType* generateIRInvocableType();
     IRPointerType* generateIrPointerType();
     IRPointerType* generateIrPointerType(IRType* type);
     IRRefType* generateIrRefType(IRType* type);
@@ -119,7 +120,7 @@ public:
     IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
     IRArrayType* generateVarArgsTypeValuesIrType(unsigned long numVarArgs);
     std::vector<llvm::Value*> generateArgumentPlaceholderList(IRFunctionType* irFunctionType);
-    std::vector<llvm::Value*> generateArgumentPlaceholderList(IRFunctionParameterType* irFunctionParameterType);
+    std::vector<llvm::Value*> generateArgumentPlaceholderList(IRInvocableType* irInvocableType);
     llvm::PointerType* generatePointerType();
     llvm::PointerType* generatePointerType(llvm::Type* type);
     llvm::IntegerType* generateIntType();
@@ -133,6 +134,8 @@ public:
     IRTypeValueInstructionNode* generateIRTypeValueFor(IRType* irType, IRContext* irContext);
     IRTypeValueType* generateIrTypeValueType();
     llvm::AllocaInst* generateIrTypeValueTypeAllocation();
+    llvm::GetElementPtrInst* generateGEP(IRType* irType, llvm::Value* pointer, unsigned long index);
+    llvm::ExtractValueInst* generateExtractValue(llvm::Value* value, unsigned int index);
     llvm::StoreInst* generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType);
     llvm::LoadInst* generateLoadInstruction(llvm::Value* pointer, IRType* irType);
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
@@ -148,10 +151,13 @@ public:
     IRStructRefType* generateIRStructRefType(IRStructType* irStructType);
     IRStructRefType* generateIRStructRefType();
     IRStructType* generateIRStructType();
+    IRInstructionNode* generateFunctionParameterAllocation(IRType* irType);
     IRType* generateIRCaptureCounterType();
     IRType* generateIRStructRefCounterType();
     IRType* generateIRArcType();
-    IRInstructionNode* generateArcAllocation(IRContext* irContext, llvm::Value* source, unsigned long count = 0);
+    IRInstructionNode* generateArcAllocationForFunctionParameter(IRContext* irContext, llvm::Value* source, unsigned long count);
+    IRInstructionNode* generateArcAllocationForStructRef(IRContext* irContext, llvm::Value* source, unsigned long count);
+    IRInstructionNode* generateArcAllocation(IRContext* irContext, IRType* irType, llvm::Value* source, unsigned long count = 0);
     IRInstructionNode* generateArcAllocation(IRContext* irContext, unsigned long initialCount = 0);
     IRCapturedVariableType* generateIRCapturedVariableType(IRType* variableIrType);
     IRType* generateIRCharType();

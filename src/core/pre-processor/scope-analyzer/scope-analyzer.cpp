@@ -6,6 +6,7 @@
 #include "../../ast-traverser/ast-traverser.h"
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
+#include "../../../shared/utils/logger/logger.h"
 
 void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
     auto astTraverser = ASTTraverser();
@@ -59,6 +60,12 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
                 auto capturedVariable = (ASTVariableDeclarationNode*)outsideNode.value();
                 capturedVariable->markAsCaptured();
                 currentScope->capture(capturedVariable);
+                Logger::log("CAPTURED!", capturedVariable->getId());
+            } else if (!insideNode && outsideNode.has_value() && outsideNode.value()->is(AST_FUNCTION_PARAMETER_NODE)) {
+                auto capturedParameter = (ASTFunctionParameterNode*)outsideNode.value();
+                capturedParameter->markAsCaptured();
+                currentScope->capture(capturedParameter);
+                Logger::log("CAPTURED!", capturedParameter->getIdentifier()->getId());
             }
         } else if (node->isOneOf({ AST_BLOCK_END_NODE, AST_TERMINATOR_NODE })) {
             scopeStack.pop();

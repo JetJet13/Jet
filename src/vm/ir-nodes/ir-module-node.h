@@ -22,6 +22,7 @@ private:
     std::string _freeArrayFunctionName;
     std::string _freePointerFunctionName;
     std::string _freeLambdaFunctionName;
+    std::string _freeInvocableFunctionName;
     std::string _freeStructFunctionName;
     std::string _freeStructRefFunctionName;
     std::string _freeValueFunctionName;
@@ -79,6 +80,7 @@ private:
     std::string _srefWithFunctionName;
     std::string _sameRefAsFunctionName;
     std::string _incrementRefCountFunctionName;
+    std::string _incrementLambdaRefCountFunctionName;
     std::string _getRefCountFunctionName;
 public:
     IRModuleNode(llvm::Module* irValue,
@@ -94,6 +96,7 @@ public:
                  std::string freeArrayFunctionName,
                  std::string freePointerFunctionName,
                  std::string freeLambdaFunctionName,
+                 std::string freeInvocableFunctionName,
                  std::string freeStructFunctionName,
                  std::string freeStructRefFunctionName,
                  std::string freeValueFunctionName,
@@ -151,6 +154,7 @@ public:
                  std::string srefWithFunctionName,
                  std::string sameRefAsFunctionName,
                  std::string incrementRefCountFunctionName,
+                 std::string incrementLambdaRefCountFunctionName,
                  std::string getRefCountFunctionName);
     llvm::Module* getModule();
     llvm::Function* getArrayAccessFunction();
@@ -165,6 +169,7 @@ public:
     llvm::Function* getFreeArrayFunction();
     llvm::Function* getFreePointerFunction();
     llvm::Function* getFreeLambdaFunction();
+    llvm::Function* getFreeInvocableFunction();
     llvm::Function* getFreeStructFunction();
     llvm::Function* getFreeStructRefFunction();
     llvm::Function* getFreeValueFunction();
@@ -222,6 +227,7 @@ public:
     llvm::Function* getSrefWithFunction();
     llvm::Function* getSameRefAsFunction();
     llvm::Function* getIncrementRefCountFunction();
+    llvm::Function* getIncrementLambdaRefCountFunction();
     llvm::Function* getGetRefCountFunction();
 };
 

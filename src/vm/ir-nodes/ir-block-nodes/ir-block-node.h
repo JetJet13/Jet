@@ -22,7 +22,6 @@ protected:
     std::vector<IRBlockNode*> _successors;
     std::optional<IRBlockNode*> _parentBlock;
     std::vector<IRNode*> _nodesToFree;
-    std::vector<IRFunctionParameterNode*> _parametersToFree;
     std::vector<IRExpressionNode*> _expressionsToFree;
     std::vector<IRVariableDeclarationNode*> _variablesToFree;
     std::vector<IRVariableDeclarationNode*> _lambdaVariablesToFree;

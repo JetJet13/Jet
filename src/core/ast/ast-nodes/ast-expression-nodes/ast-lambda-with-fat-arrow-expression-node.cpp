@@ -39,8 +39,8 @@ std::set<std::string>* ASTLambdaWithFatArrowExpressionNode::getCapturedVariableI
     return &_capturedVariableIds;
 }
 
-void ASTLambdaWithFatArrowExpressionNode::addCapturedVariableId(std::string variableId) {
-    _capturedVariableIds.insert(variableId);
+void ASTLambdaWithFatArrowExpressionNode::addCapturedValueId(std::string valueId) {
+    _capturedVariableIds.insert(valueId);
 }
 
 void ASTLambdaWithFatArrowExpressionNode::setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature) {

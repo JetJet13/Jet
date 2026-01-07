@@ -18,20 +18,13 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
     auto irFunctionContext = irContext->clone(functionBlock);
     for (int i = 0; i < functionType->getNumParams(); ++i) {
-        auto parameter = functionType->params()[i];
         auto formalParameter = functionParameterList->getParameters()->at(i);
-        auto irParamType = formalParameter->getParameterType()->getIRType();
-        auto functionParameterAllocation = new IRInstructionNode(
-            new llvm::AllocaInst(
-                parameter,
-                AddressSpaceGenerator::generate(irParamType),
-                nullptr,
-                irParamType->getAlignment()
-            ),
-            irGenerator->generateIrPointerType(irParamType)
-        );
-        procedureScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation));
+        auto functionParameterAllocation = formalParameter->getAllocation();
+//        procedureScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
+//        if (formalParameter->getArc()) {
+//            procedureScope->insertArc(formalParameter->getParameterType()->getName(), formalParameter->getArc().value());
+//        }
+        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {

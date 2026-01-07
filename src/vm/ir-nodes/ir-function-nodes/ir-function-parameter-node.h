@@ -15,10 +15,16 @@ private:
     llvm::Argument* _irValue;
     IRParameterType* _parameterType;
     std::optional<ASTFunctionParameterNode*> _node;
+    IRInstructionNode* _allocation;
+    std::optional<IRInstructionNode*> _irArc;
 public:
-    IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType, std::optional<ASTFunctionParameterNode*> node = {});
+    IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType, IRInstructionNode* allocation, std::optional<ASTFunctionParameterNode*> node = {}, std::optional<IRInstructionNode*> irArc = {});
     llvm::Argument* getArgument();
     IRParameterType* getParameterType();
+    IRInstructionNode* getAllocation();
+    std::optional<IRInstructionNode*> getArc();
+    bool isCaptured();
+    unsigned long getCaptureCount();
     bool needsToBeFreed();
     IRNodeType getNodeType() override;
     std::string toString() override;

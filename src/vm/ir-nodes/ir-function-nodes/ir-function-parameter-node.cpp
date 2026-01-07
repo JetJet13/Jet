@@ -4,10 +4,12 @@
 
 #include "ir-function-parameter-node.h"
 
-IRFunctionParameterNode::IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType, std::optional<ASTFunctionParameterNode*> node) {
+IRFunctionParameterNode::IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType, IRInstructionNode* allocation, std::optional<ASTFunctionParameterNode*> node, std::optional<IRInstructionNode*> irArc) {
     _irValue = irValue;
     _parameterType = parameterType;
+    _allocation = allocation;
     _node = node;
+    _irArc = irArc;
 }
 
 llvm::Argument* IRFunctionParameterNode::getArgument() {
@@ -16,6 +18,24 @@ llvm::Argument* IRFunctionParameterNode::getArgument() {
 
 IRParameterType* IRFunctionParameterNode::getParameterType() {
     return _parameterType;
+}
+
+IRInstructionNode* IRFunctionParameterNode::getAllocation() {
+    return _allocation;
+}
+
+std::optional<IRInstructionNode*> IRFunctionParameterNode::getArc() {
+    return _irArc;
+}
+
+bool IRFunctionParameterNode::isCaptured() {
+    if (!_node) return false;
+    return _node.value()->isCaptured();
+}
+
+unsigned long IRFunctionParameterNode::getCaptureCount() {
+    if (!_node) return 0;
+    return _node.value()->getCaptureCount();
 }
 
 bool IRFunctionParameterNode::needsToBeFreed() {

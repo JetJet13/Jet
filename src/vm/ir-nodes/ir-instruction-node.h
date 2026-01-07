@@ -43,6 +43,8 @@ public:
     std::vector<llvm::Value*>* getDescendentValues();
     std::optional<IRInstructionNode*> getParentAllocation();
     std::vector<IRInstructionNode*>* getChildAllocations();
+    void insertAncestorValue(llvm::Value* ancestorValue);
+    void insertDescendentValue(llvm::Value* descendentValue);
     bool hasChildAllocationMap();
     IRInstructionNode* getChildAllocationForKey(std::string key);
     void setParentAllocation(IRInstructionNode* parentAllocation);

@@ -151,6 +151,14 @@ std::vector<IRInstructionNode*>* IRInstructionNode::getChildAllocations() {
     return &_childAllocations;
 }
 
+void IRInstructionNode::insertAncestorValue(llvm::Value* ancestorValue) {
+    _ancestorValues.push_back(ancestorValue);
+}
+
+void IRInstructionNode::insertDescendentValue(llvm::Value* descendentValue) {
+    _descendentValues.push_back(descendentValue);
+}
+
 llvm::Type* IRInstructionNode::getAllocatedType() {
     if (llvm::isa<llvm::AllocaInst>(_irValue)) {
         return llvm::cast<llvm::AllocaInst>(_irValue)->getAllocatedType();

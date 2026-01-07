@@ -1,82 +1,38 @@
 import MyOtherModule from "./other-test-file.jet";
 
-proc testArcLiteral() {
-    const x = 50;
-    const refX = ref x;
-    const lambdaX = () => x + 125;
-    const srefX = sref refX;
-    const otherRefX = ref x;
-    if x > 20 {
-        const nestedRefX = sref refX;
+func handleCapturedLambda(lambda: () => int) int {
+    const vv = lambda();
+    return vv + 1;
+}
+
+proc testCapturedLambda() {
+    const x = () { return 20; };
+    const y = () { return 100 + x(); };
+    const result = handleCapturedLambda(y);
+    assert(result == 121);
+    print("result", result);
+    const secondResult = handleCapturedLambda(() => 1920);
+    assert(secondResult == 1921);
+    print("secondResult", secondResult);
+    const thirdResult = handleCapturedLambda(() {
+        const x = 10;
+        const wow = () => 100;
+        return x + wow() + secondResult;
+    });
+    assert(thirdResult == 2032);
+    print("thirdResult", thirdResult);
+}
+
+proc testWhileLoop() {
+    let index = 0;
+    while index < 5 {
+        print("Index", index);
+        index = index + 1;
     }
 }
 
-proc testArcArray() {
-    const y = [100, 200, 300];
-    const refY = ref y;
-    const lambdaY = () => y[0] + 125;
-    const srefY = sref refY;
-    const otherRefY = ref y;
-}
-
-proc testArcStruct() {
-    const z = { a: 10, b: true, mars: { hello: "world", nested: { g: 10 } }, voo: { 50.1, false, 'c' }, zoom: [100, 400, 900] };
-    const refZ = ref z;
-    const lambdaZ = () => z.a + 125;
-    const srefZ = sref refZ;
-    const secondSrefZ = sref srefZ;
-    const otherRefZ = ref z;
-}
-
-proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
-    assert(s.refCount() == 2);
-    const localArgRef = sref s;
-    print("localArgRef", s.a);
-    assert(s.refCount() == 3);
-}
-
-proc testArcPassDown() {
-    const s = { a: 100, b: false };
-    testPassDownStructRef(ref s);
-    const refS = ref s;
-    assert(refS.refCount() == 2);
-}
-
-func testPassUpInt() ref<int> {
-    const x = 121;
-    return ref x;
-}
-
-proc testArcPassUp() {
-    assert(testPassUpInt().refCount() == 1);
-    const passedUpX = sref testPassUpInt();
-    assert(passedUpX.refCount() == 2);
-    const anotherX = sref passedUpX;
-    assert(passedUpX.refCount() == 3);
-    print("passedUpX", passedUpX);
-    assert(passedUpX == 121);
-}
-
-proc testClasses() {
-    const myClass = new MyClass(23, "Orange");
-    const age = myClass.getAge();
-    const color = myClass.getColor();
-    const otherAge = myClass.age;
-
-    assert(age == 23);
-    assert(color == "Orange");
-    assert(myClass.getFoo() == 100);
-    print("myClass properties", myClass.age, myClass.color);
-    print("myClass methods", age, myClass.getAge(), color, myClass.getColor(), myClass.getFoo());
-}
-
-//testArcLiteral();
-//testArcArray();
-//testArcStruct();
-//testArcPassDown();
-//testArcPassUp();
-testClasses();
-
+testCapturedLambda();
+//testWhileLoop();
 
 class MyClass {
     public age: int;

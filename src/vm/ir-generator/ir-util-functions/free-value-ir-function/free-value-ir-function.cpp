@@ -34,6 +34,8 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
+    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, "lambda.");
+    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, "lambda.");
     auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext);
@@ -111,7 +113,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), stringIfBlock->getBlock());
+    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), lambdaIfBlock->getBlock());
     DebugIRInjectorHelper::injectLog(structIfThenBlock, "FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
     structIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeStructFunction()->getFunctionType(),
@@ -119,6 +121,20 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             {
                 function->getArg(0),
                 function->getArg(1)
+            }
+    );
+
+    auto isValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            typeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+    );
+    lambdaIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeLambda, lambdaIfThenBlock->getBlock(), stringIfBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(lambdaIfThenBlock, "FREEING LAMBDA!", irGenerator->getInjector(), irModuleNode);
+    lambdaIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getFreeLambdaFunction(),
+            {
+                function->getArg(0)
             }
     );
 
@@ -142,6 +158,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    lambdaIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
     DebugIRInjectorHelper::injectLog(endBlock, "DONE FREEING VALUE!", irGenerator->getInjector(), irModuleNode);

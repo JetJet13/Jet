@@ -9,7 +9,7 @@ void ArgumentListTypeSignatureStrategy::assign(ASTFunctionArgumentListNode* node
 
     for (auto argument : *node->getArguments()) {
         strategyMap->assignTypeSignatureFor(argument->getArgument(), scope);
-        argumentTypes.push_back(argument->getArgument()->getTypeSignature());
+        argumentTypes.push_back(argument->getArgument()->getTypeSignature()->convertToVariableTypeSignature());
     }
 
     node->setTypeSignature(new ArgumentListTypeSignature(argumentTypes));

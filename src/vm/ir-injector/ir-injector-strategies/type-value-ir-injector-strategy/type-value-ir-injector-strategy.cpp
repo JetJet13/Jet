@@ -22,8 +22,8 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRType* irType, IRBlockNode* ir
         return this->inject((IRRefType*)irType, irBlock);
     } else if (irType->isCapturedVariableType()) {
         return this->inject((IRCapturedVariableType*)irType, irBlock);
-    } else if (irType->isFunctionParameterType()) {
-        return this->inject((IRFunctionParameterType*)irType, irBlock);
+    } else if (irType->isInvocableType()) {
+        return this->inject((IRInvocableType*)irType, irBlock);
     } else if (irType->isClassInstanceType()) {
         return this->inject((IRClassInstanceType*)irType, irBlock);
     } else if (irType->isNewClassInstanceType()) {
@@ -97,16 +97,16 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructRefType* irStructRefTyp
     return irStructRefTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRFunctionParameterType* irFunctionParameterType, IRBlockNode* irBlock) {
-    auto typeValueType = (IRTypeValueType*)irFunctionParameterType->getValue()->getIRType()->getSourceType();
-    auto irFunctionParameterTypeValue = InstructionIRInjectorHelper::inject(irFunctionParameterType->getValue(), irBlock);
-    auto parameters = irFunctionParameterType->getParameters()->getParameters();
+llvm::Value* TypeValueIRInjectorStrategy::inject(IRInvocableType* irInvocableType, IRBlockNode* irBlock) {
+    auto typeValueType = (IRTypeValueType*)irInvocableType->getValue()->getIRType()->getSourceType();
+    auto irInvocableTypeValue = InstructionIRInjectorHelper::inject(irInvocableType->getValue(), irBlock);
+    auto parameters = irInvocableType->getParameters()->getParameters();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     auto allocation = irBlock->getBuilder()->get()->CreateAlloca(typeValueType->getType(), irBlock->getBuilder()->get()->getInt64(1 + parameters->size()));
-    auto returnTypeTypeValue = this->inject(irFunctionParameterType->getReturnType(), irBlock);
+    auto returnTypeTypeValue = this->inject(irInvocableType->getReturnType(), irBlock);
     auto returnTypePointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { zeroIndex });
     auto pointerToReturnTypeSizeInBytes = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), returnTypeTypeValue, typeValueType->getSizeInBytesIndex());
-    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irFunctionParameterType->getReturnType()->getSizeInBytes()), pointerToReturnTypeSizeInBytes, irBlock);
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irInvocableType->getReturnType()->getSizeInBytes()), pointerToReturnTypeSizeInBytes, irBlock);
     InstructionIRInjectorHelper::injectStore(returnTypeTypeValue, returnTypePointer, irBlock);
     for (int i = 0; i < parameters->size(); ++i) {
         auto irTypeAtIndex = parameters->at(i);
@@ -118,9 +118,9 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRFunctionParameterType* irFunc
         InstructionIRInjectorHelper::injectStore(irTypeAtIndexValue, pointer, irBlock);
     }
     auto allocIndex = irBlock->getBuilder()->get()->getInt64(typeValueType->getAllocIndex());
-    auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), irFunctionParameterTypeValue, { zeroIndex, allocIndex });
+    auto allocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), irInvocableTypeValue, { zeroIndex, allocIndex });
     InstructionIRInjectorHelper::injectStore(allocation, allocPointer, irBlock);
-    return irFunctionParameterTypeValue;
+    return irInvocableTypeValue;
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock) {

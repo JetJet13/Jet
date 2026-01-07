@@ -129,6 +129,8 @@
 #include "ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.h"
 #include "ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.h"
 #include "ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.h"
+#include "ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.h"
+#include "ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -160,12 +162,12 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
             this->generatePointerType(),
             this->generatePointerType()
     }, "Ref");
-    _functionParameterType = llvm::StructType::create(*_context, {
+    _invocableType = llvm::StructType::create(*_context, {
             this->generatePointerType(),
             this->generatePointerType(),
             this->generatePointerType(),
             this->generatePointerType()
-    }, "FunctionParameter");
+    }, "Invocable");
 }
 
 IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
@@ -471,9 +473,19 @@ IRType* IRGenerator::generateVoidType() {
     return new IRType(llvm::Type::getVoidTy(*_context));
 }
 
-IRPointerType* IRGenerator::generateIRFunctionParameterCleanupType() {
+IRPointerType* IRGenerator::generateIRInvocableCleanupType() {
     return this->generateIrPointerType(
         new IRFunctionType(llvm::FunctionType::get(this->generateVoidType()->getType(), { this->generatePointerType() }, false))
+    );
+}
+
+IRInvocableType* IRGenerator::generateIRInvocableType() {
+    return new IRInvocableType(
+            this->getFunctionParameterType(),
+            this->generateIrPointerType(),
+            this->generateIRInvocableCleanupType(),
+            new IRInvocableParameterListType(),
+            this->generateVoidType()
     );
 }
 
@@ -491,7 +503,7 @@ IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
 }
 
 llvm::StructType* IRGenerator::getFunctionParameterType() {
-    return _functionParameterType;
+    return _invocableType;
 }
 
 IRArrayType* IRGenerator::generateIRArrayType(IRType* elementType, unsigned long size) {
@@ -529,10 +541,10 @@ std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctio
     return argList;
 }
 
-std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctionParameterType* irFunctionParameterType) {
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRInvocableType* irInvocableType) {
     auto pointerType = this->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
-    auto numArguments = irFunctionParameterType->getIRFunctionType()->getType()->getNumParams();
+    auto numArguments = irInvocableType->getIRFunctionType()->getType()->getNumParams();
     for (int i = 0; i < numArguments; ++i) {
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
@@ -610,6 +622,14 @@ llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
             nullptr,
             irTypeValueType->getAlignment()
     );
+}
+
+llvm::GetElementPtrInst* IRGenerator::generateGEP(IRType* irType, llvm::Value* pointer, unsigned long index) {
+    return llvm::GetElementPtrInst::Create(irType->getType(), pointer, { this->generateIntConstant(0), this->generateIntConstant(index) });
+}
+
+llvm::ExtractValueInst* IRGenerator::generateExtractValue(llvm::Value* value, unsigned int index) {
+    return llvm::ExtractValueInst::Create(value, { index });
 }
 
 llvm::StoreInst* IRGenerator::generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType) {
@@ -703,6 +723,16 @@ IRStructType* IRGenerator::generateIRStructType() {
     );
 }
 
+IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(IRType* irType) {
+    return new IRInstructionNode(
+            new llvm::AllocaInst(
+                    irType->getType(),
+                    AddressSpaceGenerator::generate(irType),
+                    nullptr,
+                    irType->getAlignment()
+            ), this->generateIrPointerType(irType));
+}
+
 IRType* IRGenerator::generateIRCaptureCounterType() {
     return new IRType(this->generateIntType());
 }
@@ -715,7 +745,29 @@ IRType* IRGenerator::generateIRArcType() {
     return new IRType(this->generateIntType());
 }
 
-IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, llvm::Value* source, unsigned long count) {
+IRInstructionNode* IRGenerator::generateArcAllocationForFunctionParameter(IRContext* irContext, llvm::Value* source, unsigned long count) {
+    auto irType = this->generateIRArcType();
+    auto functionParameterType = this->generateIRInvocableType();
+    auto pointerToArcPointer = llvm::GetElementPtrInst::Create(functionParameterType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(functionParameterType->getFunctionRefCounterIndex()) });
+    auto ancestorValues = std::vector<llvm::Value*> { pointerToArcPointer };
+    if (count > 0) {
+        auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
+        auto currentArcValue = this->generateLoadInstruction(loadedArcPointerForCount, irType);
+        auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+        auto setArcValue = this->generateStoreInstruction(newArcValue, loadedArcPointerForCount, irType);
+        ancestorValues.push_back(loadedArcPointerForCount);
+        ancestorValues.push_back(currentArcValue);
+        ancestorValues.push_back(newArcValue);
+        ancestorValues.push_back(setArcValue);
+    }
+    return new IRInstructionNode(
+            this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType)),
+            this->generateIrPointerType(irType),
+            ancestorValues
+    );
+}
+
+IRInstructionNode* IRGenerator::generateArcAllocationForStructRef(IRContext* irContext, llvm::Value* source, unsigned long count) {
     auto irType = this->generateIRArcType();
     auto structRefType = this->generateIRStructRefType();
     auto pointerToArcPointer = llvm::GetElementPtrInst::Create(structRefType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(structRefType->getCounterIndex()) });
@@ -735,6 +787,13 @@ IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, llvm
             this->generateIrPointerType(irType),
             ancestorValues
     );
+}
+
+IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, IRType* irType, llvm::Value* source, unsigned long count) {
+    if (irType->isInvocableType()) {
+        return this->generateArcAllocationForFunctionParameter(irContext, source, count);
+    }
+    return this->generateArcAllocationForStructRef(irContext, source, count);
 }
 
 IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, unsigned long initialCount) {
@@ -873,6 +932,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             FreeArrayIRFunction::getFreeArrayIRFunctionName(),
             FreePointerIRFunction::getFreePointerIRFunctionName(),
             FreeLambdaIRFunction::getFreeLambdaIRFunctionName(),
+            FreeInvocableIRFunction::getFreeInvocableIRFunctionName(),
             FreeStructIRFunction::getFreeStructIRFunctionName(),
             FreeStructRefIRFunction::getFreeStructRefIRFunctionName(),
             FreeValueIRFunction::getFreeValueIRFunctionName(),
@@ -930,6 +990,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             SrefWithIRFunction::getSrefWithIRFunctionName(),
             SameRefAsIRFunction::getSameRefAsIRFunctionName(),
             IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),
+            IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunctionName(),
             GetRefCountIRFunction::getGetRefCountIRFunctionName()
     );
 }
@@ -955,6 +1016,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeArrayIRFunction::declareFreeArrayFunction(this, &_context, irModule);
     FreePointerIRFunction::declareFreePointerFunction(this, &_context, irModule);
     FreeLambdaIRFunction::declareFreeLambdaFunction(this, &_context, irModule);
+    FreeInvocableIRFunction::declareFreeInvocableFunction(this, &_context, irModule);
     FreeStructIRFunction::declareFreeStructFunction(this, &_context, irModule);
     FreeStructRefIRFunction::declareFreeStructRefFunction(this, &_context, irModule);
     FreeStringIRFunction::declareFreeStringFunction(this, &_context, irModule);
@@ -975,6 +1037,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
     MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
     IncrementRefCountIRFunction::generateIncrementRefCountFunction(this, &_context, irModule);
+    IncrementLambdaRefCountIRFunction::generateIncrementLambdaRefCountFunction(this, &_context, irModule);
     RefOfIRFunction::generateRefOfFunction(this, &_context, irModule);
     SrefWithIRFunction::generateSrefWithFunction(this, &_context, irModule);
     SameRefAsIRFunction::generateSameRefAsFunction(this, &_context, irModule);
@@ -1001,6 +1064,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
     FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
     FreeLambdaIRFunction::generateFreeLambdaFunction(this, &_context, irModule);
+    FreeInvocableIRFunction::generateFreeInvocableFunction(this, &_context, irModule);
     FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
     FreeStructRefIRFunction::generateFreeStructRefFunction(this, &_context, irModule);
     FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);

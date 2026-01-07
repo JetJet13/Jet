@@ -52,16 +52,16 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
 
     auto irStructRefType = (IRStructRefType*)sourceType;
     auto targetIndex = irStructRefType->getStructIRType()->getIndexForKey(node->getName());
-    auto irFunctionParameterType = (IRFunctionParameterType*)irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
+    auto irInvocableType = (IRInvocableType*)irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
     auto irStructAllocPointer = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(irStructRefType->getStructIndex()) });
     auto loadedStructAlloc = irGenerator->generateLoadInstruction(irStructAllocPointer, irGenerator->generateIrPointerType());
     auto pointerToValue = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedStructAlloc, { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });
     auto irFunction = IRInstructionNodeFactory::create(
-            irGenerator->generateLoadInstruction(pointerToValue, irFunctionParameterType),
-            irGenerator->generateIrPointerType(irFunctionParameterType),
+            irGenerator->generateLoadInstruction(pointerToValue, irInvocableType),
+            irGenerator->generateIrPointerType(irInvocableType),
             { irStructAllocPointer, loadedStructAlloc, pointerToValue }
     );
-    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionParameterType);
-    auto callInstruction = llvm::CallInst::Create(irFunctionParameterType->getIRFunctionType()->getType(), irFunction->getValue(), argList);
-    return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irFunctionParameterType, arguments, irReturnType);
+    auto argList = irGenerator->generateArgumentPlaceholderList(irInvocableType);
+    auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), irFunction->getValue(), argList);
+    return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irInvocableType, arguments, irReturnType);
 }

@@ -10,16 +10,18 @@
 #include "../../../ir-nodes/ir-declaration-nodes/ir-module-declaration-node.h"
 #include "../ir-injector-strategy.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
-#include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h"
-#include "../../../ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-block-expression-node.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 
 class LambdaIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
+private:
+    llvm::Value* injectDetails(IRLambdaExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
 public:
     llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) override;
     llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
-    llvm::Value* inject(IRLambdaExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRLambdaWithBlockExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
     llvm::Value* inject(IRLambdaWithFatArrowExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
 };
 

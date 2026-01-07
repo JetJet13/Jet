@@ -53,7 +53,7 @@ public:
     virtual bool isModuleType();
     virtual bool isPointerType();
     virtual bool isArrayPointerType();
-    virtual bool isFunctionParameterType();
+    virtual bool isInvocableType();
     virtual bool isLambdaType();
     virtual bool isFunctionType();
     virtual bool isClassType();

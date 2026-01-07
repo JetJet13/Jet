@@ -20,7 +20,7 @@ ASTNode* ASTBlockStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
         return new ASTStructTypeStartNode(_lexeme);
     }
 
-    if (prevNode && prevNode.value()->is(AST_TYPE_NODE)) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE })) {
         return this;
     }
 

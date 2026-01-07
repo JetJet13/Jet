@@ -7,14 +7,23 @@
 IRFunctionParameterListNode::IRFunctionParameterListNode(ASTFunctionParameterListNode* node, std::vector<IRFunctionParameterNode*> parameters) {
     _node = node;
     _parameters = parameters;
+    _scopeParameter = {};
 }
 
-void IRFunctionParameterListNode::addScopeParameter(IRFunctionParameterNode* parameter) {
-    _parameters.push_back(parameter);
+void IRFunctionParameterListNode::addLambdaScopeParameter(IRFunctionParameterNode* parameter) {
+    _scopeParameter = parameter;
+}
+
+std::optional<IRFunctionParameterNode*> IRFunctionParameterListNode::getLambdaScopeParameter() {
+    return _scopeParameter;
 }
 
 std::vector<IRFunctionParameterNode*>* IRFunctionParameterListNode::getParameters() {
     return &_parameters;
+}
+
+void IRFunctionParameterListNode::addClassScopeParameter(IRFunctionParameterNode* classScopeParameter) {
+    _parameters.push_back(classScopeParameter);
 }
 
 std::vector<llvm::Argument*> IRFunctionParameterListNode::getArguments() {

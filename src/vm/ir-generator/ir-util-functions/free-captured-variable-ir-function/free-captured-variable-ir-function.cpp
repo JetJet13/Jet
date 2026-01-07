@@ -68,13 +68,22 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
             capturedVariableTypeId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
     );
-    freeCaptureCounterIfBlock->getBuilder()->get()->CreateCondBr(isCapturedVariableNotStructRef, freeCaptureCounterIfThenBlock->getBlock(), freeVariableEndBlock->getBlock());
+    auto isCapturedVariableNotLambda = freeCaptureCounterIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_NE,
+            capturedVariableTypeId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+    );
+    auto isCapturedVariableNotStructRefAndNotLambda = freeCaptureCounterIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::Instruction::BinaryOps::And,
+            isCapturedVariableNotStructRef,
+            isCapturedVariableNotLambda
+    );
+    freeCaptureCounterIfBlock->getBuilder()->get()->CreateCondBr(isCapturedVariableNotStructRefAndNotLambda, freeCaptureCounterIfThenBlock->getBlock(), freeVariableEndBlock->getBlock());
     freeCaptureCounterIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFreeFunction(),
             { captureCounterPointer }
     );
     freeCaptureCounterIfThenBlock->getBuilder()->get()->CreateBr(freeVariableEndBlock->getBlock());
-
 
 
     auto newCaptureCount = freeVariableElseBlock->getBuilder()->get()->CreateBinOp(

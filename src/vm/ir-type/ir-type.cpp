@@ -162,7 +162,7 @@ bool IRType::isArrayPointerType() {
     return false;
 }
 
-bool IRType::isFunctionParameterType() {
+bool IRType::isInvocableType() {
     return false;
 }
 

@@ -159,6 +159,9 @@ void IRLookupTable::dump() {
     for (auto keyValue : _globalScope) {
         Logger::log("GLOBAL KEY - ", keyValue.first);
     }
+    for (auto keyValue : _arcScope) {
+        Logger::log("ARC KEY - ", keyValue.first);
+    }
     if (_outerScope) {
         _outerScope.value()->dump();
     }

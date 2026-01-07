@@ -12,7 +12,7 @@
 
 class FunctionInvocationExpressionIRStrategy {
 private:
-    std::vector<llvm::Value*> prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionParameterType* irFunctionParameterType, IRGenerator* irGenerator, IRContext* irContext);
+    std::vector<llvm::Value*> prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRInvocableType* irInvocableType, IRGenerator* irGenerator, IRContext* irContext);
     std::vector<llvm::Value*> prepArgumentList(ASTFunctionInvocationExpressionNode* node, IRFunctionType* irFunctionType, IRGenerator* irGenerator, IRContext* irContext);
 public:
     IRExpressionNode* generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);

@@ -9,16 +9,16 @@
 #include "../../../../ir-generator.h"
 #include "../../../../../../core/type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.h"
 #include "../../../../../ir-type/ir-lambda-type.h"
-#include "../../../../../ir-type/ir-function-parameter-type.h"
+#include "../../../../../ir-type/ir-invocable-type.h"
 #include "../../../../../../core/type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
-#include "../../../../../ir-type/ir-lambda-parameter-list-type.h"
+#include "../../../../../ir-type/ir-invocable-parameter-list-type.h"
 
 class LambdaTypeSignatureIRStrategy {
 private:
-    IRLambdaParameterListType* generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<IRType*> lambdaScopeParameter = {});
-    IRTypeValueInstructionNode* generateTypeValue(IRFunctionParameterType* functionParameterType, IRGenerator* irGenerator, IRContext* irContext);
+    IRInvocableParameterListType* generateParameterTypes(std::vector<TypeSignature*>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<IRType*> lambdaScopeParameter = {});
+    IRTypeValueInstructionNode* generateTypeValue(IRInvocableType* irInvocableType, IRGenerator* irGenerator, IRContext* irContext);
 public:
-    IRFunctionParameterType* generate(LambdaTypeSignature* lambdaTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRInvocableType* generate(LambdaTypeSignature* lambdaTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRLambdaType* generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 

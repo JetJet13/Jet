@@ -40,7 +40,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
 
     auto irArc = std::optional<IRInstructionNode*>();
     if (irType->requiresArc()) {
-        irArc = irGenerator->generateArcAllocation(irContext, variableAllocation->getValue(), node->getCaptureCount());
+        irArc = irGenerator->generateArcAllocation(irContext, irType, variableAllocation->getValue(), node->getCaptureCount());
         scope->insertArc(node->getId(), irArc.value());
     } else if (node->isCaptured() || node->isReferenced()) {
         irArc = irGenerator->generateArcAllocation(irContext, node->getCaptureCount());

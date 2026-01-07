@@ -16,7 +16,7 @@ ASTNode * ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 
-    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE })) {
+    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE, AST_BLOCK_START_NODE })) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 

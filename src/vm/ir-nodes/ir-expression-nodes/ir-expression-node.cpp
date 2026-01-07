@@ -4,6 +4,7 @@
 
 #include "ir-expression-node.h"
 #include "../../ir-type/ir-ref-type.h"
+#include "../../../shared/utils/logger/logger.h"
 
 void IRExpressionNode::markAsGlobal() {
     _isGlobal = true;

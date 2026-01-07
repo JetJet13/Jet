@@ -243,22 +243,22 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h
-        ir-nodes/ir-expression-nodes/ir-lambda-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-lambda-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-block-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-block-expression-node.h
         ir-generator/ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h
         ir-type/ir-lambda-type.cpp
         ir-type/ir-lambda-type.h
-        ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-fat-arrow-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h
         ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h
         ir-generator/ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.cpp
         ir-generator/ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h
         ir-nodes/ir-statement-nodes/ir-expression-statement-node.cpp
         ir-nodes/ir-statement-nodes/ir-expression-statement-node.h
-        ir-type/ir-function-parameter-type.cpp
-        ir-type/ir-function-parameter-type.h
+        ir-type/ir-invocable-type.cpp
+        ir-type/ir-invocable-type.h
         ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.cpp
@@ -604,8 +604,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.cpp
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h
-        ir-type/ir-lambda-parameter-list-type.cpp
-        ir-type/ir-lambda-parameter-list-type.h
+        ir-type/ir-invocable-parameter-list-type.cpp
+        ir-type/ir-invocable-parameter-list-type.h
         ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.h
         types/ir-block-type.h
@@ -651,6 +651,12 @@ add_library(jet-vm
         ir-nodes/ir-class-nodes/ir-class-pre-constructor-node.h
         ir-type/ir-class-instance-type.cpp
         ir-type/ir-class-instance-type.h
+        ir-generator/ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.cpp
+        ir-generator/ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.h
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-expression-node.h
+        ir-generator/ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.cpp
+        ir-generator/ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.h
 )
 
 target_link_libraries(jet-vm

@@ -13,6 +13,7 @@ ASTFunctionParameterNode::ASTFunctionParameterNode(ASTIdentifierExpressionNode* 
     _children.push_back(_identifier);
     _children.push_back(_colon);
     _children.push_back(_type);
+    this->setId(_identifier->getId());
 }
 
 ASTIdentifierExpressionNode* ASTFunctionParameterNode::getIdentifier() {
@@ -28,7 +29,11 @@ void ASTFunctionParameterNode::markAsReferenced() {
 }
 
 void ASTFunctionParameterNode::markAsCaptured() {
-    _isCaptured = true;
+    _captureCount++;
+}
+
+unsigned long ASTFunctionParameterNode::getCaptureCount() {
+    return _captureCount;
 }
 
 bool ASTFunctionParameterNode::isReferenced() {
@@ -36,7 +41,7 @@ bool ASTFunctionParameterNode::isReferenced() {
 }
 
 bool ASTFunctionParameterNode::isCaptured() {
-    return _isCaptured;
+    return _captureCount > 0;
 }
 
 void ASTFunctionParameterNode::setTypeSignature(ParameterListItemTypeSignature* typeSignature) {

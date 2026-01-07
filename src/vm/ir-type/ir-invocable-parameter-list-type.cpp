@@ -2,18 +2,18 @@
 // Created by Johny Georges on 2025-11-08.
 //
 
-#include "ir-lambda-parameter-list-type.h"
+#include "ir-invocable-parameter-list-type.h"
 
-IRLambdaParameterListType::IRLambdaParameterListType() {
+IRInvocableParameterListType::IRInvocableParameterListType() {
     _parameters = std::vector<IRType*>();
 }
 
-IRLambdaParameterListType::IRLambdaParameterListType(std::vector<IRType*> parameters, std::optional<IRType*> lambdaScopeParameterType) {
+IRInvocableParameterListType::IRInvocableParameterListType(std::vector<IRType*> parameters, std::optional<IRType*> lambdaScopeParameterType) {
     _parameters = parameters;
     _lambdaScopeParameterType = lambdaScopeParameterType;
 }
 
-std::string IRLambdaParameterListType::getId() {
+std::string IRInvocableParameterListType::getId() {
     std::string id;
     for (auto parameter : _parameters) {
         id += parameter->getId() + ".";
@@ -21,11 +21,11 @@ std::string IRLambdaParameterListType::getId() {
     return id;
 }
 
-std::vector<IRType*>* IRLambdaParameterListType::getParameters() {
+std::vector<IRType*>* IRInvocableParameterListType::getParameters() {
     return &_parameters;
 }
 
-std::vector<llvm::Type*> IRLambdaParameterListType::getParameterTypes() {
+std::vector<llvm::Type*> IRInvocableParameterListType::getParameterTypes() {
     auto parameterList = std::vector<llvm::Type*>();
     for (auto parameter : _parameters) {
         parameterList.push_back(parameter->getType());
@@ -37,7 +37,7 @@ std::vector<llvm::Type*> IRLambdaParameterListType::getParameterTypes() {
     return parameterList;
 }
 
-IRLambdaParameterListType* IRLambdaParameterListType::clone() {
+IRInvocableParameterListType* IRInvocableParameterListType::clone() {
     auto parameters = std::vector<IRType*>();
     for (auto parameter : _parameters) {
         parameters.push_back(parameter->clone());
@@ -47,5 +47,5 @@ IRLambdaParameterListType* IRLambdaParameterListType::clone() {
     if (_lambdaScopeParameterType) {
         lambdaScopeTypeClone = _lambdaScopeParameterType.value()->clone();
     }
-    return new IRLambdaParameterListType(parameters, lambdaScopeTypeClone);
+    return new IRInvocableParameterListType(parameters, lambdaScopeTypeClone);
 }

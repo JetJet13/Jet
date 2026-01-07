@@ -14,7 +14,7 @@
 #include "../../../ir-type/ir-ref-type.h"
 #include "../../../ir-type/ir-new-class-instance-type.h"
 #include "../../../ir-type/ir-captured-variable-type.h"
-#include "../../../ir-type/ir-function-parameter-type.h"
+#include "../../../ir-type/ir-invocable-type.h"
 #include "../../../ir-type/ir-lambda-type.h"
 #include "../../../ir-type/ir-class-instance-type.h"
 
@@ -26,7 +26,7 @@ private:
     llvm::Value* inject(IRRefType* irRefType, IRBlockNode* irBlock);
     llvm::Value* inject(IRCapturedVariableType* irCapturedVariableType, IRBlockNode* irBlock);
     llvm::Value* inject(IRStructRefType* irStructRefType, IRBlockNode* irBlock);
-    llvm::Value* inject(IRFunctionParameterType* irFunctionParameterType, IRBlockNode* irBlock);
+    llvm::Value* inject(IRInvocableType* irInvocableType, IRBlockNode* irBlock);
     llvm::Value* inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock);
     llvm::Value* inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock);
     llvm::Value* inject(IRNewClassInstanceType* irNewClassInstanceType, IRBlockNode* irBlock);

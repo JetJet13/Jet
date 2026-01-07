@@ -19,34 +19,28 @@ void CopyLambdaIRFunction::declareCopyLambdaFunction(IRGenerator* irGenerator, s
 void CopyLambdaIRFunction::generateCopyLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto intType = irGenerator->generateIntType();
-    auto irFunctionParameterType = new IRFunctionParameterType(
-            irGenerator->getFunctionParameterType(),
-            pointerType,
-            irGenerator->generateIRFunctionParameterCleanupType(),
-            new IRLambdaParameterListType(),
-            irGenerator->generateVoidType()
-    );
+    auto irInvocableType = irGenerator->generateIRInvocableType();
 
     auto function = irModuleNode->getCopyLambdaFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
-    auto pointerToNewLambdaFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(0), irFunctionParameterType->getFunctionIndex());
-    auto pointerToLambdaFunctionPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(1),  irFunctionParameterType->getFunctionIndex());
+    auto pointerToNewLambdaFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionIndex());
+    auto pointerToLambdaFunctionPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(1),  irInvocableType->getFunctionIndex());
     auto loadedPointerToLambdaFunctionPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToLambdaFunctionPointer);
     InstructionIRInjectorHelper::injectStore(loadedPointerToLambdaFunctionPointer, pointerToNewLambdaFunction, functionBlock);
 
-    auto pointerToNewLambdaScopeArgument = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(0), irFunctionParameterType->getFunctionScopeArgumentIndex());
-    auto pointerToLambdaScopeArgument = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(1),  irFunctionParameterType->getFunctionScopeArgumentIndex());
+    auto pointerToNewLambdaScopeArgument = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionScopeArgumentIndex());
+    auto pointerToLambdaScopeArgument = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(1),  irInvocableType->getFunctionScopeArgumentIndex());
     auto loadedPointerToLambdaScopeArgument = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToLambdaScopeArgument);
     InstructionIRInjectorHelper::injectStore(loadedPointerToLambdaScopeArgument, pointerToNewLambdaScopeArgument, functionBlock);
 
-    auto pointerToNewLambdaCounter = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(0), irFunctionParameterType->getFunctionRefCounterIndex());
-    auto pointerToLambdaCounter = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(1),  irFunctionParameterType->getFunctionRefCounterIndex());
+    auto pointerToNewLambdaCounter = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionRefCounterIndex());
+    auto pointerToLambdaCounter = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(1),  irInvocableType->getFunctionRefCounterIndex());
     auto loadedPointerToLambdaCounter = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToLambdaCounter);
     InstructionIRInjectorHelper::injectStore(loadedPointerToLambdaCounter, pointerToNewLambdaCounter, functionBlock);
 
-    auto pointerToNewLambdaCleanupFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(0), irFunctionParameterType->getFunctionCleanupIndex());
-    auto pointerToLambdaCleanupFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(1),  irFunctionParameterType->getFunctionCleanupIndex());
+    auto pointerToNewLambdaCleanupFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionCleanupIndex());
+    auto pointerToLambdaCleanupFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(1),  irInvocableType->getFunctionCleanupIndex());
     auto loadedPointerToLambdaCleanupFunction = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToLambdaCleanupFunction);
     InstructionIRInjectorHelper::injectStore(loadedPointerToLambdaCleanupFunction, pointerToNewLambdaCleanupFunction, functionBlock);
 

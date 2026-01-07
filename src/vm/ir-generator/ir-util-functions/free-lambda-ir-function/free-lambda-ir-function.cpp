@@ -4,6 +4,7 @@
 
 #include "free-lambda-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 std::string FreeLambdaIRFunction::getFreeLambdaIRFunctionName() {
     return "jet.free.lambda";
@@ -17,27 +18,55 @@ void FreeLambdaIRFunction::declareFreeLambdaFunction(IRGenerator* irGenerator, s
 
 void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
-    auto irFunctionParameterType = new IRFunctionParameterType(
-        irGenerator->getFunctionParameterType(),
-        pointerType,
-        irGenerator->generateIRFunctionParameterCleanupType(),
-        new IRLambdaParameterListType(),
-        irGenerator->generateVoidType()
-    );
+    auto intType = irGenerator->generateIntType();
+    auto irInvocableType = irGenerator->generateIRInvocableType();
 
     auto function = irModuleNode->getFreeLambdaFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto pointerToLambdaScope = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(0), irFunctionParameterType->getFunctionScopeArgumentIndex());
-    auto loadedLambdaScope = InstructionIRInjectorHelper::injectLoad(irFunctionParameterType->getFunctionScopeArgumentType(), pointerToLambdaScope, functionBlock);
-    auto pointerToCleanupFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irFunctionParameterType->getType(), function->getArg(0), irFunctionParameterType->getFunctionCleanupIndex());
-    auto loadedCleanupFunction = InstructionIRInjectorHelper::injectLoad(irFunctionParameterType->getFunctionCleanupType(), pointerToCleanupFunction, functionBlock);
-    functionBlock->getBuilder()->get()->CreateCall(
-            irFunctionParameterType->getCleanupFunctionType(),
+    auto freeLambdaIfBlock = irGenerator->generateIfBlock(irContext);
+    auto freeLambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto freeLambdaEndBlock = irGenerator->generateIfEndBlock(irContext);
+
+    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionRefCounterIndex());
+    auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
+    auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(intType, refCounterPointer, "currentRefCount");
+    DebugIRInjectorHelper::injectLog(functionBlock, currentRefCount, irGenerator->getInjector(), irModuleNode);
+    functionBlock->getBuilder()->get()->CreateBr(freeLambdaIfBlock->getBlock());
+
+    auto isLastRef = freeLambdaIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_SLE,
+            currentRefCount,
+            irGenerator->generateIntConstant(1)
+    );
+    freeLambdaIfBlock->getBuilder()->get()->CreateCondBr(isLastRef, freeLambdaIfThenBlock->getBlock(), freeLambdaEndBlock->getBlock());
+
+    auto pointerToLambdaScope = freeLambdaIfThenBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionScopeArgumentIndex());
+    auto loadedLambdaScope = InstructionIRInjectorHelper::injectLoad(irInvocableType->getFunctionScopeArgumentType(), pointerToLambdaScope, freeLambdaIfThenBlock);
+    auto pointerToCleanupFunction = freeLambdaIfThenBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionCleanupIndex());
+    auto loadedCleanupFunction = InstructionIRInjectorHelper::injectLoad(irInvocableType->getFunctionCleanupType(), pointerToCleanupFunction, freeLambdaIfThenBlock);
+    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
+            irInvocableType->getCleanupFunctionType(),
             loadedCleanupFunction,
             {
                 loadedLambdaScope
             }
     );
-    functionBlock->addVoidReturn();
+    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFreeFunction(),
+            {
+                loadedLambdaScope
+            }
+    );
+    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFreeFunction(),
+            {
+                refCounterPointer
+            }
+    );
+    DebugIRInjectorHelper::injectLog(freeLambdaIfThenBlock, "DONE FREEING LAMBDA!", irGenerator->getInjector(), irModuleNode);
+    freeLambdaIfThenBlock->getBuilder()->get()->CreateBr(freeLambdaEndBlock->getBlock());
+
+    freeLambdaEndBlock->addVoidReturn();
 }
