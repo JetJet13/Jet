@@ -4,7 +4,7 @@
 
 #include "ir-concat-expression-node.h"
 
-IRConcatExpressionNode::IRConcatExpressionNode(ASTConcatExpressionNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type) {
+IRConcatExpressionNode::IRConcatExpressionNode(ASTConcatExpressionNode* astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
@@ -22,8 +22,8 @@ bool IRConcatExpressionNode::isReferenced() {
     return _node->isReferenced();
 }
 
-llvm::Value* IRConcatExpressionNode::getValue() {
-    return _irValue->getValue();
+llvm::CallInst* IRConcatExpressionNode::getValue() {
+    return _irValue;
 }
 
 IRExpressionNode* IRConcatExpressionNode::getLeftNode() {
@@ -32,10 +32,6 @@ IRExpressionNode* IRConcatExpressionNode::getLeftNode() {
 
 IRExpressionNode* IRConcatExpressionNode::getRightNode() {
     return _irRightNode;
-}
-
-std::optional<IRInstructionNode*> IRConcatExpressionNode::getSourceAllocation() {
-    return _irValue;
 }
 
 IRArrayPointerType* IRConcatExpressionNode::getIRType() {
@@ -63,7 +59,7 @@ std::string IRConcatExpressionNode::toString() {
 }
 
 void IRConcatExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irValue->getValue()->print(**stream);
+    _irValue->print(**stream);
     stream->get()->write('\n');
     _irLeftNode->print(stream);
     stream->get()->write('\n');

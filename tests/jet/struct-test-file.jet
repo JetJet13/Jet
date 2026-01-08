@@ -1,24 +1,30 @@
 import MyOtherModule from "./other-test-file.jet";
 
-func handleCapturedLambda(lambda: () => int) int {
+func handleCapturedLambda2(lambda: () => int, secondLambda: () => string) int {
     const vv = lambda();
+    print("SECOND LAMBDA", secondLambda() ++ "_WOW!");
     return vv + 1;
 }
 
-proc testCapturedLambda() {
+proc testCapturedLambda2() {
     const x = () { return 20; };
     const y = () { return 100 + x(); };
-    const result = handleCapturedLambda(y);
+    const result = handleCapturedLambda2(y, () => "WOW");
     assert(result == 121);
     print("result", result);
-    const secondResult = handleCapturedLambda(() => 1920);
+    const secondResult = handleCapturedLambda2(() => 1920, () => "Word");
     assert(secondResult == 1921);
     print("secondResult", secondResult);
-    const thirdResult = handleCapturedLambda(() {
-        const x = 10;
-        const wow = () => 100;
-        return x + wow() + secondResult;
-    });
+    const thirdResult = handleCapturedLambda2(
+        () {
+            const x = 10;
+            const wow = () => 100;
+            return x + wow() + secondResult;
+        },
+        () {
+            return "Naga!";
+        }
+    );
     assert(thirdResult == 2032);
     print("thirdResult", thirdResult);
 }
@@ -31,8 +37,22 @@ proc testWhileLoop() {
     }
 }
 
-testCapturedLambda();
-//testWhileLoop();
+proc testConcat() {
+    const momo = [1,2,3] ++ [5,2,1] ++ [9,9,9];
+    print(momo);
+    const strConcat = "Hello " ++ "World" ++ " Wow!";
+    print(strConcat);
+    const structConcat = [{ foo: 10 }] ++ [{ foo: 20 }];
+    print(structConcat);
+    const charStructConcat = [{ foo: 'q' }] ++ [{ foo: 'a' }];
+    print(charStructConcat);
+    const tupleConcat = [{ 10, true, 'c' }] ++ [{ 20, false, 'b' }];
+    print(tupleConcat);
+}
+
+testCapturedLambda2();
+testWhileLoop();
+testConcat();
 
 class MyClass {
     public age: int;

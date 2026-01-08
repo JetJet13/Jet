@@ -657,6 +657,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-expression-node.h
         ir-generator/ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.cpp
         ir-generator/ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.h
+        ir-generator/ir-util-functions/string-concat-ir-function/string-concat-ir-function.cpp
+        ir-generator/ir-util-functions/string-concat-ir-function/string-concat-ir-function.h
 )
 
 target_link_libraries(jet-vm

@@ -131,6 +131,7 @@
 #include "ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.h"
 #include "ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.h"
 #include "ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.h"
+#include "ir-util-functions/string-concat-ir-function/string-concat-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -970,6 +971,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             EqualRefIRFunction::getEqualRefIRFunctionName(),
             EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(),
             EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(),
+            StringConcatIRFunction::getStringConcatIRFunctionName(),
             ArrayAppendIRFunction::getArrayAppendIRFunctionName(),
             ArrayPrependIRFunction::getArrayPrependIRFunctionName(),
             ArrayConcatIRFunction::getArrayConcatIRFunctionName(),
@@ -1070,6 +1072,7 @@ void IRGenerator::initModule(IRModuleNode* irModule) {
     FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
     FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
     FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(this, &_context, irModule);
+    StringConcatIRFunction::generateStringConcatFunction(this, &_context, irModule);
     ArrayConcatIRFunction::generateArrayConcatFunction(this, &_context, irModule);
     ArrayHeadIRFunction::generateArrayHeadFunction(this, &_context, irModule);
     ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);

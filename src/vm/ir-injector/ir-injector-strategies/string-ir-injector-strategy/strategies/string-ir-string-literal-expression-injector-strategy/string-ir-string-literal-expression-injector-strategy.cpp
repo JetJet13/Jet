@@ -18,7 +18,7 @@ llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLit
         return irExpression->getAggregatePointerAllocation()->getValue();
     }
 
-    if (irOperation->isFunctionArgument()) {
+    if (irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         auto functionArgumentAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
         irBlock->getBuilder()->get()->CreateCall(irModule->getCopyStringFunction(), { functionArgumentAllocation, irExpression->getAggregatePointerAllocation()->getValue() });
         return irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getType(), functionArgumentAllocation);

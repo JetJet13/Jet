@@ -51,7 +51,6 @@ llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::injectOperand(IRArra
     );
     if (irOperation->isOperandValue()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getSourceAllocation().value()->getAllocatedType(), irExpression->getSourceAllocation().value()->getValue(), irBlock);
-//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getSourceAllocation().value()->getAllocatedType(), irExpression->getSourceAllocation().value()->getValue());
     }
     return irExpression->getSourceAllocation().value()->getValue();
 }

@@ -593,6 +593,46 @@ proc testCapturedLambda() {
     print("result", result);
 }
 
+func handleCapturedLambda2(lambda: () => int, secondLambda: () => string) int {
+    const vv = lambda();
+    print("SECOND LAMBDA", secondLambda() ++ "_WORD!");
+    return vv + 1;
+}
+
+proc testCapturedLambda2() {
+    const x = () { return 20; };
+    const y = () { return 100 + x(); };
+    const result = handleCapturedLambda2(y, () => "WOW");
+    assert(result == 121);
+    print("result", result);
+    const secondResult = handleCapturedLambda2(() => 1920, () => "Word");
+    assert(secondResult == 1921);
+    print("secondResult", secondResult);
+    const thirdResult = handleCapturedLambda2(
+        () {
+            const x = 10;
+            const wow = () => 100;
+            return x + wow() + secondResult;
+        },
+        () {
+            return "Naga!";
+        }
+    );
+    assert(thirdResult == 2032);
+    print("thirdResult", thirdResult);
+}
+
+proc testWhileLoop() {
+    let index = 0;
+    while index < 5 {
+        print("Index", index);
+        index = index + 1;
+    }
+}
+
+testCapturedLambda2();
+testWhileLoop();
+
 main();
 testPrint();
 testArrayPrototypeFunctions();

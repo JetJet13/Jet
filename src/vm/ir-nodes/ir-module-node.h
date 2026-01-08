@@ -60,6 +60,7 @@ private:
     std::string _equalRefFunctionName;
     std::string _equalRefLeftOnlyFunctionName;
     std::string _equalRefRightOnlyFunctionName;
+    std::string _stringConcatFunctionName;
     std::string _arrayAppendFunctionName;
     std::string _arrayPrependFunctionName;
     std::string _arrayConcatFunctionName;
@@ -134,6 +135,7 @@ public:
                  std::string equalRefFunctionName,
                  std::string equalRefLeftOnlyFunctionName,
                  std::string equalRefRightOnlyFunctionName,
+                 std::string stringConcatFunctionName,
                  std::string arrayAppendFunctionName,
                  std::string arrayPrependFunctionName,
                  std::string arrayConcatFunctionName,
@@ -207,6 +209,7 @@ public:
     llvm::Function* getEqualRefFunction();
     llvm::Function* getEqualRefLeftOnlyFunction();
     llvm::Function* getEqualRefRightOnlyFunction();
+    llvm::Function* getStringConcatFunction();
     llvm::Function* getArrayAppendFunction();
     llvm::Function* getArrayPrependFunction();
     llvm::Function* getArrayConcatFunction();
