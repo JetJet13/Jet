@@ -20,7 +20,7 @@ public:
     bool isGlobal();
     virtual bool isReferenced();
     virtual bool isAssigned();
-    void markAsAssigned();
+    virtual void markAsAssigned();
     bool needsToBeFreed();
     bool hasArc();
     IRType* getUnderlyingIRType();

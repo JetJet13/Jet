@@ -48,6 +48,19 @@ proc testConcat() {
     print(charStructConcat);
     const tupleConcat = [{ 10, true, 'c' }] ++ [{ 20, false, 'b' }];
     print(tupleConcat);
+
+    // ref
+    // todo - get this working
+    //const momoRef = ref (ref [1,2,3] ++ ref [5,2,1] ++ ref [9,9,9]);
+    //print(momoRef);
+    const strConcat = ref "Hello " ++ ref "World" ++ ref " Wow!";
+    print(strConcat);
+    //const structConcat = [{ foo: 10 }] ++ [{ foo: 20 }];
+    //print(structConcat);
+    //const charStructConcat = [{ foo: 'q' }] ++ [{ foo: 'a' }];
+    //print(charStructConcat);
+    //const tupleConcat = [{ 10, true, 'c' }] ++ [{ 20, false, 'b' }];
+    //print(tupleConcat);
 }
 
 testCapturedLambda2();

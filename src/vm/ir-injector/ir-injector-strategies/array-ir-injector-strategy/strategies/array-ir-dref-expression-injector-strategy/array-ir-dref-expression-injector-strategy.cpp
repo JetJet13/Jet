@@ -12,7 +12,6 @@ llvm::Value* ArrayIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNode*
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
-//    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     irBlock->getBuilder()->get()->CreateCall(irModule->getCopyArrayFunction(), { irExpression->getIRValue()->getValue(), loadedValue, loadedTypeValue });
     return irExpression->getIRValue()->getValue();
 }

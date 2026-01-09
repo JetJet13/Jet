@@ -8,12 +8,11 @@
 llvm::Value* ArrayIRConcatExpressionInjectorStrategy::inject(IRConcatExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     auto irLeftValue = irInjector->inject(irBlock, irExpression->getLeftNode(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto irRightValue = irInjector->inject(irBlock, irExpression->getRightNode(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto sizeInBytes = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getElementIRType()->getSizeInBytes());
-    auto depth = irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getDepth());
+    auto irTypeValue = irInjector->inject(irBlock, irExpression->getIRType());
+    auto loadedIRTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getValue()->getAllocatedType(), irTypeValue, irBlock);
     irExpression->getValue()->setArgOperand(0, irLeftValue);
     irExpression->getValue()->setArgOperand(1, irRightValue);
-    irExpression->getValue()->setArgOperand(2, sizeInBytes);
-    irExpression->getValue()->setArgOperand(3, depth);
+    irExpression->getValue()->setArgOperand(2, loadedIRTypeValue);
     auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
     if (irOperation->isOperandPointer()) {
         auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());

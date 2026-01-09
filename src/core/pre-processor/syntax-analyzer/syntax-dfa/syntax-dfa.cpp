@@ -646,6 +646,7 @@ void SyntaxDfa::init() {
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_THIS_EXPRESSION_NODE,
+            AST_CONCAT_EXPRESSION_NODE
     });
 
     refTypeKeyword

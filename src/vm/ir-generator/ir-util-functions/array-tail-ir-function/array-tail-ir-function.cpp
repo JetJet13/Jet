@@ -104,7 +104,6 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes()) }
     );
     successorBlock->getBuilder()->get()->CreateCall(
-        irModuleNode->getCopyArrayFunction()->getFunctionType(),
         irModuleNode->getCopyArrayFunction(),
         { arrayPointerAllocationForTailCopy, arrayPointerAllocationForTail, function->getArg(1) }
     );

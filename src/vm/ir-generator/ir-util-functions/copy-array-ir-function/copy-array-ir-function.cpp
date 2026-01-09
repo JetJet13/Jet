@@ -129,7 +129,6 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
     auto destinationPointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(pointerIntType, malloc, { elementByteOffsetValue });
     auto sourcePointerAtIndex = depthOneForLoopBody->CreateInBoundsGEP(pointerIntType, loadedSourceArrayAllocation, { elementByteOffsetValue });
     depthOneForLoopBody->CreateCall(
-            irContext->getIRModule()->getCopyValueFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyValueFunction(),
             { destinationPointerAtIndex, sourcePointerAtIndex, elementTypeValue }
     );

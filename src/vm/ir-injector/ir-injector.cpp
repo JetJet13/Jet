@@ -163,7 +163,7 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpres
         throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getInjectorTypeSource()));
     }
     if (irExpression->needsToBeFreed()) {
-        Logger::log("found ir-expression that needs to be freed!", irExpression->toString());
+        Logger::log("found ir-expression that needs to be freed!", irExpression->toString(), irExpression->isAssigned());
         irBlock->addExpressionToFree(irExpression);
     }
     return injector->second->inject(irExpression, irBlock, this, irOperation, irModule, scope);
