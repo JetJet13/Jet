@@ -24,6 +24,7 @@ public:
     std::optional<IRStructType*> getLambdaScopeType();
     IRInvocableType* getLambdaVariableType();
     llvm::PointerType* getFunctionPointerType();
+    IRTypeValueInstructionNode* getValue() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isInvocableType() override;
     llvm::FunctionType* getType() override;

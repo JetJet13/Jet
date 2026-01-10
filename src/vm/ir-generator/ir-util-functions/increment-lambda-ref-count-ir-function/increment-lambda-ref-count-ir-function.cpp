@@ -14,7 +14,7 @@ void IncrementLambdaRefCountIRFunction::generateIncrementLambdaRefCountFunction(
     auto pointerType = irGenerator->generateIrPointerType();
     auto intType = irGenerator->generateIntType();
     auto functionParameterType = irGenerator->generateIRInvocableType();
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType->getType() }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 

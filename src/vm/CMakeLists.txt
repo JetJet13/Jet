@@ -659,6 +659,10 @@ add_library(jet-vm
         ir-generator/ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.h
         ir-generator/ir-util-functions/string-concat-ir-function/string-concat-ir-function.cpp
         ir-generator/ir-util-functions/string-concat-ir-function/string-concat-ir-function.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-array-access-expression-injector-strategy/ref-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-array-access-expression-injector-strategy/ref-ir-array-access-expression-injector-strategy.h
+        ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.cpp
+        ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h
 )
 
 target_link_libraries(jet-vm

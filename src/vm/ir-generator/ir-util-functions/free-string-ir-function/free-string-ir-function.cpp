@@ -12,7 +12,7 @@ std::string FreeStringIRFunction::getFreeStringIRFunctionName() {
 
 void FreeStringIRFunction::declareFreeStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeStringIRFunction::getFreeStringIRFunctionName(), irModuleNode->getModule());
 }
 

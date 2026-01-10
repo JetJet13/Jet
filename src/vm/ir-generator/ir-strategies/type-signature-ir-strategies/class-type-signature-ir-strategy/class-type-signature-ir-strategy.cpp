@@ -25,7 +25,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     classProperties->setValue(irGenerator->generateIRTypeValueFor(classProperties, irContext));
     irClassType->setProperties(classProperties);
 
-    auto constructorReturnType = irGenerator->generateVoidType()->getType();
+    auto constructorReturnType = irGenerator->getVoidType();
     auto classConstructors = std::unordered_map<std::string, IRFunctionType*>();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
         auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
@@ -68,7 +68,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generateInitial(ClassTypeSignature* c
 
 IRClassType* ClassTypeSignatureIRStrategy::generatePostInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getId()).value();
-    auto constructorReturnType = irGenerator->generateVoidType()->getType();
+    auto constructorReturnType = irGenerator->getVoidType();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
         auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
                                      ? irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext, classTypeSignature->getClassScopeParameter())
@@ -81,7 +81,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generatePostInitial(ClassTypeSignatur
 
     if (classTypeSignature->isClassScopeParameterNecessary()) {
         irClassType->setClassScopeType(irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext));
-        auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { irGenerator->generatePointerType() }, false);
+        auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { irGenerator->generatePointerType() }, false);
         llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, irClassType->getPreConstructorName(), irContext->getModule());
     }
 

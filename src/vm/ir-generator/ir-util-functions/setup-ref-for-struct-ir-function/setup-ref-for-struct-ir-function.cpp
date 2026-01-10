@@ -13,7 +13,7 @@ void SetupRefForStructIRFunction::generateSetupRefForStructFunction(IRGenerator*
     auto pointerType = irGenerator->generateIrPointerType();
     auto refType = irGenerator->generateIrRefType(pointerType);
     auto structRefType = irGenerator->generateIRStructRefType();
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { pointerType->getType(), pointerType->getType() }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), pointerType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SetupRefForStructIRFunction::getSetupRefForStructIRFunctionName(), irModuleNode->getModule());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 

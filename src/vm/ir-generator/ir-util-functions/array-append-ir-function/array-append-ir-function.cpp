@@ -18,7 +18,7 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(
-        irGenerator->generateVoidType()->getType(),
+        irGenerator->getVoidType(),
         {
             pointerType->getType(),
             pointerType->getType(),

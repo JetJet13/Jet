@@ -106,6 +106,7 @@ public:
     IRClassType* generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRPointerType* generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRRefType* generateTypeFor(RefTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
+    llvm::Type* getVoidType();
     IRType* generateVoidType();
     IRPointerType* generateIRInvocableCleanupType();
     IRInvocableType* generateIRInvocableType();

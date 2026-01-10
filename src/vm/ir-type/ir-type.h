@@ -37,7 +37,7 @@ public:
     bool hasKeyId();
     void setKeyId(std::string id);
     void setValue(IRTypeValueInstructionNode* value);
-    IRTypeValueInstructionNode* getValue();
+    virtual IRTypeValueInstructionNode* getValue();
     void setSizeInBytesOverride(unsigned long sizeInBytes);
     bool hasValue();
     bool isCharType();

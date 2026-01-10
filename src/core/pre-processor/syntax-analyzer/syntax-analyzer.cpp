@@ -41,11 +41,7 @@ SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
         }
         if (recognizerResult->reduce()) {
             this->updateModeIfNecessary(recognizerResult->getTargetAstNodeType());
-//            try {
-                this->reduceHandle(recognizerResult, fileScope);
-//            } catch (std::exception err) {
-//                this->handleSyntaxErrors();
-//            }
+            this->reduceHandle(recognizerResult, fileScope);
         } else if (recognizerResult->pop()) {
             try {
                 this->popFromStack();

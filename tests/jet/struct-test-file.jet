@@ -50,22 +50,41 @@ proc testConcat() {
     print(tupleConcat);
 
     // ref
-    // todo - get this working
-    //const momoRef = ref (ref [1,2,3] ++ ref [5,2,1] ++ ref [9,9,9]);
-    //print(momoRef);
-    const strConcat = ref "Hello " ++ ref "World" ++ ref " Wow!";
-    print(strConcat);
-    //const structConcat = [{ foo: 10 }] ++ [{ foo: 20 }];
-    //print(structConcat);
-    //const charStructConcat = [{ foo: 'q' }] ++ [{ foo: 'a' }];
-    //print(charStructConcat);
-    //const tupleConcat = [{ 10, true, 'c' }] ++ [{ 20, false, 'b' }];
-    //print(tupleConcat);
+    const momoRef = ref [1,2,3] ++ ref [5,2,1] ++ ref [9,9,9];
+    print(momoRef);
+    const strConcatRef = ref "Hello " ++ ref "World" ++ ref " Wow!";
+    print(strConcatRef);
+    const structConcatRef = [ref { foo: 10 }] ++ [ref { foo: 20 }];
+    print(structConcatRef);
+    const tupleConcatRef = [ref { 10, true, 'c' }] ++ [ref { 20, false, 'b' }];
+    print(tupleConcatRef);
+
+    const arrayRefValues = [ref { foo: 100 }];
+    const secondArrayRefValues = [ref { foo: 200 }];
+    const concatResult = arrayRefValues ++ secondArrayRefValues;
+    print("concatResult", concatResult);
+    const mars = ref dref concatResult[0];
+    concatResult[0].foo = 350;
+    assert(mars.foo == 100);
+    assert(concatResult[0].foo == arrayRefValues[0].foo);
+    assert(concatResult[0].foo != mars.foo);
+    print("mars", mars);
+    print("fooValue", concatResult[0].foo, arrayRefValues[0].foo, "mars.foo", mars.foo);
+    const refStructCopy = concatResult[0];
+    refStructCopy.foo = 900;
+    print("refStructCopy", refStructCopy, concatResult[0].foo);
 }
 
-testCapturedLambda2();
-testWhileLoop();
-testConcat();
+proc testPrintLambda() {
+    print(() => 120);
+    print(() {});
+    print(() { return 100; });
+}
+
+//testCapturedLambda2();
+//testWhileLoop();
+//testConcat();
+testPrintLambda();
 
 class MyClass {
     public age: int;

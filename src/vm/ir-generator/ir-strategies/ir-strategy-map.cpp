@@ -73,6 +73,7 @@
 #include "./type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
     _intLiteralIRStrategy = new IntLiteralIRStrategy();
@@ -146,6 +147,7 @@ IRStrategyMap::IRStrategyMap() {
     _newClassInstanceTypeSignatureIRStrategy = new NewClassInstanceTypeSignatureIRStrategy();
     _classInstanceTypeSignatureIRStrategy = new ClassInstanceTypeSignatureIRStrategy();
     _lambdaScopeTypeSignatureIRStrategy = new LambdaScopeTypeSignatureIRStrategy();
+    _voidTypeSignatureIRStrategy = new VoidTypeSignatureIRStrategy();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
@@ -426,4 +428,8 @@ ClassInstanceTypeSignatureIRStrategy* IRStrategyMap::getClassInstanceTypeSignatu
 
 LambdaScopeTypeSignatureIRStrategy* IRStrategyMap::getLambdaScopeTypeSignatureIRStrategy() {
     return _lambdaScopeTypeSignatureIRStrategy;
+}
+
+VoidTypeSignatureIRStrategy* IRStrategyMap::getVoidTypeSignatureIRStrategy() {
+    return _voidTypeSignatureIRStrategy;
 }

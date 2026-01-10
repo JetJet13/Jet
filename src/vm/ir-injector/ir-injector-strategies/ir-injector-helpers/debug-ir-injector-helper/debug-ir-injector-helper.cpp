@@ -5,6 +5,7 @@
 #include "debug-ir-injector-helper.h"
 
 void DebugIRInjectorHelper::injectFunctionEnterLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeFirstInstruction();
     irBlockNode->getBuilder()->get()->CreateCall(
         irModule->getPrintDebugStringFunction(),
@@ -16,6 +17,7 @@ void DebugIRInjectorHelper::injectFunctionEnterLog(IRBlockNode* irBlockNode, std
 }
 
 void DebugIRInjectorHelper::injectFunctionExitLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeLastInstruction();
     irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateCall(
             irModule->getPrintDebugStringFunction(),
@@ -27,6 +29,7 @@ void DebugIRInjectorHelper::injectFunctionExitLog(IRBlockNode* irBlockNode, std:
 }
 
 void DebugIRInjectorHelper::injectControlFlowEnterLog(IRBlockNode* irBlockNode, int index, IRInjector* irInjector, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeFirstInstruction();
     irBlockNode->getBuilder()->get()->CreateCall(
             irModule->getPrintDebugStringFunction(),
@@ -38,6 +41,7 @@ void DebugIRInjectorHelper::injectControlFlowEnterLog(IRBlockNode* irBlockNode, 
 }
 
 void DebugIRInjectorHelper::injectControlFlowExitLog(IRBlockNode* irBlockNode, int index, IRInjector* irInjector, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeLastInstruction();
     irBlockNode->getBuilder()->get()->CreateCall(
             irModule->getPrintDebugStringFunction(),
@@ -49,6 +53,7 @@ void DebugIRInjectorHelper::injectControlFlowExitLog(IRBlockNode* irBlockNode, i
 }
 
 void DebugIRInjectorHelper::injectRefCountLog(IRBlockNode* irBlockNode, llvm::Value* idValue, llvm::Value* refValue, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     auto refCount = irBlockNode->getBuilder()->get()->CreateCall(
             irModule->getGetRefCountFunction(),
             { refValue }
@@ -60,11 +65,13 @@ void DebugIRInjectorHelper::injectRefCountLog(IRBlockNode* irBlockNode, llvm::Va
 }
 
 void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, llvm::Value* log, IRInjector* irInjector, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintDebugMarkerFunction(), { log });
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintNewLineFunction());
 }
 
 void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, int log, IRInjector* irInjector, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->getBuilder()->get()->CreateCall(
         irModule->getPrintDebugMarkerFunction(),
         {
@@ -75,6 +82,7 @@ void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, int log, IRInjec
 }
 
 void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, std::string log, IRInjector* irInjector, IRModuleNode *irModule) {
+    if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->getBuilder()->get()->CreateCall(
             irModule->getPrintDebugStringFunction(),
             {

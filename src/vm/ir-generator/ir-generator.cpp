@@ -75,6 +75,7 @@
 #include "ir-strategies/type-signature-ir-strategies/new-class-instance-type-signature-ir-strategy/new-class-instance-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h"
 #include "ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
@@ -354,7 +355,7 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
     }
     switch (typeSignature->getTypeSource()) {
         case VOID_TYPE_SOURCE:
-            return this->generateVoidType();
+            return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(this);
         case ARRAY_TYPE_SOURCE:
             return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*) typeSignature,
                                                                               this, scope, irContext);
@@ -470,13 +471,17 @@ IRRefType* IRGenerator::generateTypeFor(RefTypeSignature* typeSignature, IRLooku
     return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
+llvm::Type* IRGenerator::getVoidType() {
+    return llvm::Type::getVoidTy(*_context);
+}
+
 IRType* IRGenerator::generateVoidType() {
-    return new IRType(llvm::Type::getVoidTy(*_context));
+    return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(this);
 }
 
 IRPointerType* IRGenerator::generateIRInvocableCleanupType() {
     return this->generateIrPointerType(
-        new IRFunctionType(llvm::FunctionType::get(this->generateVoidType()->getType(), { this->generatePointerType() }, false))
+        new IRFunctionType(llvm::FunctionType::get(this->getVoidType(), { this->generatePointerType() }, false))
     );
 }
 
@@ -950,6 +955,7 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             PrintIRFunction::getPrintArrayIRFunctionName(),
             PrintIRFunction::getPrintStructIRFunctionName(),
             PrintIRFunction::getPrintStructRefIRFunctionName(),
+            PrintIRFunction::getPrintLambdaIRFunctionName(),
             PrintIRFunction::getPrintWhitespaceIRFunctionName(),
             PrintIRFunction::getPrintCommaIRFunctionName(),
             PrintIRFunction::getPrintNewLineIRFunctionName(),

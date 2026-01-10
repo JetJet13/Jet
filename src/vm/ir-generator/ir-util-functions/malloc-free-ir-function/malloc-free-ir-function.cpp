@@ -9,7 +9,7 @@ std::string MallocFreeIRFunction::getMallocFreeIRFunctionName() {
 }
 
 void MallocFreeIRFunction::generateMallocFreeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(), { irGenerator->generatePointerType() }, false);
+    auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { irGenerator->generatePointerType() }, false);
     auto free = irModuleNode->getModule()->getOrInsertFunction("free", functionType);
 
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocFreeIRFunction::getMallocFreeIRFunctionName(), irModuleNode->getModule());

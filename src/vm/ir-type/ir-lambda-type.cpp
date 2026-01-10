@@ -34,6 +34,10 @@ llvm::PointerType* IRLambdaType::getFunctionPointerType() {
     return _irType->getType();
 }
 
+IRTypeValueInstructionNode* IRLambdaType::getValue() {
+    return _lambdaVariableType->getValue();
+}
+
 bool IRLambdaType::containsTypeThatRequiresFreeing() {
     return true;
 }

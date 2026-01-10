@@ -27,6 +27,9 @@ public:
     static std::string getGlobalArrayEndFormatStringName();
     static std::string getGlobalStructStartFormatStringName();
     static std::string getGlobalStructEndFormatStringName();
+    static std::string getGlobalLambdaStartFormatStringName();
+    static std::string getGlobalLambdaPointerFormatStringName();
+    static std::string getGlobalLambdaEndFormatStringName();
     static std::string getGlobalRefCountFormatStringName();
     static std::string getPrintIRFunctionName();
     static std::string getPrintIntIRFunctionName();
@@ -38,6 +41,7 @@ public:
     static std::string getPrintArrayIRFunctionName();
     static std::string getPrintStructIRFunctionName();
     static std::string getPrintStructRefIRFunctionName();
+    static std::string getPrintLambdaIRFunctionName();
     static std::string getPrintWhitespaceIRFunctionName();
     static std::string getPrintCommaIRFunctionName();
     static std::string getPrintNewLineIRFunctionName();
@@ -67,6 +71,7 @@ public:
     static void generatePrintArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generatePrintLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintCommaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
     static void generatePrintNewLineFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);

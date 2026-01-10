@@ -481,6 +481,7 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
         AST_UNARY_OPERATOR_NODE
     })
+    ->markAlwaysReduceSelf()
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
@@ -646,7 +647,8 @@ void SyntaxDfa::init() {
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_THIS_EXPRESSION_NODE,
-            AST_CONCAT_EXPRESSION_NODE
+            AST_CONCAT_EXPRESSION_NODE,
+            AST_DREF_EXPRESSION_NODE
     });
 
     refTypeKeyword
@@ -1580,6 +1582,7 @@ void SyntaxDfa::init() {
                       ->backtrackWhenLastReducedNodeIsOneOf({
                             AST_LITERAL_EXPRESSION_NODE,
                             AST_IDENTIFIER_EXPRESSION_NODE,
+                            AST_REF_EXPRESSION_NODE,
                             AST_ARRAY_EXPRESSION_NODE,
                             AST_CONCAT_EXPRESSION_NODE
     }))

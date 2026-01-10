@@ -39,6 +39,7 @@ private:
     std::string _printArrayFunctionName;
     std::string _printStructFunctionName;
     std::string _printStructRefFunctionName;
+    std::string _printLambdaFunctionName;
     std::string _printWhitespaceFunctionName;
     std::string _printCommaFunctionName;
     std::string _printNewLineFunctionName;
@@ -114,6 +115,7 @@ public:
                  std::string printArrayFunctionName,
                  std::string printStructFunctionName,
                  std::string printStructRefFunctionName,
+                 std::string printLambdaFunctionName,
                  std::string printWhitespaceFunctionName,
                  std::string printCommaFunctionName,
                  std::string printNewLineFunctionName,
@@ -188,6 +190,7 @@ public:
     llvm::Function* getPrintArrayFunction();
     llvm::Function* getPrintStructFunction();
     llvm::Function* getPrintStructRefFunction();
+    llvm::Function* getPrintLambdaFunction();
     llvm::Function* getPrintWhitespaceFunction();
     llvm::Function* getPrintCommaFunction();
     llvm::Function* getPrintNewLineFunction();

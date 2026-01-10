@@ -10,7 +10,5 @@ llvm::Value* LiteralIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNod
     auto loadedValue = DrefIRInjectorHelper::inject(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     InstructionIRInjectorHelper::injectStore(loadedValue, allocation, irBlock, irExpression->getIRType());
-//    irBlock->getBuilder()->get()->CreateStore(loadedValue, allocation);
     return InstructionIRInjectorHelper::injectLoad(irExpression->getIRValue()->getAllocatedType(), allocation, irBlock);
-//    return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRValue()->getAllocatedType(), allocation);
 }

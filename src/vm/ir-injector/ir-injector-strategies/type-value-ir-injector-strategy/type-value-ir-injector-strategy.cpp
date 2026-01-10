@@ -22,6 +22,8 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRType* irType, IRBlockNode* ir
         return this->inject((IRRefType*)irType, irBlock);
     } else if (irType->isCapturedVariableType()) {
         return this->inject((IRCapturedVariableType*)irType, irBlock);
+    } else if (irType->isLambdaType()) {
+        return this->inject((IRLambdaType*)irType, irBlock);
     } else if (irType->isInvocableType()) {
         return this->inject((IRInvocableType*)irType, irBlock);
     } else if (irType->isClassInstanceType()) {
@@ -124,7 +126,7 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRInvocableType* irInvocableTyp
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock) {
-    return this->inject((IRType*)irLambdaType->getLambdaVariableType(), irBlock);
+    return this->inject((IRInvocableType*)irLambdaType->getLambdaVariableType(), irBlock);
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock) {

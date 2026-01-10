@@ -16,7 +16,7 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
     auto pointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto functionType = llvm::FunctionType::get(irGenerator->generateVoidType()->getType(),
+    auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(),
                                                 {
                                                     pointerType->getType(),
                                                     pointerType->getType(),

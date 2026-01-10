@@ -12,6 +12,7 @@
 
 class DebugIRInjectorHelper {
 public:
+    static bool const _debugMode = false;
     static void injectFunctionEnterLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, IRModuleNode *irModule);
     static void injectFunctionExitLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, IRModuleNode *irModule);
     static void injectControlFlowEnterLog(IRBlockNode* irBlockNode, int index, IRInjector* irInjector, IRModuleNode *irModule);

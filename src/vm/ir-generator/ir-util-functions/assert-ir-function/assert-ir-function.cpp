@@ -33,7 +33,7 @@ void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::uniq
 
 void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
-    auto voidType = irGenerator->generateVoidType()->getType();
+    auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { boolType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
@@ -65,7 +65,7 @@ void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::uni
 
 void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
-    auto voidType = irGenerator->generateVoidType()->getType();
+    auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
     auto functionType = llvm::FunctionType::get(voidType, { boolType, stringArrayPointerType->getType(), pointerType }, false);
