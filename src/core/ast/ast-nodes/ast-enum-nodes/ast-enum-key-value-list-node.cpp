@@ -72,7 +72,7 @@ bool ASTEnumKeyValueListNode::isSameAs(ASTNode *other) {
     if (this->numParameters() != otherNode->numParameters()) {
         return false;
     }
-    for (int i = 0; i < this->numParameters(); i++) {
+    for (unsigned long i = 0; i < this->numParameters(); i++) {
         if (!_enumKeyValues[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -93,7 +93,7 @@ std::string ASTEnumKeyValueListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_enumKeyValueListStartNode);
 
-    for (int i = 0; i < _enumKeyValues.size(); ++i) {
+    for (unsigned long i = 0; i < _enumKeyValues.size(); ++i) {
         sourceCodeBuilder.add(_enumKeyValues.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

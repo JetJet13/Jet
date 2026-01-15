@@ -17,15 +17,26 @@ TypeSignature* TypeSignature::markAsBuiltIn(BuiltInTypeSource builtInTypeSource)
     return this;
 }
 
+TypeSignature* TypeSignature::markAsDebug() {
+    _isDebug = true;
+    return this;
+}
+
+TypeSignature* TypeSignature::markAsGeneric() {
+    _isGeneric = true;
+    return this;
+}
+
 bool TypeSignature::isBuiltIn() {
     return _builtInTypeSource.has_value();
 }
 
-bool TypeSignature::builtInTypeSourceIs(BuiltInTypeSource builtInTypeSource) {
-    if (!_builtInTypeSource) {
-        return false;
-    }
-    return _builtInTypeSource.value() == builtInTypeSource;
+bool TypeSignature::isDebug() {
+    return _isDebug;
+}
+
+bool TypeSignature::isGeneric() {
+    return _isGeneric;
 }
 
 bool TypeSignature::isOneOfBuiltInTypeSources(std::vector<BuiltInTypeSource> builtInTypeSources) {

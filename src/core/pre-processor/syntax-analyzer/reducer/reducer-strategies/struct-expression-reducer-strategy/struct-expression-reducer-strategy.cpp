@@ -7,7 +7,7 @@
 
 ASTNode* StructExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto structExpressionNode = new ASTStructExpressionNode((ASTStructStartNode*)nodes[0], (ASTStructEndNode*)nodes[nodes.size() - 1]);
-    for (int i = 1; i < nodes.size() - 1; ++i) {
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_STRUCT_KEY_VALUE_NODE)) {
             structExpressionNode->addKeyValuePair((ASTStructKeyValueNode*)node);

@@ -90,7 +90,7 @@ bool ASTStructExpressionNode::isSameAs(ASTNode *other) {
     if (this->size() != otherNode->size()) {
         return false;
     }
-    for (int i = 0; i < this->size(); i++) {
+    for (unsigned long i = 0; i < this->size(); i++) {
         if (!_keyValuePairs[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -111,7 +111,7 @@ void ASTStructExpressionNode::print() {
 std::string ASTStructExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structStartNode);
-    for (int i = 0; i < _keyValuePairs.size(); ++i) {
+    for (unsigned long i = 0; i < _keyValuePairs.size(); ++i) {
         sourceCodeBuilder.add(_keyValuePairs.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

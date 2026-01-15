@@ -11,7 +11,7 @@ ASTNode* IfStatementReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     }
     auto elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
     auto elseBlock = std::optional<ASTElseBlockNode*>();
-    for (int i = 1; i < nodes.size() ; i++) {
+    for (unsigned long i = 1; i < nodes.size() ; i++) {
         if (nodes[i]->is(AST_ELSE_IF_BLOCK_NODE)) {
             elseIfBlocks.push_back((ASTElseIfBlockNode*)nodes[i]);
         }

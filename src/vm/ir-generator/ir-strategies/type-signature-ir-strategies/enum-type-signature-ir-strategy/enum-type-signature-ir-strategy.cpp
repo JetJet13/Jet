@@ -12,7 +12,7 @@ IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSig
     auto enumPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
-    for (int i = 0; i < enumTypeSignature->getKeyValuePairs()->size(); ++i) {
+    for (unsigned long i = 0; i < enumTypeSignature->getKeyValuePairs()->size(); ++i) {
         auto enumPropertyType = irGenerator->generateTypeFor(enumValues[i]);
         enumPropertyTypes.push_back(enumPropertyType->getType());
         auto enumKey = enumTypeSignature->getKeyValuePairs()->getKeyValues()[i].first;

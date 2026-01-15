@@ -12,7 +12,7 @@ TupleTypeSignature::TupleTypeSignature() {
 
 TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*>* elementTypes) {
     _keyValuePairs = TypeSignatureMap<TypeSignature>();
-    for (int i = 0; i < elementTypes->size(); ++i) {
+    for (unsigned long i = 0; i < elementTypes->size(); ++i) {
         auto key = std::to_string(i);
         auto value = elementTypes->at(i);
         _keyValuePairs.insert(key, value);
@@ -22,7 +22,7 @@ TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*>* elementTypes
 TupleTypeSignature::TupleTypeSignature(std::vector<TypeSignature*> elementTypes) {
     _id = "jet.tuple";
     _keyValuePairs = TypeSignatureMap<TypeSignature>();
-    for (int i = 0; i < elementTypes.size(); ++i) {
+    for (unsigned long i = 0; i < elementTypes.size(); ++i) {
         auto key = std::to_string(i);
         auto value = elementTypes[i];
         _id += "_" + value->getId();

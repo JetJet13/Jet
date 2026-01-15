@@ -10,25 +10,25 @@
 #include <string>
 #include "types/type-source.h"
 #include "types/built-in-type-source.h"
-// created lambda analyzer in post-processor to mark variables as captured, so we
-// store them on the heap (i.e. malloc) but we now need to generate the lambda scope
-// parameter using only the variables marked as captured. This isn't possible at the moment
-// because we generate the lambda scope parameter before the post-processor runs.
-
-// added captured variables list to ast lambda expression nodes. The only thing left to do is to populate them.
+#include "types/built-in-debug-type-source.h"
 
 class TypeSignature {
 protected:
     std::string _id;
     std::string _keyId;
-    std::optional<BuiltInTypeSource> _builtInTypeSource = {};
+    std::optional<BuiltInTypeSource> _builtInTypeSource = std::nullopt;
+    bool _isDebug = false;
     bool _isPrototype = false;
+    bool _isGeneric = false;
 public:
     std::string getId();
     std::string getKeyId();
     TypeSignature* markAsBuiltIn(BuiltInTypeSource builtInTypeSource);
+    TypeSignature* markAsDebug();
+    TypeSignature* markAsGeneric();
     bool isBuiltIn();
-    bool builtInTypeSourceIs(BuiltInTypeSource builtInTypeSource);
+    bool isDebug();
+    bool isGeneric();
     bool isOneOfBuiltInTypeSources(std::vector<BuiltInTypeSource> builtInTypeSources);
     TypeSignature* markAsPrototype();
     bool isPrototype();

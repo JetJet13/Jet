@@ -34,7 +34,7 @@ bool ClassConstructorTypeSignature::matchArguments(std::vector<TypeSignature*>* 
         return false;
     }
 
-    for (int i = 0; i < _parameterList->numParameters(); ++i) {
+    for (unsigned long i = 0; i < _parameterList->numParameters(); ++i) {
         if (!_parameterList->getParameterTypes()->at(i)->isEquivalentTo(argumentTypeSignatures->at(i))) {
             return false;
         }

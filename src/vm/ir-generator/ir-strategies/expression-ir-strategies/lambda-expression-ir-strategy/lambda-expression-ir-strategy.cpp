@@ -11,6 +11,7 @@
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
@@ -51,7 +52,7 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
 }
 
 void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRContext* irContext) {
-    for (int i = 0; i < functionParameterList->getParameters()->size(); ++i) {
+    for (unsigned long i = 0; i < functionParameterList->getParameters()->size(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
         functionBlock->insert(
@@ -70,7 +71,7 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
         auto storedScopeParameterArgument = irGenerator->generateStoreInstruction(loadedScopeParameterArgument, scopeParameterAllocation->getValue(), lambdaScopeParameterType->getIRType());
         scopeParameterAllocation->insertDescendentValue(loadedScopeParameterArgument);
         scopeParameterAllocation->insertDescendentValue(storedScopeParameterArgument);
-        for (int index = 0; index < scopeParameterIrType->size(); ++index) {
+        for (unsigned long index = 0; index < scopeParameterIrType->size(); ++index) {
             auto key = scopeParameterIrType->getKeyForIndex(index);
             auto irType = (IRCapturedVariableType*)scopeParameterIrType->getIRTypeForKey(key);
             auto pointerToCapturedVariableValue = irGenerator->generateGEP(scopeParameterIrType, scopeParameterAllocation->getValue(), index);
@@ -98,7 +99,7 @@ llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(IRLamb
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
     if (irLambdaType->getLambdaScopeType()) {
         auto lambdaScopeArgumentType = irLambdaType->getLambdaScopeType().value();
-        for (int i = 0; i < lambdaScopeArgumentType->size(); ++i) {
+        for (unsigned long i = 0; i < lambdaScopeArgumentType->size(); ++i) {
             auto key = lambdaScopeArgumentType->getKeyForIndex(i);
             auto irType = lambdaScopeArgumentType->getIRTypeForKey(key);
             auto pointerToCapturedVariable = functionBlock->getBuilder()->get()->CreateStructGEP(lambdaScopeArgumentType->getType(), irFunction->getArg(0), i);

@@ -10,7 +10,7 @@ IRStructRefType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupl
     auto tupleElementTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
-    for (int i = 0; i < tupleTypeSignature->size(); ++i) {
+    for (unsigned long i = 0; i < tupleTypeSignature->size(); ++i) {
         auto tupleElement = tupleTypeSignature->getTypeSignatureAtIndex(i);
         auto tupleElementIrType = irGenerator->generateTypeFor(tupleElement, scope, irContext);
         tupleElementTypes.push_back(tupleElementIrType->getType());

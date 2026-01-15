@@ -67,7 +67,7 @@ bool ASTStructTypeNode::isSameAs(ASTNode *other) {
     if (this->numKeyValueTypes() != otherNode->numKeyValueTypes()) {
         return false;
     }
-    for (int i = 0; i < this->numKeyValueTypes(); i++) {
+    for (unsigned long i = 0; i < this->numKeyValueTypes(); i++) {
         if (!_keyValueTypes[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -87,7 +87,7 @@ void ASTStructTypeNode::print() {
 std::string ASTStructTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structTypeStartNode);
-    for (int i = 0; i < _keyValueTypes.size(); ++i) {
+    for (unsigned long i = 0; i < _keyValueTypes.size(); ++i) {
         sourceCodeBuilder.add(_keyValueTypes.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

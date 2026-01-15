@@ -67,7 +67,7 @@ bool ASTImplementsInterfaceListNode::isSameAs(ASTNode *other) {
     if (this->numInterfaces() != otherNode->numInterfaces()) {
         return false;
     }
-    for (int i = 0; i < this->numInterfaces(); i++) {
+    for (unsigned long i = 0; i < this->numInterfaces(); i++) {
         if (!_interfaceNames[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -87,7 +87,7 @@ std::string ASTImplementsInterfaceListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_implements);
 
-    for (int i = 0; i < _interfaceNames.size(); ++i) {
+    for (unsigned long i = 0; i < _interfaceNames.size(); ++i) {
         sourceCodeBuilder.add(_interfaceNames.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

@@ -133,6 +133,7 @@
 #include "ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.h"
 #include "ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.h"
 #include "ir-util-functions/string-concat-ir-function/string-concat-ir-function.h"
+#include "ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -529,6 +530,10 @@ std::string IRGenerator::getJetUtilsFunctionName(std::string id) {
     return IRUtilInternalModule::getIRName(id);
 }
 
+std::string IRGenerator::getJetDebugFunctionName(std::string id) {
+    return IRDebugInternalModule::getIRName(id);
+}
+
 IRFunctionType* IRGenerator::generateFunctionIrType(llvm::FunctionType* functionType) {
     return new IRFunctionType(functionType);
 }
@@ -541,7 +546,7 @@ std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctio
     auto pointerType = this->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
     auto numArguments = irFunctionType->getType()->getNumParams();
-    for (int i = 0; i < numArguments; ++i) {
+    for (unsigned int i = 0; i < numArguments; ++i) {
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
     return argList;
@@ -551,7 +556,7 @@ std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRInvocab
     auto pointerType = this->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
     auto numArguments = irInvocableType->getIRFunctionType()->getType()->getNumParams();
-    for (int i = 0; i < numArguments; ++i) {
+    for (unsigned int i = 0; i < numArguments; ++i) {
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
 
@@ -658,6 +663,18 @@ llvm::ConstantInt* IRGenerator::generateIntConstant(int integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
 
+llvm::ConstantInt* IRGenerator::generateIntConstant(unsigned int integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
+}
+
+llvm::ConstantInt* IRGenerator::generateIntConstant(uint64_t integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
+}
+
+llvm::ConstantInt* IRGenerator::generateIntConstant(unsigned long integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
+}
+
 llvm::ConstantInt* IRGenerator::generateChar(char character) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(CHAR_BIT, character));
 }
@@ -670,6 +687,18 @@ llvm::ConstantInt* IRGenerator::generateBoolean(bool value) {
 }
 
 llvm::ConstantInt* IRGenerator::generateInt64Constant(int integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
+}
+
+llvm::ConstantInt* IRGenerator::generateInt64Constant(unsigned int integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
+}
+
+llvm::ConstantInt* IRGenerator::generateInt64Constant(uint64_t integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
+}
+
+llvm::ConstantInt* IRGenerator::generateInt64Constant(unsigned long integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
 
@@ -805,6 +834,7 @@ IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, IRTy
 IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, unsigned long initialCount) {
     auto irType = this->generateIRArcType();
     auto malloc = llvm::CallInst::Create(
+            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
             { this->generateInt64Constant(irType->getSizeInBytes()) }
     );
@@ -1103,6 +1133,10 @@ IRFunctionNode* IRGenerator::generateMainFunction(std::string functionName, IRMo
 
 IRModuleNode* IRGenerator::generateUtilInternalModule() {
     return IRUtilInternalModule::generate(this, &_context);
+}
+
+IRModuleNode* IRGenerator::generateDebugInternalModule() {
+    return IRDebugInternalModule::generate(this, &_context);
 }
 
 IRInjector* IRGenerator::getInjector() {

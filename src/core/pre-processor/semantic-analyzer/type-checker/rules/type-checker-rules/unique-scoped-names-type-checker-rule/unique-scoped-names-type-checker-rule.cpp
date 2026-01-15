@@ -7,8 +7,8 @@
 
 void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<ASTIdentifierNode*>* names, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
     auto sameNames = std::vector<ASTIdentifierNode*>();
-    for (int i = 0; i < names->size(); ++i) {
-        for (int j = i + 1; j < names->size(); ++j) {
+    for (unsigned long i = 0; i < names->size(); ++i) {
+        for (unsigned long j = i + 1; j < names->size(); ++j) {
             auto name = names->at(i);
             auto otherName = names->at(j);
             if (name == otherName) {

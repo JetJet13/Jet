@@ -48,7 +48,7 @@ bool ArgumentListTypeSignature::isEqualTo(TypeSignature *otherType) {
         return false;
     }
 
-    for (int i = 0; i < this->numParameters(); i++) {
+    for (unsigned long i = 0; i < this->numParameters(); i++) {
         if (!_argumentTypes[i]->isEqualTo(otherArgumentTypes->at(i))) {
             return false;
         }

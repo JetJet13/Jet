@@ -92,19 +92,19 @@ bool ASTClassBlockNode::isSameAs(ASTNode* other) {
         return false;
     }
     auto otherNode = (ASTClassBlockNode*)other;
-    for (int i = 0; i < _properties.size(); ++i) {
+    for (unsigned long i = 0; i < _properties.size(); ++i) {
         if (!_properties[i]->isSameAs(otherNode->getProperties()->at(i))) {
             return false;
         }
     }
 
-    for (int i = 0; i < _methods.size(); ++i) {
+    for (unsigned long i = 0; i < _methods.size(); ++i) {
         if (!_methods[i]->isSameAs(otherNode->getMethods()->at(i))) {
             return false;
         }
     }
 
-    for (int i = 0; i < _constructors.size(); ++i) {
+    for (unsigned long i = 0; i < _constructors.size(); ++i) {
         if (!_constructors[i]->isSameAs(otherNode->getConstructors()->at(i))) {
             return false;
         }

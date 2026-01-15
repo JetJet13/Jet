@@ -10,7 +10,9 @@ bool InvocableTypeSignature::isInvocable() {
 }
 
 bool InvocableTypeSignature::isEquivalentTo(TypeSignature* otherType) {
-    if (!otherType->isInvocable()) {
+    if (_isGeneric && otherType->isInvocable()) {
+        return true;
+    } else if (!otherType->isInvocable()) {
         return false;
     }
 
@@ -23,7 +25,7 @@ bool InvocableTypeSignature::isEquivalentTo(TypeSignature* otherType) {
         return false;
     }
 
-    for (int i = 0; i < this->getParameterTypes()->size(); ++i) {
+    for (unsigned long i = 0; i < this->getParameterTypes()->size(); ++i) {
         if (!this->getParameterTypes()->at(i)->isEquivalentTo(other->getParameterTypes()->at(i))) {
             return false;
         }

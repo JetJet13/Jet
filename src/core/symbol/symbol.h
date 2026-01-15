@@ -102,7 +102,7 @@ public:
     bool isPrint();
     bool isThis();
     SymbolType getType();
-    bool isSameAs(Symbol* symbol);
+    bool isSameAs(std::shared_ptr<Symbol> symbol);
     std::string toString();
 };
 

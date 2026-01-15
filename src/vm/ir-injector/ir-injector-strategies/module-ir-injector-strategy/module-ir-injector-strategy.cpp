@@ -9,7 +9,7 @@ void ModuleIRInjectorStrategy::inject(IRModuleDeclarationNode* irModuleDeclarati
     InstructionIRInjectorHelper::inject(irModuleDeclaration->getAllocation(), irBlock);
     auto numElements = irModuleDeclaration->getExports()->size();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    for (int i = 0; i < numElements; ++i) {
+    for (unsigned long i = 0; i < numElements; ++i) {
         auto exportAtIndex = irModuleDeclaration->getExports()->at(i);
         auto irIndex = irBlock->getBuilder()->get()->getInt64(i);
         auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irModuleDeclaration->getIRType()->getType(), irModuleDeclaration->getAllocation()->getValue(), { zeroIndex, irIndex });

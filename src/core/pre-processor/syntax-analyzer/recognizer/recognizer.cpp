@@ -79,7 +79,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
     }
     auto dfa = _syntaxDfa->getDFA();
     dfa->reset();
-    for (int i = 0; i < handle->size(); i++) {
+    for (unsigned long i = 0; i < handle->size(); i++) {
         auto nodeType = handle->at(i).value()->getNodeType();
         auto nextNodeType = handle->at(i+1).value_or(new ASTNullNode())->getNodeType();
         if (i == 0) {

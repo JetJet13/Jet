@@ -65,7 +65,7 @@ bool ASTImportModuleListNode::isSameAs(ASTNode *other) {
     if (this->numItems() != otherNode->numItems()) {
         return false;
     }
-    for (int i = 0; i < this->numItems(); i++) {
+    for (unsigned long i = 0; i < this->numItems(); i++) {
         if (!_items[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }

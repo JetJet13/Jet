@@ -9,7 +9,7 @@
 ASTNode* ArrayNodeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto arrayNode = new ASTArrayNode((ASTLeftBracketNode*)nodes[0], (ASTRightBracketNode*)nodes[nodes.size() - 1]);
 
-    for (int i = 1; i < nodes.size() - 1; ++i) {
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->isExpression()) {
             arrayNode->addElement((ASTExpressionNode*)node);

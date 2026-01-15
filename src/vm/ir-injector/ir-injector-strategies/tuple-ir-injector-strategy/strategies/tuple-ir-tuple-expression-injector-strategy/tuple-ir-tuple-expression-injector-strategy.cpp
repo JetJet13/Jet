@@ -9,7 +9,7 @@ llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(IRTupleExpressionNod
     auto tupleRefAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto tupleAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue()->getParentAllocation().value(), irBlock);
     auto numElements = irExpression->size();
-    for (int i = 0; i < numElements; ++i) {
+    for (unsigned long i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
         auto irTypeAtIndex = irExpression->getIRType()->getStructIRType()->getIRTypeByIndex(i);
         auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getStructIRType()->getType(), tupleAllocation, i);

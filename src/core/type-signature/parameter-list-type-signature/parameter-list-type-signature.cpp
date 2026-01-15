@@ -55,7 +55,7 @@ ParameterListItemTypeSignature* ParameterListTypeSignature::getVariableLengthTyp
 std::string ParameterListTypeSignature::toDetailString() {
     std::string detailedString;
     auto size = this->isVariableLength() ? this->getVariableLengthStartIndex() : _parameterTypes.size();
-    for (int i = 0; i < size; ++i) {
+    for (unsigned long i = 0; i < size; ++i) {
         detailedString += "_" + _parameterTypes[i]->toDetailString();
     }
     if (this->isVariableLength()) {
@@ -83,7 +83,7 @@ bool ParameterListTypeSignature::isEqualTo(TypeSignature *otherType) {
     if (this->numParameters() != other->numParameters()) {
         return false;
     }
-    for (int i = 0; i < this->numParameters(); i++) {
+    for (unsigned long i = 0; i < this->numParameters(); i++) {
         if (_parameters[i]->getName() != otherParameters->at(i)->getName() ||
             !_parameters[i]->getTypeSignature()->isEqualTo(otherParameters->at(i)->getTypeSignature())) {
             return false;
@@ -98,7 +98,7 @@ bool ParameterListTypeSignature::matchesWithArgumentList(ArgumentListTypeSignatu
         return false;
     }
 
-    for (int i = 0; i < this->numParameters(); ++i) {
+    for (unsigned long i = 0; i < this->numParameters(); ++i) {
         auto parameter = _parameterTypes[i];
         auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
         if (!parameter->isEquivalentTo(argument)) {

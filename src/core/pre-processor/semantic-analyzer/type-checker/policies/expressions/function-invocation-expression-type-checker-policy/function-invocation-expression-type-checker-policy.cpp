@@ -35,6 +35,7 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         if (!argumentListCountResultOk) {
             return;
         }
+
         auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(functionInvocationExpression);
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(

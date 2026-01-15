@@ -12,15 +12,15 @@
 
 class ReservedKeywords {
 private:
-    std::unordered_map<std::string, Symbol*> _keywordMap;
-    std::vector<Symbol*> _keywordSymbols;
+    std::unordered_map<std::string, std::shared_ptr<Symbol>> _keywordMap;
+    std::vector<std::shared_ptr<Symbol>> _keywordSymbols;
     void init();
     void initKeywordSymbolList();
-    void add(const std::string& keyword, Symbol* symbol);
+    void add(const std::string& keyword, std::shared_ptr<Symbol> symbol);
 public:
     ReservedKeywords();
-    std::optional<Symbol*> match(const std::string& matchTerm);
-    std::optional<Symbol*> match(std::optional<char> matchChar);
-    bool isKeywordSymbol(Symbol* symbol);
+    std::optional<std::shared_ptr<Symbol>> match(const std::string& matchTerm);
+    std::optional<std::shared_ptr<Symbol>> match(std::optional<char> matchChar);
+    bool isKeywordSymbol(std::shared_ptr<Symbol> symbol);
 };
 #endif //JETLANG_RESERVED_KEYWORDS_H

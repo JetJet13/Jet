@@ -71,7 +71,7 @@ bool ASTInterfacePropertyListNode::isSameAs(ASTNode *other) {
     if (this->numProperties() != otherNode->numProperties()) {
         return false;
     }
-    for (int i = 0; i < this->numProperties(); i++) {
+    for (unsigned long i = 0; i < this->numProperties(); i++) {
         if (!_properties[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -92,7 +92,7 @@ std::string ASTInterfacePropertyListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_startNode);
 
-    for (int i = 0; i < _properties.size(); ++i) {
+    for (unsigned long i = 0; i < _properties.size(); ++i) {
         sourceCodeBuilder.add(_properties.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

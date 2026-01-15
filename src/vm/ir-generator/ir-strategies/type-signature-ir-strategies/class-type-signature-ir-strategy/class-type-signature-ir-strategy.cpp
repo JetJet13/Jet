@@ -38,7 +38,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     }
 
     auto classMethods = std::unordered_map<std::string, IRFunctionType*>();
-    for (int i = 0; i < classTypeSignature->getMethods()->size(); ++i) {
+    for (unsigned long i = 0; i < classTypeSignature->getMethods()->size(); ++i) {
         auto keyValue = classTypeSignature->getMethods()->getKeyValues()[i];
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType(), scope, irContext);
         auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()

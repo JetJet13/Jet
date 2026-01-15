@@ -9,21 +9,22 @@
 #include "../symbol/symbol.h"
 #include "../../shared/types/null-type.h"
 #include "token-table.h"
+#include <memory>
 
 class Token {
 private:
-    Symbol* _symbol;
-    std::optional<int> _valueId;
+    std::shared_ptr<Symbol> _symbol;
+    std::optional<unsigned long> _valueId;
     std::string _rawValue;
 public:
-    explicit Token(Symbol* symbol);
-    explicit Token(Symbol* symbol, std::string rawValue);
-    Token(Symbol* symbol, std::string rawValue, int valueId);
-    Symbol* getSymbol();
+    explicit Token(std::shared_ptr<Symbol> symbol);
+    explicit Token(std::shared_ptr<Symbol> symbol, std::string rawValue);
+    Token(std::shared_ptr<Symbol> symbol, std::string rawValue, unsigned long valueId);
+    std::shared_ptr<Symbol> getSymbol();
     SymbolType getSymbolType();
     std::string getRawValue();
-    std::optional<int> getValueId();
-    Token* setValueId(int valueId);
+    std::optional<unsigned long> getValueId();
+    Token* setValueId(unsigned long valueId);
     std::string toString();
     bool isEqualTo(Token* otherToken);
 };

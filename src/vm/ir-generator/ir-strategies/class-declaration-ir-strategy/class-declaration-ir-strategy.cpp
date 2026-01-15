@@ -77,7 +77,7 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
 
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
-    for (int i = 0; i < irFunction->getFunctionType()->getNumParams(); ++i) {
+    for (unsigned long i = 0; i < irFunction->getFunctionType()->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
 //        constructorScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
@@ -109,7 +109,7 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
     }
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
 
-    for (int i = 0; i < functionType->getNumParams(); ++i) {
+    for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
 //        methodScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);

@@ -11,7 +11,7 @@ ASTNode* LambdaTypeParameterListReducerStrategy::execute(std::vector<ASTNode*> n
             (ASTLambdaTypeParameterListEndNode*)nodes[nodes.size() - 1]
     );
 
-    for (int i = 1; i < nodes.size() - 1; ++i) {
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_TYPE_NODE)) {
             typeParameterListNode->addParameter((ASTTypeNode*)node);

@@ -8,7 +8,7 @@
 
 ASTNode* ImplementsInterfaceListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto implementsInterfaceListNode = new ASTImplementsInterfaceListNode((ASTImplementsNode*)nodes[0]);
-    for (int i = 1; i < nodes.size() - 1; ++i) {
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_IMPLEMENTS_INTERFACE_NAME_NODE)) {
             implementsInterfaceListNode->addInterface((ASTImplementsInterfaceNameNode*)node);

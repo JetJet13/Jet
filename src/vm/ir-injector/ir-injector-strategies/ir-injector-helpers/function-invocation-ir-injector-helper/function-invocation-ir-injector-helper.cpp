@@ -13,9 +13,10 @@
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
     auto functionTypeSignature = irExpression->getTypeSignature()->getFunctionType();
     auto arguments = std::vector<llvm::Value*>();
-    for (int i = 0; i < irExpression->getIRArguments()->size(); ++i) {
+    for (unsigned long i = 0; i < irExpression->getIRArguments()->size(); ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
         auto operationType = functionTypeSignature->isArgumentVarArg(i)
+                             || functionTypeSignature->getParameterTypes()->at(i)->isGeneric()
                 ? new IROperation(IR_OPERAND_POINTER_OP)
                 : new IROperation(IR_FUNCTION_ARGUMENT_OP);
         auto irArgument = irInjector->inject(irBlock, argument, operationType, irModule, scope);
@@ -36,7 +37,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
         auto varArgsArrayAllocation = InstructionIRInjectorHelper::inject(irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value(), irBlock);
         auto varArgsArrayPointerAllocation = InstructionIRInjectorHelper::inject(irExpression->getVarArgsTypeValueArgument().value(), irBlock);
         auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-        for (int i = startIndex; i < irExpression->getIRArguments()->size(); ++i) {
+        for (unsigned long i = startIndex; i < irExpression->getIRArguments()->size(); ++i) {
             auto argument = irExpression->getIRArguments()->at(i);
             auto index = irBlock->getBuilder()->get()->getInt64(i);
             auto pointerToTypeValue = irBlock->getBuilder()->get()->CreateInBoundsGEP(
@@ -128,7 +129,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
     auto numArgs = irExpression->getIRArguments()->size();
-    for (int i = 0; i < numArgs; ++i) {
+    for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
         auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
@@ -140,7 +141,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationE
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
-    for (int i = 0; i < numArgs; ++i) {
+    for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
         auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
@@ -171,7 +172,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRRefPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
 
     auto numArgs = irExpression->getIRArguments()->size();
-    for (int i = 0; i < numArgs; ++i) {
+    for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
         auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
@@ -195,7 +196,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRRefPrototypeInvocation
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
-    for (int i = 0; i < numArgs; ++i) {
+    for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
         auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
@@ -219,7 +220,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationE
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope, IROperation* irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
-    for (int i = 0; i < numArgs; ++i) {
+    for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
         auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);

@@ -361,7 +361,7 @@ SymbolType Symbol::getType() {
     return _type;
 }
 
-bool Symbol::isSameAs(Symbol* symbol) {
+bool Symbol::isSameAs(std::shared_ptr<Symbol> symbol) {
     return _type == symbol->getType();
 }
 

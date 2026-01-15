@@ -60,7 +60,9 @@ TypeSource StructTypeSignature::getTypeSource() {
 }
 
 bool StructTypeSignature::isEqualTo(TypeSignature* otherType) {
-    if (this->getTypeSource() != otherType->getTypeSource()) {
+    if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
+        return true;
+    } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 

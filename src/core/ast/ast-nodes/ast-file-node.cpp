@@ -96,7 +96,7 @@ bool ASTFileNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTFileNode*)other;
-    for (int i = 0; i < _body.size(); ++i) {
+    for (unsigned long i = 0; i < _body.size(); ++i) {
         if (!_body[i]->isSameAs(otherNode->getBody()->at(i))) {
             return false;
         }

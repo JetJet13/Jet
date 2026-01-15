@@ -1,3 +1,10 @@
+#set(CMAKE_BUILD_TYPE Debug)
+#add_compile_options(
+#        -fsanitize=address,undefined
+#        -fno-omit-frame-pointer
+#        -g
+#        -O1
+#)
 
 add_library(jet-core
         ./lexeme/lexeme.h
@@ -1327,6 +1334,9 @@ add_library(jet-core
         type-signature/lambda-scope-type-signature/lambda-scope-type-signature.h
         type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.cpp
         type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h
+        pre-processor/semantic-analyzer/jet-debug-type-signature-map/jet-debug-type-signature-map.cpp
+        pre-processor/semantic-analyzer/jet-debug-type-signature-map/jet-debug-type-signature-map.h
+        type-signature/types/built-in-debug-type-source.h
 
 )
 

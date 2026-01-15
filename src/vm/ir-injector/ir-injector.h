@@ -50,23 +50,23 @@ class ClassIRInjectorStrategy;
 
 class IRInjector {
 private:
-    std::unordered_map<TypeSource, IRInjectorStrategy*, std::hash<int>> _injectorMap;
-    StringIRInjectorStrategy* _stringIRInjector;
-    LiteralIRInjectorStrategy* _literalIRInjector;
-    ArrayIRInjectorStrategy* _arrayIRInjector;
-    StructIRInjectorStrategy* _structIRInjector;
-    TupleIRInjectorStrategy* _tupleIRInjector;
-    PointerIRInjectorStrategy* _pointerIRInjector;
-    VoidIRInjectorStrategy* _voidIRInjector;
-    RefIRInjectorStrategy* _refIRInjector;
+    std::unordered_map<TypeSource, std::shared_ptr<IRInjectorStrategy>, std::hash<int>> _injectorMap;
+    std::shared_ptr<StringIRInjectorStrategy> _stringIRInjector;
+    std::shared_ptr<LiteralIRInjectorStrategy> _literalIRInjector;
+    std::shared_ptr<ArrayIRInjectorStrategy> _arrayIRInjector;
+    std::shared_ptr<StructIRInjectorStrategy> _structIRInjector;
+    std::shared_ptr<TupleIRInjectorStrategy> _tupleIRInjector;
+    std::shared_ptr<PointerIRInjectorStrategy> _pointerIRInjector;
+    std::shared_ptr<VoidIRInjectorStrategy> _voidIRInjector;
+    std::shared_ptr<RefIRInjectorStrategy> _refIRInjector;
+    std::shared_ptr<LambdaIRInjectorStrategy> _lambdaIRInjector;
+    std::shared_ptr<EnumIRInjectorStrategy> _enumIRInjector;
+    std::shared_ptr<NewClassInstanceIRInjectorStrategy> _newClassInstanceIRInjectorStrategy;
+    std::shared_ptr<ClassInstanceIRInjectorStrategy> _classInstanceIRInjectorStrategy;
     VariableIRInjectorStrategy* _variableIRInjector;
     ModuleIRInjectorStrategy* _moduleIRInjector;
-    LambdaIRInjectorStrategy* _lambdaIRInjector;
-    EnumIRInjectorStrategy* _enumIRInjector;
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
-    NewClassInstanceIRInjectorStrategy* _newClassInstanceIRInjectorStrategy;
-    ClassInstanceIRInjectorStrategy* _classInstanceIRInjectorStrategy;
     ClassPropertyAssignmentIRInjectorStrategy* _classPropertyAssignmentIRInjectorStrategy;
     VariableAssignmentIRInjectorStrategy* _variableAssignmentIRInjectorStrategy;
     ArrayAccessAssignmentIRInjectorStrategy* _arrayAccessAssignmentIRInjectorStrategy;

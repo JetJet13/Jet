@@ -1,3 +1,11 @@
+#set(CMAKE_BUILD_TYPE Debug)
+#add_compile_options(
+#        -fsanitize=address,undefined
+#        -fno-omit-frame-pointer
+#        -g
+#        -O1
+#)
+
 set(LT_LLVM_INSTALL_DIR, "/usr/local/opt/llvm")
 set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
 find_package(LLVM CONFIG)
@@ -663,6 +671,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-array-access-expression-injector-strategy/ref-ir-array-access-expression-injector-strategy.h
         ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h
+        ir-generator/ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.cpp
+        ir-generator/ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.h
 )
 
 target_link_libraries(jet-vm

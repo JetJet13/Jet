@@ -14,6 +14,9 @@ IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(ASTTupleAc
 
     auto irExpression = (IRTupleAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irFunctionType = (IRFunctionType*)irExpression->getTargetIRType();
+    if (!irFunctionType->isFunctionType()) {
+        throw std::logic_error("YUCK!");
+    }
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irExpression->getValue(), argList);

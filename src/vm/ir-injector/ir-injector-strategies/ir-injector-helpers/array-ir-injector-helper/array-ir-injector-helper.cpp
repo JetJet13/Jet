@@ -50,7 +50,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
         InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
         // iterate over each child allocation and 'injectArrayPointer'
         auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-        for (int i = 0; i < numElements; ++i) {
+        for (unsigned long i = 0; i < numElements; ++i) {
             auto childAllocation = arrayAllocation->getChildAllocations()->at(i);
             auto irIndex = irBlock->getBuilder()->get()->getInt64(i);
             auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(destinationAllocation->getAllocatedType(),

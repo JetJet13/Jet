@@ -79,7 +79,7 @@ bool ASTFunctionParameterListNode::isSameAs(ASTNode *other) {
     if (this->numParameters() != otherNode->numParameters()) {
         return false;
     }
-    for (int i = 0; i < this->numParameters(); i++) {
+    for (unsigned long i = 0; i < this->numParameters(); i++) {
         if (!_parameters[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -99,7 +99,7 @@ void ASTFunctionParameterListNode::print() {
 std::string ASTFunctionParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionParameterListStartNode);
-    for (int i = 0; i < _parameters.size(); ++i) {
+    for (unsigned long i = 0; i < _parameters.size(); ++i) {
         sourceCodeBuilder.add(_parameters.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

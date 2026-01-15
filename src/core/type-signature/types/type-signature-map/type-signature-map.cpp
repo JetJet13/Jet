@@ -37,7 +37,7 @@ std::optional<T*> TypeSignatureMap<T>::find(std::string key) {
 
 template<class T>
 unsigned long TypeSignatureMap<T>::findKeyIndex(std::string key) {
-    for (int i = 0; i < _typeSignatureKeyList.size(); ++i) {
+    for (unsigned long i = 0; i < _typeSignatureKeyList.size(); ++i) {
         if (_typeSignatureKeyList[i] == key) {
             return i;
         }

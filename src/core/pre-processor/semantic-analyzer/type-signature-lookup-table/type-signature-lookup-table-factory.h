@@ -10,6 +10,7 @@
 class TypeSignatureLookupTableFactory {
 public:
     static TypeSignatureLookupTable* createForModule();
+    static TypeSignatureLookupTable* createForDebugModule();
     static TypeSignatureLookupTable* create();
 };
 

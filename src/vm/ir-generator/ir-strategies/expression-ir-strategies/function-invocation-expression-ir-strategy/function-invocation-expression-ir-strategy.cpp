@@ -5,11 +5,10 @@
 #include "function-invocation-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
-#include "../../../../ir-type/ir-lambda-type.h"
 
 IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRExpressionNode*>();
-    for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
+    for (unsigned long i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = irGenerator->generateFor(
                 node->getArguments()->getArguments()->at(i),
                 scope,
@@ -45,7 +44,9 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
         auto irFunctionType = (IRFunctionType*)irType;
-        auto irFunctionName = irGenerator->getJetUtilsFunctionName(node->getFunction()->getId());
+        auto irFunctionName = node->getFunction()->getTypeSignature()->isDebug()
+                ? irGenerator->getJetDebugFunctionName(node->getFunction()->getId())
+                : irGenerator->getJetUtilsFunctionName(node->getFunction()->getId());
         auto function = irContext->getModule()->getFunction(irFunctionName);
         auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
         auto argList = this->prepArgumentList(node, irFunctionType, irGenerator, irContext);
@@ -67,7 +68,7 @@ std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentLi
     auto numArguments = node->getTypeSignature()->getFunctionType()->hasVariableLengthParameters() ?
             node->getArguments()->numArguments()
             : irFunctionType->getType()->getNumParams();
-    for (int i = 0; i < numArguments; ++i) {
+    for (unsigned long i = 0; i < numArguments; ++i) {
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
 
@@ -75,7 +76,13 @@ std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentLi
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
 
-    if (node->getTypeSignature()->getFunctionType()->isOneOfBuiltInTypeSources({ BI_ASSERT_TYPE_SOURCE, BI_ASSERT_WITH_MESSAGE_TYPE_SOURCE })) {
+    if (node->getTypeSignature()->getFunctionType()->isOneOfBuiltInTypeSources({
+            BI_ASSERT_TYPE_SOURCE,
+            BI_ASSERT_WITH_MESSAGE_TYPE_SOURCE,
+            BI_ASSERT_DEBUG_LAMBDA_REF_COUNT_TYPE_SOURCE,
+            BI_ASSERT_DEBUG_REF_COUNT_TYPE_SOURCE,
+            BI_ASSERT_DEBUG_STRUCT_REF_COUNT_TYPE_SOURCE
+    })) {
         auto assertMessage = irGenerator->getOrInsertGlobalVariableString(node->getId(), "(" + node->getLineColumn() + ") " + node->toSourceCode() + "\n\n", irContext);
         argList.push_back(assertMessage);
     }
@@ -87,7 +94,7 @@ std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentLi
     auto pointerType = irGenerator->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
     auto numArguments = irInvocableType->getFunctionType()->getNumParams();
-    for (int i = 0; i < numArguments; ++i) {
+    for (unsigned long i = 0; i < numArguments; ++i) {
         argList.push_back(llvm::ConstantPointerNull::get(pointerType));
     }
 

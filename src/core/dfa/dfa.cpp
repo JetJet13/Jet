@@ -6,7 +6,7 @@
 #include "../../shared/utils/logger/logger.h"
 
 DFA::DFA() {
-    _startNodes = std::unordered_map<ASTNodeType, DFANode*, std::hash<int>>();
+    _startNodes = std::unordered_map<ASTNodeType, DFANode*>();
     _start = {};
     _current = {};
 }

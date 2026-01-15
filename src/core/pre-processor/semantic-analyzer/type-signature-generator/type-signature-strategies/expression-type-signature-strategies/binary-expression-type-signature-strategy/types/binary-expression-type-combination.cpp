@@ -5,12 +5,12 @@
 #include "binary-expression-type-combination.h"
 
 
-BinaryExpressionTypeCombination::BinaryExpressionTypeCombination(Symbol* operatorSymbol, std::vector<BinaryComboResultType> binaryResultTypes) {
+BinaryExpressionTypeCombination::BinaryExpressionTypeCombination(std::shared_ptr<Symbol> operatorSymbol, std::vector<BinaryComboResultType> binaryResultTypes) {
     _operatorSymbol = operatorSymbol;
     _binaryResultTypes = std::move(binaryResultTypes);
 }
 
-Symbol* BinaryExpressionTypeCombination::getOperator() {
+std::shared_ptr<Symbol> BinaryExpressionTypeCombination::getOperator() {
     return _operatorSymbol;
 }
 

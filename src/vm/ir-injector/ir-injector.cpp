@@ -39,21 +39,21 @@
 
 
 IRInjector::IRInjector() {
-    _injectorMap = std::unordered_map<TypeSource, IRInjectorStrategy*, std::hash<int>>();
-    _stringIRInjector = new StringIRInjectorStrategy();
-    _literalIRInjector = new LiteralIRInjectorStrategy();
-    _arrayIRInjector = new ArrayIRInjectorStrategy();
-    _structIRInjector = new StructIRInjectorStrategy();
-    _tupleIRInjector = new TupleIRInjectorStrategy();
-    _pointerIRInjector = new PointerIRInjectorStrategy();
-    _voidIRInjector = new VoidIRInjectorStrategy();
-    _refIRInjector = new RefIRInjectorStrategy();
+    _injectorMap = std::unordered_map<TypeSource, std::shared_ptr<IRInjectorStrategy>, std::hash<int>>();
+    _stringIRInjector = std::make_shared<StringIRInjectorStrategy>();
+    _literalIRInjector = std::make_shared<LiteralIRInjectorStrategy>();
+    _arrayIRInjector =  std::make_shared<ArrayIRInjectorStrategy>();
+    _structIRInjector = std::make_shared<StructIRInjectorStrategy>();
+    _tupleIRInjector = std::make_shared<TupleIRInjectorStrategy>();
+    _pointerIRInjector = std::make_shared<PointerIRInjectorStrategy>();
+    _voidIRInjector = std::make_shared<VoidIRInjectorStrategy>();
+    _refIRInjector = std::make_shared<RefIRInjectorStrategy>();
+    _lambdaIRInjector = std::make_shared<LambdaIRInjectorStrategy>();
+    _enumIRInjector = std::make_shared<EnumIRInjectorStrategy>();
+    _newClassInstanceIRInjectorStrategy = std::make_shared<NewClassInstanceIRInjectorStrategy>();
+    _classInstanceIRInjectorStrategy = std::make_shared<ClassInstanceIRInjectorStrategy>();
     _variableIRInjector = new VariableIRInjectorStrategy();
-    _lambdaIRInjector = new LambdaIRInjectorStrategy();
-    _enumIRInjector = new EnumIRInjectorStrategy();
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
-    _newClassInstanceIRInjectorStrategy = new NewClassInstanceIRInjectorStrategy();
-    _classInstanceIRInjectorStrategy = new ClassInstanceIRInjectorStrategy();
     _variableAssignmentIRInjectorStrategy = new VariableAssignmentIRInjectorStrategy();
     _arrayAccessAssignmentIRInjectorStrategy = new ArrayAccessAssignmentIRInjectorStrategy();
     _objectAccessAssignmentIRInjectorStrategy = new ObjectAccessAssignmentIRInjectorStrategy();
@@ -73,23 +73,23 @@ IRInjector::IRInjector() {
 }
 
 void IRInjector::init() {
-    _injectorMap.insert(this->insert(ARRAY_TYPE_SOURCE, _arrayIRInjector));
-    _injectorMap.insert(this->insert(STRUCT_TYPE_SOURCE, _structIRInjector));
-    _injectorMap.insert(this->insert(STRING_LITERAL_TYPE_SOURCE, _stringIRInjector));
-    _injectorMap.insert(this->insert(INT_LITERAL_TYPE_SOURCE, _literalIRInjector));
-    _injectorMap.insert(this->insert(FLOAT_LITERAL_TYPE_SOURCE, _literalIRInjector));
-    _injectorMap.insert(this->insert(BOOL_LITERAL_TYPE_SOURCE, _literalIRInjector));
-    _injectorMap.insert(this->insert(CHAR_LITERAL_TYPE_SOURCE, _literalIRInjector));
-    _injectorMap.insert(this->insert(LITERAL_TYPE_SOURCE, _literalIRInjector));
-    _injectorMap.insert(this->insert(TUPLE_TYPE_SOURCE, _tupleIRInjector));
-    _injectorMap.insert(this->insert(POINTER_TYPE_SOURCE, _pointerIRInjector));
-    _injectorMap.insert(this->insert(REF_TYPE_SOURCE, _refIRInjector));
-    _injectorMap.insert(this->insert(LAMBDA_TYPE_SOURCE, _lambdaIRInjector));
-    _injectorMap.insert(this->insert(LAMBDA_EXPRESSION_TYPE_SOURCE, _lambdaIRInjector));
-    _injectorMap.insert(this->insert(ENUM_TYPE_SOURCE, _enumIRInjector));
-    _injectorMap.insert(this->insert(NEW_CLASS_INSTANCE_TYPE_SOURCE, _newClassInstanceIRInjectorStrategy));
-    _injectorMap.insert(this->insert(CLASS_INSTANCE_TYPE_SOURCE, _classInstanceIRInjectorStrategy));
-    _injectorMap.insert(this->insert(VOID_TYPE_SOURCE, _voidIRInjector));
+    _injectorMap[ARRAY_TYPE_SOURCE] = _arrayIRInjector;
+    _injectorMap[STRUCT_TYPE_SOURCE] = _structIRInjector;
+    _injectorMap[STRING_LITERAL_TYPE_SOURCE] = _stringIRInjector;
+    _injectorMap[INT_LITERAL_TYPE_SOURCE] = _literalIRInjector;
+    _injectorMap[FLOAT_LITERAL_TYPE_SOURCE] = _literalIRInjector;
+    _injectorMap[BOOL_LITERAL_TYPE_SOURCE] = _literalIRInjector;
+    _injectorMap[CHAR_LITERAL_TYPE_SOURCE] = _literalIRInjector;
+    _injectorMap[LITERAL_TYPE_SOURCE] = _literalIRInjector;
+    _injectorMap[TUPLE_TYPE_SOURCE] = _tupleIRInjector;
+    _injectorMap[POINTER_TYPE_SOURCE] = _pointerIRInjector;
+    _injectorMap[REF_TYPE_SOURCE] = _refIRInjector;
+    _injectorMap[LAMBDA_TYPE_SOURCE] = _lambdaIRInjector;
+    _injectorMap[LAMBDA_EXPRESSION_TYPE_SOURCE] = _lambdaIRInjector;
+    _injectorMap[ENUM_TYPE_SOURCE] = _enumIRInjector;
+    _injectorMap[NEW_CLASS_INSTANCE_TYPE_SOURCE] = _newClassInstanceIRInjectorStrategy;
+    _injectorMap[CLASS_INSTANCE_TYPE_SOURCE] = _classInstanceIRInjectorStrategy;
+    _injectorMap[VOID_TYPE_SOURCE] = _voidIRInjector;
 }
 
 std::pair<TypeSource, IRInjectorStrategy*> IRInjector::insert(TypeSource typeSignature, IRInjectorStrategy* injector) {
@@ -166,7 +166,7 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpres
         Logger::log("found ir-expression that needs to be freed!", irExpression->toString(), irExpression->isAssigned());
         irBlock->addExpressionToFree(irExpression);
     }
-    return injector->second->inject(irExpression, irBlock, this, irOperation, irModule, scope);
+    return injector->second.get()->inject(irExpression, irBlock, this, irOperation, irModule, scope);
 }
 
 void IRInjector::injectVoidReturnType(IRBlockNode* irBlock) {

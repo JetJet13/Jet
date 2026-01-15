@@ -12,7 +12,7 @@ ASTNode* StructTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
             (ASTStructTypeEndNode*)nodes[nodes.size() - 1]
     );
 
-    for (int i = 1; i < nodes.size() - 1; ++i) {
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_STRUCT_TYPE_KEY_NODE)) {
             structTypeNode->addKeyValueType((ASTStructTypeKeyValueNode*)node);

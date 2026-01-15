@@ -4,6 +4,7 @@
 
 #include "assert-ir-function.h"
 #include "../print-ir-function/print-ir-function.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string AssertIRFunction::getAssertIRFunctionName() {
     return "jet.assert";
@@ -13,8 +14,32 @@ std::string AssertIRFunction::getAssertWithMessageIRFunctionName() {
     return "jet.assert.with.message";
 }
 
+std::string AssertIRFunction::getAssertDebugRefCountIRFunctionName() {
+    return "jet.assert.debug.ref.count";
+}
+
+std::string AssertIRFunction::getAssertDebugStructRefCountIRFunctionName() {
+    return "jet.assert.debug.struct.ref.count";
+}
+
+std::string AssertIRFunction::getAssertDebugLambdaRefCountIRFunctionName() {
+    return "jet.assert.debug.lambda.ref.count";
+}
+
 std::string AssertIRFunction::getGlobalDefaultAssertMessageStringName() {
     return "jet.assert.default.message";
+}
+
+std::string AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName() {
+    return "jet.assert.debug.ref.count.message";
+}
+
+std::string AssertIRFunction::getGlobalAssertDebugStructRefCountMessageStringName() {
+    return "jet.assert.debug.struct.ref.count.message";
+}
+
+std::string AssertIRFunction::getGlobalAssertDebugLambdaRefCountMessageStringName() {
+    return "jet.assert.debug.lambda.ref.count.message";
 }
 
 void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
@@ -28,7 +53,41 @@ void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::uniq
             defaultAssertMessageString,
             AssertIRFunction::getGlobalDefaultAssertMessageStringName()
     );
+}
 
+void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto debugRefCountMessage = "\n\nRef Count Assertion Failed\n";
+    auto debugRefCountMessageString = irGenerator->generateRawString(debugRefCountMessage);
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule(),
+            debugRefCountMessageString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            debugRefCountMessageString,
+            AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName()
+    );
+
+    auto debugStructRefCountMessage = "\n\nStruct Ref Count Assertion Failed\n";
+    auto debugStructRefCountMessageString = irGenerator->generateRawString(debugStructRefCountMessage);
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule(),
+            debugStructRefCountMessageString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            debugStructRefCountMessageString,
+            AssertIRFunction::getGlobalAssertDebugStructRefCountMessageStringName()
+    );
+
+    auto debugLambdaRefCountMessage = "\n\nLambda Ref Count Assertion Failed\n";
+    auto debugLambdaRefCountMessageString = irGenerator->generateRawString(debugLambdaRefCountMessage);
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule(),
+            debugLambdaRefCountMessageString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            debugLambdaRefCountMessageString,
+            AssertIRFunction::getGlobalAssertDebugLambdaRefCountMessageStringName()
+    );
 }
 
 void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
@@ -102,4 +161,112 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintNewLineFunction());
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(abort);
     isValueTrueIfElseBlock->addVoidReturn();
+}
+
+void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto intType = irGenerator->generateIntType();
+    auto voidType = irGenerator->getVoidType();
+    auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto pointerType = irGenerator->generatePointerType();
+    auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType, pointerType }, false);
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
+                                           AssertIRFunction::getAssertDebugRefCountIRFunctionName(), irModuleNode->getModule());
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
+    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    functionBlock->getBuilder()->get()->CreateBr(isRefCountMatchTrueIfBlock->getBlock());
+    auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
+    auto refCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, isRefCountMatchTrueIfBlock);
+    auto refCount = InstructionIRInjectorHelper::injectLoad(intType, refCountPointer, isRefCountMatchTrueIfBlock);
+    auto isValueTrue = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            function->getArg(1),
+            refCount
+    );
+    isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
+    isRefCountMatchIfThenBlock->addVoidReturn();
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+    });
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            function->getArg(2)
+    });
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(abort);
+    isRefCountMatchIfElseBlock->addVoidReturn();
+}
+
+void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto intType = irGenerator->generateIntType();
+    auto voidType = irGenerator->getVoidType();
+    auto structRefType = irGenerator->generateIRStructRefType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType, pointerType }, false);
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
+                                           AssertIRFunction::getAssertDebugStructRefCountIRFunctionName(), irModuleNode->getModule());
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
+    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    functionBlock->getBuilder()->get()->CreateBr(isRefCountMatchTrueIfBlock->getBlock());
+    auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(structRefType->getType(), function->getArg(0), structRefType->getCounterIndex());
+    auto refCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, isRefCountMatchTrueIfBlock);
+    auto refCount = InstructionIRInjectorHelper::injectLoad(intType, refCountPointer, isRefCountMatchTrueIfBlock);
+    auto isValueTrue = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            function->getArg(1),
+            refCount
+    );
+    isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
+    isRefCountMatchIfThenBlock->addVoidReturn();
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+    });
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            function->getArg(2)
+    });
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(abort);
+    isRefCountMatchIfElseBlock->addVoidReturn();
+}
+
+void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+    auto intType = irGenerator->generateIntType();
+    auto voidType = irGenerator->getVoidType();
+    auto invocableType = irGenerator->generateIRInvocableType();
+    auto pointerType = irGenerator->generatePointerType();
+    auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType, pointerType }, false);
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
+                                           AssertIRFunction::getAssertDebugLambdaRefCountIRFunctionName(), irModuleNode->getModule());
+    auto functionBlock = irGenerator->generateFunctionBlock(function);
+    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
+    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    functionBlock->getBuilder()->get()->CreateBr(isRefCountMatchTrueIfBlock->getBlock());
+    auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(invocableType->getType(), function->getArg(0), invocableType->getFunctionRefCounterIndex());
+    auto refCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, isRefCountMatchTrueIfBlock);
+    auto refCount = InstructionIRInjectorHelper::injectLoad(intType, refCountPointer, isRefCountMatchTrueIfBlock);
+    auto isValueTrue = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            function->getArg(1),
+            refCount
+    );
+    isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
+    isRefCountMatchIfThenBlock->addVoidReturn();
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+    });
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
+            function->getArg(2)
+    });
+    isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(abort);
+    isRefCountMatchIfElseBlock->addVoidReturn();
 }

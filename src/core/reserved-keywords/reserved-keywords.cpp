@@ -6,12 +6,12 @@
 #include "../symbol/symbol-factory.h"
 
 ReservedKeywords::ReservedKeywords() {
-    _keywordMap = std::unordered_map<std::string, Symbol*>();
-    _keywordSymbols = std::vector<Symbol*>();
+    _keywordMap = std::unordered_map<std::string, std::shared_ptr<Symbol>>();
+    _keywordSymbols = std::vector<std::shared_ptr<Symbol>>();
     this->init();
 }
 
-std::optional<Symbol*> ReservedKeywords::match(const std::string& matchTerm) {
+std::optional<std::shared_ptr<Symbol>> ReservedKeywords::match(const std::string& matchTerm) {
     auto result = _keywordMap.find(matchTerm);
     if (result == _keywordMap.end()) {
         return {};
@@ -20,7 +20,7 @@ std::optional<Symbol*> ReservedKeywords::match(const std::string& matchTerm) {
     }
 }
 
-std::optional<Symbol*> ReservedKeywords::match(std::optional<char> matchChar) {
+std::optional<std::shared_ptr<Symbol>> ReservedKeywords::match(std::optional<char> matchChar) {
     if (!matchChar) {
         return {};
     }
@@ -29,7 +29,7 @@ std::optional<Symbol*> ReservedKeywords::match(std::optional<char> matchChar) {
     return this->match(matchTerm);
 }
 
-bool ReservedKeywords::isKeywordSymbol(Symbol* symbol) {
+bool ReservedKeywords::isKeywordSymbol(std::shared_ptr<Symbol> symbol) {
     return std::find(_keywordSymbols.begin(),
                      _keywordSymbols.end(),
                      symbol) != _keywordSymbols.end();
@@ -121,6 +121,6 @@ void ReservedKeywords::initKeywordSymbolList() {
     }
 }
 
-void ReservedKeywords::add(const std::string& keyword, Symbol* symbol) {
-    _keywordMap.insert(std::pair<std::string, Symbol*>(keyword, symbol));
+void ReservedKeywords::add(const std::string& keyword, std::shared_ptr<Symbol> symbol) {
+    _keywordMap.insert(std::pair<std::string, std::shared_ptr<Symbol>>(keyword, symbol));
 }

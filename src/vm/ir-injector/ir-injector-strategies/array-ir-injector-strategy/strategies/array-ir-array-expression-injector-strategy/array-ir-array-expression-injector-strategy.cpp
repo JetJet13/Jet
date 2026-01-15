@@ -9,7 +9,7 @@
 llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(IRArrayExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     auto numElements = irExpression->size();
-    for (int i = 0; i < numElements; ++i) {
+    for (unsigned long i = 0; i < numElements; ++i) {
         auto elementExpression = irExpression->getValues()->at(i);
         auto irIndex = irBlock->getBuilder()->get()->getInt64(i);
         auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRType()->getElementType(),

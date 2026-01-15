@@ -118,6 +118,7 @@ public:
     std::string getArrayPrototypeFunctionName(std::string id);
     std::string getRefPrototypeFunctionName(std::string id);
     std::string getJetUtilsFunctionName(std::string id);
+    std::string getJetDebugFunctionName(std::string id);
     IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
     IRArrayType* generateVarArgsTypeValuesIrType(unsigned long numVarArgs);
     std::vector<llvm::Value*> generateArgumentPlaceholderList(IRFunctionType* irFunctionType);
@@ -142,9 +143,15 @@ public:
     IRParameterListType* generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter = {});
     IRParameterType* generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext);
     llvm::ConstantInt* generateIntConstant(int integer);
+    llvm::ConstantInt* generateIntConstant(unsigned int integer);
+    llvm::ConstantInt* generateIntConstant(uint64_t integer);
+    llvm::ConstantInt* generateIntConstant(unsigned long integer);
     llvm::ConstantInt* generateChar(char character);
     llvm::ConstantInt* generateBoolean(bool value);
     llvm::ConstantInt* generateInt64Constant(int integer);
+    llvm::ConstantInt* generateInt64Constant(uint64_t integer);
+    llvm::ConstantInt* generateInt64Constant(unsigned int integer);
+    llvm::ConstantInt* generateInt64Constant(unsigned long integer);
     llvm::Constant* generateRawString(std::string rawString);
     llvm::Constant* getOrInsertGlobalVariableString(std::string id, std::string rawString, IRContext* irContext);
     IRArrayPointerType* generateIrArrayPointerType(IRPointerType* irPointerType);
@@ -188,6 +195,7 @@ public:
     void initModule(IRModuleNode* irModule);
     IRFunctionNode* generateMainFunction(std::string functionName, IRModuleNode* irModuleNode);
     IRModuleNode* generateUtilInternalModule();
+    IRModuleNode* generateDebugInternalModule();
     IRInjector* getInjector();
 };
 

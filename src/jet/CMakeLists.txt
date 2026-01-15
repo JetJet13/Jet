@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.26)
 
+set(CMAKE_BUILD_TYPE Debug)
+add_compile_options(-fsanitize=address,undefined)
+add_compile_options(-fno-rtti)
+add_link_options(-fsanitize=address,undefined)
+
 set(LT_LLVM_INSTALL_DIR, "/usr/local/opt/llvm")
 set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
 find_package(LLVM CONFIG)

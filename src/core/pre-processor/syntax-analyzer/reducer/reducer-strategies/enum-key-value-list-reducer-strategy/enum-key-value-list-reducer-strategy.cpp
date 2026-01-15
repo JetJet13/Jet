@@ -8,7 +8,7 @@
 
 ASTNode* EnumKeyValueListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto enumKeyValueListNode = new ASTEnumKeyValueListNode((ASTEnumKeyValueListStartNode*)nodes[0], (ASTEnumKeyValueListEndNode*)nodes[nodes.size() - 1]);
-    for (int i = 1; i < nodes.size() - 1; ++i) {
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_ENUM_KEY_VALUE_NODE)) {
             enumKeyValueListNode->addEnumKeyValue((ASTEnumKeyValueNode*)node);

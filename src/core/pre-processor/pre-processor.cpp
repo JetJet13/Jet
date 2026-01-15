@@ -35,7 +35,8 @@ JetFile* PreProcessor::process(std::string filePath) {
     }
     auto fileNode = this->buildFile(filePath, syntaxResult->getFileScope());
     _scopeAnalyzer.process(fileNode);
-    auto typeSignatureScope = TypeSignatureLookupTableFactory::createForModule();
+    // todo - change to createForModule() once debug-mode compiler flag is setup
+    auto typeSignatureScope = TypeSignatureLookupTableFactory::createForDebugModule();
     auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);
     if (!typeCheckerResult.ok()) {

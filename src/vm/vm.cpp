@@ -17,6 +17,7 @@ IRJetFile* VM::compile(JetFile* jetFile) {
     _irGenerator->initModule(irModule);
     auto irJetFile = new IRJetFile(jetFile, irModule);
     this->linkJetUtilModule(irJetFile);
+    this->linkJetDebugModule(irJetFile);
     for (auto moduleToLink : *jetFile->getImportedFiles()) {
         this->linkJetFiles(this->compile(moduleToLink), irJetFile);
     }
@@ -84,5 +85,12 @@ void VM::linkJetUtilModule(IRJetFile* source) {
     llvm::Linker::linkModules(
         *source->getModule()->getModule(),
         std::unique_ptr<llvm::Module>(_irGenerator->generateUtilInternalModule()->getModule())
+    );
+}
+
+void VM::linkJetDebugModule(IRJetFile* source) {
+    llvm::Linker::linkModules(
+            *source->getModule()->getModule(),
+            std::unique_ptr<llvm::Module>(_irGenerator->generateDebugInternalModule()->getModule())
     );
 }

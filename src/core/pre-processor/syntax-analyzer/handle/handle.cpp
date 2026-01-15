@@ -7,20 +7,20 @@
 
 Handle::Handle() {
     _handle = std::deque<ASTNode*>();
-    _lastReducedNode = {};
-    _peekNode = {};
+    _lastReducedNode = std::nullopt;
+    _peekNode = std::nullopt;
 }
 
 std::optional<ASTNode*> Handle::at(int index) {
     if (_handle.empty() || _handle.size() < (index + 1) || index < 0) {
-        return {};
+        return std::nullopt;
     }
     return _handle[index];
 }
 
 std::optional<ASTNode*> Handle::first() {
     if (this->isEmpty()) {
-        return {};
+        return std::nullopt;
     }
 
     return _handle[0];
@@ -179,7 +179,7 @@ std::vector<ASTNode*> Handle::getFirstNodes(int numNodesToGet) {
         throw std::invalid_argument("numNodesToGet too large.");
     }
 
-    for (int i = 0; i < numNodesToGet; ++i) {
+    for (unsigned long i = 0; i < numNodesToGet; ++i) {
         firstNodes.push_back(_handle[i]);
     }
 

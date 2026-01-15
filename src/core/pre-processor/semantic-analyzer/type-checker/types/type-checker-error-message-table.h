@@ -5,6 +5,8 @@
 #ifndef JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H
 #define JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H
 
+#include <functional>
+
 using ErrorMessageLambda = std::function<std::string()>;
 
 namespace TypeCheckerErrorMessageTable {

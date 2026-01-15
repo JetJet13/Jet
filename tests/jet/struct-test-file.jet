@@ -8,6 +8,7 @@ func handleCapturedLambda2(lambda: () => int, secondLambda: () => string) int {
 
 proc testCapturedLambda2() {
     const x = () { return 20; };
+    assertDebugLambdaRefCount(x, 2);
     const y = () { return 100 + x(); };
     const result = handleCapturedLambda2(y, () => "WOW");
     assert(result == 121);
@@ -44,6 +45,9 @@ proc testConcat() {
     print(strConcat);
     const structConcat = [{ foo: 10 }] ++ [{ foo: 20 }];
     print(structConcat);
+    assertDebugStructRefCount(structConcat[0], 1);
+    const myStruct = { mars: 100 };
+    assertDebugStructRefCount(myStruct, 0);
     const charStructConcat = [{ foo: 'q' }] ++ [{ foo: 'a' }];
     print(charStructConcat);
     const tupleConcat = [{ 10, true, 'c' }] ++ [{ 20, false, 'b' }];
@@ -52,6 +56,7 @@ proc testConcat() {
     // ref
     const momoRef = ref [1,2,3] ++ ref [5,2,1] ++ ref [9,9,9];
     print(momoRef);
+    assertDebugRefCount(momoRef, 1);
     const strConcatRef = ref "Hello " ++ ref "World" ++ ref " Wow!";
     print(strConcatRef);
     const structConcatRef = [ref { foo: 10 }] ++ [ref { foo: 20 }];
@@ -81,9 +86,9 @@ proc testPrintLambda() {
     print(() { return 100; });
 }
 
-//testCapturedLambda2();
-//testWhileLoop();
-//testConcat();
+testCapturedLambda2();
+testWhileLoop();
+testConcat();
 testPrintLambda();
 
 class MyClass {

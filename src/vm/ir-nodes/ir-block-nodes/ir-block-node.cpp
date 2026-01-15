@@ -192,7 +192,7 @@ void IRBlockNode::addSuccessor(IRBlockNode* successorIrBlock) {
     _successors.push_back(successorIrBlock);
     successorIrBlock->setParentBlock(this);
     auto successorsOfSuccessorIrBlock = successorIrBlock->getSuccessors();
-    for (int i = 0; i < successorsOfSuccessorIrBlock->size(); ++i) {
+    for (unsigned long i = 0; i < successorsOfSuccessorIrBlock->size(); ++i) {
         _successors.push_back(successorsOfSuccessorIrBlock->at(i));
         successorsOfSuccessorIrBlock->at(i)->setParentBlock(this);
     }

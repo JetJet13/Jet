@@ -8,7 +8,7 @@
 
 ASTNode* FunctionArgumentListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     auto functionArgumentListNode = new ASTFunctionArgumentListNode((ASTFunctionArgumentListStartNode*)nodes[0], (ASTFunctionArgumentListEndNode*)nodes[nodes.size() - 1]);
-    for (int i = 1; i < nodes.size() - 1; ++i) {
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_FUNCTION_ARGUMENT_NODE)) {
             functionArgumentListNode->addArgument((ASTFunctionArgumentNode*)node);

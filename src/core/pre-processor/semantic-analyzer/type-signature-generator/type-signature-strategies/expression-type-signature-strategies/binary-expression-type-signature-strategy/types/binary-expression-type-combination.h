@@ -14,11 +14,11 @@ struct BinaryComboResultType;
 
 class BinaryExpressionTypeCombination {
 private:
-    Symbol* _operatorSymbol;
+    std::shared_ptr<Symbol> _operatorSymbol;
     std::vector<BinaryComboResultType> _binaryResultTypes;
 public:
-    BinaryExpressionTypeCombination(Symbol* operatorSymbol, std::vector<BinaryComboResultType> binaryResultTypes);
-    Symbol* getOperator();
+    BinaryExpressionTypeCombination(std::shared_ptr<Symbol> operatorSymbol, std::vector<BinaryComboResultType> binaryResultTypes);
+    std::shared_ptr<Symbol> getOperator();
     std::optional<TypeSignature*> match(TypeSignature* leftTypeSignature, TypeSignature* rightTypeSignature);
 };
 

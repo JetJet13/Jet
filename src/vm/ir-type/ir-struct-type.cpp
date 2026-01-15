@@ -23,7 +23,7 @@ void IRStructType::makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>
 void IRStructType::setAlignmentAndSizeForIRTypes() {
     auto alignment = this->getAlignment();
     auto spaceRemaining = alignment.value();
-    for (int i = 0; i < this->size(); ++i) {
+    for (unsigned long i = 0; i < this->size(); ++i) {
         auto currentType = this->getIRTypeByIndex(i);
         currentType->setAlignmentOverride(alignment);
         if (currentType->isStructRefType()) {

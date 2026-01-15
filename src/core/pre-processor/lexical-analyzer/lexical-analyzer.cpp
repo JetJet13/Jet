@@ -480,7 +480,7 @@ int LexicalAnalyzer::generateTokenValueId() {
 void LexicalAnalyzer::resetAfterPeek(Cursor cursor, int numAdvances) {
     _fileReader.setCursor(cursor);
     auto numRetreats = _fileReader.getNumAdvances() - numAdvances;
-    for (int i = 0; i < numRetreats; ++i) {
+    for (unsigned long i = 0; i < numRetreats; ++i) {
         _fileReader.retreat();
     }
 }

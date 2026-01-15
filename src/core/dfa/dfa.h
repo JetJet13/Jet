@@ -12,7 +12,7 @@
 
 class DFA {
 private:
-    std::unordered_map<ASTNodeType, DFANode*, std::hash<int>> _startNodes;
+    std::unordered_map<ASTNodeType, DFANode*> _startNodes;
     std::optional<DFANode*> _start;
     std::optional<DFANode*> _current;
 public:

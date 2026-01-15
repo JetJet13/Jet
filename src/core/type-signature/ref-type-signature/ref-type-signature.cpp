@@ -31,12 +31,10 @@ TypeSource RefTypeSignature::getTypeSource() {
     return REF_TYPE_SOURCE;
 }
 
-//TypeSource RefTypeSignature::getTypeTarget() {
-//    return this->_underlyingType->getTypeTarget();
-//}
-
 bool RefTypeSignature::isEqualTo(TypeSignature* otherType) {
-    if (this->getTypeSource() != otherType->getTypeSource()) {
+    if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
+        return true;
+    } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
     auto other = (RefTypeSignature*)otherType;
@@ -44,7 +42,9 @@ bool RefTypeSignature::isEqualTo(TypeSignature* otherType) {
 }
 
 bool RefTypeSignature::isEquivalentTo(TypeSignature* otherType) {
-    if (this->getTypeSource() != otherType->getTypeSource()) {
+    if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
+        return true;
+    } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
     auto other = (RefTypeSignature*)otherType;

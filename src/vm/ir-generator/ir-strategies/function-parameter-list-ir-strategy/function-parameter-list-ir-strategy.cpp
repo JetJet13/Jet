@@ -8,7 +8,7 @@
 
 IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFunctionParameterListNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction) {
     auto functionParameters = std::vector<IRFunctionParameterNode*>();
-    for (int i = 0; i < node->getParameters().size(); ++i) {
+    for (unsigned long i = 0; i < node->getParameters().size(); ++i) {
         auto parameter = node->getParameters()[i];
         auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature(), scope, irContext);
         auto argument = new llvm::Argument(parameterType->getType(), parameterType->getName(), irFunction, i);

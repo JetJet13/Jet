@@ -79,7 +79,7 @@ bool ASTFunctionArgumentListNode::isSameAs(ASTNode *other) {
     if (this->numArguments() != otherNode->numArguments()) {
         return false;
     }
-    for (int i = 0; i < this->numArguments(); i++) {
+    for (unsigned long i = 0; i < this->numArguments(); i++) {
         if (!_arguments[i]->isSameAs(otherNodeElements->at(i))) {
             return false;
         }
@@ -99,7 +99,7 @@ void ASTFunctionArgumentListNode::print() {
 std::string ASTFunctionArgumentListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionArgumentListStartNode);
-    for (int i = 0; i < _arguments.size(); ++i) {
+    for (unsigned long i = 0; i < _arguments.size(); ++i) {
         sourceCodeBuilder.add(_arguments.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

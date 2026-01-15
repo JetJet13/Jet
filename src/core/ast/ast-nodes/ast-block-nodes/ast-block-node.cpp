@@ -96,7 +96,7 @@ bool ASTBlockNode::isSameAs(ASTNode* other) {
         return false;
     }
     auto otherNode = (ASTBlockNode*)other;
-    for (int i = 0; i < _contents.size(); ++i) {
+    for (unsigned long i = 0; i < _contents.size(); ++i) {
         if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;
         }

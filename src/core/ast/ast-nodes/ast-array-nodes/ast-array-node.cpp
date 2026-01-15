@@ -40,8 +40,8 @@ ASTArrayNode* ASTArrayNode::addComma(ASTCommaNode* comma) {
 }
 
 void ASTArrayNode::markElementsAsReferenced() {
-    for (int i = 0; i < _elements->size(); ++i) {
-        _elements->at(i)->markAsReferenced();
+    for (auto & _element : *_elements) {
+        _element->markAsReferenced();
     }
 }
 
@@ -91,7 +91,7 @@ void ASTArrayNode::print() {
 std::string ASTArrayNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_leftBracket);
-    for (int i = 0; i < _elements->size(); ++i) {
+    for (unsigned long i = 0; i < _elements->size(); ++i) {
         sourceCodeBuilder.add(_elements->at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

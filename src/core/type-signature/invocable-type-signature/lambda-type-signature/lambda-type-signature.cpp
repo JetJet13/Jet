@@ -28,7 +28,7 @@ bool LambdaTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* 
         return false;
     }
 
-    for (int i = 0; i < this->numParameters(); ++i) {
+    for (unsigned long i = 0; i < this->numParameters(); ++i) {
         auto parameter = _parameterTypes[i];
         auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
         if (!parameter->isEquivalentTo(argument)) {
@@ -63,7 +63,9 @@ TypeSignature* LambdaTypeSignature::convertToVariableTypeSignature() {
 }
 
 bool LambdaTypeSignature::isEqualTo(TypeSignature* otherType) {
-    if (this->getTypeSource() != otherType->getTypeSource()) {
+    if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
+        return true;
+    } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
@@ -72,7 +74,7 @@ bool LambdaTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->numParameters() != other->numParameters()) {
         return false;
     }
-    for (int i = 0; i < this->numParameters(); i++) {
+    for (unsigned long i = 0; i < this->numParameters(); i++) {
         if (!_parameterTypes[i]->isEqualTo(otherParameters->at(i))) {
             return false;
         }
