@@ -12,8 +12,8 @@
 class EqualStringIRFunction {
 public:
     static std::string getEqualStringIRFunctionName();
-    static void declareEqualStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
-    static void generateEqualStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void declareEqualStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateEqualStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_EQUAL_STRING_IR_FUNCTION_H

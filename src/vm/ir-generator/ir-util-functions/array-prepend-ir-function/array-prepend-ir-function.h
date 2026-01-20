@@ -12,7 +12,7 @@
 class ArrayPrependIRFunction {
 public:
     static std::string getArrayPrependIRFunctionName();
-    static void generateArrayPrependFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateArrayPrependFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_PREPEND_IR_FUNCTION_H

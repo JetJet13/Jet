@@ -10,7 +10,7 @@ std::string ArrayPrependIRFunction::getArrayPrependIRFunctionName() {
     return "jet.array.prepend";
 }
 
-void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
@@ -24,7 +24,7 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
                                                 },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayPrependIRFunction::getArrayPrependIRFunctionName(), irModuleNode->getModule());
+                                           ArrayPrependIRFunction::getArrayPrependIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
     auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), arrayElementTypeValue, typeValueType->getSizeInBytesIndex());

@@ -17,28 +17,28 @@ std::string EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName() {
     return "jet.equal.ref.right.only";
 }
 
-void EqualRefIRFunction::declareEqualRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualRefIRFunction::declareEqualRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void EqualRefIRFunction::declareEqualRefLeftOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualRefIRFunction::declareEqualRefLeftOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void EqualRefIRFunction::declareEqualRefRightOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualRefIRFunction::declareEqualRefRightOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void EqualRefIRFunction::generateEqualRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualRefIRFunction::generateEqualRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
@@ -67,7 +67,7 @@ void EqualRefIRFunction::generateEqualRefFunction(IRGenerator* irGenerator, std:
 
 }
 
-void EqualRefIRFunction::generateEqualRefLeftOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualRefIRFunction::generateEqualRefLeftOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
@@ -93,7 +93,7 @@ void EqualRefIRFunction::generateEqualRefLeftOnlyFunction(IRGenerator* irGenerat
     );
 }
 
-void EqualRefIRFunction::generateEqualRefRightOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualRefIRFunction::generateEqualRefRightOnlyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());

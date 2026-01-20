@@ -5,21 +5,18 @@
 #include "ref-ir-ref-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
-    if (irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
-        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { allocation });
-    }
 
     if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperation, irModule, scope);
-        this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
+        this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule, irOperation);
     } else if (irExpression->getExpression()->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
-        this->setupRef(allocation, irExpression->getExpression()->getValue(), irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
+        this->setupRef(allocation, irExpression->getExpression()->getValue(), irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule, irOperation);
     } else {
         auto value = this->injectRawValue(irExpression, irBlock, irInjector, irOperation, irModule, scope);
         InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
-        this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule);
+        this->setupRef(allocation, value, irExpression->getArc().value()->getValue(), irExpression->getUnderlyingIRType(), irBlock, irModule, irOperation);
         if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
             return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getRefValueType(), value, irBlock);
         }
@@ -31,14 +28,18 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irE
     return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), allocation);
 }
 
-void RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocation, llvm::Value* value, llvm::Value* valueArc, IRType* irType, IRBlockNode* irBlock, IRModuleNode *irModule) {
+void RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocation, llvm::Value* value, llvm::Value* valueArc, IRType* irType, IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, IROperation* irOperation) {
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getSetupRefFunction(),
                 { allocation, value, valueArc }
         );
+
+    if (irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { allocation });
+    }
 }
 
-llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto rawValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperation, irModule, scope);
     if (irOperation->isRefGlobalAssignment()) {
         auto globalVariable = new llvm::GlobalVariable(
@@ -46,7 +47,7 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionN
                 false,
                 llvm::GlobalValue::InternalLinkage
         );
-        irModule->getModule()->insertGlobalVariable(globalVariable);
+        irModule->getModule()->get()->insertGlobalVariable(globalVariable);
         InstructionIRInjectorHelper::injectStore(rawValue, globalVariable, irBlock, irExpression->getIRType()->getRefValueIRType());
         return globalVariable;
     }

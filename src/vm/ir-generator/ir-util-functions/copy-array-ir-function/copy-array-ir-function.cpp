@@ -12,14 +12,14 @@ std::string CopyArrayIRFunction::getCopyArrayIRFunctionName() {
     return "jet.copy.array";
 }
 
-void CopyArrayIRFunction::declareCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void CopyArrayIRFunction::declareCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyArrayIRFunction::getCopyArrayIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyArrayIRFunction::getCopyArrayIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();

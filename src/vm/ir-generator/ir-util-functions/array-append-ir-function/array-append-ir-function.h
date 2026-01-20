@@ -12,7 +12,7 @@
 class ArrayAppendIRFunction {
 public:
     static std::string getArrayAppendIRFunctionName();
-    static void generateArrayAppendFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateArrayAppendFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_APPEND_IR_FUNCTION_H

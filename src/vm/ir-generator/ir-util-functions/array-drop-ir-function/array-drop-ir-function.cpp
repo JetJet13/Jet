@@ -9,7 +9,7 @@ std::string ArrayDropIRFunction::getArrayDropIRFunctionName() {
     return "jet.array.drop";
 }
 
-void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
@@ -20,7 +20,7 @@ void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, st
         false
     );
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayDropIRFunction::getArrayDropIRFunctionName(), irModuleNode->getModule());
+                                           ArrayDropIRFunction::getArrayDropIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNewNumElementsNegativeIfBlock = irGenerator->generateIfBlock(irContext);

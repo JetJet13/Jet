@@ -12,8 +12,8 @@
 class FreeLambdaIRFunction {
 public:
     static std::string getFreeLambdaIRFunctionName();
-    static void declareFreeLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
-    static void generateFreeLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void declareFreeLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateFreeLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_FREE_LAMBDA_IR_FUNCTION_H

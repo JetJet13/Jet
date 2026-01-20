@@ -11,11 +11,11 @@
 class IRJetFile {
 private:
     JetFile* _jetFile;
-    IRModuleNode* _irModule;
+    std::shared_ptr<IRModuleNode> _irModule;
 public:
-    IRJetFile(JetFile* jetFile, IRModuleNode* irModule);
+    IRJetFile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irModule);
     JetFile* getFile();
-    IRModuleNode* getModule();
+    std::shared_ptr<IRModuleNode> getIRModule();
 };
 
 #endif //JETLANG_IR_JET_FILE_H

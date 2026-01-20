@@ -9,7 +9,7 @@ std::string ArrayTakeIRFunction::getArrayTakeIRFunctionName() {
     return "jet.array.take";
 }
 
-void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
@@ -18,7 +18,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
                                                 { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayTakeIRFunction::getArrayTakeIRFunctionName(), irModuleNode->getModule());
+                                           ArrayTakeIRFunction::getArrayTakeIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext);

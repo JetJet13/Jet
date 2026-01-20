@@ -6,7 +6,7 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
     auto operation = globalVariable.has_value() ? (new IROperation(IR_COPY_ASSIGNMENT_OP))->markAsGlobal() : new IROperation(IR_COPY_ASSIGNMENT_OP);
     auto newVariableValue = irInjector
@@ -24,7 +24,6 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                 globalVariableIrType->getAlignment(),
                 globalVariableIrType->getSizeInBytes()
         );
-        // todo - fix this
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction(),
                 { oldGlobalVariableValue }

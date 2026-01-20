@@ -12,7 +12,7 @@
 
 class PrintStatementIRInjectorStrategy {
 public:
-    void inject(IRPrintStatementNode* irPrintStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRPrintStatementNode* irPrintStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_PRINT_STATEMENT_IR_INJECTOR_STRATEGY_H

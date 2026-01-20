@@ -6,7 +6,7 @@
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
-void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
+void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     irInjector->inject(irBlock, irProcedureDeclaration->getBlock(), irModule, irProcedureDeclaration->getScope());
     if (!irProcedureDeclaration->getBlock()->hasReturnStatement()) {
         irProcedureDeclaration->getBlock()->getLastSuccessorOrSelf()->addVoidReturn();

@@ -8,7 +8,7 @@ std::string ArrayHeadIRFunction::getArrayHeadIRFunctionName() {
     return "jet.array.head";
 }
 
-void ArrayHeadIRFunction::generateArrayHeadFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayHeadIRFunction::generateArrayHeadFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
@@ -17,7 +17,7 @@ void ArrayHeadIRFunction::generateArrayHeadFunction(IRGenerator* irGenerator, st
                                                 { pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayHeadIRFunction::getArrayHeadIRFunctionName(), irModuleNode->getModule());
+                                           ArrayHeadIRFunction::getArrayHeadIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());

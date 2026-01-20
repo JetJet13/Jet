@@ -5,7 +5,7 @@
 #include "for-in-statement-ir-injector-strategy.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
 
-void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto setupBlock = irForInStatement->getSetupBlock();
     auto forInBlock = irForInStatement->getForInBlock();
     auto bodyBlock = irForInStatement->getBodyBlock();

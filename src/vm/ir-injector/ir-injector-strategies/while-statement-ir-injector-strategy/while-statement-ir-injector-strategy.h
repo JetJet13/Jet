@@ -12,7 +12,7 @@
 
 class WhileStatementIRInjectorStrategy {
 public:
-    void inject(IRWhileStatementNode* irWhileStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRWhileStatementNode* irWhileStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_WHILE_STATEMENT_IR_INJECTOR_STRATEGY_H

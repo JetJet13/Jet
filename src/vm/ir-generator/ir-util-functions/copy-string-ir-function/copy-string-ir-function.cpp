@@ -12,14 +12,14 @@ std::string CopyStringIRFunction::getCopyStringIRFunctionName() {
     return "jet.copy.string";
 }
 
-void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = new IRType(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
 
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType, pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStringIRFunction::getCopyStringIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStringIRFunction::getCopyStringIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 

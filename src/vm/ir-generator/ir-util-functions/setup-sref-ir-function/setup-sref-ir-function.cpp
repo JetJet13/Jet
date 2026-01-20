@@ -9,11 +9,11 @@ std::string SetupSrefIRFunction::getSetupSrefIRFunctionName() {
     return "jet.setup.sref";
 }
 
-void SetupSrefIRFunction::generateSetupSrefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void SetupSrefIRFunction::generateSetupSrefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto refType = irGenerator->generateIrRefType(pointerType);
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), pointerType->getType() }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SetupSrefIRFunction::getSetupSrefIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SetupSrefIRFunction::getSetupSrefIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto pointerToNewRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());

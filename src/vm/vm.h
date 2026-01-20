@@ -16,11 +16,9 @@ private:
     IRInjector* _irInjector;
 public:
     VM(IRGenerator* irGenerator, IRInjector* irInjector);
-    IRJetFile* compile(JetFile* jetFile);
+    IRJetFile* compile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irCommonModule);
     IRJetFile* compileMain(JetFile* jetFile);
-    void linkJetFiles(IRJetFile* source, IRJetFile* destination);
-    void linkJetUtilModule(IRJetFile* source);
-    void linkJetDebugModule(IRJetFile* source);
+    void linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination);
 };
 
 #endif //JETLANG_VM_H

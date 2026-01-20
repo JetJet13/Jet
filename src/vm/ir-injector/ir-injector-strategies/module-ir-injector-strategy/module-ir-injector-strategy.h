@@ -13,7 +13,7 @@
 
 class ModuleIRInjectorStrategy {
 public:
-    void inject(IRModuleDeclarationNode* irModuleDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRModuleDeclarationNode* irModuleDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_MODULE_IR_INJECTOR_STRATEGY_H

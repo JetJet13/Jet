@@ -86,12 +86,12 @@ private:
     std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
     IRInjector();
-    void inject(IRBlockNode* irBlock, IRNode* irNode, IRModuleNode* irModule, IRLookupTable* scope);
-    void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule, IRLookupTable* scope);
-    void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule, IRLookupTable* scope);
-    void inject(IRBlockNode* irBlock, IRBlockNode* irNode, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRBlockNode* irBlock, IRNode* irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
     llvm::Value* inject(IRBlockNode* irBlock, IRType* irType);
-    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
     llvm::AllocaInst* injectRawString(IRBlockNode* irBlock, std::string rawString);
 };

@@ -5,7 +5,7 @@
 #include "pointer-ir-sref-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* PointerIRSrefExpressionInjectorStrategy::inject(IRSrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* PointerIRSrefExpressionInjectorStrategy::inject(IRSrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto pointerToPointerValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperation, irModule, scope);
     auto loadedPointerToValue = InstructionIRInjectorHelper::injectLoad(irExpression->getExpression()->getIRType()->getType(), pointerToPointerValue, irBlock);
 //    auto loadedPointerToValue = irBlock->getBuilder()->get()->CreateLoad(irExpression->getExpression()->getIRType()->getType(), pointerToPointerValue);

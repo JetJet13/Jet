@@ -66,7 +66,7 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
 IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
     auto constructorScope = new IRLookupTable();
     constructorScope->inherit(scope);
-    auto irFunction = irContext->getIRModule()->getModule()->getFunction(node->getId());
+    auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(node->getId());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), constructorScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
@@ -99,7 +99,7 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
     methodScope->inherit(scope);
     auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
-    auto irFunction = irContext->getIRModule()->getModule()->getFunction(node->getId());
+    auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(node->getId());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);

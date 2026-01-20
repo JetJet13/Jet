@@ -4,12 +4,12 @@
 
 #include "ir-context.h"
 
-IRContext::IRContext(IRBlockNode* irBlock, IRModuleNode* irModule, std::unique_ptr<llvm::LLVMContext>* context) {
+IRContext::IRContext(IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, std::unique_ptr<llvm::LLVMContext>* context) {
     _irBlock = irBlock;
     _irModule = irModule;
     _context = context;
     _irScope = IRScope();
-    _dataLayout = new llvm::DataLayout(_irModule->getModule());
+    _dataLayout = new llvm::DataLayout(_irModule->getModule()->get());
 }
 
 llvm::DataLayout* IRContext::getDataLayout() {
@@ -24,7 +24,7 @@ IRBlockNode* IRContext::getIRBlock() {
     return _irBlock;
 }
 
-IRModuleNode* IRContext::getIRModule() {
+std::shared_ptr<IRModuleNode> IRContext::getIRModule() {
     return _irModule;
 }
 
@@ -33,7 +33,7 @@ IRScope* IRContext::getIRScope() {
 }
 
 llvm::Module* IRContext::getModule() {
-    return _irModule->getModule();
+    return _irModule->getModule()->get();
 }
 
 llvm::Function* IRContext::getFunction() {

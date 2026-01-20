@@ -4,8 +4,9 @@
 
 #include "ir-module-node.h"
 
-IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyLambdaFunctionName, std::string copyStructFunctionName, std::string copyStructRefFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeLambdaFunctionName, std::string freeInvocableFunctionName, std::string freeStructFunctionName, std::string freeStructRefFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string freeCapturedVariableFunctionName, std::string printFunctionName, std::string printIntFunctionName, std::string printFloatFunctionName, std::string printCharFunctionName, std::string printBoolFunctionName, std::string printStringFunctionName, std::string printRefFunctionName, std::string printArrayFunctionName, std::string printStructFunctionName, std::string printStructRefFunctionName, std::string printLambdaFunctionName, std::string printWhitespaceFunctionName, std::string printCommaFunctionName, std::string printNewLineFunctionName, std::string printDebugMarkerFunctionName, std::string printDebugPointerFunctionName, std::string printDebugStringFunctionName, std::string printDebugRefCountFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string equalValueFunctionName, std::string equalStringFunctionName, std::string equalArrayFunctionName, std::string equalStructFunctionName, std::string equalStructRefFunctionName, std::string equalRefFunctionName, std::string equalRefLeftOnlyFunctionName, std::string equalRefRightOnlyFunctionName, std::string stringConcatFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName, std::string setupRefForStructFunctionName, std::string refOfFunctionName, std::string srefWithFunctionName, std::string sameRefAsFunctionName, std::string incrementRefCountFunctionName, std::string incrementLambdaRefCountFunctionName, std::string getRefCountFunctionName) {
-    _irValue = irValue;
+
+IRModuleNode::IRModuleNode(std::unique_ptr<llvm::Module> irValue, std::string arrayAccessFunctionName, std::string copyArrayFunctionName, std::string copyPointerFunctionName, std::string copyLambdaFunctionName, std::string copyStructFunctionName, std::string copyStructRefFunctionName, std::string copyValueFunctionName, std::string copyStringFunctionName, std::string copyRefFunctionName, std::string freeArrayFunctionName, std::string freePointerFunctionName, std::string freeLambdaFunctionName, std::string freeInvocableFunctionName, std::string freeStructFunctionName, std::string freeStructRefFunctionName, std::string freeValueFunctionName, std::string freeStringFunctionName, std::string freeRefFunctionName, std::string freeCapturedVariableFunctionName, std::string printFunctionName, std::string printIntFunctionName, std::string printFloatFunctionName, std::string printCharFunctionName, std::string printBoolFunctionName, std::string printStringFunctionName, std::string printRefFunctionName, std::string printArrayFunctionName, std::string printStructFunctionName, std::string printStructRefFunctionName, std::string printLambdaFunctionName, std::string printWhitespaceFunctionName, std::string printCommaFunctionName, std::string printNewLineFunctionName, std::string printDebugMarkerFunctionName, std::string printDebugPointerFunctionName, std::string printDebugStringFunctionName, std::string printDebugRefCountFunctionName, std::string range1pFunctionName, std::string range2pFunctionName, std::string range3pFunctionName, std::string mallocFunctionName, std::string mallocFreeFunctionName, std::string mallocSizeFunctionName, std::string equalValueFunctionName, std::string equalStringFunctionName, std::string equalArrayFunctionName, std::string equalStructFunctionName, std::string equalStructRefFunctionName, std::string equalRefFunctionName, std::string equalRefLeftOnlyFunctionName, std::string equalRefRightOnlyFunctionName, std::string stringConcatFunctionName, std::string arrayAppendFunctionName, std::string arrayPrependFunctionName, std::string arrayConcatFunctionName, std::string arrayHeadFunctionName, std::string arrayLastFunctionName, std::string arrayDropFunctionName, std::string arrayDropLastFunctionName, std::string arrayTailFunctionName, std::string arrayTakeFunctionName, std::string arrayTakeLastFunctionName, std::string arraySizeFunctionName, std::string arrayEmptyFunctionName, std::string memcpyFunctionName, std::string setupSrefFunctionName, std::string setupRefFunctionName, std::string setupRefForStructFunctionName, std::string refOfFunctionName, std::string srefWithFunctionName, std::string sameRefAsFunctionName, std::string incrementRefCountFunctionName, std::string incrementLambdaRefCountFunctionName, std::string getRefCountFunctionName) {
+    _irValue = std::move(irValue);
     _arrayAccessFunctionName = arrayAccessFunctionName;
     _copyArrayFunctionName = copyArrayFunctionName;
     _copyPointerFunctionName = copyPointerFunctionName;
@@ -82,302 +83,324 @@ IRModuleNode::IRModuleNode(llvm::Module* irValue, std::string arrayAccessFunctio
     _getRefCountFunctionName = getRefCountFunctionName;
 }
 
-llvm::Module* IRModuleNode::getModule() {
-    return _irValue;
+std::unique_ptr<llvm::Module>* IRModuleNode::getModule() {
+    if (_linkedToIRModule != nullptr) {
+        return _linkedToIRModule->getModule();
+    }
+    return &_irValue;
+}
+
+void IRModuleNode::linkTo(std::shared_ptr<IRModuleNode> otherIRModule) {
+    if (_linkedToIRModule != nullptr) {
+        _linkedToIRModule->linkTo(otherIRModule);
+        return;
+    }
+    llvm::Linker::linkModules(
+            *otherIRModule->getModule()->get(),
+            std::move(_irValue)
+    );
+    _linkedToIRModule = otherIRModule;
+}
+
+llvm::Function* IRModuleNode::findFunction(std::string name) {
+    if (_linkedToIRModule != nullptr) {
+        return _linkedToIRModule->findFunction(name);
+    }
+    return _irValue->getFunction(name);
 }
 
 llvm::Function* IRModuleNode::getArrayAccessFunction() {
-    return _irValue->getFunction(_arrayAccessFunctionName);
+    return this->findFunction(_arrayAccessFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyArrayFunction() {
-    return _irValue->getFunction(_copyArrayFunctionName);
+    return this->findFunction(_copyArrayFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyPointerFunction() {
-    return _irValue->getFunction(_copyPointerFunctionName);
+    return this->findFunction(_copyPointerFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyLambdaFunction() {
-    return _irValue->getFunction(_copyLambdaFunctionName);
+    return this->findFunction(_copyLambdaFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyStructFunction() {
-    return _irValue->getFunction(_copyStructFunctionName);
+    return this->findFunction(_copyStructFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyStructRefFunction() {
-    return _irValue->getFunction(_copyStructRefFunctionName);
+    return this->findFunction(_copyStructRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyValueFunction() {
-    return _irValue->getFunction(_copyValueFunctionName);
+    return this->findFunction(_copyValueFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyStringFunction() {
-    return _irValue->getFunction(_copyStringFunctionName);
+    return this->findFunction(_copyStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getCopyRefFunction() {
-    return _irValue->getFunction(_copyRefFunctionName);
+    return this->findFunction(_copyRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeArrayFunction() {
-    return _irValue->getFunction(_freeArrayFunctionName);
+    return this->findFunction(_freeArrayFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreePointerFunction() {
-    return _irValue->getFunction(_freePointerFunctionName);
+    return this->findFunction(_freePointerFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeLambdaFunction() {
-    return _irValue->getFunction(_freeLambdaFunctionName);
+    return this->findFunction(_freeLambdaFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeInvocableFunction() {
-    return _irValue->getFunction(_freeInvocableFunctionName);
+    return this->findFunction(_freeInvocableFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeStructFunction() {
-    return _irValue->getFunction(_freeStructFunctionName);
+    return this->findFunction(_freeStructFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeStructRefFunction() {
-    return _irValue->getFunction(_freeStructRefFunctionName);
+    return this->findFunction(_freeStructRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeValueFunction() {
-    return _irValue->getFunction(_freeValueFunctionName);
+    return this->findFunction(_freeValueFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeStringFunction() {
-    return _irValue->getFunction(_freeStringFunctionName);
+    return this->findFunction(_freeStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeRefFunction() {
-    return _irValue->getFunction(_freeRefFunctionName);
+    return this->findFunction(_freeRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getFreeCapturedVariableFunction() {
-    return _irValue->getFunction(_freeCapturedVariableFunctionName);
+    return this->findFunction(_freeCapturedVariableFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintFunction() {
-    return _irValue->getFunction(_printFunctionName);
+    return this->findFunction(_printFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintIntFunction() {
-    return _irValue->getFunction(_printIntFunctionName);
+    return this->findFunction(_printIntFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintFloatFunction() {
-    return _irValue->getFunction(_printFloatFunctionName);
+    return this->findFunction(_printFloatFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintCharFunction() {
-    return _irValue->getFunction(_printCharFunctionName);
+    return this->findFunction(_printCharFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintBoolFunction() {
-    return _irValue->getFunction(_printBoolFunctionName);
+    return this->findFunction(_printBoolFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintStringFunction() {
-    return _irValue->getFunction(_printStringFunctionName);
+    return this->findFunction(_printStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintRefFunction() {
-    return _irValue->getFunction(_printRefFunctionName);
+    return this->findFunction(_printRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintArrayFunction() {
-    return _irValue->getFunction(_printArrayFunctionName);
+    return this->findFunction(_printArrayFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintStructFunction() {
-    return _irValue->getFunction(_printStructFunctionName);
+    return this->findFunction(_printStructFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintStructRefFunction() {
-    return _irValue->getFunction(_printStructRefFunctionName);
+    return this->findFunction(_printStructRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintLambdaFunction() {
-    return _irValue->getFunction(_printLambdaFunctionName);
+    return this->findFunction(_printLambdaFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintWhitespaceFunction() {
-    return _irValue->getFunction(_printWhitespaceFunctionName);
+    return this->findFunction(_printWhitespaceFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintCommaFunction() {
-    return _irValue->getFunction(_printCommaFunctionName);
+    return this->findFunction(_printCommaFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintNewLineFunction() {
-    return _irValue->getFunction(_printNewLineFunctionName);
+    return this->findFunction(_printNewLineFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintDebugMarkerFunction() {
-    return _irValue->getFunction(_printDebugMarkerFunctionName);
+    return this->findFunction(_printDebugMarkerFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintDebugPointerFunction() {
-    return _irValue->getFunction(_printDebugPointerFunctionName);
+    return this->findFunction(_printDebugPointerFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintDebugStringFunction() {
-    return _irValue->getFunction(_printDebugStringFunctionName);
+    return this->findFunction(_printDebugStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getPrintDebugRefCountFunction() {
-    return _irValue->getFunction(_printDebugRefCountFunctionName);
+    return this->findFunction(_printDebugRefCountFunctionName);
 }
 
 llvm::Function* IRModuleNode::getRange1pFunction() {
-    return _irValue->getFunction(_range1pFunctionName);
+    return this->findFunction(_range1pFunctionName);
 }
 
 llvm::Function* IRModuleNode::getRange2pFunction() {
-    return _irValue->getFunction(_range2pFunctionName);
+    return this->findFunction(_range2pFunctionName);
 }
 
 llvm::Function* IRModuleNode::getRange3pFunction() {
-    return _irValue->getFunction(_range3pFunctionName);
+    return this->findFunction(_range3pFunctionName);
 }
 
 llvm::Function* IRModuleNode::getMallocFunction() {
-    return _irValue->getFunction(_mallocFunctionName);
+    return this->findFunction(_mallocFunctionName);
 }
 
 llvm::Function* IRModuleNode::getMallocFreeFunction() {
-    return _irValue->getFunction(_mallocFreeFunctionName);
+    return this->findFunction(_mallocFreeFunctionName);
 }
 
 llvm::Function* IRModuleNode::getMallocSizeFunction() {
-    return _irValue->getFunction(_mallocSizeFunctionName);
+    return this->findFunction(_mallocSizeFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualValueFunction() {
-    return _irValue->getFunction(_equalValueFunctionName);
+    return this->findFunction(_equalValueFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualStringFunction() {
-    return _irValue->getFunction(_equalStringFunctionName);
+    return this->findFunction(_equalStringFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualArrayFunction() {
-    return _irValue->getFunction(_equalArrayFunctionName);
+    return this->findFunction(_equalArrayFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualStructFunction() {
-    return _irValue->getFunction(_equalStructFunctionName);
+    return this->findFunction(_equalStructFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualStructRefFunction() {
-    return _irValue->getFunction(_equalStructRefFunctionName);
+    return this->findFunction(_equalStructRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualRefFunction() {
-    return _irValue->getFunction(_equalRefFunctionName);
+    return this->findFunction(_equalRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualRefLeftOnlyFunction() {
-    return _irValue->getFunction(_equalRefLeftOnlyFunctionName);
+    return this->findFunction(_equalRefLeftOnlyFunctionName);
 }
 
 llvm::Function* IRModuleNode::getEqualRefRightOnlyFunction() {
-    return _irValue->getFunction(_equalRefRightOnlyFunctionName);
+    return this->findFunction(_equalRefRightOnlyFunctionName);
 }
 
 llvm::Function* IRModuleNode::getStringConcatFunction() {
-    return _irValue->getFunction(_stringConcatFunctionName);
+    return this->findFunction(_stringConcatFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayAppendFunction() {
-    return _irValue->getFunction(_arrayAppendFunctionName);
+    return this->findFunction(_arrayAppendFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayPrependFunction() {
-    return _irValue->getFunction(_arrayPrependFunctionName);
+    return this->findFunction(_arrayPrependFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayConcatFunction() {
-    return _irValue->getFunction(_arrayConcatFunctionName);
+    return this->findFunction(_arrayConcatFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayHeadFunction() {
-    return _irValue->getFunction(_arrayHeadFunctionName);
+    return this->findFunction(_arrayHeadFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayLastFunction() {
-    return _irValue->getFunction(_arrayLastFunctionName);
+    return this->findFunction(_arrayLastFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayDropFunction() {
-    return _irValue->getFunction(_arrayDropFunctionName);
+    return this->findFunction(_arrayDropFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayDropLastFunction() {
-    return _irValue->getFunction(_arrayDropLastFunctionName);
+    return this->findFunction(_arrayDropLastFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayTailFunction() {
-    return _irValue->getFunction(_arrayTailFunctionName);
+    return this->findFunction(_arrayTailFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayTakeFunction() {
-    return _irValue->getFunction(_arrayTakeFunctionName);
+    return this->findFunction(_arrayTakeFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayTakeLastFunction() {
-    return _irValue->getFunction(_arrayTakeLastFunctionName);
+    return this->findFunction(_arrayTakeLastFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArraySizeFunction() {
-    return _irValue->getFunction(_arraySizeFunctionName);
+    return this->findFunction(_arraySizeFunctionName);
 }
 
 llvm::Function* IRModuleNode::getArrayEmptyFunction() {
-    return _irValue->getFunction(_arrayEmptyFunctionName);
+    return this->findFunction(_arrayEmptyFunctionName);
 }
 
 llvm::Function* IRModuleNode::getMemcpyFunction() {
-    return _irValue->getFunction(_memcpyFunctionName);
+    return this->findFunction(_memcpyFunctionName);
 }
 
 llvm::Function* IRModuleNode::getSetupSrefFunction() {
-    return _irValue->getFunction(_setupSrefFunctionName);
+    return this->findFunction(_setupSrefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getSetupRefFunction() {
-    return _irValue->getFunction(_setupRefFunctionName);
+    return this->findFunction(_setupRefFunctionName);
 }
 
 llvm::Function* IRModuleNode::getSetupRefForStructFunction() {
-    return _irValue->getFunction(_setupRefForStructFunctionName);
+    return this->findFunction(_setupRefForStructFunctionName);
 }
 
 llvm::Function* IRModuleNode::getRefOfFunction() {
-    return _irValue->getFunction(_refOfFunctionName);
+    return this->findFunction(_refOfFunctionName);
 }
 
 llvm::Function* IRModuleNode::getSrefWithFunction() {
-    return _irValue->getFunction(_srefWithFunctionName);
+    return this->findFunction(_srefWithFunctionName);
 }
 
 llvm::Function* IRModuleNode::getSameRefAsFunction() {
-    return _irValue->getFunction(_sameRefAsFunctionName);
+    return this->findFunction(_sameRefAsFunctionName);
 }
 
 llvm::Function* IRModuleNode::getIncrementRefCountFunction() {
-    return _irValue->getFunction(_incrementRefCountFunctionName);
+    return this->findFunction(_incrementRefCountFunctionName);
 }
 
 llvm::Function* IRModuleNode::getIncrementLambdaRefCountFunction() {
-    return _irValue->getFunction(_incrementLambdaRefCountFunctionName);
+    return this->findFunction(_incrementLambdaRefCountFunctionName);
 }
 
 llvm::Function* IRModuleNode::getGetRefCountFunction() {
-    return _irValue->getFunction(_getRefCountFunctionName);
+    return this->findFunction(_getRefCountFunctionName);
 }

@@ -41,6 +41,10 @@ unsigned long ASTVariableDeclarationNode::getCaptureCount() {
     return _captureCount;
 }
 
+bool ASTVariableDeclarationNode::isConst() {
+    return _varInit->isConst();
+}
+
 bool ASTVariableDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
 }

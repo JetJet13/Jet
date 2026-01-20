@@ -12,7 +12,7 @@
 
 class FunctionParameterIRInjectorStrategy {
 public:
-    void inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule);
+    void inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
 };
 
 #endif //JETLANG_FUNCTION_PARAMETER_IR_INJECTOR_STRATEGY_H

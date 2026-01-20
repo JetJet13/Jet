@@ -5,7 +5,7 @@
 #include "array-ir-identifier-expression-injector-strategy.h"
 #include "../../../../../ir-type/ir-array-pointer-type.h"
 
-llvm::Value* ArrayIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isCopy() || irOperation->isCopyGlobal() || irOperation->isFunctionArgument()) {
         auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRValue()->getIRType()->getUnderlyingType();
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());

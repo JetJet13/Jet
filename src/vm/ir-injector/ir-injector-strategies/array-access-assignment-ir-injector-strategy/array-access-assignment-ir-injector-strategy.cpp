@@ -6,7 +6,7 @@
 #include "../../../ir-type/ir-array-pointer-type.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStatementNode* irArrayAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStatementNode* irArrayAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto sourceValue = irInjector->inject(irBlock, irArrayAccessAssignmentStatement->getIRArrayAccessExpression()->getSourceExpression(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
     auto arrayPointerType = (IRArrayPointerType*)irArrayAccessAssignmentStatement->getIRArrayAccessExpression()->getSourceExpression()->getUnderlyingIRType();

@@ -10,13 +10,13 @@ std::string FreeInvocableIRFunction::getFreeInvocableIRFunctionName() {
     return "jet.free.invocable";
 }
 
-void FreeInvocableIRFunction::declareFreeInvocableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void FreeInvocableIRFunction::declareFreeInvocableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeInvocableIRFunction::getFreeInvocableIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeInvocableIRFunction::getFreeInvocableIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void FreeInvocableIRFunction::generateFreeInvocableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void FreeInvocableIRFunction::generateFreeInvocableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto intType = irGenerator->generateIntType();
     auto irInvocableType = irGenerator->generateIRInvocableType();

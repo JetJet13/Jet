@@ -12,7 +12,7 @@
 
 class LiteralIRDrefExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_LITERAL_IR_DREF_EXPRESSION_INJECTOR_STRATEGY_H

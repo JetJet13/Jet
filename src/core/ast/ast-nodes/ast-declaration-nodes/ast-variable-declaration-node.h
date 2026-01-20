@@ -28,6 +28,7 @@ public:
     void markAsReferenced();
     void markAsCaptured();
     unsigned long getCaptureCount();
+    bool isConst();
     bool isExportable() override;
     bool isReferenced();
     bool isCaptured();

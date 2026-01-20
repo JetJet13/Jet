@@ -8,7 +8,7 @@ std::string ArrayEmptyIRFunction::getArrayEmptyIRFunctionName() {
     return "jet.array.empty";
 }
 
-void ArrayEmptyIRFunction::generateArrayEmptyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayEmptyIRFunction::generateArrayEmptyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto boolType = irGenerator->generateBooleanType();
     auto pointerType = irGenerator->generateIrPointerType();
@@ -17,7 +17,7 @@ void ArrayEmptyIRFunction::generateArrayEmptyFunction(IRGenerator* irGenerator, 
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto functionType = llvm::FunctionType::get(boolType, { pointerType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayEmptyIRFunction::getArrayEmptyIRFunctionName(), irModuleNode->getModule());
+                                           ArrayEmptyIRFunction::getArrayEmptyIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext);

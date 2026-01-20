@@ -14,15 +14,15 @@ class IRContext {
 private:
     std::unique_ptr<llvm::LLVMContext>* _context;
     IRBlockNode* _irBlock;
-    IRModuleNode* _irModule;
+    std::shared_ptr<IRModuleNode> _irModule;
     IRScope _irScope;
     llvm::DataLayout* _dataLayout;
 public:
-    IRContext(IRBlockNode* irBlock, IRModuleNode* irModule, std::unique_ptr<llvm::LLVMContext>* context);
+    IRContext(IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, std::unique_ptr<llvm::LLVMContext>* context);
     llvm::DataLayout* getDataLayout();
     std::unique_ptr<llvm::LLVMContext>* getContext();
     IRBlockNode* getIRBlock();
-    IRModuleNode* getIRModule();
+    std::shared_ptr<IRModuleNode> getIRModule();
     IRScope* getIRScope();
     llvm::Module* getModule();
     llvm::Function* getFunction();

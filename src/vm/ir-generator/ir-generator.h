@@ -17,6 +17,8 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Value.h"
+#include "llvm/Linker/Linker.h"
+#include "llvm/Transforms/Utils/Cloning.h"
 #include "../ir-lookup-table/ir-lookup-table.h"
 #include "../../core/ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.h"
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-expression-node.h"
@@ -190,12 +192,12 @@ public:
     IRBlockNode* generateForInEndBlock(IRContext* irContext, std::string prefix = "");
     IRBlockNode* generateBasicBlock();
     IRBlockNode* generateBasicBlock(std::string label, IRContext* irContext);
-    IRContext* generateContext(IRBlockNode* irBlock, IRModuleNode* irModule);
-    IRModuleNode* generateModule(std::string moduleName);
-    void initModule(IRModuleNode* irModule);
-    IRFunctionNode* generateMainFunction(std::string functionName, IRModuleNode* irModuleNode);
-    IRModuleNode* generateUtilInternalModule();
-    IRModuleNode* generateDebugInternalModule();
+    IRContext* generateContext(IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule);
+    std::shared_ptr<IRModuleNode> generateModule(std::string moduleName);
+    IRFunctionNode* generateMainFunction(std::string functionName, std::shared_ptr<IRModuleNode> irModuleNode);
+    void augmentUtilInternalModule(std::shared_ptr<IRModuleNode> commonIRModule);
+    void augmentDebugInternalModule(std::shared_ptr<IRModuleNode> commonIRModule);
+    std::shared_ptr<IRModuleNode> generateCoreModule();
     IRInjector* getInjector();
 };
 

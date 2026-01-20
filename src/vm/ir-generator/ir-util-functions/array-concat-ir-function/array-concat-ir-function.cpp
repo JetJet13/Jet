@@ -9,7 +9,7 @@ std::string ArrayConcatIRFunction::getArrayConcatIRFunctionName() {
     return "jet.array.concat";
 }
 
-void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
@@ -21,7 +21,7 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
                                                 { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayConcatIRFunction::getArrayConcatIRFunctionName(), irModuleNode->getModule());
+                                           ArrayConcatIRFunction::getArrayConcatIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto firstArrayNumElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());

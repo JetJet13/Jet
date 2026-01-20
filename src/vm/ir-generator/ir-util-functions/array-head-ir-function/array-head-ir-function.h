@@ -12,7 +12,7 @@
 class ArrayHeadIRFunction {
 public:
     static std::string getArrayHeadIRFunctionName();
-    static void generateArrayHeadFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateArrayHeadFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_HEAD_IR_FUNCTION_H

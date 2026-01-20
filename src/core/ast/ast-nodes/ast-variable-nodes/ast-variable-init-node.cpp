@@ -31,6 +31,10 @@ std::optional<ASTTypeNode*> ASTVariableInitNode::getTypeNode() {
     return _type;
 }
 
+bool ASTVariableInitNode::isConst() {
+    return _assignmentTypeQualifier->isConst();
+}
+
 Position* ASTVariableInitNode::getStartPosition() {
     return _assignmentTypeQualifier->getStartPosition();
 }

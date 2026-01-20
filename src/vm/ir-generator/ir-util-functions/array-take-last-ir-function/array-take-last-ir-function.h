@@ -12,7 +12,7 @@
 class ArrayTakeLastIRFunction {
 public:
     static std::string getArrayTakeLastIRFunctionName();
-    static void generateArrayTakeLastFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateArrayTakeLastFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_TAKE_LAST_IR_FUNCTION_H

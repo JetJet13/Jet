@@ -10,14 +10,14 @@ std::string EqualValueIRFunction::getEqualValueIRFunctionName() {
     return "jet.equal.value";
 }
 
-void EqualValueIRFunction::declareEqualValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualValueIRFunction::declareEqualValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType(), typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualValueIRFunction::getEqualValueIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualValueIRFunction::getEqualValueIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto floatType = irGenerator->generateFloatType();
     auto charType = irGenerator->generateCharType();

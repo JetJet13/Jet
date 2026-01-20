@@ -4,7 +4,7 @@
 
 #include "while-statement-ir-injector-strategy.h"
 
-void WhileStatementIRInjectorStrategy::inject(IRWhileStatementNode* irWhileStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void WhileStatementIRInjectorStrategy::inject(IRWhileStatementNode* irWhileStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto whileConditionBlock = irWhileStatement->getWhileBlock();
     auto bodyBlock = irWhileStatement->getBodyBlock();
     auto endBlock = irWhileStatement->getEndBlock();

@@ -12,10 +12,10 @@
 
 class RefIRRefExpressionInjectorStrategy {
 private:
-    void setupRef(llvm::Value* allocation, llvm::Value* value, llvm::Value* valueArc, IRType* irType, IRBlockNode* irBlock, IRModuleNode *irModule);
-    llvm::Value* injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
+    void setupRef(llvm::Value* allocation, llvm::Value* value, llvm::Value* valueArc, IRType* irType, IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, IROperation* irOperation);
+    llvm::Value* injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 public:
-    llvm::Value* inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_REF_IR_REF_EXPRESSION_INJECTOR_STRATEGY_H

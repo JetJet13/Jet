@@ -9,12 +9,12 @@ std::string GetRefCountIRFunction::getGetRefCountIRFunctionName() {
     return "jet.get.ref.count";
 }
 
-void GetRefCountIRFunction::generateGetRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void GetRefCountIRFunction::generateGetRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(intType, { pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, GetRefCountIRFunction::getGetRefCountIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, GetRefCountIRFunction::getGetRefCountIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto pointerToRefCountPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefCounterIndex());

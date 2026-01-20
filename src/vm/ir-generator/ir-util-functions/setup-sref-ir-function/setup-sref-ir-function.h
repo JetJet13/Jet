@@ -12,7 +12,7 @@
 class SetupSrefIRFunction {
 public:
     static std::string getSetupSrefIRFunctionName();
-    static void generateSetupSrefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateSetupSrefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_SETUP_SREF_IR_FUNCTION_H

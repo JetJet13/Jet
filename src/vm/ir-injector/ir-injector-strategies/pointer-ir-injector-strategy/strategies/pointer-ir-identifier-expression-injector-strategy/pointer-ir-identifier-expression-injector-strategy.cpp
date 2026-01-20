@@ -6,7 +6,7 @@
 #include "../../../../../ir-type/ir-array-pointer-type.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* PointerIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* PointerIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irExpression->getUnderlyingIRType()->isArrayPointerType() &&
             (irOperation->isCopy() || irOperation->isCopyGlobal())) {
         auto irArrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();

@@ -10,13 +10,13 @@ std::string FreeStringIRFunction::getFreeStringIRFunctionName() {
     return "jet.free.string";
 }
 
-void FreeStringIRFunction::declareFreeStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void FreeStringIRFunction::declareFreeStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeStringIRFunction::getFreeStringIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeStringIRFunction::getFreeStringIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void FreeStringIRFunction::generateFreeStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void FreeStringIRFunction::generateFreeStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto charType = new IRType(irGenerator->generateCharType());
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
 

@@ -8,7 +8,7 @@ std::string ArrayLastIRFunction::getArrayLastIRFunctionName() {
     return "jet.array.last";
 }
 
-void ArrayLastIRFunction::generateArrayLastFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayLastIRFunction::generateArrayLastFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();
@@ -20,7 +20,7 @@ void ArrayLastIRFunction::generateArrayLastFunction(IRGenerator* irGenerator, st
                                                 { pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayLastIRFunction::getArrayLastIRFunctionName(), irModuleNode->getModule());
+                                           ArrayLastIRFunction::getArrayLastIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());

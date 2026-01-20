@@ -6,7 +6,7 @@
 #include "../../../../../ir-type/ir-ref-type.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* RefIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* RefIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
     if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
         auto newRefAllocation = irBlock->getBuilder()->get()->CreateAlloca(irRefType->getType());

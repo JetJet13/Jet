@@ -12,7 +12,7 @@
 
 class PointerIRIdentifierExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_POINTER_IR_IDENTIFIER_EXPRESSION_INJECTOR_STRATEGY_H

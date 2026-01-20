@@ -5,7 +5,7 @@
 #include "struct-ir-struct-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* StructIRStructExpressionInjectorStrategy::inject(IRStructExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* StructIRStructExpressionInjectorStrategy::inject(IRStructExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto structRefAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto structAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue()->getParentAllocation().value(), irBlock);
     auto numElements = irExpression->size();

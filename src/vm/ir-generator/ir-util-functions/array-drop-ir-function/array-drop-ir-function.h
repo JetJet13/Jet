@@ -12,7 +12,7 @@
 class ArrayDropIRFunction {
 public:
     static std::string getArrayDropIRFunctionName();
-    static void generateArrayDropFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateArrayDropFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_DROP_IR_FUNCTION_H

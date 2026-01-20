@@ -9,14 +9,14 @@ std::string CopyStructRefIRFunction::getCopyStructRefIRFunctionName() {
     return "jet.copy.struct.ref";
 }
 
-void CopyStructRefIRFunction::declareCopyStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void CopyStructRefIRFunction::declareCopyStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStructRefIRFunction::getCopyStructRefIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStructRefIRFunction::getCopyStructRefIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void CopyStructRefIRFunction::generateCopyStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void CopyStructRefIRFunction::generateCopyStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto structRefType = irGenerator->generateIRStructRefType();

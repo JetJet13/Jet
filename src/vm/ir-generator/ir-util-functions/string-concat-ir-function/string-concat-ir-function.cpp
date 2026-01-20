@@ -10,7 +10,7 @@ std::string StringConcatIRFunction::getStringConcatIRFunctionName() {
     return "jet.string.concat";
 }
 
-void StringConcatIRFunction::generateStringConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void StringConcatIRFunction::generateStringConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto pointerType = irGenerator->generateIrPointerType();
@@ -20,7 +20,7 @@ void StringConcatIRFunction::generateStringConcatFunction(IRGenerator* irGenerat
                                                 { pointerType->getType(), pointerType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           StringConcatIRFunction::getStringConcatIRFunctionName(), irModuleNode->getModule());
+                                           StringConcatIRFunction::getStringConcatIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto firstStringNumElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
     auto loadedFirstStringNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, firstStringNumElementsPointer);

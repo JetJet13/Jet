@@ -65,6 +65,9 @@ proc testPrint() {
     print([new OtherClass(), new OtherClass()]);
     print({ classInstance, classInstance });
     print([ classInstance, classInstance ]);
+    print(() => 120);
+    print(() {});
+    print(() { return 100; });
 }
 
 proc testArrayPrototypeFunctions() {
@@ -507,21 +510,21 @@ proc testCleanup() {
 
 proc testRefCleanup() {
     const x = ref 500;
-    assert(x.refCount() == 1);
+    assertDebugRefCount(x, 1);
     if x > 10 {
-        assert(x.refCount() == 1);
+        assertDebugRefCount(x, 1);
         const ifXStruct = { foo: sref x, bar: 500, mars: "Hello world" };
-        assert(x.refCount() == 2);
+        assertDebugRefCount(x, 2);
     }
-    assert(x.refCount() == 1);
+    assertDebugRefCount(x, 1);
     const y = sref x;
-    assert(x.refCount() == 2);
+    assertDebugRefCount(x, 2);
     if y > 10 {
-        assert(x.refCount() == 2);
+        assertDebugRefCount(x, 2);
         const ifYStruct = { foo: sref y, bar: 100, mars: [1,2,3,4] };
-        assert(x.refCount() == 3);
+        assertDebugRefCount(x, 3);
     }
-    assert(x.refCount() == 2);
+    assertDebugRefCount(x, 2);
 }
 
 proc testArcLiteral() {
@@ -553,17 +556,18 @@ proc testArcStruct() {
 }
 
 proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
-    assert(s.refCount() == 2);
+    assertDebugRefCount(s, 2);
     const localArgRef = sref s;
     print("localArgRef", s.a);
-    assert(s.refCount() == 3);
+    assertDebugRefCount(s, 3);
 }
 
 proc testArcPassDown() {
     const s = { a: 100, b: false };
     testPassDownStructRef(ref s);
+    assertDebugStructRefCount(s, 1);
     const refS = ref s;
-    assert(refS.refCount() == 2);
+    assertDebugRefCount(refS, 2);
 }
 
 func testPassUpInt() ref<int> {
@@ -572,11 +576,11 @@ func testPassUpInt() ref<int> {
 }
 
 proc testArcPassUp() {
-    assert(testPassUpInt().refCount() == 1);
+    assertDebugRefCount(testPassUpInt(), 1);
     const passedUpX = sref testPassUpInt();
-    assert(passedUpX.refCount() == 2);
+    assertDebugRefCount(passedUpX, 2);
     const anotherX = sref passedUpX;
-    assert(passedUpX.refCount() == 3);
+    assertDebugRefCount(passedUpX, 3);
     print("passedUpX", passedUpX);
     assert(passedUpX == 121);
 }
@@ -630,8 +634,47 @@ proc testWhileLoop() {
     }
 }
 
-testCapturedLambda2();
-testWhileLoop();
+proc testConcat() {
+    const momo = [1,2,3] ++ [5,2,1] ++ [9,9,9];
+    print(momo);
+    const strConcat = "Hello " ++ "World" ++ " Wow!";
+    print(strConcat);
+    const structConcat = [{ foo: 10 }] ++ [{ foo: 20 }];
+    print(structConcat);
+    assertDebugStructRefCount(structConcat[0], 1);
+    const myStruct = { mars: 100 };
+    assertDebugStructRefCount(myStruct, 0);
+    const charStructConcat = [{ foo: 'q' }] ++ [{ foo: 'a' }];
+    print(charStructConcat);
+    const tupleConcat = [{ 10, true, 'c' }] ++ [{ 20, false, 'b' }];
+    print(tupleConcat);
+
+    // ref
+    const momoRef = ref [1,2,3] ++ ref [5,2,1] ++ ref [9,9,9];
+    print(momoRef);
+    assertDebugRefCount(momoRef, 1);
+    const strConcatRef = ref "Hello " ++ ref "World" ++ ref " Wow!";
+    print(strConcatRef);
+    const structConcatRef = [ref { foo: 10 }] ++ [ref { foo: 20 }];
+    print(structConcatRef);
+    const tupleConcatRef = [ref { 10, true, 'c' }] ++ [ref { 20, false, 'b' }];
+    print(tupleConcatRef);
+
+    const arrayRefValues = [ref { foo: 100 }];
+    const secondArrayRefValues = [ref { foo: 200 }];
+    const concatResult = arrayRefValues ++ secondArrayRefValues;
+    print("concatResult", concatResult);
+    const mars = ref dref concatResult[0];
+    concatResult[0].foo = 350;
+    assert(mars.foo == 100);
+    assert(concatResult[0].foo == arrayRefValues[0].foo);
+    assert(concatResult[0].foo != mars.foo);
+    print("mars", mars);
+    print("fooValue", concatResult[0].foo, arrayRefValues[0].foo, "mars.foo", mars.foo);
+    const refStructCopy = concatResult[0];
+    refStructCopy.foo = 900;
+    print("refStructCopy", refStructCopy, concatResult[0].foo);
+}
 
 main();
 testPrint();
@@ -653,6 +696,10 @@ testArcStruct();
 testArcPassDown();
 testArcPassUp();
 testCapturedLambda();
+testCapturedLambda2();
+testWhileLoop();
+testConcat();
+
 
 class MyClass {
     public age: int;

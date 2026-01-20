@@ -8,14 +8,14 @@ std::string MallocIRFunction::getMallocIRFunctionName() {
     return "jet.malloc";
 }
 
-void MallocIRFunction::generateMallocFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void MallocIRFunction::generateMallocFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { intType }, false);
-    auto malloc = irModuleNode->getModule()->getOrInsertFunction("malloc", functionType);
-    auto raise = irModuleNode->getModule()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
+    auto malloc = irModuleNode->getModule()->get()->getOrInsertFunction("malloc", functionType);
+    auto raise = irModuleNode->getModule()->get()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
 
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocIRFunction::getMallocIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocIRFunction::getMallocIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto allocatedPointer = functionBlock->getBuilder()->get()->CreateCall(malloc, { function->getArg(0) });

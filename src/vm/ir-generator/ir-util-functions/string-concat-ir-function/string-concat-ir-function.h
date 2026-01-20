@@ -12,7 +12,7 @@
 class StringConcatIRFunction {
 public:
     static std::string getStringConcatIRFunctionName();
-    static void generateStringConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateStringConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_CONCAT_IR_FUNCTION_H

@@ -10,15 +10,15 @@ std::string EqualStructRefIRFunction::getEqualStructRefIRFunctionName() {
     return "jet.equal.struct.ref";
 }
 
-void EqualStructRefIRFunction::declareEqualStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualStructRefIRFunction::declareEqualStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualStructRefIRFunction::getEqualStructRefIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualStructRefIRFunction::getEqualStructRefIRFunctionName(), irModuleNode->getModule()->get());
 }
 
 
-void EqualStructRefIRFunction::generateEqualStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void EqualStructRefIRFunction::generateEqualStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto structRefType = irGenerator->generateIRStructRefType();

@@ -10,10 +10,10 @@
 
 class PointerIRInjectorHelper {
 private:
-    static IRInstructionNode* injectPointerSourceAllocation(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourceValue, IRModuleNode* irModule);
+    static IRInstructionNode* injectPointerSourceAllocation(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourceValue, std::shared_ptr<IRModuleNode> irModule);
 public:
-    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, IRInstructionNode* sourceValueAllocation, IRModuleNode* irModule, IRInjector* irInjector);
-    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, IRModuleNode* irModule, IRInjector* irInjector);
+    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, IRInstructionNode* sourceValueAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
+    static llvm::Value* injectPointerCopy(IRBlockNode* irBlock, IRPointerType* irPointerType, llvm::Value* sourcePointer, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
 };
 
 #endif //JETLANG_POINTER_IR_INJECTOR_HELPER_H

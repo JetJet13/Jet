@@ -9,39 +9,30 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../ir-util-functions/assert-ir-function/assert-ir-function.h"
 
-IRModuleNode* IRUtilInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
-    auto irModule = irGenerator->generateModule("jet-util");
-    irGenerator->initModule(irModule);
-    PrintIRFunction::declarePrintRefFunction(irGenerator, context, irModule);
-    PrintIRFunction::declarePrintArrayFunction(irGenerator, context, irModule);
-    PrintIRFunction::declarePrintStructFunction(irGenerator, context, irModule);
-    PrintIRFunction::declarePrintStructRefFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintGlobals(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintDebugMarkerFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintDebugPointerFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintDebugStringFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintDebugRefCountFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintWhitespaceFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintCommaFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintNewLineFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintIntFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintFloatFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintCharFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintBoolFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintStringFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintRefFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintArrayFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintStructFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintStructRefFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintLambdaFunction(irGenerator, context, irModule);
-    PrintIRFunction::generatePrintFunction(irGenerator, context, irModule);
-    RangeIRFunction::generateRange3pFunction(irGenerator, context, irModule);
-    RangeIRFunction::generateRange2pFunction(irGenerator, context, irModule);
-    RangeIRFunction::generateRange1pFunction(irGenerator, context, irModule);
-    AssertIRFunction::generateAssertGlobals(irGenerator, context, irModule);
-    AssertIRFunction::generateAssertFunction(irGenerator, context, irModule);
-    AssertIRFunction::generateAssertWithMessageFunction(irGenerator, context, irModule);
-    return irModule;
+void IRUtilInternalModule::augment(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIrModule) {
+    PrintIRFunction::generatePrintGlobals(irGenerator, context, coreIrModule);
+    PrintIRFunction::declarePrintRefFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::declarePrintArrayFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::declarePrintStructFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::declarePrintStructRefFunction(irGenerator, context, coreIrModule);
+
+    PrintIRFunction::generatePrintIntFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintFloatFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintCharFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintBoolFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintStringFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintRefFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintArrayFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintStructFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintStructRefFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintLambdaFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintFunction(irGenerator, context, coreIrModule);
+    RangeIRFunction::generateRange3pFunction(irGenerator, context, coreIrModule);
+    RangeIRFunction::generateRange2pFunction(irGenerator, context, coreIrModule);
+    RangeIRFunction::generateRange1pFunction(irGenerator, context, coreIrModule);
+    AssertIRFunction::generateAssertGlobals(irGenerator, context, coreIrModule);
+    AssertIRFunction::generateAssertFunction(irGenerator, context, coreIrModule);
+    AssertIRFunction::generateAssertWithMessageFunction(irGenerator, context, coreIrModule);
 }
 
 std::string IRUtilInternalModule::getIRName(std::string id) {

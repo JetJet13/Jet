@@ -21,10 +21,9 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
                 variableAllocation->getAllocatedType(),
                 false,
                 linkage,
-                nullptr,
+                llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
                 node->getId()
         );
-
         irGlobalVariable = IRInstructionNodeFactory::create(
                 globalVariable,
                 variableAllocation->getIRType(),

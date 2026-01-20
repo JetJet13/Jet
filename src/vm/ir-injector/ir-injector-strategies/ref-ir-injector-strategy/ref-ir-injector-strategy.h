@@ -23,7 +23,7 @@ private:
     RefIRObjectAccessExpressionInjectorStrategy _refIRObjectAccessExpressionInjectorStrategy = RefIRObjectAccessExpressionInjectorStrategy();
     RefIRArrayAccessExpressionInjectorStrategy _refIRArrayAccessExpressionInjectorStrategy = RefIRArrayAccessExpressionInjectorStrategy();
 public:
-    llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) override;
+    llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
 };
 
 #endif //JETLANG_REF_IR_INJECTOR_STRATEGY_H

@@ -8,11 +8,11 @@ std::string MallocSizeIRFunction::getMallocSizeIRFunctionName() {
     return "jet.malloc.size";
 }
 
-void MallocSizeIRFunction::generateMallocSizeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void MallocSizeIRFunction::generateMallocSizeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto functionType = llvm::FunctionType::get(irGenerator->generateIntType(), {irGenerator->generateIntType(), irGenerator->generateIntType() }, false);
 
 
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocSizeIRFunction::getMallocSizeIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocSizeIRFunction::getMallocSizeIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto numElements = function->getArg(0);
     auto elementSize = function->getArg(1);

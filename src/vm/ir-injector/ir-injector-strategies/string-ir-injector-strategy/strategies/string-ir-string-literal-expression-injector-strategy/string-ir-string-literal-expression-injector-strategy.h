@@ -12,7 +12,7 @@
 
 class StringIRStringLiteralExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_STRING_IR_STRING_LITERAL_EXPRESSION_INJECTOR_STRATEGY_H

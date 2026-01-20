@@ -11,7 +11,7 @@ std::string ArrayAppendIRFunction::getArrayAppendIRFunctionName() {
     return "jet.array.append";
 }
 
-void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
@@ -27,7 +27,7 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
         false
     );
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayAppendIRFunction::getArrayAppendIRFunctionName(), irModuleNode->getModule());
+                                           ArrayAppendIRFunction::getArrayAppendIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
     auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), arrayElementTypeValue, typeValueType->getSizeInBytesIndex());

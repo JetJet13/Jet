@@ -12,7 +12,7 @@
 
 class ExpressionStatementIRInjectorStrategy {
 public:
-    void inject(IRExpressionStatementNode* irExpressionStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRExpressionStatementNode* irExpressionStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_EXPRESSION_STATEMENT_IR_INJECTOR_STRATEGY_H

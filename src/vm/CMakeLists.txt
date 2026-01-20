@@ -673,6 +673,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h
         ir-generator/ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.cpp
         ir-generator/ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.h
+        ir-generator/ir-internal-modules/ir-core-internal-module/ir-core-internal-module.cpp
+        ir-generator/ir-internal-modules/ir-core-internal-module/ir-core-internal-module.h
 )
 
 target_link_libraries(jet-vm

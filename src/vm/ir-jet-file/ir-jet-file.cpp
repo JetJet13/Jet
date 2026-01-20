@@ -4,7 +4,7 @@
 
 #include "ir-jet-file.h"
 
-IRJetFile::IRJetFile(JetFile* jetFile, IRModuleNode* irModule) {
+IRJetFile::IRJetFile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irModule) {
     _jetFile = jetFile;
     _irModule = irModule;
 }
@@ -13,6 +13,6 @@ JetFile* IRJetFile::getFile() {
     return _jetFile;
 }
 
-IRModuleNode* IRJetFile::getModule() {
+std::shared_ptr<IRModuleNode> IRJetFile::getIRModule() {
     return _irModule;
 }

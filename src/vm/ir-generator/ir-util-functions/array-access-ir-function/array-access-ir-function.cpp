@@ -13,13 +13,13 @@ std::string ArrayAccessIRFunction::getArrayAccessIRFunctionName() {
 
 // this function should return void and only check if the index is within bounds.
 // The IR Strategies will be responsible for creating pointer instances for the corresponding index.
-void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto raise = irModuleNode->getModule()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
+    auto raise = irModuleNode->getModule()->get()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
     auto functionType = llvm::FunctionType::get(pointerType, { pointerType, intType, intType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, ArrayAccessIRFunction::getArrayAccessIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, ArrayAccessIRFunction::getArrayAccessIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto zero = irGenerator->generateIntConstant(0);

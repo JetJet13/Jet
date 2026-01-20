@@ -7,7 +7,7 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-llvm::Value* RefIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* RefIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_REF_EXPRESSION_NODE)) {
         return this->_refIRRefExpressionInjectorStrategy.inject((IRRefExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {

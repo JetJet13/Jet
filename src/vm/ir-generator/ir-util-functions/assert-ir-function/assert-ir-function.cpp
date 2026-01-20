@@ -42,11 +42,11 @@ std::string AssertIRFunction::getGlobalAssertDebugLambdaRefCountMessageStringNam
     return "jet.assert.debug.lambda.ref.count.message";
 }
 
-void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto defaultMessage = "\n\nAssertion Failed\n";
     auto defaultAssertMessageString = irGenerator->generateRawString(defaultMessage);
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             defaultAssertMessageString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -55,11 +55,11 @@ void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::uniq
     );
 }
 
-void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto debugRefCountMessage = "\n\nRef Count Assertion Failed\n";
     auto debugRefCountMessageString = irGenerator->generateRawString(debugRefCountMessage);
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             debugRefCountMessageString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -70,7 +70,7 @@ void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std:
     auto debugStructRefCountMessage = "\n\nStruct Ref Count Assertion Failed\n";
     auto debugStructRefCountMessageString = irGenerator->generateRawString(debugStructRefCountMessage);
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             debugStructRefCountMessageString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -81,7 +81,7 @@ void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std:
     auto debugLambdaRefCountMessage = "\n\nLambda Ref Count Assertion Failed\n";
     auto debugLambdaRefCountMessageString = irGenerator->generateRawString(debugLambdaRefCountMessage);
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             debugLambdaRefCountMessageString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -90,16 +90,16 @@ void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std:
     );
 }
 
-void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { boolType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           AssertIRFunction::getAssertIRFunctionName(), irModuleNode->getModule());
+                                           AssertIRFunction::getAssertIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
-    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext);
     auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext);
@@ -113,7 +113,7 @@ void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::uni
     isValueTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isValueTrueIfThenBlock->getBlock(), isValueTrueIfElseBlock->getBlock());
     isValueTrueIfThenBlock->addVoidReturn();
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalDefaultAssertMessageStringName())
+            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalDefaultAssertMessageStringName())
     });
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             function->getArg(1)
@@ -122,17 +122,17 @@ void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::uni
     isValueTrueIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
     auto functionType = llvm::FunctionType::get(voidType, { boolType, stringArrayPointerType->getType(), pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           AssertIRFunction::getAssertWithMessageIRFunctionName(), irModuleNode->getModule());
+                                           AssertIRFunction::getAssertWithMessageIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
-    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext);
     auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext);
@@ -147,9 +147,9 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     isValueTrueIfThenBlock->addVoidReturn();
 
     auto pointerToStringAllocation = isValueTrueIfElseBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { stringArrayPointerType->getAllocIndex() });
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStringFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalStringFormatStringName());
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalDefaultAssertMessageStringName())
+            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalDefaultAssertMessageStringName())
     });
     isValueTrueIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             function->getArg(2)
@@ -163,17 +163,17 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     isValueTrueIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           AssertIRFunction::getAssertDebugRefCountIRFunctionName(), irModuleNode->getModule());
+                                           AssertIRFunction::getAssertDebugRefCountIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
-    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
     auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
@@ -190,7 +190,7 @@ void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenera
     isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
     isRefCountMatchIfThenBlock->addVoidReturn();
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
     });
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             function->getArg(2)
@@ -199,17 +199,17 @@ void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenera
     isRefCountMatchIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto structRefType = irGenerator->generateIRStructRefType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           AssertIRFunction::getAssertDebugStructRefCountIRFunctionName(), irModuleNode->getModule());
+                                           AssertIRFunction::getAssertDebugStructRefCountIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
-    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
     auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
@@ -226,7 +226,7 @@ void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* ir
     isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
     isRefCountMatchIfThenBlock->addVoidReturn();
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
     });
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             function->getArg(2)
@@ -235,17 +235,17 @@ void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* ir
     isRefCountMatchIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto invocableType = irGenerator->generateIRInvocableType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           AssertIRFunction::getAssertDebugLambdaRefCountIRFunctionName(), irModuleNode->getModule());
+                                           AssertIRFunction::getAssertDebugLambdaRefCountIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
-    auto abort = irModuleNode->getModule()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
     auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
@@ -262,7 +262,7 @@ void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* ir
     isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
     isRefCountMatchIfThenBlock->addVoidReturn();
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
     });
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             function->getArg(2)

@@ -9,7 +9,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../debug-ir-injector-helper/debug-ir-injector-helper.h"
 
-void FreeIRInjectorHelper::freeFunctionBlockNodes(IRBlockNode* functionBlock, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void FreeIRInjectorHelper::freeFunctionBlockNodes(IRBlockNode* functionBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto index = 0;
     for (auto childBlock : *functionBlock->getAllSuccessors()) {
         if (childBlock->hasNodesToFree() && !childBlock->is(IR_BASIC_BT)) {
@@ -38,7 +38,7 @@ void FreeIRInjectorHelper::freeFunctionBlockNodes(IRBlockNode* functionBlock, IR
     );
 }
 
-void FreeIRInjectorHelper::freeNodes(IRBlockNode* irBlockNode, std::vector<IRNode*>* nodesToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void FreeIRInjectorHelper::freeNodes(IRBlockNode* irBlockNode, std::vector<IRNode*>* nodesToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     for (auto node : *nodesToFree) {
         if (node->isExpression()) {
             FreeIRInjectorHelper::freeExpression(irBlockNode, (IRExpressionNode*)node, irInjector, irModule, scope);
@@ -48,7 +48,7 @@ void FreeIRInjectorHelper::freeNodes(IRBlockNode* irBlockNode, std::vector<IRNod
     }
 }
 
-void FreeIRInjectorHelper::freeVariable(IRBlockNode* irBlockNode, IRVariableDeclarationNode* variableToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void FreeIRInjectorHelper::freeVariable(IRBlockNode* irBlockNode, IRVariableDeclarationNode* variableToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (variableToFree->getAllocatedIRType()->isInvocableType()) {
         DebugIRInjectorHelper::injectLog(irBlockNode, "[free-invocable-var] " + variableToFree->getVariableName() + " - " + irBlockNode->getBlock()->getParent()->getName().str(), irInjector, irModule);
         irBlockNode->getBuilder()->get()->CreateCall(
@@ -71,7 +71,7 @@ void FreeIRInjectorHelper::freeVariable(IRBlockNode* irBlockNode, IRVariableDecl
     );
 }
 
-void FreeIRInjectorHelper::freeExpression(IRBlockNode* irBlockNode, IRExpressionNode* expressionToFree, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void FreeIRInjectorHelper::freeExpression(IRBlockNode* irBlockNode, IRExpressionNode* expressionToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     std::string name = std::to_string(expressionToFree->getStartPosition()->getLine())
                        + ":"
                        + std::to_string(expressionToFree->getStartPosition()->getColumn());
@@ -90,7 +90,7 @@ void FreeIRInjectorHelper::freeExpression(IRBlockNode* irBlockNode, IRExpression
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getFreeValueFunction(), { value, loadedTypeValue });
 }
 
-void FreeIRInjectorHelper::freeFunctionParameters(IRBlockNode* irBlockNode, IRFunctionParameterListNode* functionParameterList, IRInjector* irInjector, IRModuleNode *irModule, IRLookupTable* scope) {
+void FreeIRInjectorHelper::freeFunctionParameters(IRBlockNode* irBlockNode, IRFunctionParameterListNode* functionParameterList, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto finalBlock = irBlockNode->getLastSuccessorOrSelf();
     finalBlock->setInsertionPointBeforeLastInstruction();
     for (auto parameter : *functionParameterList->getParameters()) {

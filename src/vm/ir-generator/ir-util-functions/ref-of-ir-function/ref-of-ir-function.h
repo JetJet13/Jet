@@ -12,7 +12,7 @@
 class RefOfIRFunction {
 public:
     static std::string getRefOfIRFunctionName();
-    static void generateRefOfFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateRefOfFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_REF_OF_IR_FUNCTION_H

@@ -13,6 +13,7 @@
 class ASTVariableTypeNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 public:
+    bool isConst();
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

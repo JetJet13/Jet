@@ -5,11 +5,13 @@
 #ifndef JETLANG_IR_MODULE_NODE_H
 #define JETLANG_IR_MODULE_NODE_H
 
+#include "llvm/Linker/Linker.h"
 #include "ir-node.h"
 
 class IRModuleNode {
 private:
-    llvm::Module* _irValue;
+    std::shared_ptr<IRModuleNode> _linkedToIRModule;
+    std::unique_ptr<llvm::Module> _irValue;
     std::string _arrayAccessFunctionName;
     std::string _copyArrayFunctionName;
     std::string _copyPointerFunctionName;
@@ -85,7 +87,7 @@ private:
     std::string _incrementLambdaRefCountFunctionName;
     std::string _getRefCountFunctionName;
 public:
-    IRModuleNode(llvm::Module* irValue,
+    IRModuleNode(std::unique_ptr<llvm::Module> irValue,
                  std::string arrayAccessFunctionName,
                  std::string copyArrayFunctionName,
                  std::string copyPointerFunctionName,
@@ -160,7 +162,9 @@ public:
                  std::string incrementRefCountFunctionName,
                  std::string incrementLambdaRefCountFunctionName,
                  std::string getRefCountFunctionName);
-    llvm::Module* getModule();
+    std::unique_ptr<llvm::Module>* getModule();
+    void linkTo(std::shared_ptr<IRModuleNode> otherIRModule);
+    llvm::Function* findFunction(std::string name);
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
     llvm::Function* getCopyPointerFunction();

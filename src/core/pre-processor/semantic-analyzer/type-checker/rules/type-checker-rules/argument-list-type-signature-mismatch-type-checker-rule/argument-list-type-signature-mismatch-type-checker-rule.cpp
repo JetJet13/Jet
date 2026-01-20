@@ -8,7 +8,7 @@
 void ArgumentListTypeSignatureMismatchTypeCheckerRule::enforce(std::vector<TypeSignature*>* parameterList, ASTFunctionArgumentListNode* argumentList,  ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
     for (unsigned long i = 0; i < parameterList->size(); i++) {
         if (!parameterList->at(i)->isEquivalentTo(
-                argumentList->getArguments()->at(i)->getArgument()->getTypeSignature())) {
+                argumentList->getArguments()->at(i)->getArgument()->getTypeSignature()->getTargetTypeSignature())) {
             typeCheckerResult->addError(mismatchMessage());
         }
     }

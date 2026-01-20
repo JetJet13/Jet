@@ -12,7 +12,7 @@
 class CopyStringIRFunction {
 public:
     static std::string getCopyStringIRFunctionName();
-    static void generateCopyStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateCopyStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_COPY_STRING_IR_FUNCTION_H

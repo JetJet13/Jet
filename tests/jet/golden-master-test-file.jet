@@ -1,0 +1,111 @@
+import MyOtherModule from "./other-test-file.jet";
+
+class SimpleClass {
+    public value: int;
+
+    constructor(value: int) {
+        this.value = value;
+    }
+
+    public getValue() int {
+        return this.value;
+    }
+}
+
+enum SimpleEnum {
+    Alpha,
+    Beta,
+    Gamma
+}
+
+const globalConstantInteger = 100;
+const globalConstantFloat = 100.090;
+const globalConstantChar = 'A';
+const globalConstantBool = true;
+const globalConstantString = "global-string-constant";
+const globalConstantLambdaWithBlock = () { return 10; };
+const globalConstantLambdaWithArray = () => 11;
+const globalConstantLambdaWithBlockResult = globalConstantLambdaWithBlock();
+const globalConstantLambdaWithArrayResult = globalConstantLambdaWithArray();
+const globalConstantStruct = {
+    a: 10,
+    b: true,
+    c: 'C',
+    d: "word",
+    e: () => true,
+    f: { a: 10, b: true, c: 'C', d: "word", e: () => true },
+    g: {
+        20,
+        false,
+        'Q',
+        "another word",
+        () => 200.01,
+        { a: 10, b: true, c: 'C', d: "word", e: () => true },
+        { 30, true, 'O', "third word" }
+    },
+    h: new SimpleClass(10)
+};
+const globalConstantTuple = {
+    20,
+    false,
+    'Q',
+    "another word",
+    () => 200.01,
+    { a: 10, b: true, c: 'C', d: "word", e: () => true },
+    { 30, true, 'O', "third word" },
+    new SimpleClass(30)
+};
+const globalConstantClass = new SimpleClass(50);
+const globalConstantEnum = SimpleEnum.Alpha;
+const globalConstantModuleCall = MyOtherModule::myBoolFunction();
+
+let globalMutableInteger = 101;
+let globalMutableFloat = 101.00001;
+let globalMutableChar = 'B';
+let globalMutableBool = false;
+let globalMutableString = "global-mutable-string";
+let globalMutableLambdaWithBlock = () { return 10; };
+let globalMutableLambdaWithArray = () => 11;
+let globalMutableLambdaWithBlockResult = globalMutableLambdaWithBlock();
+let globalMutableLambdaWithArrayResult = globalMutableLambdaWithArray();
+let globalMutableStruct = {
+    a: 10,
+    b: true,
+    c: 'C',
+    d: "word",
+    e: () => true,
+    f: { a: 10, b: true, c: 'C', d: "word", e: () => true },
+    g: {
+        20,
+        false,
+        'Q',
+        "another word",
+        () => 200.01,
+        { a: 10, b: true, c: 'C', d: "word", e: () => true },
+        { 30, true, 'O', "third word" }
+    }
+};
+let globalMutableTuple = {
+    20,
+    false,
+    'Q',
+    "another word",
+    () => 200.01,
+    { a: 10, b: true, c: 'C', d: "word", e: () => true },
+    { 30, true, 'O', "third word" },
+    new SimpleClass(30)
+};
+let globalMutableClass = new SimpleClass(60);
+let globalMutableEnum = SimpleEnum.Beta;
+let globalMutableModuleCall = MyOtherModule::myBoolFunction();
+
+proc testGlobalConstants() {
+    assert(globalConstantInteger == 100);
+    assert(globalConstantFloat == 100.090);
+    assert(globalConstantChar == 'A');
+    assert(globalConstantBool == true);
+    assert(globalConstantString == "global-string-constant");
+    assert(globalConstantLambdaWithBlockResult == 10);
+    assert(globalConstantLambdaWithArrayResult == 11);
+}
+testGlobalConstants();

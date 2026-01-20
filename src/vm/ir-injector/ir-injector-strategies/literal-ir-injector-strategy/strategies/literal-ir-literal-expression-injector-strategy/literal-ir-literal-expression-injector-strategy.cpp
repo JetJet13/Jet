@@ -4,27 +4,27 @@
 
 #include "literal-ir-literal-expression-injector-strategy.h"
 
-llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::inject(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::inject(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isRefAssignment()) {
         return this->injectRef(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-    } else if (irOperation->isCopy()) {
+    } else if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else {
         return this->injectOperand(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     }
 }
 
-llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectCopy(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectCopy(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     return irExpression->getValue();
 }
 
-llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectRef(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectRef(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto literalAllocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());
     irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), literalAllocation);
     return literalAllocation;
 }
 
-llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectOperand(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectOperand(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         return irExpression->getValue();
     }

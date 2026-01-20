@@ -4,6 +4,10 @@
 
 #include "ast-variable-type-node.h"
 
+bool ASTVariableTypeNode::isConst() {
+    return _lexeme->getToken()->getSymbolType() == SYM_CONST;
+}
+
 ASTNodeType ASTVariableTypeNode::getNodeType() {
     return AST_VARIABLE_TYPE_NODE;
 }

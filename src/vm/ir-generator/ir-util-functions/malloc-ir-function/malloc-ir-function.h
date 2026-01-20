@@ -12,7 +12,7 @@
 class MallocIRFunction {
 public:
     static std::string getMallocIRFunctionName();
-    static void generateMallocFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateMallocFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_MALLOC_IR_FUNCTION_H

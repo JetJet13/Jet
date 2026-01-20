@@ -25,6 +25,7 @@ public:
     ASTVariableTypeNode* getVarTypeNode();
     ASTIdentifierNode* getIdentifierNode();
     std::optional<ASTTypeNode*> getTypeNode();
+    bool isConst();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -161,147 +161,93 @@ std::string PrintIRFunction::getPrintDebugRefCountIRFunctionName() {
     return "jet.print.debug.ref.count";
 }
 
-void PrintIRFunction::declarePrintDebugMarkerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintDebugMarkerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto functionType = llvm::FunctionType::get(voidType, { intType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugMarkerIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugMarkerIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintDebugPointerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintDebugPointerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugPointerIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugPointerIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintDebugStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintDebugStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugStringIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugStringIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugRefCountIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintDebugRefCountIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto functionType = llvm::FunctionType::get(voidType, {}, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintWhitespaceIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintWhitespaceIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintCommaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintCommaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto functionType = llvm::FunctionType::get(voidType, {}, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCommaIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCommaIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintNewLineFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintNewLineFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto functionType = llvm::FunctionType::get(voidType, {}, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintNewLineIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintNewLineIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, pointerType, pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintRefIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintRefIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, pointerType, pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintArrayIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintArrayIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, pointerType, pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStructIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStructIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::declarePrintStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::declarePrintStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, pointerType, pointerType }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStructRefIRFunctionName(), irModuleNode->getModule());
+    llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStructRefIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
-    auto intFormatString = irGenerator->generateRawString("%ld");
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            intFormatString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            intFormatString,
-            PrintIRFunction::getGlobalIntFormatStringName()
-    );
-    auto floatFormatString = irGenerator->generateRawString("%f");
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            floatFormatString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            floatFormatString,
-            PrintIRFunction::getGlobalFloatFormatStringName()
-    );
+void PrintIRFunction::generatePrintDebugGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto charFormatString = irGenerator->generateRawString("%c");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             charFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
             charFormatString,
             PrintIRFunction::getGlobalCharFormatStringName()
     );
-    auto charPrettyFormatString = irGenerator->generateRawString("\'%c\'");
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            charPrettyFormatString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            charPrettyFormatString,
-            PrintIRFunction::getGlobalCharPrettyFormatStringName()
-    );
-    auto trueFormatString = irGenerator->generateRawString("true");
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            trueFormatString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            trueFormatString,
-            PrintIRFunction::getGlobalTrueFormatStringName()
-    );
-    auto falseFormatString = irGenerator->generateRawString("false");
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            falseFormatString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            falseFormatString,
-            PrintIRFunction::getGlobalFalseFormatStringName()
-    );
-    auto stringFormatString = irGenerator->generateRawString("\"%s\"");
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            stringFormatString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            stringFormatString,
-            PrintIRFunction::getGlobalStringFormatStringName()
-    );
     auto pointerFormatString = irGenerator->generateRawString("%p ");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             pointerFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -310,16 +256,82 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto commaFormatString = irGenerator->generateRawString("%c ");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             commaFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
             commaFormatString,
             PrintIRFunction::getGlobalCommaFormatStringName()
     );
+    auto intFormatString = irGenerator->generateRawString("%ld");
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule()->get(),
+            intFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            intFormatString,
+            PrintIRFunction::getGlobalIntFormatStringName()
+    );
+    auto refCountFormatString = irGenerator->generateRawString("[ref_count] %d, %s\n");
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule()->get(),
+            refCountFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            refCountFormatString,
+            PrintIRFunction::getGlobalRefCountFormatStringName()
+    );
+}
+
+void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+    auto floatFormatString = irGenerator->generateRawString("%f");
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule()->get(),
+            floatFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            floatFormatString,
+            PrintIRFunction::getGlobalFloatFormatStringName()
+    );
+    auto charPrettyFormatString = irGenerator->generateRawString("\'%c\'");
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule()->get(),
+            charPrettyFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            charPrettyFormatString,
+            PrintIRFunction::getGlobalCharPrettyFormatStringName()
+    );
+    auto trueFormatString = irGenerator->generateRawString("true");
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule()->get(),
+            trueFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            trueFormatString,
+            PrintIRFunction::getGlobalTrueFormatStringName()
+    );
+    auto falseFormatString = irGenerator->generateRawString("false");
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule()->get(),
+            falseFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            falseFormatString,
+            PrintIRFunction::getGlobalFalseFormatStringName()
+    );
+    auto stringFormatString = irGenerator->generateRawString("\"%s\"");
+    new llvm::GlobalVariable(
+            *irModuleNode->getModule()->get(),
+            stringFormatString->getType(),
+            true,
+            llvm::GlobalValue::ExternalLinkage,
+            stringFormatString,
+            PrintIRFunction::getGlobalStringFormatStringName()
+    );
     auto refStartFormatString = irGenerator->generateRawString("ref<");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             refStartFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -328,7 +340,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto refEndFormatString = irGenerator->generateRawString(">");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             refEndFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -337,7 +349,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto arrayStartFormatString = irGenerator->generateRawString("[");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             arrayStartFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -346,7 +358,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto arrayEndFormatString = irGenerator->generateRawString("]");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             arrayEndFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -355,7 +367,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto structStartFormatString = irGenerator->generateRawString("{ ");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             structStartFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -364,7 +376,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto structEndFormatString = irGenerator->generateRawString(" }");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             structEndFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -373,7 +385,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto lambdaStartFormatString = irGenerator->generateRawString("lambda<");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             lambdaStartFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -382,7 +394,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto lambdaPointerFormatString = irGenerator->generateRawString("%p");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             lambdaPointerFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -391,25 +403,16 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
     auto lambdaEndFormatString = irGenerator->generateRawString(">");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             lambdaEndFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
             lambdaEndFormatString,
             PrintIRFunction::getGlobalLambdaEndFormatStringName()
     );
-    auto refCountFormatString = irGenerator->generateRawString("[ref_count] %d, %s\n");
-    new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
-            refCountFormatString->getType(),
-            true,
-            llvm::GlobalValue::ExternalLinkage,
-            refCountFormatString,
-            PrintIRFunction::getGlobalRefCountFormatStringName()
-    );
     auto colonFormatString = irGenerator->generateRawString(": ");
     new llvm::GlobalVariable(
-            *irModuleNode->getModule(),
+            *irModuleNode->getModule()->get(),
             colonFormatString->getType(),
             true,
             llvm::GlobalValue::ExternalLinkage,
@@ -418,7 +421,7 @@ void PrintIRFunction::generatePrintGlobals(IRGenerator* irGenerator, std::unique
     );
 }
 
-void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();
@@ -431,12 +434,12 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto boolType = irGenerator->generateBooleanType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(voidType->getType(), { arrayPointerType->getType() }, true);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
-    auto vaStart = irModuleNode->getModule()->getOrInsertFunction("llvm.va_start", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
-    auto vaEnd = irModuleNode->getModule()->getOrInsertFunction("llvm.va_end", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto vaStart = irModuleNode->getModule()->get()->getOrInsertFunction("llvm.va_start", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
+    auto vaEnd = irModuleNode->getModule()->get()->getOrInsertFunction("llvm.va_end", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
     auto typeValueArrayArgument = function->getArg(0);
     auto zero = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
@@ -649,59 +652,59 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     forLoopEndBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintIntFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIntIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
     auto loadedInt = InstructionIRInjectorHelper::injectLoad(intType, loadedPointer, functionBlock);
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalIntFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalIntFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, loadedInt });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintFloatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto floatType = irGenerator->generateFloatType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintFloatIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintFloatIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
     auto floatValue = InstructionIRInjectorHelper::injectLoad(floatType, loadedPointer, functionBlock);
     auto doubleCastValue = functionBlock->getBuilder()->get()->CreateFPExt(floatValue, irGenerator->generateDoubleType());
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalFloatFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalFloatFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, doubleCastValue });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintCharFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto charType = irGenerator->generateCharType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCharIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintCharIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
     auto charValue = InstructionIRInjectorHelper::injectLoad(charType, loadedPointer, functionBlock);
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalCharPrettyFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalCharPrettyFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, charValue });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintBoolIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintBoolIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto printTrueIfBlock = irGenerator->generateIfBlock(irContext);
@@ -721,7 +724,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     printTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, printTrueIfThenBlock->getBlock(), elseBlock->getBlock());
 
     // true (print true)
-    auto trueStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalTrueFormatStringName());
+    auto trueStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalTrueFormatStringName());
     printTrueIfThenBlock->getBuilder()->get()->CreateCall(
         printf,
         { trueStringAllocation }
@@ -729,7 +732,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     printTrueIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
     // else (print false)
-    auto falseStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalFalseFormatStringName());
+    auto falseStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalFalseFormatStringName());
     elseBlock->getBuilder()->get()->CreateCall(
         printf,
         { falseStringAllocation }
@@ -739,30 +742,33 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     endBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto charType = new IRType(irGenerator->generateCharType());
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStringIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintStringIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
     auto loadedString = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), loadedPointer, functionBlock, arrayPointerType);
     auto pointerToStringAllocation = functionBlock->getBuilder()->get()->CreateExtractValue(loadedString, { arrayPointerType->getAllocIndex() });
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStringFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalStringFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, pointerToStringAllocation });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintRefFunction();
+    if (function == nullptr) {
+        throw std::logic_error("print ref function is null!");
+    }
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
@@ -796,7 +802,7 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
     // forLoopIndexArgumentAlloc is for printRef and printArray calls only
     auto forLoopIndexArgumentAlloc = functionBlock->getBuilder()->get()->CreateAlloca(intType);
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndexArgumentAlloc, functionBlock);
-    auto refStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalRefStartFormatStringName());
+    auto refStartString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalRefStartFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { refStartString });
     functionBlock->getBuilder()->get()->CreateBr(intIfBlock->getBlock());
 
@@ -891,12 +897,12 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
     structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
 
-    auto refEndString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalRefEndFormatStringName());
+    auto refEndString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalRefEndFormatStringName());
     endBlock->getBuilder()->get()->CreateCall(printf, { refEndString });
     endBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
@@ -904,7 +910,7 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     auto charType = new IRType(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintArrayFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
@@ -950,7 +956,7 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
     auto arrayElementByteOffset = functionBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), arrayElementByteOffset, functionBlock);
-    auto arrayStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalArrayStartFormatStringName());
+    auto arrayStartString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalArrayStartFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { arrayStartString });
     // forLoopIndexArgumentAlloc is for printRef and printArray calls only
     auto forLoopIndexArgumentAlloc = functionBlock->getBuilder()->get()->CreateAlloca(intType);
@@ -1099,12 +1105,12 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     forLoopEndBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
     // end block
-    auto arrayEndString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalArrayEndFormatStringName());
+    auto arrayEndString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalArrayEndFormatStringName());
     endBlock->getBuilder()->get()->CreateCall(printf, { arrayEndString });
     endBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
@@ -1112,7 +1118,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto charType = new IRType(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintStructFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
@@ -1173,7 +1179,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     addIdThenBlock->getBuilder()->get()->CreateCall(irModuleNode->getPrintWhitespaceFunction());
     addIdThenBlock->getBuilder()->get()->CreateBr(addStructStartBlock->getBlock());
 
-    auto structStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStructStartFormatStringName());
+    auto structStartString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalStructStartFormatStringName());
     addStructStartBlock->getBuilder()->get()->CreateCall(printf, { structStartString });
     addStructStartBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
@@ -1212,7 +1218,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     addCommaIfThenBlock->getBuilder()->get()->CreateCall(irContext->getIRModule()->getPrintCommaFunction());
     addCommaIfThenBlock->getBuilder()->get()->CreateBr(addKeyBlock->getBlock());
 
-    auto colonString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalColonFormatStringName());
+    auto colonString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalColonFormatStringName());
     addKeyBlock->getBuilder()->get()->CreateCall(printf, { structElementKeyAtIndex });
     addKeyBlock->getBuilder()->get()->CreateCall(printf, { colonString });
     addKeyBlock->getBuilder()->get()->CreateBr(intIfBlock->getBlock());
@@ -1330,17 +1336,17 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     forLoopEndBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
 
     // end block
-    auto arrayEndString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalStructEndFormatStringName());
+    auto arrayEndString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalStructEndFormatStringName());
     endBlock->getBuilder()->get()->CreateCall(printf, { arrayEndString });
     endBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintStructRefFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto structRefType = irGenerator->generateIRStructRefType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintStructRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
@@ -1363,98 +1369,98 @@ void PrintIRFunction::generatePrintStructRefFunction(IRGenerator* irGenerator, s
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto invocableType = irGenerator->generateIRInvocableType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintLambdaIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintLambdaIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
     auto lambdaValue = InstructionIRInjectorHelper::injectLoad(invocableType->getType(), loadedPointer, functionBlock);
     auto lambdaPointer = functionBlock->getBuilder()->get()->CreateExtractValue(lambdaValue, invocableType->getFunctionIndex());
 
-    auto formatLambdaAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalLambdaPointerFormatStringName());
+    auto formatLambdaAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalLambdaPointerFormatStringName());
 
-    auto lambdaStartString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalLambdaStartFormatStringName());
+    auto lambdaStartString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalLambdaStartFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { lambdaStartString });
 
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatLambdaAllocation, lambdaPointer });
 
-    auto lambdaEndString = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalLambdaEndFormatStringName());
+    auto lambdaEndString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalLambdaEndFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { lambdaEndString });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintWhitespaceFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintWhitespaceFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto whitespace = irGenerator->generateRawString(" ");
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalCharFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalCharFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, whitespace });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintCommaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintCommaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintCommaFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto comma = irGenerator->generateRawString(",");
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalCommaFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalCommaFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, comma });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintNewLineFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintNewLineFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintNewLineFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto newLine = irGenerator->generateRawString("\n");
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalCharFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalCharFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, newLine });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintDebugMarkerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintDebugMarkerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintDebugMarkerFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalIntFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalIntFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, function->getArg(0) });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintDebugPointerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintDebugPointerFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintDebugPointerFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalPointerFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalPointerFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, function->getArg(0) });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintDebugStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintDebugStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintDebugStringFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     functionBlock->getBuilder()->get()->CreateCall(printf, { function->getArg(0) });
     functionBlock->addVoidReturn();
 }
 
-void PrintIRFunction::generatePrintDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void PrintIRFunction::generatePrintDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
-    auto printf = irModuleNode->getModule()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintDebugRefCountFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto formatStringAllocation = irModuleNode->getModule()->getGlobalVariable(PrintIRFunction::getGlobalRefCountFormatStringName());
+    auto formatStringAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalRefCountFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { formatStringAllocation, function->getArg(1), function->getArg(0) });
     functionBlock->addVoidReturn();
 }

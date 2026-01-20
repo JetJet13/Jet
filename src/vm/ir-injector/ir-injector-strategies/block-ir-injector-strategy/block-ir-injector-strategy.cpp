@@ -7,7 +7,7 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.h"
 
-void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
+void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto successorsToBranchToParent = std::vector<IRBlockNode*>();
     for (auto statement : *irBlockNode->getBody()) {
         if (statement->is(IR_IF_STATEMENT_NODE)) {

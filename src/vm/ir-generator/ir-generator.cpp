@@ -134,6 +134,7 @@
 #include "ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.h"
 #include "ir-util-functions/string-concat-ir-function/string-concat-ir-function.h"
 #include "ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.h"
+#include "ir-internal-modules/ir-core-internal-module/ir-core-internal-module.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -949,13 +950,13 @@ IRBlockNode* IRGenerator::generateBasicBlock(std::string label, IRContext* irCon
     return new IRBlockNode(llvm::BasicBlock::Create(*_context, label, irContext->getFunction()), IR_BASIC_BT);
 }
 
-IRContext* IRGenerator::generateContext(IRBlockNode* irBlock, IRModuleNode* irModule) {
+IRContext* IRGenerator::generateContext(IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule) {
     return new IRContext(irBlock, irModule, &_context);
 }
 
-IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
-    return new IRModuleNode(
-            new llvm::Module(moduleName,*_context),
+std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName) {
+    return std::make_shared<IRModuleNode>(IRModuleNode(
+            std::make_unique<llvm::Module>(moduleName,*_context),
             ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
             CopyArrayIRFunction::getCopyArrayIRFunctionName(),
             CopyPointerIRFunction::getCopyPointerIRFunctionName(),
@@ -1030,113 +1031,26 @@ IRModuleNode* IRGenerator::generateModule(std::string moduleName) {
             IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),
             IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunctionName(),
             GetRefCountIRFunction::getGetRefCountIRFunctionName()
-    );
+    ));
 }
 
-void IRGenerator::initModule(IRModuleNode* irModule) {
-    // declare (if necessary)
-    CopyValueIRFunction::declareCopyValueFunction(this, &_context, irModule);
-    CopyArrayIRFunction::declareCopyArrayFunction(this, &_context, irModule);
-    CopyPointerIRFunction::declareCopyPointerFunction(this, &_context, irModule);
-    CopyLambdaIRFunction::declareCopyLambdaFunction(this, &_context, irModule);
-    CopyStructIRFunction::declareCopyStructFunction(this, &_context, irModule);
-    CopyStructRefIRFunction::declareCopyStructRefFunction(this, &_context, irModule);
-    CopyRefIRFunction::declareCopyRefFunction(this, &_context, irModule);
-    EqualValueIRFunction::declareEqualValueFunction(this, &_context, irModule);
-    EqualArrayIRFunction::declareEqualArrayFunction(this, &_context, irModule);
-    EqualStringIRFunction::declareEqualStringFunction(this, &_context, irModule);
-    EqualStructIRFunction::declareEqualStructFunction(this, &_context, irModule);
-    EqualStructRefIRFunction::declareEqualStructRefFunction(this, &_context, irModule);
-    EqualRefIRFunction::declareEqualRefFunction(this, &_context, irModule);
-    EqualRefIRFunction::declareEqualRefLeftOnlyFunction(this, &_context, irModule);
-    EqualRefIRFunction::declareEqualRefRightOnlyFunction(this, &_context, irModule);
-    FreeValueIRFunction::declareFreeValueFunction(this, &_context, irModule);
-    FreeArrayIRFunction::declareFreeArrayFunction(this, &_context, irModule);
-    FreePointerIRFunction::declareFreePointerFunction(this, &_context, irModule);
-    FreeLambdaIRFunction::declareFreeLambdaFunction(this, &_context, irModule);
-    FreeInvocableIRFunction::declareFreeInvocableFunction(this, &_context, irModule);
-    FreeStructIRFunction::declareFreeStructFunction(this, &_context, irModule);
-    FreeStructRefIRFunction::declareFreeStructRefFunction(this, &_context, irModule);
-    FreeStringIRFunction::declareFreeStringFunction(this, &_context, irModule);
-    FreeRefIRFunction::declareFreeRefFunction(this, &_context, irModule);
-    FreeCapturedVariableIRFunction::declareFreeCapturedVariableFunction(this, &_context, irModule);
-    PrintIRFunction::declarePrintDebugMarkerFunction(this, &_context, irModule);
-    PrintIRFunction::declarePrintDebugPointerFunction(this, &_context, irModule);
-    PrintIRFunction::declarePrintDebugStringFunction(this, &_context, irModule);
-    PrintIRFunction::declarePrintDebugRefCountFunction(this, &_context, irModule);
-    PrintIRFunction::declarePrintWhitespaceFunction(this, &_context, irModule);
-    PrintIRFunction::declarePrintCommaFunction(this, &_context, irModule);
-    PrintIRFunction::declarePrintNewLineFunction(this, &_context, irModule);
-
-    // generate
-    ArrayAccessIRFunction::generateArrayAccessFunction(this, &_context, irModule);
-    MallocIRFunction::generateMallocFunction(this, &_context, irModule);
-    MallocFreeIRFunction::generateMallocFreeFunction(this, &_context, irModule);
-    MallocSizeIRFunction::generateMallocSizeFunction(this, &_context, irModule);
-    MemcpyIRFunction::generateMemcpyFunction(this, &_context, irModule);
-    IncrementRefCountIRFunction::generateIncrementRefCountFunction(this, &_context, irModule);
-    IncrementLambdaRefCountIRFunction::generateIncrementLambdaRefCountFunction(this, &_context, irModule);
-    RefOfIRFunction::generateRefOfFunction(this, &_context, irModule);
-    SrefWithIRFunction::generateSrefWithFunction(this, &_context, irModule);
-    SameRefAsIRFunction::generateSameRefAsFunction(this, &_context, irModule);
-    SetupSrefIRFunction::generateSetupSrefFunction(this, &_context, irModule);
-    SetupRefIRFunction::generateSetupRefFunction(this, &_context, irModule);
-    SetupRefForStructIRFunction::generateSetupRefForStructFunction(this, &_context, irModule);
-    CopyValueIRFunction::generateCopyValueFunction(this, &_context, irModule);
-    CopyArrayIRFunction::generateCopyArrayFunction(this, &_context, irModule);
-    CopyPointerIRFunction::generateCopyPointerFunction(this, &_context, irModule);
-    CopyLambdaIRFunction::generateCopyLambdaFunction(this, &_context, irModule);
-    CopyStructIRFunction::generateCopyStructFunction(this, &_context, irModule);
-    CopyStructRefIRFunction::generateCopyStructRefFunction(this, &_context, irModule);
-    CopyStringIRFunction::generateCopyStringFunction(this, &_context, irModule);
-    CopyRefIRFunction::generateCopyRefFunction(this, &_context, irModule);
-    EqualValueIRFunction::generateEqualValueFunction(this, &_context, irModule);
-    EqualArrayIRFunction::generateEqualArrayFunction(this, &_context, irModule);
-    EqualStringIRFunction::generateEqualStringFunction(this, &_context, irModule);
-    EqualStructIRFunction::generateEqualStructFunction(this, &_context, irModule);
-    EqualStructRefIRFunction::generateEqualStructRefFunction(this, &_context, irModule);
-    EqualRefIRFunction::generateEqualRefFunction(this, &_context, irModule);
-    EqualRefIRFunction::generateEqualRefLeftOnlyFunction(this, &_context, irModule);
-    EqualRefIRFunction::generateEqualRefRightOnlyFunction(this, &_context, irModule);
-    FreeValueIRFunction::generateFreeValueFunction(this, &_context, irModule);
-    FreeArrayIRFunction::generateFreeArrayFunction(this, &_context, irModule);
-    FreePointerIRFunction::generateFreePointerFunction(this, &_context, irModule);
-    FreeLambdaIRFunction::generateFreeLambdaFunction(this, &_context, irModule);
-    FreeInvocableIRFunction::generateFreeInvocableFunction(this, &_context, irModule);
-    FreeStructIRFunction::generateFreeStructFunction(this, &_context, irModule);
-    FreeStructRefIRFunction::generateFreeStructRefFunction(this, &_context, irModule);
-    FreeStringIRFunction::generateFreeStringFunction(this, &_context, irModule);
-    FreeRefIRFunction::generateFreeRefFunction(this, &_context, irModule);
-    FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(this, &_context, irModule);
-    StringConcatIRFunction::generateStringConcatFunction(this, &_context, irModule);
-    ArrayConcatIRFunction::generateArrayConcatFunction(this, &_context, irModule);
-    ArrayHeadIRFunction::generateArrayHeadFunction(this, &_context, irModule);
-    ArrayLastIRFunction::generateArrayLastFunction(this, &_context, irModule);
-    ArrayDropIRFunction::generateArrayDropFunction(this, &_context, irModule);
-    ArrayDropLastIRFunction::generateArrayDropLastFunction(this, &_context, irModule);
-    ArrayTailIRFunction::generateArrayTailFunction(this, &_context, irModule);
-    ArrayAppendIRFunction::generateArrayAppendFunction(this, &_context, irModule);
-    ArrayPrependIRFunction::generateArrayPrependFunction(this, &_context, irModule);
-    ArrayTakeIRFunction::generateArrayTakeFunction(this, &_context, irModule);
-    ArrayTakeLastIRFunction::generateArrayTakeLastFunction(this, &_context, irModule);
-    ArraySizeIRFunction::generateArraySizeFunction(this, &_context, irModule);
-    ArrayEmptyIRFunction::generateArrayEmptyFunction(this, &_context, irModule);
-    GetRefCountIRFunction::generateGetRefCountFunction(this, &_context, irModule);
-}
-
-IRFunctionNode* IRGenerator::generateMainFunction(std::string functionName, IRModuleNode* irModuleNode) {
+IRFunctionNode* IRGenerator::generateMainFunction(std::string functionName, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto functionType = llvm::FunctionType::get(llvm::Type::getInt64Ty(*_context), {}, false);
     return new IRFunctionNode(
-        llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, functionName, irModuleNode->getModule())
+        llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, functionName, irModuleNode->getModule()->get())
     );
 }
 
-IRModuleNode* IRGenerator::generateUtilInternalModule() {
-    return IRUtilInternalModule::generate(this, &_context);
+void IRGenerator::augmentUtilInternalModule(std::shared_ptr<IRModuleNode> coreIRModule) {
+    IRUtilInternalModule::augment(this, &_context, coreIRModule);
 }
 
-IRModuleNode* IRGenerator::generateDebugInternalModule() {
-    return IRDebugInternalModule::generate(this, &_context);
+void IRGenerator::augmentDebugInternalModule(std::shared_ptr<IRModuleNode> coreIRModule) {
+    IRDebugInternalModule::augment(this, &_context, coreIRModule);
+}
+
+std::shared_ptr<IRModuleNode> IRGenerator::generateCoreModule() {
+    return IRCoreInternalModule::generate(this, &_context);
 }
 
 IRInjector* IRGenerator::getInjector() {

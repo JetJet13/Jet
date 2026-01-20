@@ -12,7 +12,7 @@
 
 class StructIRClassPropertyAccessExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, IRModuleNode *irModule, IRLookupTable* scope);
+    llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_TUPLE_IR_CLASS_PROPERTY_ACCESS_EXPRESSION_INJECTOR_STRATEGY_H

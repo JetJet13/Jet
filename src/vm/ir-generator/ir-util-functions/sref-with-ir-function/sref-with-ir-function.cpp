@@ -9,11 +9,11 @@ std::string SrefWithIRFunction::getSrefWithIRFunctionName() {
     return "jet.sref.with";
 }
 
-void SrefWithIRFunction::generateSrefWithFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void SrefWithIRFunction::generateSrefWithFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SrefWithIRFunction::getSrefWithIRFunctionName(), irModuleNode->getModule());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SrefWithIRFunction::getSrefWithIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isRefCounterPointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext);

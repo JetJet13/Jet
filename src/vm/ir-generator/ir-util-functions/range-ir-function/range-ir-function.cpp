@@ -17,12 +17,12 @@ std::string RangeIRFunction::getRange3pIRFunctionName() {
     return "jet.range.3p";
 }
 
-void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(intType));
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(), { intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           RangeIRFunction::getRange1pIRFunctionName(), irModuleNode->getModule());
+                                           RangeIRFunction::getRange1pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isStepNegativeIfBlock = irGenerator->generateIfBlock(irContext);
@@ -61,12 +61,12 @@ void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::uni
     );
 }
 
-void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(intType));
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(), { intType, intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           RangeIRFunction::getRange2pIRFunctionName(), irModuleNode->getModule());
+                                           RangeIRFunction::getRange2pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto differenceLessThanZeroIfBlock = irGenerator->generateIfBlock(irContext);
@@ -154,15 +154,15 @@ void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::uni
     forLoopEndBlock->getBuilder()->get()->CreateRet(loadedArrayPointer);
 }
 
-void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(irGenerator->generateIntType()));
-    auto raise = irModuleNode->getModule()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
+    auto raise = irModuleNode->getModule()->get()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
     auto sigTermCode = irGenerator->generateIntConstant(15); // graceful shutdown error code
     auto functionType = llvm::FunctionType::get(
             arrayPointerType->getType(), { intType, intType, intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
-                                           RangeIRFunction::getRange3pIRFunctionName(), irModuleNode->getModule());
+                                           RangeIRFunction::getRange3pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isStepZeroIfBlock = irGenerator->generateIfBlock(irContext);

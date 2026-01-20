@@ -4,7 +4,7 @@
 
 #include "print-statement-ir-injector-strategy.h"
 
-void PrintStatementIRInjectorStrategy::inject(IRPrintStatementNode* irPrintStatement, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope) {
+void PrintStatementIRInjectorStrategy::inject(IRPrintStatementNode* irPrintStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto arguments = std::vector<llvm::Value*>();
     for (unsigned long i = 0; i < irPrintStatement->getIRArguments()->size(); ++i) {
         if (i > 0) {

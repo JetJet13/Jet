@@ -10,15 +10,15 @@ std::string FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionNam
     return "jet.free.captured.variable";
 }
 
-void FreeCapturedVariableIRFunction::declareFreeCapturedVariableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void FreeCapturedVariableIRFunction::declareFreeCapturedVariableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), typeValueType->getType() }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                           FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName(), irModuleNode->getModule());
+                           FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto capturedVariableType = irGenerator->generateIRCapturedVariableType(pointerType);

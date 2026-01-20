@@ -12,7 +12,7 @@
 class ArrayConcatIRFunction {
 public:
     static std::string getArrayConcatIRFunctionName();
-    static void generateArrayConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateArrayConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_CONCAT_IR_FUNCTION_H

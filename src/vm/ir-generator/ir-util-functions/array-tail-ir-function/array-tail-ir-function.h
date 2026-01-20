@@ -12,7 +12,7 @@
 class ArrayTailIRFunction {
 public:
     static std::string getArrayTailIRFunctionName();
-    static void generateArrayTailFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode);
+    static void generateArrayTailFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_TAIL_IR_FUNCTION_H

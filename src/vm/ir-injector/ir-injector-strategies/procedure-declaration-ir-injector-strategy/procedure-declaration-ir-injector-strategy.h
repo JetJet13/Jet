@@ -12,7 +12,7 @@
 
 class ProcedureDeclarationIRInjectorStrategy {
 public:
-    void inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, IRModuleNode* irModule, IRLookupTable* scope);
+    void inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_PROCEDURE_DECLARATION_IR_INJECTOR_STRATEGY_H

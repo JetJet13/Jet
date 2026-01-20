@@ -9,7 +9,7 @@ std::string ArrayTailIRFunction::getArrayTailIRFunctionName() {
     return "jet.array.tail";
 }
 
-void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, IRModuleNode* irModuleNode) {
+void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();
@@ -19,7 +19,7 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
                                                 { pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
-                                           ArrayTailIRFunction::getArrayTailIRFunctionName(), irModuleNode->getModule());
+                                           ArrayTailIRFunction::getArrayTailIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNumElementsLessThanTwoIfBlock = irGenerator->generateIfBlock(irContext);

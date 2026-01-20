@@ -97,7 +97,7 @@ std::pair<TypeSource, IRInjectorStrategy*> IRInjector::insert(TypeSource typeSig
 }
 
 
-void IRInjector::inject(IRBlockNode* irBlock, IRNode* irNode, IRModuleNode* irModule, IRLookupTable* scope) {
+void IRInjector::inject(IRBlockNode* irBlock, IRNode* irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irNode->isDeclaration()) {
         this->inject(irBlock, (IRDeclarationNode*)irNode, irModule, scope);
     } else if (irNode->isStatement()) {
@@ -105,7 +105,7 @@ void IRInjector::inject(IRBlockNode* irBlock, IRNode* irNode, IRModuleNode* irMo
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, IRModuleNode* irModule, IRLookupTable* scope) {
+void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irDeclaration->is(IR_VARIABLE_DECLARATION_NODE)) {
         _variableIRInjector->inject((IRVariableDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
     } else if (irDeclaration->is(IR_FUNCTION_PARAMETER_DECLARATION_NODE)) {
@@ -121,7 +121,7 @@ void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, 
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRModuleNode* irModule, IRLookupTable* scope) {
+void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irStatement->is(IR_FUNCTION_RETURN_EXPRESSION_NODE)) {
         _functionReturnIRInjector->inject((IRFunctionReturnExpressionNode *) irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
@@ -147,7 +147,7 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, IRMo
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, IRModuleNode* irModule, IRLookupTable* scope) {
+void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     _blockIRInjectorStrategy->inject(irNode, irBlock, this, irModule, scope);
 }
 
@@ -155,7 +155,7 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {
     return _typeValueIRInjectorStrategy->inject(irType, irBlock);
 }
 
-llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, IRModuleNode* irModule, IRLookupTable* scope) {
+llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto injector = _injectorMap.find(irExpression->getInjectorTypeSource());
     if (injector == _injectorMap.end()) {
         irExpression->getTypeSignature()->print();

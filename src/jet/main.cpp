@@ -42,7 +42,7 @@ int main (int argc, const char* argv[]) {
         auto irJetFile = vm.compileMain(jetFile);
 
         Logger::log("IR Generation & Injection is done.");
-        irJetFile->getModule()->getModule()->print(llvm::outs(), nullptr);
+        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
         // Initialize the target registry etc.
         llvm::InitializeAllTargetInfos();
         llvm::InitializeAllTargets();
@@ -68,7 +68,7 @@ int main (int argc, const char* argv[]) {
         auto TheTargetMachine =
                 Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
 
-        irJetFile->getModule()->getModule()->setDataLayout(TheTargetMachine->createDataLayout());
+        irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
 
         auto Filename = "main-jet-test-file-output.o";
         std::error_code EC;
@@ -87,10 +87,10 @@ int main (int argc, const char* argv[]) {
             return 1;
         }
 
-        pass.run(*irJetFile->getModule()->getModule());
+        pass.run(*irJetFile->getIRModule()->getModule()->get());
         dest.flush();
         Logger::log("Target Triple", TargetTriple);
-        Logger::log("Data Layout", irJetFile->getModule()->getModule()->getDataLayoutStr());
+        Logger::log("Data Layout", irJetFile->getIRModule()->getModule()->get()->getDataLayoutStr());
         Logger::log("Wrote ", Filename, "\n");
 
     } else {
