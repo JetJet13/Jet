@@ -19,9 +19,11 @@ IRExpressionNode* SrefExpressionIRStrategy::generate(ASTSrefExpressionNode* node
 IRInstructionNode* SrefExpressionIRStrategy::generateAllocation(ASTSrefExpressionNode* node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     if (node->isReferenced()) {
         auto malloc = llvm::CallInst::Create(
-                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
+                {
+                    irGenerator->generateInt64Constant(1),
+                    irGenerator->generateInt64Constant(irType->getSizeInBytes())
+                },
                 ""
         );
         return IRInstructionNodeFactory::create(

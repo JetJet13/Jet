@@ -112,7 +112,7 @@ IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irB
     );
     auto malloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),
-            { mallocSize }
+            { loadedNumElements, elementTypeSize }
     );
 
     return IRInstructionNodeFactory::create(
@@ -125,7 +125,10 @@ IRInstructionNode* ArrayIRInjectorHelper::injectArrayPointerAllocation(IRBlockNo
     auto arrayAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule);
     auto malloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),
-            { irBlock->getBuilder()->get()->getInt64(arrayPointerType->getSizeInBytes()) }
+            {
+                irBlock->getBuilder()->get()->getInt64(1),
+                irBlock->getBuilder()->get()->getInt64(arrayPointerType->getSizeInBytes())
+            }
     );
     auto arrayPointerAllocation = irBlock->getBuilder()->get()->CreateBitCast(malloc, arrayPointerType->getType()->getPointerTo());
     auto pointerToArrayAllocation = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation, arrayPointerType->getAllocIndex());

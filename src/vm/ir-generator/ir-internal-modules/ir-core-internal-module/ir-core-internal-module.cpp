@@ -56,6 +56,7 @@
 #include "../../ir-util-functions/array-size-ir-function/array-size-ir-function.h"
 #include "../../ir-util-functions/array-empty-ir-function/array-empty-ir-function.h"
 #include "../../ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
+#include "../../ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
@@ -71,6 +72,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     EqualStringIRFunction::declareEqualStringFunction(irGenerator, context, irModule);
     EqualStructIRFunction::declareEqualStructFunction(irGenerator, context, irModule);
     EqualStructRefIRFunction::declareEqualStructRefFunction(irGenerator, context, irModule);
+    EqualLambdaIRFunction::declareEqualLambdaFunction(irGenerator, context, irModule);
     EqualRefIRFunction::declareEqualRefFunction(irGenerator, context, irModule);
     EqualRefIRFunction::declareEqualRefLeftOnlyFunction(irGenerator, context, irModule);
     EqualRefIRFunction::declareEqualRefRightOnlyFunction(irGenerator, context, irModule);
@@ -119,6 +121,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     EqualStringIRFunction::generateEqualStringFunction(irGenerator, context, irModule);
     EqualStructIRFunction::generateEqualStructFunction(irGenerator, context, irModule);
     EqualStructRefIRFunction::generateEqualStructRefFunction(irGenerator, context, irModule);
+    EqualLambdaIRFunction::generateEqualLambdaFunction(irGenerator, context, irModule);
     EqualRefIRFunction::generateEqualRefFunction(irGenerator, context, irModule);
     EqualRefIRFunction::generateEqualRefLeftOnlyFunction(irGenerator, context, irModule);
     EqualRefIRFunction::generateEqualRefRightOnlyFunction(irGenerator, context, irModule);

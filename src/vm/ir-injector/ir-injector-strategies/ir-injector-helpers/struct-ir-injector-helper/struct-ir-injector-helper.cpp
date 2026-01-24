@@ -13,9 +13,11 @@ llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRIns
     auto destinationStructRefAllocation = IRInstructionNodeFactory::create(structRefAllocation);
     InstructionIRInjectorHelper::inject(destinationStructRefAllocation, irBlock);
     auto destinationStructMalloc = irBlock->getBuilder()->get()->CreateCall(irModule->getMallocFunction(), {
+        irBlock->getBuilder()->get()->getInt64(1),
         irBlock->getBuilder()->get()->getInt64(irStructType->getSizeInBytes())
     });
     auto destinationCounterAllocation = irBlock->getBuilder()->get()->CreateCall(irModule->getMallocFunction(), {
+            irBlock->getBuilder()->get()->getInt64(1),
             irBlock->getBuilder()->get()->getInt64(irStructRefType->getCounterIRType()->getSizeInBytes())
     });
     auto sourceStructAllocation = structRefAllocation->getParentAllocation().value();
@@ -60,9 +62,11 @@ llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRIns
 llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
     auto destinationStructRefAllocation = irBlock->getBuilder()->get()->CreateAlloca(irStructRefType->getType());
     auto destinationStructAllocation = irBlock->getBuilder()->get()->CreateCall(irModule->getMallocFunction(), {
-        irBlock->getBuilder()->get()->getInt64(irStructRefType->getStructIRType()->getSizeInBytes())
+        irBlock->getBuilder()->get()->getInt64(1),
+        irBlock->getBuilder()->get()->getInt64(irStructRefType->getStructIRType()->getSizeInBytes()),
     });
     auto destinationCounterAllocation = irBlock->getBuilder()->get()->CreateCall(irModule->getMallocFunction(), {
+            irBlock->getBuilder()->get()->getInt64(1),
             irBlock->getBuilder()->get()->getInt64(irStructRefType->getCounterIRType()->getSizeInBytes())
     });
     auto loadedStructRef = InstructionIRInjectorHelper::injectLoad(irStructRefType->getType(), structRefSource, irBlock, irStructRefType);

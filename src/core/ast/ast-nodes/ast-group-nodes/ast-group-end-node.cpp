@@ -16,12 +16,12 @@ ASTNode * ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 
-    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE, AST_BLOCK_START_NODE })) {
-        return new ASTFunctionParameterListEndNode(this->getLexeme());
-    }
-
     if (mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
         return new ASTFunctionArgumentListEndNode(this->getLexeme());
+    }
+
+    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE, AST_BLOCK_START_NODE })) {
+        return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 
     return this;

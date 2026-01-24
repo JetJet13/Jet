@@ -21,6 +21,12 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRExpressionNode* irExpression, IR
         return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRObjectAccessInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
+    } else if (irExpression->is(IR_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)) {
+        return FunctionInvocationIRInjectorHelper::inject((IRTupleAccessInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
+    } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
+        return this->_objectAccessExpressionInjector.inject((IRObjectAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    } else if (irExpression->is(IR_TUPLE_ACCESS_EXPRESSION_NODE)) {
+        return this->_tupleAccessExpressionInjector.inject((IRTupleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     }
     throw std::logic_error("LambdaIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
@@ -107,7 +113,10 @@ llvm::Value* LambdaIRInjectorStrategy::injectDetails(IRLambdaExpressionNode* irE
         }
         auto lambdaScopeMalloc = irBlock->getBuilder()->get()->CreateCall(
                 irModule->getMallocFunction(),
-                { irBlock->getBuilder()->get()->getInt64(irLambdaScopeType->getSizeInBytes()) }
+                {
+                    irBlock->getBuilder()->get()->getInt64(1),
+                    irBlock->getBuilder()->get()->getInt64(irLambdaScopeType->getSizeInBytes()),
+                }
         );
         irBlock->getBuilder()->get()->CreateMemCpy(
                 lambdaScopeMalloc,
@@ -122,7 +131,10 @@ llvm::Value* LambdaIRInjectorStrategy::injectDetails(IRLambdaExpressionNode* irE
     auto refCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getAllocation()->getAllocatedType(), allocation, refCounterIndex);
     auto refCounterAlloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),
-            { irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getRefCounterSizeInBytes()) }
+            {
+                irBlock->getBuilder()->get()->getInt64(1),
+                irBlock->getBuilder()->get()->getInt64(irExpression->getIRType()->getLambdaVariableType()->getRefCounterSizeInBytes()),
+            }
     );
     auto refCounterValue = irBlock->getBuilder()->get()->getInt64(1);
     InstructionIRInjectorHelper::injectStore(refCounterValue, refCounterAlloc, irBlock);

@@ -62,9 +62,8 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
 
     // isNumElementsZeroIfThenBlock
     auto emptyTakeArrayMalloc = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(0) }
+            { irGenerator->generateInt64Constant(0), irGenerator->generateInt64Constant(1) }
     );
     auto arrayPointerAllocationForEmptyTake = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
@@ -104,9 +103,8 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
             }
     );
     auto takeArrayMalloc = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { takeArraySize }
+            { takeNumElements, sizeInBytes }
     );
     auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     auto loadedPointerToArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToArray);

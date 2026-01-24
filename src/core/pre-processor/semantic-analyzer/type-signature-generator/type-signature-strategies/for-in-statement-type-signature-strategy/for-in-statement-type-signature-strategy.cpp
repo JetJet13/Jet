@@ -12,10 +12,11 @@ void ForInStatementTypeSignatureStrategy::assign(ASTForInStatementNode* forState
                     ->getSource()
                     ->getSource()
                     ->getTypeSignature()
+                    ->getTargetTypeSignature()
     );
 
-    if (forStatementNode->getSource()->getSource()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE)) {
-        auto arrayTypeSignature = (ArrayTypeSignature*)forStatementNode->getSource()->getSource()->getTypeSignature();
+    if (forStatementNode->getSource()->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
+        auto arrayTypeSignature = (ArrayTypeSignature*)forStatementNode->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
         forStatementNode->getVariable()->getVariable()->setTypeSignature(arrayTypeSignature->getElementType());
     } else {
         forStatementNode->getVariable()->getVariable()->setTypeSignature(new UnknownTypeSignature());

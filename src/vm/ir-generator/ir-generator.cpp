@@ -135,6 +135,7 @@
 #include "ir-util-functions/string-concat-ir-function/string-concat-ir-function.h"
 #include "ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.h"
 #include "ir-internal-modules/ir-core-internal-module/ir-core-internal-module.h"
+#include "ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -835,9 +836,8 @@ IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, IRTy
 IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, unsigned long initialCount) {
     auto irType = this->generateIRArcType();
     auto malloc = llvm::CallInst::Create(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { this->generateInt64Constant(irType->getSizeInBytes()) }
+            { this->generateInt64Constant(1), this->generateInt64Constant(irType->getSizeInBytes()) }
     );
     auto captureCount = this->generateIntConstant(initialCount);
     auto storeInstruction = this->generateStoreInstruction(captureCount, malloc, irType);
@@ -1005,6 +1005,7 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             EqualArrayIRFunction::getEqualArrayIRFunctionName(),
             EqualStructIRFunction::getEqualStructIRFunctionName(),
             EqualStructRefIRFunction::getEqualStructRefIRFunctionName(),
+            EqualLambdaIRFunction::getEqualLambdaIRFunctionName(),
             EqualRefIRFunction::getEqualRefIRFunctionName(),
             EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(),
             EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(),

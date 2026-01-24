@@ -57,9 +57,8 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
             ""
     );
     auto malloc = functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { mallocSize },
+            { sourceArrayNumElements, elementSizeInBytes },
             ""
     );
     InstructionIRInjectorHelper::injectStore(malloc, destinationArrayAllocPointer, functionBlock);

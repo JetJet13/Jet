@@ -675,6 +675,12 @@ add_library(jet-vm
         ir-generator/ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.h
         ir-generator/ir-internal-modules/ir-core-internal-module/ir-core-internal-module.cpp
         ir-generator/ir-internal-modules/ir-core-internal-module/ir-core-internal-module.h
+        ir-generator/ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.cpp
+        ir-generator/ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-object-access-expression-injector-strategy/lambda-ir-object-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-object-access-expression-injector-strategy/lambda-ir-object-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-expression-injector-strategy/lambda-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-expression-injector-strategy/lambda-ir-tuple-access-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

@@ -13,10 +13,14 @@
 #include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-block-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-fat-arrow-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"
+#include "strategies/lambda-ir-object-access-expression-injector-strategy/lambda-ir-object-access-expression-injector-strategy.h"
+#include "strategies/lambda-ir-tuple-access-expression-injector-strategy/lambda-ir-tuple-access-expression-injector-strategy.h"
 
 class LambdaIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 private:
+    LambdaIRObjectAccessExpressionInjectorStrategy _objectAccessExpressionInjector = LambdaIRObjectAccessExpressionInjectorStrategy();
+    LambdaIRTupleAccessExpressionInjectorStrategy _tupleAccessExpressionInjector = LambdaIRTupleAccessExpressionInjectorStrategy();
     llvm::Value* injectDetails(IRLambdaExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 public:
     llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;

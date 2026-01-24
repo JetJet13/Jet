@@ -50,9 +50,8 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
 
     // isNumElementsLessThanTwoIfThenBlock
     auto emptyTailArrayMalloc = isNumElementsLessThanTwoIfThenBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(0) }
+            { irGenerator->generateInt64Constant(0), irGenerator->generateInt64Constant(1) }
     );
     auto arrayPointerAllocationForEmptyTail = isNumElementsLessThanTwoIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
@@ -75,9 +74,8 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             }
     );
     auto tailArrayMalloc = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { tailArraySize }
+            { tailNumElements, sizeInBytes }
     );
     auto pointerToArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     auto loadedPointerToArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToArray);
@@ -89,7 +87,10 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
     );
     auto arrayPointerAllocationForTail = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes()) }
+            {
+                irGenerator->generateInt64Constant(1),
+                irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
+            }
     );
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
@@ -101,7 +102,10 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
     );
     auto arrayPointerAllocationForTailCopy = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes()) }
+            {
+                irGenerator->generateInt64Constant(1),
+                irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
+            }
     );
     successorBlock->getBuilder()->get()->CreateCall(
         irModuleNode->getCopyArrayFunction(),

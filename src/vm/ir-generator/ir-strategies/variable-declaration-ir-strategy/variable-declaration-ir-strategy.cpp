@@ -61,7 +61,7 @@ IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(AST
         && !node->isGlobal()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
+                { irGenerator->generateInt64Constant(1), irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
                 ""
         );
         return IRInstructionNodeFactory::create(

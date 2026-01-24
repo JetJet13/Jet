@@ -6,7 +6,6 @@
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 void ClassIRInjectorStrategy::inject(IRClassDeclarationNode* irClassDeclarationNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irClassDeclarationNode->getPreConstructor()) {
@@ -35,7 +34,7 @@ void ClassIRInjectorStrategy::injectPreConstructor(IRClassPreConstructorNode* ir
     DebugIRInjectorHelper::injectLog(preConstructorBlock, irClassType->getId(), irInjector, irModule);
     for (auto keyValue : *irClassPreConstructorNode->getExpressions()) {
             auto pointerToProperty = preConstructorBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getStructIRType()->getType(), classInstancePropertiesStructAlloc, keyValue.first);
-            auto irExpressionValue = irInjector->inject(preConstructorBlock, keyValue.second, new IROperation(IR_OPERAND_VALUE_OP), irModule, preConstructorScope);
+            auto irExpressionValue = irInjector->inject(preConstructorBlock, keyValue.second, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, preConstructorScope);
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, preConstructorBlock);
     }
     irClassPreConstructorNode->getBlock()->addVoidReturn();

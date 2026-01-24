@@ -20,7 +20,10 @@ IRExpressionNode* LiteralExpressionIRStrategy::generate(ASTLiteralExpressionNode
 IRInstructionNode* LiteralExpressionIRStrategy::generateArrayAllocation(IRStringLiteralNode* irStringLiteralNode, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateInt64Constant(irStringLiteralNode->getIRType()->getSizeInBytes()) },
+            {
+                irGenerator->generateInt64Constant(irStringLiteralNode->getIRType()->getSize()),
+                irGenerator->generateInt64Constant(irStringLiteralNode->getIRType()->getElementIRType()->getSizeInBytes())
+            },
             ""
     );
     return IRInstructionNodeFactory::create(

@@ -66,7 +66,7 @@ void ArrayDropIRFunction::generateArrayDropFunction(IRGenerator* irGenerator, st
     );
     auto newArrayMalloc = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { newArraySize }
+            { loadedNewNumElements, sizeInBytes }
     );
     auto oldArrayOffset = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Mul, sizeInBytes, numElementsToDrop);
     auto pointerToOldArray = successorBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), allocIndex);

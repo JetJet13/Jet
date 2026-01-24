@@ -28,9 +28,11 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNod
 
 IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto malloc = llvm::CallInst::Create(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
+            {
+                irGenerator->generateInt64Constant(1),
+                irGenerator->generateInt64Constant(irType->getSizeInBytes())
+            },
             ""
     );
     return IRInstructionNodeFactory::create(
@@ -43,9 +45,11 @@ IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(IRStructTy
 IRInstructionNode* TupleExpressionIRStrategy::generateTuplePointerAllocation(ASTTupleExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
-                irContext->getIRModule()->getMallocFunction()->getFunctionType(),
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
+                {
+                    irGenerator->generateInt64Constant(1),
+                    irGenerator->generateInt64Constant(irType->getSizeInBytes())
+                },
                 ""
         );
         return IRInstructionNodeFactory::create(

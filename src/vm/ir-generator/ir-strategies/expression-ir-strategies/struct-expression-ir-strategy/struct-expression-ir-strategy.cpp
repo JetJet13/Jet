@@ -34,9 +34,11 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpression
 
 IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext) {
     auto malloc = llvm::CallInst::Create(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
+            {
+                irGenerator->generateInt64Constant(1),
+                irGenerator->generateInt64Constant(irType->getSizeInBytes())
+            },
             ""
     );
     return IRInstructionNodeFactory::create(
@@ -51,7 +53,10 @@ IRInstructionNode* StructExpressionIRStrategy::generateStructRefAllocation(ASTSt
     if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),
-                { irGenerator->generateInt64Constant(irType->getSizeInBytes()) }
+                {
+                    irGenerator->generateInt64Constant(1),
+                    irGenerator->generateInt64Constant(irType->getSizeInBytes())
+                }
         );
         return IRInstructionNodeFactory::create(
                 malloc,

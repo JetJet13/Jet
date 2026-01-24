@@ -53,9 +53,11 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionN
     }
 
     auto malloc = irBlock->getBuilder()->get()->CreateCall(
-        irModule->getMallocFunction()->getFunctionType(),
         irModule->getMallocFunction(),
-        { irBlock->getBuilder()->get()->getInt64(irExpression->getExpression()->getIRType()->getSizeInBytes()) }
+        {
+            irBlock->getBuilder()->get()->getInt64(1),
+            irBlock->getBuilder()->get()->getInt64(irExpression->getExpression()->getIRType()->getSizeInBytes()),
+        }
     );
     irBlock->getBuilder()->get()->CreateStore(rawValue, malloc);
     return malloc;

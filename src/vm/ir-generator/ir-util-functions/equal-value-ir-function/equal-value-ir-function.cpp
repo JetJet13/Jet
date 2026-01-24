@@ -44,6 +44,8 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
+    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, "lambda.");
+    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, "lambda.");
     auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
     auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
     auto refLeftOnlyIfBlock = irGenerator->generateIfBlock(irContext, "ref.left.only");
@@ -258,7 +260,7 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
             isLeftValueTypeArray,
             isRightValueTypeArray
     );
-    arrayIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesArray, arrayIfThenBlock->getBlock(), refIfBlock->getBlock());
+    arrayIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesArray, arrayIfThenBlock->getBlock(), lambdaIfBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateRet(
         arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getEqualArrayFunction()->getFunctionType(),
@@ -269,6 +271,33 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
                 function->getArg(2)
             }
         )
+    );
+
+    auto isLeftValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            leftTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+    );
+    auto isRightValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            rightTypeValueId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+    );
+    auto areBothValueTypesLambda = lambdaIfBlock->getBuilder()->get()->CreateBinOp(
+            llvm::BinaryOperator::And,
+            isLeftValueTypeLambda,
+            isRightValueTypeLambda
+    );
+    lambdaIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesLambda, lambdaIfThenBlock->getBlock(), refIfBlock->getBlock());
+    lambdaIfThenBlock->getBuilder()->get()->CreateRet(
+            lambdaIfThenBlock->getBuilder()->get()->CreateCall(
+                    irContext->getIRModule()->getEqualLambdaFunction()->getFunctionType(),
+                    irContext->getIRModule()->getEqualLambdaFunction(),
+                    {
+                        function->getArg(0),
+                        function->getArg(1)
+                    }
+            )
     );
 
 

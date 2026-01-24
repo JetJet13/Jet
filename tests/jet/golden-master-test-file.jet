@@ -83,7 +83,8 @@ let globalMutableStruct = {
         () => 200.01,
         { a: 10, b: true, c: 'C', d: "word", e: () => true },
         { 30, true, 'O', "third word" }
-    }
+    },
+    h: new SimpleClass(10) // fix this - causing seg fault
 };
 let globalMutableTuple = {
     20,
@@ -107,5 +108,27 @@ proc testGlobalConstants() {
     assert(globalConstantString == "global-string-constant");
     assert(globalConstantLambdaWithBlockResult == 10);
     assert(globalConstantLambdaWithArrayResult == 11);
+    assert(globalMutableStruct.a == 10);
+    assert(globalMutableStruct.c == 'C');
+    //assert((() => true) == () => true);
+    // fix this at the type-signature level.
+    // the assertion passes even though the struct type-signatures have different sizes (inline-one includes 'h')
+    assert(globalMutableStruct == {
+          a: 10,
+          b: true,
+          c: 'C',
+          d: "word",
+          e: globalMutableStruct.e,
+          f: { a: 10, b: true, c: 'C', d: "word", e: globalMutableStruct.f.e },
+          g: {
+              20,
+              false,
+              'Q',
+              "another word",
+              globalMutableStruct.g.4,
+              { a: 10, b: true, c: 'C', d: "word", e: globalMutableStruct.g.5.e },
+              { 30, true, 'O', "third word" }
+          }
+    });
 }
 testGlobalConstants();

@@ -30,11 +30,14 @@ void CopyStructRefIRFunction::generateCopyStructRefFunction(IRGenerator* irGener
     auto structTypeSizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(loadedStructType, { typeValueType->getSizeInBytesIndex() });
     auto structMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFunction(),
-            { structTypeSizeInBytes }
+            { irGenerator->generateInt64Constant(1), structTypeSizeInBytes }
     );
     auto counterMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateIntConstant(structRefType->getCounterIRType()->getSizeInBytes()) }
+            {
+                irGenerator->generateInt64Constant(1),
+                irGenerator->generateIntConstant(structRefType->getCounterIRType()->getSizeInBytes()),
+            }
     );
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(1), counterMalloc, functionBlock);
     auto sourceStructPointer = functionBlock->getBuilder()->get()->CreateStructGEP(structRefType->getType(), function->getArg(1), structRefType->getStructIndex());

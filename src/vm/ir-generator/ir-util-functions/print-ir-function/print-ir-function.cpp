@@ -476,11 +476,17 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto vaList = functionBlock->getBuilder()->get()->CreateAlloca(pointerType, nullptr, "vaList");
     auto varArgAlloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(intIrType->getSizeInBytes()) }
+            {
+                irGenerator->generateInt64Constant(1),
+                irGenerator->generateInt64Constant(intIrType->getSizeInBytes())
+            }
     );
     auto forLoopIndex = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(intIrType->getSizeInBytes()) }
+            {
+                irGenerator->generateInt64Constant(1),
+                irGenerator->generateInt64Constant(intIrType->getSizeInBytes()),
+            }
     );
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
     functionBlock->getBuilder()->get()->CreateCall(vaStart, { vaList });

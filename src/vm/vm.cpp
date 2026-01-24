@@ -59,14 +59,13 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
     for (auto node : *jetFile->getFile()->getBody()) {
         _irGenerator->generatePostInitialTypeFor(node, &irLookupTable, irContext);
     }
+
     auto generatedIRNodes = std::vector<IRNode*>();
     for (auto node : *jetFile->getFile()->getBody()) {
-        generatedIRNodes.push_back(_irGenerator->generateFor(node, &irLookupTable, irContext));
+        irMainFunctionBlock->insert(_irGenerator->generateFor(node, &irLookupTable, irContext));
     }
-    for (auto irNode : generatedIRNodes) {
-        _irInjector->inject(irMainFunctionBlock, irNode, irMainModule, &irLookupTable);
-    }
-    irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
+    _irInjector->inject(irMainFunctionBlock, irMainFunctionBlock, irMainModule, &irLookupTable);
+    irMainFunctionBlock->getLastSuccessorOrSelf()->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irJetFile;
 }
 

@@ -10,7 +10,7 @@
 llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isRefAssignment()) {
         return this->injectRef(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-    } else if (irOperation->isCopy()) {
+    } else if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else {
         return this->injectOperand(irExpression, irBlock, irInjector, irOperation, irModule, scope);

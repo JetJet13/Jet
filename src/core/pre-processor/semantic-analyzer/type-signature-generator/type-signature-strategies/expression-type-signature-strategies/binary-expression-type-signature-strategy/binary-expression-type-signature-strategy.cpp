@@ -88,6 +88,10 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
                 {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
                 {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
 
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
@@ -102,6 +106,10 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
                 {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
                 {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
                 { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },

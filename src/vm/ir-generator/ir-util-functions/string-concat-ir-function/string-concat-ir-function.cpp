@@ -41,7 +41,7 @@ void StringConcatIRFunction::generateStringConcatFunction(IRGenerator* irGenerat
 
     auto newStringMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { newStringNumElements }
+            { newStringNumElements, irGenerator->generateInt64Constant(charType->getSizeInBytes()) }
     );
 
     auto pointerToFirstStringAllocation = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());

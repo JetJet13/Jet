@@ -17,8 +17,8 @@ llvm::Value* RefIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccessE
 
 llvm::Value* RefIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irStructRefType = (IRStructRefType*)irExpression->getIRType()->getSourceType();
-    auto tupleAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-    auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, tupleAllocation);
+    auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
     auto loadedPointerToIndexedElement = InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
     return StructIRInjectorHelper::injectStructRefCopy(irBlock, irStructRefType, loadedPointerToIndexedElement,
                                                        irModule, irInjector);

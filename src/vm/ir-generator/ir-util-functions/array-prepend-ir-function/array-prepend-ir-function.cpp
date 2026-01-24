@@ -51,9 +51,8 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
             }
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { newArraySize }
+            { newNumElements, sizeInBytes }
     );
     functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction()->getFunctionType(),

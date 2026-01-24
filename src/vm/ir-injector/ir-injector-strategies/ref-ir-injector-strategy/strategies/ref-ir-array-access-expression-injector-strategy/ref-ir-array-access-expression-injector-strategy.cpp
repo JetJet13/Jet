@@ -6,7 +6,6 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../../ir-type/ir-array-pointer-type.h"
 #include "../../../../../ir-type/ir-ref-type.h"
-#include "../../../ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h"
 
 llvm::Value* RefIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irRefType = (IRRefType*)irExpression->getIRType();

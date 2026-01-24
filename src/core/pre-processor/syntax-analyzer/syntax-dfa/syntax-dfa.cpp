@@ -280,6 +280,8 @@ void SyntaxDfa::init() {
             AST_DREF_EXPRESSION_NODE,
             AST_SREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
+            AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
+            AST_LAMBDA_EXPRESSION_NODE
     });
 
     unaryOperator
@@ -978,10 +980,12 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE });
 
     lambdaExpression
-    ->markAlwaysReduceSelf();
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     lambdaWithFatArrowExpression
-    ->markAlwaysReduceSelf();
+    ->markAlwaysReduceSelf()
+    ->addTransition(DFATransitionFactory::create(binaryOperator));
 
     typeParameterList
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_TUPLE_NODE, AST_REF_TYPE_KEYWORD_NODE });

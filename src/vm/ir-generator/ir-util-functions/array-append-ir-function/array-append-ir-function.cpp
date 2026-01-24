@@ -52,9 +52,8 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
             }
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { newArraySize }
+            { newNumElements, sizeInBytes }
     );
 
     auto pointerToOldArray = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());

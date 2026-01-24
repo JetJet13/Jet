@@ -13,7 +13,7 @@ llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(IRTupleExpressionNod
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
         auto irTypeAtIndex = irExpression->getIRType()->getStructIRType()->getIRTypeByIndex(i);
         auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getStructIRType()->getType(), tupleAllocation, i);
-        auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+        auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irTypeAtIndex);
     }
 

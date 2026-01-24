@@ -48,7 +48,7 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { newArraySize }
+            { newArrayNumElements, sizeInBytes }
     );
 
     auto firstArrayCopyAlloc = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());

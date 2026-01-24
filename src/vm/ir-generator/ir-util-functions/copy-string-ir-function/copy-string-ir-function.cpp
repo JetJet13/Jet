@@ -41,9 +41,8 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
             }
     );
     auto malloc = functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { mallocSize }
+            { sourceStringNumChars, irGenerator->generateIntConstant(charType->getSizeInBytes()) }
     );
     auto destinationStringAllocPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(malloc, destinationStringAllocPointer, functionBlock);

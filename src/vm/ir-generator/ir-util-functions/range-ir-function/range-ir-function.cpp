@@ -107,9 +107,8 @@ void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::uni
             }
     );
     auto arrayAllocation = forLoopPrepBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { arrayAllocationSize }
+            { numElements, irGenerator->generateIntConstant(arrayPointerType->getElementIRType()->getSizeInBytes()) }
     );
     auto forLoopIndex = forLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType);
     forLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);
@@ -288,9 +287,8 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
             }
     );
     auto arrayAllocation = forLoopPrepBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction()->getFunctionType(),
             irModuleNode->getMallocFunction(),
-            { arrayAllocationSize }
+            { numElements, irGenerator->generateIntConstant(arrayPointerType->getElementIRType()->getSizeInBytes()) }
     );
     auto forLoopIndex = forLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType);
     forLoopPrepBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(0), forLoopIndex);

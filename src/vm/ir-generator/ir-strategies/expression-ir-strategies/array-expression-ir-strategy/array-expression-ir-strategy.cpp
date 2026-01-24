@@ -28,9 +28,11 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(ASTArrayExpressionNod
 
 IRInstructionNode* ArrayExpressionIRStrategy::generateArrayAllocation(ASTArrayExpressionNode* node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRType* arrayElementIrType, std::vector<IRInstructionNode*> childAllocations, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     auto malloc = llvm::CallInst::Create(
-            irContext->getIRModule()->getMallocFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocFunction(),
-            { irGenerator->generateInt64Constant(irArrayType->getSizeInBytes()) },
+            {
+                irGenerator->generateInt64Constant(irArrayType->getSize()),
+                irGenerator->generateInt64Constant(irArrayType->getElementIRType()->getSizeInBytes())
+            },
             ""
     );
     return IRInstructionNodeFactory::create(
