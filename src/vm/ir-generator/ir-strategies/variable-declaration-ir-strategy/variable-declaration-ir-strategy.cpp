@@ -14,7 +14,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irExpression, irContext);
 
     auto irGlobalVariable = std::optional<IRInstructionNode*>();
-    if (node->isGlobal() && !node->getTypeSignature()->isInvocable()) {
+    if (node->isGlobal()) {
         auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
         auto globalVariable = new llvm::GlobalVariable(
                 *irContext->getModule(),

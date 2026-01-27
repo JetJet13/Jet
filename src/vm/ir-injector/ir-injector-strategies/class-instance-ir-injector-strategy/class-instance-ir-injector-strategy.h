@@ -11,10 +11,15 @@
 #include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
+#include "strategies/class-instance-ir-object-access-expression-injector-strategy/class-instance-ir-object-access-expression-injector-strategy.h"
+#include "strategies/class-instance-ir-tuple-access-expression-injector-strategy/class-instance-ir-tuple-access-expression-injector-strategy.h"
 
 
 class ClassInstanceIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
+private:
+    ClassInstanceIRObjectAccessExpressionInjectorStrategy _objectAccessExpressionInjector = ClassInstanceIRObjectAccessExpressionInjectorStrategy();
+    ClassInstanceIRTupleAccessExpressionInjectorStrategy _tupleAccessExpressionInjector = ClassInstanceIRTupleAccessExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
     llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);

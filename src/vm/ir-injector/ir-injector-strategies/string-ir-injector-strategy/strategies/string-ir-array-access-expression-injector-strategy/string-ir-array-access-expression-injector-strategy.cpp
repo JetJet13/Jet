@@ -8,9 +8,7 @@
 
 llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
 
-    if (irOperation->isCopyReassignment() || irOperation->isCopyReassignmentGlobal()) {
-        return this->injectCopyReassignment(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-    } else if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
+    if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else {
         return this->injectOperand(irExpression, irBlock, irInjector, irOperation, irModule, scope);
@@ -40,7 +38,6 @@ llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::injectOperand(IRArra
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSourceExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
-//    auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyValueFunction(),
             {
@@ -59,9 +56,5 @@ llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::injectCopyReassignme
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSourceExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     auto indexValue = irInjector->inject(irBlock, irExpression->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     auto pointerToIndexedElement = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getSourceExpression()->getIRType()->getType(), loadedPointerToIndexedElement, { indexValue });
-    if (irOperation->isOperandValue()) {
-        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), pointerToIndexedElement, irBlock);
-//        return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), pointerToIndexedElement);
-    }
     return pointerToIndexedElement;
 }

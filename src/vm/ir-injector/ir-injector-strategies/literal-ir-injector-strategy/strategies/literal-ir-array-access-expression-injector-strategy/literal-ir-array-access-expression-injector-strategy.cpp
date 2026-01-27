@@ -8,7 +8,7 @@
 
 llvm::Value* LiteralIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto pointerAtIndex = this->getPointerAtIndex(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-    if (irOperation->isCopyReassignment() || irOperation->isOperandPointer()) {
+    if (irOperation->isOperandPointer()) {
         return pointerAtIndex;
     } else {
         return InstructionIRInjectorHelper::injectLoad(

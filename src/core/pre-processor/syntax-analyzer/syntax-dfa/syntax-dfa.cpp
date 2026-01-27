@@ -281,7 +281,8 @@ void SyntaxDfa::init() {
             AST_SREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
-            AST_LAMBDA_EXPRESSION_NODE
+            AST_LAMBDA_EXPRESSION_NODE,
+            AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE
     });
 
     unaryOperator
@@ -430,7 +431,7 @@ void SyntaxDfa::init() {
     })
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
@@ -812,6 +813,8 @@ void SyntaxDfa::init() {
             AST_BINARY_EXPRESSION_NODE,
             AST_LOGICAL_EXPRESSION_NODE,
             AST_UNARY_EXPRESSION_NODE,
+            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
+            AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE
     });
 
     this->setupTransitionsWithTarget(arrayAccessAssignment, AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, {

@@ -18,6 +18,14 @@ IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNod
                 expressionIr->getValue()
         ), expressionIr, irType);
     } else if (node->getUnaryOperatorNode()->isMinus()) {
+        auto isFloat = node->getTypeSignature()->getTargetTypeSignature()->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE);
+        if (isFloat) {
+            return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
+                    llvm::Instruction::BinaryOps::Mul,
+                    llvm::ConstantFP::get(**irContext->getContext(), llvm::APFloat(-1.0)),
+                    expressionIr->getValue()
+            ), expressionIr, irType);
+        }
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(64, -1, true)),

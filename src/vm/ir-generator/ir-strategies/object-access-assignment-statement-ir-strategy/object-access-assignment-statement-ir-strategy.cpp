@@ -10,7 +10,7 @@ IRStatementNode* ObjectAccessAssignmentStatementIRStrategy::generate(ASTObjectAc
     irExpression->markAsAssigned();
     return new IRObjectAccessAssignmentStatementNode(
             node,
-            (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, new IROperation(IR_COPY_REASSIGNMENT_OP)),
+            (IRObjectAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP)),
             irExpression
     );
 }

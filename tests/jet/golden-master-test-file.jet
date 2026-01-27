@@ -1,5 +1,10 @@
 import MyOtherModule from "./other-test-file.jet";
 
+// syntax not supported but workaround exists for the following scenarios:
+// #1 lambda-with-fat-arrow expression as left operand of binary expression
+// not supported: () => true == () => true
+// workaround: (() => true) == () => true
+
 class SimpleClass {
     public value: int;
 
@@ -24,9 +29,9 @@ const globalConstantChar = 'A';
 const globalConstantBool = true;
 const globalConstantString = "global-string-constant";
 const globalConstantLambdaWithBlock = () { return 10; };
-const globalConstantLambdaWithArray = () => 11;
+const globalConstantLambdaWithFatArrow = () => 11;
 const globalConstantLambdaWithBlockResult = globalConstantLambdaWithBlock();
-const globalConstantLambdaWithArrayResult = globalConstantLambdaWithArray();
+const globalConstantLambdaWithFatArrowResult = globalConstantLambdaWithFatArrow();
 const globalConstantStruct = {
     a: 10,
     b: true,
@@ -65,9 +70,9 @@ let globalMutableChar = 'B';
 let globalMutableBool = false;
 let globalMutableString = "global-mutable-string";
 let globalMutableLambdaWithBlock = () { return 10; };
-let globalMutableLambdaWithArray = () => 11;
+let globalMutableLambdaWithFatArrow = () => 11;
 let globalMutableLambdaWithBlockResult = globalMutableLambdaWithBlock();
-let globalMutableLambdaWithArrayResult = globalMutableLambdaWithArray();
+let globalMutableLambdaWithFatArrowResult = globalMutableLambdaWithFatArrow();
 let globalMutableStruct = {
     a: 10,
     b: true,
@@ -84,7 +89,7 @@ let globalMutableStruct = {
         { a: 10, b: true, c: 'C', d: "word", e: () => true },
         { 30, true, 'O', "third word" }
     },
-    h: new SimpleClass(10) // fix this - causing seg fault
+    h: new SimpleClass(10)
 };
 let globalMutableTuple = {
     20,
@@ -107,12 +112,46 @@ proc testGlobalConstants() {
     assert(globalConstantBool == true);
     assert(globalConstantString == "global-string-constant");
     assert(globalConstantLambdaWithBlockResult == 10);
-    assert(globalConstantLambdaWithArrayResult == 11);
-    assert(globalMutableStruct.a == 10);
-    assert(globalMutableStruct.c == 'C');
-    //assert((() => true) == () => true);
-    // fix this at the type-signature level.
-    // the assertion passes even though the struct type-signatures have different sizes (inline-one includes 'h')
+    assert(globalConstantLambdaWithFatArrowResult == 11);
+    assert(globalConstantStruct == {
+          a: 10,
+          b: true,
+          c: 'C',
+          d: "word",
+          e: globalConstantStruct.e,
+          f: { a: 10, b: true, c: 'C', d: "word", e: globalConstantStruct.f.e },
+          g: {
+              20,
+              false,
+              'Q',
+              "another word",
+              globalConstantStruct.g.4,
+              { a: 10, b: true, c: 'C', d: "word", e: globalConstantStruct.g.5.e },
+              { 30, true, 'O', "third word" }
+          },
+          h: new SimpleClass(10)
+    });
+    assert(globalConstantTuple == {
+          20,
+          false,
+          'Q',
+          "another word",
+          globalConstantTuple.4,
+          { a: 10, b: true, c: 'C', d: "word", e: globalConstantTuple.5.e },
+          { 30, true, 'O', "third word" },
+          new SimpleClass(30)
+    });
+    assert(globalConstantClass == new SimpleClass(50));
+    assert(globalConstantEnum == SimpleEnum.Alpha);
+    assert(globalConstantModuleCall == MyOtherModule::myBoolFunction());
+
+    assert(globalMutableInteger == 101);
+    assert(globalMutableFloat == 101.00001);
+    assert(globalMutableChar == 'B');
+    assert(globalMutableBool == false);
+    assert(globalMutableString == "global-mutable-string");
+    assert(globalMutableLambdaWithBlockResult == 10);
+    assert(globalMutableLambdaWithFatArrowResult == 11);
     assert(globalMutableStruct == {
           a: 10,
           b: true,
@@ -128,7 +167,102 @@ proc testGlobalConstants() {
               globalMutableStruct.g.4,
               { a: 10, b: true, c: 'C', d: "word", e: globalMutableStruct.g.5.e },
               { 30, true, 'O', "third word" }
-          }
+          },
+          h: new SimpleClass(10)
     });
+    assert(globalMutableTuple == {
+         20,
+         false,
+         'Q',
+         "another word",
+         globalMutableTuple.4,
+         { a: 10, b: true, c: 'C', d: "word", e: globalMutableTuple.5.e },
+         { 30, true, 'O', "third word" },
+         new SimpleClass(30)
+    });
+    assert(globalMutableClass == new SimpleClass(60));
+    assert(globalMutableEnum == SimpleEnum.Beta);
+    assert(globalMutableModuleCall == MyOtherModule::myBoolFunction());
+
+    globalMutableInteger = -1090;
+    globalMutableFloat = -101.900;
+    globalMutableChar = 'z';
+    globalMutableBool = true;
+    globalMutableString = "new string";
+    globalMutableLambdaWithBlock = () { return -1990; };
+    globalMutableLambdaWithFatArrow = () => -986;
+    globalMutableLambdaWithBlockResult = globalMutableLambdaWithBlock();
+    globalMutableLambdaWithFatArrowResult = globalMutableLambdaWithFatArrow();
+    globalMutableStruct = {
+          a: 10910,
+          b: false,
+          c: 'N',
+          d: "new word",
+          e: globalMutableStruct.e,
+          f: { a: 1840, b: false, c: 'T', d: "another word", e: globalMutableStruct.f.e },
+          g: {
+              2001,
+              true,
+              'U',
+              "wow another word",
+              globalMutableStruct.g.4,
+              { a: 540, b: false, c: 'J', d: "foo word", e: globalMutableStruct.g.5.e },
+              { 320, false, 'K', "foo third word" }
+          },
+          h: new SimpleClass(1009)
+    };
+    globalMutableTuple = {
+         540,
+         true,
+         'Y',
+         "bar another word",
+         () => 500.01,
+         { a: 40, b: false, c: 'D', d: "mars word", e: () => false },
+         { 35, false, 'N', "mars third word" },
+         new SimpleClass(300)
+    };
+    globalMutableClass = new SimpleClass(10900);
+    globalMutableEnum = SimpleEnum.Gamma;
+    globalMutableModuleCall = MyOtherModule::myOtherBoolFunction();
+
+    assert(globalMutableInteger == -1090);
+    assert(globalMutableFloat == -101.900);
+    assert(globalMutableChar == 'z');
+    assert(globalMutableBool == true);
+    assert(globalMutableString == "new string");
+    assert(globalMutableLambdaWithBlockResult == -1990);
+    assert(globalMutableLambdaWithFatArrowResult == -986);
+    assert(globalMutableStruct == {
+        a: 10910,
+        b: false,
+        c: 'N',
+        d: "new word",
+        e: globalMutableStruct.e,
+        f: { a: 1840, b: false, c: 'T', d: "another word", e: globalMutableStruct.f.e },
+        g: {
+            2001,
+            true,
+            'U',
+            "wow another word",
+            globalMutableStruct.g.4,
+            { a: 540, b: false, c: 'J', d: "foo word", e: globalMutableStruct.g.5.e },
+            { 320, false, 'K', "foo third word" }
+        },
+        h: new SimpleClass(1009)
+    });
+    assert(globalMutableTuple == {
+        540,
+        true,
+        'Y',
+        "bar another word",
+        globalMutableTuple.4,
+        { a: 40, b: false, c: 'D', d: "mars word", e: globalMutableTuple.5.e },
+        { 35, false, 'N', "mars third word" },
+        new SimpleClass(300)
+    });
+    assert(globalMutableClass == new SimpleClass(10900));
+    assert(globalMutableEnum == SimpleEnum.Gamma);
+    assert(globalMutableModuleCall == MyOtherModule::myOtherBoolFunction());
 }
+
 testGlobalConstants();

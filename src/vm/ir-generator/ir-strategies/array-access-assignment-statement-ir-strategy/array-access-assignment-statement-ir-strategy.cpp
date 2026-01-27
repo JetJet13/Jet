@@ -10,7 +10,7 @@ IRStatementNode* ArrayAccessAssignmentStatementIRStrategy::generate(ASTArrayAcce
     irExpression->markAsAssigned();
     return new IRArrayAccessAssignmentStatementNode(
         node,
-        (IRArrayAccessExpressionNode*)irGenerator->generateFor(node->getArrayAccessAssignment()->getArrayAccess(), scope, irContext, new IROperation(IR_COPY_REASSIGNMENT_OP)),
+        (IRArrayAccessExpressionNode*)irGenerator->generateFor(node->getArrayAccessAssignment()->getArrayAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP)),
         irExpression
     );
 }

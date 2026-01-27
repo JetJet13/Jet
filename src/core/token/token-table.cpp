@@ -6,7 +6,7 @@
 
 TokenTable::TokenTable() {
     _intMap = std::unordered_map<unsigned long, int>();
-    _floatMap = std::unordered_map<unsigned long, float>();
+    _floatMap = std::unordered_map<unsigned long, double>();
     _charMap = std::unordered_map<unsigned long, char>();
     _stringMap = std::unordered_map<unsigned long, std::string>();
     _identifierMap = std::unordered_map<unsigned long, std::string>();
@@ -22,7 +22,7 @@ int TokenTable::getInt(unsigned long key) {
     }
 }
 
-float TokenTable::getFloat(unsigned long key) {
+double TokenTable::getFloat(unsigned long key) {
     auto result = _floatMap.find(key);
     if (result == _floatMap.end()) {
         throw std::invalid_argument("no float value found for key");
@@ -62,8 +62,8 @@ void TokenTable::setInt(unsigned long key, unsigned long value) {
     _intMap.insert(std::pair<unsigned long, int>(key, value));
 }
 
-void TokenTable::setFloat(unsigned long key, float value) {
-    _floatMap.insert(std::pair<unsigned long, float>(key, value));
+void TokenTable::setFloat(unsigned long key, double value) {
+    _floatMap.insert(std::pair<unsigned long, double>(key, value));
 }
 
 void TokenTable::setChar(unsigned long key, char value) {

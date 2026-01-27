@@ -70,6 +70,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
 }
 
 void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
+    Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {
         auto exportedFunction = destination->getIRModule()->getModule()->get()->getFunction(exportedDeclaration->getId());
         exportedFunction->setName(jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + exportedDeclaration->getId());

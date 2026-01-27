@@ -10,7 +10,7 @@ IRStatementNode* TupleAccessAssignmentStatementIRStrategy::generate(ASTTupleAcce
     irExpression->markAsAssigned();
     return new IRTupleAccessAssignmentStatementNode(
             node,
-            (IRTupleAccessExpressionNode*)irGenerator->generateFor(node->getTupleAccessAssignment()->getTupleAccess(), scope, irContext, new IROperation(IR_COPY_REASSIGNMENT_OP)),
+            (IRTupleAccessExpressionNode*)irGenerator->generateFor(node->getTupleAccessAssignment()->getTupleAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP)),
             irExpression
     );
 }

@@ -4,11 +4,15 @@
 
 #include "ir-unary-arithmetic-expression-node.h"
 
-IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type) {
+IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::Value* irValue, IRExpressionNode* irExpression, IRType* type) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
     _type = type;
+}
+
+IRExpressionNode* IRUnaryArithmeticExpressionNode::getIRValue() {
+    return _irExpression;
 }
 
 void IRUnaryArithmeticExpressionNode::markAsGlobal() {
@@ -20,7 +24,7 @@ bool IRUnaryArithmeticExpressionNode::isReferenced() {
     return _node->isReferenced();
 }
 
-llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getValue() {
+llvm::Value* IRUnaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }
 

@@ -9,8 +9,6 @@
 llvm::Value* ArrayIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isCopy() || irOperation->isCopyGlobal() || irOperation->isFunctionReturn()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-    } else if (irOperation->isCopyReassignment() || irOperation->isCopyReassignmentGlobal()) {
-        return this->injectCopyReassignment(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else {
         return this->injectOperand(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     }

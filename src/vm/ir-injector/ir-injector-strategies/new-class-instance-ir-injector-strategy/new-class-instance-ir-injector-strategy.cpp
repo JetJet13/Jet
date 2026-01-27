@@ -42,6 +42,10 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
             arguments
     );
 
+    if (irOperation->isOperandPointer()) {
+        return classInstanceAllocation;
+    }
+
 
     return InstructionIRInjectorHelper::injectLoad(
             irExpression->getClassInstanceAllocation()->getIRType()->getUnderlyingType()->getType(),

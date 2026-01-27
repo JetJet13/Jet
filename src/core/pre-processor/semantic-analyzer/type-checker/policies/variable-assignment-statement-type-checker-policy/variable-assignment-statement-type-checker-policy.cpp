@@ -25,7 +25,7 @@ namespace VariableAssignmentStatementTypeCheckerPolicy {
         auto voidExpressionMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(variableAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
-            variableAssignmentStatementNode->getExpression()->getTypeSignature(),
+            variableAssignmentStatementNode->getExpression()->getTypeSignature()->getTargetTypeSignature(),
             unknownExpressionMessage,
             invalidExpressionMessage,
             voidExpressionMessage,
@@ -36,7 +36,7 @@ namespace VariableAssignmentStatementTypeCheckerPolicy {
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
           variableAssignmentStatementNode->getVariableAssignment()->getTypeSignature(),
-          variableAssignmentStatementNode->getExpression()->getTypeSignature(),
+          variableAssignmentStatementNode->getExpression()->getTypeSignature()->getTargetTypeSignature(),
           typeMismatchMessage,
           typeCheckerResult
         );

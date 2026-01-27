@@ -36,7 +36,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
 
     if (irType->isInvocableType()) {
         auto irInvocableType = (IRInvocableType*)irType;
-        auto source = scope->find(node->getFunction()->getId()).value();
+        auto source = scope->findAcrossScopes(node->getFunction()->getId()).value();
         auto argList = this->prepArgumentList(node, irInvocableType, irGenerator, irContext);
         auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), source->getValue(), argList);
         return new IRFunctionInvocationExpressionNode(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);

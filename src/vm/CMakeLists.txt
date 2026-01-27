@@ -681,6 +681,10 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-object-access-expression-injector-strategy/lambda-ir-object-access-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-expression-injector-strategy/lambda-ir-tuple-access-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-expression-injector-strategy/lambda-ir-tuple-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-object-access-expression-injector-strategy/class-instance-ir-object-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-object-access-expression-injector-strategy/class-instance-ir-object-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-tuple-access-expression-injector-strategy/class-instance-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-tuple-access-expression-injector-strategy/class-instance-ir-tuple-access-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

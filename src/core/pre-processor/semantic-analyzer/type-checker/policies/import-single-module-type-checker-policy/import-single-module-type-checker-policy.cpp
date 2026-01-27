@@ -9,6 +9,5 @@
 
 namespace ImportSingleModuleTypeCheckerPolicy {
     void apply(ASTImportSingleModuleDeclarationNode* importSingleModuleDeclarationNode, TypeCheckerResult* typeCheckerResult) {
-        importSingleModuleDeclarationNode->getPath()->getImportPath()->getValue();
     }
-};
+}

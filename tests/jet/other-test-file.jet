@@ -3,3 +3,7 @@ module MyOtherModule
 export func myBoolFunction() bool {
     return true;
 }
+
+    export func myOtherBoolFunction() bool {
+    return false;
+}

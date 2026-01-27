@@ -21,8 +21,6 @@ public:
     bool isOperandPointer();
     bool isCopy();
     bool isCopyGlobal();
-    bool isCopyReassignment();
-    bool isCopyReassignmentGlobal();
     bool isRefAssignment();
     bool isRefGlobalAssignment();
     bool isFunctionArgument();

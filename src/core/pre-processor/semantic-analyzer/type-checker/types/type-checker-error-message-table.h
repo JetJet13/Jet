@@ -242,6 +242,9 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ArrayElementTypeVoid(ASTNode* node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type cannot be void");  };
     }
+    static ErrorMessageLambda BinaryExpressionOperandsTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "binary expression operand types (left, right) are not equivalent"); };
+    }
 }
 
 #endif //JETLANG_TYPE_CHECKER_ERROR_MESSAGE_TABLE_H

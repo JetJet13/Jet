@@ -585,7 +585,7 @@ llvm::IntegerType* IRGenerator::generateInt32Type() {
 }
 
 llvm::Type* IRGenerator::generateFloatType() {
-    return llvm::Type::getFloatTy(*_context);
+    return llvm::Type::getDoubleTy(*_context);
 }
 
 llvm::Type* IRGenerator::generateDoubleType() {

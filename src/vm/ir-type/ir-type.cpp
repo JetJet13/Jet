@@ -143,7 +143,7 @@ bool IRType::isInteger64Type() {
 }
 
 bool IRType::isFloatType() {
-    return _type->isFloatTy();
+    return _type->isDoubleTy();
 }
 
 bool IRType::isBoolType() {

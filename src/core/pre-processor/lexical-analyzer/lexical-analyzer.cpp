@@ -124,7 +124,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
 
         auto valueId = this->generateTokenValueId();
         if (isFloat) {
-            _tokenTable->setFloat(valueId, std::stof(term));
+            _tokenTable->setFloat(valueId, std::stod(term));
             return new Token(SymbolFactory::createFloatSymbol(), term, valueId);
         } else {
             _tokenTable->setInt(valueId, std::stoi(term));

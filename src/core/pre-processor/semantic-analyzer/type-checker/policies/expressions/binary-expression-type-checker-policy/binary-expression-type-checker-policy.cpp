@@ -19,5 +19,14 @@ namespace BinaryExpressionTypeCheckerPolicy {
             voidMessage,
             typeCheckerResult
         );
+
+        auto mismatchTypeErrorMessage = TypeCheckerErrorMessageTable::BinaryExpressionOperandsTypeMismatch(binaryExpression);
+        TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
+        ->enforce(
+                binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature(),
+                binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature(),
+                mismatchTypeErrorMessage,
+                typeCheckerResult
+        );
     }
 }
