@@ -148,6 +148,7 @@ public:
     llvm::ConstantInt* generateIntConstant(unsigned int integer);
     llvm::ConstantInt* generateIntConstant(uint64_t integer);
     llvm::ConstantInt* generateIntConstant(unsigned long integer);
+    llvm::ConstantFP* generateFloatConstant(double floatValue);
     llvm::ConstantInt* generateChar(char character);
     llvm::ConstantInt* generateBoolean(bool value);
     llvm::ConstantInt* generateInt64Constant(int integer);

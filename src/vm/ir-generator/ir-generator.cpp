@@ -677,6 +677,10 @@ llvm::ConstantInt* IRGenerator::generateIntConstant(unsigned long integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
 
+llvm::ConstantFP* IRGenerator::generateFloatConstant(double floatValue) {
+    return llvm::ConstantFP::get(*_context, llvm::APFloat(floatValue));
+}
+
 llvm::ConstantInt* IRGenerator::generateChar(char character) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(CHAR_BIT, character));
 }

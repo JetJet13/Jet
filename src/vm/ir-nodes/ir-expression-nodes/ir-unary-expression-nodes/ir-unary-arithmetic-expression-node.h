@@ -13,15 +13,15 @@
 class IRUnaryArithmeticExpressionNode : public IRUnaryExpressionNode {
 private:
     ASTUnaryExpressionNode* _node;
-    llvm::Value* _irValue;
+    llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irExpression;
     IRType* _type;
 public:
-    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::Value* irValue, IRExpressionNode* irExpression, IRType* type);
+    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
     IRExpressionNode* getIRValue();
     void markAsGlobal() override;
     bool isReferenced() override;
-    llvm::Value* getValue() override;
+    llvm::BinaryOperator* getValue() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

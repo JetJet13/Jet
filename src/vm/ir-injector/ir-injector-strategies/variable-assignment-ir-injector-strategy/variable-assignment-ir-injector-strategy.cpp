@@ -20,10 +20,12 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
         InstructionIRInjectorHelper::injectStore(newVariableValue, newValueAlloc, irBlock, globalVariableIrType);
         auto typeValue = irInjector->inject(irBlock, globalVariableIrType);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(globalVariableIrType->getValue()->getAllocatedType(), typeValue, irBlock);
-        irBlock->getBuilder()->get()->CreateCall(
-                irModule->getFreeValueFunction(),
-                { globalVariable.value()->getValue(), loadedTypeValue }
-        );
+        if (globalVariableIrType->containsTypeThatRequiresFreeing()) {
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getFreeValueFunction(),
+                    { globalVariable.value()->getValue(), loadedTypeValue }
+            );
+        }
         irBlock->getBuilder()->get()->CreateMemCpy(
                 globalVariable.value()->getValue(),
                 globalVariableIrType->getAlignment(),
@@ -32,8 +34,6 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
                 globalVariableIrType->getSizeInBytes()
         );
     } else {
-        Logger::log("NOT A GLOBAL VARIABLE", irVariableAssignmentStatement->getVariableName());
-        scope->dump();
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
         InstructionIRInjectorHelper::injectStore(newVariableValue, variable->getValue(), irBlock, variable->getIRType());
     }

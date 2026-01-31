@@ -1337,6 +1337,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/jet-debug-type-signature-map/jet-debug-type-signature-map.cpp
         pre-processor/semantic-analyzer/jet-debug-type-signature-map/jet-debug-type-signature-map.h
         type-signature/types/built-in-debug-type-source.h
+        dfa/types/backtrack-to-predecessor-rule.cpp
+        dfa/types/backtrack-to-predecessor-rule.h
 
 )
 

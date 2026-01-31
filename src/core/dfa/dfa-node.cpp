@@ -9,6 +9,7 @@
 DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType) {
     _astNodeType = astNodeType;
     _predecessorsToBacktrackTo = std::vector<ASTNodeType>();
+    _backtrackToPredecessorRules = std::vector<BacktrackToPredecessorRule*>();
     _successorsToReduceSelfFor = std::vector<ASTNodeType>();
     _reduceToTargetMapsForPrevNode = std::vector<ReduceToTargetMap*>();
     _reduceToTargetMapsForNextNode = std::vector<ReduceToTargetMap*>();
@@ -21,6 +22,11 @@ DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::opt
 
 DFANode* DFANode::backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors) {
     _predecessorsToBacktrackTo = std::move(predecessors);
+    return this;
+}
+
+DFANode* DFANode::addBacktrackToPredecessorRule(BacktrackToPredecessorRule* backtrackToPredecessorRule) {
+    _backtrackToPredecessorRules.push_back(backtrackToPredecessorRule);
     return this;
 }
 
@@ -84,6 +90,15 @@ std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
 
 bool DFANode::shouldBacktrackTo(ASTNodeType astNodeType) {
     return std::find(_predecessorsToBacktrackTo.begin(), _predecessorsToBacktrackTo.end(), astNodeType) != _predecessorsToBacktrackTo.end();
+}
+
+bool DFANode::shouldBacktrackWhenPrevNodeAndNextNodeAre(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType) {
+    for (auto backtrackToPredecessorRule: _backtrackToPredecessorRules) {
+        if (backtrackToPredecessorRule->match(prevAstNodeType, nextAstNodeType)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool DFANode::shouldReduceSelfFor(ASTNodeType astNodeType) {

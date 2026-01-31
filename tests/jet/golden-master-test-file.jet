@@ -46,9 +46,11 @@ const globalConstantStruct = {
         "another word",
         () => 200.01,
         { a: 10, b: true, c: 'C', d: "word", e: () => true },
-        { 30, true, 'O', "third word" }
+        { 30, true, 'O', "third word" },
+        84.12
     },
-    h: new SimpleClass(10)
+    h: new SimpleClass(10),
+    i: SimpleEnum.Alpha
 };
 const globalConstantTuple = {
     20,
@@ -58,7 +60,8 @@ const globalConstantTuple = {
     () => 200.01,
     { a: 10, b: true, c: 'C', d: "word", e: () => true },
     { 30, true, 'O', "third word" },
-    new SimpleClass(30)
+    new SimpleClass(30),
+    SimpleEnum.Alpha
 };
 const globalConstantClass = new SimpleClass(50);
 const globalConstantEnum = SimpleEnum.Alpha;
@@ -87,9 +90,11 @@ let globalMutableStruct = {
         "another word",
         () => 200.01,
         { a: 10, b: true, c: 'C', d: "word", e: () => true },
-        { 30, true, 'O', "third word" }
+        { 30, true, 'O', "third word" },
+        70.41
     },
-    h: new SimpleClass(10)
+    h: new SimpleClass(10),
+    i: 8.56
 };
 let globalMutableTuple = {
     20,
@@ -105,7 +110,7 @@ let globalMutableClass = new SimpleClass(60);
 let globalMutableEnum = SimpleEnum.Beta;
 let globalMutableModuleCall = MyOtherModule::myBoolFunction();
 
-proc testGlobalConstants() {
+proc testGlobalConstantsAndMutables() {
     assert(globalConstantInteger == 100);
     assert(globalConstantFloat == 100.090);
     assert(globalConstantChar == 'A');
@@ -127,9 +132,11 @@ proc testGlobalConstants() {
               "another word",
               globalConstantStruct.g.4,
               { a: 10, b: true, c: 'C', d: "word", e: globalConstantStruct.g.5.e },
-              { 30, true, 'O', "third word" }
+              { 30, true, 'O', "third word" },
+              84.12
           },
-          h: new SimpleClass(10)
+          h: new SimpleClass(10),
+          i: SimpleEnum.Alpha
     });
     assert(globalConstantTuple == {
           20,
@@ -139,7 +146,8 @@ proc testGlobalConstants() {
           globalConstantTuple.4,
           { a: 10, b: true, c: 'C', d: "word", e: globalConstantTuple.5.e },
           { 30, true, 'O', "third word" },
-          new SimpleClass(30)
+          new SimpleClass(30),
+          SimpleEnum.Alpha
     });
     assert(globalConstantClass == new SimpleClass(50));
     assert(globalConstantEnum == SimpleEnum.Alpha);
@@ -166,9 +174,11 @@ proc testGlobalConstants() {
               "another word",
               globalMutableStruct.g.4,
               { a: 10, b: true, c: 'C', d: "word", e: globalMutableStruct.g.5.e },
-              { 30, true, 'O', "third word" }
+              { 30, true, 'O', "third word" },
+              70.41
           },
-          h: new SimpleClass(10)
+          h: new SimpleClass(10),
+          i: 8.56
     });
     assert(globalMutableTuple == {
          20,
@@ -207,9 +217,11 @@ proc testGlobalConstants() {
               "wow another word",
               globalMutableStruct.g.4,
               { a: 540, b: false, c: 'J', d: "foo word", e: globalMutableStruct.g.5.e },
-              { 320, false, 'K', "foo third word" }
+              { 320, false, 'K', "foo third word" },
+              50.15
           },
-          h: new SimpleClass(1009)
+          h: new SimpleClass(1009),
+          i: 8.56
     };
     globalMutableTuple = {
          540,
@@ -246,9 +258,11 @@ proc testGlobalConstants() {
             "wow another word",
             globalMutableStruct.g.4,
             { a: 540, b: false, c: 'J', d: "foo word", e: globalMutableStruct.g.5.e },
-            { 320, false, 'K', "foo third word" }
+            { 320, false, 'K', "foo third word" },
+            50.15
         },
-        h: new SimpleClass(1009)
+        h: new SimpleClass(1009),
+        i: 8.56
     });
     assert(globalMutableTuple == {
         540,
@@ -264,5 +278,223 @@ proc testGlobalConstants() {
     assert(globalMutableEnum == SimpleEnum.Gamma);
     assert(globalMutableModuleCall == MyOtherModule::myOtherBoolFunction());
 }
+testGlobalConstantsAndMutables();
 
-testGlobalConstants();
+proc testExpressionsWithGlobals() {
+    const addInt = 100 + globalConstantInteger - globalMutableInteger;
+    assert(addInt == 1290);
+
+    const subInt = 10000 - globalConstantInteger;
+    assert(subInt == 9900);
+
+    const mulInt = 500 * globalConstantInteger;
+    assert(mulInt == 50000);
+
+    const divInt = 190 / globalConstantInteger;
+    assert(divInt == 1);
+
+    const modInt = globalConstantInteger mod 6;
+    assert(modInt == 4);
+
+    const inverseModInt = 6 mod globalConstantInteger;
+    assert(inverseModInt == 6);
+
+    const newFloat = 10.031 + globalConstantFloat;
+    // this will fail because floating point values that are computed
+    // will not line-up exactly. A tolerance/epsilon is needed
+    // to make the equality check succeed.
+    //assert(newFloat == 110.121);
+    assert(newFloat > 110.12 && newFloat < 110.122);
+
+    const subFloat = 10000.468 - globalConstantFloat;
+    assert(subFloat == 9900.378000);
+
+    const mulFloat = 500.25 * globalConstantFloat;
+    assert(mulFloat == 50070.022500);
+
+    const divFloat = 190.129 / globalMutableFloat;
+    assert(divFloat > -1.865840 && divFloat < -1.865838);
+
+    globalMutableBool = true && false;
+    assert(globalMutableBool == false);
+
+    globalMutableBool = true && true;
+    assert(globalMutableBool == true);
+
+    globalMutableBool = false && false;
+    assert(globalMutableBool == false);
+
+    globalMutableBool = false && true;
+    assert(globalMutableBool == false);
+
+    globalMutableBool = true && true && true;
+    assert(globalMutableBool == true);
+
+    globalMutableBool = false && false && false;
+    assert(globalMutableBool == false);
+
+    globalMutableBool = false && true && false;
+    assert(globalMutableBool == false);
+
+    globalMutableBool = true && true && false;
+    assert(globalMutableBool == false);
+
+    const newBool = globalMutableBool && true;
+    assert(newBool == false);
+
+    const newString = "C" ++ "andy" ++ " " ++ globalMutableString ++ " " ++ globalConstantString;
+    assert(newString == "Candy new string global-string-constant");
+
+    assert(globalConstantChar < 'B');
+    assert(globalConstantChar > '0');
+
+    const newCount = globalMutableStruct.a + 1980 + globalMutableStruct.g.0 + globalMutableStruct.f.a;
+    assert(newCount == 16731);
+
+    const floatTest = globalMutableStruct.i + 1980.919 + globalMutableStruct.g.7;
+    assert(floatTest > 2039.62 && floatTest < 2039.63);
+
+    assert(globalConstantStruct.i == SimpleEnum.Alpha);
+    assert(globalConstantTuple.8 == SimpleEnum.Alpha);
+}
+testExpressionsWithGlobals();
+
+proc testLiteralExpressions() {
+    let integer = 1;
+    assert(integer == 1);
+    let decimal = 2.0;
+    assert(decimal == 2.0);
+    let str = "hello";
+    assert(str == "hello");
+    let character = 'b';
+    assert(character == 'b');
+    let flag = true;
+    assert(flag == true);
+    let iflag = false;
+    assert(iflag == false);
+    const sumInt = 1 + 2;
+    assert(sumInt == 3);
+    const doubleSumInt = 1 + 2 + 3;
+    assert(doubleSumInt == 6);
+    const subtractInt = 1 - 2;
+    assert(subtractInt == -1);
+    const multiplyInt = 1 * 2;
+    assert(multiplyInt == 2);
+    const divideInt = 1 / 2;
+    assert(divideInt == 0);
+    const moduloInt = 1 mod 10;
+    assert(moduloInt == 1);
+    const anotherString = "hello";
+    assert(anotherString == "hello");
+    const negOne = -1;
+    assert(negOne == -1);
+    const negOnePointO = -1.0;
+    assert(negOnePointO == -1.0);
+    const negOneSum = -1 + 2;
+    assert(negOneSum == 1);
+    const negOneSubtract = -1 - 2;
+    assert(negOneSubtract == -3);
+    const negOneMultiply = -1 * 2;
+    assert(negOneMultiply == -2);
+    const negOneDivide = -1 / 2;
+    assert(negOneDivide == 0);
+    const negOneDividePlusTwo = -1 / +2;
+    assert(negOneDividePlusTwo == 0);
+    const plusOne = +1;
+    assert(plusOne == 1);
+    const plusOneSum = +1 + 2;
+    assert(plusOneSum == 3);
+    const plusOneSubtract = +1 - 2;
+    assert(plusOneSubtract == -1);
+    const plusOneMultiply = +1 * 2;
+    assert(plusOneMultiply == 2);
+    const plusOneDivide = +1 / 2;
+    assert(plusOneDivide == 0);
+    const plusOneDivideNegTwo = +1 / -2;
+    assert(plusOneDivideNegTwo == 0);
+    const negIntId = -integer;
+    assert(negIntId == -1);
+    const bangTrue = !true;
+    assert(bangTrue == false);
+    const bangFalse = !false;
+    assert(bangFalse == true);
+    const bangIdentifier = !iflag;
+    assert(bangIdentifier == true);
+    const andLogic = true && false;
+    assert(andLogic == false);
+    const orLogic = true || false;
+    assert(orLogic == true);
+    const andLogicBangId = !flag && true;
+    assert(andLogicBangId == false);
+    const andLogicBang = !false && true;
+    assert(andLogicBang == true);
+    const orLogicBangId = !flag || true;
+    assert(orLogicBangId == true);
+    const orLogicBang = !false || true;
+    assert(orLogicBang == true);
+    const andLogicOr = true && false || true;
+    assert(andLogicOr == true);
+    const andLogicOrBang = !true && false || true;
+    assert(andLogicOrBang == false);
+    const intLogicAnd = 1 && 2;
+    assert(intLogicAnd == true);
+    const intLogicOr = 1 || 2;
+    assert(intLogicOr == true);
+    const intLogicAnd = !1 && 2;
+    assert(intLogicAnd == false);
+    const intLogicOr = 1 || !2;
+    assert(intLogicOr == true);
+    const doubleBang = !1 && !2;
+    assert(doubleBang == false);
+    const tripleBang = !'a' && !'b' || !'c';
+    assert(tripleBang == false);
+    const gt = 1 > 2;
+    assert(gt == false);
+    const gte = 1 >= 2;
+    assert(gte == false);
+    const lt = 1 < 2;
+    assert(lt == true);
+    const lte = 1 <= 2;
+    assert(lte == true);
+    const bracket = (1 + 2);
+    assert(bracket == 3);
+    const doubleBracket = ((1 + 2));
+    assert(doubleBracket == 3);
+    const tripleBracket = (((1 + 2)));
+    assert(tripleBracket == 3);
+    const sumBracket = (1 + 2) + (2 + 3);
+    assert(sumBracket == 8);
+    const encloseSumBracket = ((1 + 2) + (2 + 3));
+    assert(encloseSumBracket == 8);
+    const encloseOrBracket = ((1 + 2) || (2 + 3));
+    assert(encloseOrBracket == true);
+    const encloseUnary = (!true);
+    assert(encloseUnary == false);
+    const encloseDoubleUnary = !(!true);
+    assert(encloseDoubleUnary == true);
+    const encloseUnary = !(!true) && !(!false);
+    assert(encloseUnary == false);
+    const encloseBinary = (1 + ((2 + 3) + 4));
+    assert(encloseBinary == 10);
+    const encloseLogical = (true && ((true || true) && true));
+    assert(encloseLogical == true);
+    const encloseTripleUnary = !(true && !(!(true || true) && true));
+    assert(encloseTripleUnary == false);
+    const array = [1, 2, 3];
+    assert(array == [1,2,3]);
+    const arrAccess = array[0];
+    assert(arrAccess == 1);
+    const rawArrAccess = [1,2][0];
+    assert(rawArrAccess == 1);
+    const nestedArr = [ [1], [2], [3] ];
+    assert(nestedArr == [ [1], [2], [3] ]);
+    const nestedArrWithExpressions = [ [1 + 1], [2 + 2], [3 + 3] ];
+    assert(nestedArrWithExpressions == [ [1 + 1], [2 + 2], [3 + 3] ]);
+    const arrWithIds = [sumInt, doubleSumInt, multiplyInt];
+    assert(arrWithIds == [ 3, 6, 2]);
+    const nestedArrAccess = [[1,2,3], [4,5,6]][0][0];
+    assert(nestedArrAccess == 1);
+    const tripleNestedArrAccess = [[[1],[2],[3]], [[4],[5],[6]]][0][0][0];
+    assert(tripleNestedArrAccess == 1);
+}
+testLiteralExpressions();

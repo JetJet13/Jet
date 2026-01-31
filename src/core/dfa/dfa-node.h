@@ -11,12 +11,14 @@
 #include "types/dfa-node-occurrence.h"
 #include "types/reduce-to-target-map.h"
 #include "types/reduce-to-target-dual-map.h"
+#include "types/backtrack-to-predecessor-rule.h"
 
 struct DFATransition;
 
 class DFANode {
 private:
     std::vector<ASTNodeType> _predecessorsToBacktrackTo;
+    std::vector<BacktrackToPredecessorRule*> _backtrackToPredecessorRules;
     std::vector<ASTNodeType> _successorsToReduceSelfFor;
     std::optional<ASTNodeType> _targetAstNodeType;
     std::vector<ReduceToTargetMap*> _reduceToTargetMapsForPrevNode;
@@ -29,6 +31,7 @@ private:
 public:
     DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType = {});
     DFANode* backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors);
+    DFANode* addBacktrackToPredecessorRule(BacktrackToPredecessorRule* backtrackToPredecessorRule);
     DFANode* addReduceToTargetMapForPrevNode(ReduceToTargetMap* reduceToTargetMap);
     DFANode* addReduceToTargetMapForNextNode(ReduceToTargetMap* reduceToTargetMap);
     DFANode* addReduceToTargetMapForPrevNodeAndNextNode(ReduceToTargetDualMap* reduceToTargetDualMap);
@@ -37,6 +40,7 @@ public:
     DFANode* markAlwaysReduceSelf();
     std::optional<DFANode*> transition(ASTNodeType nextAstNodeType);
     bool shouldBacktrackTo(ASTNodeType astNodeType);
+    bool shouldBacktrackWhenPrevNodeAndNextNodeAre(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType);
     bool shouldReduceSelfFor(ASTNodeType astNodeType);
     bool shouldReduceToTargetWhenPrevNodeIs(ASTNodeType astNodeType);
     bool shouldReduceToTargetWhenNextNodeIs(ASTNodeType astNodeType);

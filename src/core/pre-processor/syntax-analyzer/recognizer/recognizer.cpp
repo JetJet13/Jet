@@ -76,6 +76,8 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, 1, startNode.value()->getReduceTargetForNextNode(successor.value()->getNodeType()).value());
     } else if (startNode && predecessor && startNode.value()->shouldBacktrackTo(predecessor.value()->getNodeType())) {
         return new RecognizerResult(RECOGNIZER_ACTION_POP);
+    } else if (startNode && predecessor && successor && startNode.value()->shouldBacktrackWhenPrevNodeAndNextNodeAre(predecessor.value()->getNodeType(), successor.value()->getNodeType())) {
+        return new RecognizerResult(RECOGNIZER_ACTION_POP);
     }
     auto dfa = _syntaxDfa->getDFA();
     dfa->reset();

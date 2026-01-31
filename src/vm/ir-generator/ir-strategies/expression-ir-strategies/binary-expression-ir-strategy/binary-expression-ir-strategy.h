@@ -12,8 +12,8 @@
 
 class BinaryExpressionIRStrategy {
 private:
-    llvm::Instruction::BinaryOps determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode);
-    llvm::CmpInst::Predicate determineComparatorPredicate(ASTBinaryOperatorNode* operatorNode);
+    llvm::Instruction::BinaryOps determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode, TypeSignature* typeSignature);
+    llvm::CmpInst::Predicate determineComparatorPredicate(ASTBinaryOperatorNode* operatorNode, TypeSignature* typeSignature);
 public:
     IRBinaryExpressionNode* generate(ASTBinaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };

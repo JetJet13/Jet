@@ -4,6 +4,7 @@
 
 #include "literal-ir-binary-arithmetic-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);

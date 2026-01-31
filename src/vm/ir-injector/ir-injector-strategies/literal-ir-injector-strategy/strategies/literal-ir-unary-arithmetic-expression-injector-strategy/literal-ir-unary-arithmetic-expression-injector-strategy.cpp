@@ -7,6 +7,8 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 
 llvm::Value* LiteralIRUnaryArithmeticExpressionInjectorStrategy::inject(IRUnaryArithmeticExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+    auto expressionIRValue = irInjector->inject(irBlock, irExpression->getIRValue(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
+    irExpression->getValue()->setOperand(1, expressionIRValue);
     auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
     if (irOperation->isOperandPointer()) {
         auto allocation = irBlock->getBuilder()->get()->CreateAlloca(result->getType());
