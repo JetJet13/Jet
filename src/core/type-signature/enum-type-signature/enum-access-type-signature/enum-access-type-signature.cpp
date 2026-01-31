@@ -18,6 +18,10 @@ std::string EnumAccessTypeSignature::getKey() {
     return _key;
 }
 
+TypeSignature* EnumAccessTypeSignature::convertToVariableTypeSignature() {
+    return _enum;
+}
+
 std::string EnumAccessTypeSignature::toDetailString() {
     return _enum->toDetailString();
 }
@@ -32,7 +36,7 @@ TypeSource EnumAccessTypeSignature::getTypeSource() {
 
 TypeSource EnumAccessTypeSignature::getTypeTarget() {
     if (_enum->hasKey(_key)) {
-        return _enum->getType()->getTypeTarget();
+        return _enum->getTypeSource();
     }
     return INVALID_TYPE_SOURCE;
 }

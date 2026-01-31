@@ -21,7 +21,7 @@ void FunctionTypeSignatureStrategy::assignInitial(ASTFunctionDeclarationNode* fu
     strategyMap->assignTypeSignatureFor(functionDeclaration->getReturnType(), &functionScope);
     functionDeclaration->setTypeSignature(new FunctionTypeSignature(
         functionDeclaration->getParameters()->getTypeSignature(),
-        functionDeclaration->getReturnType()->getTypeSignature()
+        functionDeclaration->getReturnType()->getTypeSignature()->convertToVariableTypeSignature()
     ));
     functionDeclaration->setId(FunctionIdGenerator::generateFor(functionDeclaration));
 }

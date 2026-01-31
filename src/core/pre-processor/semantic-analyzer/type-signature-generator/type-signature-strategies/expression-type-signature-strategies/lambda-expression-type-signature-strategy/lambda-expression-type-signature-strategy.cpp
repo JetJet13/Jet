@@ -17,11 +17,11 @@ void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lamb
     auto returnType = std::optional<TypeSignature*>();
     if (lambdaExpression->getReturnType()) {
         strategyMap->assignTypeSignatureFor(lambdaExpression->getReturnType().value(), &scope);
-        returnType = lambdaExpression->getReturnType().value()->getTypeSignature();
+        returnType = lambdaExpression->getReturnType().value()->getTypeSignature()->convertToVariableTypeSignature();
     } else {
         for (auto node : *lambdaExpression->getBlock()->getReturnStatements()) {
             if (!returnType) {
-                returnType = node->getTypeSignature();
+                returnType = node->getTypeSignature()->convertToVariableTypeSignature();
             }
         }
     }

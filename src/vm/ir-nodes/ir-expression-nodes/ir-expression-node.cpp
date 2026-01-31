@@ -26,10 +26,19 @@ void IRExpressionNode::markAsAssigned() {
     _isAssigned = true;
 }
 
+bool IRExpressionNode::isReturned() {
+    return _isReturned;
+}
+
+void IRExpressionNode::markAsReturned() {
+    _isReturned = true;
+}
+
 bool IRExpressionNode::needsToBeFreed() {
     return !this->isReferenced() &&
            !this->isGlobal() &&
            !this->isAssigned() &&
+           !this->isReturned() &&
            !this->isOneOf({
                IR_IDENTIFIER_EXPRESSION_NODE,
                IR_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,

@@ -8,10 +8,17 @@
 #include "../ir-injector-strategy.h"
 #include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "../../../ir-nodes/ir-expression-nodes/ir-identifier-expression-node.h"
+#include "strategies/enum-ir-object-access-expression-strategy/enum-ir-object-access-expression-strategy.h"
+#include "strategies/enum-ir-tuple-access-expression-strategy/enum-ir-tuple-access-expression-strategy.h"
+#include "strategies/enum-ir-array-access-expression-strategy/enum-ir-array-access-expression-strategy.h"
 
 
 class EnumIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
+private:
+    EnumIRArrayAccessExpressionInjectorStrategy _arrayAccessExpressionInjector = EnumIRArrayAccessExpressionInjectorStrategy();
+    EnumIRObjectAccessExpressionInjectorStrategy _objectAccessExpressionInjector = EnumIRObjectAccessExpressionInjectorStrategy();
+    EnumIRTupleAccessExpressionInjectorStrategy _tupleAccessExpressionInjector = EnumIRTupleAccessExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
 };

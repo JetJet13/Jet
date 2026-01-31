@@ -18,9 +18,9 @@ void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatA
     auto returnType = std::optional<TypeSignature*>();
     if (lambdaWithFatArrowExpression->getReturnType()) {
         strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnType().value(), &scope);
-        returnType = lambdaWithFatArrowExpression->getReturnType().value()->getTypeSignature();
+        returnType = lambdaWithFatArrowExpression->getReturnType().value()->getTypeSignature()->convertToVariableTypeSignature();
     } else {
-        returnType = lambdaWithFatArrowExpression->getReturnExpression()->getTypeSignature();
+        returnType = lambdaWithFatArrowExpression->getReturnExpression()->getTypeSignature()->convertToVariableTypeSignature();
     }
 
 

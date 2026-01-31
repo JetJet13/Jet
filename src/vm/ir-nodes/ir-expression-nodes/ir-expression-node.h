@@ -15,12 +15,15 @@ class IRExpressionNode : public IRNode {
 protected:
     bool _isGlobal = false;
     bool _isAssigned = false;
+    bool _isReturned = false;
 public:
     virtual void markAsGlobal();
     bool isGlobal();
     virtual bool isReferenced();
-    virtual bool isAssigned();
+    bool isAssigned();
     virtual void markAsAssigned();
+    bool isReturned();
+    virtual void markAsReturned();
     bool needsToBeFreed();
     bool hasArc();
     IRType* getUnderlyingIRType();

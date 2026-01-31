@@ -498,3 +498,153 @@ proc testLiteralExpressions() {
     assert(tripleNestedArrAccess == 1);
 }
 testLiteralExpressions();
+
+proc testBedmas() {
+    const one = 1;
+    const two = 2;
+    const three = 3;
+    const four = 4;
+    const twentyFour = 24;
+    const bedmasEasy = 1 + 2 * 3;
+    assert(bedmasEasy == 7);
+    const bedmasHard = 1 * 2 + 3;
+    assert(bedmasHard == 5);
+    const bedmasWithBrackets = 1 * (2 + 3);
+    assert(bedmasWithBrackets == 5);
+    const bedmasSlash = 1 * 2 / 3;
+    assert(bedmasSlash == 0);
+    const bedmasQuad = 1 * 2 - 3 + 4;
+    assert(bedmasQuad == 3);
+    const bedmasQuint = 1 * 2 - 3 + 4 / 24;
+    assert(bedmasQuint == -1);
+    const bedmasIdQuintWithBrackets = 1 * 2 - (3 + 4) / 24;
+    assert(bedmasIdQuintWithBrackets == 2);
+    const bedmasIdEasy = one + two * three;
+    assert(bedmasIdEasy == 7);
+    const bedmasIdHard = one * two + three;
+    assert(bedmasIdHard == 5);
+    const bedmasIdWithBrackets = one * (two + three);
+    assert(bedmasIdWithBrackets == 5);
+    const bedmasIdSlash = one * two / three;
+    assert(bedmasIdSlash == 0);
+    const bedmasIdQuad = one * two - three + four;
+    assert(bedmasIdQuad == 3);
+    const bedmasIdQuint = one * two - three + four / twentyFour;
+    assert(bedmasIdQuint == -1);
+    const bedmasIdQuintWithBrackets = one * two - (three + four) / twentyFour;
+    assert(bedmasIdQuintWithBrackets == 2);
+    const bedmasUnary = +1 * 2 / -3;
+    assert(bedmasUnary == 0);
+    const bedmasUnaryQuad = +1 * 2 - -3 + 4;
+    assert(bedmasUnaryQuad == 9);
+}
+testBedmas();
+
+proc testLambdas() {
+    const lambdaIntArrow = () => 10;
+    assert(lambdaIntArrow() == 10);
+    const lambdaFloatArrow = () => 1290.90;
+    assert(lambdaFloatArrow() == 1290.90);
+    const lambdaCharArrow = () => 'b';
+    assert(lambdaCharArrow() == 'b');
+    const lambdaBoolArrow = () => true;
+    assert(lambdaBoolArrow() == true);
+    const lambdaStringArrow = () => "a string";
+    assert(lambdaStringArrow() == "a string");
+    const lambdaStructArrow = () => ({ foo: 9, bar: 'n', mars: "hello" });
+    assert(lambdaStructArrow() == { foo: 9, bar: 'n', mars: "hello" });
+    const lambdaTupleArrow = () => ({ 13, true, "mio" });
+    assert(lambdaTupleArrow() == { 13, true, "mio" });
+    const lambdaClassArrow = () => new SimpleClass(109);
+    assert(lambdaClassArrow() == new SimpleClass(109));
+    const lambdaEnumArrow = () => SimpleEnum.Alpha;
+    assert(lambdaEnumArrow() == SimpleEnum.Alpha);
+    
+    const lambdaInt = () { return 10; };
+    assert(lambdaInt() == 10);
+    const lambdaFloat = () { return 1290.90; };
+    assert(lambdaFloat() == 1290.90);
+    const lambdaChar = () { return 'b'; };
+    assert(lambdaChar() == 'b');
+    const lambdaBool = () { return true; };
+    assert(lambdaBool() == true);
+    const lambdaString = () { return "a string"; };
+    assert(lambdaString() == "a string");
+    const lambdaStruct = () { return { foo: 9, bar: 'n', mars: "hello" }; };
+    assert(lambdaStruct() == { foo: 9, bar: 'n', mars: "hello" });
+    const lambdaTuple = () { return { 13, true, "mio" }; };
+    assert(lambdaTuple() == { 13, true, "mio" });
+    const lambdaClass = () { return new SimpleClass(109); };
+    assert(lambdaClass() == new SimpleClass(109));
+    const lambdaEnum = () { return SimpleEnum.Alpha; };
+    assert(lambdaEnum() == SimpleEnum.Alpha);
+}
+testLambdas();
+
+proc testLambdaLambdaReturn() {
+    const lambdaLambdaIntArrow = () => (x: int) => 10 + x;
+    const lambdaIntArrow = lambdaLambdaIntArrow();
+    assert(lambdaIntArrow(1) == 11);
+
+    const lambdaLambdaFloatArrow = () => (x: float) => 1290.90 + x;
+    const lambdaFloatArrow = lambdaLambdaFloatArrow();
+    const floatArrowResult = lambdaFloatArrow(10.01);
+    assert(floatArrowResult < 1300.911 && floatArrowResult > 1300.900);
+
+    const lambdaLambdaCharArrow = () => () => 'b';
+    const lambdaCharArrow = lambdaLambdaCharArrow();
+    assert(lambdaCharArrow() == 'b');
+
+    const lambdaLambdaBoolArrow = () => () => true;
+    const lambdaBoolArrow = lambdaLambdaBoolArrow();
+    assert(lambdaBoolArrow() == true);
+
+    const lambdaLambdaStringArrow = () => (x: string) => x ++ "a string";
+    const lambdaStringArrow = lambdaLambdaStringArrow();
+    assert(lambdaStringArrow("hello ") == "hello a string");
+
+    const lambdaLambdaStructArrow = () => (x: int) => ({ foo: 9 + x, bar: 'n', mars: "hello" });
+    const lambdaStructArrow = lambdaLambdaStructArrow();
+    assert(lambdaStructArrow(40) == { foo: 49, bar: 'n', mars: "hello" });
+
+    const lambdaLambdaTupleArrow = () => (x: int) => ({ 13 + x, true, "mio" });
+    const lambdaTupleArrow = lambdaLambdaTupleArrow();
+    assert(lambdaTupleArrow(101) == { 114, true, "mio" });
+
+    const lambdaLambdaInt = () { return () { return 10; }; };
+    const lambdaInt = lambdaLambdaInt();
+    assert(lambdaInt() == 10);
+
+    const lambdaLambdaFloat = () { return () { return 1290.90; }; };
+    const lambdaFloat = lambdaLambdaFloat();
+    assert(lambdaFloat() == 1290.90);
+
+    const lambdaLambdaChar = () { return () { return 'b'; }; };
+    const lambdaChar = lambdaLambdaChar();
+    assert(lambdaChar() == 'b');
+
+    const lambdaLambdaBool = () { return () { return true; }; };
+    const lambdaBool = lambdaLambdaBool();
+    assert(lambdaBool() == true);
+
+    const lambdaLambdaString = () { return () { return "a string"; }; };
+    const lambdaString = lambdaLambdaString();
+    assert(lambdaString() == "a string");
+
+    const lambdaLambdaStruct = () { return () { return { foo: 9, bar: 'n', mars: "hello" }; }; };
+    const lambdaStruct = lambdaLambdaStruct();
+    assert(lambdaStruct() == { foo: 9, bar: 'n', mars: "hello" });
+
+    const lambdaLambdaTuple = () { return () { return { 13, true, "mio" }; }; };
+    const lambdaTuple = lambdaLambdaTuple();
+    assert(lambdaTuple() == { 13, true, "mio" });
+
+    const lambdaLambdaClass = () { return () { return new SimpleClass(130); }; };
+    const lambdaClass = lambdaLambdaClass();
+    assert(lambdaClass() == new SimpleClass(130));
+
+    const lambdaLambdaEnum = () { return () { return SimpleEnum.Alpha; }; };
+    const lambdaEnum = lambdaLambdaEnum();
+    assert(lambdaEnum() == SimpleEnum.Alpha);
+}
+testLambdaLambdaReturn();

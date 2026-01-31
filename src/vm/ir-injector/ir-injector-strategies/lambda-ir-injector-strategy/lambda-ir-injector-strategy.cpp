@@ -74,7 +74,7 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode
         InstructionIRInjectorHelper::inject(lambdaScopeParameter.value()->getAllocation(), irExpression->getBlock());
     }
     irInjector->inject(irBlock, irExpression->getBlock(), irModule, lambdaScope);
-    auto irReturnExpressionValue = irInjector->inject(irExpression->getBlock(), irExpression->getReturnExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, lambdaScope);
+    auto irReturnExpressionValue = irInjector->inject(irExpression->getBlock(), irExpression->getReturnExpression(), new IROperation(IR_FUNCTION_RETURN_OP), irModule, lambdaScope);
     irExpression->getBlock()->getBuilder()->get()->CreateRet(irReturnExpressionValue);
     FreeIRInjectorHelper::freeFunctionParameters(irExpression->getBlock(), irExpression->getParameters(), irInjector, irModule, lambdaScope);
     DebugIRInjectorHelper::injectFunctionEnterLog(irExpression->getBlock(), irExpression->getFunctionValue()->getName().str(), irInjector, irModule);

@@ -1033,6 +1033,8 @@ void SyntaxDfa::init() {
             AST_BINARY_EXPRESSION_NODE,
             AST_LOGICAL_EXPRESSION_NODE,
             AST_UNARY_EXPRESSION_NODE,
+            AST_CONCAT_EXPRESSION_NODE,
+            AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
     });
 
     arrayTypeStart

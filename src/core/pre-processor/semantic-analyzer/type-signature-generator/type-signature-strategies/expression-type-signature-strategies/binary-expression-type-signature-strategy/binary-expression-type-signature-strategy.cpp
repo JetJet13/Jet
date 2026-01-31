@@ -6,6 +6,7 @@
 #include "../../../../../../symbol/symbol-factory.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
@@ -32,6 +33,7 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* bina
             rightNodeTypeSignature
     );
     if (!resultTypeSignature) {
+        Logger::log("NO COMBINATION FOUND FOR", leftNodeTypeSignature->toString(), rightNodeTypeSignature->toString());
         binaryExpression->setTypeSignature(new InvalidTypeSignature());
         return;
     }
@@ -86,6 +88,10 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
                 {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
                 {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+                {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
                 {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
@@ -105,6 +111,10 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                 {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
                 {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
                 {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+                {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
                 { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },

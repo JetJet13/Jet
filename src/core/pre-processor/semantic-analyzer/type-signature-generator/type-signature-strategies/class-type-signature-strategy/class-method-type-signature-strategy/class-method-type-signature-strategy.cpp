@@ -9,7 +9,7 @@ void ClassMethodTypeSignatureStrategy::assign(ASTClassMethodDeclarationNode* cla
     std::optional<TypeSignature*> returnType = {};
     if (classMethodDeclaration->getReturnType()) {
         strategyMap->assignTypeSignatureFor(classMethodDeclaration->getReturnType().value(), scope);
-        returnType = classMethodDeclaration->getReturnType().value()->getTypeSignature();
+        returnType = classMethodDeclaration->getReturnType().value()->getTypeSignature()->convertToVariableTypeSignature();
     }
 
     strategyMap->assignTypeSignatureFor(classMethodDeclaration->getClassMethodDefinition()->getAccessModifier(), scope);

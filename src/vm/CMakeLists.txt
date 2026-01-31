@@ -685,6 +685,12 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-object-access-expression-injector-strategy/class-instance-ir-object-access-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-tuple-access-expression-injector-strategy/class-instance-ir-tuple-access-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-tuple-access-expression-injector-strategy/class-instance-ir-tuple-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-object-access-expression-strategy/enum-ir-object-access-expression-strategy.cpp
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-object-access-expression-strategy/enum-ir-object-access-expression-strategy.h
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-tuple-access-expression-strategy/enum-ir-tuple-access-expression-strategy.cpp
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-tuple-access-expression-strategy/enum-ir-tuple-access-expression-strategy.h
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-array-access-expression-strategy/enum-ir-array-access-expression-strategy.cpp
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-array-access-expression-strategy/enum-ir-array-access-expression-strategy.h
 )
 
 target_link_libraries(jet-vm
