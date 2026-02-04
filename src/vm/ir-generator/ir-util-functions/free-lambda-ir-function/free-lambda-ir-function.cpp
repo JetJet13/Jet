@@ -46,19 +46,19 @@ void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, 
     auto loadedLambdaScope = InstructionIRInjectorHelper::injectLoad(irInvocableType->getFunctionScopeArgumentType(), pointerToLambdaScope, freeLambdaIfThenBlock);
     auto pointerToCleanupFunction = freeLambdaIfThenBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionCleanupIndex());
     auto loadedCleanupFunction = InstructionIRInjectorHelper::injectLoad(irInvocableType->getFunctionCleanupType(), pointerToCleanupFunction, freeLambdaIfThenBlock);
-    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
-            irInvocableType->getCleanupFunctionType(),
-            loadedCleanupFunction,
-            {
-                loadedLambdaScope
-            }
-    );
-    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFreeFunction(),
-            {
-                loadedLambdaScope
-            }
-    );
+//    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
+//            irInvocableType->getCleanupFunctionType(),
+//            loadedCleanupFunction,
+//            {
+//                loadedLambdaScope
+//            }
+//    );
+//    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
+//            irModuleNode->getMallocFreeFunction(),
+//            {
+//                loadedLambdaScope
+//            }
+//    );
     freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction(),
             {

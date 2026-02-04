@@ -578,6 +578,19 @@ proc testLambdas() {
     assert(lambdaClass() == new SimpleClass(109));
     const lambdaEnum = () { return SimpleEnum.Alpha; };
     assert(lambdaEnum() == SimpleEnum.Alpha);
+
+    const lambdaNested = (x: int) {
+        const nestedLambda = (y: bool) {
+            if y {
+                return x + 100;
+            }
+            return x;
+        };
+        const result = nestedLambda(x > 10);
+        return result;
+    };
+    assert(lambdaNested(150) == 250);
+    assert(lambdaNested(5) == 5);
 }
 testLambdas();
 

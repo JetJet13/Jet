@@ -19,6 +19,7 @@ llvm::Value* LambdaIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccess
 llvm::Value* LambdaIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
+    irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { pointer });
     return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
 }
 
@@ -30,7 +31,8 @@ llvm::Value* LambdaIRTupleAccessExpressionInjectorStrategy::injectRef(IRTupleAcc
 llvm::Value* LambdaIRTupleAccessExpressionInjectorStrategy::injectOperand(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
-    if (irOperation->isOperandValue() || irOperation->isFunctionReturn()) {
+    if (irOperation->isOperandValue() || irOperation->isFunctionReturn() || irOperation->isFunctionArgument()) {
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { pointer });
         return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
     }
     return pointer;

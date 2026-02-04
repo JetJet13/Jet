@@ -774,6 +774,28 @@ IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(IRType* irTy
             ), this->generateIrPointerType(irType));
 }
 
+IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(ASTFunctionParameterNode* functionParameter, IRParameterType* irParameterType, IRContext* irContext) {
+    auto irType = irParameterType->getIRType();
+    if (functionParameter->isCaptured() || functionParameter->isReferenced()) {
+        return new IRInstructionNode(
+            llvm::CallInst::Create(
+                irContext->getIRModule()->getMallocFunction(),
+                { this->generateInt64Constant(1), this->generateInt64Constant(irType->getSizeInBytes()) }
+            ),
+            this->generateIrPointerType(irType)
+        );
+    }
+    return new IRInstructionNode(
+        new llvm::AllocaInst(
+            irType->getType(),
+            AddressSpaceGenerator::generate(irType),
+            nullptr,
+            irType->getAlignment()
+        ),
+        this->generateIrPointerType(irType)
+    );
+}
+
 IRType* IRGenerator::generateIRCaptureCounterType() {
     return new IRType(this->generateIntType());
 }

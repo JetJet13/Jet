@@ -84,8 +84,7 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
             { captureCounterPointer }
     );
     freeCaptureCounterIfThenBlock->getBuilder()->get()->CreateBr(freeVariableEndBlock->getBlock());
-
-
+    
     auto newCaptureCount = freeVariableElseBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Sub,
             currentCaptureCount,

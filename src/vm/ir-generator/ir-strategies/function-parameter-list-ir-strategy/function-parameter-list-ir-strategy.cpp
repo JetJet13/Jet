@@ -12,7 +12,7 @@ IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFuncti
         auto parameter = node->getParameters()[i];
         auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature(), scope, irContext);
         auto argument = new llvm::Argument(parameterType->getType(), parameterType->getName(), irFunction, i);
-        auto allocation = irGenerator->generateFunctionParameterAllocation(parameterType->getIRType());
+        auto allocation = irGenerator->generateFunctionParameterAllocation(parameter, parameterType, irContext);
         scope->insert(parameterType->getName(), allocation);
         auto irArc = std::optional<IRInstructionNode*>();
         if (parameterType->getIRType()->requiresArc()) {

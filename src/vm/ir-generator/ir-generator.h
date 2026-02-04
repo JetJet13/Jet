@@ -163,6 +163,7 @@ public:
     IRStructRefType* generateIRStructRefType();
     IRStructType* generateIRStructType();
     IRInstructionNode* generateFunctionParameterAllocation(IRType* irType);
+    IRInstructionNode* generateFunctionParameterAllocation(ASTFunctionParameterNode* functionParameter, IRParameterType* irParameterType, IRContext* irContext);
     IRType* generateIRCaptureCounterType();
     IRType* generateIRStructRefCounterType();
     IRType* generateIRArcType();
