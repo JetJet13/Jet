@@ -22,6 +22,7 @@
 #include "policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.h"
 #include "policies/expression-statement-type-checker-policy/expression-statement-type-checker-policy.h"
 #include "policies/expressions/array-access-expression-type-checker-policy/array-access-expression-type-checker-policy.h"
+#include "policies/expressions/array-access-invocation-expression-type-checker-policy/array-access-invocation-expression-type-checker-policy.h"
 #include "policies/expressions/array-expression-type-checker-policy/array-expression-type-checker-policy.h"
 #include "policies/expressions/binary-expression-type-checker-policy/binary-expression-type-checker-policy.h"
 #include "policies/expressions/class-method-invocation-expression-type-checker-policy/class-method-invocation-expression-type-checker-policy.h"
@@ -134,6 +135,9 @@ namespace TypeChecker {
                 break;
             case AST_ARRAY_ACCESS_EXPRESSION_NODE:
                 ArrayAccessExpressionTypeCheckerPolicy::apply((ASTArrayAccessExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE:
+                ArrayAccessInvocationExpressionTypeCheckerPolicy::apply((ASTArrayAccessInvocationExpressionNode*)node, typeCheckerResult);
                 break;
             case AST_ARRAY_EXPRESSION_NODE:
                 ArrayExpressionTypeCheckerPolicy::apply((ASTArrayExpressionNode*)node, typeCheckerResult);

@@ -32,6 +32,7 @@ void SyntaxDfa::init() {
     DFANode* callableIdentifierExpression = DFANodeFactory::Once::create(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE);
     DFANode* literalExpression = DFANodeFactory::Once::create(AST_LITERAL_EXPRESSION_NODE);
     DFANode* arrayAccessExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_EXPRESSION_NODE);
+    DFANode* arrayAccessInvocationExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE);
     DFANode* arrayExpression = DFANodeFactory::Once::create(AST_ARRAY_EXPRESSION_NODE);
     DFANode* structExpression = DFANodeFactory::Once::create(AST_STRUCT_EXPRESSION_NODE);
     DFANode* objectAccessExpression = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_EXPRESSION_NODE);
@@ -247,6 +248,7 @@ void SyntaxDfa::init() {
             AST_UNARY_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -269,6 +271,7 @@ void SyntaxDfa::init() {
             AST_TUPLE_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -296,6 +299,7 @@ void SyntaxDfa::init() {
             AST_UNARY_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -314,6 +318,7 @@ void SyntaxDfa::init() {
             AST_CONCAT_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -379,6 +384,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
@@ -396,6 +402,21 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_OBJECT_ACCESS_ASSIGNMENT_NODE)))
+    ->addTransition(DFATransitionFactory::create(binaryOperator))
+    ->addTransition(DFATransitionFactory::create(logicalOperator))
+    ->addTransition(DFATransitionFactory::create(concatOperator))
+    ->addTransition(DFATransitionFactory::create(period));
+
+    arrayAccessInvocationExpression
+    ->backtrackWhenLastReducedNodeIsOneOf({
+          AST_UNARY_OPERATOR_NODE,
+          AST_PERIOD_NODE
+    })
+    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(concatOperator))
@@ -522,11 +543,11 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(concatOperator));
 
     arrayBase
-    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_ARRAY_ACCESS_NODE, { AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_NODE, AST_ARRAY_EXPRESSION_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, AST_MODULE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CURRY_EXPRESSION_NODE, AST_TUPLE_ACCESS_NODE, AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_ARGUMENT_LIST_NODE }))
+    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_ARRAY_ACCESS_NODE, { AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_NODE, AST_ARRAY_EXPRESSION_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, AST_MODULE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CURRY_EXPRESSION_NODE, AST_TUPLE_ACCESS_NODE, AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_ARGUMENT_LIST_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_ARRAY_EXPRESSION_NODE)));
 
     arrayAccess
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, AST_MODULE_ACCESS_EXPRESSION_NODE, AST_TUPLE_ACCESS_EXPRESSION_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_EXPRESSION_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, AST_MODULE_ACCESS_EXPRESSION_NODE, AST_TUPLE_ACCESS_EXPRESSION_NODE });
 
     block
     ->markAlwaysReduceSelf();
@@ -548,6 +569,7 @@ void SyntaxDfa::init() {
             AST_STRUCT_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_TUPLE_EXPRESSION_NODE,
@@ -613,6 +635,7 @@ void SyntaxDfa::init() {
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_LAMBDA_EXPRESSION_NODE,
@@ -645,6 +668,7 @@ void SyntaxDfa::init() {
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_LAMBDA_EXPRESSION_NODE,
@@ -681,6 +705,7 @@ void SyntaxDfa::init() {
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -699,6 +724,7 @@ void SyntaxDfa::init() {
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -817,6 +843,7 @@ void SyntaxDfa::init() {
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_LAMBDA_EXPRESSION_NODE,
@@ -1020,6 +1047,7 @@ void SyntaxDfa::init() {
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
             AST_MODULE_ACCESS_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -1417,6 +1445,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(moduleAccessExpression)
     ->insertStartNode(arrayExpression)
     ->insertStartNode(arrayAccessExpression)
+    ->insertStartNode(arrayAccessInvocationExpression)
     ->insertStartNode(binaryExpression)
     ->insertStartNode(logicalExpression)
     ->insertStartNode(unaryExpression)
@@ -1680,6 +1709,9 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE, targetNodeType)))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, targetNodeType)))

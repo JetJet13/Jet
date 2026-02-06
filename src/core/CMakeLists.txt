@@ -104,6 +104,8 @@ add_library(jet-core
         pre-processor/syntax-analyzer/lexeme-transformer/lexeme-transformer.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.h
         ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h
         ast/ast-nodes/ast-literal-nodes/ast-literal-node.cpp
@@ -1339,6 +1341,16 @@ add_library(jet-core
         type-signature/types/built-in-debug-type-source.h
         dfa/types/backtrack-to-predecessor-rule.cpp
         dfa/types/backtrack-to-predecessor-rule.h
+        ast/ast-nodes/ast-expression-nodes/ast-array-access-invocation-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-array-access-invocation-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/array-access-invocation-expression-type-signature-strategy/array-access-invocation-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/array-access-invocation-expression-type-signature-strategy/array-access-invocation-expression-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/array-access-invocation-expression-type-checker-policy/array-access-invocation-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/array-access-invocation-expression-type-checker-policy/array-access-invocation-expression-type-checker-policy.h
 
 )
 

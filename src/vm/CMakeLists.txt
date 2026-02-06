@@ -691,6 +691,14 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-tuple-access-expression-strategy/enum-ir-tuple-access-expression-strategy.h
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-array-access-expression-strategy/enum-ir-array-access-expression-strategy.cpp
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-array-access-expression-strategy/enum-ir-array-access-expression-strategy.h
+        ir-nodes/ir-captured-variable-node.cpp
+        ir-nodes/ir-captured-variable-node.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-array-access-expression-injector-strategy/lambda-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-array-access-expression-injector-strategy/lambda-ir-array-access-expression-injector-strategy.h
+        ir-generator/ir-strategies/expression-ir-strategies/array-access-invocation-expression-ir-strategy/array-access-invocation-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/array-access-invocation-expression-ir-strategy/array-access-invocation-expression-ir-strategy.h
+        ir-nodes/ir-expression-nodes/ir-array-access-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-array-access-invocation-expression-node.h
 )
 
 target_link_libraries(jet-vm

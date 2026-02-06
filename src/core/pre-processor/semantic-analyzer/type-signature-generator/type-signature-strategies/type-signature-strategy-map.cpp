@@ -6,6 +6,7 @@
 #include "type-type-signature-strategy/type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/primitive-type-type-signature-strategy/primitive-type-type-signature-strategy.h"
 #include "expression-type-signature-strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/array-access-invocation-expression-type-signature-strategy/array-access-invocation-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.h"
@@ -79,6 +80,7 @@
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _argumentListTypeSignatureStrategy = new ArgumentListTypeSignatureStrategy();
     _arrayAccessExpressionTypeSignatureStrategy = new ArrayAccessExpressionTypeSignatureStrategy();
+    _arrayAccessInvocationExpressionTypeSignatureStrategy = new ArrayAccessInvocationExpressionTypeSignatureStrategy();
     _arrayExpressionTypeSignatureStrategy = new ArrayExpressionTypeSignatureStrategy();
     _binaryExpressionTypeSignatureStrategy = new BinaryExpressionTypeSignatureStrategy();
     _concatExpressionTypeSignatureStrategy = new ConcatExpressionTypeSignatureStrategy();
@@ -157,6 +159,10 @@ ArgumentListTypeSignatureStrategy* TypeSignatureStrategyMap::getArgumentListType
 
 ArrayAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessExpressionTypeSignatureStrategy() {
     return this->_arrayAccessExpressionTypeSignatureStrategy;
+}
+
+ArrayAccessInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessInvocationExpressionTypeSignatureStrategy() {
+    return this->_arrayAccessInvocationExpressionTypeSignatureStrategy;
 }
 
 ArrayExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayExpressionTypeSignatureStrategy() {

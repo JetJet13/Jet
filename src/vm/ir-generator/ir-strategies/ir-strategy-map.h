@@ -16,6 +16,7 @@ class ConcatExpressionIRStrategy;
 class LogicalExpressionIRStrategy;
 class ArrayExpressionIRStrategy;
 class ArrayAccessExpressionIRStrategy;
+class ArrayAccessInvocationExpressionIRStrategy;
 class StructExpressionIRStrategy;
 class UnaryExpressionIRStrategy;
 class TupleExpressionIRStrategy;
@@ -93,6 +94,7 @@ private:
     LogicalExpressionIRStrategy* _logicalExpressionIRStrategy;
     ArrayExpressionIRStrategy* _arrayExpressionIRStrategy;
     ArrayAccessExpressionIRStrategy* _arrayAccessExpressionIRStrategy;
+    ArrayAccessInvocationExpressionIRStrategy* _arrayAccessInvocationExpressionIRStrategy;
     StructExpressionIRStrategy* _structExpressionIRStrategy;
     UnaryExpressionIRStrategy* _unaryExpressionIRStrategy;
     TupleExpressionIRStrategy* _tupleExpressionIRStrategy;
@@ -168,6 +170,7 @@ public:
     LogicalExpressionIRStrategy* getLogicalExpressionIRStrategy();
     ArrayExpressionIRStrategy* getArrayExpressionIRStrategy();
     ArrayAccessExpressionIRStrategy* getArrayAccessExpressionIRStrategy();
+    ArrayAccessInvocationExpressionIRStrategy* getArrayAccessInvocationExpressionIRStrategy();
     StructExpressionIRStrategy* getStructExpressionIRStrategy();
     UnaryExpressionIRStrategy* getUnaryExpressionIRStrategy();
     TupleExpressionIRStrategy* getTupleExpressionIRStrategy();

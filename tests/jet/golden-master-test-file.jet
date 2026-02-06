@@ -559,7 +559,7 @@ proc testLambdas() {
     assert(lambdaClassArrow() == new SimpleClass(109));
     const lambdaEnumArrow = () => SimpleEnum.Alpha;
     assert(lambdaEnumArrow() == SimpleEnum.Alpha);
-    
+
     const lambdaInt = () { return 10; };
     assert(lambdaInt() == 10);
     const lambdaFloat = () { return 1290.90; };
@@ -591,6 +591,17 @@ proc testLambdas() {
     };
     assert(lambdaNested(150) == 250);
     assert(lambdaNested(5) == 5);
+    const myLambdas: [() => int] = [];
+    for integer in range(10) {
+        const loopLambda = () {
+            return 100 + integer;
+        }
+        assert(loopLambda() == integer + 100);
+        myLambdas.append(loopLambda);
+    }
+    for i in range(myLambdas.size()) {
+        assert(myLambdas[i]() == i + 100);
+    }
 }
 testLambdas();
 

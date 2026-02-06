@@ -1,0 +1,70 @@
+//
+// Created by Johny Georges on 2026-02-06.
+//
+
+#include "ir-array-access-invocation-expression-node.h"
+#include "../../../shared/utils/logger/logger.h"
+
+IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(ASTArrayAccessInvocationExpressionNode* node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type) {
+    _node = node;
+    _irCallInstruction = irCallInstruction;
+    _irArrayAccessExpression = irArrayAccessExpression;
+    _irFunctionType = irFunctionType;
+    _arguments = arguments;
+    _type = type;
+}
+
+void IRArrayAccessInvocationExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto argument : _arguments) {
+        argument->markAsGlobal();
+    }
+}
+
+bool IRArrayAccessInvocationExpressionNode::isReferenced() {
+    return _node->isReferenced();
+}
+
+IRArrayAccessExpressionNode* IRArrayAccessInvocationExpressionNode::getIRArrayAccessExpression() {
+    return _irArrayAccessExpression;
+}
+
+std::vector<IRExpressionNode*>* IRArrayAccessInvocationExpressionNode::getIRArguments() {
+    return &_arguments;
+}
+
+llvm::CallInst* IRArrayAccessInvocationExpressionNode::getValue() {
+    return _irCallInstruction;
+}
+
+IRType* IRArrayAccessInvocationExpressionNode::getFunctionIRType() {
+    return _irFunctionType;
+}
+
+IRType* IRArrayAccessInvocationExpressionNode::getIRType() {
+    return _type;
+}
+
+TypeSignature* IRArrayAccessInvocationExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
+}
+
+Position* IRArrayAccessInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRArrayAccessInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
+IRNodeType IRArrayAccessInvocationExpressionNode::getNodeType() {
+    return IR_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE;
+}
+
+std::string IRArrayAccessInvocationExpressionNode::toString() {
+    return "IR_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE";
+}
+
+void IRArrayAccessInvocationExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irArrayAccessExpression->getValue()->print(**stream);
+}

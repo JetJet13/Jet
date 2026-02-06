@@ -9,6 +9,7 @@
 // circular dependency error
 class ArgumentListTypeSignatureStrategy;
 class ArrayAccessExpressionTypeSignatureStrategy;
+class ArrayAccessInvocationExpressionTypeSignatureStrategy;
 class ArrayExpressionTypeSignatureStrategy;
 class BinaryExpressionTypeSignatureStrategy;
 class ConcatExpressionTypeSignatureStrategy;
@@ -84,6 +85,7 @@ class TypeSignatureStrategyMap {
 private:
     ArgumentListTypeSignatureStrategy* _argumentListTypeSignatureStrategy;
     ArrayAccessExpressionTypeSignatureStrategy* _arrayAccessExpressionTypeSignatureStrategy;
+    ArrayAccessInvocationExpressionTypeSignatureStrategy* _arrayAccessInvocationExpressionTypeSignatureStrategy;
     ArrayExpressionTypeSignatureStrategy* _arrayExpressionTypeSignatureStrategy;
     BinaryExpressionTypeSignatureStrategy* _binaryExpressionTypeSignatureStrategy;
     ConcatExpressionTypeSignatureStrategy* _concatExpressionTypeSignatureStrategy;
@@ -158,6 +160,7 @@ public:
     TypeSignatureStrategyMap();
     ArgumentListTypeSignatureStrategy* getArgumentListTypeSignatureStrategy();
     ArrayAccessExpressionTypeSignatureStrategy* getArrayAccessExpressionTypeSignatureStrategy();
+    ArrayAccessInvocationExpressionTypeSignatureStrategy* getArrayAccessInvocationExpressionTypeSignatureStrategy();
     ArrayExpressionTypeSignatureStrategy* getArrayExpressionTypeSignatureStrategy();
     BinaryExpressionTypeSignatureStrategy* getBinaryExpressionTypeSignatureStrategy();
     ConcatExpressionTypeSignatureStrategy* getConcatExpressionTypeSignatureStrategy();

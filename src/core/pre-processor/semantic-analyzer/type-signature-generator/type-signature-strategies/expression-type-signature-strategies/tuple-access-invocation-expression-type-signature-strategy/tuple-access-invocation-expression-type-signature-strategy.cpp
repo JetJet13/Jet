@@ -8,9 +8,7 @@
 
 void TupleAccessInvocationExpressionTypeSignatureStrategy::assign(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getSource()->getSource(), scope);
-    for (auto argument : *tupleAccessInvocationExpression->getArguments()->getArguments()) {
-        strategyMap->assignTypeSignatureFor(argument->getArgument(), scope);
-    }
+    strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getArguments(), scope);
 
     if (tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(TUPLE_TYPE_SOURCE)) {
         strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getObjectAccess(), scope);

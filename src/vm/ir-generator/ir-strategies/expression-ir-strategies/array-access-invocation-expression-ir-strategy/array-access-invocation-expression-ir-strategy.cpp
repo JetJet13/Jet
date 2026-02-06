@@ -1,0 +1,20 @@
+//
+// Created by Johny Georges on 2026-02-06.
+//
+
+#include "array-access-invocation-expression-ir-strategy.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-array-access-invocation-expression-node.h"
+
+IRExpressionNode* ArrayAccessInvocationExpressionIRStrategy::generate(ASTArrayAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto arguments = std::vector<IRExpressionNode*>();
+    for (auto argument : *node->getArguments()->getArguments()) {
+        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
+    }
+
+    auto irExpression = (IRArrayAccessExpressionNode*)irGenerator->generateFor(node->getArrayAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto irFunctionType = (IRInvocableType*)irExpression->getIRType();
+    auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
+    auto callInstruction = llvm::CallInst::Create(irFunctionType->getFunctionType(), irExpression->getValue(), argList);
+    return new IRArrayAccessInvocationExpressionNode(node, irExpression, callInstruction, irFunctionType, arguments, irReturnType);
+}

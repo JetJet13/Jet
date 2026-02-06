@@ -4,12 +4,13 @@
 
 #include "for-in-statement-ir-injector-strategy.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto setupBlock = irForInStatement->getSetupBlock();
     auto forInBlock = irForInStatement->getForInBlock();
     auto bodyBlock = irForInStatement->getBodyBlock();
-    auto endBlock = irForInStatement->getEndBlock();
+    auto forInScope = irForInStatement->getScope();
 
     auto arrayPointerType = (IRArrayPointerType*)irForInStatement->getSource()->getIRType()->getSourceType();
     auto zero = setupBlock->getBuilder()->get()->getInt64(0);
@@ -17,7 +18,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto numElementsIndex = arrayPointerType->getNumElementsIndex();
     auto allocIndex = arrayPointerType->getAllocIndex();
     // setup
-    auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, forInScope);
     auto numElementsPointer = setupBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceValue, numElementsIndex, "forInNumElemPtr");
     auto numElements = setupBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
     auto pointerToSourceArray = setupBlock->getBuilder()->get()->CreateStructGEP(
@@ -50,8 +51,15 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
         irForInStatement->getVariable()->getAllocatedType(),
         pointerToNewVariableValue
     );
-    bodyBlock->getBuilder()->get()->CreateStore(loadedNewVariableValue, variableAllocation);
-    irInjector->inject(irBlock, bodyBlock, irModule, scope);
+    auto capturedVariable = irForInStatement->getCapturedVariable();
+    if (capturedVariable) {
+        auto capturedVariableAlloc = InstructionIRInjectorHelper::inject(capturedVariable.value()->getVariable(), bodyBlock);
+        InstructionIRInjectorHelper::injectStore(loadedNewVariableValue, capturedVariableAlloc, bodyBlock);
+        InstructionIRInjectorHelper::inject(capturedVariable.value()->getArc(), bodyBlock);
+    } else {
+        InstructionIRInjectorHelper::injectStore(loadedNewVariableValue, variableAllocation, bodyBlock);
+    }
+    irInjector->inject(irBlock, bodyBlock, irModule, forInScope);
     auto lastBodyBlock = bodyBlock->getLastSuccessorOrSelf();
     if (lastBodyBlock->hasBranchInstruction()) {
         lastBodyBlock->removeLastInstruction();

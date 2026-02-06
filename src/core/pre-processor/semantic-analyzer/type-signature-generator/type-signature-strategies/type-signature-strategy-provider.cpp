@@ -6,6 +6,7 @@
 #include "type-type-signature-strategy/type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/primitive-type-type-signature-strategy/primitive-type-type-signature-strategy.h"
 #include "expression-type-signature-strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/array-access-invocation-expression-type-signature-strategy/array-access-invocation-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.h"
@@ -217,6 +218,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getArrayAccessExpressionTypeSignatureStrategy()
                     ->assign((ASTArrayAccessExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getArrayAccessInvocationExpressionTypeSignatureStrategy()
+                    ->assign((ASTArrayAccessInvocationExpressionNode*) node, typeSignatureScope, this);
             break;
         case AST_ARRAY_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

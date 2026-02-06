@@ -8,6 +8,27 @@
 ASTForInVariableNode::ASTForInVariableNode(ASTIdentifierExpressionNode* variable) {
     _variable = variable;
     _children.push_back(_variable);
+    this->setId(_variable->getId());
+}
+
+void ASTForInVariableNode::markAsReferenced() {
+    _isReferenced = true;
+}
+
+void ASTForInVariableNode::markAsCaptured() {
+    _captureCount++;
+}
+
+unsigned long ASTForInVariableNode::getCaptureCount() {
+    return _captureCount;
+}
+
+bool ASTForInVariableNode::isReferenced() {
+    return _isReferenced;
+}
+
+bool ASTForInVariableNode::isCaptured() {
+    return _captureCount > 0;
 }
 
 ASTIdentifierExpressionNode* ASTForInVariableNode::getVariable() {

@@ -16,6 +16,7 @@
 #include "ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/array-access-invocation-expression-ir-strategy/array-access-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
@@ -258,6 +259,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node,  this, scope, irContext, irOperation);
+    } else if (node->is(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getArrayAccessInvocationExpressionIRStrategy()->generate((ASTArrayAccessInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_STRUCT_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {

@@ -4,6 +4,7 @@
 
 #include "lambda-scope-type-signature-ir-strategy.h"
 #include "../../../../types/ir-type-id.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRStructType* LambdaScopeTypeSignatureIRStrategy::generate(LambdaScopeTypeSignature* lambdaScopeTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();

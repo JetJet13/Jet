@@ -8,6 +8,8 @@
 #include "../ir-statement-node.h"
 #include "../../../../core/ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 #include "../../ir-block-nodes/ir-block-node.h"
+#include "../../ir-captured-variable-node.h"
+#include "../../../ir-lookup-table/ir-lookup-table.h"
 
 class IRForInStatementNode : public IRStatementNode {
 private:
@@ -19,15 +21,19 @@ private:
     IRBlockNode* _forInBlock;
     IRBlockNode* _bodyBlock;
     IRBlockNode* _endBlock;
+    IRLookupTable* _scope;
+    std::optional<IRCapturedVariableNode*> _capturedVariable;
 public:
-    IRForInStatementNode(ASTForInStatementNode* node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock);
+    IRForInStatementNode(ASTForInStatementNode* node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, IRLookupTable* scope, std::optional<IRCapturedVariableNode*> capturedVariable = {});
     IRInstructionNode* getIndex();
     IRInstructionNode* getVariable();
+    std::optional<IRCapturedVariableNode*> getCapturedVariable();
     IRExpressionNode* getSource();
     IRBlockNode* getSetupBlock();
     IRBlockNode* getForInBlock();
     IRBlockNode* getBodyBlock();
     IRBlockNode* getEndBlock();
+    IRLookupTable* getScope();
     void setBlocksToBeSuccessorsOf(IRBlockNode* irBlock);
     IRNodeType getNodeType() override;
     std::string toString() override;

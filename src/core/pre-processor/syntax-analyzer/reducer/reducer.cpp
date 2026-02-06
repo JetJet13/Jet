@@ -118,6 +118,7 @@
 #include "reducer-strategies/object-access-assignment-statement-reducer-strategy/object-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-assignment-statement-reducer-strategy/tuple-access-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -136,6 +137,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LITERAL_EXPRESSION_NODE, new LiteralExpressionReducerStrategy());
     this->addStrategy(AST_ARRAY_NODE, new ArrayNodeReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_EXPRESSION_NODE, new ArrayAccessExpressionReducerStrategy());
+    this->addStrategy(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE, new ArrayAccessInvocationExpressionReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_NODE, new ArrayAccessReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_NODE, new ArrayAccessAssignmentReducerStrategy());
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());

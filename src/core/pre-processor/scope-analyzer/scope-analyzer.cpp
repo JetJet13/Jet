@@ -7,6 +7,7 @@
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../shared/utils/logger/logger.h"
+#include "../../ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.h"
 
 void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
     auto astTraverser = ASTTraverser();
@@ -24,6 +25,9 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
         } else if (node->is(AST_FUNCTION_PARAMETER_NODE)) {
             auto parameterNode = (ASTFunctionParameterNode*)node;
             currentScope->insert(parameterNode->getIdentifier()->getId(), node);
+        } else if (node->is(AST_FOR_IN_VARIABLE_NODE)) {
+            auto forInVariableNode = (ASTForInVariableNode*)node;
+            currentScope->insert(forInVariableNode->getVariable()->getId(), node);
         } else if (node->is(AST_CONTROL_FLOW_BLOCK_NODE)) {
             auto blockScope = new ASTLookupTable(currentScope);
             scopeStack.push(blockScope);
@@ -39,6 +43,10 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
 
                 if (referencedValue->is(AST_FUNCTION_PARAMETER_NODE)) {
                     ((ASTFunctionParameterNode*)referencedValue)->markAsReferenced();
+                }
+
+                if (referencedValue->is(AST_FOR_IN_VARIABLE_NODE)) {
+                    ((ASTForInVariableNode*)referencedValue)->markAsReferenced();
                 }
             } else {
                 refExpression->getExpressionNode()->markAsReferenced();
@@ -60,12 +68,17 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
                 auto capturedVariable = (ASTVariableDeclarationNode*)outsideNode.value();
                 capturedVariable->markAsCaptured();
                 currentScope->capture(capturedVariable);
-                Logger::log("CAPTURED!", capturedVariable->getId());
+                Logger::log("CAPTURED VARIABLE!", capturedVariable->getId());
             } else if (!insideNode && outsideNode.has_value() && outsideNode.value()->is(AST_FUNCTION_PARAMETER_NODE)) {
                 auto capturedParameter = (ASTFunctionParameterNode*)outsideNode.value();
                 capturedParameter->markAsCaptured();
                 currentScope->capture(capturedParameter);
-                Logger::log("CAPTURED!", capturedParameter->getIdentifier()->getId());
+                Logger::log("CAPTURED PARAMETER!", capturedParameter->getIdentifier()->getId());
+            } else if (!insideNode && outsideNode.has_value() && outsideNode.value()->is(AST_FOR_IN_VARIABLE_NODE)) {
+                auto capturedForInVariable = (ASTForInVariableNode*)outsideNode.value();
+                capturedForInVariable->markAsCaptured();
+                currentScope->capture(capturedForInVariable);
+                Logger::log("CAPTURED FOR IN VARIABLE!", capturedForInVariable->getVariable()->getId());
             }
         } else if (node->isOneOf({ AST_BLOCK_END_NODE, AST_TERMINATOR_NODE })) {
             scopeStack.pop();

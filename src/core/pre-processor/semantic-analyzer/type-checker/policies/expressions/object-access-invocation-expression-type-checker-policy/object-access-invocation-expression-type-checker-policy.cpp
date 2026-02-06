@@ -5,7 +5,6 @@
 #include "object-access-invocation-expression-type-checker-policy.h"
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../type-checker.h"
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
