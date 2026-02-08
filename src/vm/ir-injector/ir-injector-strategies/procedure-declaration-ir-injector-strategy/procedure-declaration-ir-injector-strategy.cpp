@@ -12,8 +12,7 @@ void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* 
         irProcedureDeclaration->getBlock()->getLastSuccessorOrSelf()->addVoidReturn();
     }
 
-    FreeIRInjectorHelper::freeFunctionBlockNodes(irProcedureDeclaration->getBlock(), irInjector, irModule,
-                                                 irProcedureDeclaration->getScope());
+    FreeIRInjectorHelper::freeFunctionBlockNodes(irProcedureDeclaration->getBlock(), irInjector, irModule, irProcedureDeclaration->getScope());
     FreeIRInjectorHelper::freeFunctionParameters(irProcedureDeclaration->getBlock(), irProcedureDeclaration->getParameters(), irInjector, irModule, irProcedureDeclaration->getScope());
     DebugIRInjectorHelper::injectFunctionEnterLog(irProcedureDeclaration->getBlock(), irProcedureDeclaration->getName(), irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irProcedureDeclaration->getBlock(), irProcedureDeclaration->getName(), irInjector, irModule);

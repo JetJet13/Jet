@@ -591,6 +591,7 @@ proc testLambdas() {
     };
     assert(lambdaNested(150) == 250);
     assert(lambdaNested(5) == 5);
+
     const myLambdas: [() => int] = [];
     for integer in range(10) {
         const loopLambda = () {
@@ -599,9 +600,21 @@ proc testLambdas() {
         assert(loopLambda() == integer + 100);
         myLambdas.append(loopLambda);
     }
+
     for i in range(myLambdas.size()) {
         assert(myLambdas[i]() == i + 100);
     }
+
+    let j = 0;
+    for lam in myLambdas {
+        assert(lam() == j + 100);
+        j = j + 1;
+    }
+
+    const structWithLambda = {
+        foo: () => 901
+    };
+    assert(structWithLambda.foo() == 901);
 }
 testLambdas();
 
@@ -672,3 +685,103 @@ proc testLambdaLambdaReturn() {
     assert(lambdaEnum() == SimpleEnum.Alpha);
 }
 testLambdaLambdaReturn();
+
+proc testArrays() {
+    const intArray = [ 100, 200, 300 ];
+    assert(intArray == [ 100, 200, 300 ]);
+    intArray[0] = 101;
+    assert(intArray == [101, 200, 300]);
+
+    const floatArray = [ 1.12, 2.55, 3.65 ];
+    assert(floatArray == [ 1.12, 2.55, 3.65 ]);
+    floatArray[0] = 10.590;
+    assert(floatArray == [10.590, 2.55, 3.65]);
+
+    const charArray = [ 'a', 'b', 'c' ];
+    assert(charArray == [ 'a', 'b', 'c' ]);
+    charArray[0] = 'd';
+    assert(charArray == ['d', 'b', 'c']);
+
+    const boolArray = [ true, false, true ];
+    assert(boolArray == [ true, false, true ]);
+    boolArray[0] = false;
+    assert(boolArray == [false, false, true]);
+
+    const stringArray = [ "hi", "hai", "hello" ];
+    assert(stringArray == [ "hi", "hai", "hello" ]);
+    stringArray[0] = "bye";
+    assert(stringArray == [ "bye", "hai", "hello" ]);
+
+    const structArray = [ { foo: 129 }, { foo: 130 }, { foo: 131 } ];
+    assert(structArray == [ { foo: 129 }, { foo: 130 }, { foo: 131 } ]);
+    structArray[0] = { foo: 135 };
+    assert(structArray == [ { foo: 135 }, { foo: 130 }, { foo: 131 } ]);
+
+    const structArray = [ { foo: 129 }, { foo: 130 }, { foo: 131 } ];
+    assert(structArray == [ { foo: 129 }, { foo: 130 }, { foo: 131 } ]);
+    structArray[0] = { foo: 135 };
+    assert(structArray == [ { foo: 135 }, { foo: 130 }, { foo: 131 } ]);
+
+    const firstLambda = () => 10;
+    const secondLambda = () => 20;
+    const thirdLambda = () => 30;
+    const fourthLambda = () => 40;
+    const lambdaArray = [ firstLambda, secondLambda, thirdLambda ];
+    assert(lambdaArray == [ firstLambda, secondLambda, thirdLambda ]);
+    lambdaArray[0] = fourthLambda;
+    assert(lambdaArray == [ fourthLambda, secondLambda, thirdLambda ]);
+
+    const otherLambdaArray = [ () => ';', () => ',', () => '!' ];
+    assert(otherLambdaArray != [ () => ';', () => ',', () => '!' ]);
+}
+testArrays();
+
+proc testArrayPrototype() {
+    const myArray = range(15);
+    assert(myArray == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+
+    myArray.append(15);
+    assert(myArray.size() == 16);
+
+    myArray.prepend(-100);
+    assert(myArray.size() == 17);
+
+    myArray.drop(2);
+    assert(myArray.size() == 15);
+    assert(myArray == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
+    myArray.dropLast(2);
+    assert(myArray.size() == 13);
+    assert(myArray == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
+
+    const takeExample = myArray.take(2);
+    assert(takeExample == [1, 2]);
+
+    const takeLastExample = myArray.takeLast(2);
+    assert(takeLastExample == [12, 13]);
+
+    const headExample = myArray.head();
+    const sumHeadExample = headExample + 100;
+    assert(headExample == 1);
+
+    const lastExample = myArray.last();
+    const sumLastExample = lastExample + 100;
+    assert(lastExample == 13);
+
+    const myArrayTail = myArray.tail();
+    assert(myArrayTail == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
+
+    const oneIntArray = [1,2,3];
+    const twoIntArray = [4,5,6];
+    const concatIntResult = oneIntArray ++ twoIntArray;
+    assert(concatIntResult == [1, 2, 3, 4, 5, 6]);
+
+    const oneString = "Hello ";
+    const twoString = "World!";
+    const concatStringResult = oneString ++ twoString;
+    assert(concatStringResult == "Hello World!");
+
+    const emptyArray: [int] = [];
+    assert(emptyArray.empty() == true);
+}
+testArrayPrototype();

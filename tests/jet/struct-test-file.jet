@@ -1,6 +1,19 @@
 import MyOtherModule from "./other-test-file.jet";
 
+class SimpleClass {
+    public value: int;
 
-proc testModuleAccess() {
-    const moduleAccess = MyOtherModule::myBoolFunction();
+    constructor(value: int) {
+        this.value = value;
+    }
+
+    public getValue() int {
+        return this.value;
+    }
+}
+
+enum SimpleEnum {
+    Alpha,
+    Beta,
+    Gamma
 }

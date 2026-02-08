@@ -17,8 +17,8 @@ void FreeLambdaIRFunction::declareFreeLambdaFunction(IRGenerator* irGenerator, s
 }
 
 void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
-    auto pointerType = irGenerator->generateIrPointerType();
     auto intType = irGenerator->generateIntType();
+    auto pointerType = irGenerator->generateIrPointerType(new IRType(intType));
     auto irInvocableType = irGenerator->generateIRInvocableType();
 
     auto function = irModuleNode->getFreeLambdaFunction();
@@ -46,13 +46,13 @@ void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, 
     auto loadedLambdaScope = InstructionIRInjectorHelper::injectLoad(irInvocableType->getFunctionScopeArgumentType(), pointerToLambdaScope, freeLambdaIfThenBlock);
     auto pointerToCleanupFunction = freeLambdaIfThenBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionCleanupIndex());
     auto loadedCleanupFunction = InstructionIRInjectorHelper::injectLoad(irInvocableType->getFunctionCleanupType(), pointerToCleanupFunction, freeLambdaIfThenBlock);
-//    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
-//            irInvocableType->getCleanupFunctionType(),
-//            loadedCleanupFunction,
-//            {
-//                loadedLambdaScope
-//            }
-//    );
+    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
+            irInvocableType->getCleanupFunctionType(),
+            loadedCleanupFunction,
+            {
+                loadedLambdaScope
+            }
+    );
 //    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
 //            irModuleNode->getMallocFreeFunction(),
 //            {

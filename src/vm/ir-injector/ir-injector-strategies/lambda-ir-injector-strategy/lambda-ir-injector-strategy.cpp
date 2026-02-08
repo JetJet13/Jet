@@ -21,6 +21,8 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRExpressionNode* irExpression, IR
         return FunctionInvocationIRInjectorHelper::inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRObjectAccessInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
+    } else if (irExpression->is(IR_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE)) {
+        return FunctionInvocationIRInjectorHelper::inject((IRArrayAccessInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject((IRTupleAccessInvocationExpressionNode*)irExpression, irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_OBJECT_ACCESS_EXPRESSION_NODE)) {
@@ -34,16 +36,13 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRExpressionNode* irExpression, IR
 }
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+    // todo - there are cases where we need to increment the ref count
+    // when the operand type is pointer (e.g. calling myArray.append(myLambda);)
     if (irOperation->isOperandPointer()) {
-        irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType(), nullptr, "LAMBDA_POINTER");
-    } else if (irOperation->isOperandValue()) {
-        irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType(), nullptr, "LAMBDA_VALUE");
+        return irExpression->getValue();
     }
-    if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
-        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { irExpression->getValue() });
-        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue(), irBlock, irExpression->getIRType()->getSourceType());
-    }
-    return irExpression->getValue();
+    irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { irExpression->getValue() });
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue(), irBlock, irExpression->getIRType()->getSourceType());
 }
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithBlockExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
@@ -63,6 +62,9 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithBlockExpressionNode* i
     DebugIRInjectorHelper::injectFunctionEnterLog(irExpression->getBlock(), irExpression->getFunctionValue()->getName().str(), irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irExpression->getBlock(), irExpression->getFunctionValue()->getName().str(), irInjector, irModule);
     auto value = this->injectDetails(irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    if (irOperation->isOperandPointer()) {
+        return irExpression->getAllocation()->getValue();
+    }
     return value;
 }
 
@@ -79,7 +81,9 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode
     DebugIRInjectorHelper::injectFunctionEnterLog(irExpression->getBlock(), irExpression->getFunctionValue()->getName().str(), irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irExpression->getBlock(), irExpression->getFunctionValue()->getName().str(), irInjector, irModule);
     auto value = this->injectDetails(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-
+    if (irOperation->isOperandPointer()) {
+        return irExpression->getAllocation()->getValue();
+    }
     return value;
 }
 

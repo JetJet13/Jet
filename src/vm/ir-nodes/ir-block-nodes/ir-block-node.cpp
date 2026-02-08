@@ -78,7 +78,7 @@ std::vector<IRNode*>* IRBlockNode::getNodesToFree() {
     allNodesToFree->insert(allNodesToFree->begin(), _nodesToFree.begin(), _nodesToFree.end());
     for (auto successorBlock : _successors) {
         if (successorBlock->is(IR_BASIC_BT)) {
-            auto moreNodesToFree = successorBlock->getExpressionsToFree();
+            auto moreNodesToFree = successorBlock->getNodesToFree();
             allNodesToFree->insert(
                     allNodesToFree->begin(),
                     moreNodesToFree->begin(),

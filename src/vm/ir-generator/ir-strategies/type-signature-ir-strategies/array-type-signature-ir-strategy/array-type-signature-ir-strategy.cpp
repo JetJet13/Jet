@@ -8,11 +8,6 @@
 
 IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType(), scope, irContext);
-    if (arrayElementType->isPointerType()) {
-        auto irArrayPointerType = irGenerator->generateIrArrayPointerType((IRPointerType*)arrayElementType);
-        irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator, irContext));
-        return irArrayPointerType;
-    }
     auto irArrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
     irArrayPointerType->setKeyId(arrayTypeSignature->getKeyId());
     irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator, irContext));

@@ -1385,14 +1385,14 @@ void PrintIRFunction::generatePrintLambdaFunction(IRGenerator* irGenerator, std:
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
     auto lambdaValue = InstructionIRInjectorHelper::injectLoad(invocableType->getType(), loadedPointer, functionBlock);
-    auto lambdaPointer = functionBlock->getBuilder()->get()->CreateExtractValue(lambdaValue, invocableType->getFunctionIndex());
+    auto lambdaScopePointer = functionBlock->getBuilder()->get()->CreateExtractValue(lambdaValue, invocableType->getFunctionScopeArgumentIndex());
 
     auto formatLambdaAllocation = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalLambdaPointerFormatStringName());
 
     auto lambdaStartString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalLambdaStartFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { lambdaStartString });
 
-    functionBlock->getBuilder()->get()->CreateCall(printf, { formatLambdaAllocation, lambdaPointer });
+    functionBlock->getBuilder()->get()->CreateCall(printf, { formatLambdaAllocation, lambdaScopePointer });
 
     auto lambdaEndString = irModuleNode->getModule()->get()->getGlobalVariable(PrintIRFunction::getGlobalLambdaEndFormatStringName());
     functionBlock->getBuilder()->get()->CreateCall(printf, { lambdaEndString });

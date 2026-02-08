@@ -34,6 +34,10 @@ llvm::PointerType* IRLambdaType::getFunctionPointerType() {
     return _irType->getType();
 }
 
+llvm::FunctionType* IRLambdaType::getFunctionType() {
+    return _type;
+}
+
 IRTypeValueInstructionNode* IRLambdaType::getValue() {
     return _lambdaVariableType->getValue();
 }
@@ -46,12 +50,22 @@ bool IRLambdaType::isInvocableType() {
     return true;
 }
 
-llvm::FunctionType* IRLambdaType::getType() {
-    return _type;
+llvm::Type* IRLambdaType::getType() {
+    return _lambdaVariableType->getType();
 }
 
 llvm::Align IRLambdaType::getAlignment() {
+    if (_alignmentOverride) {
+        return _alignmentOverride.value();
+    }
     return llvm::Align(8);
+}
+
+uint64_t IRLambdaType::getSizeInBytes() {
+    if (_sizeInBytesOverride) {
+        return _sizeInBytesOverride.value();
+    }
+    return _lambdaVariableType->getSizeInBytes();
 }
 
 IRLambdaType* IRLambdaType::clone() {

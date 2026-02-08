@@ -13,8 +13,7 @@
 IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
     auto irType = (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
-    auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
-    auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
+    auto functionType = irType->getFunctionType();
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
     auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), lambdaScope, irContext, irFunction);
@@ -36,8 +35,7 @@ IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaE
 IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaWithFatArrowExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
     auto irType = (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
-    auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
-    auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
+    auto functionType = irType->getFunctionType();
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
     auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), lambdaScope, irContext, irFunction);

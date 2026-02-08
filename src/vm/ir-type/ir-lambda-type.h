@@ -24,11 +24,13 @@ public:
     std::optional<IRStructType*> getLambdaScopeType();
     IRInvocableType* getLambdaVariableType();
     llvm::PointerType* getFunctionPointerType();
+    llvm::FunctionType* getFunctionType();
     IRTypeValueInstructionNode* getValue() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isInvocableType() override;
-    llvm::FunctionType* getType() override;
+    llvm::Type* getType() override;
     llvm::Align getAlignment() override;
+    uint64_t getSizeInBytes() override;
     IRLambdaType* clone() override;
     void print() override;
 };

@@ -63,7 +63,7 @@ llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicat
     } else if (operatorNode->isNotEqual()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_ONE
-        : llvm::CmpInst::Predicate::ICMP_EQ;
+        : llvm::CmpInst::Predicate::ICMP_NE;
     } else if (operatorNode->isLessThan()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OLT
