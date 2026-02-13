@@ -15,11 +15,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
     auto arguments = std::vector<llvm::Value*>();
     for (unsigned long i = 0; i < irExpression->getIRArguments()->size(); ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
-        auto operationType = functionTypeSignature->isArgumentVarArg(i)
-                             || functionTypeSignature->getParameterTypes()->at(i)->isGeneric()
-                ? new IROperation(IR_OPERAND_POINTER_OP)
-                : new IROperation(IR_FUNCTION_ARGUMENT_OP);
-        auto irArgument = irInjector->inject(irBlock, argument, operationType, irModule, scope);
+        auto irArgument = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         if (functionTypeSignature->isArgumentVarArg(i)) {
             auto index = functionTypeSignature->getVariableLengthParametersStartIndex() + 1 + i;
             irExpression->getValue()->setArgOperand(index, irArgument);
@@ -45,7 +41,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
                     varArgsArrayAllocation,
                     { index }
             );
-            auto typeValue = irInjector->inject(irBlock, argument->getIRType()->getSourceType());
+            auto typeValue = irInjector->inject(irBlock, argument->getArgument()->getIRType()->getSourceType());
             auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), typeValue, irBlock, typeValueType);
             InstructionIRInjectorHelper::injectStore(loadedTypeValue, pointerToTypeValue, irBlock);
         }
@@ -131,7 +127,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationE
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
-        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
 
@@ -143,7 +139,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
-        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
 
@@ -174,7 +170,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRRefPrototypeInvocation
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
-        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
     auto refValue = irInjector->inject(irBlock, irExpression->getIRRefValue(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
@@ -198,7 +194,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationE
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
-        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
@@ -222,7 +218,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
-        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
 
@@ -265,7 +261,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayAccessInvocationE
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
-        auto argumentValue = irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
     auto pointerToLambda = irInjector->inject(irBlock, irExpression->getIRArrayAccessExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);

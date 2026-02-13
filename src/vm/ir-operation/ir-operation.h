@@ -5,6 +5,7 @@
 #ifndef JETLANG_IR_OPERATION_H
 #define JETLANG_IR_OPERATION_H
 
+#include <optional>
 #include "../types/ir-operation-type.h"
 
 class IROperation {
@@ -12,10 +13,12 @@ private:
     IROperationType _type;
     bool _global;
     bool _underlyingType;
+    std::optional<bool> _countTowardsRefCount;
 public:
     IROperation(IROperationType type);
     IROperation* markAsUnderlying();
     IROperation* markAsGlobal();
+    IROperation* markCountTowardsRefCount();
     bool isOperand();
     bool isOperandValue();
     bool isOperandPointer();
@@ -27,6 +30,7 @@ public:
     bool isFunctionReturn();
     bool isUnderlying();
     bool isGlobal();
+    bool incrementRefCount();
 };
 
 #endif //JETLANG_IR_OPERATION_H

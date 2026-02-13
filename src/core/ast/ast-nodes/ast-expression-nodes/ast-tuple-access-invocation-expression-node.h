@@ -11,6 +11,7 @@
 #include "../ast-type-nodes/ast-type-node.h"
 #include "ast-callable-expression-node.h"
 #include "ast-tuple-access-expression.h"
+#include "../../../type-signature/invocable-type-signature/invocable-type-signature.h"
 
 class ASTTupleAccessInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
@@ -22,6 +23,7 @@ public:
     ASTTupleAccessExpressionNode* getObjectAccess();
     ASTObjectAccessSourceNode* getSource();
     ASTTupleAccessNode* getIndex();
+    InvocableTypeSignature* getInvocableTypeSignature();
     unsigned long numArguments();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -86,6 +86,7 @@ private:
     std::string _sameRefAsFunctionName;
     std::string _incrementRefCountFunctionName;
     std::string _incrementLambdaRefCountFunctionName;
+    std::string _incrementRefCountIfNecessaryFunctionName;
     std::string _getRefCountFunctionName;
 public:
     IRModuleNode(std::unique_ptr<llvm::Module> irValue,
@@ -163,6 +164,7 @@ public:
                  std::string sameRefAsFunctionName,
                  std::string incrementRefCountFunctionName,
                  std::string incrementLambdaRefCountFunctionName,
+                 std::string incrementRefCountIfNecessaryFunctionName,
                  std::string getRefCountFunctionName);
     std::unique_ptr<llvm::Module>* getModule();
     void linkTo(std::shared_ptr<IRModuleNode> otherIRModule);
@@ -241,6 +243,7 @@ public:
     llvm::Function* getSameRefAsFunction();
     llvm::Function* getIncrementRefCountFunction();
     llvm::Function* getIncrementLambdaRefCountFunction();
+    llvm::Function* getIncrementRefCountIfNecessaryFunction();
     llvm::Function* getGetRefCountFunction();
 };
 

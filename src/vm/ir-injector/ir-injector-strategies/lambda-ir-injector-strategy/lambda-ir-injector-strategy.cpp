@@ -36,12 +36,16 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRExpressionNode* irExpression, IR
 }
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+    if (irOperation->incrementRefCount()) {
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { irExpression->getValue() });
+    }
     // todo - there are cases where we need to increment the ref count
     // when the operand type is pointer (e.g. calling myArray.append(myLambda);)
+    // idea: rely on ir parameters to dictate the ir-operation when injecting the argument ir.
     if (irOperation->isOperandPointer()) {
         return irExpression->getValue();
     }
-    irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { irExpression->getValue() });
+
     return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue(), irBlock, irExpression->getIRType()->getSourceType());
 }
 

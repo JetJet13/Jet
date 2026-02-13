@@ -29,6 +29,10 @@ ASTObjectAccessTargetNode* ASTObjectAccessInvocationExpressionNode::getTarget() 
     return _objectAccess->getTarget();
 }
 
+InvocableTypeSignature* ASTObjectAccessInvocationExpressionNode::getInvocableTypeSignature() {
+    return (InvocableTypeSignature*)_objectAccess->getTypeSignature();
+}
+
 std::string ASTObjectAccessInvocationExpressionNode::getName() {
     return _objectAccess->getTarget()->getTarget()->getIdentifierNode()->getId();
 }

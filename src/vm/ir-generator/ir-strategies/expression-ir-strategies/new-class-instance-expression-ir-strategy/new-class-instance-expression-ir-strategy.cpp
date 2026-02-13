@@ -6,9 +6,19 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate(ASTNewClassInstanceExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto arguments = std::vector<IRExpressionNode*>();
-    for (auto argument : *node->getArguments()->getArguments()) {
-        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
+    auto arguments = std::vector<IRFunctionArgumentNode*>();
+    for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
+        auto argument = node->getArguments()->getArguments()->at(i);
+        arguments.push_back(
+                irGenerator->generateFor(
+                    argument,
+                    i,
+                    scope,
+                    irContext,
+                    new IROperation(IR_FUNCTION_ARGUMENT_OP),
+                    node->getTypeSignature()->getConstructorTypeSignature()
+                )
+        );
     }
 
     auto irType = (IRNewClassInstanceType*)irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);

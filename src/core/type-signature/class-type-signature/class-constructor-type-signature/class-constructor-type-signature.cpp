@@ -43,6 +43,18 @@ bool ClassConstructorTypeSignature::matchArguments(std::vector<TypeSignature*>* 
     return true;
 }
 
+bool ClassConstructorTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+    return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
+}
+
+std::vector<TypeSignature*>* ClassConstructorTypeSignature::getParameterTypes() {
+    return _parameterList->getParameterTypes();
+}
+
+TypeSignature* ClassConstructorTypeSignature::getReturnType() {
+    return _returnTypeSignature;
+}
+
 bool ClassConstructorTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;

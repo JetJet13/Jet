@@ -137,6 +137,7 @@
 #include "ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.h"
 #include "ir-internal-modules/ir-core-internal-module/ir-core-internal-module.h"
 #include "ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
+#include "ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -299,8 +300,14 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
 
-IRExpressionNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    return this->generateFor(node->getArgument(), scope, irContext, irOperation);
+IRFunctionArgumentNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, InvocableTypeSignature* invocableTypeSignature) {
+    auto irExpression = this->generateFor(node->getArgument(), scope, irContext, irOperation);
+    auto operation = invocableTypeSignature->isArgumentVarArg(index)
+                     || invocableTypeSignature->getParameterTypes()->at(index)->isGeneric()
+                     || invocableTypeSignature->isPrototype()
+                    ? new IROperation(IR_OPERAND_POINTER_OP)
+                    : new IROperation(IR_FUNCTION_ARGUMENT_OP);
+    return new IRFunctionArgumentNode(irExpression, operation);
 }
 
 IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext) {
@@ -1060,6 +1067,7 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             SameRefAsIRFunction::getSameRefAsIRFunctionName(),
             IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),
             IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunctionName(),
+            IncrementRefCountIfNecessaryIRFunction::getIncrementRefCountIfNecessaryIRFunctionName(),
             GetRefCountIRFunction::getGetRefCountIRFunctionName()
     ));
 }

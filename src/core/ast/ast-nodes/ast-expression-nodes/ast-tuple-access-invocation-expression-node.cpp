@@ -29,6 +29,10 @@ ASTTupleAccessNode* ASTTupleAccessInvocationExpressionNode::getIndex() {
     return _tupleAccess->getIndex();
 }
 
+InvocableTypeSignature* ASTTupleAccessInvocationExpressionNode::getInvocableTypeSignature() {
+    return (InvocableTypeSignature*)_tupleAccess->getTypeSignature();
+}
+
 unsigned long ASTTupleAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }

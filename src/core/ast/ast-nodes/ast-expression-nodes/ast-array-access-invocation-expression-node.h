@@ -8,6 +8,7 @@
 #include "ast-expression-node.h"
 #include "../ast-function-nodes/ast-function-argument-list-node.h"
 #include "ast-array-access-expression-node.h"
+#include "../../../type-signature/invocable-type-signature/invocable-type-signature.h"
 
 class ASTArrayAccessInvocationExpressionNode : public ASTExpressionNode {
 private:
@@ -19,6 +20,7 @@ public:
     ASTArrayAccessExpressionNode* getArrayAccess();
     ASTExpressionNode* getSource();
     ASTArrayAccessNode* getIndex();
+    InvocableTypeSignature* getInvocableTypeSignature();
     unsigned long numArguments();
     bool isArrayPrototypeInvocation();
     bool isRefPrototypeInvocation();

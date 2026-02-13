@@ -43,14 +43,6 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
                 sizeInBytes
             }
     );
-    auto newArraySize = functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocSizeFunction()->getFunctionType(),
-            irModuleNode->getMallocSizeFunction(),
-            {
-                newNumElements,
-                sizeInBytes
-            }
-    );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
             { newNumElements, sizeInBytes }
@@ -64,10 +56,11 @@ void ArrayAppendIRFunction::generateArrayAppendFunction(IRGenerator* irGenerator
     );
     auto newElementByteOffsetIndex = oldArraySize;
     auto newElementPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, newArrayMalloc, { newElementByteOffsetIndex });
+    auto loadedArrayElementTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), arrayElementTypeValue, functionBlock, typeValueType);
+
     functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMemcpyFunction()->getFunctionType(),
-            irModuleNode->getMemcpyFunction(),
-            { newElementPointer, function->getArg(1), sizeInBytes }
+            irModuleNode->getCopyValueFunction(),
+            { newElementPointer, function->getArg(1), loadedArrayElementTypeValue }
     );
     functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction()->getFunctionType(),

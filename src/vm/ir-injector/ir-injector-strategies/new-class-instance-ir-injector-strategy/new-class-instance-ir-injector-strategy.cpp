@@ -33,7 +33,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
 
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {
-        arguments.push_back(irInjector->inject(irBlock, argument, new IROperation(IR_FUNCTION_ARGUMENT_OP), irModule, scope));
+        arguments.push_back(irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope));
     }
     arguments.push_back(classInstanceAllocation);
     auto constructorFunction = irModule->getModule()->get()->getFunction(irExpression->getConstructorId());

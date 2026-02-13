@@ -6,10 +6,8 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-print-statement-node.h"
 
 IRStatementNode* PrintStatementIRStrategy::generate(ASTPrintStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto arguments = std::vector<IRExpressionNode*>();
-    for (auto argument : *node->getArguments()->getArguments()) {
-        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
-    }
+    auto arguments = std::vector<IRFunctionArgumentNode*>();
+    // TODO - remove, no longer needed
 
     return new IRPrintStatementNode(node, arguments, irGenerator->generateChar('\n'), irGenerator->generateChar(' '));
 }

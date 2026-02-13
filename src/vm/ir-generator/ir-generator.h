@@ -71,6 +71,7 @@
 #include "../ir-type/ir-captured-variable-type.h"
 #include "../ir-type/ir-invocable-type.h"
 #include "../ir-type/ir-struct-ref-type.h"
+#include "../ir-nodes/ir-function-nodes/ir-function-argument-node.h"
 
 class IRGenerator {
 private:
@@ -92,7 +93,7 @@ public:
     IRTypeDeclarationNode* generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
     IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
     IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
-    IRExpressionNode* generateFor(ASTFunctionArgumentNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRFunctionArgumentNode* generateFor(ASTFunctionArgumentNode* node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, InvocableTypeSignature* invocableTypeSignature);
     IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
     IRType* generateInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generatePostInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);

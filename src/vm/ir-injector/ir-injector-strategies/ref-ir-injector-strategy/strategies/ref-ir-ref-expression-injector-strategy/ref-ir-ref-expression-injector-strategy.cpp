@@ -34,7 +34,7 @@ void RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocation, llvm:
                 { allocation, value, valueArc }
         );
 
-    if (irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
+    if (irOperation->incrementRefCount()) {
         irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { allocation });
     }
 }

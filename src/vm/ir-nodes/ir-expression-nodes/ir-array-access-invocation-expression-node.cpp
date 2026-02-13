@@ -5,7 +5,7 @@
 #include "ir-array-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(ASTArrayAccessInvocationExpressionNode* node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type) {
+IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(ASTArrayAccessInvocationExpressionNode* node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irArrayAccessExpression = irArrayAccessExpression;
@@ -17,7 +17,7 @@ IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(AST
 void IRArrayAccessInvocationExpressionNode::markAsGlobal() {
     _isGlobal = true;
     for (auto argument : _arguments) {
-        argument->markAsGlobal();
+        argument->getArgument()->markAsGlobal();
     }
 }
 
@@ -29,7 +29,7 @@ IRArrayAccessExpressionNode* IRArrayAccessInvocationExpressionNode::getIRArrayAc
     return _irArrayAccessExpression;
 }
 
-std::vector<IRExpressionNode*>* IRArrayAccessInvocationExpressionNode::getIRArguments() {
+std::vector<IRFunctionArgumentNode*>* IRArrayAccessInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 

@@ -13,6 +13,7 @@
 #include "ir-tuple-access-expression-node.h"
 #include "ir-object-access-expression-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
+#include "../ir-function-nodes/ir-function-argument-node.h"
 
 class IRObjectAccessInvocationExpressionNode : public IRExpressionNode {
 private:
@@ -20,16 +21,16 @@ private:
     llvm::CallInst* _irCallInstruction;
     IRInstructionNode* _irFunction;
     IRType* _irFunctionType;
-    std::vector<IRExpressionNode*> _arguments;
+    std::vector<IRFunctionArgumentNode*> _arguments;
     IRType* _type;
     std::optional<IRExpressionNode*> _scopeArgument;
 public:
-    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
+    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
     void markAsGlobal() override;
     bool isReferenced() override;
     IRInstructionNode* getFunction();
     std::optional<IRExpressionNode*> getScopeArgument();
-    std::vector<IRExpressionNode*>* getIRArguments();
+    std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;
     llvm::Value* getFunctionValue();
     IRType* getFunctionIRType();

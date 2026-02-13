@@ -5,7 +5,7 @@
 #include "ir-function-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
+IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -18,7 +18,7 @@ IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(ASTFuncti
 void IRFunctionInvocationExpressionNode::markAsGlobal() {
     _isGlobal = true;
     for (auto argument : _arguments) {
-        argument->markAsGlobal();
+        argument->getArgument()->markAsGlobal();
     }
 }
 
@@ -30,7 +30,7 @@ std::optional<IRInstructionNode*> IRFunctionInvocationExpressionNode::getVarArgs
     return _varArgsTypeValueArgument;
 }
 
-std::vector<IRExpressionNode*>* IRFunctionInvocationExpressionNode::getIRArguments() {
+std::vector<IRFunctionArgumentNode*>* IRFunctionInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 

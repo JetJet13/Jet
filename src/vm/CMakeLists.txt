@@ -699,6 +699,10 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/array-access-invocation-expression-ir-strategy/array-access-invocation-expression-ir-strategy.h
         ir-nodes/ir-expression-nodes/ir-array-access-invocation-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-array-access-invocation-expression-node.h
+        ir-nodes/ir-function-nodes/ir-function-argument-node.cpp
+        ir-nodes/ir-function-nodes/ir-function-argument-node.h
+        ir-generator/ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.cpp
+        ir-generator/ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h
 )
 
 target_link_libraries(jet-vm

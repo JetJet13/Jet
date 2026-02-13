@@ -5,7 +5,7 @@
 #include "ir-ref-prototype-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRRefPrototypeInvocationExpressionNode::IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRExpressionNode* irRef) {
+IRRefPrototypeInvocationExpressionNode::IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irRef) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -18,7 +18,7 @@ IRRefPrototypeInvocationExpressionNode::IRRefPrototypeInvocationExpressionNode(A
 void IRRefPrototypeInvocationExpressionNode::markAsGlobal() {
     _isGlobal = true;
     for (auto argument : _arguments) {
-        argument->markAsGlobal();
+        argument->getArgument()->markAsGlobal();
     }
 }
 
@@ -30,7 +30,7 @@ IRExpressionNode* IRRefPrototypeInvocationExpressionNode::getIRRefValue() {
     return _irRef;
 }
 
-std::vector<IRExpressionNode*>* IRRefPrototypeInvocationExpressionNode::getIRArguments() {
+std::vector<IRFunctionArgumentNode*>* IRRefPrototypeInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 

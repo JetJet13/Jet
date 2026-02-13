@@ -10,13 +10,17 @@
 llvm::Value* RefIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irRefType = (IRRefType*)irExpression->getIRType();
     auto pointerAtIndex = this->getPointerAtIndex(irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    if (irOperation->incrementRefCount()) {
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { pointerAtIndex });
+    }
+
     if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), pointerAtIndex, irRefType->getRefValueIndex());
         return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
     } else if (irOperation->isOperandPointer()) {
         return pointerAtIndex;
     }
-    irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { pointerAtIndex });
+
     return InstructionIRInjectorHelper::injectLoad(
             irRefType->getType(),
             pointerAtIndex,

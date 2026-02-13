@@ -10,6 +10,7 @@
 #include "../ir-instruction-node.h"
 #include "../../ir-type/ir-function-type.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
+#include "../ir-function-nodes/ir-function-argument-node.h"
 
 class IRRefPrototypeInvocationExpressionNode : public IRExpressionNode {
 private:
@@ -17,15 +18,15 @@ private:
     llvm::CallInst* _irCallInstruction;
     llvm::Value* _irFunction;
     IRType* _irFunctionType;
-    std::vector<IRExpressionNode*> _arguments;
+    std::vector<IRFunctionArgumentNode*> _arguments;
     IRType* _type;
     IRExpressionNode* _irRef;
 public:
-    IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type, IRExpressionNode* irRef);
+    IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irRef);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRExpressionNode* getIRRefValue();
-    std::vector<IRExpressionNode*>* getIRArguments();
+    std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;
     llvm::Value* getFunctionValue();
     IRType* getFunctionIRType();

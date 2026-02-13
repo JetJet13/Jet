@@ -13,22 +13,23 @@
 #include "../../../core/type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../ir-type/ir-class-type.h"
 #include "../../ir-type/ir-new-class-instance-type.h"
+#include "../ir-function-nodes/ir-function-argument-node.h"
 
 class IRNewClassInstanceExpressionNode : public IRExpressionNode {
 private:
     ASTNewClassInstanceExpressionNode* _node;
     std::string _constructorId;
     IRFunctionType* _irConstructorType;
-    std::vector<IRExpressionNode*> _arguments;
+    std::vector<IRFunctionArgumentNode*> _arguments;
     IRNewClassInstanceType* _type;
     IRInstructionNode* _classInstanceAllocation;
     IRInstructionNode* _irArc;
 public:
-    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, std::string constructorId, IRFunctionType* irConstructorType, std::vector<IRExpressionNode*> arguments, IRNewClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
+    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, std::string constructorId, IRFunctionType* irConstructorType, std::vector<IRFunctionArgumentNode*> arguments, IRNewClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRInstructionNode* getClassInstanceAllocation();
-    std::vector<IRExpressionNode*>* getIRArguments();
+    std::vector<IRFunctionArgumentNode*>* getIRArguments();
     std::optional<IRInstructionNode*> getArc() override;
     llvm::Value* getValue() override;
     IRFunctionType* getConstructorIRType();

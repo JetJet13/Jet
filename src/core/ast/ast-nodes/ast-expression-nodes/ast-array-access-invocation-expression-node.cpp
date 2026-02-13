@@ -6,6 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
+
 ASTArrayAccessInvocationExpressionNode::ASTArrayAccessInvocationExpressionNode(ASTArrayAccessExpressionNode* arrayAccess, ASTFunctionArgumentListNode* arguments) {
     _arrayAccess = arrayAccess;
     _arguments = arguments;
@@ -27,6 +28,10 @@ ASTExpressionNode* ASTArrayAccessInvocationExpressionNode::getSource() {
 
 ASTArrayAccessNode* ASTArrayAccessInvocationExpressionNode::getIndex() {
     return _arrayAccess->getIndex();
+}
+
+InvocableTypeSignature* ASTArrayAccessInvocationExpressionNode::getInvocableTypeSignature() {
+    return (InvocableTypeSignature*)_arrayAccess->getTypeSignature();
 }
 
 unsigned long ASTArrayAccessInvocationExpressionNode::numArguments() {

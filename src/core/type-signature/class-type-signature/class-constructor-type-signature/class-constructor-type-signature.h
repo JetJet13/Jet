@@ -8,10 +8,13 @@
 #include <vector>
 #include "../../type-signature.h"
 #include "../../parameter-list-type-signature/parameter-list-type-signature.h"
+#include "../../void-type-signature/void-type-signature.h"
+#include "../../invocable-type-signature/invocable-type-signature.h"
 
-class ClassConstructorTypeSignature : public TypeSignature {
+class ClassConstructorTypeSignature : public InvocableTypeSignature {
 private:
     ParameterListTypeSignature* _parameterList;
+    VoidTypeSignature* _returnTypeSignature = new VoidTypeSignature();
 public:
     explicit ClassConstructorTypeSignature();
     explicit ClassConstructorTypeSignature(ParameterListTypeSignature* parameterList);
@@ -20,6 +23,9 @@ public:
     std::string toString() override;
     TypeSource getTypeSource() override;
     bool matchArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
+    std::vector<TypeSignature*>* getParameterTypes() override;
+    bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
+    TypeSignature* getReturnType() override;
     bool isEqualTo(TypeSignature *otherType) override;
     void print() override;
 };

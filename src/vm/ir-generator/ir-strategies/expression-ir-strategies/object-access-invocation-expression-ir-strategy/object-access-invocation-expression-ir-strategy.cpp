@@ -12,10 +12,21 @@
 #include "../../../../ir-type/ir-class-instance-type.h"
 
 IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto arguments = std::vector<IRExpressionNode*>();
-    for (auto argument : *node->getArguments()->getArguments()) {
-        arguments.push_back(irGenerator->generateFor(argument, scope, irContext, new IROperation(IR_FUNCTION_ARGUMENT_OP)));
+    auto arguments = std::vector<IRFunctionArgumentNode*>();
+    for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
+        auto argument = node->getArguments()->getArguments()->at(i);
+        arguments.push_back(
+            irGenerator->generateFor(
+                    argument,
+                    i,
+                    scope,
+                    irContext,
+                    new IROperation(IR_FUNCTION_ARGUMENT_OP),
+                    node->getInvocableTypeSignature()
+            )
+        );
     }
+
 
     if (node->isArrayPrototypeInvocation()) {
         auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
@@ -53,9 +64,6 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     auto irStructRefType = (IRStructRefType*)sourceType;
     auto targetIndex = irStructRefType->getStructIRType()->getIndexForKey(node->getName());
     auto irInvocableType = (IRInvocableType*)irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
-    if (!irInvocableType->isInvocableType()) {
-        throw std::logic_error("YUCK! Not Invocable");
-    }
     auto irStructAllocPointer = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getType(), sourceValue->getValue(), { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(irStructRefType->getStructIndex()) });
     auto loadedStructAlloc = irGenerator->generateLoadInstruction(irStructAllocPointer, irGenerator->generateIrPointerType());
     auto pointerToValue = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedStructAlloc, { irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });

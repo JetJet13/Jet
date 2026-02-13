@@ -11,6 +11,7 @@
 #include "../../ir-type/ir-function-type.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h"
 #include "ir-tuple-access-expression-node.h"
+#include "../ir-function-nodes/ir-function-argument-node.h"
 
 class IRTupleAccessInvocationExpressionNode : public IRExpressionNode {
 private:
@@ -18,14 +19,14 @@ private:
     IRTupleAccessExpressionNode* _irTupleAccessExpression;
     llvm::CallInst* _irCallInstruction;
     IRType* _irFunctionType;
-    std::vector<IRExpressionNode*> _arguments;
+    std::vector<IRFunctionArgumentNode*> _arguments;
     IRType* _type;
 public:
-    IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type);
+    IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
     void markAsGlobal() override;
     bool isReferenced() override;
     IRTupleAccessExpressionNode* getIRTupleAccessExpression();
-    std::vector<IRExpressionNode*>* getIRArguments();
+    std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;
     IRType* getFunctionIRType();
     IRType* getIRType() override;

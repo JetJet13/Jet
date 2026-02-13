@@ -24,6 +24,7 @@ public:
     ASTObjectAccessExpressionNode* getObjectAccess();
     ASTObjectAccessSourceNode* getSource();
     ASTObjectAccessTargetNode* getTarget();
+    InvocableTypeSignature* getInvocableTypeSignature();
     std::string getName();
     unsigned long numArguments();
     bool isArrayPrototypeInvocation();

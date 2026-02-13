@@ -8,16 +8,17 @@
 #include "../ir-expression-nodes/ir-expression-node.h"
 #include "ir-statement-node.h"
 #include "../../../core/ast/ast-nodes/ast-statement-nodes/ast-print-statement-node.h"
+#include "../ir-function-nodes/ir-function-argument-node.h"
 
 class IRPrintStatementNode : public IRStatementNode {
 private:
     ASTPrintStatementNode* _node;
-    std::vector<IRExpressionNode*> _arguments;
+    std::vector<IRFunctionArgumentNode*> _arguments;
     llvm::Value* _newLine;
     llvm::Value* _whitespace;
 public:
-    IRPrintStatementNode(ASTPrintStatementNode* node, std::vector<IRExpressionNode*> arguments, llvm::Value* newLine, llvm::Value* whitespace);
-    std::vector<IRExpressionNode*>* getIRArguments();
+    IRPrintStatementNode(ASTPrintStatementNode* node, std::vector<IRFunctionArgumentNode*> arguments, llvm::Value* newLine, llvm::Value* whitespace);
+    std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::Value* getNewLine();
     llvm::Value* getWhitespace();
     IRNodeType getNodeType() override;

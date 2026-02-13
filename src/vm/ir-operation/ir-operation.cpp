@@ -18,6 +18,11 @@ IROperation* IROperation::markAsGlobal() {
     return this;
 }
 
+IROperation* IROperation::markCountTowardsRefCount() {
+    _countTowardsRefCount = true;
+    return this;
+}
+
 bool IROperation::isOperand() {
     return _type == IR_OPERAND_POINTER_OP || _type == IR_OPERAND_VALUE_OP;
 }
@@ -60,4 +65,11 @@ bool IROperation::isUnderlying() {
 
 bool IROperation::isGlobal() {
     return _global;
+}
+
+bool IROperation::incrementRefCount() {
+    if (_countTowardsRefCount.has_value()) {
+        return _countTowardsRefCount.value();
+    }
+    return this->isOperandValue() || this->isCopy() || this->isFunctionArgument() || this->isFunctionReturn();
 }

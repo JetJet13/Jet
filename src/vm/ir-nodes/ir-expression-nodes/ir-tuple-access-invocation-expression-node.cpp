@@ -5,7 +5,7 @@
 #include "ir-tuple-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRExpressionNode*> arguments, IRType* type) {
+IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irTupleAccessExpression = irTupleAccessExpression;
@@ -17,7 +17,7 @@ IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(AST
 void IRTupleAccessInvocationExpressionNode::markAsGlobal() {
     _isGlobal = true;
     for (auto argument : _arguments) {
-        argument->markAsGlobal();
+        argument->getArgument()->markAsGlobal();
     }
 }
 
@@ -29,7 +29,7 @@ IRTupleAccessExpressionNode* IRTupleAccessInvocationExpressionNode::getIRTupleAc
     return _irTupleAccessExpression;
 }
 
-std::vector<IRExpressionNode*>* IRTupleAccessInvocationExpressionNode::getIRArguments() {
+std::vector<IRFunctionArgumentNode*>* IRTupleAccessInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 
