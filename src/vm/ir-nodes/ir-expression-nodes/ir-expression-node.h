@@ -16,6 +16,7 @@ protected:
     bool _isGlobal = false;
     bool _isAssigned = false;
     bool _isReturned = false;
+    bool _isGrouped = false;
 public:
     virtual void markAsGlobal();
     bool isGlobal();
@@ -24,6 +25,8 @@ public:
     virtual void markAsAssigned();
     bool isReturned();
     virtual void markAsReturned();
+    bool isGrouped();
+    void markAsGrouped();
     bool needsToBeFreed();
     bool hasArc();
     IRType* getUnderlyingIRType();

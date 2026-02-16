@@ -17,6 +17,8 @@ public:
     ASTBinaryExpressionNode(ASTExpressionNode* leftNode, ASTBinaryOperatorNode* binaryOperator, ASTExpressionNode* rightNode);
     ASTExpressionNode* getLeftNode();
     ASTExpressionNode* getRightNode();
+    void setLeftNode(ASTExpressionNode* node);
+    void setRightNode(ASTExpressionNode* node);
     ASTBinaryOperatorNode* getBinaryOperator();
     void markAsReferenced() override;
     Position* getStartPosition() override;

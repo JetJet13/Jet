@@ -24,6 +24,22 @@ ASTExpressionNode* ASTBinaryExpressionNode::getRightNode() {
     return _rightNode;
 }
 
+void ASTBinaryExpressionNode::setLeftNode(ASTExpressionNode* node) {
+    _leftNode = node;
+    _children.clear();
+    _children.push_back(_leftNode);
+    _children.push_back(_binaryOperator);
+    _children.push_back(_rightNode);
+}
+
+void ASTBinaryExpressionNode::setRightNode(ASTExpressionNode* node) {
+    _rightNode = node;
+    _children.clear();
+    _children.push_back(_leftNode);
+    _children.push_back(_binaryOperator);
+    _children.push_back(_rightNode);
+}
+
 ASTBinaryOperatorNode* ASTBinaryExpressionNode::getBinaryOperator() {
     return _binaryOperator;
 }

@@ -19,12 +19,14 @@ protected:
     std::string _id;
     std::vector<ASTNode*> _children = {};
     bool _isGlobal = false;
+    bool _isGrouped = false;
 public:
     std::string getId();
     ASTNode* setId(std::string id);
     std::optional<ASTNode*> getParentNode();
     void setParentNode(ASTNode* parentNode);
     void markAsGlobal();
+    void markAsGrouped();
     virtual ASTNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
     virtual Position* getStartPosition();
@@ -40,6 +42,7 @@ public:
     virtual ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode);
     virtual bool isExportable();
     virtual bool isGlobal();
+    bool isGrouped();
     bool is(ASTNodeType astNodeType);
     bool isOneOf(std::vector<ASTNodeType> astNodeTypes);
     bool isSameNodeTypeAs(ASTNode* other);

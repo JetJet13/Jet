@@ -163,6 +163,9 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         Logger::log("group enclosed..removing brackets and popping group mode");
         _handle.removeFirstNode();
         _handle.removeLastNode();
+        if (_handle.first()) {
+            _handle.first().value()->markAsGrouped();
+        }
         _modeStack.pop();
     }
 }

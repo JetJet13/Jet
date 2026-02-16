@@ -14,6 +14,14 @@ Lexeme* ASTBinaryOperatorNode::getOperator() {
     return _lexeme;
 }
 
+unsigned int ASTBinaryOperatorNode::getPriority() const {
+    return _priority;
+}
+
+bool ASTBinaryOperatorNode::isHigherOrEqualPriorityThan(ASTBinaryOperatorNode* other) const {
+    return _priority <= other->getPriority();
+}
+
 bool ASTBinaryOperatorNode::isPlus() {
     return _lexeme->getToken()->getSymbol()->isPlus();
 }
@@ -109,16 +117,10 @@ std::string ASTBinaryOperatorNode::toSourceCode() {
 
 unsigned int ASTBinaryOperatorNode::determinePriority(Lexeme* lexeme) {
     auto symbol = lexeme->getToken()->getSymbol();
-    if (symbol->isSlash()) {
+    if (symbol->isSlash() || symbol->isStar()) {
         return 1;
-    } else if (symbol->isStar()) {
+    } else if (symbol->isMinus() || symbol->isPlus()) {
         return 2;
-    } else if (symbol->isMinus()) {
-        return 3;
-    } else if (symbol->isPlus()) {
-        return 4;
-    } else if (symbol->isModulo()) {
-        return 9;
     } else {
         return 10;
     }

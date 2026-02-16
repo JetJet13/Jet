@@ -8,6 +8,7 @@
 #include <llvm/IR/InstrTypes.h>
 #include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "ir-binary-expression-node.h"
+#include "../../ir-binary-operator-node.h"
 
 class IRBinaryArithmeticExpressionNode : public IRBinaryExpressionNode {
 private:
@@ -18,6 +19,8 @@ private:
     IRType* _type;
 public:
     IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
+    std::vector<IRExpressionNode*> getListOfOperands();
+    std::vector<IRBinaryOperatorNode*> getListOfOperations();
     void markAsGlobal() override;
     bool isReferenced() override;
     llvm::BinaryOperator* getValue() override;

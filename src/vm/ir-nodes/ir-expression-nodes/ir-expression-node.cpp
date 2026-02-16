@@ -34,6 +34,14 @@ void IRExpressionNode::markAsReturned() {
     _isReturned = true;
 }
 
+bool IRExpressionNode::isGrouped() {
+    return _isGrouped;
+}
+
+void IRExpressionNode::markAsGrouped() {
+    _isGrouped = true;
+}
+
 bool IRExpressionNode::needsToBeFreed() {
     return !this->isReferenced() &&
            !this->isGlobal() &&

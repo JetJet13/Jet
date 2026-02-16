@@ -5,15 +5,52 @@
 #include "literal-ir-binary-arithmetic-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../ir-nodes/binary-arithmetic-dsu.h"
 
 llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
-    auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
-    auto result = irBlock->getBuilder()->get()->CreateBinOp(irExpression->getValue()->getOpcode(), irLeftNodeValue, irRightNodeValue);
+    auto irOperations = irExpression->getListOfOperations();
+
+    auto irOperands = irExpression->getListOfOperands();
+    auto irOperandValues = std::vector<BinaryArithmeticDSU*>();
+    for (auto irOperand : irOperands) {
+        auto irValue = irInjector->inject(irBlock, irOperand, (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
+        irOperandValues.push_back(new BinaryArithmeticDSU(irValue));
+    }
+
+    for (int i = 0; i < irOperations.size(); ++i) {
+        auto op = this->findNextOperationIndex(&irOperations);
+        auto leftValue = irOperandValues.at(op->getLeftOperandIndex());
+        auto rightValue = irOperandValues.at(op->getRightOperandIndex());
+        auto result = irBlock->getBuilder()->get()->CreateBinOp(op->getOp()->getOpcode(), leftValue->getValue(), rightValue->getValue());
+        auto resultDSU = new BinaryArithmeticDSU(result);
+        leftValue->merge(rightValue);
+        resultDSU->merge(leftValue);
+    }
+
+    auto finalResult = irOperandValues.at(irOperandValues.size() - 1)->getValue();
     if (irOperation->isOperandPointer()) {
-        auto allocation = irBlock->getBuilder()->get()->CreateAlloca(result->getType());
-        InstructionIRInjectorHelper::injectStore(result, allocation, irBlock);
+        auto allocation = irBlock->getBuilder()->get()->CreateAlloca(finalResult->getType());
+        InstructionIRInjectorHelper::injectStore(finalResult, allocation, irBlock);
         return allocation;
     }
-    return result;
+    return finalResult;
 }
+
+IRBinaryArithmeticNode* LiteralIRBinaryArithmeticExpressionInjectorStrategy::findNextOperationIndex(std::vector<IRBinaryOperatorNode*>* operations) {
+    for (int i = 0; i < operations->size(); ++i) {
+        auto currentOp = operations->at(i);
+        if (currentOp->isHandled()) continue;
+
+        for (int j = i + 1; j < operations->size(); ++j) {
+            auto otherOp = operations->at(j);
+            if (!otherOp->isHandled() && otherOp->isHigherPriorityThan(currentOp)) {
+                otherOp->markAsHandled();
+                return new IRBinaryArithmeticNode(otherOp->getOp(), j, j+1);
+            }
+        }
+        currentOp->markAsHandled();
+        return new IRBinaryArithmeticNode(currentOp->getOp(), i, i+1);
+    }
+    throw std::logic_error("unable to find next binary arithmetic operation");
+}
+

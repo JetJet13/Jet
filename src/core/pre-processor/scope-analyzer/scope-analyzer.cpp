@@ -8,6 +8,7 @@
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.h"
+#include "../../ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 
 void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
     auto astTraverser = ASTTraverser();
@@ -20,6 +21,7 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
     auto currentScope = scopeStack.top();
     while (nextNode) {
         auto node = nextNode.value();
+
         if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
             currentScope->insert(node->getId(), node);
         } else if (node->is(AST_FUNCTION_PARAMETER_NODE)) {

@@ -11,10 +11,13 @@
 class ASTBinaryOperatorNode : public ASTNode {
 private:
     Lexeme* _lexeme;
+    unsigned int _priority;
     unsigned int determinePriority(Lexeme* lexeme);
 public:
     ASTBinaryOperatorNode(Lexeme* lexeme);
     Lexeme* getOperator();
+    unsigned int getPriority() const;
+    bool isHigherOrEqualPriorityThan(ASTBinaryOperatorNode* other) const;
     bool isPlus();
     bool isMinus();
     bool isMultiply();

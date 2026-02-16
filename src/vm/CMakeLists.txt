@@ -703,6 +703,12 @@ add_library(jet-vm
         ir-nodes/ir-function-nodes/ir-function-argument-node.h
         ir-generator/ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.cpp
         ir-generator/ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h
+        ir-nodes/ir-binary-arithmetic-node.cpp
+        ir-nodes/ir-binary-arithmetic-node.h
+        ir-nodes/ir-binary-operator-node.cpp
+        ir-nodes/ir-binary-operator-node.h
+        ir-nodes/binary-arithmetic-dsu.cpp
+        ir-nodes/binary-arithmetic-dsu.h
 )
 
 target_link_libraries(jet-vm

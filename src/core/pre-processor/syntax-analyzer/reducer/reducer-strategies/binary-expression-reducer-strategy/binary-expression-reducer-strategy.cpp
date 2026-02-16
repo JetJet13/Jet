@@ -4,6 +4,7 @@
 
 #include "binary-expression-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "../../../../../../shared/utils/logger/logger.h"
 
 ASTNode* BinaryExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() != 3) {

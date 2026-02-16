@@ -28,6 +28,14 @@ void ASTNode::markAsGlobal() {
     _isGlobal = true;
 }
 
+void ASTNode::markAsGrouped() {
+    _isGrouped = true;
+}
+
+bool ASTNode::isGrouped() {
+    return _isGrouped;
+}
+
 bool ASTNode::is(ASTNodeType astNodeType) {
     return this->getNodeType() == astNodeType;
 }

@@ -537,6 +537,13 @@ proc testBedmas() {
     assert(bedmasUnary == 0);
     const bedmasUnaryQuad = +1 * 2 - -3 + 4;
     assert(bedmasUnaryQuad == 9);
+    const bedmasSubtractTriple = 9 - 1 - 9;
+    print("bedmasSubtractTriple", bedmasSubtractTriple);
+    assert(bedmasSubtractTriple == -1);
+    const bedmasTripleTest = 3 * 2 - 4;
+    assert(bedmasTripleTest == 2);
+    const bedmasQuadTest = 1 * 2 - 4 + 5;
+    assert(bedmasQuadTest == 3);
 }
 testBedmas();
 
@@ -598,11 +605,12 @@ proc testLambdas() {
             return 100 + integer;
         }
         assert(loopLambda() == integer + 100);
-        myLambdas.append(loopLambda);
+        myLambdas.prepend(loopLambda);
     }
 
-    for i in range(myLambdas.size()) {
-        assert(myLambdas[i]() == i + 100);
+    for i in range(myLambdas.size() - 1, -1, -1) {
+        print("i", i, myLambdas.size() - 1 - i + 100);
+        assert(myLambdas[i]() == myLambdas.size() - 1 - i + 100);
     }
 
     let j = 0;

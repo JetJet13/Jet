@@ -13,11 +13,15 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     if (node->getBinaryOperator()->isArithmetic()) {
-        return new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
+        auto binaryArithmeticExpressionNode = new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
                 leftExpressionIr->getValue(),
                 rightExpressionIr->getValue()
         ), leftExpressionIr, rightExpressionIr, irType);
+        if (node->isGrouped()) {
+            binaryArithmeticExpressionNode->markAsGrouped();
+        }
+        return binaryArithmeticExpressionNode;
     }
 
     auto leftIrType = irGenerator->generateTypeFor(node->getLeftNode()->getTypeSignature(), scope, irContext);
