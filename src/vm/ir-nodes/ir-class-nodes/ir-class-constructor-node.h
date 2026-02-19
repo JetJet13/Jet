@@ -17,15 +17,12 @@ private:
     llvm::Function* _irValue;
     IRBlockNode* _irBlock;
     IRFunctionParameterListNode* _irParameters;
-    IRLookupTable* _scope;
-
 public:
-    IRClassConstructorNode(ASTClassConstructorDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock, IRLookupTable* scope);
+    IRClassConstructorNode(ASTClassConstructorDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock);
     ASTClassConstructorDeclarationNode* getNode();
     llvm::Function* getFunction();
     IRFunctionParameterListNode* getParameters();
     IRBlockNode* getBlock();
-    IRLookupTable* getScope();
 };
 
 

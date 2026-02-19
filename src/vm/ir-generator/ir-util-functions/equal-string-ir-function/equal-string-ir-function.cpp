@@ -22,14 +22,14 @@ void EqualStringIRFunction::generateEqualStringFunction(IRGenerator* irGenerator
     auto function = irModuleNode->getEqualStringFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumCharsNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isNumCharsNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isNumCharsNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumCharsNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
-    auto isCharAtIndexNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isCharAtIndexNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
+    auto isCharAtIndexNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isCharAtIndexNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
 
     auto firstStringNumCharsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(stringArrayPointerType->getType(), function->getArg(0), stringArrayPointerType->getNumElementsIndex());
     auto firstStringNumChars = InstructionIRInjectorHelper::injectLoad(intType, firstStringNumCharsPointer, functionBlock);

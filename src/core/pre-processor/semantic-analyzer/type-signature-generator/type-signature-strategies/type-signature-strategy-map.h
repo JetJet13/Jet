@@ -16,6 +16,7 @@ class ConcatExpressionTypeSignatureStrategy;
 class ClassMethodInvocationExpressionTypeSignatureStrategy;
 class ClassPropertyAccessExpressionTypeSignatureStrategy;
 class ClassPropertyAssignmentStatementTypeSignatureStrategy;
+class ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy;
 class CurryExpressionTypeSignatureStrategy;
 class FunctionInvocationExpressionTypeSignatureStrategy;
 class FunctionReturnExpressionTypeSignatureStrategy;
@@ -62,6 +63,7 @@ class ProcedureTypeSignatureStrategy;
 class LiteralTypeSignatureStrategy;
 class AccessModifierTypeSignatureStrategy;
 class VariableAssignmentStatementTypeSignatureStrategy;
+class RefValueAssignmentStatementTypeSignatureStrategy;
 class BlockTypeSignatureStrategy;
 class ExpressionStatementTypeSignatureStrategy;
 class PrintStatementTypeSignatureStrategy;
@@ -92,6 +94,7 @@ private:
     ClassMethodInvocationExpressionTypeSignatureStrategy* _classMethodInvocationExpressionTypeSignatureStrategy;
     ClassPropertyAccessExpressionTypeSignatureStrategy* _classPropertyAccessExpressionTypeSignatureStrategy;
     ClassPropertyAssignmentStatementTypeSignatureStrategy* _classPropertyAssignmentStatementTypeSignatureStrategy;
+    ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy* _classPropertyRefValueAssignmentStatementTypeSignatureStrategy;
     CurryExpressionTypeSignatureStrategy* _curryExpressionTypeSignatureStrategy;
     FunctionInvocationExpressionTypeSignatureStrategy* _functionInvocationExpressionTypeSignatureStrategy;
     FunctionReturnExpressionTypeSignatureStrategy* _functionReturnExpressionTypeSignatureStrategy;
@@ -140,6 +143,7 @@ private:
     LiteralTypeSignatureStrategy* _literalTypeSignatureStrategy;
     AccessModifierTypeSignatureStrategy* _accessModifierTypeSignatureStrategy;
     VariableAssignmentStatementTypeSignatureStrategy* _variableAssignmentStatementTypeSignatureStrategy;
+    RefValueAssignmentStatementTypeSignatureStrategy* _refValueAssignmentStatementTypeSignatureStrategy;
     BlockTypeSignatureStrategy* _blockTypeSignatureStrategy;
     ExpressionStatementTypeSignatureStrategy* _expressionStatementTypeSignatureStrategy;
     PrintStatementTypeSignatureStrategy* _printStatementTypeSignatureStrategy;
@@ -166,6 +170,7 @@ public:
     ConcatExpressionTypeSignatureStrategy* getConcatExpressionTypeSignatureStrategy();
     ClassMethodInvocationExpressionTypeSignatureStrategy* getClassMethodInvocationExpressionTypeSignatureStrategy();
     ClassPropertyAccessExpressionTypeSignatureStrategy* getClassPropertyAccessExpressionTypeSignatureStrategy();
+    ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy* getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy();
     ClassPropertyAssignmentStatementTypeSignatureStrategy* getClassPropertyAssignmentStatementTypeSignatureStrategy();
     CurryExpressionTypeSignatureStrategy* getCurryExpressionTypeSignatureStrategy();
     FunctionInvocationExpressionTypeSignatureStrategy* getFunctionInvocationExpressionTypeSignatureStrategy();
@@ -215,6 +220,7 @@ public:
     LiteralTypeSignatureStrategy* getLiteralTypeSignatureStrategy();
     AccessModifierTypeSignatureStrategy* getAccessModifierTypeSignatureStrategy();
     VariableAssignmentStatementTypeSignatureStrategy* getVariableAssignmentStatementTypeSignatureStrategy();
+    RefValueAssignmentStatementTypeSignatureStrategy* getRefValueAssignmentStatementTypeSignatureStrategy();
     ArrayAccessAssignmentStatementTypeSignatureStrategy* getArrayAccessAssignmentStatementTypeSignatureStrategy();
     ObjectAccessAssignmentStatementTypeSignatureStrategy* getObjectAccessAssignmentStatementTypeSignatureStrategy();
     TupleAccessAssignmentStatementTypeSignatureStrategy* getTupleAccessAssignmentStatementTypeSignatureStrategy();

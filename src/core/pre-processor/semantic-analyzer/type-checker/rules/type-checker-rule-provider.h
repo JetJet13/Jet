@@ -22,6 +22,7 @@
 #include "type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h"
 #include "type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.h"
 #include "type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.h"
+#include "type-checker-rules/ref-value-assignment-type-checker-rule/ref-value-assignment-type-checker-rule.h"
 
 class TypeCheckerRuleProvider {
 private:
@@ -42,6 +43,7 @@ private:
     static DrefTypeSignatureTypeCheckerRule* _drefTypeSignatureTypeCheckerRule;
     static SrefTypeSignatureTypeCheckerRule* _srefTypeSignatureTypeCheckerRule;
     static RefTypeSignatureTypeCheckerRule* _refTypeSignatureTypeCheckerRule;
+    static RefValueAssignmentTypeCheckerRule* _refValueAssignmentTypeCheckerRule;
 public:
     static NoReturnExpressionTypeCheckerRule* getNoReturnExpressionTypeCheckerRule();
     static RequiredReturnExpressionTypeCheckerRule* getRequiredReturnExpressionTypeCheckerRule();
@@ -60,6 +62,7 @@ public:
     static DrefTypeSignatureTypeCheckerRule* getDrefTypeSignatureTypeCheckerRule();
     static SrefTypeSignatureTypeCheckerRule* getSrefTypeSignatureTypeCheckerRule();
     static RefTypeSignatureTypeCheckerRule* getRefTypeSignatureTypeCheckerRule();
+    static RefValueAssignmentTypeCheckerRule* getRefValueAssignmentTypeCheckerRule();
 };
 
 #endif //JETLANG_TYPE_CHECKER_RULE_PROVIDER_H

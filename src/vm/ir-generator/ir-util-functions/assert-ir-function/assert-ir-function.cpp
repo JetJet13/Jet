@@ -101,9 +101,9 @@ void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::uni
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isValueTrueIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isValueTrueIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(isValueTrueIfBlock->getBlock());
     auto isValueTrue = isValueTrueIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
@@ -134,9 +134,9 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isValueTrueIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isValueTrueIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(isValueTrueIfBlock->getBlock());
     auto isValueTrue = isValueTrueIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
@@ -175,9 +175,9 @@ void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenera
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(isRefCountMatchTrueIfBlock->getBlock());
     auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
     auto refCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, isRefCountMatchTrueIfBlock);
@@ -211,9 +211,9 @@ void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* ir
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(isRefCountMatchTrueIfBlock->getBlock());
     auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(structRefType->getType(), function->getArg(0), structRefType->getCounterIndex());
     auto refCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, isRefCountMatchTrueIfBlock);
@@ -247,9 +247,9 @@ void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* ir
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { voidType }, false));
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(isRefCountMatchTrueIfBlock->getBlock());
     auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(invocableType->getType(), function->getArg(0), invocableType->getFunctionRefCounterIndex());
     auto refCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, isRefCountMatchTrueIfBlock);

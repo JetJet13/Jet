@@ -21,11 +21,11 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
                                            ArrayTakeIRFunction::getArrayTakeIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isTakeNumNegativeIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isNumElementsZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isTakeNumGreaterThanNumElementsIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isTakeNumGreaterThanNumElementsIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isTakeNumNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumElementsZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isTakeNumGreaterThanNumElementsIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isTakeNumGreaterThanNumElementsIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);

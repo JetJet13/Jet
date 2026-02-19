@@ -24,14 +24,14 @@ void EqualArrayIRFunction::generateEqualArrayFunction(IRGenerator* irGenerator, 
     auto function = irModuleNode->getEqualArrayFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumCharsNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isNumCharsNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
-    auto isValueAtIndexNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isValueAtIndexNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isNumCharsNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumCharsNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext, functionBlock->getScope());
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
+    auto isValueAtIndexNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isValueAtIndexNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
 
     auto firstStringNumCharsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(stringArrayPointerType->getType(), function->getArg(0), stringArrayPointerType->getNumElementsIndex());
     auto firstStringNumChars = InstructionIRInjectorHelper::injectLoad(intType, firstStringNumCharsPointer, functionBlock);

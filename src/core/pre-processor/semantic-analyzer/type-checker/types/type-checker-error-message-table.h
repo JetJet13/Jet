@@ -34,10 +34,15 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda VariableTypeVoid(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type cannot be void");  };
     }
-
     static ErrorMessageLambda VariableAssignmentTypeMismatch(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match expression type");  };
-    } 
+    }
+    static ErrorMessageLambda RefValueAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable ref value type does not match expression type"); };
+    }
+    static ErrorMessageLambda RefValueAssignmentTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type is not ref type"); };
+    }
     static ErrorMessageLambda ProcedureHasReturnExpression(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure cannot have return expression");  };
     } 
@@ -97,7 +102,13 @@ namespace TypeCheckerErrorMessageTable {
     } 
     static ErrorMessageLambda ClassPropertyAssignmentTypeMismatch(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type does not match expression type"); };
-    } 
+    }
+    static ErrorMessageLambda ClassPropertyRefValueAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property ref value type does not match expression type"); };
+    }
+    static ErrorMessageLambda ClassPropertyRefValueAssignmentTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type is not ref type"); };
+    }
     static ErrorMessageLambda ClassPropertyInitializerTypeMismatch(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "type of initial value for class property does not match class property type"); };
     }

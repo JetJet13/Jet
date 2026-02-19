@@ -18,9 +18,8 @@ private:
     IRBlockNode* _irBlock;
     IRInstructionNode* _classScopeParameter;
     std::unordered_map<unsigned long, IRExpressionNode*>* _irExpressions;
-    IRLookupTable* _scope;
 public:
-    IRClassPreConstructorNode(llvm::Function* irValue, IRInstructionNode* classScopeParameter, std::unordered_map<unsigned long, IRExpressionNode*>* irExpressions, IRBlockNode* irBlock, IRLookupTable* scope);
+    IRClassPreConstructorNode(llvm::Function* irValue, IRInstructionNode* classScopeParameter, std::unordered_map<unsigned long, IRExpressionNode*>* irExpressions, IRBlockNode* irBlock);
     llvm::Function* getFunction();
     std::unordered_map<unsigned long, IRExpressionNode*>* getExpressions();
     IRInstructionNode* getClassScopeParameter();

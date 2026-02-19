@@ -22,8 +22,8 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
                                            ArrayTailIRFunction::getArrayTailIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumElementsLessThanTwoIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isNumElementsLessThanTwoIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isNumElementsLessThanTwoIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumElementsLessThanTwoIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);

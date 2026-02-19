@@ -70,6 +70,7 @@
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.h"
 #include "../../../ast/ast-nodes/ast-print-node.h"
+#include "../../../ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -88,6 +89,8 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTConstNode(lexeme);
     } else if (symbol->isEqual()) {
         return new ASTAssignmentOperatorNode(lexeme);
+    } else if (symbol->isStarEqual()) {
+        return new ASTRefValueAssignmentOperatorNode(lexeme);
     } else if (symbol->isInt()) {
         return new ASTIntLiteralNode(lexeme);
     } else if (symbol->isFloat()) {

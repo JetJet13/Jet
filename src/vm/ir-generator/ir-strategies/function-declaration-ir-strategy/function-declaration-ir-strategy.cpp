@@ -16,20 +16,16 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irContext, irFunction);
-    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
+    auto functionBlock = irGenerator->generateFunctionBlock(irFunction, functionScope);
     auto irFunctionContext = irContext->clone(functionBlock);
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-//        functionScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-//        if (formalParameter->getArc()) {
-//            functionScope->insertArc(formalParameter->getParameterType()->getName(), formalParameter->getArc().value());
-//        }
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        functionBlock->insert(irGenerator->generateFor(statement, functionScope, irFunctionContext));
+        functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irFunctionContext));
     }
-    return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock, functionScope);
+    return new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock);
 }

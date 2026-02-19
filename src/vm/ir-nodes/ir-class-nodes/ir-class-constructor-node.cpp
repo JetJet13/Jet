@@ -4,12 +4,11 @@
 
 #include "ir-class-constructor-node.h"
 
-IRClassConstructorNode::IRClassConstructorNode(ASTClassConstructorDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock, IRLookupTable* scope) {
+IRClassConstructorNode::IRClassConstructorNode(ASTClassConstructorDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock) {
     _node = node;
     _irValue = irValue;
     _irParameters = irParameters;
     _irBlock = irBlock;
-    _scope = scope;
 }
 
 ASTClassConstructorDeclarationNode* IRClassConstructorNode::getNode() {
@@ -26,8 +25,4 @@ IRFunctionParameterListNode* IRClassConstructorNode::getParameters() {
 
 IRBlockNode* IRClassConstructorNode::getBlock() {
     return _irBlock;
-}
-
-IRLookupTable* IRClassConstructorNode::getScope() {
-    return _scope;
 }

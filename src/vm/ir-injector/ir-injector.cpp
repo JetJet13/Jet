@@ -147,8 +147,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std:
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    _blockIRInjectorStrategy->inject(irNode, irBlock, this, irModule, scope);
+void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_ptr<IRModuleNode> irModule) {
+    _blockIRInjectorStrategy->inject(irNode, irBlock, this, irModule);
 }
 
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {

@@ -9,11 +9,13 @@
 
 void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
-    auto newVariableValue = irInjector
-            ->inject(
+    auto newVariableValue = irInjector->inject(
                     irBlock,
                     irVariableAssignmentStatement->getIRExpression(),
-                    new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
+                    new IROperation(IR_COPY_ASSIGNMENT_OP),
+                    irModule,
+                    scope
+    );
     if (globalVariable) {
         auto globalVariableIrType = globalVariable.value()->getIRType()->getSourceType();
         auto newValueAlloc = irBlock->getBuilder()->get()->CreateAlloca(globalVariableIrType->getType());
@@ -35,6 +37,14 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
         );
     } else {
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
+        if (variable->getIRType()->getSourceType()->containsTypeThatRequiresFreeing()) {
+            auto typeValue = irInjector->inject(irBlock, variable->getIRType()->getSourceType());
+            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variable->getAllocatedType(), typeValue, irBlock);
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getFreeValueFunction(),
+                    { variable->getValue(), loadedTypeValue }
+            );
+        }
         InstructionIRInjectorHelper::injectStore(newVariableValue, variable->getValue(), irBlock, variable->getIRType());
     }
 }

@@ -4,12 +4,11 @@
 
 #include "ir-function-declaration-node.h"
 
-IRFunctionDeclarationNode::IRFunctionDeclarationNode(ASTFunctionDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLookupTable* scope) {
+IRFunctionDeclarationNode::IRFunctionDeclarationNode(ASTFunctionDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock) {
     _node = node;
     _irValue = irValue;
     _irParameterList = irParameterList;
     _irBlock = irBlock;
-    _scope = scope;
 }
 
 std::string IRFunctionDeclarationNode::getName() {
@@ -22,10 +21,6 @@ IRFunctionParameterListNode* IRFunctionDeclarationNode::getParameters() {
 
 IRBlockNode* IRFunctionDeclarationNode::getBlock() {
     return _irBlock;
-}
-
-IRLookupTable* IRFunctionDeclarationNode::getScope() {
-    return _scope;
 }
 
 llvm::Value* IRFunctionDeclarationNode::getValue() {

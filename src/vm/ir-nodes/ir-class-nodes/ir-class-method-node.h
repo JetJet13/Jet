@@ -17,15 +17,12 @@ private:
     llvm::Function* _irValue;
     IRBlockNode* _irBlock;
     IRFunctionParameterListNode* _irParameters;
-    IRLookupTable* _scope;
-
 public:
-    IRClassMethodNode(ASTClassMethodDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock, IRLookupTable* scope);
+    IRClassMethodNode(ASTClassMethodDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock);
     ASTClassMethodDeclarationNode* getNode();
     llvm::Function* getFunction();
     IRFunctionParameterListNode* getParameters();
     IRBlockNode* getBlock();
-    IRLookupTable* getScope();
 };
 
 #endif //JETLANG_IR_CLASS_METHOD_NODE_H

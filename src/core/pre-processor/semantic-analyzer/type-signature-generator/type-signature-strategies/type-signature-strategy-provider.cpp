@@ -51,6 +51,7 @@
 #include "class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h"
@@ -59,6 +60,7 @@
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
 #include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
+#include "ref-value-assignment-statement-type-signature-strategy/ref-value-assignment-statement-type-signature-strategy.h"
 #include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
 #include "object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h"
 #include "tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h"
@@ -128,6 +130,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getClassPropertyAssignmentStatementTypeSignatureStrategy()
                     ->assign((ASTClassPropertyAssignmentStatementNode*) node, typeSignatureScope, this);
+            break;
+        case AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign((ASTClassPropertyRefValueAssignmentStatementNode*) node, typeSignatureScope, this);
             break;
         case AST_FUNCTION_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
@@ -420,6 +427,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
             this->_typeSignatureStrategyMap
                     ->getVariableAssignmentStatementTypeSignatureStrategy()
                     ->assign((ASTVariableAssignmentStatementNode*)node, typeSignatureScope, this);
+            break;
+        case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getRefValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign((ASTRefValueAssignmentStatementNode*)node, typeSignatureScope, this);
             break;
         case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap

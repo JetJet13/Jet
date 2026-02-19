@@ -709,6 +709,8 @@ add_library(jet-vm
         ir-nodes/ir-binary-operator-node.h
         ir-nodes/binary-arithmetic-dsu.cpp
         ir-nodes/binary-arithmetic-dsu.h
+        ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.cpp
+        ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h
 )
 
 target_link_libraries(jet-vm

@@ -21,14 +21,12 @@ private:
     IRBlockNode* _irBlock;
     IRLambdaType* _type;
     llvm::Function* _irCleanupFunction;
-    IRLookupTable* _scope;
     IRInstructionNode* _irValue;
 public:
-    IRLambdaWithBlockExpressionNode(ASTLambdaExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction, IRLookupTable* scope);
+    IRLambdaWithBlockExpressionNode(ASTLambdaExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction);
     IRInstructionNode* getAllocation() override;
     llvm::Function* getFunctionValue() override;
     llvm::Function* getCleanupFunction() override;
-    IRLookupTable* getScope() override;
     IRFunctionParameterListNode* getParameters() override;
     IRBlockNode* getBlock() override;
     llvm::Value* getValue() override;

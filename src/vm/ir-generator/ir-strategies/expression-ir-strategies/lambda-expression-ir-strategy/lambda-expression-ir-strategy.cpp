@@ -17,19 +17,19 @@ IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaE
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
     auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), lambdaScope, irContext, irFunction);
-    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
-    auto lambdaIrContext = irGenerator->generateContext(functionBlock, irContext->getIRModule());
+    auto lambdaBlock = irGenerator->generateFunctionBlock(irFunction, lambdaScope);
+    auto lambdaIrContext = irGenerator->generateContext(lambdaBlock, irContext->getIRModule());
 
-    this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, lambdaIrContext);
+    this->setupParameters(node->getTypeSignature(), irGenerator, lambdaBlock->getScope(), irFunction, functionParameterList, lambdaBlock, lambdaIrContext);
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            functionBlock->insert(irGenerator->generateFor((ASTDeclarationNode*)statement, lambdaScope, lambdaIrContext));
+            lambdaBlock->insert(irGenerator->generateFor((ASTDeclarationNode*)statement, lambdaBlock->getScope(), lambdaIrContext));
         } else if (ASTNodeUtils::isStatementNode(statement)) {
-            functionBlock->insert(irGenerator->generateFor((ASTStatementNode*)statement, lambdaScope, lambdaIrContext));
+            lambdaBlock->insert(irGenerator->generateFor((ASTStatementNode*)statement, lambdaBlock->getScope(), lambdaIrContext));
         }
     }
     auto allocation = IRInstructionNodeFactory::create(irType->getLambdaVariableType());
-    return new IRLambdaWithBlockExpressionNode(node, allocation, irFunction, functionParameterList, functionBlock, irType, irCleanupFunction, lambdaScope);
+    return new IRLambdaWithBlockExpressionNode(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction);
 }
 
 IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaWithFatArrowExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
@@ -39,13 +39,13 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
     auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), lambdaScope, irContext, irFunction);
-    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
-    auto lambdaIrContext = irGenerator->generateContext(functionBlock, irContext->getIRModule());
+    auto lambdaBlock = irGenerator->generateFunctionBlock(irFunction, lambdaScope);
+    auto lambdaIrContext = irGenerator->generateContext(lambdaBlock, irContext->getIRModule());
 
-    this->setupParameters(node->getTypeSignature(), irGenerator, lambdaScope, irFunction, functionParameterList, functionBlock, lambdaIrContext);
-    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaScope, lambdaIrContext, new IROperation(IR_OPERAND_VALUE_OP));
+    this->setupParameters(node->getTypeSignature(), irGenerator, lambdaBlock->getScope(), irFunction, functionParameterList, lambdaBlock, lambdaIrContext);
+    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaBlock->getScope(), lambdaIrContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto allocation = IRInstructionNodeFactory::create(irType->getLambdaVariableType());
-    return new IRLambdaWithFatArrowExpressionNode(node, allocation, irFunction, functionParameterList, functionBlock, irType, irCleanupFunction, returnExpression, lambdaScope);
+    return new IRLambdaWithFatArrowExpressionNode(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction, returnExpression);
 }
 
 void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRContext* irContext) {

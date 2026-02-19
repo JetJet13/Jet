@@ -7,9 +7,9 @@
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 void FunctionDeclarationIRInjectorStrategy::inject(IRFunctionDeclarationNode* irFunctionDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    irInjector->inject(irBlock, irFunctionDeclaration->getBlock(), irModule, irFunctionDeclaration->getScope());
-    FreeIRInjectorHelper::freeFunctionBlockNodes(irFunctionDeclaration->getBlock(), irInjector, irModule, irFunctionDeclaration->getScope());
-    FreeIRInjectorHelper::freeFunctionParameters(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getParameters(), irInjector, irModule, irFunctionDeclaration->getScope());
+    irInjector->inject(irBlock, irFunctionDeclaration->getBlock(), irModule);
+    FreeIRInjectorHelper::freeFunctionBlockNodes(irFunctionDeclaration->getBlock(), irInjector, irModule, irFunctionDeclaration->getBlock()->getScope());
+    FreeIRInjectorHelper::freeFunctionParameters(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getParameters(), irInjector, irModule, irFunctionDeclaration->getBlock()->getScope());
     DebugIRInjectorHelper::injectFunctionEnterLog(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getName(), irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getName(), irInjector, irModule);
 }

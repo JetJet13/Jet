@@ -58,6 +58,7 @@
 #include "../../ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
 #include "../../ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "../../ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
+#include "../../ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
@@ -107,6 +108,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     RefOfIRFunction::generateRefOfFunction(irGenerator, context, irModule);
     SrefWithIRFunction::generateSrefWithFunction(irGenerator, context, irModule);
     SameRefAsIRFunction::generateSameRefAsFunction(irGenerator, context, irModule);
+    SetRefValueIRFunction::generateSetRefValueFunction(irGenerator, context, irModule);
     SetupSrefIRFunction::generateSetupSrefFunction(irGenerator, context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(irGenerator, context, irModule);
     SetupRefForStructIRFunction::generateSetupRefForStructFunction(irGenerator, context, irModule);

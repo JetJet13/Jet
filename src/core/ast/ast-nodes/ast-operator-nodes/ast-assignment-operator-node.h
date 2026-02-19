@@ -5,7 +5,6 @@
 #ifndef JETLANG_AST_ASSIGNMENT_NODE_H
 #define JETLANG_AST_ASSIGNMENT_NODE_H
 
-
 #include "../ast-node.h"
 #include "../../../lexeme/lexeme.h"
 #include "../ast-symbol-node.h"

@@ -23,14 +23,12 @@ private:
     IRLambdaType* _type;
     llvm::Function* _irCleanupFunction;
     IRExpressionNode* _irReturnExpression;
-    IRLookupTable* _scope;
 public:
-    IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression, IRLookupTable* scope);
+    IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression);
     IRExpressionNode* getReturnExpression();
     IRInstructionNode* getAllocation() override;
     llvm::Function* getFunctionValue() override;
     llvm::Function* getCleanupFunction() override;
-    IRLookupTable* getScope() override;
     IRBlockNode* getBlock() override;
     IRFunctionParameterListNode* getParameters() override;
     llvm::Value* getValue() override;

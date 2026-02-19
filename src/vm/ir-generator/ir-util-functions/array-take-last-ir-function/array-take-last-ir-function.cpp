@@ -22,11 +22,11 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
                                            ArrayTakeLastIRFunction::getArrayTakeLastIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isTakeLastNumNegativeIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isNumElementsZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isTakeLastNumGreaterThanNumElementsIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isTakeLastNumGreaterThanNumElementsIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isTakeLastNumNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumElementsZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isTakeLastNumGreaterThanNumElementsIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isTakeLastNumGreaterThanNumElementsIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);

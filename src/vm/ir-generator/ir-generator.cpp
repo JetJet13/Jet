@@ -138,6 +138,7 @@
 #include "ir-internal-modules/ir-core-internal-module/ir-core-internal-module.h"
 #include "ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
+#include "ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -918,72 +919,72 @@ llvm::StructType* IRGenerator::getStructRefType() {
     return _structRefType;
 }
 
-IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "", irFunction), IR_BASIC_BT);
+IRBlockNode* IRGenerator::generateFunctionBlock(llvm::Function* irFunction, std::optional<IRLookupTable*> scope) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "", irFunction), IR_BASIC_BT, scope.value_or(new IRLookupTable()));
 }
 
-IRBlockNode* IRGenerator::generateIfBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.cond", irContext->getFunction()), IR_IF_BT);
+IRBlockNode* IRGenerator::generateIfBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.cond", irContext->getFunction()), IR_IF_BT, scope);
 }
 
-IRBlockNode* IRGenerator::generateIfThenBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.true", irContext->getFunction()), IR_IF_THEN_BT);
+IRBlockNode* IRGenerator::generateIfThenBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.true", irContext->getFunction()), IR_IF_THEN_BT, new IRLookupTable(scope));
 }
 
-IRBlockNode* IRGenerator::generateIfElseBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.false", irContext->getFunction()), IR_IF_ELSE_BT);
+IRBlockNode* IRGenerator::generateIfElseBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.false", irContext->getFunction()), IR_IF_ELSE_BT, new IRLookupTable(scope));
 }
 
-IRBlockNode* IRGenerator::generateIfEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.end", irContext->getFunction()), IR_IF_END_BT);
+IRBlockNode* IRGenerator::generateIfEndBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "if.end", irContext->getFunction()), IR_IF_END_BT, scope);
 }
 
-IRBlockNode* IRGenerator::generateWhileConditionBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.condition", irContext->getFunction()), IR_WHILE_BT);
+IRBlockNode* IRGenerator::generateWhileConditionBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.condition", irContext->getFunction()), IR_WHILE_BT, scope);
 }
 
-IRBlockNode* IRGenerator::generateWhileBodyBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.body", irContext->getFunction()), IR_WHILE_BODY_BT);
+IRBlockNode* IRGenerator::generateWhileBodyBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.body", irContext->getFunction()), IR_WHILE_BODY_BT, new IRLookupTable(scope));
 }
 
-IRBlockNode* IRGenerator::generateWhileEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.end", irContext->getFunction()), IR_WHILE_END_BT);
+IRBlockNode* IRGenerator::generateWhileEndBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "while.end", irContext->getFunction()), IR_WHILE_END_BT, scope);
 }
 
-IRBlockNode* IRGenerator::generateForLoopConditionBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.condition", irContext->getFunction()), IR_FOR_LOOP_BT);
+IRBlockNode* IRGenerator::generateForLoopConditionBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.condition", irContext->getFunction()), IR_FOR_LOOP_BT, scope);
 }
 
-IRBlockNode* IRGenerator::generateForLoopBodyBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.body", irContext->getFunction()), IR_FOR_LOOP_BODY_BT);
+IRBlockNode* IRGenerator::generateForLoopBodyBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.body", irContext->getFunction()), IR_FOR_LOOP_BODY_BT, new IRLookupTable(scope));
 }
 
-IRBlockNode* IRGenerator::generateForLoopEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.end", irContext->getFunction()), IR_FOR_LOOP_END_BT);
+IRBlockNode* IRGenerator::generateForLoopEndBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.loop.end", irContext->getFunction()), IR_FOR_LOOP_END_BT, scope);
 }
 
-IRBlockNode* IRGenerator::generateForInBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in", irContext->getFunction()), IR_FOR_IN_BT);
+IRBlockNode* IRGenerator::generateForInBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in", irContext->getFunction()), IR_FOR_IN_BT, scope);
 }
 
-IRBlockNode* IRGenerator::generateForInSetupBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.setup", irContext->getFunction()), IR_FOR_IN_SETUP_BT);
+IRBlockNode* IRGenerator::generateForInSetupBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.setup", irContext->getFunction()), IR_FOR_IN_SETUP_BT, new IRLookupTable(scope));
 }
 
-IRBlockNode* IRGenerator::generateForInBodyBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.body", irContext->getFunction()), IR_FOR_IN_BODY_BT);
+IRBlockNode* IRGenerator::generateForInBodyBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.body", irContext->getFunction()), IR_FOR_IN_BODY_BT, new IRLookupTable(scope));
 }
 
-IRBlockNode* IRGenerator::generateForInEndBlock(IRContext* irContext, std::string prefix) {
-    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.end", irContext->getFunction()), IR_FOR_IN_END_BT);
+IRBlockNode* IRGenerator::generateForInEndBlock(IRContext* irContext, IRLookupTable* scope, std::string prefix) {
+    return new IRControlFlowBlockNode(llvm::BasicBlock::Create(*_context, prefix + "for.in.end", irContext->getFunction()), IR_FOR_IN_END_BT, scope);
 }
 
 IRBlockNode* IRGenerator::generateBasicBlock() {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry"), IR_BASIC_BT);
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, "entry"), IR_BASIC_BT, new IRLookupTable());
 }
 
-IRBlockNode* IRGenerator::generateBasicBlock(std::string label, IRContext* irContext) {
-    return new IRBlockNode(llvm::BasicBlock::Create(*_context, label, irContext->getFunction()), IR_BASIC_BT);
+IRBlockNode* IRGenerator::generateBasicBlock(std::string label, IRContext* irContext, std::optional<IRLookupTable*> scope) {
+    return new IRBlockNode(llvm::BasicBlock::Create(*_context, label, irContext->getFunction()), IR_BASIC_BT, scope.value_or(new IRLookupTable()));
 }
 
 IRContext* IRGenerator::generateContext(IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule) {
@@ -1065,6 +1066,7 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             RefOfIRFunction::getRefOfIRFunctionName(),
             SrefWithIRFunction::getSrefWithIRFunctionName(),
             SameRefAsIRFunction::getSameRefAsIRFunctionName(),
+            SetRefValueIRFunction::getSetRefValueIRFunctionName(),
             IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),
             IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunctionName(),
             IncrementRefCountIfNecessaryIRFunction::getIncrementRefCountIfNecessaryIRFunctionName(),

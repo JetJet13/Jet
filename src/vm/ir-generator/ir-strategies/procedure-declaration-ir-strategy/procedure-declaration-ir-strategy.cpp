@@ -15,20 +15,16 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), procedureScope, irContext, irFunction);
-    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
+    auto functionBlock = irGenerator->generateFunctionBlock(irFunction, procedureScope);
     auto irFunctionContext = irContext->clone(functionBlock);
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-//        procedureScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-//        if (formalParameter->getArc()) {
-//            procedureScope->insertArc(formalParameter->getParameterType()->getName(), formalParameter->getArc().value());
-//        }
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        functionBlock->insert(irGenerator->generateFor(statement, procedureScope, irFunctionContext));
+        functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irFunctionContext));
     }
-    return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, procedureScope);
+    return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock);
 }

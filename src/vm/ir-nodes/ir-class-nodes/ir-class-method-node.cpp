@@ -4,12 +4,11 @@
 
 #include "ir-class-method-node.h"
 
-IRClassMethodNode::IRClassMethodNode(ASTClassMethodDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock, IRLookupTable* scope) {
+IRClassMethodNode::IRClassMethodNode(ASTClassMethodDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock) {
     _node = node;
     _irValue = irValue;
     _irParameters = irParameters;
     _irBlock = irBlock;
-    _scope = scope;
 }
 
 ASTClassMethodDeclarationNode* IRClassMethodNode::getNode() {
@@ -26,8 +25,4 @@ IRFunctionParameterListNode* IRClassMethodNode::getParameters() {
 
 IRBlockNode* IRClassMethodNode::getBlock() {
     return _irBlock;
-}
-
-IRLookupTable* IRClassMethodNode::getScope() {
-    return _scope;
 }

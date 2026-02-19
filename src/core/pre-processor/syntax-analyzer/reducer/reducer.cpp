@@ -119,6 +119,10 @@
 #include "reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-assignment-statement-reducer-strategy/tuple-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.h"
+#include "reducer-strategies/ref-value-assignment-statement-reducer-strategy/ref-value-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/ref-value-assignment-reducer-strategy/ref-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/class-property-ref-value-assignment-reducer-strategy/class-property-ref-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/class-property-ref-value-assignment-statement-reducer-strategy/class-property-ref-value-assignment-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -241,7 +245,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_STRUCT_TYPE_NODE, new StructTypeReducerStrategy());
     this->addStrategy(AST_IMPLEMENTS_INTERFACE_LIST_NODE, new ImplementsInterfaceListReducerStrategy());
     this->addStrategy(AST_CUSTOM_TYPE_DECLARATION_NODE, new CustomTypeDeclarationReducerStrategy());
-    this->addStrategy(AST_PRINT_STATEMENT_NODE, new PrintStatementReducerStrategy());
+    this->addStrategy(AST_REF_VALUE_ASSIGNMENT_NODE, new RefValueAssignmentReducerStrategy());
+    this->addStrategy(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, new RefValueAssignmentStatementReducerStrategy());
+    this->addStrategy(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_NODE, new ClassPropertyRefValueAssignmentReducerStrategy());
+    this->addStrategy(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, new ClassPropertyRefValueAssignmentStatementReducerStrategy());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy) {

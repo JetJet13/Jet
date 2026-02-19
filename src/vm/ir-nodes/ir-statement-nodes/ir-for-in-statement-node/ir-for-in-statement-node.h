@@ -21,10 +21,9 @@ private:
     IRBlockNode* _forInBlock;
     IRBlockNode* _bodyBlock;
     IRBlockNode* _endBlock;
-    IRLookupTable* _scope;
     std::optional<IRCapturedVariableNode*> _capturedVariable;
 public:
-    IRForInStatementNode(ASTForInStatementNode* node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, IRLookupTable* scope, std::optional<IRCapturedVariableNode*> capturedVariable = {});
+    IRForInStatementNode(ASTForInStatementNode* node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, std::optional<IRCapturedVariableNode*> capturedVariable = {});
     IRInstructionNode* getIndex();
     IRInstructionNode* getVariable();
     std::optional<IRCapturedVariableNode*> getCapturedVariable();
@@ -33,7 +32,6 @@ public:
     IRBlockNode* getForInBlock();
     IRBlockNode* getBodyBlock();
     IRBlockNode* getEndBlock();
-    IRLookupTable* getScope();
     void setBlocksToBeSuccessorsOf(IRBlockNode* irBlock);
     IRNodeType getNodeType() override;
     std::string toString() override;

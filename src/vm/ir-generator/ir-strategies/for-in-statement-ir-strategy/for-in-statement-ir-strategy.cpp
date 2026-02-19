@@ -8,16 +8,15 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 IRStatementNode* ForInStatementIRStrategy::generate(ASTForInStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto forInScope = new IRLookupTable(scope);
     auto sourceIRExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto index = IRInstructionNodeFactory::create(new IRType(irGenerator->generateIntType()));
     auto variableIrType = irGenerator->generateTypeFor(node->getVariable()->getTypeSignature(), scope, irContext);
     auto variable = IRInstructionNodeFactory::create(variableIrType);
     auto capturedVariable = std::optional<IRCapturedVariableNode*>();
-    auto setupBlock = irGenerator->generateForInSetupBlock(irContext);
-    auto forInBlock = irGenerator->generateForInBlock(irContext);
-    auto bodyBlock = irGenerator->generateForInBodyBlock(irContext);
-    auto endBlock = irGenerator->generateForInEndBlock(irContext);
+    auto setupBlock = irGenerator->generateForInSetupBlock(irContext, scope);
+    auto forInBlock = irGenerator->generateForInBlock(irContext, scope);
+    auto bodyBlock = irGenerator->generateForInBodyBlock(irContext, scope);
+    auto endBlock = irGenerator->generateForInEndBlock(irContext, scope);
 
     if (node->getVariable()->isReferenced() || node->getVariable()->isCaptured()) {
         auto malloc = new IRInstructionNode(
@@ -32,14 +31,17 @@ IRStatementNode* ForInStatementIRStrategy::generate(ASTForInStatementNode* node,
         );
         auto irArc = irGenerator->generateArcAllocation(irContext, node->getVariable()->getCaptureCount());
         capturedVariable = new IRCapturedVariableNode(malloc, irArc);
-        forInScope->insert(node->getVariable()->getVariable()->getId(), capturedVariable.value()->getVariable());
-        forInScope->insertArc(node->getVariable()->getVariable()->getId(), capturedVariable.value()->getArc());
+        setupBlock->getScope()->insert(node->getVariable()->getVariable()->getId(), capturedVariable.value()->getVariable());
+        setupBlock->getScope()->insertArc(node->getVariable()->getVariable()->getId(), capturedVariable.value()->getArc());
+        bodyBlock->getScope()->insert(node->getVariable()->getVariable()->getId(), capturedVariable.value()->getVariable());
+        bodyBlock->getScope()->insertArc(node->getVariable()->getVariable()->getId(), capturedVariable.value()->getArc());
     } else {
-        forInScope->insert(node->getVariable()->getVariable()->getId(), variable);
+        setupBlock->getScope()->insert(node->getVariable()->getVariable()->getId(), variable);
+        bodyBlock->getScope()->insert(node->getVariable()->getVariable()->getId(), variable);
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        bodyBlock->insert(irGenerator->generateFor(statement, forInScope, irContext));
+        bodyBlock->insert(irGenerator->generateFor(statement, bodyBlock->getScope(), irContext));
     }
-    return new IRForInStatementNode(node, index, variable, sourceIRExpression, setupBlock, forInBlock, bodyBlock, endBlock, forInScope, capturedVariable);
+    return new IRForInStatementNode(node, index, variable, sourceIRExpression, setupBlock, forInBlock, bodyBlock, endBlock, capturedVariable);
 }

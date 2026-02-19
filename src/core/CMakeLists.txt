@@ -1351,6 +1351,34 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/array-access-invocation-expression-type-signature-strategy/array-access-invocation-expression-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/array-access-invocation-expression-type-checker-policy/array-access-invocation-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/array-access-invocation-expression-type-checker-policy/array-access-invocation-expression-type-checker-policy.h
+        ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-ref-value-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-ref-value-assignment-statement-node.h
+        ast/ast-nodes/ast-ref-value-assignment-node.cpp
+        ast/ast-nodes/ast-ref-value-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-value-assignment-reducer-strategy/ref-value-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-value-assignment-reducer-strategy/ref-value-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-value-assignment-statement-reducer-strategy/ref-value-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-value-assignment-statement-reducer-strategy/ref-value-assignment-statement-reducer-strategy.h
+        ast/ast-nodes/ast-class-nodes/ast-class-property-ref-value-assignment-node.cpp
+        ast/ast-nodes/ast-class-nodes/ast-class-property-ref-value-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-ref-value-assignment-reducer-strategy/class-property-ref-value-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-ref-value-assignment-reducer-strategy/class-property-ref-value-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-ref-value-assignment-statement-reducer-strategy/class-property-ref-value-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-ref-value-assignment-statement-reducer-strategy/class-property-ref-value-assignment-statement-reducer-strategy.h
+        ast/ast-nodes/ast-statement-nodes/ast-class-property-ref-value-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-class-property-ref-value-assignment-statement-node.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/ref-value-assignment-statement-type-signature-strategy/ref-value-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/ref-value-assignment-statement-type-signature-strategy/ref-value-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/class-property-ref-value-assignment-statement-type-checker-policy/class-property-ref-value-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/class-property-ref-value-assignment-statement-type-checker-policy/class-property-ref-value-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-value-assignment-type-checker-rule/ref-value-assignment-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-value-assignment-type-checker-rule/ref-value-assignment-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.h
 
 )
 

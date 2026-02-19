@@ -17,13 +17,13 @@ void IncrementRefCountIfNecessaryIRFunction::generateIncrementRefCountIfNecessar
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, IncrementRefCountIfNecessaryIRFunction::getIncrementRefCountIfNecessaryIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
-    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
-    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
-    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
-    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, "lambda.");
-    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, "lambda.");
-    auto endBlock = irGenerator->generateIfEndBlock(irContext);
+    auto refIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "ref.");
+    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "ref.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "struct.ref.");
+    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "lambda.");
+    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "lambda.");
+    auto endBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getIdIndex() });
     

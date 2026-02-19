@@ -54,6 +54,8 @@
 #include "policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.h"
 #include "policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.h"
 #include "policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h"
+#include "policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.h"
+#include "policies/class-property-ref-value-assignment-statement-type-checker-policy/class-property-ref-value-assignment-statement-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -84,6 +86,9 @@ namespace TypeChecker {
                 break;
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
                 VariableAssignmentStatementTypeCheckerPolicy::apply((ASTVariableAssignmentStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                RefValueAssignmentStatementTypeCheckerPolicy::apply((ASTRefValueAssignmentStatementNode*)node, typeCheckerResult);
                 break;
             case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ArrayAccessAssignmentStatementTypeCheckerPolicy::apply((ASTArrayAccessAssignmentStatementNode*)node, typeCheckerResult);
@@ -126,6 +131,9 @@ namespace TypeChecker {
                 break;
             case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
                 ClassPropertyAssignmentStatementTypeCheckerPolicy::apply((ASTClassPropertyAssignmentStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                ClassPropertyRefValueAssignmentStatementTypeCheckerPolicy::apply((ASTClassPropertyRefValueAssignmentStatementNode*)node, typeCheckerResult);
                 break;
             case AST_EXPRESSION_STATEMENT_NODE:
                 ExpressionStatementTypeCheckerPolicy::apply((ASTExpressionStatementNode*)node, typeCheckerResult);

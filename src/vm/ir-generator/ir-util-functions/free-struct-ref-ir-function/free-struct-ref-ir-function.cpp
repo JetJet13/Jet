@@ -25,10 +25,10 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto freeStructRefIfBlock = irGenerator->generateIfBlock(irContext);
-    auto freeStructRefIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto freeStructRefElseBlock = irGenerator->generateIfElseBlock(irContext);
-    auto freeStructRefEndBlock = irGenerator->generateIfEndBlock(irContext);
+    auto freeStructRefIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto freeStructRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto freeStructRefElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
+    auto freeStructRefEndBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     auto structIndex = structRefType->getStructIndex();
     auto counterIndex = structRefType->getCounterIndex();

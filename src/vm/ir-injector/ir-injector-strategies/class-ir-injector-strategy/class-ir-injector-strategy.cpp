@@ -22,8 +22,8 @@ void ClassIRInjectorStrategy::inject(IRClassDeclarationNode* irClassDeclarationN
 
 void ClassIRInjectorStrategy::injectPreConstructor(IRClassPreConstructorNode* irClassPreConstructorNode, IRClassType* irClassType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto preConstructorBlock = irClassPreConstructorNode->getBlock();
-    auto preConstructorScope = irClassPreConstructorNode->getScope();
-    irInjector->inject(irBlock, preConstructorBlock, irModule, preConstructorScope);
+    auto preConstructorScope = irClassPreConstructorNode->getBlock()->getScope();
+    irInjector->inject(irBlock, preConstructorBlock, irModule);
     auto classScopeParameterAllocation = irClassPreConstructorNode->getClassScopeParameter();
     auto classInstanceIrType = (IRStructRefType*)irClassType->getClassScopeParameterType().value()->getIRType()->getSourceType();
     auto pointerType = irClassPreConstructorNode->getClassScopeParameter()->getIRType()->getType();
@@ -41,25 +41,25 @@ void ClassIRInjectorStrategy::injectPreConstructor(IRClassPreConstructorNode* ir
 }
 
 void ClassIRInjectorStrategy::injectConstructor(IRClassConstructorNode* irClassConstructorNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    irInjector->inject(irBlock, irClassConstructorNode->getBlock(), irModule, irClassConstructorNode->getScope());
+    irInjector->inject(irBlock, irClassConstructorNode->getBlock(), irModule);
 
     irClassConstructorNode->getBlock()->addVoidReturn();
 
-    FreeIRInjectorHelper::freeFunctionBlockNodes(irClassConstructorNode->getBlock(), irInjector, irModule, irClassConstructorNode->getScope());
-    FreeIRInjectorHelper::freeFunctionParameters(irClassConstructorNode->getBlock(), irClassConstructorNode->getParameters(), irInjector, irModule, irClassConstructorNode->getScope());
+    FreeIRInjectorHelper::freeFunctionBlockNodes(irClassConstructorNode->getBlock(), irInjector, irModule, irClassConstructorNode->getBlock()->getScope());
+    FreeIRInjectorHelper::freeFunctionParameters(irClassConstructorNode->getBlock(), irClassConstructorNode->getParameters(), irInjector, irModule, irClassConstructorNode->getBlock()->getScope());
     DebugIRInjectorHelper::injectFunctionEnterLog(irClassConstructorNode->getBlock(), irClassConstructorNode->getNode()->getId(), irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irClassConstructorNode->getBlock(), irClassConstructorNode->getNode()->getId(), irInjector, irModule);
 }
 
 void ClassIRInjectorStrategy::injectMethod(IRClassMethodNode* irClassMethodNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    irInjector->inject(irBlock, irClassMethodNode->getBlock(), irModule, irClassMethodNode->getScope());
+    irInjector->inject(irBlock, irClassMethodNode->getBlock(), irModule);
 
     if (!irClassMethodNode->getNode()->getReturnType()) {
         irClassMethodNode->getBlock()->addVoidReturn();
     }
 
-    FreeIRInjectorHelper::freeFunctionBlockNodes(irClassMethodNode->getBlock(), irInjector, irModule, irClassMethodNode->getScope());
-    FreeIRInjectorHelper::freeFunctionParameters(irClassMethodNode->getBlock(), irClassMethodNode->getParameters(), irInjector, irModule, irClassMethodNode->getScope());
+    FreeIRInjectorHelper::freeFunctionBlockNodes(irClassMethodNode->getBlock(), irInjector, irModule, irClassMethodNode->getBlock()->getScope());
+    FreeIRInjectorHelper::freeFunctionParameters(irClassMethodNode->getBlock(), irClassMethodNode->getParameters(), irInjector, irModule, irClassMethodNode->getBlock()->getScope());
     DebugIRInjectorHelper::injectFunctionEnterLog(irClassMethodNode->getBlock(), irClassMethodNode->getNode()->getId(), irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irClassMethodNode->getBlock(), irClassMethodNode->getNode()->getId(), irInjector, irModule);
 }

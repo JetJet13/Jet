@@ -16,9 +16,9 @@ void SameRefAsIRFunction::generateSameRefAsFunction(IRGenerator* irGenerator, st
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SameRefAsIRFunction::getSameRefAsIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isRefValuePointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRefValuePointerNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRefValuePointerNotEqualElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isRefValuePointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isRefValuePointerNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isRefValuePointerNotEqualElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
 
     auto firstRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefValueIndex());
     auto firstRefValue = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), firstRefValuePointer, functionBlock);

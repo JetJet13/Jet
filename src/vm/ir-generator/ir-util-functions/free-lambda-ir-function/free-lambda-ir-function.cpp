@@ -25,9 +25,9 @@ void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, 
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto freeLambdaIfBlock = irGenerator->generateIfBlock(irContext);
-    auto freeLambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto freeLambdaEndBlock = irGenerator->generateIfEndBlock(irContext);
+    auto freeLambdaIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto freeLambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto freeLambdaEndBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionRefCounterIndex());
     auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);

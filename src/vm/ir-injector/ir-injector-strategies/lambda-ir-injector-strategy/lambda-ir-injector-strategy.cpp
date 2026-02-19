@@ -50,13 +50,13 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
 }
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithBlockExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto lambdaScope = irExpression->getScope();
+    auto lambdaScope = irExpression->getBlock()->getScope();
 
     auto lambdaScopeParameter = irExpression->getParameters()->getLambdaScopeParameter();
     if (lambdaScopeParameter) {
         InstructionIRInjectorHelper::inject(lambdaScopeParameter.value()->getAllocation(), irExpression->getBlock());
     }
-    irInjector->inject(irBlock, irExpression->getBlock(), irModule, lambdaScope);
+    irInjector->inject(irBlock, irExpression->getBlock(), irModule);
     if (irExpression->getFunctionValue()->getReturnType()->isVoidTy()) {
         irExpression->getBlock()->addVoidReturn();
     }
@@ -73,12 +73,12 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithBlockExpressionNode* i
 }
 
 llvm::Value* LambdaIRInjectorStrategy::inject(IRLambdaWithFatArrowExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto lambdaScope = irExpression->getScope();
+    auto lambdaScope = irExpression->getBlock()->getScope();
     auto lambdaScopeParameter = irExpression->getParameters()->getLambdaScopeParameter();
     if (lambdaScopeParameter) {
         InstructionIRInjectorHelper::inject(lambdaScopeParameter.value()->getAllocation(), irExpression->getBlock());
     }
-    irInjector->inject(irBlock, irExpression->getBlock(), irModule, lambdaScope);
+    irInjector->inject(irBlock, irExpression->getBlock(), irModule);
     auto irReturnExpressionValue = irInjector->inject(irExpression->getBlock(), irExpression->getReturnExpression(), new IROperation(IR_FUNCTION_RETURN_OP), irModule, lambdaScope);
     irExpression->getBlock()->getBuilder()->get()->CreateRet(irReturnExpressionValue);
     FreeIRInjectorHelper::freeFunctionParameters(irExpression->getBlock(), irExpression->getParameters(), irInjector, irModule, lambdaScope);

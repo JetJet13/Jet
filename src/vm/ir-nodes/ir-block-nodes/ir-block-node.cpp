@@ -5,9 +5,10 @@
 #include "ir-block-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type) {
+IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, IRLookupTable* scope) {
     _irValue = irValue;
     _type = type;
+    _scope = scope;
     _builder = std::make_unique<llvm::IRBuilder<>>(_irValue);
     _nodesToFree = std::vector<IRNode*>();
 }
@@ -24,6 +25,10 @@ bool IRBlockNode::hasBranchInstruction() {
         return llvm::isa<llvm::BranchInst>(_irValue->getTerminator());
     }
     return false;
+}
+
+IRLookupTable* IRBlockNode::getScope() {
+    return _scope;
 }
 
 llvm::BasicBlock* IRBlockNode::getBlock() {
@@ -168,7 +173,8 @@ void IRBlockNode::removeLastInstruction() {
 void IRBlockNode::createSuccessor() {
     auto newBlock = new IRBlockNode(
         llvm::BasicBlock::Create(this->getBlock()->getContext(), "", this->getBlock()->getParent()),
-        IR_BASIC_BT
+        IR_BASIC_BT,
+        _scope
     );
     newBlock->setParentBlock(this);
     _successors.push_back(newBlock);

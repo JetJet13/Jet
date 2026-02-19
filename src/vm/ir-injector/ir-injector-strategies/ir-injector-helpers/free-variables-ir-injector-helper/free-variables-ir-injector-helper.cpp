@@ -5,7 +5,6 @@
 #include "llvm/Support/raw_ostream.h"
 #include "free-variables-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../../ir-type/ir-lambda-type.h"
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../debug-ir-injector-helper/debug-ir-injector-helper.h"
 

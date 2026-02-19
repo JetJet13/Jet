@@ -33,9 +33,9 @@ void CopyStructIRFunction::generateCopyStructFunction(IRGenerator* irGenerator, 
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(0), forLoopIndex, functionBlock);
 
     // for loop
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
     // for loop condition
     auto structByteOffsetValue = InstructionIRInjectorHelper::injectLoad(intType, elementByteOffset, forLoopConditionBlock);

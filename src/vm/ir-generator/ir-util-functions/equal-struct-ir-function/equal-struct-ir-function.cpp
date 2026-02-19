@@ -25,11 +25,11 @@ void EqualStructIRFunction::generateEqualStructFunction(IRGenerator* irGenerator
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
-    auto isValueAtIndexNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isValueAtIndexNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
+    auto isValueAtIndexNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isValueAtIndexNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(forLoopPrepBlock->getBlock());
 
     auto numTypes = forLoopPrepBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getNumTypesIndex() });

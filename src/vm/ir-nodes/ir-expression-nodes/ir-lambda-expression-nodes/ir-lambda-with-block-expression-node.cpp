@@ -4,7 +4,7 @@
 
 #include "ir-lambda-with-block-expression-node.h"
 
-IRLambdaWithBlockExpressionNode::IRLambdaWithBlockExpressionNode(ASTLambdaExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction, IRLookupTable* scope) {
+IRLambdaWithBlockExpressionNode::IRLambdaWithBlockExpressionNode(ASTLambdaExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction) {
     _node = node;
     _irValue = irValue;
     _irFunction = irFunction;
@@ -12,15 +12,10 @@ IRLambdaWithBlockExpressionNode::IRLambdaWithBlockExpressionNode(ASTLambdaExpres
     _irBlock = irBlock;
     _type = type;
     _irCleanupFunction = irCleanupFunction;
-    _scope = scope;
 }
 
 llvm::Function* IRLambdaWithBlockExpressionNode::getCleanupFunction() {
     return _irCleanupFunction;
-}
-
-IRLookupTable* IRLambdaWithBlockExpressionNode::getScope() {
-    return _scope;
 }
 
 IRFunctionParameterListNode* IRLambdaWithBlockExpressionNode::getParameters() {

@@ -65,17 +65,17 @@ void CopyArrayIRFunction::generateCopyArrayFunction(IRGenerator* irGenerator, st
 
     std::string depthOnePrefix = "depth.1.";
     std::string depthNPrefix = "depth.n.";
-    auto depthOneBlock = irGenerator->generateIfThenBlock(irContext, depthOnePrefix);
-    auto depthOneTypeLiteralTrueBlock = irGenerator->generateIfThenBlock(irContext, depthOnePrefix + "is.literal.");
-    auto depthOneTypeLiteralFalseBlock = irGenerator->generateIfElseBlock(irContext, depthOnePrefix + "is.literal.");
-    auto depthOneForLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, depthOnePrefix);
-    auto depthOneForLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, depthOnePrefix);
-    auto depthOneForLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, depthOnePrefix);
-    auto depthOneTypeLiteralEndBlock = irGenerator->generateIfEndBlock(irContext, depthOnePrefix);
+    auto depthOneBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), depthOnePrefix);
+    auto depthOneTypeLiteralTrueBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), depthOnePrefix + "is.literal.");
+    auto depthOneTypeLiteralFalseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope(), depthOnePrefix + "is.literal.");
+    auto depthOneForLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope(), depthOnePrefix);
+    auto depthOneForLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope(), depthOnePrefix);
+    auto depthOneForLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope(), depthOnePrefix);
+    auto depthOneTypeLiteralEndBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope(), depthOnePrefix);
     auto depthNForLoopPrepBlock = irGenerator->generateBasicBlock(depthNPrefix + "prep", irContext);
-    auto depthNForLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, depthNPrefix);
-    auto depthNForLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, depthNPrefix);
-    auto depthNForLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, depthNPrefix);
+    auto depthNForLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope(), depthNPrefix);
+    auto depthNForLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope(), depthNPrefix);
+    auto depthNForLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope(), depthNPrefix);
 
     auto isDepthOne = functionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,

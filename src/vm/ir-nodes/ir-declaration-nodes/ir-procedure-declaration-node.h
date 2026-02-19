@@ -18,13 +18,11 @@ private:
     llvm::Function* _irValue;
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
-    IRLookupTable* _scope;
 public:
-    IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLookupTable* scope);
+    IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock);
     std::string getName();
     IRFunctionParameterListNode* getParameters();
     IRBlockNode* getBlock();
-    IRLookupTable* getScope();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

@@ -4,12 +4,11 @@
 
 #include "ir-class-pre-constructor-node.h"
 
-IRClassPreConstructorNode::IRClassPreConstructorNode(llvm::Function* irValue, IRInstructionNode* classScopeParameter, std::unordered_map<unsigned long, IRExpressionNode*>* irExpressions, IRBlockNode* irBlock, IRLookupTable* scope) {
+IRClassPreConstructorNode::IRClassPreConstructorNode(llvm::Function* irValue, IRInstructionNode* classScopeParameter, std::unordered_map<unsigned long, IRExpressionNode*>* irExpressions, IRBlockNode* irBlock) {
     _irValue = irValue;
     _classScopeParameter = classScopeParameter;
     _irExpressions = irExpressions;
     _irBlock = irBlock;
-    _scope = scope;
 }
 
 llvm::Function* IRClassPreConstructorNode::getFunction() {
@@ -26,8 +25,4 @@ IRInstructionNode* IRClassPreConstructorNode::getClassScopeParameter() {
 
 IRBlockNode* IRClassPreConstructorNode::getBlock() {
     return _irBlock;
-}
-
-IRLookupTable* IRClassPreConstructorNode::getScope() {
-    return _scope;
 }

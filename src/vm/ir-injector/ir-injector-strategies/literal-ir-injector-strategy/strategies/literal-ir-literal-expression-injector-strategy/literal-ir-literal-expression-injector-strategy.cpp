@@ -19,9 +19,7 @@ llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectCopy(IRLiteralExp
 }
 
 llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectRef(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto literalAllocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());
-    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), literalAllocation);
-    return literalAllocation;
+    return irExpression->getValue();
 }
 
 llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectOperand(IRLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {

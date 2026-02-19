@@ -16,9 +16,9 @@ void SrefWithIRFunction::generateSrefWithFunction(IRGenerator* irGenerator, std:
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SrefWithIRFunction::getSrefWithIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isRefCounterPointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRefCounterPointerNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRefCounterPointerNotEqualElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isRefCounterPointerNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isRefCounterPointerNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isRefCounterPointerNotEqualElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
 
     auto firstRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefCounterIndex());
     auto firstRefCounter = InstructionIRInjectorHelper::injectLoad(irRefType->getRefCounterType(), firstRefCounterPointer, functionBlock);

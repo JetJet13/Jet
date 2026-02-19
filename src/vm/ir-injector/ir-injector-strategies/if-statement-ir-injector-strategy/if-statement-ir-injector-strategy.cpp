@@ -16,8 +16,9 @@ void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRB
         auto irIfConditionValue = irInjector->inject(ifConditionBlock, currentIfElseNode.value()->getExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
         ifConditionBlock->getBuilder()->get()->CreateCondBr(irIfConditionValue, thenBlock->getBlock(), elseBlock->getBlock());
 
-        irInjector->inject(irBlock, thenBlock, irModule, scope);
-        irInjector->inject(irBlock, elseBlock, irModule, scope);
+
+        irInjector->inject(irBlock, thenBlock, irModule);
+        irInjector->inject(irBlock, elseBlock, irModule);
 
         if (!llvm::isa<llvm::BranchInst>(thenBlock->getBlock()->back())) {
             thenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());

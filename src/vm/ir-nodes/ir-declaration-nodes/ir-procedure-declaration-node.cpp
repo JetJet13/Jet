@@ -4,12 +4,11 @@
 
 #include "ir-procedure-declaration-node.h"
 
-IRProcedureDeclarationNode::IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLookupTable* scope) {
+IRProcedureDeclarationNode::IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock) {
     _node = node;
     _irValue = irValue;
     _irParameterList = irParameterList;
     _irBlock = irBlock;
-    _scope = scope;
 }
 
 std::string IRProcedureDeclarationNode::getName() {
@@ -22,10 +21,6 @@ IRFunctionParameterListNode* IRProcedureDeclarationNode::getParameters() {
 
 IRBlockNode* IRProcedureDeclarationNode::getBlock() {
     return _irBlock;
-}
-
-IRLookupTable* IRProcedureDeclarationNode::getScope() {
-    return _scope;
 }
 
 llvm::Value* IRProcedureDeclarationNode::getValue() {

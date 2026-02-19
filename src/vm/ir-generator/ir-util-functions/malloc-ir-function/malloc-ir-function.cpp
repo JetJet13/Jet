@@ -24,10 +24,10 @@ void MallocIRFunction::generateMallocFunction(IRGenerator* irGenerator, std::uni
             allocatedPointer,
             llvm::ConstantPointerNull::get(pointerType->getType())
     );
-    auto successBlock = irGenerator->generateIfThenBlock(irContext);
+    auto successBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     successBlock->getBuilder()->get()->CreateRet(allocatedPointer);
 
-    auto errorBlock = irGenerator->generateIfElseBlock(irContext);
+    auto errorBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     auto segFaultCode = irGenerator->generateIntConstant(11);
     errorBlock->getBuilder()->get()->CreateCall(raise, { segFaultCode });
     errorBlock->addVoidReturn();

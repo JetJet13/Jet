@@ -25,10 +25,10 @@ void FreeInvocableIRFunction::generateFreeInvocableFunction(IRGenerator* irGener
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto freeInvocableIfBlock = irGenerator->generateIfBlock(irContext);
-    auto freeInvocableIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto freeInvocableIfElseBlock = irGenerator->generateIfElseBlock(irContext);
-    auto freeInvocableEndBlock = irGenerator->generateIfEndBlock(irContext);
+    auto freeInvocableIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto freeInvocableIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto freeInvocableIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
+    auto freeInvocableEndBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionRefCounterIndex());
     auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);

@@ -16,7 +16,6 @@ public:
     virtual llvm::Function* getFunctionValue() = 0;
     virtual IRLambdaType* getIRType() = 0;
     virtual llvm::Function* getCleanupFunction() = 0;
-    virtual IRLookupTable* getScope() = 0;
     virtual IRFunctionParameterListNode* getParameters() = 0;
     virtual IRBlockNode* getBlock() = 0;
 };

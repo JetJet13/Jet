@@ -31,12 +31,12 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
     auto captureCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToCaptureCounterPointer);
     auto currentCaptureCount = functionBlock->getBuilder()->get()->CreateLoad(capturedVariableType->getCaptureCounterIRType()->getType(), captureCounterPointer, "currentCaptureCount");
 
-    auto freeVariableIfBlock = irGenerator->generateIfBlock(irContext, "free.variable.");
-    auto freeVariableIfThenBlock = irGenerator->generateIfThenBlock(irContext, "free.variable.");
-    auto freeCaptureCounterIfBlock = irGenerator->generateIfBlock(irContext);
-    auto freeCaptureCounterIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto freeVariableElseBlock = irGenerator->generateIfElseBlock(irContext);
-    auto freeVariableEndBlock = irGenerator->generateIfEndBlock(irContext);
+    auto freeVariableIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "free.variable.");
+    auto freeVariableIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "free.variable.");
+    auto freeCaptureCounterIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto freeCaptureCounterIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto freeVariableElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
+    auto freeVariableEndBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     functionBlock->getBuilder()->get()->CreateBr(freeVariableIfBlock->getBlock());
 

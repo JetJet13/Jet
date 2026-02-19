@@ -15,6 +15,10 @@ namespace SymbolFactory {
         return std::make_shared<Symbol>(SYM_EQUAL, "=");
     }
 
+    std::shared_ptr<Symbol> createStarEqualSymbol() {
+        return std::make_shared<Symbol>(SYM_STAR_EQUAL, "*=");
+    }
+
     std::shared_ptr<Symbol> createIdentifierSymbol() {
         return std::make_shared<Symbol>(SYM_IDENTIFIER, "id");
     }

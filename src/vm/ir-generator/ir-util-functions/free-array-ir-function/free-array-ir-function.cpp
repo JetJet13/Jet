@@ -31,13 +31,13 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     auto function = irModuleNode->getFreeArrayFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isElementTypeLiteralIfBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isElementTypeLiteralThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isElementTypeLiteralIfBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isElementTypeLiteralThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto forLoopPrepBlock = functionBlock->getLastSuccessorOrSelf();
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
 
     auto pointerToSourceArrayNumElements = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), numElementsIndex);
     auto sourceArrayNumElements = InstructionIRInjectorHelper::injectLoad(intType, pointerToSourceArrayNumElements, functionBlock);

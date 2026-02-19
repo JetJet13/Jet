@@ -46,21 +46,21 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
             false
     );
     auto irFunction = llvm::cast<llvm::Function>(irContext->getModule()->getOrInsertFunction(irClassType->getPreConstructorName(), functionType).getCallee());
-    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
+    auto functionBlock = irGenerator->generateFunctionBlock(irFunction, preConstructorScope);
     auto classScopeParameterAllocation = irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType());
-    preConstructorScope->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
+    functionBlock->getScope()->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
     functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(0), classScopeParameterAllocation));
 
     auto initialPropertyIRExpressions = new std::unordered_map<unsigned long, IRExpressionNode*>();
     for (auto property : *node->getBlock()->getProperties()) {
         if (property->getInitializer()) {
             auto propertyIndex = irClassType->getClassProperties()->getIndexForKey(property->getId());
-            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), preConstructorScope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), functionBlock->getScope(), irContext, new IROperation(IR_OPERAND_VALUE_OP));
             irExpression->markAsAssigned();
             initialPropertyIRExpressions->insert(std::pair { propertyIndex, irExpression });
         }
     }
-    return new IRClassPreConstructorNode(irFunction, classScopeParameterAllocation, initialPropertyIRExpressions, functionBlock, preConstructorScope);
+    return new IRClassPreConstructorNode(irFunction, classScopeParameterAllocation, initialPropertyIRExpressions, functionBlock);
 }
 
 IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
@@ -75,23 +75,19 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructor
         constructorScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     }
 
-    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
+    auto functionBlock = irGenerator->generateFunctionBlock(irFunction, constructorScope);
 
     for (unsigned long i = 0; i < irFunction->getFunctionType()->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-//        constructorScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-//        if (formalParameter->getArc()) {
-//            constructorScope->insertArc(formalParameter->getParameterType()->getName(), formalParameter->getArc().value());
-//        }
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        functionBlock->insert(irGenerator->generateFor(statement, constructorScope, irContext));
+        functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irContext));
     }
 
-    return new IRClassConstructorNode(node, irFunction, functionParameterList, functionBlock, constructorScope);
+    return new IRClassConstructorNode(node, irFunction, functionParameterList, functionBlock);
 }
 
 IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
@@ -107,23 +103,19 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
         functionParameterList->addClassScopeParameter(scopeParameter);
         methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     }
-    auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
+    auto functionBlock = irGenerator->generateFunctionBlock(irFunction, methodScope);
 
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-//        methodScope->insert(formalParameter->getParameterType()->getName(), functionParameterAllocation);
-//        if (formalParameter->getArc()) {
-//            methodScope->insertArc(formalParameter->getParameterType()->getName(), formalParameter->getArc().value());
-//        }
         functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
-        functionBlock->insert(irGenerator->generateFor(statement, methodScope, irContext));
+        functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irContext));
     }
 
-    return new IRClassMethodNode(node, irFunction, functionParameterList, functionBlock, methodScope);
+    return new IRClassMethodNode(node, irFunction, functionParameterList, functionBlock);
 }
 
 void ClassDeclarationIRStrategy::declareMethod(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {

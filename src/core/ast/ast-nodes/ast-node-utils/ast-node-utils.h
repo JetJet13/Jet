@@ -64,6 +64,7 @@ namespace ASTNodeUtils {
         switch (node->getNodeType()) {
             case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
+            case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
             case AST_PRINT_STATEMENT_NODE:
             case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
@@ -73,6 +74,7 @@ namespace ASTNodeUtils {
             case AST_FOR_IN_STATEMENT_NODE:
             case AST_EXPRESSION_STATEMENT_NODE:
             case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
+            case AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
             case AST_BLOCK_NODE:
             case AST_BREAK_NODE:
             case AST_SKIP_NODE:

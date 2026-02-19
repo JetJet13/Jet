@@ -4,7 +4,7 @@
 
 #include "ir-for-in-statement-node.h"
 
-IRForInStatementNode::IRForInStatementNode(ASTForInStatementNode* node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, IRLookupTable* scope, std::optional<IRCapturedVariableNode*> capturedVariable) {
+IRForInStatementNode::IRForInStatementNode(ASTForInStatementNode* node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, std::optional<IRCapturedVariableNode*> capturedVariable) {
     _node = node;
     _index = index;
     _variable = variable;
@@ -13,7 +13,6 @@ IRForInStatementNode::IRForInStatementNode(ASTForInStatementNode* node, IRInstru
     _forInBlock = forInBlock;
     _bodyBlock = bodyBlock;
     _endBlock = endBlock;
-    _scope = scope;
     _capturedVariable = capturedVariable;
 }
 
@@ -47,10 +46,6 @@ IRBlockNode* IRForInStatementNode::getBodyBlock() {
 
 IRBlockNode* IRForInStatementNode::getEndBlock() {
     return _endBlock;
-}
-
-IRLookupTable* IRForInStatementNode::getScope() {
-    return _scope;
 }
 
 void IRForInStatementNode::setBlocksToBeSuccessorsOf(IRBlockNode* irBlock) {

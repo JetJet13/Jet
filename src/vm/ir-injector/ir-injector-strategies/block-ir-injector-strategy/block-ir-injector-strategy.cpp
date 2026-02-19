@@ -7,14 +7,14 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.h"
 
-void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto successorsToBranchToParent = std::vector<IRBlockNode*>();
     for (auto statement : *irBlockNode->getBody()) {
         if (statement->is(IR_IF_STATEMENT_NODE)) {
             auto ifStatement = (IRIfStatementNode*)statement;
             irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateBr(ifStatement->getIfElseNode()->getIfBlock()->getBlock());
             ifStatement->getIfElseNode()->setBlocksToBeSuccessorsOf(irBlockNode);
-            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, scope);
+            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
             irBlockNode->createSuccessor();
             successorsToBranchToParent.push_back(irBlockNode->getLastSuccessorOrSelf());
             ifStatement->getIfElseNode()->getEndBlock()->getBuilder()->get()->CreateBr(
@@ -24,7 +24,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
             auto whileStatement = (IRWhileStatementNode*)statement;
             irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateBr(whileStatement->getWhileBlock()->getBlock());
             whileStatement->setBlocksToBeSuccessorsOf(irBlockNode);
-            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, scope);
+            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
             irBlockNode->createSuccessor();
             successorsToBranchToParent.push_back(irBlockNode->getLastSuccessorOrSelf());
             whileStatement->getEndBlock()->getBuilder()->get()->CreateBr(
@@ -34,14 +34,14 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
             auto forInStatement = (IRForInStatementNode*)statement;
             irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateBr(forInStatement->getSetupBlock()->getBlock());
             forInStatement->setBlocksToBeSuccessorsOf(irBlockNode);
-            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, scope);
+            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
             irBlockNode->createSuccessor();
             successorsToBranchToParent.push_back(irBlockNode->getLastSuccessorOrSelf());
             forInStatement->getEndBlock()->getBuilder()->get()->CreateBr(
                     irBlockNode->getLastSuccessorOrSelf()->getBlock()
             );
         } else {
-            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, scope);
+            irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
         }
     }
 

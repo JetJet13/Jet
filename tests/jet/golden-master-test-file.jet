@@ -544,6 +544,10 @@ proc testBedmas() {
     assert(bedmasTripleTest == 2);
     const bedmasQuadTest = 1 * 2 - 4 + 5;
     assert(bedmasQuadTest == 3);
+    const bedmasQuadSubTest = 10 - 1 - 9 + 100 - 109 + 1929 * 198 - 841;
+    assert(bedmasQuadSubTest == 381092);
+    const bedmasQuadSubTestGrouped = 10 - (1 - 9 + 100) - ((109 + 1929) * 198 - 841);
+    assert(bedmasQuadSubTestGrouped == -402765);
 }
 testBedmas();
 
@@ -613,10 +617,11 @@ proc testLambdas() {
         assert(myLambdas[i]() == myLambdas.size() - 1 - i + 100);
     }
 
-    let j = 0;
+    let j = 9;
     for lam in myLambdas {
+        print(lam(), "LAM");
         assert(lam() == j + 100);
-        j = j + 1;
+        j = j - 1;
     }
 
     const structWithLambda = {
@@ -793,3 +798,23 @@ proc testArrayPrototype() {
     assert(emptyArray.empty() == true);
 }
 testArrayPrototype();
+
+proc testRefPrototype() {
+    const x = ref 5;
+    const y = ref 6;
+    assert(x.refCount() == 1);
+    if x < 10 {
+        let xRef = x;
+        assert(xRef == x && xRef == 5);
+        xRef *= 100; // set ref value to 100
+        assert(x.refCount() == 2);
+        assert(y.refCount() == 1);
+        xRef = y;
+        assert(xRef == y && xRef == 6);
+        assert(x.refCount() == 1);
+        assert(y.refCount() == 2);
+    }
+    assert(x.refCount() == 1);
+    assert(y.refCount() == 1);
+}
+testRefPrototype();

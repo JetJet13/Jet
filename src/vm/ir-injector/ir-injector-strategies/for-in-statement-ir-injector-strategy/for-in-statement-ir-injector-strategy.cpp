@@ -10,7 +10,6 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto setupBlock = irForInStatement->getSetupBlock();
     auto forInBlock = irForInStatement->getForInBlock();
     auto bodyBlock = irForInStatement->getBodyBlock();
-    auto forInScope = irForInStatement->getScope();
 
     auto arrayPointerType = (IRArrayPointerType*)irForInStatement->getSource()->getIRType()->getSourceType();
     auto zero = setupBlock->getBuilder()->get()->getInt64(0);
@@ -18,7 +17,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto numElementsIndex = arrayPointerType->getNumElementsIndex();
     auto allocIndex = arrayPointerType->getAllocIndex();
     // setup
-    auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, forInScope);
+    auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, setupBlock->getScope());
     auto numElementsPointer = setupBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceValue, numElementsIndex, "forInNumElemPtr");
     auto numElements = setupBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
     auto pointerToSourceArray = setupBlock->getBuilder()->get()->CreateStructGEP(
@@ -59,7 +58,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     } else {
         InstructionIRInjectorHelper::injectStore(loadedNewVariableValue, variableAllocation, bodyBlock);
     }
-    irInjector->inject(irBlock, bodyBlock, irModule, forInScope);
+    irInjector->inject(irBlock, bodyBlock, irModule);
     auto lastBodyBlock = bodyBlock->getLastSuccessorOrSelf();
     if (lastBodyBlock->hasBranchInstruction()) {
         lastBodyBlock->removeLastInstruction();

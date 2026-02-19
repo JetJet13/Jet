@@ -8,6 +8,7 @@ typedef enum {
     SYM_CONST,
     SYM_LET,
     SYM_EQUAL,
+    SYM_STAR_EQUAL,
     SYM_IDENTIFIER,
     SYM_INT_TYPE,
     SYM_FLOAT_TYPE,

@@ -84,6 +84,7 @@ private:
     std::string _refOfFunctionName;
     std::string _srefWithFunctionName;
     std::string _sameRefAsFunctionName;
+    std::string _setRefValueFunctionName;
     std::string _incrementRefCountFunctionName;
     std::string _incrementLambdaRefCountFunctionName;
     std::string _incrementRefCountIfNecessaryFunctionName;
@@ -162,6 +163,7 @@ public:
                  std::string refOfFunctionName,
                  std::string srefWithFunctionName,
                  std::string sameRefAsFunctionName,
+                 std::string _setRefValueFunctionName,
                  std::string incrementRefCountFunctionName,
                  std::string incrementLambdaRefCountFunctionName,
                  std::string incrementRefCountIfNecessaryFunctionName,
@@ -241,6 +243,7 @@ public:
     llvm::Function* getRefOfFunction();
     llvm::Function* getSrefWithFunction();
     llvm::Function* getSameRefAsFunction();
+    llvm::Function* getSetRefValueFunction();
     llvm::Function* getIncrementRefCountFunction();
     llvm::Function* getIncrementLambdaRefCountFunction();
     llvm::Function* getIncrementRefCountIfNecessaryFunction();

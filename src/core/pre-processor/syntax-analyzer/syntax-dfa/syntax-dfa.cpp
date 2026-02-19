@@ -77,8 +77,11 @@ void SyntaxDfa::init() {
     DFANode* procedureKeyword = DFANodeFactory::Once::create(AST_PROCEDURE_NODE);
     DFANode* type = DFANodeFactory::Once::create(AST_TYPE_NODE);
     DFANode* varAssignment = DFANodeFactory::Once::create(AST_VARIABLE_ASSIGNMENT_NODE);
+    DFANode* refValueAssignment = DFANodeFactory::Once::create(AST_REF_VALUE_ASSIGNMENT_NODE);
     DFANode* assignmentOperator = DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE);
+    DFANode* refValueAssignmentOperator = DFANodeFactory::Once::create(AST_REF_VALUE_ASSIGNMENT_OPERATOR_NODE);
     DFANode* varAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE);
+    DFANode* refValueAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE);
     DFANode* arrayAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE);
     DFANode* objectAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE);
     DFANode* tupleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
@@ -172,6 +175,7 @@ void SyntaxDfa::init() {
     DFANode* classPropertyDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_DECLARATION_NODE, AST_CLASS_PROPERTY_DECLARATION_NODE);
     DFANode* classPropertyAccess = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_NODE);
     DFANode* classPropertyAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ASSIGNMENT_NODE);
+    DFANode* classPropertyRefValueAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_NODE);
     DFANode* classMethodInvocationExpression = DFANodeFactory::Once::create(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE);
     DFANode* constructorKeyword = DFANodeFactory::Once::create(AST_CONSTRUCTOR_NODE);
     DFANode* classConstructorDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, AST_CLASS_CONSTRUCTOR_DECLARATION_NODE);
@@ -234,6 +238,26 @@ void SyntaxDfa::init() {
     this->initClassPropertyDefinitionWithType(classPropertyDefinitionWithType);
     this->initVarInit(classPropertyInit, AST_CLASS_PROPERTY_DECLARATION_NODE);
     this->initVarInit(classPropertyAssignment, AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE);
+
+    this->setupTransitionsWithTarget(classPropertyRefValueAssignment, AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, {
+            AST_LITERAL_EXPRESSION_NODE,
+            AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_MODULE_ACCESS_EXPRESSION_NODE,
+            AST_ARRAY_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_EXPRESSION_NODE,
+            AST_STRUCT_EXPRESSION_NODE,
+            AST_TUPLE_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_EXPRESSION_NODE,
+            AST_BINARY_EXPRESSION_NODE,
+            AST_LOGICAL_EXPRESSION_NODE,
+            AST_UNARY_EXPRESSION_NODE,
+            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
+            AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE
+    });
 
     varType
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_VARIABLE_DEFINITION_NODE)));
@@ -355,7 +379,8 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(typeColon))
     ->addTransition(DFATransitionFactory::create(structColon))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
-    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_ASSIGNMENT_NODE)));
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_ASSIGNMENT_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_REF_VALUE_ASSIGNMENT_OPERATOR_NODE, AST_REF_VALUE_ASSIGNMENT_NODE)));
 
     callableIdentifierExpression
     ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE }))
@@ -860,6 +885,28 @@ void SyntaxDfa::init() {
             AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE
     });
 
+    this->setupTransitionsWithTarget(refValueAssignment, AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, {
+            AST_LITERAL_EXPRESSION_NODE,
+            AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_MODULE_ACCESS_EXPRESSION_NODE,
+            AST_LAMBDA_EXPRESSION_NODE,
+            AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
+            AST_ARRAY_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_EXPRESSION_NODE,
+            AST_STRUCT_EXPRESSION_NODE,
+            AST_TUPLE_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_EXPRESSION_NODE,
+            AST_BINARY_EXPRESSION_NODE,
+            AST_LOGICAL_EXPRESSION_NODE,
+            AST_UNARY_EXPRESSION_NODE,
+            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
+            AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE
+    });
+
     this->setupTransitionsWithTarget(arrayAccessAssignment, AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, {
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
@@ -914,6 +961,9 @@ void SyntaxDfa::init() {
     assignmentOperator
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE, AST_CLASS_PROPERTY_ACCESS_NODE  })
     ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_NODE });
+
+    refValueAssignmentOperator
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_CLASS_PROPERTY_ACCESS_NODE  });
 
     objectAccessSource
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_PERIOD_NODE })
@@ -1314,6 +1364,10 @@ void SyntaxDfa::init() {
         DFATransitionFactory::create(
             DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_ASSIGNMENT_NODE)
     ))
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_REF_VALUE_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_NODE)
+    ))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)));
 
     classPropertyAccessExpression
@@ -1425,8 +1479,11 @@ void SyntaxDfa::init() {
     ->insertStartNode(varDefinition)
     ->insertStartNode(varInit)
     ->insertStartNode(varAssignment)
+    ->insertStartNode(refValueAssignment)
     ->insertStartNode(assignmentOperator)
+    ->insertStartNode(refValueAssignmentOperator)
     ->insertStartNode(varAssignmentStatement)
+    ->insertStartNode(refValueAssignmentStatement)
     ->insertStartNode(arrayAccessAssignmentStatement)
     ->insertStartNode(objectAccessAssignmentStatement)
     ->insertStartNode(tupleAccessAssignmentStatement)
@@ -1580,6 +1637,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(classPropertyAccess)
     ->insertStartNode(classPropertyAccessExpression)
     ->insertStartNode(classPropertyAssignment)
+    ->insertStartNode(classPropertyRefValueAssignment)
     ->insertStartNode(classMethodCall)
     ->insertStartNode(classMethodInvocationExpression)
     ->insertStartNode(constructorKeyword)
@@ -1757,8 +1815,6 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, targetNodeType)));
-
-
 
 }
 

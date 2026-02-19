@@ -26,12 +26,12 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto freeValueIfBlock = irGenerator->generateIfBlock(irContext);
-    auto freeValueIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto freeRefCounterIfBlock = irGenerator->generateIfBlock(irContext);
-    auto freeRefCounterIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto freeValueElseBlock = irGenerator->generateIfElseBlock(irContext);
-    auto freeValueEndBlock = irGenerator->generateIfEndBlock(irContext);
+    auto freeValueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto freeValueIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto freeRefCounterIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto freeRefCounterIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto freeValueElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
+    auto freeValueEndBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     auto refValueIndex = refType->getRefValueIndex();
     auto refCounterIndex = refType->getRefCounterIndex();

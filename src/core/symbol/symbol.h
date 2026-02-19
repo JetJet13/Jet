@@ -27,6 +27,7 @@ public:
     bool isMalformed();
     bool isBang();
     bool isEqual();
+    bool isStarEqual();
     bool isInt();
     bool isFloat();
     bool isChar();

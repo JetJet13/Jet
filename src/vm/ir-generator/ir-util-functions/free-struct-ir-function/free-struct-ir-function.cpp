@@ -28,12 +28,12 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
     // for loop blocks
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto isValueNotFreeableThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isValueNotFreeableElseBlock = irGenerator->generateIfElseBlock(irContext);
-    auto isValueNotFreeableEndBlock = irGenerator->generateIfElseBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto isValueNotFreeableThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isValueNotFreeableElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
+    auto isValueNotFreeableEndBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
 
     auto numTypes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getNumTypesIndex() }, "numTypes");
     auto typeValueAlloc = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() }, "typeValueAlloc");

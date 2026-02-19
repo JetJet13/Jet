@@ -51,7 +51,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
         this->linkJetFiles(this->compile(moduleToLink, irMainModule), irJetFile);
     }
     auto irMainFunction = _irGenerator->generateMainFunction("main", irMainModule);
-    auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
+    auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction(), &irLookupTable);
     auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irMainModule);
     for (auto node : *jetFile->getFile()->getBody()) {
         _irGenerator->generateInitialTypeFor(node, &irLookupTable, irContext);
@@ -64,7 +64,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
     for (auto node : *jetFile->getFile()->getBody()) {
         irMainFunctionBlock->insert(_irGenerator->generateFor(node, &irLookupTable, irContext));
     }
-    _irInjector->inject(irMainFunctionBlock, irMainFunctionBlock, irMainModule, &irLookupTable);
+    _irInjector->inject(irMainFunctionBlock, irMainFunctionBlock, irMainModule);
     irMainFunctionBlock->getLastSuccessorOrSelf()->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irJetFile;
 }

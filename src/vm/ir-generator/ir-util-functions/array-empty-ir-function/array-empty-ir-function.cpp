@@ -20,8 +20,8 @@ void ArrayEmptyIRFunction::generateArrayEmptyFunction(IRGenerator* irGenerator, 
                                            ArrayEmptyIRFunction::getArrayEmptyIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isNumElementsZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumElementsZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
     auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, numElementsIndex });

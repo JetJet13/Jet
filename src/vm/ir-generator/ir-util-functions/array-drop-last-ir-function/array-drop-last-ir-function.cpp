@@ -22,8 +22,8 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
                                            ArrayDropLastIRFunction::getArrayDropLastIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNewNumElementsNegativeIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isNewNumElementsNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isNewNumElementsNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNewNumElementsNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);

@@ -25,9 +25,9 @@ void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::uni
                                            RangeIRFunction::getRange1pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isStepNegativeIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isStepNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isStepNegativeIfElseBlock = irGenerator->generateIfElseBlock(irContext);
+    auto isStepNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isStepNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isStepNegativeIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(isStepNegativeIfBlock->getBlock());
 
     auto isStepNegative = isStepNegativeIfBlock->getBuilder()->get()->CreateICmp(
@@ -69,12 +69,12 @@ void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::uni
                                            RangeIRFunction::getRange2pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto differenceLessThanZeroIfBlock = irGenerator->generateIfBlock(irContext);
-    auto differenceLessThanZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
+    auto differenceLessThanZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto differenceLessThanZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
 
     auto numElementsAllocation = functionBlock->getBuilder()->get()->CreateAlloca(intType);
     auto difference = functionBlock->getBuilder()->get()->CreateBinOp(
@@ -164,17 +164,17 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
                                            RangeIRFunction::getRange3pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isStepZeroIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isStepZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isStepInvalidIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isStepInvalidIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRemainderNotZeroIfBlock = irGenerator->generateIfBlock(irContext);
-    auto isRemainderNotZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext);
-    auto isRemainderNotZeroIfElseBlock = irGenerator->generateIfThenBlock(irContext);
+    auto isStepZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isStepZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isStepInvalidIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isStepInvalidIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isRemainderNotZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isRemainderNotZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isRemainderNotZeroIfElseBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
-    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext);
-    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext);
-    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext);
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
 
     auto numElementsAllocation = functionBlock->getBuilder()->get()->CreateAlloca(intType);
 

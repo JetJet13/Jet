@@ -12,11 +12,13 @@
 #include "../ir-statement-nodes/ir-function-return-expression-node.h"
 #include "../../types/ir-block-type.h"
 #include "../ir-function-nodes/ir-function-parameter-node.h"
+#include "../../ir-lookup-table/ir-lookup-table.h"
 
 class IRBlockNode {
 protected:
     llvm::BasicBlock* _irValue;
     IRBlockType _type;
+    IRLookupTable* _scope;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
     std::vector<IRNode*> _body;
     std::vector<IRBlockNode*> _successors;
@@ -27,9 +29,10 @@ protected:
     std::vector<IRVariableDeclarationNode*> _lambdaVariablesToFree;
     std::optional<IRFunctionReturnExpressionNode*> _returnExpression;
 public:
-    IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type);
+    IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, IRLookupTable* scope);
     bool hasReturnStatement();
     bool hasBranchInstruction();
+    IRLookupTable* getScope();
     llvm::BasicBlock* getBlock();
     std::vector<IRNode*>* getBody();
     void insert(IRNode* irNode);

@@ -6,6 +6,7 @@
 #include "../../../../../type-signature/literal-type-signature/int-literal-type-signature.h"
 #include "../../../../../type-signature/literal-type-signature/bool-literal-type-signature.h"
 #include "../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../type-signature/void-type-signature/void-type-signature.h"
 
 std::optional<FunctionTypeSignature*> RefPrototypeTypeSignatureMap::find(std::string id, TypeSignature* refType) {
     if (id == "refOf") {
@@ -37,6 +38,17 @@ std::optional<FunctionTypeSignature*> RefPrototypeTypeSignatureMap::find(std::st
         );
         refCountTypeSignature->markAsPrototype();
         return refCountTypeSignature;
+    }
+
+    if (id == "setRefValue") {
+        auto setRefValueTypeSignature = new FunctionTypeSignature(
+                new ParameterListTypeSignature({
+                   new ParameterListItemTypeSignature("value", refType)
+                }),
+                new VoidTypeSignature()
+        );
+        setRefValueTypeSignature->markAsPrototype();
+        return setRefValueTypeSignature;
     }
 
     return {};

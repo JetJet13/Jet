@@ -24,21 +24,21 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
 
-    auto arrayIfBlock = irGenerator->generateIfBlock(irContext, "array.");
-    auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, "array.");
-    auto pointerIfBlock = irGenerator->generateIfBlock(irContext, "pointer.");
-    auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, "pointer.");
-    auto refIfBlock = irGenerator->generateIfBlock(irContext, "ref.");
-    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, "ref.");
-    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, "struct.ref.");
-    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.ref.");
-    auto structIfBlock = irGenerator->generateIfBlock(irContext, "struct.");
-    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, "struct.");
-    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, "lambda.");
-    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, "lambda.");
-    auto stringIfBlock = irGenerator->generateIfBlock(irContext, "string.");
-    auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, "string.");
-    auto endBlock = irGenerator->generateIfEndBlock(irContext);
+    auto arrayIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "array.");
+    auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "array.");
+    auto pointerIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "pointer.");
+    auto pointerIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "pointer.");
+    auto refIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "ref.");
+    auto refIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "ref.");
+    auto structRefIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "struct.ref.");
+    auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "struct.ref.");
+    auto structIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "struct.");
+    auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "struct.");
+    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "lambda.");
+    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "lambda.");
+    auto stringIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "string.");
+    auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "string.");
+    auto endBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     DebugIRInjectorHelper::injectLog(functionBlock, "FREEING VALUE!", irGenerator->getInjector(), irModuleNode);
     auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getIdIndex() });
