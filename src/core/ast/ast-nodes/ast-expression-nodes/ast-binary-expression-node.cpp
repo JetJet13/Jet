@@ -24,20 +24,20 @@ ASTExpressionNode* ASTBinaryExpressionNode::getRightNode() {
     return _rightNode;
 }
 
-void ASTBinaryExpressionNode::setLeftNode(ASTExpressionNode* node) {
-    _leftNode = node;
-    _children.clear();
-    _children.push_back(_leftNode);
-    _children.push_back(_binaryOperator);
-    _children.push_back(_rightNode);
+void ASTBinaryExpressionNode::setLeftTypeSignature(TypeSignature* typeSignature) {
+    _leftTypeSignature = typeSignature;
 }
 
-void ASTBinaryExpressionNode::setRightNode(ASTExpressionNode* node) {
-    _rightNode = node;
-    _children.clear();
-    _children.push_back(_leftNode);
-    _children.push_back(_binaryOperator);
-    _children.push_back(_rightNode);
+void ASTBinaryExpressionNode::setRightTypeSignature(TypeSignature* typeSignature) {
+    _rightTypeSignature = typeSignature;
+}
+
+TypeSignature* ASTBinaryExpressionNode::getLeftTypeSignature() {
+    return _leftTypeSignature;
+}
+
+TypeSignature* ASTBinaryExpressionNode::getRightTypeSignature() {
+    return _rightTypeSignature;
 }
 
 ASTBinaryOperatorNode* ASTBinaryExpressionNode::getBinaryOperator() {

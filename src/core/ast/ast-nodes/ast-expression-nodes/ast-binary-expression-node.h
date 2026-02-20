@@ -13,12 +13,16 @@ private:
     ASTExpressionNode* _leftNode;
     ASTExpressionNode* _rightNode;
     ASTBinaryOperatorNode* _binaryOperator;
+    TypeSignature* _leftTypeSignature = new UnknownTypeSignature();
+    TypeSignature* _rightTypeSignature = new UnknownTypeSignature();
 public:
     ASTBinaryExpressionNode(ASTExpressionNode* leftNode, ASTBinaryOperatorNode* binaryOperator, ASTExpressionNode* rightNode);
     ASTExpressionNode* getLeftNode();
     ASTExpressionNode* getRightNode();
-    void setLeftNode(ASTExpressionNode* node);
-    void setRightNode(ASTExpressionNode* node);
+    void setLeftTypeSignature(TypeSignature* typeSignature);
+    void setRightTypeSignature(TypeSignature* typeSignature);
+    TypeSignature* getLeftTypeSignature();
+    TypeSignature* getRightTypeSignature();
     ASTBinaryOperatorNode* getBinaryOperator();
     void markAsReferenced() override;
     Position* getStartPosition() override;

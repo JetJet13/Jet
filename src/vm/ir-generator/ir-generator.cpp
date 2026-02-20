@@ -36,6 +36,8 @@
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/print-statement-ir-strategy/print-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
+#include "ir-strategies/class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.h"
+#include "ir-strategies/ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.h"
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
 #include "ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h"
@@ -196,6 +198,10 @@ IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable*
         return this->_irStrategyMap.getExpressionStatementIRStrategy()->generate((ASTExpressionStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getClassPropertyAssignmentStatementIRStrategy()->generate((ASTClassPropertyAssignmentStatementNode*)node,  this, scope, irContext);
+    } else if (node->is(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getClassPropertyRefValueAssignmentStatementIRStrategy()->generate((ASTClassPropertyRefValueAssignmentStatementNode*)node,  this, scope, irContext);
+    } else if (node->is(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getRefValueAssignmentStatementIRStrategy()->generate((ASTRefValueAssignmentStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getVariableAssignmentStatementIRStrategy()->generate((ASTVariableAssignmentStatementNode*)node,  this, scope, irContext);
     } else if (node->is(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {

@@ -34,6 +34,8 @@
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./print-statement-ir-strategy/print-statement-ir-strategy.h"
 #include "./class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
+#include "./class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.h"
+#include "./ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.h"
 #include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "./array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
 #include "./object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h"
@@ -120,6 +122,8 @@ IRStrategyMap::IRStrategyMap() {
     _arrayAccessAssignmentStatementIRStrategy = new ArrayAccessAssignmentStatementIRStrategy();
     _objectAccessAssignmentStatementIRStrategy = new ObjectAccessAssignmentStatementIRStrategy();
     _tupleAccessAssignmentStatementIRStrategy = new TupleAccessAssignmentStatementIRStrategy();
+    _classPropertyRefValueAssignmentStatementIRStrategy = new ClassPropertyRefValueAssignmentStatementIRStrategy();
+    _refValueAssignmentStatementIRStrategy = new RefValueAssignmentStatementIRStrategy();
     _ifStatementIRStrategy = new IfStatementIRStrategy();
     _whileStatementIRStrategy = new WhileStatementIRStrategy();
     _forInStatementIRStrategy = new ForInStatementIRStrategy();
@@ -322,6 +326,14 @@ ObjectAccessAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessAssignm
 
 TupleAccessAssignmentStatementIRStrategy* IRStrategyMap::getTupleAccessAssignmentStatementIRStrategy() {
     return _tupleAccessAssignmentStatementIRStrategy;
+}
+
+ClassPropertyRefValueAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyRefValueAssignmentStatementIRStrategy() {
+    return _classPropertyRefValueAssignmentStatementIRStrategy;
+}
+
+RefValueAssignmentStatementIRStrategy* IRStrategyMap::getRefValueAssignmentStatementIRStrategy() {
+    return _refValueAssignmentStatementIRStrategy;
 }
 
 IfStatementIRStrategy* IRStrategyMap::getIfStatementIRStrategy() {

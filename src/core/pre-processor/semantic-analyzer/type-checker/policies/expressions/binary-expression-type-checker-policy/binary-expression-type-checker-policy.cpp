@@ -5,6 +5,7 @@
 #include "binary-expression-type-checker-policy.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../types/type-checker-error-message-table.h"
+#include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace BinaryExpressionTypeCheckerPolicy {
     void apply(ASTBinaryExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult) {
@@ -23,8 +24,8 @@ namespace BinaryExpressionTypeCheckerPolicy {
         auto mismatchTypeErrorMessage = TypeCheckerErrorMessageTable::BinaryExpressionOperandsTypeMismatch(binaryExpression);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
-                binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature(),
-                binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature(),
+                binaryExpression->getLeftTypeSignature(),
+                binaryExpression->getRightTypeSignature(),
                 mismatchTypeErrorMessage,
                 typeCheckerResult
         );

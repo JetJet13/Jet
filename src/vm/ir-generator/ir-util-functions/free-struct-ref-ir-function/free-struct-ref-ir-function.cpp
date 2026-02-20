@@ -63,7 +63,6 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
     DebugIRInjectorHelper::injectLog(freeStructRefIfThenBlock, "DONE FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
     freeStructRefIfThenBlock->getBuilder()->get()->CreateBr(freeStructRefEndBlock->getBlock());
 
-//    DebugIRInjectorHelper::injectLog(freeStructElseBlock, "DID NOT FREE STRUCT SINCE STRUCT REF COUNT != 0", irGenerator->getInjector(), irModuleNode);
     freeStructRefElseBlock->getBuilder()->get()->CreateBr(freeStructRefEndBlock->getBlock());
     freeStructRefEndBlock->addVoidReturn();
 }

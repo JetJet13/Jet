@@ -711,6 +711,18 @@ add_library(jet-vm
         ir-nodes/binary-arithmetic-dsu.h
         ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.cpp
         ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h
+        ir-generator/ir-strategies/ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-ref-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-ref-value-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-class-property-ref-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-class-property-ref-value-assignment-statement-node.h
+        ir-generator/ir-strategies/class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.h
+        ir-injector/ir-injector-strategies/class-property-ref-value-assignment-ir-injector-strategy/class-property-ref-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-property-ref-value-assignment-ir-injector-strategy/class-property-ref-value-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

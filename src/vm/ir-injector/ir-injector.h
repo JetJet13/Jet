@@ -33,6 +33,8 @@ class FunctionReturnIRInjectorStrategy;
 class NewClassInstanceIRInjectorStrategy;
 class ClassInstanceIRInjectorStrategy;
 class ClassPropertyAssignmentIRInjectorStrategy;
+class ClassPropertyRefValueAssignmentIRInjectorStrategy;
+class RefValueAssignmentIRInjectorStrategy;
 class VariableAssignmentIRInjectorStrategy;
 class ArrayAccessAssignmentIRInjectorStrategy;
 class ObjectAccessAssignmentIRInjectorStrategy;
@@ -68,6 +70,8 @@ private:
     FunctionParameterIRInjectorStrategy* _functionParameterIRInjector;
     FunctionReturnIRInjectorStrategy* _functionReturnIRInjector;
     ClassPropertyAssignmentIRInjectorStrategy* _classPropertyAssignmentIRInjectorStrategy;
+    ClassPropertyRefValueAssignmentIRInjectorStrategy* _classPropertyRefValueAssignmentIRInjectorStrategy;
+    RefValueAssignmentIRInjectorStrategy* _refValueAssignmentIRInjectorStrategy;
     VariableAssignmentIRInjectorStrategy* _variableAssignmentIRInjectorStrategy;
     ArrayAccessAssignmentIRInjectorStrategy* _arrayAccessAssignmentIRInjectorStrategy;
     ObjectAccessAssignmentIRInjectorStrategy* _objectAccessAssignmentIRInjectorStrategy;

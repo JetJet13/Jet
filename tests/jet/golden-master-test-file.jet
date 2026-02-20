@@ -806,11 +806,16 @@ proc testRefPrototype() {
     if x < 10 {
         let xRef = x;
         assert(xRef == x && xRef == 5);
-        xRef *= 100; // set ref value to 100
+        xRef *= 100;
+        assert(xRef == 100);
+        assert(x == 100);
         assert(x.refCount() == 2);
         assert(y.refCount() == 1);
         xRef = y;
         assert(xRef == y && xRef == 6);
+        xRef*= 600;
+        assert(xRef == 600);
+        assert(y == 600);
         assert(x.refCount() == 1);
         assert(y.refCount() == 2);
     }

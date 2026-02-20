@@ -20,13 +20,14 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* bina
         throw std::invalid_argument("unknown binary operator..aborting.");
     }
 
-    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE) ?
-                                 ((RefTypeSignature*)binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType() :
-                                 binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
+    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
+                                    ? ((RefTypeSignature*)binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType()
+                                    : binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
 
-    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE) ?
-                                 ((RefTypeSignature*)binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType() :
-                                 binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
+    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
+                                    ? ((RefTypeSignature*)binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType()
+                                    : binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
+
 
     auto resultTypeSignature = combination.value()->match(
             leftNodeTypeSignature,
@@ -37,6 +38,8 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* bina
         binaryExpression->setTypeSignature(new InvalidTypeSignature());
         return;
     }
+    binaryExpression->setLeftTypeSignature(leftNodeTypeSignature);
+    binaryExpression->setRightTypeSignature(rightNodeTypeSignature);
     binaryExpression->setTypeSignature(resultTypeSignature.value());
 }
 

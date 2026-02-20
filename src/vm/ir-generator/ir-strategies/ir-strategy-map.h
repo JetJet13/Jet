@@ -54,6 +54,8 @@ class PrintStatementIRStrategy;
 class ArrayAccessAssignmentStatementIRStrategy;
 class ObjectAccessAssignmentStatementIRStrategy;
 class TupleAccessAssignmentStatementIRStrategy;
+class ClassPropertyRefValueAssignmentStatementIRStrategy;
+class RefValueAssignmentStatementIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -132,6 +134,8 @@ private:
     ArrayAccessAssignmentStatementIRStrategy* _arrayAccessAssignmentStatementIRStrategy;
     ObjectAccessAssignmentStatementIRStrategy* _objectAccessAssignmentStatementIRStrategy;
     TupleAccessAssignmentStatementIRStrategy* _tupleAccessAssignmentStatementIRStrategy;
+    ClassPropertyRefValueAssignmentStatementIRStrategy* _classPropertyRefValueAssignmentStatementIRStrategy;
+    RefValueAssignmentStatementIRStrategy* _refValueAssignmentStatementIRStrategy;
 
     // Type Signature IR Strategies
     ArrayTypeSignatureIRStrategy* _arrayTypeSignatureIRStrategy;
@@ -202,6 +206,8 @@ public:
     ArrayAccessAssignmentStatementIRStrategy* getArrayAccessAssignmentStatementIRStrategy();
     ObjectAccessAssignmentStatementIRStrategy* getObjectAccessAssignmentStatementIRStrategy();
     TupleAccessAssignmentStatementIRStrategy* getTupleAccessAssignmentStatementIRStrategy();
+    ClassPropertyRefValueAssignmentStatementIRStrategy* getClassPropertyRefValueAssignmentStatementIRStrategy();
+    RefValueAssignmentStatementIRStrategy* getRefValueAssignmentStatementIRStrategy();
     IfStatementIRStrategy* getIfStatementIRStrategy();
     WhileStatementIRStrategy* getWhileStatementIRStrategy();
     ForInStatementIRStrategy* getForInStatementIRStrategy();

@@ -20,6 +20,8 @@
 #include "ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h"
 #include "ir-injector-strategies/class-instance-ir-injector-strategy/class-instance-ir-injector-strategy.h"
 #include "ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-property-ref-value-assignment-ir-injector-strategy/class-property-ref-value-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.h"
@@ -59,6 +61,8 @@ IRInjector::IRInjector() {
     _objectAccessAssignmentIRInjectorStrategy = new ObjectAccessAssignmentIRInjectorStrategy();
     _tupleAccessAssignmentIRInjectorStrategy = new TupleAccessAssignmentIRInjectorStrategy();
     _classPropertyAssignmentIRInjectorStrategy = new ClassPropertyAssignmentIRInjectorStrategy();
+    _classPropertyRefValueAssignmentIRInjectorStrategy = new ClassPropertyRefValueAssignmentIRInjectorStrategy();
+    _refValueAssignmentIRInjectorStrategy = new RefValueAssignmentIRInjectorStrategy();
     _ifStatementIRInjectorStrategy = new IfStatementIRInjectorStrategy();
     _whileStatementIRInjectorStrategy = new WhileStatementIRInjectorStrategy();
     _forInStatementIRInjectorStrategy = new ForInStatementIRInjectorStrategy();
@@ -126,6 +130,10 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std:
         _functionReturnIRInjector->inject((IRFunctionReturnExpressionNode *) irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         _classPropertyAssignmentIRInjectorStrategy->inject((IRClassPropertyAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _classPropertyRefValueAssignmentIRInjectorStrategy->inject((IRClassPropertyRefValueAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _refValueAssignmentIRInjectorStrategy->inject((IRRefValueAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
         _variableAssignmentIRInjectorStrategy->inject((IRVariableAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
@@ -144,6 +152,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std:
         _expressionStatementIRInjectorStrategy->inject((IRExpressionStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_PRINT_STATEMENT_NODE)) {
         _printStatementIRInjectorStrategy->inject((IRPrintStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else {
+        throw std::invalid_argument("unable to find injector for statement " + std::to_string(irStatement->getNodeType()));
     }
 }
 
