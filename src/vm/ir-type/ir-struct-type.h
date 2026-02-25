@@ -16,6 +16,7 @@ protected:
     std::unordered_map<std::string, unsigned long> _keyIndexMap;
     std::unordered_map<std::string, IRType*> _keyTypeMap;
 public:
+    IRStructType();
     IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap);
     llvm::StructType* getType() override;
     void makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>* context);

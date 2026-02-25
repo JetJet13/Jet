@@ -72,6 +72,7 @@
 #include "../ir-type/ir-invocable-type.h"
 #include "../ir-type/ir-struct-ref-type.h"
 #include "../ir-nodes/ir-function-nodes/ir-function-argument-node.h"
+#include "../ir-type/ir-class-instance-type.h"
 
 class IRGenerator {
 private:
@@ -83,11 +84,13 @@ private:
     llvm::StructType* _typeValueType;
     llvm::StructType* _refType;
     llvm::StructType* _invocableType;
+    IRClassInstanceType* _genericClassInstanceIRType;
 public:
     explicit IRGenerator(IRInjector* irInjector);
     IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
     void generateInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
     void generatePostInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRClassInstanceType* getGenericClassInstanceIRType();
     IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRContext* irContext);
     IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
     IRTypeDeclarationNode* generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);

@@ -723,6 +723,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/class-property-ref-value-assignment-ir-injector-strategy/class-property-ref-value-assignment-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.h
+        ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.cpp
+        ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h
 )
 
 target_link_libraries(jet-vm

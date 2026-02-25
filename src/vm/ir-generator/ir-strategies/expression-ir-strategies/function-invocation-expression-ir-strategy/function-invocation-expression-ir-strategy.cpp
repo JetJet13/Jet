@@ -84,7 +84,9 @@ std::vector<llvm::Value*> FunctionInvocationExpressionIRStrategy::prepArgumentLi
             BI_ASSERT_WITH_MESSAGE_TYPE_SOURCE,
             BI_ASSERT_DEBUG_LAMBDA_REF_COUNT_TYPE_SOURCE,
             BI_ASSERT_DEBUG_REF_COUNT_TYPE_SOURCE,
-            BI_ASSERT_DEBUG_STRUCT_REF_COUNT_TYPE_SOURCE
+            BI_ASSERT_DEBUG_STRUCT_REF_COUNT_TYPE_SOURCE,
+            BI_ASSERT_DEBUG_TUPLE_REF_COUNT_TYPE_SOURCE,
+            BI_ASSERT_DEBUG_CLASS_REF_COUNT_TYPE_SOURCE
     })) {
         auto assertMessage = irGenerator->getOrInsertGlobalVariableString(node->getId(), "(" + node->getLineColumn() + ") " + node->toSourceCode() + "\n\n", irContext);
         argList.push_back(assertMessage);

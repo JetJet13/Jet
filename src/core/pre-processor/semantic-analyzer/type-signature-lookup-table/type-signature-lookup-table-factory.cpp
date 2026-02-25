@@ -46,6 +46,14 @@ TypeSignatureLookupTable* TypeSignatureLookupTableFactory::createForDebugModule(
             JetDebugTypeSignatureMap::getAssertDebugStructRefCountTypeSignature()
     );
     typeSignatureLookupTable->insertGlobal(
+            JetDebugTypeSignatureMap::getAssertDebugTupleRefCountTypeSignatureKey(),
+            JetDebugTypeSignatureMap::getAssertDebugTupleRefCountTypeSignature()
+    );
+    typeSignatureLookupTable->insertGlobal(
+            JetDebugTypeSignatureMap::getAssertDebugClassRefCountTypeSignatureKey(),
+            JetDebugTypeSignatureMap::getAssertDebugClassRefCountTypeSignature()
+    );
+    typeSignatureLookupTable->insertGlobal(
             JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignatureKey(),
             JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignature()
     );

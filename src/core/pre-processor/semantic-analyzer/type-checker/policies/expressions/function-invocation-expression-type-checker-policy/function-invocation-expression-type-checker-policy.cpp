@@ -4,7 +4,6 @@
 
 #include "function-invocation-expression-type-checker-policy.h"
 #include "../../../rules/type-checker-rule-provider.h"
-#include "../../../types/type-checker-error-message-table.h"
 #include "../../../type-checker.h"
 
 namespace FunctionInvocationExpressionTypeCheckerPolicy {
@@ -35,7 +34,6 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         if (!argumentListCountResultOk) {
             return;
         }
-
         auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(functionInvocationExpression);
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(

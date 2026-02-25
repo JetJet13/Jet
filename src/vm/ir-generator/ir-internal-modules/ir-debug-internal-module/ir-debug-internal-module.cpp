@@ -21,7 +21,11 @@ std::string IRDebugInternalModule::getIRName(std::string id) {
         return AssertIRFunction::getAssertDebugRefCountIRFunctionName();
     }
 
-    if (name == JetDebugTypeSignatureMap::getAssertDebugStructRefCountTypeSignatureKey()) {
+    if (name == JetDebugTypeSignatureMap::getAssertDebugStructRefCountTypeSignatureKey() ||
+        name == JetDebugTypeSignatureMap::getAssertDebugTupleRefCountTypeSignatureKey() ||
+        name == JetDebugTypeSignatureMap::getAssertDebugClassRefCountTypeSignatureKey()) {
+            // we re-use the struct-ref function for tuples and class instances because
+            // they share the same data structure in the backend
         return AssertIRFunction::getAssertDebugStructRefCountIRFunctionName();
     } else if (name == JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignatureKey()) {
         return AssertIRFunction::getAssertDebugLambdaRefCountIRFunctionName();

@@ -7,6 +7,8 @@
 #include "../../../type-signature/literal-type-signature/int-literal-type-signature.h"
 #include "../../../type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
+#include "../../../type-signature/tuple-type-signature/tuple-type-signature.h"
+#include "../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 std::string JetDebugTypeSignatureMap::getAssertDebugRefCountTypeSignatureKey() {
     return "assertDebugRefCount";
@@ -14,6 +16,14 @@ std::string JetDebugTypeSignatureMap::getAssertDebugRefCountTypeSignatureKey() {
 
 std::string JetDebugTypeSignatureMap::getAssertDebugStructRefCountTypeSignatureKey() {
     return "assertDebugStructRefCount";
+}
+
+std::string JetDebugTypeSignatureMap::getAssertDebugTupleRefCountTypeSignatureKey() {
+    return "assertDebugTupleRefCount";
+}
+
+std::string JetDebugTypeSignatureMap::getAssertDebugClassRefCountTypeSignatureKey() {
+    return "assertDebugClassRefCount";
 }
 
 std::string JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignatureKey() {
@@ -42,6 +52,30 @@ FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugStructRefCountTyp
     );
     assertDebugStructRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_STRUCT_REF_COUNT_TYPE_SOURCE)->markAsDebug();
     return assertDebugStructRefCountTypeSignature;
+}
+
+FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugTupleRefCountTypeSignature() {
+    auto assertDebugTupleRefCountTypeSignature = new FunctionTypeSignature(
+            new ParameterListTypeSignature({
+               new ParameterListItemTypeSignature("tupleValue", (new TupleTypeSignature())->markAsGeneric()),
+               new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
+            }),
+            new VoidTypeSignature()
+    );
+    assertDebugTupleRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_TUPLE_REF_COUNT_TYPE_SOURCE)->markAsDebug();
+    return assertDebugTupleRefCountTypeSignature;
+}
+
+FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugClassRefCountTypeSignature() {
+    auto assertDebugTupleRefCountTypeSignature = new FunctionTypeSignature(
+            new ParameterListTypeSignature({
+               new ParameterListItemTypeSignature("classInstance", (new ClassInstanceTypeSignature())->markAsGeneric()),
+               new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
+            }),
+            new VoidTypeSignature()
+    );
+    assertDebugTupleRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_CLASS_REF_COUNT_TYPE_SOURCE)->markAsDebug();
+    return assertDebugTupleRefCountTypeSignature;
 }
 
 FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignature() {

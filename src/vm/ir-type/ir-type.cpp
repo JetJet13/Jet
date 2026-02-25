@@ -119,7 +119,7 @@ llvm::Align IRType::getAlignment() {
         return llvm::Align(8);
     }
 
-    if (this->isArrayPointerType() || this->isTypeValueType() || this->isRefType() || this->isPointerType()) {
+    if (this->isStructRefType() || this->isArrayPointerType() || this->isTypeValueType() || this->isRefType() || this->isPointerType()) {
         return llvm::Align(8);
     }
 

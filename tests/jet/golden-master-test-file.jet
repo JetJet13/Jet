@@ -813,7 +813,7 @@ proc testRefPrototype() {
         assert(y.refCount() == 1);
         xRef = y;
         assert(xRef == y && xRef == 6);
-        xRef*= 600;
+        xRef *= 600;
         assert(xRef == 600);
         assert(y == 600);
         assert(x.refCount() == 1);
@@ -821,5 +821,66 @@ proc testRefPrototype() {
     }
     assert(x.refCount() == 1);
     assert(y.refCount() == 1);
+
+    const myStruct = { a: 10, b: { c: true, nested: { d: 'm' } } };
+    assertDebugStructRefCount(myStruct, 0);
+    assertDebugStructRefCount(myStruct.b, 0);
+    const refMyStruct = ref myStruct;
+    assertDebugStructRefCount(myStruct, 1);
+    assertDebugStructRefCount(myStruct.b, 0);
+    assertDebugStructRefCount(myStruct.b.nested, 0);
+    const refMyInnerStruct = ref myStruct.b;
+
+    assertDebugStructRefCount(myStruct, 2);
+    assertDebugStructRefCount(myStruct.b, 0);
+    assertDebugStructRefCount(myStruct.b.nested, 0);
+    refMyInnerStruct *= { c: false, nested: { d: 'o' } };
+    assert(refMyInnerStruct.c == false);
+    assert(refMyInnerStruct.nested.d == 'o');
+    assertDebugStructRefCount(myStruct, 2);
+    assertDebugStructRefCount(myStruct.b, 0);
+    assertDebugStructRefCount(myStruct.b.nested, 0);
+
+    const myTuple = { 90, true, { "boo", 'c', { a: true, b: { 90, 9100, false } } } };
+    assertDebugTupleRefCount(myTuple, 0);
+    assertDebugTupleRefCount(myTuple.2, 0);
+    assertDebugStructRefCount(myTuple.2.2, 0);
+    assertDebugTupleRefCount(myTuple.2.2.b, 0);
+    const refMyTuple = ref myTuple;
+    assertDebugTupleRefCount(myTuple, 1);
+    assertDebugTupleRefCount(myTuple.2, 0);
+    assertDebugStructRefCount(myTuple.2.2, 0);
+    assertDebugTupleRefCount(myTuple.2.2.b, 0);
+    const refMyInnerTuple = ref myTuple.2;
+    assertDebugTupleRefCount(myTuple, 2);
+    assertDebugTupleRefCount(myTuple.2, 0);
+    assertDebugStructRefCount(myTuple.2.2, 0);
+    assertDebugTupleRefCount(myTuple.2.2.b, 0);
+    refMyInnerTuple *= { "mika", 'n', { a: false, b: { 190, 19100, true } } };
+    assert(myTuple.2.0 == "mika");
+    assert(myTuple.2.1 == 'n');
+    assert(myTuple.2.2.a == false);
+    assert(myTuple.2.2.b == { 190, 19100, true });
+    assert(myTuple.2.0 == "mika");
+    assert(myTuple.2.1 == 'n');
+    assert(myTuple.2.2.a == false);
+    assert(myTuple.2.2.b == { 190, 19100, true });
+    assertDebugTupleRefCount(myTuple, 2);
+    assertDebugTupleRefCount(myTuple.2, 0);
+    assertDebugStructRefCount(myTuple.2.2, 0);
+    assertDebugTupleRefCount(myTuple.2.2.b, 0);
+
+    const myClass = new SimpleClass(5);
+    assert(myClass.getValue() == 5);
+    assertDebugClassRefCount(myClass, 0);
+    const refMyClass = ref myClass;
+    assert(refMyClass.getValue() == 5);
+    assertDebugClassRefCount(myClass, 1);
+    refMyClass *= new SimpleClass(10);
+    assert(refMyClass.getValue() == 10);
+    assert(myClass.getValue() == 10);
+    print("refMyClass ref count", refMyClass.refCount());
+    assertDebugClassRefCount(myClass, 1);
+    assert(refMyClass.refCount() == 1);
 }
 testRefPrototype();

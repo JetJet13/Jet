@@ -31,6 +31,7 @@ private:
     std::string _freeStringFunctionName;
     std::string _freeRefFunctionName;
     std::string _freeCapturedVariableFunctionName;
+    std::string _freeRefValueFunctionName;
     std::string _printFunctionName;
     std::string _printIntFunctionName;
     std::string _printFloatFunctionName;
@@ -109,6 +110,7 @@ public:
                  std::string freeValueFunctionName,
                  std::string freeStringFunctionName,
                  std::string freeRefFunctionName,
+                 std::string freeRefValueFunctionName,
                  std::string freeCapturedVariableFunctionName,
                  std::string printFunctionName,
                  std::string printIntFunctionName,
@@ -189,6 +191,7 @@ public:
     llvm::Function* getFreeValueFunction();
     llvm::Function* getFreeStringFunction();
     llvm::Function* getFreeRefFunction();
+    llvm::Function* getFreeRefValueFunction();
     llvm::Function* getFreeCapturedVariableFunction();
     llvm::Function* getPrintFunction();
     llvm::Function* getPrintIntFunction();

@@ -3,9 +3,12 @@
 //
 
 #include "class-instance-type-signature-ir-strategy.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 IRClassInstanceType* ClassInstanceTypeSignatureIRStrategy::generate(ClassInstanceTypeSignature* classInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-
+    if (classInstanceTypeSignature->isGeneric()) {
+        return irGenerator->getGenericClassInstanceIRType();
+    }
     auto irClassType = (IRClassType*)scope->findGlobalType(classInstanceTypeSignature->getId()).value();
     auto classInstanceProperties = irClassType->getClassProperties()->clone();
     classInstanceProperties->setAlignmentAndSizeForIRTypes();

@@ -70,7 +70,9 @@ TypeSource TupleTypeSignature::getTypeSource() {
 }
 
 bool TupleTypeSignature::isEqualTo(TypeSignature* otherType) {
-    if (this->getTypeSource() != otherType->getTypeSource() || this->getTypeTarget() != otherType->getTypeTarget()) {
+    if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
+        return true;
+    } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 

@@ -9,7 +9,6 @@ IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRStructRefTy
     _id = irClassType->getId();
     _irClassInstancePropertiesType = irClassInstancePropertiesType;
     _irClassType = irClassType;
-    _value = irClassInstancePropertiesType->getValue();
 }
 
 IRStructRefType* IRClassInstanceType::getIRClassPropertiesType() {
@@ -38,6 +37,14 @@ IRType* IRClassInstanceType::getIRTypeForProperty(std::string propertyName) {
 
 std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {
     return _irClassType->getIRTypeForMethod(this->getIRMethodName(methodName));
+}
+
+bool IRClassInstanceType::requiresArc() {
+    return true;
+}
+
+IRTypeValueInstructionNode* IRClassInstanceType::getValue() {
+    return _irClassInstancePropertiesType->getValue();
 }
 
 uint64_t IRClassInstanceType::getSizeInBytes() {

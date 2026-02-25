@@ -241,7 +241,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
 
     auto scopeArgument = irExpression->getScopeArgument();
     if (scopeArgument) {
-        auto scopeArgumentValue = irInjector->inject(irBlock, scopeArgument.value(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+        auto scopeArgumentValue = irInjector->inject(irBlock, scopeArgument.value(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
         irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, scopeArgumentValue);
     }
 

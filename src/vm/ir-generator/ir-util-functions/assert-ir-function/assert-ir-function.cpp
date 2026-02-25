@@ -226,7 +226,7 @@ void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* ir
     isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
     isRefCountMatchIfThenBlock->addVoidReturn();
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugStructRefCountMessageStringName())
     });
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             function->getArg(2)
@@ -262,7 +262,7 @@ void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* ir
     isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateCondBr(isValueTrue, isRefCountMatchIfThenBlock->getBlock(), isRefCountMatchIfElseBlock->getBlock());
     isRefCountMatchIfThenBlock->addVoidReturn();
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
-            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugRefCountMessageStringName())
+            irModuleNode->getModule()->get()->getGlobalVariable(AssertIRFunction::getGlobalAssertDebugLambdaRefCountMessageStringName())
     });
     isRefCountMatchIfElseBlock->getBuilder()->get()->CreateCall(printf, {
             function->getArg(2)

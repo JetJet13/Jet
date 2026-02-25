@@ -141,6 +141,7 @@
 #include "ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 #include "ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
+#include "ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -178,6 +179,13 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
             this->generatePointerType(),
             this->generatePointerType()
     }, "Invocable");
+    _genericClassInstanceIRType = new IRClassInstanceType(
+        new IRClassType(
+            "generic_class",
+            this->generateIRStructType()
+        ),
+        this->generateIRStructRefType()
+    );
 }
 
 IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
@@ -344,6 +352,10 @@ void IRGenerator::generatePostInitialTypeFor(ASTNode* node, IRLookupTable* scope
     if (node->is(AST_CLASS_DECLARATION_NODE)) {
         auto irClassType = this->generatePostInitialTypeFor(node->getTypeSignature(), scope, irContext);
     }
+}
+
+IRClassInstanceType* IRGenerator::getGenericClassInstanceIRType() {
+    return _genericClassInstanceIRType;
 }
 
 IRType* IRGenerator::generateInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
@@ -1018,6 +1030,7 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             FreeValueIRFunction::getFreeValueIRFunctionName(),
             FreeStringIRFunction::getFreeStringIRFunctionName(),
             FreeRefIRFunction::getFreeRefIRFunctionName(),
+            FreeRefValueIRFunction::getFreeRefValueIRFunctionName(),
             FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName(),
             PrintIRFunction::getPrintIRFunctionName(),
             PrintIRFunction::getPrintIntIRFunctionName(),

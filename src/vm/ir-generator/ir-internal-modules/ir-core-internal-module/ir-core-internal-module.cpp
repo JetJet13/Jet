@@ -59,6 +59,7 @@
 #include "../../ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "../../ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 #include "../../ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
+#include "../../ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
@@ -97,6 +98,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     PrintIRFunction::declarePrintNewLineFunction(irGenerator, context, irModule);
 
     // generate
+    FreeRefValueIRFunction::generateFreeRefValueFunction(irGenerator, context, irModule);
     ArrayAccessIRFunction::generateArrayAccessFunction(irGenerator, context, irModule);
     MallocIRFunction::generateMallocFunction(irGenerator, context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(irGenerator, context, irModule);

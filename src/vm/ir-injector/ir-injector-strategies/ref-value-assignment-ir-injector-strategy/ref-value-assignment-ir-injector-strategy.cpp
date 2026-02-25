@@ -6,50 +6,43 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-type/ir-ref-type.h"
+#include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 void RefValueAssignmentIRInjectorStrategy::inject(IRRefValueAssignmentStatementNode* irRefValueAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+    auto irType = irRefValueAssignmentStatement->getIRExpression()->getUnderlyingIRType();
     auto globalVariable = scope->findGlobalVariable(irRefValueAssignmentStatement->getVariableName());
-    auto newVariableValue = irInjector->inject(
+    auto newValue = irInjector->inject(
             irBlock,
             irRefValueAssignmentStatement->getIRExpression(),
             new IROperation(IR_COPY_ASSIGNMENT_OP),
             irModule,
             scope
     );
-    if (globalVariable) {
-        auto globalVariableIrType = (IRRefType*)globalVariable.value()->getIRType()->getSourceType();
-        auto newValueAlloc = irBlock->getBuilder()->get()->CreateAlloca(globalVariableIrType->getType());
-        InstructionIRInjectorHelper::injectStore(newVariableValue, newValueAlloc, irBlock, globalVariableIrType);
-        auto typeValue = irInjector->inject(irBlock, globalVariableIrType->getUnderlyingType());
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(globalVariableIrType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
-        auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(globalVariableIrType->getType(), globalVariable.value()->getValue(), globalVariableIrType->getRefValueIndex());
-        auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(globalVariableIrType->getRefValueType(), pointerToRefValue, irBlock);
-        if (globalVariableIrType->getUnderlyingType()->containsTypeThatRequiresFreeing()) {
-            irBlock->getBuilder()->get()->CreateCall(
-                    irModule->getFreeValueFunction(),
-                    { loadedPointerToRefValue, loadedTypeValue }
-            );
+    auto newValueMalloc = irBlock->getBuilder()->get()->CreateCall(
+        irModule->getMallocFunction(),
+        {
+            irBlock->getBuilder()->get()->getInt64(1),
+            irBlock->getBuilder()->get()->getInt64(irType->getSizeInBytes())
         }
-        irBlock->getBuilder()->get()->CreateMemCpy(
-                loadedPointerToRefValue,
-                globalVariableIrType->getUnderlyingType()->getAlignment(),
-                newValueAlloc,
-                globalVariableIrType->getUnderlyingType()->getAlignment(),
-                globalVariableIrType->getUnderlyingType()->getSizeInBytes()
+    );
+    InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
+    if (globalVariable) {
+        auto irRefType = (IRRefType*)globalVariable.value()->getIRType()->getSourceType();
+        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType());
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
+        irBlock->getBuilder()->get()->CreateCall(
+            irModule->getSetRefValueFunction(),
+            { globalVariable.value()->getValue(), newValueMalloc, loadedTypeValue }
         );
     } else {
         auto variable = scope->find(irRefValueAssignmentStatement->getVariableName()).value();
         auto irRefType = (IRRefType*)variable->getIRType()->getSourceType();
-        auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), variable->getValue(), irRefType->getRefValueIndex());
-        auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
-        if (irRefType->getUnderlyingType()->containsTypeThatRequiresFreeing()) {
-            auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType());
-            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
-            irBlock->getBuilder()->get()->CreateCall(
-                    irModule->getFreeValueFunction(),
-                    { loadedPointerToRefValue, loadedTypeValue }
-            );
-        }
-        InstructionIRInjectorHelper::injectStore(newVariableValue, loadedPointerToRefValue, irBlock, irRefValueAssignmentStatement->getIRExpression()->getIRType());
+        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType());
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
+        DebugIRInjectorHelper::injectLog(irBlock, "REF VALUE ASSIGNMENT - FREEING CURRENT VALUE", irInjector, irModule);
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getSetRefValueFunction(),
+                { variable->getValue(), newValueMalloc,  loadedTypeValue }
+        );
     }
 }

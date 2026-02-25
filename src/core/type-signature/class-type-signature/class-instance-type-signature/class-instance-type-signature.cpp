@@ -56,10 +56,13 @@ TypeSource ClassInstanceTypeSignature::getTypeSource() {
 }
 
 bool ClassInstanceTypeSignature::isEqualTo(TypeSignature* otherType) {
-    return _class->isEqualTo(otherType);
+    return  _class->isEqualTo(otherType);
 }
 
 bool ClassInstanceTypeSignature::isEquivalentTo(TypeSignature *otherType) {
+    if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
+        return true;
+    }
     return _class->isEquivalentTo(otherType);
 }
 
