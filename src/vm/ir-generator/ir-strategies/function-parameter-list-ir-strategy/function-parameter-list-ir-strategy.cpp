@@ -18,7 +18,7 @@ IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(ASTFuncti
         if (parameterType->getIRType()->requiresArc()) {
             irArc = irGenerator->generateArcAllocation(irContext, parameterType->getIRType(), irFunction->getArg(i), parameter->getCaptureCount());
             scope->insertArc(parameter->getIdentifier()->getId(), irArc.value());
-        } else if (parameter->isCaptured() || parameter->isReferenced()) {
+        } else if (parameter->isCaptured()) {
             irArc = irGenerator->generateArcAllocation(irContext, parameter->getCaptureCount());
             scope->insertArc(parameter->getIdentifier()->getId(), irArc.value());
         }

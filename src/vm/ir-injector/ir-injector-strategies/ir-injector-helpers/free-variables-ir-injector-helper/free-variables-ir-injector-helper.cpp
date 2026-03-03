@@ -11,7 +11,7 @@
 void FreeIRInjectorHelper::freeFunctionBlockNodes(IRBlockNode* functionBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto index = 0;
     for (auto childBlock : *functionBlock->getAllSuccessors()) {
-        if (childBlock->hasNodesToFree() && !childBlock->is(IR_BASIC_BT)) {
+        if (childBlock->hasNodesToFree() && !childBlock->isOneOf({IR_BASIC_BT })) {
             childBlock->setInsertionPointBeforeLastInstruction();
             FreeIRInjectorHelper::freeNodes(
                     childBlock,
@@ -86,6 +86,13 @@ void FreeIRInjectorHelper::freeExpression(IRBlockNode* irBlockNode, IRExpression
                  : expressionToFree->getValue();
     std::string log = "[free-exp] "  + name + " - " + irBlockNode->getBlock()->getParent()->getName().str();
     DebugIRInjectorHelper::injectLog(irBlockNode, log, irInjector, irModule);
+
+    if (!value->getType()->isPointerTy()) {
+        auto alloc = irBlockNode->getBuilder()->get()->CreateAlloca(value->getType());
+        InstructionIRInjectorHelper::injectStore(value, alloc, irBlockNode, expressionToFree->getIRType());
+        irBlockNode->getBuilder()->get()->CreateCall(irModule->getFreeValueFunction(), { alloc, loadedTypeValue });
+        return;
+    }
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getFreeValueFunction(), { value, loadedTypeValue });
 }
 

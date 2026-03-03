@@ -28,7 +28,6 @@ public:
     unsigned long numItems();
     ASTTupleExpressionNode* addItem(ASTTupleItemNode* item);
     ASTTupleExpressionNode* addComma(ASTCommaNode* comma);
-    void markAsReferenced() override;
     TupleTypeSignature* getTypeSignature() override;
     void setTypeSignature(TupleTypeSignature* tupleTypeSignature);
     Position* getStartPosition() override;

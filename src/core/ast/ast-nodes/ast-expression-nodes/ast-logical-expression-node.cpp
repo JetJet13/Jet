@@ -27,12 +27,6 @@ ASTLogicalOperatorNode* ASTLogicalExpressionNode::getLogicalOperator() {
     return _logicalOperator;
 }
 
-void ASTLogicalExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _leftNode->markAsReferenced();
-    _rightNode->markAsReferenced();
-}
-
 Position* ASTLogicalExpressionNode::getStartPosition() {
     return _leftNode->getStartPosition();
 }

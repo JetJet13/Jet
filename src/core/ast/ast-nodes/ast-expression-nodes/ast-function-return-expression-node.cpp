@@ -20,11 +20,6 @@ ASTExpressionNode* ASTFunctionReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
-void ASTFunctionReturnExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _returnExpression->markAsReferenced();
-}
-
 Position* ASTFunctionReturnExpressionNode::getStartPosition() {
     return _returnNode->getStartPosition();
 }

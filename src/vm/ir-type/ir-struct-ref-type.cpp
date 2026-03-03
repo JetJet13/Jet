@@ -45,7 +45,7 @@ bool IRStructRefType::isStructRefType() {
 }
 
 bool IRStructRefType::requiresArc() {
-    return true;
+    return false;
 }
 
 uint64_t IRStructRefType::getSizeInBytes() {

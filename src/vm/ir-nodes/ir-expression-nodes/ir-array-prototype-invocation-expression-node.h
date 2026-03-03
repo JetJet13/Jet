@@ -25,7 +25,6 @@ private:
 public:
     IRArrayPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irArray);
     void markAsGlobal() override;
-    bool isReferenced() override;
     bool requiresTypeValueArgument();
     IRExpressionNode* getIRArrayValue();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();

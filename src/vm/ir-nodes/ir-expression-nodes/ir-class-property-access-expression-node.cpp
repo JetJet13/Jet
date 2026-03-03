@@ -20,10 +20,6 @@ ASTClassPropertyAccessExpressionNode* IRClassPropertyAccessExpressionNode::getNo
     return _node;
 }
 
-bool IRClassPropertyAccessExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 IRInstructionNode* IRClassPropertyAccessExpressionNode::getSource() {
     return _irSource;
 }

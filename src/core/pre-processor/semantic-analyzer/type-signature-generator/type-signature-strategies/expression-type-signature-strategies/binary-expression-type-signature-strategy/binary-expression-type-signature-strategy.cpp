@@ -12,12 +12,12 @@ BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
 }
 
-void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), scope);
     strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());
     if (!combination) {
-        throw std::invalid_argument("unknown binary operator..aborting.");
+        throw std::invalid_argument("unknown binary arithmetic operator..aborting.");
     }
 
     auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
@@ -34,7 +34,6 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* bina
             rightNodeTypeSignature
     );
     if (!resultTypeSignature) {
-        Logger::log("NO COMBINATION FOUND FOR", leftNodeTypeSignature->toString(), rightNodeTypeSignature->toString());
         binaryExpression->setTypeSignature(new InvalidTypeSignature());
         return;
     }
@@ -43,8 +42,47 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryExpressionNode* bina
     binaryExpression->setTypeSignature(resultTypeSignature.value());
 }
 
-std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStrategy::findCombination(ASTBinaryOperatorNode* binaryOperatorNode) {
-    for (auto combination : _combinations) {
+void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryComparatorExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), scope);
+    strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), scope);
+    auto combination = this->findCombination(binaryExpression->getBinaryOperator());
+    if (!combination) {
+        throw std::invalid_argument("unknown binary comparator operator..aborting.");
+    }
+
+    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
+                                 ? ((RefTypeSignature*)binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType()
+                                 : binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
+
+    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
+                                  ? ((RefTypeSignature*)binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType()
+                                  : binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
+
+
+    auto resultTypeSignature = combination.value()->match(
+            leftNodeTypeSignature,
+            rightNodeTypeSignature
+    );
+    if (!resultTypeSignature) {
+        binaryExpression->setTypeSignature(new InvalidTypeSignature());
+        return;
+    }
+    binaryExpression->setLeftTypeSignature(leftNodeTypeSignature);
+    binaryExpression->setRightTypeSignature(rightNodeTypeSignature);
+    binaryExpression->setTypeSignature(resultTypeSignature.value());
+}
+
+std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStrategy::findCombination(ASTBinaryArithmeticOperatorNode* binaryOperatorNode) {
+    for (auto combination : _arithmeticCombinations) {
+        if (binaryOperatorNode->getOperator()->getToken()->getSymbol()->isSameAs(combination->getOperator())) {
+            return combination;
+        }
+    }
+    return {};
+}
+
+std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStrategy::findCombination(ASTBinaryComparatorOperatorNode* binaryOperatorNode) {
+    for (auto combination : _comparatorCombinations) {
         if (binaryOperatorNode->getOperator()->getToken()->getSymbol()->isSameAs(combination->getOperator())) {
             return combination;
         }
@@ -53,7 +91,7 @@ std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStr
 }
 
 void BinaryExpressionTypeSignatureStrategy::initCombinations() {
-    _combinations = std::vector<BinaryExpressionTypeCombination*>({
+    _arithmeticCombinations = std::vector<BinaryExpressionTypeCombination*>({
         new BinaryExpressionTypeCombination(SymbolFactory::createPlusSymbol(), {
                 { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
@@ -73,71 +111,74 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
         new BinaryExpressionTypeCombination(SymbolFactory::createModuloSymbol(), {
                 { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
         }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createEqualEqualSymbol(), {
-                {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      new BoolLiteralTypeSignature() },
-                {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
-                {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
-                {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
-        }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
-                {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      new BoolLiteralTypeSignature() },
-                {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
-                {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
-                {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
-        }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-        }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createLessThanSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-        }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanOrEqualSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-        }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createLessThanOrEqualSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-        }),
+    });
+
+    _comparatorCombinations = std::vector<BinaryExpressionTypeCombination*>({
+            new BinaryExpressionTypeCombination(SymbolFactory::createEqualEqualSymbol(), {
+                    {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                    {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      new BoolLiteralTypeSignature() },
+                    {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
+                    {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
+                    {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
+                    {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
+                    {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                    {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
+                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                    {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+                    {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+            }),
+            new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
+                    {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                    {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      new BoolLiteralTypeSignature() },
+                    {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
+                    {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
+                    {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
+                    {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
+                    {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                    {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
+                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
+                    {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+                    {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+            }),
+            new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+            }),
+            new BinaryExpressionTypeCombination(SymbolFactory::createLessThanSymbol(), {
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+            }),
+            new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanOrEqualSymbol(), {
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+            }),
+            new BinaryExpressionTypeCombination(SymbolFactory::createLessThanOrEqualSymbol(), {
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+            }),
     });
 }

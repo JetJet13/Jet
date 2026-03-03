@@ -21,16 +21,13 @@ private:
     ASTTypeColonNode* _colon;
     ASTTypeNode* _type;
     ParameterListItemTypeSignature* _typeSignature = new ParameterListItemTypeSignature("_", new UnknownTypeSignature());
-    bool _isReferenced = false;
     unsigned long _captureCount = 0;
 public:
     ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeColonNode* colon, ASTTypeNode* type);
     ASTIdentifierExpressionNode* getIdentifier();
     ASTTypeNode* getType();
-    void markAsReferenced();
     void markAsCaptured();
     unsigned long getCaptureCount();
-    bool isReferenced();
     bool isCaptured();
     void setTypeSignature(ParameterListItemTypeSignature* typeSignature);
     ParameterListItemTypeSignature* getTypeSignature() override;

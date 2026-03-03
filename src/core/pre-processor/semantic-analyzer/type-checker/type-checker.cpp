@@ -150,8 +150,11 @@ namespace TypeChecker {
             case AST_ARRAY_EXPRESSION_NODE:
                 ArrayExpressionTypeCheckerPolicy::apply((ASTArrayExpressionNode*)node, typeCheckerResult);
                 break;
-            case AST_BINARY_EXPRESSION_NODE:
-                BinaryExpressionTypeCheckerPolicy::apply((ASTBinaryExpressionNode*)node, typeCheckerResult);
+            case AST_BINARY_ARITHMETIC_EXPRESSION_NODE:
+                BinaryExpressionTypeCheckerPolicy::apply((ASTBinaryArithmeticExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_BINARY_COMPARATOR_EXPRESSION_NODE:
+                BinaryExpressionTypeCheckerPolicy::apply((ASTBinaryComparatorExpressionNode*)node, typeCheckerResult);
                 break;
             case AST_CONCAT_EXPRESSION_NODE:
                 ConcatExpressionTypeCheckerPolicy::apply((ASTConcatExpressionNode*)node, typeCheckerResult);

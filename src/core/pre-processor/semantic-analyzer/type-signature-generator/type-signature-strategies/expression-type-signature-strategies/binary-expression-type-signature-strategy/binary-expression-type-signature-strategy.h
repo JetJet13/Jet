@@ -6,18 +6,22 @@
 #define JETLANG_BINARY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H
 
 #include "../../../../../../type-signature/type-signature.h"
-#include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
 #include "../../type-signature-strategy-provider.h"
 #include "types/binary-expression-type-combination.h"
+#include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.h"
 
 class BinaryExpressionTypeSignatureStrategy {
 private:
-    std::vector<BinaryExpressionTypeCombination*> _combinations;
+    std::vector<BinaryExpressionTypeCombination*> _arithmeticCombinations;
+    std::vector<BinaryExpressionTypeCombination*> _comparatorCombinations;
     void initCombinations();
-    std::optional<BinaryExpressionTypeCombination*> findCombination(ASTBinaryOperatorNode* binaryOperatorNode);
+    std::optional<BinaryExpressionTypeCombination*> findCombination(ASTBinaryArithmeticOperatorNode* binaryOperatorNode);
+    std::optional<BinaryExpressionTypeCombination*> findCombination(ASTBinaryComparatorOperatorNode* binaryOperatorNode);
 public:
     BinaryExpressionTypeSignatureStrategy();
-    void assign(ASTBinaryExpressionNode* binaryExpression, TypeSignatureLookupTable* scope,  TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTBinaryComparatorExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

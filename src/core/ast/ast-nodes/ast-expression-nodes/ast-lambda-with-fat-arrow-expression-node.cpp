@@ -26,11 +26,6 @@ ASTLambdaReturnExpressionNode* ASTLambdaWithFatArrowExpressionNode::getReturnExp
     return _returnExpression;
 }
 
-void ASTLambdaWithFatArrowExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _returnExpression->markAsReferenced();
-}
-
 std::optional<ASTTypeNode*> ASTLambdaWithFatArrowExpressionNode::getReturnType() {
     return _returnType;
 }

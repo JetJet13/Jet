@@ -36,11 +36,6 @@ unsigned long ASTArrayExpressionNode::size() {
     return _array->getElements()->size();
 }
 
-void ASTArrayExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _array->markElementsAsReferenced();
-}
-
 Position* ASTArrayExpressionNode::getStartPosition() {
     return _array->getStartPosition();
 }

@@ -22,10 +22,6 @@ void IRObjectAccessExpressionNode::markAsGlobal() {
     _irSource->markAsGlobal();
 }
 
-bool IRObjectAccessExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 ASTObjectAccessExpressionNode* IRObjectAccessExpressionNode::getNode() {
     return _node;
 }

@@ -18,10 +18,6 @@ void IRConcatExpressionNode::markAsGlobal() {
     _irRightNode->markAsGlobal();
 }
 
-bool IRConcatExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 llvm::CallInst* IRConcatExpressionNode::getValue() {
     return _irValue;
 }

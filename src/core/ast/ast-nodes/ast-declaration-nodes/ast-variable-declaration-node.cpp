@@ -29,10 +29,6 @@ ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
 }
 
-void ASTVariableDeclarationNode::markAsReferenced() {
-    _isReferenced = true;
-}
-
 void ASTVariableDeclarationNode::markAsCaptured() {
     _captureCount++;
 }
@@ -47,10 +43,6 @@ bool ASTVariableDeclarationNode::isConst() {
 
 bool ASTVariableDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
-}
-
-bool ASTVariableDeclarationNode::isReferenced() {
-    return _isReferenced;
 }
 
 bool ASTVariableDeclarationNode::isCaptured() {

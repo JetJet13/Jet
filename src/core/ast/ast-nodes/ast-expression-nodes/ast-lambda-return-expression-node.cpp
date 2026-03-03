@@ -17,11 +17,6 @@ ASTLambdaExpressionFatArrowNode* ASTLambdaReturnExpressionNode::getFatArrowNode(
     return _fatArrowNode;
 }
 
-void ASTLambdaReturnExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _returnExpression->markAsReferenced();
-}
-
 ASTExpressionNode* ASTLambdaReturnExpressionNode::getExpression() {
     return _returnExpression;
 }

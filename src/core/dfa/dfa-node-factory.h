@@ -33,7 +33,7 @@ namespace DFANodeFactory {
         static DFANode* expression = OnceOrMore::create(AST_EXPRESSION_NODE);
         static DFANode* literalExpression = OnceOrMore::create(AST_LITERAL_EXPRESSION_NODE);
         static DFANode* identifierExpression = OnceOrMore::create(AST_IDENTIFIER_EXPRESSION_NODE);
-        static DFANode* binaryExpression = OnceOrMore::create(AST_BINARY_EXPRESSION_NODE);
+        static DFANode* binaryExpression = OnceOrMore::create(AST_BINARY_ARITHMETIC_EXPRESSION_NODE);
         static DFANode* logicalExpression = OnceOrMore::create(AST_LOGICAL_EXPRESSION_NODE);
         static DFANode* unaryExpression = OnceOrMore::create(AST_UNARY_EXPRESSION_NODE);
     }

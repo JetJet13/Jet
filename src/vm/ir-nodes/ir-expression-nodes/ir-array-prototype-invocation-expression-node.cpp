@@ -22,10 +22,6 @@ void IRArrayPrototypeInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-bool IRArrayPrototypeInvocationExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 bool IRArrayPrototypeInvocationExpressionNode::requiresTypeValueArgument() {
     return this->getValue()->getFunctionType()->getNumParams() > 1;
 }

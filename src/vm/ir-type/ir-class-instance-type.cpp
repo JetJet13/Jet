@@ -40,7 +40,7 @@ std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::stri
 }
 
 bool IRClassInstanceType::requiresArc() {
-    return true;
+    return false;
 }
 
 IRTypeValueInstructionNode* IRClassInstanceType::getValue() {

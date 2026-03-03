@@ -5,7 +5,7 @@
 #include "ast-star-base-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
-#include "../ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
+#include "../ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 #include "../ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h"
 #include "../ast-import-nodes/ast-import-wildcard-node.h"
 
@@ -22,7 +22,7 @@ ASTNode * ASTStarBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNod
         return new ASTImportModuleListWildcardItemNode(_lexeme);
     }
 
-    return new ASTBinaryOperatorNode(_lexeme);
+    return new ASTBinaryArithmeticOperatorNode(_lexeme);
 }
 
 ASTNodeType ASTStarBaseNode::getNodeType() {

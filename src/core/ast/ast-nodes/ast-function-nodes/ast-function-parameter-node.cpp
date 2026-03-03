@@ -24,20 +24,12 @@ ASTTypeNode* ASTFunctionParameterNode::getType() {
     return _type;
 }
 
-void ASTFunctionParameterNode::markAsReferenced() {
-    _isReferenced = true;
-}
-
 void ASTFunctionParameterNode::markAsCaptured() {
     _captureCount++;
 }
 
 unsigned long ASTFunctionParameterNode::getCaptureCount() {
     return _captureCount;
-}
-
-bool ASTFunctionParameterNode::isReferenced() {
-    return _isReferenced;
 }
 
 bool ASTFunctionParameterNode::isCaptured() {

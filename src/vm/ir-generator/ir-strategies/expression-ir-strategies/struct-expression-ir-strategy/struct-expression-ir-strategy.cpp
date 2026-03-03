@@ -50,7 +50,7 @@ IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(IRStruct
 }
 
 IRInstructionNode* StructExpressionIRStrategy::generateStructRefAllocation(ASTStructExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
-    if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
+    if (irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),
                 {

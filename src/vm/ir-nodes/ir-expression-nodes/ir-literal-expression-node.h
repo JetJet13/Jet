@@ -18,7 +18,6 @@ private:
     IRType* _irType;
 public:
     IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType);
-    bool isReferenced() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

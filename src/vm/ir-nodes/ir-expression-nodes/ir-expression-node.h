@@ -20,7 +20,6 @@ protected:
 public:
     virtual void markAsGlobal();
     bool isGlobal();
-    virtual bool isReferenced();
     bool isAssigned();
     virtual void markAsAssigned();
     bool isReturned();

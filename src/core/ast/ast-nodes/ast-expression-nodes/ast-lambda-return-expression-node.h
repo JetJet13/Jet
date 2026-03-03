@@ -16,7 +16,6 @@ public:
     ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* returnExpression);
     ASTLambdaExpressionFatArrowNode* getFatArrowNode();
     ASTExpressionNode* getExpression();
-    void markAsReferenced() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

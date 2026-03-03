@@ -20,7 +20,6 @@ public:
     IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
     IRExpressionNode* getIRValue();
     void markAsGlobal() override;
-    bool isReferenced() override;
     llvm::BinaryOperator* getValue() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

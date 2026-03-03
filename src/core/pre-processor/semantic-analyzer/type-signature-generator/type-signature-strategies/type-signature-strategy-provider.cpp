@@ -211,10 +211,15 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, std::o
                     ->getThisTypeTypeSignatureStrategy()
                     ->assign((ASTThisTypeNode*)node, typeSignatureScope);
             break;
-        case AST_BINARY_EXPRESSION_NODE:
+        case AST_BINARY_ARITHMETIC_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
                     ->getBinaryExpressionTypeSignatureStrategy()
-                    ->assign((ASTBinaryExpressionNode *) node, typeSignatureScope, this);
+                    ->assign((ASTBinaryArithmeticExpressionNode *) node, typeSignatureScope, this);
+            break;
+        case AST_BINARY_COMPARATOR_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getBinaryExpressionTypeSignatureStrategy()
+                    ->assign((ASTBinaryComparatorExpressionNode *) node, typeSignatureScope, this);
             break;
         case AST_CONCAT_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

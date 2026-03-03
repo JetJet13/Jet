@@ -20,10 +20,6 @@ void IRUnaryArithmeticExpressionNode::markAsGlobal() {
     _irExpression->markAsGlobal();
 }
 
-bool IRUnaryArithmeticExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }

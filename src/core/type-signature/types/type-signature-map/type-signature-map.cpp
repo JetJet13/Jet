@@ -67,13 +67,16 @@ bool TypeSignatureMap<T>::isEqualTo(TypeSignatureMap<T>* other) {
     }
 
     for (const auto& type : _typeSignatureMap) {
-        if (!other->find(type.first)) {
+        auto otherTypeSignature = other->find(type.first);
+        if (!otherTypeSignature) {
             Logger::log("type signature map, did not find type!", type.first);
             return false;
         }
 
-        if (!other->find(type.first).value()->isEqualTo(type.second)) {
+        if (!otherTypeSignature.value()->isEqualTo(type.second)) {
             Logger::log("type signature map, not equal!", type.first);
+            otherTypeSignature.value()->print();
+            type.second->print();
             return false;
         }
     }
@@ -87,11 +90,12 @@ bool TypeSignatureMap<T>::isEquivalentTo(TypeSignatureMap<T>* other) {
     }
 
     for (const auto& type : _typeSignatureMap) {
-        if (!other->find(type.first)) {
+        auto otherTypeSignature = other->find(type.first);
+        if (!otherTypeSignature) {
             return false;
         }
 
-        if (!other->find(type.first).value()->isEquivalentTo(type.second)) {
+        if (!otherTypeSignature.value()->isEquivalentTo(type.second)) {
             return false;
         }
     }
@@ -102,11 +106,16 @@ template<class T>
 bool TypeSignatureMap<T>::isSatisfiedBy(TypeSignatureMap<T>* other) {
 
     for (const auto& type : _typeSignatureMap) {
-        if (!other->find(type.first)) {
+        auto otherTypeSignature = other->find(type.first);
+        if (!otherTypeSignature) {
+            Logger::log("other type signature is missing", type.first);
+            other->print();
             return false;
         }
 
-        if (!other->find(type.first).value()->isEquivalentTo(type.second)) {
+        if (!otherTypeSignature.value()->isEquivalentTo(type.second)) {
+            Logger::log(type.first, "not equivalent to");
+            otherTypeSignature.value()->print();
             return false;
         }
     }

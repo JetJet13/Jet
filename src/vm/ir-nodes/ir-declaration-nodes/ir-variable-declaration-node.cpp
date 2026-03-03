@@ -42,8 +42,7 @@ IRExpressionNode* IRVariableDeclarationNode::getIRExpression() {
 }
 
 bool IRVariableDeclarationNode::toBeFreedDirectly() {
-    return !_node->isReferenced() &&
-    !_node->isCaptured() &&
+    return !_node->isCaptured() &&
     !_node->isGlobal() &&
     _irValue->getIRType()->containsTypeThatRequiresFreeing();
 }

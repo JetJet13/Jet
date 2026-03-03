@@ -27,7 +27,6 @@ public:
     std::optional<ASTTypeNode*> getReturnType();
     std::set<std::string>* getCapturedVariableIds();
     void addCapturedValueId(std::string valueId);
-    void markAsReferenced() override;
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
     LambdaExpressionTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

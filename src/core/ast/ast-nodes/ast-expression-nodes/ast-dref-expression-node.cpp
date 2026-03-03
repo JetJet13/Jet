@@ -22,11 +22,6 @@ ASTDrefNode* ASTDrefExpressionNode::getDrefNode() {
     return _drefNode;
 }
 
-void ASTDrefExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _expression->markAsReferenced();
-}
-
 Position* ASTDrefExpressionNode::getStartPosition() {
     return _drefNode->getStartPosition();
 }

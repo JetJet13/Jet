@@ -50,8 +50,7 @@ ClassTypeSignature* ClassTypeSignature::addConstructor(std::string key, ClassCon
 ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature) {
     _properties.insert(key, classPropertyTypeSignature);
     if (classPropertyTypeSignature->getAccessModifier()->isPublic()) {
-        auto interfaceKey = key;
-        interfaceKey.erase(0, this->getId().size() + 1);
+        auto interfaceKey = this->stripClassNameFromKey(key);
         _interface.insert(interfaceKey, classPropertyTypeSignature->convertToVariableTypeSignature());
     }
     return this;
@@ -60,8 +59,7 @@ ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassProper
 ClassTypeSignature* ClassTypeSignature::addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature) {
     _methods.insert(key, classMethodTypeSignature);
     if (classMethodTypeSignature->getAccessModifier()->isPublic()) {
-        auto interfaceKey = key;
-        interfaceKey.erase(0, this->getId().size() + 1);
+        auto interfaceKey = this->stripClassNameFromKey(key);
         _interface.insert(interfaceKey, classMethodTypeSignature->convertToVariableTypeSignature());
     }
     return this;
@@ -107,6 +105,11 @@ std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeS
         }
     }
     return {};
+}
+
+std::string ClassTypeSignature::stripClassNameFromKey(std::string key) {
+    key.erase(0, this->getId().size() + 1);
+    return key;
 }
 
 TypeSignature* ClassTypeSignature::convertToVariableTypeSignature() {

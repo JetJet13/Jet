@@ -41,7 +41,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     if (irType->requiresArc()) {
         irArc = irGenerator->generateArcAllocation(irContext, irType, variableAllocation->getValue(), node->getCaptureCount());
         scope->insertArc(node->getId(), irArc.value());
-    } else if (node->isCaptured() || node->isReferenced()) {
+    } else if (node->isCaptured()) {
         irArc = irGenerator->generateArcAllocation(irContext, node->getCaptureCount());
         scope->insertArc(node->getId(), irArc.value());
     }
@@ -57,7 +57,7 @@ IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDe
 }
 
 IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRExpressionNode* irExpression, IRContext* irContext) {
-    if ((node->isReferenced() || node->isCaptured() || node->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE))
+    if ((node->isCaptured() || node->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE))
         && !node->isGlobal()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),

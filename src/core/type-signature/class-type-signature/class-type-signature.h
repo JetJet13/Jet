@@ -22,6 +22,7 @@ private:
     TypeSignatureMap<TypeSignature> _implements;
     TypeSignatureMap<TypeSignature> _interface;
     ParameterListItemTypeSignature* _classScopeParameter;
+    std::string stripClassNameFromKey(std::string key);
 public:
     ClassTypeSignature();
     ParameterListItemTypeSignature* getClassScopeParameter();

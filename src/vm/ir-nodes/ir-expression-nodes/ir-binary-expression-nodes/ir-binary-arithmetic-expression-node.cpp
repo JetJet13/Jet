@@ -5,7 +5,7 @@
 #include "ir-binary-arithmetic-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(ASTBinaryArithmeticExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
@@ -77,10 +77,6 @@ void IRBinaryArithmeticExpressionNode::markAsGlobal() {
     _isGlobal = true;
     _irLeftNode->markAsGlobal();
     _irRightNode->markAsGlobal();
-}
-
-bool IRBinaryArithmeticExpressionNode::isReferenced() {
-    return _node->isReferenced();
 }
 
 llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {

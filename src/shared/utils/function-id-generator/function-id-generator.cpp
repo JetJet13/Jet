@@ -44,6 +44,11 @@ std::string FunctionIdGenerator::generateFor(ASTObjectAccessInvocationExpression
     return id;
 }
 
+std::string FunctionIdGenerator::generateFor(std::string name, InvocableTypeSignature* invocableTypeSignature) {
+    auto id = name + "." + MD5().operator()(invocableTypeSignature->toDetailString());
+    return id;
+}
+
 std::string FunctionIdGenerator::generateFor(std::string functionName, std::string parameterDetailString) {
     auto id = functionName + "." + MD5().operator()(parameterDetailString);
     return id;

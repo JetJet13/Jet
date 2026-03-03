@@ -42,8 +42,8 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-expression-node.h
         ast/ast-nodes/ast-identifier-node.cpp
         ast/ast-nodes/ast-identifier-node.h
-        ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h
         ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h
         ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.cpp
@@ -65,8 +65,8 @@ add_library(jet-core
         ast/types/source-code-builder/source-code-builder.h
         grammar/tables/follow-symbol-table.cpp
         grammar/tables/follow-symbol-table.h
-        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.cpp
-        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h
         pre-processor/syntax-analyzer/reducer/reducer.cpp
         pre-processor/syntax-analyzer/reducer/reducer.h
         ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.cpp
@@ -115,8 +115,8 @@ add_library(jet-core
         ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h
         ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-expression-reducer-strategy/binary-expression-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-expression-reducer-strategy/binary-expression-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-arithmetic-expression-reducer-strategy/binary-arithmetic-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-arithmetic-expression-reducer-strategy/binary-arithmetic-expression-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.h
         ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.cpp
@@ -1379,6 +1379,12 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-value-assignment-type-checker-rule/ref-value-assignment-type-checker-rule.h
         pre-processor/semantic-analyzer/type-checker/policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.h
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.cpp
+        ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-comparator-expression-reducer-strategy/binary-comparator-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-comparator-expression-reducer-strategy/binary-comparator-expression-reducer-strategy.h
 
 )
 

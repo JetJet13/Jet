@@ -12,69 +12,45 @@ class SimpleClass {
     }
 }
 
+class ComplexClass {
+    public age: int;
+    public name: string;
+    public hairColor: string;
+
+    constructor(age: int, name: string, hairColor: string) {
+        this.age = age;
+        this.name = name;
+        this.hairColor = hairColor;
+    }
+
+    public getValue() int {
+        return this.age;
+    }
+
+    public getName() string {
+        return this.name;
+    }
+}
+
 enum SimpleEnum {
     Alpha,
     Beta,
     Gamma
 }
 
-proc testBedmas() {
-    const one = 1;
-    const two = 2;
-    const three = 3;
-    const four = 4;
-    const twentyFour = 24;
-    const bedmasEasy = 1 + 2 * 3;
-    assert(bedmasEasy == 7);
-    const bedmasHard = 1 * 2 + 3;
-    assert(bedmasHard == 5);
-    const bedmasWithBrackets = 1 * (2 + 3);
-    assert(bedmasWithBrackets == 5);
-    const bedmasSlash = 1 * 2 / 3;
-    assert(bedmasSlash == 0);
-    const bedmasQuad = 1 * 2 - 3 + 4;
-    assert(bedmasQuad == 3);
-    const bedmasQuint = 1 * 2 - 3 + 4 / 24;
-    assert(bedmasQuint == -1);
-    const bedmasIdQuintWithBrackets = 1 * 2 - (3 + 4) / 24;
-    assert(bedmasIdQuintWithBrackets == 2);
-    const bedmasIdEasy = one + two * three;
-    assert(bedmasIdEasy == 7);
-    const bedmasIdHard = one * two + three;
-    assert(bedmasIdHard == 5);
-    const bedmasIdWithBrackets = one * (two + three);
-    assert(bedmasIdWithBrackets == 5);
-    const bedmasIdSlash = one * two / three;
-    assert(bedmasIdSlash == 0);
-    const bedmasIdQuad = one * two - three + four;
-    assert(bedmasIdQuad == 3);
-    const bedmasIdQuint = one * two - three + four / twentyFour;
-    assert(bedmasIdQuint == -1);
-    const bedmasIdQuintWithBrackets = one * two - (three + four) / twentyFour;
-    assert(bedmasIdQuintWithBrackets == 2);
-    const bedmasUnary = +1 * 2 / -3;
-    assert(bedmasUnary == 0);
-    const bedmasUnaryQuad = +1 * 2 - -3 + 4;
-    assert(bedmasUnaryQuad == 9);
-    const bedmasSubtractTriple = 9 - 1 - 9;
-    print("bedmasSubtractTriple", bedmasSubtractTriple);
-    assert(bedmasSubtractTriple == -1);
-    const bedmasTripleTest = 3 * 2 - 4;
-    assert(bedmasTripleTest == 2);
-    const bedmasQuadTest = 1 * 2 - 4 + 5;
-    assert(bedmasQuadTest == 3);
-    const bedmasQuadSubTest = 10 - 1 - 9 + 100 - 109 + 1929 * 198 - 841;
-    assert(bedmasQuadSubTest == 381092);
-}
-testBedmas();
-
-proc test() {
-    const bedmasSubtractTriple = 9 - 1 - 9;
-    print("bedmasSubtractTriple", bedmasSubtractTriple);
-    assert(bedmasSubtractTriple == -1);
-    const myLambdas = range(10);
-    for i in range(myLambdas.size() - 1, -1, -1) {
-        print(myLambdas.size() - 1 - i);
+proc testWhileLoops() {
+    let ifWhileCounter = 20;
+    let evenCounter = 0;
+    let oddCounter = 0;
+    while ifWhileCounter > 0 {
+        if ifWhileCounter mod 2 == 0 {
+            evenCounter = evenCounter + 1;
+        } else {
+            oddCounter = oddCounter + 1;
+        }
+        ifWhileCounter = ifWhileCounter - 1;
     }
+    assert(evenCounter == 10);
+    assert(oddCounter == 10);
 }
-test();
+testWhileLoops();

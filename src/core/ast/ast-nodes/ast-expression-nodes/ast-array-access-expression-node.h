@@ -17,7 +17,6 @@ public:
     ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* arrayAccess);
     ASTExpressionNode* getSource();
     ASTArrayAccessNode* getIndex();
-    void markAsReferenced() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

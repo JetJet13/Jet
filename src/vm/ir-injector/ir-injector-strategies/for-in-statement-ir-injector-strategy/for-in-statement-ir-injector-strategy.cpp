@@ -10,6 +10,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto setupBlock = irForInStatement->getSetupBlock();
     auto forInBlock = irForInStatement->getForInBlock();
     auto bodyBlock = irForInStatement->getBodyBlock();
+    auto endBlock = irForInStatement->getEndBlock();
 
     auto arrayPointerType = (IRArrayPointerType*)irForInStatement->getSource()->getIRType()->getSourceType();
     auto zero = setupBlock->getBuilder()->get()->getInt64(0);
@@ -66,4 +67,5 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto newIndexValue = lastBodyBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, currentIndex, one);
     lastBodyBlock->getBuilder()->get()->CreateStore(newIndexValue, indexAllocation);
     lastBodyBlock->getBuilder()->get()->CreateBr(forInBlock->getBlock());
+    setupBlock->transferNodesToFreeTo(endBlock);
 }

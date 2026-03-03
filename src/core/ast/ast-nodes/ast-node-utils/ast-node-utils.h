@@ -89,7 +89,7 @@ namespace ASTNodeUtils {
         switch (node->getNodeType()) {
             case AST_IDENTIFIER_EXPRESSION_NODE:
             case AST_LITERAL_EXPRESSION_NODE:
-            case AST_BINARY_EXPRESSION_NODE:
+            case AST_BINARY_ARITHMETIC_EXPRESSION_NODE:
             case AST_LOGICAL_EXPRESSION_NODE:
             case AST_UNARY_EXPRESSION_NODE:
             case AST_OBJECT_ACCESS_EXPRESSION_NODE:

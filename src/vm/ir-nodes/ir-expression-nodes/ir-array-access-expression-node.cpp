@@ -19,9 +19,6 @@ void IRArrayAccessExpressionNode::markAsGlobal() {
     _irIndex->markAsGlobal();
 }
 
-bool IRArrayAccessExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
 
 IRExpressionNode* IRArrayAccessExpressionNode::getSourceExpression() {
     return _irSource;

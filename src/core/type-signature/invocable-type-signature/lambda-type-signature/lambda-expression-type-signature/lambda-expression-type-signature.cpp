@@ -47,7 +47,7 @@ TypeSignature* LambdaExpressionTypeSignature::getReturnType() {
 }
 
 std::string LambdaExpressionTypeSignature::toDetailString() {
-    return "jet.lambda_expression." + _parameterList->toDetailString();
+    return _parameterList->toDetailString();
 }
 
 std::string LambdaExpressionTypeSignature::toString() {

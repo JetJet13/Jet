@@ -16,7 +16,6 @@ public:
     ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
     ASTUnaryOperatorNode* getUnaryOperatorNode();
-    void markAsReferenced() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

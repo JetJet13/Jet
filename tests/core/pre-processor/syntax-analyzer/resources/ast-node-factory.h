@@ -16,7 +16,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-array-nodes/ast-array-access-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-name-node.h"
@@ -139,9 +139,10 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-print-statement-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 
 namespace ASTNodeFactory {
-    Lexeme* createLexeme(Symbol* symbol) {
+    Lexeme* createLexeme(std::shared_ptr<Symbol> symbol) {
         return new Lexeme(new Token(symbol, symbol->toString()));
     }
     static ASTDrefNode* drefKeyword = new ASTDrefNode(createLexeme(SymbolFactory::createDrefSymbol()));
@@ -262,16 +263,16 @@ namespace ASTNodeFactory {
     static ASTLiteralExpressionNode* falseExpression = new ASTLiteralExpressionNode(
             new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
     );
-    static ASTBinaryOperatorNode* greaterThan = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createGreaterThanSymbol()));
-    static ASTBinaryOperatorNode* greaterThanOrEqual = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createGreaterThanOrEqualSymbol()));
-    static ASTBinaryOperatorNode* lessThan = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createLessThanSymbol()));
-    static ASTBinaryOperatorNode* lessThanOrEqual = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createLessThanOrEqualSymbol()));
-    static ASTBinaryOperatorNode* plus = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
-    static ASTBinaryOperatorNode* minus = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
-    static ASTBinaryOperatorNode* star = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createStarSymbol()));
-    static ASTBinaryOperatorNode* slash = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createSlashSymbol()));
-    static ASTBinaryOperatorNode* modulo = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createModuloSymbol()));
-    static ASTBinaryOperatorNode* equality = new ASTBinaryOperatorNode(createLexeme(SymbolFactory::createEqualEqualSymbol()));
+    static ASTBinaryComparatorOperatorNode* greaterThan = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createGreaterThanSymbol()));
+    static ASTBinaryComparatorOperatorNode* greaterThanOrEqual = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createGreaterThanOrEqualSymbol()));
+    static ASTBinaryComparatorOperatorNode* lessThan = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createLessThanSymbol()));
+    static ASTBinaryComparatorOperatorNode* lessThanOrEqual = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createLessThanOrEqualSymbol()));
+    static ASTBinaryArithmeticOperatorNode* plus = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
+    static ASTBinaryArithmeticOperatorNode* minus = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
+    static ASTBinaryArithmeticOperatorNode* star = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createStarSymbol()));
+    static ASTBinaryArithmeticOperatorNode* slash = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createSlashSymbol()));
+    static ASTBinaryArithmeticOperatorNode* modulo = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createModuloSymbol()));
+    static ASTBinaryComparatorOperatorNode* equality = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createEqualEqualSymbol()));
     static ASTUnaryOperatorNode* unaryMinus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
     static ASTUnaryOperatorNode* unaryPlus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
     static ASTUnaryOperatorNode* bang = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createBangSymbol()));

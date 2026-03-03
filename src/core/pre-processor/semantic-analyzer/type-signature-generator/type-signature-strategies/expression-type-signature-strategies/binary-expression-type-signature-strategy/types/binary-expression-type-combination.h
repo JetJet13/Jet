@@ -7,7 +7,7 @@
 
 #include "../../../../../../../type-signature/types/type-source.h"
 #include "../../../../../../../symbol/types/symbol-type.h"
-#include "../../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "../../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
 #include "../../../../../../../type-signature/type-signature.h"
 
 struct BinaryComboResultType;

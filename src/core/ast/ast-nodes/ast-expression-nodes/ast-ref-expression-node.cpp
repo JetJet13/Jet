@@ -22,11 +22,6 @@ ASTRefNode* ASTRefExpressionNode::getRefNode() {
     return _refNode;
 }
 
-void ASTRefExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _expression->markAsReferenced();
-}
-
 RefTypeSignature* ASTRefExpressionNode::getTypeSignature() {
     return _typeSignature;
 }

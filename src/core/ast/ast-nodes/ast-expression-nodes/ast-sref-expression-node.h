@@ -19,7 +19,6 @@ public:
     ASTSrefExpressionNode(ASTSrefNode* srefNode, ASTExpressionNode* astExpressionNode);
     ASTExpressionNode* getExpressionNode();
     ASTSrefNode* getSrefNode();
-    void markAsReferenced() override;
     RefTypeSignature* getTypeSignature() override;
     void setTypeSignature(RefTypeSignature* typeSignature);
     Position* getStartPosition() override;

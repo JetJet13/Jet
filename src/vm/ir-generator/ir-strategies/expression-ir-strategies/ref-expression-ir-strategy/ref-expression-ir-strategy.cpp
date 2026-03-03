@@ -13,7 +13,7 @@ IRRefExpressionNode* RefExpressionIRStrategy::generate(ASTRefExpressionNode* nod
     if (irExpressionNode->getSourceAllocation()) {
         allocation->setParentAllocation(irExpressionNode->getSourceAllocation().value());
     }
-    auto arcAllocation = irExpressionNode->getArc().value_or(irGenerator->generateArcAllocation(irContext));
+    auto arcAllocation = irGenerator->generateArcAllocation(irContext);
     return new IRRefExpressionNode(node, irExpressionNode, irType, allocation, arcAllocation);
 }
 

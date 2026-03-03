@@ -13,9 +13,11 @@ void StructTypeTypeSignatureStrategy::assign(ASTStructTypeNode* node, TypeSignat
             node->setTypeSignature(new InvalidTypeSignature());
             return;
         }
+        auto valueTypeSignature = keyValuePair->getType()->getTypeSignature()->convertToVariableTypeSignature();
+        valueTypeSignature->setKeyId(keyValuePair->getName()->getId());
         structTypeSignature->addKeyValuePair(
                 keyValuePair->getName()->getId(),
-                keyValuePair->getType()->getTypeSignature()->convertToVariableTypeSignature()
+                valueTypeSignature
         );
     }
 

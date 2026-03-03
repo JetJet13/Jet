@@ -5,6 +5,11 @@ import MyOtherModule from "./other-test-file.jet";
 // not supported: () => true == () => true
 // workaround: (() => true) == () => true
 
+// interfaces will not be supported on release
+// interface MyInterface {
+//     getValue: () => int
+// }
+
 class SimpleClass {
     public value: int;
 
@@ -14,6 +19,26 @@ class SimpleClass {
 
     public getValue() int {
         return this.value;
+    }
+}
+
+class ComplexClass {
+    public age: int;
+    public name: string;
+    public hairColor: string;
+
+    constructor(age: int, name: string, hairColor: string) {
+        this.age = age;
+        this.name = name;
+        this.hairColor = hairColor;
+    }
+
+    public getValue() int {
+        return this.age;
+    }
+
+    public getName() string {
+        return this.name;
     }
 }
 
@@ -826,18 +851,18 @@ proc testRefPrototype() {
     assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
     const refMyStruct = ref myStruct;
-    assertDebugStructRefCount(myStruct, 1);
+    assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
     assertDebugStructRefCount(myStruct.b.nested, 0);
     const refMyInnerStruct = ref myStruct.b;
 
-    assertDebugStructRefCount(myStruct, 2);
+    assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
     assertDebugStructRefCount(myStruct.b.nested, 0);
     refMyInnerStruct *= { c: false, nested: { d: 'o' } };
     assert(refMyInnerStruct.c == false);
     assert(refMyInnerStruct.nested.d == 'o');
-    assertDebugStructRefCount(myStruct, 2);
+    assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
     assertDebugStructRefCount(myStruct.b.nested, 0);
 
@@ -847,25 +872,25 @@ proc testRefPrototype() {
     assertDebugStructRefCount(myTuple.2.2, 0);
     assertDebugTupleRefCount(myTuple.2.2.b, 0);
     const refMyTuple = ref myTuple;
-    assertDebugTupleRefCount(myTuple, 1);
+    assertDebugTupleRefCount(myTuple, 0);
     assertDebugTupleRefCount(myTuple.2, 0);
     assertDebugStructRefCount(myTuple.2.2, 0);
     assertDebugTupleRefCount(myTuple.2.2.b, 0);
     const refMyInnerTuple = ref myTuple.2;
-    assertDebugTupleRefCount(myTuple, 2);
+    assertDebugTupleRefCount(myTuple, 0);
     assertDebugTupleRefCount(myTuple.2, 0);
     assertDebugStructRefCount(myTuple.2.2, 0);
     assertDebugTupleRefCount(myTuple.2.2.b, 0);
     refMyInnerTuple *= { "mika", 'n', { a: false, b: { 190, 19100, true } } };
-    assert(myTuple.2.0 == "mika");
-    assert(myTuple.2.1 == 'n');
-    assert(myTuple.2.2.a == false);
-    assert(myTuple.2.2.b == { 190, 19100, true });
-    assert(myTuple.2.0 == "mika");
-    assert(myTuple.2.1 == 'n');
-    assert(myTuple.2.2.a == false);
-    assert(myTuple.2.2.b == { 190, 19100, true });
-    assertDebugTupleRefCount(myTuple, 2);
+    assert(refMyInnerTuple.0 == "mika");
+    assert(refMyInnerTuple.1 == 'n');
+    assert(refMyInnerTuple.2.a == false);
+    assert(refMyInnerTuple.2.b == { 190, 19100, true });
+    assert(myTuple.2.0 == "boo");
+    assert(myTuple.2.1 == 'c');
+    assert(myTuple.2.2.a == true);
+    assert(myTuple.2.2.b == { 90, 9100, false });
+    assertDebugTupleRefCount(myTuple, 0);
     assertDebugTupleRefCount(myTuple.2, 0);
     assertDebugStructRefCount(myTuple.2.2, 0);
     assertDebugTupleRefCount(myTuple.2.2.b, 0);
@@ -875,12 +900,130 @@ proc testRefPrototype() {
     assertDebugClassRefCount(myClass, 0);
     const refMyClass = ref myClass;
     assert(refMyClass.getValue() == 5);
-    assertDebugClassRefCount(myClass, 1);
+    assertDebugClassRefCount(myClass, 0);
     refMyClass *= new SimpleClass(10);
     assert(refMyClass.getValue() == 10);
-    assert(myClass.getValue() == 10);
-    print("refMyClass ref count", refMyClass.refCount());
-    assertDebugClassRefCount(myClass, 1);
+    assert(myClass.getValue() == 5);
+    assertDebugClassRefCount(myClass, 0);
     assert(refMyClass.refCount() == 1);
+
+    const myArray = [1, 2, 3];
+    assert(myArray == [1, 2, 3]);
+    const refMyArray = ref myArray;
+    assert(refMyArray == [1, 2, 3]);
+    assert(refMyArray.refCount() == 1);
+    refMyArray *= [4, 5, 6];
+    assert(refMyArray == [4, 5, 6]);
+    assert(myArray == [1, 2, 3]);
+    assert(refMyClass.refCount() == 1);
+
+    const structWithRefValue = { a: ref 109, b: ref true };
+    assertDebugStructRefCount(structWithRefValue, 0);
+    const structARef = structWithRefValue.a;
+    assert(structARef == 109);
+    assert(structARef.refCount() == 2);
+    assert(structWithRefValue.a.refCount() == 2);
+    assert(structWithRefValue.b.refCount() == 1);
+
 }
 testRefPrototype();
+
+proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
+    assertDebugRefCount(s, 2);
+    const localArgRef = sref s;
+    print("localArgRef", s.a);
+    assertDebugRefCount(s, 3);
+}
+
+proc testArcPassDown() {
+    const s = { a: 100, b: false };
+    testPassDownStructRef(ref s);
+    assertDebugStructRefCount(s, 0);
+    const refS = ref s;
+    assertDebugRefCount(refS, 1);
+}
+testArcPassDown();
+
+func testPassUpInt() ref<int> {
+    const x = 121;
+    return ref x;
+}
+
+proc testArcPassUp() {
+    assertDebugRefCount(testPassUpInt(), 1);
+    const passedUpX = testPassUpInt();
+    assertDebugRefCount(passedUpX, 1);
+    const anotherX = passedUpX;
+    assertDebugRefCount(passedUpX, 2);
+    assert(passedUpX == 121);
+}
+testArcPassUp();
+
+proc testWhileLoops() {
+    let value = 10;
+    while value > 0 {
+        value = value - 1;
+    }
+    assert(value == 0);
+
+    let refValue = ref 10;
+    while refValue > 0 {
+        refValue *= refValue - 1;
+    }
+    assert(refValue == 0);
+
+    let boolValue = true;
+    let boolCounter = 0;
+    while boolValue {
+        boolValue = !boolValue;
+        boolCounter = boolCounter + 1;
+    }
+    assert(boolCounter == 1);
+
+    let counter = 10;
+    let nestedCounter = 10;
+    let numIterations = 0;
+    while counter > 0 {
+        while nestedCounter > 0 {
+            numIterations = numIterations + 1;
+            nestedCounter = nestedCounter - 1;
+        }
+        counter = counter - 1;
+        nestedCounter = 10;
+    }
+    assert(numIterations == 100);
+
+    let otherCounter = 10;
+    let otherNestedCounter = 10;
+    let otherDoubleNestedCounter = 10;
+    let otherNumIterations = 0;
+    while otherCounter > 0 {
+        while otherNestedCounter > 0 {
+            while otherDoubleNestedCounter > 0 {
+                otherNumIterations = otherNumIterations + 1;
+                otherDoubleNestedCounter = otherDoubleNestedCounter - 1;
+            }
+            otherNestedCounter = otherNestedCounter - 1;
+            otherDoubleNestedCounter = 10;
+        }
+        otherCounter = otherCounter - 1;
+        otherNestedCounter = 10;
+    }
+    assert(otherNumIterations == 1000);
+
+    let ifWhileCounter = 20;
+    let evenCounter = 0;
+    let oddCounter = 0;
+    while ifWhileCounter > 0 {
+        if ifWhileCounter mod 2 == 0 {
+            evenCounter = evenCounter + 1;
+        } else {
+            oddCounter = oddCounter + 1;
+        }
+        ifWhileCounter = ifWhileCounter - 1;
+    }
+    assert(evenCounter == 10);
+    assert(oddCounter == 10);
+
+}
+testWhileLoops();

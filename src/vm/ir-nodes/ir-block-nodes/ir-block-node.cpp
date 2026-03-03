@@ -59,6 +59,17 @@ bool IRBlockNode::hasVariablesToFree() {
     return this->getVariablesToFree()->size() > 0;
 }
 
+void IRBlockNode::transferNodesToFreeTo(IRBlockNode* other) {
+    other->getNodesToFree()->insert(other->getNodesToFree()->begin(), _nodesToFree.begin(), _nodesToFree.end());
+    other->getVariablesToFree()->insert(other->getVariablesToFree()->begin(), _variablesToFree.begin(), _variablesToFree.end());
+    other->getExpressionsToFree()->insert(other->getExpressionsToFree()->begin(), _expressionsToFree.begin(), _expressionsToFree.end());
+    other->getLambdaVariablesToFree()->insert(other->getLambdaVariablesToFree()->begin(), _lambdaVariablesToFree.begin(), _lambdaVariablesToFree.end());
+    _nodesToFree.clear();
+    _variablesToFree.clear();
+    _expressionsToFree.clear();
+    _lambdaVariablesToFree.clear();
+}
+
 void IRBlockNode::addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode) {
     _returnExpression = returnExpressionNode;
 }

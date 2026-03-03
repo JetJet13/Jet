@@ -16,10 +16,10 @@ llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccess
 }
 
 llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType *) irExpression->getSource()->getIRType(),
+            (IRStructRefType *) irExpression->getSource()->getIRType()->getSourceType(),
             loadedSourceAllocation,
             irModule,
             irInjector

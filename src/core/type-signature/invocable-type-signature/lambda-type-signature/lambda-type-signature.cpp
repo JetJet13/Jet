@@ -43,7 +43,7 @@ TypeSignature* LambdaTypeSignature::getReturnType() {
 }
 
 std::string LambdaTypeSignature::toDetailString() {
-    std::string detailString = "jet.lambda.";
+    std::string detailString = "";
     for (auto type : _parameterTypes) {
         detailString += "_" + type->toDetailString();
     }
@@ -75,14 +75,13 @@ bool LambdaTypeSignature::isEqualTo(TypeSignature* otherType) {
         return false;
     }
     for (unsigned long i = 0; i < this->numParameters(); i++) {
-        if (!_parameterTypes[i]->isEqualTo(otherParameters->at(i))) {
+        if (!_parameterTypes[i]->isEquivalentTo(otherParameters->at(i))) {
             return false;
         }
     }
 
-    return this->getReturnType()->isEqualTo(other->getReturnType());
+    return this->getReturnType()->isEquivalentTo(other->getReturnType());
 }
-
 
 void LambdaTypeSignature::print() {
     Logger::log("----------", this->toString(), "----------");

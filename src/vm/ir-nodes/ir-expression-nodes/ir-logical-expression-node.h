@@ -20,7 +20,6 @@ private:
 public:
     IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode);
     void markAsGlobal() override;
-    bool isReferenced() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

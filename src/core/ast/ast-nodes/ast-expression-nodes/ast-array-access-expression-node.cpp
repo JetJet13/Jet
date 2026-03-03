@@ -21,12 +21,6 @@ ASTArrayAccessNode* ASTArrayAccessExpressionNode::getIndex() {
     return _arrayAccess;
 }
 
-void ASTArrayAccessExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _source->markAsReferenced();
-    _arrayAccess->getIndex()->markAsReferenced();
-}
-
 Position* ASTArrayAccessExpressionNode::getStartPosition() {
     return _source->getStartPosition();
 }

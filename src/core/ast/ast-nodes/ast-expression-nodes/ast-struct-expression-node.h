@@ -29,7 +29,6 @@ public:
     ASTStructExpressionNode* addKeyValuePair(ASTStructKeyValueNode* keyValuePair);
     ASTStructExpressionNode* addComma(ASTCommaNode* comma);
     StructTypeSignature* getTypeSignature() override;
-    void markAsReferenced() override;
     void setTypeSignature(StructTypeSignature* structTypeSignature);
     unsigned long size();
     Position* getStartPosition() override;

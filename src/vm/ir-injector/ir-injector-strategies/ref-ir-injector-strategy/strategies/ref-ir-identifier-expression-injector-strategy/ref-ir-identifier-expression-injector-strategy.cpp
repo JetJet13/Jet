@@ -10,11 +10,8 @@ llvm::Value* RefIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpre
     auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
 
     if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
-        auto newRefAllocation = irBlock->getBuilder()->get()->CreateAlloca(irRefType->getType());
-        auto typeValue = irInjector->inject(irBlock, irRefType->getRefValueIRType());
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueIRType()->getValue()->getAllocatedType(), typeValue, irBlock);
-        irBlock->getBuilder()->get()->CreateCall(irModule->getCopyRefFunction(), { newRefAllocation, irExpression->getValue(), loadedTypeValue });
-        return InstructionIRInjectorHelper::injectLoad(irRefType->getType(), newRefAllocation, irBlock);
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { irExpression->getValue() });
+        return InstructionIRInjectorHelper::injectLoad(irRefType->getType(), irExpression->getValue(), irBlock);
     } else if (irOperation->isOperandValue() && irOperation->isUnderlying()) {
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), irExpression->getValue(), irRefType->getRefValueIndex());
         auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);

@@ -5,6 +5,7 @@
 #include "class-instance-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../unknown-type-signature/unknown-type-signature.h"
+#include "../new-class-instance-type-signature/new-class-instance-type-signature.h"
 
 ClassInstanceTypeSignature::ClassInstanceTypeSignature() {
     _class = new ClassTypeSignature();
@@ -62,8 +63,20 @@ bool ClassInstanceTypeSignature::isEqualTo(TypeSignature* otherType) {
 bool ClassInstanceTypeSignature::isEquivalentTo(TypeSignature *otherType) {
     if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
         return true;
+    } else if (otherType->typeSourceIs(CLASS_TYPE_SOURCE)){
+        auto classTypeSignature = (ClassTypeSignature*)otherType;
+        return _class->isEqualTo(classTypeSignature);
+    } else if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)){
+        auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
+        return _class->isEqualTo(classInstanceTypeSignature);
+    } else if (otherType->typeSourceIs(NEW_CLASS_INSTANCE_TYPE_SOURCE)){
+        auto newClassInstanceTypeSignature = (NewClassInstanceTypeSignature*)otherType;
+        return _class->isEqualTo(newClassInstanceTypeSignature->getClassTypeSignature());
+    } else if (otherType->typeSourceIs(INTERFACE_TYPE_SOURCE)) {
+        auto interfaceTypeSignature = (InterfaceTypeSignature*)otherType;
+        return interfaceTypeSignature->getKeyValuePairs()->isSatisfiedBy(_class->getInterface());
     }
-    return _class->isEquivalentTo(otherType);
+    return this->isEqualTo(otherType);
 }
 
 void ClassInstanceTypeSignature::print() {

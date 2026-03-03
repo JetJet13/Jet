@@ -8,7 +8,7 @@
 #include "../../../../src/core/pre-processor/lexical-analyzer/lexical-analyzer.h"
 #include "../../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
-#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
@@ -87,7 +87,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {13, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
@@ -95,10 +95,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {14, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                     ASTNodeFactory::intExpression,
                     ASTNodeFactory::plus,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                     ASTNodeFactory::intExpression,
                     ASTNodeFactory::plus,
                     ASTNodeFactory::intExpression
@@ -107,7 +107,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {15, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::minus,
                         ASTNodeFactory::intExpression
@@ -115,7 +115,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {16, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
@@ -123,7 +123,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {17, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::intExpression
@@ -131,7 +131,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {18, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::modulo,
                         ASTNodeFactory::intExpression
@@ -139,7 +139,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {19, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::stringExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::stringExpression
@@ -151,7 +151,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {21, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
@@ -159,7 +159,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {22, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::minus,
                         ASTNodeFactory::intExpression
@@ -167,7 +167,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {23, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
@@ -175,7 +175,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {24, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::intExpression
@@ -183,7 +183,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {25, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::positiveInt
@@ -195,7 +195,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {27, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
@@ -203,7 +203,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {28, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::minus,
                         ASTNodeFactory::intExpression
@@ -211,7 +211,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {29, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
@@ -219,7 +219,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {30, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::intExpression
@@ -227,7 +227,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {31, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::negativeInt
@@ -393,7 +393,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {50, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::greaterThan,
                         ASTNodeFactory::intExpression
@@ -401,7 +401,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {51, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::greaterThanOrEqual,
                         ASTNodeFactory::intExpression
@@ -409,7 +409,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {52, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::lessThan,
                         ASTNodeFactory::intExpression
@@ -417,7 +417,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {53, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::lessThanOrEqual,
                         ASTNodeFactory::intExpression
@@ -425,7 +425,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {54, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
@@ -433,7 +433,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {55, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
@@ -441,7 +441,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {56, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
@@ -449,14 +449,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {57, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
-                        new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::plus,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
@@ -465,14 +465,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {58, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
-                        new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::plus,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
@@ -482,13 +482,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {59, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 new ASTLogicalExpressionNode(
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::orOperator,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
@@ -534,11 +534,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {63, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
-                        new ASTBinaryExpressionNode(
-                                new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
+                                new ASTBinaryArithmeticExpressionNode(
                                         ASTNodeFactory::intExpression,
                                         ASTNodeFactory::plus,
                                         ASTNodeFactory::intExpression
@@ -591,10 +591,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {66, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::star,
                                 ASTNodeFactory::intExpression
@@ -603,8 +603,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {67, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
-                        new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
@@ -615,10 +615,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {68, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                             ASTNodeFactory::intExpression,
                             ASTNodeFactory::plus,
                             ASTNodeFactory::intExpression
@@ -627,10 +627,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {69, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::slash,
                                 ASTNodeFactory::intExpression
@@ -639,9 +639,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {70, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
-                        new ASTBinaryExpressionNode(
-                            new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::star,
                                 ASTNodeFactory::intExpression
@@ -655,9 +655,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {71, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
-                        new ASTBinaryExpressionNode(
-                                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
+                                new ASTBinaryArithmeticExpressionNode(
                                         ASTNodeFactory::intExpression,
                                         ASTNodeFactory::star,
                                         ASTNodeFactory::intExpression
@@ -666,7 +666,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::plus,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::slash,
                                 ASTNodeFactory::intExpression
@@ -675,15 +675,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {72, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
-                        new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::star,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::minus,
-                        new ASTBinaryExpressionNode(
-                                new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
+                                new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
@@ -695,10 +695,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {73, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::plus,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::star,
                                     ASTNodeFactory::idExpression
@@ -707,8 +707,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
         {74, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
-                            new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::star,
                                     ASTNodeFactory::idExpression
@@ -719,10 +719,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
         {75, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::star,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::idExpression
@@ -731,10 +731,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
         {76, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::star,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::slash,
                                     ASTNodeFactory::idExpression
@@ -743,9 +743,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {77, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
-                            new ASTBinaryExpressionNode(
-                                    new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
+                                    new ASTBinaryArithmeticExpressionNode(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::star,
                                             ASTNodeFactory::idExpression
@@ -759,9 +759,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
         {78, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
-                            new ASTBinaryExpressionNode(
-                                    new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
+                                    new ASTBinaryArithmeticExpressionNode(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::star,
                                             ASTNodeFactory::idExpression
@@ -770,7 +770,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     ASTNodeFactory::idExpression
                             ),
                             ASTNodeFactory::plus,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::slash,
                                     ASTNodeFactory::idExpression
@@ -779,15 +779,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
         {79, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
-                            new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::star,
                                     ASTNodeFactory::idExpression
                             ),
                             ASTNodeFactory::minus,
-                            new ASTBinaryExpressionNode(
-                                    new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
+                                    new ASTBinaryArithmeticExpressionNode(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::plus,
                                             ASTNodeFactory::idExpression
@@ -799,13 +799,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
             {80, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
                             new ASTUnaryExpressionNode(
                                 ASTNodeFactory::unaryPlus,
                                 ASTNodeFactory::intExpression
                             ),
                             ASTNodeFactory::star,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::slash,
                                     new ASTUnaryExpressionNode(
@@ -817,9 +817,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             )},
             {81, new ASTVariableDeclarationNode(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryExpressionNode(
-                            new ASTBinaryExpressionNode(
-                                    new ASTBinaryExpressionNode(
+                    new ASTBinaryArithmeticExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
+                                    new ASTBinaryArithmeticExpressionNode(
                                             new ASTUnaryExpressionNode(
                                                     ASTNodeFactory::unaryPlus,
                                                     ASTNodeFactory::intExpression
@@ -877,21 +877,21 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::constInit,
                     ASTNodeFactory::createArrayExpression({
                            ASTNodeFactory::createArrayExpression({
-                               new ASTBinaryExpressionNode(
+                               new ASTBinaryArithmeticExpressionNode(
                                        ASTNodeFactory::intExpression,
                                        ASTNodeFactory::plus,
                                        ASTNodeFactory::intExpression
                                        )
                            }),
                            ASTNodeFactory::createArrayExpression({
-                                  new ASTBinaryExpressionNode(
+                                  new ASTBinaryArithmeticExpressionNode(
                                           ASTNodeFactory::intExpression,
                                           ASTNodeFactory::plus,
                                           ASTNodeFactory::intExpression
                                   )
                           }),
                            ASTNodeFactory::createArrayExpression({
-                                  new ASTBinaryExpressionNode(
+                                  new ASTBinaryArithmeticExpressionNode(
                                           ASTNodeFactory::intExpression,
                                           ASTNodeFactory::plus,
                                           ASTNodeFactory::intExpression
@@ -992,7 +992,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                               })
                     ),
                     ASTNodeFactory::createStructKeyValue(
-                                              new ASTBinaryExpressionNode(
+                                              new ASTBinaryArithmeticExpressionNode(
                                                       ASTNodeFactory::intExpression,
                                                       ASTNodeFactory::plus,
                                                       ASTNodeFactory::intExpression
@@ -1141,7 +1141,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createFunctionBlock({
                     new ASTVariableDeclarationNode(
                             ASTNodeFactory::constInit,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::idExpression
@@ -1173,10 +1173,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(
                         ASTNodeFactory::functionReturn,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                             ASTNodeFactory::intExpression,
                             ASTNodeFactory::plus,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::idExpression
@@ -1200,7 +1200,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                      ),
                      new ASTVariableAssignmentStatementNode(
                              ASTNodeFactory::varAssignment,
-                             new ASTBinaryExpressionNode(
+                             new ASTBinaryArithmeticExpressionNode(
                                      ASTNodeFactory::idExpression,
                                      ASTNodeFactory::plus,
                                      ASTNodeFactory::intExpression
@@ -1278,7 +1278,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
         {108, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::equality,
                         ASTNodeFactory::createObjectAccessExpression(
@@ -1400,7 +1400,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
         )},
         {119, new ASTExpressionStatementNode(
-                new ASTBinaryExpressionNode(
+                new ASTBinaryArithmeticExpressionNode(
                         ASTNodeFactory::createTupleAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::tupleAccess
@@ -1600,7 +1600,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTElseIfBlockNode(
                             ASTNodeFactory::elseIfKeyword,
                             new ASTControlFlowConditionNode(
-                                new ASTBinaryExpressionNode(
+                                new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::lessThan,
                                     ASTNodeFactory::intExpression
@@ -1690,7 +1690,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTElseIfBlockNode(
                         ASTNodeFactory::elseIfKeyword,
                         new ASTControlFlowConditionNode(
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::greaterThan,
                                 ASTNodeFactory::intExpression
@@ -1706,7 +1706,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     new ASTElseIfBlockNode(
                             ASTNodeFactory::elseIfKeyword,
                             new ASTControlFlowConditionNode(
-                                new ASTBinaryExpressionNode(
+                                new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
@@ -1734,8 +1734,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTIfBlockNode(
                         ASTNodeFactory::ifKeyword,
                         new ASTControlFlowConditionNode(
-                            new ASTBinaryExpressionNode(
-                                    new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
+                                    new ASTBinaryArithmeticExpressionNode(
                                         ASTNodeFactory::createObjectAccessExpression(
                                               new ASTObjectAccessSourceNode(
                                                       ASTNodeFactory::createObjectAccessExpression(
@@ -1745,7 +1745,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                               ASTNodeFactory::objectAccessTargetId
                                         ),
                                         ASTNodeFactory::plus,
-                                        new ASTBinaryExpressionNode(
+                                        new ASTBinaryArithmeticExpressionNode(
                                             ASTNodeFactory::createTupleAccessExpression(
                                                 ASTNodeFactory::objectAccessSourceId,
                                                 ASTNodeFactory::tupleAccess
@@ -1772,7 +1772,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         {135, new ASTWhileStatementNode(
                 ASTNodeFactory::whileKeyword,
                 new ASTControlFlowConditionNode(
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::lessThan,
                                 ASTNodeFactory::intExpression
@@ -1963,7 +1963,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ),
                         new ASTLambdaReturnExpressionNode(
                                 ASTNodeFactory::lambdaFatArrow,
-                                new ASTBinaryExpressionNode(
+                                new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::idExpression
@@ -1983,7 +1983,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                     new ASTLambdaReturnExpressionNode(
                             ASTNodeFactory::lambdaFatArrow,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::greaterThan,
                                     ASTNodeFactory::idExpression
@@ -2003,7 +2003,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createFunctionBlock({
                             new ASTFunctionReturnExpressionNode(
                                     ASTNodeFactory::functionReturn,
-                                    new ASTBinaryExpressionNode(
+                                    new ASTBinaryArithmeticExpressionNode(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::plus,
                                             ASTNodeFactory::intExpression
@@ -2024,7 +2024,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createFunctionBlock({
                          new ASTFunctionReturnExpressionNode(
                              ASTNodeFactory::functionReturnFatArrow,
-                             new ASTBinaryExpressionNode(
+                             new ASTBinaryArithmeticExpressionNode(
                                  ASTNodeFactory::idExpression,
                                  ASTNodeFactory::plus,
                                  ASTNodeFactory::intExpression
@@ -2059,10 +2059,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     ),
                                     new ASTLambdaReturnExpressionNode(
                                         ASTNodeFactory::lambdaFatArrow,
-                                        new ASTBinaryExpressionNode(
+                                        new ASTBinaryArithmeticExpressionNode(
                                                 ASTNodeFactory::idExpression,
                                                 ASTNodeFactory::plus,
-                                                new ASTBinaryExpressionNode(
+                                                new ASTBinaryArithmeticExpressionNode(
                                                         ASTNodeFactory::idExpression,
                                                         ASTNodeFactory::plus,
                                                         ASTNodeFactory::idExpression
@@ -2084,7 +2084,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                     new ASTLambdaReturnExpressionNode(
                             ASTNodeFactory::lambdaFatArrow,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
@@ -2378,7 +2378,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                                 ASTNodeFactory::createFunctionParameterList(),
                                                 ASTNodeFactory::createFunctionBlock({
                                                     new ASTExpressionStatementNode(
-                                                        new ASTBinaryExpressionNode(
+                                                        new ASTBinaryArithmeticExpressionNode(
                                                             ASTNodeFactory::intExpression,
                                                             ASTNodeFactory::plus,
                                                             ASTNodeFactory::intExpression
@@ -2410,7 +2410,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createFunctionParameterList(),
                     ASTNodeFactory::createFunctionBlock({
                          new ASTExpressionStatementNode(
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
@@ -2630,7 +2630,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ),
                         ASTNodeFactory::createFunctionBlock({
                              new ASTExpressionStatementNode(
-                                 new ASTBinaryExpressionNode(
+                                 new ASTBinaryArithmeticExpressionNode(
                                      ASTNodeFactory::idExpression,
                                      ASTNodeFactory::plus,
                                      ASTNodeFactory::intExpression
@@ -3056,7 +3056,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createFunctionBlock({
                     new ASTFunctionReturnExpressionNode(
                         ASTNodeFactory::functionReturn,
-                        new ASTBinaryExpressionNode(
+                        new ASTBinaryArithmeticExpressionNode(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::plus,
                             ASTNodeFactory::intExpression
@@ -3252,7 +3252,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         }),
                         new ASTLambdaReturnExpressionNode(
                             ASTNodeFactory::lambdaFatArrow,
-                            new ASTBinaryExpressionNode(
+                            new ASTBinaryArithmeticExpressionNode(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
@@ -3270,7 +3270,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         new ASTFunctionReturnExpressionNode(
                             ASTNodeFactory::functionReturn,
                             ASTNodeFactory::createRefExpression(
-                                new ASTBinaryExpressionNode(
+                                new ASTBinaryArithmeticExpressionNode(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
@@ -3387,7 +3387,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                    ),
                                    new ASTLambdaReturnExpressionNode(
                                            ASTNodeFactory::lambdaFatArrow,
-                                           new ASTBinaryExpressionNode(
+                                           new ASTBinaryArithmeticExpressionNode(
                                                    ASTNodeFactory::idExpression,
                                                    ASTNodeFactory::plus,
                                                    ASTNodeFactory::intExpression
@@ -3415,7 +3415,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                    ASTNodeFactory::createFunctionBlock({
                                        new ASTFunctionReturnExpressionNode(
                                            ASTNodeFactory::functionReturn,
-                                           new ASTBinaryExpressionNode(
+                                           new ASTBinaryArithmeticExpressionNode(
                                                ASTNodeFactory::idExpression,
                                                ASTNodeFactory::plus,
                                                ASTNodeFactory::intExpression
@@ -3441,7 +3441,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                        ),
                        new ASTLambdaReturnExpressionNode(
                                ASTNodeFactory::lambdaFatArrow,
-                               new ASTBinaryExpressionNode(
+                               new ASTBinaryArithmeticExpressionNode(
                                        ASTNodeFactory::idExpression,
                                        ASTNodeFactory::plus,
                                        ASTNodeFactory::intExpression
@@ -3465,7 +3465,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                        ASTNodeFactory::createFunctionBlock({
                            new ASTFunctionReturnExpressionNode(
                                ASTNodeFactory::functionReturn,
-                               new ASTBinaryExpressionNode(
+                               new ASTBinaryArithmeticExpressionNode(
                                    ASTNodeFactory::idExpression,
                                    ASTNodeFactory::plus,
                                    ASTNodeFactory::intExpression

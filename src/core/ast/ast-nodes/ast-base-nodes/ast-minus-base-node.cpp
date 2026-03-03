@@ -3,7 +3,7 @@
 //
 
 #include "ast-minus-base-node.h"
-#include "../ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
+#include "../ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 #include "../ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
 
 ASTMinusBaseNode::ASTMinusBaseNode(Lexeme* lexeme) {
@@ -17,7 +17,7 @@ ASTNode * ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNo
 
     std::vector<ASTNodeType> minusOperatorPrevNodes = {
             AST_UNARY_EXPRESSION_NODE,
-            AST_BINARY_EXPRESSION_NODE,
+            AST_BINARY_ARITHMETIC_EXPRESSION_NODE,
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -34,7 +34,7 @@ ASTNode * ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNo
             AST_CLASS_PROPERTY_ACCESS_NODE
     };
     if (prevNode && prevNode.value()->isOneOf(minusOperatorPrevNodes)) {
-        return new ASTBinaryOperatorNode(_lexeme);
+        return new ASTBinaryArithmeticOperatorNode(_lexeme);
     }
 
     return new ASTUnaryOperatorNode(_lexeme);

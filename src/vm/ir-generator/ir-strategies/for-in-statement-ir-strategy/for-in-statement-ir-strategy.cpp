@@ -18,7 +18,7 @@ IRStatementNode* ForInStatementIRStrategy::generate(ASTForInStatementNode* node,
     auto bodyBlock = irGenerator->generateForInBodyBlock(irContext, scope);
     auto endBlock = irGenerator->generateForInEndBlock(irContext, scope);
 
-    if (node->getVariable()->isReferenced() || node->getVariable()->isCaptured()) {
+    if (node->getVariable()->isCaptured()) {
         auto malloc = new IRInstructionNode(
             llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),

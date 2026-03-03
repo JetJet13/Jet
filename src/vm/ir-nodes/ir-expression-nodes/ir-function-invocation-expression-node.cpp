@@ -22,10 +22,6 @@ void IRFunctionInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-bool IRFunctionInvocationExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 std::optional<IRInstructionNode*> IRFunctionInvocationExpressionNode::getVarArgsTypeValueArgument() {
     return _varArgsTypeValueArgument;
 }

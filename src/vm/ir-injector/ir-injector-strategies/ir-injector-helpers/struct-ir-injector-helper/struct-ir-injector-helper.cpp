@@ -6,6 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../pointer-ir-injector-helper/pointer-ir-injector-helper.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRInstructionNode* structRefAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
     auto irStructRefType = (IRStructRefType*)structRefAllocation->getIRType()->getUnderlyingType();
@@ -60,6 +61,8 @@ llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRIns
 }
 
 llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+    Logger::log("WORD?");
+    irStructRefType->print();
     auto destinationStructRefAllocation = irBlock->getBuilder()->get()->CreateAlloca(irStructRefType->getType());
     auto destinationStructAllocation = irBlock->getBuilder()->get()->CreateCall(irModule->getMallocFunction(), {
         irBlock->getBuilder()->get()->getInt64(1),
@@ -69,6 +72,7 @@ llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, I
             irBlock->getBuilder()->get()->getInt64(1),
             irBlock->getBuilder()->get()->getInt64(irStructRefType->getCounterIRType()->getSizeInBytes())
     });
+    Logger::log("HELLO!");
     auto loadedStructRef = InstructionIRInjectorHelper::injectLoad(irStructRefType->getType(), structRefSource, irBlock, irStructRefType);
     auto structSource = irBlock->getBuilder()->get()->CreateExtractValue(loadedStructRef, irStructRefType->getStructIndex());
     for (unsigned long i = 0; i < irStructRefType->getStructIRType()->size(); ++i) {

@@ -8,7 +8,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace BinaryExpressionTypeCheckerPolicy {
-    void apply(ASTBinaryExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(binaryExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(binaryExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(binaryExpression);
@@ -28,6 +28,29 @@ namespace BinaryExpressionTypeCheckerPolicy {
                 binaryExpression->getRightTypeSignature(),
                 mismatchTypeErrorMessage,
                 typeCheckerResult
+        );
+    }
+
+    void apply(ASTBinaryComparatorExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult) {
+        auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(binaryExpression);
+        auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(binaryExpression);
+        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(binaryExpression);
+        TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
+        ->enforce(
+            binaryExpression,
+            unknownMessage,
+            invalidMessage,
+            voidMessage,
+            typeCheckerResult
+        );
+
+        auto mismatchTypeErrorMessage = TypeCheckerErrorMessageTable::BinaryExpressionOperandsTypeMismatch(binaryExpression);
+        TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
+        ->enforce(
+            binaryExpression->getLeftTypeSignature(),
+            binaryExpression->getRightTypeSignature(),
+            mismatchTypeErrorMessage,
+            typeCheckerResult
         );
     }
 }

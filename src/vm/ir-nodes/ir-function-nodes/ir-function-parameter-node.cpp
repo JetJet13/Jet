@@ -40,8 +40,7 @@ unsigned long IRFunctionParameterNode::getCaptureCount() {
 
 bool IRFunctionParameterNode::needsToBeFreed() {
     if (!_node) return false;
-    return !_node.value()->isReferenced() &&
-           !_node.value()->isCaptured() &&
+    return !_node.value()->isCaptured() &&
             _parameterType->getIRType()->containsTypeThatRequiresFreeing();
 }
 

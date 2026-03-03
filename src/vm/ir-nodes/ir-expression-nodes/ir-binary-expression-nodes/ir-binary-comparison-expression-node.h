@@ -6,12 +6,12 @@
 #define JETLANG_IR_BINARY_COMPARISON_EXPRESSION_NODE_H
 
 #include <llvm/IR/InstrTypes.h>
-#include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
 #include "ir-binary-expression-node.h"
+#include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.h"
 
 class IRBinaryComparisonExpressionNode : public IRBinaryExpressionNode {
 private:
-    ASTBinaryExpressionNode* _node;
+    ASTBinaryComparatorExpressionNode* _node;
     llvm::CmpInst* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
@@ -19,9 +19,8 @@ private:
     IRType* _leftIrType;
     IRType* _rightIrType;
 public:
-    IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType);
+    IRBinaryComparisonExpressionNode(ASTBinaryComparatorExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType);
     void markAsGlobal() override;
-    bool isReferenced() override;
     llvm::CmpInst* getValue() override;
     bool isPredicateEqual();
     bool isPredicateNotEqual();

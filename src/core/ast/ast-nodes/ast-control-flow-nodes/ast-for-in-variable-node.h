@@ -12,14 +12,11 @@ class ASTForInVariableNode : public ASTNode {
 private:
     ASTIdentifierExpressionNode* _variable;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
-    bool _isReferenced = false;
     unsigned long _captureCount = 0;
 public:
     ASTForInVariableNode(ASTIdentifierExpressionNode* variable);
-    void markAsReferenced();
     void markAsCaptured();
     unsigned long getCaptureCount();
-    bool isReferenced();
     bool isCaptured();
     ASTIdentifierExpressionNode* getVariable();
     void setTypeSignature(TypeSignature* typeSignature);

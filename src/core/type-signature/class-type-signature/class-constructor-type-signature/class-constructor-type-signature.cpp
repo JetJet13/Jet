@@ -18,7 +18,7 @@ ParameterListTypeSignature* ClassConstructorTypeSignature::getParameterList() {
 }
 
 std::string ClassConstructorTypeSignature::toDetailString() {
-    return "jet.constructor." + _parameterList->toDetailString();
+    return _parameterList->toDetailString();
 }
 
 std::string ClassConstructorTypeSignature::toString() {

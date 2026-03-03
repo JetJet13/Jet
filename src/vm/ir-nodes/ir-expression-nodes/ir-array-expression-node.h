@@ -23,7 +23,6 @@ private:
 public:
     IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
     void markAsGlobal() override;
-    bool isReferenced() override;
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();
     std::optional<IRInstructionNode*> getSourceAllocation() override;

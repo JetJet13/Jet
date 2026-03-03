@@ -13,5 +13,9 @@ void WhileStatementIRInjectorStrategy::inject(IRWhileStatementNode* irWhileState
     whileConditionBlock->getBuilder()->get()->CreateCondBr(irWhileConditionValue, bodyBlock->getBlock(), endBlock->getBlock());
 
     irInjector->inject(irBlock, bodyBlock, irModule);
-    bodyBlock->getBuilder()->get()->CreateBr(whileConditionBlock->getBlock());
+    auto lastBodyBlock = bodyBlock->getLastSuccessorOrSelf();
+    if (lastBodyBlock->hasBranchInstruction()) {
+        lastBodyBlock->removeLastInstruction();
+    }
+    lastBodyBlock->getBuilder()->get()->CreateBr(whileConditionBlock->getBlock());
 }

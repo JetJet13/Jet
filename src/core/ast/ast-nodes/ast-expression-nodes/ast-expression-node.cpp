@@ -6,13 +6,6 @@
 #include "../ast-function-nodes/ast-function-argument-node.h"
 #include "../ast-tuple-nodes/ast-tuple-item-node.h"
 
-void ASTExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-}
-
-bool ASTExpressionNode::isReferenced() {
-    return _isReferenced;
-}
 
 void ASTExpressionNode::setTypeSignature(TypeSignature* typeSignature) {
     _typeSignature = typeSignature;

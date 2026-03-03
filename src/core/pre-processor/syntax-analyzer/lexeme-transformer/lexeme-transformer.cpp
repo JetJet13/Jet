@@ -10,7 +10,7 @@
 #include "../../../ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h"
 #include "../../../ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.h"
 #include "../../../ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
+#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.h"
 #include "../../../ast/ast-nodes/ast-terminator-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-plus-base-node.h"
@@ -71,6 +71,7 @@
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.h"
 #include "../../../ast/ast-nodes/ast-print-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.h"
+#include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -107,13 +108,13 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTMinusBaseNode(lexeme);
     } else if (symbol->isStar()) {
         return new ASTStarBaseNode(lexeme);
+    } else if (symbol->isSlash() || symbol->isModulo()) {
+        return new ASTBinaryArithmeticOperatorNode(lexeme);
     } else if (symbol->isEqualityOperator() ||
                symbol->isInequalityOperator() ||
                symbol->isGreaterThanOrEqual() ||
-               symbol->isLessThanOrEqual() ||
-               symbol->isSlash() ||
-               symbol->isModulo()) {
-        return new ASTBinaryOperatorNode(lexeme);
+               symbol->isLessThanOrEqual()) {
+        return new ASTBinaryComparatorOperatorNode(lexeme);
     } else if (symbol->isLogicalOperator()) {
         return new ASTLogicalOperatorNode(lexeme);
     } else if (symbol->isUnaryOperator()) {

@@ -8,7 +8,7 @@
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.h"
-#include "../../ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "../../ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
 
 void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
     auto astTraverser = ASTTraverser();
@@ -34,25 +34,6 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
             auto blockScope = new ASTLookupTable(currentScope);
             scopeStack.push(blockScope);
             currentScope = scopeStack.top();
-        } else if (node->is(AST_REF_EXPRESSION_NODE)) {
-            auto refExpression = (ASTRefExpressionNode*)node;
-            if (refExpression->getExpressionNode()->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
-                auto idExpression = (ASTIdentifierExpressionNode*)refExpression->getExpressionNode();
-                auto referencedValue = currentScope->findAcrossScopes(idExpression->getId()).value();
-                if (referencedValue->is(AST_VARIABLE_DECLARATION_NODE)) {
-                    ((ASTVariableDeclarationNode*)referencedValue)->markAsReferenced();
-                }
-
-                if (referencedValue->is(AST_FUNCTION_PARAMETER_NODE)) {
-                    ((ASTFunctionParameterNode*)referencedValue)->markAsReferenced();
-                }
-
-                if (referencedValue->is(AST_FOR_IN_VARIABLE_NODE)) {
-                    ((ASTForInVariableNode*)referencedValue)->markAsReferenced();
-                }
-            } else {
-                refExpression->getExpressionNode()->markAsReferenced();
-            }
         } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
             auto lambdaScope = new ASTLookupTable(currentScope);
             lambdaScope->bindLambda((ASTLambdaExpressionNode *) node);

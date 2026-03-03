@@ -51,6 +51,7 @@ public:
     virtual void setInsertionPointBeforeFirstInstruction();
     virtual void resetInsertionPoint();
     virtual void removeLastInstruction();
+    void transferNodesToFreeTo(IRBlockNode* other);
     void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);
     std::optional<IRFunctionReturnExpressionNode*> getReturnExpression();
     void createSuccessor();

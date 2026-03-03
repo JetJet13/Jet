@@ -22,10 +22,6 @@ void IRObjectAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-bool IRObjectAccessInvocationExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 IRInstructionNode* IRObjectAccessInvocationExpressionNode::getFunction() {
     return _irFunction;
 }

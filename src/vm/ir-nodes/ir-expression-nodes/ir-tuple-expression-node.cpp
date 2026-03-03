@@ -19,10 +19,6 @@ void IRTupleExpressionNode::markAsGlobal() {
     }
 }
 
-bool IRTupleExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 llvm::Value* IRTupleExpressionNode::getValue() {
     return _irValue->getValue();
 }

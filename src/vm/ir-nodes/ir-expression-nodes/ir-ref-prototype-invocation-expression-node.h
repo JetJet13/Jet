@@ -24,7 +24,6 @@ private:
 public:
     IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irRef);
     void markAsGlobal() override;
-    bool isReferenced() override;
     IRExpressionNode* getIRRefValue();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;

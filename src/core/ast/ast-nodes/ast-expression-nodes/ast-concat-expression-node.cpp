@@ -28,12 +28,6 @@ ASTConcatNode* ASTConcatExpressionNode::getConcatNode() {
     return _concatNode;
 }
 
-void ASTConcatExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _leftNode->markAsReferenced();
-    _rightNode->markAsReferenced();
-}
-
 Position* ASTConcatExpressionNode::getStartPosition() {
     return _leftNode->getStartPosition();
 }

@@ -20,7 +20,6 @@ protected:
 public:
     IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation);
     void markAsGlobal() override;
-    bool isReferenced() override;
     IRExpressionNode* getSourceExpression();
     IRExpressionNode* getIndexExpression();
     ASTArrayAccessExpressionNode* getNode();

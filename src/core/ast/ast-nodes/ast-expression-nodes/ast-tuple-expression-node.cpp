@@ -42,10 +42,6 @@ ASTTupleExpressionNode* ASTTupleExpressionNode::addComma(ASTCommaNode* comma) {
     return this;
 }
 
-void ASTTupleExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-}
-
 TupleTypeSignature* ASTTupleExpressionNode::getTypeSignature() {
     return _typeSignature;
 }

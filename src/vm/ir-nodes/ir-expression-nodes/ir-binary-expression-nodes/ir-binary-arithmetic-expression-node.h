@@ -6,23 +6,22 @@
 #define JETLANG_IR_BINARY_ARITHMETIC_EXPRESSION_NODE_H
 
 #include <llvm/IR/InstrTypes.h>
-#include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-expression-node.h"
+#include "../../../../core/ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
 #include "ir-binary-expression-node.h"
 #include "../../ir-binary-operator-node.h"
 
 class IRBinaryArithmeticExpressionNode : public IRBinaryExpressionNode {
 private:
-    ASTBinaryExpressionNode* _node;
+    ASTBinaryArithmeticExpressionNode* _node;
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
     IRType* _type;
 public:
-    IRBinaryArithmeticExpressionNode(ASTBinaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
+    IRBinaryArithmeticExpressionNode(ASTBinaryArithmeticExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
     std::vector<IRExpressionNode*> getListOfOperands();
     std::vector<IRBinaryOperatorNode*> getListOfOperations();
     void markAsGlobal() override;
-    bool isReferenced() override;
     llvm::BinaryOperator* getValue() override;
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();

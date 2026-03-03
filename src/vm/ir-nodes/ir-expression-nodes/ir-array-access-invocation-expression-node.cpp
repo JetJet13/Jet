@@ -21,10 +21,6 @@ void IRArrayAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-bool IRArrayAccessInvocationExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 IRArrayAccessExpressionNode* IRArrayAccessInvocationExpressionNode::getIRArrayAccessExpression() {
     return _irArrayAccessExpression;
 }

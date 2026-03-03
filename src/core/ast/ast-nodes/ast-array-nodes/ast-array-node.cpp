@@ -39,12 +39,6 @@ ASTArrayNode* ASTArrayNode::addComma(ASTCommaNode* comma) {
     return this;
 }
 
-void ASTArrayNode::markElementsAsReferenced() {
-    for (auto & _element : *_elements) {
-        _element->markAsReferenced();
-    }
-}
-
 ASTLeftBracketNode* ASTArrayNode::getLeftBracket() {
     return _leftBracket;
 }

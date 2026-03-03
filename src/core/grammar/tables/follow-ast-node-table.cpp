@@ -26,7 +26,7 @@ void FollowASTNodeTable::init() {
 
     this->add(AST_IDENTIFIER_NODE, new std::vector<ASTNodeType> {
             AST_ASSIGNMENT_OPERATOR_NODE,
-            AST_BINARY_OPERATOR_NODE,
+            AST_BINARY_ARITHMETIC_OPERATOR_NODE,
             AST_LOGICAL_OPERATOR_NODE,
             AST_SYMBOL_NODE,
             AST_TERMINATOR_NODE
@@ -40,7 +40,7 @@ void FollowASTNodeTable::init() {
            AST_STRING_LITERAL_NODE,
            AST_CHAR_LITERAL_NODE
     });
-    this->add(AST_BINARY_OPERATOR_NODE, new std::vector<ASTNodeType> {
+    this->add(AST_BINARY_ARITHMETIC_OPERATOR_NODE, new std::vector<ASTNodeType> {
             AST_EXPRESSION_NODE,
             AST_BOOLEAN_LITERAL_NODE,
             AST_INT_LITERAL_NODE,
@@ -61,34 +61,34 @@ void FollowASTNodeTable::init() {
            AST_TERMINATOR_NODE
     });
     this->add(AST_BOOLEAN_LITERAL_NODE, new std::vector<ASTNodeType> {
-            AST_BINARY_OPERATOR_NODE,
+            AST_BINARY_ARITHMETIC_OPERATOR_NODE,
             AST_LOGICAL_OPERATOR_NODE,
             AST_SYMBOL_NODE,
             AST_TERMINATOR_NODE
     });
     this->add(AST_INT_LITERAL_NODE, new std::vector<ASTNodeType> {
-            AST_BINARY_OPERATOR_NODE,
+            AST_BINARY_ARITHMETIC_OPERATOR_NODE,
             AST_LOGICAL_OPERATOR_NODE,
             AST_SYMBOL_NODE,
             AST_TERMINATOR_NODE
     });
 
     this->add(AST_FLOAT_LITERAL_NODE, new std::vector<ASTNodeType> {
-            AST_BINARY_OPERATOR_NODE,
+            AST_BINARY_ARITHMETIC_OPERATOR_NODE,
             AST_LOGICAL_OPERATOR_NODE,
             AST_SYMBOL_NODE,
             AST_TERMINATOR_NODE
     });
 
     this->add(AST_STRING_LITERAL_NODE, new std::vector<ASTNodeType> {
-            AST_BINARY_OPERATOR_NODE,
+            AST_BINARY_ARITHMETIC_OPERATOR_NODE,
             AST_LOGICAL_OPERATOR_NODE,
             AST_SYMBOL_NODE,
             AST_TERMINATOR_NODE
     });
 
     this->add(AST_CHAR_LITERAL_NODE, new std::vector<ASTNodeType> {
-            AST_BINARY_OPERATOR_NODE,
+            AST_BINARY_ARITHMETIC_OPERATOR_NODE,
             AST_LOGICAL_OPERATOR_NODE,
             AST_SYMBOL_NODE,
             AST_TERMINATOR_NODE

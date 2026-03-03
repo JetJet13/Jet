@@ -22,7 +22,6 @@ private:
 public:
     IRDrefExpressionNode(ASTDrefExpressionNode* node, IRExpressionNode* irExpression, IRType* irType, IRInstructionNode* irValue);
     void markAsGlobal() override;
-    bool isReferenced() override;
     IRExpressionNode* getExpression();
     IRInstructionNode* getIRValue();
     IRType* getIRType() override;

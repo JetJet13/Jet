@@ -4,7 +4,7 @@
 
 #include "ir-binary-comparison-expression-node.h"
 
-IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType) {
+IRBinaryComparisonExpressionNode::IRBinaryComparisonExpressionNode(ASTBinaryComparatorExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
@@ -18,10 +18,6 @@ void IRBinaryComparisonExpressionNode::markAsGlobal() {
     _isGlobal = true;
     _irLeftNode->markAsGlobal();
     _irRightNode->markAsGlobal();
-}
-
-bool IRBinaryComparisonExpressionNode::isReferenced() {
-    return _node->isReferenced();
 }
 
 llvm::CmpInst* IRBinaryComparisonExpressionNode::getValue() {

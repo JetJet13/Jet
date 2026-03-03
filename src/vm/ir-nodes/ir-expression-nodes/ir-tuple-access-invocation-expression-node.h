@@ -24,7 +24,6 @@ private:
 public:
     IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
     void markAsGlobal() override;
-    bool isReferenced() override;
     IRTupleAccessExpressionNode* getIRTupleAccessExpression();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;

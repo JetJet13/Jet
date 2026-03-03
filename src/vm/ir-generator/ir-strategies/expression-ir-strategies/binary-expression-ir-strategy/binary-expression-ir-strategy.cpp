@@ -7,22 +7,27 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryArithmeticExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto typeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-    if (node->getBinaryOperator()->isArithmetic()) {
-        auto binaryArithmeticExpressionNode = new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
-                this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
-                leftExpressionIr->getValue(),
-                rightExpressionIr->getValue()
-        ), leftExpressionIr, rightExpressionIr, irType);
-        if (node->isGrouped()) {
-            binaryArithmeticExpressionNode->markAsGrouped();
-        }
-        return binaryArithmeticExpressionNode;
+    auto binaryArithmeticExpressionNode = new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
+            this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
+            leftExpressionIr->getValue(),
+            rightExpressionIr->getValue()
+    ), leftExpressionIr, rightExpressionIr, irType);
+    if (node->isGrouped()) {
+        binaryArithmeticExpressionNode->markAsGrouped();
     }
+    return binaryArithmeticExpressionNode;
+}
+
+IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryComparatorExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto typeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
+    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
 
     auto leftIrType = irGenerator->generateTypeFor(node->getLeftNode()->getTypeSignature(), scope, irContext);
     auto rightIrType = irGenerator->generateTypeFor(node->getRightNode()->getTypeSignature(), scope, irContext);
@@ -36,7 +41,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryExpression
     ), leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
 }
 
-llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryOperatorNode* operatorNode, TypeSignature* typeSignature) {
+llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryArithmeticOperatorNode* operatorNode, TypeSignature* typeSignature) {
     if (operatorNode->isPlus()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::Instruction::BinaryOps::FAdd
@@ -59,7 +64,7 @@ llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOper
     return llvm::Instruction::BinaryOps::BinaryOpsEnd;
 }
 
-llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(ASTBinaryOperatorNode* operatorNode, TypeSignature* typeSignature) {
+llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(ASTBinaryComparatorOperatorNode* operatorNode, TypeSignature* typeSignature) {
     if (operatorNode->isEqual()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OEQ

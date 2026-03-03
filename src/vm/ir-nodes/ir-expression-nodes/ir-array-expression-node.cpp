@@ -19,10 +19,6 @@ void IRArrayExpressionNode::markAsGlobal() {
     }
 }
 
-bool IRArrayExpressionNode::isReferenced() {
-    return _node->isReferenced();
-}
-
 llvm::Value* IRArrayExpressionNode::getValue() {
     return _irValue->getValue();
 }

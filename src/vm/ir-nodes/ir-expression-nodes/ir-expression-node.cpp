@@ -14,10 +14,6 @@ bool IRExpressionNode::isGlobal() {
     return _isGlobal;
 }
 
-bool IRExpressionNode::isReferenced() {
-    return false;
-}
-
 bool IRExpressionNode::isAssigned() {
     return _isAssigned;
 }
@@ -43,8 +39,7 @@ void IRExpressionNode::markAsGrouped() {
 }
 
 bool IRExpressionNode::needsToBeFreed() {
-    return !this->isReferenced() &&
-           !this->isGlobal() &&
+    return !this->isGlobal() &&
            !this->isAssigned() &&
            !this->isReturned() &&
            !this->isOneOf({

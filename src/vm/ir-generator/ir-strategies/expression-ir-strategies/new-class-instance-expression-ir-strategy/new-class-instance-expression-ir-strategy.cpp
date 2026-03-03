@@ -52,7 +52,7 @@ IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAl
 }
 
 IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstancePointerAllocation(ASTNewClassInstanceExpressionNode* node, IRNewClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
-    if (node->isReferenced() || irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
+    if (irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),
                 {

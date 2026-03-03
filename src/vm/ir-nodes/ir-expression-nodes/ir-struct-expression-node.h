@@ -22,7 +22,6 @@ private:
 public:
     IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
-    bool isReferenced() override;
     IRStructRefType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

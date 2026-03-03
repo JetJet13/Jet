@@ -265,8 +265,10 @@ IRFunctionParameterListNode* IRGenerator::generateFor(ASTFunctionParameterListNo
 IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     if (node->is(AST_LITERAL_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate((ASTLiteralExpressionNode*)node,  this, scope, irContext, irOperation);
-    } else if (node->is(AST_BINARY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryExpressionNode*)node,  this, scope, irContext, irOperation);
+    } else if (node->is(AST_BINARY_ARITHMETIC_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryArithmeticExpressionNode*)node, this, scope, irContext, irOperation);
+    } else if (node->is(AST_BINARY_COMPARATOR_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryComparatorExpressionNode*)node, this, scope, irContext, irOperation);
     } else if (node->is(AST_CONCAT_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate((ASTConcatExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
@@ -805,7 +807,7 @@ IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(IRType* irTy
 
 IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(ASTFunctionParameterNode* functionParameter, IRParameterType* irParameterType, IRContext* irContext) {
     auto irType = irParameterType->getIRType();
-    if (functionParameter->isCaptured() || functionParameter->isReferenced()) {
+    if (functionParameter->isCaptured()) {
         return new IRInstructionNode(
             llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),

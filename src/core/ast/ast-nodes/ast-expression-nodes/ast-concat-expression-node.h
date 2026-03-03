@@ -18,7 +18,6 @@ public:
     ASTExpressionNode* getLeftNode();
     ASTExpressionNode* getRightNode();
     ASTConcatNode* getConcatNode();
-    void markAsReferenced() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -5,7 +5,7 @@
 #include "ast-less-than-base-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-type-nodes/ast-type-parameter-list-start-node.h"
-#include "../ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
+#include "../ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 
 ASTLessThanBaseNode::ASTLessThanBaseNode(Lexeme *lexeme) {
     _lexeme = lexeme;
@@ -22,7 +22,7 @@ ASTNode * ASTLessThanBaseNode::transformIfNecessary(std::optional<ASTNode *> pre
         return new ASTTypeParameterListStartNode(this->getLexeme());
     }
 
-    return new ASTBinaryOperatorNode(_lexeme);
+    return new ASTBinaryComparatorOperatorNode(_lexeme);
 }
 
 ASTNodeType ASTLessThanBaseNode::getNodeType() {

@@ -6,7 +6,8 @@
 #include "reducer-strategies/variable-init-reducer-strategy/variable-init-reducer-strategy.h"
 #include "reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.h"
 #include "reducer-strategies/unary-expression-reducer-strategy/unary-expression-reducer-strategy.h"
-#include "reducer-strategies/binary-expression-reducer-strategy/binary-expression-reducer-strategy.h"
+#include "reducer-strategies/binary-arithmetic-expression-reducer-strategy/binary-arithmetic-expression-reducer-strategy.h"
+#include "reducer-strategies/binary-comparator-expression-reducer-strategy/binary-comparator-expression-reducer-strategy.h"
 #include "reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.h"
 #include "reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.h"
 #include "reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.h"
@@ -134,7 +135,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_VARIABLE_DEFINITION_NODE, new VariableDefinitionReducerStrategy());
     this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationReducerStrategy());
     this->addStrategy(AST_UNARY_EXPRESSION_NODE, new UnaryExpressionReducerStrategy());
-    this->addStrategy(AST_BINARY_EXPRESSION_NODE, new BinaryExpressionReducerStrategy());
+    this->addStrategy(AST_BINARY_ARITHMETIC_EXPRESSION_NODE, new BinaryArithmeticExpressionReducerStrategy());
+    this->addStrategy(AST_BINARY_COMPARATOR_EXPRESSION_NODE, new BinaryComparatorExpressionReducerStrategy());
     this->addStrategy(AST_LOGICAL_EXPRESSION_NODE, new LogicalExpressionReducerStrategy());
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionReducerStrategy());
     this->addStrategy(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, new CallableIdentifierExpressionReducerStrategy());

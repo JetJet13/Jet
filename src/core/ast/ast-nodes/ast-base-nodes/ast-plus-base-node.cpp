@@ -5,7 +5,7 @@
 #include "ast-plus-base-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
-#include "../ast-operator-nodes/ast-binary-operators/ast-binary-operator-node.h"
+#include "../ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 
 ASTPlusBaseNode::ASTPlusBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -18,7 +18,7 @@ ASTNode * ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNod
 
     std::vector<ASTNodeType> plusOperatorPrevNodes = {
             AST_UNARY_EXPRESSION_NODE,
-            AST_BINARY_EXPRESSION_NODE,
+            AST_BINARY_ARITHMETIC_EXPRESSION_NODE,
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
@@ -36,7 +36,7 @@ ASTNode * ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNod
     };
     if (prevNode && prevNode.value()->isOneOf(plusOperatorPrevNodes)) {
         Logger::log("transforming PLUS_BASE to BINARY_OPERATOR because prevNode is", prevNode.value()->toString());
-        return new ASTBinaryOperatorNode(_lexeme);
+        return new ASTBinaryArithmeticOperatorNode(_lexeme);
     }
 
     return new ASTUnaryOperatorNode(_lexeme);

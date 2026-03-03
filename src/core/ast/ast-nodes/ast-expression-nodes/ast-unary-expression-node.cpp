@@ -18,11 +18,6 @@ ASTExpressionNode* ASTUnaryExpressionNode::getExpressionNode() {
     return _expression;
 }
 
-void ASTUnaryExpressionNode::markAsReferenced() {
-    _isReferenced = true;
-    _expression->markAsReferenced();
-}
-
 ASTUnaryOperatorNode* ASTUnaryExpressionNode::getUnaryOperatorNode() {
     return _unaryOperator;
 }
