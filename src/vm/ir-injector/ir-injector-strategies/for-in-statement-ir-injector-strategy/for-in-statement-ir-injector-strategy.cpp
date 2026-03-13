@@ -3,8 +3,10 @@
 //
 
 #include "for-in-statement-ir-injector-strategy.h"
-#include "../../../ir-type/ir-array-pointer-type.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-type/ir-ref-type.h"
+#include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto setupBlock = irForInStatement->getSetupBlock();
@@ -12,27 +14,29 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     auto bodyBlock = irForInStatement->getBodyBlock();
     auto endBlock = irForInStatement->getEndBlock();
 
-    auto arrayPointerType = (IRArrayPointerType*)irForInStatement->getSource()->getIRType()->getSourceType();
+    auto sourceIrType = irForInStatement->getSource()->getIRType()->getSourceType();
     auto zero = setupBlock->getBuilder()->get()->getInt64(0);
     auto one = setupBlock->getBuilder()->get()->getInt64(1);
-    auto numElementsIndex = arrayPointerType->getNumElementsIndex();
-    auto allocIndex = arrayPointerType->getAllocIndex();
+
     // setup
-    auto sourceValue = irInjector->inject(setupBlock, irForInStatement->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, setupBlock->getScope());
-    auto numElementsPointer = setupBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceValue, numElementsIndex, "forInNumElemPtr");
-    auto numElements = setupBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getNumElementsType(), numElementsPointer);
+    DebugIRInjectorHelper::injectLog(setupBlock, "START", irInjector, irModule);
+    auto arrayPointerType = sourceIrType->isRefType()
+            ? (IRArrayPointerType*)((IRRefType*)sourceIrType->getUnderlyingType())
+            : (IRArrayPointerType*)sourceIrType;
+    auto sourceValue = this->getSourceValue(irForInStatement, arrayPointerType, setupBlock, irInjector, irModule);
+    DebugIRInjectorHelper::injectLog(setupBlock, "END", irInjector, irModule);
     auto pointerToSourceArray = setupBlock->getBuilder()->get()->CreateStructGEP(
             arrayPointerType->getType(),
             sourceValue,
-            allocIndex
+            arrayPointerType->getAllocIndex()
     );
-    auto sourceArray = setupBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getAllocType(), pointerToSourceArray, "sourceArray");
+    auto pointerToNumElements = setupBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceValue, arrayPointerType->getNumElementsIndex(), "forInNumElemPtr");
     auto indexAllocation = setupBlock->getBuilder()->get()->Insert(irForInStatement->getIndex()->getValue(), "forInIndex");
     setupBlock->getBuilder()->get()->CreateStore(zero, indexAllocation);
-    auto variableAllocation = setupBlock->getBuilder()->get()->Insert(irForInStatement->getVariable()->getValue(), "forInVar");
     setupBlock->getBuilder()->get()->CreateBr(forInBlock->getBlock());
 
     // for-in
+    auto numElements = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getNumElementsType(), pointerToNumElements, forInBlock);
     auto currentIndex = forInBlock->getBuilder()->get()->CreateLoad(irForInStatement->getIndex()->getAllocatedType(), indexAllocation);
     auto currentIndexLessThanNumElements = forInBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLT,
@@ -42,6 +46,8 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     forInBlock->getBuilder()->get()->CreateCondBr(currentIndexLessThanNumElements, bodyBlock->getBlock(), irBlock->getLastSuccessorOrSelf()->getBlock());
 
     // body
+    auto sourceArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), pointerToSourceArray, bodyBlock);
+    auto variableAllocation = bodyBlock->getBuilder()->get()->Insert(irForInStatement->getVariable()->getValue(), "forInVar");
     auto pointerToNewVariableValue = bodyBlock->getBuilder()->get()->CreateInBoundsGEP(
         arrayPointerType->getElementType(),
         sourceArray,
@@ -68,4 +74,16 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     lastBodyBlock->getBuilder()->get()->CreateStore(newIndexValue, indexAllocation);
     lastBodyBlock->getBuilder()->get()->CreateBr(forInBlock->getBlock());
     setupBlock->transferNodesToFreeTo(endBlock);
+}
+
+llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(IRForInStatementNode* irForInStatement, IRArrayPointerType* arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+    auto sourceIrType = irForInStatement->getSource()->getIRType()->getSourceType();
+    if (sourceIrType->isRefType()) {
+        return irInjector->inject(irBlock, irForInStatement->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, irBlock->getScope());
+    }
+
+    auto value = irInjector->inject(irBlock, irForInStatement->getSource(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, irBlock->getScope());
+    auto valueAlloc = irBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType(), nullptr, "VALUE_ALLOC");
+    InstructionIRInjectorHelper::injectStore(value, valueAlloc, irBlock, arrayPointerType);
+    return valueAlloc;
 }

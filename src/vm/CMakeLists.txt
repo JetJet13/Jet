@@ -6,13 +6,15 @@
 #        -O1
 #)
 
-set(LT_LLVM_INSTALL_DIR, "/usr/local/opt/llvm")
+set(LT_LLVM_INSTALL_DIR, "/Users/johny.georges/Documents/software/llvm-project-17.0.6.src/build")
 set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
 find_package(LLVM CONFIG)
+message(STATUS "Found LLVM: ${LLVM_DIR}")
+message(STATUS "LLVM Assertions: ${LLVM_ENABLE_ASSERTIONS}")
 include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
 link_directories(${LLVM_LIBRARY_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
-llvm_map_components_to_libnames(llvm_libs support core irreader irprinter)
+llvm_map_components_to_libnames(llvm_libs support core linker irreader irprinter)
 
 add_library(jet-vm
         ./ir-generator/ir-generator.cpp
@@ -725,6 +727,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.h
         ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.cpp
         ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

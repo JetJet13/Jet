@@ -9,6 +9,7 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
     _node = node;
     _irValue = irValue;
     _irArc = irArc;
+    _irType = irValue->getIRType()->clone();
 }
 
 llvm::Value* IRIdentifierExpressionNode::getValue() {
@@ -28,7 +29,7 @@ std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getArc() {
 }
 
 IRPointerType* IRIdentifierExpressionNode::getIRType() {
-    return _irValue->getIRType();
+    return _irType;
 }
 
 TypeSignature* IRIdentifierExpressionNode::getTypeSignature() {

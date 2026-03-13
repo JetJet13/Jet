@@ -9,7 +9,7 @@
 #include "../ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
 #include "../ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
 
-IRRefPrototypeFunctionId RefPrototypeMap::getIRRefPrototypeFunction(std::string id) {
+std::optional<IRRefPrototypeFunctionId> RefPrototypeMap::getIRRefPrototypeFunction(std::string id) {
     if (id == "refOf") {
         return RP_REF_OF_FUNCTION;
     } else if (id == "srefWith") {
@@ -21,11 +21,15 @@ IRRefPrototypeFunctionId RefPrototypeMap::getIRRefPrototypeFunction(std::string 
     } else if (id == "setRefValue") {
         return RP_SET_REF_VALUE_FUNCTION;
     }
-    throw std::logic_error("unable to find array prototype function for id provided: " + id);
+    return {};
 }
 
-std::string RefPrototypeMap::getIRName(std::string id) {
-    return RefPrototypeMap::getIRName(RefPrototypeMap::getIRRefPrototypeFunction(id));
+std::optional<std::string> RefPrototypeMap::getIRName(const std::string& id) {
+    auto prototypeFunctionId = RefPrototypeMap::getIRRefPrototypeFunction(id);
+    if (prototypeFunctionId) {
+        return RefPrototypeMap::getIRName(prototypeFunctionId.value());
+    }
+    return {};
 }
 
 std::string RefPrototypeMap::getIRName(IRRefPrototypeFunctionId irRefPrototypeFunction) {

@@ -25,7 +25,7 @@ IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(ASTTupleAc
     auto irExpression = (IRTupleAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irFunctionType = (IRFunctionType*)irExpression->getTargetIRType();
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
+    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType, &arguments);
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irExpression->getValue(), argList);
     return new IRTupleAccessInvocationExpressionNode(node, irExpression, callInstruction, irFunctionType, arguments, irReturnType);
 }

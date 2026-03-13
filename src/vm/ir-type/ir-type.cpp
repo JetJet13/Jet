@@ -214,6 +214,10 @@ bool IRType::isRefType() {
     return false;
 }
 
+bool IRType::isVoidType() {
+    return _type->isVoidTy();
+}
+
 bool IRType::isCapturedVariableType() {
     return false;
 }

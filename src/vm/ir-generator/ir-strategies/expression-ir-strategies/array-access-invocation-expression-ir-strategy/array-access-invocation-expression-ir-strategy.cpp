@@ -24,7 +24,7 @@ IRExpressionNode* ArrayAccessInvocationExpressionIRStrategy::generate(ASTArrayAc
     auto irExpression = (IRArrayAccessExpressionNode*)irGenerator->generateFor(node->getArrayAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irFunctionType = (IRInvocableType*)irExpression->getIRType();
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType);
+    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType, &arguments);
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getFunctionType(), irExpression->getValue(), argList);
     return new IRArrayAccessInvocationExpressionNode(node, irExpression, callInstruction, irFunctionType, arguments, irReturnType);
 }

@@ -106,10 +106,6 @@ void ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPoin
 
 IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, std::shared_ptr<IRModuleNode> irModule) {
     auto elementTypeSize = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getElementIRType()->getSizeInBytes());
-    auto mallocSize = irBlock->getBuilder()->get()->CreateCall(
-            irModule->getMallocSizeFunction(),
-            { loadedNumElements, elementTypeSize }
-    );
     auto malloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),
             { loadedNumElements, elementTypeSize }

@@ -105,8 +105,8 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
     auto firstFloatValue = InstructionIRInjectorHelper::injectLoad(floatType, function->getArg(0), floatIfThenBlock);
     auto secondFloatValue = InstructionIRInjectorHelper::injectLoad(floatType, function->getArg(1), floatIfThenBlock);
     floatIfThenBlock->getBuilder()->get()->CreateRet(
-            floatIfThenBlock->getBuilder()->get()->CreateICmp(
-                    llvm::CmpInst::Predicate::ICMP_EQ,
+            floatIfThenBlock->getBuilder()->get()->CreateFCmp(
+                    llvm::CmpInst::Predicate::FCMP_OEQ,
                     firstFloatValue,
                     secondFloatValue
             )

@@ -48,6 +48,34 @@ enum SimpleEnum {
     Gamma
 }
 
+func getInt(x: int) int {
+    return x;
+}
+
+func getFloat(y: float) float {
+    return y;
+}
+
+func getBool(x: bool) bool {
+    return x;
+}
+
+func getChar(y: char) char {
+    return y;
+}
+
+func getString(x: string) string {
+    return x;
+}
+
+func getArray(y: [int]) [int] {
+    return y;
+}
+
+func getRefArray(y: [int]) ref<[int]> {
+    return ref y;
+}
+
 const globalConstantInteger = 100;
 const globalConstantFloat = 100.090;
 const globalConstantChar = 'A';
@@ -1024,6 +1052,153 @@ proc testWhileLoops() {
     }
     assert(evenCounter == 10);
     assert(oddCounter == 10);
-
 }
 testWhileLoops();
+
+proc testForLoops() {
+    let value = 10;
+    for i in range(value) {
+        value = value - 1;
+    }
+    assert(value == 0);
+
+    let refValue = ref 10;
+    for i in range(dref refValue) {
+        refValue *= refValue - 1;
+    }
+    assert(refValue == 0);
+
+    let numIterations = 0;
+    for i in range(10) {
+        for j in range(10) {
+            numIterations = numIterations + 1;
+        }
+    }
+    assert(numIterations == 100);
+
+    let otherNumIterations = 0;
+    for i in range(10) {
+        for j in range(10) {
+            for k in range(10) {
+                otherNumIterations = otherNumIterations + 1;
+            }
+        }
+    }
+    assert(otherNumIterations == 1000);
+
+    let ifWhileCounter = 20;
+    let evenCounter = 0;
+    let oddCounter = 0;
+    for i in range(20) {
+        if i mod 2 == 0 {
+            evenCounter = evenCounter + 1;
+        } else {
+            oddCounter = oddCounter + 1;
+        }
+    }
+    assert(evenCounter == 10);
+    assert(oddCounter == 10);
+
+    let sumTotal = 0;
+    for i in [0,1,5,2,5] {
+        sumTotal = sumTotal + i;
+    }
+    assert(sumTotal == 13);
+
+    const myStructValues = [
+        { a: 100, b: 10, c: 1 },
+        { a: 200, b: 20, c: 2 },
+        { a: 400, b: 40, c: 4 }
+    ];
+    let myStructValueTotal = 0;
+    for structValue in myStructValues {
+        myStructValueTotal = myStructValueTotal + structValue.a + structValue.b + structValue.c;
+    }
+    assert(myStructValueTotal == 777);
+
+    const refMyArray = ref [1,2,3,4,5,6];
+    let refMyArrayTotal = 0;
+    for i in dref refMyArray {
+        refMyArrayTotal = refMyArrayTotal + i;
+    }
+    assert(refMyArrayTotal == 21);
+
+    const refMyStructWithArray = ref { foo: [1,2,3,4,5,6,8] };
+    let refMyStructWithArrayTotal = 0;
+    for i in refMyStructWithArray.foo {
+        refMyStructWithArrayTotal = refMyStructWithArrayTotal + i;
+    }
+    assert(refMyStructWithArrayTotal == 29);
+
+    const refMyTupleWithArray = ref { [1,2,3,4,5,6,8,9,10] };
+    let refMyTupleWithArrayTotal = 0;
+    for i in refMyTupleWithArray.0 {
+        refMyTupleWithArrayTotal = refMyTupleWithArrayTotal + i;
+    }
+    assert(refMyTupleWithArrayTotal == 48);
+
+    let refDrefArrayTotal = 0;
+    for i in dref ref [1,3,5,7,9] {
+        refDrefArrayTotal = refDrefArrayTotal + i;
+    }
+    assert(refDrefArrayTotal == 25);
+
+    const myLambdaArray = () => [20,30,40,50];
+    let myLambdaArrayTotal = 0;
+    for i in myLambdaArray() {
+        myLambdaArrayTotal = myLambdaArrayTotal + i;
+    }
+    assert(myLambdaArrayTotal == 140);
+
+    let myGetArrayTotal = 0;
+    for i in getArray([109,209,309]) {
+        myGetArrayTotal = myGetArrayTotal + i;
+    }
+    assert(myGetArrayTotal == 627);
+
+    let myGetRefArrayTotal = 0;
+    for i in dref getRefArray([109,209,309,409]) {
+        myGetRefArrayTotal = myGetRefArrayTotal + i;
+    }
+    assert(myGetRefArrayTotal == 1036);
+
+    const myLambdaRefArray = () => ref [20,30,40,50,60];
+    let myLambdaRefArrayTotal = 0;
+    for i in dref myLambdaRefArray() {
+        myLambdaRefArrayTotal = myLambdaRefArrayTotal + i;
+    }
+    assert(myLambdaRefArrayTotal == 200);
+
+    const modifiedArray = [1,2,3,4,5];
+    const modifiedArrayTotal = 0;
+    for i in modifiedArray {
+        modifiedArrayTotal = modifiedArrayTotal + i;
+    }
+    assert(modifiedArrayTotal == 15);
+
+    const modifiedRefArray = ref [1,2,3,4,5];
+    const modifiedRefArrayTotal = 0;
+    for i in modifiedRefArray {
+        modifiedRefArrayTotal = modifiedRefArrayTotal + i;
+        modifiedRefArray.dropLast(4);
+    }
+    assert(modifiedRefArray == [1]);
+    assert(modifiedRefArrayTotal == 1);
+
+    const modifiedArrayEmptyResult = [1,2,3,4,5];
+    const modifiedArrayEmptyResultTotal = 0;
+    for i in modifiedArrayEmptyResult {
+        modifiedArrayEmptyResultTotal = modifiedArrayEmptyResultTotal + i;
+        modifiedArrayEmptyResult.dropLast(4);
+    }
+    assert(modifiedArrayEmptyResult.empty());
+    assert(modifiedArrayEmptyResultTotal == 15);
+
+    const modifiedArrayWithRef = [1,2,3,4,5];
+    const modifiedArrayWithRefTotal = 0;
+    for i in ref modifiedArrayWithRef {
+        modifiedArrayWithRefTotal = modifiedArrayWithRefTotal + i;
+    }
+    assert(modifiedArrayWithRefTotal == 15);
+}
+testForLoops();

@@ -7,7 +7,7 @@
 
 IRInvocableType* LambdaTypeSignatureIRStrategy::generate(LambdaTypeSignature* lambdaTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto returnType = irGenerator->generateTypeFor(lambdaTypeSignature->getReturnType(), scope, irContext);
-    auto parameterTypes = this->generateParameterTypes(lambdaTypeSignature->getParameterTypes(), irGenerator, scope, irContext);
+    auto parameterTypes = this->generateParameterTypes(lambdaTypeSignature->getParameterTypes(), irGenerator, scope, irContext, irGenerator->generateIrPointerType());
     auto irFunction = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false)));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();
     auto irInvocableType = new IRInvocableType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterTypes, returnType);
@@ -17,16 +17,14 @@ IRInvocableType* LambdaTypeSignatureIRStrategy::generate(LambdaTypeSignature* la
 
 IRLambdaType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto returnType = irGenerator->generateTypeFor(lambdaExpressionTypeSignature->getReturnType(), scope, irContext);
-    auto lambdaScopeIrType = std::optional<IRStructType*>();
-    if (lambdaExpressionTypeSignature->isScopeParameterNecessary()) {
-        lambdaScopeIrType = irGenerator->generateTypeFor((LambdaScopeTypeSignature*)lambdaExpressionTypeSignature->getScopeParameter()->getTypeSignature(), scope, irContext);
-    }
+    auto lambdaScopeIrType = irGenerator->generateTypeFor((LambdaScopeTypeSignature*)lambdaExpressionTypeSignature->getScopeParameter()->getTypeSignature(), scope, irContext);
     auto parameterList = this->generateParameterTypes(
-            lambdaExpressionTypeSignature->getParameterTypes(),
-            irGenerator,
-            scope,
-            irContext,
-            lambdaScopeIrType);
+        lambdaExpressionTypeSignature->getParameterTypes(),
+        irGenerator,
+        scope,
+        irContext,
+        lambdaScopeIrType
+    );
     auto functionType = llvm::FunctionType::get(returnType->getType(), parameterList->getParameterTypes(), false);
     auto irFunction = IRPointerType::create(new IRFunctionType(functionType));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();

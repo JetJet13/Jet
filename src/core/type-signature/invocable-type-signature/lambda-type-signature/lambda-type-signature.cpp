@@ -23,6 +23,10 @@ std::vector<TypeSignature*>* LambdaTypeSignature::getParameterTypes() {
     return &_parameterTypes;
 }
 
+bool LambdaTypeSignature::hasScopeArgument() {
+    return true;
+}
+
 bool LambdaTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
     if (this->numParameters() != argumentListTypeSignature->numParameters()) {
         return false;

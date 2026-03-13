@@ -8,6 +8,7 @@
 
 IRRefExpressionNode* RefExpressionIRStrategy::generate(ASTRefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, new IROperation(IR_REF_ASSIGNMENT_OP));
+    irExpressionNode->markAsAssigned();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto allocation = this->generateAllocation(node, irType, irGenerator, irContext, irOperation);
     if (irExpressionNode->getSourceAllocation()) {

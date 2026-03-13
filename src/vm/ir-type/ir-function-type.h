@@ -10,8 +10,10 @@
 class IRFunctionType : public IRType {
 private:
     llvm::FunctionType* _type;
+    bool _requiresScopeArgument;
 public:
-    IRFunctionType(llvm::FunctionType* type);
+    IRFunctionType(llvm::FunctionType* type, bool requiresScopeArgument = false);
+    bool requiresScopeArgument();
     llvm::FunctionType* getType() override;
     IRFunctionType* clone() override;
 };

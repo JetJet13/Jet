@@ -39,7 +39,7 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
         if (variable->getIRType()->getSourceType()->containsTypeThatRequiresFreeing()) {
             auto typeValue = irInjector->inject(irBlock, variable->getIRType()->getSourceType());
-            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variable->getAllocatedType(), typeValue, irBlock);
+            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variable->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
             irBlock->getBuilder()->get()->CreateCall(
                     irModule->getFreeValueFunction(),
                     { variable->getValue(), loadedTypeValue }

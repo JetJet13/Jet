@@ -67,7 +67,6 @@ int main (int argc, const char* argv[]) {
         auto RM = std::optional<llvm::Reloc::Model>();
         auto TheTargetMachine =
                 Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
-
         irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
 
         auto Filename = "main-jet-test-file-output.o";

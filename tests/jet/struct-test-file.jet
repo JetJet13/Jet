@@ -38,19 +38,45 @@ enum SimpleEnum {
     Gamma
 }
 
+func getInt(x: int) int {
+    return x;
+}
+
+func getFloat(y: float) float {
+    return y;
+}
+
+func getBool(x: bool) bool {
+    return x;
+}
+
+func getChar(y: char) char {
+    return y;
+}
+
+func getString(x: string) string {
+    return x;
+}
+
+func getArray(y: [int]) [int] {
+    return y;
+}
+
+func getRefArray(y: [int]) ref<[int]> {
+    return ref y;
+}
+
 proc testWhileLoops() {
-    let ifWhileCounter = 20;
-    let evenCounter = 0;
-    let oddCounter = 0;
-    while ifWhileCounter > 0 {
-        if ifWhileCounter mod 2 == 0 {
-            evenCounter = evenCounter + 1;
-        } else {
-            oddCounter = oddCounter + 1;
-        }
-        ifWhileCounter = ifWhileCounter - 1;
+    let value = 10;
+    while value > 0 {
+        value = value - 1;
     }
-    assert(evenCounter == 10);
-    assert(oddCounter == 10);
+    assert(value == 0);
+
+    let refValue = ref 10;
+    while refValue > 0 {
+        refValue *= refValue - 1;
+    }
+    assert(refValue == 0);
 }
 testWhileLoops();

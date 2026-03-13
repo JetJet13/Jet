@@ -20,6 +20,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
             ifStatement->getIfElseNode()->getEndBlock()->getBuilder()->get()->CreateBr(
                 irBlockNode->getLastSuccessorOrSelf()->getBlock()
             );
+            irBlockNode->getLastSuccessorOrSelf()->getBlock()->moveAfter(ifStatement->getIfElseNode()->getEndBlock()->getBlock());
         } else if (statement->is(IR_WHILE_STATEMENT_NODE)) {
             auto whileStatement = (IRWhileStatementNode*)statement;
             irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateBr(whileStatement->getWhileBlock()->getBlock());
@@ -30,6 +31,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
             whileStatement->getEndBlock()->getBuilder()->get()->CreateBr(
                     irBlockNode->getLastSuccessorOrSelf()->getBlock()
             );
+            irBlockNode->getLastSuccessorOrSelf()->getBlock()->moveAfter(whileStatement->getEndBlock()->getBlock());
         } else if (statement->is(IR_FOR_IN_STATEMENT_NODE)) {
             auto forInStatement = (IRForInStatementNode*)statement;
             irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateBr(forInStatement->getSetupBlock()->getBlock());
@@ -40,6 +42,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
             forInStatement->getEndBlock()->getBuilder()->get()->CreateBr(
                     irBlockNode->getLastSuccessorOrSelf()->getBlock()
             );
+            irBlockNode->getLastSuccessorOrSelf()->getBlock()->moveAfter(forInStatement->getEndBlock()->getBlock());
         } else {
             irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
         }

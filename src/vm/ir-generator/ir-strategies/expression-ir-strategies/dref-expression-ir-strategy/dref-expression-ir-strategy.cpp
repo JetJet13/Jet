@@ -10,9 +10,6 @@ IRExpressionNode* DrefExpressionIRStrategy::generate(ASTDrefExpressionNode* node
     auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperation);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto allocation = this->generateAllocation(node, irType, irGenerator, irContext, irOperation);
-    if (irExpressionNode->getSourceAllocation()) {
-        allocation->setParentAllocation(irExpressionNode->getSourceAllocation().value());
-    }
     return new IRDrefExpressionNode(node, irExpressionNode, irType, allocation);
 }
 

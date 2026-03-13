@@ -15,7 +15,7 @@ IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNod
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 irGenerator->generateInt64Constant(1),
-                expressionIr->getValue()
+                irGenerator->generateInt64Constant(1) // placeholder
         ), expressionIr, irType);
     } else if (node->getUnaryOperatorNode()->isMinus()) {
         auto isFloat = node->getTypeSignature()->getTargetTypeSignature()->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE);
@@ -23,13 +23,13 @@ IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(ASTUnaryExpressionNod
             return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                     llvm::Instruction::BinaryOps::FSub,
                     irGenerator->generateFloatConstant(0),
-                    expressionIr->getValue()
+                    irGenerator->generateFloatConstant(0) // placeholder
             ), expressionIr, irType);
         }
         return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Sub,
                 irGenerator->generateInt64Constant(0),
-                expressionIr->getValue()
+                irGenerator->generateInt64Constant(0) // placeholder
         ), expressionIr, irType);
     } else {
         return new IRUnaryNegateExpressionNode(node, expressionIr, irType);

@@ -19,22 +19,20 @@ llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccessE
 
 llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();
-    auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, arrayAccessAllocation);
-    auto loadedPointerToIndexedElement = InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
-
+    auto alloc = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
-
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyArrayFunction(),
             {
-                    irExpression->getSourceAllocation().value()->getValue(),
-                    loadedPointerToIndexedElement,
-                    loadedTypeValue
+                alloc,
+                pointer,
+                loadedTypeValue
             }
     );
-    return irExpression->getSourceAllocation().value()->getValue();
+    return InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getType(), alloc, irBlock);
 }
 
 llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectRef(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {

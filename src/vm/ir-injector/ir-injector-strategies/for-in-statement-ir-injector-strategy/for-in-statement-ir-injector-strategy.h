@@ -9,8 +9,11 @@
 #include "../../../ir-nodes/ir-module-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.h"
 #include "../../ir-injector.h"
+#include "../../../ir-type/ir-array-pointer-type.h"
 
 class ForInStatementIRInjectorStrategy {
+private:
+    llvm::Value* getSourceValue(IRForInStatementNode* irForInStatement, IRArrayPointerType* arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
 public:
     void inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };

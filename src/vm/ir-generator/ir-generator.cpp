@@ -537,6 +537,61 @@ IRPointerType* IRGenerator::generateIrPointerType(IRType* type) {
     return new IRPointerType(llvm::PointerType::get(type->getType(), 0), type);
 }
 
+llvm::ConstantPointerNull* IRGenerator::generateConstantPointer() {
+    return llvm::ConstantPointerNull::get(this->generatePointerType());
+}
+
+llvm::Constant* IRGenerator::generatePlaceholderTypeValueArgument() {
+    return llvm::ConstantStruct::get(_typeValueType, {
+            this->generateIntConstant(0),
+            this->generateIntConstant(0),
+            this->generateIntConstant(0),
+            this->generateConstantPointer(),
+            this->generateConstantPointer(),
+            this->generateConstantPointer()
+    });
+}
+
+llvm::Constant* IRGenerator::generatePlaceholderArrayPointerArgument() {
+    return llvm::ConstantStruct::get(_arrayPointerType, {
+            this->generateIntConstant(0),
+            this->generateIntConstant(0),
+            this->generateConstantPointer()
+    });
+}
+
+llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(IRType* irType) {
+    if (irType->isArrayPointerType()) {
+        return this->generatePlaceholderArrayPointerArgument();
+    } else if (irType->isStructRefType() || irType->isClassInstanceType() || irType->isNewClassInstanceType()) {
+        return llvm::ConstantStruct::get(_structRefType, {
+                this->generateConstantPointer(),
+                this->generateConstantPointer()
+        });
+    } else if (irType->isRefType()) {
+        return llvm::ConstantStruct::get(_refType, {
+                this->generateConstantPointer(),
+                this->generateConstantPointer()
+        });
+    } else if (irType->isInvocableType()) {
+        return llvm::ConstantStruct::get(_invocableType, {
+                this->generateConstantPointer(),
+                this->generateConstantPointer(),
+                this->generateConstantPointer(),
+                this->generateConstantPointer()
+        });
+    } else if (irType->isIntegerType()) {
+        return this->generateIntConstant(0);
+    } else if (irType->isFloatType()) {
+        return this->generateFloatConstant(0);
+    } else if (irType->isCharType()) {
+        return this->generateChar('a');
+    } else if (irType->isBoolType()) {
+        return this->generateBoolean(true);
+    }
+    return this->generateConstantPointer();
+}
+
 IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
     auto irRefType = new IRRefType(_refType, new IRType(this->generateIntType()), underlyingIRType);
     return irRefType;
@@ -555,7 +610,7 @@ std::string IRGenerator::getArrayPrototypeFunctionName(std::string id) {
     return ArrayPrototypeMap::getIRName(id);
 }
 
-std::string IRGenerator::getRefPrototypeFunctionName(std::string id) {
+std::optional<std::string> IRGenerator::getRefPrototypeFunctionName(std::string id) {
     return RefPrototypeMap::getIRName(id);
 }
 
@@ -571,33 +626,65 @@ IRFunctionType* IRGenerator::generateFunctionIrType(llvm::FunctionType* function
     return new IRFunctionType(functionType);
 }
 
-IRArrayType* IRGenerator::generateVarArgsTypeValuesIrType(unsigned long numVarArgs) {
-    return this->generateIRArrayType(this->generateIrTypeValueType(), numVarArgs);
-}
-
-std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctionType* irFunctionType) {
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctionType* irFunctionType, std::vector<IRFunctionArgumentNode*>* irArguments) {
     auto pointerType = this->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
-    auto numArguments = irFunctionType->getType()->getNumParams();
+    auto numArguments = irArguments->size();
     for (unsigned int i = 0; i < numArguments; ++i) {
-        argList.push_back(llvm::ConstantPointerNull::get(pointerType));
+        argList.push_back(
+            this->generatePlaceholderValueForIRType(irArguments->at(i)->getArgument()->getUnderlyingIRType())
+        );
     }
+
     return argList;
 }
 
-std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRInvocableType* irInvocableType) {
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRInvocableType* irInvocableType, std::vector<IRFunctionArgumentNode*>* irArguments) {
     auto pointerType = this->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
-    auto numArguments = irInvocableType->getIRFunctionType()->getType()->getNumParams();
+    auto numArguments = irArguments->size();
     for (unsigned int i = 0; i < numArguments; ++i) {
-        argList.push_back(llvm::ConstantPointerNull::get(pointerType));
+        argList.push_back(
+            this->generatePlaceholderValueForIRType(irArguments->at(i)->getArgument()->getUnderlyingIRType())
+        );
     }
 
     // for scope argument
-    argList.push_back(llvm::ConstantPointerNull::get(pointerType));
+    argList.push_back(this->generateConstantPointer());
 
     return argList;
 }
+
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderListForFunction(InvocableTypeSignature* invocableTypeSignature, std::vector<IRFunctionArgumentNode*>* irArguments, IRLookupTable* scope, IRContext* irContext) {
+    auto parameterIrTypes = this->generateIRTypes(invocableTypeSignature->getParameterTypes(), scope, irContext);
+    auto argList = std::vector<llvm::Value*>();
+
+    if (invocableTypeSignature->hasVariableLengthParameters()) {
+        argList.push_back(this->generatePlaceholderArrayPointerArgument());
+    }
+
+    for (int i = 0; i < parameterIrTypes.size(); ++i) {
+        auto parameterIrType = parameterIrTypes.at(i);
+        if (invocableTypeSignature->getParameterTypes()->at(i)->isGeneric()) {
+            argList.push_back(this->generateConstantPointer());
+        } else {
+            argList.push_back(this->generatePlaceholderValueForIRType(parameterIrType));
+        }
+    }
+
+
+    if (invocableTypeSignature->hasVariableLengthParameters()) {
+        for (int i = 0; i < irArguments->size(); ++i) {
+            argList.push_back(this->generateConstantPointer());
+        }
+    }
+
+    if (invocableTypeSignature->hasScopeArgument()) {
+        argList.push_back(this->generateConstantPointer());
+    }
+    return argList;
+}
+
 
 llvm::PointerType* IRGenerator::generatePointerType() {
     return llvm::PointerType::get(*_context, 0);
@@ -690,6 +777,14 @@ IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignatu
 
 IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, this, scope, irContext);
+}
+
+std::vector<IRType*> IRGenerator::generateIRTypes(std::vector<TypeSignature*>* parameters, IRLookupTable* scope, IRContext* irContext) {
+    auto parameterIRTypes = std::vector<IRType*>();
+    for (int i = 0; i < parameters->size(); ++i) {
+        parameterIRTypes.push_back(this->generateTypeFor(parameters->at(i), scope, irContext));
+    }
+    return parameterIRTypes;
 }
 
 llvm::ConstantInt* IRGenerator::generateIntConstant(int integer) {
@@ -842,50 +937,131 @@ IRType* IRGenerator::generateIRArcType() {
 IRInstructionNode* IRGenerator::generateArcAllocationForFunctionParameter(IRContext* irContext, llvm::Value* source, unsigned long count) {
     auto irType = this->generateIRArcType();
     auto functionParameterType = this->generateIRInvocableType();
-    auto pointerToArcPointer = llvm::GetElementPtrInst::Create(functionParameterType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(functionParameterType->getFunctionRefCounterIndex()) });
-    auto ancestorValues = std::vector<llvm::Value*> { pointerToArcPointer };
-    if (count > 0) {
-        auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
-        auto currentArcValue = this->generateLoadInstruction(loadedArcPointerForCount, irType);
-        auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
-        auto setArcValue = this->generateStoreInstruction(newArcValue, loadedArcPointerForCount, irType);
-        ancestorValues.push_back(loadedArcPointerForCount);
-        ancestorValues.push_back(currentArcValue);
-        ancestorValues.push_back(newArcValue);
-        ancestorValues.push_back(setArcValue);
+    auto ancestorValues = std::vector<llvm::Value*>();
+    if (source->getType()->isPointerTy()) {
+        auto pointerToArcPointer = llvm::GetElementPtrInst::Create(functionParameterType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(functionParameterType->getFunctionRefCounterIndex()) });
+        ancestorValues.push_back(pointerToArcPointer);
+        if (count > 0) {
+            auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
+            auto currentArcValue = this->generateLoadInstruction(loadedArcPointerForCount, irType);
+            auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+            auto setArcValue = this->generateStoreInstruction(newArcValue, loadedArcPointerForCount, irType);
+            ancestorValues.push_back(loadedArcPointerForCount);
+            ancestorValues.push_back(currentArcValue);
+            ancestorValues.push_back(newArcValue);
+            ancestorValues.push_back(setArcValue);
+        }
+        return new IRInstructionNode(
+                this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType()),
+                this->generateIrPointerType(irType),
+                ancestorValues
+        );
+    } else {
+        auto arcPointer = llvm::ExtractValueInst::Create(source, { functionParameterType->getFunctionRefCounterIndex() });
+        ancestorValues.push_back(arcPointer);
+        if (count > 0) {
+            auto currentArcValue = this->generateLoadInstruction(arcPointer, irType);
+            auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+            auto setArcValue = this->generateStoreInstruction(newArcValue, arcPointer, irType);
+            ancestorValues.push_back(currentArcValue);
+            ancestorValues.push_back(newArcValue);
+            ancestorValues.push_back(setArcValue);
+        }
+        return new IRInstructionNode(
+                arcPointer->clone(),
+                this->generateIrPointerType(irType),
+                ancestorValues
+        );
     }
-    return new IRInstructionNode(
-            this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType)),
-            this->generateIrPointerType(irType),
-            ancestorValues
-    );
 }
 
 IRInstructionNode* IRGenerator::generateArcAllocationForStructRef(IRContext* irContext, llvm::Value* source, unsigned long count) {
     auto irType = this->generateIRArcType();
     auto structRefType = this->generateIRStructRefType();
-    auto pointerToArcPointer = llvm::GetElementPtrInst::Create(structRefType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(structRefType->getCounterIndex()) });
-    auto ancestorValues = std::vector<llvm::Value*> { pointerToArcPointer };
-    if (count > 0) {
-        auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
-        auto currentArcValue = this->generateLoadInstruction(loadedArcPointerForCount, irType);
-        auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
-        auto setArcValue = this->generateStoreInstruction(newArcValue, loadedArcPointerForCount, irType);
-        ancestorValues.push_back(loadedArcPointerForCount);
-        ancestorValues.push_back(currentArcValue);
-        ancestorValues.push_back(newArcValue);
-        ancestorValues.push_back(setArcValue);
+    auto ancestorValues = std::vector<llvm::Value*>();
+    if (source->getType()->isPointerTy()) {
+        auto pointerToArcPointer = llvm::GetElementPtrInst::Create(structRefType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(structRefType->getCounterIndex()) });
+        ancestorValues.push_back(pointerToArcPointer);
+        if (count > 0) {
+            auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
+            auto currentArcValue = this->generateLoadInstruction(loadedArcPointerForCount, irType);
+            auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+            auto setArcValue = this->generateStoreInstruction(newArcValue, loadedArcPointerForCount, irType);
+            ancestorValues.push_back(loadedArcPointerForCount);
+            ancestorValues.push_back(currentArcValue);
+            ancestorValues.push_back(newArcValue);
+            ancestorValues.push_back(setArcValue);
+        }
+        return new IRInstructionNode(
+                this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType()),
+                this->generateIrPointerType(irType),
+                ancestorValues
+        );
+    } else {
+        auto arcPointer = llvm::ExtractValueInst::Create(source, { structRefType->getCounterIndex() });
+        ancestorValues.push_back(arcPointer);
+        if (count > 0) {
+            auto currentArcValue = this->generateLoadInstruction(arcPointer, irType);
+            auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+            auto setArcValue = this->generateStoreInstruction(newArcValue, arcPointer, irType);
+            ancestorValues.push_back(currentArcValue);
+            ancestorValues.push_back(newArcValue);
+            ancestorValues.push_back(setArcValue);
+        }
+        return new IRInstructionNode(
+                arcPointer->clone(),
+                this->generateIrPointerType(irType),
+                ancestorValues
+        );
     }
-    return new IRInstructionNode(
-            this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType)),
-            this->generateIrPointerType(irType),
-            ancestorValues
-    );
+}
+
+IRInstructionNode* IRGenerator::generateArcAllocationForRef(IRContext* irContext, llvm::Value* source, unsigned long count) {
+    auto irType = this->generateIRArcType();
+    auto refType = this->generateIrRefType(irType);
+    auto ancestorValues = std::vector<llvm::Value*>();
+    if (source->getType()->isPointerTy()) {
+        auto pointerToArcPointer = llvm::GetElementPtrInst::Create(refType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(refType->getRefCounterIndex()) });
+        ancestorValues.push_back(pointerToArcPointer);
+        if (count > 0) {
+            auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
+            auto currentArcValue = this->generateLoadInstruction(loadedArcPointerForCount, irType);
+            auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+            auto setArcValue = this->generateStoreInstruction(newArcValue, loadedArcPointerForCount, irType);
+            ancestorValues.push_back(loadedArcPointerForCount);
+            ancestorValues.push_back(currentArcValue);
+            ancestorValues.push_back(newArcValue);
+            ancestorValues.push_back(setArcValue);
+        }
+        return new IRInstructionNode(
+                this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType()),
+                this->generateIrPointerType(irType),
+                ancestorValues
+        );
+    } else {
+        auto arcPointer = llvm::ExtractValueInst::Create(source, { refType->getRefCounterIndex() });
+        ancestorValues.push_back(arcPointer);
+        if (count > 0) {
+            auto currentArcValue = this->generateLoadInstruction(arcPointer, irType);
+            auto newArcValue = llvm::BinaryOperator::Create(llvm::Instruction::BinaryOps::Add, currentArcValue, this->generateIntConstant(count));
+            auto setArcValue = this->generateStoreInstruction(newArcValue, arcPointer, irType);
+            ancestorValues.push_back(currentArcValue);
+            ancestorValues.push_back(newArcValue);
+            ancestorValues.push_back(setArcValue);
+        }
+        return new IRInstructionNode(
+                arcPointer->clone(),
+                this->generateIrPointerType(irType),
+                ancestorValues
+        );
+    }
 }
 
 IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, IRType* irType, llvm::Value* source, unsigned long count) {
     if (irType->isInvocableType()) {
         return this->generateArcAllocationForFunctionParameter(irContext, source, count);
+    } else if (irType->isRefType()) {
+        return this->generateArcAllocationForRef(irContext, source, count);
     }
     return this->generateArcAllocationForStructRef(irContext, source, count);
 }

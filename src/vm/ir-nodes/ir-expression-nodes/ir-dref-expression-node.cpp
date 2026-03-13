@@ -42,7 +42,7 @@ Position* IRDrefExpressionNode::getEndPosition() {
 }
 
 llvm::Value* IRDrefExpressionNode::getValue() {
-    return _irExpression->getValue();
+    return _irValue->getValue();
 }
 
 IRNodeType IRDrefExpressionNode::getNodeType() {

@@ -46,6 +46,10 @@ bool InvocableTypeSignature::isArgumentVarArg(int argumentIndex) {
     return startIndex >= 0 && startIndex <= argumentIndex;
 }
 
+bool InvocableTypeSignature::hasScopeArgument() {
+    return false;
+}
+
 bool InvocableTypeSignature::hasVariableLengthParameters() {
     return false;
 }

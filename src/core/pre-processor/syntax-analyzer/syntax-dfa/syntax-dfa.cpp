@@ -407,7 +407,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_MODULE_ACCESS_SOURCE_NODE, { AST_MODULE_ACCESS_NODE }))
     ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_VARIABLE_NODE, {AST_FOR_NODE }, {AST_FOR_IN_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
@@ -440,6 +440,7 @@ void SyntaxDfa::init() {
 
     arrayExpression
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)));
 
@@ -623,6 +624,7 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -636,6 +638,7 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -830,6 +833,7 @@ void SyntaxDfa::init() {
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_THIS_EXPRESSION_NODE,
+            AST_REF_EXPRESSION_NODE
     });
 
     srefKeyword
@@ -1218,6 +1222,8 @@ void SyntaxDfa::init() {
             AST_UNARY_EXPRESSION_NODE,
             AST_CONCAT_EXPRESSION_NODE,
             AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
+            AST_REF_EXPRESSION_NODE,
+            AST_DREF_EXPRESSION_NODE
     });
 
     arrayTypeStart

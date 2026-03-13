@@ -7,8 +7,8 @@
 
 void DrefExpressionTypeSignatureStrategy::assign(ASTDrefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
-    if (node->getExpressionNode()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)node->getExpressionNode()->getTypeSignature();
+    if (node->getExpressionNode()->getTypeSignature()->getTargetTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        auto refTypeSignature = (RefTypeSignature*)node->getExpressionNode()->getTypeSignature()->getTargetTypeSignature();
         node->setTypeSignature(refTypeSignature->getUnderlyingType());
     } else {
         node->setTypeSignature(new UnknownTypeSignature());

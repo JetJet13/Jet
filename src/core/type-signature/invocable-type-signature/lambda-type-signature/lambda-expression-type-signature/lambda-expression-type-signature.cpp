@@ -34,6 +34,10 @@ ParameterListTypeSignature* LambdaExpressionTypeSignature::getParameterList() {
     return _parameterList;
 }
 
+bool LambdaExpressionTypeSignature::hasScopeArgument() {
+    return true;
+}
+
 std::vector<TypeSignature*>* LambdaExpressionTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }

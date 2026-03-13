@@ -4,8 +4,13 @@
 
 #include "ir-function-type.h"
 
-IRFunctionType::IRFunctionType(llvm::FunctionType* type) : IRType(type) {
+IRFunctionType::IRFunctionType(llvm::FunctionType* type, bool requiresScopeArgument) : IRType(type) {
     _type = type;
+    _requiresScopeArgument = requiresScopeArgument;
+}
+
+bool IRFunctionType::requiresScopeArgument() {
+    return _requiresScopeArgument;
 }
 
 llvm::FunctionType* IRFunctionType::getType() {

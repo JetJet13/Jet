@@ -15,6 +15,7 @@ private:
     ASTIdentifierExpressionNode* _node;
     IRInstructionNode* _irValue;
     std::optional<IRInstructionNode*> _irArc;
+    IRPointerType* _irType;
 public:
     IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc = {});
     IRInstructionNode* getIRValue();

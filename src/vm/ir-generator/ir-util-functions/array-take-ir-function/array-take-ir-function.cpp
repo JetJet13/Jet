@@ -129,7 +129,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     );
     successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction(),
-            { takeArrayMalloc, takeNumElements }
+            { takeArrayMalloc }
     );
     successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeCopy);
 }

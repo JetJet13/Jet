@@ -24,5 +24,14 @@ llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(IRArrayExpressionNod
     if (irOperation->isOperandPointer()) {
         return irExpression->getAggregatePointerAllocation()->getValue();
     }
+
+    if (irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
+        auto irArrayPointerType = irExpression->getIRType();
+        auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
+        auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
+        auto loadedTypeValue = irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue);
+        irBlock->getBuilder()->get()->CreateCall(irModule->getCopyArrayFunction(), { destinationPointerAllocation, irExpression->getAggregatePointerAllocation()->getValue(), loadedTypeValue });
+        return irBlock->getBuilder()->get()->CreateLoad(irArrayPointerType->getType(), destinationPointerAllocation);
+    }
     return loadedArray;
 }

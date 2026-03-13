@@ -22,6 +22,7 @@ public:
     ParameterListItemTypeSignature* getScopeParameter();
     bool isScopeParameterNecessary();
     ParameterListTypeSignature* getParameterList();
+    bool hasScopeArgument() override;
     std::vector<TypeSignature*>* getParameterTypes() override;
     bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
     TypeSignature* getReturnType() override;

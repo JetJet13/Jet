@@ -57,11 +57,12 @@ void LambdaExpressionIRStrategy::setupParameters(LambdaExpressionTypeSignature* 
         );
     }
 
+    auto lambdaScopeParameterType = irGenerator->generateParameterType(typeSignature->getScopeParameter(), scope, irContext);
+    auto argument = new llvm::Argument(lambdaScopeParameterType->getType(), lambdaScopeParameterType->getName(), irFunction, irFunction->arg_size() - 1);
+    auto scopeParameter = new IRFunctionParameterNode(argument, lambdaScopeParameterType, irGenerator->generateFunctionParameterAllocation(lambdaScopeParameterType->getIRType()));
+    functionParameterList->addLambdaScopeParameter(scopeParameter);
+
     if (typeSignature->isScopeParameterNecessary()) {
-        auto lambdaScopeParameterType = irGenerator->generateParameterType(typeSignature->getScopeParameter(), scope, irContext);
-        auto argument = new llvm::Argument(lambdaScopeParameterType->getType(), lambdaScopeParameterType->getName(), irFunction, irFunction->arg_size() - 1);
-        auto scopeParameter = new IRFunctionParameterNode(argument, lambdaScopeParameterType, irGenerator->generateFunctionParameterAllocation(lambdaScopeParameterType->getIRType()));
-        functionParameterList->addLambdaScopeParameter(scopeParameter);
         auto scopeParameterIrType = (IRStructType*)scopeParameter->getParameterType()->getIRType();
         auto scopeParameterAllocation = scopeParameter->getAllocation();
         auto loadedScopeParameterArgument = irGenerator->generateLoadInstruction(irFunction->getArg(argument->getArgNo()), lambdaScopeParameterType->getIRType());

@@ -13,12 +13,14 @@
 #include "strategies/ref-ir-sref-expression-injector-strategy/ref-ir-sref-expression-injector-strategy.h"
 #include "strategies/ref-ir-object-access-expression-injector-strategy/ref-ir-object-access-expression-injector-strategy.h"
 #include "strategies/ref-ir-array-access-expression-injector-strategy/ref-ir-array-access-expression-injector-strategy.h"
+#include "strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.h"
 
 class RefIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 private:
     RefIRRefExpressionInjectorStrategy _refIRRefExpressionInjectorStrategy = RefIRRefExpressionInjectorStrategy();
     RefIRIdentifierExpressionInjectorStrategy _refIRIdentifierExpressionInjectorStrategy = RefIRIdentifierExpressionInjectorStrategy();
+    RefIRFunctionInvocationExpressionInjectorStrategy _refIRFunctionInvocationExpressionInjectorStrategy = RefIRFunctionInvocationExpressionInjectorStrategy();
     RefIRSrefExpressionInjectorStrategy _refIRSrefExpressionInjectorStrategy = RefIRSrefExpressionInjectorStrategy();
     RefIRObjectAccessExpressionInjectorStrategy _refIRObjectAccessExpressionInjectorStrategy = RefIRObjectAccessExpressionInjectorStrategy();
     RefIRArrayAccessExpressionInjectorStrategy _refIRArrayAccessExpressionInjectorStrategy = RefIRArrayAccessExpressionInjectorStrategy();

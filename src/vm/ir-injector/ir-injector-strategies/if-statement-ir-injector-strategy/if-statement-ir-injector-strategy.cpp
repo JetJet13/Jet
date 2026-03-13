@@ -20,13 +20,13 @@ void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRB
         irInjector->inject(irBlock, thenBlock, irModule);
         irInjector->inject(irBlock, elseBlock, irModule);
 
-        if (!llvm::isa<llvm::BranchInst>(thenBlock->getBlock()->back())) {
+        if (!thenBlock->hasBranchInstruction()) {
             thenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
         }
 
         if (currentIfElseNode.value()->getNext()) {
             elseBlock->getBuilder()->get()->CreateBr(currentIfElseNode.value()->getNext().value()->getIfBlock()->getBlock());
-        } else if (!llvm::isa<llvm::BranchInst>(elseBlock->getBlock()->back())) {
+        } else if (!elseBlock->hasBranchInstruction()) {
             elseBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
         }
 

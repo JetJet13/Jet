@@ -14,6 +14,7 @@ public:
     bool isEquivalentTo(TypeSignature* otherType) override;
     TypeSignature* convertToVariableTypeSignature() override;
     bool isArgumentVarArg(int argumentIndex);
+    virtual bool hasScopeArgument();
     virtual bool hasVariableLengthParameters();
     virtual unsigned long getVariableLengthParametersStartIndex();
     virtual std::vector<TypeSignature*>* getParameterTypes() = 0;

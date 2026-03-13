@@ -127,6 +127,8 @@ void IRInstructionNode::markAsGlobal() {
 bool IRInstructionNode::isInserted() {
     if (llvm::isa<llvm::Instruction>(_irValue)) {
         return llvm::cast<llvm::Instruction>(_irValue)->getParent() != nullptr;
+    } else if (llvm::isa<llvm::ExtractValueInst>(_irValue)) {
+        return llvm::cast<llvm::ExtractValueInst>(_irValue)->getParent() != nullptr;
     }
     return false;
 }

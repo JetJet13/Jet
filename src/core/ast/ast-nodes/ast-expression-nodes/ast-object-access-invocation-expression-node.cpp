@@ -5,6 +5,7 @@
 #include "ast-object-access-invocation-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
+#include "../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 ASTObjectAccessInvocationExpressionNode::ASTObjectAccessInvocationExpressionNode(ASTObjectAccessExpressionNode* objectAccess, ASTFunctionArgumentListNode* arguments) {
     _objectAccess = objectAccess;
@@ -42,7 +43,12 @@ unsigned long ASTObjectAccessInvocationExpressionNode::numArguments() {
 }
 
 bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
-    return this->getSource()->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)
+    auto sourceTypeSignature = this->getSource()->getSource()->getTypeSignature();
+    if (sourceTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
+        auto refTypeSignature = (RefTypeSignature*)sourceTypeSignature;
+        sourceTypeSignature = refTypeSignature->getUnderlyingType();
+    }
+    return sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)
            && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }
 

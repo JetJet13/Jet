@@ -6,14 +6,14 @@
 #define JETLANG_IR_REF_PROTOTYPE_MAP_H
 
 #include <string>
+#include <optional>
 #include "../../types/ir-ref-prototype-function.h"
 
 class RefPrototypeMap {
 public:
-    RefPrototypeMap();
-    static IRRefPrototypeFunctionId getIRRefPrototypeFunction(std::string id);
+    static std::optional<IRRefPrototypeFunctionId> getIRRefPrototypeFunction(std::string id);
     static std::string getIRName(IRRefPrototypeFunctionId irRefPrototypeFunction);
-    static std::string getIRName(std::string id);
+    static std::optional<std::string> getIRName(const std::string& id);
 };
 
 #endif //JETLANG_IR_REF_PROTOTYPE_MAP_H

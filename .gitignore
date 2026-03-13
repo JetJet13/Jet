@@ -1,4 +1,5 @@
 cmake-build-debug-jet-lang-toolchain
+cmake-build-debug-jet-lang-toolchain-debug
 .DS_Store
 .idea
 ir-generator-test-output.ir

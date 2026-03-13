@@ -12,11 +12,19 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryArithmetic
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-    auto binaryArithmeticExpressionNode = new IRBinaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
-            this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
-            leftExpressionIr->getValue(),
-            rightExpressionIr->getValue()
-    ), leftExpressionIr, rightExpressionIr, irType);
+    auto binaryOperator = typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+            ? llvm::BinaryOperator::Create(
+                    this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
+                    irGenerator->generateFloatConstant(0),
+                    irGenerator->generateFloatConstant(0)
+            )
+            : llvm::BinaryOperator::Create(
+                    this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
+                    irGenerator->generateIntConstant(0),
+                    irGenerator->generateIntConstant(0)
+            );
+
+    auto binaryArithmeticExpressionNode = new IRBinaryArithmeticExpressionNode(node, binaryOperator, leftExpressionIr, rightExpressionIr, irType);
     if (node->isGrouped()) {
         binaryArithmeticExpressionNode->markAsGrouped();
     }
@@ -31,14 +39,20 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryComparator
 
     auto leftIrType = irGenerator->generateTypeFor(node->getLeftNode()->getTypeSignature(), scope, irContext);
     auto rightIrType = irGenerator->generateTypeFor(node->getRightNode()->getTypeSignature(), scope, irContext);
-    return new IRBinaryComparisonExpressionNode(node, llvm::CmpInst::Create(
-            typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
-            ? llvm::Instruction::OtherOps::FCmp
-            : llvm::Instruction::OtherOps::ICmp,
-            this->determineComparatorPredicate(node->getBinaryOperator(), typeSignature),
-            leftExpressionIr->getValue(),
-            rightExpressionIr->getValue()
-    ), leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
+    auto comparison = typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+            ? llvm::CmpInst::Create(
+                    llvm::Instruction::OtherOps::FCmp,
+                    this->determineComparatorPredicate(node->getBinaryOperator(), typeSignature),
+                    irGenerator->generateFloatConstant(0), // placeholder
+                    irGenerator->generateFloatConstant(0) // placeholder
+            )
+            : llvm::CmpInst::Create(
+                    llvm::Instruction::OtherOps::ICmp,
+                    this->determineComparatorPredicate(node->getBinaryOperator(), typeSignature),
+                    irGenerator->generateIntConstant(0), // placeholder
+                    irGenerator->generateIntConstant(0) // placeholder
+            );
+    return new IRBinaryComparisonExpressionNode(node, comparison, leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
 }
 
 llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryArithmeticOperatorNode* operatorNode, TypeSignature* typeSignature) {

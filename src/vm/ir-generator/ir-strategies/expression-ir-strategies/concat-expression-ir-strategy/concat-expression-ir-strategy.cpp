@@ -13,9 +13,20 @@ IRConcatExpressionNode* ConcatExpressionIRStrategy::generate(ASTConcatExpression
     auto function = node->getTypeSignature()->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)
             ? irContext->getIRModule()->getStringConcatFunction()
             : irContext->getIRModule()->getArrayConcatFunction();
+    auto args = std::vector({ leftExpressionIr, rightExpressionIr });
+    auto placeholderArgs = node->getTypeSignature()->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)
+            ? std::vector<llvm::Value*>({
+                irGenerator->generateConstantPointer(),
+                irGenerator->generateConstantPointer()
+              })
+            : std::vector<llvm::Value*>({
+                irGenerator->generateConstantPointer(),
+                irGenerator->generateConstantPointer(),
+                irGenerator->generatePlaceholderTypeValueArgument()
+              });
     auto concatCall = llvm::CallInst::Create(
             function,
-            irGenerator->generateArgumentPlaceholderList(irGenerator->generateFunctionIrType(function->getFunctionType()))
+            placeholderArgs
     );
     return new IRConcatExpressionNode(
             node,

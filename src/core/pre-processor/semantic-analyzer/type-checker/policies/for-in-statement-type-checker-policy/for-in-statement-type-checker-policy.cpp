@@ -11,9 +11,15 @@ namespace ForInStatementTypeCheckerPolicy {
     void apply(ASTForInStatementNode* forStatementNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(forStatementNode->getBlock(), typeCheckerResult);
         auto notIterableMessage = TypeCheckerErrorMessageTable::ForInStatementSourceNotIterable(forStatementNode->getSource());
+
+        auto sourceTypeSignature = forStatementNode->getSource()->getTypeSignature();
+        if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
+            auto refTypeSignature = (RefTypeSignature*)sourceTypeSignature;
+            sourceTypeSignature = refTypeSignature->getUnderlyingType();
+        }
         TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule()
         ->enforce(
-            forStatementNode->getSource()->getTypeSignature(),
+            sourceTypeSignature,
             notIterableMessage,
             typeCheckerResult
         );

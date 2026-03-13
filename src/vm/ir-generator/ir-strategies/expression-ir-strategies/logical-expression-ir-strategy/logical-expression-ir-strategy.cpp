@@ -11,8 +11,8 @@ IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpress
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     return new IRLogicalExpressionNode(node, llvm::BinaryOperator::Create(
             this->determineOperatorIR(node->getLogicalOperator()),
-            leftExpressionIr->getValue(),
-            rightExpressionIr->getValue()
+            irGenerator->generateBoolean(true), // placeholder
+            irGenerator->generateBoolean(true) // placeholder
     ), irType, leftExpressionIr, rightExpressionIr);
 }
 
