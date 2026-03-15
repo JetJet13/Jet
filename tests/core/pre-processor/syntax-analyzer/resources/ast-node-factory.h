@@ -784,7 +784,7 @@ namespace ASTNodeFactory {
     }
     static ASTTypeNode* createTupleType(std::vector<ASTTypeNode*> items = {}) {
         return ASTTypeNodeFactory::createTupleTypeNode(
-                new ASTTupleTypeNode(
+                new ASTTupleTypeNodeDep(
                     ASTNodeFactory::tupleKeyword,
                     ASTNodeFactory::createTypeParameterList(items)
                 )

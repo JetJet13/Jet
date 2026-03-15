@@ -129,6 +129,9 @@ std::optional<IRType*> IRLookupTable::findGlobalType(std::string key) {
 
 IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, IRInstructionNode* value) {
     _globalScope[key] = value;
+    if (_outerScope) {
+        _outerScope.value()->insertGlobalVariable(key, value);
+    }
     return this;
 }
 

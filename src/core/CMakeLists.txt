@@ -1385,6 +1385,12 @@ add_library(jet-core
         ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-comparator-expression-reducer-strategy/binary-comparator-expression-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-comparator-expression-reducer-strategy/binary-comparator-expression-reducer-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-start-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-start-node.h
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-end-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-end-node.h
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-node.h
 
 )
 

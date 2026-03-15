@@ -64,7 +64,7 @@ SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
 RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
     this->prepHandleForRecognizer();
-//    _handle.print();
+    _handle.print();
     return _recognizer->recognize(&_handle);
 }
 
@@ -188,6 +188,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
             Logger::log("pushing mode: STRUCT_TYPE_MODE");
             _modeStack.push(SA_STRUCT_TYPE_MODE);
             break;
+        case AST_TUPLE_TYPE_START_NODE:
+            Logger::log("pushing mode: TUPLE_TYPE_MODE");
+            _modeStack.push(SA_TUPLE_TYPE_MODE);
+            break;
         case AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE:
             Logger::log("pushing mode: LAMBDA_TYPE_PARAMETER_LIST_MODE");
             _modeStack.push(SA_LAMBDA_TYPE_PARAMETER_LIST_MODE);
@@ -277,10 +281,16 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         _modeStack.push(SA_STRUCT_MODE);
     }
 
-        if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_TUPLE_LIST_MODE) {
+    if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_TUPLE_LIST_MODE) {
         Logger::log("replacing TUPLE_LIST_MODE with STRUCT_MODE");
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_MODE);
+    }
+
+    if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_TUPLE_TYPE_MODE) {
+        Logger::log("replacing TUPLE_TYPE_MODE with STRUCT_TYPE_MODE");
+        _modeStack.pop();
+        _modeStack.push(SA_STRUCT_TYPE_MODE);
     }
 }
 

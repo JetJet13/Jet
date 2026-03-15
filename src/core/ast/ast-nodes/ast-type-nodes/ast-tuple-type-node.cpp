@@ -6,47 +6,47 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleTypeNode::ASTTupleTypeNode(ASTTupleNode* tupleNode, ASTTypeParameterListNode* typeParameterList) {
+ASTTupleTypeNodeDep::ASTTupleTypeNodeDep(ASTTupleNode* tupleNode, ASTTypeParameterListNode* typeParameterList) {
     _tupleNode = tupleNode;
     _typeParameterList = typeParameterList;
     _children.push_back(_typeParameterList);
 }
 
-ASTTypeParameterListNode* ASTTupleTypeNode::getParameterList() {
+ASTTypeParameterListNode* ASTTupleTypeNodeDep::getParameterList() {
     return _typeParameterList;
 }
 
-Position* ASTTupleTypeNode::getStartPosition() {
+Position* ASTTupleTypeNodeDep::getStartPosition() {
     return _tupleNode->getStartPosition();
 }
 
-Position* ASTTupleTypeNode::getEndPosition() {
+Position* ASTTupleTypeNodeDep::getEndPosition() {
     return _typeParameterList->getEndPosition();
 }
 
-ASTNodeType ASTTupleTypeNode::getNodeType() {
+ASTNodeType ASTTupleTypeNodeDep::getNodeType() {
     return AST_TUPLE_TYPE_NODE;
 }
 
-std::string ASTTupleTypeNode::toString() {
+std::string ASTTupleTypeNodeDep::toString() {
     return "TUPLE_TYPE";
 }
 
-bool ASTTupleTypeNode::isSameAs(ASTNode *other) {
+bool ASTTupleTypeNodeDep::isSameAs(ASTNode *other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTTupleTypeNode*)other;
+    auto otherNode = (ASTTupleTypeNodeDep*)other;
     return this->getParameterList()->isSameAs(otherNode->getParameterList());
 }
 
-void ASTTupleTypeNode::print() {
+void ASTTupleTypeNodeDep::print() {
     Logger::log("----------", this->toString(), "----------");
     _typeParameterList->print();
     Logger::log("----------");
 }
 
-std::string ASTTupleTypeNode::toSourceCode() {
+std::string ASTTupleTypeNodeDep::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_tupleNode)->add(_typeParameterList);
     return sourceCodeBuilder.build();

@@ -36,7 +36,7 @@ std::optional<ClassMethodTypeSignature*> NewClassInstanceTypeSignature::findMeth
 
 std::optional<ClassPropertyTypeSignature*> NewClassInstanceTypeSignature::findProperty(std::string propertyName) {
     auto propertyId = _classTypeSignature.value()->getId() + "." + propertyName;
-    return _classTypeSignature.value()->getProperties()->find(propertyId);
+    return _classTypeSignature.value()->getInstanceProperties()->find(propertyId);
 }
 
 bool NewClassInstanceTypeSignature::hasConstructorInfo() {

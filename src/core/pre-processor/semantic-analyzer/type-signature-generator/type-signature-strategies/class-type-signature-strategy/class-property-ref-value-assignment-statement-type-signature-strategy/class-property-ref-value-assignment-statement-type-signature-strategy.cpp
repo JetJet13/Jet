@@ -22,7 +22,7 @@ void ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy::assign(ASTCl
                 ->setTypeSignature(new InvalidTypeSignature());
     }
 
-    auto propertyTypeSignature = classTypeSignature->getProperties()->find(
+    auto propertyTypeSignature = classTypeSignature->getInstanceProperties()->find(
             classPropertyRefValueAssignmentStatementNode
                     ->getPropertyAssignment()
                     ->getProperty()

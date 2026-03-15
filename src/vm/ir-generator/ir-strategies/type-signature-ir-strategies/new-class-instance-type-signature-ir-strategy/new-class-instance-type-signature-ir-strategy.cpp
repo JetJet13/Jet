@@ -8,11 +8,11 @@ IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(NewCla
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
-    for (auto keyValue : newClassInstanceTypeSignature->getClassTypeSignature()->getProperties()->getKeyValues()) {
+    for (auto keyValue : newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
         classPropertyTypes.push_back(irType->getType());
         keyIndexMap.insert(
-            std::pair(keyValue.first, newClassInstanceTypeSignature->getClassTypeSignature()->getProperties()->findKeyIndex(keyValue.first))
+            std::pair(keyValue.first, newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->findKeyIndex(keyValue.first))
         );
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }

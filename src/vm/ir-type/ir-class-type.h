@@ -15,20 +15,23 @@ private:
     std::optional<IRParameterType*> _classScopeType;
     std::unordered_map<std::string, IRFunctionType*> _classConstructors;
     std::unordered_map<std::string, IRFunctionType*> _classMethods;
+    std::unordered_map<std::string, IRType*> _classStaticProperties;
     std::string _preConstructorName;
     std::string _name;
 public:
     IRClassType(std::string name, IRStructType* classProperties, std::string preConstructorName = "");
-    IRClassType(std::string name, IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::string preConstructorName = "");
+    IRClassType(std::string name, IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::unordered_map<std::string, IRType*> classStaticProperties, std::string preConstructorName = "");
     std::optional<IRParameterType*> getClassScopeParameterType();
     std::optional<IRFunctionType*> getIRTypeForConstructor(std::string constructorId);
     std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
+    std::optional<IRType*> getIRTypeForStaticProperty(std::string propertyName);
     llvm::Type* getValueType();
     IRStructType* getClassProperties();
     std::string getPreConstructorName();
     std::string getName();
     void setProperties(IRStructType* classProperties);
     void setClassScopeType(std::optional<IRParameterType*> classScopeType);
+    void addStaticProperty(std::string staticPropertyName, IRType* irType);
     void addMethod(std::string methodName, IRFunctionType* irType);
     void addConstructor(std::string constructorName, IRFunctionType* irType);
     llvm::Type* getType() override;

@@ -10,7 +10,7 @@
 
 void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeSignatureLookupTable* scope) {
     auto classTypeSignature = (ClassTypeSignature*)scope->find(classPropertyAccessExpression->getPropertyAccess()->getClassAccess()->getThis()->getId());
-    auto classPropertyTypeSignature = classTypeSignature->getProperties()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
+    auto classPropertyTypeSignature = classTypeSignature->getInstanceProperties()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
     if (!classPropertyTypeSignature) {
         auto classMethodTypeSignature = classTypeSignature->getMethods()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
         if (!classMethodTypeSignature) {

@@ -79,6 +79,13 @@ bool Handle::isStructTypeEnclosed() {
     return this->first().value()->is(AST_STRUCT_TYPE_START_NODE) && this->last().value()->is(AST_STRUCT_TYPE_END_NODE);
 }
 
+bool Handle::isTupleTypeEnclosed() {
+    if (_handle.size() < 2) {
+        return false;
+    }
+    return this->first().value()->is(AST_TUPLE_TYPE_START_NODE) && this->last().value()->is(AST_TUPLE_TYPE_END_NODE);
+}
+
 bool Handle::isFunctionParameterListEnclosed() {
     if (_handle.size() < 2) {
         return false;

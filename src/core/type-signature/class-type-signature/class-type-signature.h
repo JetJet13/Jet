@@ -17,7 +17,8 @@
 class ClassTypeSignature : public TypeSignature {
 private:
     TypeSignatureMap<ClassConstructorTypeSignature> _constructors;
-    TypeSignatureMap<ClassPropertyTypeSignature> _properties;
+    TypeSignatureMap<ClassPropertyTypeSignature> _staticProperties;
+    TypeSignatureMap<ClassPropertyTypeSignature> _instanceProperties;
     TypeSignatureMap<ClassMethodTypeSignature> _methods;
     TypeSignatureMap<TypeSignature> _implements;
     TypeSignatureMap<TypeSignature> _interface;
@@ -27,7 +28,8 @@ public:
     ClassTypeSignature();
     ParameterListItemTypeSignature* getClassScopeParameter();
     TypeSignatureMap<ClassConstructorTypeSignature>* getConstructors();
-    TypeSignatureMap<ClassPropertyTypeSignature>* getProperties();
+    TypeSignatureMap<ClassPropertyTypeSignature>* getStaticProperties();
+    TypeSignatureMap<ClassPropertyTypeSignature>* getInstanceProperties();
     TypeSignatureMap<ClassMethodTypeSignature>* getMethods();
     TypeSignatureMap<TypeSignature>* getImplements();
     TypeSignatureMap<TypeSignature>* getInterface();
@@ -40,6 +42,7 @@ public:
     bool satisfiesImplementInterfaces();
     std::string getPreConstructorName();
     std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
+    std::string addClassNameToKey(std::string key);
     TypeSignature* convertToVariableTypeSignature() override;
     std::string toDetailString() override;
     std::string toString() override;

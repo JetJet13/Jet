@@ -16,3 +16,10 @@ llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(IRClassPropertyAccessEx
     }
     return pointerToProperty;
 }
+
+llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(IRClassStaticPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
+    if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue(), irBlock);
+    }
+    return irExpression->getValue();
+}

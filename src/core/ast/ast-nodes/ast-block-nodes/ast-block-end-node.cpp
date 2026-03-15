@@ -10,6 +10,7 @@
 #include "../ast-import-nodes/ast-import-module-list-end-node.h"
 #include "../ast-interface-nodes/ast-interface-end-node.h"
 #include "../ast-type-nodes/ast-struct-type-nodes/ast-struct-type-end-node.h"
+#include "../ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-end-node.h"
 
 ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                                 SyntaxAnalyzerMode mode) {
@@ -23,6 +24,10 @@ ASTNode * ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode *> prevNod
 
     if (mode == SA_STRUCT_TYPE_MODE) {
         return new ASTStructTypeEndNode(_lexeme);
+    }
+
+    if (mode == SA_TUPLE_TYPE_MODE) {
+        return new ASTTupleTypeEndNode(_lexeme);
     }
 
     if (mode == SA_TUPLE_LIST_MODE) {

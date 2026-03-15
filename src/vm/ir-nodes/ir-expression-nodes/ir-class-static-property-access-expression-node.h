@@ -1,0 +1,33 @@
+//
+// Created by Johny Georges on 2026-03-14.
+//
+
+#ifndef JETLANG_IR_CLASS_STATIC_PROPERTY_ACCESS_EXPRESSION_NODE_H
+#define JETLANG_IR_CLASS_STATIC_PROPERTY_ACCESS_EXPRESSION_NODE_H
+
+#include <llvm/IR/Value.h>
+#include <llvm/IR/Constants.h>
+#include "ir-expression-node.h"
+#include "../../ir-type/ir-struct-ref-type.h"
+#include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
+
+class IRClassStaticPropertyAccessExpressionNode : public IRExpressionNode {
+private:
+    ASTObjectAccessExpressionNode* _node;
+    IRInstructionNode* _irStaticProperty;
+    IRType* _irType;
+public:
+    IRClassStaticPropertyAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRInstructionNode* irStaticProperty, IRType* irType);
+    ASTObjectAccessExpressionNode* getNode();
+    IRPointerType* getPointerIRType();
+    IRType* getIRType() override;
+    TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
+    llvm::Value* getValue() override;
+    IRNodeType getNodeType() override;
+    std::string toString() override;
+    void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
+};
+
+#endif //JETLANG_IR_CLASS_STATIC_PROPERTY_ACCESS_EXPRESSION_NODE_H

@@ -22,7 +22,7 @@ void ClassPropertyAssignmentStatementTypeSignatureStrategy::assign(ASTClassPrope
         ->setTypeSignature(new InvalidTypeSignature());
     }
 
-    auto propertyTypeSignature = classTypeSignature->getProperties()->find(
+    auto propertyTypeSignature = classTypeSignature->getInstanceProperties()->find(
             classPropertyAssignmentStatementNode
                     ->getPropertyAssignment()
                     ->getProperty()

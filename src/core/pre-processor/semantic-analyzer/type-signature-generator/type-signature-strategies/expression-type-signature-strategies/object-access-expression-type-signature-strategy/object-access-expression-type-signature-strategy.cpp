@@ -45,6 +45,14 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressi
             objectAccessExpression->setTypeSignature(classProperty.value());
             return;
         }
+    } else if (sourceTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
+        auto classSource = (ClassTypeSignature*)sourceTypeSignature;
+        auto id = objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto classStaticProperty = classSource->getInterface()->find(id);
+        if (classStaticProperty) {
+            objectAccessExpression->setTypeSignature(classStaticProperty.value());
+            return;
+        }
     } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
         auto refSource = (RefTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
         auto refPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(

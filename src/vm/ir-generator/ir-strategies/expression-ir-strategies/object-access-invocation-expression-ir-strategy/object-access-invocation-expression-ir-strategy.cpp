@@ -88,7 +88,6 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
             irGenerator->generateIrPointerType(irInvocableType),
             { irStructAllocPointer, loadedStructAlloc, pointerToValue }
     );
-//    auto argList = irGenerator->generateArgumentPlaceholderList(irInvocableType, &arguments);
     auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), irFunction->getValue(), argList);
     return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irInvocableType, arguments, irReturnType);
 }

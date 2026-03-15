@@ -7,7 +7,7 @@
 
 void TupleTypeTypeSignatureStrategy::assign(ASTTupleTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
-    for (auto type : node->getParameterList()->getParameters()) {
+    for (auto type : node->getValueTypes()) {
         strategyMap->assignTypeSignatureFor(type, scope);
         typeSignatures->push_back(type->getTypeSignature());
     }

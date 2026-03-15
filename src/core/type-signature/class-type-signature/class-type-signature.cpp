@@ -11,7 +11,8 @@
 
 ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
-    _properties = TypeSignatureMap<ClassPropertyTypeSignature>();
+    _staticProperties = TypeSignatureMap<ClassPropertyTypeSignature>();
+    _instanceProperties = TypeSignatureMap<ClassPropertyTypeSignature>();
     _methods = TypeSignatureMap<ClassMethodTypeSignature>();
     _implements = TypeSignatureMap<TypeSignature>();
     _interface = TypeSignatureMap<TypeSignature>();
@@ -26,8 +27,12 @@ TypeSignatureMap<ClassConstructorTypeSignature>* ClassTypeSignature::getConstruc
     return &_constructors;
 }
 
-TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getProperties() {
-    return &_properties;
+TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getStaticProperties() {
+    return &_staticProperties;
+}
+
+TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getInstanceProperties() {
+    return &_instanceProperties;
 }
 
 TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getMethods() {
@@ -48,7 +53,11 @@ ClassTypeSignature* ClassTypeSignature::addConstructor(std::string key, ClassCon
 }
 
 ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature) {
-    _properties.insert(key, classPropertyTypeSignature);
+    if (classPropertyTypeSignature->isStatic()) {
+        _staticProperties.insert(key, classPropertyTypeSignature);
+    } else {
+        _instanceProperties.insert(key, classPropertyTypeSignature);
+    }
     if (classPropertyTypeSignature->getAccessModifier()->isPublic()) {
         auto interfaceKey = this->stripClassNameFromKey(key);
         _interface.insert(interfaceKey, classPropertyTypeSignature->convertToVariableTypeSignature());
@@ -112,6 +121,10 @@ std::string ClassTypeSignature::stripClassNameFromKey(std::string key) {
     return key;
 }
 
+std::string ClassTypeSignature::addClassNameToKey(std::string key) {
+    return this->getId() + "." + key;
+}
+
 TypeSignature* ClassTypeSignature::convertToVariableTypeSignature() {
     auto classInstance = new ClassInstanceTypeSignature(this);
     classInstance->setId(this->getId());
@@ -154,7 +167,8 @@ void ClassTypeSignature::copyFrom(TypeSignature* otherType) {
         return;
     }
     auto other = (ClassTypeSignature*)otherType;
-    _properties = *other->getProperties();
+    _instanceProperties = *other->getInstanceProperties();
+    _staticProperties = *other->getStaticProperties();
     _constructors = *other->getConstructors();
     _methods = *other->getMethods();
 }

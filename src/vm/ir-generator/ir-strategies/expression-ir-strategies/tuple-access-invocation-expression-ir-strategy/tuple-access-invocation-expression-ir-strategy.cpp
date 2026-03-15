@@ -5,6 +5,7 @@
 #include "tuple-access-invocation-expression-ir-strategy.h"
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-tuple-access-invocation-expression-node.h"
+#include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(ASTTupleAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRFunctionArgumentNode*>();
@@ -21,11 +22,21 @@ IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(ASTTupleAc
             )
         );
     }
-
-    auto irExpression = (IRTupleAccessExpressionNode*)irGenerator->generateFor(node->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-    auto irFunctionType = (IRFunctionType*)irExpression->getTargetIRType();
+    auto argList = irGenerator->generateArgumentPlaceholderListForFunction(node->getInvocableTypeSignature(), &arguments, scope, irContext);
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
+    auto sourceType = sourceValue->getUnderlyingIRType();
+    auto irStructRefType = (IRStructRefType*)sourceType;
+    auto targetIndex = node->getObjectAccess()->getIndex()->getIndexValue();
+    auto irInvocableType = (IRInvocableType*)irStructRefType->getStructIRType()->getIRTypeByIndex(targetIndex);
+    auto irTupleAllocPointer = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getType(), sourceValue->getValue(), {irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(irStructRefType->getStructIndex()) });
+    auto loadedTupleAlloc = irGenerator->generateLoadInstruction(irTupleAllocPointer, irGenerator->generateIrPointerType());
+    auto pointerToValue = llvm::GetElementPtrInst::CreateInBounds(irStructRefType->getStructIRType()->getType(), loadedTupleAlloc, {irGenerator->generateIntConstant(0), irGenerator->generateIntConstant(targetIndex) });
+    auto irFunction = IRInstructionNodeFactory::create(
+            irGenerator->generateLoadInstruction(pointerToValue, irInvocableType),
+            irGenerator->generateIrPointerType(irInvocableType),
+            { irTupleAllocPointer, loadedTupleAlloc, pointerToValue }
+    );
+    auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), irFunction->getValue(), argList);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType, &arguments);
-    auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irExpression->getValue(), argList);
-    return new IRTupleAccessInvocationExpressionNode(node, irExpression, callInstruction, irFunctionType, arguments, irReturnType);
+    return new IRTupleAccessInvocationExpressionNode(node, irFunction, callInstruction, irInvocableType, arguments, irReturnType);
 }

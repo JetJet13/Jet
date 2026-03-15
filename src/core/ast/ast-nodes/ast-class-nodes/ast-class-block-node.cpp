@@ -10,6 +10,8 @@ ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vec
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
     _properties = std::vector<ASTClassPropertyDeclarationNode*>();
+    _instanceProperties = std::vector<ASTClassPropertyDeclarationNode*>();
+    _staticProperties = std::vector<ASTClassPropertyDeclarationNode*>();
     _methods = std::vector<ASTClassMethodDeclarationNode*>();
     _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
     for (auto node : nodes) {
@@ -29,7 +31,8 @@ ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vec
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
 
-    _properties = std::vector<ASTClassPropertyDeclarationNode*>();
+    _instanceProperties = std::vector<ASTClassPropertyDeclarationNode*>();
+    _staticProperties = std::vector<ASTClassPropertyDeclarationNode*>();
     for (auto property: properties) {
         this->addProperty(property);
     }
@@ -46,6 +49,11 @@ ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vec
 }
 void ASTClassBlockNode::addProperty(ASTClassPropertyDeclarationNode* property) {
     _properties.push_back(property);
+    if (property->isStatic()) {
+        _staticProperties.push_back(property);
+    } else {
+        _instanceProperties.push_back(property);
+    }
     _children.push_back(property);
 }
 
@@ -61,6 +69,14 @@ void ASTClassBlockNode::addConstructor(ASTClassConstructorDeclarationNode* const
 
 std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getProperties() {
     return &_properties;
+}
+
+std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getStaticProperties() {
+    return &_staticProperties;
+}
+
+std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getInstanceProperties() {
+    return &_instanceProperties;
 }
 
 std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getMethods() {
@@ -92,8 +108,14 @@ bool ASTClassBlockNode::isSameAs(ASTNode* other) {
         return false;
     }
     auto otherNode = (ASTClassBlockNode*)other;
-    for (unsigned long i = 0; i < _properties.size(); ++i) {
-        if (!_properties[i]->isSameAs(otherNode->getProperties()->at(i))) {
+    for (unsigned long i = 0; i < _instanceProperties.size(); ++i) {
+        if (!_instanceProperties[i]->isSameAs(otherNode->getInstanceProperties()->at(i))) {
+            return false;
+        }
+    }
+
+    for (unsigned long i = 0; i < _staticProperties.size(); ++i) {
+        if (!_staticProperties[i]->isSameAs(otherNode->getStaticProperties()->at(i))) {
             return false;
         }
     }

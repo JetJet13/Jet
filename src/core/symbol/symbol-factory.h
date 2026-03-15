@@ -13,7 +13,7 @@ namespace SymbolFactory {
     std::shared_ptr<Symbol> createIntSymbol();
     std::shared_ptr<Symbol> createFloatSymbol();
     std::shared_ptr<Symbol> createEqualSymbol();
-    std::shared_ptr<Symbol> createStarEqualSymbol();
+    std::shared_ptr<Symbol> createColonEqualSymbol();
     std::shared_ptr<Symbol> createLetSymbol();
     std::shared_ptr<Symbol> createConstSymbol();
     std::shared_ptr<Symbol> createSemicolonSymbol();

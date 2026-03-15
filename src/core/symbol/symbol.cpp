@@ -63,8 +63,8 @@ bool Symbol::isEqual() {
     return _type == SYM_EQUAL;
 }
 
-bool Symbol::isStarEqual() {
-    return _type == SYM_STAR_EQUAL;
+bool Symbol::isColonEqual() {
+    return _type == SYM_COLON_EQUAL;
 }
 
 bool Symbol::isInt() {

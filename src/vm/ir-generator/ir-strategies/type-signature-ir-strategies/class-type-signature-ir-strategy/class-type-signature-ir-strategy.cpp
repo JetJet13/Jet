@@ -10,14 +10,13 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
-    for (auto keyValue : classTypeSignature->getProperties()->getKeyValues()) {
+    for (auto keyValue : classTypeSignature->getInstanceProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
         classPropertyTypes.push_back(irType->getType());
         keyIndexMap.insert(
-                std::pair(keyValue.first, classTypeSignature->getProperties()->findKeyIndex(keyValue.first))
+                std::pair(keyValue.first, classTypeSignature->getInstanceProperties()->findKeyIndex(keyValue.first))
         );
         keyTypeMap.insert(std::pair(keyValue.first, irType));
-
     }
     auto classProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyTypeMap);
     classProperties->setId(classTypeSignature->getId());
@@ -26,7 +25,6 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     irClassType->setProperties(classProperties);
 
     auto constructorReturnType = irGenerator->getVoidType();
-    auto classConstructors = std::unordered_map<std::string, IRFunctionType*>();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
         auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
         ? irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext, classTypeSignature->getClassScopeParameter())
@@ -37,7 +35,6 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         );
     }
 
-    auto classMethods = std::unordered_map<std::string, IRFunctionType*>();
     for (unsigned long i = 0; i < classTypeSignature->getMethods()->size(); ++i) {
         auto keyValue = classTypeSignature->getMethods()->getKeyValues()[i];
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType(), scope, irContext);
@@ -50,6 +47,11 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         );
     }
 
+    for (auto keyValue : classTypeSignature->getStaticProperties()->getKeyValues()) {
+        auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
+        irClassType->addStaticProperty(keyValue.first, irType);
+    }
+
     return irClassType;
 }
 
@@ -59,7 +61,6 @@ IRClassType* ClassTypeSignatureIRStrategy::generateInitial(ClassTypeSignature* c
             irGenerator->generateIRStructType(),
             classTypeSignature->getPreConstructorName()
     );
-
     irClassType->setId(classTypeSignature->getId());
     scope->insertGlobalType(irClassType->getId(), irClassType);
 

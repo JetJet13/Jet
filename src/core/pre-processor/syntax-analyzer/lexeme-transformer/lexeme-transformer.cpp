@@ -90,7 +90,7 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTConstNode(lexeme);
     } else if (symbol->isEqual()) {
         return new ASTAssignmentOperatorNode(lexeme);
-    } else if (symbol->isStarEqual()) {
+    } else if (symbol->isColonEqual()) {
         return new ASTRefValueAssignmentOperatorNode(lexeme);
     } else if (symbol->isInt()) {
         return new ASTIntLiteralNode(lexeme);

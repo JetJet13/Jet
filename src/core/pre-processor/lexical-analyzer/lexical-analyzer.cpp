@@ -198,10 +198,10 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             std::string term;
             term += character.value();
             term += nextChar.value();
-            auto isStarEqual = _reservedKeywords->match(term);
-            if (isStarEqual) {
+            auto isColonEqual = _reservedKeywords->match(term);
+            if (isColonEqual) {
                 _fileReader.advance();
-                return new Token(isStarEqual.value());
+                return new Token(isColonEqual.value());
             }
             return new Token(isCharacterReservedKeyword.value());
         } else if (nextChar &&
@@ -374,10 +374,10 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             std::string term;
             term += character.value();
             term += nextChar.value();
-            auto isStarEqual = _reservedKeywords->match(term);
-            if (isStarEqual) {
+            auto isColonEqual = _reservedKeywords->match(term);
+            if (isColonEqual) {
                 _fileReader.advance();
-                return new Token(isStarEqual.value());
+                return new Token(isColonEqual.value());
             }
             return new Token(isCharacterReservedKeyword.value());
         } else if (nextChar &&

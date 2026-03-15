@@ -7,6 +7,7 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../shared/utils/logger/logger.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
@@ -17,6 +18,10 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
 
     for (auto classConstructor : *node->getBlock()->getConstructors()) {
         this->declareConstructor(classConstructor, irGenerator, scope, irContext, irClassType);
+    }
+
+    for (auto classStaticProperty : *node->getBlock()->getStaticProperties()) {
+        this->declareStaticProperty(classStaticProperty, irGenerator, scope, irContext, irClassType);
     }
 
     auto irClassConstructors = std::vector<IRClassConstructorNode*>();
@@ -30,7 +35,12 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
     for (auto method : *node->getBlock()->getMethods()) {
         irClassMethods.push_back(this->generate(method,  irGenerator, scope, irContext, irClassType));
     }
-    return new IRClassDeclarationNode(node, irClassType, irPreConstructor, irClassConstructors, irClassMethods);
+
+    auto irClassStaticProperties = std::vector<IRClassStaticPropertyNode*>();
+    for (auto staticClassProperty : *node->getBlock()->getStaticProperties()) {
+        irClassStaticProperties.push_back(this->generateStaticProperty(staticClassProperty,  irGenerator, scope, irContext, irClassType));
+    }
+    return new IRClassDeclarationNode(node, irClassType, irPreConstructor, irClassConstructors, irClassMethods, irClassStaticProperties);
 }
 
 std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
@@ -52,7 +62,7 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
     functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(0), classScopeParameterAllocation));
 
     auto initialPropertyIRExpressions = new std::unordered_map<unsigned long, IRExpressionNode*>();
-    for (auto property : *node->getBlock()->getProperties()) {
+    for (auto property : *node->getBlock()->getInstanceProperties()) {
         if (property->getInitializer()) {
             auto propertyIndex = irClassType->getClassProperties()->getIndexForKey(property->getId());
             auto irExpression = irGenerator->generateFor(property->getInitializer().value(), functionBlock->getScope(), irContext, new IROperation(IR_OPERAND_VALUE_OP));
@@ -118,6 +128,16 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(ASTClassMethodDeclaratio
     return new IRClassMethodNode(node, irFunction, functionParameterList, functionBlock);
 }
 
+IRClassStaticPropertyNode* ClassDeclarationIRStrategy::generateStaticProperty(ASTClassPropertyDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
+    auto irType = irClassType->getIRTypeForStaticProperty(node->getId());
+    return new IRClassStaticPropertyNode(
+            node,
+            irContext->getIRModule()->getModule()->get()->getNamedGlobal(node->getId()),
+            irGenerator->generateFor(node->getInitializer().value(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP)),
+            irType.value()
+    );
+}
+
 void ClassDeclarationIRStrategy::declareMethod(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
     auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
@@ -130,4 +150,17 @@ void ClassDeclarationIRStrategy::declareConstructor(ASTClassConstructorDeclarati
     auto functionType = llvm::cast<llvm::FunctionType>(constructorTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
+}
+
+void ClassDeclarationIRStrategy::declareStaticProperty(ASTClassPropertyDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
+    auto irType = irClassType->getIRTypeForStaticProperty(node->getId());
+    auto globalVariable = new llvm::GlobalVariable(
+            *irContext->getModule(),
+            irType.value()->getType(),
+            node->isConstant(),
+            llvm::GlobalValue::PrivateLinkage,
+            irGenerator->generatePlaceholderValueForIRType(irType.value()),
+            node->getId()
+    );
+    scope->insertGlobalVariable(node->getId(), IRInstructionNodeFactory::create(globalVariable));
 }

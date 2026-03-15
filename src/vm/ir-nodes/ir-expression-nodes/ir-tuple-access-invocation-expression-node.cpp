@@ -5,10 +5,10 @@
 #include "ir-tuple-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
+IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
     _node = node;
     _irCallInstruction = irCallInstruction;
-    _irTupleAccessExpression = irTupleAccessExpression;
+    _irFunction = irFunction;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
     _type = type;
@@ -21,8 +21,12 @@ void IRTupleAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-IRTupleAccessExpressionNode* IRTupleAccessInvocationExpressionNode::getIRTupleAccessExpression() {
-    return _irTupleAccessExpression;
+IRInstructionNode* IRTupleAccessInvocationExpressionNode::getFunction() {
+    return _irFunction;
+}
+
+llvm::Value* IRTupleAccessInvocationExpressionNode::getFunctionValue() {
+    return _irFunction->getValue();
 }
 
 std::vector<IRFunctionArgumentNode*>* IRTupleAccessInvocationExpressionNode::getIRArguments() {
@@ -62,5 +66,5 @@ std::string IRTupleAccessInvocationExpressionNode::toString() {
 }
 
 void IRTupleAccessInvocationExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irTupleAccessExpression->getValue()->print(**stream);
+    _irFunction->getValue()->print(**stream);
 }

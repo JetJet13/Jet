@@ -6,11 +6,21 @@
 #include "../../../../../ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
 
 ASTNode* TupleTypeReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() != 2) {
-        throw std::invalid_argument("unable to reduce to tuple type since nodes list is not of size 2");
+    auto tupleTypeNode = new ASTTupleTypeNode(
+            (ASTTupleTypeStartNode*)nodes[0],
+            (ASTTupleTypeEndNode*)nodes[nodes.size() - 1]
+    );
+
+    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
+        auto node = nodes[i];
+        if (i % 2 == 1 && node->is(AST_TYPE_NODE)) {
+            tupleTypeNode->addValueType((ASTTypeNode*)node);
+        } else if (i % 2 == 0 && node->is(AST_COMMA_NODE) && i != nodes.size() - 2) {
+            tupleTypeNode->addComma((ASTCommaNode*)node);
+        } else {
+            throw std::invalid_argument("unable to reduce to tuple type since node list is malformed");
+        }
     }
 
-    return ASTTypeNodeFactory::createTupleTypeNode(
-        new ASTTupleTypeNode((ASTTupleNode*)nodes[0], (ASTTypeParameterListNode*)nodes[1])
-    );
+    return ASTTypeNodeFactory::createTupleTypeNode(tupleTypeNode);
 }

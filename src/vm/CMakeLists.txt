@@ -729,6 +729,10 @@ add_library(jet-vm
         ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.h
+        ir-nodes/ir-class-nodes/ir-class-static-property-node.cpp
+        ir-nodes/ir-class-nodes/ir-class-static-property-node.h
+        ir-nodes/ir-expression-nodes/ir-class-static-property-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-class-static-property-access-expression-node.h
 )
 
 target_link_libraries(jet-vm

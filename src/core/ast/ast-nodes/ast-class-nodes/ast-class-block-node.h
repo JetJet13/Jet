@@ -14,6 +14,8 @@ class ASTClassBlockNode : public ASTNode {
 private:
     ASTBlockStartNode* _blockStartNode;
     ASTBlockEndNode* _blockEndNode;
+    std::vector<ASTClassPropertyDeclarationNode*> _staticProperties;
+    std::vector<ASTClassPropertyDeclarationNode*> _instanceProperties;
     std::vector<ASTClassPropertyDeclarationNode*> _properties;
     std::vector<ASTClassMethodDeclarationNode*> _methods;
     std::vector<ASTClassConstructorDeclarationNode*> _constructors;
@@ -24,6 +26,8 @@ public:
     void addMethod(ASTClassMethodDeclarationNode* method);
     void addConstructor(ASTClassConstructorDeclarationNode* constructor);
     std::vector<ASTClassPropertyDeclarationNode*>* getProperties();
+    std::vector<ASTClassPropertyDeclarationNode*>* getStaticProperties();
+    std::vector<ASTClassPropertyDeclarationNode*>* getInstanceProperties();
     std::vector<ASTClassMethodDeclarationNode*>* getMethods();
     std::vector<ASTClassConstructorDeclarationNode*>* getConstructors();
     Position* getStartPosition() override;

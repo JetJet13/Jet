@@ -160,7 +160,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     }
 
     if ((irOperation->isCopy() || irOperation->isOperandValue())
-        && result->getType()->isPointerTy()     
+        && result->getType()->isPointerTy()
         && !irExpression->getIRType()->getUnderlyingType()->isVoidType()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), result, irBlock);
     }
@@ -200,10 +200,9 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationE
         auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto pointerToLambda = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRTupleAccessExpression()->getSource()->getSourceAllocation().value()->getAllocatedType(), irExpression->getIRTupleAccessExpression()->getValue(), { zeroIndex, irExpression->getIRTupleAccessExpression()->getIRTargetKeyIndex() });
+
     auto irInvocableType = (IRInvocableType*)irExpression->getFunctionIRType();
-    auto loadedLambdaAtIndex = InstructionIRInjectorHelper::injectLoad(irInvocableType->getType(), pointerToLambda, irBlock);
+    auto loadedLambdaAtIndex = InstructionIRInjectorHelper::inject(irExpression->getFunction(), irBlock);
     auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irInvocableType->getFunctionIndex() });
     auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irInvocableType->getFunctionScopeArgumentIndex() });
     irExpression->getValue()->setCalledOperand(lambda);

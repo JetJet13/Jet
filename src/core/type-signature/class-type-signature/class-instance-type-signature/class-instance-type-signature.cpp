@@ -20,7 +20,7 @@ bool ClassInstanceTypeSignature::isEmpty() {
 }
 
 TypeSignatureMap<ClassPropertyTypeSignature>* ClassInstanceTypeSignature::getProperties() {
-    return _class->getProperties();
+    return _class->getInstanceProperties();
 }
 
 TypeSignatureMap<TypeSignature>* ClassInstanceTypeSignature::getKeyValuePairs() {

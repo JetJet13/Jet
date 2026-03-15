@@ -10,12 +10,12 @@
 #include "ast-type-parameter-list-node.h"
 #include "../ast-tuple-nodes/ast-tuple-node.h"
 
-class ASTTupleTypeNode : public ASTTypeBaseNode {
+class ASTTupleTypeNodeDep : public ASTTypeBaseNode {
 private:
     ASTTupleNode* _tupleNode;
     ASTTypeParameterListNode* _typeParameterList;
 public:
-    explicit ASTTupleTypeNode(ASTTupleNode* tupleNode, ASTTypeParameterListNode* tupleTypeParameterList);
+    explicit ASTTupleTypeNodeDep(ASTTupleNode* tupleNode, ASTTypeParameterListNode* tupleTypeParameterList);
     ASTTypeParameterListNode* getParameterList();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -93,7 +93,6 @@ void SyntaxDfa::init() {
     DFANode* enumKey = DFANodeFactory::Once::create(AST_ENUM_KEY_NODE);
     DFANode* enumKeyValue = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_NODE);
     DFANode* enumKeyValueList = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_NODE);
-    DFANode* tupleKeyword = DFANodeFactory::Once::create(AST_TUPLE_NODE);
     DFANode* tupleItem = DFANodeFactory::Once::create(AST_TUPLE_ITEM_NODE);
     DFANode* tupleExpression = DFANodeFactory::Once::create(AST_TUPLE_EXPRESSION_NODE);
     DFANode* tupleAccess = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_NODE);
@@ -931,12 +930,7 @@ void SyntaxDfa::init() {
     enumKeyValueList
     ->markAlwaysReduceSelf();
 
-    tupleKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_PARAMETER_LIST_START_NODE })
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_TUPLE_TYPE_NODE)
-    ));
+
 
     tupleItem
     ->markAlwaysReduceSelf();
@@ -1192,7 +1186,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator));
 
     typeParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_TUPLE_NODE, AST_REF_TYPE_KEYWORD_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_REF_TYPE_KEYWORD_NODE });
 
     lambdaTypeFatArrow
     ->markAlwaysReduceSelf();
@@ -1675,7 +1669,6 @@ void SyntaxDfa::init() {
     ->insertStartNode(enumKey)
     ->insertStartNode(enumKeyValue)
     ->insertStartNode(enumKeyValueList)
-    ->insertStartNode(tupleKeyword)
     ->insertStartNode(tupleItem)
     ->insertStartNode(tupleAccess)
     ->insertStartNode(type)
@@ -1797,6 +1790,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_STRUCT_TYPE_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_STRUCT_TYPE_END_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_TUPLE_TYPE_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_TUPLE_TYPE_END_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BINARY_ARITHMETIC_OPERATOR_NODE)
                       ->markAlwaysReduceSelf()
                       ->backtrackWhenLastReducedNodeIsOneOf({
