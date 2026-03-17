@@ -18,6 +18,8 @@ private:
     std::vector<ASTClassPropertyDeclarationNode*> _instanceProperties;
     std::vector<ASTClassPropertyDeclarationNode*> _properties;
     std::vector<ASTClassMethodDeclarationNode*> _methods;
+    std::vector<ASTClassMethodDeclarationNode*> _staticMethods;
+    std::vector<ASTClassMethodDeclarationNode*> _instanceMethods;
     std::vector<ASTClassConstructorDeclarationNode*> _constructors;
 public:
     ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> nodes, ASTBlockEndNode* blockEndNode);
@@ -29,6 +31,8 @@ public:
     std::vector<ASTClassPropertyDeclarationNode*>* getStaticProperties();
     std::vector<ASTClassPropertyDeclarationNode*>* getInstanceProperties();
     std::vector<ASTClassMethodDeclarationNode*>* getMethods();
+    std::vector<ASTClassMethodDeclarationNode*>* getStaticMethods();
+    std::vector<ASTClassMethodDeclarationNode*>* getInstanceMethods();
     std::vector<ASTClassConstructorDeclarationNode*>* getConstructors();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

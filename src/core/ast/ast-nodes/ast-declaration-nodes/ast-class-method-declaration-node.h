@@ -31,6 +31,7 @@ public:
     ASTFunctionParameterListNode* getParameters();
     std::optional<ASTTypeNode*> getReturnType();
     ASTFunctionBlockNode* getBlock();
+    bool isStatic();
     unsigned long numParameters();
     void setTypeSignature(ClassMethodTypeSignature* typeSignature);
     ClassMethodTypeSignature* getTypeSignature() override;

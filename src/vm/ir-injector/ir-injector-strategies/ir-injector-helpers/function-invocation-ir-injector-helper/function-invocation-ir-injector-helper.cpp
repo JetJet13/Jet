@@ -281,3 +281,14 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayAccessInvocationE
     }
     return value;
 }
+
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassStaticMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
+    auto numArgs = irExpression->getIRArguments()->size();
+    for (unsigned long i = 0; i < numArgs; ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
+        irExpression->getValue()->setArgOperand(i, argumentValue);
+    }
+
+    return irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+}

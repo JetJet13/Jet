@@ -15,8 +15,10 @@ private:
     std::optional<IRClassPreConstructorNode*> generatePreConstructor(ASTClassDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     IRClassConstructorNode* generate(ASTClassConstructorDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     IRClassMethodNode* generate(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
+    IRClassMethodNode* generateStatic(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     IRClassStaticPropertyNode* generateStaticProperty(ASTClassPropertyDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     void declareMethod(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
+    void declareStaticMethod(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     void declareConstructor(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
     void declareStaticProperty(ASTClassPropertyDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType);
 public:

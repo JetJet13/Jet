@@ -4,6 +4,7 @@
 
 #include "object-access-assignment-ir-injector-strategy.h"
 #include "../ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ObjectAccessAssignmentIRInjectorStrategy::inject(IRObjectAccessAssignmentStatementNode* irObjectAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto objectAccess = irObjectAccessAssignmentStatement->getIRObjectAccessExpression();
@@ -15,5 +16,5 @@ void ObjectAccessAssignmentIRInjectorStrategy::inject(IRObjectAccessAssignmentSt
                     irObjectAccessAssignmentStatement->getIRExpression(),
                     new IROperation(IR_OPERAND_VALUE_OP), irModule, scope
             );
-    irBlock->getBuilder()->get()->CreateStore(irExpressionValue, pointerToTarget);
+    InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToTarget, irBlock);
 }

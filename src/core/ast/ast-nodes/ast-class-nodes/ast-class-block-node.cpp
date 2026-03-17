@@ -13,6 +13,8 @@ ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vec
     _instanceProperties = std::vector<ASTClassPropertyDeclarationNode*>();
     _staticProperties = std::vector<ASTClassPropertyDeclarationNode*>();
     _methods = std::vector<ASTClassMethodDeclarationNode*>();
+    _staticMethods = std::vector<ASTClassMethodDeclarationNode*>();
+    _instanceMethods = std::vector<ASTClassMethodDeclarationNode*>();
     _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
     for (auto node : nodes) {
         if (node->is(AST_CLASS_PROPERTY_DECLARATION_NODE)) {
@@ -59,6 +61,11 @@ void ASTClassBlockNode::addProperty(ASTClassPropertyDeclarationNode* property) {
 
 void ASTClassBlockNode::addMethod(ASTClassMethodDeclarationNode* method) {
     _methods.push_back(method);
+    if (method->isStatic()) {
+        _staticMethods.push_back(method);
+    } else {
+        _instanceMethods.push_back(method);
+    }
     _children.push_back(method);
 }
 
@@ -81,6 +88,14 @@ std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getInstancePro
 
 std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getMethods() {
     return &_methods;
+}
+
+std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getStaticMethods() {
+    return &_staticMethods;
+}
+
+std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getInstanceMethods() {
+    return &_instanceMethods;
 }
 
 std::vector<ASTClassConstructorDeclarationNode*>* ASTClassBlockNode::getConstructors() {

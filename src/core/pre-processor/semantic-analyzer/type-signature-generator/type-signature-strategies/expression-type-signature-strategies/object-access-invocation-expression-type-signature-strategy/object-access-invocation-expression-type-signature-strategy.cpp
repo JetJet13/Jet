@@ -43,6 +43,16 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classMethodTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(classMethodTypeSignature->getReturnType());
         return;
+    } else if (sourceTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
+        auto classSource = (ClassTypeSignature*)sourceTypeSignature;
+        auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression);
+        auto classStaticMethod = classSource->getInterface()->find(id);
+        if (classStaticMethod) {
+            auto classStaticMethodTypeSignature = (ClassMethodTypeSignature*)classStaticMethod.value();
+            objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classStaticMethodTypeSignature);
+            objectAccessInvocationExpression->setTypeSignature(classStaticMethodTypeSignature->getReturnType());
+            return;
+        }
     } else if (sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)) {
         auto arraySource = (ArrayTypeSignature*)sourceTypeSignature->getTargetTypeSignature();
         auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();

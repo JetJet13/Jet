@@ -35,8 +35,8 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
         );
     }
 
-    for (unsigned long i = 0; i < classTypeSignature->getMethods()->size(); ++i) {
-        auto keyValue = classTypeSignature->getMethods()->getKeyValues()[i];
+    for (unsigned long i = 0; i < classTypeSignature->getInstanceMethods()->size(); ++i) {
+        auto keyValue = classTypeSignature->getInstanceMethods()->getKeyValues()[i];
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType(), scope, irContext);
         auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
                                 ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
@@ -50,6 +50,17 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     for (auto keyValue : classTypeSignature->getStaticProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
         irClassType->addStaticProperty(keyValue.first, irType);
+    }
+
+    for (auto keyValue : classTypeSignature->getStaticMethods()->getKeyValues()) {
+        auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType(), scope, irContext);
+        auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
+                                ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
+                                : irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
+        irClassType->addStaticMethod(
+                keyValue.first,
+                new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false))
+        );
     }
 
     return irClassType;

@@ -13,7 +13,8 @@ ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
     _staticProperties = TypeSignatureMap<ClassPropertyTypeSignature>();
     _instanceProperties = TypeSignatureMap<ClassPropertyTypeSignature>();
-    _methods = TypeSignatureMap<ClassMethodTypeSignature>();
+    _staticMethods = TypeSignatureMap<ClassMethodTypeSignature>();
+    _instanceMethods = TypeSignatureMap<ClassMethodTypeSignature>();
     _implements = TypeSignatureMap<TypeSignature>();
     _interface = TypeSignatureMap<TypeSignature>();
     _classScopeParameter = ParameterListItemTypeSignature::createClassScopeParameter();
@@ -35,8 +36,12 @@ TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getInstancePro
     return &_instanceProperties;
 }
 
-TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getMethods() {
-    return &_methods;
+TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getStaticMethods() {
+    return &_staticMethods;
+}
+
+TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getInstanceMethods() {
+    return &_instanceMethods;
 }
 
 TypeSignatureMap<TypeSignature>* ClassTypeSignature::getImplements() {
@@ -66,7 +71,11 @@ ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassProper
 }
 
 ClassTypeSignature* ClassTypeSignature::addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature) {
-    _methods.insert(key, classMethodTypeSignature);
+    if (classMethodTypeSignature->isStatic()) {
+        _staticMethods.insert(key, classMethodTypeSignature);
+    } else {
+        _instanceMethods.insert(key, classMethodTypeSignature);
+    }
     if (classMethodTypeSignature->getAccessModifier()->isPublic()) {
         auto interfaceKey = this->stripClassNameFromKey(key);
         _interface.insert(interfaceKey, classMethodTypeSignature->convertToVariableTypeSignature());
@@ -170,7 +179,8 @@ void ClassTypeSignature::copyFrom(TypeSignature* otherType) {
     _instanceProperties = *other->getInstanceProperties();
     _staticProperties = *other->getStaticProperties();
     _constructors = *other->getConstructors();
-    _methods = *other->getMethods();
+    _instanceMethods = *other->getInstanceMethods();
+    _staticMethods = *other->getStaticMethods();
 }
 
 void ClassTypeSignature::print() {

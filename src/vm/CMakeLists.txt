@@ -733,6 +733,12 @@ add_library(jet-vm
         ir-nodes/ir-class-nodes/ir-class-static-property-node.h
         ir-nodes/ir-expression-nodes/ir-class-static-property-access-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-class-static-property-access-expression-node.h
+        ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-node/ir-class-static-property-assignment-node.cpp
+        ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-node/ir-class-static-property-assignment-node.h
+        ir-injector/ir-injector-strategies/class-static-property-assignment-ir-injector-strategy/class-static-property-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-static-property-assignment-ir-injector-strategy/class-static-property-assignment-ir-injector-strategy.h
+        ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.h
 )
 
 target_link_libraries(jet-vm

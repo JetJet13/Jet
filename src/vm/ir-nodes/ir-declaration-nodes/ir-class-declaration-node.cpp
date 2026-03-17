@@ -6,12 +6,13 @@
 
 #include <utility>
 
-IRClassDeclarationNode::IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassStaticPropertyNode*> staticProperties) {
+IRClassDeclarationNode::IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties) {
     _node = node;
     _type = type;
     _preConstructor = preConstructor;
     _constructors = std::move(constructors);
     _methods = std::move(methods);
+    _staticMethods = std::move(staticMethods);
     _staticProperties = std::move(staticProperties);
 }
 
@@ -29,6 +30,10 @@ std::vector<IRClassConstructorNode*>* IRClassDeclarationNode::getConstructors() 
 
 std::vector<IRClassMethodNode*>* IRClassDeclarationNode::getMethods() {
     return &_methods;
+}
+
+std::vector<IRClassMethodNode*>* IRClassDeclarationNode::getStaticMethods() {
+    return &_staticMethods;
 }
 
 std::vector<IRClassStaticPropertyNode*>* IRClassDeclarationNode::getStaticProperties() {

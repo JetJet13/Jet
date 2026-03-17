@@ -8,7 +8,7 @@
 
 void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = (ClassTypeSignature*)scope->find(classMethodInvocationExpression->getClassAccess()->getThis()->getId());
-    auto classMethodTypeSignature = classTypeSignature->getMethods()->find(classMethodInvocationExpression->getName()->getId());
+    auto classMethodTypeSignature = classTypeSignature->getInstanceMethods()->find(classMethodInvocationExpression->getName()->getId());
     if (!classMethodTypeSignature) {
         classMethodInvocationExpression->setTypeSignature(new InvalidTypeSignature());
         return;

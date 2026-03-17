@@ -35,6 +35,10 @@ ASTFunctionBlockNode* ASTClassMethodDeclarationNode::getBlock() {
     return _block;
 }
 
+bool ASTClassMethodDeclarationNode::isStatic() {
+    return _classMethodDefinition->isStatic();
+}
+
 unsigned long ASTClassMethodDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }

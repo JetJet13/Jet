@@ -34,12 +34,26 @@ class ComplexClass {
         this.hairColor = hairColor;
     }
 
-    public getValue() int {
+    constructor(age: int) {
+        this.age = age;
+        this.name = "Joe";
+        this.hairColor = "Black";
+    }
+
+    public getAge() int {
         return this.age;
     }
 
     public getName() string {
         return this.name;
+    }
+
+    public getHairColor() string {
+        return this.hairColor;
+    }
+
+    public static create() ComplexClass {
+        return new ComplexClass(2);
     }
 }
 
@@ -1226,6 +1240,26 @@ testTuples();
 
 proc testClass() {
     const mySimpleClass = new SimpleClass(100);
-    //const staticResult = 200 + SimpleClass.staticValue;
+    const staticResult = 200 + SimpleClass.staticValue;
+    assert(staticResult == 300);
+
+    SimpleClass.staticValue = 150;
+    assert(SimpleClass.staticValue == 150);
+
+    const myComplexClass = new ComplexClass(18);
+    assert(myComplexClass.getAge() == 18);
+    assert(myComplexClass.getName() == "Joe");
+    assert(myComplexClass.getHairColor() == "Black");
+
+    const myOtherComplexClass = new ComplexClass(28, "Roger", "Brown");
+    assert(myOtherComplexClass.getAge() == 28);
+    assert(myOtherComplexClass.getName() == "Roger");
+    assert(myOtherComplexClass.getHairColor() == "Brown");
+
+    const myStaticComplexClass = ComplexClass.create();
+    assert(myStaticComplexClass.getAge() == 2);
+    assert(myStaticComplexClass.getName() == "Joe");
+    assert(myStaticComplexClass.getHairColor() == "Black");
+
 }
 testClass();

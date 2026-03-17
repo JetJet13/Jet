@@ -31,7 +31,7 @@ ClassConstructorTypeSignature* NewClassInstanceTypeSignature::getConstructorType
 
 std::optional<ClassMethodTypeSignature*> NewClassInstanceTypeSignature::findMethod(std::string methodName) {
     auto methodId = _classTypeSignature.value()->getId() + "." + methodName;
-    return _classTypeSignature.value()->getMethods()->find(methodId);
+    return _classTypeSignature.value()->getInstanceMethods()->find(methodId);
 }
 
 std::optional<ClassPropertyTypeSignature*> NewClassInstanceTypeSignature::findProperty(std::string propertyName) {

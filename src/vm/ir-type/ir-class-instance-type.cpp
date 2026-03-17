@@ -20,11 +20,11 @@ IRClassType* IRClassInstanceType::getIRClassType() {
 }
 
 std::string IRClassInstanceType::getIRMethodName(std::string methodName) {
-    return _irClassType->getName() + "." + methodName;
+    return _irClassType->getIRMethodName(std::move(methodName));
 }
 
 std::string IRClassInstanceType::getIRPropertyName(std::string propertyName) {
-    return _irClassType->getName() + "." + propertyName;
+    return _irClassType->getIRPropertyName(std::move(propertyName));
 }
 
 unsigned long IRClassInstanceType::getIndexForProperty(std::string propertyName) {

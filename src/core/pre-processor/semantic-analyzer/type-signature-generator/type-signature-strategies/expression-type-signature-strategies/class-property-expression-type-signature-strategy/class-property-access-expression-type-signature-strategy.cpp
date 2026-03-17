@@ -12,7 +12,7 @@ void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassProperty
     auto classTypeSignature = (ClassTypeSignature*)scope->find(classPropertyAccessExpression->getPropertyAccess()->getClassAccess()->getThis()->getId());
     auto classPropertyTypeSignature = classTypeSignature->getInstanceProperties()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
     if (!classPropertyTypeSignature) {
-        auto classMethodTypeSignature = classTypeSignature->getMethods()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
+        auto classMethodTypeSignature = classTypeSignature->getInstanceMethods()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
         if (!classMethodTypeSignature) {
             classPropertyAccessExpression->setTypeSignature(new InvalidTypeSignature());
             return;

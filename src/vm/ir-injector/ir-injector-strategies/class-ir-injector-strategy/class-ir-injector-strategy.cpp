@@ -19,6 +19,10 @@ void ClassIRInjectorStrategy::inject(IRClassDeclarationNode* irClassDeclarationN
         this->injectMethod(irMethod, irBlock, irInjector, irModule, scope);
     }
 
+    for (auto irStaticMethod : *irClassDeclarationNode->getStaticMethods()) {
+        this->injectMethod(irStaticMethod, irBlock, irInjector, irModule, scope);
+    }
+
     for (auto irStaticProperty : *irClassDeclarationNode->getStaticProperties()) {
         this->injectStaticProperty(irStaticProperty, irBlock, irInjector, irModule, scope);
     }
