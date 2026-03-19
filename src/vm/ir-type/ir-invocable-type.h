@@ -25,7 +25,6 @@ private:
     unsigned int _functionCleanupIndex;
 public:
     explicit IRInvocableType(llvm::StructType* type, IRPointerType* irFunctionPointer, IRPointerType* irFunctionCleanupPointer, IRInvocableParameterListType* parameters, IRType* returnType);
-    bool requiresScopeArgument();
     llvm::StructType* getType() override;
     bool isInvocableType() override;
     [[nodiscard]] unsigned int getFunctionIndex() const;

@@ -18,10 +18,13 @@ private:
     llvm::Function* _irValue;
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
+    IRInstructionNode* _globalVariable;
 public:
-    IRFunctionDeclarationNode(ASTFunctionDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock);
+    IRFunctionDeclarationNode(ASTFunctionDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRInstructionNode* globalVariable);
     std::string getName();
+    std::string getNormalizedName();
     IRFunctionParameterListNode* getParameters();
+    IRInstructionNode* getGlobalVariable();
     IRBlockNode* getBlock();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;

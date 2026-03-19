@@ -23,5 +23,10 @@ void FunctionTypeSignatureStrategy::assignInitial(ASTFunctionDeclarationNode* fu
         functionDeclaration->getParameters()->getTypeSignature(),
         functionDeclaration->getReturnType()->getTypeSignature()->convertToVariableTypeSignature()
     ));
+
+    auto functionName = functionDeclaration->getId();
+    functionScope.insertGlobal(functionName, functionDeclaration->getTypeSignature()->convertToVariableTypeSignature());
+
     functionDeclaration->setId(FunctionIdGenerator::generateFor(functionDeclaration));
+
 }

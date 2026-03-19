@@ -21,5 +21,10 @@ void ProcedureTypeSignatureStrategy::assignInitial(ASTProcedureDeclarationNode* 
     procedureDeclaration->setTypeSignature(new ProcedureTypeSignature(
             procedureDeclaration->getParameters()->getTypeSignature()
     ));
+
+
+    auto procedureName = procedureDeclaration->getId();
+    procedureScope.insertGlobal(procedureName, procedureDeclaration->getTypeSignature()->convertToVariableTypeSignature());
+
     procedureDeclaration->setId(FunctionIdGenerator::generateFor(procedureDeclaration));
 }

@@ -133,6 +133,10 @@ bool IRInstructionNode::isInserted() {
     return false;
 }
 
+bool IRInstructionNode::isValueGlobalVariable() {
+    return llvm::isa<llvm::GlobalVariable>(_irValue);
+}
+
 llvm::Value* IRInstructionNode::getValue() {
     return _irValue;
 }

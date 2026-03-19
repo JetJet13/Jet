@@ -63,6 +63,12 @@ enum SimpleEnum {
     Gamma
 }
 
+enum StringEnum {
+    Alpha = "alpha",
+    Beta = "beta",
+    Gamma = "gamma"
+}
+
 func getInt(x: int) int {
     return x;
 }
@@ -1250,16 +1256,38 @@ proc testClass() {
     assert(myComplexClass.getAge() == 18);
     assert(myComplexClass.getName() == "Joe");
     assert(myComplexClass.getHairColor() == "Black");
+    assert(myComplexClass.age == 18);
+    assert(myComplexClass.name == "Joe");
+    assert(myComplexClass.hairColor == "Black");
 
     const myOtherComplexClass = new ComplexClass(28, "Roger", "Brown");
     assert(myOtherComplexClass.getAge() == 28);
     assert(myOtherComplexClass.getName() == "Roger");
     assert(myOtherComplexClass.getHairColor() == "Brown");
+    assert(myOtherComplexClass.age == 28);
+    assert(myOtherComplexClass.name == "Roger");
+    assert(myOtherComplexClass.hairColor == "Brown");
 
     const myStaticComplexClass = ComplexClass.create();
     assert(myStaticComplexClass.getAge() == 2);
     assert(myStaticComplexClass.getName() == "Joe");
     assert(myStaticComplexClass.getHairColor() == "Black");
+    assert(myStaticComplexClass.age == 2);
+    assert(myStaticComplexClass.name == "Joe");
+    assert(myStaticComplexClass.hairColor == "Black");
 
 }
 testClass();
+
+func functionUsedAsLambda(x: int) int {
+    return x + 1000;
+}
+
+proc testFunctionsAsLambdas() {
+    const lambdaUsingFunction = (x: int, l: (int) => int) {
+        return l(x) + 1000;
+    }
+    const result = lambdaUsingFunction(1, functionUsedAsLambda);
+    assert(result == 2001);
+}
+testFunctionsAsLambdas();

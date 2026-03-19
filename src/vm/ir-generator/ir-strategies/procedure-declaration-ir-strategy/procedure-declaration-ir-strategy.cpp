@@ -6,6 +6,7 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
+#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto procedureScope = new IRLookupTable();
@@ -26,5 +27,25 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     for (auto statement : *node->getBlock()->getContents()) {
         functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irFunctionContext));
     }
-    return new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock);
+
+    auto globalVariableIRType = irGenerator->generateIRInvocableType();
+    auto globalVariable = new llvm::GlobalVariable(
+            *irContext->getModule(),
+            globalVariableIRType->getType(),
+            false,
+            node->isExportable()
+            ? llvm::GlobalValue::ExternalLinkage
+            : llvm::GlobalValue::PrivateLinkage,
+            irGenerator->generatePlaceholderValueForIRType(globalVariableIRType),
+            node->getId()
+    );
+    auto irGlobalVariable = IRInstructionNodeFactory::create(
+            globalVariable,
+            irGenerator->generateIrPointerType(globalVariableIRType)
+    );
+
+    auto irProcedureDeclaration = new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
+    scope->insertGlobalVariable(irProcedureDeclaration->getNormalizedName(), irGlobalVariable);
+
+    return irProcedureDeclaration;
 }

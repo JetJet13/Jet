@@ -5,12 +5,31 @@
 #include "procedure-declaration-ir-injector-strategy.h"
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
+#include "../../../ir-type/ir-invocable-type.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     irInjector->inject(irBlock, irProcedureDeclaration->getBlock(), irModule);
     if (!irProcedureDeclaration->getBlock()->hasReturnStatement()) {
         irProcedureDeclaration->getBlock()->getLastSuccessorOrSelf()->addVoidReturn();
     }
+
+    auto irType = (IRInvocableType*)irProcedureDeclaration->getGlobalVariable()->getIRType()->getSourceType();
+    auto functionIndex = irType->getFunctionIndex();
+    auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irProcedureDeclaration->getGlobalVariable()->getValue(), functionIndex);
+    InstructionIRInjectorHelper::injectStore(irProcedureDeclaration->getValue(), functionPointer, irBlock, irType);
+    auto refCounterIndex = irType->getFunctionRefCounterIndex();
+    auto refCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irProcedureDeclaration->getGlobalVariable()->getValue(), refCounterIndex);
+    auto refCounterAlloc = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            {
+                    irBlock->getBuilder()->get()->getInt64(1),
+                    irBlock->getBuilder()->get()->getInt64(irType->getRefCounterSizeInBytes()),
+            }
+    );
+    auto refCounterValue = irBlock->getBuilder()->get()->getInt64(1);
+    InstructionIRInjectorHelper::injectStore(refCounterValue, refCounterAlloc, irBlock);
+    InstructionIRInjectorHelper::injectStore(refCounterAlloc, refCounterPointer, irBlock);
 
     FreeIRInjectorHelper::freeFunctionBlockNodes(irProcedureDeclaration->getBlock(), irInjector, irModule, irProcedureDeclaration->getBlock()->getScope());
     FreeIRInjectorHelper::freeFunctionParameters(irProcedureDeclaration->getBlock(), irProcedureDeclaration->getParameters(), irInjector, irModule, irProcedureDeclaration->getBlock()->getScope());

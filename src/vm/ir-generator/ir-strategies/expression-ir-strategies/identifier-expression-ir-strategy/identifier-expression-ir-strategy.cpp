@@ -9,6 +9,7 @@
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto id = node->getIdentifierNode()->getId();
     auto allocation = scope->findAcrossScopes(id);
+    if (allocation.value()->isGlobal())
     if (irOperation->isCopy() && allocation.value()->getIRType()->getSourceType()->requiresArc()) {
         return new IRIdentifierExpressionNode(node, allocation.value(), irGenerator->generateArcAllocation(irContext));
     }

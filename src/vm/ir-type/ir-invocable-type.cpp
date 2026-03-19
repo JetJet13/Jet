@@ -16,11 +16,6 @@ IRInvocableType::IRInvocableType(llvm::StructType* type, IRPointerType* irFuncti
     _functionCleanupIndex = 3;
 }
 
-bool IRInvocableType::requiresScopeArgument() {
-    auto irFunctionType = (IRFunctionType*)_irFunctionPointer->getSourceType();
-    return irFunctionType->requiresScopeArgument();
-}
-
 llvm::StructType* IRInvocableType::getType() {
     return _type;
 }

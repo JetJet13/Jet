@@ -39,9 +39,7 @@ llvm::Value* LambdaIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpr
     if (irOperation->incrementRefCount()) {
         irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { irExpression->getValue() });
     }
-    // todo - there are cases where we need to increment the ref count
-    // when the operand type is pointer (e.g. calling myArray.append(myLambda);)
-    // idea: rely on ir parameters to dictate the ir-operation when injecting the argument ir.
+
     if (irOperation->isOperandPointer()) {
         return irExpression->getValue();
     }

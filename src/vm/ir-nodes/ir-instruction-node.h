@@ -37,6 +37,7 @@ public:
     bool isGlobal();
     void markAsGlobal();
     bool isInserted();
+    bool isValueGlobalVariable();
     llvm::Value* getValue();
     llvm::Type* getAllocatedType();
     std::vector<llvm::Value*>* getAncestorValues();

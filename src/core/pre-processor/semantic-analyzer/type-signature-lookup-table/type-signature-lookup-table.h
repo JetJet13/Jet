@@ -17,8 +17,8 @@
 class TypeSignatureLookupTable {
 private:
     std::unordered_map<std::string, TypeSignature*> _typeSignatureLookupTable;
-    std::unordered_map<std::string, TypeSignature*> _globalTypeSignatureLookupTable;
-    std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*> _globalFunctionOverrideLookupTable;
+    std::unordered_map<std::string, TypeSignature*>* _globalTypeSignatureLookupTable;
+    std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* _globalFunctionOverrideLookupTable;
     std::optional<TypeSignatureLookupTable*> _outerScope;
 public:
     explicit TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope = {});
@@ -29,8 +29,8 @@ public:
     TypeSignature* findGlobal(std::string key);
     std::optional<FunctionVarArgTypeSignatureMap*> findGlobalFunctionOverride(std::string key);
     std::unordered_map<std::string, TypeSignature*> getLookupTable();
-    std::unordered_map<std::string, TypeSignature*> getGlobalScope();
-    std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*> getGlobalOverrideScope();
+    std::unordered_map<std::string, TypeSignature*>* getGlobalScope();
+    std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* getGlobalOverrideScope();
     void inheritGlobalScope(TypeSignatureLookupTable* otherScope);
     void dump();
 };
