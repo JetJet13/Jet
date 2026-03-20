@@ -5,6 +5,7 @@
 #include "function-invocation-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRFunctionArgumentNode*>();
@@ -41,7 +42,6 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     if (irType->isInvocableType()) {
         auto irInvocableType = (IRInvocableType*)irType;
         auto source = scope->findAcrossScopes(node->getFunction()->getId()).value();
-//        auto argList = this->prepArgumentList(node, &arguments, irInvocableType, irGenerator, irContext);
         auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), source->getValue(), argList);
         return new IRFunctionInvocationExpressionNode(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
@@ -52,7 +52,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
 
         auto irFunctionName = node->getFunction()->getTypeSignature()->isDebug()
                 ? irGenerator->getJetDebugFunctionName(node->getFunction()->getId())
-                : irGenerator->getJetUtilsFunctionName(node->getFunction()->getId());
+                : irGenerator->getJetUtilsFunctionName(node->getFunction()->getId(), argList.size());
         auto function = irContext->getModule()->getFunction(irFunctionName);
         auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
 
@@ -73,9 +73,9 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     }
 
     auto irFunctionType = (IRFunctionType*)irType;
-    auto function = irContext->getModule()->getFunction(node->getFunction()->getId());
+    auto irFunctionId = FunctionIdGenerator::generateFor(node->getFunction()->getId(), (InvocableTypeSignature*)node->getFunction()->getTypeSignature());
+    auto function = irContext->getModule()->getFunction(irFunctionId);
     auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
-//    auto argList = this->prepArgumentList(node, &arguments, irFunctionType, irGenerator, irContext);
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
     return new IRFunctionInvocationExpressionNode(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
 }

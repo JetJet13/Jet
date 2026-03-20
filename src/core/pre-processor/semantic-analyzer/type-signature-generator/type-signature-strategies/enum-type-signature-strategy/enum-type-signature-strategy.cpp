@@ -5,7 +5,7 @@
 #include "enum-type-signature-strategy.h"
 #include "../../../../../type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.h"
 
-void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureStrategyProvider* strategyMap) {
+void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureContext* context, TypeSignatureStrategyProvider* strategyMap) {
     if (enumDeclaration->getValues()->getParameters().empty()) {
         enumDeclaration->setTypeSignature(new EnumTypeSignature(new DefaultEnumKeyValueTypeSignature()));
         return;
@@ -13,7 +13,7 @@ void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, 
 
     auto enumTypeSignature = new EnumTypeSignature();
     for (auto enumKeyValue : enumDeclaration->getValues()->getParameters()) {
-        strategyMap->assignTypeSignatureFor(enumKeyValue);
+        strategyMap->assignTypeSignatureFor(enumKeyValue, context);
         if (enumTypeSignature->getType()->typeTargetIs(LITERAL_TYPE_SOURCE)) {
             enumTypeSignature->setType(enumKeyValue->getTypeSignature());
         }

@@ -11,7 +11,7 @@
 
 class ExpressionStatementTypeSignatureStrategy {
 public:
-    void assign(ASTExpressionStatementNode* expressionStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTExpressionStatementNode* expressionStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

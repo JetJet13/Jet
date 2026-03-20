@@ -10,7 +10,7 @@
 
 class CustomTypeDeclarationTypeSignatureStrategy {
 public:
-    void assignAndAddToScope(ASTCustomTypeDeclarationNode* customTypeDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignAndAddToScope(ASTCustomTypeDeclarationNode* customTypeDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

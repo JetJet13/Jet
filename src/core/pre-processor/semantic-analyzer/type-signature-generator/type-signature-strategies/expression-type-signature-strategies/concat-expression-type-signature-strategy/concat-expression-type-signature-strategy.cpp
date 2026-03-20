@@ -7,9 +7,9 @@
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 
-void ConcatExpressionTypeSignatureStrategy::assign(ASTConcatExpressionNode* concatExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(concatExpression->getLeftNode(), scope);
-    strategyMap->assignTypeSignatureFor(concatExpression->getRightNode(), scope);
+void ConcatExpressionTypeSignatureStrategy::assign(ASTConcatExpressionNode* concatExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(concatExpression->getLeftNode(), context, scope);
+    strategyMap->assignTypeSignatureFor(concatExpression->getRightNode(), context, scope);
     auto leftTypeSignature = concatExpression->getLeftNode()->getTypeSignature();
     auto rightTypeSignature = concatExpression->getRightNode()->getTypeSignature();
 

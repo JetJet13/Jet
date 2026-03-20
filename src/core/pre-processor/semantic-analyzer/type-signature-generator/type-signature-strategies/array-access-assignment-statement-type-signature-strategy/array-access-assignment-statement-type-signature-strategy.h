@@ -11,7 +11,7 @@
 
 class ArrayAccessAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatement, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

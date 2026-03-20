@@ -5,6 +5,7 @@
 #include "vm.h"
 #include "../shared/utils/logger/logger.h"
 #include "ir-nodes/ir-context.h"
+#include "../shared/utils/function-id-generator/function-id-generator.h"
 
 VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
     _irGenerator = irGenerator;
@@ -72,7 +73,10 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
 void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
     Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {
-        auto exportedFunction = destination->getIRModule()->getModule()->get()->getFunction(exportedDeclaration->getId());
-        exportedFunction->setName(jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + exportedDeclaration->getId());
+        if (exportedDeclaration->getTypeSignature()->isInvocable()) {
+            auto irFunctionId = FunctionIdGenerator::generateFor(exportedDeclaration->getId(), (InvocableTypeSignature*)exportedDeclaration->getTypeSignature());
+            auto exportedFunction = destination->getIRModule()->getModule()->get()->getFunction(irFunctionId);
+            exportedFunction->setName(jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + irFunctionId);
+        }
     }
 }

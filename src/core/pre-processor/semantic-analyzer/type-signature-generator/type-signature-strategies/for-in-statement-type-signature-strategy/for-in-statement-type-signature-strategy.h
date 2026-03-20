@@ -11,7 +11,7 @@
 
 class ForInStatementTypeSignatureStrategy {
 public:
-    void assign(ASTForInStatementNode* forStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTForInStatementNode* forStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FOR_IN_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

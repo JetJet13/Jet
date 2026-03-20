@@ -5,13 +5,13 @@
 #include "new-class-instance-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignature = typeSignatureLookupTable->find(
             newClassInstanceExpression
             ->getClassName()
             ->getId()
     );
-    strategyMap->assignTypeSignatureFor(newClassInstanceExpression->getArguments(), typeSignatureLookupTable);
+    strategyMap->assignTypeSignatureFor(newClassInstanceExpression->getArguments(), context, typeSignatureLookupTable);
     if (typeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classTypeSignature = (ClassTypeSignature*)typeSignature;
         newClassInstanceExpression->setTypeSignature(

@@ -12,7 +12,7 @@
 
 class EnumTypeSignatureStrategy {
 public:
-    void assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureContext* context, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ENUM_TYPE_SIGNATURE_STRATEGY_H

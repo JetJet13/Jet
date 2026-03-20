@@ -48,7 +48,8 @@ bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
         auto refTypeSignature = (RefTypeSignature*)sourceTypeSignature;
         sourceTypeSignature = refTypeSignature->getUnderlyingType();
     }
-    return sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)
+    return (sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)
+    || sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE))
            && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }
 

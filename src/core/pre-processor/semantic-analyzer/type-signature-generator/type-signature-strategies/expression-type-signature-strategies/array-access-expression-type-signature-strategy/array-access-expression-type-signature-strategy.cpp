@@ -7,9 +7,9 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
-void ArrayAccessExpressionTypeSignatureStrategy::assign(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(arrayAccessExpression->getSource(), scope);
-    strategyMap->assignTypeSignatureFor(arrayAccessExpression->getIndex()->getIndex(), scope);
+void ArrayAccessExpressionTypeSignatureStrategy::assign(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(arrayAccessExpression->getSource(), context, scope);
+    strategyMap->assignTypeSignatureFor(arrayAccessExpression->getIndex()->getIndex(), context, scope);
 
     if (arrayAccessExpression->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)) {
         auto refTypeSignature = (RefTypeSignature*)arrayAccessExpression->getSource()->getTypeSignature()->getTargetTypeSignature();

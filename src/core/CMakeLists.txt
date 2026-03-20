@@ -1391,6 +1391,8 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-end-node.h
         ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-node.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-context.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-context.h
 
 )
 

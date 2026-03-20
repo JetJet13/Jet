@@ -6,31 +6,43 @@
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), typeSignatureLookupTable);
-    // if the function refers to a local lambda
-    auto typeSignature = typeSignatureLookupTable->find(functionInvocationExpression->getFunction()->getId());
-    if (typeSignature->isInvocable()) {
-        functionInvocationExpression->getFunction()->setTypeSignature(typeSignature);
+void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+
+    auto id = functionInvocationExpression->getFunction()->getId();
+    // if the name refers to a lambda
+    auto lambdaTypeSignature = typeSignatureLookupTable->find(id);
+    if (lambdaTypeSignature->isInvocable()) {
+        auto invocableTypeSignature = (InvocableTypeSignature*)lambdaTypeSignature;
+        strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), new TypeSignatureContext(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
+        functionInvocationExpression->getFunction()->setId(id);
+        functionInvocationExpression->getFunction()->setTypeSignature(invocableTypeSignature);
         functionInvocationExpression->setTypeSignature(
-                new FunctionInvocationTypeSignature((InvocableTypeSignature*)typeSignature)
+            new FunctionInvocationTypeSignature(invocableTypeSignature)
         );
         return;
     }
 
-    // if the function refers to a function or procedure
-    auto id = FunctionIdGenerator::generateFor(functionInvocationExpression);
-    auto functionTypeSignature = typeSignatureLookupTable->find(id);
-    if (functionTypeSignature->isInvocable()) {
-        functionInvocationExpression->getFunction()->setId(id);
-        functionInvocationExpression->getFunction()->setTypeSignature(functionTypeSignature);
-        functionInvocationExpression->setTypeSignature(
-            new FunctionInvocationTypeSignature((InvocableTypeSignature*)functionTypeSignature)
-        );
-        return;
+
+    // if the name refers to a function or procedure
+    auto functionTypeSignatureMap = typeSignatureLookupTable->getGlobalFunction(id);
+    if (functionTypeSignatureMap) {
+        for (auto keyValue : *functionTypeSignatureMap.value()) {
+            auto invocableTypeSignature = keyValue.second;
+            strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), new TypeSignatureContext(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
+            if (invocableTypeSignature->doArgumentsMatchParameters(functionInvocationExpression->getArguments()->getTypeSignature())) {
+                functionInvocationExpression->getFunction()->setId(id);
+                functionInvocationExpression->getFunction()->setTypeSignature(invocableTypeSignature);
+                functionInvocationExpression->setTypeSignature(
+                    new FunctionInvocationTypeSignature(invocableTypeSignature)
+                );
+                return;
+            }
+        }
     }
-    auto functionOverride = typeSignatureLookupTable->findGlobalFunctionOverride(FunctionIdGenerator::getNameFromId(id));
+
+    auto functionOverride = typeSignatureLookupTable->findGlobalFunctionOverride(id);
     if (functionOverride) {
+        strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), context, typeSignatureLookupTable);
         auto matchedTypeSignature = functionOverride.value()->findMatchFor(functionInvocationExpression->getArguments()->getTypeSignature());
         if (matchedTypeSignature) {
             functionInvocationExpression->getFunction()->setId(matchedTypeSignature.value().first);

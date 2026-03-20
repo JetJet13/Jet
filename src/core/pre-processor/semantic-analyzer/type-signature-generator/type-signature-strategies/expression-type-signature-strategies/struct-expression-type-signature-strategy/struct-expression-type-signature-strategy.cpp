@@ -5,10 +5,10 @@
 #include "struct-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void StructExpressionTypeSignatureStrategy::assign(ASTStructExpressionNode* structExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void StructExpressionTypeSignatureStrategy::assign(ASTStructExpressionNode* structExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto structTypeSignature = new StructTypeSignature();
     for (auto keyValuePair : structExpression->getKeyValuePairs()) {
-        strategyMap->assignTypeSignatureFor(keyValuePair->getValue(), scope);
+        strategyMap->assignTypeSignatureFor(keyValuePair->getValue(), context, scope);
         auto valueTypeSignature = keyValuePair->getValue()->getTypeSignature()->convertToVariableTypeSignature();
         valueTypeSignature->setKeyId(keyValuePair->getKey()->getIdentifierNode()->getId());
         structTypeSignature->addKeyValuePair(

@@ -12,7 +12,7 @@
 
 class WhileStatementTypeSignatureStrategy {
 public:
-    void assign(ASTWhileStatementNode* whileStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTWhileStatementNode* whileStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

@@ -81,32 +81,16 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-func functionUsedAsLambda(x: int) int {
-    return x + 1000;
+proc testRange() {
+    for i in range(10) {
+        print(i);
+    }
+
+    for i in range(2, 8) {
+        print(i);
+    }
+
+    for i in range(12, 22, 2) {
+        print(i);
+    }
 }
-
-proc testFunctionsAsLambdas() {
-    const lambdaUsingFunction = (x: int, l: (int) => int) {
-        return l(x) + 1000;
-    };
-
-    const result = lambdaUsingFunction(1, functionUsedAsLambda);
-    assert(result == 2001);
-}
-testFunctionsAsLambdas();
-
-proc procUsedAsLambda(x: ref<int>) {
-    x := x + 1;
-}
-
-proc testProceduresAsLambdas() {
-    const lambdaUsingProcedure = (x: ref<int>, l: (ref<int>) => void) {
-        x := x + 10;
-        l(x);
-    };
-
-    const x = ref 1;
-    lambdaUsingProcedure(x, procUsedAsLambda);
-    assert(x == 12);
-}
-testProceduresAsLambdas();

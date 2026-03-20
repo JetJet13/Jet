@@ -12,7 +12,7 @@
 
 class IfStatementTypeSignatureStrategy {
 public:
-    void assign(ASTIfStatementNode* ifStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTIfStatementNode* ifStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

@@ -127,7 +127,7 @@ public:
     IRArrayType* generateIRArrayType(IRType* elementType, unsigned long size);
     std::string getArrayPrototypeFunctionName(std::string id);
     std::optional<std::string> getRefPrototypeFunctionName(std::string id);
-    std::string getJetUtilsFunctionName(std::string id);
+    std::string getJetUtilsFunctionName(std::string id, unsigned long numArgs);
     std::string getJetDebugFunctionName(std::string id);
     IRFunctionType* generateFunctionIrType(llvm::FunctionType* functionType);
     std::vector<llvm::Value*> generateArgumentPlaceholderList(IRFunctionType* irFunctionType, std::vector<IRFunctionArgumentNode*>* irArguments);

@@ -12,9 +12,9 @@ BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
 }
 
-void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), scope);
-    strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), scope);
+void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), context, scope);
+    strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), context, scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());
     if (!combination) {
         throw std::invalid_argument("unknown binary arithmetic operator..aborting.");
@@ -42,9 +42,9 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryArithmeticExpression
     binaryExpression->setTypeSignature(resultTypeSignature.value());
 }
 
-void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryComparatorExpressionNode* binaryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), scope);
-    strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), scope);
+void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryComparatorExpressionNode* binaryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), context, scope);
+    strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), context, scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());
     if (!combination) {
         throw std::invalid_argument("unknown binary comparator operator..aborting.");

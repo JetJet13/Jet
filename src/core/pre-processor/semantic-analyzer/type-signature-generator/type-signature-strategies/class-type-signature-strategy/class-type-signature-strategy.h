@@ -14,14 +14,14 @@
 
 class ClassTypeSignatureStrategy {
 private:
-    void assignConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
-    void assignPropertyTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
-    void assignMethodTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
-    void assignConstructorBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
-    void assignMethodBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void assignConstructorTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void assignPropertyTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void assignMethodTypeSignatures(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void assignConstructorBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
+    void assignMethodBlocksTypeSignature(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap);
 public:
-    void assign(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
-    void assignPartial(ASTClassDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignPartial(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_STRATEGY_H

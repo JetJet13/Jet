@@ -614,8 +614,8 @@ std::optional<std::string> IRGenerator::getRefPrototypeFunctionName(std::string 
     return RefPrototypeMap::getIRName(id);
 }
 
-std::string IRGenerator::getJetUtilsFunctionName(std::string id) {
-    return IRUtilInternalModule::getIRName(id);
+std::string IRGenerator::getJetUtilsFunctionName(std::string id, unsigned long numArgs) {
+    return IRUtilInternalModule::getIRName(id, numArgs);
 }
 
 std::string IRGenerator::getJetDebugFunctionName(std::string id) {

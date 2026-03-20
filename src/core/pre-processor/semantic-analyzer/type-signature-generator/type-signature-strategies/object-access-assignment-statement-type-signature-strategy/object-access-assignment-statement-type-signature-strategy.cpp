@@ -4,7 +4,7 @@
 
 #include "object-access-assignment-statement-type-signature-strategy.h"
 
-void ObjectAccessAssignmentStatementTypeSignatureStrategy::assign(ASTObjectAccessAssignmentStatementNode* objectAccessAssignmentStatement, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(objectAccessAssignmentStatement->getExpression(), scope);
-    strategyMap->assignTypeSignatureFor(objectAccessAssignmentStatement->getObjectAccessAssignment()->getObjectAccess(), scope);
+void ObjectAccessAssignmentStatementTypeSignatureStrategy::assign(ASTObjectAccessAssignmentStatementNode* objectAccessAssignmentStatement, TypeSignatureContext* context,  TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(objectAccessAssignmentStatement->getExpression(), context, scope);
+    strategyMap->assignTypeSignatureFor(objectAccessAssignmentStatement->getObjectAccessAssignment()->getObjectAccess(), context, scope);
 }

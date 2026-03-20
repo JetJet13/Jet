@@ -11,7 +11,7 @@
 
 class VariableTypeSignatureStrategy {
 public:
-    void assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_VARIABLE_TYPE_SIGNATURE_STRATEGY_H

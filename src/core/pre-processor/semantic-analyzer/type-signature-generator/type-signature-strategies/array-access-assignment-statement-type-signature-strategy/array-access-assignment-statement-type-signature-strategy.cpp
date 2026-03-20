@@ -4,7 +4,7 @@
 
 #include "array-access-assignment-statement-type-signature-strategy.h"
 
-void ArrayAccessAssignmentStatementTypeSignatureStrategy::assign(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatement, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(arrayAccessAssignmentStatement->getExpression(), scope);
-    strategyMap->assignTypeSignatureFor(arrayAccessAssignmentStatement->getArrayAccessAssignment()->getArrayAccess(), scope);
+void ArrayAccessAssignmentStatementTypeSignatureStrategy::assign(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(arrayAccessAssignmentStatement->getExpression(), context, scope);
+    strategyMap->assignTypeSignatureFor(arrayAccessAssignmentStatement->getArrayAccessAssignment()->getArrayAccess(), context, scope);
 }

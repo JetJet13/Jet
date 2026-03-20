@@ -6,8 +6,8 @@
 #include "../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
-void ForInStatementTypeSignatureStrategy::assign(ASTForInStatementNode* forStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(forStatementNode->getSource()->getSource(), scope);
+void ForInStatementTypeSignatureStrategy::assign(ASTForInStatementNode* forStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(forStatementNode->getSource()->getSource(), context, scope);
     forStatementNode->getSource()->setTypeSignature(
             forStatementNode
                     ->getSource()
@@ -34,5 +34,5 @@ void ForInStatementTypeSignatureStrategy::assign(ASTForInStatementNode* forState
         forStatementNode->getVariable()->getVariable()->getTypeSignature()
     );
     scope->insert(forStatementNode->getVariable()->getVariable()->getId(), forStatementNode->getVariable()->getTypeSignature());
-    strategyMap->assignTypeSignatureFor(forStatementNode->getBlock(), scope);
+    strategyMap->assignTypeSignatureFor(forStatementNode->getBlock(), context, scope);
 }

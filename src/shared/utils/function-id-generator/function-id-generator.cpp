@@ -49,6 +49,10 @@ std::string FunctionIdGenerator::generateFor(std::string name, InvocableTypeSign
     return id;
 }
 
+std::string FunctionIdGenerator::generateFor(InvocableTypeSignature* invocableTypeSignature) {
+    return MD5().operator()(invocableTypeSignature->toDetailString());
+}
+
 std::string FunctionIdGenerator::generateFor(std::string functionName, std::string parameterDetailString) {
     auto id = functionName + "." + MD5().operator()(parameterDetailString);
     return id;

@@ -7,6 +7,7 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto procedureScope = new IRLookupTable();
@@ -14,7 +15,8 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     auto procedureTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), procedureScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(procedureTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunction = llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
+    auto irFunctionId = FunctionIdGenerator::generateFor(node->getId(), node->getTypeSignature());
+    auto irFunction = llvm::Function::Create(functionType, linkage, 0, irFunctionId, irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), procedureScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, procedureScope);
     auto irFunctionContext = irContext->clone(functionBlock);
@@ -37,7 +39,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
             ? llvm::GlobalValue::ExternalLinkage
             : llvm::GlobalValue::PrivateLinkage,
             irGenerator->generatePlaceholderValueForIRType(globalVariableIRType),
-            node->getId()
+            irFunctionId
     );
     auto irGlobalVariable = IRInstructionNodeFactory::create(
             globalVariable,
@@ -45,7 +47,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedur
     );
 
     auto irProcedureDeclaration = new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
-    scope->insertGlobalVariable(irProcedureDeclaration->getNormalizedName(), irGlobalVariable);
+    scope->insertGlobalVariable(irFunctionId, irGlobalVariable);
 
     return irProcedureDeclaration;
 }

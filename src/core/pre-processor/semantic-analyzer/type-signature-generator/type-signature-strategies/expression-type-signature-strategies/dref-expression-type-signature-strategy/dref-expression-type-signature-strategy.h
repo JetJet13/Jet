@@ -11,7 +11,7 @@
 
 class DrefExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTDrefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTDrefExpressionNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_DREF_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

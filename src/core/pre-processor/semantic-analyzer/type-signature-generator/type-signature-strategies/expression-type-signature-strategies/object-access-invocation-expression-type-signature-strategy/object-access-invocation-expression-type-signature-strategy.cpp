@@ -9,9 +9,9 @@
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
-void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), scope);
-    strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), scope);
+void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), context, scope);
+    strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), context, scope);
 
     if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)) {
         auto refSource = (RefTypeSignature*)objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
@@ -37,7 +37,7 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
         objectAccessInvocationExpression->setTypeSignature(functionTypeSignature->getReturnType());
         return;
     } else if (sourceTypeSignature->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
-        auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression);
+        auto id = objectAccessInvocationExpression->getName();
         auto classInstanceSource = (ClassInstanceTypeSignature*)sourceTypeSignature->getTargetTypeSignature();
         auto classMethodTypeSignature = (ClassMethodTypeSignature*)classInstanceSource->getKeyValuePairs()->find(id).value_or(new ClassMethodTypeSignature());
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classMethodTypeSignature);
@@ -45,7 +45,7 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
         return;
     } else if (sourceTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
         auto classSource = (ClassTypeSignature*)sourceTypeSignature;
-        auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression);
+        auto id = objectAccessInvocationExpression->getName();
         auto classStaticMethod = classSource->getInterface()->find(id);
         if (classStaticMethod) {
             auto classStaticMethodTypeSignature = (ClassMethodTypeSignature*)classStaticMethod.value();
@@ -57,6 +57,12 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
         auto arraySource = (ArrayTypeSignature*)sourceTypeSignature->getTargetTypeSignature();
         auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
         auto arrayPrototypeTypeSignature = strategyMap->findArrayPrototypeTypeSignature(id, arraySource->getElementType()).value_or(new FunctionTypeSignature());
+        objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(arrayPrototypeTypeSignature);
+        objectAccessInvocationExpression->setTypeSignature(arrayPrototypeTypeSignature->getReturnType());
+        return;
+    } else if (sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)) {
+        auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto arrayPrototypeTypeSignature = strategyMap->findArrayPrototypeTypeSignature(id, new CharLiteralTypeSignature()).value_or(new FunctionTypeSignature());
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(arrayPrototypeTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(arrayPrototypeTypeSignature->getReturnType());
         return;

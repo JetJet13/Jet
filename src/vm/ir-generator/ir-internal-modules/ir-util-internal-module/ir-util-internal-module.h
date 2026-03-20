@@ -12,7 +12,7 @@
 class IRUtilInternalModule {
 public:
     static void augment(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIrModule);
-    static std::string getIRName(std::string id);
+    static std::string getIRName(std::string id, unsigned long numArgs);
 };
 
 #endif //JETLANG_IR_UTIL_INTERNAL_MODULE_H

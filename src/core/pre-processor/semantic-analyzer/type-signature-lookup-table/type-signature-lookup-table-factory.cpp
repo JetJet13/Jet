@@ -12,23 +12,23 @@ TypeSignatureLookupTable* TypeSignatureLookupTableFactory::createForModule() {
     typeSignatureLookupTable->insertGlobalFunctionOverride(
         JetUtilsTypeSignatureMap::getPrintTypeSignatureMap()
     );
-    typeSignatureLookupTable->insertGlobal(
+    typeSignatureLookupTable->insertGlobalInvocable(
         JetUtilsTypeSignatureMap::getRangeTypeSignatureKey(),
         JetUtilsTypeSignatureMap::getRangeTypeSignature()
     );
-    typeSignatureLookupTable->insertGlobal(
+    typeSignatureLookupTable->insertGlobalInvocable(
             JetUtilsTypeSignatureMap::getRange2pTypeSignatureKey(),
             JetUtilsTypeSignatureMap::getRange2pTypeSignature()
     );
-    typeSignatureLookupTable->insertGlobal(
+    typeSignatureLookupTable->insertGlobalInvocable(
             JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey(),
             JetUtilsTypeSignatureMap::getRange3pTypeSignature()
     );
-    typeSignatureLookupTable->insertGlobal(
+    typeSignatureLookupTable->insertGlobalInvocable(
             JetUtilsTypeSignatureMap::getAssertTypeSignatureKey(),
             JetUtilsTypeSignatureMap::getAssertTypeSignature()
     );
-    typeSignatureLookupTable->insertGlobal(
+    typeSignatureLookupTable->insertGlobalInvocable(
             JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatureKey(),
             JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignature()
     );

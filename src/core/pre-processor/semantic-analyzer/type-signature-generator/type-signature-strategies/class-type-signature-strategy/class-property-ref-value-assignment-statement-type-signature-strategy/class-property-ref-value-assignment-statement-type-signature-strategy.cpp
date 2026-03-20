@@ -6,8 +6,8 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
-void ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy::assign(ASTClassPropertyRefValueAssignmentStatementNode* classPropertyRefValueAssignmentStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(classPropertyRefValueAssignmentStatementNode->getExpression(), scope);
+void ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy::assign(ASTClassPropertyRefValueAssignmentStatementNode* classPropertyRefValueAssignmentStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(classPropertyRefValueAssignmentStatementNode->getExpression(), context, scope);
     auto classTypeSignature = (ClassTypeSignature*)scope->find(
             classPropertyRefValueAssignmentStatementNode
                     ->getPropertyAssignment()

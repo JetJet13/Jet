@@ -7,11 +7,13 @@
 #include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
+#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 
 TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope) {
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
     _globalTypeSignatureLookupTable = new std::unordered_map<std::string, TypeSignature*>();
+    _globalInvocableTypeSignatureLookupTable = new std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>();
     _globalFunctionOverrideLookupTable = new std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>();
     _outerScope = outerScope;
 }
@@ -23,6 +25,19 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, Type
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobal(std::string key, TypeSignature* typeSignature) {
     _globalTypeSignatureLookupTable->insert(std::pair(key, typeSignature));
+    return this;
+}
+
+TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalInvocable(std::string name, InvocableTypeSignature* typeSignature) {
+    auto key = FunctionIdGenerator::generateFor(typeSignature);
+    auto existing = _globalInvocableTypeSignatureLookupTable->find(name);
+    if (existing == _globalInvocableTypeSignatureLookupTable->end()) {
+        auto invocableTypeSignatureLookupTable = new std::unordered_map<std::string, InvocableTypeSignature*>();
+        invocableTypeSignatureLookupTable->insert(std::pair(key, typeSignature));
+        _globalInvocableTypeSignatureLookupTable->insert(std::pair(name, invocableTypeSignatureLookupTable));
+    } else {
+        existing->second->insert(std::pair(key, typeSignature));
+    }
     return this;
 }
 
@@ -66,6 +81,27 @@ std::optional<FunctionVarArgTypeSignatureMap*> TypeSignatureLookupTable::findGlo
     }
 }
 
+std::optional<InvocableTypeSignature*> TypeSignatureLookupTable::findGlobalFunction(std::string name, std::string key) {
+    auto globalFunction = _globalInvocableTypeSignatureLookupTable->find(name);
+    if (globalFunction == _globalInvocableTypeSignatureLookupTable->end()) {
+        return {};
+    }
+
+    auto result = globalFunction->second->find(key);
+    if (result == globalFunction->second->end()) {
+        return {};
+    }
+    return result->second;
+}
+
+std::optional<std::unordered_map<std::string, InvocableTypeSignature*>*> TypeSignatureLookupTable::getGlobalFunction(std::string name) {
+    auto globalFunction = _globalInvocableTypeSignatureLookupTable->find(name);
+    if (globalFunction == _globalInvocableTypeSignatureLookupTable->end()) {
+        return {};
+    }
+    return globalFunction->second;
+}
+
 std::unordered_map<std::string, TypeSignature*> TypeSignatureLookupTable::getLookupTable() {
     auto lookupTable = std::unordered_map<std::string, TypeSignature*>();
     if (_outerScope) {
@@ -83,6 +119,10 @@ std::unordered_map<std::string, TypeSignature*>* TypeSignatureLookupTable::getGl
     return _globalTypeSignatureLookupTable;
 }
 
+std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>* TypeSignatureLookupTable::getGlobalInvocableScope() {
+    return _globalInvocableTypeSignatureLookupTable;
+}
+
 std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* TypeSignatureLookupTable::getGlobalOverrideScope() {
     return _globalFunctionOverrideLookupTable;
 }
@@ -90,6 +130,7 @@ std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* TypeSignatureL
 void TypeSignatureLookupTable::inheritGlobalScope(TypeSignatureLookupTable* otherScope) {
     _globalTypeSignatureLookupTable = otherScope->getGlobalScope();
     _globalFunctionOverrideLookupTable = otherScope->getGlobalOverrideScope();
+    _globalInvocableTypeSignatureLookupTable = otherScope->getGlobalInvocableScope();
 }
 
 void TypeSignatureLookupTable::dump() {
@@ -104,6 +145,12 @@ void TypeSignatureLookupTable::dump() {
     Logger::log("======== GLOBAL SCOPE DUMP ========");
     for (auto keyValue : *_globalTypeSignatureLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
+    }
+    for (auto keyValue : *_globalInvocableTypeSignatureLookupTable) {
+        Logger::log("NAME - ", keyValue.first);
+        for (auto invocableLookup : *keyValue.second) {
+            Logger::log("  KEY - ", invocableLookup.first, "VALUE - ", invocableLookup.second->toString());
+        }
     }
     for (auto keyValue : *_globalFunctionOverrideLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());

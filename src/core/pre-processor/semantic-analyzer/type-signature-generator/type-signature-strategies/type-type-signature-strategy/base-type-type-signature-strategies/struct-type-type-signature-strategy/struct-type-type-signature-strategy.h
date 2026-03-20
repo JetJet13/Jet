@@ -10,7 +10,7 @@
 
 class StructTypeTypeSignatureStrategy {
 public:
-    void assign(ASTStructTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTStructTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_STRUCT_TYPE_TYPE_SIGNATURE_STRATEGY_H

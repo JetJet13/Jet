@@ -3,7 +3,20 @@
 //
 
 #include "identifier-expression-type-signature-strategy.h"
+#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-void IdentifierExpressionTypeSignatureStrategy::assign(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
-    identifierExpression->setTypeSignature(typeSignatureLookupTable->find(identifierExpression->getId()));
+void IdentifierExpressionTypeSignatureStrategy::assign(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable) {
+    auto id = identifierExpression->getId();
+    auto typeSignature = typeSignatureLookupTable->find(id);
+    if (typeSignature->isUnknown() && context->getTypeSignature() && context->getTypeSignature().value()->isInvocable()) {
+        typeSignatureLookupTable->dump();
+        auto invocableTypeSignature = (InvocableTypeSignature*)context->getTypeSignature().value();
+        auto functionTypeSignature = typeSignatureLookupTable->findGlobalFunction(id, FunctionIdGenerator::generateFor(invocableTypeSignature));
+        if (functionTypeSignature) {
+            identifierExpression->setTypeSignature(functionTypeSignature.value()->convertToVariableTypeSignature());
+            return;
+        }
+    }
+    identifierExpression->setTypeSignature(typeSignature);
+
 }

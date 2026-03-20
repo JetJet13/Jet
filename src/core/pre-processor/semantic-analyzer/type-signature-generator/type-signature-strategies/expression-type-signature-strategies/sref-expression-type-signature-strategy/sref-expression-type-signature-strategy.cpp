@@ -5,8 +5,8 @@
 #include "sref-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
-void SrefExpressionTypeSignatureStrategy::assign(ASTSrefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
+void SrefExpressionTypeSignatureStrategy::assign(ASTSrefExpressionNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(node->getExpressionNode(), context, scope);
     if (node->getExpressionNode()->getTypeSignature()->getTargetTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
         node->setTypeSignature((RefTypeSignature*)node->getExpressionNode()->getTypeSignature()->getTargetTypeSignature());
     } else {

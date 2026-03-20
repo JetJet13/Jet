@@ -11,7 +11,7 @@
 
 class VariableAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTVariableAssignmentStatementNode* variableAssignmentStatement, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTVariableAssignmentStatementNode* variableAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_VARIABLE_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

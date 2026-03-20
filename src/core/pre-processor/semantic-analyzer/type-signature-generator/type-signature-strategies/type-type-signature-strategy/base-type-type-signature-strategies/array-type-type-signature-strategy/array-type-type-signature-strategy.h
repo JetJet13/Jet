@@ -10,7 +10,7 @@
 
 class ArrayTypeTypeSignatureStrategy {
 public:
-    void assign(ASTArrayTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTArrayTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARRAY_TYPE_TYPE_SIGNATURE_STRATEGY_H

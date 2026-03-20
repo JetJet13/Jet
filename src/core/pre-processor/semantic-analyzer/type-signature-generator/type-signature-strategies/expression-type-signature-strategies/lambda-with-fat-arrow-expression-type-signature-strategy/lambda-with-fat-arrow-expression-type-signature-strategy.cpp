@@ -4,20 +4,20 @@
 
 #include "lambda-with-fat-arrow-expression-type-signature-strategy.h"
 
-void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = TypeSignatureLookupTable(typeSignatureLookupTable);
     scope.inheritGlobalScope(typeSignatureLookupTable);
     for (auto parameter : lambdaWithFatArrowExpression->getParameters()->getParameters()) {
-        strategyMap->assignTypeSignatureFor(parameter, &scope);
+        strategyMap->assignTypeSignatureFor(parameter, context, &scope);
         scope.insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
     }
 
-    strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getParameters(), &scope);
-    strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnExpression(), &scope);
+    strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getParameters(), context, &scope);
+    strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnExpression(), context, &scope);
 
     auto returnType = std::optional<TypeSignature*>();
     if (lambdaWithFatArrowExpression->getReturnType()) {
-        strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnType().value(), &scope);
+        strategyMap->assignTypeSignatureFor(lambdaWithFatArrowExpression->getReturnType().value(), context, &scope);
         returnType = lambdaWithFatArrowExpression->getReturnType().value()->getTypeSignature()->convertToVariableTypeSignature();
     } else {
         returnType = lambdaWithFatArrowExpression->getReturnExpression()->getTypeSignature()->convertToVariableTypeSignature();

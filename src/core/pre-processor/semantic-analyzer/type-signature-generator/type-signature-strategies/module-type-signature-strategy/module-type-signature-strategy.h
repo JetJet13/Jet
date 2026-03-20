@@ -12,7 +12,7 @@
 
 class ModuleTypeSignatureStrategy {
 public:
-    void assign(ASTModuleDeclarationNode* moduleDeclarationNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTModuleDeclarationNode* moduleDeclarationNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
     void assignInitial(ASTModuleDeclarationNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 

@@ -11,7 +11,7 @@
 
 class EnumKeyValueTypeSignatureStrategy {
 public:
-    void assign(ASTEnumKeyValueNode* node, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTEnumKeyValueNode* node, TypeSignatureContext* context, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ENUM_KEY_VALUE_TYPE_SIGNATURE_STRATEGY_H

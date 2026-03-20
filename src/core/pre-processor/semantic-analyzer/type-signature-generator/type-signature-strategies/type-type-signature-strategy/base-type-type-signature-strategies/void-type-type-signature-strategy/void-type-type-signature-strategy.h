@@ -11,7 +11,7 @@
 
 class VoidTypeTypeSignatureStrategy {
 public:
-    void assign(ASTVoidTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTVoidTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_VOID_TYPE_TYPE_SIGNATURE_STRATEGY_H

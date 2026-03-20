@@ -11,7 +11,7 @@
 
 class RefValueAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTRefValueAssignmentStatementNode* refValueAssignmentStatement, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTRefValueAssignmentStatementNode* refValueAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_REF_VALUE_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

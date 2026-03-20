@@ -26,23 +26,23 @@ std::string JetUtilsTypeSignatureMap::getPrintTypeSignatureKey() {
 }
 
 std::string JetUtilsTypeSignatureMap::getRangeTypeSignatureKey() {
-    return FunctionIdGenerator::generateFor("range", "_int");
+    return "range";
 }
 
 std::string JetUtilsTypeSignatureMap::getRange2pTypeSignatureKey() {
-    return FunctionIdGenerator::generateFor("range", "_int_int");
+    return "range";
 }
 
 std::string JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey() {
-    return FunctionIdGenerator::generateFor("range", "_int_int_int");
+    return "range";
 }
 
 std::string JetUtilsTypeSignatureMap::getAssertTypeSignatureKey() {
-    return FunctionIdGenerator::generateFor("assert", "_bool");
+    return "assert";
 }
 
 std::string JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatureKey() {
-    return FunctionIdGenerator::generateFor("assert", "_bool_string");
+    return "assert";
 }
 
 bool JetUtilsTypeSignatureMap::doesIdConflict(std::string id) {

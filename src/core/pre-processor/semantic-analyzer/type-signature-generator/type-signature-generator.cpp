@@ -9,14 +9,14 @@ TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* ty
     _typeSignatureStrategyProvider = typeSignatureStrategyProvider;
 }
 
-void TypeSignatureGenerator::assignInitialTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope) {
-    _typeSignatureStrategyProvider->assignInitialTypeSignatureFor(node, scope);
+void TypeSignatureGenerator::assignInitialTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope) {
+    _typeSignatureStrategyProvider->assignInitialTypeSignatureFor(node, context, scope);
 }
 
-void TypeSignatureGenerator::assignPartialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node, TypeSignatureLookupTable* scope) {
-    _typeSignatureStrategyProvider->assignPartialTypeSignatureFor(node, scope);
+void TypeSignatureGenerator::assignPartialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope) {
+    _typeSignatureStrategyProvider->assignPartialTypeSignatureFor(node, context, scope);
 }
 
-void  TypeSignatureGenerator::assignTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope) {
-    _typeSignatureStrategyProvider->assignTypeSignatureFor(node, scope);
+void  TypeSignatureGenerator::assignTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope) {
+    _typeSignatureStrategyProvider->assignTypeSignatureFor(node, context, scope);
 }

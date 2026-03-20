@@ -11,7 +11,7 @@
 
 class ConcatExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTConcatExpressionNode* concatExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTConcatExpressionNode* concatExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CONCAT_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

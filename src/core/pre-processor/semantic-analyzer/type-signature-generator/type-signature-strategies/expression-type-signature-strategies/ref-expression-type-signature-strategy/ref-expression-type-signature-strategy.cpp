@@ -4,8 +4,8 @@
 
 #include "ref-expression-type-signature-strategy.h"
 
-void RefExpressionTypeSignatureStrategy::assign(ASTRefExpressionNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(node->getExpressionNode(), scope);
+void RefExpressionTypeSignatureStrategy::assign(ASTRefExpressionNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(node->getExpressionNode(), context, scope);
     if (node->getExpressionNode()->getTypeSignature()->isUnknownOrInvalidOrVoid()) {
         node->setTypeSignature(new RefTypeSignature());
         return;

@@ -4,8 +4,8 @@
 
 #include "custom-type-declaration-type-signature-strategy.h"
 
-void CustomTypeDeclarationTypeSignatureStrategy::assignAndAddToScope(ASTCustomTypeDeclarationNode* customTypeDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(customTypeDeclaration->getType(), scope);
+void CustomTypeDeclarationTypeSignatureStrategy::assignAndAddToScope(ASTCustomTypeDeclarationNode* customTypeDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(customTypeDeclaration->getType(), context, scope);
     customTypeDeclaration->setTypeSignature(customTypeDeclaration->getType()->getTypeSignature()->convertToVariableTypeSignature());
     customTypeDeclaration->getTypeSignature()->setId(customTypeDeclaration->getId());
     scope->insertGlobal(

@@ -10,8 +10,8 @@
 #include "../../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
-void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), scope);
+void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), context, scope);
     auto sourceTypeSignature = objectAccessExpression->getSource()->getSource()->getTypeSignature();
     if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
         sourceTypeSignature = ((RefTypeSignature*)sourceTypeSignature)->getUnderlyingType();
@@ -35,6 +35,12 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressi
         objectAccessExpression->setTypeSignature(strategyMap->findArrayPrototypeTypeSignature(
                 objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
                 arraySource->getElementType()).value_or(new FunctionTypeSignature())
+        );
+        return;
+    } else if (sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)) {
+        objectAccessExpression->setTypeSignature(strategyMap->findArrayPrototypeTypeSignature(
+                objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
+                new CharLiteralTypeSignature()).value_or(new FunctionTypeSignature())
         );
         return;
     } else if (sourceTypeSignature->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {

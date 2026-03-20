@@ -11,7 +11,7 @@
 
 class TryStatementTypeSignatureStrategy {
 public:
-    void assign(ASTTryStatementNode* tryStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTTryStatementNode* tryStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TRY_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

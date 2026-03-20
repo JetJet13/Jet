@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (arrayExpression->size() == 0 &&
         arrayExpression->getParentNode() &&
         arrayExpression->getParentNode().value()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE)) {
@@ -20,7 +20,7 @@ void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayE
     }
 
     for (auto element : *arrayExpression->getElements()) {
-        strategyMap->assignTypeSignatureFor(element, scope);
+        strategyMap->assignTypeSignatureFor(element, context, scope);
     }
 
     arrayExpression->setTypeSignature(new ArrayTypeSignature(arrayExpression->getElements()->at(0)->getTypeSignature()));

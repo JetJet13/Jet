@@ -4,11 +4,11 @@
 
 #include "parameter-list-type-singature-strategy.h"
 
-void ParameterListTypeSignatureStrategy::assign(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ParameterListTypeSignatureStrategy::assign(ASTFunctionParameterListNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto parameters = std::vector<ParameterListItemTypeSignature*>();
 
     for (auto parameterItem : node->getParameters()) {
-        strategyMap->assignTypeSignatureFor(parameterItem, scope);
+        strategyMap->assignTypeSignatureFor(parameterItem, context, scope);
         parameters.push_back(parameterItem->getTypeSignature());
     }
 

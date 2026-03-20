@@ -15,14 +15,14 @@
 
 class BlockTypeSignatureStrategy {
 private:
-    void assignContents(std::vector<ASTNode*>* content, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignContents(std::vector<ASTNode*>* content, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 public:
-    void assign(ASTBlockNode* blockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
-    void assign(ASTControlFlowBlockNode* controlFlowBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
-    void assign(ASTFunctionBlockNode* functionBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
-    void assign(ASTTryBlockNode* tryBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
-    void assign(ASTCatchBlockNode* catchBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
-    void assign(ASTFinallyBlockNode* finallyBlockNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTBlockNode* blockNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTControlFlowBlockNode* controlFlowBlockNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTFunctionBlockNode* functionBlockNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTTryBlockNode* tryBlockNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTCatchBlockNode* catchBlockNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTFinallyBlockNode* finallyBlockNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

@@ -29,22 +29,31 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, T
         }
     }
 
+    auto typeSignatureContext = new TypeSignatureContext();
     for (auto declarationNode : typeDeclarations) {
-        _typeSignatureGenerator->assignInitialTypeSignatureForDeclaration(declarationNode, scope);
-        scope->insertGlobal(
-            declarationNode->getId(),
-            declarationNode->getTypeSignature()
-        );
+        _typeSignatureGenerator->assignInitialTypeSignatureForDeclaration(declarationNode, typeSignatureContext, scope);
+        if (declarationNode->getTypeSignature()->isInvocable()) {
+            scope->insertGlobalInvocable(
+                declarationNode->getId(),
+                (InvocableTypeSignature*)declarationNode->getTypeSignature()
+            );
+        } else {
+            scope->insertGlobal(
+                    declarationNode->getId(),
+                    declarationNode->getTypeSignature()
+            );
+        }
     }
 
     for (auto declarationNode : typeDeclarations) {
-        _typeSignatureGenerator->assignPartialTypeSignatureForTypeDeclaration(declarationNode, scope);
+        _typeSignatureGenerator->assignPartialTypeSignatureForTypeDeclaration(declarationNode, typeSignatureContext, scope);
     }
 }
 
 void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
+    auto typeSignatureContext = new TypeSignatureContext();
     for (auto node : *fileNode->getBody()) {
-        _typeSignatureGenerator->assignTypeSignatureFor(node, fileScope);
+        _typeSignatureGenerator->assignTypeSignatureFor(node, typeSignatureContext, fileScope);
         if (ASTNodeUtils::isDeclarableNode(node)) {
             fileScope->find(node->getId())->copyFrom(node->getTypeSignature());
         }
@@ -53,7 +62,7 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(ASTFileNode* fileNod
 
 void SemanticAnalyzer::generateTypeSignatureForModule(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
     if (fileNode->getModule()) {
-        _typeSignatureGenerator->assignTypeSignatureFor(fileNode->getModule().value(), fileScope);
+        _typeSignatureGenerator->assignTypeSignatureFor(fileNode->getModule().value(), new TypeSignatureContext(), fileScope);
     }
 }
 

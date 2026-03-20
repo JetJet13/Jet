@@ -4,7 +4,7 @@
 
 #include "lambda-return-expression-type-signature-strategy.h"
 
-void LambdaReturnExpressionTypeSignatureStrategy::assign(ASTLambdaReturnExpressionNode* lambdaExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(lambdaExpression->getExpression(), scope);
+void LambdaReturnExpressionTypeSignatureStrategy::assign(ASTLambdaReturnExpressionNode* lambdaExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(lambdaExpression->getExpression(), context, scope);
     lambdaExpression->setTypeSignature(lambdaExpression->getExpression()->getTypeSignature());
 }

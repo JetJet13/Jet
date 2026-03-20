@@ -10,7 +10,7 @@
 
 class InterfacePropertyTypeSignatureStrategy {
 public:
-    void assign(ASTInterfacePropertyNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTInterfacePropertyNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_INTERFACE_PROPERTY_TYPE_SIGNATURE_STRATEGY_H

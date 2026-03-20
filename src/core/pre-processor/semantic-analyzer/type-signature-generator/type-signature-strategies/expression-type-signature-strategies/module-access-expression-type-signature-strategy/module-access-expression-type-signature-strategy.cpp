@@ -4,7 +4,7 @@
 
 #include "module-access-expression-type-signature-strategy.h"
 
-void ModuleAccessExpressionTypeSignatureStrategy::assign(ASTModuleAccessExpressionNode* moduleAccessExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ModuleAccessExpressionTypeSignatureStrategy::assign(ASTModuleAccessExpressionNode* moduleAccessExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignature = scope->find(moduleAccessExpression->getId());
     typeSignature->print();
     moduleAccessExpression->setTypeSignature(typeSignature);

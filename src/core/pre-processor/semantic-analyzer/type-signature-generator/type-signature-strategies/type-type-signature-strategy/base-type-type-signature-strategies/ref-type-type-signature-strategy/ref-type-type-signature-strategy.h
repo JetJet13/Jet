@@ -11,7 +11,7 @@
 
 class RefTypeTypeSignatureStrategy {
 public:
-    void assign(ASTRefTypeNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTRefTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_REF_TYPE_TYPE_SIGNATURE_STRATEGY_H

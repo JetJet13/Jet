@@ -9,7 +9,6 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../../ir-type/ir-class-instance-type.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.h"
 
 IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
@@ -29,7 +28,7 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     }
     auto argList = irGenerator->generateArgumentPlaceholderListForFunction(node->getInvocableTypeSignature(), &arguments, scope, irContext);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto functionId = FunctionIdGenerator::generateFor(node);
+    auto functionId = node->getName();
     if (node->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classTypeSignature = (ClassTypeSignature*)node->getSource()->getSource()->getTypeSignature();
         auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getId()).value();

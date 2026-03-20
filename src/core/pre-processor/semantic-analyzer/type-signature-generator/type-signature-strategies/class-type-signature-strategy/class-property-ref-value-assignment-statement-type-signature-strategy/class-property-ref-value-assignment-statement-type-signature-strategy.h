@@ -11,7 +11,7 @@
 
 class ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTClassPropertyRefValueAssignmentStatementNode* classPropertyRefValueAssignmentStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTClassPropertyRefValueAssignmentStatementNode* classPropertyRefValueAssignmentStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

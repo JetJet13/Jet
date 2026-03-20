@@ -7,10 +7,10 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../../type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 
-void CurryExpressionTypeSignatureStrategy::assign(ASTCurryExpressionNode* curryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(curryExpression->getCallableExpression(), scope);
+void CurryExpressionTypeSignatureStrategy::assign(ASTCurryExpressionNode* curryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(curryExpression->getCallableExpression(), context, scope);
     for (auto argument : *curryExpression->getArguments()->getArguments()) {
-        strategyMap->assignTypeSignatureFor(argument->getArgument());
+        strategyMap->assignTypeSignatureFor(argument->getArgument(), context);
     }
 
     if (curryExpression->getCallableExpression()->getTypeSignature()->typeSourceIs(FUNCTION_INVOCATION_TYPE_SOURCE)) {

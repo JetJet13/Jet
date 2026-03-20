@@ -1283,11 +1283,38 @@ func functionUsedAsLambda(x: int) int {
     return x + 1000;
 }
 
+func functionUsedAsLambda(x: string) int {
+    // todo - create dedicated string size ir function to not count the extra \0 appended to every string
+    return x.size();
+}
+
 proc testFunctionsAsLambdas() {
     const lambdaUsingFunction = (x: int, l: (int) => int) {
         return l(x) + 1000;
-    }
-    const result = lambdaUsingFunction(1, functionUsedAsLambda);
-    assert(result == 2001);
+    };
+    assert(lambdaUsingFunction(1, functionUsedAsLambda) == 2001);
+
+    const lambdaUsingOtherFunction = (x: string) {
+        return functionUsedAsLambda(x) + 90;
+    };
+    const result = lambdaUsingOtherFunction("hello world");
+    print("result", result);
+    assert(lambdaUsingOtherFunction("hello world") == 102);
 }
 testFunctionsAsLambdas();
+
+proc procUsedAsLambda(x: ref<int>) {
+    x := x + 1;
+}
+
+proc testProceduresAsLambdas() {
+    const lambdaUsingProcedure = (x: ref<int>, l: (ref<int>) => void) {
+        x := x + 10;
+        l(x);
+    };
+
+    const x = ref 1;
+    lambdaUsingProcedure(x, procUsedAsLambda);
+    assert(x == 12);
+}
+testProceduresAsLambdas();

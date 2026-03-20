@@ -4,17 +4,19 @@
 
 #include "variable-type-signature-strategy.h"
 #include "../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
-        strategyMap->assignTypeSignatureFor(variableDeclaration->getVarInitNode()->getTypeNode().value(), scope);
+        strategyMap->assignTypeSignatureFor(variableDeclaration->getVarInitNode()->getTypeNode().value(), context, scope);
         variableDeclaration->setTypeSignature(variableDeclaration->getVarInitNode()->getTypeNode().value()->getTypeSignature()->convertToVariableTypeSignature());
     }
 
-    strategyMap->assignTypeSignatureFor(variableDeclaration->getInitializerNode(), scope);
+    strategyMap->assignTypeSignatureFor(variableDeclaration->getInitializerNode(), context, scope);
     if (variableDeclaration->getTypeSignature()->isUnknown()) {
         variableDeclaration->setTypeSignature(variableDeclaration->getInitializerNode()->getTypeSignature()->convertToVariableTypeSignature());
     }
+
 
     if (variableDeclaration->isGlobal()) {
         scope->insertGlobal(variableDeclaration->getId(), variableDeclaration->getTypeSignature());

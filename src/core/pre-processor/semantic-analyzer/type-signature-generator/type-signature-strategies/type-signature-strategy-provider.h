@@ -30,6 +30,7 @@
 #include "../../../../type-signature/struct-type-signature/struct-type-signature.h"
 #include "array-prototype-type-signature-map/array-prototype-type-signature-map.h"
 #include "ref-prototype-type-signature-map/ref-prototype-type-signature-map.h"
+#include "../type-signature-context.h"
 
 
 class TypeSignatureStrategyProvider {
@@ -40,9 +41,9 @@ private:
     RefPrototypeTypeSignatureMap _refPrototypeSignatureMap;
 public:
     TypeSignatureStrategyProvider();
-    void assignTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
-    void assignInitialTypeSignatureFor(ASTNode* node, TypeSignatureLookupTable* scope);
-    void assignPartialTypeSignatureFor(ASTNode* node, std::optional<TypeSignatureLookupTable*> scope = {});
+    void assignTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, std::optional<TypeSignatureLookupTable*> scope = {});
+    void assignInitialTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
+    void assignPartialTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, std::optional<TypeSignatureLookupTable*> scope = {});
     ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds);
     ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
     std::optional<FunctionTypeSignature*> findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType);

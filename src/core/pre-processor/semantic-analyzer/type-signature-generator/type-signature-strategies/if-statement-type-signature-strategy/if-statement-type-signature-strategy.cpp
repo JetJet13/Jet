@@ -4,18 +4,19 @@
 
 #include "if-statement-type-signature-strategy.h"
 
-void IfStatementTypeSignatureStrategy::assign(ASTIfStatementNode* ifStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getCondition(), scope);
-    strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getBlock(), scope);
+void IfStatementTypeSignatureStrategy::assign(ASTIfStatementNode* ifStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getCondition(), context, scope);
+    strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getBlock(), context, scope);
 
     for (auto elseIfBlock : *ifStatementNode->getElseIfBlocks()) {
-        strategyMap->assignTypeSignatureFor(elseIfBlock->getCondition(), scope);
-        strategyMap->assignTypeSignatureFor(elseIfBlock->getBlock(), scope);
+        strategyMap->assignTypeSignatureFor(elseIfBlock->getCondition(), context, scope);
+        strategyMap->assignTypeSignatureFor(elseIfBlock->getBlock(), context, scope);
     }
 
     if (ifStatementNode->getElseBlock()) {
         strategyMap->assignTypeSignatureFor(
             ifStatementNode->getElseBlock().value()->getBlock(),
+            context,
             scope
         );
     }

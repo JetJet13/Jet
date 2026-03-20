@@ -13,7 +13,7 @@
 
 class ClassMethodInvocationExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_METHOD_INVOCATION_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

@@ -6,7 +6,7 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = (ClassTypeSignature*)scope->find(classMethodInvocationExpression->getClassAccess()->getThis()->getId());
     auto classMethodTypeSignature = classTypeSignature->getInstanceMethods()->find(classMethodInvocationExpression->getName()->getId());
     if (!classMethodTypeSignature) {
@@ -16,7 +16,7 @@ void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(ASTClassMethod
 
     classMethodInvocationExpression->getName()->setTypeSignature(classMethodTypeSignature.value());
     for (auto argument : *classMethodInvocationExpression->getArguments()->getArguments()) {
-        strategyMap->assignTypeSignatureFor(argument->getArgument(), scope);
+        strategyMap->assignTypeSignatureFor(argument->getArgument(), context, scope);
     }
     auto classMethodReturnType = (classMethodTypeSignature.value())->getReturnType();
     classMethodInvocationExpression->setTypeSignature(classMethodReturnType);

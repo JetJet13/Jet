@@ -12,7 +12,7 @@
 
 class FunctionInvocationExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FUNCTION_INVOCATION_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

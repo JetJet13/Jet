@@ -10,7 +10,7 @@
 
 class ParameterListTypeSignatureStrategy {
 public:
-    void assign(ASTFunctionParameterListNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTFunctionParameterListNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_PARAMETER_LIST_TYPE_SINGATURE_STRATEGY_H

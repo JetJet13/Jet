@@ -10,7 +10,7 @@
 
 class ArrayAccessInvocationExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTArrayAccessInvocationExpressionNode* arrayAccessInvocationExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTArrayAccessInvocationExpressionNode* arrayAccessInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_INVOCATION_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

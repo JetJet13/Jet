@@ -35,17 +35,19 @@ void IRUtilInternalModule::augment(IRGenerator* irGenerator, std::unique_ptr<llv
     AssertIRFunction::generateAssertWithMessageFunction(irGenerator, context, coreIrModule);
 }
 
-std::string IRUtilInternalModule::getIRName(std::string id) {
+std::string IRUtilInternalModule::getIRName(std::string id, unsigned long numArgs) {
     if (id == JetUtilsTypeSignatureMap::getPrintTypeSignatureKey()) {
         return PrintIRFunction::getPrintIRFunctionName();
     }
 
     if (id == JetUtilsTypeSignatureMap::getRangeTypeSignatureKey()) {
-        return RangeIRFunction::getRange1pIRFunctionName();
-    } else if (id == JetUtilsTypeSignatureMap::getRange2pTypeSignatureKey()) {
-        return RangeIRFunction::getRange2pIRFunctionName();
-    } else if (id == JetUtilsTypeSignatureMap::getRange3pTypeSignatureKey()) {
-        return RangeIRFunction::getRange3pIRFunctionName();
+        if (numArgs == 1) {
+            return RangeIRFunction::getRange1pIRFunctionName();
+        } else if (numArgs == 2) {
+            return RangeIRFunction::getRange2pIRFunctionName();
+        } else if (numArgs == 3) {
+            return RangeIRFunction::getRange3pIRFunctionName();
+        }
     }
 
     if (id == JetUtilsTypeSignatureMap::getAssertTypeSignatureKey()) {

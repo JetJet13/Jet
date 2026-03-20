@@ -3,10 +3,10 @@
 //
 
 #include "parameter-list-item-type-signature-strategy.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-void ParameterListItemTypeSignatureStrategy::assignAndAddToScope(ASTFunctionParameterNode* node, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(node->getType(), scope);
+void ParameterListItemTypeSignatureStrategy::assignAndAddToScope(ASTFunctionParameterNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(node->getType(), context, scope);
     node->setTypeSignature(new ParameterListItemTypeSignature(
         node->getIdentifier()->getIdentifierNode()->getId(),
         node->getType()->getTypeSignature()->convertToVariableTypeSignature()

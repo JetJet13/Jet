@@ -6,9 +6,9 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
 
-void LogicalExpressionTypeSignatureStrategy::assign(ASTLogicalExpressionNode* logicalExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(logicalExpression->getLeftNode(), scope);
-    strategyMap->assignTypeSignatureFor(logicalExpression->getRightNode(), scope);
+void LogicalExpressionTypeSignatureStrategy::assign(ASTLogicalExpressionNode* logicalExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    strategyMap->assignTypeSignatureFor(logicalExpression->getLeftNode(), context, scope);
+    strategyMap->assignTypeSignatureFor(logicalExpression->getRightNode(), context, scope);
     if (logicalExpression->getLeftNode()->getTypeSignature()->typeTargetIs(INVALID_TYPE_SOURCE) ||
         logicalExpression->getRightNode()->getTypeSignature()->typeTargetIs(INVALID_TYPE_SOURCE)) {
         logicalExpression->setTypeSignature(new InvalidTypeSignature());

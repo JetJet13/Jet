@@ -11,7 +11,7 @@
 
 class CurryExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTCurryExpressionNode* curryExpression, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTCurryExpressionNode* curryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CURRY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

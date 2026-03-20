@@ -18,7 +18,7 @@ std::string IRFunctionDeclarationNode::getName() {
 }
 
 std::string IRFunctionDeclarationNode::getNormalizedName() {
-    return FunctionIdGenerator::getNameFromId(_node->getId());
+    return _node->getId();
 }
 
 IRFunctionParameterListNode* IRFunctionDeclarationNode::getParameters() {

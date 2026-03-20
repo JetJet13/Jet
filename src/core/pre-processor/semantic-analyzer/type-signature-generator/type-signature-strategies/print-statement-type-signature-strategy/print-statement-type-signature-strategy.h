@@ -11,7 +11,7 @@
 
 class PrintStatementTypeSignatureStrategy {
 public:
-    void assign(ASTPrintStatementNode* printStatementNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTPrintStatementNode* printStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_PRINT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

@@ -8,10 +8,11 @@
 #include "../../../../../../type-signature/type-signature.h"
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
 #include "../../../../type-signature-lookup-table/type-signature-lookup-table.h"
+#include "../../../type-signature-context.h"
 
 class IdentifierExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureLookupTable* typeSignatureLookupTable);
+    void assign(ASTIdentifierExpressionNode* identifierExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable);
 };
 
 #endif //JETLANG_IDENTIFIER_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

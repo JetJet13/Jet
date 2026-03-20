@@ -11,7 +11,7 @@
 
 class ConditionTypeSignatureStrategy {
 public:
-    void assign(ASTControlFlowConditionNode* controlFlowConditionNode, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTControlFlowConditionNode* controlFlowConditionNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

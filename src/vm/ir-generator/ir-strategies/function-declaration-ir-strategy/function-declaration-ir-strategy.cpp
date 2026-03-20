@@ -7,6 +7,7 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
+#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto functionScope = new IRLookupTable();
@@ -15,7 +16,8 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
 
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunction = llvm::Function::Create(functionType, linkage, node->getId(), irContext->getModule());
+    auto irFunctionId = FunctionIdGenerator::generateFor(node->getId(), node->getTypeSignature());
+    auto irFunction = llvm::Function::Create(functionType, linkage, irFunctionId, irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, functionScope);
     auto irFunctionContext = irContext->clone(functionBlock);
@@ -38,14 +40,14 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(ASTFunctionDe
             ? llvm::GlobalValue::ExternalLinkage
             : llvm::GlobalValue::PrivateLinkage,
             irGenerator->generatePlaceholderValueForIRType(globalVariableIRType),
-            node->getId()
+            irFunctionId
     );
     auto irGlobalVariable = IRInstructionNodeFactory::create(
             globalVariable,
             irGenerator->generateIrPointerType(globalVariableIRType)
     );
     auto irFunctionDeclaration = new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
-    scope->insertGlobalVariable(irFunctionDeclaration->getNormalizedName(), irGlobalVariable);
+    scope->insertGlobalVariable(irFunctionId, irGlobalVariable);
 
     return irFunctionDeclaration;
 }
