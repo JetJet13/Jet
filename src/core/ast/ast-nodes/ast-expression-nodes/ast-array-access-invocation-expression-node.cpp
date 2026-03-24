@@ -38,16 +38,6 @@ unsigned long ASTArrayAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-bool ASTArrayAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
-    return this->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)
-           && this->getArrayAccess()->getTypeSignature()->isPrototype();
-}
-
-bool ASTArrayAccessInvocationExpressionNode::isRefPrototypeInvocation() {
-    return this->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-           && this->getArrayAccess()->getTypeSignature()->isPrototype();
-}
-
 Position* ASTArrayAccessInvocationExpressionNode::getStartPosition() {
     return _arrayAccess->getStartPosition();
 }

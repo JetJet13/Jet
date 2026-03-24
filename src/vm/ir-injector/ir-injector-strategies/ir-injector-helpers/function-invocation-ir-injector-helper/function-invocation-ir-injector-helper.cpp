@@ -9,7 +9,6 @@
 #include "../../../../ir-type/ir-array-pointer-type.h"
 #include "../../../../ir-type/ir-type-value-type.h"
 #include "../../../../../shared/utils/logger/logger.h"
-#include "../debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
     auto functionTypeSignature = irExpression->getTypeSignature()->getFunctionType();
@@ -151,6 +150,34 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
         auto loadedArrayTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRArrayValue()->getIRType()->getUnderlyingType()->getValue()->getAllocatedType(), arrayTypeValue, irBlock);
         irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, loadedArrayTypeValue);
     }
+    auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+
+    if (irOperation->isOperandPointer() && !result->getType()->isPointerTy()) {
+        auto alloc = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getUnderlyingIRType()->getType());
+        InstructionIRInjectorHelper::injectStore(result, alloc, irBlock, irExpression->getUnderlyingIRType());
+        return alloc;
+    }
+
+    if ((irOperation->isCopy() || irOperation->isOperandValue())
+        && result->getType()->isPointerTy()
+        && !irExpression->getIRType()->getUnderlyingType()->isVoidType()) {
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), result, irBlock);
+    }
+
+    return result;
+}
+
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRStringPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
+    auto numArgs = irExpression->getIRArguments()->size();
+    for (unsigned long i = 0; i < numArgs; ++i) {
+        auto argument = irExpression->getIRArguments()->at(i);
+        auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
+        irExpression->getValue()->setArgOperand(i + 1, argumentValue);
+    }
+
+    auto stringValue = irInjector->inject(irBlock, irExpression->getIRStringValue(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    irExpression->getValue()->setArgOperand(0, stringValue);
+
     auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
 
     if (irOperation->isOperandPointer() && !result->getType()->isPointerTy()) {

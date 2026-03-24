@@ -28,6 +28,7 @@ public:
     std::string getName();
     unsigned long numArguments();
     bool isArrayPrototypeInvocation();
+    bool isStringPrototypeInvocation();
     bool isRefPrototypeInvocation();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

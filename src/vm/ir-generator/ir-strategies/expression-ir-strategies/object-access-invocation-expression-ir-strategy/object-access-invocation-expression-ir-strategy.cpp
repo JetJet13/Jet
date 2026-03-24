@@ -10,6 +10,7 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-string-prototype-invocation-expression-node.h"
 
 IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRFunctionArgumentNode*>();
@@ -72,6 +73,20 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
 
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, arrayPrototypeArgList);
         return new IRArrayPrototypeInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, irExpression);
+    }
+
+    if (node->isStringPrototypeInvocation()) {
+        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
+        auto function = irContext->getModule()->getFunction(irGenerator->getStringPrototypeFunctionName(node->getName()));
+        auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
+        auto stringPrototypeArgList = std::vector<llvm::Value*>();
+        stringPrototypeArgList.push_back(irGenerator->generateConstantPointer());
+        for (int i = 0; i < arguments.size(); ++i) {
+            stringPrototypeArgList.push_back(irGenerator->generateConstantPointer());
+        }
+
+        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, stringPrototypeArgList);
+        return new IRStringPrototypeInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, irExpression);
     }
 
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());

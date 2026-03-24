@@ -126,6 +126,7 @@ public:
     llvm::StructType* getFunctionParameterType();
     IRArrayType* generateIRArrayType(IRType* elementType, unsigned long size);
     std::string getArrayPrototypeFunctionName(std::string id);
+    std::string getStringPrototypeFunctionName(std::string id);
     std::optional<std::string> getRefPrototypeFunctionName(std::string id);
     std::string getJetUtilsFunctionName(std::string id, unsigned long numArgs);
     std::string getJetDebugFunctionName(std::string id);

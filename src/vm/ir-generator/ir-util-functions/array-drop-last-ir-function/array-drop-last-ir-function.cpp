@@ -65,14 +65,6 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
                 sizeInBytes
             }
     );
-    auto oldArraySize = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocSizeFunction()->getFunctionType(),
-            irModuleNode->getMallocSizeFunction(),
-            {
-                    oldNumElements,
-                    sizeInBytes
-            }
-    );
     auto newArrayMalloc = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
             { loadedNewNumElements, sizeInBytes }

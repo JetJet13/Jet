@@ -1393,6 +1393,8 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-node.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-context.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-context.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/string-prototype-type-signature-map/string-prototype-type-signature-map.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/string-prototype-type-signature-map/string-prototype-type-signature-map.h
 
 )
 

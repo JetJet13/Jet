@@ -62,7 +62,7 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
         return;
     } else if (sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
-        auto arrayPrototypeTypeSignature = strategyMap->findArrayPrototypeTypeSignature(id, new CharLiteralTypeSignature()).value_or(new FunctionTypeSignature());
+        auto arrayPrototypeTypeSignature = strategyMap->findStringPrototypeTypeSignature(id).value_or(new FunctionTypeSignature());
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(arrayPrototypeTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(arrayPrototypeTypeSignature->getReturnType());
         return;

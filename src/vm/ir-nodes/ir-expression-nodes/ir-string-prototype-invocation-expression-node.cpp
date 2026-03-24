@@ -1,0 +1,72 @@
+//
+// Created by Johny Georges on 2026-03-21.
+//
+
+#include "ir-string-prototype-invocation-expression-node.h"
+#include "../../../shared/utils/logger/logger.h"
+
+IRStringPrototypeInvocationExpressionNode::IRStringPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irString) {
+    _node = node;
+    _irCallInstruction = irCallInstruction;
+    _irFunction = irFunction;
+    _irFunctionType = irFunctionType;
+    _arguments = arguments;
+    _type = type;
+    _irString = irString;
+}
+
+void IRStringPrototypeInvocationExpressionNode::markAsGlobal() {
+    _isGlobal = true;
+    for (auto argument : _arguments) {
+        argument->getArgument()->markAsGlobal();
+    }
+}
+
+IRExpressionNode* IRStringPrototypeInvocationExpressionNode::getIRStringValue() {
+    return _irString;
+}
+
+std::vector<IRFunctionArgumentNode*>* IRStringPrototypeInvocationExpressionNode::getIRArguments() {
+    return &_arguments;
+}
+
+llvm::CallInst* IRStringPrototypeInvocationExpressionNode::getValue() {
+    return _irCallInstruction;
+}
+
+
+llvm::Value* IRStringPrototypeInvocationExpressionNode::getFunctionValue() {
+    return _irFunction;
+}
+
+IRType* IRStringPrototypeInvocationExpressionNode::getFunctionIRType() {
+    return _irFunctionType;
+}
+
+IRType* IRStringPrototypeInvocationExpressionNode::getIRType() {
+    return _type;
+}
+
+TypeSignature* IRStringPrototypeInvocationExpressionNode::getTypeSignature() {
+    return _node->getTypeSignature();
+}
+
+Position* IRStringPrototypeInvocationExpressionNode::getStartPosition() {
+    return _node->getStartPosition();
+}
+
+Position* IRStringPrototypeInvocationExpressionNode::getEndPosition() {
+    return _node->getEndPosition();
+}
+
+IRNodeType IRStringPrototypeInvocationExpressionNode::getNodeType() {
+    return IR_STRING_PROTOTYPE_INVOCATION_EXPRESSION_NODE;
+}
+
+std::string IRStringPrototypeInvocationExpressionNode::toString() {
+    return "IR_STRING_PROTOTYPE_INVOCATION_EXPRESSION_NODE";
+}
+
+void IRStringPrototypeInvocationExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
+    _irFunction->print(**stream);
+}

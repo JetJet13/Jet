@@ -31,6 +31,7 @@
 #include "array-prototype-type-signature-map/array-prototype-type-signature-map.h"
 #include "ref-prototype-type-signature-map/ref-prototype-type-signature-map.h"
 #include "../type-signature-context.h"
+#include "string-prototype-type-signature-map/string-prototype-type-signature-map.h"
 
 
 class TypeSignatureStrategyProvider {
@@ -38,6 +39,7 @@ private:
     LiteralTypeSignatureLookupTable _literalTypeSignatureLookupTable;
     TypeSignatureStrategyMap* _typeSignatureStrategyMap;
     ArrayPrototypeTypeSignatureMap _arrayPrototypeSignatureMap;
+    StringPrototypeTypeSignatureMap _stringPrototypeSignatureMap;
     RefPrototypeTypeSignatureMap _refPrototypeSignatureMap;
 public:
     TypeSignatureStrategyProvider();
@@ -47,6 +49,7 @@ public:
     ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds);
     ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
     std::optional<FunctionTypeSignature*> findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType);
+    std::optional<FunctionTypeSignature*> findStringPrototypeTypeSignature(std::string id);
     std::optional<FunctionTypeSignature*> findRefPrototypeTypeSignature(std::string id, TypeSignature* elementType);
 };
 

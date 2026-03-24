@@ -94,3 +94,29 @@ proc testRange() {
         print(i);
     }
 }
+
+proc testStringPrototype() {
+    let myString = "hello-world";
+    myString.drop(1);
+    assert(myString == "ello-world");
+    myString.dropLast(2);
+    assert(myString == "ello-wor");
+    myString.dropLast(100);
+    assert(myString == "");
+    myString = "hello-world";
+    myString.drop(100);
+    assert(myString == "");
+    assert(myString.empty());
+    assert(myString.size() == 0);
+    assert(myString.head() == '\0');
+    assert(myString.last() == '\0');
+    assert(myString.tail() == "");
+
+    const otherString = "my-other-string";
+    assert(!otherString.empty());
+    assert(otherString.size() == 15);
+    assert(otherString.head() == 'm');
+    assert(otherString.last() == 'g');
+    assert(otherString.tail() == "y-other-string");
+}
+testStringPrototype();

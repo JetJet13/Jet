@@ -142,6 +142,7 @@
 #include "ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 #include "ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
 #include "ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
+#include "ir-prototypes/ir-string-prototype-map.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -608,6 +609,10 @@ IRArrayType* IRGenerator::generateIRArrayType(IRType* elementType, unsigned long
 
 std::string IRGenerator::getArrayPrototypeFunctionName(std::string id) {
     return ArrayPrototypeMap::getIRName(id);
+}
+
+std::string IRGenerator::getStringPrototypeFunctionName(std::string id) {
+    return StringPrototypeMap::getIRName(id);
 }
 
 std::optional<std::string> IRGenerator::getRefPrototypeFunctionName(std::string id) {

@@ -33,14 +33,13 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressi
     } else if (sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)) {
         auto arraySource = (ArrayTypeSignature*)sourceTypeSignature;
         objectAccessExpression->setTypeSignature(strategyMap->findArrayPrototypeTypeSignature(
-                objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
-                arraySource->getElementType()).value_or(new FunctionTypeSignature())
+            objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
+            arraySource->getElementType()).value_or(new FunctionTypeSignature())
         );
         return;
     } else if (sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)) {
-        objectAccessExpression->setTypeSignature(strategyMap->findArrayPrototypeTypeSignature(
-                objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
-                new CharLiteralTypeSignature()).value_or(new FunctionTypeSignature())
+        objectAccessExpression->setTypeSignature(strategyMap->findStringPrototypeTypeSignature(
+            objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()).value_or(new FunctionTypeSignature())
         );
         return;
     } else if (sourceTypeSignature->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {

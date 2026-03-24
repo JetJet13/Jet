@@ -36,6 +36,7 @@ void CharTable::init() {
     this->add("\t", '\t');
     this->add("\v", '\v');
     this->add("\'", '\'');
+    this->add("\\0", '\0');
     this->add("\"", '"');
     this->add("\\", '\\');
     this->add(" ", ' ');

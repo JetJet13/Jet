@@ -60,6 +60,15 @@
 #include "../../ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 #include "../../ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
 #include "../../ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
+#include "../../ir-util-functions/string-drop-ir-function/string-drop-ir-function.h"
+#include "../../ir-util-functions/string-drop-last-ir-function/string-drop-last-ir-function.h"
+#include "../../ir-util-functions/string-empty-ir-function/string-empty-ir-function.h"
+#include "../../ir-util-functions/string-head-ir-function/string-head-ir-function.h"
+#include "../../ir-util-functions/string-last-ir-function/string-last-ir-function.h"
+#include "../../ir-util-functions/string-size-ir-function/string-size-ir-function.h"
+#include "../../ir-util-functions/string-tail-ir-function/string-tail-ir-function.h"
+#include "../../ir-util-functions/string-take-ir-function/string-take-ir-function.h"
+#include "../../ir-util-functions/string-take-last-ir-function/string-take-last-ir-function.h"
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
@@ -150,6 +159,15 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     PrintIRFunction::generatePrintCommaFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintNewLineFunction(irGenerator, context, irModule);
     StringConcatIRFunction::generateStringConcatFunction(irGenerator, context, irModule);
+    StringDropIRFunction::generateStringDropFunction(irGenerator, context, irModule);
+    StringDropLastIRFunction::generateStringDropLastFunction(irGenerator, context, irModule);
+    StringEmptyIRFunction::generateStringEmptyFunction(irGenerator, context, irModule);
+    StringHeadIRFunction::generateStringHeadFunction(irGenerator, context, irModule);
+    StringLastIRFunction::generateStringLastFunction(irGenerator, context, irModule);
+    StringSizeIRFunction::generateStringSizeFunction(irGenerator, context, irModule);
+    StringTailIRFunction::generateStringTailFunction(irGenerator, context, irModule);
+    StringTakeIRFunction::generateStringTakeFunction(irGenerator, context, irModule);
+    StringTakeLastIRFunction::generateStringTakeLastFunction(irGenerator, context, irModule);
     ArrayConcatIRFunction::generateArrayConcatFunction(irGenerator, context, irModule);
     ArrayHeadIRFunction::generateArrayHeadFunction(irGenerator, context, irModule);
     ArrayLastIRFunction::generateArrayLastFunction(irGenerator, context, irModule);

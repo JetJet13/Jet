@@ -22,8 +22,6 @@ public:
     ASTArrayAccessNode* getIndex();
     InvocableTypeSignature* getInvocableTypeSignature();
     unsigned long numArguments();
-    bool isArrayPrototypeInvocation();
-    bool isRefPrototypeInvocation();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
