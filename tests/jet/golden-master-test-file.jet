@@ -1284,7 +1284,6 @@ func functionUsedAsLambda(x: int) int {
 }
 
 func functionUsedAsLambda(x: string) int {
-    // todo - create dedicated string size ir function to not count the extra \0 appended to every string
     return x.size();
 }
 
@@ -1298,8 +1297,7 @@ proc testFunctionsAsLambdas() {
         return functionUsedAsLambda(x) + 90;
     };
     const result = lambdaUsingOtherFunction("hello world");
-    print("result", result);
-    assert(lambdaUsingOtherFunction("hello world") == 102);
+    assert(lambdaUsingOtherFunction("hello world") == 101);
 }
 testFunctionsAsLambdas();
 
@@ -1318,3 +1316,44 @@ proc testProceduresAsLambdas() {
     assert(x == 12);
 }
 testProceduresAsLambdas();
+
+proc testStringPrototype() {
+    let myString = "hello-world";
+    myString.drop(1);
+    assert(myString == "ello-world");
+    myString.dropLast(2);
+    assert(myString == "ello-wor");
+    myString.dropLast(100);
+    assert(myString == "");
+    myString = "hello-world";
+    myString.drop(100);
+    assert(myString == "");
+    assert(myString.empty());
+    assert(myString.size() == 0);
+    assert(myString.head() == '\0');
+    assert(myString.last() == '\0');
+    assert(myString.tail() == "");
+    assert(myString.take(5) == "");
+    assert(myString.takeLast(5) == "");
+    assert(myString.take(0) == "");
+    assert(myString.takeLast(0) == "");
+
+    const otherString = "my-other-string";
+    assert(!otherString.empty());
+    assert(otherString.size() == 15);
+    assert(otherString.head() == 'm');
+    assert(otherString.last() == 'g');
+    assert(otherString.tail() == "y-other-string");
+    assert(otherString.take(5) == "my-ot");
+    assert(otherString.takeLast(5) == "tring");
+    assert(otherString.take(0) == "");
+    assert(otherString.takeLast(0) == "");
+
+    const shortString = "aq";
+    assert(shortString.tail() == "q");
+    assert(shortString.take(100) == "aq");
+    assert(shortString.takeLast(100) == "aq");
+    assert(shortString.take(0) == "");
+    assert(shortString.takeLast(0) == "");
+}
+testStringPrototype();
