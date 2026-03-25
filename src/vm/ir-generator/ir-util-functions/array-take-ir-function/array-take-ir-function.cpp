@@ -4,6 +4,7 @@
 
 #include "array-take-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string ArrayTakeIRFunction::getArrayTakeIRFunctionName() {
     return "jet.array.take";
@@ -14,7 +15,7 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto functionType = llvm::FunctionType::get(pointerType->getType(),
+    auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
                                                 { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
@@ -74,7 +75,8 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
             arrayPointerAllocationForEmptyTake,
             emptyTakeArrayMalloc
     );
-    isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForEmptyTake);
+    auto loadedEmptyTakeArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTake, isNumElementsZeroIfThenBlock, arrayPointerType);
+    isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTakeArray);
 
     // isTakeNumGreaterThanNumElementsIfBlock
     auto isTakeNumGreaterThanNumElements = isTakeNumGreaterThanNumElementsIfBlock->getBuilder()->get()->CreateICmp(
@@ -91,7 +93,8 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
             irModuleNode->getCopyArrayFunction(),
             { arrayPointerAllocationForFullCopy, function->getArg(0), function->getArg(2) }
     );
-    isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForFullCopy);
+    auto loadedFullTakeArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForFullCopy, isTakeNumGreaterThanNumElementsIfThenBlock, arrayPointerType);
+    isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(loadedFullTakeArray);
 
 
     auto takeArraySize = successorBlock->getBuilder()->get()->CreateCall(
@@ -131,5 +134,6 @@ void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, st
             irModuleNode->getMallocFreeFunction(),
             { takeArrayMalloc }
     );
-    successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeCopy);
+    auto loadedTakeArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForTakeCopy, successorBlock, arrayPointerType);
+    successorBlock->getBuilder()->get()->CreateRet(loadedTakeArray);
 }

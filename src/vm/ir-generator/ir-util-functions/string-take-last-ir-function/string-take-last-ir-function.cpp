@@ -4,6 +4,7 @@
 
 #include "string-take-last-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string StringTakeLastIRFunction::getStringTakeLastIRFunctionName() {
     return "jet.string.take.last";
@@ -15,7 +16,7 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
     auto pointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto functionType = llvm::FunctionType::get(pointerType->getType(),
+    auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
                                                 { pointerType->getType(), pointerType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
@@ -33,17 +34,17 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
     auto depthPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getDepthIndex());
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
-    auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
+    auto numChars = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto takeNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
     functionBlock->getBuilder()->get()->CreateBr(isNumElementsZeroIfBlock->getBlock());
 
     // isNumElementsZeroIfBlock
-    auto isNumElementsNegative = isNumElementsZeroIfBlock->getBuilder()->get()->CreateICmp(
+    auto isNumCharsOne = isNumElementsZeroIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            numElements,
-            irGenerator->generateIntConstant(0)
+            numChars,
+            irGenerator->generateIntConstant(1)
     );
-    isNumElementsZeroIfBlock->getBuilder()->get()->CreateCondBr(isNumElementsNegative, isNumElementsZeroIfThenBlock->getBlock(), isTakeLastNumNegativeIfBlock->getBlock());
+    isNumElementsZeroIfBlock->getBuilder()->get()->CreateCondBr(isNumCharsOne, isNumElementsZeroIfThenBlock->getBlock(), isTakeLastNumNegativeIfBlock->getBlock());
 
     // isTakeNumNegativeIfBlock
     auto isTakeNumNegative = isTakeLastNumNegativeIfBlock->getBuilder()->get()->CreateICmp(
@@ -57,24 +58,26 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
     // isNumElementsZeroIfThenBlock
     auto emptyTakeStringMalloc = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(0), irGenerator->generateInt64Constant(1) }
+            { irGenerator->generateInt64Constant(1), sizeInBytes }
     );
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateChar('\0'), emptyTakeStringMalloc, isNumElementsZeroIfThenBlock, charType);
     auto arrayPointerAllocationForEmptyTake = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
             isNumElementsZeroIfThenBlock,
             arrayPointerType,
-            irGenerator->generateIntConstant(0),
+            irGenerator->generateIntConstant(1),
             depth,
             arrayPointerAllocationForEmptyTake,
             emptyTakeStringMalloc
     );
-    isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForEmptyTake);
+    auto loadedEmptyTake = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTake, isNumElementsZeroIfThenBlock, arrayPointerType);
+    isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTake);
 
     // isTakeNumGreaterThanNumElementsIfBlock
     auto isTakeNumGreaterThanNumElements = isTakeLastNumGreaterThanNumElementsIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SGE,
             takeNumElements,
-            numElements
+            numChars
     );
     isTakeLastNumGreaterThanNumElementsIfBlock->getBuilder()->get()->CreateCondBr(isTakeNumGreaterThanNumElements, isTakeLastNumGreaterThanNumElementsIfThenBlock->getBlock(), successorBlock->getBlock());
 
@@ -84,8 +87,8 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
             irModuleNode->getCopyStringFunction(),
             { arrayPointerAllocationForFullCopy, function->getArg(0) }
     );
-    isTakeLastNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForFullCopy);
-
+    auto loadedFullTakeArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForFullCopy, isTakeLastNumGreaterThanNumElementsIfThenBlock, arrayPointerType);
+    isTakeLastNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(loadedFullTakeArray);
 
     auto totalTakeNumElements = successorBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Add,
@@ -93,11 +96,10 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
             irGenerator->generateIntConstant(1)
     );
     auto takeStringSize = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocSizeFunction()->getFunctionType(),
             irModuleNode->getMallocSizeFunction(),
             {
-                    totalTakeNumElements,
-                    sizeInBytes
+                totalTakeNumElements,
+                sizeInBytes
             }
     );
     auto takeStringMalloc = successorBlock->getBuilder()->get()->CreateCall(
@@ -106,7 +108,7 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
     );
     auto pointerToString = successorBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
     auto loadedPointerToString = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToString);
-    auto arrayToTakeOffsetNumElements = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, numElements, takeNumElements);
+    auto arrayToTakeOffsetNumElements = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, numChars, totalTakeNumElements);
     auto arrayToTakeOffsetInBytes = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction(),
             {
@@ -116,7 +118,6 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
     );
     auto pointerToStringWithOffset = successorBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, loadedPointerToString, { arrayToTakeOffsetInBytes });
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMemcpyFunction()->getFunctionType(),
             irModuleNode->getMemcpyFunction(),
             { takeStringMalloc, pointerToStringWithOffset, takeStringSize }
     );
@@ -124,7 +125,7 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,
-            takeNumElements,
+            totalTakeNumElements,
             depth,
             arrayPointerAllocationForTakeLast,
             takeStringMalloc
@@ -138,5 +139,6 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
             irModuleNode->getMallocFreeFunction(),
             { takeStringMalloc }
     );
-    successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeLastCopy);
+    auto loadedTakeLastString = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForTakeLastCopy, successorBlock, arrayPointerType);
+    successorBlock->getBuilder()->get()->CreateRet(loadedTakeLastString);
 }

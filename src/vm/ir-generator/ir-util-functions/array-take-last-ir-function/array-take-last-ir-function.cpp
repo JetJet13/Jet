@@ -4,6 +4,7 @@
 
 #include "array-take-last-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string ArrayTakeLastIRFunction::getArrayTakeLastIRFunctionName() {
     return "jet.array.take.last";
@@ -15,7 +16,7 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto functionType = llvm::FunctionType::get(pointerType->getType(),
+    auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
                                                 { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
@@ -75,7 +76,8 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
             arrayPointerAllocationForEmptyTake,
             emptyTakeArrayMalloc
     );
-    isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForEmptyTake);
+    auto loadedEmptyTakeLastArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTake, isNumElementsZeroIfThenBlock, arrayPointerType);
+    isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTakeLastArray);
 
     // isTakeNumGreaterThanNumElementsIfBlock
     auto isTakeNumGreaterThanNumElements = isTakeLastNumGreaterThanNumElementsIfBlock->getBuilder()->get()->CreateICmp(
@@ -92,7 +94,8 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
             irModuleNode->getCopyArrayFunction(),
             { arrayPointerAllocationForFullCopy, function->getArg(0), function->getArg(2) }
     );
-    isTakeLastNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForFullCopy);
+    auto loadedFullTakeArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForFullCopy, isTakeLastNumGreaterThanNumElementsIfThenBlock, arrayPointerType);
+    isTakeLastNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(loadedFullTakeArray);
 
 
     auto takeArraySize = successorBlock->getBuilder()->get()->CreateCall(
@@ -142,5 +145,6 @@ void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGener
             irModuleNode->getMallocFreeFunction(),
             { takeArrayMalloc }
     );
-    successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeLastCopy);
+    auto loadedTakeLastArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForTakeLastCopy, successorBlock, arrayPointerType);
+    successorBlock->getBuilder()->get()->CreateRet(loadedTakeLastArray);
 }

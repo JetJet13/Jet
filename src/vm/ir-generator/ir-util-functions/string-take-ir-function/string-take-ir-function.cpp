@@ -14,18 +14,17 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto pointerType = irGenerator->generateIrPointerType();
-    auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto functionType = llvm::FunctionType::get(pointerType->getType(),
-                                                { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
+    auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
+                                                { pointerType->getType(), pointerType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            StringTakeIRFunction::getStringTakeIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumElementsZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumElementsOneIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isTakeNumNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
-    auto isNumElementsZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isNumElementsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isTakeNumGreaterThanNumElementsIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isTakeNumGreaterThanNumElementsIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
@@ -40,15 +39,15 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
     auto takeNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
-    functionBlock->getBuilder()->get()->CreateBr(isNumElementsZeroIfBlock->getBlock());
+    functionBlock->getBuilder()->get()->CreateBr(isNumElementsOneIfBlock->getBlock());
 
-    // isNumElementsZeroIfBlock
-    auto isNumElementsZero = isNumElementsZeroIfBlock->getBuilder()->get()->CreateICmp(
+    // isNumElementsOneIfBlock
+    auto isNumElementsOne = isNumElementsOneIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             numElements,
-            irGenerator->generateIntConstant(0)
+            irGenerator->generateIntConstant(1)
     );
-    isNumElementsZeroIfBlock->getBuilder()->get()->CreateCondBr(isNumElementsZero, isNumElementsZeroIfThenBlock->getBlock(), isTakeNumNegativeIfBlock->getBlock());
+    isNumElementsOneIfBlock->getBuilder()->get()->CreateCondBr(isNumElementsOne, isNumElementsOneIfThenBlock->getBlock(), isTakeNumNegativeIfBlock->getBlock());
 
     // isTakeNumNegativeIfBlock
     auto isTakeNumNegative = isTakeNumNegativeIfBlock->getBuilder()->get()->CreateICmp(
@@ -56,24 +55,26 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
             takeNumElements,
             irGenerator->generateIntConstant(0)
     );
-    isTakeNumNegativeIfBlock->getBuilder()->get()->CreateCondBr(isTakeNumNegative, isNumElementsZeroIfThenBlock->getBlock(), isTakeNumGreaterThanNumElementsIfBlock->getBlock());
+    isTakeNumNegativeIfBlock->getBuilder()->get()->CreateCondBr(isTakeNumNegative, isNumElementsOneIfThenBlock->getBlock(), isTakeNumGreaterThanNumElementsIfBlock->getBlock());
 
 
-    // isNumElementsZeroIfThenBlock
-    auto emptyTakeStringMalloc = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateCall(
+    // isNumElementsOneIfThenBlock
+    auto emptyTakeStringMalloc = isNumElementsOneIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { irGenerator->generateInt64Constant(0), irGenerator->generateInt64Constant(1) }
+            { irGenerator->generateInt64Constant(1), sizeInBytes }
     );
-    auto arrayPointerAllocationForEmptyTake = isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateChar('\0'), emptyTakeStringMalloc, isNumElementsOneIfThenBlock, charType);
+    auto arrayPointerAllocationForEmptyTake = isNumElementsOneIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
-            isNumElementsZeroIfThenBlock,
+            isNumElementsOneIfThenBlock,
             arrayPointerType,
-            irGenerator->generateIntConstant(0),
+            irGenerator->generateIntConstant(1),
             depth,
             arrayPointerAllocationForEmptyTake,
             emptyTakeStringMalloc
     );
-    isNumElementsZeroIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForEmptyTake);
+    auto loadedEmptyTake = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTake, isNumElementsOneIfThenBlock, arrayPointerType);
+    isNumElementsOneIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTake);
 
     // isTakeNumGreaterThanNumElementsIfBlock
     auto isTakeNumGreaterThanNumElements = isTakeNumGreaterThanNumElementsIfBlock->getBuilder()->get()->CreateICmp(
@@ -89,14 +90,15 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
             irModuleNode->getCopyStringFunction(),
             { arrayPointerAllocationForFullCopy, function->getArg(0) }
     );
-    isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForFullCopy);
+    auto loadedFullTakeString = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForFullCopy, isTakeNumGreaterThanNumElementsIfThenBlock, arrayPointerType);
+    isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(loadedFullTakeString);
 
 
     auto takeSize = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction(),
             {
-                    takeNumElements,
-                    sizeInBytes
+                takeNumElements,
+                sizeInBytes
             }
     );
     auto totalTakeNumElements = successorBlock->getBuilder()->get()->CreateBinOp(
@@ -123,7 +125,7 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,
-            takeNumElements,
+            totalTakeNumElements,
             depth,
             arrayPointerAllocationForTake,
             takeStringMalloc
@@ -137,5 +139,6 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
             irModuleNode->getMallocFreeFunction(),
             { takeStringMalloc }
     );
-    successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTakeCopy);
+    auto loadedTake = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForTakeCopy, successorBlock, arrayPointerType);
+    successorBlock->getBuilder()->get()->CreateRet(loadedTake);
 }

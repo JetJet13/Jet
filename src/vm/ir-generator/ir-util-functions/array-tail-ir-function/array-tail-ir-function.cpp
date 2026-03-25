@@ -4,6 +4,7 @@
 
 #include "array-tail-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string ArrayTailIRFunction::getArrayTailIRFunctionName() {
     return "jet.array.tail";
@@ -15,7 +16,7 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto functionType = llvm::FunctionType::get(pointerType->getType(),
+    auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
                                                 { pointerType->getType(), typeValueType->getType() },
                                                 false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
@@ -62,7 +63,8 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             arrayPointerAllocationForEmptyTail,
             emptyTailArrayMalloc
     );
-    isNumElementsLessThanTwoIfThenBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForEmptyTail);
+    auto loadedEmptyTail = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTail, isNumElementsLessThanTwoIfThenBlock, arrayPointerType);
+    isNumElementsLessThanTwoIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTail);
 
     auto tailNumElements = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, numElements, irGenerator->generateIntConstant(1));
     auto tailArraySize = successorBlock->getBuilder()->get()->CreateCall(
@@ -85,13 +87,7 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             irModuleNode->getMemcpyFunction(),
             { tailArrayMalloc, secondElementPointer, tailArraySize }
     );
-    auto arrayPointerAllocationForTail = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction(),
-            {
-                irGenerator->generateInt64Constant(1),
-                irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
-            }
-    );
+    auto arrayPointerAllocationForTail = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,
@@ -100,13 +96,7 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             arrayPointerAllocationForTail,
             tailArrayMalloc
     );
-    auto arrayPointerAllocationForTailCopy = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction(),
-            {
-                irGenerator->generateInt64Constant(1),
-                irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
-            }
-    );
+    auto arrayPointerAllocationForTailCopy = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     successorBlock->getBuilder()->get()->CreateCall(
         irModuleNode->getCopyArrayFunction(),
         { arrayPointerAllocationForTailCopy, arrayPointerAllocationForTail, function->getArg(1) }
@@ -115,5 +105,6 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
             irModuleNode->getFreeArrayFunction(),
             { arrayPointerAllocationForTail, function->getArg(1) }
     );
-    successorBlock->getBuilder()->get()->CreateRet(arrayPointerAllocationForTailCopy);
+    auto loadedTail = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForTailCopy, successorBlock, arrayPointerType);
+    successorBlock->getBuilder()->get()->CreateRet(loadedTail);
 }
