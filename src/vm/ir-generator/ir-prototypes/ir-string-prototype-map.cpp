@@ -4,25 +4,16 @@
 
 #include "ir-string-prototype-map.h"
 #include "../ir-util-functions/array-prepend-ir-function/array-prepend-ir-function.h"
-#include "../ir-util-functions/array-append-ir-function/array-append-ir-function.h"
-#include "../ir-util-functions/array-last-ir-function/array-last-ir-function.h"
-#include "../ir-util-functions/array-drop-ir-function/array-drop-ir-function.h"
-#include "../ir-util-functions/array-drop-last-ir-function/array-drop-last-ir-function.h"
-#include "../ir-util-functions/array-take-ir-function/array-take-ir-function.h"
-#include "../ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.h"
-#include "../ir-util-functions/array-head-ir-function/array-head-ir-function.h"
-#include "../ir-util-functions/array-tail-ir-function/array-tail-ir-function.h"
-#include "../ir-util-functions/array-size-ir-function/array-size-ir-function.h"
-#include "../ir-util-functions/array-empty-ir-function/array-empty-ir-function.h"
 #include "../ir-util-functions/string-drop-ir-function/string-drop-ir-function.h"
 #include "../ir-util-functions/string-drop-last-ir-function/string-drop-last-ir-function.h"
 #include "../ir-util-functions/string-empty-ir-function/string-empty-ir-function.h"
 #include "../ir-util-functions/string-size-ir-function/string-size-ir-function.h"
-#include "../ir-util-functions/string-last-ir-function/string-last-ir-function.h"
 #include "../ir-util-functions/string-tail-ir-function/string-tail-ir-function.h"
 #include "../ir-util-functions/string-take-ir-function/string-take-ir-function.h"
 #include "../ir-util-functions/string-take-last-ir-function/string-take-last-ir-function.h"
-#include "../ir-util-functions/string-head-ir-function/string-head-ir-function.h"
+#include "../ir-util-functions/string-at-ir-function/string-at-ir-function.h"
+#include "../ir-util-functions/string-append-ir-function/string-append-ir-function.h"
+#include "../ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.h"
 
 IRStringPrototypeFunctionId StringPrototypeMap::getIRStringPrototypeFunction(std::string id) {
     if (id == "drop") {
@@ -33,16 +24,25 @@ IRStringPrototypeFunctionId StringPrototypeMap::getIRStringPrototypeFunction(std
         return SP_TAKE_FUNCTION;
     } else if (id == "takeLast") {
         return SP_TAKE_LAST_FUNCTION;
-    } else if (id == "head") {
-        return SP_HEAD_FUNCTION;
-    } else if (id == "tail") {
+    } else if (id == "append") {
+        return SP_APPEND_FUNCTION;
+    } else if (id == "prepend") {
+        return SP_PREPEND_FUNCTION;
+    }
+// will support head and last once we add null support
+//    else if (id == "head") {
+//        return SP_HEAD_FUNCTION;
+//    } else if (id == "last") {
+//        return SP_LAST_FUNCTION;
+//    }
+    else if (id == "tail") {
         return SP_TAIL_FUNCTION;
-    } else if (id == "last") {
-        return SP_LAST_FUNCTION;
-    } else if (id == "size") {
+    }  else if (id == "size") {
         return SP_SIZE_FUNCTION;
     } else if (id == "empty") {
         return SP_EMPTY_FUNCTION;
+    } else if (id == "at") {
+        return SP_AT_FUNCTION;
     }
     throw std::logic_error("unable to find array prototype function for id provided: " + id);
 }
@@ -63,14 +63,21 @@ std::string StringPrototypeMap::getIRName(IRStringPrototypeFunctionId irStringPr
             return StringTakeLastIRFunction::getStringTakeLastIRFunctionName();
         case SP_TAIL_FUNCTION:
             return StringTailIRFunction::getStringTailIRFunctionName();
-        case SP_HEAD_FUNCTION:
-            return StringHeadIRFunction::getStringHeadIRFunctionName();
-        case SP_LAST_FUNCTION:
-            return StringLastIRFunction::getStringLastIRFunctionName();
+        case SP_APPEND_FUNCTION:
+            return StringAppendIRFunction::getStringAppendIRFunctionName();
+        case SP_PREPEND_FUNCTION:
+            return StringPrependIRFunction::getStringPrependIRFunctionName();
+// will support head and last once we add null support
+//        case SP_HEAD_FUNCTION:
+//            return StringHeadIRFunction::getStringHeadIRFunctionName();
+//        case SP_LAST_FUNCTION:
+//            return StringLastIRFunction::getStringLastIRFunctionName();
         case SP_SIZE_FUNCTION:
             return StringSizeIRFunction::getStringSizeIRFunctionName();
         case SP_EMPTY_FUNCTION:
             return StringEmptyIRFunction::getStringEmptyIRFunctionName();
+        case SP_AT_FUNCTION:
+            return StringAtIRFunction::getStringAtIRFunctionName();
     }
     throw std::logic_error("unable to find string prototype name");
 }

@@ -12,8 +12,6 @@
 class StringHeadIRFunction {
 public:
     static std::string getStringHeadIRFunctionName();
-    static std::string getGlobalNoHeadMessageStringName();
-    static void generateAssertGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
     static void generateStringHeadFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 

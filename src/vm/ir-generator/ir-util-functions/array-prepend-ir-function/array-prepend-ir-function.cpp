@@ -40,14 +40,6 @@ void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerat
                 sizeInBytes
             }
     );
-    auto newArraySize = functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocSizeFunction()->getFunctionType(),
-            irModuleNode->getMallocSizeFunction(),
-            {
-                    newNumElements,
-                    sizeInBytes
-            }
-    );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
             { newNumElements, sizeInBytes }

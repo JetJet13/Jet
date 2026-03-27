@@ -42,11 +42,12 @@ std::optional<FunctionTypeSignature*> ArrayPrototypeTypeSignatureMap::find(std::
         return appendTypeSignature;
     }
 
-    if (id == "head" || id == "last") {
-        auto headTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature(), elementType);
-        headTypeSignature->markAsPrototype();
-        return headTypeSignature;
-    }
+// will support head and last once we add null support
+//    if (id == "head" || id == "last") {
+//        auto headTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature(), elementType);
+//        headTypeSignature->markAsPrototype();
+//        return headTypeSignature;
+//    }
 
     if (id == "size") {
         auto sizeTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature(), new IntLiteralTypeSignature());

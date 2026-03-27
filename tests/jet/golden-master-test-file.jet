@@ -847,13 +847,14 @@ proc testArrayPrototype() {
     const takeLastExample = myArray.takeLast(2);
     assert(takeLastExample == [12, 13]);
 
-    const headExample = myArray.head();
-    const sumHeadExample = headExample + 100;
-    assert(headExample == 1);
+    // will support head and last once we add null support
+    //const headExample = myArray.head();
+    //const sumHeadExample = headExample + 100;
+    //assert(headExample == 1);
 
-    const lastExample = myArray.last();
-    const sumLastExample = lastExample + 100;
-    assert(lastExample == 13);
+    //const lastExample = myArray.last();
+    //const sumLastExample = lastExample + 100;
+    //assert(lastExample == 13);
 
     const myArrayTail = myArray.tail();
     assert(myArrayTail == [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
@@ -1330,8 +1331,11 @@ proc testStringPrototype() {
     assert(myString == "");
     assert(myString.empty());
     assert(myString.size() == 0);
-    assert(myString.head() == '\0');
-    assert(myString.last() == '\0');
+
+    // will support head and last once we add null support
+    //assert(myString.head() == '\0');
+    //assert(myString.last() == '\0');
+
     assert(myString.tail() == "");
     assert(myString.take(5) == "");
     assert(myString.takeLast(5) == "");
@@ -1341,8 +1345,14 @@ proc testStringPrototype() {
     const otherString = "my-other-string";
     assert(!otherString.empty());
     assert(otherString.size() == 15);
-    assert(otherString.head() == 'm');
-    assert(otherString.last() == 'g');
+
+    // will support head and last once we add null support
+    //assert(otherString.head() == 'm');
+    //assert(otherString.last() == 'g');
+
+    assert(otherString.at(0) == 'm');
+    assert(otherString.at(1) == 'y');
+    assert(otherString.at(14) == 'g');
     assert(otherString.tail() == "y-other-string");
     assert(otherString.take(5) == "my-ot");
     assert(otherString.takeLast(5) == "tring");

@@ -9,9 +9,11 @@ typedef enum {
     SP_DROP_LAST_FUNCTION,
     SP_TAKE_FUNCTION,
     SP_TAKE_LAST_FUNCTION,
-    SP_HEAD_FUNCTION,
+    SP_AT_FUNCTION,
+// will support head and last once we add null support
+//    SP_HEAD_FUNCTION,
+//    SP_LAST_FUNCTION,
     SP_TAIL_FUNCTION,
-    SP_LAST_FUNCTION,
     SP_APPEND_FUNCTION,
     SP_PREPEND_FUNCTION,
     SP_SIZE_FUNCTION,

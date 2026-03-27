@@ -69,6 +69,9 @@
 #include "../../ir-util-functions/string-tail-ir-function/string-tail-ir-function.h"
 #include "../../ir-util-functions/string-take-ir-function/string-take-ir-function.h"
 #include "../../ir-util-functions/string-take-last-ir-function/string-take-last-ir-function.h"
+#include "../../ir-util-functions/string-at-ir-function/string-at-ir-function.h"
+#include "../../ir-util-functions/string-append-ir-function/string-append-ir-function.h"
+#include "../../ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.h"
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
@@ -162,15 +165,20 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     StringDropIRFunction::generateStringDropFunction(irGenerator, context, irModule);
     StringDropLastIRFunction::generateStringDropLastFunction(irGenerator, context, irModule);
     StringEmptyIRFunction::generateStringEmptyFunction(irGenerator, context, irModule);
-    StringHeadIRFunction::generateStringHeadFunction(irGenerator, context, irModule);
-    StringLastIRFunction::generateStringLastFunction(irGenerator, context, irModule);
+    StringAtIRFunction::generateStringAtFunction(irGenerator, context, irModule);
+//    will support head and last once we add null support
+//    StringHeadIRFunction::generateStringHeadFunction(irGenerator, context, irModule);
+//    StringLastIRFunction::generateStringLastFunction(irGenerator, context, irModule);
     StringSizeIRFunction::generateStringSizeFunction(irGenerator, context, irModule);
     StringTailIRFunction::generateStringTailFunction(irGenerator, context, irModule);
+    StringAppendIRFunction::generateStringAppendFunction(irGenerator, context, irModule);
+    StringPrependIRFunction::generateStringPrependFunction(irGenerator, context, irModule);
     StringTakeIRFunction::generateStringTakeFunction(irGenerator, context, irModule);
     StringTakeLastIRFunction::generateStringTakeLastFunction(irGenerator, context, irModule);
     ArrayConcatIRFunction::generateArrayConcatFunction(irGenerator, context, irModule);
-    ArrayHeadIRFunction::generateArrayHeadFunction(irGenerator, context, irModule);
-    ArrayLastIRFunction::generateArrayLastFunction(irGenerator, context, irModule);
+//    will support head and last once we add null support
+//    ArrayHeadIRFunction::generateArrayHeadFunction(irGenerator, context, irModule);
+//    ArrayLastIRFunction::generateArrayLastFunction(irGenerator, context, irModule);
     ArrayDropIRFunction::generateArrayDropFunction(irGenerator, context, irModule);
     ArrayDropLastIRFunction::generateArrayDropLastFunction(irGenerator, context, irModule);
     ArrayTailIRFunction::generateArrayTailFunction(irGenerator, context, irModule);

@@ -108,8 +108,6 @@ proc testStringPrototype() {
     assert(myString == "");
     assert(myString.empty());
     assert(myString.size() == 0);
-    assert(myString.head() == '\0');
-    assert(myString.last() == '\0');
     assert(myString.tail() == "");
     assert(myString.take(5) == "");
     assert(myString.takeLast(5) == "");
@@ -118,9 +116,10 @@ proc testStringPrototype() {
 
     const otherString = "my-other-string";
     assert(!otherString.empty());
+    assert(otherString.at(0) == 'm');
+    assert(otherString.at(1) == 'y');
+    assert(otherString.at(14) == 'g');
     assert(otherString.size() == 15);
-    assert(otherString.head() == 'm');
-    assert(otherString.last() == 'g');
     assert(otherString.tail() == "y-other-string");
     assert(otherString.take(5) == "my-ot");
     assert(otherString.takeLast(5) == "tring");
@@ -133,5 +132,10 @@ proc testStringPrototype() {
     assert(shortString.takeLast(100) == "aq");
     assert(shortString.take(0) == "");
     assert(shortString.takeLast(0) == "");
+    shortString.prepend('m');
+    assert(shortString == "maq");
+    shortString.append('q');
+    assert(shortString == "maqq");
+
 }
 testStringPrototype();

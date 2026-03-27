@@ -762,6 +762,12 @@ add_library(jet-vm
         ir-generator/ir-util-functions/string-take-ir-function/string-take-ir-function.h
         ir-generator/ir-util-functions/string-take-last-ir-function/string-take-last-ir-function.cpp
         ir-generator/ir-util-functions/string-take-last-ir-function/string-take-last-ir-function.h
+        ir-generator/ir-util-functions/string-at-ir-function/string-at-ir-function.cpp
+        ir-generator/ir-util-functions/string-at-ir-function/string-at-ir-function.h
+        ir-generator/ir-util-functions/string-append-ir-function/string-append-ir-function.cpp
+        ir-generator/ir-util-functions/string-append-ir-function/string-append-ir-function.h
+        ir-generator/ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.cpp
+        ir-generator/ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.h
 )
 
 target_link_libraries(jet-vm
