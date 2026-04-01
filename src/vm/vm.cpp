@@ -18,7 +18,8 @@ IRJetFile* VM::compile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irCoreMod
     irModule->linkTo(irCoreModule);
     auto irJetFile = new IRJetFile(jetFile, irModule);
     for (auto moduleToLink : *jetFile->getImportedFiles()) {
-        this->linkJetFiles(this->compile(moduleToLink, irModule), irJetFile);
+        auto importedJetFile = this->compile(moduleToLink, irModule);
+        this->linkJetFiles(importedJetFile, irJetFile);
     }
     auto irMainFunction = _irGenerator->generateMainFunction(jetFile->getFile()->getPath()->filename().string(), irModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
@@ -61,7 +62,11 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
         _irGenerator->generatePostInitialTypeFor(node, &irLookupTable, irContext);
     }
 
-    auto generatedIRNodes = std::vector<IRNode*>();
+    for (auto importedFile : *jetFile->getImportedFiles()) {
+        auto importedFileMainFunctionName = importedFile->getFile()->getPath()->filename().string();
+        auto importedFileMainFunction = irMainModule->getModule()->get()->getFunction(importedFileMainFunctionName);
+        irMainFunctionBlock->getBuilder()->get()->CreateCall(importedFileMainFunction);
+    }
     for (auto node : *jetFile->getFile()->getBody()) {
         irMainFunctionBlock->insert(_irGenerator->generateFor(node, &irLookupTable, irContext));
     }
@@ -74,9 +79,15 @@ void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
     Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {
         if (exportedDeclaration->getTypeSignature()->isInvocable()) {
-            auto irFunctionId = FunctionIdGenerator::generateFor(exportedDeclaration->getId(), (InvocableTypeSignature*)exportedDeclaration->getTypeSignature());
+            auto invocableTypeSignature = (InvocableTypeSignature*)exportedDeclaration->getTypeSignature();
+            auto irFunctionId = FunctionIdGenerator::generateFor(exportedDeclaration->getId(), invocableTypeSignature);
             auto exportedFunction = destination->getIRModule()->getModule()->get()->getFunction(irFunctionId);
             exportedFunction->setName(jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + irFunctionId);
+        } else {
+            auto declarationId = jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + exportedDeclaration->getId();
+            auto globalExport = destination->getIRModule()->getModule()->get()->getGlobalVariable(exportedDeclaration->getId());
+            globalExport->setName(declarationId);
         }
     }
+    destination->getFile()->inheritImportedFiles(jetFileToLink->getFile());
 }

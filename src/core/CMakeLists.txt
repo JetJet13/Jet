@@ -1395,6 +1395,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-context.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/string-prototype-type-signature-map/string-prototype-type-signature-map.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/string-prototype-type-signature-map/string-prototype-type-signature-map.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.h
 
 )
 

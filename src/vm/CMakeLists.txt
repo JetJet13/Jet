@@ -768,6 +768,12 @@ add_library(jet-vm
         ir-generator/ir-util-functions/string-append-ir-function/string-append-ir-function.h
         ir-generator/ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.cpp
         ir-generator/ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.h
+        ir-nodes/ir-expression-nodes/ir-module-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-module-access-expression-node.h
+        ir-generator/ir-strategies/expression-ir-strategies/module-access-expression-ir-strategy/module-access-expression-ir-strategy.cpp
+        ir-generator/ir-strategies/expression-ir-strategies/module-access-expression-ir-strategy/module-access-expression-ir-strategy.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.h
 )
 
 target_link_libraries(jet-vm

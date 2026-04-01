@@ -136,8 +136,8 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
             { arrayPointerAllocationForTakeLastCopy, arrayPointerAllocationForTakeLast }
     );
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFreeFunction(),
-            { takeStringMalloc }
+            irModuleNode->getFreeStringFunction(),
+            { arrayPointerAllocationForTakeLast }
     );
     auto loadedTakeLastString = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForTakeLastCopy, successorBlock, arrayPointerType);
     successorBlock->getBuilder()->get()->CreateRet(loadedTakeLastString);

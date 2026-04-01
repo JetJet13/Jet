@@ -1328,6 +1328,7 @@ proc testStringPrototype() {
     assert(myString == "");
     myString = "hello-world";
     myString.drop(100);
+    print("MY STRING", myString);
     assert(myString == "");
     assert(myString.empty());
     assert(myString.size() == 0);
@@ -1341,6 +1342,10 @@ proc testStringPrototype() {
     assert(myString.takeLast(5) == "");
     assert(myString.take(0) == "");
     assert(myString.takeLast(0) == "");
+    myString.prepend('m');
+    assert(myString == "m");
+    myString.append('q');
+    assert(myString == "mq");
 
     const otherString = "my-other-string";
     assert(!otherString.empty());
@@ -1365,5 +1370,18 @@ proc testStringPrototype() {
     assert(shortString.takeLast(100) == "aq");
     assert(shortString.take(0) == "");
     assert(shortString.takeLast(0) == "");
+    shortString.prepend('m');
+    assert(shortString == "maq");
+    shortString.append('q');
+    assert(shortString == "maqq");
 }
-testStringPrototype();
+for i in range(2000) {
+    testStringPrototype();
+}
+
+proc testModules() {
+    assert(MyOtherModule::myBoolFunction() == true);
+    assert(MyOtherModule::myOtherBoolFunction() == false);
+    assert(MyOtherModule::myOtherConstant == 790);
+}
+testModules();

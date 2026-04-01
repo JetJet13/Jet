@@ -11,8 +11,19 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
    4. Character
 2. Strings
    1. Concatenation (`++`)
+   2. Prototype Functions
+       1. `append`
+       2. `prepend`
+       3. `take`
+       4. `takeLast`
+       5. `drop`
+       6. `dropLast`
+       7. `size`
+       8. `empty`
+       9. `tail`
 3. Arrays
-   1. Prototype Functions
+   1. Concatenation (`++`)
+   2. Prototype Functions
       1. `append`
       2. `prepend`
       3. `take`
@@ -21,10 +32,7 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
       6. `dropLast`
       7. `size`
       8. `empty`
-      9. `head`
-      10. `last`
-      11. `tail`
-   2. Concatenation (`++`)
+      9. `tail`
 4. Structs
 5. Tuples 
 6. Classes

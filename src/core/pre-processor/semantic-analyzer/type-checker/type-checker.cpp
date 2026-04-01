@@ -56,6 +56,7 @@
 #include "policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h"
 #include "policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.h"
 #include "policies/class-property-ref-value-assignment-statement-type-checker-policy/class-property-ref-value-assignment-statement-type-checker-policy.h"
+#include "policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -218,6 +219,9 @@ namespace TypeChecker {
                 break;
             case AST_SREF_EXPRESSION_NODE:
                 SrefExpressionTypeCheckerPolicy::apply((ASTSrefExpressionNode*)node, typeCheckerResult);
+                break;
+            case AST_MODULE_ACCESS_EXPRESSION_NODE:
+                ModuleAccessExpressionTypeCheckerPolicy::apply((ASTModuleAccessExpressionNode*)node, typeCheckerResult);
                 break;
             case AST_LITERAL_EXPRESSION_NODE:
                 break;

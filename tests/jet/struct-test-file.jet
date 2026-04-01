@@ -81,61 +81,9 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-proc testRange() {
-    for i in range(10) {
-        print(i);
-    }
-
-    for i in range(2, 8) {
-        print(i);
-    }
-
-    for i in range(12, 22, 2) {
-        print(i);
-    }
+proc testModules() {
+    assert(MyOtherModule::myBoolFunction() == true);
+    assert(MyOtherModule::myOtherBoolFunction() == false);
+    assert(MyOtherModule::myOtherConstant == 790);
 }
-
-proc testStringPrototype() {
-    let myString = "hello-world";
-    myString.drop(1);
-    assert(myString == "ello-world");
-    myString.dropLast(2);
-    assert(myString == "ello-wor");
-    myString.dropLast(100);
-    assert(myString == "");
-    myString = "hello-world";
-    myString.drop(100);
-    assert(myString == "");
-    assert(myString.empty());
-    assert(myString.size() == 0);
-    assert(myString.tail() == "");
-    assert(myString.take(5) == "");
-    assert(myString.takeLast(5) == "");
-    assert(myString.take(0) == "");
-    assert(myString.takeLast(0) == "");
-
-    const otherString = "my-other-string";
-    assert(!otherString.empty());
-    assert(otherString.at(0) == 'm');
-    assert(otherString.at(1) == 'y');
-    assert(otherString.at(14) == 'g');
-    assert(otherString.size() == 15);
-    assert(otherString.tail() == "y-other-string");
-    assert(otherString.take(5) == "my-ot");
-    assert(otherString.takeLast(5) == "tring");
-    assert(otherString.take(0) == "");
-    assert(otherString.takeLast(0) == "");
-
-    const shortString = "aq";
-    assert(shortString.tail() == "q");
-    assert(shortString.take(100) == "aq");
-    assert(shortString.takeLast(100) == "aq");
-    assert(shortString.take(0) == "");
-    assert(shortString.takeLast(0) == "");
-    shortString.prepend('m');
-    assert(shortString == "maq");
-    shortString.append('q');
-    assert(shortString == "maqq");
-
-}
-testStringPrototype();
+testModules();

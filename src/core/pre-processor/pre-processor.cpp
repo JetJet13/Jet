@@ -46,8 +46,8 @@ JetFile* PreProcessor::process(std::string filePath) {
     return new JetFile(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);
 }
 
-std::vector<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
-    auto importedJetFiles = std::vector<JetFile*>();
+std::set<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+    auto importedJetFiles = std::set<JetFile*>();
     for (auto node : *fileNode->getImports()) {
         auto filePath = fileNode->getPathDirectory().append(node->getPath()->getImportPath()->getValue());
         auto jetFile = this->process(filePath);
@@ -60,7 +60,7 @@ std::vector<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, 
             auto key = module->getId() + "." + moduleExport->getId();
             scope->insertGlobal(key, moduleExport->getTypeSignature());
         }
-        importedJetFiles.push_back(jetFile);
+        importedJetFiles.insert(jetFile);
     }
     return importedJetFiles;
 }

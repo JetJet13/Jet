@@ -32,17 +32,17 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
     auto destinationStringDepthPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getDepthIndex());
     InstructionIRInjectorHelper::injectStore(irGenerator->generateIntConstant(1), destinationStringDepthPointer, functionBlock);
 
+    auto sizeInBytes = irGenerator->generateIntConstant(charType->getSizeInBytes());
     auto mallocSize = functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getMallocSizeFunction()->getFunctionType(),
             irContext->getIRModule()->getMallocSizeFunction(),
             {
                 sourceStringNumChars,
-                irGenerator->generateIntConstant(charType->getSizeInBytes())
+                sizeInBytes
             }
     );
     auto malloc = functionBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFunction(),
-            { sourceStringNumChars, irGenerator->generateIntConstant(charType->getSizeInBytes()) }
+            { sourceStringNumChars, sizeInBytes }
     );
     auto destinationStringAllocPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(malloc, destinationStringAllocPointer, functionBlock);

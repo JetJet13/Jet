@@ -6,6 +6,5 @@
 
 void ModuleAccessExpressionTypeSignatureStrategy::assign(ASTModuleAccessExpressionNode* moduleAccessExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignature = scope->find(moduleAccessExpression->getId());
-    typeSignature->print();
     moduleAccessExpression->setTypeSignature(typeSignature);
 }

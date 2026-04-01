@@ -27,6 +27,7 @@
 #include "ir-strategies/expression-ir-strategies/tuple-access-invocation-expression-ir-strategy/tuple-access-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/module-access-expression-ir-strategy/module-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
@@ -314,6 +315,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate((ASTDrefExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_SREF_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getSrefExpressionIRStrategy()->generate((ASTSrefExpressionNode*)node,  this, scope, irContext, irOperation);
+    } else if (node->is(AST_MODULE_ACCESS_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getModuleAccessExpressionIRStrategy()->generate((ASTModuleAccessExpressionNode*)node,  this, scope, irContext, irOperation);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }

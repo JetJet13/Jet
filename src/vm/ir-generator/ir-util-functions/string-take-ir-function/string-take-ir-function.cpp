@@ -14,6 +14,7 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto pointerType = irGenerator->generateIrPointerType();
+    auto pointerIntType = irGenerator->generatePointerIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
                                                 { pointerType->getType(), pointerType->getType() },
@@ -110,7 +111,7 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
             irModuleNode->getMallocFunction(),
             { totalTakeNumElements, sizeInBytes }
     );
-    auto pointerToString = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
+    auto pointerToString = successorBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
     auto loadedPointerToString = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToString);
     successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction(),
@@ -118,7 +119,7 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
     );
 
     // append terminator char
-    auto pointerToTerminatorPosition = successorBlock->getBuilder()->get()->CreateInBoundsGEP(pointerType->getType(), takeStringMalloc, { takeSize });
+    auto pointerToTerminatorPosition = successorBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, takeStringMalloc, { takeSize });
     InstructionIRInjectorHelper::injectStore(irGenerator->generateChar('\0'), pointerToTerminatorPosition, successorBlock, charType);
 
     auto arrayPointerAllocationForTake = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());

@@ -12,6 +12,7 @@ class IRJetFile {
 private:
     JetFile* _jetFile;
     std::shared_ptr<IRModuleNode> _irModule;
+
 public:
     IRJetFile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irModule);
     JetFile* getFile();

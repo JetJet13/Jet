@@ -4,6 +4,8 @@ export func myBoolFunction() bool {
     return true;
 }
 
-    export func myOtherBoolFunction() bool {
+export func myOtherBoolFunction() bool {
     return false;
 }
+
+export const myOtherConstant = 790;

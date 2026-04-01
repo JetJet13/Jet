@@ -25,6 +25,7 @@
 #include "./expression-ir-strategies/tuple-access-invocation-expression-ir-strategy/tuple-access-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.h"
+#include "./expression-ir-strategies/module-access-expression-ir-strategy/module-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
@@ -111,6 +112,7 @@ IRStrategyMap::IRStrategyMap() {
     _tupleAccessInvocationExpressionIRStrategy = new TupleAccessInvocationExpressionIRStrategy();
     _functionInvocationExpressionIRStrategy = new FunctionInvocationExpressionIRStrategy();
     _lambdaExpressionIRStrategy = new LambdaExpressionIRStrategy();
+    _moduleAccessExpressionIRStrategy = new ModuleAccessExpressionIRStrategy();
     _expressionStatementIRStrategy = new ExpressionStatementIRStrategy();
     _printStatementIRStrategy = new PrintStatementIRStrategy();
     _classDeclarationIRStrategy = new ClassDeclarationIRStrategy();
@@ -282,6 +284,10 @@ FunctionInvocationExpressionIRStrategy* IRStrategyMap::getFunctionInvocationExpr
 
 LambdaExpressionIRStrategy* IRStrategyMap::getLambdaExpressionIRStrategy() {
     return _lambdaExpressionIRStrategy;
+}
+
+ModuleAccessExpressionIRStrategy* IRStrategyMap::getModuleAccessExpressionIRStrategy() {
+    return _moduleAccessExpressionIRStrategy;
 }
 
 ExpressionStatementIRStrategy* IRStrategyMap::getExpressionStatementIRStrategy() {

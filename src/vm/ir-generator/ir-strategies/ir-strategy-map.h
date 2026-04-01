@@ -37,6 +37,7 @@ class TupleAccessExpressionIRStrategy;
 class TupleAccessInvocationExpressionIRStrategy;
 class FunctionInvocationExpressionIRStrategy;
 class LambdaExpressionIRStrategy;
+class ModuleAccessExpressionIRStrategy;
 class ExpressionStatementIRStrategy;
 class ClassDeclarationIRStrategy;
 class ClassPropertyAccessExpressionIRStrategy;
@@ -117,6 +118,7 @@ private:
     TupleAccessInvocationExpressionIRStrategy* _tupleAccessInvocationExpressionIRStrategy;
     FunctionInvocationExpressionIRStrategy* _functionInvocationExpressionIRStrategy;
     LambdaExpressionIRStrategy* _lambdaExpressionIRStrategy;
+    ModuleAccessExpressionIRStrategy* _moduleAccessExpressionIRStrategy;
     ExpressionStatementIRStrategy* _expressionStatementIRStrategy;
     PrintStatementIRStrategy* _printStatementIRStrategy;
     ClassDeclarationIRStrategy* _classDeclarationIRStrategy;
@@ -195,6 +197,7 @@ public:
     TupleAccessInvocationExpressionIRStrategy* getTupleAccessInvocationExpressionIRStrategy();
     FunctionInvocationExpressionIRStrategy* getFunctionInvocationExpressionIRStrategy();
     LambdaExpressionIRStrategy* getLambdaExpressionIRStrategy();
+    ModuleAccessExpressionIRStrategy* getModuleAccessExpressionIRStrategy();
     ExpressionStatementIRStrategy* getExpressionStatementIRStrategy();
     PrintStatementIRStrategy* getPrintStatementIRStrategy();
     ClassDeclarationIRStrategy* getClassDeclarationIRStrategy();

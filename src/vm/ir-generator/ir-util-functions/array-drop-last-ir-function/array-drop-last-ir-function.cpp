@@ -13,6 +13,7 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();
+    auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(pointerType->getType(),
                                                 { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
@@ -72,7 +73,6 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
     auto pointerToOldArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     auto loadedPointerToOldArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldArray);
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMemcpyFunction()->getFunctionType(),
             irModuleNode->getMemcpyFunction(),
             { newArrayMalloc, loadedPointerToOldArray, newArraySize }
     );
@@ -95,7 +95,6 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
     successorBlock->getBuilder()->get()->CreateStore(loadedNewNumElements, numElementsPointer);
     successorBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getFreeArrayFunction()->getFunctionType(),
             irModuleNode->getFreeArrayFunction(),
             { arrayPointerAllocationForOldArray, function->getArg(2) }
     );

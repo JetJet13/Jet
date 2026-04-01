@@ -22,8 +22,8 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
                                            StringTailIRFunction::getStringTailIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumElementsLessThanThreeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
-    auto isNumElementsLessThanThreeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isStringEmptyIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isStringEmptyIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);
@@ -33,41 +33,41 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
     auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
-    functionBlock->getBuilder()->get()->CreateBr(isNumElementsLessThanThreeIfBlock->getBlock());
+    functionBlock->getBuilder()->get()->CreateBr(isStringEmptyIfBlock->getBlock());
 
-    // isNumElementsLessThanThreeIfBlock
-    auto isNumElementsLessThanThree = isNumElementsLessThanThreeIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_SLT,
+    // isStringEmptyIfBlock
+    auto isStringEmpty = isStringEmptyIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
             numElements,
-            irGenerator->generateIntConstant(2)
+            irGenerator->generateIntConstant(1)
     );
-    isNumElementsLessThanThreeIfBlock->getBuilder()->get()->CreateCondBr(isNumElementsLessThanThree, isNumElementsLessThanThreeIfThenBlock->getBlock(), successorBlock->getBlock());
+    isStringEmptyIfBlock->getBuilder()->get()->CreateCondBr(isStringEmpty, isStringEmptyIfThenBlock->getBlock(), successorBlock->getBlock());
 
-    // isNumElementsLessThanThreeIfThenBlock
-    auto emptyTailStringMalloc = isNumElementsLessThanThreeIfThenBlock->getBuilder()->get()->CreateCall(
+    // isStringEmptyIfThenBlock
+    auto emptyTailStringMalloc = isStringEmptyIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
             { irGenerator->generateInt64Constant(1), sizeInBytes }
     );
-    InstructionIRInjectorHelper::injectStore(irGenerator->generateChar('\0'), emptyTailStringMalloc, isNumElementsLessThanThreeIfThenBlock, charType);
-    auto arrayPointerAllocationForEmptyTail = isNumElementsLessThanThreeIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateChar('\0'), emptyTailStringMalloc, isStringEmptyIfThenBlock, charType);
+    auto arrayPointerAllocationForEmptyTail = isStringEmptyIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
-            isNumElementsLessThanThreeIfThenBlock,
+            isStringEmptyIfThenBlock,
             arrayPointerType,
             irGenerator->generateIntConstant(1),
             depth,
             arrayPointerAllocationForEmptyTail,
             emptyTailStringMalloc
     );
-    auto loadedEmptyTail = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTail, isNumElementsLessThanThreeIfThenBlock, arrayPointerType);
-    isNumElementsLessThanThreeIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTail);
+    auto loadedEmptyTail = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTail, isStringEmptyIfThenBlock, arrayPointerType);
+    isStringEmptyIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTail);
 
     auto tailNumElements = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, numElements, irGenerator->generateIntConstant(1));
     auto tailStringSize = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction()->getFunctionType(),
             irModuleNode->getMallocSizeFunction(),
             {
-                    tailNumElements,
-                    sizeInBytes
+                tailNumElements,
+                sizeInBytes
             }
     );
     auto tailStringMalloc = successorBlock->getBuilder()->get()->CreateCall(
@@ -78,7 +78,6 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
     auto loadedPointerToString = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToString);
     auto secondElementPointer = successorBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, loadedPointerToString, { sizeInBytes });
     successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMemcpyFunction()->getFunctionType(),
             irModuleNode->getMemcpyFunction(),
             { tailStringMalloc, secondElementPointer, tailStringSize }
     );

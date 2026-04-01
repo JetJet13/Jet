@@ -32,40 +32,43 @@ void StringDropIRFunction::generateStringDropFunction(IRGenerator* irGenerator, 
     auto depthIndex = arrayPointerType->getDepthIndex();
     auto sizeInBytes = functionBlock->getBuilder()->get()->getInt64(charType->getSizeInBytes());
     auto depthPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), depthIndex);
-    auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), numElementsIndex);
-    auto numElementsToDrop = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
-    auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
+    auto numCharsToDrop = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
     auto newNumElementsAllocation = functionBlock->getBuilder()->get()->CreateAlloca(intType);
-    auto newNumElements = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, oldNumElements, numElementsToDrop);
+    auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
+    auto numCharsToDropAllocation = functionBlock->getBuilder()->get()->CreateAlloca(intType);
+    functionBlock->getBuilder()->get()->CreateStore(numCharsToDrop, numCharsToDropAllocation);
+    auto newNumElements = functionBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, oldNumElements, numCharsToDrop);
     functionBlock->getBuilder()->get()->CreateStore(newNumElements, newNumElementsAllocation);
     functionBlock->getBuilder()->get()->CreateBr(isNewNumElementsNegativeIfBlock->getBlock());
 
     // isNewNumElementsNegativeIfBlock
     auto isNewNumElementsNegative = isNewNumElementsNegativeIfBlock->getBuilder()->get()->CreateICmp(
-            llvm::CmpInst::Predicate::ICMP_SLT,
+            llvm::CmpInst::Predicate::ICMP_SLE,
             newNumElements,
             irGenerator->generateIntConstant(0)
     );
     isNewNumElementsNegativeIfBlock->getBuilder()->get()->CreateCondBr(isNewNumElementsNegative, isNewNumElementsNegativeIfThenBlock->getBlock(), successorBlock->getBlock());
 
     // isNewNumElementsNegativeIfThenBlock
+    isNewNumElementsNegativeIfThenBlock->getBuilder()->get()->CreateStore(oldNumElements, numCharsToDropAllocation);
     isNewNumElementsNegativeIfThenBlock->getBuilder()->get()->CreateStore(irGenerator->generateIntConstant(1), newNumElementsAllocation);
     isNewNumElementsNegativeIfThenBlock->getBuilder()->get()->CreateBr(successorBlock->getBlock());
 
     auto loadedNewNumElements = successorBlock->getBuilder()->get()->CreateLoad(intType, newNumElementsAllocation, "newNumElements");
+    auto loadedNumCharsToDrop = successorBlock->getBuilder()->get()->CreateLoad(intType, numCharsToDropAllocation, "numCharsToDrop");
     auto newStringSize = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction(),
             {
-                    loadedNewNumElements,
-                    sizeInBytes
+                loadedNewNumElements,
+                sizeInBytes
             }
     );
     auto newStringMalloc = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
             { loadedNewNumElements, sizeInBytes }
     );
-    auto oldStringOffset = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Mul, sizeInBytes, numElementsToDrop);
+    auto oldStringOffset = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Mul, sizeInBytes, loadedNumCharsToDrop);
     auto pointerToOldString = successorBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), allocIndex);
     auto loadedPointerToOldString = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldString);
     auto oldStringOffsetPointer = successorBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, loadedPointerToOldString, { oldStringOffset });
@@ -73,21 +76,11 @@ void StringDropIRFunction::generateStringDropFunction(IRGenerator* irGenerator, 
             irModuleNode->getMemcpyFunction(),
             { newStringMalloc, oldStringOffsetPointer, newStringSize }
     );
-
-    auto arrayPointerAllocationForOldString = successorBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
-    ArrayIRInjectorHelper::injectArrayPointer(
-            successorBlock,
-            arrayPointerType,
-            oldNumElements,
-            depth,
-            arrayPointerAllocationForOldString,
-            loadedPointerToOldString
-    );
     successorBlock->getBuilder()->get()->CreateStore(loadedNewNumElements, numElementsPointer);
     successorBlock->getBuilder()->get()->CreateStore(newStringMalloc, pointerToOldString);
-//    successorBlock->getBuilder()->get()->CreateCall(
-//        irModuleNode->getFreeStringFunction(),
-//        { arrayPointerAllocationForOldString, function->getArg(2) }
-//    );
+    successorBlock->getBuilder()->get()->CreateCall(
+        irModuleNode->getMallocFreeFunction(),
+        { loadedPointerToOldString }
+    );
     successorBlock->getBuilder()->get()->CreateRet(function->getArg(0));
 }
