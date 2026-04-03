@@ -78,6 +78,7 @@
 #include "expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.h"
 #include "object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h"
 #include "tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h"
+#include "module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _argumentListTypeSignatureStrategy = new ArgumentListTypeSignatureStrategy();
@@ -155,6 +156,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _arrayAccessAssignmentStatementTypeSignatureStrategy = new ArrayAccessAssignmentStatementTypeSignatureStrategy();
     _objectAccessAssignmentStatementTypeSignatureStrategy = new ObjectAccessAssignmentStatementTypeSignatureStrategy();
     _tupleAccessAssignmentStatementTypeSignatureStrategy = new TupleAccessAssignmentStatementTypeSignatureStrategy();
+    _moduleAccessAssignmentStatementTypeSignatureStrategy = new ModuleAccessAssignmentStatementTypeSignatureStrategy();
 }
 
 ArgumentListTypeSignatureStrategy* TypeSignatureStrategyMap::getArgumentListTypeSignatureStrategy() {
@@ -403,6 +405,10 @@ ObjectAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::
 
 TupleAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessAssignmentStatementTypeSignatureStrategy() {
     return _tupleAccessAssignmentStatementTypeSignatureStrategy;
+}
+
+ModuleAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessAssignmentStatementTypeSignatureStrategy() {
+    return _moduleAccessAssignmentStatementTypeSignatureStrategy;
 }
 
 BlockTypeSignatureStrategy* TypeSignatureStrategyMap::getBlockTypeSignatureStrategy() {

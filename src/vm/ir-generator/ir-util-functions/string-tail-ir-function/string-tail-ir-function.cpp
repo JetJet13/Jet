@@ -31,14 +31,14 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
     auto sizeInBytes = irGenerator->generateIntConstant(charType->getSizeInBytes());
     auto depthPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getDepthIndex());
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
-    auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
+    auto numCharsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
+    auto numChars = functionBlock->getBuilder()->get()->CreateLoad(intType, numCharsPointer);
     functionBlock->getBuilder()->get()->CreateBr(isStringEmptyIfBlock->getBlock());
 
     // isStringEmptyIfBlock
     auto isStringEmpty = isStringEmptyIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            numElements,
+            numChars,
             irGenerator->generateIntConstant(1)
     );
     isStringEmptyIfBlock->getBuilder()->get()->CreateCondBr(isStringEmpty, isStringEmptyIfThenBlock->getBlock(), successorBlock->getBlock());
@@ -61,18 +61,18 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
     auto loadedEmptyTail = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTail, isStringEmptyIfThenBlock, arrayPointerType);
     isStringEmptyIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTail);
 
-    auto tailNumElements = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, numElements, irGenerator->generateIntConstant(1));
+    auto tailNumChars = successorBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Sub, numChars, irGenerator->generateIntConstant(1));
     auto tailStringSize = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction()->getFunctionType(),
             irModuleNode->getMallocSizeFunction(),
             {
-                tailNumElements,
+                tailNumChars,
                 sizeInBytes
             }
     );
     auto tailStringMalloc = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { tailNumElements, sizeInBytes }
+            { tailNumChars, sizeInBytes }
     );
     auto pointerToString = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
     auto loadedPointerToString = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToString);
@@ -85,7 +85,7 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,
-            tailNumElements,
+            tailNumChars,
             depth,
             arrayPointerAllocationForTail,
             tailStringMalloc

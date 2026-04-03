@@ -23,93 +23,92 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
                                            StringTakeIRFunction::getStringTakeIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
-    auto isNumElementsOneIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isNumCharsOneIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isTakeNumNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
-    auto isNumElementsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    auto isTakeNumGreaterThanNumElementsIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
-    auto isTakeNumGreaterThanNumElementsIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isNumCharsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
+    auto isTakeNumGreaterThanNumCharsIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
+    auto isTakeNumGreaterThanNumCharsIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);
-    auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
-    auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
+    auto numCharsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto sizeInBytes = irGenerator->generateIntConstant(charType->getSizeInBytes());
     auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
-    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
-    auto numElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
-    auto takeNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
-    functionBlock->getBuilder()->get()->CreateBr(isNumElementsOneIfBlock->getBlock());
+    auto numCharsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numCharsIndex });
+    auto numChars = functionBlock->getBuilder()->get()->CreateLoad(intType, numCharsPointer);
+    auto takeNumChars = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
+    functionBlock->getBuilder()->get()->CreateBr(isNumCharsOneIfBlock->getBlock());
 
-    // isNumElementsOneIfBlock
-    auto isNumElementsOne = isNumElementsOneIfBlock->getBuilder()->get()->CreateICmp(
+    // isNumCharsOneIfBlock
+    auto isNumCharsOne = isNumCharsOneIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
-            numElements,
+            numChars,
             irGenerator->generateIntConstant(1)
     );
-    isNumElementsOneIfBlock->getBuilder()->get()->CreateCondBr(isNumElementsOne, isNumElementsOneIfThenBlock->getBlock(), isTakeNumNegativeIfBlock->getBlock());
+    isNumCharsOneIfBlock->getBuilder()->get()->CreateCondBr(isNumCharsOne, isNumCharsOneIfThenBlock->getBlock(), isTakeNumNegativeIfBlock->getBlock());
 
     // isTakeNumNegativeIfBlock
     auto isTakeNumNegative = isTakeNumNegativeIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLE,
-            takeNumElements,
+            takeNumChars,
             irGenerator->generateIntConstant(0)
     );
-    isTakeNumNegativeIfBlock->getBuilder()->get()->CreateCondBr(isTakeNumNegative, isNumElementsOneIfThenBlock->getBlock(), isTakeNumGreaterThanNumElementsIfBlock->getBlock());
+    isTakeNumNegativeIfBlock->getBuilder()->get()->CreateCondBr(isTakeNumNegative, isNumCharsOneIfThenBlock->getBlock(), isTakeNumGreaterThanNumCharsIfBlock->getBlock());
 
 
-    // isNumElementsOneIfThenBlock
-    auto emptyTakeStringMalloc = isNumElementsOneIfThenBlock->getBuilder()->get()->CreateCall(
+    // isNumCharsOneIfThenBlock
+    auto emptyTakeStringMalloc = isNumCharsOneIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
             { irGenerator->generateInt64Constant(1), sizeInBytes }
     );
-    InstructionIRInjectorHelper::injectStore(irGenerator->generateChar('\0'), emptyTakeStringMalloc, isNumElementsOneIfThenBlock, charType);
-    auto arrayPointerAllocationForEmptyTake = isNumElementsOneIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    InstructionIRInjectorHelper::injectStore(irGenerator->generateChar('\0'), emptyTakeStringMalloc, isNumCharsOneIfThenBlock, charType);
+    auto arrayPointerAllocationForEmptyTake = isNumCharsOneIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     ArrayIRInjectorHelper::injectArrayPointer(
-            isNumElementsOneIfThenBlock,
+            isNumCharsOneIfThenBlock,
             arrayPointerType,
             irGenerator->generateIntConstant(1),
             depth,
             arrayPointerAllocationForEmptyTake,
             emptyTakeStringMalloc
     );
-    auto loadedEmptyTake = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTake, isNumElementsOneIfThenBlock, arrayPointerType);
-    isNumElementsOneIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTake);
+    auto loadedEmptyTake = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForEmptyTake, isNumCharsOneIfThenBlock, arrayPointerType);
+    isNumCharsOneIfThenBlock->getBuilder()->get()->CreateRet(loadedEmptyTake);
 
-    // isTakeNumGreaterThanNumElementsIfBlock
-    auto isTakeNumGreaterThanNumElements = isTakeNumGreaterThanNumElementsIfBlock->getBuilder()->get()->CreateICmp(
+    // isTakeNumGreaterThanNumCharsIfBlock
+    auto isTakeNumGreaterThanNumChars = isTakeNumGreaterThanNumCharsIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SGE,
-            takeNumElements,
-            numElements
+            takeNumChars,
+            numChars
     );
-    isTakeNumGreaterThanNumElementsIfBlock->getBuilder()->get()->CreateCondBr(isTakeNumGreaterThanNumElements, isTakeNumGreaterThanNumElementsIfThenBlock->getBlock(), successorBlock->getBlock());
+    isTakeNumGreaterThanNumCharsIfBlock->getBuilder()->get()->CreateCondBr(isTakeNumGreaterThanNumChars, isTakeNumGreaterThanNumCharsIfThenBlock->getBlock(), successorBlock->getBlock());
 
-    // isTakeNumGreaterThanNumElementsIfThenBlock
-    auto arrayPointerAllocationForFullCopy = isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
-    isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateCall(
+    // isTakeNumGreaterThanNumCharsIfThenBlock
+    auto arrayPointerAllocationForFullCopy = isTakeNumGreaterThanNumCharsIfThenBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    isTakeNumGreaterThanNumCharsIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getCopyStringFunction(),
             { arrayPointerAllocationForFullCopy, function->getArg(0) }
     );
-    auto loadedFullTakeString = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForFullCopy, isTakeNumGreaterThanNumElementsIfThenBlock, arrayPointerType);
-    isTakeNumGreaterThanNumElementsIfThenBlock->getBuilder()->get()->CreateRet(loadedFullTakeString);
+    auto loadedFullTakeString = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), arrayPointerAllocationForFullCopy, isTakeNumGreaterThanNumCharsIfThenBlock, arrayPointerType);
+    isTakeNumGreaterThanNumCharsIfThenBlock->getBuilder()->get()->CreateRet(loadedFullTakeString);
 
 
     auto takeSize = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction(),
             {
-                takeNumElements,
+                takeNumChars,
                 sizeInBytes
             }
     );
-    auto totalTakeNumElements = successorBlock->getBuilder()->get()->CreateBinOp(
+    auto totalTakeNumChars = successorBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Add,
-            takeNumElements,
+            takeNumChars,
             irGenerator->generateIntConstant(1)
     );
     auto takeStringMalloc = successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
-            { totalTakeNumElements, sizeInBytes }
+            { totalTakeNumChars, sizeInBytes }
     );
     auto pointerToString = successorBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getAllocIndex());
     auto loadedPointerToString = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToString);
@@ -126,7 +125,7 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
     ArrayIRInjectorHelper::injectArrayPointer(
             successorBlock,
             arrayPointerType,
-            totalTakeNumElements,
+            totalTakeNumChars,
             depth,
             arrayPointerAllocationForTake,
             takeStringMalloc

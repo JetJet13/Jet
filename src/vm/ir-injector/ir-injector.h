@@ -39,6 +39,7 @@ class VariableAssignmentIRInjectorStrategy;
 class ArrayAccessAssignmentIRInjectorStrategy;
 class ObjectAccessAssignmentIRInjectorStrategy;
 class TupleAccessAssignmentIRInjectorStrategy;
+class ModuleAccessAssignmentIRInjectorStrategy;
 class ClassStaticPropertyAssignmentIRInjectorStrategy;
 class IfStatementIRInjectorStrategy;
 class WhileStatementIRInjectorStrategy;
@@ -77,6 +78,7 @@ private:
     ArrayAccessAssignmentIRInjectorStrategy* _arrayAccessAssignmentIRInjectorStrategy;
     ObjectAccessAssignmentIRInjectorStrategy* _objectAccessAssignmentIRInjectorStrategy;
     TupleAccessAssignmentIRInjectorStrategy* _tupleAccessAssignmentIRInjectorStrategy;
+    ModuleAccessAssignmentIRInjectorStrategy* _moduleAccessAssignmentIRInjectorStrategy;
     ClassStaticPropertyAssignmentIRInjectorStrategy* _classStaticPropertyAssignmentIRInjectorStrategy;
     IfStatementIRInjectorStrategy* _ifStatementIRInjectorStrategy;
     WhileStatementIRInjectorStrategy* _whileStatementIRInjectorStrategy;

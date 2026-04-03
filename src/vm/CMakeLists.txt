@@ -774,6 +774,12 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/module-access-expression-ir-strategy/module-access-expression-ir-strategy.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.h
+        ir-generator/ir-strategies/module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-nodes/ir-module-access-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-nodes/ir-module-access-assignment-statement-node.h
+        ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

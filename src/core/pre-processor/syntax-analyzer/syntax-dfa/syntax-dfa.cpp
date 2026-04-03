@@ -50,6 +50,7 @@ void SyntaxDfa::init() {
     DFANode* arrayAccessAssignment = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_ASSIGNMENT_NODE);
     DFANode* objectAccessAssignment = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_ASSIGNMENT_NODE);
     DFANode* tupleAccessAssignment = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_ASSIGNMENT_NODE);
+    DFANode* moduleAccessAssignment = DFANodeFactory::Once::create(AST_MODULE_ACCESS_ASSIGNMENT_NODE);
     DFANode* structKeyValue = DFANodeFactory::Once::create(AST_STRUCT_KEY_VALUE_NODE);
     DFANode* block = DFANodeFactory::Once::create(AST_BLOCK_NODE);
     DFANode* typeColon = DFANodeFactory::Once::create(AST_TYPE_COLON_NODE);
@@ -87,6 +88,7 @@ void SyntaxDfa::init() {
     DFANode* arrayAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE);
     DFANode* objectAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE);
     DFANode* tupleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
+    DFANode* moduleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
     DFANode* enumDeclaration = DFANodeFactory::Once::createWithTarget(AST_ENUM_DECLARATION_NODE, AST_ENUM_DECLARATION_NODE);
     DFANode* enumKeyword = DFANodeFactory::Once::create(AST_ENUM_NODE);
     DFANode* enumName = DFANodeFactory::Once::create(AST_ENUM_NAME_NODE);
@@ -409,7 +411,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_VARIABLE_NODE, {AST_FOR_NODE }, {AST_FOR_IN_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_VARIABLE_NODE, { AST_FOR_NODE }, {AST_FOR_IN_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -562,6 +564,7 @@ void SyntaxDfa::init() {
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
+    ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_MODULE_ACCESS_ASSIGNMENT_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
@@ -1059,6 +1062,24 @@ void SyntaxDfa::init() {
     });
 
     this->setupTransitionsWithTarget(objectAccessAssignment, AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, {
+            AST_LITERAL_EXPRESSION_NODE,
+            AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_EXPRESSION_NODE,
+            AST_MODULE_ACCESS_EXPRESSION_NODE,
+            AST_LAMBDA_EXPRESSION_NODE,
+            AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
+            AST_ARRAY_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_EXPRESSION_NODE,
+            AST_STRUCT_EXPRESSION_NODE,
+            AST_TUPLE_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_EXPRESSION_NODE,
+            AST_BINARY_ARITHMETIC_EXPRESSION_NODE,
+            AST_BINARY_COMPARATOR_EXPRESSION_NODE,
+            AST_LOGICAL_EXPRESSION_NODE,
+            AST_UNARY_EXPRESSION_NODE,
+    });
+
+    this->setupTransitionsWithTarget(moduleAccessAssignment, AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE, {
             AST_LITERAL_EXPRESSION_NODE,
             AST_IDENTIFIER_EXPRESSION_NODE,
             AST_OBJECT_ACCESS_EXPRESSION_NODE,
@@ -1631,6 +1652,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(arrayAccessAssignmentStatement)
     ->insertStartNode(objectAccessAssignmentStatement)
     ->insertStartNode(tupleAccessAssignmentStatement)
+    ->insertStartNode(moduleAccessAssignmentStatement)
     ->insertStartNode(identifier)
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
@@ -1683,6 +1705,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(arrayAccessAssignment)
     ->insertStartNode(objectAccessAssignment)
     ->insertStartNode(tupleAccessAssignment)
+    ->insertStartNode(moduleAccessAssignment)
     ->insertStartNode(structKeyValue)
     ->insertStartNode(block)
     ->insertStartNode(functionDeclaration)

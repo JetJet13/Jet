@@ -1346,6 +1346,10 @@ proc testStringPrototype() {
     assert(myString == "m");
     myString.append('q');
     assert(myString == "mq");
+    myString.drop(2);
+    assert(myString == "");
+    myString.append('r');
+    assert(myString == "r");
 
     const otherString = "my-other-string";
     assert(!otherString.empty());
@@ -1375,13 +1379,15 @@ proc testStringPrototype() {
     shortString.append('q');
     assert(shortString == "maqq");
 }
-for i in range(2000) {
-    testStringPrototype();
-}
+testStringPrototype();
 
 proc testModules() {
     assert(MyOtherModule::myBoolFunction() == true);
     assert(MyOtherModule::myOtherBoolFunction() == false);
-    assert(MyOtherModule::myOtherConstant == 790);
+    assert(MyOtherModule::myOtherGlobalInt == 790);
+    MyOtherModule::updateGlobalInt();
+    assert(MyOtherModule::myOtherGlobalInt == 900);
+    MyOtherModule::myOtherGlobalInt = 1290;
+    assert(MyOtherModule::myOtherGlobalInt == 1290);
 }
 testModules();

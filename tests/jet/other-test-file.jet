@@ -8,4 +8,8 @@ export func myOtherBoolFunction() bool {
     return false;
 }
 
-export const myOtherConstant = 790;
+export let myOtherGlobalInt = 790;
+
+export proc updateGlobalInt() {
+    myOtherGlobalInt = 900;
+}

@@ -124,6 +124,8 @@
 #include "reducer-strategies/ref-value-assignment-reducer-strategy/ref-value-assignment-reducer-strategy.h"
 #include "reducer-strategies/class-property-ref-value-assignment-reducer-strategy/class-property-ref-value-assignment-reducer-strategy.h"
 #include "reducer-strategies/class-property-ref-value-assignment-statement-reducer-strategy/class-property-ref-value-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/module-access-assignment-reducer-strategy/module-access-assignment-reducer-strategy.h"
+#include "reducer-strategies/module-access-assignment-statement-reducer-strategy/module-access-assignment-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -207,6 +209,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_MODULE_LIST_SPREAD_ITEM_NODE, new ModuleListSpreadItemReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_NODE, new ModuleListReducerStrategy());
     this->addStrategy(AST_MODULE_DECLARATION_NODE, new ModuleDeclarationReducerStrategy());
+    this->addStrategy(AST_MODULE_ACCESS_ASSIGNMENT_NODE, new ModuleAccessAssignmentReducerStrategy());
+    this->addStrategy(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE, new ModuleAccessAssignmentStatementReducerStrategy());
     this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, new UseSingleModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, new ImportSingleModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationReducerStrategy());

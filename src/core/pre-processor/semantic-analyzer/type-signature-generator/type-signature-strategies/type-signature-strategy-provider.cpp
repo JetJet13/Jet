@@ -64,6 +64,7 @@
 #include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
 #include "object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h"
 #include "tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h"
+#include "module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.h"
 #include "block-type-signature-strategy/block-type-signature-strategy.h"
 #include "if-statement-type-signature-strategy/if-statement-type-signature-strategy.h"
 #include "try-statement-type-signature-strategy/try-statement-type-signature-strategy.h"
@@ -453,6 +454,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, TypeSi
             this->_typeSignatureStrategyMap
                     ->getTupleAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign((ASTTupleAccessAssignmentStatementNode*)node, context, typeSignatureScope, this);
+            break;
+        case AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getModuleAccessAssignmentStatementTypeSignatureStrategy()
+                    ->assign((ASTModuleAccessAssignmentStatementNode*)node, context, typeSignatureScope, this);
             break;
         case AST_EXPRESSION_STATEMENT_NODE:
             this->_typeSignatureStrategyMap

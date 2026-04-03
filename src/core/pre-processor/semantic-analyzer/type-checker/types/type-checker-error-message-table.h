@@ -229,6 +229,9 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ObjectAccessAssignmentTypeMismatch(ASTNode* node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "object property type does not match expression type"); };
     }
+    static ErrorMessageLambda ModuleAccessAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "imported module variable type does not match expression type"); };
+    }
     static ErrorMessageLambda TupleAccessAssignmentTypeMismatch(ASTNode* node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "tuple property type does not match expression type"); };
     }

@@ -84,6 +84,10 @@ func getRefArray(y: [int]) ref<[int]> {
 proc testModules() {
     assert(MyOtherModule::myBoolFunction() == true);
     assert(MyOtherModule::myOtherBoolFunction() == false);
-    assert(MyOtherModule::myOtherConstant == 790);
+    assert(MyOtherModule::myOtherGlobalInt == 790);
+    MyOtherModule::updateGlobalInt();
+    assert(MyOtherModule::myOtherGlobalInt == 900);
+    MyOtherModule::myOtherGlobalInt = 1290;
+    assert(MyOtherModule::myOtherGlobalInt == 1290);
 }
 testModules();

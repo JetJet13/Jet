@@ -55,6 +55,7 @@ class PrintStatementIRStrategy;
 class ArrayAccessAssignmentStatementIRStrategy;
 class ObjectAccessAssignmentStatementIRStrategy;
 class TupleAccessAssignmentStatementIRStrategy;
+class ModuleAccessAssignmentStatementIRStrategy;
 class ClassPropertyRefValueAssignmentStatementIRStrategy;
 class RefValueAssignmentStatementIRStrategy;
 
@@ -136,6 +137,7 @@ private:
     ArrayAccessAssignmentStatementIRStrategy* _arrayAccessAssignmentStatementIRStrategy;
     ObjectAccessAssignmentStatementIRStrategy* _objectAccessAssignmentStatementIRStrategy;
     TupleAccessAssignmentStatementIRStrategy* _tupleAccessAssignmentStatementIRStrategy;
+    ModuleAccessAssignmentStatementIRStrategy* _moduleAccessAssignmentStatementIRStrategy;
     ClassPropertyRefValueAssignmentStatementIRStrategy* _classPropertyRefValueAssignmentStatementIRStrategy;
     RefValueAssignmentStatementIRStrategy* _refValueAssignmentStatementIRStrategy;
 
@@ -209,6 +211,7 @@ public:
     ArrayAccessAssignmentStatementIRStrategy* getArrayAccessAssignmentStatementIRStrategy();
     ObjectAccessAssignmentStatementIRStrategy* getObjectAccessAssignmentStatementIRStrategy();
     TupleAccessAssignmentStatementIRStrategy* getTupleAccessAssignmentStatementIRStrategy();
+    ModuleAccessAssignmentStatementIRStrategy* getModuleAccessAssignmentStatementIRStrategy();
     ClassPropertyRefValueAssignmentStatementIRStrategy* getClassPropertyRefValueAssignmentStatementIRStrategy();
     RefValueAssignmentStatementIRStrategy* getRefValueAssignmentStatementIRStrategy();
     IfStatementIRStrategy* getIfStatementIRStrategy();

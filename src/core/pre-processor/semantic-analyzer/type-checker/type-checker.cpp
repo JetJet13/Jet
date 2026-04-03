@@ -53,6 +53,7 @@
 #include "policies/print-statement-type-checker-policy/print-statement-type-checker-policy.h"
 #include "policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.h"
 #include "policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.h"
+#include "policies/module-access-assignment-statement-type-checker-policy/module-access-assignment-statement-type-checker-policy.h"
 #include "policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h"
 #include "policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.h"
 #include "policies/class-property-ref-value-assignment-statement-type-checker-policy/class-property-ref-value-assignment-statement-type-checker-policy.h"
@@ -99,6 +100,9 @@ namespace TypeChecker {
                 break;
             case AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 TupleAccessAssignmentStatementTypeCheckerPolicy::apply((ASTTupleAccessAssignmentStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
+                ModuleAccessAssignmentStatementTypeCheckerPolicy::apply((ASTModuleAccessAssignmentStatementNode*)node, typeCheckerResult);
                 break;
             case AST_ENUM_DECLARATION_NODE:
                 EnumDeclarationTypeCheckerPolicy::apply((ASTEnumDeclarationNode*)node, typeCheckerResult);

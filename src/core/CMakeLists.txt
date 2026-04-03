@@ -1397,6 +1397,18 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/string-prototype-type-signature-map/string-prototype-type-signature-map.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.h
+        ast/ast-nodes/ast-statement-nodes/ast-module-access-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-module-access-assignment-statement-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-access-assignment-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-access-assignment-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-assignment-reducer-strategy/module-access-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-assignment-reducer-strategy/module-access-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-assignment-statement-reducer-strategy/module-access-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-assignment-statement-reducer-strategy/module-access-assignment-statement-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/module-access-assignment-statement-type-checker-policy/module-access-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/module-access-assignment-statement-type-checker-policy/module-access-assignment-statement-type-checker-policy.h
 
 )
 

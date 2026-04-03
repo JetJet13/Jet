@@ -82,6 +82,7 @@ class ClassScopeParameterTypeSignatureStrategy;
 class ArrayAccessAssignmentStatementTypeSignatureStrategy;
 class ObjectAccessAssignmentStatementTypeSignatureStrategy;
 class TupleAccessAssignmentStatementTypeSignatureStrategy;
+class ModuleAccessAssignmentStatementTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -160,6 +161,7 @@ private:
     ArrayAccessAssignmentStatementTypeSignatureStrategy* _arrayAccessAssignmentStatementTypeSignatureStrategy;
     ObjectAccessAssignmentStatementTypeSignatureStrategy* _objectAccessAssignmentStatementTypeSignatureStrategy;
     TupleAccessAssignmentStatementTypeSignatureStrategy* _tupleAccessAssignmentStatementTypeSignatureStrategy;
+    ModuleAccessAssignmentStatementTypeSignatureStrategy* _moduleAccessAssignmentStatementTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArgumentListTypeSignatureStrategy* getArgumentListTypeSignatureStrategy();
@@ -224,6 +226,7 @@ public:
     ArrayAccessAssignmentStatementTypeSignatureStrategy* getArrayAccessAssignmentStatementTypeSignatureStrategy();
     ObjectAccessAssignmentStatementTypeSignatureStrategy* getObjectAccessAssignmentStatementTypeSignatureStrategy();
     TupleAccessAssignmentStatementTypeSignatureStrategy* getTupleAccessAssignmentStatementTypeSignatureStrategy();
+    ModuleAccessAssignmentStatementTypeSignatureStrategy* getModuleAccessAssignmentStatementTypeSignatureStrategy();
     BlockTypeSignatureStrategy* getBlockTypeSignatureStrategy();
     ExpressionStatementTypeSignatureStrategy* getExpressionStatementTypeSignatureStrategy();
     PrintStatementTypeSignatureStrategy* getPrintStatementTypeSignatureStrategy();
