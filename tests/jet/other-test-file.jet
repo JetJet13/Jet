@@ -8,7 +8,15 @@ export func myOtherBoolFunction() bool {
     return false;
 }
 
+export func myOtherIntFunction(x: int) int {
+    return x;
+}
+
 export let myOtherGlobalInt = 790;
+export let myOtherGlobalArray = [1,2,4,5,7,8];
+export let myOtherGlobalStruct = { a: 10, b: false, c: { nested: [1,2,4] } };
+export let myOtherGlobalTuple = { 8, false, 'c', 19 };
+export let myOtherGlobalLambda = (y: int) => y + 190;
 
 export proc updateGlobalInt() {
     myOtherGlobalInt = 900;

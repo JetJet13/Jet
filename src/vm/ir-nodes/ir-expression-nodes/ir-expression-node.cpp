@@ -47,7 +47,8 @@ bool IRExpressionNode::needsToBeFreed() {
                IR_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
                IR_OBJECT_ACCESS_EXPRESSION_NODE,
                IR_TUPLE_ACCESS_EXPRESSION_NODE,
-               IR_ARRAY_ACCESS_EXPRESSION_NODE
+               IR_ARRAY_ACCESS_EXPRESSION_NODE,
+               IR_MODULE_ACCESS_EXPRESSION_NODE
            }) &&
            this->getIRType()->containsTypeThatRequiresFreeing();
 }

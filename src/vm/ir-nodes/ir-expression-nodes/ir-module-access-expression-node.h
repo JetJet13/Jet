@@ -21,7 +21,6 @@ public:
     IRModuleAccessExpressionNode(ASTModuleAccessExpressionNode* node, llvm::Value* irValue, IRType* irType);
     void markAsGlobal() override;
     ASTModuleAccessExpressionNode* getNode();
-    IRExpressionNode* getSource();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

@@ -33,6 +33,14 @@ void IRLookupTable::inherit(IRLookupTable* otherScope) {
     _globalTypeScope = otherScope->getGlobalTypeScope();
 }
 
+void IRLookupTable::link(IRLookupTable* otherScope) {
+    auto otherGlobalScope = otherScope->getGlobalScope();
+    _globalScope.insert(otherGlobalScope.begin(), otherGlobalScope.end());
+
+    auto otherGlobalTypeScope = otherScope->getGlobalTypeScope();
+    _globalTypeScope.insert(otherGlobalTypeScope.begin(), otherGlobalTypeScope.end());
+}
+
 IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) {
     _scope[key] = value;
     return this;

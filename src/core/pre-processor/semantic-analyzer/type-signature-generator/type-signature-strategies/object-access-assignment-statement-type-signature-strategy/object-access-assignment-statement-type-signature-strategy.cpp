@@ -6,5 +6,8 @@
 
 void ObjectAccessAssignmentStatementTypeSignatureStrategy::assign(ASTObjectAccessAssignmentStatementNode* objectAccessAssignmentStatement, TypeSignatureContext* context,  TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessAssignmentStatement->getExpression(), context, scope);
+    objectAccessAssignmentStatement->getExpression()->setTypeSignature(
+            objectAccessAssignmentStatement->getExpression()->getTypeSignature()->convertToVariableTypeSignature()
+    );
     strategyMap->assignTypeSignatureFor(objectAccessAssignmentStatement->getObjectAccessAssignment()->getObjectAccess(), context, scope);
 }

@@ -6,5 +6,8 @@
 
 void ModuleAccessAssignmentStatementTypeSignatureStrategy::assign(ASTModuleAccessAssignmentStatementNode* moduleAccessAssignmentStatement, TypeSignatureContext* context,  TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(moduleAccessAssignmentStatement->getExpression(), context, scope);
+    moduleAccessAssignmentStatement->getExpression()->setTypeSignature(
+        moduleAccessAssignmentStatement->getExpression()->getTypeSignature()->convertToVariableTypeSignature()
+    );
     strategyMap->assignTypeSignatureFor(moduleAccessAssignmentStatement->getModuleAccessAssignment()->getModuleAccess(), context, scope);
 }

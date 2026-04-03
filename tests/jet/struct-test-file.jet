@@ -89,5 +89,21 @@ proc testModules() {
     assert(MyOtherModule::myOtherGlobalInt == 900);
     MyOtherModule::myOtherGlobalInt = 1290;
     assert(MyOtherModule::myOtherGlobalInt == 1290);
+    assert(MyOtherModule::myOtherGlobalArray == [1,2,4,5,7,8]);
+    assert(MyOtherModule::myOtherGlobalArray[0] + 1 == 2);
+    assert(MyOtherModule::myOtherGlobalStruct.a == 10);
+    MyOtherModule::myOtherGlobalStruct.a = 998;
+    assert(MyOtherModule::myOtherGlobalStruct.a == 998);
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 1);
+    MyOtherModule::myOtherGlobalStruct.c.nested[0] = 44;
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 44);
+    assert(MyOtherModule::myOtherGlobalTuple.1 == false);
+    MyOtherModule::myOtherGlobalTuple.1 = true;
+    assert(MyOtherModule::myOtherGlobalTuple.1 == true);
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 299);
+    MyOtherModule::myOtherGlobalLambda = (x: int) => x - 1;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 108);
+    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
 }
 testModules();

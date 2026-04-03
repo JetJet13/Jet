@@ -4,9 +4,10 @@
 
 #include "ir-jet-file.h"
 
-IRJetFile::IRJetFile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irModule) {
+IRJetFile::IRJetFile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     _jetFile = jetFile;
     _irModule = irModule;
+    _scope = scope;
 }
 
 JetFile* IRJetFile::getFile() {
@@ -15,4 +16,8 @@ JetFile* IRJetFile::getFile() {
 
 std::shared_ptr<IRModuleNode> IRJetFile::getIRModule() {
     return _irModule;
+}
+
+IRLookupTable* IRJetFile::getScope() {
+    return _scope;
 }

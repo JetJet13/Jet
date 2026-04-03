@@ -26,6 +26,7 @@ public:
     std::unordered_map<std::string, IRType*> getTypeScope();
     std::unordered_map<std::string, IRType*> getGlobalTypeScope();
     void inherit(IRLookupTable* otherScope);
+    void link(IRLookupTable* otherScope);
     IRLookupTable* insert(std::string key, IRInstructionNode* value);
     IRLookupTable* insertArc(std::string key, IRInstructionNode* value);
     IRLookupTable* insert(std::string key, IRLoadInstructionNode* value);
