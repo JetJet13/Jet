@@ -1,3 +1,5 @@
+import MySecondModule from "./second-test-file.jet";
+
 module MyOtherModule
 
 export func myBoolFunction() bool {

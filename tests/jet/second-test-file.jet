@@ -1,0 +1,12 @@
+import MyThirdModule from "./third-test-file.jet";
+
+module MySecondModule
+
+export func mySecondIntFunction(x: int) int {
+    if x > 10 {
+        return x;
+    }
+    return -1;
+}
+
+export let MySecondGlobalInt = 202;

@@ -172,6 +172,7 @@ public:
                  std::string getRefCountFunctionName);
     std::unique_ptr<llvm::Module>* getModule();
     void linkTo(std::shared_ptr<IRModuleNode> otherIRModule);
+    bool isLinked();
     llvm::Function* findFunction(std::string name);
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();

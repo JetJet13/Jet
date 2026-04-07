@@ -6,7 +6,7 @@
 #define JETLANG_BINARY_ARITHMETIC_DSU_H
 
 #include <llvm/IR/Value.h>
-#include "ir-expression-nodes/ir-expression-node.h"
+#include "../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 
 // Binary Arithmetic Disjoint-Set-Union
 class BinaryArithmeticDSU {

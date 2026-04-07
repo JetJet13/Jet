@@ -1,0 +1,10 @@
+module MyThirdModule
+
+export func myThirdIntFunction(x: int) int {
+    if x > 10 {
+        return x;
+    }
+    return -1;
+}
+
+export let MyThirdGlobalInt = 303;

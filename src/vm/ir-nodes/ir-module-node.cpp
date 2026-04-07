@@ -106,6 +106,10 @@ void IRModuleNode::linkTo(std::shared_ptr<IRModuleNode> otherIRModule) {
     _linkedToIRModule = otherIRModule;
 }
 
+bool IRModuleNode::isLinked() {
+    return _linkedToIRModule != nullptr;
+}
+
 llvm::Function* IRModuleNode::findFunction(std::string name) {
     if (_linkedToIRModule != nullptr) {
         return _linkedToIRModule->findFunction(name);

@@ -8,6 +8,7 @@
 #include "../../core/jet-file/jet-file.h"
 #include "../ir-nodes/ir-module-node.h"
 #include "../ir-lookup-table/ir-lookup-table.h"
+#include "../ir-nodes/ir-function-nodes/ir-function-node.h"
 
 class IRJetFile {
 private:

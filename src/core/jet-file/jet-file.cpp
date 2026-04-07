@@ -40,11 +40,6 @@ TypeCheckerResult* JetFile::getTypeCheckerResult() {
     return &_typeCheckerResult;
 }
 
-void JetFile::inheritImportedFiles(JetFile* jetFile) {
-    auto otherImports = jetFile->getImportedFiles();
-    _importedJetFiles.insert(otherImports->begin(), otherImports->end());
-}
-
 void JetFile::addImportedFile(JetFile* jetFile) {
     _importedJetFiles.insert(jetFile);
 }
@@ -55,6 +50,10 @@ std::set<JetFile*>* JetFile::getImportedFiles() {
 
 bool JetFile::isModule() {
     return _astFileNode->getModule().has_value();
+}
+
+bool JetFile::hasImports() {
+    return !_importedJetFiles.empty();
 }
 
 void JetFile::print() {

@@ -24,10 +24,10 @@ public:
     ASTFileNode* getFile();
     TypeSignatureLookupTable* getScope();
     TypeCheckerResult* getTypeCheckerResult();
-    void inheritImportedFiles(JetFile* jetFile);
     void addImportedFile(JetFile* jetFile);
     std::set<JetFile*>* getImportedFiles();
     bool isModule();
+    bool hasImports();
     void print();
 };
 

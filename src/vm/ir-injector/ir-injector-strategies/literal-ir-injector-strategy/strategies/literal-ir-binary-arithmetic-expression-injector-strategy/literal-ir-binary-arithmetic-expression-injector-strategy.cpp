@@ -5,7 +5,7 @@
 #include "literal-ir-binary-arithmetic-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../../../shared/utils/logger/logger.h"
-#include "../../../../../ir-nodes/binary-arithmetic-dsu.h"
+#include "../../../../../utils/binary-arithmetic-dsu/binary-arithmetic-dsu.h"
 
 llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irOperations = irExpression->getListOfOperations();

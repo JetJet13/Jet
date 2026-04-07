@@ -6,91 +6,102 @@
 #include "../shared/utils/logger/logger.h"
 #include "ir-nodes/ir-context.h"
 #include "../shared/utils/function-id-generator/function-id-generator.h"
+#include "utils/dependency-graph/dependency-graph.h"
 
 VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
     _irGenerator = irGenerator;
     _irInjector = irInjector;
+    _jetFileMap = std::unordered_map<std::string, IRJetFile*>();
 }
 
-IRJetFile* VM::compile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irCoreModule) {
-    auto irLookupTable = new IRLookupTable();
-    auto irModule = _irGenerator->generateModule(jetFile->getId());
-    irModule->linkTo(irCoreModule);
-    auto irJetFile = new IRJetFile(jetFile, irModule, irLookupTable);
-    for (auto moduleToLink : *jetFile->getImportedFiles()) {
-        auto importedJetFile = this->compile(moduleToLink, irModule);
-        this->linkJetFiles(importedJetFile, irJetFile);
+std::optional<IRJetFile*> VM::findCompiledJetFile(std::string id) {
+    auto result = _jetFileMap.find(id);
+    if (result == _jetFileMap.end()) {
+        return {};
     }
+    return result->second;
+}
+
+void VM::addCompiledJetFile(IRJetFile* irJetFile) {
+    _jetFileMap.insert(std::pair(irJetFile->getFile()->getId(), irJetFile));
+}
+
+IRFunctionNode* VM::compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule) {
+    auto scope = irJetFile->getScope();
+    auto jetFile = irJetFile->getFile();
     auto irMainFunction = _irGenerator->generateMainFunction(jetFile->getFile()->getPath()->filename().string(), irModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
     auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irModule);
     for (auto node : *jetFile->getFile()->getBody()) {
-        _irGenerator->generateInitialTypeFor(node, irLookupTable, irContext);
+        _irGenerator->generateInitialTypeFor(node, scope, irContext);
     }
     for (auto node : *jetFile->getFile()->getBody()) {
-        _irGenerator->generatePostInitialTypeFor(node, irLookupTable, irContext);
+        _irGenerator->generatePostInitialTypeFor(node, scope, irContext);
     }
     auto generatedIRNodes = std::vector<IRNode*>();
     for (auto node : *jetFile->getFile()->getBody()) {
-        generatedIRNodes.push_back(_irGenerator->generateFor(node, irLookupTable, irContext));
+        generatedIRNodes.push_back(_irGenerator->generateFor(node, scope, irContext));
     }
     for (auto irNode : generatedIRNodes) {
-        _irInjector->inject(irMainFunctionBlock, irNode, irModule, irLookupTable);
+        _irInjector->inject(irMainFunctionBlock, irNode, irModule, scope);
     }
     irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
-    return irJetFile;
+    return irMainFunction;
 }
 
 IRJetFile* VM::compileMain(JetFile* jetFile) {
-    auto irLookupTable = new IRLookupTable();
+    auto dependencyGraph = DependencyGraph();
+    dependencyGraph.insert(jetFile);
+    dependencyGraph.prioritize();
+    dependencyGraph.dump();
     auto irCoreModule = _irGenerator->generateCoreModule();
     _irGenerator->augmentUtilInternalModule(irCoreModule);
     _irGenerator->augmentDebugInternalModule(irCoreModule);
+
     auto irMainModule = _irGenerator->generateModule(jetFile->getId());
     irMainModule->linkTo(irCoreModule);
-    auto irJetFile = new IRJetFile(jetFile, irMainModule, irLookupTable);
-    for (auto moduleToLink : *jetFile->getImportedFiles()) {
-        this->linkJetFiles(this->compile(moduleToLink, irMainModule), irJetFile);
-    }
     auto irMainFunction = _irGenerator->generateMainFunction("main", irMainModule);
-    auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction(), irLookupTable);
-    auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irMainModule);
-    for (auto node : *jetFile->getFile()->getBody()) {
-        _irGenerator->generateInitialTypeFor(node, irLookupTable, irContext);
-    }
-    for (auto node : *jetFile->getFile()->getBody()) {
-        _irGenerator->generatePostInitialTypeFor(node, irLookupTable, irContext);
-    }
+    auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
 
-    for (auto importedFile : *jetFile->getImportedFiles()) {
-        auto importedFileMainFunctionName = importedFile->getFile()->getPath()->filename().string();
-        auto importedFileMainFunction = irMainModule->getModule()->get()->getFunction(importedFileMainFunctionName);
-        irMainFunctionBlock->getBuilder()->get()->CreateCall(importedFileMainFunction);
+    for (auto jetFileToCompile : *dependencyGraph.getPrioritizedList()) {
+        Logger::log("Compiling", jetFileToCompile->getId());
+        auto jetFileScope = new IRLookupTable();
+        auto jetFileIRModule = _irGenerator->generateModule(jetFileToCompile->getId());
+        auto irJetFileToCompile = new IRJetFile(jetFileToCompile, jetFileIRModule, jetFileScope);
+        jetFileIRModule->linkTo(irCoreModule);
+        for (auto importedFile : *jetFileToCompile->getImportedFiles()) {
+            auto compiledJetFile = this->findCompiledJetFile(importedFile->getId()).value();
+            this->linkJetFiles(compiledJetFile, irJetFileToCompile);
+        }
+        auto jetFileMainFunction = this->compile(irJetFileToCompile, jetFileIRModule);
+        this->addCompiledJetFile(irJetFileToCompile);
+        irMainFunctionBlock->getBuilder()->get()->CreateCall(
+                jetFileMainFunction->getFunction()
+        );
     }
-    for (auto node : *jetFile->getFile()->getBody()) {
-        irMainFunctionBlock->insert(_irGenerator->generateFor(node, irLookupTable, irContext));
-    }
-    _irInjector->inject(irMainFunctionBlock, irMainFunctionBlock, irMainModule);
-    irMainFunctionBlock->getLastSuccessorOrSelf()->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
-    return irJetFile;
+    irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
+    return this->findCompiledJetFile(jetFile->getId()).value();
 }
 
 void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
-    Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId());
+    Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId(), "to", destination->getFile()->getId());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {
         if (exportedDeclaration->getTypeSignature()->isOneOf({ FUNCTION_TYPE_SOURCE, PROCEDURE_TYPE_SOURCE })) {
             auto invocableTypeSignature = (InvocableTypeSignature*)exportedDeclaration->getTypeSignature();
             auto irFunctionId = FunctionIdGenerator::generateFor(exportedDeclaration->getId(), invocableTypeSignature);
-            auto exportedFunction = destination->getIRModule()->getModule()->get()->getFunction(irFunctionId);
             auto declarationId = jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + irFunctionId;
-            exportedFunction->setName(declarationId);
+            auto exportedFunction = destination->getIRModule()->getModule()->get()->getFunction(irFunctionId);
+            if (exportedFunction != nullptr) {
+                exportedFunction->setName(declarationId);
+            }
             destination->getScope()->insertGlobalVariable(declarationId, jetFileToLink->getScope()->findGlobalVariable(irFunctionId).value());
         } else {
             auto declarationId = jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + exportedDeclaration->getId();
             auto globalExport = destination->getIRModule()->getModule()->get()->getGlobalVariable(exportedDeclaration->getId());
-            globalExport->setName(declarationId);
+            if (globalExport != nullptr) {
+                globalExport->setName(declarationId);
+            }
             destination->getScope()->insertGlobalVariable(declarationId, jetFileToLink->getScope()->findGlobalVariable(exportedDeclaration->getId()).value());
         }
     }
-    destination->getFile()->inheritImportedFiles(jetFileToLink->getFile());
 }

@@ -709,8 +709,8 @@ add_library(jet-vm
         ir-nodes/ir-binary-arithmetic-node.h
         ir-nodes/ir-binary-operator-node.cpp
         ir-nodes/ir-binary-operator-node.h
-        ir-nodes/binary-arithmetic-dsu.cpp
-        ir-nodes/binary-arithmetic-dsu.h
+        utils/binary-arithmetic-dsu/binary-arithmetic-dsu.cpp
+        utils/binary-arithmetic-dsu/binary-arithmetic-dsu.h
         ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.cpp
         ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h
         ir-generator/ir-strategies/ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.cpp
@@ -780,6 +780,8 @@ add_library(jet-vm
         ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-nodes/ir-module-access-assignment-statement-node.h
         ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.h
+        utils/dependency-graph/dependency-graph.cpp
+        utils/dependency-graph/dependency-graph.h
 )
 
 target_link_libraries(jet-vm
