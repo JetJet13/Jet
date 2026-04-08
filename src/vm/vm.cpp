@@ -7,6 +7,7 @@
 #include "ir-nodes/ir-context.h"
 #include "../shared/utils/function-id-generator/function-id-generator.h"
 #include "utils/dependency-graph/dependency-graph.h"
+#include "ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
 VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
     _irGenerator = irGenerator;
@@ -75,11 +76,21 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
         }
         auto jetFileMainFunction = this->compile(irJetFileToCompile, jetFileIRModule);
         this->addCompiledJetFile(irJetFileToCompile);
-        irMainFunctionBlock->getBuilder()->get()->CreateCall(
+        auto mainIRValue = irMainFunctionBlock->getBuilder()->get()->CreateCall(
                 jetFileMainFunction->getFunction()
         );
+        if (jetFileToCompile->getId() == jetFile->getId()) {
+            auto mallocCounterVariable = irMainModule.get()->getModule()->get()->getGlobalVariable("DEBUG_MALLOC_COUNTER");
+            auto mallocCounter = irMainFunctionBlock->getBuilder()->get()->CreateLoad(_irGenerator->generateIntType(), mallocCounterVariable);
+            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, "MALLOC COUNT", _irInjector, irMainModule);
+            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, mallocCounter, _irInjector, irMainModule);
+            auto freeCounterVariable = irMainModule.get()->getModule()->get()->getGlobalVariable("DEBUG_FREE_COUNTER");
+            auto freeCounter = irMainFunctionBlock->getBuilder()->get()->CreateLoad(_irGenerator->generateIntType(), freeCounterVariable);
+            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, "FREE COUNT", _irInjector, irMainModule);
+            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, freeCounter, _irInjector, irMainModule);
+            irMainFunctionBlock->getBuilder()->get()->CreateRet(mainIRValue);
+        }
     }
-    irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return this->findCompiledJetFile(jetFile->getId()).value();
 }
 

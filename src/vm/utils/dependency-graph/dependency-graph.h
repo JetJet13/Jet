@@ -17,8 +17,7 @@ class DependencyGraph {
 private:
     std::unordered_map<std::string, std::set<JetFile*>*> _directDependencyMap;
     std::unordered_map<std::string, unsigned long> _totalDependencyMap;
-    std::unordered_map<unsigned long, JetFile*> _priorityJetFileMap;
-    std::vector<unsigned long> _totalCounts;
+    std::vector<std::pair<unsigned long, JetFile*>> _totalCounts;
     std::vector<JetFile*> _importFreeFiles;
     unsigned long _priorityCounter = 1;
     std::set<std::string> _visited;

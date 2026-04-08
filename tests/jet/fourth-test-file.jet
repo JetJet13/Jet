@@ -1,0 +1,10 @@
+module MyFourthModule
+
+export func myFourthIntFunction(x: int) int {
+    if x > 10 {
+        return x - 1;
+    }
+    return -100;
+}
+
+export let MyFourthGlobalInt = 7800;

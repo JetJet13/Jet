@@ -12,17 +12,15 @@
 DependencyGraph::DependencyGraph() {
     _directDependencyMap = std::unordered_map<std::string, std::set<JetFile*>*>();
     _totalDependencyMap = std::unordered_map<std::string, unsigned long>();
-    _priorityJetFileMap = std::unordered_map<unsigned long, JetFile*>();
-    _totalCounts = std::vector<unsigned long>();
+    _totalCounts = std::vector<std::pair<unsigned long, JetFile*>>();
     _visited = std::set<std::string>();
     _importFreeFiles = std::vector<JetFile*>();
 }
 
 std::vector<JetFile*>* DependencyGraph::getPrioritizedList() {
     auto prioritizedList = new std::vector<JetFile*>();
-    for (auto total : _totalCounts) {
-        prioritizedList->push_back(_priorityJetFileMap.find(total)->second);
-
+    for (auto keyValue : _totalCounts) {
+        prioritizedList->push_back(keyValue.second);
     }
     return prioritizedList;
 }
@@ -55,8 +53,8 @@ void DependencyGraph::prioritize() {
     std::sort(
         _totalCounts.begin(),
         _totalCounts.end(),
-        [](const unsigned long& a, const unsigned long& b) {
-          return a > b;  // sort by desc order
+        [](const std::pair<unsigned long, JetFile*>& a, const std::pair<unsigned long, JetFile*>& b) {
+          return a.first > b.first;  // sort by desc order
         }
     );
 }
@@ -71,8 +69,7 @@ unsigned long DependencyGraph::setAndReturnTotalDependents(JetFile* jetFile) {
     }
     _totalDependencyMap[jetFile->getId()] = total;
     _visited.insert(jetFile->getId());
-    _priorityJetFileMap.insert(std::pair(total, jetFile));
-    _totalCounts.push_back(total);
+    _totalCounts.push_back(std::pair(total, jetFile));
     return _totalDependencyMap.find(jetFile->getId())->second;
 }
 

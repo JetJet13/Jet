@@ -1,5 +1,6 @@
 import MyOtherModule from "./other-test-file.jet";
 import MySecondModule from "./second-test-file.jet";
+import MyFourthModule from "./fourth-test-file.jet";
 
 // syntax not supported but workaround exists for the following scenarios:
 // #1 lambda-with-fat-arrow expression as left operand of binary expression
@@ -1412,5 +1413,6 @@ proc testModules() {
     MyOtherModule::myOtherGlobalLambda = MySecondModule::mySecondIntFunction;
     assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
     assert(MyOtherModule::myOtherGlobalLambda(2) == -1);
+    assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
 }
 testModules();

@@ -1,0 +1,5 @@
+proc testStructArc() {
+    const myStruct = { a: 100, b: [1,2,3,4] };
+    const myStructRef = ref myStruct;
+}
+testStructArc();
