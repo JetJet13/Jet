@@ -1,5 +1,76 @@
+class SimpleClass {
+    public static staticValue: int = 100;
+    public value: int;
+
+    constructor(value: int) {
+        this.value = value;
+    }
+
+    public getValue() int {
+        return this.value;
+    }
+}
+
 proc testStructArc() {
-    const myStruct = { a: 100, b: [1,2,3,4] };
-    const myStructRef = ref myStruct;
+    const myStruct = { a: 100, b: [1,2,3,4] }; // 3; 2 for struct-ref & 1 for array
+    const myStructRef = ref myStruct; // 5; 2 for ref & 3 for myStruct copy
+    const myArray = [1, 2, 3, 4]; // 1
+    const myTuple = { true, false, 1 }; // 2
+    const myTupleRef = ref myTuple; // 4
+    const myClass = new SimpleClass(109); // 2
+    const myClassRef = ref myClass; // 4
+    const myLambda = (x: int) => 192 + x; // 2
+    const myLambdaNested = (x: int) => () => 192 + x; // 2
+    const result = myLambdaNested(10); // 4; 2 for returned lambda & 2 for x (captured)
+    assert(result() == 202); // 0
+    const capturedX = 1092; // 2
+    const lambdaWithCapture = () => capturedX + 1; // 2
+    assert(lambdaWithCapture() == 1093);
+
+    // test array prototypes
+    const myArray = range(15);
+    myArray.append(15);
+    myArray.prepend(-100);
+    myArray.drop(2);
+    myArray.dropLast(2);
+
+    const takeExample = myArray.take(2);
+
+    const takeLastExample = myArray.takeLast(2);
+
+    const myArrayTail = myArray.tail();
+
+    const oneIntArray = [1,2,3];
+    const twoIntArray = [4,5,6];
+    const concatIntResult = oneIntArray ++ twoIntArray;
+    oneIntArray.drop(1);
+    print(oneIntArray);
+    assert(oneIntArray == [2,3]);
+
+    const oneStructArray = [{ a: false }, { a: true }, { a: false }];
+    const twoStructArray = [{ a: true }, { a: true }, { a: true }];
+    const concatStructResult = oneStructArray ++ twoStructArray;
+    oneStructArray.drop(1);
+    print(oneStructArray);
+    assert(oneStructArray == [{ a: true }, { a: false }]);
+    oneStructArray.dropLast(1);
+    assert(oneStructArray == [{ a: true }]);
+
+    const oneStructBoolArray = [{ a: false }, { a: true }, { a: false }];
+    oneStructBoolArray.drop(1);
+    print(oneStructBoolArray);
+    assert(oneStructBoolArray == [{ a: true }, { a: false }]);
+    oneStructBoolArray.dropLast(1);
+    assert(oneStructBoolArray == [{ a: true }]);
+    oneStructBoolArray.drop(100);
+    assert(oneStructBoolArray.empty());
+    oneStructBoolArray.dropLast(100);
+    assert(oneStructBoolArray.empty());
+
+    const twoStructBoolArray = [{ a: true }, { a: true }, { a: true }];
+    twoStructBoolArray.drop(0);
+    assert(twoStructBoolArray == [{ a: true }, { a: true }, { a: true }]);
+    twoStructBoolArray.dropLast(0);
+    assert(twoStructBoolArray == [{ a: true }, { a: true }, { a: true }]);
 }
 testStructArc();

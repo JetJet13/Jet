@@ -15,8 +15,6 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerIntType = irGenerator->generatePointerIntType();
-    auto zero = irGenerator->generateIntConstant(0);
-    auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(),
                                                 { pointerType->getType(), pointerType->getType(), typeValueType->getType() },
                                                 false);
@@ -38,13 +36,6 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             llvm::Instruction::BinaryOps::Add,
             loadedFirstArrayNumElements,
             loadedSecondArrayNumElements
-    );
-    auto newArraySize = functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocSizeFunction(),
-            {
-                newArrayNumElements,
-                sizeInBytes
-            }
     );
     auto newArrayMalloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
@@ -101,6 +92,13 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             newArrayMalloc
     );
     auto loadedArrayPointer = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), arrayPointerAllocation);
+    functionBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getFreeArrayFunction(),
+            { firstArrayCopyAlloc, function->getArg(2) }
+    );
+    functionBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getFreeArrayFunction(),
+            { secondArrayCopyAlloc, function->getArg(2) }
+    );
     functionBlock->getBuilder()->get()->CreateRet(loadedArrayPointer);
-
 }

@@ -53,12 +53,12 @@ void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, 
                 loadedLambdaScope
             }
     );
-//    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
-//            irModuleNode->getMallocFreeFunction(),
-//            {
-//                loadedLambdaScope
-//            }
-//    );
+    freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFreeFunction(),
+            {
+                loadedLambdaScope
+            }
+    );
     freeLambdaIfThenBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFreeFunction(),
             {

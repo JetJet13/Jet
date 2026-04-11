@@ -98,11 +98,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
 
     if (irExpression->getFunctionIRType()->isInvocableType()) {
         auto irInvocableType = (IRInvocableType*)irExpression->getFunctionIRType();
-        auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), irExpression->getFunctionValue(), irInvocableType->getFunctionIndex(), "PTR_LAM");
+        auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), irExpression->getFunctionValue(), irInvocableType->getFunctionIndex());
         auto loadedFunctionParameter = InstructionIRInjectorHelper::injectLoad(irInvocableType->getIRFunctionPointer()->getType(), functionPointer, irBlock);
         irExpression->getValue()->setCalledOperand(loadedFunctionParameter);
         auto functionScopeArgumentIndex = irInvocableType->getFunctionScopeArgumentIndex();
-        auto functionScopeArgumentPointer = irBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), irExpression->getFunctionValue(), functionScopeArgumentIndex, "PTR_LAM_ARG");
+        auto functionScopeArgumentPointer = irBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), irExpression->getFunctionValue(), functionScopeArgumentIndex);
         auto loadedFunctionScopeArgument = InstructionIRInjectorHelper::injectLoad(irInvocableType->getFunctionScopeArgumentType(), functionScopeArgumentPointer, irBlock);
         irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, loadedFunctionScopeArgument);
         auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());

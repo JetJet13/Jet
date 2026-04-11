@@ -4,6 +4,7 @@
 
 #include "array-drop-last-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string ArrayDropLastIRFunction::getArrayDropLastIRFunctionName() {
     return "jet.array.drop.last";
@@ -27,16 +28,20 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
     auto isNewNumElementsNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createSuccessor();
     auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createSuccessor();
+    auto forLoopPrepBlock = functionBlock->getLastSuccessorOrSelf();
+    auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
+    auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
+    auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());
+
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
-    auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());
     auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
-    auto arrayElementTypeValue = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
-    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), arrayElementTypeValue, { zeroIndex, sizeInBytesIndex });
+    auto arrayElementTypeValuePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() }, "arrayElementTypeValue");
+    auto elementTypeValue = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), arrayElementTypeValuePointer);
+    auto arrayElementSizeInBytesPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), arrayElementTypeValuePointer, { zeroIndex, sizeInBytesIndex });
     auto sizeInBytes = functionBlock->getBuilder()->get()->CreateLoad(intType, arrayElementSizeInBytesPointer, "sizeInBytes");
-    auto depthPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, depthIndex });
-    auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);
     auto numElementsPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, numElementsIndex });
     auto numElementsToDrop = functionBlock->getBuilder()->get()->CreateLoad(intType, function->getArg(1));
     auto oldNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, numElementsPointer);
@@ -71,32 +76,51 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
             { loadedNewNumElements, sizeInBytes }
     );
     auto pointerToOldArray = successorBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zeroIndex, allocIndex });
-    auto loadedPointerToOldArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldArray);
+    auto sourceArray = successorBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToOldArray);
     successorBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMemcpyFunction(),
-            { newArrayMalloc, loadedPointerToOldArray, newArraySize }
+            { newArrayMalloc, sourceArray, newArraySize }
     );
 
-    auto arrayPointerAllocationForOldArray = successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFunction(),
-            {
-                irGenerator->generateInt64Constant(1),
-                irGenerator->generateIntConstant(arrayPointerType->getSizeInBytes())
-            }
-    );
-    ArrayIRInjectorHelper::injectArrayPointer(
-            successorBlock,
-            arrayPointerType,
-            oldNumElements,
-            depth,
-            arrayPointerAllocationForOldArray,
-            loadedPointerToOldArray
-    );
     successorBlock->getBuilder()->get()->CreateStore(loadedNewNumElements, numElementsPointer);
     successorBlock->getBuilder()->get()->CreateStore(newArrayMalloc, pointerToOldArray);
-    successorBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getFreeArrayFunction(),
-            { arrayPointerAllocationForOldArray, function->getArg(2) }
+    successorBlock->getBuilder()->get()->CreateBr(forLoopPrepBlock->getBlock());
+
+    // for loop prep block
+    auto elementByteOffset = forLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "elementByteOffset");
+    InstructionIRInjectorHelper::injectStore(newArraySize, elementByteOffset, forLoopPrepBlock);
+    auto forLoopIndex = forLoopPrepBlock->getBuilder()->get()->CreateAlloca(intType, nullptr, "forLoopIndex");
+    InstructionIRInjectorHelper::injectStore(loadedNewNumElements, forLoopIndex, forLoopPrepBlock);
+    forLoopPrepBlock->getBuilder()->get()->CreateBr(forLoopConditionBlock->getBlock());
+
+    // for loop condition
+    auto elementByteOffsetValue = InstructionIRInjectorHelper::injectLoad(intType, elementByteOffset, forLoopConditionBlock);
+    auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, forLoopIndex, forLoopConditionBlock);
+    auto forLoopIndexLessThanNumElements = forLoopConditionBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_SLT,
+            forLoopIndexValue,
+            oldNumElements
     );
-    successorBlock->getBuilder()->get()->CreateRet(function->getArg(0));
+    forLoopConditionBlock->getBuilder()->get()->CreateCondBr(forLoopIndexLessThanNumElements, forLoopBodyBlock->getBlock(), forLoopEndBlock->getBlock());
+
+    // for loop body
+    auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
+    auto pointerToElementAtIndex = forLoopBody->CreateInBoundsGEP(pointerIntType, sourceArray, { elementByteOffsetValue });
+    forLoopBody->CreateCall(
+            irContext->getIRModule()->getFreeValueFunction(),
+            { pointerToElementAtIndex, elementTypeValue }
+    );
+    auto newElementByteOffsetValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, elementByteOffsetValue, sizeInBytes);
+    InstructionIRInjectorHelper::injectStore(newElementByteOffsetValue, elementByteOffset, forLoopBodyBlock);
+
+    auto newForLoopIndexValue = forLoopBody->CreateBinOp(llvm::Instruction::BinaryOps::Add, forLoopIndexValue, irGenerator->generateIntConstant(1));
+    InstructionIRInjectorHelper::injectStore(newForLoopIndexValue, forLoopIndex, forLoopBodyBlock);
+    forLoopBody->CreateBr(forLoopConditionBlock->getBlock());
+
+    // for loop end
+    forLoopEndBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFreeFunction(),
+            { sourceArray }
+    );
+    forLoopEndBlock->getBuilder()->get()->CreateRet(function->getArg(0));
 }

@@ -99,5 +99,9 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     forLoopBody->CreateBr(forLoopConditionBlock->getBlock());
 
     // for loop end
+    forLoopEndBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getMallocFreeFunction(),
+            { sourceArrayMalloc }
+    );
     forLoopEndBlock->addVoidReturn();
 }
