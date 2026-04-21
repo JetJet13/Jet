@@ -83,36 +83,37 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-proc testModules() {
-    assert(MyOtherModule::myBoolFunction() == true);
-    assert(MyOtherModule::myOtherBoolFunction() == false);
-    assert(MyOtherModule::myOtherGlobalInt == 790);
-    MyOtherModule::updateGlobalInt();
-    assert(MyOtherModule::myOtherGlobalInt == 900);
-    MyOtherModule::myOtherGlobalInt = 1290;
-    assert(MyOtherModule::myOtherGlobalInt == 1290);
-    assert(MyOtherModule::myOtherGlobalArray == [1,2,4,5,7,8]);
-    assert(MyOtherModule::myOtherGlobalArray[0] + 1 == 2);
-    assert(MyOtherModule::myOtherGlobalStruct.a == 10);
-    MyOtherModule::myOtherGlobalStruct.a = 998;
-    assert(MyOtherModule::myOtherGlobalStruct.a == 998);
-    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 1);
-    MyOtherModule::myOtherGlobalStruct.c.nested[0] = 44;
-    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 44);
-    assert(MyOtherModule::myOtherGlobalTuple.1 == false);
-    MyOtherModule::myOtherGlobalTuple.1 = true;
-    assert(MyOtherModule::myOtherGlobalTuple.1 == true);
-    assert(MyOtherModule::myOtherGlobalLambda(109) == 299);
-    MyOtherModule::myOtherGlobalLambda = (x: int) => x - 1;
-    assert(MyOtherModule::myOtherGlobalLambda(109) == 108);
-    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
-    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
-    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
-    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
-    assert(MySecondModule::MySecondGlobalInt == 202);
-    MyOtherModule::myOtherGlobalLambda = MySecondModule::mySecondIntFunction;
-    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
-    assert(MyOtherModule::myOtherGlobalLambda(2) == -1);
-    assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
+func otherIfStatements(x: int, y: int, z: int) int {
+    const arr = [1,2,3,4,5];
+    if x > y {
+        if x == 10 {
+            return 10;
+        } else {
+            if y > 0 {
+                return 9;
+            }
+            return 8;
+        }
+    } else if x == y {
+        if z == 0 {
+            return 7;
+        }
+        return 6;
+    } else {
+        if z > 100 {
+            return 5;
+        }
+        return 4;
+    }
 }
-testModules();
+
+proc testIfStatements() {
+    assert(otherIfStatements(10, -15, 0) == 10);
+    assert(otherIfStatements(9, 5, 0) == 9);
+    assert(otherIfStatements(9, -9, 0) == 8);
+    assert(otherIfStatements(9, 9, 0) == 7);
+    assert(otherIfStatements(9, 9, 1) == 6);
+    assert(otherIfStatements(5, 15, 105) == 5);
+    assert(otherIfStatements(5, 15, 97) == 4);
+}
+testIfStatements();

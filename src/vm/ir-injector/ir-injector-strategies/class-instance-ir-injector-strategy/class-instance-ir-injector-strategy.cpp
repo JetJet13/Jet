@@ -30,7 +30,7 @@ llvm::Value* ClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpress
 }
 
 llvm::Value* ClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isCopy()) {
+    if (irOperation->isFunctionArgument() || irOperation->isCopy()) {
         auto irType = (IRStructRefType*)irExpression->getIRType()->getSourceType();
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
         auto typeValue = irInjector->inject(irBlock, irType);
@@ -44,6 +44,8 @@ llvm::Value* ClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNode*
                 }
         );
         return InstructionIRInjectorHelper::injectLoad(irType->getType(), destinationPointerAllocation, irBlock);
+    } else if (irOperation->isOperandValue()) {
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), irExpression->getValue(), irBlock, irExpression->getUnderlyingIRType());
     }
     return irExpression->getValue();
 }

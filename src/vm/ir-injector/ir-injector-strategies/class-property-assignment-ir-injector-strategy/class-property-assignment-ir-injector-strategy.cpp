@@ -10,6 +10,7 @@ void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignment
     auto classScopeParameter = scope->getClassScope().value();
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(classScopeParameter->getIRType()->getType(), classScopeParameter->getValue(), irBlock);
     auto classInstanceIrType = (IRStructRefType*)classScopeParameter->getIRType()->getUnderlyingType();
+    auto irType = classInstanceIrType->getStructIRType()->getIRTypeByIndex(irClassPropertyAssignmentStatementNode->getPropertyIndex());
     auto pointerToClassInstancePropertiesAlloc = irBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getType(), loadedPointer, classInstanceIrType->getStructIndex());
     auto classInstancePropertiesAlloc = InstructionIRInjectorHelper::injectLoad(classInstanceIrType->getStructType(), pointerToClassInstancePropertiesAlloc, irBlock);
 
@@ -19,5 +20,13 @@ void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignment
         irClassPropertyAssignmentStatementNode->getPropertyIndex()
     );
     auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
+    if (irType->getSourceType()->containsTypeThatRequiresFreeing()) {
+        auto typeValue = irInjector->inject(irBlock, irType->getSourceType()->clone());
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getFreeValueFunction(),
+                { pointer, loadedTypeValue }
+        );
+    }
     InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irClassPropertyAssignmentStatementNode->getExpression()->getIRType());
 }

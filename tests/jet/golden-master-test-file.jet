@@ -2,6 +2,10 @@ import MyOtherModule from "./other-test-file.jet";
 import MySecondModule from "./second-test-file.jet";
 import MyFourthModule from "./fourth-test-file.jet";
 
+// Global Malloc Count: 171
+// Expected Malloc Count: 1,288
+// Expected Free Count: 1,117
+
 // syntax not supported but workaround exists for the following scenarios:
 // #1 lambda-with-fat-arrow expression as left operand of binary expression
 // not supported: () => true == () => true
@@ -1200,8 +1204,8 @@ proc testForLoops() {
         modifiedArrayTotal = modifiedArrayTotal + i;
         modifiedArray.dropLast(1);
     }
-    assert(modifiedArray.empty());
-    assert(modifiedArrayTotal == 15);
+    assert(modifiedArray == [1,2]);
+    assert(modifiedArrayTotal == 6);
 
     const modifiedRefArray = ref [1,2,3,4,5];
     const modifiedRefArrayTotal = 0;
@@ -1218,8 +1222,8 @@ proc testForLoops() {
         modifiedArrayEmptyResultTotal = modifiedArrayEmptyResultTotal + i;
         modifiedArrayEmptyResult.dropLast(4);
     }
-    assert(modifiedArrayEmptyResult.empty());
-    assert(modifiedArrayEmptyResultTotal == 15);
+    assert(modifiedArrayEmptyResult == [1]);
+    assert(modifiedArrayEmptyResultTotal == 1);
 
     const modifiedArrayWithRef = [1,2,3,4,5];
     const modifiedArrayWithRefTotal = 0;
@@ -1308,6 +1312,10 @@ proc procUsedAsLambda(x: ref<int>) {
     x := x + 1;
 }
 
+proc procUsedAsLambda(x: ref<int>, y: ref<int>) {
+    x := x + 1 + y;
+}
+
 proc testProceduresAsLambdas() {
     const lambdaUsingProcedure = (x: ref<int>, l: (ref<int>) => void) {
         x := x + 10;
@@ -1317,6 +1325,8 @@ proc testProceduresAsLambdas() {
     const x = ref 1;
     lambdaUsingProcedure(x, procUsedAsLambda);
     assert(x == 12);
+    procUsedAsLambda(x, ref 20);
+    assert(x == 33);
 }
 testProceduresAsLambdas();
 
@@ -1416,3 +1426,54 @@ proc testModules() {
     assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
 }
 testModules();
+
+func ifStatements(x: int, y: int, z: int) int {
+    if x > 1 {
+        if y > 10 {
+            if z > 100 {
+                return 99;
+            }
+            return 88;
+        }
+        return 77;
+    }
+    return 66;
+}
+
+func otherIfStatements(x: int, y: int, z: int) int {
+    if x > y {
+        if x == 10 {
+            return 10;
+        } else {
+            if y > 0 {
+                return 9;
+            }
+            return 8;
+        }
+    } else if x == y {
+        if z == 0 {
+            return 7;
+        }
+        return 6;
+    } else {
+        if z > 100 {
+            return 5;
+        }
+        return 4;
+    }
+}
+
+proc testIfStatements() {
+    assert(ifStatements(5, 15, 115) == 99);
+    assert(ifStatements(5, 15, 98) == 88);
+    assert(ifStatements(5, 9, 98) == 77);
+    assert(ifStatements(0, 9, 115) == 66);
+    assert(otherIfStatements(10, -15, 0) == 10);
+    assert(otherIfStatements(9, 5, 0) == 9);
+    assert(otherIfStatements(9, -9, 0) == 8);
+    assert(otherIfStatements(9, 9, 0) == 7);
+    assert(otherIfStatements(9, 9, 1) == 6);
+    assert(otherIfStatements(5, 15, 105) == 5);
+    assert(otherIfStatements(5, 15, 97) == 4);
+}
+testIfStatements();

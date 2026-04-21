@@ -33,21 +33,6 @@ llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectRef(IRIdentifier
 
 llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectOperand(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isOperandValue()) {
-//        if (irExpression->getIRType()->containsTypeThatRequiresFreeing()) {
-//            auto irType = irExpression->getIRType()->getSourceType();
-//            auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
-//            auto typeValue = irInjector->inject(irBlock, irType);
-//            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
-//            irBlock->getBuilder()->get()->CreateCall(
-//                irModule->getCopyStructRefFunction(),
-//                {
-//                    destinationPointerAllocation,
-//                    irExpression->getValue(),
-//                    loadedTypeValue
-//                }
-//            );
-//            return InstructionIRInjectorHelper::injectLoad(irType->getType(), destinationPointerAllocation, irBlock);
-//        }
         return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), irExpression->getValue(), irBlock, irExpression->getUnderlyingIRType());
     }
     return irExpression->getValue();

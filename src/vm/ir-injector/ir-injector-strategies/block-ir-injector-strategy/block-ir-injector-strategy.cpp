@@ -14,13 +14,18 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
             auto ifStatement = (IRIfStatementNode*)statement;
             irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateBr(ifStatement->getIfElseNode()->getIfBlock()->getBlock());
             ifStatement->getIfElseNode()->setBlocksToBeSuccessorsOf(irBlockNode);
+            if (ifStatement->getElseNode()) {
+                irBlockNode->addSuccessor(ifStatement->getElseNode().value());
+            }
             irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
-            irBlockNode->createSuccessor();
-            successorsToBranchToParent.push_back(irBlockNode->getLastSuccessorOrSelf());
-            ifStatement->getIfElseNode()->getEndBlock()->getBuilder()->get()->CreateBr(
-                irBlockNode->getLastSuccessorOrSelf()->getBlock()
-            );
-            irBlockNode->getLastSuccessorOrSelf()->getBlock()->moveAfter(ifStatement->getIfElseNode()->getEndBlock()->getBlock());
+            if (!ifStatement->getIfElseNode()->getEndBlock()->hasReturnInstruction()) {
+                irBlockNode->createSuccessor();
+                successorsToBranchToParent.push_back(irBlockNode->getLastSuccessorOrSelf());
+                ifStatement->getIfElseNode()->getEndBlock()->getBuilder()->get()->CreateBr(
+                        irBlockNode->getLastSuccessorOrSelf()->getBlock()
+                );
+                irBlockNode->getLastSuccessorOrSelf()->getBlock()->moveAfter(ifStatement->getIfElseNode()->getEndBlock()->getBlock());
+            }
         } else if (statement->is(IR_WHILE_STATEMENT_NODE)) {
             auto whileStatement = (IRWhileStatementNode*)statement;
             irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateBr(whileStatement->getWhileBlock()->getBlock());
@@ -50,7 +55,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
 
     if (irBlockNode->getParentBlock()) {
         for (auto successorBlock : successorsToBranchToParent) {
-            if (!successorBlock->hasBranchInstruction()) {
+            if (!successorBlock->hasBranchInstruction() && !successorBlock->hasReturnInstruction()) {
                 successorBlock->getBuilder()->get()->CreateBr(
                         irBlockNode->getParentBlock().value()->getLastSuccessorOrSelf()->getBlock()
                 );

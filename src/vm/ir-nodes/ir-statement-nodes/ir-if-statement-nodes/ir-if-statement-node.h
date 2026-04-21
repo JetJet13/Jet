@@ -14,9 +14,11 @@ class IRIfStatementNode : public IRStatementNode {
 private:
     ASTIfStatementNode* _node;
     IRIfElseNode* _ifElseNode;
+    std::optional<IRBlockNode*> _elseNode;
 public:
-    IRIfStatementNode(ASTIfStatementNode* node, IRIfElseNode* ifElseNode);
+    IRIfStatementNode(ASTIfStatementNode* node, IRIfElseNode* ifElseNode, std::optional<IRBlockNode*> elseNode = {});
     IRIfElseNode* getIfElseNode();
+    std::optional<IRBlockNode*> getElseNode();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -13,6 +13,7 @@
 #include "../../types/ir-block-type.h"
 #include "../ir-function-nodes/ir-function-parameter-node.h"
 #include "../../ir-lookup-table/ir-lookup-table.h"
+#include "../ir-node-to-free.h"
 
 class IRBlockNode {
 protected:
@@ -23,7 +24,7 @@ protected:
     std::vector<IRNode*> _body;
     std::vector<IRBlockNode*> _successors;
     std::optional<IRBlockNode*> _parentBlock;
-    std::vector<IRNode*> _nodesToFree;
+    std::vector<IRNodeToFree*> _nodesToFree;
     std::vector<IRExpressionNode*> _expressionsToFree;
     std::vector<IRVariableDeclarationNode*> _variablesToFree;
     std::vector<IRVariableDeclarationNode*> _lambdaVariablesToFree;
@@ -32,6 +33,7 @@ public:
     IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, IRLookupTable* scope);
     bool hasReturnStatement();
     bool hasBranchInstruction();
+    bool hasReturnInstruction();
     IRLookupTable* getScope();
     llvm::BasicBlock* getBlock();
     std::vector<IRNode*>* getBody();
@@ -43,10 +45,14 @@ public:
     void addExpressionToFree(IRExpressionNode* expressionNode);
     void addVariableToFree(IRVariableDeclarationNode* variableNode);
     void addLambdaVariableToFree(IRVariableDeclarationNode* variableNode);
-    virtual std::vector<IRNode*>* getNodesToFree();
-    virtual std::vector<IRExpressionNode*>* getExpressionsToFree();
-    virtual std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
-    virtual std::vector<IRVariableDeclarationNode*>* getLambdaVariablesToFree();
+    std::vector<IRNodeToFree*>* getNodesToFree();
+    std::vector<IRExpressionNode*>* getExpressionsToFree();
+    std::vector<IRVariableDeclarationNode*>* getVariablesToFree();
+    std::vector<IRVariableDeclarationNode*>* getLambdaVariablesToFree();
+    std::vector<IRNodeToFree*>* getAllNodesToFree();
+    std::vector<IRExpressionNode*>* getAllExpressionsToFree();
+    std::vector<IRVariableDeclarationNode*>* getAllVariablesToFree();
+    std::vector<IRVariableDeclarationNode*>* getAllLambdaVariablesToFree();
     virtual void setInsertionPointBeforeLastInstruction();
     virtual void setInsertionPointBeforeFirstInstruction();
     virtual void resetInsertionPoint();
@@ -56,7 +62,8 @@ public:
     std::optional<IRFunctionReturnExpressionNode*> getReturnExpression();
     void createSuccessor();
     std::vector<IRBlockNode*>* getSuccessors();
-    std::vector<IRBlockNode*>* getAllSuccessors();
+    std::set<IRBlockNode*>* getAllSuccessors();
+    std::set<IRBlockNode*> getAllSuccessorsThatReturn();
     void addSuccessor(IRBlockNode* successorIrBlock);
     IRBlockNode* getLastSuccessorOrSelf();
     std::optional<IRBlockNode*> getParentBlock();

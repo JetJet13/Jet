@@ -82,8 +82,5 @@ llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(IRForInStatementNo
         return irInjector->inject(irBlock, irForInStatement->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, irBlock->getScope());
     }
 
-    auto value = irInjector->inject(irBlock, irForInStatement->getSource(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, irBlock->getScope());
-    auto valueAlloc = irBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType(), nullptr, "VALUE_ALLOC");
-    InstructionIRInjectorHelper::injectStore(value, valueAlloc, irBlock, arrayPointerType);
-    return valueAlloc;
+    return irInjector->inject(irBlock, irForInStatement->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, irBlock->getScope());
 }

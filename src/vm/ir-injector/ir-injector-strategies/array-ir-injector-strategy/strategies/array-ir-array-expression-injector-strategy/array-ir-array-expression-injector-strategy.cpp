@@ -25,7 +25,7 @@ llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(IRArrayExpressionNod
         return irExpression->getAggregatePointerAllocation()->getValue();
     }
 
-    if (irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
+    if (irOperation->isFunctionArgument()) {
         auto irArrayPointerType = irExpression->getIRType();
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
         auto typeValue = irInjector->inject(irBlock, irArrayPointerType);

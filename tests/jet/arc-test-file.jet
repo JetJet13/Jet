@@ -1,3 +1,7 @@
+import MyOtherModule from "./other-test-file.jet";
+import MySecondModule from "./second-test-file.jet";
+import MyFourthModule from "./fourth-test-file.jet";
+
 class SimpleClass {
     public static staticValue: int = 100;
     public value: int;
@@ -9,6 +13,70 @@ class SimpleClass {
     public getValue() int {
         return this.value;
     }
+}
+
+class ComplexClass {
+    public age: int;
+    public name: string;
+    public hairColor: string;
+
+    constructor(age: int, name: string, hairColor: string) {
+        this.age = age;
+        this.name = name;
+        this.hairColor = hairColor;
+    }
+
+    constructor(age: int) {
+        this.age = age;
+        this.name = "Joe";
+        this.hairColor = "Black";
+    }
+
+    public getAge() int {
+        return this.age;
+    }
+
+    public getName() string {
+        return this.name;
+    }
+
+    public getHairColor() string {
+        return this.hairColor;
+    }
+
+    public static create() ComplexClass {
+        return new ComplexClass(2);
+    }
+}
+
+// 15 functions, so malloc count should differ by 15
+
+func getInt(x: int) int {
+    return x;
+}
+
+func getFloat(y: float) float {
+    return y;
+}
+
+func getBool(x: bool) bool {
+    return x;
+}
+
+func getChar(y: char) char {
+    return y;
+}
+
+func getString(x: string) string {
+    return x;
+}
+
+func getArray(y: [int]) [int] {
+    return y;
+}
+
+func getRefArray(y: [int]) ref<[int]> {
+    return ref y;
 }
 
 proc testStructArc() {
@@ -74,3 +142,103 @@ proc testStructArc() {
     assert(twoStructBoolArray == [{ a: true }, { a: true }, { a: true }]);
 }
 testStructArc();
+
+proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
+    assertDebugRefCount(s, 2);
+    const localArgRef = s;
+    print("localArgRef", s.a);
+    assertDebugRefCount(s, 3);
+}
+
+proc testArcPassDown() {
+    const s = { a: 100, b: false };
+    testPassDownStructRef(ref s);
+    assertDebugStructRefCount(s, 0);
+    const refS = ref s;
+    assertDebugRefCount(refS, 1);
+}
+testArcPassDown();
+
+func testPassUpInt() ref<int> {
+    const x = 121;
+    return ref x;
+}
+
+proc testArcPassUp() {
+    assertDebugRefCount(testPassUpInt(), 1);
+    const passedUpX = testPassUpInt();
+    assertDebugRefCount(passedUpX, 1);
+    const anotherX = passedUpX;
+    assertDebugRefCount(passedUpX, 2);
+    assert(passedUpX == 121);
+}
+testArcPassUp();
+
+func otherIfStatements(x: int, y: int, z: int) int {
+    const arr = [1,2,3,4,5];
+    if x > y {
+        const helloString = "hello";
+        if x == 10 {
+            const bString = "hello world";
+            return 10;
+        } else {
+            const aStruct = { foo: 89 };
+            if y > 0 {
+                const bStruct = { a: true };
+                return 9;
+            }
+            const cStruct = { b: false };
+            return 8;
+        }
+    } else if x == y {
+        const uTuple = { 'a', false };
+        if z == 0 {
+            const zTuple = { true, 0, 1 };
+            return 7;
+        }
+        const bTuple = { false, 10, 41 };
+        return 6;
+    } else {
+        const aStruct = { m: 120 };
+        if z > 100 {
+            const bStruct = { q: 1099 };
+            return 5;
+        }
+        const cStruct = { r: 6087 };
+        return 4;
+    }
+}
+
+proc testModules() {
+    assert(MyOtherModule::myBoolFunction() == true);
+    assert(MyOtherModule::myOtherBoolFunction() == false);
+    assert(MyOtherModule::myOtherGlobalInt == 790);
+    MyOtherModule::updateGlobalInt();
+    assert(MyOtherModule::myOtherGlobalInt == 900);
+    MyOtherModule::myOtherGlobalInt = 1290;
+    assert(MyOtherModule::myOtherGlobalInt == 1290);
+    assert(MyOtherModule::myOtherGlobalArray == [1,2,4,5,7,8]);
+    assert(MyOtherModule::myOtherGlobalArray[0] + 1 == 2);
+    assert(MyOtherModule::myOtherGlobalStruct.a == 10);
+    MyOtherModule::myOtherGlobalStruct.a = 998;
+    assert(MyOtherModule::myOtherGlobalStruct.a == 998);
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 1);
+    MyOtherModule::myOtherGlobalStruct.c.nested[0] = 44;
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 44);
+    assert(MyOtherModule::myOtherGlobalTuple.1 == false);
+    MyOtherModule::myOtherGlobalTuple.1 = true;
+    assert(MyOtherModule::myOtherGlobalTuple.1 == true);
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 299);
+    MyOtherModule::myOtherGlobalLambda = (x: int) => x - 1;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 108);
+    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    assert(MySecondModule::MySecondGlobalInt == 202);
+    MyOtherModule::myOtherGlobalLambda = MySecondModule::mySecondIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    assert(MyOtherModule::myOtherGlobalLambda(2) == -1);
+    assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
+}
+//testModules();

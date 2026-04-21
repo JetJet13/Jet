@@ -782,6 +782,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.h
         utils/dependency-graph/dependency-graph.cpp
         utils/dependency-graph/dependency-graph.h
+        ir-nodes/ir-node-to-free.cpp
+        ir-nodes/ir-node-to-free.h
 )
 
 target_link_libraries(jet-vm

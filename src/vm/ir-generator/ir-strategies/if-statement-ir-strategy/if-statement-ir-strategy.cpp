@@ -11,13 +11,14 @@ IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGen
     auto ifConditionBlock = irGenerator->generateIfBlock(irContext, scope);
     auto thenBlock = irGenerator->generateIfThenBlock(irContext, scope);
     this->setupBlock(thenBlock, node->getIfBlock()->getBlock(), irGenerator, scope, irContext);
-    auto elseBlock = irGenerator->generateIfElseBlock(irContext, scope);
-    if (node->getElseBlock()) {
-        this->setupBlock(elseBlock, node->getElseBlock().value()->getBlock(), irGenerator, scope, irContext);
-    }
-
     auto endBlock = irGenerator->generateIfEndBlock(irContext, scope);
-    auto ifNode = new IRIfElseNode(ifConditionIRExpression, ifConditionBlock, thenBlock, elseBlock, endBlock);
+    auto ifNode = new IRIfElseNode(
+            ifConditionIRExpression,
+            ifConditionBlock,
+            thenBlock,
+            irGenerator->generateIfElseBlock(irContext, scope),
+            endBlock
+    );
     auto currentIfNode = ifNode;
     for (auto elseIf : *node->getElseIfBlocks()) {
         auto elseIfConditionIRExpression = irGenerator->generateFor(elseIf->getCondition()->getCondition(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
@@ -30,6 +31,12 @@ IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGen
         );
         currentIfNode->setNext(elseIfNode);
         currentIfNode = elseIfNode;
+    }
+
+    if (node->getElseBlock()) {
+        auto elseBlock = irGenerator->generateIfElseBlock(irContext, scope);
+        this->setupBlock(elseBlock, node->getElseBlock().value()->getBlock(), irGenerator, scope, irContext);
+        return new IRIfStatementNode(node, ifNode, elseBlock);
     }
     return new IRIfStatementNode(node, ifNode);
 }

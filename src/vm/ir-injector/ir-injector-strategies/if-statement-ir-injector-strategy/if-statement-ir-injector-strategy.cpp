@@ -15,22 +15,28 @@ void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRB
 
         auto irIfConditionValue = irInjector->inject(ifConditionBlock, currentIfElseNode.value()->getExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
         ifConditionBlock->getBuilder()->get()->CreateCondBr(irIfConditionValue, thenBlock->getBlock(), elseBlock->getBlock());
-
-
         irInjector->inject(irBlock, thenBlock, irModule);
         irInjector->inject(irBlock, elseBlock, irModule);
 
-        if (!thenBlock->hasBranchInstruction()) {
+        if (!thenBlock->hasBranchInstruction() && !thenBlock->hasReturnInstruction()) {
             thenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
         }
 
         if (currentIfElseNode.value()->getNext()) {
             elseBlock->getBuilder()->get()->CreateBr(currentIfElseNode.value()->getNext().value()->getIfBlock()->getBlock());
-        } else if (!elseBlock->hasBranchInstruction()) {
+        } else if (irIfStatement->getElseNode()) {
+            auto finalElseBlock = irIfStatement->getElseNode().value();
+            elseBlock->getBuilder()->get()->CreateBr(finalElseBlock->getBlock());
+            irInjector->inject(irBlock, finalElseBlock, irModule);
+            if (!finalElseBlock->hasBranchInstruction() && !finalElseBlock->hasReturnInstruction()) {
+                finalElseBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+            }
+        } else {
             elseBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
         }
 
         currentIfElseNode = currentIfElseNode.value()->getNext();
     }
+
 
 }

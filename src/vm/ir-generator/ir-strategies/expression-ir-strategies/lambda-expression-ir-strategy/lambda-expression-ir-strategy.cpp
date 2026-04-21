@@ -44,6 +44,7 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLamb
 
     this->setupParameters(node->getTypeSignature(), irGenerator, lambdaBlock->getScope(), irFunction, functionParameterList, lambdaBlock, lambdaIrContext);
     auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaBlock->getScope(), lambdaIrContext, new IROperation(IR_OPERAND_VALUE_OP));
+    returnExpression->markAsReturned();
     auto allocation = IRInstructionNodeFactory::create(irType->getLambdaVariableType());
     return new IRLambdaWithFatArrowExpressionNode(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction, returnExpression);
 }
