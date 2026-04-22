@@ -18,11 +18,12 @@ llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcce
 }
 
 llvm::Value* StructIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto pointerToTarget = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
     return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType *) irExpression->getSource()->getIRType()->getSourceType(),
-            loadedSourceAllocation,
+            (IRStructRefType*)irExpression->getIRType()->getSourceType(),
+            pointerToTarget,
             irModule,
             irInjector
     );

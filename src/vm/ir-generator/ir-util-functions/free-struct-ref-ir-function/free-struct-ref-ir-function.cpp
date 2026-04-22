@@ -60,6 +60,7 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
             irContext->getIRModule()->getMallocFreeFunction(),
             { structPointer }
     );
+    DebugIRInjectorHelper::injectLog(freeStructRefIfThenBlock, "FREEING STRUCT REF COUNTER!", irGenerator->getInjector(), irModuleNode);
     freeStructRefIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getMallocFreeFunction(),
             { refCounterPointer }

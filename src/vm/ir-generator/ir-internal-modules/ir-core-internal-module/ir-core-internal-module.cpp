@@ -126,7 +126,6 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     PrintIRFunction::declarePrintNewLineFunction(irGenerator, context, irModule);
 
     // generate
-    FreeRefValueIRFunction::generateFreeRefValueFunction(irGenerator, context, irModule);
     ArrayAccessIRFunction::generateArrayAccessFunction(irGenerator, context, irModule);
     MallocIRFunction::generateMallocFunction(irGenerator, context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(irGenerator, context, irModule);
@@ -138,6 +137,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     RefOfIRFunction::generateRefOfFunction(irGenerator, context, irModule);
     SrefWithIRFunction::generateSrefWithFunction(irGenerator, context, irModule);
     SameRefAsIRFunction::generateSameRefAsFunction(irGenerator, context, irModule);
+    FreeRefValueIRFunction::generateFreeRefValueFunction(irGenerator, context, irModule);
     SetRefValueIRFunction::generateSetRefValueFunction(irGenerator, context, irModule);
     SetupSrefIRFunction::generateSetupSrefFunction(irGenerator, context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(irGenerator, context, irModule);

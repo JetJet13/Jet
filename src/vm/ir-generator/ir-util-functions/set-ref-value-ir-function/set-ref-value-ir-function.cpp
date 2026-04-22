@@ -68,14 +68,15 @@ void SetRefValueIRFunction::generateSetRefValueFunction(IRGenerator* irGenerator
         irModuleNode->getMemcpyFunction(),
         { loadedPointerToRefValue, function->getArg(1), sizeInBytes }
     );
-    // free the new value pointer after copying its contents
-    // into the old value pointer
-    structRefElseBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocFreeFunction(),
-            { function->getArg(1) }
-    );
+
 
     structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structRefElseBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    // free the new value pointer after copying its contents
+    // into the old value pointer
+    endBlock->getBuilder()->get()->CreateCall(
+            irModuleNode->getMallocFreeFunction(),
+            { function->getArg(1) }
+    );
     endBlock->addVoidReturn();
 }

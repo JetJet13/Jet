@@ -60,6 +60,7 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
             irContext->getIRModule()->getMallocFreeFunction(),
             { refValuePointer }
     );
+    DebugIRInjectorHelper::injectLog(freeValueIfThenBlock, "FREEING REF COUNTER!", irGenerator->getInjector(), irModuleNode);
     freeValueIfThenBlock->getBuilder()->get()->CreateCall(
         irContext->getIRModule()->getMallocFreeFunction(),
         { refCounterPointer }

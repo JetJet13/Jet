@@ -70,7 +70,6 @@ llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, I
             irBlock->getBuilder()->get()->getInt64(1),
             irBlock->getBuilder()->get()->getInt64(irStructRefType->getCounterIRType()->getSizeInBytes())
     });
-    Logger::log("HELLO!");
     auto loadedStructRef = InstructionIRInjectorHelper::injectLoad(irStructRefType->getType(), structRefSource, irBlock, irStructRefType);
     auto structSource = irBlock->getBuilder()->get()->CreateExtractValue(loadedStructRef, irStructRefType->getStructIndex());
     for (unsigned long i = 0; i < irStructRefType->getStructIRType()->size(); ++i) {

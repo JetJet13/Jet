@@ -6,6 +6,15 @@ import MyFourthModule from "./fourth-test-file.jet";
 // Expected Malloc Count: 1,288
 // Expected Free Count: 1,117
 
+// Apr 21 Report
+// MALLOC COUNT
+// 1263
+// FREE COUNT
+// 1060
+// Delta = 203
+// Target = 171
+
+
 // syntax not supported but workaround exists for the following scenarios:
 // #1 lambda-with-fat-arrow expression as left operand of binary expression
 // not supported: () => true == () => true
