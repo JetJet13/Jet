@@ -2,17 +2,14 @@ import MyOtherModule from "./other-test-file.jet";
 import MySecondModule from "./second-test-file.jet";
 import MyFourthModule from "./fourth-test-file.jet";
 
-// Global Malloc Count: 171
-// Expected Malloc Count: 1,288
-// Expected Free Count: 1,117
-
-// Apr 21 Report
+// Global Malloc Count: 146
+// Apr 22 Report
 // MALLOC COUNT
-// 1263
+// 1219
 // FREE COUNT
-// 1060
-// Delta = 203
-// Target = 171
+// 1077
+// Delta = 142
+// Target = 146
 
 
 // syntax not supported but workaround exists for the following scenarios:
@@ -819,10 +816,10 @@ proc testArrays() {
     structArray[0] = { foo: 135 };
     assert(structArray == [ { foo: 135 }, { foo: 130 }, { foo: 131 } ]);
 
-    const structArray = [ { foo: 129 }, { foo: 130 }, { foo: 131 } ];
-    assert(structArray == [ { foo: 129 }, { foo: 130 }, { foo: 131 } ]);
-    structArray[0] = { foo: 135 };
-    assert(structArray == [ { foo: 135 }, { foo: 130 }, { foo: 131 } ]);
+    const tupleArray = [ { 129 }, { 130 }, { 131 } ];
+    assert(tupleArray == [ { 129 }, { 130 }, { 131 } ]);
+    tupleArray[0] = { 135 };
+    assert(tupleArray == [ { 135 }, { 130 }, { 131 } ]);
 
     const firstLambda = () => 10;
     const secondLambda = () => 20;

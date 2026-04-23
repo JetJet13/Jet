@@ -10,6 +10,9 @@
 llvm::Value* StringIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
+    if (irOperation->isOperandPointer()) {
+        return pointer;
+    }
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyStringFunction(),
@@ -19,8 +22,5 @@ llvm::Value* StringIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccess
             }
     );
 
-    if (irOperation->isOperandPointer()) {
-        return irExpression->getSourceAllocation().value()->getValue();
-    }
     return InstructionIRInjectorHelper::injectLoad(irExpression->getSourceAllocation().value(), irBlock);
 }

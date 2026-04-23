@@ -71,7 +71,7 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
     auto isCapturedVariableNotLambda = freeCaptureCounterIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_NE,
             capturedVariableTypeId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE)
     );
     auto isCapturedVariableNotStructRefAndNotLambda = freeCaptureCounterIfBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::And,

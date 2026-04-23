@@ -55,7 +55,7 @@ IRTypeValueInstructionNode* LambdaTypeSignatureIRStrategy::generateTypeValue(IRI
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
-            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA),
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE),
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1 + irType->getParameters()->getParameters()->size()), // return type + # of parameters
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),

@@ -17,7 +17,7 @@ struct IRTypeIdMap {
     int STRUCT;
     int STRUCT_REF;
     int ARRAY;
-    int LAMBDA;
+    int INVOCABLE;
     int VOID;
 };
 
@@ -34,7 +34,7 @@ const IRTypeIdMap IR_TYPE_ID = {
         .STRUCT = 2000,
         .STRUCT_REF = 2001,
         .ARRAY = 3000,
-        .LAMBDA = 4000,
+        .INVOCABLE = 4000,
         .VOID = 9999
 };
 #endif //JETLANG_IR_TYPE_ID_H

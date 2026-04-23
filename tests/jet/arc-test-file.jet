@@ -1,3 +1,10 @@
+import MyOtherModule from "./other-test-file.jet";
+import MySecondModule from "./second-test-file.jet";
+import MyFourthModule from "./fourth-test-file.jet";
+
+// expected delta is 25
+// actual delta is 46
+
 class SimpleClass {
     public static staticValue: int = 100;
     public value: int;
@@ -45,7 +52,17 @@ class ComplexClass {
     }
 }
 
-// 15 functions, so malloc count should differ by 15
+enum SimpleEnum {
+    Alpha,
+    Beta,
+    Gamma
+}
+
+enum StringEnum {
+    Alpha = "alpha",
+    Beta = "beta",
+    Gamma = "gamma"
+}
 
 func getInt(x: int) int {
     return x;
@@ -75,247 +92,38 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-proc testStructArc() {
-    const myStruct = { a: 100, b: [1,2,3,4] }; // 3; 2 for struct-ref & 1 for array
-    const myStructRef = ref myStruct; // 5; 2 for ref & 3 for myStruct copy
-    const myArray = [1, 2, 3, 4]; // 1
-    const myTuple = { true, false, 1 }; // 2
-    const myTupleRef = ref myTuple; // 4
-    const myClass = new SimpleClass(109); // 2
-    const myClassRef = ref myClass; // 4
-    const myLambda = (x: int) => 192 + x; // 2
-    const myLambdaNested = (x: int) => () => 192 + x; // 2
-    const result = myLambdaNested(10); // 4; 2 for returned lambda & 2 for x (captured)
-    assert(result() == 202); // 0
-    const capturedX = 1092; // 2
-    const lambdaWithCapture = () => capturedX + 1; // 2
-    assert(lambdaWithCapture() == 1093);
 
-    // test array prototypes
-    const myArray = range(15);
-    myArray.append(15);
-    myArray.prepend(-100);
-    myArray.drop(2);
-    myArray.dropLast(2);
+proc testClass() {
+    //const mySimpleClass = new SimpleClass(100);
+    //const staticResult = 200 + SimpleClass.staticValue;
+    //assert(staticResult == 300);
 
-    const takeExample = myArray.take(2);
+    //SimpleClass.staticValue = 150;
+    //assert(SimpleClass.staticValue == 150);
 
-    const takeLastExample = myArray.takeLast(2);
+    const myComplexClass = new ComplexClass(18);
+    assert(myComplexClass.getAge() == 18);
+    assert(myComplexClass.getName() == "Joe");
+    assert(myComplexClass.getHairColor() == "Black");
+    assert(myComplexClass.age == 18);
+    assert(myComplexClass.name == "Joe");
+    assert(myComplexClass.hairColor == "Black");
 
-    const myArrayTail = myArray.tail();
+    //const myOtherComplexClass = new ComplexClass(28, "Roger", "Brown");
+    //assert(myOtherComplexClass.getAge() == 28);
+    //assert(myOtherComplexClass.getName() == "Roger");
+    //assert(myOtherComplexClass.getHairColor() == "Brown");
+    //assert(myOtherComplexClass.age == 28);
+    //assert(myOtherComplexClass.name == "Roger");
+    //assert(myOtherComplexClass.hairColor == "Brown");
 
-    const oneIntArray = [1,2,3];
-    const twoIntArray = [4,5,6];
-    const concatIntResult = oneIntArray ++ twoIntArray;
-    oneIntArray.drop(1);
-    print(oneIntArray);
-    assert(oneIntArray == [2,3]);
+    //const myStaticComplexClass = ComplexClass.create();
+    //assert(myStaticComplexClass.getAge() == 2);
+    //assert(myStaticComplexClass.getName() == "Joe");
+    //assert(myStaticComplexClass.getHairColor() == "Black");
+    //assert(myStaticComplexClass.age == 2);
+    //assert(myStaticComplexClass.name == "Joe");
+    //assert(myStaticComplexClass.hairColor == "Black");
 
-    const oneStructArray = [{ a: false }, { a: true }, { a: false }];
-    const twoStructArray = [{ a: true }, { a: true }, { a: true }];
-    const concatStructResult = oneStructArray ++ twoStructArray;
-    oneStructArray.drop(1);
-    print(oneStructArray);
-    assert(oneStructArray == [{ a: true }, { a: false }]);
-    oneStructArray.dropLast(1);
-    assert(oneStructArray == [{ a: true }]);
-
-    const oneStructBoolArray = [{ a: false }, { a: true }, { a: false }];
-    oneStructBoolArray.drop(1);
-    print(oneStructBoolArray);
-    assert(oneStructBoolArray == [{ a: true }, { a: false }]);
-    oneStructBoolArray.dropLast(1);
-    assert(oneStructBoolArray == [{ a: true }]);
-    oneStructBoolArray.drop(100);
-    assert(oneStructBoolArray.empty());
-    oneStructBoolArray.dropLast(100);
-    assert(oneStructBoolArray.empty());
-
-    const twoStructBoolArray = [{ a: true }, { a: true }, { a: true }];
-    twoStructBoolArray.drop(0);
-    assert(twoStructBoolArray == [{ a: true }, { a: true }, { a: true }]);
-    twoStructBoolArray.dropLast(0);
-    assert(twoStructBoolArray == [{ a: true }, { a: true }, { a: true }]);
 }
-//testStructArc();
-
-proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
-    assertDebugRefCount(s, 2);
-    const localArgRef = s;
-    print("localArgRef", s.a);
-    assertDebugRefCount(s, 3);
-}
-
-proc testArcPassDown() {
-    const s = { a: 100, b: false };
-    testPassDownStructRef(ref s);
-    assertDebugStructRefCount(s, 0);
-    const refS = ref s;
-    assertDebugRefCount(refS, 1);
-}
-//testArcPassDown();
-
-func testPassUpInt() ref<int> {
-    const x = 121;
-    return ref x;
-}
-
-proc testArcPassUp() {
-    assertDebugRefCount(testPassUpInt(), 1);
-    const passedUpX = testPassUpInt();
-    assertDebugRefCount(passedUpX, 1);
-    const anotherX = passedUpX;
-    assertDebugRefCount(passedUpX, 2);
-    assert(passedUpX == 121);
-}
-//testArcPassUp();
-
-func otherIfStatements(x: int, y: int, z: int) int {
-    const arr = [1,2,3,4,5];
-    if x > y {
-        const helloString = "hello";
-        if x == 10 {
-            const bString = "hello world";
-            return 10;
-        } else {
-            const aStruct = { foo: 89 };
-            if y > 0 {
-                const bStruct = { a: true };
-                return 9;
-            }
-            const cStruct = { b: false };
-            return 8;
-        }
-    } else if x == y {
-        const uTuple = { 'a', false };
-        if z == 0 {
-            const zTuple = { true, 0, 1 };
-            return 7;
-        }
-        const bTuple = { false, 10, 41 };
-        return 6;
-    } else {
-        const aStruct = { m: 120 };
-        if z > 100 {
-            const bStruct = { q: 1099 };
-            return 5;
-        }
-        const cStruct = { r: 6087 };
-        return 4;
-    }
-}
-
-proc testIfStatements() {
-    assert(otherIfStatements(10, -15, 0) == 10);
-    assert(otherIfStatements(9, 5, 0) == 9);
-    assert(otherIfStatements(9, -9, 0) == 8);
-    assert(otherIfStatements(9, 9, 0) == 7);
-    assert(otherIfStatements(9, 9, 1) == 6);
-    assert(otherIfStatements(5, 15, 105) == 5);
-    assert(otherIfStatements(5, 15, 97) == 4);
-}
-//testIfStatements();
-
-proc testRefPrototype() {
-    const x = ref 5;
-    const y = ref 6;
-    assert(x.refCount() == 1);
-    if x < 10 {
-        let xRef = x;
-        assert(xRef == x && xRef == 5);
-        xRef := 100;
-        assert(xRef == 100);
-        assert(x == 100);
-        assert(x.refCount() == 2);
-        assert(y.refCount() == 1);
-        xRef = y;
-        assert(xRef == y && xRef == 6);
-        xRef := 600;
-        assert(xRef == 600);
-        assert(y == 600);
-        assert(x.refCount() == 1);
-        assert(y.refCount() == 2);
-    }
-    assert(x.refCount() == 1);
-    assert(y.refCount() == 1);
-
-    const myStruct = { a: 10, b: { c: true, nested: { d: 'm' } } };
-    assertDebugStructRefCount(myStruct, 0);
-    assertDebugStructRefCount(myStruct.b, 0);
-    const refMyStruct = ref myStruct;
-    assertDebugStructRefCount(myStruct, 0);
-    assertDebugStructRefCount(myStruct.b, 0);
-    assertDebugStructRefCount(myStruct.b.nested, 0);
-    const refMyInnerStruct = ref myStruct.b;
-
-    assertDebugStructRefCount(myStruct, 0);
-    assertDebugStructRefCount(myStruct.b, 0);
-    assertDebugStructRefCount(myStruct.b.nested, 0);
-    refMyInnerStruct := { c: false, nested: { d: 'o' } };
-    //assert(refMyInnerStruct.c == false);
-    //assert(refMyInnerStruct.nested.d == 'o');
-    //assertDebugStructRefCount(myStruct, 0);
-    //assertDebugStructRefCount(myStruct.b, 0);
-    //assertDebugStructRefCount(myStruct.b.nested, 0);
-
-    //const myTuple = { 90, true, { "boo", 'c', { a: true, b: { 90, 9100, false } } } };
-    //assertDebugTupleRefCount(myTuple, 0);
-    //assertDebugTupleRefCount(myTuple.2, 0);
-    //assertDebugStructRefCount(myTuple.2.2, 0);
-    //assertDebugTupleRefCount(myTuple.2.2.b, 0);
-    //const refMyTuple = ref myTuple;
-    //assertDebugTupleRefCount(myTuple, 0);
-    //assertDebugTupleRefCount(myTuple.2, 0);
-    //assertDebugStructRefCount(myTuple.2.2, 0);
-    //assertDebugTupleRefCount(myTuple.2.2.b, 0);
-    //const refMyInnerTuple = ref myTuple.2;
-    //assertDebugTupleRefCount(myTuple, 0);
-    //assertDebugTupleRefCount(myTuple.2, 0);
-    //assertDebugStructRefCount(myTuple.2.2, 0);
-    //assertDebugTupleRefCount(myTuple.2.2.b, 0);
-    //refMyInnerTuple := { "mika", 'n', { a: false, b: { 190, 19100, true } } };
-    //assert(refMyInnerTuple.0 == "mika");
-    //assert(refMyInnerTuple.1 == 'n');
-    //assert(refMyInnerTuple.2.a == false);
-    //assert(refMyInnerTuple.2.b == { 190, 19100, true });
-    //assert(myTuple.2.0 == "boo");
-    //assert(myTuple.2.1 == 'c');
-    //assert(myTuple.2.2.a == true);
-    //assert(myTuple.2.2.b == { 90, 9100, false });
-    //assertDebugTupleRefCount(myTuple, 0);
-    //assertDebugTupleRefCount(myTuple.2, 0);
-    //assertDebugStructRefCount(myTuple.2.2, 0);
-    //assertDebugTupleRefCount(myTuple.2.2.b, 0);
-
-    //const myClass = new SimpleClass(5);
-    //assert(myClass.getValue() == 5);
-    //assertDebugClassRefCount(myClass, 0);
-    //const refMyClass = ref myClass;
-    //assert(refMyClass.getValue() == 5);
-    //assertDebugClassRefCount(myClass, 0);
-    //refMyClass := new SimpleClass(10);
-    //assert(refMyClass.getValue() == 10);
-    //assert(myClass.getValue() == 5);
-    //assertDebugClassRefCount(myClass, 0);
-    //assert(refMyClass.refCount() == 1);
-
-
-    //const myArray = [1, 2, 3];
-    //assert(myArray == [1, 2, 3]);
-    //const refMyArray = ref myArray;
-    //assert(refMyArray == [1, 2, 3]);
-    //assert(refMyArray.refCount() == 1);
-    //refMyArray := [4, 5, 6];
-    //assert(refMyArray == [4, 5, 6]);
-    //assert(myArray == [1, 2, 3]);
-    //assert(refMyClass.refCount() == 1);
-
-    //const structWithRefValue = { a: ref 109, b: ref true };
-    //assertDebugStructRefCount(structWithRefValue, 0);
-    //const structARef = structWithRefValue.a;
-    //assert(structARef == 109);
-    //assert(structARef.refCount() == 2);
-    //assert(structWithRefValue.a.refCount() == 2);
-    //assert(structWithRefValue.b.refCount() == 1);
-}
-testRefPrototype();
+testClass();

@@ -34,8 +34,8 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "struct.ref.");
     auto structIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "struct.");
     auto structIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "struct.");
-    auto lambdaIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "lambda.");
-    auto lambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "lambda.");
+    auto invocableIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "invocable.");
+    auto invocableIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "invocable.");
     auto stringIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "string.");
     auto stringIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "string.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
@@ -113,7 +113,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             typeValueId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT)
     );
-    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), lambdaIfBlock->getBlock());
+    structIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStruct, structIfThenBlock->getBlock(), invocableIfBlock->getBlock());
     DebugIRInjectorHelper::injectLog(structIfThenBlock, "FREEING STRUCT!", irGenerator->getInjector(), irModuleNode);
     structIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getFreeStructFunction()->getFunctionType(),
@@ -124,15 +124,15 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
             }
     );
 
-    auto isValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
+    auto isValueTypeInvocable = invocableIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE)
     );
-    lambdaIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeLambda, lambdaIfThenBlock->getBlock(), stringIfBlock->getBlock());
-    DebugIRInjectorHelper::injectLog(lambdaIfThenBlock, "FREEING LAMBDA!", irGenerator->getInjector(), irModuleNode);
-    lambdaIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeLambdaFunction(),
+    invocableIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeInvocable, invocableIfThenBlock->getBlock(), stringIfBlock->getBlock());
+    DebugIRInjectorHelper::injectLog(invocableIfThenBlock, "FREEING INVOCABLE!", irGenerator->getInjector(), irModuleNode);
+    invocableIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getFreeInvocableFunction(),
             {
                 function->getArg(0)
             }
@@ -158,7 +158,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
     refIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     structIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
-    lambdaIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+    invocableIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
     stringIfThenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
 
     DebugIRInjectorHelper::injectLog(endBlock, "DONE FREEING VALUE!", irGenerator->getInjector(), irModuleNode);

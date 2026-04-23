@@ -58,7 +58,7 @@ void IncrementRefCountIfNecessaryIRFunction::generateIncrementRefCountIfNecessar
     auto isValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             typeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE)
     );
     lambdaIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeLambda, lambdaIfThenBlock->getBlock(), endBlock->getBlock());
     lambdaIfThenBlock->getBuilder()->get()->CreateCall(

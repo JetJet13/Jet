@@ -276,12 +276,12 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
     auto isLeftValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             leftTypeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE)
     );
     auto isRightValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_EQ,
             rightTypeValueId,
-            irGenerator->generateIntConstant(IR_TYPE_ID.LAMBDA)
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE)
     );
     auto areBothValueTypesLambda = lambdaIfBlock->getBuilder()->get()->CreateBinOp(
             llvm::BinaryOperator::And,

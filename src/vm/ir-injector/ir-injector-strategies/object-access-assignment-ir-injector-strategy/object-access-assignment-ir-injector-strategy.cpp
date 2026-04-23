@@ -16,5 +16,14 @@ void ObjectAccessAssignmentIRInjectorStrategy::inject(IRObjectAccessAssignmentSt
                     irObjectAccessAssignmentStatement->getIRExpression(),
                     new IROperation(IR_OPERAND_VALUE_OP), irModule, scope
             );
+    auto irType = irObjectAccessAssignmentStatement->getIRObjectAccessExpression()->getIRType()->getSourceType();
+    if (irType->containsTypeThatRequiresFreeing()) {
+        auto typeValue = irInjector->inject(irBlock, irType->clone());
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getFreeValueFunction(),
+                { pointerToTarget, loadedTypeValue }
+        );
+    }
     InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToTarget, irBlock);
 }

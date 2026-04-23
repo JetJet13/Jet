@@ -52,18 +52,5 @@ IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAl
 }
 
 IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstancePointerAllocation(ASTNewClassInstanceExpressionNode* node, IRNewClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
-    if (irOperation->isCopyGlobal() || irOperation->isRefGlobalAssignment()) {
-        auto malloc = llvm::CallInst::Create(
-                irContext->getIRModule()->getMallocFunction(),
-                {
-                    irGenerator->generateInt64Constant(1),
-                    irGenerator->generateInt64Constant(irClassInstanceType->getIRClassPropertiesType()->getStructIRType()->getSizeInBytes())
-                }
-        );
-        return IRInstructionNodeFactory::create(
-                malloc,
-                irGenerator->generateIrPointerType(irClassInstanceType->getIRClassPropertiesType())
-        );
-    }
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irClassInstanceType->getIRClassPropertiesType()));
 }
