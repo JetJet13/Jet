@@ -24,7 +24,7 @@ void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignment
         auto typeValue = irInjector->inject(irBlock, irType->getSourceType()->clone());
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
-                irModule->getFreeValueFunction(),
+                irModule->getFreeClassPropertyFunction(),
                 { pointer, loadedTypeValue }
         );
     }

@@ -11,6 +11,7 @@ IRInvocableType* LambdaTypeSignatureIRStrategy::generate(LambdaTypeSignature* la
     auto irFunction = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false)));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();
     auto irInvocableType = new IRInvocableType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterTypes, returnType);
+    irInvocableType->setKeyId(lambdaTypeSignature->getKeyId());
     irInvocableType->setValue(this->generateTypeValue(irInvocableType, irGenerator, irContext));
     return irInvocableType;
 }
@@ -29,6 +30,7 @@ IRLambdaType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignat
     auto irFunction = IRPointerType::create(new IRFunctionType(functionType));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();
     auto irInvocableType = new IRInvocableType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterList, returnType);
+    irInvocableType->setKeyId(lambdaExpressionTypeSignature->getKeyId());
     irInvocableType->setValue(this->generateTypeValue(irInvocableType, irGenerator, irContext));
     auto irLambdaType = new IRLambdaType(
         functionType,

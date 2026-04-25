@@ -944,6 +944,8 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "array.");
     auto structRefIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "struct.ref.");
     auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "struct.ref.");
+    auto invocableIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "invocable.");
+    auto invocableIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "invocable.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     auto forLoopIndexParameterValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(2), functionBlock);
@@ -1086,10 +1088,21 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
             arrayElementValueTypeId,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
     );
-    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), invocableIfBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintStructRefFunction(),
             { arrayElementValueAlloc, arrayElementTypeValuePointer, forLoopIndexArgumentAlloc }
+    );
+
+    auto isValueTypeInvocable = invocableIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            arrayElementValueTypeId,
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE)
+    );
+    invocableIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeInvocable, invocableIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
+    invocableIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintLambdaFunction(),
+            { arrayElementValueAlloc }
     );
 
     intIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
@@ -1100,6 +1113,7 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     refIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
+    invocableIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
 
     // for loop end block
     auto newElementByteOffsetValue = forLoopEndBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, arrayElementByteOffsetValue, arrayElementSizeInBytes);
@@ -1156,6 +1170,8 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "array.");
     auto structRefIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "struct.ref.");
     auto structRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "struct.ref.");
+    auto invocableIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "invocable.");
+    auto invocableIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "invocable.");
     auto endBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     auto loadedStructPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
@@ -1317,10 +1333,22 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
             structElementTypeValueIdAtIndex,
             irGenerator->generateIntConstant(IR_TYPE_ID.STRUCT_REF)
     );
-    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
+    structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), invocableIfBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintStructRefFunction(),
             { structElementValueAlloc, structElementTypeValueAtIndexPointerLoaded, forLoopIndexArgumentAlloc }
+    );
+
+    auto isValueTypeInvocable = invocableIfBlock->getBuilder()->get()->CreateICmp(
+            llvm::CmpInst::Predicate::ICMP_EQ,
+            structElementTypeValueIdAtIndex,
+            irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE)
+    );
+    invocableIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeInvocable, invocableIfThenBlock->getBlock(), forLoopEndBlock->getBlock());
+
+    invocableIfThenBlock->getBuilder()->get()->CreateCall(
+            irContext->getIRModule()->getPrintLambdaFunction(),
+            { structElementValueAlloc }
     );
 
     intIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
@@ -1331,6 +1359,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     refIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     arrayIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
+    invocableIfThenBlock->getBuilder()->get()->CreateBr(forLoopEndBlock->getBlock());
 
     // for loop end block
     auto structElementSizeInBytes = forLoopEndBlock->getBuilder()->get()->CreateExtractValue(structElementTypeValueAtIndex, typeValueType->getSizeInBytesIndex());

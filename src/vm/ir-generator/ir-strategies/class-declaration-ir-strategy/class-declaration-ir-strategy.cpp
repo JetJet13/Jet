@@ -68,16 +68,21 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
     functionBlock->getScope()->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
     functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(0), classScopeParameterAllocation));
 
-    auto initialPropertyIRExpressions = new std::unordered_map<unsigned long, IRExpressionNode*>();
-    for (auto property : *node->getBlock()->getInstanceProperties()) {
+    auto initialPropertyIRExpressions = new std::vector<std::pair<unsigned long, IRExpressionNode*>>();
+    auto initialPropertyConstants = new std::vector<std::pair<unsigned long, llvm::Constant*>>();
+    for (int i = 0; i < node->getBlock()->getInstanceProperties()->size(); ++i) {
+        auto property = node->getBlock()->getInstanceProperties()->at(i);
+        auto propertyIndex = irClassType->getClassProperties()->getIndexForKey(property->getId());
         if (property->getInitializer()) {
-            auto propertyIndex = irClassType->getClassProperties()->getIndexForKey(property->getId());
             auto irExpression = irGenerator->generateFor(property->getInitializer().value(), functionBlock->getScope(), irContext, new IROperation(IR_OPERAND_VALUE_OP));
             irExpression->markAsAssigned();
-            initialPropertyIRExpressions->insert(std::pair { propertyIndex, irExpression });
+            initialPropertyIRExpressions->push_back(std::pair { propertyIndex, irExpression });
+        } else {
+            auto irType = irGenerator->generateTypeFor(property->getTypeSignature()->getType(), scope, irContext);
+            initialPropertyConstants->push_back(std::pair { propertyIndex, irGenerator->generateInitialValueForIRType(irType) });
         }
     }
-    return new IRClassPreConstructorNode(irFunction, classScopeParameterAllocation, initialPropertyIRExpressions, functionBlock);
+    return new IRClassPreConstructorNode(irFunction, classScopeParameterAllocation, initialPropertyIRExpressions, initialPropertyConstants, functionBlock);
 }
 
 IRClassConstructorNode* ClassDeclarationIRStrategy::generate(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {

@@ -45,9 +45,11 @@ void ClassIRInjectorStrategy::injectPreConstructor(IRClassPreConstructorNode* ir
             auto irExpressionValue = irInjector->inject(preConstructorBlock, keyValue.second, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, preConstructorScope);
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, preConstructorBlock);
     }
-    // todo - initialize class properties that don't have an explicit initial value
-    // to ensure we don't call malloc free on an empty alloca pointer in the constructor
-    // and to align the malloc and free counts
+
+    for (auto keyValue : *irClassPreConstructorNode->getInitializers()) {
+        auto pointerToProperty = preConstructorBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getStructIRType()->getType(), classInstancePropertiesStructAlloc, keyValue.first);
+        InstructionIRInjectorHelper::injectStore(keyValue.second, pointerToProperty, preConstructorBlock);
+    }
     irClassPreConstructorNode->getBlock()->addVoidReturn();
 }
 

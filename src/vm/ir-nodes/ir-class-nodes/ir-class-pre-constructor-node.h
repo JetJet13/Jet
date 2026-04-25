@@ -17,11 +17,13 @@ private:
     llvm::Function* _irValue;
     IRBlockNode* _irBlock;
     IRInstructionNode* _classScopeParameter;
-    std::unordered_map<unsigned long, IRExpressionNode*>* _irExpressions;
+    std::vector<std::pair<unsigned long, IRExpressionNode*>>* _irExpressions;
+    std::vector<std::pair<unsigned long, llvm::Constant*>>* _irInitializers;
 public:
-    IRClassPreConstructorNode(llvm::Function* irValue, IRInstructionNode* classScopeParameter, std::unordered_map<unsigned long, IRExpressionNode*>* irExpressions, IRBlockNode* irBlock);
+    IRClassPreConstructorNode(llvm::Function* irValue, IRInstructionNode* classScopeParameter, std::vector<std::pair<unsigned long, IRExpressionNode*>>* irExpressions, std::vector<std::pair<unsigned long, llvm::Constant*>>* irInitializers, IRBlockNode* irBlock);
     llvm::Function* getFunction();
-    std::unordered_map<unsigned long, IRExpressionNode*>* getExpressions();
+    std::vector<std::pair<unsigned long, IRExpressionNode*>>* getExpressions();
+    std::vector<std::pair<unsigned long, llvm::Constant*>>* getInitializers();
     IRInstructionNode* getClassScopeParameter();
     IRBlockNode* getBlock();
     IRLookupTable* getScope();

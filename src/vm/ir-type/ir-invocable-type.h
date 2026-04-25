@@ -23,6 +23,7 @@ private:
     unsigned int _functionScopeArgumentIndex;
     unsigned int _functionRefCounterIndex;
     unsigned int _functionCleanupIndex;
+    unsigned int _isPerpetualIndex;
 public:
     explicit IRInvocableType(llvm::StructType* type, IRPointerType* irFunctionPointer, IRPointerType* irFunctionCleanupPointer, IRInvocableParameterListType* parameters, IRType* returnType);
     llvm::StructType* getType() override;
@@ -31,6 +32,7 @@ public:
     [[nodiscard]] unsigned int getFunctionScopeArgumentIndex() const;
     [[nodiscard]] unsigned int getFunctionRefCounterIndex() const;
     [[nodiscard]] unsigned int getFunctionCleanupIndex() const;
+    [[nodiscard]] unsigned int getIsPerpetualIndex() const;
     IRInvocableParameterListType* getParameters();
     IRType* getReturnType();
     llvm::PointerType* getFunctionScopeArgumentType();

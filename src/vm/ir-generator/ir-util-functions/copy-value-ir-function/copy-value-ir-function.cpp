@@ -127,7 +127,6 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
     );
     lambdaIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeLambda, lambdaIfThenBlock->getBlock(), arrayIfThenBlock->getBlock());
     lambdaIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getCopyLambdaFunction()->getFunctionType(),
             irContext->getIRModule()->getCopyLambdaFunction(),
             {
                     function->getArg(0),

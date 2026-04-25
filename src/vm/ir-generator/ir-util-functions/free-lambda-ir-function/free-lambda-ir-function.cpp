@@ -32,7 +32,6 @@ void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, 
     auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionRefCounterIndex());
     auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
     auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(intType, refCounterPointer, "currentRefCount");
-    DebugIRInjectorHelper::injectLog(functionBlock, currentRefCount, irGenerator->getInjector(), irModuleNode);
     functionBlock->getBuilder()->get()->CreateBr(freeLambdaIfBlock->getBlock());
 
     auto isLastRef = freeLambdaIfBlock->getBuilder()->get()->CreateICmp(

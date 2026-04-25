@@ -21,11 +21,11 @@ void IRUtilInternalModule::augment(IRGenerator* irGenerator, std::unique_ptr<llv
     PrintIRFunction::generatePrintCharFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::generatePrintBoolFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::generatePrintStringFunction(irGenerator, context, coreIrModule);
+    PrintIRFunction::generatePrintLambdaFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::generatePrintRefFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::generatePrintArrayFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::generatePrintStructFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::generatePrintStructRefFunction(irGenerator, context, coreIrModule);
-    PrintIRFunction::generatePrintLambdaFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::generatePrintFunction(irGenerator, context, coreIrModule);
     RangeIRFunction::generateRange3pFunction(irGenerator, context, coreIrModule);
     RangeIRFunction::generateRange2pFunction(irGenerator, context, coreIrModule);

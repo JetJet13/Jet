@@ -14,6 +14,7 @@ IRInvocableType::IRInvocableType(llvm::StructType* type, IRPointerType* irFuncti
     _functionScopeArgumentIndex = 1;
     _functionRefCounterIndex = 2;
     _functionCleanupIndex = 3;
+    _isPerpetualIndex = 4;
 }
 
 llvm::StructType* IRInvocableType::getType() {
@@ -38,6 +39,10 @@ unsigned int IRInvocableType::getFunctionRefCounterIndex() const {
 
 unsigned int IRInvocableType::getFunctionCleanupIndex() const {
     return _functionCleanupIndex;
+}
+
+unsigned int IRInvocableType::getIsPerpetualIndex() const {
+    return _isPerpetualIndex;
 }
 
 IRInvocableParameterListType* IRInvocableType::getParameters() {
@@ -112,7 +117,7 @@ uint64_t IRInvocableType::getSizeInBytes() {
     if (_sizeInBytesOverride) {
         return _sizeInBytesOverride.value();
     }
-    return 32;
+    return 40;
 }
 
 IRInvocableType* IRInvocableType::clone() {

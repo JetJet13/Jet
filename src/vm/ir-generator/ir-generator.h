@@ -122,6 +122,7 @@ public:
     llvm::Constant* generatePlaceholderTypeValueArgument();
     llvm::Constant* generatePlaceholderArrayPointerArgument();
     llvm::Constant* generatePlaceholderValueForIRType(IRType* irType);
+    llvm::Constant* generateInitialValueForIRType(IRType* irType);
     IRRefType* generateIrRefType(IRType* type);
     llvm::StructType* getFunctionParameterType();
     IRArrayType* generateIRArrayType(IRType* elementType, unsigned long size);

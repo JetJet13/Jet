@@ -150,5 +150,10 @@ llvm::Value* LambdaIRInjectorStrategy::injectDetails(IRLambdaExpressionNode* irE
     auto lambdaCleanupPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getAllocation()->getAllocatedType(), allocation, lambdaCleanupIndex);
     auto lambdaCleanupFunction = irExpression->getCleanupFunction();
     InstructionIRInjectorHelper::injectStore(lambdaCleanupFunction, lambdaCleanupPointer, irBlock);
+
+    auto isPerpetualIndex = irExpression->getIRType()->getLambdaVariableType()->getIsPerpetualIndex();
+    auto isPerpetualPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getAllocation()->getAllocatedType(), allocation, isPerpetualIndex);
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getFalse(), isPerpetualPointer, irBlock);
+
     return InstructionIRInjectorHelper::injectLoad(irExpression->getAllocation()->getAllocatedType(), allocation, irBlock);
 }

@@ -31,6 +31,9 @@ void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* 
     InstructionIRInjectorHelper::injectStore(refCounterValue, refCounterAlloc, irBlock);
     InstructionIRInjectorHelper::injectStore(refCounterAlloc, refCounterPointer, irBlock);
 
+    auto isPerpetualPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irProcedureDeclaration->getGlobalVariable()->getValue(), irType->getIsPerpetualIndex());
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getTrue(), isPerpetualPointer, irBlock);
+
     FreeIRInjectorHelper::freeFunctionBlockNodes(irProcedureDeclaration->getBlock(), irInjector, irModule, irProcedureDeclaration->getBlock()->getScope());
     FreeIRInjectorHelper::freeFunctionParameters(irProcedureDeclaration->getBlock(), irProcedureDeclaration->getParameters(), irInjector, irModule, irProcedureDeclaration->getBlock()->getScope());
     DebugIRInjectorHelper::injectFunctionEnterLog(irProcedureDeclaration->getBlock(), irProcedureDeclaration->getName(), irInjector, irModule);

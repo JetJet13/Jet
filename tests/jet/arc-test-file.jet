@@ -3,7 +3,7 @@ import MySecondModule from "./second-test-file.jet";
 import MyFourthModule from "./fourth-test-file.jet";
 
 // expected delta is 25
-// actual delta is 46
+// actual delta is 25
 
 class SimpleClass {
     public static staticValue: int = 100;
@@ -92,38 +92,36 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-
-proc testClass() {
-    //const mySimpleClass = new SimpleClass(100);
-    //const staticResult = 200 + SimpleClass.staticValue;
-    //assert(staticResult == 300);
-
-    //SimpleClass.staticValue = 150;
-    //assert(SimpleClass.staticValue == 150);
-
-    const myComplexClass = new ComplexClass(18);
-    assert(myComplexClass.getAge() == 18);
-    assert(myComplexClass.getName() == "Joe");
-    assert(myComplexClass.getHairColor() == "Black");
-    assert(myComplexClass.age == 18);
-    assert(myComplexClass.name == "Joe");
-    assert(myComplexClass.hairColor == "Black");
-
-    //const myOtherComplexClass = new ComplexClass(28, "Roger", "Brown");
-    //assert(myOtherComplexClass.getAge() == 28);
-    //assert(myOtherComplexClass.getName() == "Roger");
-    //assert(myOtherComplexClass.getHairColor() == "Brown");
-    //assert(myOtherComplexClass.age == 28);
-    //assert(myOtherComplexClass.name == "Roger");
-    //assert(myOtherComplexClass.hairColor == "Brown");
-
-    //const myStaticComplexClass = ComplexClass.create();
-    //assert(myStaticComplexClass.getAge() == 2);
-    //assert(myStaticComplexClass.getName() == "Joe");
-    //assert(myStaticComplexClass.getHairColor() == "Black");
-    //assert(myStaticComplexClass.age == 2);
-    //assert(myStaticComplexClass.name == "Joe");
-    //assert(myStaticComplexClass.hairColor == "Black");
-
+proc testModules() {
+    assert(MyOtherModule::myBoolFunction() == true);
+    assert(MyOtherModule::myOtherBoolFunction() == false);
+    assert(MyOtherModule::myOtherGlobalInt == 790);
+    MyOtherModule::updateGlobalInt();
+    assert(MyOtherModule::myOtherGlobalInt == 900);
+    MyOtherModule::myOtherGlobalInt = 1290;
+    assert(MyOtherModule::myOtherGlobalInt == 1290);
+    assert(MyOtherModule::myOtherGlobalArray == [1,2,4,5,7,8]);
+    assert(MyOtherModule::myOtherGlobalArray[0] + 1 == 2);
+    assert(MyOtherModule::myOtherGlobalStruct.a == 10);
+    MyOtherModule::myOtherGlobalStruct.a = 998;
+    assert(MyOtherModule::myOtherGlobalStruct.a == 998);
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 1);
+    MyOtherModule::myOtherGlobalStruct.c.nested[0] = 44;
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 44);
+    assert(MyOtherModule::myOtherGlobalTuple.1 == false);
+    MyOtherModule::myOtherGlobalTuple.1 = true;
+    assert(MyOtherModule::myOtherGlobalTuple.1 == true);
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 299);
+    MyOtherModule::myOtherGlobalLambda = (x: int) => x - 1;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 108);
+    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    assert(MySecondModule::MySecondGlobalInt == 202);
+    MyOtherModule::myOtherGlobalLambda = MySecondModule::mySecondIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    assert(MyOtherModule::myOtherGlobalLambda(2) == -1);
+    assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
 }
-testClass();
+testModules();

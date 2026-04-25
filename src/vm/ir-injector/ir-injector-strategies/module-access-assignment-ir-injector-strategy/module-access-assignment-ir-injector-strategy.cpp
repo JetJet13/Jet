@@ -8,11 +8,20 @@
 
 void ModuleAccessAssignmentIRInjectorStrategy::inject(IRModuleAccessAssignmentStatementNode* irModuleAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto pointerToTarget = ModuleAccessIRInjectorHelper::inject(irModuleAccessAssignmentStatement->getIRModuleAccessExpression(), irBlock, irInjector, irModule, scope, new IROperation(IR_OPERAND_POINTER_OP));
+    auto irType = irModuleAccessAssignmentStatement->getIRModuleAccessExpression()->getIRType();
     auto irExpressionValue = irInjector
             ->inject(
-                    irBlock,
-                    irModuleAccessAssignmentStatement->getIRExpression(),
-                    new IROperation(IR_OPERAND_VALUE_OP), irModule, scope
+                irBlock,
+                irModuleAccessAssignmentStatement->getIRExpression(),
+                new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope
             );
+    if (irType->getSourceType()->containsTypeThatRequiresFreeing()) {
+        auto typeValue = irInjector->inject(irBlock, irType->getSourceType()->clone());
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getFreeValueFunction(),
+                { pointerToTarget, loadedTypeValue }
+        );
+    }
     InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToTarget, irBlock);
 }

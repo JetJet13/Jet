@@ -784,6 +784,8 @@ add_library(jet-vm
         utils/dependency-graph/dependency-graph.h
         ir-nodes/ir-node-to-free.cpp
         ir-nodes/ir-node-to-free.h
+        ir-generator/ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.cpp
+        ir-generator/ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h
 )
 
 target_link_libraries(jet-vm

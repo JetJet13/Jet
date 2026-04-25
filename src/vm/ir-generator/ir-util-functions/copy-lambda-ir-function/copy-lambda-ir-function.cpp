@@ -19,6 +19,7 @@ void CopyLambdaIRFunction::declareCopyLambdaFunction(IRGenerator* irGenerator, s
 void CopyLambdaIRFunction::generateCopyLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto intType = irGenerator->generateIntType();
+    auto boolType = irGenerator->generateBooleanType();
     auto irInvocableType = irGenerator->generateIRInvocableType();
 
     auto function = irModuleNode->getCopyLambdaFunction();
@@ -43,6 +44,11 @@ void CopyLambdaIRFunction::generateCopyLambdaFunction(IRGenerator* irGenerator, 
     auto pointerToLambdaCleanupFunction = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(1),  irInvocableType->getFunctionCleanupIndex());
     auto loadedPointerToLambdaCleanupFunction = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToLambdaCleanupFunction);
     InstructionIRInjectorHelper::injectStore(loadedPointerToLambdaCleanupFunction, pointerToNewLambdaCleanupFunction, functionBlock);
+
+    auto pointerToNewIsPerpetualFlag = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getIsPerpetualIndex());
+    auto pointerToIsPerpetualFlag = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(1),  irInvocableType->getIsPerpetualIndex());
+    auto loadedPointerToIsPerpetualFlag = functionBlock->getBuilder()->get()->CreateLoad(boolType, pointerToIsPerpetualFlag);
+    InstructionIRInjectorHelper::injectStore(loadedPointerToIsPerpetualFlag, pointerToNewIsPerpetualFlag, functionBlock);
 
     auto currentLambdaCount = InstructionIRInjectorHelper::injectLoad(intType, loadedPointerToLambdaCounter, functionBlock);
     auto newLambdaCount = functionBlock->getBuilder()->get()->CreateBinOp(

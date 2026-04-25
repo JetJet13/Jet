@@ -145,6 +145,7 @@
 #include "ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
 #include "ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
 #include "ir-prototypes/ir-string-prototype-map.h"
+#include "ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -170,7 +171,7 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
             this->generateIntType(),
             this->generatePointerType(),
             this->generatePointerType(),
-            this->generatePointerType(),
+            this->generatePointerType()
     }, "TypeValueType");
     _refType = llvm::StructType::create(*_context, {
             this->generatePointerType(),
@@ -180,7 +181,8 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
             this->generatePointerType(),
             this->generatePointerType(),
             this->generatePointerType(),
-            this->generatePointerType()
+            this->generatePointerType(),
+            this->generateBooleanType()
     }, "Invocable");
     _genericClassInstanceIRType = new IRClassInstanceType(
         new IRClassType(
@@ -585,7 +587,8 @@ llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(IRType* irType) {
                 this->generateConstantPointer(),
                 this->generateConstantPointer(),
                 this->generateConstantPointer(),
-                this->generateConstantPointer()
+                this->generateConstantPointer(),
+                this->generateBoolean(false)
         });
     } else if (irType->isIntegerType()) {
         return this->generateIntConstant(0);
@@ -597,6 +600,10 @@ llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(IRType* irType) {
         return this->generateBoolean(true);
     }
     return this->generateConstantPointer();
+}
+
+llvm::Constant* IRGenerator::generateInitialValueForIRType(IRType* irType) {
+    return llvm::Constant::getNullValue(irType->getType());
 }
 
 IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
@@ -1221,6 +1228,7 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             FreeRefIRFunction::getFreeRefIRFunctionName(),
             FreeRefValueIRFunction::getFreeRefValueIRFunctionName(),
             FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName(),
+            FreeClassPropertyIRFunction::getFreeClassPropertyIRFunctionName(),
             PrintIRFunction::getPrintIRFunctionName(),
             PrintIRFunction::getPrintIntIRFunctionName(),
             PrintIRFunction::getPrintFloatIRFunctionName(),

@@ -12,11 +12,9 @@ void FunctionDeclarationIRInjectorStrategy::inject(IRFunctionDeclarationNode* ir
     irInjector->inject(irBlock, irFunctionDeclaration->getBlock(), irModule);
 
     auto irType = (IRInvocableType*)irFunctionDeclaration->getGlobalVariable()->getIRType()->getSourceType();
-    auto functionIndex = irType->getFunctionIndex();
-    auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irFunctionDeclaration->getGlobalVariable()->getValue(), functionIndex);
+    auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irFunctionDeclaration->getGlobalVariable()->getValue(), irType->getFunctionIndex());
     InstructionIRInjectorHelper::injectStore(irFunctionDeclaration->getValue(), functionPointer, irBlock, irType);
-    auto refCounterIndex = irType->getFunctionRefCounterIndex();
-    auto refCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irFunctionDeclaration->getGlobalVariable()->getValue(), refCounterIndex);
+    auto refCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irFunctionDeclaration->getGlobalVariable()->getValue(), irType->getFunctionRefCounterIndex());
     auto refCounterAlloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),
             {
@@ -28,6 +26,8 @@ void FunctionDeclarationIRInjectorStrategy::inject(IRFunctionDeclarationNode* ir
     InstructionIRInjectorHelper::injectStore(refCounterValue, refCounterAlloc, irBlock);
     InstructionIRInjectorHelper::injectStore(refCounterAlloc, refCounterPointer, irBlock);
 
+    auto isPerpetualPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irFunctionDeclaration->getGlobalVariable()->getValue(), irType->getIsPerpetualIndex());
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getTrue(), isPerpetualPointer, irBlock);
 
     FreeIRInjectorHelper::freeFunctionBlockNodes(irFunctionDeclaration->getBlock(), irInjector, irModule, irFunctionDeclaration->getBlock()->getScope());
     FreeIRInjectorHelper::freeFunctionParameters(irFunctionDeclaration->getBlock(), irFunctionDeclaration->getParameters(), irInjector, irModule, irFunctionDeclaration->getBlock()->getScope());

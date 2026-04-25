@@ -72,6 +72,7 @@
 #include "../../ir-util-functions/string-at-ir-function/string-at-ir-function.h"
 #include "../../ir-util-functions/string-append-ir-function/string-append-ir-function.h"
 #include "../../ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.h"
+#include "../../ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h"
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
@@ -169,6 +170,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     FreeStringIRFunction::generateFreeStringFunction(irGenerator, context, irModule);
     FreeRefIRFunction::generateFreeRefFunction(irGenerator, context, irModule);
     FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(irGenerator, context, irModule);
+    FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugGlobals(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugMarkerFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugPointerFunction(irGenerator, context, irModule);

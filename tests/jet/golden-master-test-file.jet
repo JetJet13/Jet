@@ -3,13 +3,8 @@ import MySecondModule from "./second-test-file.jet";
 import MyFourthModule from "./fourth-test-file.jet";
 
 // Global Malloc Count: 146
-// Apr 22 Report
-// MALLOC COUNT
-// 1219
-// FREE COUNT
-// 1077
-// Delta = 142
-// Target = 146
+// we need to factor in global variable assignment (deduct from global malloc count)
+
 
 
 // syntax not supported but workaround exists for the following scenarios:
