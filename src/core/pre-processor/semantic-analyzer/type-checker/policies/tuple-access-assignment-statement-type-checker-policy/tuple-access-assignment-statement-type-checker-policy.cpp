@@ -36,7 +36,7 @@ namespace TupleAccessAssignmentStatementTypeCheckerPolicy {
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             tupleAccessAssignmentStatementNode->getTupleAccessAssignment()->getTypeSignature(),
-            tupleAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
+            tupleAccessAssignmentStatementNode->getExpression()->getTypeSignature()->getTargetTypeSignature(),
             mismatchMessage,
             typeCheckerResult
         );

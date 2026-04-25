@@ -36,7 +36,7 @@ namespace ObjectAccessAssignmentStatementTypeCheckerPolicy {
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             objectAccessAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature(),
-            objectAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
+            objectAccessAssignmentStatementNode->getExpression()->getTypeSignature()->getTargetTypeSignature(),
             mismatchMessage,
             typeCheckerResult
         );

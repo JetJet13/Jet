@@ -42,12 +42,12 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             { newArrayNumElements, sizeInBytes }
     );
 
-    auto firstArrayCopyAlloc = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    auto firstArrayCopy = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     functionBlock->getBuilder()->get()->CreateCall(
         irModuleNode->getCopyArrayFunction(),
-        { firstArrayCopyAlloc, function->getArg(0), function->getArg(2) }
+        { firstArrayCopy, function->getArg(0), function->getArg(2) }
     );
-    auto pointerToFirstArrayCopyAllocation = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), firstArrayCopyAlloc, arrayPointerType->getAllocIndex());
+    auto pointerToFirstArrayCopyAllocation = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), firstArrayCopy, arrayPointerType->getAllocIndex());
     auto loadedPointerToFirstArrayCopy = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToFirstArrayCopyAllocation);
     auto firstArraySize = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocSizeFunction(),
@@ -61,16 +61,15 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
             { newArrayMalloc, loadedPointerToFirstArrayCopy, firstArraySize }
     );
 
-    auto secondArrayCopyAlloc = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
+    auto secondArrayCopy = functionBlock->getBuilder()->get()->CreateAlloca(arrayPointerType->getType());
     functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getCopyArrayFunction(),
-            { secondArrayCopyAlloc, function->getArg(1), function->getArg(2) }
+            {secondArrayCopy, function->getArg(1), function->getArg(2) }
     );
-    auto pointerToSecondArrayCopyAllocation = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), secondArrayCopyAlloc, arrayPointerType->getAllocIndex());
+    auto pointerToSecondArrayCopyAllocation = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), secondArrayCopy, arrayPointerType->getAllocIndex());
     auto loadedPointerToSecondArrayCopy = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToSecondArrayCopyAllocation);
     auto newArrayMallocFirstArrayOffsetPointer = functionBlock->getBuilder()->get()->CreateInBoundsGEP(pointerIntType, newArrayMalloc, { firstArraySize });
     auto secondArraySize = functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getMallocSizeFunction()->getFunctionType(),
             irModuleNode->getMallocSizeFunction(),
             {
                 loadedSecondArrayNumElements,
@@ -93,12 +92,12 @@ void ArrayConcatIRFunction::generateArrayConcatFunction(IRGenerator* irGenerator
     );
     auto loadedArrayPointer = functionBlock->getBuilder()->get()->CreateLoad(arrayPointerType->getType(), arrayPointerAllocation);
     functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getFreeArrayFunction(),
-            { firstArrayCopyAlloc, function->getArg(2) }
+            irModuleNode->getMallocFreeFunction(),
+            { loadedPointerToFirstArrayCopy }
     );
     functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getFreeArrayFunction(),
-            { secondArrayCopyAlloc, function->getArg(2) }
+            irModuleNode->getMallocFreeFunction(),
+            { loadedPointerToSecondArrayCopy }
     );
     functionBlock->getBuilder()->get()->CreateRet(loadedArrayPointer);
 }

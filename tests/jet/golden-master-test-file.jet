@@ -1,5 +1,6 @@
 import MyOtherModule from "./other-test-file.jet";
 import MySecondModule from "./second-test-file.jet";
+import MyThirdModule from "./third-test-file.jet";
 import MyFourthModule from "./fourth-test-file.jet";
 
 // Global Malloc Count: 146
@@ -632,6 +633,118 @@ proc testBedmas() {
 }
 testBedmas();
 
+proc testBuiltInFunctions() {
+    const intExample = 101;
+    print("intExample");
+    print(intExample);
+    print(101);
+
+    const floatExample = 190.9011;
+    print("intExample");
+    print(floatExample);
+    print(190.9011);
+
+    const boolExample = true;
+    print("boolExample");
+    print(boolExample);
+    print(true);
+
+    const charExample = 'w';
+    print("charExample");
+    print(charExample);
+    print('w');
+
+    const stringExample = "hello world";
+    print("stringExample");
+    print(stringExample);
+    print("hello world");
+
+    const structExample = {
+        a: 100,
+        b: 190.90,
+        c: false,
+        d: 'x',
+        y: "hello",
+        g: "mars",
+        h: [1,2,3],
+        i: () => true,
+        j: { 68, false, 'c' }
+    };
+    print("structExample");
+    print(structExample);
+    print({
+      a: 100,
+      b: 190.90,
+      c: false,
+      d: 'x',
+      y: "hello",
+      g: "mars",
+      h: [1,2,3],
+      i: () => true,
+      j: { 68, false, 'c' },
+      k: { foo: "bar" }
+    });
+
+    const tupleExample = { 100, true, false, 'c', { foo: "bar" }, { 1920, 't', 'w' } };
+    print("tupleExample");
+    print(tupleExample);
+    print({ 100, true, false, 'c', { foo: "bar" }, { 1920, 't', 'w' } });
+
+    const classExample = new SimpleClass(1009);
+    print("classExample");
+    print(classExample);
+    print(new SimpleClass(1009));
+    print(new ComplexClass(881));
+
+    const arrayExample = [1,2,3];
+    print("arrayExample");
+    print(arrayExample);
+    print([1, 2, 3]);
+
+    const moduleExample = MySecondModule::MySecondGlobalInt;
+    print("moduleExample");
+    print(moduleExample);
+    print(MySecondModule::MySecondGlobalInt);
+
+    const moduleCallExample = MySecondModule::mySecondIntFunction(100);
+    print("moduleCallExample");
+    print(moduleCallExample);
+    print(MySecondModule::mySecondIntFunction(100));
+
+    print(intExample, floatExample, boolExample, charExample, stringExample, structExample, tupleExample, classExample, arrayExample, moduleExample, moduleCallExample);
+
+    const simpleRange = range(4);
+    assert(simpleRange == [0,1,2,3]);
+    assert(range(4) == [0,1,2,3]);
+    assert(range(-4) == [0, -1, -2, -3]);
+    assert(range(0).empty());
+    assert(range(-1) == [0]);
+    assert(range(1) == range(-1));
+
+    const medRange = range(1, 5);
+    assert(medRange == [1,2,3,4]);
+    assert(range(1, 5) == [1,2,3,4]);
+    assert(range(-1, -5).empty());
+    assert(range(-1, -1).empty());
+    assert(range(-1, -1) == range(-1, -5));
+    assert(range(-5, -1) == [-5, -4, -3, -2]);
+
+    // range(start: int, end: int, step: int) - setting step to 0 will abort program
+    const complexRange = range(1, 5, 3);
+    assert(complexRange == [1, 4]);
+    assert(range(1, 5, 3) == [1, 4]);
+    assert(range(1, 5, -1).empty());
+    assert(range(-5, -1, 1) == [-5, -4, -3, -2]);
+    assert(range(-5, -1, -1).empty());
+    assert(range(5, 1, 1).empty());
+
+    assert(true);
+    assert(true, "you'll never see this message");
+    //assert(false, "you'll always see this message");
+
+}
+testBuiltInFunctions();
+
 proc testLambdas() {
     const lambdaIntArrow = () => 10;
     assert(lambdaIntArrow() == 10);
@@ -785,36 +898,71 @@ proc testArrays() {
     assert(intArray == [ 100, 200, 300 ]);
     intArray[0] = 101;
     assert(intArray == [101, 200, 300]);
+    const intArrayConcat = intArray ++ [ 75 ] ++ [ 85 ];
+    assert(intArrayConcat == [ 101, 200, 300, 75, 85 ]);
 
     const floatArray = [ 1.12, 2.55, 3.65 ];
     assert(floatArray == [ 1.12, 2.55, 3.65 ]);
     floatArray[0] = 10.590;
     assert(floatArray == [10.590, 2.55, 3.65]);
+    const floatArrayConcat = floatArray ++ [ 7.65 ] ++ [ 8.24 ];
+    assert(floatArrayConcat == [ 10.590, 2.55, 3.65, 7.65, 8.24 ]);
 
     const charArray = [ 'a', 'b', 'c' ];
     assert(charArray == [ 'a', 'b', 'c' ]);
     charArray[0] = 'd';
     assert(charArray == ['d', 'b', 'c']);
+    const charArrayConcat = charArray ++ [ 'x' ] ++ [ 'y' ];
+    assert(charArrayConcat == [ 'd', 'b', 'c', 'x', 'y' ]);
 
     const boolArray = [ true, false, true ];
     assert(boolArray == [ true, false, true ]);
     boolArray[0] = false;
     assert(boolArray == [false, false, true]);
+    const boolArrayConcat = boolArray ++ [ true ] ++ [ true ];
+    assert(boolArrayConcat == [ false, false, true, true, true ]);
 
     const stringArray = [ "hi", "hai", "hello" ];
     assert(stringArray == [ "hi", "hai", "hello" ]);
     stringArray[0] = "bye";
     assert(stringArray == [ "bye", "hai", "hello" ]);
+    const stringArrayConcat = stringArray ++ [ "hola" ] ++ [ "jai" ];
+    assert(stringArrayConcat == [ "bye", "hai", "hello", "hola", "jai" ]);
 
     const structArray = [ { foo: 129 }, { foo: 130 }, { foo: 131 } ];
     assert(structArray == [ { foo: 129 }, { foo: 130 }, { foo: 131 } ]);
     structArray[0] = { foo: 135 };
     assert(structArray == [ { foo: 135 }, { foo: 130 }, { foo: 131 } ]);
+    const structArrayConcat = structArray ++ [ { foo: 678 } ] ++ [ { foo: 789 } ];
+    assert(structArrayConcat == [ { foo: 135 }, { foo: 130 }, { foo: 131 }, { foo: 678 }, { foo: 789 } ]);
 
     const tupleArray = [ { 129 }, { 130 }, { 131 } ];
     assert(tupleArray == [ { 129 }, { 130 }, { 131 } ]);
     tupleArray[0] = { 135 };
     assert(tupleArray == [ { 135 }, { 130 }, { 131 } ]);
+    const tupleArrayConcat = tupleArray ++ [ { 678 } ] ++ [ { 789 } ];
+    assert(tupleArrayConcat == [ { 135 }, { 130 }, { 131 }, { 678 }, { 789 } ]);
+
+    const classArray = [ new SimpleClass(1), new SimpleClass(2), new SimpleClass(3) ];
+    assert(classArray == [ new SimpleClass(1), new SimpleClass(2), new SimpleClass(3) ]);
+    classArray[0] = new SimpleClass(100);
+    assert(classArray == [ new SimpleClass(100), new SimpleClass(2), new SimpleClass(3) ]);
+    const classArrayConcat = classArray ++ [ new SimpleClass(4) ] ++ [ new SimpleClass(5) ];
+    assert(classArrayConcat == [ new SimpleClass(100), new SimpleClass(2), new SimpleClass(3), new SimpleClass(4), new SimpleClass(5) ]);
+
+    const arrayArray = [ [1,2,3], [4,5,6], [7,8,9] ];
+    assert(arrayArray == [ [1,2,3], [4,5,6], [7,8,9] ]);
+    arrayArray[0] = [10,20,30];
+    assert(arrayArray == [ [10,20,30], [4,5,6], [7,8,9] ]);
+    const arrayArrayConcat = arrayArray ++ [ [10,11,12] ] ++ [ [13,14,15] ];
+    assert(arrayArrayConcat == [ [10,20,30], [4,5,6], [7,8,9], [10,11,12], [13,14,15] ]);
+
+    const moduleArray = [ MySecondModule::MySecondGlobalInt, MyThirdModule::MyThirdGlobalInt, MyFourthModule::MyFourthGlobalInt ];
+    assert(moduleArray == [ 202, 303, 7800 ]);
+    moduleArray[0] = MySecondModule::mySecondIntFunction(10);
+    assert(moduleArray == [ -1, 303, 7800 ]);
+    const moduleArrayConcat = moduleArray ++ [ MySecondModule::MySecondGlobalInt ] ++ [ MyThirdModule::MyThirdGlobalInt ];
+    assert(moduleArrayConcat == [ -1, 303, 7800, 202, 303 ]);
 
     const firstLambda = () => 10;
     const secondLambda = () => 20;
@@ -983,6 +1131,18 @@ proc testRefPrototype() {
     assert(structWithRefValue.a.refCount() == 2);
     assert(structWithRefValue.b.refCount() == 1);
 
+    const foo = ref 500;
+    const bar = foo;
+    const mars = bar;
+    const vv = ref dref mars;
+    assert(foo.sameRefAs(bar));
+    assert(foo.sameRefAs(mars));
+    assert(bar.sameRefAs(mars));
+    assert(mars.sameRefAs(bar));
+    assert(foo.sameRefAs(ref 500) == false);
+    assert(vv.sameRefAs(ref 500) == false);
+    assert(foo.sameRefAs(vv) == false);
+    assert(vv.sameRefAs(foo) == false);
 }
 testRefPrototype();
 

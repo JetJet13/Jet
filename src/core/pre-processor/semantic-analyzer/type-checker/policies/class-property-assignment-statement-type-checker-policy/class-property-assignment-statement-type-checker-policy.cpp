@@ -36,7 +36,7 @@ namespace ClassPropertyAssignmentStatementTypeCheckerPolicy {
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             classPropertyAssignmentStatementNode->getPropertyAssignment()->getTypeSignature(),
-            classPropertyAssignmentStatementNode->getExpression()->getTypeSignature(),
+            classPropertyAssignmentStatementNode->getExpression()->getTypeSignature()->getTargetTypeSignature(),
             assignmentTypeMismatchMessage,
             typeCheckerResult
         );

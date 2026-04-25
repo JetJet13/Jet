@@ -51,9 +51,11 @@ std::string IRUtilInternalModule::getIRName(std::string id, unsigned long numArg
     }
 
     if (id == JetUtilsTypeSignatureMap::getAssertTypeSignatureKey()) {
-        return AssertIRFunction::getAssertIRFunctionName();
-    } else if (id == JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignatureKey()) {
-        return AssertIRFunction::getAssertWithMessageIRFunctionName();
+        if (numArgs == 1) {
+            return AssertIRFunction::getAssertIRFunctionName();
+        } else if (numArgs == 2) {
+            return AssertIRFunction::getAssertWithMessageIRFunctionName();
+        }
     }
     throw std::logic_error("unable to find util internal function name");
 }

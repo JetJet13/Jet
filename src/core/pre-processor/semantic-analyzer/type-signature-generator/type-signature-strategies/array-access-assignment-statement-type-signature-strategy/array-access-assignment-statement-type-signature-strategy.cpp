@@ -5,9 +5,6 @@
 #include "array-access-assignment-statement-type-signature-strategy.h"
 
 void ArrayAccessAssignmentStatementTypeSignatureStrategy::assign(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(arrayAccessAssignmentStatement->getExpression(), context, scope);
-    arrayAccessAssignmentStatement->getExpression()->setTypeSignature(
-            arrayAccessAssignmentStatement->getExpression()->getTypeSignature()->convertToVariableTypeSignature()
-    );
     strategyMap->assignTypeSignatureFor(arrayAccessAssignmentStatement->getArrayAccessAssignment()->getArrayAccess(), context, scope);
+    strategyMap->assignTypeSignatureFor(arrayAccessAssignmentStatement->getExpression(), context, scope);
 }

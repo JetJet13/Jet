@@ -5,87 +5,95 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
 
 ### Language Features
 1. Literals
-   1. Integer
-   2. Float
-   3. Boolean
-   4. Character
+   - [x] Integer
+   - [x] Float
+   - [x] Boolean
+   - [x] Character
 2. Strings
-   1. Concatenation (`++`)
-   2. Prototype Functions
-       1. `append`
-       2. `prepend`
-       3. `take`
-       4. `takeLast`
-       5. `drop`
-       6. `dropLast`
-       7. `size`
-       8. `empty`
-       9. `tail`
+   - [x] Concatenation (`++`)
+   - [x] Prototype Functions 
+     - [x] `append`
+     - [x] `prepend`
+     - [x] `take`
+     - [x] `takeLast`
+     - [x] `drop`
+     - [x] `dropLast`
+     - [x] `size`
+     - [x] `empty`
+     - [x] `tail`
 3. Arrays
-   1. Concatenation (`++`)
-   2. Prototype Functions
-      1. `append`
-      2. `prepend`
-      3. `take`
-      4. `takeLast`
-      5. `drop`
-      6. `dropLast`
-      7. `size`
-      8. `empty`
-      9. `tail`
+   - [x] Concatenation (`++`)
+   - [x] Prototype Functions
+     - [x] `append`
+     - [x] `prepend`
+     - [x] `take`
+     - [x] `takeLast`
+     - [x] `drop`
+     - [x] `dropLast`
+     - [x] `size`
+     - [x] `empty`
+     - [x] `tail`
 4. Structs
+    - [x] Done
 5. Tuples 
+    - [x] Done
 6. Classes
-   1. Multiple Constructors
-   2. Access Modifiers (`public`, `private`)
-   3. Static Modifier (`static`)
+   - [x] Multiple Constructors
+   - [x] Access Modifiers (`public`, `private`)
+   - [x] Static Modifier (`static`)
 7. Enums
-   1. Literal Value
-   2. String Value
+   - [x] Literal Value
+   - [x] String Value
 8. References
-    1. Prototype Functions
-       1. `refCount`
-       2. `sameRefAs`
-    2. Set Ref Value (`:=`)
-9. Lambdas 
+    - [x] Prototype Functions
+      - [x] `refCount`
+      - [x] `sameRefAs`
+   - [x] Set Ref Value (`:=`)
+9. Lambdas
+    - [x] Done
 10. Modules
-    1. Import
-    2. Export
-    3. Declaration
+    - [x] Import
+    - [x] Export
+    - [x] Declaration
 11. Built-In Functions
-    1. `print(...vararg)`
-    2. `range`
-       1. `range(end: int)`
-       2. `range(start: int, end: int)`
-       3. `range(start: int, end: int, step: int)`
-    3. `assert`
-       1. `assert(bool)`
-       2. `assert(bool, message)`
-12. Logical Expressions 
+    - [x] `print(...vararg)`
+    - [x] `range`
+      - [x] `range(end: int)`
+      - [x] `range(start: int, end: int)`
+      - [x] `range(start: int, end: int, step: int)`
+    - [x] `assert`
+      - [x] `assert(bool)`
+      - [x] `assert(bool, message)`
+12. Logical Expressions
+    - [x] Done
 13. Arithmetic Expressions
-    1. Order of Operations (BEDMAS)
-    2. addition (`+`)
-    3. subtraction (`-`)
-    4. multiplication (`*`)
-    5. division (`/`)
-    6. modulo (`mod`)
+    - [x] Order of Operations (BEDMAS)
+    - [x] addition (`+`)
+    - [x] subtraction (`-`)
+    - [x] multiplication (`*`)
+    - [x] division (`/`)
+    - [x] modulo (`mod`)
 14. Unary Expressions
-    1. `+` int or float
-    2. `-` int or float
-    3. `!` negate 
-15. Comparator Expressions 
-16. If Statements 
-17. While Statements 
-18. For-in Statements 
+    - [x] `+` int or float
+    - [x] `-` int or float
+    - [x] `!` negate 
+15. Comparator Expressions
+    - [] Done
+16. If Statements
+    - [x] Done
+17. While Statements
+    - [x] Done
+18. For-in Statements
+    - [x] Done
 19. Functions
-    1. Function Overrides
+    - [x] Function Overrides
 20. Procedures
-    1. Procedure Overrides
+    - [x] Procedure Overrides
 21. Variables
-    1. Constant (`const`)
-    2. Mutable (`let`)
+    - [x] Constant (`const`)
+    - [x] Mutable (`let`)
 22. Global Variables
-    1. Constant (`const`)
-    2. Mutable (`let`)
+    - [x] Constant (`const`)
+    - [x] Mutable (`let`)
 23. Garbage Collection
-    1. ARC (automatic reference counting)
+    - [x] ARC (automatic reference counting)
