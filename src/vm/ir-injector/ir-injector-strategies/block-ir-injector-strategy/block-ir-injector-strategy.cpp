@@ -18,13 +18,15 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
                 irBlockNode->addSuccessor(ifStatement->getElseNode().value());
             }
             irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
-            if (!ifStatement->getIfElseNode()->getEndBlock()->hasReturnInstruction()) {
+            if (!ifStatement->getIfElseNode()->getEndBlock()->hasReturnInstruction() && ifStatement->getIfElseNode()->getEndBlock()->isReachable()) {
                 irBlockNode->createSuccessor();
                 successorsToBranchToParent.push_back(irBlockNode->getLastSuccessorOrSelf());
                 ifStatement->getIfElseNode()->getEndBlock()->getBuilder()->get()->CreateBr(
                         irBlockNode->getLastSuccessorOrSelf()->getBlock()
                 );
                 irBlockNode->getLastSuccessorOrSelf()->getBlock()->moveAfter(ifStatement->getIfElseNode()->getEndBlock()->getBlock());
+            } else if (ifStatement->getIfElseNode()->getEndBlock()->isUnreachable()) {
+                ifStatement->getIfElseNode()->getEndBlock()->addVoidReturn();
             }
         } else if (statement->is(IR_WHILE_STATEMENT_NODE)) {
             auto whileStatement = (IRWhileStatementNode*)statement;
@@ -48,7 +50,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
                     irBlockNode->getLastSuccessorOrSelf()->getBlock()
             );
             irBlockNode->getLastSuccessorOrSelf()->getBlock()->moveAfter(forInStatement->getEndBlock()->getBlock());
-        } else {
+        } else if (!irBlockNode->getLastSuccessorOrSelf()->hasReturnInstruction() && !irBlockNode->getLastSuccessorOrSelf()->hasBranchInstruction()) {
             irInjector->inject(irBlockNode->getLastSuccessorOrSelf(), statement, irModule, irBlockNode->getLastSuccessorOrSelf()->getScope());
         }
     }

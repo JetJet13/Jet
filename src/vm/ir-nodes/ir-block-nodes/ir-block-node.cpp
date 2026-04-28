@@ -34,6 +34,16 @@ bool IRBlockNode::hasReturnInstruction() {
     return false;
 }
 
+bool IRBlockNode::isReachable() {
+    auto isEntryBlock = &_irValue->getParent()->getEntryBlock() == _irValue;
+    auto hasOneOrMorePredecessors = _irValue->hasNPredecessorsOrMore(1);
+    return isEntryBlock || hasOneOrMorePredecessors;
+}
+
+bool IRBlockNode::isUnreachable() {
+    return !this->isReachable();
+}
+
 IRLookupTable* IRBlockNode::getScope() {
     return _scope;
 }

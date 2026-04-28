@@ -6,17 +6,26 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
+ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode) {
+    _returnNode = returnNode;
+    _returnExpression = {};
+}
+
 ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* expressionNode) {
     _returnNode = returnNode;
     _returnExpression = expressionNode;
-    _children.push_back(_returnExpression);
+    _children.push_back(_returnExpression.value());
 }
 
 ASTFunctionReturnNode* ASTFunctionReturnExpressionNode::getReturnNode() {
     return _returnNode;
 }
 
-ASTExpressionNode* ASTFunctionReturnExpressionNode::getExpression() {
+bool ASTFunctionReturnExpressionNode::hasExpression() {
+    return _returnExpression.has_value();
+}
+
+std::optional<ASTExpressionNode*> ASTFunctionReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
@@ -25,7 +34,10 @@ Position* ASTFunctionReturnExpressionNode::getStartPosition() {
 }
 
 Position* ASTFunctionReturnExpressionNode::getEndPosition() {
-    return _returnExpression->getEndPosition();
+    if (_returnExpression) {
+        return _returnExpression.value()->getEndPosition();
+    }
+    return _returnNode->getEndPosition();
 }
 
 ASTNodeType ASTFunctionReturnExpressionNode::getNodeType() {
@@ -41,18 +53,30 @@ bool ASTFunctionReturnExpressionNode::isSameAs(ASTNode *other) {
         return false;
     }
     auto otherNode = (ASTFunctionReturnExpressionNode*)other;
-    return this->getExpression()->isSameAs(otherNode->getExpression());
+    if (this->getExpression() && otherNode->getExpression()) {
+        return this->getExpression().value()->isSameAs(otherNode->getExpression().value());
+    } else if (!this->getExpression() && !otherNode->getExpression()) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void ASTFunctionReturnExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _returnExpression->print();
+    if (_returnExpression) {
+        _returnExpression.value()->print();
+    } else {
+        _returnNode->print();
+    }
     Logger::log("----------");
 }
 
 std::string ASTFunctionReturnExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_returnNode)
-    ->add(_returnExpression);
+    sourceCodeBuilder.add(_returnNode);
+    if (_returnExpression) {
+        sourceCodeBuilder.add(_returnExpression.value());
+    }
     return sourceCodeBuilder.build();
 }

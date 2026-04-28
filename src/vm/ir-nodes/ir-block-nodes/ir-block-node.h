@@ -34,6 +34,8 @@ public:
     bool hasReturnStatement();
     bool hasBranchInstruction();
     bool hasReturnInstruction();
+    bool isReachable();
+    bool isUnreachable();
     IRLookupTable* getScope();
     llvm::BasicBlock* getBlock();
     std::vector<IRNode*>* getBody();

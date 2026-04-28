@@ -10,13 +10,11 @@ namespace FunctionReturnExpressionTypeCheckerPolicy {
     void apply(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(functionReturnExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionReturnExpression);
-        auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(functionReturnExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
             functionReturnExpression,
             unknownMessage,
             invalidMessage,
-            voidMessage,
             typeCheckerResult
         );
     }

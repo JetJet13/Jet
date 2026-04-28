@@ -6,5 +6,8 @@
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-function-return-expression-node.h"
 
 ASTNode* FunctionReturnExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    return new ASTFunctionReturnExpressionNode((ASTFunctionReturnNode*)nodes[0], (ASTExpressionNode*)nodes[1]);
+    if (nodes.size() == 2) {
+        return new ASTFunctionReturnExpressionNode((ASTFunctionReturnNode*)nodes[0], (ASTExpressionNode*)nodes[1]);
+    }
+    return new ASTFunctionReturnExpressionNode((ASTFunctionReturnNode*)nodes[0]);
 }

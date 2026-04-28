@@ -17,6 +17,10 @@ class SimpleClass {
     public getValue() int {
         return this.value;
     }
+
+    public incrementValue() {
+        this.value = this.value + 1;
+    }
 }
 
 class ComplexClass {
@@ -93,114 +97,15 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-proc testBuiltInFunctions() {
-    const intExample = 101;
-    print("intExample");
-    print(intExample);
-    print(101);
-
-    const floatExample = 190.9011;
-    print("intExample");
-    print(floatExample);
-    print(190.9011);
-
-    const boolExample = true;
-    print("boolExample");
-    print(boolExample);
-    print(true);
-
-    const charExample = 'w';
-    print("charExample");
-    print(charExample);
-    print('w');
-
-    const stringExample = "hello world";
-    print("stringExample");
-    print(stringExample);
-    print("hello world");
-
-    const structExample = {
-        a: 100,
-        b: 190.90,
-        c: false,
-        d: 'x',
-        y: "hello",
-        g: "mars",
-        h: [1,2,3],
-        i: () => true,
-        j: { 68, false, 'c' }
-    };
-    print("structExample");
-    print(structExample);
-    print({
-      a: 100,
-      b: 190.90,
-      c: false,
-      d: 'x',
-      y: "hello",
-      g: "mars",
-      h: [1,2,3],
-      i: () => true,
-      j: { 68, false, 'c' },
-      k: { foo: "bar" }
-    });
-
-    const tupleExample = { 100, true, false, 'c', { foo: "bar" }, { 1920, 't', 'w' } };
-    print("tupleExample");
-    print(tupleExample);
-    print({ 100, true, false, 'c', { foo: "bar" }, { 1920, 't', 'w' } });
-
-    const classExample = new SimpleClass(1009);
-    print("classExample");
-    print(classExample);
-    print(new SimpleClass(1009));
-    print(new ComplexClass(881));
-
-    const arrayExample = [1,2,3];
-    print("arrayExample");
-    print(arrayExample);
-    print([1, 2, 3]);
-
-    const moduleExample = MySecondModule::MySecondGlobalInt;
-    print("moduleExample");
-    print(moduleExample);
-    print(MySecondModule::MySecondGlobalInt);
-
-    const moduleCallExample = MySecondModule::mySecondIntFunction(100);
-    print("moduleCallExample");
-    print(moduleCallExample);
-    print(MySecondModule::mySecondIntFunction(100));
-
-    print(intExample, floatExample, boolExample, charExample, stringExample, structExample, tupleExample, classExample, arrayExample, moduleExample, moduleCallExample);
-
-    const simpleRange = range(4);
-    assert(simpleRange == [0,1,2,3]);
-    assert(range(4) == [0,1,2,3]);
-    assert(range(-4) == [0, -1, -2, -3]);
-    assert(range(0).empty());
-    assert(range(-1) == [0]);
-    assert(range(1) == range(-1));
-
-    const medRange = range(1, 5);
-    assert(medRange == [1,2,3,4]);
-    assert(range(1, 5) == [1,2,3,4]);
-    assert(range(-1, -5).empty());
-    assert(range(-1, -1).empty());
-    assert(range(-1, -1) == range(-1, -5));
-    assert(range(-5, -1) == [-5, -4, -3, -2]);
-
-    // range(start: int, end: int, step: int) - setting step to 0 will abort program
-    const complexRange = range(1, 5, 3);
-    assert(complexRange == [1, 4]);
-    assert(range(1, 5, 3) == [1, 4]);
-    assert(range(1, 5, -1).empty());
-    assert(range(-5, -1, 1) == [-5, -4, -3, -2]);
-    assert(range(-5, -1, -1).empty());
-    assert(range(5, 1, 1).empty());
-
-    assert(true);
-    assert(true, "you'll never see this message");
-    //assert(false, "you'll always see this message");
-
+// todo - fix this
+proc testForLoopReturns(x: int) {
+    for i in range(10) {
+        if x mod i == 0 {
+            //print("returning early", x, i);
+            return;
+        }
+    }
+    //print("didn't return early", x);
 }
-testBuiltInFunctions();
+testForLoopReturns(100);
+testForLoopReturns(5);

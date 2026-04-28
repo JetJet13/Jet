@@ -14,10 +14,10 @@
 class IRFunctionReturnExpressionNode : public IRStatementNode {
 private:
     ASTFunctionReturnExpressionNode* _node;
-    IRExpressionNode* _irExpression;
+    std::optional<IRExpressionNode*> _irExpression;
 public:
-    IRFunctionReturnExpressionNode(ASTFunctionReturnExpressionNode* node, IRExpressionNode* irExpression);
-    IRExpressionNode* getReturnExpression();
+    IRFunctionReturnExpressionNode(ASTFunctionReturnExpressionNode* node, std::optional<IRExpressionNode*> irExpression = {});
+    std::optional<IRExpressionNode*> getReturnExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

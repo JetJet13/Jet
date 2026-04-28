@@ -1242,8 +1242,59 @@ proc testWhileLoops() {
     }
     assert(evenCounter == 10);
     assert(oddCounter == 10);
+
+    const whileStruct = { a: 0, b: 10 };
+    while whileStruct.a < whileStruct.b {
+        whileStruct.a = whileStruct.a + 1;
+    }
+    assert(whileStruct.a == whileStruct.b);
+
+    const whileTuple = { 0, 10 };
+    while whileTuple.0 < whileTuple.1 {
+        whileTuple.0 = whileTuple.0 + 1;
+    }
+    assert(whileTuple.0 == whileTuple.1);
+
+    if whileTuple.0 == whileTuple.1 {
+        whileTuple.0 = 0;
+        while whileTuple.0 < whileTuple.1 {
+            whileTuple.0 = whileTuple.0 + 1;
+        }
+        assert(whileTuple.0 == whileTuple.1);
+    }
+
+    const whileArray = [0, 10];
+    while whileArray[0] <= whileArray[1] {
+        whileArray[0] = whileArray[0] + 1;
+    }
+    assert(whileArray[0] - 1 == whileArray[1]);
+
+    whileArray[0] = 20;
+    while whileArray[0] >= whileArray[1] {
+        whileArray[0] = whileArray[0] - 1;
+    }
+    assert(whileArray[0] + 1 == whileArray[1]);
+
+    const myClass = new SimpleClass(0);
+    const otherClass = new SimpleClass(10);
+    while myClass.getValue() < otherClass.getValue() {
+        myClass.incrementValue();
+    }
+    assert(myClass.getValue() == otherClass.getValue());
 }
 testWhileLoops();
+
+proc testWhileReturns() {
+    let x = 80;
+    while x > 65 {
+        if x == 75 {
+            print("returning early!");
+            return;
+        }
+        x = x - 1;
+    }
+}
+testWhileReturns();
 
 proc testForLoops() {
     let value = 10;
@@ -1602,26 +1653,40 @@ func ifStatements(x: int, y: int, z: int) int {
 }
 
 func otherIfStatements(x: int, y: int, z: int) int {
+    const a = [1,2,3,4];
     if x > y {
+        const b = [1,2,3,4];
         if x == 10 {
+            const c = [1,2,3,4];
             return 10;
         } else {
+            const d = [1,2,3,4];
             if y > 0 {
+                const e = [1,2,3,4];
                 return 9;
             }
+            const f = [1,2,3,4];
             return 8;
         }
+        const g = [1,2,3,4];
     } else if x == y {
+        const h = [1,2,3,4];
         if z == 0 {
+            const i = [1,2,3,4];
             return 7;
         }
+        const j = [1,2,3,4];
         return 6;
     } else {
+        const k = [1,2,3,4];
         if z > 100 {
+            const l = [1,2,3,4];
             return 5;
         }
+        const m = [1,2,3,4];
         return 4;
     }
+    const n = [1,2,3,4];
 }
 
 proc testIfStatements() {

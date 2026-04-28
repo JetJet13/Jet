@@ -119,7 +119,7 @@ void FreeIRInjectorHelper::freeFunctionParameters(IRBlockNode* irBlockNode, IRFu
                 block->getBuilder()->get()->CreateCall(
                         irModule->getFreeInvocableFunction(),
                         {
-                                scope->find(parameter->getParameterType()->getName()).value()->getValue(),
+                            scope->find(parameter->getParameterType()->getName()).value()->getValue(),
                         }
                 );
             } else if (parameter->needsToBeFreed()) {
@@ -132,8 +132,8 @@ void FreeIRInjectorHelper::freeFunctionParameters(IRBlockNode* irBlockNode, IRFu
                 block->getBuilder()->get()->CreateCall(
                         irModule->getFreeValueFunction(),
                         {
-                                scope->find(parameter->getParameterType()->getName()).value()->getValue(),
-                                loadedTypeValue
+                            scope->find(parameter->getParameterType()->getName()).value()->getValue(),
+                            loadedTypeValue
                         }
                 );
             }

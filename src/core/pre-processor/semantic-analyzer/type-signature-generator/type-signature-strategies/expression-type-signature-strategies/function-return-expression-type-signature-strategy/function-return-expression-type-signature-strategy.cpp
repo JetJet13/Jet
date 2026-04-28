@@ -6,6 +6,10 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void FunctionReturnExpressionTypeSignatureStrategy::assign(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
-    strategyMap->assignTypeSignatureFor(functionReturnExpression->getExpression(), context, scope);
-    functionReturnExpression->setTypeSignature(functionReturnExpression->getExpression()->getTypeSignature());
+    if (functionReturnExpression->getExpression()) {
+        strategyMap->assignTypeSignatureFor(functionReturnExpression->getExpression().value(), context, scope);
+        functionReturnExpression->setTypeSignature(functionReturnExpression->getExpression().value()->getTypeSignature());
+    } else {
+        functionReturnExpression->setTypeSignature(new VoidTypeSignature());
+    }
 }

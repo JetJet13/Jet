@@ -11,11 +11,13 @@
 class ASTFunctionReturnExpressionNode : public ASTExpressionNode {
 private:
     ASTFunctionReturnNode* _returnNode;
-    ASTExpressionNode* _returnExpression;
+    std::optional<ASTExpressionNode*> _returnExpression;
 public:
+    ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode);
     ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* returnExpression);
     ASTFunctionReturnNode* getReturnNode();
-    ASTExpressionNode* getExpression();
+    bool hasExpression();
+    std::optional<ASTExpressionNode*> getExpression();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -5,7 +5,10 @@
 #include "function-return-expression-ir-strategy.h"
 
 IRFunctionReturnExpressionNode* FunctionReturnExpressionIRStrategy::generate(ASTFunctionReturnExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto irExpressionNode = irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-    irExpressionNode->markAsReturned();
-    return new IRFunctionReturnExpressionNode(node, irExpressionNode);
+    if (node->getExpression()) {
+        auto irExpressionNode = irGenerator->generateFor(node->getExpression().value(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+        irExpressionNode->markAsReturned();
+        return new IRFunctionReturnExpressionNode(node, irExpressionNode);
+    }
+    return new IRFunctionReturnExpressionNode(node);
 }

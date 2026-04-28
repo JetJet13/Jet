@@ -774,7 +774,8 @@ void SyntaxDfa::init() {
 
 
     functionReturn
-    ->markAlwaysReduceSelf();
+    ->markAlwaysReduceSelf()
+    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_FUNCTION_RETURN_EXPRESSION_NODE, { AST_TERMINATOR_NODE }));
 
     this->setupTransitionsWithTarget(functionReturn, AST_FUNCTION_RETURN_EXPRESSION_NODE, {
             AST_LITERAL_EXPRESSION_NODE,

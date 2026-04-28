@@ -61,7 +61,10 @@ void NoReturnExpressionTypeCheckerRule::print() {
 void NoReturnExpressionTypeCheckerRule::checkNode(std::vector<ASTNode*>* nodes, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     for (auto statement : *nodes) {
         if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
-            typeCheckerResult->addError(message());
+            auto functionReturnExpression = (ASTFunctionReturnExpressionNode*)statement;
+            if (functionReturnExpression->hasExpression()) {
+                typeCheckerResult->addError(message());
+            }
         } else if (statement->is(AST_IF_STATEMENT_NODE)) {
             this->enforce((ASTIfStatementNode*)statement, message, typeCheckerResult);
         } else if (statement->is(AST_TRY_STATEMENT_NODE)) {
