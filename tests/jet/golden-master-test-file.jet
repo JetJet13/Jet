@@ -6,8 +6,6 @@ import MyFourthModule from "./fourth-test-file.jet";
 // Global Malloc Count: 146
 // we need to factor in global variable assignment (deduct from global malloc count)
 
-
-
 // syntax not supported but workaround exists for the following scenarios:
 // #1 lambda-with-fat-arrow expression as left operand of binary expression
 // not supported: () => true == () => true
@@ -28,6 +26,10 @@ class SimpleClass {
 
     public getValue() int {
         return this.value;
+    }
+
+    public incrementValue() {
+        this.value = this.value + 1;
     }
 }
 

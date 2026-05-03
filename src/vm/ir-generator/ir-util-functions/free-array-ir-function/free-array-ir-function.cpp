@@ -33,8 +33,8 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isElementTypeLiteralIfBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isElementTypeLiteralThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto forLoopPrepBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto forLoopPrepBlock = functionBlock->getLastChildOrSelf();
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());

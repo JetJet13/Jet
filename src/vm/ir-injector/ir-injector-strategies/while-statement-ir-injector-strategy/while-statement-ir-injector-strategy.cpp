@@ -13,7 +13,7 @@ void WhileStatementIRInjectorStrategy::inject(IRWhileStatementNode* irWhileState
     whileConditionBlock->getBuilder()->get()->CreateCondBr(irWhileConditionValue, bodyBlock->getBlock(), endBlock->getBlock());
 
     irInjector->inject(irBlock, bodyBlock, irModule);
-    auto lastBodyBlock = bodyBlock->getLastSuccessorOrSelf();
+    auto lastBodyBlock = bodyBlock->getLastChildOrSelf();
     if (lastBodyBlock->hasBranchInstruction()) {
         lastBodyBlock->removeLastInstruction();
     }

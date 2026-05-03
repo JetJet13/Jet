@@ -24,8 +24,8 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isStringEmptyIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isStringEmptyIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
     auto sizeInBytes = irGenerator->generateIntConstant(charType->getSizeInBytes());

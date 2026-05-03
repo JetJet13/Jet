@@ -27,10 +27,10 @@ IRBlockNode* IRWhileStatementNode::getEndBlock() {
     return _endBlock;
 }
 
-void IRWhileStatementNode::setBlocksToBeSuccessorsOf(IRBlockNode* irBlock) {
-    irBlock->addSuccessor(_whileBlock);
-    irBlock->addSuccessor(_bodyBlock);
-    irBlock->addSuccessor(_endBlock);
+void IRWhileStatementNode::nestIn(IRBlockNode* irBlock) {
+    irBlock->nest(_whileBlock);
+    irBlock->nest(_bodyBlock);
+    irBlock->nest(_endBlock);
 }
 
 IRNodeType IRWhileStatementNode::getNodeType() {

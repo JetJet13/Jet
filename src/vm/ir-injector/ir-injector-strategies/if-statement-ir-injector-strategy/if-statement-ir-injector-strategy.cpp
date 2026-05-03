@@ -18,6 +18,9 @@ void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRB
         irInjector->inject(irBlock, thenBlock, irModule);
         irInjector->inject(irBlock, elseBlock, irModule);
 
+        elseBlock->getBlock()->moveAfter(thenBlock->getLastChildOrSelf()->getBlock());
+        endBlock->getBlock()->moveAfter(elseBlock->getLastChildOrSelf()->getBlock());
+
         if (!thenBlock->hasBranchInstruction() && !thenBlock->hasReturnInstruction()) {
             thenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
         }
@@ -37,6 +40,4 @@ void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRB
 
         currentIfElseNode = currentIfElseNode.value()->getNext();
     }
-
-
 }

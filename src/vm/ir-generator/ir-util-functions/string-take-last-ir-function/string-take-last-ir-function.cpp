@@ -28,8 +28,8 @@ void StringTakeLastIRFunction::generateStringTakeLastFunction(IRGenerator* irGen
     auto isNumCharsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isTakeLastNumGreaterThanNumCharsIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isTakeLastNumGreaterThanNumCharsIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
     auto sizeInBytes = irGenerator->generateIntConstant(charType->getSizeInBytes());
     auto depthPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getDepthIndex());
     auto depth = functionBlock->getBuilder()->get()->CreateLoad(intType, depthPointer);

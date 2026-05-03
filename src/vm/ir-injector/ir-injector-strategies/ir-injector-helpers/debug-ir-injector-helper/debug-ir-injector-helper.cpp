@@ -19,10 +19,10 @@ void DebugIRInjectorHelper::injectFunctionEnterLog(IRBlockNode* irBlockNode, std
 void DebugIRInjectorHelper::injectFunctionExitLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeLastInstruction();
-    irBlockNode->getLastSuccessorOrSelf()->getBuilder()->get()->CreateCall(
+    irBlockNode->getLastChildOrSelf()->getBuilder()->get()->CreateCall(
             irModule->getPrintDebugStringFunction(),
             {
-                irInjector->injectRawString(irBlockNode->getLastSuccessorOrSelf(), "[exit] " +  functionName + "\n")
+                irInjector->injectRawString(irBlockNode->getLastChildOrSelf(), "[exit] " + functionName + "\n")
             }
     );
     irBlockNode->resetInsertionPoint();

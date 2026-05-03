@@ -7,6 +7,7 @@
 #include "../../../ir-type/ir-ref-type.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto setupBlock = irForInStatement->getSetupBlock();
@@ -43,7 +44,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
             currentIndex,
             numElements
     );
-    forInBlock->getBuilder()->get()->CreateCondBr(currentIndexLessThanNumElements, bodyBlock->getBlock(), irBlock->getLastSuccessorOrSelf()->getBlock());
+    forInBlock->getBuilder()->get()->CreateCondBr(currentIndexLessThanNumElements, bodyBlock->getBlock(), endBlock->getBlock());
 
     // body
     auto sourceArray = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), pointerToSourceArray, bodyBlock);
@@ -66,14 +67,26 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
         InstructionIRInjectorHelper::injectStore(loadedNewVariableValue, variableAllocation, bodyBlock);
     }
     irInjector->inject(irBlock, bodyBlock, irModule);
-    auto lastBodyBlock = bodyBlock->getLastSuccessorOrSelf();
+
+    auto lastBodyBlock = bodyBlock->getLastChildOrSelf();
+    endBlock->getBlock()->moveAfter(lastBodyBlock->getBlock());
+
+    setupBlock->setFinalBlockForNodesToFree(endBlock);
+    setupBlock->preventFreeingNodes();
+    irBlock->adoptNodesToFreeFrom(setupBlock);
+    FreeIRInjectorHelper::freeExpression(endBlock, irForInStatement->getSource(), irInjector, irModule, scope);
+
+    if (lastBodyBlock->hasReturnInstruction()) {
+        return;
+    }
+
     if (lastBodyBlock->hasBranchInstruction()) {
         lastBodyBlock->removeLastInstruction();
     }
+
     auto newIndexValue = lastBodyBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, currentIndex, one);
     lastBodyBlock->getBuilder()->get()->CreateStore(newIndexValue, indexAllocation);
     lastBodyBlock->getBuilder()->get()->CreateBr(forInBlock->getBlock());
-    setupBlock->transferNodesToFreeTo(endBlock);
 }
 
 llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(IRForInStatementNode* irForInStatement, IRArrayPointerType* arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {

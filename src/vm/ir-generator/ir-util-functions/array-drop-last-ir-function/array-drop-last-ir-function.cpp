@@ -26,10 +26,10 @@ void ArrayDropLastIRFunction::generateArrayDropLastFunction(IRGenerator* irGener
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNewNumElementsNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNewNumElementsNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
-    functionBlock->createSuccessor();
-    auto forLoopPrepBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
+    functionBlock->createChild();
+    auto forLoopPrepBlock = functionBlock->getLastChildOrSelf();
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());
     auto forLoopEndBlock = irGenerator->generateForLoopEndBlock(irContext, functionBlock->getScope());

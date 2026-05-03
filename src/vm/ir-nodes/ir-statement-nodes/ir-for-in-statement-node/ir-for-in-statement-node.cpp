@@ -48,11 +48,11 @@ IRBlockNode* IRForInStatementNode::getEndBlock() {
     return _endBlock;
 }
 
-void IRForInStatementNode::setBlocksToBeSuccessorsOf(IRBlockNode* irBlock) {
-    irBlock->addSuccessor(_setupBlock);
-    irBlock->addSuccessor(_forInBlock);
-    irBlock->addSuccessor(_bodyBlock);
-    irBlock->addSuccessor(_endBlock);
+void IRForInStatementNode::nestIn(IRBlockNode* irBlock) {
+    irBlock->nest(_setupBlock);
+    irBlock->nest(_forInBlock);
+    irBlock->nest(_bodyBlock);
+    irBlock->nest(_endBlock);
 }
 
 IRNodeType IRForInStatementNode::getNodeType() {

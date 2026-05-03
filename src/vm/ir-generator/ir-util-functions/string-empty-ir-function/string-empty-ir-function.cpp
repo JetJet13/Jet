@@ -22,8 +22,8 @@ void StringEmptyIRFunction::generateStringEmptyFunction(IRGenerator* irGenerator
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNumElementsOneIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNumElementsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
     auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, numElementsIndex });
     auto loadedNumElements = functionBlock->getBuilder()->get()->CreateLoad(intType, pointerToNumElements);
     functionBlock->getBuilder()->get()->CreateBr(isNumElementsOneIfBlock->getBlock());

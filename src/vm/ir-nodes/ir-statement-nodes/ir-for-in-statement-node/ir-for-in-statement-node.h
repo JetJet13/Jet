@@ -32,7 +32,7 @@ public:
     IRBlockNode* getForInBlock();
     IRBlockNode* getBodyBlock();
     IRBlockNode* getEndBlock();
-    void setBlocksToBeSuccessorsOf(IRBlockNode* irBlock);
+    void nestIn(IRBlockNode* irBlock);
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

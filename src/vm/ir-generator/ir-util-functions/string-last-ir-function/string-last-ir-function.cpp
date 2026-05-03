@@ -24,8 +24,8 @@ void StringLastIRFunction::generateStringLastFunction(IRGenerator* irGenerator, 
     auto isNumElementsOneIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNumElementsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isNumElementsOneIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
     auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
     auto loadedNumElements = InstructionIRInjectorHelper::injectLoad(intType, pointerToNumElements, functionBlock);
     auto offsetIndexAllocation = functionBlock->getBuilder()->get()->CreateAlloca(intType);

@@ -33,13 +33,13 @@ IRBlockNode* IRIfElseNode::getEndBlock() {
     return _endBlock;
 }
 
-void IRIfElseNode::setBlocksToBeSuccessorsOf(IRBlockNode* irBlock) {
-    irBlock->addSuccessor(_ifBlock);
-    irBlock->addSuccessor(_thenBlock);
-    irBlock->addSuccessor(_elseBlock);
-    irBlock->addSuccessor(_endBlock);
+void IRIfElseNode::nestIn(IRBlockNode* irBlock) {
+    irBlock->nest(_ifBlock);
+    irBlock->nest(_thenBlock);
+    irBlock->nest(_elseBlock);
+    irBlock->nest(_endBlock);
     if (_next) {
-        _next.value()->setBlocksToBeSuccessorsOf(irBlock);
+        _next.value()->nestIn(irBlock);
     }
 }
 

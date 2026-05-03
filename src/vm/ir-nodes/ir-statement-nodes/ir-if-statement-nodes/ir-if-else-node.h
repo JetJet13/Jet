@@ -23,7 +23,7 @@ public:
     IRBlockNode* getThenBlock();
     IRBlockNode* getElseBlock();
     IRBlockNode* getEndBlock();
-    void setBlocksToBeSuccessorsOf(IRBlockNode* irBlock);
+    void nestIn(IRBlockNode* irBlock);
     void setNext(IRIfElseNode* next);
     std::optional<IRIfElseNode*> getNext();
     IRNodeType getNodeType() override;

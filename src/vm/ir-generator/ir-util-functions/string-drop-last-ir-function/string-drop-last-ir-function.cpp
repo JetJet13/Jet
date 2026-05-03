@@ -26,8 +26,8 @@ void StringDropLastIRFunction::generateStringDropLastFunction(IRGenerator* irGen
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNewNumElementsNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNewNumElementsNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto sizeInBytes = functionBlock->getBuilder()->get()->getInt64(charType->getSizeInBytes());

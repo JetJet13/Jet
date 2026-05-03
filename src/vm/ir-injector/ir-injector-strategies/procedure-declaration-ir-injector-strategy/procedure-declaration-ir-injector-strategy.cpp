@@ -11,7 +11,7 @@
 void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     irInjector->inject(irBlock, irProcedureDeclaration->getBlock(), irModule);
     if (!irProcedureDeclaration->getBlock()->hasReturnStatement()) {
-        irProcedureDeclaration->getBlock()->getLastSuccessorOrSelf()->addVoidReturn();
+        irProcedureDeclaration->getBlock()->getLastChildOrSelf()->addVoidReturn();
     }
 
     auto irType = (IRInvocableType*)irProcedureDeclaration->getGlobalVariable()->getIRType()->getSourceType();

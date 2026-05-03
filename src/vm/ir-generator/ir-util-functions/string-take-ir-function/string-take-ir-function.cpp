@@ -28,8 +28,8 @@ void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, 
     auto isNumCharsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isTakeNumGreaterThanNumCharsIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isTakeNumGreaterThanNumCharsIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto numCharsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
     auto depthIndex = irGenerator->generateIntConstant(arrayPointerType->getDepthIndex());

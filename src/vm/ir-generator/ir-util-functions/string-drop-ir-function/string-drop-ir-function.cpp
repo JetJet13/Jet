@@ -25,8 +25,8 @@ void StringDropIRFunction::generateStringDropFunction(IRGenerator* irGenerator, 
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto isNewNumElementsNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNewNumElementsNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto successorBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto successorBlock = functionBlock->getLastChildOrSelf();
     auto numElementsIndex = arrayPointerType->getNumElementsIndex();
     auto allocIndex = arrayPointerType->getAllocIndex();
     auto depthIndex = arrayPointerType->getDepthIndex();

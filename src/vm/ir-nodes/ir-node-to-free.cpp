@@ -14,22 +14,21 @@ IRNode* IRNodeToFree::getIRNode() {
     return _irNode;
 }
 
+void IRNodeToFree::setFinalBlockToFree(IRBlockNode* irBlock) {
+    _finalIRBlockToFree = irBlock;
+}
 
-bool IRNodeToFree::comesBefore(IRBlockNode* irBlockNode) {
+bool IRNodeToFree::comesBefore(IRBlockNode* irBlockNode, llvm::DominatorTree* dominator) {
     auto function = _irBlock->getBlock()->getParent();
     if (function != irBlockNode->getBlock()->getParent()) {
         return false;
-    } else if (_irBlock == irBlockNode) {
+    }
+
+    if (_finalIRBlockToFree && dominator->dominates(_finalIRBlockToFree.value()->getBlock(), irBlockNode->getBlock())) {
+        return false;
+    } else if (dominator->dominates(_irBlock->getBlock(), irBlockNode->getBlock())) {
         return true;
     }
 
-    for (auto &block : function->getFunction()) {
-        if (&block == irBlockNode->getBlock()) {
-            return false;
-        }
-        if (&block == _irBlock->getBlock()) {
-            return true;
-        }
-    }
     return false;
 }

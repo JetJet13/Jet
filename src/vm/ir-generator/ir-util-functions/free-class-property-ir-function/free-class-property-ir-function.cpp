@@ -40,10 +40,10 @@ void FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(IRGenerator*
     auto isClassPropertyStructRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isClassPropertyInvocableIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isClassPropertyInvocableIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    functionBlock->createSuccessor();
-    auto freeBlock = functionBlock->getLastSuccessorOrSelf();
-    functionBlock->createSuccessor();
-    auto endBlock = functionBlock->getLastSuccessorOrSelf();
+    functionBlock->createChild();
+    auto freeBlock = functionBlock->getLastChildOrSelf();
+    functionBlock->createChild();
+    auto endBlock = functionBlock->getLastChildOrSelf();
 
     DebugIRInjectorHelper::injectLog(functionBlock, "FREEING CLASS PROPERTY!", irGenerator->getInjector(), irModuleNode);
     auto typeId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), {typeValueType->getIdIndex() });
