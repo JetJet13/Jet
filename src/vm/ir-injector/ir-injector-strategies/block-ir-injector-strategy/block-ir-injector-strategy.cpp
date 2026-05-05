@@ -56,9 +56,4 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
         }
     }
 
-    if (irBlockNode->getNestedParentBlock() && !irBlockNode->getLastChildOrSelf()->hasBranchInstruction() && !irBlockNode->getLastChildOrSelf()->hasReturnInstruction()) {
-        irBlockNode->getLastChildOrSelf()->getBuilder()->get()->CreateBr(
-                irBlockNode->getNestedParentBlock().value()->getLastChildOrSelf()->getBlock()
-        );
-    }
 }

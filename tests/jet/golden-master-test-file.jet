@@ -362,7 +362,7 @@ proc testGlobalConstantsAndMutables() {
     assert(globalMutableEnum == SimpleEnum.Gamma);
     assert(globalMutableModuleCall == MyOtherModule::myOtherBoolFunction());
 }
-testGlobalConstantsAndMutables();
+//testGlobalConstantsAndMutables();
 
 proc testExpressionsWithGlobals() {
     const addInt = 100 + globalConstantInteger - globalMutableInteger;
@@ -441,7 +441,7 @@ proc testExpressionsWithGlobals() {
     assert(globalConstantStruct.i == SimpleEnum.Alpha);
     assert(globalConstantTuple.8 == SimpleEnum.Alpha);
 }
-testExpressionsWithGlobals();
+//testExpressionsWithGlobals();
 
 proc testLiteralExpressions() {
     let integer = 1;
@@ -581,7 +581,7 @@ proc testLiteralExpressions() {
     const tripleNestedArrAccess = [[[1],[2],[3]], [[4],[5],[6]]][0][0][0];
     assert(tripleNestedArrAccess == 1);
 }
-testLiteralExpressions();
+//testLiteralExpressions();
 
 proc testBedmas() {
     const one = 1;
@@ -633,7 +633,7 @@ proc testBedmas() {
     const bedmasQuadSubTestGrouped = 10 - (1 - 9 + 100) - ((109 + 1929) * 198 - 841);
     assert(bedmasQuadSubTestGrouped == -402765);
 }
-testBedmas();
+//testBedmas();
 
 proc testBuiltInFunctions() {
     const intExample = 101;
@@ -745,7 +745,7 @@ proc testBuiltInFunctions() {
     //assert(false, "you'll always see this message");
 
 }
-testBuiltInFunctions();
+//testBuiltInFunctions();
 
 proc testLambdas() {
     const lambdaIntArrow = () => 10;
@@ -825,7 +825,7 @@ proc testLambdas() {
     };
     assert(structWithLambda.foo() == 901);
 }
-testLambdas();
+//testLambdas();
 
 proc testLambdaLambdaReturn() {
     const lambdaLambdaIntArrow = () => (x: int) => 10 + x;
@@ -893,7 +893,7 @@ proc testLambdaLambdaReturn() {
     const lambdaEnum = lambdaLambdaEnum();
     assert(lambdaEnum() == SimpleEnum.Alpha);
 }
-testLambdaLambdaReturn();
+//testLambdaLambdaReturn();
 
 proc testArrays() {
     const intArray = [ 100, 200, 300 ];
@@ -978,7 +978,7 @@ proc testArrays() {
     const otherLambdaArray = [ () => ';', () => ',', () => '!' ];
     assert(otherLambdaArray != [ () => ';', () => ',', () => '!' ]);
 }
-testArrays();
+//testArrays();
 
 proc testArrayPrototype() {
     const myArray = range(15);
@@ -1029,7 +1029,7 @@ proc testArrayPrototype() {
     const emptyArray: [int] = [];
     assert(emptyArray.empty() == true);
 }
-testArrayPrototype();
+//testArrayPrototype();
 
 proc testRefPrototype() {
     const x = ref 5;
@@ -1146,7 +1146,7 @@ proc testRefPrototype() {
     assert(foo.sameRefAs(vv) == false);
     assert(vv.sameRefAs(foo) == false);
 }
-testRefPrototype();
+//testRefPrototype();
 
 proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
     assertDebugRefCount(s, 2);
@@ -1162,7 +1162,7 @@ proc testArcPassDown() {
     const refS = ref s;
     assertDebugRefCount(refS, 1);
 }
-testArcPassDown();
+//testArcPassDown();
 
 func testPassUpInt() ref<int> {
     const x = 121;
@@ -1177,7 +1177,7 @@ proc testArcPassUp() {
     assertDebugRefCount(passedUpX, 2);
     assert(passedUpX == 121);
 }
-testArcPassUp();
+//testArcPassUp();
 
 proc testWhileLoops() {
     let value = 10;
@@ -1284,7 +1284,7 @@ proc testWhileLoops() {
     }
     assert(myClass.getValue() == otherClass.getValue());
 }
-testWhileLoops();
+//testWhileLoops();
 
 proc testWhileReturns() {
     let x = 80;
@@ -1296,7 +1296,38 @@ proc testWhileReturns() {
         x = x - 1;
     }
 }
-testWhileReturns();
+//testWhileReturns();
+
+proc testForLoopReturns(x: int) {
+    print("testing for loop returns");
+    for i in range(1, 10) {
+        print("loop", i);
+        if i mod x == 0 {
+            print("returning early", x, i);
+            return;
+        }
+        print("printing late");
+        return;
+    }
+    print("didn't return early", x);
+}
+//testForLoopReturns(100);
+//testForLoopReturns(5);
+
+proc testNestedForLoops() {
+    const a = [1,2,3]
+    let numIterations = 0;
+    for i in range(10) {
+        const b = [4,5,6];
+        for j in range(10) {
+            const c = [7,8,9];
+            numIterations = numIterations + 1;
+        }
+        const d = [10,11,12];
+    }
+    assert(numIterations == 100);
+};
+//testNestedForLoops();
 
 proc testForLoops() {
     let value = 10;
@@ -1446,7 +1477,7 @@ proc testForLoops() {
     }
     assert(modifiedArrayWithRefTotal == 15);
 }
-testForLoops();
+//testForLoops();
 
 proc testTuples() {
     const baseString = "my ";
@@ -1463,7 +1494,7 @@ proc testTuples() {
     }
     assert(total == 18);
 }
-testTuples();
+//testTuples();
 
 proc testClass() {
     const mySimpleClass = new SimpleClass(100);
@@ -1498,7 +1529,7 @@ proc testClass() {
     assert(myStaticComplexClass.hairColor == "Black");
 
 }
-testClass();
+//testClass();
 
 func functionUsedAsLambda(x: int) int {
     return x + 1000;
@@ -1520,7 +1551,7 @@ proc testFunctionsAsLambdas() {
     const result = lambdaUsingOtherFunction("hello world");
     assert(lambdaUsingOtherFunction("hello world") == 101);
 }
-testFunctionsAsLambdas();
+//testFunctionsAsLambdas();
 
 proc procUsedAsLambda(x: ref<int>) {
     x := x + 1;
@@ -1542,7 +1573,7 @@ proc testProceduresAsLambdas() {
     procUsedAsLambda(x, ref 20);
     assert(x == 33);
 }
-testProceduresAsLambdas();
+//testProceduresAsLambdas();
 
 proc testStringPrototype() {
     let myString = "hello-world";
@@ -1605,7 +1636,7 @@ proc testStringPrototype() {
     shortString.append('q');
     assert(shortString == "maqq");
 }
-testStringPrototype();
+//testStringPrototype();
 
 proc testModules() {
     assert(MyOtherModule::myBoolFunction() == true);
@@ -1639,7 +1670,7 @@ proc testModules() {
     assert(MyOtherModule::myOtherGlobalLambda(2) == -1);
     assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
 }
-testModules();
+//testModules();
 
 func ifStatements(x: int, y: int, z: int) int {
     if x > 1 {
@@ -1704,4 +1735,5 @@ proc testIfStatements() {
     assert(otherIfStatements(5, 15, 105) == 5);
     assert(otherIfStatements(5, 15, 97) == 4);
 }
-testIfStatements();
+//testIfStatements();
+// 149

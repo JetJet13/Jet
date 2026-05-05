@@ -9,6 +9,7 @@ IRIfElseNode::IRIfElseNode(IRExpressionNode* condition, IRBlockNode* ifBlock, IR
     _ifBlock = ifBlock;
     _thenBlock = thenBlock;
     _elseBlock = elseBlock;
+    _elseBlock->markAsFakeBlock();
     _endBlock = endBlock;
     _next = next;
 }

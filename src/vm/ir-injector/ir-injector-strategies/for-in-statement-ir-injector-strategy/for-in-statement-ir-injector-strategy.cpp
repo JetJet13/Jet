@@ -73,8 +73,8 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
 
     setupBlock->setFinalBlockForNodesToFree(endBlock);
     setupBlock->preventFreeingNodes();
+    FreeIRInjectorHelper::freeForInLoopSource(endBlock, setupBlock, irInjector, irModule, scope);
     irBlock->adoptNodesToFreeFrom(setupBlock);
-    FreeIRInjectorHelper::freeExpression(endBlock, irForInStatement->getSource(), irInjector, irModule, scope);
 
     if (lastBodyBlock->hasReturnInstruction()) {
         return;

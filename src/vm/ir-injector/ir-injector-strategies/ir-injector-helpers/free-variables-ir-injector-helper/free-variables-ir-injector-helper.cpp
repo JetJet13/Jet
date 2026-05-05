@@ -50,11 +50,18 @@ void FreeIRInjectorHelper::freeNodes(IRBlockNode* irBlockNode, std::vector<IRNod
     }
 }
 
+void FreeIRInjectorHelper::freeForInLoopSource(IRBlockNode* forInEndBlock, IRBlockNode* forInSetupBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+    forInEndBlock->setInsertionPointBeforeLastInstruction();
+    for (auto irNodeToFree : *forInSetupBlock->getNodesToFree()) {
+        FreeIRInjectorHelper::freeExpression(forInEndBlock, (IRExpressionNode*)irNodeToFree->getIRNode(), irInjector, irModule, scope);
+    }
+}
+
 void FreeIRInjectorHelper::freeNestedBlockNodes(IRBlockNode* irBlockNode, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto dominator = llvm::DominatorTree(*irBlockNode->getBlock()->getParent());
-    auto nestedBlockNodesToFree = irBlockNode->getNodesToFree();
+    auto blockNodesToFree = irBlockNode->getNodesToFree();
     auto allNodesToFree = irBlockNode->getNestedParentsNodesToFree();
-    allNodesToFree.insert(allNodesToFree.begin(), nestedBlockNodesToFree->begin(), nestedBlockNodesToFree->end());
+    allNodesToFree.insert(allNodesToFree.begin(), blockNodesToFree->begin(), blockNodesToFree->end());
     auto allChildrenThatReturn = irBlockNode->getAllChildrenThatReturn();
     for (auto childBlock : allChildrenThatReturn) {
         childBlock->setInsertionPointBeforeLastInstruction();
@@ -69,15 +76,14 @@ void FreeIRInjectorHelper::freeNestedBlockNodes(IRBlockNode* irBlockNode, IRInje
         }
     }
 
+    if (irBlockNode->hasNestedBlocks() && irBlockNode->allImmediateNestedBlocksReturn()) {
+        return;
+    }
+
     auto lastBlock = irBlockNode->getLastChildOrSelf();
-    // todo - fix this conditional logic to be the following:
-    // when all nested blocks return, don't execute this logic
-    // when some nested blocks return, execute this logic
-    // when no nested blocks return, execute this logic
-    // when no nested blocks exist, execute this logic
-    if (!lastBlock->hasReturnInstruction() && !irBlockNode->hasChildBlocks() && !nestedBlockNodesToFree->empty()) {
+    if (!blockNodesToFree->empty() && !lastBlock->hasReturnInstruction()) {
         lastBlock->setInsertionPointBeforeLastInstruction();
-        for (auto irNodeToFree : *nestedBlockNodesToFree) {
+        for (auto irNodeToFree : *blockNodesToFree) {
             if (!irNodeToFree->comesBefore(lastBlock, &dominator)) {
                 continue;
             } else if (irNodeToFree->getIRNode()->isExpression()) {

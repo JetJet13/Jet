@@ -30,6 +30,7 @@ protected:
     std::vector<IRNodeToFree*> _nodesToFree;
     std::optional<IRFunctionReturnExpressionNode*> _returnExpression;
     bool _allowedToFreeNodes = true;
+    bool _representsRealBlock = true;
 public:
     IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, IRLookupTable* scope);
     bool hasReturnStatement();
@@ -39,6 +40,7 @@ public:
     bool isUnreachable();
     bool isAllowedToFreeNodes();
     void preventFreeingNodes();
+    IRBlockNode* markAsFakeBlock();
     IRLookupTable* getScope();
     llvm::BasicBlock* getBlock();
     std::vector<IRNode*>* getBody();
@@ -65,12 +67,14 @@ public:
     std::set<IRBlockNode*> getAllChildrenThatReturn();
     std::vector<IRBlockNode*>* getNestedBlocks();
     bool hasNestedBlocks();
-    bool hasChildBlocks();
+    bool allImmediateNestedBlocksReturn();
     void nest(IRBlockNode* irBlock);
     IRBlockNode* getLastChildOrSelf();
     std::optional<IRBlockNode*> getNestedParentBlock();
     bool is(IRBlockType blockType);
     bool isOneOf(std::vector<IRBlockType> blockTypes);
+    bool canReturn();
+    bool isEntryBlock();
     void setParentBlock(IRBlockNode* parentIRBlock);
     void setNestedParentBlock(IRBlockNode* nestedParentIRBlock);
 };

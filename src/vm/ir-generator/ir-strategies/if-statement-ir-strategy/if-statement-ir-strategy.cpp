@@ -16,7 +16,7 @@ IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGen
             ifConditionIRExpression,
             ifConditionBlock,
             thenBlock,
-            irGenerator->generateIfElseBlock(irContext, scope),
+            irGenerator->generateIfElseBlock(irContext, scope)->markAsFakeBlock(),
             endBlock
     );
     auto currentIfNode = ifNode;
@@ -26,7 +26,7 @@ IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGen
             elseIfConditionIRExpression,
             irGenerator->generateIfBlock(irContext, scope),
             this->setupBlock(irGenerator->generateIfThenBlock(irContext, scope), elseIf->getBlock(), irGenerator, scope, irContext),
-            irGenerator->generateIfElseBlock(irContext, scope),
+            irGenerator->generateIfElseBlock(irContext, scope)->markAsFakeBlock(),
             endBlock
         );
         currentIfNode->setNext(elseIfNode);

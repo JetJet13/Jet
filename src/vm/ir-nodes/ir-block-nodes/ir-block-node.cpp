@@ -52,6 +52,11 @@ void IRBlockNode::preventFreeingNodes() {
     _allowedToFreeNodes = false;
 }
 
+IRBlockNode* IRBlockNode::markAsFakeBlock() {
+    _representsRealBlock = false;
+    return this;
+}
+
 IRLookupTable* IRBlockNode::getScope() {
     return _scope;
 }
@@ -211,18 +216,32 @@ bool IRBlockNode::hasNestedBlocks() {
     return !_nestedBlocks.empty();
 }
 
-bool IRBlockNode::hasChildBlocks() {
-    return !_childBlocks.empty();
+bool IRBlockNode::allImmediateNestedBlocksReturn() {
+    for (auto nestedBlock : _nestedBlocks) {
+        if (nestedBlock->getNestedParentBlock() != this) {
+            continue;
+        }
+        if (nestedBlock->canReturn() && !nestedBlock->getLastChildOrSelf()->hasReturnInstruction()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 void IRBlockNode::nest(IRBlockNode* irBlock) {
     _nestedBlocks.push_back(irBlock);
     irBlock->setNestedParentBlock(this);
     _successors.push_back(irBlock);
+
+    auto nestedOfNestedIrBlock = irBlock->getNestedBlocks();
+    for (unsigned long i = 0; i < nestedOfNestedIrBlock->size(); ++i) {
+        auto block = nestedOfNestedIrBlock->at(i);
+        _nestedBlocks.push_back(block);
+    }
+
     auto successorsOfSuccessorIrBlock = irBlock->getSuccessors();
     for (unsigned long i = 0; i < successorsOfSuccessorIrBlock->size(); ++i) {
         auto block = successorsOfSuccessorIrBlock->at(i);
-        _nestedBlocks.push_back(block);
         _successors.push_back(block);
     }
 }
@@ -235,6 +254,9 @@ IRBlockNode* IRBlockNode::getLastChildOrSelf() {
 }
 
 std::optional<IRBlockNode*> IRBlockNode::getNestedParentBlock() {
+    if (_parentBlock) {
+        return _parentBlock.value()->getNestedParentBlock();
+    }
     return _nestedParentBlock;
 }
 
@@ -247,6 +269,21 @@ bool IRBlockNode::isOneOf(std::vector<IRBlockType> blockTypes) {
             blockTypes.begin(),
             blockTypes.end(),
             _type) != blockTypes.end();
+}
+
+bool IRBlockNode::canReturn() {
+    return _representsRealBlock && this->isOneOf({
+        IR_BASIC_BT,
+        IR_IF_THEN_BT,
+        IR_IF_ELSE_BT,
+        IR_WHILE_BODY_BT,
+        IR_FOR_LOOP_BODY_BT,
+        IR_FOR_IN_BODY_BT
+    });
+}
+
+bool IRBlockNode::isEntryBlock() {
+    return _irValue == &_irValue->getParent()->getEntryBlock();
 }
 
 void IRBlockNode::setParentBlock(IRBlockNode* parentIRBlock) {

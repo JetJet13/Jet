@@ -21,8 +21,8 @@ void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRB
         elseBlock->getBlock()->moveAfter(thenBlock->getLastChildOrSelf()->getBlock());
         endBlock->getBlock()->moveAfter(elseBlock->getLastChildOrSelf()->getBlock());
 
-        if (!thenBlock->hasBranchInstruction() && !thenBlock->hasReturnInstruction()) {
-            thenBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+        if (!thenBlock->getLastChildOrSelf()->hasBranchInstruction() && !thenBlock->getLastChildOrSelf()->hasReturnInstruction()) {
+            thenBlock->getLastChildOrSelf()->getBuilder()->get()->CreateBr(endBlock->getBlock());
         }
 
         if (currentIfElseNode.value()->getNext()) {
@@ -31,8 +31,8 @@ void IfStatementIRInjectorStrategy::inject(IRIfStatementNode* irIfStatement, IRB
             auto finalElseBlock = irIfStatement->getElseNode().value();
             elseBlock->getBuilder()->get()->CreateBr(finalElseBlock->getBlock());
             irInjector->inject(irBlock, finalElseBlock, irModule);
-            if (!finalElseBlock->hasBranchInstruction() && !finalElseBlock->hasReturnInstruction()) {
-                finalElseBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
+            if (!finalElseBlock->getLastChildOrSelf()->hasBranchInstruction() && !finalElseBlock->getLastChildOrSelf()->hasReturnInstruction()) {
+                finalElseBlock->getLastChildOrSelf()->getBuilder()->get()->CreateBr(endBlock->getBlock());
             }
         } else {
             elseBlock->getBuilder()->get()->CreateBr(endBlock->getBlock());
