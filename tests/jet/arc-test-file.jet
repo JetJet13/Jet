@@ -96,3 +96,4 @@ func getArray(y: [int]) [int] {
 func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
+

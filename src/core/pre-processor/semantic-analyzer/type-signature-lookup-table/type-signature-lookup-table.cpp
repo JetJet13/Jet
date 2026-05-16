@@ -24,7 +24,7 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, Type
 }
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobal(std::string key, TypeSignature* typeSignature) {
-    _globalTypeSignatureLookupTable->insert(std::pair(key, typeSignature));
+    _globalTypeSignatureLookupTable->insert_or_assign(key, typeSignature);
     return this;
 }
 
@@ -33,20 +33,18 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalInvocable(std::s
     auto existing = _globalInvocableTypeSignatureLookupTable->find(name);
     if (existing == _globalInvocableTypeSignatureLookupTable->end()) {
         auto invocableTypeSignatureLookupTable = new std::unordered_map<std::string, InvocableTypeSignature*>();
-        invocableTypeSignatureLookupTable->insert(std::pair(key, typeSignature));
-        _globalInvocableTypeSignatureLookupTable->insert(std::pair(name, invocableTypeSignatureLookupTable));
+        invocableTypeSignatureLookupTable->insert_or_assign(key, typeSignature);
+        _globalInvocableTypeSignatureLookupTable->insert_or_assign(name, invocableTypeSignatureLookupTable);
     } else {
-        existing->second->insert(std::pair(key, typeSignature));
+        existing->second->insert_or_assign(key, typeSignature);
     }
     return this;
 }
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalFunctionOverride(FunctionVarArgTypeSignatureMap* functionOverrideTypeSignatureMap) {
-    _globalFunctionOverrideLookupTable->insert(
-            std::pair(
-                functionOverrideTypeSignatureMap->getFunctionName(),
-                functionOverrideTypeSignatureMap
-            )
+    _globalFunctionOverrideLookupTable->insert_or_assign(
+            functionOverrideTypeSignatureMap->getFunctionName(),
+            functionOverrideTypeSignatureMap
     );
     return this;
 }

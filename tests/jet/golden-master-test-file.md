@@ -6,6 +6,7 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
 ### Language Features
 1. Literals
    - [x] Integer
+     - [x] Overflow
    - [x] Float
    - [x] Boolean
    - [x] Character
@@ -78,7 +79,7 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
     - [x] `-` int or float
     - [x] `!` negate 
 15. Comparator Expressions
-    - [] Done
+    - [x] Done
 16. If Statements
     - [x] Done
 17. While Statements
@@ -87,6 +88,7 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
     - [x] Done
 19. Functions
     - [x] Function Overrides
+    - [x] Recursive Functions
 20. Procedures
     - [x] Procedure Overrides
 21. Variables
@@ -95,5 +97,6 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
 22. Global Variables
     - [x] Constant (`const`)
     - [x] Mutable (`let`)
-23. Garbage Collection
+23. Memory Management
     - [x] ARC (automatic reference counting)
+    - [x] RAII

@@ -11,12 +11,12 @@
 class ASTFloatLiteralNode : public ASTLiteralNode {
     using ASTLiteralNode::ASTLiteralNode;
 private:
-    double _value;
+    std::string _value;
 public:
     ASTNodeType getNodeType() override;
     std::string toString() override;
     void setValue(TokenTable* tokenTable) override;
-    double getValue();
+    std::string getValue();
 };
 
 #endif //JETLANG_AST_FLOAT_LITERAL_NODE_H

@@ -158,6 +158,7 @@ public:
     llvm::ConstantInt* generateIntConstant(int integer);
     llvm::ConstantInt* generateIntConstant(unsigned int integer);
     llvm::ConstantInt* generateIntConstant(uint64_t integer);
+    llvm::ConstantInt* generateIntConstant(int64_t integer);
     llvm::ConstantInt* generateIntConstant(unsigned long integer);
     llvm::ConstantFP* generateFloatConstant(double floatValue);
     llvm::ConstantInt* generateChar(char character);
@@ -178,7 +179,7 @@ public:
     IRType* generateIRCaptureCounterType();
     IRType* generateIRStructRefCounterType();
     IRType* generateIRArcType();
-    IRInstructionNode* generateArcAllocationForFunctionParameter(IRContext* irContext, llvm::Value* source, unsigned long count);
+    IRInstructionNode* generateArcAllocationForInvocable(IRContext* irContext, llvm::Value* source, unsigned long count);
     IRInstructionNode* generateArcAllocationForStructRef(IRContext* irContext, llvm::Value* source, unsigned long count);
     IRInstructionNode* generateArcAllocationForRef(IRContext* irContext, llvm::Value* source, unsigned long count);
     IRInstructionNode* generateArcAllocation(IRContext* irContext, IRType* irType, llvm::Value* source, unsigned long count = 0);

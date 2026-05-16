@@ -146,6 +146,9 @@
 #include "ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
 #include "ir-prototypes/ir-string-prototype-map.h"
 #include "ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h"
+#include "ir-util-functions/int-add-overflow-ir-function/int-add-overflow-ir-function.h"
+#include "ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.h"
+#include "ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -817,6 +820,10 @@ llvm::ConstantInt* IRGenerator::generateIntConstant(uint64_t integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
 
+llvm::ConstantInt* IRGenerator::generateIntConstant(int64_t integer) {
+    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer, true));
+}
+
 llvm::ConstantInt* IRGenerator::generateIntConstant(unsigned long integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
@@ -952,12 +959,12 @@ IRType* IRGenerator::generateIRArcType() {
     return new IRType(this->generateIntType());
 }
 
-IRInstructionNode* IRGenerator::generateArcAllocationForFunctionParameter(IRContext* irContext, llvm::Value* source, unsigned long count) {
+IRInstructionNode* IRGenerator::generateArcAllocationForInvocable(IRContext* irContext, llvm::Value* source, unsigned long count) {
     auto irType = this->generateIRArcType();
-    auto functionParameterType = this->generateIRInvocableType();
+    auto invocableType = this->generateIRInvocableType();
     auto ancestorValues = std::vector<llvm::Value*>();
     if (source->getType()->isPointerTy()) {
-        auto pointerToArcPointer = llvm::GetElementPtrInst::Create(functionParameterType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(functionParameterType->getFunctionRefCounterIndex()) });
+        auto pointerToArcPointer = llvm::GetElementPtrInst::Create(invocableType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(invocableType->getFunctionRefCounterIndex()) });
         ancestorValues.push_back(pointerToArcPointer);
         if (count > 0) {
             auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
@@ -975,7 +982,7 @@ IRInstructionNode* IRGenerator::generateArcAllocationForFunctionParameter(IRCont
                 ancestorValues
         );
     } else {
-        auto arcPointer = llvm::ExtractValueInst::Create(source, { functionParameterType->getFunctionRefCounterIndex() });
+        auto arcPointer = llvm::ExtractValueInst::Create(source, { invocableType->getFunctionRefCounterIndex() });
         ancestorValues.push_back(arcPointer);
         if (count > 0) {
             auto currentArcValue = this->generateLoadInstruction(arcPointer, irType);
@@ -1077,7 +1084,7 @@ IRInstructionNode* IRGenerator::generateArcAllocationForRef(IRContext* irContext
 
 IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, IRType* irType, llvm::Value* source, unsigned long count) {
     if (irType->isInvocableType()) {
-        return this->generateArcAllocationForFunctionParameter(irContext, source, count);
+        return this->generateArcAllocationForInvocable(irContext, source, count);
     } else if (irType->isRefType()) {
         return this->generateArcAllocationForRef(irContext, source, count);
     }
@@ -1208,6 +1215,9 @@ IRContext* IRGenerator::generateContext(IRBlockNode* irBlock, std::shared_ptr<IR
 std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName) {
     return std::make_shared<IRModuleNode>(IRModuleNode(
             std::make_unique<llvm::Module>(moduleName,*_context),
+            IntAddOverflowIRFunction::getIntAddOverflowIRFunctionName(),
+            IntSubOverflowIRFunction::getIntSubOverflowIRFunctionName(),
+            IntMultiplyOverflowIRFunction::getIntMultiplyOverflowIRFunctionName(),
             ArrayAccessIRFunction::getArrayAccessIRFunctionName(),
             CopyArrayIRFunction::getCopyArrayIRFunctionName(),
             CopyPointerIRFunction::getCopyPointerIRFunctionName(),

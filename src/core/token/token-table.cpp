@@ -5,15 +5,15 @@
 #include "token-table.h"
 
 TokenTable::TokenTable() {
-    _intMap = std::unordered_map<unsigned long, int>();
-    _floatMap = std::unordered_map<unsigned long, double>();
+    _intMap = std::unordered_map<unsigned long, std::string>();
+    _floatMap = std::unordered_map<unsigned long, std::string>();
     _charMap = std::unordered_map<unsigned long, char>();
     _stringMap = std::unordered_map<unsigned long, std::string>();
     _identifierMap = std::unordered_map<unsigned long, std::string>();
 }
 
 
-int TokenTable::getInt(unsigned long key) {
+std::string TokenTable::getInt(unsigned long key) {
     auto result = _intMap.find(key);
     if (result == _intMap.end()) {
         throw std::invalid_argument("no unsigned long value found for key");
@@ -22,7 +22,7 @@ int TokenTable::getInt(unsigned long key) {
     }
 }
 
-double TokenTable::getFloat(unsigned long key) {
+std::string TokenTable::getFloat(unsigned long key) {
     auto result = _floatMap.find(key);
     if (result == _floatMap.end()) {
         throw std::invalid_argument("no float value found for key");
@@ -58,12 +58,12 @@ std::string TokenTable::getIdentifier(unsigned long key) {
     }
 }
 
-void TokenTable::setInt(unsigned long key, unsigned long value) {
-    _intMap.insert(std::pair<unsigned long, int>(key, value));
+void TokenTable::setInt(unsigned long key, std::string value) {
+    _intMap.insert(std::pair<unsigned long, std::string>(key, value));
 }
 
-void TokenTable::setFloat(unsigned long key, double value) {
-    _floatMap.insert(std::pair<unsigned long, double>(key, value));
+void TokenTable::setFloat(unsigned long key, std::string value) {
+    _floatMap.insert(std::pair<unsigned long, std::string>(key, value));
 }
 
 void TokenTable::setChar(unsigned long key, char value) {

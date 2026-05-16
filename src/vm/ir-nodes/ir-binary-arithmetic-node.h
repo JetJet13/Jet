@@ -22,6 +22,12 @@ public:
     int getRightOperandIndex();
     bool isHandled();
     void markAsHandled();
+    bool isIntAddition();
+    bool isIntSubtraction();
+    bool isIntMultiplication();
+    bool isFloatAddition();
+    bool isFloatSubtraction();
+    bool isFloatMultiplication();
     int getPriority() const;
     bool isHigherPriorityThan(IRBinaryArithmeticNode* other) const;
 };

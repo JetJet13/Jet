@@ -11,14 +11,14 @@
 class ASTIntLiteralNode : public ASTLiteralNode {
     using ASTLiteralNode::ASTLiteralNode;
 private:
-    int _value;
+    std::string _value;
 public:
     ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
                                   SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     void setValue(TokenTable* tokenTable) override;
-    int getValue();
+    std::string getValue();
 };
 
 #endif //JETLANG_AST_INT_LITERAL_NODE_H

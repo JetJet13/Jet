@@ -48,7 +48,7 @@ public:
     void insertDescendentValue(llvm::Value* descendentValue);
     bool hasChildAllocationMap();
     IRInstructionNode* getChildAllocationForKey(std::string key);
-    void setParentAllocation(IRInstructionNode* parentAllocation);
+    void setParentAllocation(std::optional<IRInstructionNode*> parentAllocation);
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
     IRPointerType* getIRType();

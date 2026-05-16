@@ -5,5 +5,11 @@
 #include "float-literal-ir-strategy.h"
 
 IRFloatLiteralNode* FloatLiteralIRStrategy::generate(ASTFloatLiteralNode* node, IRGenerator* irGenerator, IRContext* irContext) {
-    return new IRFloatLiteralNode(node, llvm::ConstantFP::get(irGenerator->generateFloatType(), llvm::APFloat(node->getValue())));
+    return new IRFloatLiteralNode(
+            node,
+            llvm::ConstantFP::get(
+                **irContext->getContext(),
+                llvm::APFloat(llvm::APFloat::IEEEdouble(), node->getValue())
+            )
+    );
 }

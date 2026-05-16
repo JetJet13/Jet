@@ -12,6 +12,9 @@ class IRModuleNode {
 private:
     std::shared_ptr<IRModuleNode> _linkedToIRModule;
     std::unique_ptr<llvm::Module> _irValue;
+    std::string _intAddOverflowFunctionName;
+    std::string _intSubOverflowFunctionName;
+    std::string _intMultiplyOverflowFunctionName;
     std::string _arrayAccessFunctionName;
     std::string _copyArrayFunctionName;
     std::string _copyPointerFunctionName;
@@ -93,6 +96,9 @@ private:
     std::string _getRefCountFunctionName;
 public:
     IRModuleNode(std::unique_ptr<llvm::Module> irValue,
+                 std::string intAddOverflowFunctionName,
+                 std::string intSubOverflowFunctionName,
+                 std::string intMultiplyOverflowFunctionName,
                  std::string arrayAccessFunctionName,
                  std::string copyArrayFunctionName,
                  std::string copyPointerFunctionName,
@@ -176,6 +182,9 @@ public:
     void linkTo(std::shared_ptr<IRModuleNode> otherIRModule);
     bool isLinked();
     llvm::Function* findFunction(std::string name);
+    llvm::Function* getIntAddOverflowFunction();
+    llvm::Function* getIntSubOverflowFunction();
+    llvm::Function* getIntMultiplyOverflowFunction();
     llvm::Function* getArrayAccessFunction();
     llvm::Function* getCopyArrayFunction();
     llvm::Function* getCopyPointerFunction();

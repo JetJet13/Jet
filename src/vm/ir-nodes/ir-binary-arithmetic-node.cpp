@@ -47,6 +47,30 @@ void IRBinaryArithmeticNode::markAsHandled() {
     _isHandled = true;
 }
 
+bool IRBinaryArithmeticNode::isIntAddition() {
+    return _irOp->getOpcode() == llvm::Instruction::Add;
+}
+
+bool IRBinaryArithmeticNode::isIntSubtraction() {
+    return _irOp->getOpcode() == llvm::Instruction::Sub;
+}
+
+bool IRBinaryArithmeticNode::isIntMultiplication() {
+    return _irOp->getOpcode() == llvm::Instruction::Mul;
+}
+
+bool IRBinaryArithmeticNode::isFloatAddition() {
+    return _irOp->getOpcode() == llvm::Instruction::FAdd;
+}
+
+bool IRBinaryArithmeticNode::isFloatSubtraction() {
+    return _irOp->getOpcode() == llvm::Instruction::FSub;
+}
+
+bool IRBinaryArithmeticNode::isFloatMultiplication() {
+    return _irOp->getOpcode() == llvm::Instruction::FMul;
+}
+
 int IRBinaryArithmeticNode::getPriority() const {
     return _priority;
 }

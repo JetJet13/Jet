@@ -10,20 +10,20 @@
 
 class TokenTable {
 private:
-    std::unordered_map<unsigned long, int> _intMap;
-    std::unordered_map<unsigned long, double> _floatMap;
+    std::unordered_map<unsigned long, std::string> _intMap;
+    std::unordered_map<unsigned long, std::string> _floatMap;
     std::unordered_map<unsigned long, char> _charMap;
     std::unordered_map<unsigned long, std::string> _stringMap;
     std::unordered_map<unsigned long, std::string> _identifierMap;
 public:
     TokenTable();
-    int getInt(unsigned long key);
-    double getFloat(unsigned long key);
+    std::string getInt(unsigned long key);
+    std::string getFloat(unsigned long key);
     char getChar(unsigned long key);
     std::string getString(unsigned long key);
     std::string getIdentifier(unsigned long key);
-    void setInt(unsigned long key, unsigned long value);
-    void setFloat(unsigned long key, double value);
+    void setInt(unsigned long key, std::string value);
+    void setFloat(unsigned long key, std::string value);
     void setChar(unsigned long key, char value);
     void setString(unsigned long key, std::string value);
     void setIdentifier(unsigned long key, std::string value);

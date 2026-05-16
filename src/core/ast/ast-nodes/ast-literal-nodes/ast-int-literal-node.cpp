@@ -25,6 +25,6 @@ void ASTIntLiteralNode::setValue(TokenTable* tokenTable) {
     _value = tokenTable->getInt(_lexeme->getToken()->getValueId().value());
 }
 
-int ASTIntLiteralNode::getValue() {
+std::string ASTIntLiteralNode::getValue() {
     return _value;
 }

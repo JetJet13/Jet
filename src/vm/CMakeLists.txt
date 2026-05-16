@@ -786,6 +786,12 @@ add_library(jet-vm
         ir-nodes/ir-node-to-free.h
         ir-generator/ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.cpp
         ir-generator/ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h
+        ir-generator/ir-util-functions/int-add-overflow-ir-function/int-add-overflow-ir-function.cpp
+        ir-generator/ir-util-functions/int-add-overflow-ir-function/int-add-overflow-ir-function.h
+        ir-generator/ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.cpp
+        ir-generator/ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.h
+        ir-generator/ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.cpp
+        ir-generator/ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.h
 )
 
 target_link_libraries(jet-vm

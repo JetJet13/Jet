@@ -45,11 +45,11 @@ std::string ASTTupleAccessNode::toSourceCode() {
     return _lexeme->getToken()->getRawValue();
 }
 
-ASTTupleAccessNode* ASTTupleAccessNode::setIndexValue(int index) {
-    _index = index;
+ASTTupleAccessNode* ASTTupleAccessNode::setIndexValue(std::string index) {
+    _index = std::stoll(index);
     return this;
 }
 
-int ASTTupleAccessNode::getIndexValue() {
+int64_t ASTTupleAccessNode::getIndexValue() {
     return _index;
 }

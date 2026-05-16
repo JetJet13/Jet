@@ -9,7 +9,6 @@ void IdentifierExpressionTypeSignatureStrategy::assign(ASTIdentifierExpressionNo
     auto id = identifierExpression->getId();
     auto typeSignature = typeSignatureLookupTable->find(id);
     if (typeSignature->isUnknown() && context->getTypeSignature() && context->getTypeSignature().value()->isInvocable()) {
-        typeSignatureLookupTable->dump();
         auto invocableTypeSignature = (InvocableTypeSignature*)context->getTypeSignature().value();
         auto functionTypeSignature = typeSignatureLookupTable->findGlobalFunction(id, FunctionIdGenerator::generateFor(invocableTypeSignature));
         if (functionTypeSignature) {

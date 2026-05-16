@@ -23,6 +23,7 @@ add_executable(jet-test
         vm/ir-generator/ir-generator.test.cpp
         vm/ir-generator/resources/file-equality-checker/file-equality-checker.cpp
         vm/ir-generator/resources/file-equality-checker/file-equality-checker.h
+        ../../llvm-project-17.0.6.src/llvm/lib/CodeGen/SelectionDAG/SelectionDAGBuilder.cpp
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core/pre-processor/lexical-analyzer/lexical-analyzer-test-file.jet

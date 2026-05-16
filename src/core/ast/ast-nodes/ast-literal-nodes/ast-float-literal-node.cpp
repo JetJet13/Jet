@@ -16,6 +16,6 @@ void ASTFloatLiteralNode::setValue(TokenTable* tokenTable) {
     _value = tokenTable->getFloat(_lexeme->getToken()->getValueId().value());
 }
 
-double ASTFloatLiteralNode::getValue() {
+std::string ASTFloatLiteralNode::getValue() {
     return _value;
 }

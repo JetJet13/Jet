@@ -1114,7 +1114,6 @@ proc testRefPrototype() {
     assertDebugClassRefCount(myClass, 0);
     assert(refMyClass.refCount() == 1);
 
-
     const myArray = [1, 2, 3];
     assert(myArray == [1, 2, 3]);
     const refMyArray = ref myArray;
@@ -1736,3 +1735,41 @@ proc testIfStatements() {
     assert(otherIfStatements(5, 15, 97) == 4);
 }
 testIfStatements();
+
+func factorial(x: int) int {
+    if x == 0 {
+        return 1;
+    }
+    return x * factorial(x - 1);
+}
+assert(factorial(3) == 6);
+assert(factorial(4) == 24);
+assert(factorial(10) == 3628800);
+
+func isPrime(x: int) bool {
+    if x == 1 || x == 0 {
+        return false;
+    }
+    for i in range(2, x) {
+        if x mod i == 0 {
+            return false;
+        }
+    }
+    return true;
+}
+assert(isPrime(0) == false);
+assert(isPrime(1) == false);
+assert(isPrime(2) == true);
+assert(isPrime(3) == true);
+assert(isPrime(4) == false);
+assert(isPrime(5) == true);
+
+proc maxAndMinInts() {
+    const MAX_INT = 9223372036854775807;
+    const MIN_INT = -9223372036854775808;
+
+    //const overflowAdd = MAX_INT + 1;
+    //const overflowSub = MIN_INT - 1;
+    //const overflowMultiply = MAX_INT * 2;
+}
+maxAndMinInts();

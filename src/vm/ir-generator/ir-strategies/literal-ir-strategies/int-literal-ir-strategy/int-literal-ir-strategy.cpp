@@ -7,5 +7,5 @@
 #include "int-literal-ir-strategy.h"
 
 IRIntLiteralNode* IntLiteralIRStrategy::generate(ASTIntLiteralNode* node, IRContext* irContext) {
-    return new IRIntLiteralNode(node, llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(64, node->getValue())));
+    return new IRIntLiteralNode(node, llvm::ConstantInt::get(**irContext->getContext(), llvm::APInt(64, node->getValue(), 10)));
 }

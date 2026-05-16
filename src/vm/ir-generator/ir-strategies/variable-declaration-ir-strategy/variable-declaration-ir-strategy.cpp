@@ -8,10 +8,8 @@
 
 IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto operation = this->determineOperationType(node);
-    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irContext, operation);
-    irExpression->markAsAssigned();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irExpression, irContext);
+    auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irContext);
 
     auto irGlobalVariable = std::optional<IRInstructionNode*>();
     if (node->isGlobal()) {
@@ -26,15 +24,22 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
         );
         irGlobalVariable = IRInstructionNodeFactory::create(
                 globalVariable,
-                variableAllocation->getIRType(),
-                irExpression->getSourceAllocation()
+                variableAllocation->getIRType()
         );
         variableAllocation->markAsGlobal();
-        irExpression->markAsGlobal();
         irGlobalVariable.value()->markAsGlobal();
         scope->insertGlobalVariable(node->getId(), irGlobalVariable.value());
     } else {
         scope->insert(node->getId(), variableAllocation);
+    }
+
+    auto irExpression = irGenerator->generateFor(node->getInitializerNode(), scope, irContext, operation);
+    irExpression->markAsAssigned();
+    if (irGlobalVariable) {
+        irExpression->markAsGlobal();
+        irGlobalVariable.value()->setParentAllocation(irExpression->getSourceAllocation());
+    } else {
+        variableAllocation->setParentAllocation(irExpression->getSourceAllocation());
     }
 
     auto irArc = std::optional<IRInstructionNode*>();
@@ -56,20 +61,14 @@ IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDe
     return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? new IROperation(IR_REF_ASSIGNMENT_OP) : new IROperation(IR_COPY_ASSIGNMENT_OP);
 }
 
-IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRExpressionNode* irExpression, IRContext* irContext) {
+IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRContext* irContext) {
     if (node->isCaptured()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),
                 { irGenerator->generateInt64Constant(1), irGenerator->generateInt64Constant(irType->getSizeInBytes()) },
                 ""
         );
-        return IRInstructionNodeFactory::create(
-            malloc,
-            irGenerator->generateIrPointerType(irType),
-            irExpression->getSourceAllocation()
-        );
+        return IRInstructionNodeFactory::create(malloc, irGenerator->generateIrPointerType(irType));
     }
-    return IRInstructionNodeFactory::create(
-            irGenerator->generateIrPointerType(irType), node->getId(), irExpression->getSourceAllocation()
-    );
+    return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), node->getId());
 }

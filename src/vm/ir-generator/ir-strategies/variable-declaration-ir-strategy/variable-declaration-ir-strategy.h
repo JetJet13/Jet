@@ -13,7 +13,7 @@
 class VariableDeclarationIRStrategy {
 private:
     IROperation* determineOperationType(ASTVariableDeclarationNode* node);
-    IRInstructionNode* generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRExpressionNode* irExpression, IRContext* irContext);
+    IRInstructionNode* generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRContext* irContext);
 public:
     IRVariableDeclarationNode* generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };

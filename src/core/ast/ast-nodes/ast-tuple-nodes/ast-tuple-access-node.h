@@ -12,13 +12,13 @@
 
 class ASTTupleAccessNode : public ASTNode {
 private:
-    int _index;
+    int64_t _index;
     Lexeme* _lexeme;
 public:
     explicit ASTTupleAccessNode(Lexeme* lexeme);
     Lexeme* getLexeme();
-    ASTTupleAccessNode* setIndexValue(int index);
-    int getIndexValue();
+    ASTTupleAccessNode* setIndexValue(std::string index);
+    int64_t getIndexValue();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

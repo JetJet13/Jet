@@ -21,7 +21,7 @@ llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(IRBinar
         auto op = this->findNextOperationIndex(&irOperations);
         auto leftValue = irOperandValues.at(op->getLeftOperandIndex());
         auto rightValue = irOperandValues.at(op->getRightOperandIndex());
-        auto result = irBlock->getBuilder()->get()->CreateBinOp(op->getOp()->getOpcode(), leftValue->getValue(), rightValue->getValue());
+        auto result = this->calculate(irBlock, op, leftValue->getValue(), rightValue->getValue(), irModule);
         auto resultDSU = new BinaryArithmeticDSU(result);
         leftValue->merge(rightValue);
         resultDSU->merge(leftValue);
@@ -54,3 +54,22 @@ IRBinaryArithmeticNode* LiteralIRBinaryArithmeticExpressionInjectorStrategy::fin
     throw std::logic_error("unable to find next binary arithmetic operation");
 }
 
+llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::calculate(IRBlockNode* irBlock, IRBinaryArithmeticNode* binaryOp, llvm::Value* leftValue, llvm::Value* rightValue, std::shared_ptr<IRModuleNode> irModule) {
+    if (binaryOp->isIntAddition()) {
+        return irBlock->getBuilder()->get()->CreateCall(
+            irModule.get()->getIntAddOverflowFunction(),
+            { leftValue, rightValue }
+        );
+    } else if (binaryOp->isIntSubtraction()) {
+        return irBlock->getBuilder()->get()->CreateCall(
+                irModule.get()->getIntSubOverflowFunction(),
+                { leftValue, rightValue }
+        );
+    } else if (binaryOp->isIntMultiplication()) {
+        return irBlock->getBuilder()->get()->CreateCall(
+                irModule.get()->getIntMultiplyOverflowFunction(),
+                { leftValue, rightValue }
+        );
+    }
+    return irBlock->getBuilder()->get()->CreateBinOp(binaryOp->getOp()->getOpcode(), leftValue, rightValue);
+}

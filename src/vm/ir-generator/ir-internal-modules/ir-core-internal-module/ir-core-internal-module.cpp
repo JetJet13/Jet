@@ -73,6 +73,9 @@
 #include "../../ir-util-functions/string-append-ir-function/string-append-ir-function.h"
 #include "../../ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.h"
 #include "../../ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h"
+#include "../../ir-util-functions/int-add-overflow-ir-function/int-add-overflow-ir-function.h"
+#include "../../ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.h"
+#include "../../ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.h"
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
@@ -127,6 +130,9 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     PrintIRFunction::declarePrintNewLineFunction(irGenerator, context, irModule);
 
     // generate
+    IntAddOverflowIRFunction::generateIntAddOverflowFunction(irGenerator, context, irModule);
+    IntSubOverflowIRFunction::generateIntSubOverflowFunction(irGenerator, context, irModule);
+    IntMultiplyOverflowIRFunction::generateIntMultiplyOverflowFunction(irGenerator, context, irModule);
     ArrayAccessIRFunction::generateArrayAccessFunction(irGenerator, context, irModule);
     MallocIRFunction::generateMallocFunction(irGenerator, context, irModule);
     MallocFreeIRFunction::generateMallocFreeFunction(irGenerator, context, irModule);

@@ -187,7 +187,7 @@ IRInstructionNode* IRInstructionNode::getChildAllocationForKey(std::string key) 
     }
 }
 
-void IRInstructionNode::setParentAllocation(IRInstructionNode* parentAllocation) {
+void IRInstructionNode::setParentAllocation(std::optional<IRInstructionNode*> parentAllocation) {
     _parentAllocation = parentAllocation;
 }
 
