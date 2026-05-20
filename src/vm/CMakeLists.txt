@@ -792,6 +792,14 @@ add_library(jet-vm
         ir-generator/ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.h
         ir-generator/ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.cpp
         ir-generator/ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.h
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-array-access-expression-injector-strategy/tuple-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-array-access-expression-injector-strategy/tuple-ir-array-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-array-access-expression-injector-strategy/class-instance-ir-array-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-array-access-expression-injector-strategy/class-instance-ir-array-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-dref-expression-injector-strategy/tuple-ir-dref-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-dref-expression-injector-strategy/tuple-ir-dref-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-dref-expression-injector-strategy/class-instance-ir-dref-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-dref-expression-injector-strategy/class-instance-ir-dref-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

@@ -9,11 +9,18 @@
 
 llvm::Value* StructIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto pointerToValue = DrefIRInjectorHelper::inject(irExpression, irBlock, irInjector, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-    return StructIRInjectorHelper::injectStructRefCopy(
+    auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
+    auto irType = (IRStructRefType *)irExpression->getIRType();
+    StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType *) irExpression->getIRType(),
+            irType,
             pointerToValue,
+            allocation,
             irModule,
             irInjector
     );
+    if (irOperation->isOperandPointer()) {
+        return allocation;
+    }
+    return InstructionIRInjectorHelper::injectLoad(irType->getType(), allocation, irBlock, irType);
 }

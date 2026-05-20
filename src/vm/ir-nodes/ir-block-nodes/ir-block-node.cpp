@@ -86,6 +86,10 @@ bool IRBlockNode::hasNodesToFree() {
 }
 
 void IRBlockNode::adoptNodesToFreeFrom(IRBlockNode* other) {
+    if (_parentBlock) {
+        _parentBlock.value()->adoptNodesToFreeFrom(other);
+        return;
+    }
     auto otherNodesToFree = other->getNodesToFree();
     _nodesToFree.insert(_nodesToFree.end(), otherNodesToFree->begin(), otherNodesToFree->end());
 }

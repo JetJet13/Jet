@@ -8,6 +8,10 @@ llvm::Type* IREnumType::getValueType() {
     return this->getType()->getStructElementType(0);
 }
 
+bool IREnumType::containsTypeThatRequiresFreeing() {
+    return false;
+}
+
 bool IREnumType::isEnumType() {
     return true;
 }

@@ -7,8 +7,11 @@
 #include "../../../ir-injector-helpers/dref-ir-injector-helper/dref-ir-injector-helper.h"
 
 llvm::Value* LiteralIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto loadedValue = DrefIRInjectorHelper::inject(irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    auto loadedValue = DrefIRInjectorHelper::inject(irExpression, irBlock, irInjector, new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     InstructionIRInjectorHelper::injectStore(loadedValue, allocation, irBlock, irExpression->getIRType());
+    if (irOperation->isOperandPointer()) {
+        return allocation;
+    }
     return InstructionIRInjectorHelper::injectLoad(irExpression->getIRValue()->getAllocatedType(), allocation, irBlock);
 }

@@ -40,7 +40,7 @@ void IntSubOverflowIRFunction::generateIntSubOverflowFunction(IRGenerator* irGen
             elseBlock->getBlock()
     );
     auto sigTermCode = irGenerator->generateIntConstant(15);
-    auto overflowMessage = irGenerator->generateRawString("Int Subtract Operation caused overflow \n");
+    auto overflowMessage = irGenerator->generateRawString("Error [JET1002]: Int Subtract Operation caused overflow \n");
     auto overflowMessageAlloca = isOverflowBlock->getBuilder()->get()->CreateAlloca(overflowMessage->getType());
     isOverflowBlock->getBuilder()->get()->CreateStore(overflowMessage, overflowMessageAlloca);
     isOverflowBlock->getBuilder()->get()->CreateCall(printf, { overflowMessageAlloca });

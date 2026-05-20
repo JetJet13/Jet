@@ -6,7 +6,6 @@
 #include "../../../../ir-type/ir-new-class-instance-type.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../ir-type/ir-class-instance-type.h"
-#include "../../../../ir-type/ir-enum-type.h"
 
 llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlock, IRObjectAccessExpressionNode* irExpression, llvm::Value* sourceValue) {
     auto irType = irExpression->getSource()->getUnderlyingIRType();

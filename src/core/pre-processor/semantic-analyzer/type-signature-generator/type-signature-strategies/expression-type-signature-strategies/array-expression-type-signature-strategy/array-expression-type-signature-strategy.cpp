@@ -23,5 +23,5 @@ void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayE
         strategyMap->assignTypeSignatureFor(element, context, scope);
     }
 
-    arrayExpression->setTypeSignature(new ArrayTypeSignature(arrayExpression->getElements()->at(0)->getTypeSignature()));
+    arrayExpression->setTypeSignature(new ArrayTypeSignature(arrayExpression->getElements()->at(0)->getTypeSignature()->convertToVariableTypeSignature()));
 }

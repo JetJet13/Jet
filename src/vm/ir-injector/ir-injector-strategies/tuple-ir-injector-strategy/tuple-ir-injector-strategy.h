@@ -18,12 +18,16 @@
 #include "strategies/tuple-ir-tuple-access-expression-injector-strategy/tuple-ir-tuple-access-expression-injector-strategy.h"
 #include "strategies/tuple-ir-class-property-access-expression-injector-strategy/tuple-ir-class-property-access-expression-injector-strategy.h"
 #include "strategies/tuple-ir-object-access-expression-injector-strategy/tuple-ir-object-access-expression-injector-strategy.h"
+#include "strategies/tuple-ir-array-access-expression-injector-strategy/tuple-ir-array-access-expression-injector-strategy.h"
+#include "strategies/tuple-ir-dref-expression-injector-strategy/tuple-ir-dref-expression-injector-strategy.h"
 
 class TupleIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 private:
     TupleIRTupleExpressionInjectorStrategy _tupleIRTupleExpressionInjectorStrategy = TupleIRTupleExpressionInjectorStrategy();
+    TupleIRDrefExpressionInjectorStrategy _tupleIRDrefExpressionInjectorStrategy = TupleIRDrefExpressionInjectorStrategy();
     TupleIRIdentifierExpressionInjectorStrategy _tupleIRIdentifierExpressionInjectorStrategy = TupleIRIdentifierExpressionInjectorStrategy();
+    TupleIRArrayAccessExpressionInjectorStrategy _tupleIRArrayAccessExpressionInjectorStrategy = TupleIRArrayAccessExpressionInjectorStrategy();
     TupleIRObjectAccessExpressionInjectorStrategy _tupleIRObjectAccessExpressionInjectorStrategy = TupleIRObjectAccessExpressionInjectorStrategy();
     TupleIRTupleAccessExpressionInjectorStrategy _tupleIRTupleAccessExpressionInjectorStrategy = TupleIRTupleAccessExpressionInjectorStrategy();
     TupleIRClassPropertyAccessExpressionInjectorStrategy _tupleIRClassPropertyAccessExpressionInjectorStrategy = TupleIRClassPropertyAccessExpressionInjectorStrategy();

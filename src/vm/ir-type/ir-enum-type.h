@@ -11,6 +11,7 @@ class IREnumType : public IRStructType {
     using IRStructType::IRStructType;
 public:
     llvm::Type* getValueType();
+    bool containsTypeThatRequiresFreeing() override;
     bool isEnumType() override;
     IREnumType* clone() override;
 };

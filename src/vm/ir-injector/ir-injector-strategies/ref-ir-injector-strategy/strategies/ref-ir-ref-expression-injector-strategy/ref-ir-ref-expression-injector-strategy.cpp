@@ -8,7 +8,7 @@
 llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto valueArc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
-    if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
+    if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE, IR_ARRAY_ACCESS_EXPRESSION_NODE })) {
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
         auto valueMalloc = this->setupRef(allocation, value, valueArc, irExpression->getUnderlyingIRType(), irBlock, irModule, irOperation);
         if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {

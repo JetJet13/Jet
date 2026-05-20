@@ -3,30 +3,27 @@
 //
 
 #include "array-access-ir-function.h"
-#include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string ArrayAccessIRFunction::getArrayAccessIRFunctionName() {
-    return "jet.array.access";
+    return "jet.array.access.check";
 }
 
-// this function should return void and only check if the index is within bounds.
-// The IR Strategies will be responsible for creating pointer instances for the corresponding index.
 void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
+    auto voidType = irGenerator->generateVoidType()->getType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto raise = irModuleNode->getModule()->get()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
-    auto functionType = llvm::FunctionType::get(pointerType, { pointerType, intType, intType }, false);
+    auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
+    auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, ArrayAccessIRFunction::getArrayAccessIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = new IRContext(functionBlock, irModuleNode, context);
     auto zero = irGenerator->generateIntConstant(0);
-    auto numElementsIndex = irGenerator->generateIntConstant(arrayPointerType->getNumElementsIndex());
-    auto allocIndex = irGenerator->generateIntConstant(arrayPointerType->getAllocIndex());
 
-    auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, numElementsIndex });
+    auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());
     auto loadedNumElements = InstructionIRInjectorHelper::injectLoad(intType, pointerToNumElements, functionBlock);
     auto isIndexGreaterThanOrEqualToNumElements = functionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SGE,
@@ -50,14 +47,12 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
         notInRangeBlock->getBlock(),
         inRangeBlock->getBlock()
     );
+    auto outOfBoundsMessage = irGenerator->generateRawString("Error [JET2001]: Array Access Out Of Bounds \n");
+    auto outOfBoundsMessageAlloca = notInRangeBlock->getBuilder()->get()->CreateAlloca(outOfBoundsMessage->getType());
+    notInRangeBlock->getBuilder()->get()->CreateStore(outOfBoundsMessage, outOfBoundsMessageAlloca);
+    notInRangeBlock->getBuilder()->get()->CreateCall(printf, { outOfBoundsMessageAlloca });
     auto sigTermCode = irGenerator->generateIntConstant(15);
     notInRangeBlock->getBuilder()->get()->CreateCall(raise, sigTermCode);
     notInRangeBlock->addVoidReturn();
-
-    auto arrayAllocation = inRangeBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, allocIndex });
-    auto loadedArrayAllocation = InstructionIRInjectorHelper::injectLoad(pointerType, arrayAllocation, inRangeBlock);
-    //    auto loadedArrayAllocation = inRangeBlock->getBuilder()->get()->CreateLoad(pointerType, arrayAllocation);
-    auto offsetValue = inRangeBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Mul, function->getArg(2), function->getArg(1));
-    auto pointerToElementAtIndex = inRangeBlock->getBuilder()->get()->CreateInBoundsGEP(irGenerator->generatePointerIntType(), loadedArrayAllocation, { offsetValue });
-    inRangeBlock->getBuilder()->get()->CreateRet(pointerToElementAtIndex);
+    inRangeBlock->addVoidReturn();
 }

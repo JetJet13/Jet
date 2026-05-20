@@ -104,6 +104,23 @@ void ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPoin
     InstructionIRInjectorHelper::injectStore(arrayAllocation, allocPointer, irBlock);
 }
 
+llvm::Value* ArrayIRInjectorHelper::getPointerToIndexedElement(IRBlockNode* irBlock, IRArrayAccessExpressionNode* irAccessExpressionNode, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector, IRLookupTable* scope) {
+    auto sourceValue = irInjector->inject(irBlock, irAccessExpressionNode->getSourceExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto arrayPointerType = (IRArrayPointerType*)irAccessExpressionNode->getSourceExpression()->getUnderlyingIRType();
+    auto indexValue = irInjector->inject(irBlock, irAccessExpressionNode->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    irBlock->getBuilder()->get()->CreateCall(
+            irModule->getArrayAccessFunction(),
+            { sourceValue, indexValue }
+    );
+    auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateStructGEP(
+            arrayPointerType->getType(),
+            sourceValue,
+            arrayPointerType->getAllocIndex()
+    );
+    auto arrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), arrayAllocPointer, irBlock, arrayPointerType);
+    return irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
+}
+
 IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, std::shared_ptr<IRModuleNode> irModule) {
     auto elementTypeSize = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getElementIRType()->getSizeInBytes());
     auto malloc = irBlock->getBuilder()->get()->CreateCall(

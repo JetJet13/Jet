@@ -97,3 +97,138 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
+proc arrayAccessTest() {
+    const literalArray = [1, 2, 3];
+    assert(literalArray[0] == 1);
+    assert(literalArray[1] == 2);
+    assert(literalArray[2] == 3);
+    assert(ref literalArray[0] == 1);
+    assert(ref literalArray[1] == 2);
+    assert(ref literalArray[2] == 3);
+
+    const refLiteralArray = [ref 1, ref 2, ref 3];
+    assert(refLiteralArray[0] == 1);
+    assert(refLiteralArray[1] == 2);
+    assert(refLiteralArray[2] == 3);
+    assert(dref refLiteralArray[0] == 1);
+    assert(dref refLiteralArray[1] == 2);
+    assert(dref refLiteralArray[2] == 3);
+
+    const stringArray = ["hi", "hello"];
+    assert(stringArray[0] == "hi");
+    assert(stringArray[1] == "hello");
+    assert(ref stringArray[0] == "hi");
+    assert(ref stringArray[1] == "hello");
+
+    const refStringArray = [ ref "hi", ref "hello"];
+    assert(refStringArray[0] == "hi");
+    assert(refStringArray[1] == "hello");
+    assert(dref refStringArray[0] == "hi");
+    assert(dref refStringArray[1] == "hello");
+
+    const arrayArray = [ [1,2], [3,4] ];
+    assert(arrayArray[0] == [1,2]);
+    assert(arrayArray[1] == [3,4]);
+    assert(ref arrayArray[0] == [1,2]);
+    assert(ref arrayArray[1] == [3,4]);
+
+    const refArrayArray = [ ref [1,2], ref [3,4] ];
+    assert(refArrayArray[0] == [1,2]);
+    assert(refArrayArray[1] == [3,4]);
+    assert(dref refArrayArray[0] == [1,2]);
+    assert(dref refArrayArray[1] == [3,4]);
+
+    const simpleEnumArray = [ SimpleEnum.Alpha, SimpleEnum.Beta ];
+    assert(simpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(simpleEnumArray[1] == SimpleEnum.Beta);
+
+    const stringEnumArray = [ StringEnum.Alpha, StringEnum.Beta ];
+    assert(stringEnumArray[0] == StringEnum.Alpha);
+    assert(stringEnumArray[1] == StringEnum.Beta);
+
+    const structArray = [ { foo: true }, { foo: false } ];
+    assert(structArray[0] == { foo: true });
+    assert(structArray[0].foo == true);
+    assert(structArray[1] == { foo: false });
+    assert(structArray[1].foo == false);
+    assert(ref structArray[0] == { foo: true });
+    assert(ref structArray[0].foo == true);
+    assert(ref structArray[1] == { foo: false });
+    assert(ref structArray[1].foo == false);
+
+    const refStructArray = [ ref { foo: true }, ref { foo: false } ];
+    assert(refStructArray[0] == { foo: true });
+    assert(refStructArray[0].foo == true);
+    assert(refStructArray[1] == { foo: false });
+    assert(refStructArray[1].foo == false);
+    assert(dref refStructArray[0] == { foo: true });
+    assert(dref refStructArray[1] == { foo: false });
+
+    const tupleArray = [ { true, 10 }, { false, 12 } ];
+    assert(tupleArray[0] == { true, 10 });
+    assert(tupleArray[0].0 == true);
+    assert(tupleArray[1] == { false, 12 });
+    assert(tupleArray[1].0 == false);
+    assert(ref tupleArray[0] == { true, 10 });
+    assert(ref tupleArray[0].0 == true);
+    assert(ref tupleArray[1] == { false, 12 });
+    assert(ref tupleArray[1].0 == false);
+
+    const refTupleArray = [ ref { true, 10 }, ref { false, 12 } ];
+    assert(refTupleArray[0] == { true, 10 });
+    assert(refTupleArray[0].0 == true);
+    assert(refTupleArray[1] == { false, 12 });
+    assert(refTupleArray[1].0 == false);
+    assert(dref refTupleArray[0] == { true, 10 });
+    assert(dref refTupleArray[1] == { false, 12 });
+
+    const refArray = [ ref 500, ref 300 ];
+    assert(refArray[0] == 500);
+    assert(dref refArray[0] == 500);
+    assert(dref refArray[1] == 300);
+
+    const classArray = [ new SimpleClass(10), new SimpleClass(20) ];
+    assert(classArray[0] == new SimpleClass(10));
+    assert(classArray[0].getValue() == 10);
+    assert(classArray[1] == new SimpleClass(20));
+    assert(classArray[1].getValue() == 20);
+    assert(ref classArray[0] == new SimpleClass(10));
+    assert(ref classArray[0].getValue() == 10);
+    assert(ref classArray[1] == new SimpleClass(20));
+    assert(ref classArray[1].getValue() == 20);
+
+    const refClassArray = [ ref new SimpleClass(10), ref new SimpleClass(20) ];
+    assert(refClassArray[0] == new SimpleClass(10));
+    assert(refClassArray[0].getValue() == 10);
+    assert(refClassArray[1] == new SimpleClass(20));
+    assert(refClassArray[1].getValue() == 20);
+    assert(dref refClassArray[0] == new SimpleClass(10));
+    assert(dref refClassArray[1] == new SimpleClass(20));
+}
+arrayAccessTest();
+
+//proc testSyntax() {
+//    const x = unique_ptr 10;
+//    const z = shared_ptr x;
+//    const a = weak_ptr x;
+//    const y = dref x;
+//    const b = shared_ptr new MyClass(40);
+//}
+
+//func isPrime(x: int) bool {
+//    if x == 1 || x == 0 {
+//        return false;
+//    }
+//    for i in range(2, x) {
+//        if x mod i == 0 {
+//            return false;
+//        }
+//    }
+//    return true;
+//}
+//assert(isPrime(0) == false);
+//assert(isPrime(1) == false);
+//assert(isPrime(2) == true);
+//assert(isPrime(3) == true);
+//assert(isPrime(4) == false);
+//assert(isPrime(5) == true);

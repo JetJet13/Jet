@@ -11,5 +11,5 @@ void RefExpressionTypeSignatureStrategy::assign(ASTRefExpressionNode* node, Type
         return;
     }
 
-    node->setTypeSignature(new RefTypeSignature(node->getExpressionNode()->getTypeSignature()));
+    node->setTypeSignature(new RefTypeSignature(node->getExpressionNode()->getTypeSignature()->convertToVariableTypeSignature()));
 }

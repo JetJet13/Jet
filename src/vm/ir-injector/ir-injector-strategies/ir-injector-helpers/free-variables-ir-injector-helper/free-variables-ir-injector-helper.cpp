@@ -11,7 +11,7 @@
 void FreeIRInjectorHelper::freeFunctionBlockNodes(IRBlockNode* functionBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto index = 0;
     for (auto nestedBlock : *functionBlock->getNestedBlocks()) {
-        if (nestedBlock->hasNodesToFree() && nestedBlock->isAllowedToFreeNodes()) {
+        if ((functionBlock->hasNodesToFree() || nestedBlock->hasNodesToFree()) && nestedBlock->isAllowedToFreeNodes()) {
             FreeIRInjectorHelper::freeNestedBlockNodes(
                     nestedBlock,
                     irInjector,

@@ -5,20 +5,10 @@
 #include "array-access-assignment-ir-injector-strategy.h"
 #include "../../../ir-type/ir-array-pointer-type.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
 void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStatementNode* irArrayAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto sourceValue = irInjector->inject(irBlock, irArrayAccessAssignmentStatement->getIRArrayAccessExpression()->getSourceExpression(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-    auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
-    auto arrayPointerType = (IRArrayPointerType*)irArrayAccessAssignmentStatement->getIRArrayAccessExpression()->getSourceExpression()->getUnderlyingIRType();
-    auto allocIndex = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getAllocIndex());
-    auto indexValue = irInjector->inject(irBlock, irArrayAccessAssignmentStatement->getIRArrayAccessExpression()->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
-    auto arrayAllocPointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(
-            arrayPointerType->getType(),
-            sourceValue,
-            { zeroIndex, allocIndex }
-    );
-    auto arrayAlloc = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getAllocType(), arrayAllocPointer, irBlock, arrayPointerType);
-    auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
+    auto pointerToIndexedElement = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irArrayAccessAssignmentStatement->getIRArrayAccessExpression(), irModule, irInjector, scope);
     auto irExpressionValue = irInjector
             ->inject(
                     irBlock,
@@ -32,9 +22,9 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(IRArrayAccessAssignmentStat
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction(),
-                { pointer, loadedTypeValue }
+                { pointerToIndexedElement, loadedTypeValue }
         );
     }
 
-    InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irArrayAccessAssignmentStatement->getIRExpression()->getIRType());
+    InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToIndexedElement, irBlock, irArrayAccessAssignmentStatement->getIRExpression()->getIRType());
 }

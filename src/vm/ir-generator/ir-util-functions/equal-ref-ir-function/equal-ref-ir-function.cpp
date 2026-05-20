@@ -54,7 +54,6 @@ void EqualRefIRFunction::generateEqualRefFunction(IRGenerator* irGenerator, std:
     auto underlyingTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToUnderlyingTypeValue, functionBlock);
     functionBlock->getBuilder()->get()->CreateRet(
         functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getEqualValueFunction()->getFunctionType(),
             irContext->getIRModule()->getEqualValueFunction(),
             {
                 firstRefValue,
@@ -81,7 +80,6 @@ void EqualRefIRFunction::generateEqualRefLeftOnlyFunction(IRGenerator* irGenerat
     auto underlyingTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToUnderlyingTypeValue, functionBlock);
     functionBlock->getBuilder()->get()->CreateRet(
         functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getEqualValueFunction()->getFunctionType(),
             irContext->getIRModule()->getEqualValueFunction(),
             {
                 firstRefValue,
@@ -107,7 +105,6 @@ void EqualRefIRFunction::generateEqualRefRightOnlyFunction(IRGenerator* irGenera
     auto underlyingTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToUnderlyingTypeValue, functionBlock);
     functionBlock->getBuilder()->get()->CreateRet(
         functionBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getEqualValueFunction()->getFunctionType(),
             irContext->getIRModule()->getEqualValueFunction(),
             {
                 function->getArg(0),
