@@ -97,115 +97,53 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-proc arrayAccessTest() {
-    const literalArray = [1, 2, 3];
-    assert(literalArray[0] == 1);
-    assert(literalArray[1] == 2);
-    assert(literalArray[2] == 3);
-    assert(ref literalArray[0] == 1);
-    assert(ref literalArray[1] == 2);
-    assert(ref literalArray[2] == 3);
+proc testEnums() {
+    const myEnumValue = SimpleEnum.Alpha;
+    assert(myEnumValue == SimpleEnum.Alpha);
 
-    const refLiteralArray = [ref 1, ref 2, ref 3];
-    assert(refLiteralArray[0] == 1);
-    assert(refLiteralArray[1] == 2);
-    assert(refLiteralArray[2] == 3);
-    assert(dref refLiteralArray[0] == 1);
-    assert(dref refLiteralArray[1] == 2);
-    assert(dref refLiteralArray[2] == 3);
+    const myStringEnumValue = StringEnum.Alpha;
+    assert(myStringEnumValue == StringEnum.Alpha);
 
-    const stringArray = ["hi", "hello"];
-    assert(stringArray[0] == "hi");
-    assert(stringArray[1] == "hello");
-    assert(ref stringArray[0] == "hi");
-    assert(ref stringArray[1] == "hello");
+    const myEnumStruct = { foo: SimpleEnum.Alpha, bar: StringEnum.Alpha };
+    const myEnumTuple = { SimpleEnum.Alpha, StringEnum.Alpha };
+    const myEnumArray = [ SimpleEnum.Alpha ];
+    const myStringEnumArray = [ StringEnum.Alpha ];
 
-    const refStringArray = [ ref "hi", ref "hello"];
-    assert(refStringArray[0] == "hi");
-    assert(refStringArray[1] == "hello");
-    assert(dref refStringArray[0] == "hi");
-    assert(dref refStringArray[1] == "hello");
+    const enumArrowLambda = (x: SimpleEnum) => x;
+    const enumBlockLambda = (x: SimpleEnum) { return x; };
+    assert(enumArrowLambda(SimpleEnum.Alpha) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(SimpleEnum.Alpha) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumValue) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumValue) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumStruct.foo) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumStruct.foo) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumTuple.0) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumTuple.0) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumArray[0]) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumArray[0]) == SimpleEnum.Alpha);
 
-    const arrayArray = [ [1,2], [3,4] ];
-    assert(arrayArray[0] == [1,2]);
-    assert(arrayArray[1] == [3,4]);
-    assert(ref arrayArray[0] == [1,2]);
-    assert(ref arrayArray[1] == [3,4]);
+    const stringEnumArrowLambda = (x: StringEnum) => x;
+    const stringEnumBlockLambda = (x: StringEnum) { return x; };
+    assert(stringEnumArrowLambda(StringEnum.Alpha) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(StringEnum.Alpha) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myStringEnumValue) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myStringEnumValue) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myEnumStruct.bar) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myEnumStruct.bar) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myEnumTuple.1) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myEnumTuple.1) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myStringEnumArray[0]) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myStringEnumArray[0]) == StringEnum.Alpha);
 
-    const refArrayArray = [ ref [1,2], ref [3,4] ];
-    assert(refArrayArray[0] == [1,2]);
-    assert(refArrayArray[1] == [3,4]);
-    assert(dref refArrayArray[0] == [1,2]);
-    assert(dref refArrayArray[1] == [3,4]);
+    let tempEnumValue = SimpleEnum.Alpha;
+    tempEnumValue = SimpleEnum.Beta;
+    assert(tempEnumValue == SimpleEnum.Beta);
 
-    const simpleEnumArray = [ SimpleEnum.Alpha, SimpleEnum.Beta ];
-    assert(simpleEnumArray[0] == SimpleEnum.Alpha);
-    assert(simpleEnumArray[1] == SimpleEnum.Beta);
-
-    const stringEnumArray = [ StringEnum.Alpha, StringEnum.Beta ];
-    assert(stringEnumArray[0] == StringEnum.Alpha);
-    assert(stringEnumArray[1] == StringEnum.Beta);
-
-    const structArray = [ { foo: true }, { foo: false } ];
-    assert(structArray[0] == { foo: true });
-    assert(structArray[0].foo == true);
-    assert(structArray[1] == { foo: false });
-    assert(structArray[1].foo == false);
-    assert(ref structArray[0] == { foo: true });
-    assert(ref structArray[0].foo == true);
-    assert(ref structArray[1] == { foo: false });
-    assert(ref structArray[1].foo == false);
-
-    const refStructArray = [ ref { foo: true }, ref { foo: false } ];
-    assert(refStructArray[0] == { foo: true });
-    assert(refStructArray[0].foo == true);
-    assert(refStructArray[1] == { foo: false });
-    assert(refStructArray[1].foo == false);
-    assert(dref refStructArray[0] == { foo: true });
-    assert(dref refStructArray[1] == { foo: false });
-
-    const tupleArray = [ { true, 10 }, { false, 12 } ];
-    assert(tupleArray[0] == { true, 10 });
-    assert(tupleArray[0].0 == true);
-    assert(tupleArray[1] == { false, 12 });
-    assert(tupleArray[1].0 == false);
-    assert(ref tupleArray[0] == { true, 10 });
-    assert(ref tupleArray[0].0 == true);
-    assert(ref tupleArray[1] == { false, 12 });
-    assert(ref tupleArray[1].0 == false);
-
-    const refTupleArray = [ ref { true, 10 }, ref { false, 12 } ];
-    assert(refTupleArray[0] == { true, 10 });
-    assert(refTupleArray[0].0 == true);
-    assert(refTupleArray[1] == { false, 12 });
-    assert(refTupleArray[1].0 == false);
-    assert(dref refTupleArray[0] == { true, 10 });
-    assert(dref refTupleArray[1] == { false, 12 });
-
-    const refArray = [ ref 500, ref 300 ];
-    assert(refArray[0] == 500);
-    assert(dref refArray[0] == 500);
-    assert(dref refArray[1] == 300);
-
-    const classArray = [ new SimpleClass(10), new SimpleClass(20) ];
-    assert(classArray[0] == new SimpleClass(10));
-    assert(classArray[0].getValue() == 10);
-    assert(classArray[1] == new SimpleClass(20));
-    assert(classArray[1].getValue() == 20);
-    assert(ref classArray[0] == new SimpleClass(10));
-    assert(ref classArray[0].getValue() == 10);
-    assert(ref classArray[1] == new SimpleClass(20));
-    assert(ref classArray[1].getValue() == 20);
-
-    const refClassArray = [ ref new SimpleClass(10), ref new SimpleClass(20) ];
-    assert(refClassArray[0] == new SimpleClass(10));
-    assert(refClassArray[0].getValue() == 10);
-    assert(refClassArray[1] == new SimpleClass(20));
-    assert(refClassArray[1].getValue() == 20);
-    assert(dref refClassArray[0] == new SimpleClass(10));
-    assert(dref refClassArray[1] == new SimpleClass(20));
+    let tempStringEnumValue = StringEnum.Alpha;
+    tempStringEnumValue = StringEnum.Beta;
+    assert(tempStringEnumValue == StringEnum.Beta);
 }
-arrayAccessTest();
+testEnums();
 
 //proc testSyntax() {
 //    const x = unique_ptr 10;

@@ -10,7 +10,7 @@
 llvm::Value* EnumIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isRefAssignment()) {
         return this->injectRef(irExpression, irBlock, irInjector, irOperation, irModule, scope);
-    } else if (irOperation->isCopy()) {
+    } else if (irOperation->isCopy() || irOperation->isCopyGlobal() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else {
         return this->injectOperand(irExpression, irBlock, irInjector, irOperation, irModule, scope);
@@ -18,8 +18,20 @@ llvm::Value* EnumIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAccess
 }
 
 llvm::Value* EnumIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
+    auto sourcePointer = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourcePointer);
+    auto irType = irExpression->getUnderlyingIRType();
+    if (irType->isArrayPointerType()) {
+        auto sourceAllocation = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getCopyStringFunction(),
+                {
+                    sourceAllocation,
+                    pointer,
+                }
+        );
+        return InstructionIRInjectorHelper::injectLoad(irType->getType(), sourceAllocation, irBlock, irType);
+    }
     return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock, irExpression->getTargetIRType());
 }
 

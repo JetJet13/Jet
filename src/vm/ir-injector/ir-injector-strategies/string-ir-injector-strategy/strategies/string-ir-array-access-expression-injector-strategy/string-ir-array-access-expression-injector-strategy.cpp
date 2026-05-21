@@ -18,15 +18,12 @@ llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccess
 llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
     auto pointerAtIndex = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irExpression, irModule, irInjector, scope);
-    auto typeValue = irInjector->inject(irBlock, arrayPointerType);
-    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
     auto sourceAlloc = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
     irBlock->getBuilder()->get()->CreateCall(
-        irModule->getCopyValueFunction(),
+        irModule->getCopyStringFunction(),
         {
             sourceAlloc,
             pointerAtIndex,
-            loadedTypeValue
         }
     );
     return InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), sourceAlloc, irBlock, arrayPointerType);

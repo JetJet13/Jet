@@ -11,11 +11,14 @@
 #include "strategies/enum-ir-object-access-expression-strategy/enum-ir-object-access-expression-strategy.h"
 #include "strategies/enum-ir-tuple-access-expression-strategy/enum-ir-tuple-access-expression-strategy.h"
 #include "strategies/enum-ir-array-access-expression-strategy/enum-ir-array-access-expression-strategy.h"
-
+#include "strategies/enum-ir-dref-expression-strategy/enum-ir-dref-expression-strategy.h"
+#include "strategies/enum-ir-identifier-expression-strategy/enum-ir-identifier-expression-strategy.h"
 
 class EnumIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 private:
+    EnumIRIdentifierExpressionInjectorStrategy _enumIRIdentifierExpressionInjectorStrategy = EnumIRIdentifierExpressionInjectorStrategy();
+    EnumIRDrefExpressionInjectorStrategy _enumIRDrefExpressionInjectorStrategy = EnumIRDrefExpressionInjectorStrategy();
     EnumIRArrayAccessExpressionInjectorStrategy _arrayAccessExpressionInjector = EnumIRArrayAccessExpressionInjectorStrategy();
     EnumIRObjectAccessExpressionInjectorStrategy _objectAccessExpressionInjector = EnumIRObjectAccessExpressionInjectorStrategy();
     EnumIRTupleAccessExpressionInjectorStrategy _tupleAccessExpressionInjector = EnumIRTupleAccessExpressionInjectorStrategy();

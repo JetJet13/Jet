@@ -800,6 +800,10 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-dref-expression-injector-strategy/tuple-ir-dref-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-dref-expression-injector-strategy/class-instance-ir-dref-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-dref-expression-injector-strategy/class-instance-ir-dref-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-dref-expression-strategy/enum-ir-dref-expression-strategy.cpp
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-dref-expression-strategy/enum-ir-dref-expression-strategy.h
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-identifier-expression-strategy/enum-ir-identifier-expression-strategy.cpp
+        ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-identifier-expression-strategy/enum-ir-identifier-expression-strategy.h
 )
 
 target_link_libraries(jet-vm

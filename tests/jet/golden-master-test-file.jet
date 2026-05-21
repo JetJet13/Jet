@@ -980,6 +980,214 @@ proc testArrays() {
 }
 testArrays();
 
+proc arrayAccessTest() {
+    const intArray = [1, 2, 3];
+    assert(intArray[0] == 1);
+    assert(intArray[1] == 2);
+    assert(intArray[2] == 3);
+    assert(ref intArray[0] == 1);
+    assert(ref intArray[1] == 2);
+    assert(ref intArray[2] == 3);
+
+    const refIntArray = [ref 1, ref 2, ref 3];
+    assert(refIntArray[0] == 1);
+    assert(refIntArray[1] == 2);
+    assert(refIntArray[2] == 3);
+    assert(dref refIntArray[0] == 1);
+    assert(dref refIntArray[1] == 2);
+    assert(dref refIntArray[2] == 3);
+
+    const floatArray = [1.21, 2.25, 3.65];
+    assert(floatArray[0] == 1.21);
+    assert(floatArray[1] == 2.25);
+    assert(floatArray[2] == 3.65);
+    assert(ref floatArray[0] == 1.21);
+    assert(ref floatArray[1] == 2.25);
+    assert(ref floatArray[2] == 3.65);
+
+    const refFloatArray = [ref 1.21, ref 2.25, ref 3.65];
+    assert(refFloatArray[0] == 1.21);
+    assert(refFloatArray[1] == 2.25);
+    assert(refFloatArray[2] == 3.65);
+    assert(dref refFloatArray[0] == 1.21);
+    assert(dref refFloatArray[1] == 2.25);
+    assert(dref refFloatArray[2] == 3.65);
+
+    const boolArray = [true, false, true];
+    assert(boolArray[0] == true);
+    assert(boolArray[1] == false);
+    assert(boolArray[2] == true);
+    assert(ref boolArray[0] == true);
+    assert(ref boolArray[1] == false);
+    assert(ref boolArray[2] == true);
+
+    const refBoolArray = [ref true, ref false, ref true];
+    assert(refBoolArray[0] == true);
+    assert(refBoolArray[1] == false);
+    assert(refBoolArray[2] == true);
+    assert(dref refBoolArray[0] == true);
+    assert(dref refBoolArray[1] == false);
+    assert(dref refBoolArray[2] == true);
+
+    const charArray = ['a', 'b', 'c'];
+    assert(charArray[0] == 'a');
+    assert(charArray[1] == 'b');
+    assert(charArray[2] == 'c');
+    assert(ref charArray[0] == 'a');
+    assert(ref charArray[1] == 'b');
+    assert(ref charArray[2] == 'c');
+
+    const refCharArray = [ref 'a', ref 'b', ref 'c'];
+    assert(refCharArray[0] == 'a');
+    assert(refCharArray[1] == 'b');
+    assert(refCharArray[2] == 'c');
+    assert(dref refCharArray[0] == 'a');
+    assert(dref refCharArray[1] == 'b');
+    assert(dref refCharArray[2] == 'c');
+
+    const stringArray = ["hi", "hello"];
+    assert(stringArray[0] == "hi");
+    assert(stringArray[1] == "hello");
+    assert(ref stringArray[0] == "hi");
+    assert(ref stringArray[1] == "hello");
+
+    const refStringArray = [ ref "hi", ref "hello"];
+    assert(refStringArray[0] == "hi");
+    assert(refStringArray[1] == "hello");
+    assert(dref refStringArray[0] == "hi");
+    assert(dref refStringArray[1] == "hello");
+
+    const arrayArray = [ [1,2], [3,4] ];
+    assert(arrayArray[0] == [1,2]);
+    assert(arrayArray[1] == [3,4]);
+    assert(ref arrayArray[0] == [1,2]);
+    assert(ref arrayArray[1] == [3,4]);
+
+    const refArrayArray = [ ref [1,2], ref [3,4] ];
+    assert(refArrayArray[0] == [1,2]);
+    assert(refArrayArray[1] == [3,4]);
+    assert(dref refArrayArray[0] == [1,2]);
+    assert(dref refArrayArray[1] == [3,4]);
+
+    const simpleEnumArray = [ SimpleEnum.Alpha, SimpleEnum.Beta ];
+    assert(simpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(simpleEnumArray[1] == SimpleEnum.Beta);
+    assert(ref simpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(ref simpleEnumArray[1] == SimpleEnum.Beta);
+
+    const refSimpleEnumArray = [ ref SimpleEnum.Alpha, ref SimpleEnum.Beta ];
+    assert(refSimpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(refSimpleEnumArray[1] == SimpleEnum.Beta);
+    assert(dref refSimpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(dref refSimpleEnumArray[1] == SimpleEnum.Beta);
+
+    const stringEnumArray = [ StringEnum.Alpha, StringEnum.Beta ];
+    assert(stringEnumArray[0] == StringEnum.Alpha);
+    assert(stringEnumArray[1] == StringEnum.Beta);
+    assert(ref stringEnumArray[0] == StringEnum.Alpha);
+    assert(ref stringEnumArray[1] == StringEnum.Beta);
+
+    const refStringEnumArray = [ ref StringEnum.Alpha, ref StringEnum.Beta ];
+    assert(refStringEnumArray[0] == StringEnum.Alpha);
+    assert(refStringEnumArray[1] == StringEnum.Beta);
+    assert(dref refStringEnumArray[0] == StringEnum.Alpha);
+    assert(dref refStringEnumArray[1] == StringEnum.Beta);
+
+    const structArray = [ { foo: true }, { foo: false } ];
+    assert(structArray[0] == { foo: true });
+    assert(structArray[0].foo == true);
+    assert(structArray[1] == { foo: false });
+    assert(structArray[1].foo == false);
+    assert(ref structArray[0] == { foo: true });
+    assert(ref structArray[0].foo == true);
+    assert(ref structArray[1] == { foo: false });
+    assert(ref structArray[1].foo == false);
+
+    const refStructArray = [ ref { foo: true }, ref { foo: false } ];
+    assert(refStructArray[0] == { foo: true });
+    assert(refStructArray[0].foo == true);
+    assert(refStructArray[1] == { foo: false });
+    assert(refStructArray[1].foo == false);
+    assert(dref refStructArray[0] == { foo: true });
+    assert(dref refStructArray[1] == { foo: false });
+
+    const tupleArray = [ { true, 10 }, { false, 12 } ];
+    assert(tupleArray[0] == { true, 10 });
+    assert(tupleArray[0].0 == true);
+    assert(tupleArray[1] == { false, 12 });
+    assert(tupleArray[1].0 == false);
+    assert(ref tupleArray[0] == { true, 10 });
+    assert(ref tupleArray[0].0 == true);
+    assert(ref tupleArray[1] == { false, 12 });
+    assert(ref tupleArray[1].0 == false);
+
+    const refTupleArray = [ ref { true, 10 }, ref { false, 12 } ];
+    assert(refTupleArray[0] == { true, 10 });
+    assert(refTupleArray[0].0 == true);
+    assert(refTupleArray[1] == { false, 12 });
+    assert(refTupleArray[1].0 == false);
+    assert(dref refTupleArray[0] == { true, 10 });
+    assert(dref refTupleArray[1] == { false, 12 });
+
+    const refArray = [ ref 500, ref 300 ];
+    assert(refArray[0] == 500);
+    assert(dref refArray[0] == 500);
+    assert(dref refArray[1] == 300);
+
+    const classArray = [ new SimpleClass(10), new SimpleClass(20) ];
+    assert(classArray[0] == new SimpleClass(10));
+    assert(classArray[0].getValue() == 10);
+    assert(classArray[1] == new SimpleClass(20));
+    assert(classArray[1].getValue() == 20);
+    assert(ref classArray[0] == new SimpleClass(10));
+    assert(ref classArray[0].getValue() == 10);
+    assert(ref classArray[1] == new SimpleClass(20));
+    assert(ref classArray[1].getValue() == 20);
+
+    const refClassArray = [ ref new SimpleClass(10), ref new SimpleClass(20) ];
+    assert(refClassArray[0] == new SimpleClass(10));
+    assert(refClassArray[0].getValue() == 10);
+    assert(refClassArray[1] == new SimpleClass(20));
+    assert(refClassArray[1].getValue() == 20);
+    assert(dref refClassArray[0] == new SimpleClass(10));
+    assert(dref refClassArray[1] == new SimpleClass(20));
+
+    const lambdaArrowArray = [ () => 10, () => 20, () => 30 ];
+    assert(lambdaArrowArray[0]() == 10);
+    assert(lambdaArrowArray[1]() == 20);
+    assert(lambdaArrowArray[2]() == 30);
+
+    const lambdaBlockArray = [ () { return 10; }, () { return 20; }, () { return 30; } ];
+    assert(lambdaBlockArray[0]() == 10);
+    assert(lambdaBlockArray[1]() == 20);
+    assert(lambdaBlockArray[2]() == 30);
+
+    const moduleArray = [
+        MySecondModule::MySecondGlobalInt,
+        MyThirdModule::MyThirdGlobalInt,
+        MyFourthModule::MyFourthGlobalInt
+    ];
+    assert(moduleArray[0] == MySecondModule::MySecondGlobalInt);
+    assert(moduleArray[1] == MyThirdModule::MyThirdGlobalInt);
+    assert(moduleArray[2] == MyFourthModule::MyFourthGlobalInt);
+    assert(ref moduleArray[0] == MySecondModule::MySecondGlobalInt);
+    assert(ref moduleArray[1] == MyThirdModule::MyThirdGlobalInt);
+    assert(ref moduleArray[2] == MyFourthModule::MyFourthGlobalInt);
+
+    const refModuleArray = [
+        ref MySecondModule::MySecondGlobalInt,
+        ref MyThirdModule::MyThirdGlobalInt,
+        ref MyFourthModule::MyFourthGlobalInt
+    ];
+    assert(refModuleArray[0] == MySecondModule::MySecondGlobalInt);
+    assert(refModuleArray[1] == MyThirdModule::MyThirdGlobalInt);
+    assert(refModuleArray[2] == MyFourthModule::MyFourthGlobalInt);
+    assert(dref refModuleArray[0] == MySecondModule::MySecondGlobalInt);
+    assert(dref refModuleArray[1] == MyThirdModule::MyThirdGlobalInt);
+    assert(dref refModuleArray[2] == MyFourthModule::MyFourthGlobalInt);
+}
+arrayAccessTest();
+
 proc testArrayPrototype() {
     const myArray = range(15);
     assert(myArray == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
@@ -1735,6 +1943,54 @@ proc testIfStatements() {
     assert(otherIfStatements(5, 15, 97) == 4);
 }
 testIfStatements();
+
+proc testEnums() {
+    const myEnumValue = SimpleEnum.Alpha;
+    assert(myEnumValue == SimpleEnum.Alpha);
+
+    const myStringEnumValue = StringEnum.Alpha;
+    assert(myStringEnumValue == StringEnum.Alpha);
+
+    const myEnumStruct = { foo: SimpleEnum.Alpha, bar: StringEnum.Alpha };
+    const myEnumTuple = { SimpleEnum.Alpha, StringEnum.Alpha };
+    const myEnumArray = [ SimpleEnum.Alpha ];
+    const myStringEnumArray = [ StringEnum.Alpha ];
+
+    const enumArrowLambda = (x: SimpleEnum) => x;
+    const enumBlockLambda = (x: SimpleEnum) { return x; };
+    assert(enumArrowLambda(SimpleEnum.Alpha) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(SimpleEnum.Alpha) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumValue) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumValue) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumStruct.foo) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumStruct.foo) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumTuple.0) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumTuple.0) == SimpleEnum.Alpha);
+    assert(enumArrowLambda(myEnumArray[0]) == SimpleEnum.Alpha);
+    assert(enumBlockLambda(myEnumArray[0]) == SimpleEnum.Alpha);
+
+    const stringEnumArrowLambda = (x: StringEnum) => x;
+    const stringEnumBlockLambda = (x: StringEnum) { return x; };
+    assert(stringEnumArrowLambda(StringEnum.Alpha) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(StringEnum.Alpha) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myStringEnumValue) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myStringEnumValue) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myEnumStruct.bar) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myEnumStruct.bar) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myEnumTuple.1) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myEnumTuple.1) == StringEnum.Alpha);
+    assert(stringEnumArrowLambda(myStringEnumArray[0]) == StringEnum.Alpha);
+    assert(stringEnumBlockLambda(myStringEnumArray[0]) == StringEnum.Alpha);
+
+    let tempEnumValue = SimpleEnum.Alpha;
+    tempEnumValue = SimpleEnum.Beta;
+    assert(tempEnumValue == SimpleEnum.Beta);
+
+    let tempStringEnumValue = StringEnum.Alpha;
+    tempStringEnumValue = StringEnum.Beta;
+    assert(tempStringEnumValue == StringEnum.Beta);
+}
+testEnums();
 
 func factorial(x: int) int {
     if x == 0 {
