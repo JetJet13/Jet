@@ -6,13 +6,17 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTEnumDeclarationNode::ASTEnumDeclarationNode(ASTEnumNode* enumKeyword, ASTEnumNameNode* name, ASTEnumKeyValueListNode* values) {
+ASTEnumDeclarationNode::ASTEnumDeclarationNode(ASTEnumNode* enumKeyword, ASTEnumNameNode* name, ASTEnumKeyValueListNode* values, std::optional<ASTExportNode*> exportKeyword) {
     _enumKeyword = enumKeyword;
     _name = name;
     _values = values;
+    _exportKeyword = exportKeyword;
     _children.push_back(_enumKeyword);
     _children.push_back(_name);
     _children.push_back(_values);
+    if (_exportKeyword) {
+        _children.push_back(_exportKeyword.value());
+    }
 }
 
 ASTEnumKeyValueListNode* ASTEnumDeclarationNode::getValues() {
@@ -29,6 +33,10 @@ void ASTEnumDeclarationNode::setTypeSignature(EnumTypeSignature* typeSignature) 
 
 EnumTypeSignature* ASTEnumDeclarationNode::getTypeSignature() {
     return _typeSignature;
+}
+
+bool ASTEnumDeclarationNode::isExportable() {
+    return _exportKeyword.has_value();
 }
 
 Position* ASTEnumDeclarationNode::getStartPosition() {

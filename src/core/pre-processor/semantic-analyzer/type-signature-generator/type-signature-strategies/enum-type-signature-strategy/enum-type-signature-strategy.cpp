@@ -5,13 +5,19 @@
 #include "enum-type-signature-strategy.h"
 #include "../../../../../type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.h"
 
-void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureContext* context, TypeSignatureStrategyProvider* strategyMap) {
+void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     if (enumDeclaration->getValues()->getParameters().empty()) {
         enumDeclaration->setTypeSignature(new EnumTypeSignature(new DefaultEnumKeyValueTypeSignature()));
+        enumDeclaration->getTypeSignature()->setId(enumDeclaration->getId());
+        scope->insertGlobal(
+                enumDeclaration->getId(),
+                enumDeclaration->getTypeSignature()
+        );
         return;
     }
 
     auto enumTypeSignature = new EnumTypeSignature();
+    enumTypeSignature->setId(enumDeclaration->getId());
     for (auto enumKeyValue : enumDeclaration->getValues()->getParameters()) {
         strategyMap->assignTypeSignatureFor(enumKeyValue, context);
         if (enumTypeSignature->getType()->typeTargetIs(LITERAL_TYPE_SOURCE)) {
@@ -21,4 +27,8 @@ void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, 
     }
 
     enumDeclaration->setTypeSignature(enumTypeSignature);
+    scope->insertGlobal(
+            enumDeclaration->getId(),
+            enumDeclaration->getTypeSignature()
+    );
 }

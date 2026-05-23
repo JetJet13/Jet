@@ -17,6 +17,7 @@
 class IRClassDeclarationNode : public IRDeclarationNode {
 private:
     ASTClassDeclarationNode* _node;
+    IRInstructionNode* _irValue;
     IRClassType* _type;
     std::optional<IRClassPreConstructorNode*> _preConstructor;
     std::vector<IRClassConstructorNode*> _constructors;
@@ -24,7 +25,7 @@ private:
     std::vector<IRClassMethodNode*> _staticMethods;
     std::vector<IRClassStaticPropertyNode*> _staticProperties;
 public:
-    IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties);
+    IRClassDeclarationNode(ASTClassDeclarationNode* node, IRInstructionNode* irValue, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties);
     IRClassType* getIRType();
     std::optional<IRClassPreConstructorNode*> getPreConstructor();
     std::vector<IRClassConstructorNode*>* getConstructors();

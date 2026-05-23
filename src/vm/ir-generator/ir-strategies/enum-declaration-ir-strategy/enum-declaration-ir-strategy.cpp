@@ -48,11 +48,12 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNod
 
     auto enumType = irGenerator->generateTypeFor(node->getTypeSignature(), structValues, scope, irContext);
     auto structType = enumType->getType();
+    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto globalVariable = new llvm::GlobalVariable(
             *irContext->getModule(),
             enumType->getType(),
             true,
-            llvm::GlobalValue::InternalLinkage,
+            linkage,
             llvm::ConstantStruct::get(structType, structValues),
             node->getId()
     );

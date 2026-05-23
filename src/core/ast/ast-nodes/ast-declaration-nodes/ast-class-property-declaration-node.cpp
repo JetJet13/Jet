@@ -42,6 +42,14 @@ std::optional<ASTExpressionNode*> ASTClassPropertyDeclarationNode::getInitialize
     return _initializer;
 }
 
+bool ASTClassPropertyDeclarationNode::isPublic() {
+    return _propertyInit->getAccessModifier()->getTypeSignature()->isPublic();
+}
+
+bool ASTClassPropertyDeclarationNode::isPrivate() {
+    return _propertyInit->getAccessModifier()->getTypeSignature()->isPrivate();
+}
+
 bool ASTClassPropertyDeclarationNode::isStatic() {
     return _propertyInit->isStatic();
 }

@@ -6,9 +6,10 @@
 
 #include <utility>
 
-IRClassDeclarationNode::IRClassDeclarationNode(ASTClassDeclarationNode* node, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties) {
+IRClassDeclarationNode::IRClassDeclarationNode(ASTClassDeclarationNode* node, IRInstructionNode* irValue, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties) {
     _node = node;
     _type = type;
+    _irValue = irValue;
     _preConstructor = preConstructor;
     _constructors = std::move(constructors);
     _methods = std::move(methods);
@@ -41,7 +42,7 @@ std::vector<IRClassStaticPropertyNode*>* IRClassDeclarationNode::getStaticProper
 }
 
 llvm::Value* IRClassDeclarationNode::getValue()  {
-    throw std::logic_error("class declaration does not have a defined llvm value");
+    return _irValue->getValue();
 }
 
 IRNodeType IRClassDeclarationNode::getNodeType() {

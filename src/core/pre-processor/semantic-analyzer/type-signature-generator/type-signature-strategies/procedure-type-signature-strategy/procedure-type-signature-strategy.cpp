@@ -21,6 +21,4 @@ void ProcedureTypeSignatureStrategy::assignInitial(ASTProcedureDeclarationNode* 
     procedureDeclaration->setTypeSignature(new ProcedureTypeSignature(
         procedureDeclaration->getParameters()->getTypeSignature()
     ));
-
-
 }

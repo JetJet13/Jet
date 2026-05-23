@@ -11,19 +11,19 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
     auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
 
     for (auto method : *node->getBlock()->getInstanceMethods()) {
-        this->declareMethod(method, irGenerator, scope, irContext, irClassType);
+        this->declareMethod(method, node->isExportable(), irGenerator, scope, irContext, irClassType);
     }
 
     for (auto method : *node->getBlock()->getStaticMethods()) {
-        this->declareStaticMethod(method, irGenerator, scope, irContext, irClassType);
+        this->declareStaticMethod(method, node->isExportable(), irGenerator, scope, irContext, irClassType);
     }
 
     for (auto classConstructor : *node->getBlock()->getConstructors()) {
-        this->declareConstructor(classConstructor, irGenerator, scope, irContext, irClassType);
+        this->declareConstructor(classConstructor, node->isExportable(), irGenerator, scope, irContext, irClassType);
     }
 
     for (auto classStaticProperty : *node->getBlock()->getStaticProperties()) {
-        this->declareStaticProperty(classStaticProperty, irGenerator, scope, irContext, irClassType);
+        this->declareStaticProperty(classStaticProperty, node->isExportable(), irGenerator, scope, irContext, irClassType);
     }
 
     auto irClassConstructors = std::vector<IRClassConstructorNode*>();
@@ -47,7 +47,22 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(ASTClassDeclaration
     for (auto staticClassProperty : *node->getBlock()->getStaticProperties()) {
         irClassStaticProperties.push_back(this->generateStaticProperty(staticClassProperty,  irGenerator, scope, irContext, irClassType));
     }
-    return new IRClassDeclarationNode(node, irClassType, irPreConstructor, irClassConstructors, irClassMethods, irClassStaticMethods, irClassStaticProperties);
+
+    auto globalVariableIrType = irGenerator->generateIrPointerType(irClassType);
+    auto globalVariable = new llvm::GlobalVariable(
+            *irContext->getModule(),
+            globalVariableIrType->getType(),
+            false,
+            node->isExportable()
+            ? llvm::GlobalValue::ExternalLinkage
+            : llvm::GlobalValue::PrivateLinkage,
+            irGenerator->generatePlaceholderValueForIRType(globalVariableIrType),
+            node->getId()
+    );
+    auto irValue = IRInstructionNodeFactory::create(globalVariable, globalVariableIrType);
+    scope->insertGlobalVariable(node->getId(), irValue);
+
+    return new IRClassDeclarationNode(node, irValue, irClassType, irPreConstructor, irClassConstructors, irClassMethods, irClassStaticMethods, irClassStaticProperties);
 }
 
 std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePreConstructor(ASTClassDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
@@ -63,6 +78,9 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
             false
     );
     auto irFunction = llvm::cast<llvm::Function>(irContext->getModule()->getOrInsertFunction(irClassType->getPreConstructorName(), functionType).getCallee());
+    if (node->isExportable()) {
+        irFunction->setLinkage(llvm::GlobalValue::ExternalLinkage);
+    }
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, preConstructorScope);
     auto classScopeParameterAllocation = irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType());
     functionBlock->getScope()->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
@@ -178,34 +196,34 @@ IRClassStaticPropertyNode* ClassDeclarationIRStrategy::generateStaticProperty(AS
     );
 }
 
-void ClassDeclarationIRStrategy::declareMethod(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
+void ClassDeclarationIRStrategy::declareMethod(ASTClassMethodDeclarationNode* node, bool isExportable, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
     auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
-    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
+    auto linkage = isExportable ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
 }
 
-void ClassDeclarationIRStrategy::declareStaticMethod(ASTClassMethodDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
+void ClassDeclarationIRStrategy::declareStaticMethod(ASTClassMethodDeclarationNode* node, bool isExportable, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
     auto methodTypeNode = irClassType->getIRTypeForStaticMethod(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
-    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
+    auto linkage = isExportable ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
 }
 
-void ClassDeclarationIRStrategy::declareConstructor(ASTClassConstructorDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
+void ClassDeclarationIRStrategy::declareConstructor(ASTClassConstructorDeclarationNode* node, bool isExportable, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
     auto constructorTypeNode = irClassType->getIRTypeForConstructor(node->getId()).value();
     auto functionType = llvm::cast<llvm::FunctionType>(constructorTypeNode->getType());
-    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
+    auto linkage = isExportable ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
 }
 
-void ClassDeclarationIRStrategy::declareStaticProperty(ASTClassPropertyDeclarationNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
+void ClassDeclarationIRStrategy::declareStaticProperty(ASTClassPropertyDeclarationNode* node, bool isExportable, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IRClassType* irClassType) {
     auto irType = irClassType->getIRTypeForStaticProperty(node->getId());
     auto globalVariable = new llvm::GlobalVariable(
             *irContext->getModule(),
             irType.value()->getType(),
             node->isConstant(),
-            node->isExportable()
+            isExportable
             ? llvm::GlobalValue::ExternalLinkage
             : llvm::GlobalValue::PrivateLinkage,
             irGenerator->generatePlaceholderValueForIRType(irType.value()),

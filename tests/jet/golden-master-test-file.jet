@@ -67,6 +67,30 @@ class ComplexClass {
     }
 }
 
+class CircularReferenceClassA {
+    private b: CircularReferenceClassB;
+
+    constructor(otherB: CircularReferenceClassB) {
+        this.b = otherB;
+    }
+
+    public getB() CircularReferenceClassB {
+        return this.b;
+    }
+}
+
+class CircularReferenceClassB {
+    private a: CircularReferenceClassA;
+
+    constructor(otherA: CircularReferenceClassA) {
+        this.a = otherA;
+    }
+
+    public getA() CircularReferenceClassA {
+        return this.a;
+    }
+}
+
 enum SimpleEnum {
     Alpha,
     Beta,

@@ -15,6 +15,7 @@ namespace ASTNodeUtils {
             case AST_ENUM_DECLARATION_NODE:
             case AST_CLASS_DECLARATION_NODE:
             case AST_INTERFACE_TYPE_DECLARATION_NODE:
+            case AST_CUSTOM_TYPE_DECLARATION_NODE:
                 return true;
             default:
                 return false;

@@ -45,7 +45,7 @@ public:
     TypeSignatureStrategyProvider();
     void assignTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, std::optional<TypeSignatureLookupTable*> scope = {});
     void assignInitialTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
-    void assignPartialTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, std::optional<TypeSignatureLookupTable*> scope = {});
+    void assignPostInitialTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, std::optional<TypeSignatureLookupTable*> scope = {});
     ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds);
     ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
     std::optional<FunctionTypeSignature*> findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType);

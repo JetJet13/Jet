@@ -1,0 +1,173 @@
+module BigModule
+
+export enum IntEnum {
+    Alpha = 1,
+    Beta = 2,
+    Gamma = 3
+}
+
+export enum FloatEnum {
+    Alpha = 1.1,
+    Beta = 2.2,
+    Gamma = 3.3
+}
+
+export enum BoolEnum {
+    Alpha = true,
+    Beta = false
+}
+
+export enum CharEnum {
+    Alpha = 'a',
+    Beta = 'b'
+}
+
+export enum StringEnum {
+    Alpha = "alpha",
+    Beta = "beta"
+}
+
+export type BigStruct = { foo: int, bar: bool };
+export type BigTuple = { int, bool };
+
+export class BigClass {
+    private bigInt = 500;
+    private bigFloat = 100.101;
+    private bigBool = true;
+    private bigChar = 'a';
+    private bigString = "hello world";
+    private bigArray = [1, 2, 3];
+    private bigStruct = ref { foo: 1, bar: false };
+    private bigTuple = ref { 1, false };
+    private bigClass = ref new SmallClass();
+    private bigIntEnum = IntEnum.Alpha;
+    private bigStringEnum = StringEnum.Alpha;
+    private bigEmptyInt: int;
+
+    private static bigStaticInt = 500;
+    private static bigStaticFloat = 100.101;
+    private static bigStaticBool = true;
+    private static bigStaticChar = 'a';
+    private static bigStaticString = "hello world";
+    private static bigStaticArray = [1, 2, 3];
+    private static bigStaticStruct = ref { foo: 1, bar: false };
+    private static bigStaticTuple = ref { 1, false };
+    private static bigStaticClass = ref new SmallClass();
+    private static bigStaticIntEnum = IntEnum.Alpha;
+    private static bigStaticStringEnum = StringEnum.Alpha;
+
+    constructor(x: int) {
+        this.bigEmptyInt = x;
+    }
+
+    public getBigInt() int {
+        return this.bigInt;
+    }
+
+    public getBigFloat() float {
+        return this.bigFloat;
+    }
+
+    public getBigBool() bool {
+        return this.bigBool;
+    }
+
+    public getBigChar() char {
+        return this.bigChar;
+    }
+
+    public getBigString() string {
+        return this.bigString;
+    }
+
+    public getBigArray() [int] {
+        return this.bigArray;
+    }
+
+    public getBigStruct() ref<BigStruct> {
+        return this.bigStruct;
+    }
+
+    public getBigTuple() ref<BigTuple> {
+        return this.bigTuple;
+    }
+
+    public getBigClass() ref<SmallClass> {
+        return this.bigClass;
+    }
+
+    public getBigIntEnum() IntEnum {
+        return this.bigIntEnum;
+    }
+
+    public getBigStringEnum() StringEnum {
+        return this.bigStringEnum;
+    }
+
+    public getBigEmptyInt() int {
+        return this.bigEmptyInt;
+    }
+
+    public static getBigStaticInt() int {
+        return BigClass.bigStaticInt;
+    }
+
+    public static getBigStaticFloat() float {
+        return BigClass.bigStaticFloat;
+    }
+
+    public static getBigStaticBool() bool {
+        return BigClass.bigStaticBool;
+    }
+
+    public static getBigStaticChar() char {
+        return BigClass.bigStaticChar;
+    }
+
+    public static getBigStaticString() string {
+        return BigClass.bigStaticString;
+    }
+
+    public static getBigStaticArray() [int] {
+        return BigClass.bigStaticArray;
+    }
+
+    public static getBigStaticStruct() ref<BigStruct> {
+        return BigClass.bigStaticStruct;
+    }
+
+    public static getBigStaticTuple() ref<BigTuple> {
+        return BigClass.bigStaticTuple;
+    }
+
+    public static getBigStaticClass() ref<SmallClass> {
+        return BigClass.bigStaticClass;
+    }
+
+    public static getBigStaticIntEnum() IntEnum {
+        return BigClass.bigStaticIntEnum;
+    }
+
+    public static getBigStaticStringEnum() StringEnum {
+        return BigClass.bigStaticStringEnum;
+    }
+
+}
+
+export class SmallClass {
+    private smallInt = 2;
+
+    constructor() {}
+
+    public getInt() int {
+        return this.smallInt;
+    }
+}
+
+export func BigFunction() int {
+    return 500;
+}
+
+export proc BigProcedure(x: ref<int>) {
+    x := 100;
+}

@@ -14,12 +14,21 @@ ASTNode* ClassDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         );
     }
 
-    if (nodes.size() == 4) {
+    if (nodes.size() == 4 && nodes.at(2)->is(AST_IMPLEMENTS_INTERFACE_LIST_NODE)) {
         return new ASTClassDeclarationNode(
                 (ASTClassNode*)nodes[0],
                 (ASTClassNameNode*)nodes[1],
                 (ASTClassBlockNode*)nodes[3],
                 (ASTImplementsInterfaceListNode*)nodes[2]
+        );
+    }
+
+    if (nodes.size() == 4 && nodes.at(0)->is(AST_EXPORT_NODE)) {
+        return new ASTClassDeclarationNode(
+                (ASTClassNode*)nodes[1],
+                (ASTClassNameNode*)nodes[2],
+                (ASTClassBlockNode*)nodes[3],
+                (ASTExportNode*)nodes[0]
         );
     }
 

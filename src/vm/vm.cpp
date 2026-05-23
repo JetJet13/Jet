@@ -8,6 +8,7 @@
 #include "../shared/utils/function-id-generator/function-id-generator.h"
 #include "utils/dependency-graph/dependency-graph.h"
 #include "ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
+#include "../core/ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
 
 VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
     _irGenerator = irGenerator;
@@ -106,13 +107,25 @@ void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
                 exportedFunction->setName(declarationId);
             }
             destination->getScope()->insertGlobalVariable(declarationId, jetFileToLink->getScope()->findGlobalVariable(irFunctionId).value());
-        } else {
+        } else if (exportedDeclaration->isOneOf({ AST_VARIABLE_DECLARATION_NODE, AST_ENUM_DECLARATION_NODE }))  {
             auto declarationId = jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + exportedDeclaration->getId();
             auto globalExport = destination->getIRModule()->getModule()->get()->getGlobalVariable(exportedDeclaration->getId());
             if (globalExport != nullptr) {
                 globalExport->setName(declarationId);
             }
             destination->getScope()->insertGlobalVariable(declarationId, jetFileToLink->getScope()->findGlobalVariable(exportedDeclaration->getId()).value());
+        } else if (exportedDeclaration->is(AST_CLASS_DECLARATION_NODE)) {
+            auto declarationId = jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + exportedDeclaration->getId();
+            auto irClassType = jetFileToLink->getScope()->findGlobalType(exportedDeclaration->getId()).value();
+            auto irClassValue = jetFileToLink->getScope()->findGlobalVariable(exportedDeclaration->getId()).value();
+            destination->getScope()->insertGlobalType(declarationId, irClassType);
+            destination->getScope()->insertGlobalVariable(declarationId, irClassValue);
+            auto classDeclaration = (ASTClassDeclarationNode*)exportedDeclaration;
+            for (auto staticProperty : *classDeclaration->getBlock()->getStaticProperties()) {
+                if (staticProperty->isPublic()) {
+                    destination->getScope()->insertGlobalVariable(declarationId, jetFileToLink->getScope()->findGlobalVariable(staticProperty->getId()).value());
+                }
+            }
         }
     }
 }

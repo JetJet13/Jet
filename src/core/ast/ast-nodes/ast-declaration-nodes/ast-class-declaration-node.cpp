@@ -6,6 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
+
 ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block, std::optional<ASTImplementsInterfaceListNode*> implementsInterfaceList) {
     _classKeyword = classKeyword;
     _name = name;
@@ -16,6 +17,17 @@ ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, AST
     if (_implementsInterfaceList) {
         _children.push_back(_implementsInterfaceList.value());
     }
+    _children.push_back(_block);
+}
+
+ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block, ASTExportNode* exportKeyword) {
+    _classKeyword = classKeyword;
+    _name = name;
+    _block = block;
+    _exportKeyword = exportKeyword;
+    _children.push_back(_classKeyword);
+    _children.push_back(_name);
+    _children.push_back(_exportKeyword.value());
     _children.push_back(_block);
 }
 
@@ -37,6 +49,10 @@ std::optional<ASTImplementsInterfaceListNode*>* ASTClassDeclarationNode::getImpl
 
 ClassTypeSignature* ASTClassDeclarationNode::getTypeSignature() {
     return _typeSignature;
+}
+
+bool ASTClassDeclarationNode::isExportable() {
+    return _exportKeyword.has_value();
 }
 
 Position* ASTClassDeclarationNode::getStartPosition() {

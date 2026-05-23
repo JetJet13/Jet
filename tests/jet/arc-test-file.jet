@@ -2,6 +2,7 @@ import MyOtherModule from "./other-test-file.jet";
 import MySecondModule from "./second-test-file.jet";
 import MyThirdModule from "./third-test-file.jet";
 import MyFourthModule from "./fourth-test-file.jet";
+import BigModule from "./big-module.jet";
 
 // expected delta is 25
 // actual delta is 25
@@ -57,6 +58,30 @@ class ComplexClass {
     }
 }
 
+class CircularReferenceClassA {
+    private b: CircularReferenceClassB;
+
+    constructor(otherB: CircularReferenceClassB) {
+        this.b = otherB;
+    }
+
+    public getB() CircularReferenceClassB {
+        return this.b;
+    }
+}
+
+class CircularReferenceClassB {
+    private a: CircularReferenceClassA;
+
+    constructor(otherA: CircularReferenceClassA) {
+        this.a = otherA;
+    }
+
+    public getA() CircularReferenceClassA {
+        return this.a;
+    }
+}
+
 enum SimpleEnum {
     Alpha,
     Beta,
@@ -97,53 +122,27 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-proc testEnums() {
-    const myEnumValue = SimpleEnum.Alpha;
-    assert(myEnumValue == SimpleEnum.Alpha);
+proc useBigModule() {
+    const bigInstance = new BigModule::BigClass();
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
 
-    const myStringEnumValue = StringEnum.Alpha;
-    assert(myStringEnumValue == StringEnum.Alpha);
-
-    const myEnumStruct = { foo: SimpleEnum.Alpha, bar: StringEnum.Alpha };
-    const myEnumTuple = { SimpleEnum.Alpha, StringEnum.Alpha };
-    const myEnumArray = [ SimpleEnum.Alpha ];
-    const myStringEnumArray = [ StringEnum.Alpha ];
-
-    const enumArrowLambda = (x: SimpleEnum) => x;
-    const enumBlockLambda = (x: SimpleEnum) { return x; };
-    assert(enumArrowLambda(SimpleEnum.Alpha) == SimpleEnum.Alpha);
-    assert(enumBlockLambda(SimpleEnum.Alpha) == SimpleEnum.Alpha);
-    assert(enumArrowLambda(myEnumValue) == SimpleEnum.Alpha);
-    assert(enumBlockLambda(myEnumValue) == SimpleEnum.Alpha);
-    assert(enumArrowLambda(myEnumStruct.foo) == SimpleEnum.Alpha);
-    assert(enumBlockLambda(myEnumStruct.foo) == SimpleEnum.Alpha);
-    assert(enumArrowLambda(myEnumTuple.0) == SimpleEnum.Alpha);
-    assert(enumBlockLambda(myEnumTuple.0) == SimpleEnum.Alpha);
-    assert(enumArrowLambda(myEnumArray[0]) == SimpleEnum.Alpha);
-    assert(enumBlockLambda(myEnumArray[0]) == SimpleEnum.Alpha);
-
-    const stringEnumArrowLambda = (x: StringEnum) => x;
-    const stringEnumBlockLambda = (x: StringEnum) { return x; };
-    assert(stringEnumArrowLambda(StringEnum.Alpha) == StringEnum.Alpha);
-    assert(stringEnumBlockLambda(StringEnum.Alpha) == StringEnum.Alpha);
-    assert(stringEnumArrowLambda(myStringEnumValue) == StringEnum.Alpha);
-    assert(stringEnumBlockLambda(myStringEnumValue) == StringEnum.Alpha);
-    assert(stringEnumArrowLambda(myEnumStruct.bar) == StringEnum.Alpha);
-    assert(stringEnumBlockLambda(myEnumStruct.bar) == StringEnum.Alpha);
-    assert(stringEnumArrowLambda(myEnumTuple.1) == StringEnum.Alpha);
-    assert(stringEnumBlockLambda(myEnumTuple.1) == StringEnum.Alpha);
-    assert(stringEnumArrowLambda(myStringEnumArray[0]) == StringEnum.Alpha);
-    assert(stringEnumBlockLambda(myStringEnumArray[0]) == StringEnum.Alpha);
-
-    let tempEnumValue = SimpleEnum.Alpha;
-    tempEnumValue = SimpleEnum.Beta;
-    assert(tempEnumValue == SimpleEnum.Beta);
-
-    let tempStringEnumValue = StringEnum.Alpha;
-    tempStringEnumValue = StringEnum.Beta;
-    assert(tempStringEnumValue == StringEnum.Beta);
 }
-testEnums();
+useBigModule();
 
 //proc testSyntax() {
 //    const x = unique_ptr 10;
@@ -152,21 +151,3 @@ testEnums();
 //    const y = dref x;
 //    const b = shared_ptr new MyClass(40);
 //}
-
-//func isPrime(x: int) bool {
-//    if x == 1 || x == 0 {
-//        return false;
-//    }
-//    for i in range(2, x) {
-//        if x mod i == 0 {
-//            return false;
-//        }
-//    }
-//    return true;
-//}
-//assert(isPrime(0) == false);
-//assert(isPrime(1) == false);
-//assert(isPrime(2) == true);
-//assert(isPrime(3) == true);
-//assert(isPrime(4) == false);
-//assert(isPrime(5) == true);

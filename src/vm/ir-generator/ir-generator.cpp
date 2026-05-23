@@ -364,7 +364,7 @@ void IRGenerator::generateInitialTypeFor(ASTNode* node, IRLookupTable* scope, IR
 
 void IRGenerator::generatePostInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
     if (node->is(AST_CLASS_DECLARATION_NODE)) {
-        auto irClassType = this->generatePostInitialTypeFor(node->getTypeSignature(), scope, irContext);
+        this->generatePostInitialTypeFor(node->getTypeSignature(), scope, irContext);
     }
 }
 

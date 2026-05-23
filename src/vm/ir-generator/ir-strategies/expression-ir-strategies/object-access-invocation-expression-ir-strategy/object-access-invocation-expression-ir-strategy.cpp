@@ -29,16 +29,7 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     }
     auto argList = irGenerator->generateArgumentPlaceholderListForFunction(node->getInvocableTypeSignature(), &arguments, scope, irContext);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    auto functionId = node->getName();
-    if (node->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
-        auto classTypeSignature = (ClassTypeSignature*)node->getSource()->getSource()->getTypeSignature();
-        auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getId()).value();
-        auto functionName = irClassType->getIRMethodName(functionId);
-        auto irFunctionType = irClassType->getIRTypeForStaticMethod(functionName).value();
-        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(irClassType->getIRMethodName(functionId)), irGenerator->generateIrPointerType(irFunctionType));
-        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
-        return new IRClassStaticMethodInvocationExpressionNode(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType);
-    }
+
 
     if (node->isRefPrototypeInvocation() && irGenerator->getRefPrototypeFunctionName(node->getName())) {
         auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
@@ -93,10 +84,19 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(ASTObject
     auto sourceType = sourceValue->getUnderlyingIRType();
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = (IRClassInstanceType*)sourceType;
-        auto irFunctionType = classInstanceType->getIRTypeForMethod(functionId).value();
-        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(classInstanceType->getIRMethodName(functionId)), irGenerator->generateIrPointerType(irFunctionType));
+        auto irFunctionType = classInstanceType->getIRTypeForMethod(node->getName()).value();
+        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(classInstanceType->getIRMethodName(node->getName())), irGenerator->generateIrPointerType(irFunctionType));
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
         return new IRObjectAccessInvocationExpressionNode(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType, sourceValue);
+    }
+
+    if (sourceType->isClassType()) {
+        auto irClassType = (IRClassType*)sourceType;
+        auto functionName = irClassType->getIRMethodName(node->getName());
+        auto irFunctionType = irClassType->getIRTypeForStaticMethod(functionName).value();
+        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(irClassType->getIRMethodName(node->getName())), irGenerator->generateIrPointerType(irFunctionType));
+        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
+        return new IRClassStaticMethodInvocationExpressionNode(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType);
     }
 
 

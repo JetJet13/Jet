@@ -13,6 +13,7 @@ SemanticAnalyzer::SemanticAnalyzer() {
 
 TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope) {
     auto typeCheckerResult = TypeCheckerResult();
+
     this->generateInitialTypeSignaturesFor(fileNode, fileScope);
     this->generateDeclarationTypeSignaturesFor(fileNode, fileScope);
     this->generateTypeSignatureForModule(fileNode, fileScope);
@@ -20,33 +21,33 @@ TypeCheckerResult SemanticAnalyzer::analyze(ASTFileNode* fileNode, TypeSignature
     return typeCheckerResult;
 }
 
-
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
-    auto typeDeclarations = std::vector<ASTDeclarationNode*>();
-    for (auto node : *fileNode->getBody()) {
-        if (ASTNodeUtils::isDeclarableNode(node)) {
-            typeDeclarations.push_back((ASTDeclarationNode*)node);
-        }
-    }
-
     auto typeSignatureContext = new TypeSignatureContext();
-    for (auto declarationNode : typeDeclarations) {
-        _typeSignatureGenerator->assignInitialTypeSignatureForDeclaration(declarationNode, typeSignatureContext, scope);
-        if (declarationNode->getTypeSignature()->isInvocable()) {
-            scope->insertGlobalInvocable(
-                declarationNode->getId(),
-                (InvocableTypeSignature*)declarationNode->getTypeSignature()
-            );
-        } else {
-            scope->insertGlobal(
+    auto declarations = std::vector<ASTDeclarationNode*>();
+    for (auto node : *fileNode->getBody()) {
+        if (ASTNodeUtils::isTypeDeclarationNode(node)) {
+            _typeSignatureGenerator->assignTypeSignatureFor(node, typeSignatureContext, scope);
+        } else if (ASTNodeUtils::isDeclarableNode(node)) {
+            auto declarationNode = (ASTDeclarationNode*)node;
+            _typeSignatureGenerator->assignInitialTypeSignatureFor(declarationNode, typeSignatureContext, scope);
+            declarationNode->getTypeSignature()->setId(declarationNode->getId());
+            if (declarationNode->getTypeSignature()->isInvocable()) {
+                scope->insertGlobalInvocable(
+                    declarationNode->getId(),
+                    (InvocableTypeSignature*)declarationNode->getTypeSignature()
+                );
+            } else {
+                scope->insertGlobal(
                     declarationNode->getId(),
                     declarationNode->getTypeSignature()
-            );
+                );
+            }
+            declarations.push_back((ASTDeclarationNode*)node);
         }
     }
 
-    for (auto declarationNode : typeDeclarations) {
-        _typeSignatureGenerator->assignPartialTypeSignatureForTypeDeclaration(declarationNode, typeSignatureContext, scope);
+    for (auto declarationNode : declarations) {
+        _typeSignatureGenerator->assignPostInitialTypeSignatureFor(declarationNode, typeSignatureContext, scope);
     }
 }
 

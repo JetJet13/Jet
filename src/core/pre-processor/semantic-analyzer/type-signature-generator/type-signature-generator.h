@@ -12,8 +12,8 @@ private:
     TypeSignatureStrategyProvider* _typeSignatureStrategyProvider;
 public:
     explicit TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider);
-    void assignInitialTypeSignatureForDeclaration(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
-    void assignPartialTypeSignatureForTypeDeclaration(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
+    void assignInitialTypeSignatureFor(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
+    void assignPostInitialTypeSignatureFor(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
     void assignTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
 };
 #endif //JETLANG_TYPE_SIGNATURE_GENERATOR_H

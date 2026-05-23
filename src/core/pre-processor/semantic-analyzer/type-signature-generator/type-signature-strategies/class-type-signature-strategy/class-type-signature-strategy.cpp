@@ -25,7 +25,7 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, TypeSigna
     }
 }
 
-void ClassTypeSignatureStrategy::assignPartial(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignPostInitial(ASTClassDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = node->getTypeSignature();
     auto classScope = TypeSignatureLookupTable();
     classScope.inheritGlobalScope(scope);

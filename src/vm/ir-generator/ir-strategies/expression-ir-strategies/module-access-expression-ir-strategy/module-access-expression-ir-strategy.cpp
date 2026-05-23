@@ -15,6 +15,10 @@ IRExpressionNode* ModuleAccessExpressionIRStrategy::generate(ASTModuleAccessExpr
         auto lambdaValueName = moduleName + "." + FunctionIdGenerator::generateFor(targetKey, invocableTypeSignature);
         sourceValue = scope->findGlobalVariable(lambdaValueName);
     }
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    return new IRModuleAccessExpressionNode(node, sourceValue.value()->getValue(), irType);
+
+    auto irType = scope->findGlobalType(valueName);
+    if (!irType) {
+        irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    }
+    return new IRModuleAccessExpressionNode(node, sourceValue.value()->getValue(), irType.value());
 }

@@ -101,7 +101,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, TypeSi
         case AST_ENUM_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
                     ->getEnumTypeSignatureStrategy()
-                    ->assign((ASTEnumDeclarationNode*) node, context, this);
+                    ->assign((ASTEnumDeclarationNode *) node, context, typeSignatureScope, this);
             break;
         case AST_VARIABLE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
@@ -176,7 +176,7 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, TypeSi
         case AST_CUSTOM_TYPE_NODE:
             this->_typeSignatureStrategyMap
                     ->getCustomTypeTypeSignatureStrategy()
-                    ->assign((ASTCustomTypeNode*)node, typeSignatureScope);
+                    ->assign((ASTCustomTypeNode *) node, typeSignatureScope);
             break;
         case AST_ARRAY_TYPE_NODE:
             this->_typeSignatureStrategyMap
@@ -513,20 +513,22 @@ void TypeSignatureStrategyProvider::assignInitialTypeSignatureFor(ASTNode* node,
         case AST_PROCEDURE_DECLARATION_NODE:
             _typeSignatureStrategyMap->getProcedureTypeSignatureStrategy()->assignInitial((ASTProcedureDeclarationNode*)node, context, scope, this);
             return;
-        case AST_CLASS_DECLARATION_NODE:
-        case AST_INTERFACE_TYPE_DECLARATION_NODE:
-        case AST_MODULE_DECLARATION_NODE:
-            node->getTypeSignature()->setId(node->getId());
+        case AST_ENUM_DECLARATION_NODE:
+            _typeSignatureStrategyMap->getEnumTypeSignatureStrategy()->assign((ASTEnumDeclarationNode*) node, context, scope, this);
             return;
         default:
             return;
     }
 }
 
-void TypeSignatureStrategyProvider::assignPartialTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, std::optional<TypeSignatureLookupTable*> scope) {
+void TypeSignatureStrategyProvider::assignPostInitialTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, std::optional<TypeSignatureLookupTable*> scope) {
     auto typeSignatureScope = scope.value_or(TypeSignatureLookupTableFactory::create());
-    if (node->is(AST_CLASS_DECLARATION_NODE)) {
-        _typeSignatureStrategyMap->getClassTypeSignatureStrategy()->assignPartial((ASTClassDeclarationNode*)node, context, typeSignatureScope, this);
+    switch (node->getNodeType()) {
+        case AST_CLASS_DECLARATION_NODE:
+            _typeSignatureStrategyMap->getClassTypeSignatureStrategy()->assignPostInitial((ASTClassDeclarationNode*) node, context, typeSignatureScope, this);
+            return;
+        default:
+            return;
     }
 }
 

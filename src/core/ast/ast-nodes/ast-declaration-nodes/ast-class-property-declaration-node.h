@@ -30,6 +30,8 @@ public:
     std::string getNormalizedPropertyName();
     std::optional<ASTTypeNode*> getType();
     std::optional<ASTExpressionNode*> getInitializer();
+    bool isPublic();
+    bool isPrivate();
     bool isStatic();
     bool isConstant();
     void setTypeSignature(ClassPropertyTypeSignature* typeSignature);

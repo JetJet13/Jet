@@ -1527,6 +1527,7 @@ void SyntaxDfa::init() {
 
     classKeyword
     ->markAlwaysReduceSelf()
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
     ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::create(AST_CLASS_NAME_NODE)
@@ -1621,6 +1622,15 @@ void SyntaxDfa::init() {
     newKeyword
     ->markAlwaysReduceSelf()
     ->addTransition(
+            // todo - add support for this: e.g. new Module::MyClass();
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_MODULE_ACCESS_EXPRESSION_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)
+            ))
+    ))
+    ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::create(AST_CLASS_NAME_NODE)
             ->addTransition(
@@ -1652,6 +1662,9 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(varInit))
     ->addTransition(DFATransitionFactory::create(functionDefinition))
     ->addTransition(DFATransitionFactory::create(procedureDefinition))
+    ->addTransition(DFATransitionFactory::create(enumKeyword))
+    ->addTransition(DFATransitionFactory::create(classKeyword))
+    ->addTransition(DFATransitionFactory::create(typeKeyword))
     ->addTransition(DFATransitionFactory::create(interfaceDefinition));
 
     interfaceKeyword
@@ -2101,6 +2114,7 @@ void SyntaxDfa::initProcedure(DFANode* procedureNode) {
 
 void SyntaxDfa::initEnum(DFANode* enumNode) {
     enumNode
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
     ->addTransition(
             DFATransitionFactory::create(
                     DFANodeFactory::Once::create(AST_ENUM_NAME_NODE)
@@ -2114,6 +2128,7 @@ void SyntaxDfa::initEnum(DFANode* enumNode) {
 
 void SyntaxDfa::initCustomType(DFANode* typeKeyword) {
     typeKeyword
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
     ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::create(AST_TYPE_NAME_NODE)
