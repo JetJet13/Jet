@@ -21,6 +21,9 @@ public:
     ASTModuleAccessExpressionNode(ASTModuleAccessSourceNode* source, ASTModuleAccessNode* moduleAccess, ASTModuleAccessTargetNode* target);
     ASTModuleAccessSourceNode* getSource();
     ASTModuleAccessTargetNode* getTarget();
+    std::string getModuleTargetName();
+    std::string getModuleName();
+    std::string getModuleId() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -11,6 +11,10 @@ void ASTExpressionNode::setTypeSignature(TypeSignature* typeSignature) {
     _typeSignature = typeSignature;
 }
 
+std::string ASTExpressionNode::getModuleId() {
+    return "";
+}
+
 TypeSignature* ASTExpressionNode::getTypeSignature() {
     return _typeSignature;
 }

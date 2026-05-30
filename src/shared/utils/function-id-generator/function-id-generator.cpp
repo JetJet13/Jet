@@ -49,6 +49,14 @@ std::string FunctionIdGenerator::generateFor(std::string name, InvocableTypeSign
     return id;
 }
 
+std::string FunctionIdGenerator::generateFor(std::string moduleId, std::string name, InvocableTypeSignature* invocableTypeSignature) {
+    auto id = FunctionIdGenerator::generateFor(name, invocableTypeSignature);
+    if (moduleId.empty()) {
+        return id;
+    }
+    return moduleId + "." + id;
+}
+
 std::string FunctionIdGenerator::generateFor(InvocableTypeSignature* invocableTypeSignature) {
     return MD5().operator()(invocableTypeSignature->toDetailString());
 }

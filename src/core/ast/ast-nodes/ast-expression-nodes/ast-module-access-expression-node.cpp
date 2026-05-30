@@ -23,6 +23,18 @@ ASTModuleAccessTargetNode* ASTModuleAccessExpressionNode::getTarget() {
     return _target;
 }
 
+std::string ASTModuleAccessExpressionNode::getModuleTargetName() {
+    return _target->getTarget()->getIdentifierNode()->getId();
+}
+
+std::string ASTModuleAccessExpressionNode::getModuleName() {
+    return _source->getSource()->getIdentifierNode()->getId();
+}
+
+std::string ASTModuleAccessExpressionNode::getModuleId() {
+    return _source->getSource()->getIdentifierNode()->getId();
+}
+
 Position* ASTModuleAccessExpressionNode::getStartPosition() {
     return _source->getStartPosition();
 }

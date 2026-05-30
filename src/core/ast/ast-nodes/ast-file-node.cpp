@@ -61,6 +61,13 @@ std::optional<ASTModuleDeclarationNode*> ASTFileNode::getModule() {
     return _module;
 }
 
+std::string ASTFileNode::getModuleName() {
+    if (_module) {
+        return _module.value()->getName()->getIdentifier()->getId();
+    }
+    return "";
+}
+
 std::vector<ASTImportSingleModuleDeclarationNode*>* ASTFileNode::getImports() {
     return &_imports;
 }

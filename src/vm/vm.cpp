@@ -67,7 +67,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
 
     for (auto jetFileToCompile : *dependencyGraph.getPrioritizedList()) {
         Logger::log("Compiling", jetFileToCompile->getId());
-        auto jetFileScope = new IRLookupTable();
+        auto jetFileScope = new IRLookupTable(jetFileToCompile->getFile()->getModuleName());
         auto jetFileIRModule = _irGenerator->generateModule(jetFileToCompile->getId());
         auto irJetFileToCompile = new IRJetFile(jetFileToCompile, jetFileIRModule, jetFileScope);
         jetFileIRModule->linkTo(irCoreModule);
@@ -97,6 +97,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
 
 void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
     Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId(), "to", destination->getFile()->getId());
+    destination->getScope()->link(jetFileToLink->getScope());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {
         if (exportedDeclaration->getTypeSignature()->isOneOf({ FUNCTION_TYPE_SOURCE, PROCEDURE_TYPE_SOURCE })) {
             auto invocableTypeSignature = (InvocableTypeSignature*)exportedDeclaration->getTypeSignature();

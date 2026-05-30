@@ -45,8 +45,8 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAcce
         return;
     } else if (sourceTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
         auto classSource = (ClassTypeSignature*)sourceTypeSignature;
-        auto id = objectAccessInvocationExpression->getName();
-        auto classStaticMethod = classSource->getInterface()->find(id);
+        auto id = classSource->addClassNameToKey(objectAccessInvocationExpression->getName());
+        auto classStaticMethod = classSource->getStaticMethods()->find(id);
         if (classStaticMethod) {
             auto classStaticMethodTypeSignature = (ClassMethodTypeSignature*)classStaticMethod.value();
             objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classStaticMethodTypeSignature);

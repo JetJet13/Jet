@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/md5/md5.h"
 
 IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getId()).value();
+    auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getModuleId(), classTypeSignature->getId()).value();
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
@@ -37,7 +37,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
 
     for (unsigned long i = 0; i < classTypeSignature->getInstanceMethods()->size(); ++i) {
         auto keyValue = classTypeSignature->getInstanceMethods()->getKeyValues()[i];
-        auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType(), scope, irContext);
+        auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType()->convertToVariableTypeSignature(), scope, irContext);
         auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
                                 ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
                                 : irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
@@ -53,10 +53,8 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     }
 
     for (auto keyValue : classTypeSignature->getStaticMethods()->getKeyValues()) {
-        auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType(), scope, irContext);
-        auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
-                                ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
-                                : irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
+        auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType()->convertToVariableTypeSignature(), scope, irContext);
+        auto methodParameters = irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
         irClassType->addStaticMethod(
                 keyValue.first,
                 new IRFunctionType(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false))

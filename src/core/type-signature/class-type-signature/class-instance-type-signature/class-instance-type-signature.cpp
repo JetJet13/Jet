@@ -19,6 +19,10 @@ bool ClassInstanceTypeSignature::isEmpty() {
     return _class->getInterface()->size() == 0;
 }
 
+std::string ClassInstanceTypeSignature::getClassModuleId() {
+    return _class->getModuleId();
+}
+
 TypeSignatureMap<ClassPropertyTypeSignature>* ClassInstanceTypeSignature::getProperties() {
     return _class->getInstanceProperties();
 }

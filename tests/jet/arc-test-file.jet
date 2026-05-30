@@ -123,23 +123,40 @@ func getRefArray(y: [int]) ref<[int]> {
 }
 
 proc useBigModule() {
-    const bigInstance = new BigModule::BigClass();
+    const bigInstance = new BigModule::BigClass(10);
+
     const bigInt = BigModule::BigClass.getBigStaticInt();
     assert(bigInt == 500);
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
+
+    const bigFloat = BigModule::BigClass.getBigStaticFloat();
+    assert(bigFloat == 100.101);
+
+    const bigBool = BigModule::BigClass.getBigStaticBool();
+    assert(bigBool == true);
+
+    const bigChar = BigModule::BigClass.getBigStaticChar();
+    assert(bigChar == 'a');
+
+    const bigString = BigModule::BigClass.getBigStaticString();
+    assert(bigString == "hello world");
+
+    const bigArray = BigModule::BigClass.getBigStaticArray();
+    assert(bigArray == [1, 2, 3]);
+
+    const bigStruct = BigModule::BigClass.getBigStaticStruct();
+    assert(bigStruct == { foo: 1, bar: false });
+
+    const bigTuple = BigModule::BigClass.getBigStaticTuple();
+    assert(bigTuple == { 1, false });
+
+    const bigStaticClass = BigModule::BigClass.getBigStaticClass();
+    assert(bigStaticClass == new BigModule::SmallClass());
+
+    const bigStaticIntEnum = BigModule::BigClass.getBigStaticIntEnum();
+    assert(bigStaticIntEnum == BigModule::IntEnum.Alpha);
+
+    const bigStaticStringEnum = BigModule::BigClass.getBigStaticStringEnum();
+    assert(bigStaticStringEnum == BigModule::StringEnum.Alpha);
 
 }
 useBigModule();

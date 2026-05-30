@@ -75,7 +75,12 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTClassMethodNameNode(this->getLexeme(), this->getId());
     }
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NODE, AST_NEW_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NODE })) {
+        return new ASTClassNameNode(this->getLexeme(), this->getId());
+    }
+
+    if (prevNode && prevNode.value()->isOneOf({ AST_NEW_NODE }) &&
+        (!nextNode || !nextNode.value()->isOneOf({ AST_MODULE_ACCESS_NODE }))) {
         return new ASTClassNameNode(this->getLexeme(), this->getId());
     }
 

@@ -4,7 +4,6 @@
 
 #include "new-class-instance-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../../interface-type-signature/interface-type-signature.h"
 #include "../class-instance-type-signature/class-instance-type-signature.h"
 
 NewClassInstanceTypeSignature::NewClassInstanceTypeSignature() {
@@ -54,6 +53,7 @@ void NewClassInstanceTypeSignature::setConstructorInfo(std::pair<std::string, Cl
 TypeSignature* NewClassInstanceTypeSignature::convertToVariableTypeSignature() {
     auto classTypeSignature = _classTypeSignature.value();
     auto classInstance = new ClassInstanceTypeSignature(classTypeSignature);
+    classInstance->setModuleId(classTypeSignature->getModuleId());
     classInstance->setId(classTypeSignature->getId());
     classInstance->setKeyId(classTypeSignature->getKeyId());
     return classInstance;

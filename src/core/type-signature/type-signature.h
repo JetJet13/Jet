@@ -14,6 +14,7 @@
 
 class TypeSignature {
 protected:
+    std::string _moduleId;
     std::string _id;
     std::string _keyId;
     std::optional<BuiltInTypeSource> _builtInTypeSource = std::nullopt;
@@ -21,6 +22,7 @@ protected:
     bool _isPrototype = false;
     bool _isGeneric = false;
 public:
+    std::string getModuleId();
     std::string getId();
     std::string getKeyId();
     TypeSignature* markAsBuiltIn(BuiltInTypeSource builtInTypeSource);
@@ -32,6 +34,7 @@ public:
     bool isOneOfBuiltInTypeSources(std::vector<BuiltInTypeSource> builtInTypeSources);
     TypeSignature* markAsPrototype();
     bool isPrototype();
+    TypeSignature* setModuleId(std::string id);
     TypeSignature* setId(std::string id);
     TypeSignature* setKeyId(std::string id);
     bool typeTargetIs(TypeSource other);

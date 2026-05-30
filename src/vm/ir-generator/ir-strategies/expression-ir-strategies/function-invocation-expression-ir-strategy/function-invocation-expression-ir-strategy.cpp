@@ -41,7 +41,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
 
     if (irType->isInvocableType()) {
         auto irInvocableType = (IRInvocableType*)irType;
-        auto source = scope->findAcrossScopes(node->getFunction()->getId()).value();
+        auto source = scope->findAcrossScopes(node->getFunction()->getModuleId(), node->getFunction()->getId()).value();
         auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), source->getValue(), argList);
         return new IRFunctionInvocationExpressionNode(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
@@ -73,7 +73,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(ASTFunctionIn
     }
 
     auto irFunctionType = (IRFunctionType*)irType;
-    auto irFunctionId = FunctionIdGenerator::generateFor(node->getFunction()->getId(), (InvocableTypeSignature*)node->getFunction()->getTypeSignature());
+    auto irFunctionId = FunctionIdGenerator::generateFor(node->getFunction()->getModuleId(), node->getFunction()->getId(), (InvocableTypeSignature*)node->getFunction()->getTypeSignature());
     auto function = irContext->getModule()->getFunction(irFunctionId);
     auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);

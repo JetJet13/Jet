@@ -26,7 +26,7 @@ IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(NewCla
     classInstancePropertiesPointerType->setId(newClassInstanceTypeSignature->getClassTypeSignature()->getId());
     classInstancePropertiesPointerType->setValue(irGenerator->generateIRTypeValueFor(classInstancePropertiesPointerType, irContext));
 
-    auto irClassType = (IRClassType*)scope->findGlobalType(newClassInstanceTypeSignature->getClassTypeSignature()->getId()).value();
+    auto irClassType = (IRClassType*)scope->findGlobalType(newClassInstanceTypeSignature->getClassTypeSignature()->getModuleId(), newClassInstanceTypeSignature->getClassTypeSignature()->getId()).value();
     auto irType = new IRNewClassInstanceType(
         irClassType,
         newClassInstanceTypeSignature->getConstructorId(),

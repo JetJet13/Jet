@@ -21,3 +21,10 @@ std::shared_ptr<IRModuleNode> IRJetFile::getIRModule() {
 IRLookupTable* IRJetFile::getScope() {
     return _scope;
 }
+
+std::string IRJetFile::getModuleName() {
+    if (_jetFile->isModule()) {
+        return _jetFile->getFile()->getModule().value()->getName()->getIdentifier()->getId();
+    }
+    throw std::logic_error("no module name exists since jet file is not a module");
+}

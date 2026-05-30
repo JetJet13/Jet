@@ -34,7 +34,7 @@ JetFile* PreProcessor::process(std::string filePath) {
     auto fileNode = this->buildFile(filePath, syntaxResult->getFileScope());
     _scopeAnalyzer.process(fileNode);
     // todo - change to createForModule() once debug-mode compiler flag is setup
-    auto typeSignatureScope = TypeSignatureLookupTableFactory::createForDebugModule();
+    auto typeSignatureScope = TypeSignatureLookupTableFactory::createForDebugModule(fileNode->getModuleName());
     auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);
     if (!typeCheckerResult.ok()) {
@@ -52,12 +52,13 @@ std::set<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, Typ
         if (!jetFile->isModule()) {
             throw std::logic_error("cannot import a file that is not a module: " + jetFile->getId());
         }
-        auto module = jetFile->getFile()->getModule().value();
-        scope->insertGlobal(module->getId(), module->getTypeSignature());
-        for (auto moduleExport : *module->getExports()) {
-            auto key = module->getId() + "." + moduleExport->getId();
-            scope->insertGlobal(key, moduleExport->getTypeSignature());
-        }
+        scope->link(jetFile->getScope());
+//        auto module = jetFile->getFile()->getModule().value();
+//        scope->insertGlobal(module->getId(), module->getTypeSignature());
+//        for (auto moduleExport : *module->getExports()) {
+//            auto key = module->getId() + "." + moduleExport->getId();
+//            scope->insertGlobal(key, moduleExport->getTypeSignature());
+//        }
         importedJetFiles.insert(jetFile);
     }
     return importedJetFiles;

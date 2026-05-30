@@ -10,17 +10,6 @@ void ModuleAccessExpressionIdStrategy::assign(ASTNode* node) {
     moduleAccessExpression->setId(
             _tokenTable->getIdentifier(
                     moduleAccessExpression
-                    ->getSource()
-                    ->getSource()
-                    ->getIdentifierNode()
-                    ->getLexeme()
-                    ->getToken()
-                    ->getValueId()
-                    .value()
-            )
-            + "."
-            + _tokenTable->getIdentifier(
-                    moduleAccessExpression
                     ->getTarget()
                     ->getTarget()
                     ->getIdentifierNode()

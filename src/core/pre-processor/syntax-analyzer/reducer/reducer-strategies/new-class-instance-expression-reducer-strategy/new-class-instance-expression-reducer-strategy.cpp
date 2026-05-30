@@ -11,9 +11,16 @@ ASTNode* NewClassInstanceExpressionReducerStrategy::execute(std::vector<ASTNode*
         throw std::invalid_argument("unable to reduce to new class instance expression since nodes list is not of size 3");
     }
 
+    if (nodes.at(1)->is(AST_CLASS_NAME_NODE)) {
+        return new ASTNewClassInstanceExpressionNode(
+                (ASTNewNode*)nodes[0],
+                (ASTClassNameNode*)nodes[1],
+                (ASTFunctionArgumentListNode*)nodes[2]
+        );
+    }
     return new ASTNewClassInstanceExpressionNode(
             (ASTNewNode*)nodes[0],
-            (ASTClassNameNode*)nodes[1],
+            (ASTModuleAccessExpressionNode*)nodes[1],
             (ASTFunctionArgumentListNode*)nodes[2]
     );
 }

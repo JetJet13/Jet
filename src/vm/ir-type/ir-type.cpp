@@ -41,12 +41,20 @@ std::string IRType::getId() {
     return _id;
 }
 
+std::string IRType::getModuleId() {
+    return _moduleId;
+}
+
 bool IRType::hasId() {
     return !_id.empty();
 }
 
 void IRType::setId(std::string id) {
     _id = id;
+}
+
+void IRType::setModuleId(std::string id) {
+    _moduleId = id;
 }
 
 std::string IRType::getKeyId() {

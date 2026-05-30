@@ -13,6 +13,7 @@
 
 class IRLookupTable {
 private:
+    std::string _moduleId;
     std::unordered_map<std::string, IRInstructionNode*> _globalScope;
     std::unordered_map<std::string, IRInstructionNode*> _scope;
     std::unordered_map<std::string, IRInstructionNode*> _arcScope;
@@ -20,11 +21,15 @@ private:
     std::optional<IRLookupTable*> _outerScope;
     std::unordered_map<std::string, IRType*> _typeScope;
     std::unordered_map<std::string, IRType*> _globalTypeScope;
+    std::unordered_map<std::string, IRLookupTable*>* _linkedScopes;
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
+    explicit IRLookupTable(std::string moduleId, std::optional<IRLookupTable*> outerScope = {});
     std::unordered_map<std::string, IRInstructionNode*> getGlobalScope();
     std::unordered_map<std::string, IRType*> getTypeScope();
     std::unordered_map<std::string, IRType*> getGlobalTypeScope();
+    std::unordered_map<std::string, IRLookupTable*>* getLinkedScopes();
+    std::string getModuleId();
     void inherit(IRLookupTable* otherScope);
     void link(IRLookupTable* otherScope);
     IRLookupTable* insert(std::string key, IRInstructionNode* value);
@@ -36,10 +41,14 @@ public:
     std::optional<IRInstructionNode*> findArc(std::string key);
     std::optional<IRLoadInstructionNode*> findLoaded(std::string key);
     std::optional<IRInstructionNode*> findAcrossScopes(std::string key);
+    std::optional<IRInstructionNode*> findAcrossScopes(std::string moduleId, std::string key);
     std::optional<IRType*> findType(std::string key);
+    std::optional<IRType*> findType(std::string moduleId, std::string key);
     std::optional<IRType*> findGlobalType(std::string key);
+    std::optional<IRType*> findGlobalType(std::string moduleId, std::string key);
     IRLookupTable* insertGlobalVariable(std::string key, IRInstructionNode* value);
     std::optional<IRInstructionNode*> findGlobalVariable(std::string key);
+    std::optional<IRInstructionNode*> findGlobalVariable(std::string moduleId, std::string key);
     std::optional<IRInstructionNode*> getClassScope();
     void dump();
 };

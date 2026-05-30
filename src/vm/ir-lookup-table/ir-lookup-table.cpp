@@ -6,6 +6,7 @@
 #include "../../shared/utils/logger/logger.h"
 
 IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
+    _moduleId = "";
     _globalScope = std::unordered_map<std::string, IRInstructionNode*>();
     _scope = std::unordered_map<std::string, IRInstructionNode*>();
     _arcScope = std::unordered_map<std::string, IRInstructionNode*>();
@@ -13,6 +14,19 @@ IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, IRType*>();
     _globalTypeScope = std::unordered_map<std::string, IRType*>();
+    _linkedScopes = new std::unordered_map<std::string, IRLookupTable*>();
+}
+
+IRLookupTable::IRLookupTable(std::string moduleId, std::optional<IRLookupTable*> outerScope) {
+    _moduleId = moduleId;
+    _globalScope = std::unordered_map<std::string, IRInstructionNode*>();
+    _scope = std::unordered_map<std::string, IRInstructionNode*>();
+    _arcScope = std::unordered_map<std::string, IRInstructionNode*>();
+    _loadedScope = std::unordered_map<std::string, IRLoadInstructionNode*>();
+    _outerScope = outerScope;
+    _typeScope = std::unordered_map<std::string, IRType*>();
+    _globalTypeScope = std::unordered_map<std::string, IRType*>();
+    _linkedScopes = new std::unordered_map<std::string, IRLookupTable*>();
 }
 
 std::unordered_map<std::string, IRInstructionNode*> IRLookupTable::getGlobalScope() {
@@ -27,18 +41,27 @@ std::unordered_map<std::string, IRType*> IRLookupTable::getGlobalTypeScope() {
     return _globalTypeScope;
 }
 
+std::unordered_map<std::string, IRLookupTable*>* IRLookupTable::getLinkedScopes() {
+    return _linkedScopes;
+}
+
+std::string IRLookupTable::getModuleId() {
+    return _moduleId;
+}
+
 void IRLookupTable::inherit(IRLookupTable* otherScope) {
+    _moduleId = otherScope->getModuleId();
     _globalScope = otherScope->getGlobalScope();
     _typeScope = otherScope->getTypeScope();
     _globalTypeScope = otherScope->getGlobalTypeScope();
+    _linkedScopes = otherScope->getLinkedScopes();
 }
 
 void IRLookupTable::link(IRLookupTable* otherScope) {
-    auto otherGlobalScope = otherScope->getGlobalScope();
-    _globalScope.insert(otherGlobalScope.begin(), otherGlobalScope.end());
-
-    auto otherGlobalTypeScope = otherScope->getGlobalTypeScope();
-    _globalTypeScope.insert(otherGlobalTypeScope.begin(), otherGlobalTypeScope.end());
+    if (_outerScope) {
+        _outerScope.value()->link(otherScope);
+    }
+    _linkedScopes->insert_or_assign(otherScope->getModuleId(), otherScope);
 }
 
 IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) {
@@ -58,11 +81,13 @@ IRLookupTable* IRLookupTable::insert(std::string key, IRLoadInstructionNode* val
 }
 
 IRLookupTable* IRLookupTable::insert(std::string key, IRType* value) {
+    value->setModuleId(_moduleId);
     _typeScope[key] = value;
     return this;
 }
 
 IRLookupTable* IRLookupTable::insertGlobalType(std::string key, IRType* value) {
+    value->setModuleId(_moduleId);
     _globalTypeScope[key] = value;
     return this;
 }
@@ -110,6 +135,23 @@ std::optional<IRInstructionNode*> IRLookupTable::findAcrossScopes(std::string ke
     }
     return this->findGlobalVariable(key);
 }
+// todo - refactor scope strategy for locating values and types across modules
+// by switching to   module linked scopes
+std::optional<IRInstructionNode*> IRLookupTable::findAcrossScopes(std::string moduleId, std::string key) {
+    if (moduleId == _moduleId) {
+        return this->findAcrossScopes(key);
+    }
+
+    if (_outerScope) {
+        return _outerScope.value()->findAcrossScopes(moduleId, key);
+    }
+
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->findAcrossScopes(key);
+}
 
 std::optional<IRType*> IRLookupTable::findType(std::string key) {
     auto result = _typeScope.find(key);
@@ -123,6 +165,22 @@ std::optional<IRType*> IRLookupTable::findType(std::string key) {
     }
 }
 
+std::optional<IRType*> IRLookupTable::findType(std::string moduleId, std::string key) {
+    if (moduleId == _moduleId) {
+        return this->findType(key);
+    }
+
+    if (_outerScope) {
+        return _outerScope.value()->findType(moduleId, key);
+    }
+
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->findType(key);
+}
+
 std::optional<IRType*> IRLookupTable::findGlobalType(std::string key) {
     auto result = _globalTypeScope.find(key);
     if (result == _globalTypeScope.end()) {
@@ -133,6 +191,22 @@ std::optional<IRType*> IRLookupTable::findGlobalType(std::string key) {
     } else {
         return result->second;
     }
+}
+
+std::optional<IRType*> IRLookupTable::findGlobalType(std::string moduleId, std::string key) {
+    if (moduleId == _moduleId) {
+        return this->findGlobalType(key);
+    }
+
+    if (_outerScope) {
+        return _outerScope.value()->findGlobalType(moduleId, key);
+    }
+
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->findGlobalType(key);
 }
 
 IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, IRInstructionNode* value) {
@@ -155,6 +229,22 @@ std::optional<IRInstructionNode*> IRLookupTable::findGlobalVariable(std::string 
     }
 }
 
+std::optional<IRInstructionNode*> IRLookupTable::findGlobalVariable(std::string moduleId, std::string key) {
+    if (moduleId == _moduleId) {
+        return this->findGlobalVariable(key);
+    }
+
+    if (_outerScope) {
+        return _outerScope.value()->findGlobalVariable(moduleId, key);
+    }
+
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->findGlobalVariable(key);
+}
+
 std::optional<IRInstructionNode*> IRLookupTable::getClassScope() {
     return this->find("jet.class.scope");
 }
@@ -172,6 +262,9 @@ void IRLookupTable::dump() {
     }
     for (auto keyValue : _arcScope) {
         Logger::log("ARC KEY - ", keyValue.first);
+    }
+    for (auto keyValue : *_linkedScopes) {
+        Logger::log("LINKED MODULE - ", keyValue.first);
     }
     if (_outerScope) {
         _outerScope.value()->dump();

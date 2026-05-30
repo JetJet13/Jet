@@ -10,7 +10,7 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvoca
 
     auto id = functionInvocationExpression->getFunction()->getId();
     // if the name refers to a lambda
-    auto lambdaTypeSignature = typeSignatureLookupTable->find(id);
+    auto lambdaTypeSignature = typeSignatureLookupTable->find(functionInvocationExpression->getFunction()->getModuleId(), id);
     if (lambdaTypeSignature->isInvocable()) {
         auto invocableTypeSignature = (InvocableTypeSignature*)lambdaTypeSignature;
         strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), new TypeSignatureContext(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
@@ -24,7 +24,7 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvoca
 
 
     // if the name refers to a function or procedure
-    auto functionTypeSignatureMap = typeSignatureLookupTable->getGlobalFunction(id);
+    auto functionTypeSignatureMap = typeSignatureLookupTable->getGlobalFunction(functionInvocationExpression->getFunction()->getModuleId(), id);
     if (functionTypeSignatureMap) {
         for (auto keyValue : *functionTypeSignatureMap.value()) {
             auto invocableTypeSignature = keyValue.second;

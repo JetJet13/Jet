@@ -27,6 +27,7 @@ public:
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
     void setupModuleIfNecessary();
     std::optional<ASTModuleDeclarationNode*> getModule();
+    std::string getModuleName();
     std::vector<ASTImportSingleModuleDeclarationNode*>* getImports();
     std::vector<ASTNode*>* getBody();
     Position* getStartPosition() override;

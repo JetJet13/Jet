@@ -136,6 +136,7 @@ std::string ClassTypeSignature::addClassNameToKey(std::string key) {
 
 TypeSignature* ClassTypeSignature::convertToVariableTypeSignature() {
     auto classInstance = new ClassInstanceTypeSignature(this);
+    classInstance->setModuleId(this->getModuleId());
     classInstance->setId(this->getId());
     classInstance->setKeyId(this->getKeyId());
     return classInstance;

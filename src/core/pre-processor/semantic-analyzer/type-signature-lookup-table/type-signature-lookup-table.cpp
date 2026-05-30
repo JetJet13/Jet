@@ -9,26 +9,41 @@
 #include "../../../type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-
 TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope) {
+    _moduleName = "";
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
     _globalTypeSignatureLookupTable = new std::unordered_map<std::string, TypeSignature*>();
     _globalInvocableTypeSignatureLookupTable = new std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>();
     _globalFunctionOverrideLookupTable = new std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>();
     _outerScope = outerScope;
+    _linkedScopes = new std::unordered_map<std::string, TypeSignatureLookupTable*>();
+}
+
+
+TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::optional<TypeSignatureLookupTable*> outerScope) {
+    _moduleName = moduleName;
+    _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
+    _globalTypeSignatureLookupTable = new std::unordered_map<std::string, TypeSignature*>();
+    _globalInvocableTypeSignatureLookupTable = new std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>();
+    _globalFunctionOverrideLookupTable = new std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>();
+    _outerScope = outerScope;
+    _linkedScopes = new std::unordered_map<std::string, TypeSignatureLookupTable*>();
 }
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, TypeSignature* typeSignature) {
+    typeSignature->setModuleId(this->getModuleName());
     _typeSignatureLookupTable.insert(std::pair(key, typeSignature));
     return this;
 }
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobal(std::string key, TypeSignature* typeSignature) {
+    typeSignature->setModuleId(this->getModuleName());
     _globalTypeSignatureLookupTable->insert_or_assign(key, typeSignature);
     return this;
 }
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalInvocable(std::string name, InvocableTypeSignature* typeSignature) {
+    typeSignature->setModuleId(this->getModuleName());
     auto key = FunctionIdGenerator::generateFor(typeSignature);
     auto existing = _globalInvocableTypeSignatureLookupTable->find(name);
     if (existing == _globalInvocableTypeSignatureLookupTable->end()) {
@@ -49,6 +64,21 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalFunctionOverride
     return this;
 }
 
+std::string TypeSignatureLookupTable::getModuleName() {
+    if (_outerScope) {
+        return _outerScope.value()->getModuleName();
+    }
+    return _moduleName;
+}
+
+void TypeSignatureLookupTable::link(TypeSignatureLookupTable* otherScope) {
+    if (_outerScope) {
+        _outerScope.value()->link(otherScope);
+        return;
+    }
+    _linkedScopes->insert_or_assign(otherScope->getModuleName(), otherScope);
+}
+
 TypeSignature* TypeSignatureLookupTable::find(std::string key) {
     auto result = _typeSignatureLookupTable.find(key);
     if (result == _typeSignatureLookupTable.end()) {
@@ -61,6 +91,20 @@ TypeSignature* TypeSignatureLookupTable::find(std::string key) {
     }
 }
 
+TypeSignature* TypeSignatureLookupTable::find(std::string moduleId, std::string key) {
+    if (moduleId == _moduleName) {
+        return this->find(key);
+    }
+    if (_outerScope) {
+        return _outerScope.value()->find(moduleId, key);
+    }
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return new UnknownTypeSignature();
+    }
+    return scope->second->find(key);
+}
+
 TypeSignature* TypeSignatureLookupTable::findGlobal(std::string key) {
     auto result = _globalTypeSignatureLookupTable->find(key);
     if (result == _globalTypeSignatureLookupTable->end()) {
@@ -68,6 +112,20 @@ TypeSignature* TypeSignatureLookupTable::findGlobal(std::string key) {
     } else {
         return result->second;
     }
+}
+
+TypeSignature* TypeSignatureLookupTable::findGlobal(std::string moduleId, std::string key) {
+    if (moduleId == _moduleName) {
+        return this->findGlobal(key);
+    }
+    if (_outerScope) {
+        return _outerScope.value()->findGlobal(moduleId, key);
+    }
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return new UnknownTypeSignature();
+    }
+    return scope->second->findGlobal(key);
 }
 
 std::optional<FunctionVarArgTypeSignatureMap*> TypeSignatureLookupTable::findGlobalFunctionOverride(std::string key) {
@@ -92,12 +150,40 @@ std::optional<InvocableTypeSignature*> TypeSignatureLookupTable::findGlobalFunct
     return result->second;
 }
 
+std::optional<InvocableTypeSignature*> TypeSignatureLookupTable::findGlobalFunction(std::string moduleId, std::string name, std::string key) {
+    if (moduleId == _moduleName) {
+        return this->findGlobalFunction(name, key);
+    }
+    if (_outerScope) {
+        return _outerScope.value()->findGlobalFunction(moduleId, name, key);
+    }
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->findGlobalFunction(name, key);
+}
+
 std::optional<std::unordered_map<std::string, InvocableTypeSignature*>*> TypeSignatureLookupTable::getGlobalFunction(std::string name) {
     auto globalFunction = _globalInvocableTypeSignatureLookupTable->find(name);
     if (globalFunction == _globalInvocableTypeSignatureLookupTable->end()) {
         return {};
     }
     return globalFunction->second;
+}
+
+std::optional<std::unordered_map<std::string, InvocableTypeSignature*>*> TypeSignatureLookupTable::getGlobalFunction(std::string moduleId, std::string name) {
+    if (moduleId == _moduleName) {
+        return this->getGlobalFunction(name);
+    }
+    if (_outerScope) {
+        return _outerScope.value()->getGlobalFunction(moduleId, name);
+    }
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->getGlobalFunction(name);
 }
 
 std::unordered_map<std::string, TypeSignature*> TypeSignatureLookupTable::getLookupTable() {
@@ -117,6 +203,10 @@ std::unordered_map<std::string, TypeSignature*>* TypeSignatureLookupTable::getGl
     return _globalTypeSignatureLookupTable;
 }
 
+std::unordered_map<std::string, TypeSignatureLookupTable*>* TypeSignatureLookupTable::getLinkedScopes() {
+    return _linkedScopes;
+}
+
 std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>* TypeSignatureLookupTable::getGlobalInvocableScope() {
     return _globalInvocableTypeSignatureLookupTable;
 }
@@ -126,9 +216,23 @@ std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* TypeSignatureL
 }
 
 void TypeSignatureLookupTable::inheritGlobalScope(TypeSignatureLookupTable* otherScope) {
+    _linkedScopes = otherScope->getLinkedScopes();
     _globalTypeSignatureLookupTable = otherScope->getGlobalScope();
     _globalFunctionOverrideLookupTable = otherScope->getGlobalOverrideScope();
     _globalInvocableTypeSignatureLookupTable = otherScope->getGlobalInvocableScope();
+}
+
+void TypeSignatureLookupTable::dumpLinkedScope(std::string moduleId) {
+    if (_outerScope) {
+        _outerScope.value()->dumpLinkedScope(moduleId);
+        return;
+    }
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        Logger::log("unable to dump linked scope; Not Found:", moduleId);
+        return;
+    }
+    return scope->second->dump();
 }
 
 void TypeSignatureLookupTable::dump() {
@@ -152,6 +256,10 @@ void TypeSignatureLookupTable::dump() {
     }
     for (auto keyValue : *_globalFunctionOverrideLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
+    }
+    Logger::log("======== LINKED SCOPES DUMP ========");
+    for (auto keyValue : *_linkedScopes) {
+        Logger::log("MODULE ID - ", keyValue.first);
     }
     Logger::log("===============================================");
 }

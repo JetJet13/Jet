@@ -9,7 +9,7 @@ IRClassInstanceType* ClassInstanceTypeSignatureIRStrategy::generate(ClassInstanc
     if (classInstanceTypeSignature->isGeneric()) {
         return irGenerator->getGenericClassInstanceIRType();
     }
-    auto irClassType = (IRClassType*)scope->findGlobalType(classInstanceTypeSignature->getId()).value();
+    auto irClassType = (IRClassType*)scope->findGlobalType(classInstanceTypeSignature->getClassModuleId(), classInstanceTypeSignature->getId()).value();
     auto classInstanceProperties = irClassType->getClassProperties()->clone();
     classInstanceProperties->setAlignmentAndSizeForIRTypes();
     classInstanceProperties->setKeyId(classInstanceTypeSignature->getKeyId());

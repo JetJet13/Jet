@@ -11,7 +11,16 @@ ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode*
     _className = className;
     _arguments = arguments;
     _children.push_back(_new);
-    _children.push_back(_className);
+    _children.push_back(_className.value());
+    _children.push_back(_arguments);
+}
+
+ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTModuleAccessExpressionNode* moduleAccessExpressionNode, ASTFunctionArgumentListNode* arguments) {
+    _new = newKeywordNode;
+    _moduleAccessExpression = moduleAccessExpressionNode;
+    _arguments = arguments;
+    _children.push_back(_new);
+    _children.push_back(_moduleAccessExpression.value());
     _children.push_back(_arguments);
 }
 
@@ -19,8 +28,18 @@ ASTFunctionArgumentListNode* ASTNewClassInstanceExpressionNode::getArguments() {
     return _arguments;
 }
 
-ASTClassNameNode* ASTNewClassInstanceExpressionNode::getClassName() {
-    return _className;
+std::string ASTNewClassInstanceExpressionNode::getClassName() {
+    if (_className) {
+        return _className.value()->getId();
+    }
+    return _moduleAccessExpression.value()->getTarget()->getTarget()->getId();
+}
+
+std::optional<std::string> ASTNewClassInstanceExpressionNode::getModuleName() {
+    if (_moduleAccessExpression) {
+        return _moduleAccessExpression.value()->getSource()->getSource()->getIdentifierNode()->getId();
+    }
+    return {};
 }
 
 unsigned long ASTNewClassInstanceExpressionNode::numArguments() {
@@ -57,21 +76,31 @@ bool ASTNewClassInstanceExpressionNode::isSameAs(ASTNode *other) {
     }
     auto otherNode = (ASTNewClassInstanceExpressionNode*)other;
 
-    return  this->getClassName()->isSameAs(otherNode->getClassName()) &&
-            this->getArguments()->isSameAs(otherNode->getArguments());
+    return this->getClassName() == otherNode->getClassName() &&
+           this->getArguments()->isSameAs(otherNode->getArguments());
 }
 
 void ASTNewClassInstanceExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    _className->print();
+    if (_className) {
+        _className.value()->print();
+    }
+    if (_moduleAccessExpression) {
+        _moduleAccessExpression.value()->print();
+    }
     _arguments->print();
     Logger::log("----------");
 }
 
 std::string ASTNewClassInstanceExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
-    sourceCodeBuilder.add(_new)
-    ->add(_className)
-    ->add(_arguments);
+    sourceCodeBuilder.add(_new);
+    if (_className) {
+        sourceCodeBuilder.add(_className.value());
+    }
+    if (_moduleAccessExpression) {
+        sourceCodeBuilder.add(_moduleAccessExpression.value());
+    }
+    sourceCodeBuilder.add(_arguments);
     return sourceCodeBuilder.build();
 }

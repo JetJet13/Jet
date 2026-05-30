@@ -21,6 +21,7 @@ public:
     static std::string generateFor(ASTFunctionInvocationExpressionNode* functionInvocationExpressionNode);
     static std::string generateFor(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpressionNode);
     static std::string generateFor(std::string name, InvocableTypeSignature* invocableTypeSignature);
+    static std::string generateFor(std::string moduleId, std::string name, InvocableTypeSignature* invocableTypeSignature);
     static std::string generateFor(InvocableTypeSignature* invocableTypeSignature);
     static std::string generateFor(std::string functionName, std::string parameterDetailString);
 };

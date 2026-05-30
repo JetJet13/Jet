@@ -586,6 +586,7 @@ void SyntaxDfa::init() {
     moduleAccessExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
         AST_UNARY_OPERATOR_NODE,
+        AST_NEW_NODE
     })
     ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))

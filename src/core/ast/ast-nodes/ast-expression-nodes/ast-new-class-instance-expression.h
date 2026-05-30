@@ -17,17 +17,21 @@
 #include "../ast-class-nodes/ast-class-name-node.h"
 #include "../ast-class-nodes/ast-new-node.h"
 #include "../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
+#include "ast-module-access-expression-node.h"
 
 class ASTNewClassInstanceExpressionNode : public ASTCallableExpressionNode {
 private:
     ASTNewNode* _new;
-    ASTClassNameNode* _className;
+    std::optional<ASTClassNameNode*> _className;
+    std::optional<ASTModuleAccessExpressionNode*> _moduleAccessExpression;
     ASTFunctionArgumentListNode* _arguments;
     NewClassInstanceTypeSignature* _typeSignature = new NewClassInstanceTypeSignature();
 public:
     explicit ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments);
+    explicit ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTModuleAccessExpressionNode* moduleAccessExpressionNode, ASTFunctionArgumentListNode* arguments);
     ASTFunctionArgumentListNode* getArguments();
-    ASTClassNameNode* getClassName();
+    std::string getClassName();
+    std::optional<std::string> getModuleName();
     unsigned long numArguments();
     NewClassInstanceTypeSignature* getTypeSignature() override;
     void setTypeSignature(NewClassInstanceTypeSignature* typeSignature);

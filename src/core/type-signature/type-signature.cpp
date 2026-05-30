@@ -4,6 +4,10 @@
 
 #include "type-signature.h"
 
+std::string TypeSignature::getModuleId() {
+    return _moduleId;
+}
+
 std::string TypeSignature::getId() {
     return _id;
 }
@@ -58,6 +62,10 @@ bool TypeSignature::isPrototype() {
     return _isPrototype;
 }
 
+TypeSignature* TypeSignature::setModuleId(std::string id) {
+    _moduleId = id;
+    return this;
+}
 
 TypeSignature* TypeSignature::setId(std::string id) {
     _id = id;

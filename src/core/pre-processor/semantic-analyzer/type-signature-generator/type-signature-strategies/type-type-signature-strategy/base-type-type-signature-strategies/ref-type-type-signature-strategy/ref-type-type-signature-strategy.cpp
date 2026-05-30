@@ -7,5 +7,5 @@
 
 void RefTypeTypeSignatureStrategy::assign(ASTRefTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getRefType(), context, scope);
-    node->setTypeSignature(new RefTypeSignature(node->getRefType()->getTypeSignature()));
+    node->setTypeSignature(new RefTypeSignature(node->getRefType()->getTypeSignature()->convertToVariableTypeSignature()));
 }

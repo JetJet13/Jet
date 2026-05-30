@@ -20,6 +20,7 @@ public:
     JetFile* getFile();
     std::shared_ptr<IRModuleNode> getIRModule();
     IRLookupTable* getScope();
+    std::string getModuleName();
 };
 
 #endif //JETLANG_IR_JET_FILE_H

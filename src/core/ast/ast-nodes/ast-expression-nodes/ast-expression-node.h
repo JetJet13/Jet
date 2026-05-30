@@ -16,6 +16,7 @@ protected:
     ASTNode* baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
 public:
     virtual void setTypeSignature(TypeSignature* typeSignature);
+    virtual std::string getModuleId();
     TypeSignature* getTypeSignature() override;
     ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     bool isExpression() override;
