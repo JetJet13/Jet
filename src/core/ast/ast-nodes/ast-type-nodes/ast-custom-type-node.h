@@ -6,7 +6,6 @@
 #define JETLANG_AST_CUSTOM_TYPE_NODE_H
 
 #include "ast-type-base-node.h"
-#include "../ast-identifier-node.h"
 
 class ASTCustomTypeNode : public ASTTypeBaseNode {
 private:

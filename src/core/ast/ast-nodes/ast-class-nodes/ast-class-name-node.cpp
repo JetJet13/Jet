@@ -3,7 +3,6 @@
 //
 
 #include "ast-class-name-node.h"
-#include "../../../../shared/utils/logger/logger.h"
 
 ASTNodeType ASTClassNameNode::getNodeType() {
     return AST_CLASS_NAME_NODE;

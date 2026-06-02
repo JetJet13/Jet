@@ -39,6 +39,7 @@
 #include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/module-type-type-signature-strategy/module-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/void-type-type-signature-strategy/void-type-type-signature-strategy.h"
@@ -197,6 +198,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, TypeSi
             this->_typeSignatureStrategyMap
                     ->getRefTypeTypeSignatureStrategy()
                     ->assign((ASTRefTypeNode *) node, context, typeSignatureScope, this);
+            break;
+        case AST_MODULE_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    ->getModuleTypeTypeSignatureStrategy()
+                    ->assign((ASTModuleTypeNode *) node, context, typeSignatureScope, this);
             break;
         case AST_LAMBDA_TYPE_NODE:
             this->_typeSignatureStrategyMap

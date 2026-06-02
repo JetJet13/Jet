@@ -2,8 +2,9 @@ import MyOtherModule from "./other-test-file.jet";
 import MySecondModule from "./second-test-file.jet";
 import MyThirdModule from "./third-test-file.jet";
 import MyFourthModule from "./fourth-test-file.jet";
+import BigModule from "./big-module.jet";
 
-// Global Malloc Count: 150
+// Global Malloc Count: 185 (malloc 2257, free 2073)
 // we need to factor in global variable assignment (deduct from global malloc count)
 
 // syntax not supported but workaround exists for the following scenarios:
@@ -2053,3 +2054,81 @@ proc maxAndMinInts() {
     //const overflowMultiply = MAX_INT * 2;
 }
 maxAndMinInts();
+
+proc testBigModule() {
+    const bigInstance = new BigModule::BigClass(10);
+    assert(bigInstance.getBigInt() == 500);
+    assert(bigInstance.getBigFloat() == 100.101);
+    assert(bigInstance.getBigBool() == true);
+    assert(bigInstance.getBigChar() == 'a');
+    assert(bigInstance.getBigString() == "hello world");
+    assert(bigInstance.getBigArray() == [1, 2, 3]);
+    assert(bigInstance.getBigStruct() == { foo: 1, bar: false });
+    assert(bigInstance.getBigTuple() == { 1, false });
+    assert(bigInstance.getBigClass() == new BigModule::SmallClass());
+    assert(bigInstance.getBigIntEnum() == BigModule::IntEnum.Alpha);
+    assert(bigInstance.getBigStringEnum() == BigModule::StringEnum.Alpha);
+    assert(bigInstance.getBigEmptyInt() == 10);
+
+    const bigFunctionResult = BigModule::BigFunction();
+    assert(bigFunctionResult == 500);
+
+    const x = ref 190;
+    BigModule::BigProcedure(x);
+    assert(x == 100);
+
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+
+    const bigFloat = BigModule::BigClass.getBigStaticFloat();
+    assert(bigFloat == 100.101);
+
+    const bigBool = BigModule::BigClass.getBigStaticBool();
+    assert(bigBool == true);
+
+    const bigChar = BigModule::BigClass.getBigStaticChar();
+    assert(bigChar == 'a');
+
+    const bigString = BigModule::BigClass.getBigStaticString();
+    assert(bigString == "hello world");
+
+    const bigArray = BigModule::BigClass.getBigStaticArray();
+    assert(bigArray == [1, 2, 3]);
+
+    const bigStruct: ref<BigModule::BigStruct> = BigModule::BigClass.getBigStaticStruct();
+    assert(bigStruct == { foo: 1, bar: false });
+
+    const bigTuple: ref<BigModule::BigTuple> = BigModule::BigClass.getBigStaticTuple();
+    assert(bigTuple == { 1, false });
+
+    const bigStaticClass = BigModule::BigClass.getBigStaticClass();
+    assert(bigStaticClass == new BigModule::SmallClass());
+
+    const bigStaticIntEnum = BigModule::BigClass.getBigStaticIntEnum();
+    assert(bigStaticIntEnum == BigModule::IntEnum.Alpha);
+
+    const bigStaticStringEnum = BigModule::BigClass.getBigStaticStringEnum();
+    assert(bigStaticStringEnum == BigModule::StringEnum.Alpha);
+
+    const bigStaticLambda = BigModule::BigClass.getBigStaticLambda();
+    assert(bigStaticLambda(10) == 12);
+
+    assert(BigModule::BIG_INT == 100);
+    assert(BigModule::BIG_FLOAT == 2.234);
+    assert(BigModule::BIG_BOOL == true);
+    assert(BigModule::BIG_CHAR == 'c');
+    assert(BigModule::BIG_STRING == "big string!");
+    assert(BigModule::BIG_ARRAY == [1, 2, 3]);
+    assert(BigModule::BIG_STRUCT == { foo: 1, bar: true, mars: 2 });
+    assert(BigModule::BIG_TUPLE == { 1, false, 2 });
+    assert(BigModule::BIG_CLASS == new BigModule::SmallClass());
+    assert(BigModule::BIG_INT_ENUM == BigModule::IntEnum.Alpha);
+    assert(BigModule::BIG_STRING_ENUM == BigModule::StringEnum.Alpha);
+    assert(BigModule::BIG_LAMBDA_ARROW(120) == 121);
+    assert(BigModule::BIG_LAMBDA_BLOCK(120) == 121);
+
+    const myLambda = (x: int, y: (int) => int) => x + y(x);
+    //assert(myLambda(5, BigModule::BIG_LAMBDA_ARROW) == 11);
+    //assert(myLambda(5, BigModule::BIG_LAMBDA_BLOCK) == 11);
+}
+testBigModule();

@@ -16,6 +16,7 @@
 #include "ast-void-type-node.h"
 #include "../ast-void-node.h"
 #include "ast-tuple-type-nodes/ast-tuple-type-node.h"
+#include "ast-module-type-nodes/ast-module-type-node.h"
 
 namespace ASTTypeNodeFactory {
     ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id);
@@ -25,6 +26,7 @@ namespace ASTTypeNodeFactory {
     ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
     ASTTypeNode* createStructTypeNode(ASTStructTypeNode* structTypeNode);
     ASTTypeNode* createRefTypeNode(ASTRefTypeNode* refTypeNode);
+    ASTTypeNode* createModuleTypeNode(ASTModuleTypeNode* moduleTypeNode);
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);
     ASTTypeNode* createVoidTypeNode(ASTVoidNode* voidNode);
 }

@@ -49,6 +49,7 @@ class LambdaTypeTypeSignatureStrategy;
 class VoidTypeTypeSignatureStrategy;
 class ThisTypeTypeSignatureStrategy;
 class RefTypeTypeSignatureStrategy;
+class ModuleTypeTypeSignatureStrategy;
 class EnumKeyValueTypeSignatureStrategy;
 class EnumTypeSignatureStrategy;
 class VariableTypeSignatureStrategy;
@@ -127,6 +128,7 @@ private:
     StructTypeTypeSignatureStrategy* _structTypeTypeSignatureStrategy;
     TupleTypeTypeSignatureStrategy* _tupleTypeTypeSignatureStrategy;
     RefTypeTypeSignatureStrategy* _refTypeTypeSignatureStrategy;
+    ModuleTypeTypeSignatureStrategy* _moduleTypeTypeSignatureStrategy;
     LambdaTypeTypeSignatureStrategy* _lambdaTypeTypeSignatureStrategy;
     VoidTypeTypeSignatureStrategy* _voidTypeTypeSignatureStrategy;
     ThisTypeTypeSignatureStrategy* _thisTypeTypeSignatureStrategy;
@@ -205,6 +207,7 @@ public:
     StructTypeTypeSignatureStrategy* getStructTypeTypeSignatureStrategy();
     TupleTypeTypeSignatureStrategy* getTupleTypeTypeSignatureStrategy();
     RefTypeTypeSignatureStrategy* getRefTypeTypeSignatureStrategy();
+    ModuleTypeTypeSignatureStrategy* getModuleTypeTypeSignatureStrategy();
     LambdaTypeTypeSignatureStrategy* getLambdaTypeTypeSignatureStrategy();
     VoidTypeTypeSignatureStrategy* getVoidTypeTypeSignatureStrategy();
     ThisTypeTypeSignatureStrategy* getThisTypeTypeSignatureStrategy();

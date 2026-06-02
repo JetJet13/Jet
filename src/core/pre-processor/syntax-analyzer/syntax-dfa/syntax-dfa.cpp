@@ -149,6 +149,9 @@ void SyntaxDfa::init() {
     DFANode* fromKeyword = DFANodeFactory::Once::create(AST_FROM_NODE);
     DFANode* importModuleName = DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE);
     DFANode* moduleAccess = DFANodeFactory::Once::create(AST_MODULE_ACCESS_NODE);
+    DFANode* moduleAccessType = DFANodeFactory::Once::create(AST_MODULE_ACCESS_TYPE_NODE);
+    DFANode* moduleTypeSource = DFANodeFactory::Once::create(AST_MODULE_TYPE_SOURCE_NODE);
+    DFANode* moduleTypeTarget = DFANodeFactory::Once::create(AST_MODULE_TYPE_TARGET_NODE);
     DFANode* moduleAccessExpression = DFANodeFactory::Once::create(AST_MODULE_ACCESS_EXPRESSION_NODE);
     DFANode* moduleAccessSource = DFANodeFactory::Once::create(AST_MODULE_ACCESS_SOURCE_NODE);
     DFANode* moduleAccessTarget = DFANodeFactory::Once::create(AST_MODULE_ACCESS_TARGET_NODE);
@@ -411,8 +414,8 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
     ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_TARGET_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_MODULE_ACCESS_SOURCE_NODE, { AST_MODULE_ACCESS_NODE }))
-    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE }))
+    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_MODULE_ACCESS_SOURCE_NODE, { AST_MODULE_ACCESS_NODE, AST_MODULE_ACCESS_TYPE_NODE }))
+    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE, AST_MODULE_ACCESS_TYPE_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_VARIABLE_NODE, { AST_FOR_NODE }, {AST_FOR_IN_NODE }))
@@ -1501,6 +1504,19 @@ void SyntaxDfa::init() {
     moduleAccess
     ->markAlwaysReduceSelf();
 
+    moduleAccessType
+    ->markAlwaysReduceSelf();
+
+    moduleTypeTarget
+    ->markAlwaysReduceSelf();
+
+    moduleTypeSource
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::create(AST_MODULE_ACCESS_TYPE_NODE)
+            ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_MODULE_TYPE_TARGET_NODE, AST_MODULE_TYPE_NODE))))
+    );
+
     moduleAccessSource
     ->addTransition(
         DFATransitionFactory::create(
@@ -1860,6 +1876,9 @@ void SyntaxDfa::init() {
     ->insertStartNode(importModuleName)
     ->insertStartNode(fromKeyword)
     ->insertStartNode(moduleAccess)
+    ->insertStartNode(moduleAccessType)
+    ->insertStartNode(moduleTypeSource)
+    ->insertStartNode(moduleTypeTarget)
     ->insertStartNode(moduleAccessSource)
     ->insertStartNode(moduleAccessTarget)
     ->insertStartNode(importModuleListByWildcardItem)

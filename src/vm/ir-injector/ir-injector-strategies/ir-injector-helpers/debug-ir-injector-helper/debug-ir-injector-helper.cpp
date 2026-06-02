@@ -66,7 +66,8 @@ void DebugIRInjectorHelper::injectRefCountLog(IRBlockNode* irBlockNode, llvm::Va
 
 void DebugIRInjectorHelper::injectLog(IRBlockNode* irBlockNode, llvm::Value* log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
-    irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintDebugMarkerFunction(), { log });
+    auto logAsDebugMarker = irBlockNode->getBuilder()->get()->CreateZExt(log, irBlockNode->getBuilder()->get()->getInt64Ty());
+    irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintDebugMarkerFunction(), { logAsDebugMarker });
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintNewLineFunction());
 }
 

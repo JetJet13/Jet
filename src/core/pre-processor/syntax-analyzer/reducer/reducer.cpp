@@ -126,6 +126,7 @@
 #include "reducer-strategies/class-property-ref-value-assignment-statement-reducer-strategy/class-property-ref-value-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/module-access-assignment-reducer-strategy/module-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/module-access-assignment-statement-reducer-strategy/module-access-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/module-type-reducer-strategy/module-type-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -205,6 +206,7 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_NODE, new TupleAccessAssignmentReducerStrategy());
     this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, new TupleAccessAssignmentStatementReducerStrategy());
     this->addStrategy(AST_ARRAY_TYPE_NODE, new ArrayTypeReducerStrategy());
+    this->addStrategy(AST_MODULE_TYPE_NODE, new ModuleTypeReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_ALIAS_ITEM_NODE, new ModuleListAliasItemReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_SPREAD_ITEM_NODE, new ModuleListSpreadItemReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_NODE, new ModuleListReducerStrategy());

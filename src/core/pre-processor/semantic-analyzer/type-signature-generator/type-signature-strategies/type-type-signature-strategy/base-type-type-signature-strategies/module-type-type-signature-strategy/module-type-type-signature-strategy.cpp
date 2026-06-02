@@ -1,0 +1,10 @@
+//
+// Created by Johny Georges on 2026-05-30.
+//
+
+#include "module-type-type-signature-strategy.h"
+
+void ModuleTypeTypeSignatureStrategy::assign(ASTModuleTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+    auto typeSignature = scope->find(node->getModuleName(), node->getModuleTargetName());
+    node->setTypeSignature(typeSignature);
+}

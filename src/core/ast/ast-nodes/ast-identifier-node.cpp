@@ -31,6 +31,7 @@
 #include "ast-type-nodes/ast-type-name-node.h"
 #include "ast-print-node.h"
 #include "ast-range-node.h"
+#include "../../pre-processor/syntax-analyzer/utils/syntax-analyzer-mode-utils.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
     _lexeme = lexeme;
@@ -49,6 +50,14 @@ std::string ASTIdentifierNode::getValue(TokenTable* tokenTable) {
 ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_PERIOD_NODE, AST_MODULE_ACCESS_NODE })) {
         return this;
+    }
+
+    if (SyntaxAnalyzerModeUtils::isTypeMode(mode) && nextNode && nextNode.value()->isOneOf({ AST_COLON_COLON_BASE_NODE })) {
+        return new ASTModuleTypeSourceNode(this->getLexeme(), this->getId());
+    }
+
+    if (prevNode && prevNode.value()->is(AST_MODULE_ACCESS_TYPE_NODE)) {
+        return new ASTModuleTypeTargetNode(this->getLexeme(), this->getId());
     }
 
     if (prevNode && prevNode.value()->is(AST_CLASS_ACCESS_NODE)) {
@@ -80,7 +89,7 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_NEW_NODE }) &&
-        (!nextNode || !nextNode.value()->isOneOf({ AST_MODULE_ACCESS_NODE }))) {
+        (!nextNode || !nextNode.value()->isOneOf({ AST_COLON_COLON_BASE_NODE }))) {
         return new ASTClassNameNode(this->getLexeme(), this->getId());
     }
 

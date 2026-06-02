@@ -119,6 +119,6 @@ namespace ASTNodeUtils {
                 return false;
         }
     }
-};
+}
 
 #endif //JETLANG_AST_NODE_UTILS_H

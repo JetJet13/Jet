@@ -36,6 +36,8 @@ void FreeInvocableIRFunction::generateFreeInvocableFunction(IRGenerator* irGener
     auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(intType, refCounterPointer, "currentRefCount");
     auto pointerToIsPerpetual = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getIsPerpetualIndex());
     auto isPerpetual = functionBlock->getBuilder()->get()->CreateLoad(boolType, pointerToIsPerpetual, "isPerpetual");
+    DebugIRInjectorHelper::injectLog(functionBlock, "IS PERPETUAL?", irGenerator->getInjector(), irModuleNode);
+    DebugIRInjectorHelper::injectLog(functionBlock, isPerpetual, irGenerator->getInjector(), irModuleNode);
     functionBlock->getBuilder()->get()->CreateCondBr(isPerpetual, freeInvocableEndBlock->getBlock(), freeInvocableIfBlock->getBlock());
     auto isLastRef = freeInvocableIfBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_SLE,

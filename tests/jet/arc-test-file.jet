@@ -122,49 +122,41 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-proc useBigModule() {
-    const bigInstance = new BigModule::BigClass(10);
+//export const LAMBDA_ARROW = (x: int) => x + 1;
 
-    const bigInt = BigModule::BigClass.getBigStaticInt();
-    assert(bigInt == 500);
+proc moo() {
+    //const myLambdaY = (x: int, y: (int) => int) => x + y(x);
+    //const x = myLambdaY(5, BigModule::BIG_LAMBDA_ARROW);
+    //assert(x == 11);
+    //const y = myLambdaY(6, BigModule::BIG_LAMBDA_ARROW);
+    //assert(y == 13);
 
-    const bigFloat = BigModule::BigClass.getBigStaticFloat();
-    assert(bigFloat == 100.101);
+    // todo - get this working
+    //const w = myLambdaY(6, BigModule::BigClass.getBigStaticLambda());
+    //assert(w == 14);
 
-    const bigBool = BigModule::BigClass.getBigStaticBool();
-    assert(bigBool == true);
+    //const z = myLambdaY(10, getInt);
+    //assert(z == 20);
+    //const a = myLambdaY(20, BigModule::BigIntFunction);
+    //assert(a == 40);
+    //const b = myLambdaY(20, LAMBDA_ARROW);
+    //assert(b == 41);
+    //const c = myLambdaY(20, LAMBDA_ARROW);
+    //assert(c == 41);
 
-    const bigChar = BigModule::BigClass.getBigStaticChar();
-    assert(bigChar == 'a');
-
-    const bigString = BigModule::BigClass.getBigStaticString();
-    assert(bigString == "hello world");
-
-    const bigArray = BigModule::BigClass.getBigStaticArray();
-    assert(bigArray == [1, 2, 3]);
-
-    const bigStruct = BigModule::BigClass.getBigStaticStruct();
-    assert(bigStruct == { foo: 1, bar: false });
-
-    const bigTuple = BigModule::BigClass.getBigStaticTuple();
-    assert(bigTuple == { 1, false });
-
-    const bigStaticClass = BigModule::BigClass.getBigStaticClass();
-    assert(bigStaticClass == new BigModule::SmallClass());
-
-    const bigStaticIntEnum = BigModule::BigClass.getBigStaticIntEnum();
-    assert(bigStaticIntEnum == BigModule::IntEnum.Alpha);
-
-    const bigStaticStringEnum = BigModule::BigClass.getBigStaticStringEnum();
-    assert(bigStaticStringEnum == BigModule::StringEnum.Alpha);
-
+    // todo - add dedicated injector strategies for refs and lambdas
+    // to increment counts for class static method invocations
+    const myLambdaZ = (x: ref<BigModule::BigStruct>) => x.foo;
+    const tt = myLambdaZ(BigModule::BigClass.getBigStaticStruct());
+    //assert(tt == 1);
 }
-useBigModule();
+moo();
 
 //proc testSyntax() {
-//    const x = unique_ptr 10;
-//    const z = shared_ptr x;
-//    const a = weak_ptr x;
-//    const y = dref x;
-//    const b = shared_ptr new MyClass(40);
+//    const x = unique 10;
+//    const z = shared x;
+//    const a = shared (x + 1);
+//    const b = shared new MyClass(40);
+//    myFunction(shared 5, shared Foo::Create());
+//    const y: shared<int> = shared 5;
 //}

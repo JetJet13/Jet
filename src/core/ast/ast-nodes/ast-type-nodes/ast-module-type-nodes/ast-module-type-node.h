@@ -1,0 +1,34 @@
+//
+// Created by Johny Georges on 2026-05-30.
+//
+
+#ifndef JETLANG_AST_MODULE_TYPE_NODE_H
+#define JETLANG_AST_MODULE_TYPE_NODE_H
+
+#include <string>
+#include "../ast-type-base-node.h"
+#include "ast-module-access-type-node.h"
+#include "ast-module-type-source-node.h"
+#include "ast-module-type-target-node.h"
+
+class ASTModuleTypeNode : public ASTTypeBaseNode {
+private:
+    ASTModuleTypeSourceNode* _source;
+    ASTModuleAccessTypeNode* _moduleAccess;
+    ASTModuleTypeTargetNode* _target;
+public:
+    ASTModuleTypeNode(ASTModuleTypeSourceNode* source, ASTModuleAccessTypeNode* moduleAccess, ASTModuleTypeTargetNode* target);
+    ASTModuleTypeSourceNode* getSource();
+    ASTModuleTypeTargetNode* getTarget();
+    std::string getModuleTargetName();
+    std::string getModuleName();
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+    std::string toSourceCode() override;
+};
+
+#endif //JETLANG_AST_MODULE_TYPE_NODE_H

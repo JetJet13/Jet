@@ -152,6 +152,10 @@ export class BigClass {
         return BigClass.bigStaticStringEnum;
     }
 
+    public static getBigStaticLambda() (int) => int {
+        return (x: int) => x + 2;
+    }
+
 }
 
 export class SmallClass {
@@ -171,3 +175,21 @@ export func BigFunction() int {
 export proc BigProcedure(x: ref<int>) {
     x := 100;
 }
+
+export func BigIntFunction(x: int) int {
+    return x;
+}
+
+export const BIG_INT = 100;
+export const BIG_FLOAT = 2.234;
+export const BIG_BOOL = true;
+export const BIG_CHAR = 'c';
+export const BIG_STRING = "big string!";
+export const BIG_ARRAY = [1, 2, 3];
+export const BIG_STRUCT = { foo: 1, bar: true, mars: 2 };
+export const BIG_TUPLE = { 1, false, 2 };
+export const BIG_CLASS = new SmallClass();
+export const BIG_INT_ENUM = IntEnum.Alpha;
+export const BIG_STRING_ENUM = StringEnum.Alpha;
+export const BIG_LAMBDA_ARROW = (x: int) => x + 1;
+export const BIG_LAMBDA_BLOCK = (x: int) int { return x + 1; };

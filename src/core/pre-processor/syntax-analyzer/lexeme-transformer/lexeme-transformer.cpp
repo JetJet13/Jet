@@ -72,6 +72,7 @@
 #include "../../../ast/ast-nodes/ast-print-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
+#include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -190,7 +191,7 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     } else if (symbol->isFromKeyword()) {
         return new ASTFromNode(lexeme);
     } else if (symbol->isColonColon()) {
-        return new ASTModuleAccessNode(lexeme);
+        return new ASTColonColonBaseNode(lexeme);
     } else if (symbol->isClass()) {
         return new ASTClassNode(lexeme);
     } else if (symbol->isPublic()) {

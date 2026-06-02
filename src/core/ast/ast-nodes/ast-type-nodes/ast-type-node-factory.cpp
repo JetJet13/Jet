@@ -6,6 +6,7 @@
 #include "ast-this-type-node.h"
 
 namespace ASTTypeNodeFactory {
+
     ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id) {
         return new ASTTypeNode(new ASTCustomTypeNode(lexeme, id));
     }
@@ -32,6 +33,10 @@ namespace ASTTypeNodeFactory {
 
     ASTTypeNode* createRefTypeNode(ASTRefTypeNode* refTypeNode) {
         return new ASTTypeNode(refTypeNode);
+    }
+
+    ASTTypeNode* createModuleTypeNode(ASTModuleTypeNode* moduleTypeNode) {
+        return new ASTTypeNode(moduleTypeNode);
     }
 
     ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode) {

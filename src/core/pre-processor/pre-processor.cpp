@@ -53,12 +53,6 @@ std::set<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, Typ
             throw std::logic_error("cannot import a file that is not a module: " + jetFile->getId());
         }
         scope->link(jetFile->getScope());
-//        auto module = jetFile->getFile()->getModule().value();
-//        scope->insertGlobal(module->getId(), module->getTypeSignature());
-//        for (auto moduleExport : *module->getExports()) {
-//            auto key = module->getId() + "." + moduleExport->getId();
-//            scope->insertGlobal(key, moduleExport->getTypeSignature());
-//        }
         importedJetFiles.insert(jetFile);
     }
     return importedJetFiles;

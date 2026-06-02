@@ -804,6 +804,18 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-dref-expression-strategy/enum-ir-dref-expression-strategy.h
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-identifier-expression-strategy/enum-ir-identifier-expression-strategy.cpp
         ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-identifier-expression-strategy/enum-ir-identifier-expression-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-identifier-expression-injector-strategy/lambda-ir-identifier-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-identifier-expression-injector-strategy/lambda-ir-identifier-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-module-access-expression-injector-strategy/lambda-ir-module-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-module-access-expression-injector-strategy/lambda-ir-module-access-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-lambda-with-block-expression-injector-strategy/lambda-ir-lambda-with-block-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-lambda-with-block-expression-injector-strategy/lambda-ir-lambda-with-block-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/lambda-ir-injector-helper/lambda-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/lambda-ir-injector-helper/lambda-ir-injector-helper.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-class-static-method-invocation-expression-injector-strategy/lambda-class-static-method-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-class-static-method-invocation-expression-injector-strategy/lambda-class-static-method-invocation-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

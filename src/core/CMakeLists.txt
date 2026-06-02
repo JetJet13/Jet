@@ -1409,6 +1409,21 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/module-access-assignment-statement-type-checker-policy/module-access-assignment-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/module-access-assignment-statement-type-checker-policy/module-access-assignment-statement-type-checker-policy.h
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-access-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-access-type-node.h
+        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-type-reducer-strategy/module-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-type-reducer-strategy/module-type-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/module-type-type-signature-strategy/module-type-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/module-type-type-signature-strategy/module-type-type-signature-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-source-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-source-node.h
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-target-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-target-node.h
+        pre-processor/syntax-analyzer/utils/syntax-analyzer-mode-utils.h
 
 )
 
