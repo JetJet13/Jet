@@ -80,4 +80,11 @@ void ClassIRInjectorStrategy::injectMethod(IRClassMethodNode* irClassMethodNode,
 void ClassIRInjectorStrategy::injectStaticProperty(IRClassStaticPropertyNode* irClassStaticPropertyNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto initialValue = irInjector->inject(irBlock, irClassStaticPropertyNode->getInitialIRValue(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     InstructionIRInjectorHelper::injectStore(initialValue, irClassStaticPropertyNode->getGlobalVariable(), irBlock, irClassStaticPropertyNode->getIRType());
+    // we need to increment the ref count for static properties that require arc because they are similar to global variables,
+    // which means they need the extra ref increment on initialization to prevent them from being freed after first use
+    if (irClassStaticPropertyNode->getIRType()->requiresArc()) {
+        irClassStaticPropertyNode->getIRType()->isInvocableType()
+        ? irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { irClassStaticPropertyNode->getGlobalVariable() })
+        : irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { irClassStaticPropertyNode->getGlobalVariable() });
+    }
 }

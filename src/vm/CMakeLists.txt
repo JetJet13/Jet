@@ -816,6 +816,24 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ir-injector-helpers/lambda-ir-injector-helper/lambda-ir-injector-helper.h
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-class-static-method-invocation-expression-injector-strategy/lambda-class-static-method-invocation-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-class-static-method-invocation-expression-injector-strategy/lambda-class-static-method-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-class-static-method-invocation-expression-injector-strategy/ref-ir-class-static-method-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-class-static-method-invocation-expression-injector-strategy/ref-ir-class-static-method-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-object-access-invocation-expression-injector-strategy/lambda-ir-object-access-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-object-access-invocation-expression-injector-strategy/lambda-ir-object-access-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-array-access-invocation-expression-injector-strategy/lambda-ir-array-access-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-array-access-invocation-expression-injector-strategy/lambda-ir-array-access-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-function-invocation-expression-injector-strategy/lambda-ir-function-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-function-invocation-expression-injector-strategy/lambda-ir-function-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-invocation-expression-injector-strategy/lambda-ir-tuple-access-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-invocation-expression-injector-strategy/lambda-ir-tuple-access-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/ref-ir-injector-helper/ref-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/ref-ir-injector-helper/ref-ir-injector-helper.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-object-access-invocation-expression-injector-strategy/ref-ir-object-access-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-object-access-invocation-expression-injector-strategy/ref-ir-object-access-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-invocation-expression-injector-strategy/ref-ir-tuple-access-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-invocation-expression-injector-strategy/ref-ir-tuple-access-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-array-access-invocation-expression-injector-strategy/ref-ir-array-access-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-array-access-invocation-expression-injector-strategy/ref-ir-array-access-invocation-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

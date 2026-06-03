@@ -21,6 +21,10 @@
 #include "strategies/lambda-ir-lambda-with-block-expression-injector-strategy/lambda-ir-lambda-with-block-expression-injector-strategy.h"
 #include "strategies/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy.h"
 #include "strategies/lambda-class-static-method-invocation-expression-injector-strategy/lambda-class-static-method-invocation-expression-injector-strategy.h"
+#include "strategies/lambda-ir-object-access-invocation-expression-injector-strategy/lambda-ir-object-access-invocation-expression-injector-strategy.h"
+#include "strategies/lambda-ir-array-access-invocation-expression-injector-strategy/lambda-ir-array-access-invocation-expression-injector-strategy.h"
+#include "strategies/lambda-ir-function-invocation-expression-injector-strategy/lambda-ir-function-invocation-expression-injector-strategy.h"
+#include "strategies/lambda-ir-tuple-access-invocation-expression-injector-strategy/lambda-ir-tuple-access-invocation-expression-injector-strategy.h"
 
 class LambdaIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -32,7 +36,11 @@ private:
     LambdaIRModuleAccessExpressionInjectorStrategy _moduleAccessExpressionInjector = LambdaIRModuleAccessExpressionInjectorStrategy();
     LambdaIRLambdaWithBlockExpressionInjectorStrategy _lambdaWithBlockExpressionInjector = LambdaIRLambdaWithBlockExpressionInjectorStrategy();
     LambdaIRLambdaWithFatArrowExpressionInjectorStrategy _lambdaWithFatArrowExpressionInjector = LambdaIRLambdaWithFatArrowExpressionInjectorStrategy();
-    LambdaIRClassStaticMethodInvocationExpressionInjectorStrategy _classStaticMethodInvocationExpressionInjectorStrategy = LambdaIRClassStaticMethodInvocationExpressionInjectorStrategy();
+    LambdaIRClassStaticMethodInvocationExpressionInjectorStrategy _classStaticMethodInvocationExpressionInjector = LambdaIRClassStaticMethodInvocationExpressionInjectorStrategy();
+    LambdaIRObjectAccessInvocationExpressionInjectorStrategy _objectAccessInvocationExpressionInjector = LambdaIRObjectAccessInvocationExpressionInjectorStrategy();
+    LambdaIRTupleAccessInvocationExpressionInjectorStrategy _tupleAccessInvocationExpressionInjector = LambdaIRTupleAccessInvocationExpressionInjectorStrategy();
+    LambdaIRArrayAccessInvocationExpressionInjectorStrategy _arrayAccessInvocationExpressionInjector = LambdaIRArrayAccessInvocationExpressionInjectorStrategy();
+    LambdaIRFunctionInvocationExpressionInjectorStrategy _functionInvocationExpressionInjector = LambdaIRFunctionInvocationExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
 };

@@ -18,6 +18,14 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
     InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getValue(), irBlock, irVariableDeclaration->getAllocatedIRType());
     if (irVariableDeclaration->getGlobalVariable()) {
         InstructionIRInjectorHelper::injectStore(irExpressionValue, irVariableDeclaration->getGlobalVariable().value()->getValue(), irBlock, irVariableDeclaration->getGlobalVariable().value()->getIRType());
+
+        // we need to increment the ref count for global variables because they need
+        // the extra ref increment on initialization to prevent them from being freed after first use
+        if (irVariableDeclaration->getAllocatedIRType()->requiresArc()) {
+            irVariableDeclaration->getAllocatedIRType()->isInvocableType()
+            ? irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { irVariableDeclaration->getGlobalVariable().value()->getValue() })
+            : irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { irVariableDeclaration->getGlobalVariable().value()->getValue() });
+        }
     }
     if (irVariableDeclaration->getArc()) {
         InstructionIRInjectorHelper::inject(irVariableDeclaration->getArc().value(), irBlock, irVariableDeclaration->getVariableName() + ".arc");

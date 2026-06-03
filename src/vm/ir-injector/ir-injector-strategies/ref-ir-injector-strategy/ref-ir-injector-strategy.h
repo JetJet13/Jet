@@ -14,6 +14,10 @@
 #include "strategies/ref-ir-object-access-expression-injector-strategy/ref-ir-object-access-expression-injector-strategy.h"
 #include "strategies/ref-ir-array-access-expression-injector-strategy/ref-ir-array-access-expression-injector-strategy.h"
 #include "strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.h"
+#include "strategies/ref-ir-class-static-method-invocation-expression-injector-strategy/ref-ir-class-static-method-invocation-expression-injector-strategy.h"
+#include "strategies/ref-ir-object-access-invocation-expression-injector-strategy/ref-ir-object-access-invocation-expression-injector-strategy.h"
+#include "strategies/ref-ir-array-access-invocation-expression-injector-strategy/ref-ir-array-access-invocation-expression-injector-strategy.h"
+#include "strategies/ref-ir-tuple-access-invocation-expression-injector-strategy/ref-ir-tuple-access-invocation-expression-injector-strategy.h"
 
 class RefIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -21,6 +25,10 @@ private:
     RefIRRefExpressionInjectorStrategy _refIRRefExpressionInjectorStrategy = RefIRRefExpressionInjectorStrategy();
     RefIRIdentifierExpressionInjectorStrategy _refIRIdentifierExpressionInjectorStrategy = RefIRIdentifierExpressionInjectorStrategy();
     RefIRFunctionInvocationExpressionInjectorStrategy _refIRFunctionInvocationExpressionInjectorStrategy = RefIRFunctionInvocationExpressionInjectorStrategy();
+    RefIRObjectAccessInvocationExpressionInjectorStrategy _refIRObjectAccessInvocationExpressionInjectorStrategy = RefIRObjectAccessInvocationExpressionInjectorStrategy();
+    RefIRArrayAccessInvocationExpressionInjectorStrategy _refIRArrayAccessInvocationExpressionInjectorStrategy = RefIRArrayAccessInvocationExpressionInjectorStrategy();
+    RefIRTupleAccessInvocationExpressionInjectorStrategy _refIRTupleAccessInvocationExpressionInjectorStrategy = RefIRTupleAccessInvocationExpressionInjectorStrategy();
+    RefIRClassStaticMethodInvocationExpressionInjectorStrategy _refIRClassStaticMethodInvocationExpressionInjectorStrategy = RefIRClassStaticMethodInvocationExpressionInjectorStrategy();
     RefIRSrefExpressionInjectorStrategy _refIRSrefExpressionInjectorStrategy = RefIRSrefExpressionInjectorStrategy();
     RefIRObjectAccessExpressionInjectorStrategy _refIRObjectAccessExpressionInjectorStrategy = RefIRObjectAccessExpressionInjectorStrategy();
     RefIRArrayAccessExpressionInjectorStrategy _refIRArrayAccessExpressionInjectorStrategy = RefIRArrayAccessExpressionInjectorStrategy();

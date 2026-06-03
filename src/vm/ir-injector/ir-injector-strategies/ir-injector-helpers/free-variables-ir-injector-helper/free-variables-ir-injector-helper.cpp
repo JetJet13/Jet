@@ -124,7 +124,14 @@ void FreeIRInjectorHelper::freeExpression(IRBlockNode* irBlockNode, IRExpression
                        + std::to_string(expressionToFree->getStartPosition()->getColumn());
     if (expressionToFree->getIRType()->getSourceType()->isInvocableType()) {
         DebugIRInjectorHelper::injectLog(irBlockNode, "[free-invocable-exp] "  + name + " - " + irBlockNode->getBlock()->getParent()->getName().str(), irInjector, irModule);
-        irBlockNode->getBuilder()->get()->CreateCall(irModule->getFreeInvocableFunction(), { expressionToFree->getValue() });
+        auto invocableValue = expressionToFree->getValue();
+        if (!invocableValue->getType()->isPointerTy()) {
+            auto alloc = irBlockNode->getBuilder()->get()->CreateAlloca(invocableValue->getType());
+            InstructionIRInjectorHelper::injectStore(invocableValue, alloc, irBlockNode, expressionToFree->getIRType()->getSourceType());
+            irBlockNode->getBuilder()->get()->CreateCall(irModule->getFreeInvocableFunction(), { alloc });
+            return;
+        }
+        irBlockNode->getBuilder()->get()->CreateCall(irModule->getFreeInvocableFunction(), { invocableValue });
         return;
     }
     auto typeValue = irInjector->inject(irBlockNode, expressionToFree->getIRType()->getSourceType()->clone());

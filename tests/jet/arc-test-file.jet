@@ -122,35 +122,58 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-//export const LAMBDA_ARROW = (x: int) => x + 1;
 
 proc moo() {
-    //const myLambdaY = (x: int, y: (int) => int) => x + y(x);
-    //const x = myLambdaY(5, BigModule::BIG_LAMBDA_ARROW);
-    //assert(x == 11);
-    //const y = myLambdaY(6, BigModule::BIG_LAMBDA_ARROW);
-    //assert(y == 13);
+    const myLambdaY = (x: int, y: (int) => int) => x + y(x);
+    const x = myLambdaY(5, BigModule::BIG_LAMBDA_ARROW);
+    assert(x == 11);
+    const y = myLambdaY(6, BigModule::BIG_LAMBDA_ARROW);
+    assert(y == 13);
 
-    // todo - get this working
-    //const w = myLambdaY(6, BigModule::BigClass.getBigStaticLambda());
-    //assert(w == 14);
+    const w = myLambdaY(6, BigModule::BigClass.getBigStaticLambda());
+    assert(w == 14);
 
-    //const z = myLambdaY(10, getInt);
-    //assert(z == 20);
-    //const a = myLambdaY(20, BigModule::BigIntFunction);
-    //assert(a == 40);
-    //const b = myLambdaY(20, LAMBDA_ARROW);
-    //assert(b == 41);
-    //const c = myLambdaY(20, LAMBDA_ARROW);
-    //assert(c == 41);
+    const z = myLambdaY(10, getInt);
+    assert(z == 20);
+    const a = myLambdaY(20, BigModule::BigIntFunction);
+    assert(a == 40);
 
-    // todo - add dedicated injector strategies for refs and lambdas
-    // to increment counts for class static method invocations
     const myLambdaZ = (x: ref<BigModule::BigStruct>) => x.foo;
     const tt = myLambdaZ(BigModule::BigClass.getBigStaticStruct());
-    //assert(tt == 1);
+    assert(tt == 1);
 }
-moo();
+//moo();
+
+proc boo() {
+    const myLambdaG = (x: ref<BigModule::BigStruct>) => x.foo;
+    const gg = myLambdaG(BigModule::BigClass.getBigStaticStruct());
+    assert(gg == 1);
+}
+//boo();
+
+func testPassUpInt() ref<int> {
+    const x = 121;
+    return ref x;
+}
+
+func testPassUpIntAlt() ref<int> {
+    const x = ref 121;
+    return x;
+}
+
+proc testArcPassUp() {
+    assertDebugRefCount(testPassUpIntAlt(), 1);
+    const passedUpXAlt = testPassUpIntAlt();
+    assertDebugRefCount(passedUpXAlt, 1);
+
+    assertDebugRefCount(testPassUpInt(), 1);
+    const passedUpX = testPassUpInt();
+    assertDebugRefCount(passedUpX, 1);
+    const anotherX = passedUpX;
+    assertDebugRefCount(passedUpX, 2);
+    assert(passedUpX == 121);
+}
+testArcPassUp();
 
 //proc testSyntax() {
 //    const x = unique 10;

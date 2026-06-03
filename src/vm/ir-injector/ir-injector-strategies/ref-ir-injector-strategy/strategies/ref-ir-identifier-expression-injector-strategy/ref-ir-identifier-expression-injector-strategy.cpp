@@ -16,7 +16,7 @@ llvm::Value* RefIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpre
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), irExpression->getValue(), irRefType->getRefValueIndex());
         auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
         return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueIRType()->getType(), loadedPointerToRefValue, irBlock);
-    } else if (irOperation->isOperandValue() || irOperation->isFunctionArgument()) {
+    } else if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { irExpression->getValue() });
         return InstructionIRInjectorHelper::injectLoad(irRefType->getType(), irExpression->getValue(), irBlock);
     } else if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
