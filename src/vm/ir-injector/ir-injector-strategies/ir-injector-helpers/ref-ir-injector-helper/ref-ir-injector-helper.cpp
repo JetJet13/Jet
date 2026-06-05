@@ -5,8 +5,8 @@
 #include "ref-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void RefIRInjectorHelper::incrementRefCountIfNecessary(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
-    if (irOperation->incrementRefCount() && !irOperation->isUnderlying()) {
+void RefIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
+    if (irOperation->isFunctionArgument()) {
         auto alloca = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
         InstructionIRInjectorHelper::injectStore(value, alloca, irBlock, irType);
         irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { alloca });

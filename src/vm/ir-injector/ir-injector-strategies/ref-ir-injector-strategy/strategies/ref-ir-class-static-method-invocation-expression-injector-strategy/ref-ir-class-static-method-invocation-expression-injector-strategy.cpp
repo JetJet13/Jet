@@ -10,6 +10,7 @@
 llvm::Value* RefIRClassStaticMethodInvocationExpressionInjectorStrategy::inject(IRClassStaticMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto functionResult = FunctionInvocationIRInjectorHelper::inject(irExpression, irBlock, irInjector, irModule, scope, irOperation);
     auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
-    RefIRInjectorHelper::incrementRefCountIfNecessary(functionResult, irRefType, irBlock, irOperation, irModule);
+    RefIRInjectorHelper::incrementRefCountForInvocationExpression(functionResult, irRefType, irBlock, irOperation,
+                                                                  irModule);
     return RefIRInjectorHelper::inject(functionResult, irRefType, irBlock, irOperation);
 }

@@ -122,7 +122,6 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-
 proc moo() {
     const myLambdaY = (x: int, y: (int) => int) => x + y(x);
     const x = myLambdaY(5, BigModule::BIG_LAMBDA_ARROW);
@@ -150,30 +149,6 @@ proc boo() {
     assert(gg == 1);
 }
 //boo();
-
-func testPassUpInt() ref<int> {
-    const x = 121;
-    return ref x;
-}
-
-func testPassUpIntAlt() ref<int> {
-    const x = ref 121;
-    return x;
-}
-
-proc testArcPassUp() {
-    assertDebugRefCount(testPassUpIntAlt(), 1);
-    const passedUpXAlt = testPassUpIntAlt();
-    assertDebugRefCount(passedUpXAlt, 1);
-
-    assertDebugRefCount(testPassUpInt(), 1);
-    const passedUpX = testPassUpInt();
-    assertDebugRefCount(passedUpX, 1);
-    const anotherX = passedUpX;
-    assertDebugRefCount(passedUpX, 2);
-    assert(passedUpX == 121);
-}
-testArcPassUp();
 
 //proc testSyntax() {
 //    const x = unique 10;

@@ -41,7 +41,7 @@ void IRExpressionNode::markAsGrouped() {
 bool IRExpressionNode::needsToBeFreed() {
     return !this->isGlobal() &&
            !this->isAssigned() &&
-//           !this->isReturned() &&
+           !this->isReturned() &&
            !this->isOneOf({
                IR_IDENTIFIER_EXPRESSION_NODE,
                IR_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,

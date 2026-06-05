@@ -13,7 +13,7 @@
 
 class RefIRInjectorHelper {
 public:
-    static void incrementRefCountIfNecessary(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule);
+    static void incrementRefCountForInvocationExpression(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule);
     static llvm::Value* inject(llvm::Value* value, IRRefType* irRefType, IRBlockNode* irBlock, IROperation* irOperation);
 };
 

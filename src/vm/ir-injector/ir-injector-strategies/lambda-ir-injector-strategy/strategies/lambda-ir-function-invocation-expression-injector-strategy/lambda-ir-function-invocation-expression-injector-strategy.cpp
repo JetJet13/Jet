@@ -9,6 +9,7 @@
 
 llvm::Value* LambdaIRFunctionInvocationExpressionInjectorStrategy::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto functionResult = FunctionInvocationIRInjectorHelper::inject(irExpression, irBlock, irInjector, irModule, scope, irOperation);
-    LambdaIRInjectorHelper::incrementRefCountIfNecessary(functionResult, irExpression->getIRType(), irBlock, irOperation, irModule);
+    LambdaIRInjectorHelper::incrementRefCountForInvocationExpression(functionResult, irExpression->getIRType(), irBlock,
+                                                                     irOperation, irModule);
     return functionResult;
 }

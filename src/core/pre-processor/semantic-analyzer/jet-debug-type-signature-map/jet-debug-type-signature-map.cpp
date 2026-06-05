@@ -79,13 +79,13 @@ FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugClassRefCountType
 }
 
 FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignature() {
-    auto assertDebugStructRefCountTypeSignature = new FunctionTypeSignature(
+    auto assertDebugLambdaCountTypeSignature = new FunctionTypeSignature(
         new ParameterListTypeSignature({
             new ParameterListItemTypeSignature("lambdaValue", (new LambdaTypeSignature())->markAsGeneric()),
             new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
         }),
         new VoidTypeSignature()
     );
-    assertDebugStructRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_LAMBDA_REF_COUNT_TYPE_SOURCE)->markAsDebug();
-    return assertDebugStructRefCountTypeSignature;
+    assertDebugLambdaCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_LAMBDA_REF_COUNT_TYPE_SOURCE)->markAsDebug();
+    return assertDebugLambdaCountTypeSignature;
 }

@@ -1401,15 +1401,107 @@ func testPassUpInt() ref<int> {
     return ref x;
 }
 
+func testDoublePassUpInt() ref<int> {
+    return testPassUpInt();
+}
+
+func testPassUpIntAlt() ref<int> {
+    const x = ref 121;
+    return x;
+}
+
+func testDoublePassUpIntAlt() ref<int> {
+    return testPassUpIntAlt();
+}
+
+proc testPassInIntRef(x: ref<int>, refCount: int) {
+    assertDebugRefCount(x, refCount);
+}
+
 proc testArcPassUp() {
+    assertDebugRefCount(testPassUpIntAlt(), 1);
+    testPassInIntRef(testPassUpIntAlt(), 2);
+    const passedUpXAlt = testPassUpIntAlt();
+    assertDebugRefCount(passedUpXAlt, 1);
+    testPassInIntRef(passedUpXAlt, 2);
+
+    assertDebugRefCount(testDoublePassUpIntAlt(), 1);
+    testPassInIntRef(testDoublePassUpIntAlt(), 2);
+    const doublePassedUpXAlt = testDoublePassUpIntAlt();
+    assertDebugRefCount(doublePassedUpXAlt, 1);
+    testPassInIntRef(doublePassedUpXAlt, 2);
+
     assertDebugRefCount(testPassUpInt(), 1);
+    testPassInIntRef(testPassUpInt(), 2);
     const passedUpX = testPassUpInt();
     assertDebugRefCount(passedUpX, 1);
+    testPassInIntRef(passedUpX, 2);
     const anotherX = passedUpX;
     assertDebugRefCount(passedUpX, 2);
+    testPassInIntRef(passedUpX, 3);
+    testPassInIntRef(anotherX, 3);
     assert(passedUpX == 121);
+
+    assertDebugRefCount(testDoublePassUpInt(), 1);
+    testPassInIntRef(testDoublePassUpInt(), 2);
+    const doublePassedUpX = testDoublePassUpInt();
+    assertDebugRefCount(doublePassedUpX, 1);
+    testPassInIntRef(doublePassedUpX, 2);
 }
 testArcPassUp();
+
+func testPassUpLambda() () => int {
+    return () => 10;
+}
+
+func testDoublePassUpLambda() () => int {
+    return testPassUpLambda();
+}
+
+func testPassUpLambdaAlt() () => int {
+    const x = () => 10;
+    return x;
+}
+
+func testDoublePassUpLambdaAlt() () => int {
+    return testPassUpLambdaAlt();
+}
+
+proc testPassInLambda(x: () => int, refCount: int) {
+    assertDebugLambdaRefCount(x, refCount);
+}
+
+proc testLambdaPassUp() {
+    assertDebugLambdaRefCount(testPassUpLambdaAlt(), 1);
+    testPassInLambda(testPassUpLambdaAlt(), 2);
+    const passedUpXAlt = testPassUpLambdaAlt();
+    assertDebugLambdaRefCount(passedUpXAlt, 1);
+    testPassInLambda(passedUpXAlt, 2);
+
+    assertDebugLambdaRefCount(testDoublePassUpLambdaAlt(), 1);
+    testPassInLambda(testDoublePassUpLambdaAlt(), 2);
+    const doublePassedUpXAlt = testDoublePassUpLambdaAlt();
+    assertDebugLambdaRefCount(doublePassedUpXAlt, 1);
+    testPassInLambda(doublePassedUpXAlt, 2);
+
+    assertDebugLambdaRefCount(testPassUpLambda(), 1);
+    testPassInLambda(testPassUpLambda(), 2);
+    const passedUpX = testPassUpLambda();
+    assertDebugLambdaRefCount(passedUpX, 1);
+    testPassInLambda(passedUpX, 2);
+    const anotherX = passedUpX;
+    assertDebugLambdaRefCount(passedUpX, 2);
+    testPassInLambda(passedUpX, 3);
+    testPassInLambda(anotherX, 3);
+    assert(passedUpX() == 10);
+
+    assertDebugLambdaRefCount(testDoublePassUpLambda(), 1);
+    testPassInLambda(testDoublePassUpLambda(), 2);
+    const doublePassedUpX = testDoublePassUpLambda();
+    assertDebugLambdaRefCount(doublePassedUpX, 1);
+    testPassInLambda(doublePassedUpX, 2);
+}
+testLambdaPassUp();
 
 proc testWhileLoops() {
     let value = 10;
