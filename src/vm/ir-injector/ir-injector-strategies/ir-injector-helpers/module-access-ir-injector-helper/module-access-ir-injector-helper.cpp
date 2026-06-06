@@ -10,5 +10,18 @@ llvm::Value* ModuleAccessIRInjectorHelper::inject(IRModuleAccessExpressionNode* 
     if (irOperation->isOperandPointer()) {
         return irExpression->getValue();
     }
-    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue(), irBlock, irExpression->getIRType()->getSourceType());
+
+    if (irOperation->isCopy() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
+        auto irType = irExpression->getIRType();
+        auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
+        auto typeValue = irInjector->inject(irBlock, irType);
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
+        irBlock->getBuilder()->get()->CreateCall(
+                irModule->getCopyValueFunction(),
+                { allocation, irExpression->getValue(), loadedTypeValue }
+        );
+        return InstructionIRInjectorHelper::injectLoad(irType->getType(), allocation, irBlock);
+    }
+
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), irExpression->getValue(), irBlock, irExpression->getIRType()->getSourceType());
 }

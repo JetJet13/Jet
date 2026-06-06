@@ -166,6 +166,11 @@ export class SmallClass {
     public getInt() int {
         return this.smallInt;
     }
+
+    public setInt(x: int) {
+        this.smallInt = x;
+    }
+
 }
 
 export func BigFunction() int {
