@@ -7,7 +7,7 @@
 #include "../ast-function-nodes/ast-function-argument-list-end-node.h"
 #include "../ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-end-node.h"
 
-ASTNode * ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
         return new ASTLambdaTypeParameterListEndNode(this->getLexeme());
     }
@@ -20,7 +20,7 @@ ASTNode * ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode
         return new ASTFunctionArgumentListEndNode(this->getLexeme());
     }
 
-    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE, AST_BLOCK_START_NODE })) {
+    if (nextNode && nextNode.value()->isOneOf({ AST_LAMBDA_EXPRESSION_FAT_ARROW_NODE, AST_BLOCK_START_NODE })) {
         return new ASTFunctionParameterListEndNode(this->getLexeme());
     }
 

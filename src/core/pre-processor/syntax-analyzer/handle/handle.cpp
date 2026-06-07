@@ -145,10 +145,11 @@ bool Handle::isImportModuleListEnclosed() {
 }
 
 bool Handle::isLambdaTypeParameterListEnclosed() {
-    if (_handle.size() < 2) {
+    if (_handle.size() < 2 || !this->first().value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE)) {
         return false;
     }
-    return this->first().value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE) && this->last().value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE);
+
+    return this->find(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE).has_value();
 }
 
 bool Handle::isTypeParameterListEnclosed() {
@@ -257,6 +258,15 @@ std::optional<ASTNode*> Handle::getNextNodeFor(int index) {
         return this->getPeekNode();
     }
     return this->at(index + 1);
+}
+
+std::optional<int> Handle::find(ASTNodeType nodeType) {
+    for (int i = 0; i < _handle.size(); ++i) {
+        if (_handle.at(i)->is(nodeType)) {
+            return i;
+        }
+    }
+    return {};
 }
 
 void Handle::print() {

@@ -27,6 +27,7 @@ void SyntaxDfa::init() {
     DFANode* varInit = DFANodeFactory::Once::create(AST_VARIABLE_INIT_NODE);
     DFANode* varType = DFANodeFactory::Once::create(AST_VARIABLE_TYPE_NODE);
     DFANode* varDefinition = DFANodeFactory::Once::create(AST_VARIABLE_DEFINITION_NODE);
+    DFANode* identifierBase = DFANodeFactory::Once::create(AST_IDENTIFIER_BASE_NODE);
     DFANode* identifier = DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE);
     DFANode* identifierExpression = DFANodeFactory::Once::create(AST_IDENTIFIER_EXPRESSION_NODE);
     DFANode* callableIdentifierExpression = DFANodeFactory::Once::create(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE);
@@ -67,6 +68,7 @@ void SyntaxDfa::init() {
     DFANode* functionDefinition = DFANodeFactory::Once::create(AST_FUNCTION_DEFINITION_NODE);
     DFANode* functionKeyword = DFANodeFactory::Once::create(AST_FUNCTION_NODE);
     DFANode* functionName = DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE);
+    DFANode* procedureName = DFANodeFactory::Once::create(AST_PROCEDURE_NAME_NODE);
     DFANode* functionCall = DFANodeFactory::Once::create(AST_FUNCTION_CALL_NODE);
     DFANode* functionParameter = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_NODE);
     DFANode* functionParameterList = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE);
@@ -397,6 +399,8 @@ void SyntaxDfa::init() {
     identifier
     ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, { AST_GROUP_START_NODE }));
 
+    identifierBase
+    ->markAlwaysReduceSelf();
 
     identifierExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
@@ -803,11 +807,14 @@ void SyntaxDfa::init() {
     functionName
     ->markAlwaysReduceSelf();
 
+    procedureName
+    ->markAlwaysReduceSelf();
+
     functionParameter
     ->markAlwaysReduceSelf();
 
     functionParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NAME_NODE, AST_CLASS_METHOD_DEFINITION_NODE, AST_CONSTRUCTOR_NODE })
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_FUNCTION_NAME_NODE, AST_PROCEDURE_NAME_NODE, AST_CLASS_METHOD_DEFINITION_NODE, AST_CONSTRUCTOR_NODE })
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LAMBDA_RETURN_EXPRESSION_NODE, AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_LAMBDA_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(
@@ -994,7 +1001,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_CURRY_EXPRESSION_NODE)));
 
     procedureKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({ AST_FUNCTION_NAME_NODE });
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_PROCEDURE_NAME_NODE });
 
     procedureDefinition
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
@@ -1752,6 +1759,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(objectAccessAssignmentStatement)
     ->insertStartNode(tupleAccessAssignmentStatement)
     ->insertStartNode(moduleAccessAssignmentStatement)
+    ->insertStartNode(identifierBase)
     ->insertStartNode(identifier)
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
     ->insertStartNode(DFANodeFactory::Once::createWithTarget(AST_FLOAT_LITERAL_NODE, AST_LITERAL_EXPRESSION_NODE))
@@ -1780,6 +1788,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(lambdaWithFatArrowExpression)
     ->insertStartNode(concatExpression)
     ->insertStartNode(DFANodeFactory::Once::create(AST_GROUP_START_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_LEFT_BRACE_BASE_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_RIGHT_BRACE_BASE_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_BLOCK_END_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_LEFT_BRACKET_NODE)->markAlwaysReduceSelf())
@@ -1796,6 +1806,8 @@ void SyntaxDfa::init() {
     ->insertStartNode(DFANodeFactory::Once::create(AST_COLON_BASE_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_COMMA_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_PERIOD_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_LEFT_PAREN_BASE_NODE)->markAlwaysReduceSelf())
+    ->insertStartNode(DFANodeFactory::Once::create(AST_RIGHT_PAREN_BASE_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(typeColon)
     ->insertStartNode(structColon)
     ->insertStartNode(unaryOperator)
@@ -1811,6 +1823,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(functionDefinition)
     ->insertStartNode(functionKeyword)
     ->insertStartNode(functionName)
+    ->insertStartNode(procedureName)
     ->insertStartNode(functionCall)
     ->insertStartNode(functionParameter)
     ->insertStartNode(functionParameterList)
@@ -2123,7 +2136,7 @@ void SyntaxDfa::initProcedure(DFANode* procedureNode) {
     procedureNode
             ->addTransition(
                     DFATransitionFactory::create(
-                            DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE)
+                            DFANodeFactory::Once::create(AST_PROCEDURE_NAME_NODE)
                                     ->addTransition(
                                             DFATransitionFactory::create(
                                                     DFANodeFactory::Once::createWithTarget(AST_FUNCTION_PARAMETER_LIST_NODE, AST_PROCEDURE_DEFINITION_NODE)

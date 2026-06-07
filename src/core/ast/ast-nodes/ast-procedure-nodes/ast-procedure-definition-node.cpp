@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTProcedureDefinitionNode::ASTProcedureDefinitionNode(ASTProcedureNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters) {
+ASTProcedureDefinitionNode::ASTProcedureDefinitionNode(ASTProcedureNode* functionKeyword, ASTProcedureNameNode* name, ASTFunctionParameterListNode* parameters) {
     _procedureKeyword = functionKeyword;
     _name = name;
     _parameters = parameters;
@@ -19,7 +19,7 @@ ASTFunctionParameterListNode* ASTProcedureDefinitionNode::getParameters() {
     return _parameters;
 }
 
-ASTFunctionNameNode* ASTProcedureDefinitionNode::getName() {
+ASTProcedureNameNode* ASTProcedureDefinitionNode::getName() {
     return _name;
 }
 

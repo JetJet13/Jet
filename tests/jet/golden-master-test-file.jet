@@ -2248,44 +2248,62 @@ proc testBigModule() {
     copyBigString.dropLast(1);
     assert(copyBigString == "big string");
     assert(BigModule::BIG_STRING == "big string!");
+    BigModule::BIG_STRING.drop(1);
+    assert(BigModule::BIG_STRING == "ig string!");
 
     const copyBigArray = BigModule::BIG_ARRAY;
     copyBigArray.dropLast(1);
     assert(copyBigArray == [1,2]);
     assert(BigModule::BIG_ARRAY == [1, 2, 3]);
+    BigModule::BIG_ARRAY.drop(1);
+    assert(BigModule::BIG_ARRAY == [2, 3]);
 
     const copyBigStruct = BigModule::BIG_STRUCT;
     copyBigStruct.foo = 20;
     assert(copyBigStruct == { foo: 20, bar: true, mars: 2 });
     assert(BigModule::BIG_STRUCT == { foo: 1, bar: true, mars: 2 });
+    BigModule::BIG_STRUCT.foo = 50;
+    assert(BigModule::BIG_STRUCT == { foo: 50, bar: true, mars: 2 });
 
     const copyBigTuple = BigModule::BIG_TUPLE;
     copyBigTuple.0 = 20;
     assert(copyBigTuple == { 20, false, 2 });
     assert(BigModule::BIG_TUPLE == { 1, false, 2 });
+    BigModule::BIG_TUPLE.0 = 50;
+    assert(BigModule::BIG_TUPLE == { 50, false, 2 });
 
     const copyBigClass = BigModule::BIG_CLASS;
     copyBigClass.setInt(20);
     assert(copyBigClass.getInt() == 20);
     assert(BigModule::BIG_CLASS.getInt() == 2);
+    BigModule::BIG_CLASS.setInt(50);
+    assert(BigModule::BIG_CLASS.getInt() == 50);
 
     let copyBigIntEnum = BigModule::BIG_INT_ENUM;
     copyBigIntEnum = BigModule::IntEnum.Beta;
     assert(copyBigIntEnum == BigModule::IntEnum.Beta);
     assert(BigModule::BIG_INT_ENUM == BigModule::IntEnum.Alpha);
+    BigModule::BIG_INT_ENUM = BigModule::IntEnum.Beta;
+    assert(BigModule::BIG_INT_ENUM == BigModule::IntEnum.Beta);
 
     let copyBigStringEnum = BigModule::BIG_STRING_ENUM;
     copyBigStringEnum = BigModule::StringEnum.Beta;
     assert(copyBigStringEnum == BigModule::StringEnum.Beta);
     assert(BigModule::BIG_STRING_ENUM == BigModule::StringEnum.Alpha);
+    BigModule::BIG_STRING_ENUM = BigModule::StringEnum.Beta;
+    assert(BigModule::BIG_STRING_ENUM == BigModule::StringEnum.Beta);
 
     let copyBigLambdaArrow = BigModule::BIG_LAMBDA_ARROW;
     copyBigLambdaArrow = (y: int) => 900 + y;
     assert(copyBigLambdaArrow != BigModule::BIG_LAMBDA_ARROW);
+    BigModule::BIG_LAMBDA_ARROW = (y: int) => 1000 + y;
+    assert(BigModule::BIG_LAMBDA_ARROW(10) == 1010);
 
     let copyBigLambdaBlock = BigModule::BIG_LAMBDA_BLOCK;
     copyBigLambdaBlock = (y: int) { return 900 + y; };
     assert(copyBigLambdaBlock != BigModule::BIG_LAMBDA_BLOCK);
+    BigModule::BIG_LAMBDA_BLOCK = (y: int) { return 1000 + y; };
+    assert(BigModule::BIG_LAMBDA_BLOCK(10) == 1010);
 }
 testBigModule();
 

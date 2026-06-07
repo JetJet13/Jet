@@ -168,6 +168,12 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         }
         _modeStack.pop();
     }
+
+    if (_handle.last() && _handle.last().value()->is(AST_TUPLE_TYPE_END_NODE) && _modeStack.top() == SA_INTERMEDIATE_MODE) {
+        Logger::log("replacing INTERMEDIATE_MODE with TUPLE_TYPE_MODE");
+        _modeStack.pop();
+        _modeStack.push(SA_TUPLE_TYPE_MODE);
+    }
 }
 
 void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
@@ -246,8 +252,6 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_BLOCK_NODE:
         case AST_STRUCT_EXPRESSION_NODE:
         case AST_ARRAY_NODE:
-        case AST_LAMBDA_TYPE_PARAMETER_LIST_NODE:
-        case AST_FUNCTION_PARAMETER_LIST_NODE:
         case AST_FUNCTION_ARGUMENT_LIST_NODE:
         case AST_ENUM_KEY_VALUE_LIST_NODE:
         case AST_FUNCTION_LAMBDA_TYPE_PARAMETER_LIST_NODE:
@@ -264,6 +268,12 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_FOR_IN_SOURCE_NODE:
             Logger::log("popping mode:", _modeStack.top());
             _modeStack.pop();
+            break;
+        case AST_FUNCTION_PARAMETER_LIST_NODE:
+            Logger::log("popping mode:", _modeStack.top());
+            _modeStack.pop();
+            Logger::log("pushing mode: INTERMEDIATE MODE");
+            _modeStack.push(SA_INTERMEDIATE_MODE);
             break;
         default:
             break;
@@ -292,6 +302,18 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_TYPE_MODE);
     }
+
+    if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_INTERMEDIATE_MODE) {
+        Logger::log("replacing INTERMEDIATE_MODE with STRUCT_TYPE_MODE");
+        _modeStack.pop();
+        _modeStack.push(SA_STRUCT_TYPE_MODE);
+    }
+
+    if (astNodeType == AST_LAMBDA_TYPE_PARAMETER_LIST_NODE && _modeStack.top() == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
+        Logger::log("popping mode: SA_LAMBDA_TYPE_PARAMETER_LIST_MODE");
+        _modeStack.pop();
+    }
+    // todo - fix remaining issue with clearing intermediate mode
 }
 
 void SyntaxAnalyzer::handleSyntaxErrors() {

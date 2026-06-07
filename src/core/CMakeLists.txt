@@ -1424,6 +1424,18 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-target-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-target-node.h
         pre-processor/syntax-analyzer/utils/syntax-analyzer-mode-utils.h
+        ast/ast-nodes/ast-procedure-nodes/ast-procedure-name-node.cpp
+        ast/ast-nodes/ast-procedure-nodes/ast-procedure-name-node.h
+        ast/ast-nodes/ast-base-nodes/ast-left-brace-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-left-brace-base-node.h
+        ast/ast-nodes/ast-base-nodes/ast-right-brace-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-right-brace-base-node.h
+        ast/ast-nodes/ast-base-nodes/ast-identifier-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-identifier-base-node.h
+        ast/ast-nodes/ast-base-nodes/ast-left-paren-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-left-paren-base-node.h
+        ast/ast-nodes/ast-base-nodes/ast-right-paren-base-node.cpp
+        ast/ast-nodes/ast-base-nodes/ast-right-paren-base-node.h
 
 )
 

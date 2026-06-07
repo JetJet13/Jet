@@ -23,7 +23,7 @@ ASTFunctionParameterListNode* ASTProcedureDeclarationNode::getParameters() {
     return _procedureDefinition->getParameters();
 }
 
-ASTFunctionNameNode* ASTProcedureDeclarationNode::getName() {
+ASTProcedureNameNode* ASTProcedureDeclarationNode::getName() {
     return _procedureDefinition->getName();
 }
 

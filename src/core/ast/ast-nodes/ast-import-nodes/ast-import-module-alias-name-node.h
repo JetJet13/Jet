@@ -7,15 +7,14 @@
 
 #include <string>
 #include "../ast-node.h"
-#include "../ast-identifier-node.h"
-
+#include "../ast-base-nodes/ast-identifier-base-node.h"
 
 class ASTImportModuleAliasNameNode : public ASTNode {
 private:
-    ASTIdentifierNode* _identifier;
+    ASTIdentifierBaseNode* _identifier;
 public:
-    ASTImportModuleAliasNameNode(ASTIdentifierNode* identifier);
-    ASTIdentifierNode* getIdentifier();
+    ASTImportModuleAliasNameNode(ASTIdentifierBaseNode* identifier);
+    ASTIdentifierBaseNode* getIdentifier();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

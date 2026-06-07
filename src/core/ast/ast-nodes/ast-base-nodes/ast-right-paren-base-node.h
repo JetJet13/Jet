@@ -1,0 +1,23 @@
+//
+// Created by Johny Georges on 2026-06-06.
+//
+
+#ifndef JETLANG_AST_RIGHT_PAREN_BASE_NODE_H
+#define JETLANG_AST_RIGHT_PAREN_BASE_NODE_H
+
+#include <string>
+#include "../../../lexeme/lexeme.h"
+#include "../ast-node.h"
+#include "../../types/ast-node-type.h"
+#include "../../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
+#include "../ast-symbol-node.h"
+
+class ASTRightParenBaseNode : public ASTSymbolNode {
+    using ASTSymbolNode::ASTSymbolNode;
+public:
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+};
+
+#endif //JETLANG_AST_RIGHT_PAREN_BASE_NODE_H
