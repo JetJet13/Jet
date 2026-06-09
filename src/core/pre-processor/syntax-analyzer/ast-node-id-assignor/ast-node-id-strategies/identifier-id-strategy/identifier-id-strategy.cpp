@@ -3,10 +3,10 @@
 //
 
 #include "identifier-id-strategy.h"
-#include "../../../../../ast/ast-nodes/ast-base-nodes/ast-identifier-base-node.h"
+#include "../../../../../ast/ast-nodes/ast-identifier-node.h"
 
 void IdentifierIdStrategy::assign(ASTNode* node) {
-    auto identifierNode = (ASTIdentifierBaseNode*)node;
+    auto identifierNode = (ASTIdentifierNode*)node;
     identifierNode->setId(
             _tokenTable->getIdentifier(
                     identifierNode

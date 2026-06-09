@@ -4,12 +4,13 @@
 
 #include "ast-module-name-node.h"
 #include "../../../../shared/utils/logger/logger.h"
-ASTModuleNameNode::ASTModuleNameNode(ASTIdentifierBaseNode* identifier) {
+
+ASTModuleNameNode::ASTModuleNameNode(ASTIdentifierNode* identifier) {
     _identifier = identifier;
     _children.push_back(_identifier);
 }
 
-ASTIdentifierBaseNode* ASTModuleNameNode::getIdentifier() {
+ASTIdentifierNode* ASTModuleNameNode::getIdentifier() {
     return _identifier;
 }
 

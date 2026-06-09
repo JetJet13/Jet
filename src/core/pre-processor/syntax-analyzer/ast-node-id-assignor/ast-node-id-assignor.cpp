@@ -29,7 +29,7 @@ ASTNodeIdAssignor::ASTNodeIdAssignor(TokenTable* tokenTable) {
 }
 
 void ASTNodeIdAssignor::initStrategies() {
-    this->addStrategy(AST_IDENTIFIER_BASE_NODE, new IdentifierIdStrategy(_tokenTable));
+    this->addStrategy(AST_IDENTIFIER_NODE, new IdentifierIdStrategy(_tokenTable));
     this->addStrategy(AST_PRINT_NODE, new PrintIdStrategy(_tokenTable));
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));
     this->addStrategy(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));

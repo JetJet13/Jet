@@ -7,20 +7,20 @@
 
 #include <vector>
 #include "../ast-node.h"
+#include "../ast-function-nodes/ast-function-name-node.h"
 #include "../ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../ast-type-nodes/ast-type-node.h"
 #include "ast-procedure-node.h"
-#include "ast-procedure-name-node.h"
 
 class ASTProcedureDefinitionNode : public ASTNode {
 private:
     ASTProcedureNode* _procedureKeyword;
-    ASTProcedureNameNode* _name;
+    ASTFunctionNameNode* _name;
     ASTFunctionParameterListNode* _parameters;
 public:
-    explicit ASTProcedureDefinitionNode(ASTProcedureNode* functionKeyword, ASTProcedureNameNode* name, ASTFunctionParameterListNode* parameters);
+    explicit ASTProcedureDefinitionNode(ASTProcedureNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters);
     ASTFunctionParameterListNode* getParameters();
-    ASTProcedureNameNode* getName();
+    ASTFunctionNameNode* getName();
     unsigned long numParameters();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

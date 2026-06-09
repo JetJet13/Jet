@@ -45,8 +45,7 @@ RecognizerResult* Recognizer::recognize(Handle* handle) {
     } else if (handle->isImportModuleListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_IMPORT_MODULE_LIST_NODE);
     } else if (handle->isLambdaTypeParameterListEnclosed()) {
-        auto size = handle->find(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE).value() + 1;
-        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, size, AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
+        return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
     } else if (handle->isTypeParameterListEnclosed()) {
         return new RecognizerResult(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_TYPE_PARAMETER_LIST_NODE);
     }
@@ -126,7 +125,6 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
            AST_STRUCT_END_NODE,
            AST_STRUCT_TYPE_END_NODE,
            AST_TUPLE_TYPE_END_NODE,
-           AST_RIGHT_BRACE_BASE_NODE,
            AST_INTERFACE_PROPERTY_LIST_NODE,
            AST_INTERFACE_END_NODE,
            AST_FUNCTION_BLOCK_NODE,

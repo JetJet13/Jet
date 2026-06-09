@@ -5,12 +5,12 @@
 #include "ast-module-alias-name-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleAliasNameNode::ASTModuleAliasNameNode(ASTIdentifierBaseNode* identifier) {
+ASTModuleAliasNameNode::ASTModuleAliasNameNode(ASTIdentifierNode* identifier) {
     _identifier = identifier;
     _children.push_back(_identifier);
 }
 
-ASTIdentifierBaseNode* ASTModuleAliasNameNode::getIdentifier() {
+ASTIdentifierNode* ASTModuleAliasNameNode::getIdentifier() {
     return _identifier;
 }
 

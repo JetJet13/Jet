@@ -27,7 +27,7 @@ private:
 public:
     explicit ASTProcedureDeclarationNode(ASTProcedureDefinitionNode* _procedureDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword = {});
     ASTFunctionParameterListNode* getParameters();
-    ASTProcedureNameNode* getName();
+    ASTFunctionNameNode* getName();
     ASTFunctionBlockNode* getBlock();
     ASTProcedureDefinitionNode* getDefinition();
     unsigned long numParameters();

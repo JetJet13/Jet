@@ -56,7 +56,6 @@ public:
     void clearPeekNode();
     std::optional<ASTNode*> getPrevNodeFor(int index);
     std::optional<ASTNode*> getNextNodeFor(int index);
-    std::optional<int> find(ASTNodeType nodeType);
     void print();
 };
 

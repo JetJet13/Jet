@@ -7,14 +7,14 @@
 
 #include "../../../lexeme/lexeme.h"
 #include "../ast-node.h"
-#include "../ast-base-nodes/ast-identifier-base-node.h"
+#include "../ast-identifier-node.h"
 
 class ASTImportModuleNameNode : public ASTNode {
 private:
-    ASTIdentifierBaseNode* _identifier;
+    ASTIdentifierNode* _identifier;
 public:
-    ASTImportModuleNameNode(ASTIdentifierBaseNode* identifier);
-    ASTIdentifierBaseNode* getIdentifier();
+    ASTImportModuleNameNode(ASTIdentifierNode* identifier);
+    ASTIdentifierNode* getIdentifier();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -16,11 +16,7 @@ Lexeme* ASTFatArrowBaseNode::getLexeme() {
 }
 
 ASTNode * ASTFatArrowBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
-    if (mode == SA_INTERMEDIATE_MODE) {
-        return this;
-    }
-
-    if (mode == SA_TUPLE_TYPE_MODE || (prevNode && prevNode.value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE))) {
+    if (prevNode && prevNode.value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE)) {
         return new ASTLambdaTypeFatArrowNode(this->getLexeme());
     }
 

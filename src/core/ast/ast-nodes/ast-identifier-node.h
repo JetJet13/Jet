@@ -13,9 +13,9 @@ private:
     Lexeme* _lexeme;
 public:
     explicit ASTIdentifierNode(Lexeme* lexeme);
-    explicit ASTIdentifierNode(Lexeme* lexeme, std::string id);
     Lexeme* getLexeme();
     std::string getValue(TokenTable* tokenTable);
+    ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

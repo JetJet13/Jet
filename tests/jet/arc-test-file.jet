@@ -122,53 +122,188 @@ func getRefArray(y: [int]) ref<[int]> {
     return ref y;
 }
 
-func testTupleAccess() string {
-    const x = { 1, false, "hello" };
-    return x.2;
+proc testModules() {
+    assert(MyOtherModule::myBoolFunction() == true);
+    assert(MyOtherModule::myOtherBoolFunction() == false);
+    assert(MyOtherModule::myOtherGlobalInt == 790);
+    MyOtherModule::updateGlobalInt();
+    assert(MyOtherModule::myOtherGlobalInt == 900);
+    MyOtherModule::myOtherGlobalInt = 1290;
+    assert(MyOtherModule::myOtherGlobalInt == 1290);
+    assert(MyOtherModule::myOtherGlobalArray == [1,2,4,5,7,8]);
+    assert(MyOtherModule::myOtherGlobalArray[0] + 1 == 2);
+    assert(MyOtherModule::myOtherGlobalStruct.a == 10);
+    MyOtherModule::myOtherGlobalStruct.a = 998;
+    assert(MyOtherModule::myOtherGlobalStruct.a == 998);
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 1);
+    MyOtherModule::myOtherGlobalStruct.c.nested[0] = 44;
+    assert(MyOtherModule::myOtherGlobalStruct.c.nested[0] == 44);
+    assert(MyOtherModule::myOtherGlobalTuple.1 == false);
+    MyOtherModule::myOtherGlobalTuple.1 = true;
+    assert(MyOtherModule::myOtherGlobalTuple.1 == true);
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 299);
+    MyOtherModule::myOtherGlobalLambda = (x: int) => x - 1;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 108);
+    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    MyOtherModule::myOtherGlobalLambda = MyOtherModule::myOtherIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    assert(MySecondModule::MySecondGlobalInt == 202);
+    MyOtherModule::myOtherGlobalLambda = MySecondModule::mySecondIntFunction;
+    assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
+    assert(MyOtherModule::myOtherGlobalLambda(2) == -1);
+    assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
 }
+testModules();
 
-type TestType = [int];
-// todo: think about class methods since they have an optional return type
+proc testBigModule() {
+    const bigInstance = new BigModule::BigClass(10);
+    assert(bigInstance.getBigInt() == 500);
+    assert(bigInstance.getBigFloat() == 100.101);
+    assert(bigInstance.getBigBool() == true);
+    assert(bigInstance.getBigChar() == 'a');
+    assert(bigInstance.getBigString() == "hello world");
+    assert(bigInstance.getBigArray() == [1, 2, 3]);
+    assert(bigInstance.getBigStruct() == { foo: 1, bar: false });
+    assert(bigInstance.getBigTuple() == { 1, false });
+    assert(bigInstance.getBigClass() == new BigModule::SmallClass());
+    assert(bigInstance.getBigIntEnum() == BigModule::IntEnum.Alpha);
+    assert(bigInstance.getBigStringEnum() == BigModule::StringEnum.Alpha);
+    assert(bigInstance.getBigEmptyInt() == 10);
 
-func testTupleInvocation() { int, TestType, bool, () => string } {
-    const x: { () => int } = { () => 5 };
-    const y: { int } = { 5 };
-    const z: { int, bool } = { 10, true };
-    const a: { TestType } = { [1,2,3] };
-    const b: { TestType, bool } = { [1,2,3,4], false };
-    return { 1, false, () => "hello" };
+    const bigFunctionResult = BigModule::BigFunction();
+    assert(bigFunctionResult == 500);
+
+    const x = ref 190;
+    BigModule::BigProcedure(x);
+    assert(x == 100);
+
+    const bigInt = BigModule::BigClass.getBigStaticInt();
+    assert(bigInt == 500);
+
+    const bigFloat = BigModule::BigClass.getBigStaticFloat();
+    assert(bigFloat == 100.101);
+
+    const bigBool = BigModule::BigClass.getBigStaticBool();
+    assert(bigBool == true);
+
+    const bigChar = BigModule::BigClass.getBigStaticChar();
+    assert(bigChar == 'a');
+
+    const bigString = BigModule::BigClass.getBigStaticString();
+    assert(bigString == "hello world");
+
+    const bigArray = BigModule::BigClass.getBigStaticArray();
+    assert(bigArray == [1, 2, 3]);
+
+    const bigStruct: ref<BigModule::BigStruct> = BigModule::BigClass.getBigStaticStruct();
+    assert(bigStruct == { foo: 1, bar: false });
+
+    const bigTuple: ref<BigModule::BigTuple> = BigModule::BigClass.getBigStaticTuple();
+    assert(bigTuple == { 1, false });
+
+    const bigStaticClass = BigModule::BigClass.getBigStaticClass();
+    assert(bigStaticClass == new BigModule::SmallClass());
+
+    const bigStaticIntEnum = BigModule::BigClass.getBigStaticIntEnum();
+    assert(bigStaticIntEnum == BigModule::IntEnum.Alpha);
+
+    const bigStaticStringEnum = BigModule::BigClass.getBigStaticStringEnum();
+    assert(bigStaticStringEnum == BigModule::StringEnum.Alpha);
+
+    const bigStaticLambda = BigModule::BigClass.getBigStaticLambda();
+    assert(bigStaticLambda(10) == 12);
+
+    assert(BigModule::BIG_INT == 100);
+    assert(BigModule::BIG_FLOAT == 2.234);
+    assert(BigModule::BIG_BOOL == true);
+    assert(BigModule::BIG_CHAR == 'c');
+    assert(BigModule::BIG_STRING == "big string!");
+    assert(BigModule::BIG_ARRAY == [1, 2, 3]);
+    assert(BigModule::BIG_STRUCT == { foo: 1, bar: true, mars: 2 });
+    assert(BigModule::BIG_TUPLE == { 1, false, 2 });
+    assert(BigModule::BIG_CLASS == new BigModule::SmallClass());
+    assert(BigModule::BIG_INT_ENUM == BigModule::IntEnum.Alpha);
+    assert(BigModule::BIG_STRING_ENUM == BigModule::StringEnum.Alpha);
+    assert(BigModule::BIG_LAMBDA_ARROW(120) == 121);
+    assert(BigModule::BIG_LAMBDA_BLOCK(120) == 121);
+
+    const myLambda = (x: int, y: (int) => int) => x + y(x);
+    assert(myLambda(5, BigModule::BIG_LAMBDA_ARROW) == 11);
+    assert(myLambda(5, BigModule::BIG_LAMBDA_BLOCK) == 11);
+    const lambdaResult = myLambda(5, BigModule::BIG_LAMBDA_ARROW);
+    assert(lambdaResult == 11);
+    const lambdaResult2 = myLambda(6, BigModule::BIG_LAMBDA_ARROW);
+    assert(lambdaResult2 == 13);
+
+    const w = myLambda(6, BigModule::BigClass.getBigStaticLambda());
+    assert(w == 14);
+
+    const z = myLambda(10, getInt);
+    assert(z == 20);
+    const a = myLambda(20, BigModule::BigIntFunction);
+    assert(a == 40);
+
+    const myLambdaStruct = (x: ref<BigModule::BigStruct>) => x.foo;
+    const lambdaStructResult = myLambdaStruct(BigModule::BigClass.getBigStaticStruct());
+    assert(lambdaStructResult == 1);
+
+    const copyBigInt = BigModule::BIG_INT;
+    const copyBigFloat = BigModule::BIG_FLOAT;
+    const copyBigBool = BigModule::BIG_BOOL;
+    const copyBigChar = BigModule::BIG_CHAR;
+
+    const copyBigString = BigModule::BIG_STRING;
+    copyBigString.dropLast(1);
+    assert(copyBigString == "big string");
+    assert(BigModule::BIG_STRING == "big string!");
+
+    const copyBigArray = BigModule::BIG_ARRAY;
+    copyBigArray.dropLast(1);
+    assert(copyBigArray == [1,2]);
+    assert(BigModule::BIG_ARRAY == [1, 2, 3]);
+
+    const copyBigStruct = BigModule::BIG_STRUCT;
+    copyBigStruct.foo = 20;
+    assert(copyBigStruct == { foo: 20, bar: true, mars: 2 });
+    assert(BigModule::BIG_STRUCT == { foo: 1, bar: true, mars: 2 });
+
+    const copyBigTuple = BigModule::BIG_TUPLE;
+    copyBigTuple.0 = 20;
+    assert(copyBigTuple == { 20, false, 2 });
+    assert(BigModule::BIG_TUPLE == { 1, false, 2 });
+
+    const copyBigClass = BigModule::BIG_CLASS;
+    copyBigClass.setInt(20);
+    assert(copyBigClass.getInt() == 20);
+    assert(BigModule::BIG_CLASS.getInt() == 2);
+
+    let copyBigIntEnum = BigModule::BIG_INT_ENUM;
+    copyBigIntEnum = BigModule::IntEnum.Beta;
+    assert(copyBigIntEnum == BigModule::IntEnum.Beta);
+    assert(BigModule::BIG_INT_ENUM == BigModule::IntEnum.Alpha);
+
+    let copyBigStringEnum = BigModule::BIG_STRING_ENUM;
+    copyBigStringEnum = BigModule::StringEnum.Beta;
+    assert(copyBigStringEnum == BigModule::StringEnum.Beta);
+    assert(BigModule::BIG_STRING_ENUM == BigModule::StringEnum.Alpha);
+
+    let copyBigLambdaArrow = BigModule::BIG_LAMBDA_ARROW;
+    copyBigLambdaArrow = (y: int) => 900 + y;
+    assert(copyBigLambdaArrow != BigModule::BIG_LAMBDA_ARROW);
+
+    let copyBigLambdaBlock = BigModule::BIG_LAMBDA_BLOCK;
+    copyBigLambdaBlock = (y: int) { return 900 + y; };
+    assert(copyBigLambdaBlock != BigModule::BIG_LAMBDA_BLOCK);
 }
+testBigModule();
 
-func testTupleReturnTypeTest1() { () => string } {
-    return { () => "hello" };
+proc testBigModule2() {
+    const myLambda = (x: ref<BigModule::BigStruct>) => x.foo;
+    const result = myLambda(BigModule::BigClass.getBigStaticStruct());
+    assert(result == 1);
 }
-
-func testTupleReturnTypeTest2() { TestType, () => string } {
-    return { [1,2,3], () => "hello" };
-}
-
-func testTupleReturnTypeTest3() { TestType } {
-    return { [1,2,3] };
-}
-
-func testTupleReturnTypeTest4() { int } {
-    return { 5 };
-}
-
-func testTupleReturnTypeTest5() { TestTuple, int } {
-    return { [1,2,3], () => "hello" };
-}
-
-proc testTuples() {
-    const accessResult = testTupleAccess();
-    print("accessResult", accessResult);
-    assert(accessResult == "hello");
-
-    const invocationResult = testTupleInvocation().2();
-    print("invocationResult", invocationResult);
-    assert(invocationResult == "hello");
-}
-testTuples();
+testBigModule2();
 
 //proc testSyntax() {
 //    const x = unique 10;

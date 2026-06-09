@@ -1,10 +1,119 @@
-type TestType = [int];
+import MyOtherModule from "./other-test-file.jet";
+import MySecondModule from "./second-test-file.jet";
+import MyFourthModule from "./fourth-test-file.jet";
 
-func testTupleInvocation() { int, TestType, bool, () => string } {
-    const x: { () => int } = { () => 5 };
-    //const y: { int } = { 5 };
-    //const z: { int, bool } = { 10, true };
-    //const a: { TestType } = { [1,2,3] };
-    //const b: { TestType, bool } = { [1,2,3,4], false };
-    return { 1, false, () => "hello" };
+class SimpleClass {
+    public static staticValue: int = 100;
+    public value: int;
+
+    constructor(value: int) {
+        this.value = value;
+    }
+
+    public getValue() int {
+        return this.value;
+    }
 }
+
+class ComplexClass {
+    public age: int;
+    public name: string;
+    public hairColor: string;
+
+    constructor(age: int, name: string, hairColor: string) {
+        this.age = age;
+        this.name = name;
+        this.hairColor = hairColor;
+    }
+
+    constructor(age: int) {
+        this.age = age;
+        this.name = "Joe";
+        this.hairColor = "Black";
+    }
+
+    public getAge() int {
+        return this.age;
+    }
+
+    public getName() string {
+        return this.name;
+    }
+
+    public getHairColor() string {
+        return this.hairColor;
+    }
+
+    public static create() ComplexClass {
+        return new ComplexClass(2);
+    }
+}
+
+enum SimpleEnum {
+    Alpha,
+    Beta,
+    Gamma
+}
+
+func getInt(x: int) int {
+    return x;
+}
+
+func getFloat(y: float) float {
+    return y;
+}
+
+func getBool(x: bool) bool {
+    return x;
+}
+
+func getChar(y: char) char {
+    return y;
+}
+
+func getString(x: string) string {
+    return x;
+}
+
+func getArray(y: [int]) [int] {
+    return y;
+}
+
+func getRefArray(y: [int]) ref<[int]> {
+    return ref y;
+}
+
+func otherIfStatements(x: int, y: int, z: int) int {
+    const arr = [1,2,3,4,5];
+    if x > y {
+        if x == 10 {
+            return 10;
+        } else {
+            if y > 0 {
+                return 9;
+            }
+            return 8;
+        }
+    } else if x == y {
+        if z == 0 {
+            return 7;
+        }
+        return 6;
+    } else {
+        if z > 100 {
+            return 5;
+        }
+        return 4;
+    }
+}
+
+proc testIfStatements() {
+    assert(otherIfStatements(10, -15, 0) == 10);
+    assert(otherIfStatements(9, 5, 0) == 9);
+    assert(otherIfStatements(9, -9, 0) == 8);
+    assert(otherIfStatements(9, 9, 0) == 7);
+    assert(otherIfStatements(9, 9, 1) == 6);
+    assert(otherIfStatements(5, 15, 105) == 5);
+    assert(otherIfStatements(5, 15, 97) == 4);
+}
+testIfStatements();

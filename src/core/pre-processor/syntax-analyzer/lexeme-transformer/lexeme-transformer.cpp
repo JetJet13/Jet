@@ -73,11 +73,6 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-right-brace-base-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-left-brace-base-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-identifier-base-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-left-paren-base-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-right-paren-base-node.h"
 
 std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
@@ -89,7 +84,7 @@ std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexe
 ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     auto symbol = lexeme->getToken()->getSymbol();
     if (symbol->isIdentifier()) {
-        return new ASTIdentifierBaseNode(lexeme);
+        return new ASTIdentifierNode(lexeme);
     } else if (symbol->isLet()) {
         return new ASTVariableTypeNode(lexeme);
     } else if (symbol->isConst()) {
@@ -126,9 +121,9 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     } else if (symbol->isUnaryOperator()) {
         return new ASTUnaryOperatorNode(lexeme);
     } else if (symbol->isLeftParentheses()) {
-        return new ASTLeftParenBaseNode(lexeme);
+        return new ASTGroupStartNode(lexeme);
     } else if (symbol->isRightParentheses()) {
-        return new ASTRightParenBaseNode(lexeme);
+        return new ASTGroupEndNode(lexeme);
     } else if (symbol->isSemicolon()) {
         return new ASTTerminatorNode(lexeme);
     } else if (symbol->isLeftBracket()) {
@@ -136,9 +131,9 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
     } else if (symbol->isRightBracket()) {
         return new ASTRightBracketNode(lexeme);
     } else if (symbol->isLeftBrace()) {
-        return new ASTLeftBraceBaseNode(lexeme);
+        return new ASTBlockStartNode(lexeme);
     } else if (symbol->isRightBrace()) {
-        return new ASTRightBraceBaseNode(lexeme);
+        return new ASTBlockEndNode(lexeme);
     } else if (symbol->isComma()) {
         return new ASTCommaNode(lexeme);
     } else if (symbol->isColon()) {
