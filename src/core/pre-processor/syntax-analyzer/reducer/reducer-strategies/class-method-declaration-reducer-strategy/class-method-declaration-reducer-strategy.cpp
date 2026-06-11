@@ -4,7 +4,6 @@
 
 #include "class-method-declaration-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
-#include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h"
 
 ASTNode* ClassMethodDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
     if (nodes.size() == 3) {
@@ -15,14 +14,15 @@ ASTNode* ClassMethodDeclarationReducerStrategy::execute(std::vector<ASTNode*> no
         );
     }
 
-    if (nodes.size() == 4) {
+    if (nodes.size() == 5) {
         return new ASTClassMethodDeclarationNode(
                 (ASTClassMethodDefinitionNode*)nodes[0],
                 (ASTFunctionParameterListNode*)nodes[1],
-                (ASTFunctionBlockNode*)nodes[3],
-                (ASTTypeNode*)nodes[2]
+                (ASTFunctionBlockNode*)nodes[4],
+                (ASTTypeColonNode*)nodes[2],
+                (ASTTypeNode*)nodes[3]
         );
     }
 
-    throw std::invalid_argument("unable to reduce to class method declaration since nodes list is not of size 4 or 5");
+    throw std::invalid_argument("unable to reduce to class method declaration since nodes list is not of size 3 or 5");
 }

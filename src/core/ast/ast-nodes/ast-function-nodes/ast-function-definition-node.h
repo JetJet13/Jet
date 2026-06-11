@@ -17,9 +17,10 @@ private:
     ASTFunctionNode* _functionKeyword;
     ASTFunctionNameNode* _name;
     ASTFunctionParameterListNode* _parameters;
+    ASTTypeColonNode* _typeColon;
     ASTTypeNode* _returnType;
 public:
-    explicit ASTFunctionDefinitionNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType);
+    explicit ASTFunctionDefinitionNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionNameNode* getName();
     ASTTypeNode* getReturnType();

@@ -12,7 +12,7 @@ ASTNode* ASTGroupStartNode::transformIfNecessary(std::optional<ASTNode*> prevNod
     if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_ASSIGNMENT_OPERATOR_NODE, AST_ARRAY_TYPE_START_NODE, AST_TYPE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_LAMBDA_TYPE_FAT_ARROW_NODE })) {
         return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
     }
-    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE || mode == SA_TYPE_PARAMETER_LIST_MODE) {
+    if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE || mode == SA_TYPE_PARAMETER_LIST_MODE || mode == SA_TUPLE_TYPE_MODE) {
         return new ASTLambdaTypeParameterListStartNode(this->getLexeme());
     }
 

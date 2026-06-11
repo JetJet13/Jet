@@ -14,12 +14,13 @@ ASTNode* LambdaExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         );
     }
 
-    if (nodes.size() == 3) {
+    if (nodes.size() == 4) {
         return new ASTLambdaExpressionNode(
             (ASTFunctionParameterListNode*)nodes[0],
-            (ASTFunctionBlockNode*)nodes[2],
-            (ASTTypeNode*)nodes[1]
+            (ASTFunctionBlockNode*)nodes[3],
+            (ASTTypeColonNode*)nodes[1],
+            (ASTTypeNode*)nodes[2]
         );
     }
-    throw std::invalid_argument("unable to reduce to lambda expression since nodes list is not of size 2 or 3");
+    throw std::invalid_argument("unable to reduce to lambda expression since nodes list is not of size 2 or 4");
 }

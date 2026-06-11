@@ -2,15 +2,15 @@ import MySecondModule from "./second-test-file.jet";
 
 module MyOtherModule
 
-export func myBoolFunction() bool {
+export func myBoolFunction(): bool {
     return true;
 }
 
-export func myOtherBoolFunction() bool {
+export func myOtherBoolFunction(): bool {
     return false;
 }
 
-export func myOtherIntFunction(x: int) int {
+export func myOtherIntFunction(x: int): int {
     return x;
 }
 

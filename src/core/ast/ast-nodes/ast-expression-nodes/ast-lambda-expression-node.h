@@ -18,11 +18,13 @@ private:
     Lexeme* _lexeme;
     ASTFunctionParameterListNode* _parameters;
     ASTFunctionBlockNode* _block;
+    std::optional<ASTTypeColonNode*> _typeColon;
     std::optional<ASTTypeNode*> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
     std::set<std::string> _capturedValueIds;
 public:
-    ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType = {});
+    explicit ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block);
+    explicit ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
     Lexeme* getLexeme();
     ASTFunctionParameterListNode* getParameters();
     ASTFunctionBlockNode* getBlock();

@@ -751,7 +751,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     typeColon
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE })
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE, AST_FUNCTION_PARAMETER_LIST_NODE })
     ->markAlwaysReduceSelf()
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_FUNCTION_PARAMETER_NODE)));
 
@@ -811,11 +811,18 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LAMBDA_RETURN_EXPRESSION_NODE, AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_LAMBDA_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(
-            DFANodeFactory::Once::create(AST_TYPE_NODE)
-            ->addTransition(DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_LAMBDA_RETURN_EXPRESSION_NODE, AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)))
-            ->addTransition(DFATransitionFactory::create(
-                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_LAMBDA_EXPRESSION_NODE)))
+        DFANodeFactory::Once::create(AST_TYPE_COLON_NODE)
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_TYPE_NODE)
+                        ->addTransition(
+                            DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_LAMBDA_RETURN_EXPRESSION_NODE, AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE))
+                        )
+                        ->addTransition(
+                            DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_LAMBDA_EXPRESSION_NODE))
+                        )
+                )
+            )
     ));
 
     functionArgument
@@ -1662,12 +1669,22 @@ void SyntaxDfa::init() {
             DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE)
             ->addTransition(
                 DFATransitionFactory::create(
-                    DFANodeFactory::NilOrOnce::create(AST_TYPE_NODE)
-                    ->addTransition(
-                        DFATransitionFactory::create(
-                            DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_METHOD_DECLARATION_NODE)
-                    ))
-            ))
+                    DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_METHOD_DECLARATION_NODE)
+                )
+            )
+            ->addTransition(
+                DFATransitionFactory::create(
+                    DFANodeFactory::Once::create(AST_TYPE_COLON_NODE)
+                        ->addTransition(DFATransitionFactory::create(
+                            DFANodeFactory::Once::create(AST_TYPE_NODE)
+                                ->addTransition(
+                                    DFATransitionFactory::create(
+                                        DFANodeFactory::Once::createWithTarget(AST_FUNCTION_BLOCK_NODE, AST_CLASS_METHOD_DECLARATION_NODE)
+                                )
+                            )
+                        ))
+                )
+            )
         )
     );
 
@@ -2111,7 +2128,11 @@ void SyntaxDfa::initFunction(DFANode* functionNode) {
                                                     DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE)
                                                         ->addTransition(
                                                                 DFATransitionFactory::create(
-                                                                    DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_FUNCTION_DEFINITION_NODE)
+                                                                    DFANodeFactory::Once::create(AST_TYPE_COLON_NODE)
+                                                                        ->addTransition(
+                                                                                DFATransitionFactory::create(
+                                                                                    DFANodeFactory::Once::createWithTarget(AST_TYPE_NODE, AST_FUNCTION_DEFINITION_NODE)
+                                                                        ))
                                                                 )
                                                         ))
                                                     ))

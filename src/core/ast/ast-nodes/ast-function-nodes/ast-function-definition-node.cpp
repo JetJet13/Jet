@@ -6,15 +6,17 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionDefinitionNode::ASTFunctionDefinitionNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType) {
+ASTFunctionDefinitionNode::ASTFunctionDefinitionNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
     _functionKeyword = functionKeyword;
     _name = name;
+    _typeColon = typeColon;
     _returnType = returnType;
     _parameters = parameters;
     _children.push_back(_functionKeyword);
     _children.push_back(_name);
-    _children.push_back(_returnType);
     _children.push_back(_parameters);
+    _children.push_back(typeColon);
+    _children.push_back(_returnType);
 }
 
 ASTFunctionParameterListNode* ASTFunctionDefinitionNode::getParameters() {
@@ -64,6 +66,7 @@ void ASTFunctionDefinitionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _name->print();
     _parameters->print();
+    _typeColon->print();
     _returnType->print();
     Logger::log("----------");
 }
@@ -73,6 +76,7 @@ std::string ASTFunctionDefinitionNode::toSourceCode() {
     sourceCodeBuilder.add(_functionKeyword);
     sourceCodeBuilder.add(_name)
     ->add(_parameters)
+    ->add(_typeColon)
     ->add(_returnType);
     return sourceCodeBuilder.build();
 }

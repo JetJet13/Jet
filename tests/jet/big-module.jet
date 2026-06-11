@@ -60,99 +60,99 @@ export class BigClass {
         this.bigEmptyInt = x;
     }
 
-    public getBigInt() int {
+    public getBigInt(): int {
         return this.bigInt;
     }
 
-    public getBigFloat() float {
+    public getBigFloat(): float {
         return this.bigFloat;
     }
 
-    public getBigBool() bool {
+    public getBigBool(): bool {
         return this.bigBool;
     }
 
-    public getBigChar() char {
+    public getBigChar(): char {
         return this.bigChar;
     }
 
-    public getBigString() string {
+    public getBigString(): string {
         return this.bigString;
     }
 
-    public getBigArray() [int] {
+    public getBigArray(): [int] {
         return this.bigArray;
     }
 
-    public getBigStruct() ref<BigStruct> {
+    public getBigStruct(): ref<BigStruct> {
         return this.bigStruct;
     }
 
-    public getBigTuple() ref<BigTuple> {
+    public getBigTuple(): ref<BigTuple> {
         return this.bigTuple;
     }
 
-    public getBigClass() ref<SmallClass> {
+    public getBigClass(): ref<SmallClass> {
         return this.bigClass;
     }
 
-    public getBigIntEnum() IntEnum {
+    public getBigIntEnum(): IntEnum {
         return this.bigIntEnum;
     }
 
-    public getBigStringEnum() StringEnum {
+    public getBigStringEnum(): StringEnum {
         return this.bigStringEnum;
     }
 
-    public getBigEmptyInt() int {
+    public getBigEmptyInt(): int {
         return this.bigEmptyInt;
     }
 
-    public static getBigStaticInt() int {
+    public static getBigStaticInt(): int {
         return BigClass.bigStaticInt;
     }
 
-    public static getBigStaticFloat() float {
+    public static getBigStaticFloat(): float {
         return BigClass.bigStaticFloat;
     }
 
-    public static getBigStaticBool() bool {
+    public static getBigStaticBool(): bool {
         return BigClass.bigStaticBool;
     }
 
-    public static getBigStaticChar() char {
+    public static getBigStaticChar(): char {
         return BigClass.bigStaticChar;
     }
 
-    public static getBigStaticString() string {
+    public static getBigStaticString(): string {
         return BigClass.bigStaticString;
     }
 
-    public static getBigStaticArray() [int] {
+    public static getBigStaticArray(): [int] {
         return BigClass.bigStaticArray;
     }
 
-    public static getBigStaticStruct() ref<BigStruct> {
+    public static getBigStaticStruct(): ref<BigStruct> {
         return BigClass.bigStaticStruct;
     }
 
-    public static getBigStaticTuple() ref<BigTuple> {
+    public static getBigStaticTuple(): ref<BigTuple> {
         return BigClass.bigStaticTuple;
     }
 
-    public static getBigStaticClass() ref<SmallClass> {
+    public static getBigStaticClass(): ref<SmallClass> {
         return BigClass.bigStaticClass;
     }
 
-    public static getBigStaticIntEnum() IntEnum {
+    public static getBigStaticIntEnum(): IntEnum {
         return BigClass.bigStaticIntEnum;
     }
 
-    public static getBigStaticStringEnum() StringEnum {
+    public static getBigStaticStringEnum(): StringEnum {
         return BigClass.bigStaticStringEnum;
     }
 
-    public static getBigStaticLambda() (int) => int {
+    public static getBigStaticLambda(): (int) => int {
         return (x: int) => x + 2;
     }
 
@@ -163,7 +163,7 @@ export class SmallClass {
 
     constructor() {}
 
-    public getInt() int {
+    public getInt(): int {
         return this.smallInt;
     }
 
@@ -173,7 +173,7 @@ export class SmallClass {
 
 }
 
-export func BigFunction() int {
+export func BigFunction(): int {
     return 500;
 }
 
@@ -181,7 +181,7 @@ export proc BigProcedure(x: ref<int>) {
     x := 100;
 }
 
-export func BigIntFunction(x: int) int {
+export func BigIntFunction(x: int): int {
     return x;
 }
 
@@ -197,4 +197,4 @@ export const BIG_CLASS = new SmallClass();
 export const BIG_INT_ENUM = IntEnum.Alpha;
 export const BIG_STRING_ENUM = StringEnum.Alpha;
 export const BIG_LAMBDA_ARROW = (x: int) => x + 1;
-export const BIG_LAMBDA_BLOCK = (x: int) int { return x + 1; };
+export const BIG_LAMBDA_BLOCK = (x: int): int { return x + 1; };

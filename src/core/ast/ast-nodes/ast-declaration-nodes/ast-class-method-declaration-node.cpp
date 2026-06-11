@@ -6,17 +6,28 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType) {
+ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
     _classMethodDefinition = classMethodDefinition;
     _block = content;
+    _typeColon = {};
+    _returnType = {};
+    _parameters = parameters;
+    _children.push_back(_classMethodDefinition);
+    _children.push_back(_parameters);
+    _children.push_back(_block);
+}
+
+ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
+    _classMethodDefinition = classMethodDefinition;
+    _block = content;
+    _typeColon = typeColon;
     _returnType = returnType;
     _parameters = parameters;
     _children.push_back(_classMethodDefinition);
-    _children.push_back(_block);
-    if (_returnType) {
-        _children.push_back(_returnType.value());
-    }
     _children.push_back(_parameters);
+    _children.push_back(_typeColon.value());
+    _children.push_back(_returnType.value());
+    _children.push_back(_block);
 }
 
 ASTClassMethodDefinitionNode* ASTClassMethodDeclarationNode::getClassMethodDefinition() {
@@ -93,6 +104,7 @@ void ASTClassMethodDeclarationNode::print() {
     _classMethodDefinition->print();
     _parameters->print();
     if (_returnType) {
+        _typeColon.value()->print();
         _returnType.value()->print();
     }
     _block->print();
@@ -104,7 +116,9 @@ std::string ASTClassMethodDeclarationNode::toSourceCode() {
     sourceCodeBuilder.add(_classMethodDefinition)
     ->add(_parameters);
     if (_returnType) {
-        sourceCodeBuilder.add(_returnType.value());
+        sourceCodeBuilder
+        .add(_typeColon.value())
+        ->add(_returnType.value());
     }
     sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();

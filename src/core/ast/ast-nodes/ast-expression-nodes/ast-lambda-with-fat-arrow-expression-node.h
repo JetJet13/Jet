@@ -17,11 +17,13 @@ class ASTLambdaWithFatArrowExpressionNode : public ASTExpressionNode {
 private:
     ASTFunctionParameterListNode* _parameters;
     ASTLambdaReturnExpressionNode* _returnExpression;
+    std::optional<ASTTypeColonNode*> _typeColon;
     std::optional<ASTTypeNode*> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
     std::set<std::string> _capturedVariableIds;
 public:
-    ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, std::optional<ASTTypeNode*> returnType = {});
+    ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression);
+    ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
     ASTFunctionParameterListNode* getParameters();
     ASTLambdaReturnExpressionNode* getReturnExpression();
     std::optional<ASTTypeNode*> getReturnType();

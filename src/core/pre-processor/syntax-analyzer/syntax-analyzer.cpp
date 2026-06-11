@@ -287,7 +287,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         _modeStack.push(SA_STRUCT_MODE);
     }
 
-    if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_TUPLE_TYPE_MODE) {
+    if (astNodeType == AST_STRUCT_TYPE_COLON_NODE && _modeStack.top() == SA_TUPLE_TYPE_MODE) {
         Logger::log("replacing TUPLE_TYPE_MODE with STRUCT_TYPE_MODE");
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_TYPE_MODE);

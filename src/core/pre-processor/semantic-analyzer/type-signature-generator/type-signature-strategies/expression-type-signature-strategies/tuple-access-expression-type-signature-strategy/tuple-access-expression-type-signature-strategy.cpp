@@ -15,7 +15,7 @@ void TupleAccessExpressionTypeSignatureStrategy::assign(ASTTupleAccessExpression
     }
 
     if (sourceTypeSignature->typeTargetIs(TUPLE_TYPE_SOURCE)) {
-        auto tupleTypeSignature = (TupleTypeSignature*)sourceTypeSignature;
+        auto tupleTypeSignature = (TupleTypeSignature*)sourceTypeSignature->getTargetTypeSignature();
         tupleAccessExpression->setTypeSignature(tupleTypeSignature->getTypeSignatureAtIndex(tupleAccessExpression->getIndex()->getIndexValue()));
         return;
     }

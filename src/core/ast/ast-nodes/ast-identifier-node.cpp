@@ -67,11 +67,17 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTClassPropertyNameNode(this->getLexeme(), this->getId());
     }
 
+    if (mode == SA_STRUCT_TYPE_MODE || (
+        mode == SA_TUPLE_TYPE_MODE && nextNode && nextNode.value()->isOneOf({ AST_COLON_BASE_NODE })
+    )) {
+        return new ASTStructTypeKeyNode(this->getLexeme(), this->getId());
+    }
+
     if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
-    if (mode == SA_TUPLE_TYPE_MODE && nextNode && nextNode.value()->isOneOf({ AST_COMMA_NODE })) {
+    if (mode == SA_TUPLE_TYPE_MODE) {
         return ASTTypeNodeFactory::createCustomTypeNode(this->getLexeme(), this->getId());
     }
 
@@ -158,12 +164,6 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
             return new ASTImplementsInterfaceNameLastNode(this->getLexeme(), this->getId());
         }
         return new ASTImplementsInterfaceNameNode(this->getLexeme(), this->getId());
-    }
-
-    if (mode == SA_STRUCT_TYPE_MODE || (
-        mode == SA_TUPLE_TYPE_MODE && nextNode && nextNode.value()->isOneOf({ AST_COLON_BASE_NODE })
-    )) {
-        return new ASTStructTypeKeyNode(this->getLexeme(), this->getId());
     }
 
     if (mode == SA_TYPE_PARAMETER_LIST_MODE) {

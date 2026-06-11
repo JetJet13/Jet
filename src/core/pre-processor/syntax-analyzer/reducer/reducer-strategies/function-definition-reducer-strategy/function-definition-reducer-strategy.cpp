@@ -6,14 +6,15 @@
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-definition-node.h"
 
 ASTNode* FunctionDefinitionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    if (nodes.size() != 4) {
-        throw std::invalid_argument("unable to reduce to function definition since nodes list is not of size 4");
+    if (nodes.size() != 5) {
+        throw std::invalid_argument("unable to reduce to function definition since nodes list is not of size 5");
     }
 
     return new ASTFunctionDefinitionNode(
             (ASTFunctionNode*)nodes[0],
             (ASTFunctionNameNode*)nodes[1],
             (ASTFunctionParameterListNode*)nodes[2],
-            (ASTTypeNode*)nodes[3]
+            (ASTTypeColonNode*)nodes[3],
+            (ASTTypeNode*)nodes[4]
     );
 }

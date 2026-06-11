@@ -1,6 +1,6 @@
 module MyThirdModule
 
-export func myThirdIntFunction(x: int) int {
+export func myThirdIntFunction(x: int): int {
     if x > 10 {
         return x;
     }

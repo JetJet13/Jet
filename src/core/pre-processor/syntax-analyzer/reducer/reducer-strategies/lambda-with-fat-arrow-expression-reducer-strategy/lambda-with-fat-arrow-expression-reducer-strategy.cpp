@@ -15,12 +15,13 @@ ASTNode* LambdaWithFatArrowExpressionReducerStrategy::execute(std::vector<ASTNod
         );
     }
 
-    if (nodes.size() == 3) {
+    if (nodes.size() == 4) {
         return new ASTLambdaWithFatArrowExpressionNode(
                 (ASTFunctionParameterListNode*)nodes[0],
-                (ASTLambdaReturnExpressionNode*)nodes[2],
-                (ASTTypeNode*)nodes[1]
+                (ASTLambdaReturnExpressionNode*)nodes[3],
+                (ASTTypeColonNode*)nodes[1],
+                (ASTTypeNode*)nodes[2]
         );
     }
-    throw std::invalid_argument("unable to reduce to lambda with fat arrow expression since nodes list is not of size 2 or 3");
+    throw std::invalid_argument("unable to reduce to lambda with fat arrow expression since nodes list is not of size 2 or 4");
 }

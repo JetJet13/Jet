@@ -6,16 +6,26 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, std::optional<ASTTypeNode*> returnType) {
+ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression) {
     _parameters = parameters;
     _returnExpression = returnExpression;
-    _returnType = returnType;
+    _typeColon = {};
+    _returnType = {};
     _capturedVariableIds = std::set<std::string>();
     _children.push_back(_parameters);
     _children.push_back(_returnExpression);
-    if (_returnType) {
-        _children.push_back(_returnType.value());
-    }
+}
+
+ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
+    _parameters = parameters;
+    _returnExpression = returnExpression;
+    _typeColon = typeColon;
+    _returnType = returnType;
+    _capturedVariableIds = std::set<std::string>();
+    _children.push_back(_parameters);
+    _children.push_back(_typeColon.value());
+    _children.push_back(_returnType.value());
+    _children.push_back(_returnExpression);
 }
 
 ASTFunctionParameterListNode* ASTLambdaWithFatArrowExpressionNode::getParameters() {
@@ -85,6 +95,10 @@ bool ASTLambdaWithFatArrowExpressionNode::isSameAs(ASTNode *other) {
 void ASTLambdaWithFatArrowExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameters->print();
+    if (_returnType) {
+        _typeColon.value()->print();
+        _returnType.value()->print();
+    }
     _returnExpression->print();
     Logger::log("----------");
 }
@@ -95,7 +109,9 @@ std::string ASTLambdaWithFatArrowExpressionNode::toSourceCode() {
     sourceCodeBuilder.add(_parameters);
 
     if (_returnType) {
-        sourceCodeBuilder.add(_returnType.value());
+        sourceCodeBuilder
+        .add(_typeColon.value())
+        ->add(_returnType.value());
     }
 
     sourceCodeBuilder.add(_returnExpression);

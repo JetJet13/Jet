@@ -6,15 +6,25 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, std::optional<ASTTypeNode*> returnType) {
+ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block) {
     _parameters = parameters;
     _block = block;
-    _returnType = returnType;
+    _typeColon = {};
+    _returnType = {};
     _children.push_back(_parameters);
     _children.push_back(_block);
-    if (_returnType) {
-        _children.push_back(_returnType.value());
-    }
+    _capturedValueIds = std::set<std::string>();
+}
+
+ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
+    _parameters = parameters;
+    _block = block;
+    _typeColon = typeColon;
+    _returnType = returnType;
+    _children.push_back(_parameters);
+    _children.push_back(_typeColon.value());
+    _children.push_back(_returnType.value());
+    _children.push_back(_block);
     _capturedValueIds = std::set<std::string>();
 }
 
@@ -90,6 +100,7 @@ void ASTLambdaExpressionNode::print() {
     Logger::log("----------", this->toString(), "----------");
     _parameters->print();
     if (_returnType) {
+        _typeColon.value()->print();
         _returnType.value()->print();
     }
     _block->print();
@@ -100,7 +111,9 @@ std::string ASTLambdaExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_parameters);
     if (_returnType) {
-        sourceCodeBuilder.add(_returnType.value());
+        sourceCodeBuilder
+        .add(_typeColon.value())
+        ->add(_returnType.value());
     }
     sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();

@@ -22,11 +22,13 @@ class ASTClassMethodDeclarationNode : public ASTDeclarationNode {
 private:
     ASTClassMethodDefinitionNode* _classMethodDefinition;
     ASTFunctionParameterListNode* _parameters;
+    std::optional<ASTTypeColonNode*> _typeColon;
     std::optional<ASTTypeNode*> _returnType;
     ASTFunctionBlockNode* _block;
     ClassMethodTypeSignature* _typeSignature = new ClassMethodTypeSignature();
 public:
-    explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, std::optional<ASTTypeNode*> returnType = {});
+    explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
+    explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
     ASTClassMethodDefinitionNode* getClassMethodDefinition();
     ASTFunctionParameterListNode* getParameters();
     std::optional<ASTTypeNode*> getReturnType();

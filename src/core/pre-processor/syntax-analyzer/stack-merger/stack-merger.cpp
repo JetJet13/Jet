@@ -8,17 +8,24 @@
 
 template<class T>
 std::stack<T>* StackMerger<T>::merge(std::stack<T>* firstStack, std::stack<T>* secondStack) {
-    auto newStack = new std::stack<T>();
-    while (!firstStack->empty()) {
-        auto firstStackItem = firstStack->top();
-        firstStack->pop();
-        newStack->push(firstStackItem);
-    }
-
+    auto queue = std::deque<T>();
     while (!secondStack->empty()) {
         auto secondStackItem = secondStack->top();
         secondStack->pop();
-        newStack->push(secondStackItem);
+        queue.push_back(secondStackItem);
+    }
+
+    while (!firstStack->empty()) {
+        auto firstStackItem = firstStack->top();
+        firstStack->pop();
+        queue.push_back(firstStackItem);
+    }
+
+    auto newStack = new std::stack<T>();
+    while (!queue.empty()) {
+        auto item = queue.back();
+        queue.pop_back();
+        newStack->push(item);
     }
 
     return newStack;

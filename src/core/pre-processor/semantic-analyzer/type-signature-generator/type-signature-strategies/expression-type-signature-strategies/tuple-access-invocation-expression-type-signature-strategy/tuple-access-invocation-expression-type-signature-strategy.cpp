@@ -12,7 +12,7 @@ void TupleAccessInvocationExpressionTypeSignatureStrategy::assign(ASTTupleAccess
 
     if (tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(TUPLE_TYPE_SOURCE)) {
         strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getObjectAccess(), context, scope);
-        auto tupleSource = (TupleTypeSignature*)tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature();
+        auto tupleSource = (TupleTypeSignature*)tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
         auto functionTypeSignature = (InvocableTypeSignature*)tupleSource->getTypeSignatureAtIndex(
                 tupleAccessInvocationExpression->getIndex()->getIndexValue()
         );
