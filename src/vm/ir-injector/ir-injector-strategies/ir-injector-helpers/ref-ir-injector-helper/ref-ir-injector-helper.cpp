@@ -21,6 +21,8 @@ llvm::Value* RefIRInjectorHelper::inject(llvm::Value* value, IRRefType* irRefTyp
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), value, irRefType->getRefValueIndex());
         auto refValuePointer = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
         return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueIRType()->getType(), refValuePointer, irBlock);
+    } else if (irOperation->isOperandValue()) {
+
     }
     return value;
 }

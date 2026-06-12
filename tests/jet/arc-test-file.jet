@@ -142,6 +142,15 @@ func testTupleInvocation(): { int, TestType, bool, () => string, (TestType) => i
     return { 1, [1,2,3], false, () => "hello", (x: TestType) => 500, { 6, false }, { foo: false, bar: "testing" } };
 }
 
+func testRefTupleInvocation(): ref<{ int, TestType, bool, () => string, (TestType) => int, { int, bool }, { foo: bool, bar: string } }> {
+    const x: { () => int } = { () => 5 };
+    const y: { int } = { 5 };
+    const z: { int, bool } = { 10, true };
+    const a: { TestType } = { [1,2,3] };
+    const b: { TestType, bool } = { [1,2,3,4], false };
+    return ref { 1, [1,2,3], false, () => "hello", (x: TestType) => 500, { 6, false }, { foo: false, bar: "testing" } };
+}
+
 func testTupleReturnTypeTest1(): { () => string } {
     return { () => "hello" };
 }
@@ -166,10 +175,13 @@ proc testTuples() {
     const accessResult = testTupleAccess();
     print("accessResult", accessResult);
     assert(accessResult == "hello");
-
     const invocationResult = testTupleInvocation().3();
     print("invocationResult", invocationResult);
     assert(invocationResult == "hello");
+
+    const refInvocationResult = testRefTupleInvocation().3();
+    print("refInvocationResult", refInvocationResult);
+    assert(refInvocationResult == "hello");
 }
 testTuples();
 

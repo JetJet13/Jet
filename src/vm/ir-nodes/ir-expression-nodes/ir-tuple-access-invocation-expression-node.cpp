@@ -5,11 +5,12 @@
 #include "ir-tuple-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
+IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
     _node = node;
+    _source = source;
     _irCallInstruction = irCallInstruction;
-    _irFunction = irFunction;
     _irFunctionType = irFunctionType;
+    _targetIndex = targetIndex;
     _arguments = arguments;
     _type = type;
 }
@@ -21,12 +22,8 @@ void IRTupleAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-IRInstructionNode* IRTupleAccessInvocationExpressionNode::getFunction() {
-    return _irFunction;
-}
-
-llvm::Value* IRTupleAccessInvocationExpressionNode::getFunctionValue() {
-    return _irFunction->getValue();
+IRExpressionNode* IRTupleAccessInvocationExpressionNode::getSource() {
+    return _source;
 }
 
 std::vector<IRFunctionArgumentNode*>* IRTupleAccessInvocationExpressionNode::getIRArguments() {
@@ -39,6 +36,10 @@ llvm::CallInst* IRTupleAccessInvocationExpressionNode::getValue() {
 
 IRType* IRTupleAccessInvocationExpressionNode::getFunctionIRType() {
     return _irFunctionType;
+}
+
+int64_t IRTupleAccessInvocationExpressionNode::getTargetIndex() {
+    return _targetIndex;
 }
 
 IRType* IRTupleAccessInvocationExpressionNode::getIRType() {
@@ -66,5 +67,5 @@ std::string IRTupleAccessInvocationExpressionNode::toString() {
 }
 
 void IRTupleAccessInvocationExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irFunction->getValue()->print(**stream);
+    _irCallInstruction->print(**stream);
 }
