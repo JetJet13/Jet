@@ -126,64 +126,59 @@ func getRefArray(y: [int]): ref<[int]> {
     return ref y;
 }
 
-func testTupleAccess(): string {
-    const x = { 1, false, "hello" };
-    return x.2;
+func testPassUpInt(): ref<int> {
+    const x = 121;
+    return ref x;
 }
 
-type TestType = [int];
-
-func testTupleInvocation(): { int, TestType, bool, () => string, (TestType) => int, { int, bool }, { foo: bool, bar: string } } {
-    const x: { () => int } = { () => 5 };
-    const y: { int } = { 5 };
-    const z: { int, bool } = { 10, true };
-    const a: { TestType } = { [1,2,3] };
-    const b: { TestType, bool } = { [1,2,3,4], false };
-    return { 1, [1,2,3], false, () => "hello", (x: TestType) => 500, { 6, false }, { foo: false, bar: "testing" } };
+func testDoublePassUpInt(): ref<int> {
+    return testPassUpInt();
 }
 
-func testRefTupleInvocation(): ref<{ int, TestType, bool, () => string, (TestType) => int, { int, bool }, { foo: bool, bar: string } }> {
-    const x: { () => int } = { () => 5 };
-    const y: { int } = { 5 };
-    const z: { int, bool } = { 10, true };
-    const a: { TestType } = { [1,2,3] };
-    const b: { TestType, bool } = { [1,2,3,4], false };
-    return ref { 1, [1,2,3], false, () => "hello", (x: TestType) => 500, { 6, false }, { foo: false, bar: "testing" } };
+func testPassUpIntAlt(): ref<int> {
+    const x = ref 121;
+    return x;
 }
 
-func testTupleReturnTypeTest1(): { () => string } {
-    return { () => "hello" };
+func testDoublePassUpIntAlt(): ref<int> {
+    return testPassUpIntAlt();
 }
 
-func testTupleReturnTypeTest2(): { TestType, () => string } {
-    return { [1,2,3], () => "hello" };
+proc testPassInIntRef(x: ref<int>, refCount: int) {
+    assertDebugRefCount(x, refCount);
 }
 
-func testTupleReturnTypeTest3(): { TestType } {
-    return { [1,2,3] };
-}
+proc testArcPassUp() {
+    assertDebugRefCount(testPassUpIntAlt(), 1);
+    testPassInIntRef(testPassUpIntAlt(), 2);
+    const passedUpXAlt = testPassUpIntAlt();
+    assertDebugRefCount(passedUpXAlt, 1);
+    testPassInIntRef(passedUpXAlt, 2);
 
-func testTupleReturnTypeTest4(): { int } {
-    return { 5 };
-}
+    assertDebugRefCount(testDoublePassUpIntAlt(), 1);
+    testPassInIntRef(testDoublePassUpIntAlt(), 2);
+    const doublePassedUpXAlt = testDoublePassUpIntAlt();
+    assertDebugRefCount(doublePassedUpXAlt, 1);
+    testPassInIntRef(doublePassedUpXAlt, 2);
 
-func testTupleReturnTypeTest5(): { TestType, int } {
-    return { [1,2,3], 900 };
-}
+    assertDebugRefCount(testPassUpInt(), 1);
+    testPassInIntRef(testPassUpInt(), 2);
+    const passedUpX = testPassUpInt();
+    assertDebugRefCount(passedUpX, 1);
+    testPassInIntRef(passedUpX, 2);
+    const anotherX = passedUpX;
+    assertDebugRefCount(passedUpX, 2);
+    testPassInIntRef(passedUpX, 3);
+    testPassInIntRef(anotherX, 3);
+    assert(passedUpX == 121);
 
-proc testTuples() {
-    const accessResult = testTupleAccess();
-    print("accessResult", accessResult);
-    assert(accessResult == "hello");
-    const invocationResult = testTupleInvocation().3();
-    print("invocationResult", invocationResult);
-    assert(invocationResult == "hello");
-
-    const refInvocationResult = testRefTupleInvocation().3();
-    print("refInvocationResult", refInvocationResult);
-    assert(refInvocationResult == "hello");
+    assertDebugRefCount(testDoublePassUpInt(), 1);
+    testPassInIntRef(testDoublePassUpInt(), 2);
+    const doublePassedUpX = testDoublePassUpInt();
+    assertDebugRefCount(doublePassedUpX, 1);
+    testPassInIntRef(doublePassedUpX, 2);
 }
-testTuples();
+testArcPassUp();
 
 //proc testSyntax() {
 //    const x = unique 10;

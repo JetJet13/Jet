@@ -7,13 +7,12 @@
 
 void RefIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
     if (irOperation->isFunctionArgument()) {
-        auto alloca = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
-        InstructionIRInjectorHelper::injectStore(value, alloca, irBlock, irType);
-        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { alloca });
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { value });
     }
 }
 
 llvm::Value* RefIRInjectorHelper::inject(llvm::Value* value, IRRefType* irRefType, IRBlockNode* irBlock, IROperation* irOperation) {
+    // value is expected to be a ptr
     if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), value, irRefType->getRefValueIndex());
         return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
@@ -21,8 +20,8 @@ llvm::Value* RefIRInjectorHelper::inject(llvm::Value* value, IRRefType* irRefTyp
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), value, irRefType->getRefValueIndex());
         auto refValuePointer = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
         return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueIRType()->getType(), refValuePointer, irBlock);
-    } else if (irOperation->isOperandValue()) {
-
+    } else if (irOperation->isOperandPointer()) {
+        return value;
     }
-    return value;
+    return InstructionIRInjectorHelper::injectLoad(irRefType->getType(), value, irBlock);
 }

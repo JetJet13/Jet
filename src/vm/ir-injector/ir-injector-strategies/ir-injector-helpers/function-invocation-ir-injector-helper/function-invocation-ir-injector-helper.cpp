@@ -123,7 +123,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
     return value;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
@@ -132,7 +132,13 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassMethodInvocationE
     }
 
     irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, irExpression->getClassScopeArgument()->getValue());
-    return irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+    auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+    if (irOperation->isOperandPointer()) {
+        auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
+        InstructionIRInjectorHelper::injectStore(value, pointerToValue, irBlock, irExpression->getIRType());
+        return pointerToValue;
+    }
+    return value;
 }
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
@@ -321,5 +327,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRClassStaticMethodInvoc
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
 
-    return irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+    auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
+    if (irOperation->isOperandPointer()) {
+        auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
+        InstructionIRInjectorHelper::injectStore(value, pointerToValue, irBlock, irExpression->getIRType());
+        return pointerToValue;
+    }
+    return value;
 }

@@ -25,7 +25,7 @@ class SimpleClass {
         this.value = value;
     }
 
-    public getValue() int {
+    public getValue(): int {
         return this.value;
     }
 
@@ -51,19 +51,19 @@ class ComplexClass {
         this.hairColor = "Black";
     }
 
-    public getAge() int {
+    public getAge(): int {
         return this.age;
     }
 
-    public getName() string {
+    public getName(): string {
         return this.name;
     }
 
-    public getHairColor() string {
+    public getHairColor(): string {
         return this.hairColor;
     }
 
-    public static create() ComplexClass {
+    public static create(): ComplexClass {
         return new ComplexClass(2);
     }
 }
@@ -75,7 +75,7 @@ class CircularReferenceClassA {
         this.b = otherB;
     }
 
-    public getB() CircularReferenceClassB {
+    public getB(): CircularReferenceClassB {
         return this.b;
     }
 }
@@ -87,7 +87,7 @@ class CircularReferenceClassB {
         this.a = otherA;
     }
 
-    public getA() CircularReferenceClassA {
+    public getA(): CircularReferenceClassA {
         return this.a;
     }
 }
@@ -104,31 +104,31 @@ enum StringEnum {
     Gamma = "gamma"
 }
 
-func getInt(x: int) int {
+func getInt(x: int): int {
     return x;
 }
 
-func getFloat(y: float) float {
+func getFloat(y: float): float {
     return y;
 }
 
-func getBool(x: bool) bool {
+func getBool(x: bool): bool {
     return x;
 }
 
-func getChar(y: char) char {
+func getChar(y: char): char {
     return y;
 }
 
-func getString(x: string) string {
+func getString(x: string): string {
     return x;
 }
 
-func getArray(y: [int]) [int] {
+func getArray(y: [int]): [int] {
     return y;
 }
 
-func getRefArray(y: [int]) ref<[int]> {
+func getRefArray(y: [int]): ref<[int]> {
     return ref y;
 }
 
@@ -1396,21 +1396,21 @@ proc testArcPassDown() {
 }
 testArcPassDown();
 
-func testPassUpInt() ref<int> {
+func testPassUpInt(): ref<int> {
     const x = 121;
     return ref x;
 }
 
-func testDoublePassUpInt() ref<int> {
+func testDoublePassUpInt(): ref<int> {
     return testPassUpInt();
 }
 
-func testPassUpIntAlt() ref<int> {
+func testPassUpIntAlt(): ref<int> {
     const x = ref 121;
     return x;
 }
 
-func testDoublePassUpIntAlt() ref<int> {
+func testDoublePassUpIntAlt(): ref<int> {
     return testPassUpIntAlt();
 }
 
@@ -1450,20 +1450,20 @@ proc testArcPassUp() {
 }
 testArcPassUp();
 
-func testPassUpLambda() () => int {
+func testPassUpLambda(): () => int {
     return () => 10;
 }
 
-func testDoublePassUpLambda() () => int {
+func testDoublePassUpLambda(): () => int {
     return testPassUpLambda();
 }
 
-func testPassUpLambdaAlt() () => int {
+func testPassUpLambdaAlt(): () => int {
     const x = () => 10;
     return x;
 }
 
-func testDoublePassUpLambdaAlt() () => int {
+func testDoublePassUpLambdaAlt(): () => int {
     return testPassUpLambdaAlt();
 }
 
@@ -1855,11 +1855,11 @@ proc testClass() {
 }
 testClass();
 
-func functionUsedAsLambda(x: int) int {
+func functionUsedAsLambda(x: int): int {
     return x + 1000;
 }
 
-func functionUsedAsLambda(x: string) int {
+func functionUsedAsLambda(x: string): int {
     return x.size();
 }
 
@@ -1996,7 +1996,7 @@ proc testModules() {
 }
 testModules();
 
-func ifStatements(x: int, y: int, z: int) int {
+func ifStatements(x: int, y: int, z: int): int {
     if x > 1 {
         if y > 10 {
             if z > 100 {
@@ -2009,7 +2009,7 @@ func ifStatements(x: int, y: int, z: int) int {
     return 66;
 }
 
-func otherIfStatements(x: int, y: int, z: int) int {
+func otherIfStatements(x: int, y: int, z: int): int {
     const a = [1,2,3,4];
     if x > y {
         const b = [1,2,3,4];
@@ -2109,7 +2109,7 @@ proc testEnums() {
 }
 testEnums();
 
-func factorial(x: int) int {
+func factorial(x: int): int {
     if x == 0 {
         return 1;
     }
@@ -2119,7 +2119,7 @@ assert(factorial(3) == 6);
 assert(factorial(4) == 24);
 assert(factorial(10) == 3628800);
 
-func isPrime(x: int) bool {
+func isPrime(x: int): bool {
     if x == 1 || x == 0 {
         return false;
     }
