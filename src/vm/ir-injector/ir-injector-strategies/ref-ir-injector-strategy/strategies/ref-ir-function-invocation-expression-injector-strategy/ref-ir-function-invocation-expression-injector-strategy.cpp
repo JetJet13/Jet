@@ -11,5 +11,5 @@ llvm::Value* RefIRFunctionInvocationExpressionInjectorStrategy::inject(IRFunctio
     auto functionResult = FunctionInvocationIRInjectorHelper::inject(irExpression, irBlock, irInjector, irModule, scope, new IROperation(IR_OPERAND_POINTER_OP));
     auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
     RefIRInjectorHelper::incrementRefCountForInvocationExpression(functionResult, irRefType, irBlock, irOperation, irModule);
-    return RefIRInjectorHelper::inject(functionResult, irRefType, irBlock, irOperation);
+    return RefIRInjectorHelper::injectForInvocationExpression(functionResult, irRefType, irBlock, irOperation);
 }

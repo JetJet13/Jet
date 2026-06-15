@@ -24,10 +24,18 @@ llvm::Value* RefIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectAcc
 }
 
 llvm::Value* RefIRObjectAccessExpressionInjectorStrategy::injectOperand(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+    auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
     auto pointerToIndexedElement = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, loadedPointerToIndexedElement);
-    if (irOperation->isOperandValue()) {
-        return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement, irBlock);
+    if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
+        auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), pointerToIndexedElement, irRefType->getRefValueIndex());
+        return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
+    } else if (irOperation->isOperandPointer()) {
+        return pointerToIndexedElement;
+    } else if (irOperation->isOperandValue() && irOperation->isUnderlying()) {
+        auto refValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement, irBlock);
+        auto underlyingValuePointer = irBlock->getBuilder()->get()->CreateExtractValue(refValue, irRefType->getRefValueIndex());
+        return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueIRType()->getType(), underlyingValuePointer, irBlock, irRefType->getRefValueIRType());
     }
-    return pointerToIndexedElement;
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), pointerToIndexedElement, irBlock);
 }

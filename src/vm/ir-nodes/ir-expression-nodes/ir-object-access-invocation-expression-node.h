@@ -19,19 +19,20 @@ class IRObjectAccessInvocationExpressionNode : public IRExpressionNode {
 private:
     ASTObjectAccessInvocationExpressionNode* _node;
     llvm::CallInst* _irCallInstruction;
-    IRInstructionNode* _irFunction;
+    IRExpressionNode* _source;
+    int64_t _targetIndex;
     IRType* _irFunctionType;
     std::vector<IRFunctionArgumentNode*> _arguments;
     IRType* _type;
     std::optional<IRExpressionNode*> _scopeArgument;
 public:
-    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
+    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
     void markAsGlobal() override;
-    IRInstructionNode* getFunction();
+    IRExpressionNode* getSource();
     std::optional<IRExpressionNode*> getScopeArgument();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;
-    llvm::Value* getFunctionValue();
+    int64_t getTargetIndex();
     IRType* getFunctionIRType();
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

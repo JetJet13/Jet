@@ -126,59 +126,11 @@ func getRefArray(y: [int]): ref<[int]> {
     return ref y;
 }
 
-func testPassUpInt(): ref<int> {
-    const x = 121;
-    return ref x;
+proc testBigModule() {
+    const bigInstance = new BigModule::BigClass(10);
+    bigInstance.invokeAssertAll();
 }
-
-func testDoublePassUpInt(): ref<int> {
-    return testPassUpInt();
-}
-
-func testPassUpIntAlt(): ref<int> {
-    const x = ref 121;
-    return x;
-}
-
-func testDoublePassUpIntAlt(): ref<int> {
-    return testPassUpIntAlt();
-}
-
-proc testPassInIntRef(x: ref<int>, refCount: int) {
-    assertDebugRefCount(x, refCount);
-}
-
-proc testArcPassUp() {
-    assertDebugRefCount(testPassUpIntAlt(), 1);
-    testPassInIntRef(testPassUpIntAlt(), 2);
-    const passedUpXAlt = testPassUpIntAlt();
-    assertDebugRefCount(passedUpXAlt, 1);
-    testPassInIntRef(passedUpXAlt, 2);
-
-    assertDebugRefCount(testDoublePassUpIntAlt(), 1);
-    testPassInIntRef(testDoublePassUpIntAlt(), 2);
-    const doublePassedUpXAlt = testDoublePassUpIntAlt();
-    assertDebugRefCount(doublePassedUpXAlt, 1);
-    testPassInIntRef(doublePassedUpXAlt, 2);
-
-    assertDebugRefCount(testPassUpInt(), 1);
-    testPassInIntRef(testPassUpInt(), 2);
-    const passedUpX = testPassUpInt();
-    assertDebugRefCount(passedUpX, 1);
-    testPassInIntRef(passedUpX, 2);
-    const anotherX = passedUpX;
-    assertDebugRefCount(passedUpX, 2);
-    testPassInIntRef(passedUpX, 3);
-    testPassInIntRef(anotherX, 3);
-    assert(passedUpX == 121);
-
-    assertDebugRefCount(testDoublePassUpInt(), 1);
-    testPassInIntRef(testDoublePassUpInt(), 2);
-    const doublePassedUpX = testDoublePassUpInt();
-    assertDebugRefCount(doublePassedUpX, 1);
-    testPassInIntRef(doublePassedUpX, 2);
-}
-testArcPassUp();
+testBigModule();
 
 //proc testSyntax() {
 //    const x = unique 10;

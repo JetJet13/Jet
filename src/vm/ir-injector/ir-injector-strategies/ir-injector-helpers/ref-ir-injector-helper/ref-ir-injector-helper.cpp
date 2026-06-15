@@ -11,7 +11,7 @@ void RefIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* 
     }
 }
 
-llvm::Value* RefIRInjectorHelper::inject(llvm::Value* value, IRRefType* irRefType, IRBlockNode* irBlock, IROperation* irOperation) {
+llvm::Value* RefIRInjectorHelper::injectForInvocationExpression(llvm::Value* value, IRRefType* irRefType, IRBlockNode* irBlock, IROperation* irOperation) {
     // value is expected to be a ptr
     if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), value, irRefType->getRefValueIndex());

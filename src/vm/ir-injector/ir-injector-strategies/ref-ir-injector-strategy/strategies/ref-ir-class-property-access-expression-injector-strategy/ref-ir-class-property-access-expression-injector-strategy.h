@@ -1,0 +1,18 @@
+//
+// Created by Johny Georges on 2026-06-13.
+//
+
+#ifndef JETLANG_REF_IR_CLASS_PROPERTY_ACCESS_EXPRESSION_INJECTOR_STRATEGY_H
+#define JETLANG_REF_IR_CLASS_PROPERTY_ACCESS_EXPRESSION_INJECTOR_STRATEGY_H
+
+#include "../../../../../ir-nodes/ir-block-nodes/ir-block-node.h"
+#include "../../../../ir-injector.h"
+#include "../../../../../types/ir-operation-type.h"
+#include "../../../../../ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.h"
+
+class RefIRClassPropertyAccessExpressionInjectorStrategy {
+public:
+    llvm::Value* inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+};
+
+#endif //JETLANG_REF_IR_CLASS_PROPERTY_ACCESS_EXPRESSION_INJECTOR_STRATEGY_H

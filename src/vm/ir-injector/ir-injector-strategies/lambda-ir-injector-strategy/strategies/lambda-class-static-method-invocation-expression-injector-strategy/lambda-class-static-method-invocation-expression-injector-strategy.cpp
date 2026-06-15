@@ -8,8 +8,11 @@
 #include "../../../ir-injector-helpers/lambda-ir-injector-helper/lambda-ir-injector-helper.h"
 
 llvm::Value* LambdaIRClassStaticMethodInvocationExpressionInjectorStrategy::inject(IRClassStaticMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto functionResult = FunctionInvocationIRInjectorHelper::inject(irExpression, irBlock, irInjector, irModule, scope, irOperation);
-    LambdaIRInjectorHelper::incrementRefCountForInvocationExpression(functionResult, irExpression->getIRType(), irBlock,
-                                                                     irOperation, irModule);
-    return functionResult;
+    auto functionResult = FunctionInvocationIRInjectorHelper::inject(irExpression, irBlock, irInjector, irModule, scope, new IROperation(IR_OPERAND_POINTER_OP));
+    LambdaIRInjectorHelper::incrementRefCountForInvocationExpression(functionResult, irExpression->getIRType(), irBlock, irOperation, irModule);
+
+    if (irOperation->isOperandPointer()) {
+        return functionResult;
+    }
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), functionResult, irBlock);
 }

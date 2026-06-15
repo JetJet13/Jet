@@ -5,10 +5,11 @@
 #include "ir-object-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument) {
+IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
-    _irFunction = irFunction;
+    _source = source;
+    _targetIndex = targetIndex;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
     _type = type;
@@ -22,9 +23,10 @@ void IRObjectAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-IRInstructionNode* IRObjectAccessInvocationExpressionNode::getFunction() {
-    return _irFunction;
+IRExpressionNode* IRObjectAccessInvocationExpressionNode::getSource() {
+    return _source;
 }
+
 
 std::optional<IRExpressionNode*> IRObjectAccessInvocationExpressionNode::getScopeArgument() {
     return _scopeArgument;
@@ -38,8 +40,8 @@ llvm::CallInst* IRObjectAccessInvocationExpressionNode::getValue() {
     return _irCallInstruction;
 }
 
-llvm::Value* IRObjectAccessInvocationExpressionNode::getFunctionValue() {
-    return _irFunction->getValue();
+int64_t IRObjectAccessInvocationExpressionNode::getTargetIndex() {
+    return _targetIndex;
 }
 
 IRType* IRObjectAccessInvocationExpressionNode::getFunctionIRType() {
@@ -71,5 +73,5 @@ std::string IRObjectAccessInvocationExpressionNode::toString() {
 }
 
 void IRObjectAccessInvocationExpressionNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
-    _irFunction->getValue()->print(**stream);
+    _source->getValue()->print(**stream);
 }

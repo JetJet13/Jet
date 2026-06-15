@@ -397,7 +397,7 @@ IRType* IRGenerator::generateTypeFor(llvm::Constant* constant) {
 IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
     auto existingIRType = scope->findType(typeSignature->getId());
     if (existingIRType) {
-        return existingIRType.value();
+        return existingIRType.value()->clone();
     }
     switch (typeSignature->getTypeSource()) {
         case VOID_TYPE_SOURCE:

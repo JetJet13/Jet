@@ -92,6 +92,14 @@ export class BigClass {
         return this.bigTuple;
     }
 
+    public getBigStructRaw(): BigStruct {
+        return dref this.bigStruct;
+    }
+
+    public getBigTupleRaw(): BigTuple {
+        return dref this.bigTuple;
+    }
+
     public getBigClass(): ref<SmallClass> {
         return this.bigClass;
     }
@@ -106,6 +114,51 @@ export class BigClass {
 
     public getBigEmptyInt(): int {
         return this.bigEmptyInt;
+    }
+
+    public invokeAssertAll(): bool {
+        const invokeInt = this.getBigInt();
+        print("invokeInt", invokeInt, this.bigInt);
+        assert(invokeInt == this.bigInt);
+
+        const invokeFloat = this.getBigFloat();
+        assert(invokeFloat == this.bigFloat);
+
+        const invokeBool = this.getBigBool();
+        assert(invokeBool == this.bigBool);
+
+        const invokeChar = this.getBigChar();
+        assert(invokeChar == this.bigChar);
+
+        const invokeString = this.getBigString();
+        assert(invokeString == this.bigString);
+
+        const invokeArray = this.getBigArray();
+        assert(invokeArray == this.bigArray);
+
+        const invokeStruct = this.getBigStruct();
+        assert(invokeStruct == this.bigStruct);
+
+        const invokeTuple = this.getBigTuple();
+        assert(invokeTuple == this.bigTuple);
+
+        const invokeStructRaw = this.getBigStructRaw();
+        print("invokeStructRaw", invokeStructRaw);
+        assert(invokeStructRaw == this.bigStruct);
+
+        const invokeTupleRaw = this.getBigTupleRaw();
+        assert(invokeTupleRaw == this.bigTuple);
+
+        const invokeClass = this.getBigClass();
+        assert(invokeClass == this.bigClass);
+
+        const invokeIntEnum = this.getBigIntEnum();
+        assert(invokeIntEnum == this.bigIntEnum);
+
+        const invokeStringEnum = this.getBigStringEnum();
+        assert(invokeStringEnum == this.bigStringEnum);
+
+        return false;
     }
 
     public static getBigStaticInt(): int {

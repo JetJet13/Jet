@@ -8,9 +8,7 @@
 
 void LambdaIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
     if (irOperation->isFunctionArgument()) {
-        auto alloca = irBlock->getBuilder()->get()->CreateAlloca(value->getType());
-        InstructionIRInjectorHelper::injectStore(value, alloca, irBlock, irType);
-        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { alloca });
+        irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { value });
     }
 }
 

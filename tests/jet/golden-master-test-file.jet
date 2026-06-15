@@ -2149,6 +2149,7 @@ maxAndMinInts();
 
 proc testBigModule() {
     const bigInstance = new BigModule::BigClass(10);
+    bigInstance.invokeAssertAll();
     assert(bigInstance.getBigInt() == 500);
     assert(bigInstance.getBigFloat() == 100.101);
     assert(bigInstance.getBigBool() == true);
@@ -2295,3 +2296,127 @@ proc testBigModule2() {
     assert(result == 1);
 }
 testBigModule2();
+
+type TestType = [int];
+
+func testTupleAccess(): string {
+    const x = { 1, false, "hello" };
+    return x.2;
+}
+
+func testTupleInvocation(): { int, TestType, bool, () => string, (TestType) => { int, TestType }, { int, bool }, { foo: bool, bar: string } } {
+    const x: { () => int } = { () => 5 };
+    const y: { int } = { 5 };
+    const z: { int, bool } = { 10, true };
+    const a: { TestType } = { [1,2,3] };
+    const b: { TestType, bool } = { [1,2,3,4], false };
+    return { 1, [1,2,3], false, () => "hello", (x: TestType) => { 500, x }, { 6, false }, { foo: false, bar: "testing" } };
+}
+
+func testRefTupleInvocation(): ref<{ int, TestType, bool, () => string, (TestType) => { int, TestType }, { int, bool }, { foo: bool, bar: string } }> {
+    const x: { () => int } = { () => 5 };
+    const y: { int } = { 5 };
+    const z: { int, bool } = { 10, true };
+    const a: { TestType } = { [1,2,3] };
+    const b: { TestType, bool } = { [1,2,3,4], false };
+    return ref { 1, [1,2,3], false, () => "hello", (x: TestType) => { 500, x }, { 6, false }, { foo: false, bar: "testing" } };
+}
+
+func testTupleReturnTypeTest1(): { () => string } {
+    return { () => "hello" };
+}
+
+func testTupleReturnTypeTest2(): { TestType, () => string } {
+    return { [1,2,3], () => "hello" };
+}
+
+func testTupleReturnTypeTest3(): { TestType } {
+    return { [1,2,3] };
+}
+
+func testTupleReturnTypeTest4(): { int } {
+    return { 5 };
+}
+
+func testTupleReturnTypeTest5(): { TestType, int } {
+    return { [1,2,3], 900 };
+}
+
+func testTupleReturnTypeTest6(): [{ TestType, int }] {
+    return [{ [1,2,3], 900 }];
+}
+
+proc testTuples() {
+    const accessResult = testTupleAccess();
+    print("accessResult", accessResult);
+    assert(accessResult == "hello");
+    const invocationResult = testTupleInvocation().3();
+    print("invocationResult", invocationResult);
+    assert(invocationResult == "hello");
+
+    const refInvocationResult = testRefTupleInvocation().3();
+    print("refInvocationResult", refInvocationResult);
+    assert(refInvocationResult == "hello");
+}
+testTuples();
+
+func testStructAccess(): string {
+    const x = { a: 1, b: false, c: "hello" };
+    return x.c;
+}
+
+func testStructInvocation(): { a: int, b: TestType, c: bool, d: () => string, e: (TestType) => { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } } {
+    const x: { a: () => int } = { a: () => 5 };
+    const y: { a: int } = { a: 5 };
+    const z: { a: int, b: bool } = { a: 10, b: true };
+    const a: { a: TestType } = { a: [1,2,3] };
+    const b: { a: TestType, b: bool } = { a: [1,2,3,4], b: false };
+    return { a: 1, b: [1,2,3], c: false, d: () => "hello", e: (x: TestType) => { a: 500, b: x }, f: { 6, false }, g: { foo: false, bar: "testing" } };
+}
+
+func testRefStructInvocation(): ref<{ a: int, b: TestType, c: bool, d: () => string, e: (TestType) => { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } }> {
+    const x: { a: () => int } = { a: () => 5 };
+    const y: { a: int } = { a: 5 };
+    const z: { a: int, b: bool } = { a: 10, b: true };
+    const a: { a: TestType } = { a: [1,2,3] };
+    const b: { a: TestType, b: bool } = { a: [1,2,3,4], b: false };
+    return ref { a: 1, b: [1,2,3], c: false, d: () => "hello", e: (x: TestType) => { a: 500, b: x }, f: { 6, false }, g: { foo: false, bar: "testing" } };
+}
+
+func testStructReturnTypeTest1(): { a: () => string } {
+    return { a: () => "hello" };
+}
+
+func testStructReturnTypeTest2(): { a: TestType, b: () => string } {
+    return { a: [1,2,3], b: () => "hello" };
+}
+
+func testStructReturnTypeTest3(): { a: TestType } {
+    return { a: [1,2,3] };
+}
+
+func testStructReturnTypeTest4(): { a: int } {
+    return { a: 5 };
+}
+
+func testStructReturnTypeTest5(): { a: TestType, b: int } {
+    return { a: [1,2,3], b: 900 };
+}
+
+func testStructReturnTypeTest6(): [{ a: TestType, b: int }] {
+    return [{ a: [1,2,3], b: 900 }];
+}
+
+proc testStructs() {
+    const accessResult = testStructAccess();
+    print("accessResult", accessResult);
+    assert(accessResult == "hello");
+    const invocationResult = testStructInvocation().d();
+    print("invocationResult", invocationResult);
+    assert(invocationResult == "hello");
+
+    const refInvocationResult = testRefStructInvocation().d();
+    print("refInvocationResult", refInvocationResult);
+    assert(refInvocationResult == "hello");
+}
+testStructs();

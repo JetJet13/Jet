@@ -21,7 +21,7 @@ llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(IRClassPropertyAccessEx
         );
         return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), allocation, irBlock);
     } else if (irOperation->isOperandValue()) {
-        return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointerToProperty, irBlock);
+        return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointerToProperty, irBlock, {}, "YUU");
     }
     return pointerToProperty;
 }

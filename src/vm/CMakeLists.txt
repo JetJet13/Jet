@@ -834,6 +834,10 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-invocation-expression-injector-strategy/ref-ir-tuple-access-invocation-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-array-access-invocation-expression-injector-strategy/ref-ir-array-access-invocation-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-array-access-invocation-expression-injector-strategy/ref-ir-array-access-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-class-method-invocation-expression-injector-strategy/ref-ir-class-method-invocation-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-class-method-invocation-expression-injector-strategy/ref-ir-class-method-invocation-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-class-property-access-expression-injector-strategy/ref-ir-class-property-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-class-property-access-expression-injector-strategy/ref-ir-class-property-access-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

@@ -103,8 +103,8 @@ llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, I
             auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, pointerToStructValue, irModule, irInjector);
             InstructionIRInjectorHelper::injectStore(loadedPointer, destinationPointer, irBlock, irTypeAtIndex);
         } else {
-            auto loadedPointerToStructValue = InstructionIRInjectorHelper::injectLoad(irTypeAtIndex->getType(), pointerToStructValue, irBlock, irTypeAtIndex);
-            InstructionIRInjectorHelper::injectStore(loadedPointerToStructValue, destinationPointer, irBlock, irTypeAtIndex);
+            auto loadedValue = InstructionIRInjectorHelper::injectLoad(irTypeAtIndex->getType(), pointerToStructValue, irBlock, irTypeAtIndex);
+            InstructionIRInjectorHelper::injectStore(loadedValue, destinationPointer, irBlock, irTypeAtIndex);
         }
     }
     auto pointerToStructPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), structRefDestination, irStructRefType->getStructIndex());

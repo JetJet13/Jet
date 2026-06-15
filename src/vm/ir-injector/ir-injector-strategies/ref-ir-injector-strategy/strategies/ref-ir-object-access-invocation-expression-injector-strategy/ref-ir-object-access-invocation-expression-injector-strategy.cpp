@@ -12,5 +12,5 @@ llvm::Value* RefIRObjectAccessInvocationExpressionInjectorStrategy::inject(IRObj
     auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
     RefIRInjectorHelper::incrementRefCountForInvocationExpression(functionResult, irRefType, irBlock, irOperation,
                                                                   irModule);
-    return RefIRInjectorHelper::inject(functionResult, irRefType, irBlock, irOperation);
+    return RefIRInjectorHelper::injectForInvocationExpression(functionResult, irRefType, irBlock, irOperation);
 }

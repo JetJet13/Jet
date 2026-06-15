@@ -78,6 +78,7 @@ void ASTVariableInitNode::print() {
     if (_type) {
         _type.value()->print();
     }
+    _assignmentOperator->print();
     Logger::log("----------");
 }
 

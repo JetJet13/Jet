@@ -67,9 +67,8 @@ ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNo
         return new ASTClassPropertyNameNode(this->getLexeme(), this->getId());
     }
 
-    if (mode == SA_STRUCT_TYPE_MODE || (
-        mode == SA_TUPLE_TYPE_MODE && nextNode && nextNode.value()->isOneOf({ AST_COLON_BASE_NODE })
-    )) {
+    if ((mode == SA_STRUCT_TYPE_MODE || mode == SA_TUPLE_TYPE_MODE) &&
+         nextNode && nextNode.value()->isOneOf({ AST_COLON_BASE_NODE })) {
         return new ASTStructTypeKeyNode(this->getLexeme(), this->getId());
     }
 
