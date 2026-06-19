@@ -43,6 +43,7 @@ export class BigClass {
     private bigIntEnum = IntEnum.Alpha;
     private bigStringEnum = StringEnum.Alpha;
     private bigEmptyInt: int;
+    // private copyThis = this; // illegal - you can't assign 'this' to a class property.
 
     private static bigStaticInt = 500;
     private static bigStaticFloat = 100.101;
@@ -116,6 +117,11 @@ export class BigClass {
         return this.bigEmptyInt;
     }
 
+    public getSelf(): BigClass {
+        //print("BIG SELF", this);
+        return this;
+    }
+
     public invokeAssertAll(): bool {
         const invokeInt = this.getBigInt();
         print("invokeInt", invokeInt, this.bigInt);
@@ -143,7 +149,6 @@ export class BigClass {
         assert(invokeTuple == this.bigTuple);
 
         const invokeStructRaw = this.getBigStructRaw();
-        print("invokeStructRaw", invokeStructRaw);
         assert(invokeStructRaw == this.bigStruct);
 
         const invokeTupleRaw = this.getBigTupleRaw();
@@ -213,6 +218,9 @@ export class BigClass {
 
 export class SmallClass {
     private smallInt = 2;
+    private cc = new BigCalculator();
+    private smallIntEnum = IntEnum.Alpha;
+    private smallStringEnum = StringEnum.Alpha;
 
     constructor() {}
 
@@ -224,6 +232,41 @@ export class SmallClass {
         this.smallInt = x;
     }
 
+    public getSelf(): SmallClass {
+        print("SSSSS", this);
+        return this;
+    }
+
+}
+
+export class BigCalculator {
+    private value: int = 0;
+
+    constructor() {}
+
+    public setValue(newValue: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+        this.value = newValue;
+        return instance;
+    }
+
+    public add(value: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+        this.value = this.value + value;
+        return instance;
+    }
+
+    public subtract(value: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+        this.value = this.value - value;
+        return instance;
+    }
+
+    public multiply(value: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+        this.value = this.value * value;
+        return instance;
+    }
+
+    public getValue(): int {
+        return this.value;
+    }
 }
 
 export func BigFunction(): int {

@@ -43,6 +43,7 @@ bool IRExpressionNode::needsToBeFreed() {
            !this->isAssigned() &&
            !this->isReturned() &&
            !this->isOneOf({
+               IR_THIS_EXPRESSION_NODE,
                IR_IDENTIFIER_EXPRESSION_NODE,
                IR_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
                IR_OBJECT_ACCESS_EXPRESSION_NODE,

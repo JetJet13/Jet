@@ -20,6 +20,7 @@ public:
     EnumTypeSignature();
     explicit EnumTypeSignature(LiteralTypeSignature* type);
     EnumTypeSignature(LiteralTypeSignature* type, TypeSignatureMap<LiteralTypeSignature> keyValuePairs);
+    EnumTypeSignature* setKeyId(std::string id) override;
     TypeSignatureMap<LiteralTypeSignature>* getKeyValuePairs() override;
     LiteralTypeSignature* getTypeSignatureForKey(std::string key) override;
     LiteralTypeSignature* getTypeSignatureAtIndex(unsigned long index) override;

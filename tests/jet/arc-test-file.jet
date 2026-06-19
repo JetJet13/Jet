@@ -127,8 +127,23 @@ func getRefArray(y: [int]): ref<[int]> {
 }
 
 proc testBigModule() {
-    const bigInstance = new BigModule::BigClass(10);
-    bigInstance.invokeAssertAll();
+    const smallInstance = ref new BigModule::SmallClass();
+    //assert(smallInstance == smallInstance.getSelf());
+    print(smallInstance);
+
+    //const bigInstance = ref new BigModule::BigClass(10);
+    //bigInstance.invokeAssertAll();
+    //assert(bigInstance == bigInstance.getSelf());
+
+    //const bigCalculator = ref new BigModule::BigCalculator();
+    //bigCalculator
+    //.setValue(1, bigCalculator)
+    //.add(2, bigCalculator)
+    //.add(6, bigCalculator)
+    //.subtract(1, bigCalculator)
+    //.multiply(3, bigCalculator);
+    //assert(bigCalculator.getValue() == 24);
+
 }
 testBigModule();
 

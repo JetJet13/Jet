@@ -24,7 +24,6 @@ private:
     TypeSignatureMap<TypeSignature> _implements;
     TypeSignatureMap<TypeSignature> _interface;
     ParameterListItemTypeSignature* _classScopeParameter;
-    std::string stripClassNameFromKey(std::string key);
 public:
     ClassTypeSignature();
     ParameterListItemTypeSignature* getClassScopeParameter();
@@ -45,6 +44,7 @@ public:
     std::string getPreConstructorName();
     std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures);
     std::string addClassNameToKey(std::string key);
+    std::string stripClassNameFromKey(std::string key);
     TypeSignature* convertToVariableTypeSignature() override;
     std::string toDetailString() override;
     std::string toString() override;

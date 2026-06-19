@@ -20,6 +20,7 @@ class ArrayAccessInvocationExpressionIRStrategy;
 class StructExpressionIRStrategy;
 class UnaryExpressionIRStrategy;
 class TupleExpressionIRStrategy;
+class ThisExpressionIRStrategy;
 class IdentifierExpressionIRStrategy;
 class VariableDeclarationIRStrategy;
 class FunctionDeclarationIRStrategy;
@@ -102,6 +103,7 @@ private:
     StructExpressionIRStrategy* _structExpressionIRStrategy;
     UnaryExpressionIRStrategy* _unaryExpressionIRStrategy;
     TupleExpressionIRStrategy* _tupleExpressionIRStrategy;
+    ThisExpressionIRStrategy* _thisExpressionIRStrategy;
     IdentifierExpressionIRStrategy* _identifierExpressionIRStrategy;
     VariableDeclarationIRStrategy* _variableDeclarationIRStrategy;
     FunctionDeclarationIRStrategy* _functionDeclarationIRStrategy;
@@ -182,6 +184,7 @@ public:
     StructExpressionIRStrategy* getStructExpressionIRStrategy();
     UnaryExpressionIRStrategy* getUnaryExpressionIRStrategy();
     TupleExpressionIRStrategy* getTupleExpressionIRStrategy();
+    ThisExpressionIRStrategy* getThisExpressionIRStrategy();
     IdentifierExpressionIRStrategy* getIdentifierExpressionIRStrategy();
     VariableDeclarationIRStrategy* getVariableDeclarationIRStrategy();
     FunctionDeclarationIRStrategy* getFunctionDeclarationIRStrategy();

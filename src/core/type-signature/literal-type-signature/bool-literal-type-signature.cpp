@@ -3,7 +3,10 @@
 //
 
 #include "bool-literal-type-signature.h"
-#include "../../../shared/utils/logger/logger.h"
+
+LiteralTypeSignature* BoolLiteralTypeSignature::clone() {
+    return new BoolLiteralTypeSignature();
+}
 
 std::string BoolLiteralTypeSignature::toDetailString() {
     return "bool";

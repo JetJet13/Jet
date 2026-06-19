@@ -1,0 +1,18 @@
+//
+// Created by Johny Georges on 2026-06-15.
+//
+
+#ifndef JETLANG_THIS_EXPRESSION_IR_STRATEGY_H
+#define JETLANG_THIS_EXPRESSION_IR_STRATEGY_H
+
+#include <llvm/IR/Value.h>
+#include "../../../ir-generator.h"
+#include "../../../../ir-lookup-table/ir-lookup-table.h"
+#include "../../../../../core/ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
+
+class ThisExpressionIRStrategy {
+public:
+    IRExpressionNode* generate(ASTThisExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+};
+
+#endif //JETLANG_THIS_EXPRESSION_IR_STRATEGY_H

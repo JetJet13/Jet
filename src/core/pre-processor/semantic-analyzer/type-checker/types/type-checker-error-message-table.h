@@ -44,7 +44,7 @@ namespace TypeCheckerErrorMessageTable {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type is not ref type"); };
     }
     static ErrorMessageLambda ProcedureHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure cannot have return expression");  };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure cannot have a return statement");  };
     } 
     static ErrorMessageLambda ParameterTypeUnknown(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "parameter type is unknown"); };
@@ -125,7 +125,7 @@ namespace TypeCheckerErrorMessageTable {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class constructors must have unique parameter lists"); };
     }
     static ErrorMessageLambda ClassConstructorHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class constructor cannot have return expression"); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class constructor cannot have a return statement"); };
     }
     static ErrorMessageLambda ClassMethodReturnTypeUnknown(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class method return type is unknown"); };
@@ -140,7 +140,7 @@ namespace TypeCheckerErrorMessageTable {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not all class method paths return a value"); };
     }
     static ErrorMessageLambda ClassMethodHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class method cannot have return expression"); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class method cannot have a return statement because it has no return type"); };
     }
     static ErrorMessageLambda ClassDoesNotImplementInterface(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class does not satisfy interface it declared to implement"); };
@@ -188,7 +188,7 @@ namespace TypeCheckerErrorMessageTable {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "not all lambda expression paths return a value"); };
     }
     static ErrorMessageLambda LambdaExpressionHasReturnExpression(ASTNode* node) {
-      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "lambda expression cannot have return expression"); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "lambda expression cannot have a return statement"); };
     }
     static ErrorMessageLambda NewClassInstanceNotClassType(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "cannot instantiate new class instance since type is not a class type"); };

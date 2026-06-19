@@ -5,6 +5,10 @@
 #include "literal-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
+LiteralTypeSignature* LiteralTypeSignature::clone() {
+    return new LiteralTypeSignature();
+}
+
 bool LiteralTypeSignature::isLiteral() {
     return true;
 }

@@ -20,6 +20,7 @@
 #include "ir-strategies/expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/this-expression-ir-strategy/this-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/object-access-invocation-expression-ir-strategy/object-access-invocation-expression-ir-strategy.h"
@@ -295,6 +296,8 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate((ASTUnaryExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode*) node,  this, scope, irContext, irOperation);
+    } else if (node->is(AST_THIS_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getThisExpressionIRStrategy()->generate((ASTThisExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {

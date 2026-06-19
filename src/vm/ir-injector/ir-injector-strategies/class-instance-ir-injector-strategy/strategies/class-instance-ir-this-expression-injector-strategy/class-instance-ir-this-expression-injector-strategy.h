@@ -1,0 +1,21 @@
+//
+// Created by Johny Georges on 2026-06-15.
+//
+
+#ifndef JETLANG_CLASS_INSTANCE_IR_THIS_EXPRESSION_INJECTOR_STRATEGY_H
+#define JETLANG_CLASS_INSTANCE_IR_THIS_EXPRESSION_INJECTOR_STRATEGY_H
+
+#include "../../../../../ir-nodes/ir-block-nodes/ir-block-node.h"
+#include "../../../../ir-injector.h"
+#include "../../../../../types/ir-operation-type.h"
+#include "../../../../../ir-nodes/ir-expression-nodes/ir-this-expression-node.h"
+
+class ClassInstanceIRThisExpressionInjectorStrategy {
+private:
+    llvm::Value* injectCopy(IRThisExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* injectOperand(IRThisExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+public:
+    llvm::Value* inject(IRThisExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+};
+
+#endif //JETLANG_CLASS_INSTANCE_IR_THIS_EXPRESSION_INJECTOR_STRATEGY_H

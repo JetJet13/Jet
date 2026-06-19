@@ -3,7 +3,10 @@
 //
 
 #include "string-literal-type-signature.h"
-#include "../../../shared/utils/logger/logger.h"
+
+LiteralTypeSignature* StringLiteralTypeSignature::clone() {
+    return new StringLiteralTypeSignature();
+}
 
 std::string StringLiteralTypeSignature::toDetailString() {
     return "string";

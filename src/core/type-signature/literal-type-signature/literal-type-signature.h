@@ -9,6 +9,7 @@
 
 class LiteralTypeSignature : public TypeSignature {
 public:
+    virtual LiteralTypeSignature* clone();
     bool isLiteral() override;
     std::string toDetailString() override;
     std::string toString() override;

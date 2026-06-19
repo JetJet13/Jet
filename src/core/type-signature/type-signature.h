@@ -36,7 +36,7 @@ public:
     bool isPrototype();
     TypeSignature* setModuleId(std::string id);
     TypeSignature* setId(std::string id);
-    TypeSignature* setKeyId(std::string id);
+    virtual TypeSignature* setKeyId(std::string id);
     bool typeTargetIs(TypeSource other);
     bool typeSourceIs(TypeSource other);
     bool isOneOf(std::vector<TypeSource> typeSources);

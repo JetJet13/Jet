@@ -17,6 +17,7 @@ public:
     ClassInstanceTypeSignature(ClassTypeSignature* classTypeSignature);
     bool isEmpty();
     std::string getClassModuleId();
+    ClassTypeSignature* getClass();
     TypeSignatureMap<ClassPropertyTypeSignature>* getProperties();
     TypeSignatureMap<TypeSignature>* getKeyValuePairs() override;
     TypeSignature* getTypeSignatureForKey(std::string key) override;

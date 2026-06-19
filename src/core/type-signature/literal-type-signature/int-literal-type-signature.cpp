@@ -4,6 +4,10 @@
 
 #include "int-literal-type-signature.h"
 
+LiteralTypeSignature* IntLiteralTypeSignature::clone() {
+    return new IntLiteralTypeSignature();
+}
+
 std::string IntLiteralTypeSignature::toDetailString() {
     return "int";
 }

@@ -11,6 +11,7 @@
 
 class StringLiteralTypeSignature : public LiteralTypeSignature {
 public:
+    LiteralTypeSignature* clone() override;
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;

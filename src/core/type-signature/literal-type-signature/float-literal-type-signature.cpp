@@ -3,7 +3,10 @@
 //
 
 #include "float-literal-type-signature.h"
-#include "../../../shared/utils/logger/logger.h"
+
+LiteralTypeSignature* FloatLiteralTypeSignature::clone() {
+    return new FloatLiteralTypeSignature();
+}
 
 std::string FloatLiteralTypeSignature::toDetailString() {
     return "float";

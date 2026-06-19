@@ -21,6 +21,12 @@ EnumTypeSignature::EnumTypeSignature(LiteralTypeSignature* type, TypeSignatureMa
     _keyValuePairs = keyValuePairs;
 }
 
+EnumTypeSignature* EnumTypeSignature::setKeyId(std::string id) {
+    _type->setKeyId(id);
+    _keyId = id;
+    return this;
+}
+
 TypeSignatureMap<LiteralTypeSignature>* EnumTypeSignature::getKeyValuePairs() {
     return &_keyValuePairs;
 }

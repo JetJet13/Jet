@@ -15,6 +15,7 @@
 #include "strategies/class-instance-ir-tuple-access-expression-injector-strategy/class-instance-ir-tuple-access-expression-injector-strategy.h"
 #include "strategies/class-instance-ir-array-access-expression-injector-strategy/class-instance-ir-array-access-expression-injector-strategy.h"
 #include "strategies/class-instance-ir-dref-expression-injector-strategy/class-instance-ir-dref-expression-injector-strategy.h"
+#include "strategies/class-instance-ir-this-expression-injector-strategy/class-instance-ir-this-expression-injector-strategy.h"
 
 
 class ClassInstanceIRInjectorStrategy : public IRInjectorStrategy {
@@ -24,6 +25,7 @@ private:
     ClassInstanceIRTupleAccessExpressionInjectorStrategy _tupleAccessExpressionInjector = ClassInstanceIRTupleAccessExpressionInjectorStrategy();
     ClassInstanceIRArrayAccessExpressionInjectorStrategy _arrayAccessExpressionInjector = ClassInstanceIRArrayAccessExpressionInjectorStrategy();
     ClassInstanceIRDrefExpressionInjectorStrategy _drefExpressionInjector = ClassInstanceIRDrefExpressionInjectorStrategy();
+    ClassInstanceIRThisExpressionInjectorStrategy _thisExpressionInjector = ClassInstanceIRThisExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
     llvm::Value* inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);

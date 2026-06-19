@@ -43,12 +43,12 @@ void ClassIRInjectorStrategy::injectPreConstructor(IRClassPreConstructorNode* ir
     for (auto keyValue : *irClassPreConstructorNode->getExpressions()) {
             auto pointerToProperty = preConstructorBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getStructIRType()->getType(), classInstancePropertiesStructAlloc, keyValue.first);
             auto irExpressionValue = irInjector->inject(preConstructorBlock, keyValue.second, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, preConstructorScope);
-            InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, preConstructorBlock);
+            InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, preConstructorBlock, classInstanceIrType->getStructIRType()->getIRTypeByIndex(keyValue.first));
     }
 
     for (auto keyValue : *irClassPreConstructorNode->getInitializers()) {
         auto pointerToProperty = preConstructorBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getStructIRType()->getType(), classInstancePropertiesStructAlloc, keyValue.first);
-        InstructionIRInjectorHelper::injectStore(keyValue.second, pointerToProperty, preConstructorBlock);
+        InstructionIRInjectorHelper::injectStore(keyValue.second, pointerToProperty, preConstructorBlock, classInstanceIrType->getStructIRType()->getIRTypeByIndex(keyValue.first));
     }
     irClassPreConstructorNode->getBlock()->addVoidReturn();
 }

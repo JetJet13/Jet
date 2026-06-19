@@ -23,6 +23,10 @@ std::string ClassInstanceTypeSignature::getClassModuleId() {
     return _class->getModuleId();
 }
 
+ClassTypeSignature* ClassInstanceTypeSignature::getClass() {
+    return _class;
+}
+
 TypeSignatureMap<ClassPropertyTypeSignature>* ClassInstanceTypeSignature::getProperties() {
     return _class->getInstanceProperties();
 }

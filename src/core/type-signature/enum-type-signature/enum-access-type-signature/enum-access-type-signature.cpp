@@ -19,7 +19,10 @@ std::string EnumAccessTypeSignature::getKey() {
 }
 
 TypeSignature* EnumAccessTypeSignature::convertToVariableTypeSignature() {
-    return _enum;
+    auto enumTypeSignature = new EnumTypeSignature(_enum->getType()->clone(), *_enum->getKeyValuePairs());
+    enumTypeSignature->setId(_enum->getId());
+    enumTypeSignature->setKeyId(this->getKeyId());
+    return enumTypeSignature;
 }
 
 std::string EnumAccessTypeSignature::toDetailString() {
