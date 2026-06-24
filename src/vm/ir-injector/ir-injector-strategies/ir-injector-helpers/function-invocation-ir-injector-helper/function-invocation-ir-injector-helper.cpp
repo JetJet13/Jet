@@ -41,7 +41,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
                     varArgsArrayAllocation,
                     { index }
             );
-            auto typeValue = irInjector->inject(irBlock, argument->getArgument()->getIRType()->getSourceType());
+            auto typeValue = irInjector->inject(irBlock, argument->getArgument()->getIRType()->getSourceType(), irModule);
             auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), typeValue, irBlock, typeValueType);
             InstructionIRInjectorHelper::injectStore(loadedTypeValue, pointerToTypeValue, irBlock);
         }
@@ -158,7 +158,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayPrototypeInvocati
     auto arrayValue = irInjector->inject(irBlock, irExpression->getIRArrayValue(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     irExpression->getValue()->setArgOperand(0, arrayValue);
     if (irExpression->requiresTypeValueArgument()) {
-        auto arrayTypeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getUnderlyingType());
+        auto arrayTypeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getUnderlyingType(), irModule);
         auto loadedArrayTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRArrayValue()->getIRType()->getUnderlyingType()->getValue()->getAllocatedType(), arrayTypeValue, irBlock);
         irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, loadedArrayTypeValue);
     }

@@ -18,7 +18,7 @@ void TupleAccessAssignmentIRInjectorStrategy::inject(IRTupleAccessAssignmentStat
             );
     auto irType = irTupleAccessAssignmentStatement->getIRTupleAccessExpression()->getIRType()->getSourceType();
     if (irType->containsTypeThatRequiresFreeing()) {
-        auto typeValue = irInjector->inject(irBlock, irType->clone());
+        auto typeValue = irInjector->inject(irBlock, irType, irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction(),

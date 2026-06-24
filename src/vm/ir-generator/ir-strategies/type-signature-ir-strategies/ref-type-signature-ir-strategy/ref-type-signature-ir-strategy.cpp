@@ -8,7 +8,6 @@
 IRRefType* RefTypeSignatureIRStrategy::generate(RefTypeSignature* refTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto underlyingIRType = irGenerator->generateTypeFor(refTypeSignature->getUnderlyingType(), scope, irContext);
     auto irRefType = irGenerator->generateIrRefType(underlyingIRType);
-    irRefType->setKeyId(refTypeSignature->getKeyId());
     irRefType->setValue(this->generateTypeValue(irRefType, irGenerator, irContext));
     return irRefType;
 }
@@ -21,9 +20,7 @@ IRTypeValueInstructionNode* RefTypeSignatureIRStrategy::generateTypeValue(IRRefT
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
-            irType->hasKeyId()
-            ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
-            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);

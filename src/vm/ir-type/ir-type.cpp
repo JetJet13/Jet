@@ -57,25 +57,12 @@ void IRType::setModuleId(std::string id) {
     _moduleId = id;
 }
 
-std::string IRType::getKeyId() {
-    return _keyId;
-}
-
-bool IRType::hasKeyId() {
-    return !_keyId.empty();
-}
-
-void IRType::setKeyId(std::string id) {
-    _keyId = id;
-}
-
 void IRType::setValue(IRTypeValueInstructionNode* value) {
     _value = value;
 }
 
 void IRType::initClone(IRType* irType) {
     irType->setId(_id);
-    irType->setKeyId(_keyId);
     if (_alignmentOverride) {
         irType->setAlignmentOverride(_alignmentOverride.value());
     }

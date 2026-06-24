@@ -21,7 +21,7 @@ IREnumType* IREnumType::clone() {
     for (auto keyValue : _keyTypeMap) {
         keyTypeMapClone[keyValue.first] = keyValue.second->clone();
     }
-    auto clone = new IREnumType(_type, _keyIndexMap, keyTypeMapClone);
+    auto clone = new IREnumType(_type, _keyIndexMap, _keyIdMap, keyTypeMapClone);
     this->initClone(clone);
     return clone;
 }

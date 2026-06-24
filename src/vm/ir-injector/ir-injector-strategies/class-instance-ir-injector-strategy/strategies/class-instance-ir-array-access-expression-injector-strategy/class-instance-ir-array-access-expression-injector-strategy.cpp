@@ -18,7 +18,7 @@ llvm::Value* ClassInstanceIRArrayAccessExpressionInjectorStrategy::injectCopy(IR
     auto arrayPointerIRType = (IRArrayPointerType*)irExpression->getSourceExpression()->getUnderlyingIRType();
     auto elementIRType = arrayPointerIRType->getElementIRType();
     auto pointerAtIndex = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irExpression, irModule, irInjector, scope);
-    auto typeValue = irInjector->inject(irBlock, elementIRType);
+    auto typeValue = irInjector->inject(irBlock, elementIRType, irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(elementIRType->getValue()->getAllocatedType(), typeValue, irBlock);
     auto sourceAlloc = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
     irBlock->getBuilder()->get()->CreateCall(

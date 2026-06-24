@@ -191,9 +191,8 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
     _genericClassInstanceIRType = new IRClassInstanceType(
         new IRClassType(
             "generic_class",
-            this->generateIRStructType()
-        ),
-        this->generateIRStructRefType()
+            this->generateIRStructRefType()
+        )
     );
 }
 
@@ -914,6 +913,7 @@ IRStructType* IRGenerator::generateIRStructType() {
     return new IRStructType(
             llvm::StructType::get(*_context),
             std::unordered_map<std::string, unsigned long>(),
+            std::unordered_map<unsigned long, std::string>(),
             std::unordered_map<std::string, IRType*>()
     );
 }

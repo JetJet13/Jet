@@ -14,7 +14,7 @@ llvm::Value* ModuleAccessIRInjectorHelper::inject(IRModuleAccessExpressionNode* 
     if (irOperation->isCopy() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         auto irType = irExpression->getIRType();
         auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
-        auto typeValue = irInjector->inject(irBlock, irType);
+        auto typeValue = irInjector->inject(irBlock, irType, irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getCopyValueFunction(),

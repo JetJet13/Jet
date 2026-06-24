@@ -8,7 +8,7 @@
 llvm::Value* ArrayIRConcatExpressionInjectorStrategy::inject(IRConcatExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irLeftValue = irInjector->inject(irBlock, irExpression->getLeftNode(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto irRightValue = irInjector->inject(irBlock, irExpression->getRightNode(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto irTypeValue = irInjector->inject(irBlock, irExpression->getIRType());
+    auto irTypeValue = irInjector->inject(irBlock, irExpression->getIRType(), irModule);
     auto loadedIRTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getValue()->getAllocatedType(), irTypeValue, irBlock);
     irExpression->getValue()->setArgOperand(0, irLeftValue);
     irExpression->getValue()->setArgOperand(1, irRightValue);

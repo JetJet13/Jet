@@ -12,7 +12,7 @@ llvm::Value* PointerIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierE
         auto irArrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();
         auto loadedUnderlyingPointer = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), irExpression->getValue(), irBlock);
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
-        auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
+        auto typeValue = irInjector->inject(irBlock, irArrayPointerType, irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(irModule->getCopyArrayFunction(), { destinationPointerAllocation, loadedUnderlyingPointer, loadedTypeValue });
         auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());

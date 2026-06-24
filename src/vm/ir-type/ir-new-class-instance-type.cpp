@@ -69,9 +69,8 @@ llvm::Align IRNewClassInstanceType::getAlignment() {
 }
 
 IRNewClassInstanceType* IRNewClassInstanceType::clone() {
-    auto classClone = _irClassType->clone();
     auto classPropertiesClone = _irClassInstancePropertiesType->clone();
-    auto clone = new IRNewClassInstanceType(classClone, _constructorId, classPropertiesClone);
+    auto clone = new IRNewClassInstanceType(_irClassType, _constructorId, classPropertiesClone);
     this->initClone(clone);
     return clone;
 }

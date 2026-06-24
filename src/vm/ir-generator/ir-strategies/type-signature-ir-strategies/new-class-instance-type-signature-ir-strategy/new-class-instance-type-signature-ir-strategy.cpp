@@ -7,22 +7,21 @@
 IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(NewClassInstanceTypeSignature* newClassInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
+    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (auto keyValue : newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
+        auto index = newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->findKeyIndex(keyValue.first);
         classPropertyTypes.push_back(irType->getType());
-        keyIndexMap.insert(
-            std::pair(keyValue.first, newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->findKeyIndex(keyValue.first))
-        );
+        keyIndexMap.insert(std::pair(keyValue.first, index));
+        keyIdMap.insert(std::pair(index, newClassInstanceTypeSignature->getClassTypeSignature()->stripClassNameFromKey(keyValue.first)));
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
-    auto classInstanceProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyTypeMap);
+    auto classInstanceProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
     classInstanceProperties->setAlignmentAndSizeForIRTypes();
-    classInstanceProperties->setKeyId(newClassInstanceTypeSignature->getKeyId());
     classInstanceProperties->setId(newClassInstanceTypeSignature->getClassTypeSignature()->getId());
     classInstanceProperties->setValue(irGenerator->generateIRTypeValueFor(classInstanceProperties, irContext));
     auto classInstancePropertiesPointerType = irGenerator->generateIRStructRefType(classInstanceProperties);
-    classInstancePropertiesPointerType->setKeyId(newClassInstanceTypeSignature->getKeyId());
     classInstancePropertiesPointerType->setId(newClassInstanceTypeSignature->getClassTypeSignature()->getId());
     classInstancePropertiesPointerType->setValue(irGenerator->generateIRTypeValueFor(classInstancePropertiesPointerType, irContext));
 
@@ -33,6 +32,5 @@ IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(NewCla
         classInstancePropertiesPointerType
     );
     irType->setId(newClassInstanceTypeSignature->getClassTypeSignature()->getId());
-    irType->setKeyId(newClassInstanceTypeSignature->getKeyId());
     return irType;
 }

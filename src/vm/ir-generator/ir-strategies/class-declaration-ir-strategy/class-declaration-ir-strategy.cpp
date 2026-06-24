@@ -90,7 +90,7 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
     auto initialPropertyConstants = new std::vector<std::pair<unsigned long, llvm::Constant*>>();
     for (int i = 0; i < node->getBlock()->getInstanceProperties()->size(); ++i) {
         auto property = node->getBlock()->getInstanceProperties()->at(i);
-        auto propertyIndex = irClassType->getClassProperties()->getIndexForKey(property->getId());
+        auto propertyIndex = irClassType->getClassProperties()->getStructIRType()->getIndexForKey(property->getId());
         if (property->getInitializer()) {
             auto irExpression = irGenerator->generateFor(property->getInitializer().value(), functionBlock->getScope(), irContext, new IROperation(IR_OPERAND_VALUE_OP));
             irExpression->markAsAssigned();

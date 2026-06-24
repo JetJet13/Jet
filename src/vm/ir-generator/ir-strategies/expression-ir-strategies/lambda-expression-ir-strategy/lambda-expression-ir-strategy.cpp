@@ -102,7 +102,7 @@ llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(IRLamb
             auto key = lambdaScopeArgumentType->getKeyForIndex(i);
             auto irType = lambdaScopeArgumentType->getIRTypeForKey(key);
             auto pointerToCapturedVariable = functionBlock->getBuilder()->get()->CreateStructGEP(lambdaScopeArgumentType->getType(), irFunction->getArg(0), i);
-            auto typeValue = irGenerator->getInjector()->inject(functionBlock, irType);
+            auto typeValue = irGenerator->getInjector()->inject(functionBlock, irType, irContext->getIRModule());
             auto capturedVariableTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), typeValue, functionBlock);
             functionBlock->getBuilder()->get()->CreateCall(
                 irContext->getIRModule()->getFreeCapturedVariableFunction(),

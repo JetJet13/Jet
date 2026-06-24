@@ -11,16 +11,18 @@ IRType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignatu
 IREnumType* EnumTypeSignatureIRStrategy::generate(EnumTypeSignature* enumTypeSignature, std::vector<llvm::Constant*> enumValues, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto enumPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
+    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (unsigned long i = 0; i < enumTypeSignature->getKeyValuePairs()->size(); ++i) {
         auto enumPropertyType = irGenerator->generateTypeFor(enumValues[i]);
         enumPropertyTypes.push_back(enumPropertyType->getType());
         auto enumKey = enumTypeSignature->getKeyValuePairs()->getKeyValues()[i].first;
         keyIndexMap.insert(std::pair(enumKey, i));
+        keyIdMap.insert(std::pair(i, enumKey));
         keyTypeMap.insert(std::pair(enumKey, enumPropertyType));
     }
 
-    auto irType = new IREnumType(llvm::StructType::get(**irContext->getContext(), enumPropertyTypes), keyIndexMap, keyTypeMap);
+    auto irType = new IREnumType(llvm::StructType::get(**irContext->getContext(), enumPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
     irType->setId(enumTypeSignature->getId());
     return irType;
 }

@@ -15,6 +15,13 @@ ASTClassPropertyAccessNode* ASTClassPropertyAccessExpressionNode::getPropertyAcc
     return _propertyAccess;
 }
 
+std::string ASTClassPropertyAccessExpressionNode::getPropertyName() {
+    auto className = _propertyAccess->getClassAccess()->getThis()->getId();
+    auto propertyName = _propertyAccess->getPropertyName()->getId();
+    propertyName.erase(0, className.size() + 1);
+    return propertyName;
+}
+
 Position* ASTClassPropertyAccessExpressionNode::getStartPosition() {
     return _propertyAccess->getStartPosition();
 }

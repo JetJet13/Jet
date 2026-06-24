@@ -6,9 +6,10 @@
 #include "../../shared/utils/logger/logger.h"
 #include "ir-struct-ref-type.h"
 
-IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<std::string, IRType*> keyTypeMap) : IRType(type) {
+IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<unsigned long, std::string> keyIdMap, std::unordered_map<std::string, IRType*> keyTypeMap) : IRType(type) {
     _type = type;
     _keyIndexMap = keyIndexMap;
+    _keyIdMap = keyIdMap;
     _keyTypeMap = keyTypeMap;
 }
 
@@ -95,6 +96,15 @@ std::string IRStructType::getKeyForIndex(unsigned long index) {
     throw std::logic_error("no key found for index: " + std::to_string(index));
 }
 
+std::string IRStructType::getKeyIdForIndex(unsigned long index) {
+    for (const auto& keyValue : _keyIdMap) {
+        if (keyValue.first == index) {
+            return keyValue.second;
+        }
+    }
+    throw std::logic_error("no key id found for index: " + std::to_string(index));
+}
+
 unsigned long IRStructType::getIndexForKey(std::string key) {
     auto result = _keyIndexMap.find(key);
     if (result == _keyIndexMap.end()) {
@@ -139,13 +149,13 @@ IRStructType* IRStructType::clone() {
     for (auto keyValue : _keyTypeMap) {
         keyTypeMapClone[keyValue.first] = keyValue.second->clone();
     }
-    auto clone = new IRStructType(_type, _keyIndexMap, keyTypeMapClone);
+    auto clone = new IRStructType(_type, _keyIndexMap, _keyIdMap, keyTypeMapClone);
     this->initClone(clone);
     return clone;
 }
 
 void IRStructType::print() {
-    Logger::log("IR STRUCT TYPE", this->getId(), this->getKeyId());
+    Logger::log("IR STRUCT TYPE", this->getId());
     llvm::outs().write_escaped("|");
     _type->print(llvm::outs(), true, true);
     llvm::outs().write_escaped("|");

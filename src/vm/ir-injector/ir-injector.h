@@ -98,9 +98,10 @@ public:
     void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
     void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
     void inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRBlockNode* irBlock, IRType* irType);
+    llvm::Value* inject(IRBlockNode* irBlock, IRType* irType, std::shared_ptr<IRModuleNode> irModule);
     llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
     void injectVoidReturnType(IRBlockNode* irBlock);
+    llvm::Value* injectStringGlobalVariable(IRBlockNode* irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule);
     llvm::AllocaInst* injectRawString(IRBlockNode* irBlock, std::string rawString);
 };
 

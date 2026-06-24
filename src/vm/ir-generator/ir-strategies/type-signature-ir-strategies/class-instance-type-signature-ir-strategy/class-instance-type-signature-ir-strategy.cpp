@@ -10,14 +10,8 @@ IRClassInstanceType* ClassInstanceTypeSignatureIRStrategy::generate(ClassInstanc
         return irGenerator->getGenericClassInstanceIRType();
     }
     auto irClassType = (IRClassType*)scope->findGlobalType(classInstanceTypeSignature->getClassModuleId(), classInstanceTypeSignature->getId()).value();
-    auto classInstanceProperties = irClassType->getClassProperties()->clone();
-    classInstanceProperties->setAlignmentAndSizeForIRTypes();
-    classInstanceProperties->setKeyId(classInstanceTypeSignature->getKeyId());
-    classInstanceProperties->setId(classInstanceTypeSignature->getId());
-    classInstanceProperties->setValue(irGenerator->generateIRTypeValueFor(classInstanceProperties, irContext));
-    auto classInstancePropertiesPointerType = irGenerator->generateIRStructRefType(classInstanceProperties);
-    classInstancePropertiesPointerType->setKeyId(classInstanceTypeSignature->getKeyId());
-    classInstancePropertiesPointerType->setId(classInstanceTypeSignature->getId());
-    classInstancePropertiesPointerType->setValue(irGenerator->generateIRTypeValueFor(classInstancePropertiesPointerType, irContext));
-    return new IRClassInstanceType(irClassType, classInstancePropertiesPointerType);
+    auto irType = new IRClassInstanceType(irClassType);
+    irType->setId(classInstanceTypeSignature->getClass()->getId());
+    irType->setValue(irGenerator->generateIRTypeValueFor(irClassType->getClassProperties(), irContext));
+    return irType;
 }

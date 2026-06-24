@@ -28,7 +28,7 @@ void RefValueAssignmentIRInjectorStrategy::inject(IRRefValueAssignmentStatementN
     InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
     if (globalVariable) {
         auto irRefType = (IRRefType*)globalVariable.value()->getIRType()->getSourceType();
-        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType());
+        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
             irModule->getSetRefValueFunction(),
@@ -37,7 +37,7 @@ void RefValueAssignmentIRInjectorStrategy::inject(IRRefValueAssignmentStatementN
     } else {
         auto variable = scope->find(irRefValueAssignmentStatement->getVariableName()).value();
         auto irRefType = (IRRefType*)variable->getIRType()->getSourceType();
-        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType());
+        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
         DebugIRInjectorHelper::injectLog(irBlock, "REF VALUE ASSIGNMENT - FREEING CURRENT VALUE", irInjector, irModule);
         irBlock->getBuilder()->get()->CreateCall(

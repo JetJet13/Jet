@@ -9,6 +9,7 @@
 IRStructRefType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto tupleElementTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
+    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (unsigned long i = 0; i < tupleTypeSignature->size(); ++i) {
         auto tupleElement = tupleTypeSignature->getTypeSignatureAtIndex(i);
@@ -16,15 +17,14 @@ IRStructRefType* TupleTypeSignatureIRStrategy::generate(TupleTypeSignature* tupl
         tupleElementTypes.push_back(tupleElementIrType->getType());
         auto key = std::to_string(i);
         keyIndexMap.insert(std::pair(key, i));
+        keyIdMap.insert(std::pair(i, key));
         keyTypeMap.insert(std::pair(key, tupleElementIrType));
     }
 
-    auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), tupleElementTypes), keyIndexMap, keyTypeMap);
+    auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), tupleElementTypes), keyIndexMap, keyIdMap, keyTypeMap);
     structType->setAlignmentAndSizeForIRTypes();
-    structType->setKeyId(tupleTypeSignature->getKeyId());
     structType->setValue(irGenerator->generateIRTypeValueFor(structType, irContext));
     auto structRefType = irGenerator->generateIRStructRefType(structType);
-    structRefType->setKeyId(tupleTypeSignature->getKeyId());
     structRefType->setValue(irGenerator->generateIRTypeValueFor(structRefType, irContext));
     return structRefType;
 }

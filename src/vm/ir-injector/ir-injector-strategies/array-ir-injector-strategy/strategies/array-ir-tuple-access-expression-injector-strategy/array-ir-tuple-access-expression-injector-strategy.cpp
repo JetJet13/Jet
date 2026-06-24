@@ -22,7 +22,7 @@ llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAcc
     auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, arrayAccessAllocation);
     auto alloc = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
-    auto typeValue = irInjector->inject(irBlock, irArrayPointerType);
+    auto typeValue = irInjector->inject(irBlock, irArrayPointerType, irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyArrayFunction(),

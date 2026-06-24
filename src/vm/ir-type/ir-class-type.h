@@ -5,13 +5,13 @@
 #ifndef JETLANG_IR_CLASS_TYPE_H
 #define JETLANG_IR_CLASS_TYPE_H
 
-#include "ir-struct-type.h"
+#include "ir-struct-ref-type.h"
 #include "ir-function-type.h"
 #include "ir-parameter-type.h"
 
 class IRClassType : public IRType {
 private:
-    IRStructType* _classProperties;
+    IRStructRefType* _classProperties;
     std::optional<IRParameterType*> _classScopeType;
     std::unordered_map<std::string, IRFunctionType*> _classConstructors;
     std::unordered_map<std::string, IRFunctionType*> _classMethods;
@@ -20,8 +20,8 @@ private:
     std::string _preConstructorName;
     std::string _name;
 public:
-    IRClassType(std::string name, IRStructType* classProperties, std::string preConstructorName = "");
-    IRClassType(std::string name, IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::unordered_map<std::string, IRFunctionType*> classStaticMethods, std::unordered_map<std::string, IRType*> classStaticProperties, std::string preConstructorName = "");
+    IRClassType(std::string name, IRStructRefType* classProperties, std::string preConstructorName = "");
+    IRClassType(std::string name, IRStructRefType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::unordered_map<std::string, IRFunctionType*> classStaticMethods, std::unordered_map<std::string, IRType*> classStaticProperties, std::string preConstructorName = "");
     std::optional<IRParameterType*> getClassScopeParameterType();
     std::optional<IRFunctionType*> getIRTypeForConstructor(std::string constructorId);
     std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
@@ -30,15 +30,16 @@ public:
     std::string getIRMethodName(std::string methodName);
     std::string getIRPropertyName(std::string propertyName);
     llvm::Type* getValueType();
-    IRStructType* getClassProperties();
+    IRStructRefType* getClassProperties();
     std::string getPreConstructorName();
     std::string getName();
-    void setProperties(IRStructType* classProperties);
+    void setProperties(IRStructRefType* classProperties);
     void setClassScopeType(std::optional<IRParameterType*> classScopeType);
     void addStaticProperty(std::string staticPropertyName, IRType* irType);
     void addMethod(std::string methodName, IRFunctionType* irType);
     void addStaticMethod(std::string methodName, IRFunctionType* irType);
     void addConstructor(std::string constructorName, IRFunctionType* irType);
+    std::string stripClassNameFromKey(std::string key);
     llvm::Type* getType() override;
     bool isClassType() override;
     bool containsTypeThatRequiresFreeing() override;

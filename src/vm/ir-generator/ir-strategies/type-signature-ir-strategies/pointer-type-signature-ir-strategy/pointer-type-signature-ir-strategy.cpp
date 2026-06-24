@@ -8,7 +8,6 @@
 IRPointerType* PointerTypeSignatureIRStrategy::generate(PointerTypeSignature* pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto underlyingIRType = irGenerator->generateTypeFor(pointerTypeSignature->getUnderlyingType(), scope, irContext);
     auto irPointerType = IRPointerType::create(underlyingIRType);
-    irPointerType->setKeyId(pointerTypeSignature->getKeyId());
     irPointerType->setValue(this->generateTypeValue(irPointerType, irGenerator));
     return irPointerType;
 }

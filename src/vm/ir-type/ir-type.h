@@ -17,7 +17,6 @@ class IRType {
 protected:
     std::string _moduleId;
     std::string _id;
-    std::string _keyId;
     llvm::Type* _type;
     std::optional<IRTypeValueInstructionNode*> _value;
     std::optional<llvm::Align> _alignmentOverride;
@@ -36,9 +35,6 @@ public:
     bool hasId();
     void setId(std::string id);
     void setModuleId(std::string id);
-    std::string getKeyId();
-    bool hasKeyId();
-    void setKeyId(std::string id);
     void setValue(IRTypeValueInstructionNode* value);
     virtual IRTypeValueInstructionNode* getValue();
     void setSizeInBytesOverride(unsigned long sizeInBytes);

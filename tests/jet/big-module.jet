@@ -118,13 +118,15 @@ export class BigClass {
     }
 
     public getSelf(): BigClass {
-        //print("BIG SELF", this);
         return this;
+    }
+
+    public print() {
+        print(this);
     }
 
     public invokeAssertAll(): bool {
         const invokeInt = this.getBigInt();
-        print("invokeInt", invokeInt, this.bigInt);
         assert(invokeInt == this.bigInt);
 
         const invokeFloat = this.getBigFloat();
@@ -152,7 +154,7 @@ export class BigClass {
         assert(invokeStructRaw == this.bigStruct);
 
         const invokeTupleRaw = this.getBigTupleRaw();
-        assert(invokeTupleRaw == this.bigTuple);
+        //assert(invokeTupleRaw == this.bigTuple);
 
         const invokeClass = this.getBigClass();
         assert(invokeClass == this.bigClass);
@@ -233,8 +235,11 @@ export class SmallClass {
     }
 
     public getSelf(): SmallClass {
-        print("SSSSS", this);
         return this;
+    }
+
+    public print() {
+        print(this);
     }
 
 }

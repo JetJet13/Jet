@@ -169,8 +169,8 @@ void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_p
     _blockIRInjectorStrategy->inject(irNode, irBlock, this, irModule);
 }
 
-llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType) {
-    return _typeValueIRInjectorStrategy->inject(irType, irBlock);
+llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType, std::shared_ptr<IRModuleNode> irModule) {
+    return _typeValueIRInjectorStrategy->inject(irType, irBlock, this, irModule);
 }
 
 llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
@@ -191,17 +191,25 @@ void IRInjector::injectVoidReturnType(IRBlockNode* irBlock) {
     irBlock->getBuilder()->get()->CreateRet(irBlock->getBuilder()->get()->getInt64(0));
 }
 
-llvm::AllocaInst* IRInjector::injectRawString(IRBlockNode* irBlock, std::string rawString) {
-    auto chars = std::vector<llvm::Constant*>();
-    for (auto character : rawString) {
-        chars.push_back(irBlock->getBuilder()->get()->getInt8(character));
+llvm::Value* IRInjector::injectStringGlobalVariable(IRBlockNode* irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule) {
+    auto existingStringGlobalVariable = irModule->getModule()->get()->getGlobalVariable(id);
+    if (existingStringGlobalVariable != nullptr) {
+        return existingStringGlobalVariable;
     }
-    chars.push_back(irBlock->getBuilder()->get()->getInt8('\0'));
-    auto stringArrayType = llvm::ArrayType::get(irBlock->getBuilder()->get()->getInt8Ty(), chars.size());
-    auto irString = llvm::ConstantArray::get(
-            stringArrayType,
-            llvm::ArrayRef(chars)
+    auto irString = llvm::ConstantDataArray::getString(irModule.get()->getModule()->get()->getContext(), rawString);
+    auto stringGlobalVariable = new llvm::GlobalVariable(
+            *irModule->getModule()->get(),
+            irString->getType(),
+            true,
+            llvm::GlobalValue::LinkOnceAnyLinkage,
+            irString,
+            id
     );
+    return stringGlobalVariable;
+}
+
+llvm::AllocaInst* IRInjector::injectRawString(IRBlockNode* irBlock, std::string rawString) {
+    auto irString = llvm::ConstantDataArray::getString(irBlock->getBuilder()->get()->getContext(), rawString);
     auto alloca = irBlock->getBuilder()->get()->CreateAlloca(irString->getType());
     irBlock->getBuilder()->get()->CreateStore(irString, alloca);
     return alloca;

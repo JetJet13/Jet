@@ -11,7 +11,6 @@ IRInvocableType* LambdaTypeSignatureIRStrategy::generate(LambdaTypeSignature* la
     auto irFunction = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false)));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();
     auto irInvocableType = new IRInvocableType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterTypes, returnType);
-    irInvocableType->setKeyId(lambdaTypeSignature->getKeyId());
     irInvocableType->setValue(this->generateTypeValue(irInvocableType, irGenerator, irContext));
     return irInvocableType;
 }
@@ -30,7 +29,6 @@ IRLambdaType* LambdaTypeSignatureIRStrategy::generate(LambdaExpressionTypeSignat
     auto irFunction = IRPointerType::create(new IRFunctionType(functionType));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();
     auto irInvocableType = new IRInvocableType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterList, returnType);
-    irInvocableType->setKeyId(lambdaExpressionTypeSignature->getKeyId());
     irInvocableType->setValue(this->generateTypeValue(irInvocableType, irGenerator, irContext));
     auto irLambdaType = new IRLambdaType(
         functionType,
@@ -61,9 +59,7 @@ IRTypeValueInstructionNode* LambdaTypeSignatureIRStrategy::generateTypeValue(IRI
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1 + irType->getParameters()->getParameters()->size()), // return type + # of parameters
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
-            irType->hasKeyId()
-            ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
-            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, typeValueTypeAllocation, irTypeValueType);

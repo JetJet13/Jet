@@ -106,7 +106,7 @@ void FreeIRInjectorHelper::freeVariable(IRBlockNode* irBlockNode, IRVariableDecl
         );
         return;
     }
-    auto typeValue = irInjector->inject(irBlockNode, variableToFree->getAllocatedIRType()->clone());
+    auto typeValue = irInjector->inject(irBlockNode, variableToFree->getAllocatedIRType(), irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variableToFree->getIRValue()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
     DebugIRInjectorHelper::injectLog(irBlockNode, "[free-var] " + variableToFree->getVariableName() + " - " + irBlockNode->getBlock()->getParent()->getName().str(), irInjector, irModule);
     irBlockNode->getBuilder()->get()->CreateCall(
@@ -134,7 +134,7 @@ void FreeIRInjectorHelper::freeExpression(IRBlockNode* irBlockNode, IRExpression
         irBlockNode->getBuilder()->get()->CreateCall(irModule->getFreeInvocableFunction(), { invocableValue });
         return;
     }
-    auto typeValue = irInjector->inject(irBlockNode, expressionToFree->getIRType()->getSourceType()->clone());
+    auto typeValue = irInjector->inject(irBlockNode, expressionToFree->getIRType()->getSourceType(), irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(expressionToFree->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlockNode);
     auto value = expressionToFree->getSourceAllocation().has_value()
                  ? expressionToFree->getSourceAllocation().value()->getValue()
@@ -165,7 +165,7 @@ void FreeIRInjectorHelper::freeFunctionParameters(IRBlockNode* irBlockNode, IRFu
                         }
                 );
             } else if (parameter->needsToBeFreed()) {
-                auto typeValue = irInjector->inject(childBlock, parameter->getParameterType()->getIRType()->clone());
+                auto typeValue = irInjector->inject(childBlock, parameter->getParameterType()->getIRType(), irModule);
                 auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(
                         parameter->getParameterType()->getIRType()->getValue()->getAllocatedType(), typeValue,
                         childBlock

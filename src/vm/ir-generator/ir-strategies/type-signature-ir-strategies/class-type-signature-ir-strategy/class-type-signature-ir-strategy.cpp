@@ -9,18 +9,21 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getModuleId(), classTypeSignature->getId()).value();
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
+    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, IRType*>();
     for (auto keyValue : classTypeSignature->getInstanceProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
+        auto index = classTypeSignature->getInstanceProperties()->findKeyIndex(keyValue.first);
         classPropertyTypes.push_back(irType->getType());
-        keyIndexMap.insert(
-                std::pair(keyValue.first, classTypeSignature->getInstanceProperties()->findKeyIndex(keyValue.first))
-        );
+        keyIndexMap.insert(std::pair(keyValue.first, index));
+        keyIdMap.insert(std::pair(index, classTypeSignature->stripClassNameFromKey(keyValue.first)));
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
-    auto classProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyTypeMap);
+    auto classProperties = irGenerator->generateIRStructRefType(new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap));
     classProperties->setId(classTypeSignature->getId());
-    classProperties->setAlignmentAndSizeForIRTypes();
+    classProperties->getStructIRType()->setId(classTypeSignature->getId());
+    classProperties->getStructIRType()->setAlignmentAndSizeForIRTypes();
+    classProperties->getStructIRType()->setValue(irGenerator->generateIRTypeValueFor(classProperties->getStructIRType(), irContext));
     classProperties->setValue(irGenerator->generateIRTypeValueFor(classProperties, irContext));
     irClassType->setProperties(classProperties);
 
@@ -67,10 +70,12 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
 IRClassType* ClassTypeSignatureIRStrategy::generateInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = new IRClassType(
             classTypeSignature->getId(),
-            irGenerator->generateIRStructType(),
+            irGenerator->generateIRStructRefType(),
             classTypeSignature->getPreConstructorName()
     );
     irClassType->setId(classTypeSignature->getId());
+    irClassType->getClassProperties()->setId(classTypeSignature->getId());
+    irClassType->getClassProperties()->getStructIRType()->setId(classTypeSignature->getId());
     scope->insertGlobalType(irClassType->getId(), irClassType);
 
     return irClassType;
@@ -90,7 +95,11 @@ IRClassType* ClassTypeSignatureIRStrategy::generatePostInitial(ClassTypeSignatur
     }
 
     if (classTypeSignature->isClassScopeParameterNecessary()) {
-        irClassType->setClassScopeType(irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext));
+        auto classScopeIRType = irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext);
+        auto classScopeIRStructRefType = (IRStructRefType*)classScopeIRType->getIRType()->getSourceType();
+        classScopeIRStructRefType->setId(classTypeSignature->getId());
+        classScopeIRStructRefType->getStructIRType()->setId(classTypeSignature->getId());
+        irClassType->setClassScopeType(classScopeIRType);
         auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { irGenerator->generatePointerType() }, false);
         llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, irClassType->getPreConstructorName(), irContext->getModule());
     }

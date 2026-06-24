@@ -15,6 +15,6 @@ IRStatementNode* ClassPropertyAssignmentStatementIRStrategy::generate(ASTClassPr
             node,
             irExpression,
             propertyName,
-            irClassType->getClassProperties()->getIndexForKey(propertyName)
+            irClassType->getClassProperties()->getStructIRType()->getIndexForKey(propertyName)
     );
 }

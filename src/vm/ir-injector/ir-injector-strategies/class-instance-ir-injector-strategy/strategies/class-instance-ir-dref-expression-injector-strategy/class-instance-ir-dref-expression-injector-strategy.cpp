@@ -10,7 +10,7 @@ llvm::Value* ClassInstanceIRDrefExpressionInjectorStrategy::inject(IRDrefExpress
     auto pointerToValue = DrefIRInjectorHelper::inject(irExpression, irBlock, irInjector, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto irType = irExpression->getIRType();
-    auto typeValue = irInjector->inject(irBlock, irType);
+    auto typeValue = irInjector->inject(irBlock, irType, irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);
     irBlock->getBuilder()->get()->CreateCall(
         irModule->getCopyStructRefFunction(),

@@ -19,7 +19,7 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
         auto globalVariableIrType = globalVariable.value()->getIRType()->getSourceType();
         auto newValueAlloc = irBlock->getBuilder()->get()->CreateAlloca(globalVariableIrType->getType());
         InstructionIRInjectorHelper::injectStore(newVariableValue, newValueAlloc, irBlock, globalVariableIrType);
-        auto typeValue = irInjector->inject(irBlock, globalVariableIrType);
+        auto typeValue = irInjector->inject(irBlock, globalVariableIrType, irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(globalVariableIrType->getValue()->getAllocatedType(), typeValue, irBlock);
         if (globalVariableIrType->containsTypeThatRequiresFreeing()) {
             irBlock->getBuilder()->get()->CreateCall(
@@ -37,7 +37,7 @@ void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementN
     } else {
         auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
         if (variable->getIRType()->getSourceType()->containsTypeThatRequiresFreeing()) {
-            auto typeValue = irInjector->inject(irBlock, variable->getIRType()->getSourceType());
+            auto typeValue = irInjector->inject(irBlock, variable->getIRType()->getSourceType(), irModule);
             auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variable->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
             irBlock->getBuilder()->get()->CreateCall(
                     irModule->getFreeValueFunction(),

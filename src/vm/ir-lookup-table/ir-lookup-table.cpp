@@ -135,8 +135,7 @@ std::optional<IRInstructionNode*> IRLookupTable::findAcrossScopes(std::string ke
     }
     return this->findGlobalVariable(key);
 }
-// todo - refactor scope strategy for locating values and types across modules
-// by switching to   module linked scopes
+
 std::optional<IRInstructionNode*> IRLookupTable::findAcrossScopes(std::string moduleId, std::string key) {
     if (moduleId == _moduleId) {
         return this->findAcrossScopes(key);

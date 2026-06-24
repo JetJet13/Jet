@@ -7,7 +7,7 @@
 
 #include <utility>
 
-IRClassType::IRClassType(std::string name, IRStructType* classProperties, std::string preConstructorName): IRType(classProperties->getType()) {
+IRClassType::IRClassType(std::string name, IRStructRefType* classProperties, std::string preConstructorName): IRType(classProperties->getType()) {
     _name = name;
     _classProperties = classProperties;
     _classScopeType = std::optional<IRParameterType*>();
@@ -17,7 +17,7 @@ IRClassType::IRClassType(std::string name, IRStructType* classProperties, std::s
     _preConstructorName = std::move(preConstructorName);
 }
 
-IRClassType::IRClassType(std::string name, IRStructType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::unordered_map<std::string, IRFunctionType*> classStaticMethods, std::unordered_map<std::string, IRType*> classStaticProperties, std::string preConstructorName) : IRType(classProperties->getType()) {
+IRClassType::IRClassType(std::string name, IRStructRefType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::unordered_map<std::string, IRFunctionType*> classStaticMethods, std::unordered_map<std::string, IRType*> classStaticProperties, std::string preConstructorName) : IRType(classProperties->getType()) {
     _name = name;
     _classProperties = classProperties;
     _classScopeType = classScopeType;
@@ -77,7 +77,7 @@ llvm::Type* IRClassType::getValueType() {
     return this->getType()->getStructElementType(0);
 }
 
-IRStructType* IRClassType::getClassProperties() {
+IRStructRefType* IRClassType::getClassProperties() {
     return _classProperties;
 }
 
@@ -89,7 +89,8 @@ std::string IRClassType::getName() {
     return _name;
 }
 
-void IRClassType::setProperties(IRStructType* classProperties) {
+
+void IRClassType::setProperties(IRStructRefType* classProperties) {
     _classProperties = classProperties;
 }
 
@@ -111,6 +112,11 @@ void IRClassType::addStaticMethod(std::string methodName, IRFunctionType* irType
 
 void IRClassType::addConstructor(std::string constructorName, IRFunctionType* irType) {
     _classConstructors[constructorName] = irType;
+}
+
+std::string IRClassType::stripClassNameFromKey(std::string key) {
+    key.erase(0, this->getName().size() + 1);
+    return key;
 }
 
 llvm::Type* IRClassType::getType() {

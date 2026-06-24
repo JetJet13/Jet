@@ -16,7 +16,7 @@ void ModuleAccessAssignmentIRInjectorStrategy::inject(IRModuleAccessAssignmentSt
                 new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope
             );
     if (irType->getSourceType()->containsTypeThatRequiresFreeing()) {
-        auto typeValue = irInjector->inject(irBlock, irType->getSourceType()->clone());
+        auto typeValue = irInjector->inject(irBlock, irType->getSourceType(), irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction(),

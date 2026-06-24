@@ -8,9 +8,9 @@
 
 llvm::Value* LiteralIRBinaryComparisonExpressionInjectorStrategy::inject(IRBinaryComparisonExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irExpression->isPredicateEqual() || irExpression->isPredicateNotEqual()) {
-        auto leftIrTypeValue = irInjector->inject(irBlock, irExpression->getLeftIrType());
+        auto leftIrTypeValue = irInjector->inject(irBlock, irExpression->getLeftIrType(), irModule);
         auto loadedLeftIrTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getLeftIrType()->getValue()->getAllocatedType(), leftIrTypeValue, irBlock);
-        auto rightIrTypeValue = irInjector->inject(irBlock, irExpression->getRightIrType());
+        auto rightIrTypeValue = irInjector->inject(irBlock, irExpression->getRightIrType(), irModule);
         auto loadedRightIrTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getRightIrType()->getValue()->getAllocatedType(), rightIrTypeValue, irBlock);
         auto irLeftNodeValue = irInjector->inject(irBlock, irExpression->getLeftNode(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
         auto irRightNodeValue = irInjector->inject(irBlock, irExpression->getRightNode(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);

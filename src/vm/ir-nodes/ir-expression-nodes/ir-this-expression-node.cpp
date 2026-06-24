@@ -8,7 +8,7 @@
 IRThisExpressionNode::IRThisExpressionNode(ASTThisExpressionNode* node, IRInstructionNode* irValue) {
     _node = node;
     _irValue = irValue;
-    _irType = (IRPointerType*)irValue->getIRType()->getSourceType()->clone();
+    _irType = (IRPointerType*)irValue->getIRType()->getSourceType();
 }
 
 llvm::Value* IRThisExpressionNode::getValue() {

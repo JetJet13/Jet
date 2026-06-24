@@ -9,23 +9,28 @@
 
 llvm::Value* StringIRClassPropertyAccessExpressionInjectorStrategy::inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
-    auto pointerToPropertyValue = ClassPropertyAccessIRInjectorHelper::inject(irExpression,
-                                                                                     irBlock,
-                                                                                     irInjector,
-                                                                                     irModule,
-                                                                                     scope,
-                                                                                     (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying()
+    auto pointerToPropertyValue = ClassPropertyAccessIRInjectorHelper::inject(
+            irExpression,
+            irBlock,
+            irInjector,
+            irModule,
+            scope,
+            (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying()
     );
+
+    if (irOperation->isOperandPointer()) {
+        return pointerToPropertyValue;
+    } else if (irOperation->isOperandValue()) {
+        return InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getType(), pointerToPropertyValue, irBlock);
+    }
+
     auto destinationAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getCopyStringFunction(),
             {
-                    destinationAllocation,
-                    pointerToPropertyValue
+                destinationAllocation,
+                pointerToPropertyValue
             }
     );
-    if (irOperation->isOperandPointer()) {
-        return destinationAllocation;
-    }
     return InstructionIRInjectorHelper::injectLoad(destinationAllocation->getAllocatedType(), destinationAllocation, irBlock);
 }

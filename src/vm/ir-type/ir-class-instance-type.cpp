@@ -5,14 +5,13 @@
 #include "ir-class-instance-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType, IRStructRefType* irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
+IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType) : IRType(irClassType->getClassProperties()->getType()) {
     _id = irClassType->getId();
-    _irClassInstancePropertiesType = irClassInstancePropertiesType;
     _irClassType = irClassType;
 }
 
 IRStructRefType* IRClassInstanceType::getIRClassPropertiesType() {
-    return _irClassInstancePropertiesType;
+    return _irClassType->getClassProperties();
 }
 
 IRClassType* IRClassInstanceType::getIRClassType() {
@@ -28,11 +27,11 @@ std::string IRClassInstanceType::getIRPropertyName(std::string propertyName) {
 }
 
 unsigned long IRClassInstanceType::getIndexForProperty(std::string propertyName) {
-    return _irClassInstancePropertiesType->getStructIRType()->getIndexForKey(this->getIRPropertyName(propertyName));
+    return this->getIRClassPropertiesType()->getStructIRType()->getIndexForKey(this->getIRPropertyName(propertyName));
 }
 
 IRType* IRClassInstanceType::getIRTypeForProperty(std::string propertyName) {
-    return _irClassInstancePropertiesType->getStructIRType()->getIRTypeForKey(this->getIRPropertyName(propertyName));
+    return this->getIRClassPropertiesType()->getStructIRType()->getIRTypeForKey(this->getIRPropertyName(propertyName));
 }
 
 std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {
@@ -43,19 +42,15 @@ bool IRClassInstanceType::requiresArc() {
     return false;
 }
 
-IRTypeValueInstructionNode* IRClassInstanceType::getValue() {
-    return _irClassInstancePropertiesType->getValue();
-}
-
 uint64_t IRClassInstanceType::getSizeInBytes() {
     if (_sizeInBytesOverride) {
         return _sizeInBytesOverride.value();
     }
-    return _irClassInstancePropertiesType->getSizeInBytes();
+    return this->getIRClassPropertiesType()->getSizeInBytes();
 }
 
 llvm::StructType* IRClassInstanceType::getType() {
-    return _irClassInstancePropertiesType->getType();
+    return this->getIRClassPropertiesType()->getType();
 }
 
 bool IRClassInstanceType::containsTypeThatRequiresFreeing() {
@@ -67,12 +62,11 @@ bool IRClassInstanceType::isClassInstanceType() {
 }
 
 llvm::Align IRClassInstanceType::getAlignment() {
-    return _irClassInstancePropertiesType->getAlignment();
+    return this->getIRClassPropertiesType()->getAlignment();
 }
 
 IRClassInstanceType* IRClassInstanceType::clone() {
-    auto classPropertiesClone = _irClassInstancePropertiesType->clone();
-    auto clone = new IRClassInstanceType(_irClassType, classPropertiesClone);
+    auto clone = new IRClassInstanceType(_irClassType);
     this->initClone(clone);
     return clone;
 }

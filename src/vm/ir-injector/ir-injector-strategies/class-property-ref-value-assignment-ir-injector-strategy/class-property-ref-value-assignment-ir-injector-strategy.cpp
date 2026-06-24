@@ -23,7 +23,7 @@ void ClassPropertyRefValueAssignmentIRInjectorStrategy::inject(IRClassPropertyRe
     auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), pointer, irRefType->getRefValueIndex());
     auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
     if (irRefType->getUnderlyingType()->containsTypeThatRequiresFreeing()) {
-        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType());
+        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getFreeValueFunction(),

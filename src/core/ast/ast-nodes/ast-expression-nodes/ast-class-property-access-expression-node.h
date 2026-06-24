@@ -16,6 +16,7 @@ private:
 public:
     ASTClassPropertyAccessExpressionNode(ASTClassPropertyAccessNode* propertyAccess);
     ASTClassPropertyAccessNode* getPropertyAccess();
+    std::string getPropertyName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

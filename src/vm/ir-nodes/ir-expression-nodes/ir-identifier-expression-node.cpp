@@ -9,7 +9,7 @@ IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNo
     _node = node;
     _irValue = irValue;
     _irArc = irArc;
-    _irType = irValue->getIRType()->clone();
+    _irType = irValue->getIRType();
 }
 
 llvm::Value* IRIdentifierExpressionNode::getValue() {

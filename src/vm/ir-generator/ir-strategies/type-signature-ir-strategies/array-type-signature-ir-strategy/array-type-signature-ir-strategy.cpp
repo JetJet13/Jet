@@ -9,7 +9,6 @@
 IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType(), scope, irContext);
     auto irArrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
-    irArrayPointerType->setKeyId(arrayTypeSignature->getKeyId());
     irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator, irContext));
     return irArrayPointerType;
 }
@@ -22,9 +21,7 @@ IRTypeValueInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRAr
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
             irGenerator->generateIntConstant(1),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
-            irType->hasKeyId()
-            ? irGenerator->getOrInsertGlobalVariableString(irType->getKeyId(), irType->getKeyId(), irContext)
-            : llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
+            llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);

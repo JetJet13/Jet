@@ -11,10 +11,9 @@
 
 class IRClassInstanceType : public IRType {
 private:
-    IRStructRefType* _irClassInstancePropertiesType;
     IRClassType* _irClassType;
 public:
-    IRClassInstanceType(IRClassType* irClassType, IRStructRefType* irClassInstancePropertiesType);
+    IRClassInstanceType(IRClassType* irClassType);
     IRStructRefType* getIRClassPropertiesType();
     IRClassType* getIRClassType();
     IRFunctionType* getIRConstructorType();
@@ -24,7 +23,6 @@ public:
     IRType* getIRTypeForProperty(std::string propertyName);
     std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
     bool requiresArc() override;
-    IRTypeValueInstructionNode* getValue() override;
     uint64_t getSizeInBytes() override;
     llvm::StructType* getType() override;
     bool containsTypeThatRequiresFreeing() override;
