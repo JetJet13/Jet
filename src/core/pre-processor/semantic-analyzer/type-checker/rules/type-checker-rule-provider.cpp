@@ -22,6 +22,8 @@ DrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_drefTypeSignatureTyp
 SrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_srefTypeSignatureTypeCheckerRule = new SrefTypeSignatureTypeCheckerRule();
 RefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_refTypeSignatureTypeCheckerRule = new RefTypeSignatureTypeCheckerRule();
 RefValueAssignmentTypeCheckerRule* TypeCheckerRuleProvider::_refValueAssignmentTypeCheckerRule = new RefValueAssignmentTypeCheckerRule();
+ClassSelfReferenceTypeCheckerRule* TypeCheckerRuleProvider::_classSelfReferenceTypeCheckerRule = new ClassSelfReferenceTypeCheckerRule();
+ClassCircularReferenceTypeCheckerRule* TypeCheckerRuleProvider::_classCircularReferenceTypeCheckerRule = new ClassCircularReferenceTypeCheckerRule();
 
 NoReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule() {
     return _noReturnExpressionTypeCheckerRule;
@@ -93,4 +95,12 @@ RefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getRefTypeSignatureTyp
 
 RefValueAssignmentTypeCheckerRule* TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule() {
     return _refValueAssignmentTypeCheckerRule;
+}
+
+ClassSelfReferenceTypeCheckerRule* TypeCheckerRuleProvider::getClassSelfReferenceTypeCheckerRule() {
+    return _classSelfReferenceTypeCheckerRule;
+}
+
+ClassCircularReferenceTypeCheckerRule* TypeCheckerRuleProvider::getClassCircularReferenceTypeCheckerRule() {
+    return _classCircularReferenceTypeCheckerRule;
 }

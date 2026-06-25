@@ -154,6 +154,27 @@ TypeSource ClassTypeSignature::getTypeSource() {
     return CLASS_TYPE_SOURCE;
 }
 
+bool ClassTypeSignature::hasCircularReferenceWith(ClassTypeSignature* other) {
+    if (this->isEqualTo(other)) return false;
+
+    auto otherClassReferenceThisClass = false;
+    for (auto otherPropertyTypeSignature : other->getInstanceProperties()->getValues()) {
+        if (otherPropertyTypeSignature->getType()->isEquivalentTo(this)) {
+            otherClassReferenceThisClass = true;
+            break;
+        }
+    }
+
+    auto thisClassReferenceOtherClass = false;
+    for (auto thisPropertyTypeSignature : _instanceProperties.getValues()) {
+        if (thisPropertyTypeSignature->getType()->isEquivalentTo(other)) {
+            thisClassReferenceOtherClass = true;
+            break;
+        }
+    }
+    return otherClassReferenceThisClass && thisClassReferenceOtherClass;
+}
+
 bool ClassTypeSignature::isEquivalentTo(TypeSignature* otherType) {
     if (this->getId() == otherType->getId()) return true;
     if (otherType->typeSourceIs(NEW_CLASS_INSTANCE_TYPE_SOURCE)){
@@ -165,11 +186,7 @@ bool ClassTypeSignature::isEquivalentTo(TypeSignature* otherType) {
 
 bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
     if (this->getId() == otherType->getId()) return true;
-    if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {
-        auto classInstance = (ClassInstanceTypeSignature*)otherType;
-        return this->getInterface()->isEqualTo(classInstance->getKeyValuePairs());
-    }
-    return this->getTypeSource() == otherType->getTypeSource();
+    return false;
 }
 
 void ClassTypeSignature::copyFrom(TypeSignature* otherType) {

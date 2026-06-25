@@ -49,6 +49,7 @@ public:
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
+    bool hasCircularReferenceWith(ClassTypeSignature* other);
     bool isEquivalentTo(TypeSignature *otherType) override;
     bool isEqualTo(TypeSignature *otherType) override;
     void copyFrom(TypeSignature* otherType) override;

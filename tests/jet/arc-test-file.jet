@@ -62,6 +62,27 @@ class ComplexClass {
     }
 }
 
+// class self references are not supported
+//class Node {
+//    private value: int;
+//    private nextNode: Node;
+//
+//    constructor(value: int) {
+//        this.value = value;
+//        this.nextNode = new Node(value + 1);
+//    }
+//
+//    public getValue(): int {
+//        return this.value;
+//    }
+//
+//    public getNext(): Node {
+//        return this.nextNode;
+//    }
+//
+//}
+
+// class circular references are not supported
 //class CircularReferenceClassA {
 //    private b: CircularReferenceClassB;
 //
@@ -134,16 +155,16 @@ proc testBigModule() {
 
     const bigInstance = ref new BigModule::BigClass(10);
     bigInstance.invokeAssertAll();
-    //assert(bigInstance == bigInstance.getSelf());
+    assert(bigInstance == bigInstance.getSelf());
 
     const bigCalculator = ref new BigModule::BigCalculator();
-    //bigCalculator
-    //.setValue(1, bigCalculator)
-    //.add(2, bigCalculator)
-    //.add(6, bigCalculator)
-    //.subtract(1, bigCalculator)
-    //.multiply(3, bigCalculator);
-    //assert(bigCalculator.getValue() == 24);
+    bigCalculator
+    .setValue(1, bigCalculator)
+    .add(2, bigCalculator)
+    .add(6, bigCalculator)
+    .subtract(1, bigCalculator)
+    .multiply(3, bigCalculator);
+    assert(bigCalculator.getValue() == 24);
 }
 testBigModule();
 

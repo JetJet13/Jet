@@ -7,6 +7,7 @@
 #include "../../types/type-checker-error-message-table.h"
 #include "../../type-checker.h"
 #include "../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 void ClassDeclarationTypeCheckerPolicy::apply(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(classDeclarationNode, typeCheckerResult);
@@ -27,6 +28,12 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
         if (classProperty->getTypeSignature()->getType()->isInvocable()) {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassPropertyInvocable(classProperty)());
         }
+
+        auto selfReferenceErrorMessage = TypeCheckerErrorMessageTable::ClassPropertySelfReference(classProperty);
+        TypeCheckerRuleProvider::getClassSelfReferenceTypeCheckerRule()->enforce(classDeclarationNode->getTypeSignature(), classProperty->getTypeSignature(), selfReferenceErrorMessage, typeCheckerResult);
+
+        auto circularReferenceErrorMessage = TypeCheckerErrorMessageTable::ClassPropertyCircularReference(classProperty);
+        TypeCheckerRuleProvider::getClassCircularReferenceTypeCheckerRule()->enforce(classDeclarationNode->getTypeSignature(), classProperty->getTypeSignature(), circularReferenceErrorMessage, typeCheckerResult);
 
         if (classProperty->getInitializer()) {
             auto mismatchMessage = TypeCheckerErrorMessageTable::ClassPropertyInitializerTypeMismatch(classProperty);

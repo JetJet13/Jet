@@ -154,7 +154,7 @@ export class BigClass {
         assert(invokeStructRaw == this.bigStruct);
 
         const invokeTupleRaw = this.getBigTupleRaw();
-        //assert(invokeTupleRaw == this.bigTuple);
+        assert(invokeTupleRaw == this.bigTuple);
 
         const invokeClass = this.getBigClass();
         assert(invokeClass == this.bigClass);

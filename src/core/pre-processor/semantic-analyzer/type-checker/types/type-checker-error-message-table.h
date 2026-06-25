@@ -112,8 +112,14 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ClassPropertyInitializerTypeMismatch(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "type of initial value for class property does not match class property type"); };
     }
+    static ErrorMessageLambda ClassPropertySelfReference(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class self-referencing is not supported"); };
+    }
+    static ErrorMessageLambda ClassPropertyCircularReference(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class circular references are not supported"); };
+    }
     static ErrorMessageLambda ClassPropertyInvocable(ASTNode* node) {
-      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be invocable. Convert to class method instead"); };
+      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be invocable. Only class methods can be invocable"); };
     }
     static ErrorMessageLambda ClassPropertyNamesNotUnique(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property names must be unique"); };

@@ -1424,6 +1424,10 @@ add_library(jet-core
         ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-target-node.cpp
         ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-target-node.h
         pre-processor/syntax-analyzer/utils/syntax-analyzer-mode-utils.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-self-reference-type-checker-rule/class-self-reference-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-self-reference-type-checker-rule/class-self-reference-type-checker-rule.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-circular-reference-type-checker-rule/class-circular-reference-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-circular-reference-type-checker-rule/class-circular-reference-type-checker-rule.h
 
 )
 
