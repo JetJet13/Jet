@@ -10,7 +10,7 @@
 
 namespace TupleAccessAssignmentStatementTypeCheckerPolicy {
     void apply(ASTTupleAccessAssignmentStatementNode* tupleAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
-};
+}
 
 
 #endif //JETLANG_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

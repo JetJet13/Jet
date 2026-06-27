@@ -1460,6 +1460,22 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-ref-assignment-reducer-strategy/module-access-ref-assignment-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-ref-assignment-statement-reducer-strategy/module-access-ref-assignment-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-ref-assignment-statement-reducer-strategy/module-access-ref-assignment-statement-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-ref-assignment-statement-type-signature-strategy/array-access-ref-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-ref-assignment-statement-type-signature-strategy/array-access-ref-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-access-ref-assignment-statement-type-signature-strategy/module-access-ref-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-access-ref-assignment-statement-type-signature-strategy/module-access-ref-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/object-access-ref-assignment-statement-type-signature-strategy/object-access-ref-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/object-access-ref-assignment-statement-type-signature-strategy/object-access-ref-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-ref-assignment-statement-type-signature-strategy/tuple-access-ref-assignment-statement-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-ref-assignment-statement-type-signature-strategy/tuple-access-ref-assignment-statement-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/array-access-ref-assignment-statement-type-checker-policy/array-access-ref-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/array-access-ref-assignment-statement-type-checker-policy/array-access-ref-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/module-access-ref-assignment-statement-type-checker-policy/module-access-ref-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/module-access-ref-assignment-statement-type-checker-policy/module-access-ref-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/object-access-ref-assignment-statement-type-checker-policy/object-access-ref-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/object-access-ref-assignment-statement-type-checker-policy/object-access-ref-assignment-statement-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/policies/tuple-access-ref-assignment-statement-type-checker-policy/tuple-access-ref-assignment-statement-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/tuple-access-ref-assignment-statement-type-checker-policy/tuple-access-ref-assignment-statement-type-checker-policy.h
 
 )
 

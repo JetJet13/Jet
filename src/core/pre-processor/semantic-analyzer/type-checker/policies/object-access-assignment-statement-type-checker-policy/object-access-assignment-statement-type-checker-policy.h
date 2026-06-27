@@ -10,6 +10,6 @@
 
 namespace ObjectAccessAssignmentStatementTypeCheckerPolicy {
     void apply(ASTObjectAccessAssignmentStatementNode* objectAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
-};
+}
 
 #endif //JETLANG_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

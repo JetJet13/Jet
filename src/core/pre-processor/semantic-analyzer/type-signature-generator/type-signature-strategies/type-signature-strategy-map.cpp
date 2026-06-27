@@ -75,11 +75,15 @@
 #include "interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.h"
 #include "custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.h"
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
-#include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
 #include "expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.h"
+#include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
+#include "array-access-ref-assignment-statement-type-signature-strategy/array-access-ref-assignment-statement-type-signature-strategy.h"
 #include "object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h"
+#include "object-access-ref-assignment-statement-type-signature-strategy/object-access-ref-assignment-statement-type-signature-strategy.h"
 #include "tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h"
+#include "tuple-access-ref-assignment-statement-type-signature-strategy/tuple-access-ref-assignment-statement-type-signature-strategy.h"
 #include "module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.h"
+#include "module-access-ref-assignment-statement-type-signature-strategy/module-access-ref-assignment-statement-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _argumentListTypeSignatureStrategy = new ArgumentListTypeSignatureStrategy();
@@ -156,9 +160,13 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _interfacePropertyTypeSignatureStrategy = new InterfacePropertyTypeSignatureStrategy();
     _customTypeDeclarationTypeSignatureStrategy = new CustomTypeDeclarationTypeSignatureStrategy();
     _arrayAccessAssignmentStatementTypeSignatureStrategy = new ArrayAccessAssignmentStatementTypeSignatureStrategy();
+    _arrayAccessRefAssignmentStatementTypeSignatureStrategy = new ArrayAccessRefAssignmentStatementTypeSignatureStrategy();
     _objectAccessAssignmentStatementTypeSignatureStrategy = new ObjectAccessAssignmentStatementTypeSignatureStrategy();
+    _objectAccessRefAssignmentStatementTypeSignatureStrategy = new ObjectAccessRefAssignmentStatementTypeSignatureStrategy();
     _tupleAccessAssignmentStatementTypeSignatureStrategy = new TupleAccessAssignmentStatementTypeSignatureStrategy();
+    _tupleAccessRefAssignmentStatementTypeSignatureStrategy = new TupleAccessRefAssignmentStatementTypeSignatureStrategy();
     _moduleAccessAssignmentStatementTypeSignatureStrategy = new ModuleAccessAssignmentStatementTypeSignatureStrategy();
+    _moduleAccessRefAssignmentStatementTypeSignatureStrategy = new ModuleAccessRefAssignmentStatementTypeSignatureStrategy();
 }
 
 ArgumentListTypeSignatureStrategy* TypeSignatureStrategyMap::getArgumentListTypeSignatureStrategy() {
@@ -405,16 +413,32 @@ ArrayAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::g
     return _arrayAccessAssignmentStatementTypeSignatureStrategy;
 }
 
+ArrayAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessRefAssignmentStatementTypeSignatureStrategy() {
+    return _arrayAccessRefAssignmentStatementTypeSignatureStrategy;
+}
+
 ObjectAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessAssignmentStatementTypeSignatureStrategy() {
     return _objectAccessAssignmentStatementTypeSignatureStrategy;
+}
+
+ObjectAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessRefAssignmentStatementTypeSignatureStrategy() {
+    return _objectAccessRefAssignmentStatementTypeSignatureStrategy;
 }
 
 TupleAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessAssignmentStatementTypeSignatureStrategy() {
     return _tupleAccessAssignmentStatementTypeSignatureStrategy;
 }
 
+TupleAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessRefAssignmentStatementTypeSignatureStrategy() {
+    return _tupleAccessRefAssignmentStatementTypeSignatureStrategy;
+}
+
 ModuleAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessAssignmentStatementTypeSignatureStrategy() {
     return _moduleAccessAssignmentStatementTypeSignatureStrategy;
+}
+
+ModuleAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessRefAssignmentStatementTypeSignatureStrategy() {
+    return _moduleAccessRefAssignmentStatementTypeSignatureStrategy;
 }
 
 BlockTypeSignatureStrategy* TypeSignatureStrategyMap::getBlockTypeSignatureStrategy() {

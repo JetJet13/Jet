@@ -58,6 +58,10 @@
 #include "policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.h"
 #include "policies/class-property-ref-value-assignment-statement-type-checker-policy/class-property-ref-value-assignment-statement-type-checker-policy.h"
 #include "policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.h"
+#include "policies/array-access-ref-assignment-statement-type-checker-policy/array-access-ref-assignment-statement-type-checker-policy.h"
+#include "policies/object-access-ref-assignment-statement-type-checker-policy/object-access-ref-assignment-statement-type-checker-policy.h"
+#include "policies/tuple-access-ref-assignment-statement-type-checker-policy/tuple-access-ref-assignment-statement-type-checker-policy.h"
+#include "policies/module-access-ref-assignment-statement-type-checker-policy/module-access-ref-assignment-statement-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
@@ -95,14 +99,26 @@ namespace TypeChecker {
             case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ArrayAccessAssignmentStatementTypeCheckerPolicy::apply((ASTArrayAccessAssignmentStatementNode*)node, typeCheckerResult);
                 break;
+            case AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+                ArrayAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTArrayAccessRefAssignmentStatementNode*)node, typeCheckerResult);
+                break;
             case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ObjectAccessAssignmentStatementTypeCheckerPolicy::apply((ASTObjectAccessAssignmentStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+                ObjectAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTObjectAccessRefAssignmentStatementNode*)node, typeCheckerResult);
                 break;
             case AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 TupleAccessAssignmentStatementTypeCheckerPolicy::apply((ASTTupleAccessAssignmentStatementNode*)node, typeCheckerResult);
                 break;
+            case AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+                TupleAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTTupleAccessRefAssignmentStatementNode*)node, typeCheckerResult);
+                break;
             case AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ModuleAccessAssignmentStatementTypeCheckerPolicy::apply((ASTModuleAccessAssignmentStatementNode*)node, typeCheckerResult);
+                break;
+            case AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+                ModuleAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTModuleAccessRefAssignmentStatementNode*)node, typeCheckerResult);
                 break;
             case AST_ENUM_DECLARATION_NODE:
                 EnumDeclarationTypeCheckerPolicy::apply((ASTEnumDeclarationNode*)node, typeCheckerResult);

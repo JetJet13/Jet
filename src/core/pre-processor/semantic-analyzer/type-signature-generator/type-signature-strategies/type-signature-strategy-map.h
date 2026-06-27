@@ -81,9 +81,13 @@ class CustomTypeDeclarationTypeSignatureStrategy;
 class LambdaExpressionScopeParameterTypeSignatureStrategy;
 class ClassScopeParameterTypeSignatureStrategy;
 class ArrayAccessAssignmentStatementTypeSignatureStrategy;
+class ArrayAccessRefAssignmentStatementTypeSignatureStrategy;
 class ObjectAccessAssignmentStatementTypeSignatureStrategy;
+class ObjectAccessRefAssignmentStatementTypeSignatureStrategy;
 class TupleAccessAssignmentStatementTypeSignatureStrategy;
+class TupleAccessRefAssignmentStatementTypeSignatureStrategy;
 class ModuleAccessAssignmentStatementTypeSignatureStrategy;
+class ModuleAccessRefAssignmentStatementTypeSignatureStrategy;
 
 class TypeSignatureStrategyMap {
 private:
@@ -161,9 +165,13 @@ private:
     InterfacePropertyTypeSignatureStrategy* _interfacePropertyTypeSignatureStrategy;
     CustomTypeDeclarationTypeSignatureStrategy* _customTypeDeclarationTypeSignatureStrategy;
     ArrayAccessAssignmentStatementTypeSignatureStrategy* _arrayAccessAssignmentStatementTypeSignatureStrategy;
+    ArrayAccessRefAssignmentStatementTypeSignatureStrategy* _arrayAccessRefAssignmentStatementTypeSignatureStrategy;
     ObjectAccessAssignmentStatementTypeSignatureStrategy* _objectAccessAssignmentStatementTypeSignatureStrategy;
+    ObjectAccessRefAssignmentStatementTypeSignatureStrategy* _objectAccessRefAssignmentStatementTypeSignatureStrategy;
     TupleAccessAssignmentStatementTypeSignatureStrategy* _tupleAccessAssignmentStatementTypeSignatureStrategy;
+    TupleAccessRefAssignmentStatementTypeSignatureStrategy* _tupleAccessRefAssignmentStatementTypeSignatureStrategy;
     ModuleAccessAssignmentStatementTypeSignatureStrategy* _moduleAccessAssignmentStatementTypeSignatureStrategy;
+    ModuleAccessRefAssignmentStatementTypeSignatureStrategy* _moduleAccessRefAssignmentStatementTypeSignatureStrategy;
 public:
     TypeSignatureStrategyMap();
     ArgumentListTypeSignatureStrategy* getArgumentListTypeSignatureStrategy();
@@ -227,9 +235,13 @@ public:
     VariableAssignmentStatementTypeSignatureStrategy* getVariableAssignmentStatementTypeSignatureStrategy();
     RefValueAssignmentStatementTypeSignatureStrategy* getRefValueAssignmentStatementTypeSignatureStrategy();
     ArrayAccessAssignmentStatementTypeSignatureStrategy* getArrayAccessAssignmentStatementTypeSignatureStrategy();
+    ArrayAccessRefAssignmentStatementTypeSignatureStrategy* getArrayAccessRefAssignmentStatementTypeSignatureStrategy();
     ObjectAccessAssignmentStatementTypeSignatureStrategy* getObjectAccessAssignmentStatementTypeSignatureStrategy();
+    ObjectAccessRefAssignmentStatementTypeSignatureStrategy* getObjectAccessRefAssignmentStatementTypeSignatureStrategy();
     TupleAccessAssignmentStatementTypeSignatureStrategy* getTupleAccessAssignmentStatementTypeSignatureStrategy();
+    TupleAccessRefAssignmentStatementTypeSignatureStrategy* getTupleAccessRefAssignmentStatementTypeSignatureStrategy();
     ModuleAccessAssignmentStatementTypeSignatureStrategy* getModuleAccessAssignmentStatementTypeSignatureStrategy();
+    ModuleAccessRefAssignmentStatementTypeSignatureStrategy* getModuleAccessRefAssignmentStatementTypeSignatureStrategy();
     BlockTypeSignatureStrategy* getBlockTypeSignatureStrategy();
     ExpressionStatementTypeSignatureStrategy* getExpressionStatementTypeSignatureStrategy();
     PrintStatementTypeSignatureStrategy* getPrintStatementTypeSignatureStrategy();

@@ -43,6 +43,30 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda RefValueAssignmentTypeInvalid(ASTNode* node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type is not ref type"); };
     }
+    static ErrorMessageLambda ArrayAccessRefValueAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type does not match expression type. Expected ref type"); };
+    }
+    static ErrorMessageLambda ArrayAccessRefValueAssignmentTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type is not ref type"); };
+    }
+    static ErrorMessageLambda ObjectAccessRefValueAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "property type does not match expression type. Expected ref type"); };
+    }
+    static ErrorMessageLambda ObjectAccessRefValueAssignmentTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "property type is not ref type"); };
+    }
+    static ErrorMessageLambda TupleAccessRefValueAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "tuple property type does not match expression type. Expected ref type"); };
+    }
+    static ErrorMessageLambda TupleAccessRefValueAssignmentTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "tuple property type is not ref type"); };
+    }
+    static ErrorMessageLambda ModuleAccessRefValueAssignmentTypeMismatch(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "module export type does not match expression type. Expected ref type"); };
+    }
+    static ErrorMessageLambda ModuleAccessRefValueAssignmentTypeInvalid(ASTNode* node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "module export type is not ref type"); };
+    }
     static ErrorMessageLambda ProcedureHasReturnExpression(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure cannot have a return statement");  };
     } 
