@@ -20,6 +20,7 @@
 #include "strategies/ref-ir-tuple-access-invocation-expression-injector-strategy/ref-ir-tuple-access-invocation-expression-injector-strategy.h"
 #include "strategies/ref-ir-class-method-invocation-expression-injector-strategy/ref-ir-class-method-invocation-expression-injector-strategy.h"
 #include "strategies/ref-ir-class-property-access-expression-injector-strategy/ref-ir-class-property-access-expression-injector-strategy.h"
+#include "strategies/ref-ir-tuple-access-expression-injector-strategy/ref-ir-tuple-access-expression-injector-strategy.h"
 
 class RefIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
@@ -36,6 +37,7 @@ private:
     RefIRSrefExpressionInjectorStrategy _refIRSrefExpressionInjectorStrategy = RefIRSrefExpressionInjectorStrategy();
     RefIRObjectAccessExpressionInjectorStrategy _refIRObjectAccessExpressionInjectorStrategy = RefIRObjectAccessExpressionInjectorStrategy();
     RefIRArrayAccessExpressionInjectorStrategy _refIRArrayAccessExpressionInjectorStrategy = RefIRArrayAccessExpressionInjectorStrategy();
+    RefIRTupleAccessExpressionInjectorStrategy _refIRTupleAccessExpressionInjectorStrategy = RefIRTupleAccessExpressionInjectorStrategy();
 public:
     llvm::Value* inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
 };

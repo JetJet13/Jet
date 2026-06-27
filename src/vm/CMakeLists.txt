@@ -844,6 +844,8 @@ add_library(jet-vm
         ir-generator/ir-strategies/expression-ir-strategies/this-expression-ir-strategy/this-expression-ir-strategy.h
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-this-expression-injector-strategy/class-instance-ir-this-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-this-expression-injector-strategy/class-instance-ir-this-expression-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-expression-injector-strategy/ref-ir-tuple-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-expression-injector-strategy/ref-ir-tuple-access-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

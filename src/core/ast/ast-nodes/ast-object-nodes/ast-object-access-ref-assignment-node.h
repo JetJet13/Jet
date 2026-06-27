@@ -1,0 +1,32 @@
+//
+// Created by Johny Georges on 2026-06-26.
+//
+
+#ifndef JETLANG_AST_OBJECT_ACCESS_REF_ASSIGNMENT_NODE_H
+#define JETLANG_AST_OBJECT_ACCESS_REF_ASSIGNMENT_NODE_H
+
+#include "../ast-node.h"
+#include "../ast-expression-nodes/ast-expression-node.h"
+#include "../ast-identifier-node.h"
+#include "../ast-operator-nodes/ast-assignment-operator-node.h"
+#include "../ast-expression-nodes/ast-object-access-expression-node.h"
+#include "../ast-operator-nodes/ast-ref-value-assignment-operator-node.h"
+
+class ASTObjectAccessRefAssignmentNode : public ASTNode {
+private:
+    ASTObjectAccessExpressionNode* _objectAccessExpression;
+    ASTRefValueAssignmentOperatorNode* _assignmentOperator;
+public:
+    explicit ASTObjectAccessRefAssignmentNode(ASTObjectAccessExpressionNode* objectAccessExpression, ASTRefValueAssignmentOperatorNode* assignmentOperator);
+    ASTObjectAccessExpressionNode* getObjectAccess();
+    TypeSignature* getTypeSignature() override;
+    Position* getStartPosition() override;
+    Position* getEndPosition() override;
+    ASTNodeType getNodeType() override;
+    std::string toString() override;
+    bool isSameAs(ASTNode* other) override;
+    void print() override;
+    std::string toSourceCode() override;
+};
+
+#endif //JETLANG_AST_OBJECT_ACCESS_REF_ASSIGNMENT_NODE_H

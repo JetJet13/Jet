@@ -1428,6 +1428,38 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-self-reference-type-checker-rule/class-self-reference-type-checker-rule.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-circular-reference-type-checker-rule/class-circular-reference-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-circular-reference-type-checker-rule/class-circular-reference-type-checker-rule.h
+        ast/ast-nodes/ast-object-nodes/ast-object-access-ref-assignment-node.cpp
+        ast/ast-nodes/ast-object-nodes/ast-object-access-ref-assignment-node.h
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-ref-assignment-node.cpp
+        ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-ref-assignment-node.h
+        ast/ast-nodes/ast-array-nodes/ast-array-access-ref-assignment-node.cpp
+        ast/ast-nodes/ast-array-nodes/ast-array-access-ref-assignment-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-array-access-ref-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-array-access-ref-assignment-statement-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-object-access-ref-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-object-access-ref-assignment-statement-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-tuple-access-ref-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-tuple-access-ref-assignment-statement-node.h
+        ast/ast-nodes/ast-module-nodes/ast-module-access-ref-assignment-node.cpp
+        ast/ast-nodes/ast-module-nodes/ast-module-access-ref-assignment-node.h
+        ast/ast-nodes/ast-statement-nodes/ast-module-access-ref-assignment-statement-node.cpp
+        ast/ast-nodes/ast-statement-nodes/ast-module-access-ref-assignment-statement-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-ref-assignment-reducer-strategy/array-access-ref-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-ref-assignment-reducer-strategy/array-access-ref-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-ref-assignment-statement-reducer-strategy/array-access-ref-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-ref-assignment-statement-reducer-strategy/array-access-ref-assignment-statement-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-ref-assignment-reducer-strategy/object-access-ref-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-ref-assignment-reducer-strategy/object-access-ref-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-ref-assignment-statement-reducer-strategy/object-access-ref-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-ref-assignment-statement-reducer-strategy/object-access-ref-assignment-statement-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-ref-assignment-reducer-strategy/tuple-access-ref-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-ref-assignment-reducer-strategy/tuple-access-ref-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-ref-assignment-statement-reducer-strategy/tuple-access-ref-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-ref-assignment-statement-reducer-strategy/tuple-access-ref-assignment-statement-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-ref-assignment-reducer-strategy/module-access-ref-assignment-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-ref-assignment-reducer-strategy/module-access-ref-assignment-reducer-strategy.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-ref-assignment-statement-reducer-strategy/module-access-ref-assignment-statement-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-ref-assignment-statement-reducer-strategy/module-access-ref-assignment-statement-reducer-strategy.h
 
 )
 

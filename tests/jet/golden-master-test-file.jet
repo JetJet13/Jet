@@ -2150,6 +2150,7 @@ maxAndMinInts();
 proc testBigModule() {
     const bigInstance = new BigModule::BigClass(10);
     bigInstance.invokeAssertAll();
+    assert(bigInstance == bigInstance.getSelf());
     assert(bigInstance.getBigInt() == 500);
     assert(bigInstance.getBigFloat() == 100.101);
     assert(bigInstance.getBigBool() == true);
@@ -2287,6 +2288,20 @@ proc testBigModule() {
     let copyBigLambdaBlock = BigModule::BIG_LAMBDA_BLOCK;
     copyBigLambdaBlock = (y: int) { return 900 + y; };
     assert(copyBigLambdaBlock != BigModule::BIG_LAMBDA_BLOCK);
+
+    const smallInstance = ref new BigModule::SmallClass();
+    assert(smallInstance == smallInstance.getSelf());
+    print(smallInstance);
+    smallInstance.print();
+
+    const bigCalculator = ref new BigModule::BigCalculator();
+    bigCalculator
+    .setValue(1, bigCalculator)
+    .add(2, bigCalculator)
+    .add(6, bigCalculator)
+    .subtract(1, bigCalculator)
+    .multiply(3, bigCalculator);
+    assert(bigCalculator.getValue() == 24);
 }
 testBigModule();
 
@@ -2346,6 +2361,19 @@ func testTupleReturnTypeTest6(): [{ TestType, int }] {
     return [{ [1,2,3], 900 }];
 }
 
+type MyTestTuple = { ref<int>, ref<bool> };
+
+func passDownTuple(): MyTestTuple {
+    return { ref 5, ref false };
+}
+
+proc updateTuple(a: ref<int>, b: ref<bool>) {
+    const anotherRefA = a;
+    a := 50;
+    b := true;
+    assert(anotherRefA == 50);
+}
+
 proc testTuples() {
     const accessResult = testTupleAccess();
     print("accessResult", accessResult);
@@ -2357,6 +2385,16 @@ proc testTuples() {
     const refInvocationResult = testRefTupleInvocation().3();
     print("refInvocationResult", refInvocationResult);
     assert(refInvocationResult == "hello");
+
+    const passedDownTuple = passDownTuple();
+    assert(passedDownTuple.0 == 5);
+    assert(passedDownTuple.1 == false);
+    assert(passedDownTuple.1990 == false);
+    const refA = passedDownTuple.0;
+    const refB = passedDownTuple.1;
+    updateTuple(refA, refB);
+    assert(passedDownTuple.0 == 50);
+    assert(passedDownTuple.1 == true);
 }
 testTuples();
 
@@ -2407,16 +2445,32 @@ func testStructReturnTypeTest6(): [{ a: TestType, b: int }] {
     return [{ a: [1,2,3], b: 900 }];
 }
 
+type MyTestStruct = { a: ref<int>, b: ref<bool> };
+func passDownStruct(): MyTestStruct {
+    return { a: ref 5, b: ref false };
+}
+
+proc updateStruct(a: ref<int>, b: ref<bool>) {
+    const anotherRefA = a;
+    a := 50;
+    b := true;
+    assert(anotherRefA == 50);
+}
+
 proc testStructs() {
     const accessResult = testStructAccess();
-    print("accessResult", accessResult);
     assert(accessResult == "hello");
     const invocationResult = testStructInvocation().d();
-    print("invocationResult", invocationResult);
     assert(invocationResult == "hello");
 
     const refInvocationResult = testRefStructInvocation().d();
-    print("refInvocationResult", refInvocationResult);
     assert(refInvocationResult == "hello");
+
+    const passedDownStruct = passDownStruct();
+    assert(passedDownStruct.a == 5);
+    assert(passedDownStruct.b == false);
+    const refA = passedDownStruct.a;
+    const refB = passedDownStruct.b;
+    updateStruct(refA, refB);
 }
 testStructs();

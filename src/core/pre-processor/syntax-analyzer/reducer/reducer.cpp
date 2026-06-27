@@ -127,6 +127,14 @@
 #include "reducer-strategies/module-access-assignment-reducer-strategy/module-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/module-access-assignment-statement-reducer-strategy/module-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/module-type-reducer-strategy/module-type-reducer-strategy.h"
+#include "reducer-strategies/array-access-ref-assignment-reducer-strategy/array-access-ref-assignment-reducer-strategy.h"
+#include "reducer-strategies/array-access-ref-assignment-statement-reducer-strategy/array-access-ref-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/object-access-ref-assignment-reducer-strategy/object-access-ref-assignment-reducer-strategy.h"
+#include "reducer-strategies/object-access-ref-assignment-statement-reducer-strategy/object-access-ref-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/tuple-access-ref-assignment-reducer-strategy/tuple-access-ref-assignment-reducer-strategy.h"
+#include "reducer-strategies/tuple-access-ref-assignment-statement-reducer-strategy/tuple-access-ref-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/module-access-ref-assignment-reducer-strategy/module-access-ref-assignment-reducer-strategy.h"
+#include "reducer-strategies/module-access-ref-assignment-statement-reducer-strategy/module-access-ref-assignment-statement-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>>();
@@ -149,11 +157,16 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE, new ArrayAccessInvocationExpressionReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_NODE, new ArrayAccessReducerStrategy());
     this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_NODE, new ArrayAccessAssignmentReducerStrategy());
+    this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, new ArrayAccessAssignmentStatementReducerStrategy());
+    this->addStrategy(AST_ARRAY_ACCESS_REF_ASSIGNMENT_NODE, new ArrayAccessRefAssignmentReducerStrategy());
+    this->addStrategy(AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, new ArrayAccessRefAssignmentStatementReducerStrategy());
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, new ArrayExpressionReducerStrategy());
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, new StructKeyValueReducerStrategy());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, new StructExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_ASSIGNMENT_NODE, new ObjectAccessAssignmentReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, new ObjectAccessAssignmentStatementReducerStrategy());
+    this->addStrategy(AST_OBJECT_ACCESS_REF_ASSIGNMENT_NODE, new ObjectAccessRefAssignmentReducerStrategy());
+    this->addStrategy(AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, new ObjectAccessRefAssignmentStatementReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, new ObjectAccessExpressionReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, new ObjectAccessInvocationExpressionReducerStrategy());
     this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, new ModuleAccessExpressionReducerStrategy());
@@ -168,7 +181,6 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_FUNCTION_INVOCATION_EXPRESSION_NODE, new FunctionInvocationExpressionReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_NODE, new VariableAssignmentReducerStrategy());
     this->addStrategy(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, new VariableAssignmentStatementReducerStrategy());
-    this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, new ArrayAccessAssignmentStatementReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_NODE, new EnumKeyReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_VALUE_NODE, new EnumKeyValueReducerStrategy());
     this->addStrategy(AST_ENUM_KEY_VALUE_LIST_NODE, new EnumKeyValueListReducerStrategy());
@@ -177,6 +189,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TUPLE_EXPRESSION_NODE, new TupleExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_ACCESS_EXPRESSION_NODE, new TupleAccessExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, new TupleAccessInvocationExpressionReducerStrategy());
+    this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_NODE, new TupleAccessAssignmentReducerStrategy());
+    this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, new TupleAccessAssignmentStatementReducerStrategy());
+    this->addStrategy(AST_TUPLE_ACCESS_REF_ASSIGNMENT_NODE, new TupleAccessRefAssignmentReducerStrategy());
+    this->addStrategy(AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, new TupleAccessRefAssignmentStatementReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_SOURCE_NODE, new ObjectAccessSourceReducerStrategy());
     this->addStrategy(AST_OBJECT_ACCESS_TARGET_NODE, new ObjectAccessTargetReducerStrategy());
     this->addStrategy(AST_MODULE_ACCESS_SOURCE_NODE, new ModuleAccessSourceReducerStrategy());
@@ -203,8 +219,6 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_LAMBDA_TYPE_NODE, new LambdaTypeReducerStrategy());
     this->addStrategy(AST_CURRY_EXPRESSION_NODE, new CurryExpressionReducerStrategy());
     this->addStrategy(AST_TUPLE_TYPE_NODE, new TupleTypeReducerStrategy());
-    this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_NODE, new TupleAccessAssignmentReducerStrategy());
-    this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, new TupleAccessAssignmentStatementReducerStrategy());
     this->addStrategy(AST_ARRAY_TYPE_NODE, new ArrayTypeReducerStrategy());
     this->addStrategy(AST_MODULE_TYPE_NODE, new ModuleTypeReducerStrategy());
     this->addStrategy(AST_MODULE_LIST_ALIAS_ITEM_NODE, new ModuleListAliasItemReducerStrategy());
@@ -213,6 +227,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_MODULE_DECLARATION_NODE, new ModuleDeclarationReducerStrategy());
     this->addStrategy(AST_MODULE_ACCESS_ASSIGNMENT_NODE, new ModuleAccessAssignmentReducerStrategy());
     this->addStrategy(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE, new ModuleAccessAssignmentStatementReducerStrategy());
+    this->addStrategy(AST_MODULE_ACCESS_REF_ASSIGNMENT_NODE, new ModuleAccessRefAssignmentReducerStrategy());
+    this->addStrategy(AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, new ModuleAccessRefAssignmentStatementReducerStrategy());
     this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, new UseSingleModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, new ImportSingleModuleDeclarationReducerStrategy());
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationReducerStrategy());

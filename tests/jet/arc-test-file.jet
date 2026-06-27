@@ -147,26 +147,25 @@ func getRefArray(y: [int]): ref<[int]> {
     return ref y;
 }
 
-proc testBigModule() {
-    const smallInstance = ref new BigModule::SmallClass();
-    assert(smallInstance == smallInstance.getSelf());
-    print(smallInstance);
-    smallInstance.print();
-
-    const bigInstance = ref new BigModule::BigClass(10);
-    bigInstance.invokeAssertAll();
-    assert(bigInstance == bigInstance.getSelf());
-
-    const bigCalculator = ref new BigModule::BigCalculator();
-    bigCalculator
-    .setValue(1, bigCalculator)
-    .add(2, bigCalculator)
-    .add(6, bigCalculator)
-    .subtract(1, bigCalculator)
-    .multiply(3, bigCalculator);
-    assert(bigCalculator.getValue() == 24);
+proc assignParameterTest(val: int, expectedVal: int) {
+    const x = val;
+    assert(x == val);
+    val = x + 1;
+    assert(x != val);
+    assert(val == expectedVal);
 }
-testBigModule();
+assignParameterTest(4, 5);
+
+proc testStructs() {
+    const myStructWithRefs = { a: ref 5, b: ref false };
+    assert(myStructWithRefs.a == 5);
+    assert(myStructWithRefs.b == false);
+    myStructWithRefs.a := 100;
+    myStructWithRefs.b := true;
+    assert(myStructWithRefs.a == 100);
+    assert(myStructWithRefs.b == true);
+}
+testStructs();
 
 //proc testSyntax() {
 //    const x = unique 10;

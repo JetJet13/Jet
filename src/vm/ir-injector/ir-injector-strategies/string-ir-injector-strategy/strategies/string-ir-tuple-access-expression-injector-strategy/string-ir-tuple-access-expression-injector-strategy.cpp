@@ -12,6 +12,9 @@ llvm::Value* StringIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccess
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
     if (irOperation->isOperandPointer()) {
         return pointer;
+    } else if (irOperation->isOperandValue()) {
+        auto arrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();
+        return InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), pointer, irBlock, arrayPointerType);
     }
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());
     irBlock->getBuilder()->get()->CreateCall(
